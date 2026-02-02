@@ -2,6 +2,18 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Build Commands
+
+```bash
+npm install       # Install dependencies
+npm run dev       # Start development server (http://localhost:3000)
+npm run build     # Production build
+npm run start     # Start production server
+npm run lint      # Run ESLint
+npm run test      # Run unit tests (Vitest)
+npm run test:e2e  # Run E2E tests (Playwright)
+```
+
 ## Project Overview
 
 Korean elementary 5th-grade math learning web app (비상업적 개인 프로젝트). Students select concepts, read explanations, complete 10-question practice sets, then receive automatic grading with step-by-step solutions.
