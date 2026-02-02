@@ -1,0 +1,61 @@
+[
+  {
+    "id": "tmpl-multiple-choice-001",
+    "concept_id": "multiple-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "n": { "min": 3, "max": 9 }
+    },
+    "prompt_template": "다음 중 {{n}}의 배수가 아닌 것은?",
+    "choices_template": [
+      "{{n * 3 + 1}}",
+      "{{n * 2}}",
+      "{{n * 4}}",
+      "{{n * 5}}"
+    ],
+    "solver_rule": "n * 3 + 1",
+    "solution_steps_template": [
+      "{{n}}의 배수: {{multiples(n, 6)}}",
+      "{{n * 3 + 1}}은 {{n}}으로 나누어떨어지지 않습니다.",
+      "따라서 {{n * 3 + 1}}은 {{n}}의 배수가 아닙니다."
+    ]
+  },
+  {
+    "id": "tmpl-multiple-number-001",
+    "concept_id": "multiple-001",
+    "type": "number",
+    "difficulty": 1,
+    "param_schema": {
+      "n": { "min": 4, "max": 12 },
+      "k": { "min": 3, "max": 7 }
+    },
+    "prompt_template": "{{n}}의 {{k}}번째 배수는?",
+    "solver_rule": "n * k",
+    "solution_steps_template": [
+      "{{n}}의 배수를 차례로 구합니다: {{multiples(n, k)}}",
+      "{{k}}번째 배수는 {{n}} × {{k}} = {{n * k}}입니다."
+    ]
+  },
+  {
+    "id": "tmpl-multiple-choice-002",
+    "concept_id": "multiple-001",
+    "type": "choice",
+    "difficulty": 2,
+    "param_schema": {
+      "n": { "min": 5, "max": 10 }
+    },
+    "prompt_template": "{{n * 10}}보다 작은 {{n}}의 배수는 모두 몇 개인가요?",
+    "choices_template": [
+      "9",
+      "10",
+      "8",
+      "11"
+    ],
+    "solver_rule": "9",
+    "solution_steps_template": [
+      "{{n}}의 배수 중 {{n * 10}}보다 작은 것: {{multiples(n, 9)}}",
+      "{{n}}부터 {{n * 9}}까지 9개입니다."
+    ]
+  }
+]

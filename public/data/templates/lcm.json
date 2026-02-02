@@ -1,0 +1,66 @@
+[
+  {
+    "id": "tmpl-lcm-choice-001",
+    "concept_id": "lcm-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "a": { "min": 2, "max": 8 },
+      "b": { "min": 3, "max": 10 }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최소공배수는?",
+    "choices_template": [
+      "{{lcm(a, b)}}",
+      "{{gcd(a, b)}}",
+      "{{a * b}}",
+      "{{a + b}}"
+    ],
+    "solver_rule": "lcm(a, b)",
+    "solution_steps_template": [
+      "{{a}}의 배수: {{multiples(a, 6)}}",
+      "{{b}}의 배수: {{multiples(b, 6)}}",
+      "공배수 중 가장 작은 수: {{lcm(a, b)}}"
+    ]
+  },
+  {
+    "id": "tmpl-lcm-number-001",
+    "concept_id": "lcm-001",
+    "type": "number",
+    "difficulty": 2,
+    "param_schema": {
+      "a": { "min": 3, "max": 12 },
+      "b": { "min": 4, "max": 15 }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최소공배수를 구하세요.",
+    "solver_rule": "lcm(a, b)",
+    "solution_steps_template": [
+      "{{a}}의 배수를 나열합니다: {{multiples(a, 8)}}",
+      "{{b}}의 배수를 나열합니다: {{multiples(b, 8)}}",
+      "공통으로 나타나는 가장 작은 수가 최소공배수입니다.",
+      "정답: {{lcm(a, b)}}"
+    ]
+  },
+  {
+    "id": "tmpl-lcm-choice-002",
+    "concept_id": "lcm-001",
+    "type": "choice",
+    "difficulty": 2,
+    "param_schema": {
+      "a": { "min": 4, "max": 9 },
+      "b": { "min": 5, "max": 12 }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 공배수가 아닌 것은?",
+    "choices_template": [
+      "{{lcm(a, b) + 1}}",
+      "{{lcm(a, b)}}",
+      "{{lcm(a, b) * 2}}",
+      "{{lcm(a, b) * 3}}"
+    ],
+    "solver_rule": "lcm(a, b) + 1",
+    "solution_steps_template": [
+      "{{a}}와 {{b}}의 최소공배수: {{lcm(a, b)}}",
+      "공배수: {{lcm(a, b)}}, {{lcm(a, b) * 2}}, {{lcm(a, b) * 3}}, ...",
+      "{{lcm(a, b) + 1}}은 공배수가 아닙니다."
+    ]
+  }
+]

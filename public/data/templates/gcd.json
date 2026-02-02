@@ -1,0 +1,68 @@
+[
+  {
+    "id": "tmpl-gcd-choice-001",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "a": { "min": 6, "max": 18 },
+      "b": { "min": 8, "max": 24 }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최대공약수는?",
+    "choices_template": [
+      "{{gcd(a, b)}}",
+      "{{gcd(a, b) + 1}}",
+      "{{lcm(a, b)}}",
+      "{{a + b}}"
+    ],
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "{{a}}의 약수: {{divisors(a)}}",
+      "{{b}}의 약수: {{divisors(b)}}",
+      "공약수: {{commonDivisors(a, b)}}",
+      "최대공약수: {{gcd(a, b)}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-number-001",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 2,
+    "param_schema": {
+      "a": { "min": 8, "max": 20 },
+      "b": { "min": 12, "max": 30 }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최대공약수를 구하세요.",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "{{a}}의 약수: {{divisors(a)}}",
+      "{{b}}의 약수: {{divisors(b)}}",
+      "공약수: {{commonDivisors(a, b)}}",
+      "최대공약수: {{gcd(a, b)}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-choice-002",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 2,
+    "param_schema": {
+      "a": { "min": 10, "max": 24 },
+      "b": { "min": 15, "max": 36 }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 공약수가 아닌 것은?",
+    "choices_template": [
+      "{{gcd(a, b) + 1}}",
+      "1",
+      "{{gcd(a, b)}}",
+      "{{gcd(a, b) > 2 ? gcd(a, b) / (gcd(a, b) > 2 ? 2 : 1) : 1}}"
+    ],
+    "solver_rule": "gcd(a, b) + 1",
+    "solution_steps_template": [
+      "{{a}}의 약수: {{divisors(a)}}",
+      "{{b}}의 약수: {{divisors(b)}}",
+      "공약수: {{commonDivisors(a, b)}}",
+      "{{gcd(a, b) + 1}}은 공약수에 포함되지 않습니다."
+    ]
+  }
+]

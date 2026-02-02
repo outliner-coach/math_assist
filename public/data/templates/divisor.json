@@ -1,0 +1,60 @@
+[
+  {
+    "id": "tmpl-divisor-choice-001",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "n": { "min": 6, "max": 24 }
+    },
+    "prompt_template": "{{n}}의 약수가 아닌 것은?",
+    "choices_template": [
+      "{{n + 1}}",
+      "1",
+      "{{n}}",
+      "{{gcd(n, 2) === 2 ? 2 : 1}}"
+    ],
+    "solver_rule": "n + 1",
+    "solution_steps_template": [
+      "{{n}}의 약수를 구합니다: {{divisors(n)}}",
+      "{{n + 1}}은 {{n}}을 나누어떨어지게 하지 않습니다.",
+      "따라서 {{n + 1}}은 {{n}}의 약수가 아닙니다."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-number-001",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 1,
+    "param_schema": {
+      "n": { "min": 10, "max": 30 }
+    },
+    "prompt_template": "{{n}}의 약수 중 가장 큰 수는?",
+    "solver_rule": "n",
+    "solution_steps_template": [
+      "{{n}}의 약수를 구합니다: {{divisors(n)}}",
+      "가장 큰 약수는 자기 자신인 {{n}}입니다."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-choice-002",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 2,
+    "param_schema": {
+      "n": { "min": 12, "max": 36 }
+    },
+    "prompt_template": "{{n}}의 약수는 모두 몇 개인가요?",
+    "choices_template": [
+      "{{divisors(n).split(', ').length}}",
+      "{{divisors(n).split(', ').length + 1}}",
+      "{{divisors(n).split(', ').length - 1}}",
+      "{{divisors(n).split(', ').length + 2}}"
+    ],
+    "solver_rule": "divisors(n).split(', ').length",
+    "solution_steps_template": [
+      "{{n}}의 약수를 모두 구합니다: {{divisors(n)}}",
+      "약수의 개수를 세면 {{divisors(n).split(', ').length}}개입니다."
+    ]
+  }
+]
