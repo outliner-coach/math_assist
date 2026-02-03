@@ -1,0 +1,65 @@
+[
+  {
+    "id": "tmpl-pattern-choice-001",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "k": { "min": 2, "max": 6 },
+      "t": { "min": 5, "max": 9 }
+    },
+    "prompt_template": "○가 1일 때 △는 {{k}}, ○가 2일 때 △는 {{k * 2}}, ○가 3일 때 △는 {{k * 3}}. ○가 {{t}}일 때 △는?",
+    "choices_template": [
+      "{{k * t}}",
+      "{{k * t + 3}}",
+      "{{k * t + 7}}",
+      "{{k * t + 12}}"
+    ],
+    "solver_rule": "k * t",
+    "solution_steps_template": [
+      "규칙을 찾습니다: △ = ○ × {{k}}",
+      "○가 1일 때 {{k}}, ○가 2일 때 {{k * 2}}, ○가 3일 때 {{k * 3}} → 매번 {{k}}씩 늘어남",
+      "○가 {{t}}일 때: {{t}} × {{k}} = {{k * t}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-number-001",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 2,
+    "param_schema": {
+      "d": { "min": 3, "max": 9 },
+      "t": { "min": 6, "max": 10 }
+    },
+    "prompt_template": "○가 1일 때 △는 {{d + 1}}, ○가 2일 때 △는 {{d + 2}}, ○가 3일 때 △는 {{d + 3}}. ○가 {{t}}일 때 △는 얼마인지 구하세요.",
+    "solver_rule": "d + t",
+    "solution_steps_template": [
+      "규칙을 찾습니다: △ = ○ + {{d}}",
+      "○가 1일 때 {{d + 1}}, ○가 2일 때 {{d + 2}} → 매번 1씩 늘어나고 ○보다 {{d}} 큼",
+      "○가 {{t}}일 때: {{t}} + {{d}} = {{d + t}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-choice-002",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 2,
+    "param_schema": {
+      "k": { "min": 2, "max": 5 },
+      "d": { "min": 1, "max": 4 },
+      "t": { "min": 5, "max": 8 }
+    },
+    "prompt_template": "○가 1일 때 △는 {{k + d}}, ○가 2일 때 △는 {{k * 2 + d}}, ○가 3일 때 △는 {{k * 3 + d}}. ○가 {{t}}일 때 △는?",
+    "choices_template": [
+      "{{k * t + d}}",
+      "{{k * t + d + 4}}",
+      "{{k * t + d + 8}}",
+      "{{k * t + d + 13}}"
+    ],
+    "solver_rule": "k * t + d",
+    "solution_steps_template": [
+      "규칙을 찾습니다: △ = ○ × {{k}} + {{d}}",
+      "○가 {{t}}일 때: {{t}} × {{k}} + {{d}} = {{k * t}} + {{d}} = {{k * t + d}}"
+    ]
+  }
+]

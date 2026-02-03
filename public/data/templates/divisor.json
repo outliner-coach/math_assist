@@ -5,20 +5,20 @@
     "type": "choice",
     "difficulty": 1,
     "param_schema": {
-      "n": { "min": 6, "max": 24 }
+      "n": { "min": 6, "max": 20 }
     },
-    "prompt_template": "{{n}}의 약수가 아닌 것은?",
+    "prompt_template": "다음 중 {{n}}의 약수인 것은?",
     "choices_template": [
-      "{{n + 1}}",
-      "1",
       "{{n}}",
-      "{{gcd(n, 2) === 2 ? 2 : 1}}"
+      "{{n + 1}}",
+      "{{n + 2}}",
+      "{{n + 3}}"
     ],
-    "solver_rule": "n + 1",
+    "solver_rule": "n",
     "solution_steps_template": [
       "{{n}}의 약수를 구합니다: {{divisors(n)}}",
-      "{{n + 1}}은 {{n}}을 나누어떨어지게 하지 않습니다.",
-      "따라서 {{n + 1}}은 {{n}}의 약수가 아닙니다."
+      "{{n}}은 자기 자신의 약수입니다.",
+      "{{n + 1}}, {{n + 2}}, {{n + 3}}은 {{n}}보다 크므로 약수가 아닙니다."
     ]
   },
   {
@@ -46,15 +46,15 @@
     },
     "prompt_template": "{{n}}의 약수는 모두 몇 개인가요?",
     "choices_template": [
-      "{{divisors(n).split(', ').length}}",
-      "{{divisors(n).split(', ').length + 1}}",
-      "{{divisors(n).split(', ').length - 1}}",
-      "{{divisors(n).split(', ').length + 2}}"
+      "{{divisorCount(n)}}",
+      "{{divisorCount(n) + 2}}",
+      "{{divisorCount(n) + 4}}",
+      "{{divisorCount(n) + 6}}"
     ],
-    "solver_rule": "divisors(n).split(', ').length",
+    "solver_rule": "divisorCount(n)",
     "solution_steps_template": [
       "{{n}}의 약수를 모두 구합니다: {{divisors(n)}}",
-      "약수의 개수를 세면 {{divisors(n).split(', ').length}}개입니다."
+      "약수의 개수를 세면 {{divisorCount(n)}}개입니다."
     ]
   }
 ]

@@ -1,0 +1,60 @@
+[
+  {
+    "id": "tmpl-estimate-choice-001",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "n": { "min": 1201, "max": 4899 }
+    },
+    "prompt_template": "{{n}}을 백의 자리까지 올림하면?",
+    "choices_template": [
+      "{{ceilTo(n, 100)}}",
+      "{{ceilTo(n, 100) + 100}}",
+      "{{ceilTo(n, 100) - 100}}",
+      "{{ceilTo(n, 100) + 200}}"
+    ],
+    "solver_rule": "ceilTo(n, 100)",
+    "solution_steps_template": [
+      "올림은 구하려는 자리 아래 수가 있으면 무조건 올립니다.",
+      "{{n}}을 백의 자리까지 올림하면 {{ceilTo(n, 100)}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-choice-002",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "n": { "min": 1210, "max": 4890 }
+    },
+    "prompt_template": "{{n}}을 백의 자리까지 버림하면?",
+    "choices_template": [
+      "{{floorTo(n, 100)}}",
+      "{{floorTo(n, 100) + 100}}",
+      "{{floorTo(n, 100) - 100}}",
+      "{{floorTo(n, 100) + 200}}"
+    ],
+    "solver_rule": "floorTo(n, 100)",
+    "solution_steps_template": [
+      "버림은 구하려는 자리 아래 수를 무조건 버립니다.",
+      "{{n}}을 백의 자리까지 버림하면 {{floorTo(n, 100)}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-number-001",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 2,
+    "param_schema": {
+      "n": { "min": 2150, "max": 7850 }
+    },
+    "prompt_template": "{{n}}을 천의 자리까지 올림하세요.",
+    "solver_rule": "ceilTo(n, 1000)",
+    "solution_steps_template": [
+      "올림은 구하려는 자리 아래 수가 있으면 무조건 올립니다.",
+      "{{n}}의 백의 자리 이하를 보면 0이 아닌 수가 있으므로 올립니다.",
+      "{{n}}을 천의 자리까지 올림하면 {{ceilTo(n, 1000)}}"
+    ]
+  }
+]

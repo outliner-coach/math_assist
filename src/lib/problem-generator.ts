@@ -28,6 +28,116 @@ function shuffleArray<T>(array: T[], random: () => number): T[] {
   return result
 }
 
+// 함수 호출 평가
+function evaluateFunction(funcName: string, args: number[]): string | null {
+  switch (funcName) {
+    // 약수/배수/공약수/공배수
+    case 'gcd':
+      return String(math.gcd(args[0], args[1]))
+    case 'lcm':
+      return String(math.lcm(args[0], args[1]))
+    case 'divisors':
+      return math.divisors(args[0]).join(', ')
+    case 'divisorCount':
+      return String(math.divisorCount(args[0]))
+    case 'multiples':
+      return math.formatNumberList(math.multiples(args[0], args[1] || 5), true)
+    case 'commonDivisors':
+      return math.commonDivisors(args[0], args[1]).join(', ')
+
+    // 분수 약분/통분
+    case 'reduceFrac':
+      return math.reduceFrac(args[0], args[1])
+    case 'reducedNum':
+      return String(math.reducedNum(args[0], args[1]))
+    case 'reducedDen':
+      return String(math.reducedDen(args[0], args[1]))
+    case 'reduceFracOff':
+      return math.reduceFracOff(args[0], args[1], args[2])
+    case 'commonDen':
+      return String(math.commonDen(args[0], args[1]))
+    case 'convertNum1':
+      return String(math.convertNum1(args[0], args[1], args[2]))
+    case 'convertNum2':
+      return String(math.convertNum2(args[0], args[1], args[2]))
+
+    // 분수 사칙연산
+    case 'fracAdd':
+      return math.fracAdd(args[0], args[1], args[2], args[3])
+    case 'fracAddOff':
+      return math.fracAddOff(args[0], args[1], args[2], args[3], args[4])
+    case 'fracSub':
+      return math.fracSub(args[0], args[1], args[2], args[3])
+    case 'fracSubOff':
+      return math.fracSubOff(args[0], args[1], args[2], args[3], args[4])
+    case 'fracMul':
+      return math.fracMul(args[0], args[1], args[2], args[3])
+    case 'fracMulOff':
+      return math.fracMulOff(args[0], args[1], args[2], args[3], args[4])
+
+    // 반올림/올림/버림
+    case 'roundTo':
+      return String(math.roundTo(args[0], args[1]))
+    case 'ceilTo':
+      return String(math.ceilTo(args[0], args[1]))
+    case 'floorTo':
+      return String(math.floorTo(args[0], args[1]))
+
+    // 소수
+    case 'dec1':
+      return math.dec1(args[0])
+    case 'decTimesNat':
+      return math.decTimesNat(args[0], args[1])
+    case 'decTimesNatOff':
+      return math.decTimesNatOff(args[0], args[1], args[2])
+    case 'decTimesDec':
+      return math.decTimesDec(args[0], args[1])
+    case 'decTimesDecOff':
+      return math.decTimesDecOff(args[0], args[1], args[2])
+
+    // 평균/합계
+    case 'avg3':
+      return String(math.avg3(args[0], args[1], args[2]))
+    case 'avg4':
+      return String(math.avg4(args[0], args[1], args[2], args[3]))
+    case 'sum3':
+      return String(math.sum3(args[0], args[1], args[2]))
+    case 'sum4':
+      return String(math.sum4(args[0], args[1], args[2], args[3]))
+
+    default:
+      return null
+  }
+}
+
+// 인자 문자열을 숫자로 평가 (변수, 리터럴, 산술식 지원)
+function evaluateArg(argStr: string, params: Record<string, number>): number {
+  const trimmed = argStr.trim()
+  // 리터럴 정수
+  if (/^-?\d+$/.test(trimmed)) return parseInt(trimmed)
+  // 단순 변수
+  if (params[trimmed] !== undefined) return params[trimmed]
+  // 산술식 (예: f * p, a + 1)
+  let evalExpr = trimmed
+  for (const [key, value] of Object.entries(params)) {
+    evalExpr = evalExpr.replace(new RegExp(`\\b${key}\\b`, 'g'), String(value))
+  }
+  if (/^[\d\s+\-*/().]+$/.test(evalExpr)) {
+    try { return eval(evalExpr) } catch { return 0 }
+  }
+  return 0
+}
+
+// 표현식 내 함수 호출을 값으로 치환
+function replaceFunctionCalls(expr: string, params: Record<string, number>): string {
+  // 함수 호출 패턴: funcName(arg1, arg2, ...)
+  return expr.replace(/(\w+)\(([^)]+)\)/g, (match, funcName, argsStr) => {
+    const args = argsStr.split(',').map((arg: string) => evaluateArg(arg, params))
+    const result = evaluateFunction(funcName, args)
+    return result !== null ? result : match
+  })
+}
+
 // 템플릿 문자열 평가 ({{a}}, {{lcm(a,b)}} 등)
 function evaluateTemplate(template: string, params: Record<string, number>): string {
   return template.replace(/\{\{([^}]+)\}\}/g, (_, expr) => {
@@ -38,42 +148,26 @@ function evaluateTemplate(template: string, params: Record<string, number>): str
       return String(params[trimmedExpr])
     }
 
-    // 함수 호출 파싱
+    // 함수 호출만 있는 경우 (예: divisors(n), reduceFrac(f * p, f * q))
     const funcMatch = trimmedExpr.match(/^(\w+)\(([^)]+)\)$/)
     if (funcMatch) {
       const funcName = funcMatch[1]
-      const args = funcMatch[2].split(',').map((arg: string) => {
-        const trimmed = arg.trim()
-        // 숫자 상수
-        if (/^\d+$/.test(trimmed)) return parseInt(trimmed)
-        // 변수
-        return params[trimmed] ?? 0
-      })
-
-      switch (funcName) {
-        case 'gcd':
-          return String(math.gcd(args[0], args[1]))
-        case 'lcm':
-          return String(math.lcm(args[0], args[1]))
-        case 'divisors':
-          return math.divisors(args[0]).join(', ')
-        case 'multiples':
-          return math.formatNumberList(math.multiples(args[0], args[1] || 5), true)
-        case 'commonDivisors':
-          return math.commonDivisors(args[0], args[1]).join(', ')
-        default:
-          return `[${funcName}?]`
-      }
+      const args = funcMatch[2].split(',').map((arg: string) => evaluateArg(arg, params))
+      const result = evaluateFunction(funcName, args)
+      if (result !== null) return result
     }
 
-    // 산술 연산
+    // 산술 연산 (함수 호출 포함 가능)
     try {
-      // 변수를 값으로 치환
-      let evalExpr = trimmedExpr
+      // 1. 함수 호출을 먼저 값으로 치환
+      let evalExpr = replaceFunctionCalls(trimmedExpr, params)
+
+      // 2. 변수를 값으로 치환
       for (const [key, value] of Object.entries(params)) {
         evalExpr = evalExpr.replace(new RegExp(`\\b${key}\\b`, 'g'), String(value))
       }
-      // 간단한 산술만 허용 (보안)
+
+      // 3. 간단한 산술만 허용 (보안)
       if (/^[\d\s+\-*/().]+$/.test(evalExpr)) {
         return String(eval(evalExpr))
       }

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "tmpl-rounding-choice-001",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "n": { "min": 1200, "max": 4800 }
+    },
+    "prompt_template": "{{n}}을 백의 자리까지 반올림하면?",
+    "choices_template": [
+      "{{roundTo(n, 100)}}",
+      "{{roundTo(n, 100) + 100}}",
+      "{{roundTo(n, 100) - 100}}",
+      "{{roundTo(n, 100) + 200}}"
+    ],
+    "solver_rule": "roundTo(n, 100)",
+    "solution_steps_template": [
+      "백의 자리까지 나타내려면 십의 자리 숫자를 봅니다.",
+      "십의 자리 숫자가 5 이상이면 올림, 4 이하이면 버림합니다.",
+      "{{n}}을 반올림하면 {{roundTo(n, 100)}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-number-001",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 2,
+    "param_schema": {
+      "n": { "min": 2100, "max": 8900 }
+    },
+    "prompt_template": "{{n}}을 천의 자리까지 반올림하세요.",
+    "solver_rule": "roundTo(n, 1000)",
+    "solution_steps_template": [
+      "천의 자리까지 나타내려면 백의 자리 숫자를 봅니다.",
+      "백의 자리 숫자가 5 이상이면 올림, 4 이하이면 버림합니다.",
+      "{{n}}을 반올림하면 {{roundTo(n, 1000)}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-choice-002",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "n": { "min": 120, "max": 480 }
+    },
+    "prompt_template": "{{n}}을 십의 자리까지 반올림하면?",
+    "choices_template": [
+      "{{roundTo(n, 10)}}",
+      "{{roundTo(n, 10) + 10}}",
+      "{{roundTo(n, 10) - 10}}",
+      "{{roundTo(n, 10) + 20}}"
+    ],
+    "solver_rule": "roundTo(n, 10)",
+    "solution_steps_template": [
+      "십의 자리까지 나타내려면 일의 자리 숫자를 봅니다.",
+      "일의 자리 숫자가 5 이상이면 올림, 4 이하이면 버림합니다.",
+      "{{n}}을 반올림하면 {{roundTo(n, 10)}}"
+    ]
+  }
+]

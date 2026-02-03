@@ -1,0 +1,74 @@
+[
+  {
+    "id": "tmpl-fracadd-choice-001",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "n1": { "min": 1, "max": 2 },
+      "d1": { "min": 2, "max": 4 },
+      "n2": { "min": 1, "max": 2 },
+      "d2": { "min": 5, "max": 7 }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
+    "choices_template": [
+      "{{fracAdd(n1, d1, n2, d2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 3)}}"
+    ],
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "{{n1}}/{{d1}} = {{convertNum1(n1, d1, d2)}}/{{commonDen(d1, d2)}}",
+      "{{n2}}/{{d2}} = {{convertNum2(n2, d1, d2)}}/{{commonDen(d1, d2)}}",
+      "분자끼리 더합니다: {{convertNum1(n1, d1, d2)}} + {{convertNum2(n2, d1, d2)}} = {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-number-001",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 2,
+    "param_schema": {
+      "n1": { "min": 1, "max": 3 },
+      "d1": { "min": 3, "max": 5 },
+      "n2": { "min": 1, "max": 2 },
+      "d2": { "min": 6, "max": 8 }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 를 계산하세요. (예: 7/12)",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "{{n1}}/{{d1}} = {{convertNum1(n1, d1, d2)}}/{{commonDen(d1, d2)}}",
+      "{{n2}}/{{d2}} = {{convertNum2(n2, d1, d2)}}/{{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-choice-002",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "n1": { "min": 1, "max": 3 },
+      "d1": { "min": 2, "max": 3 },
+      "n2": { "min": 1, "max": 3 },
+      "d2": { "min": 4, "max": 6 }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
+    "choices_template": [
+      "{{fracAdd(n1, d1, n2, d2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, -1)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 4)}}"
+    ],
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "{{n1}}/{{d1}} + {{n2}}/{{d2}} = {{fracAdd(n1, d1, n2, d2)}}"
+    ]
+  }
+]

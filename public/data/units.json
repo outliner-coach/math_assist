@@ -1,10 +1,74 @@
 [
   {
-    "id": "unit-5-1-divisor-multiple",
+    "id": "unit-5-1-mixed-calc",
     "grade": 5,
     "semester": "5-1",
     "order": 1,
+    "title": "자연수의 혼합 계산",
+    "description": "덧셈, 뺄셈, 곱셈, 나눗셈이 섞인 식의 계산 순서를 배웁니다."
+  },
+  {
+    "id": "unit-5-1-divisor-multiple",
+    "grade": 5,
+    "semester": "5-1",
+    "order": 2,
     "title": "약수와 배수",
     "description": "약수, 배수, 공약수, 최대공약수, 공배수, 최소공배수를 배웁니다."
+  },
+  {
+    "id": "unit-5-1-pattern",
+    "grade": 5,
+    "semester": "5-1",
+    "order": 3,
+    "title": "규칙과 대응",
+    "description": "두 양 사이의 대응 관계를 찾고, 규칙을 식으로 나타냅니다."
+  },
+  {
+    "id": "unit-5-1-fraction-simplify",
+    "grade": 5,
+    "semester": "5-1",
+    "order": 4,
+    "title": "약분과 통분",
+    "description": "분수를 약분하여 기약분수로 만들고, 분모가 다른 분수를 통분합니다."
+  },
+  {
+    "id": "unit-5-1-fraction-addsub",
+    "grade": 5,
+    "semester": "5-1",
+    "order": 5,
+    "title": "분수의 덧셈과 뺄셈",
+    "description": "분모가 다른 분수의 덧셈과 뺄셈을 배웁니다."
+  },
+  {
+    "id": "unit-5-2-rounding",
+    "grade": 5,
+    "semester": "5-2",
+    "order": 1,
+    "title": "수의 범위와 어림하기",
+    "description": "반올림, 올림, 버림을 이용하여 수를 어림합니다."
+  },
+  {
+    "id": "unit-5-2-fraction-mul",
+    "grade": 5,
+    "semester": "5-2",
+    "order": 2,
+    "title": "분수의 곱셈",
+    "description": "분수와 자연수, 분수와 분수의 곱셈을 배웁니다."
+  },
+  {
+    "id": "unit-5-2-decimal-mul",
+    "grade": 5,
+    "semester": "5-2",
+    "order": 4,
+    "title": "소수의 곱셈",
+    "description": "소수와 자연수, 소수와 소수의 곱셈을 배웁니다."
+  },
+  {
+    "id": "unit-5-2-average",
+    "grade": 5,
+    "semester": "5-2",
+    "order": 6,
+    "title": "평균과 가능성",
+    "description": "평균의 의미를 이해하고 평균을 구합니다."
   }
 ]

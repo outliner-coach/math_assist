@@ -84,20 +84,20 @@
 > ※ 학교/교재 편차가 있을 수 있어, MVP는 “핵심 공통 개념” 중심으로 시작합니다.
 
 ### 6.1 5-1
-- 자연수 혼합 계산(계산 순서, 어림 검산)
-- 약수와 배수(약수/배수/공약수/최대공약수/공배수/최소공배수)
-- 대응 관계(표/규칙 찾기)
-- 약분과 통분(기약분수/약분/통분)
-- 분수의 덧셈과 뺄셈(이분모 포함, 대분수 포함 가능)
-- 다각형의 둘레와 넓이(단위 이해, 기본 도형 중심)
+- ✅ 자연수 혼합 계산(계산 순서, 괄호)
+- ✅ 약수와 배수(약수/배수/공약수/최대공약수/공배수/최소공배수)
+- ✅ 규칙과 대응(표/규칙 찾기, 대응 관계)
+- ✅ 약분과 통분(기약분수/약분/통분)
+- ✅ 분수의 덧셈과 뺄셈(이분모 분수)
+- ⬜ 다각형의 둘레와 넓이 — *SVG 기하 컴포넌트 필요, 미구현*
 
 ### 6.2 5-2
-- 수의 범위와 어림(반올림/어림값 비교)
-- 분수의 곱셈(분수×자연수, 분수×분수)
-- 합동과 대칭(선대칭/점대칭, 합동 감각)
-- 소수의 곱셈(자릿값 기반 이해)
-- 직육면체(면/모서리/꼭짓점, 전개도)
-- 평균과 가능성(평균의 의미, 가능성 비교)
+- ✅ 수의 범위와 어림하기(반올림/올림/버림)
+- ✅ 분수의 곱셈(분수×자연수, 분수×분수)
+- ⬜ 합동과 대칭 — *SVG 기하 컴포넌트 필요, 미구현*
+- ✅ 소수의 곱셈(소수×자연수, 소수×소수)
+- ⬜ 직육면체 — *SVG 기하 컴포넌트 필요, 미구현*
+- ✅ 평균과 가능성(평균 구하기)
 
 ---
 
@@ -321,14 +321,27 @@ AI 응답은 반드시 앱이 소비 가능한 JSON 스키마로 받습니다.
 ### 13.2 데이터 저장 구조
 ```
 /public/data/
-  units.json              # 단원 목록
-  concepts.json           # 개념 목록 (unit_id로 연결)
+  units.json              # 단원 목록 (9개 단원)
+  concepts.json           # 개념 목록 (16개 개념, unit_id로 연결)
   templates/
-    divisor.json          # 약수 관련 템플릿
-    multiple.json         # 배수 관련 템플릿
+    # 5-1 약수와 배수
+    divisor.json          # 약수 템플릿
+    multiple.json         # 배수 템플릿
     gcd.json              # 최대공약수 템플릿
     lcm.json              # 최소공배수 템플릿
-    ...
+    # 5-1 기타
+    mixedcalc.json        # 자연수 혼합 계산 템플릿
+    pattern.json          # 규칙과 대응 템플릿
+    simplify.json         # 약분 템플릿
+    commonden.json        # 통분 템플릿
+    fracadd.json          # 분수의 덧셈 템플릿
+    fracsub.json          # 분수의 뺄셈 템플릿
+    # 5-2
+    rounding.json         # 반올림 템플릿
+    estimate.json         # 올림/버림 템플릿
+    fracmul.json          # 분수의 곱셈 템플릿
+    decimalmul.json       # 소수의 곱셈 템플릿
+    average.json          # 평균 템플릿
 ```
 
 ### 13.3 클라이언트 localStorage 구조
@@ -389,20 +402,21 @@ localStorage.setItem('lastResult', JSON.stringify({
 
 ## 16. 릴리즈 플랜
 
-### Phase 1 (MVP)
+### Phase 1 (MVP) ✅ 완료
 - 5-1 "약수와 배수" 단원 중심
-- 개념 5개, 개념당 템플릿 3개
+- 개념 4개, 개념당 템플릿 3개
 - 객관식 + 숫자입력 문제
 - 10문항 세션 + 일괄 채점 + 해설
 - 태블릿 UI + 커스텀 숫자 키패드
 
-### Phase 2 (확장)
-- 5-1 나머지 단원 추가
-- 도형 문제 (SVG 렌더링)
-- AI 힌트 기능
+### Phase 2 (확장) ✅ 완료
+- 5-1 나머지 단원 추가 (자연수 혼합 계산, 규칙과 대응, 약분과 통분, 분수의 덧셈과 뺄셈)
+- 5-2 단원 추가 (수의 범위와 어림, 분수의 곱셈, 소수의 곱셈, 평균과 가능성)
+- 총 9개 단원, 16개 개념, 33개 템플릿
 
-### Phase 3 (선택)
-- 5-2 단원 추가
+### Phase 3 (선택/미구현)
+- 도형 문제 (SVG 렌더링): 다각형의 둘레와 넓이, 합동과 대칭, 직육면체
+- AI 힌트 기능
 - 오답 노트 / 다시 풀기
 
 ---
@@ -423,11 +437,48 @@ localStorage.setItem('lastResult', JSON.stringify({
 ### 17.3 템플릿 함수 정의
 문제 생성 시 사용할 수학 함수:
 ```typescript
-gcd(a, b)           // 최대공약수
-lcm(a, b)           // 최소공배수
-divisors(n)         // n의 약수 배열 [1, 2, 3, 6]
-multiples(n, count) // n의 배수 count개 [n, 2n, 3n, ...]
-reduce(a, b)        // 기약분수 { num, den }
+// 약수/배수
+gcd(a, b)              // 최대공약수
+lcm(a, b)              // 최소공배수
+divisors(n)            // n의 약수 목록 (문자열)
+divisorCount(n)        // n의 약수 개수
+multiples(n, count)    // n의 배수 count개 (문자열)
+commonDivisors(a, b)   // a,b의 공약수 목록 (문자열)
+
+// 분수 약분/통분
+reduceFrac(n, d)       // 기약분수 문자열 (예: "3/4")
+reducedNum(n, d)       // 약분된 분자
+reducedDen(n, d)       // 약분된 분모
+reduceFracOff(n, d, off) // 분자에 offset 더한 기약분수
+commonDen(d1, d2)      // 공통 분모 (LCM)
+convertNum1(n1, d1, d2)  // 통분 시 첫째 분수의 새 분자
+convertNum2(n2, d1, d2)  // 통분 시 둘째 분수의 새 분자
+
+// 분수 사칙연산
+fracAdd(n1, d1, n2, d2)          // 분수 덧셈 (기약분수 문자열)
+fracAddOff(n1, d1, n2, d2, off)  // 분수 덧셈 + 오프셋
+fracSub(n1, d1, n2, d2)          // 분수 뺄셈
+fracSubOff(n1, d1, n2, d2, off)  // 분수 뺄셈 + 오프셋
+fracMul(n1, d1, n2, d2)          // 분수 곱셈
+fracMulOff(n1, d1, n2, d2, off)  // 분수 곱셈 + 오프셋
+
+// 반올림/올림/버림
+roundTo(n, place)     // 반올림 (place: 10, 100, 1000)
+ceilTo(n, place)      // 올림
+floorTo(n, place)     // 버림
+
+// 소수
+dec1(n)               // 정수→소수 1자리 (25→"2.5")
+decTimesNat(a, b)     // 소수(1자리)×자연수
+decTimesNatOff(a, b, off) // 소수×자연수 + 오프셋
+decTimesDec(a, b)     // 소수(1자리)×소수(1자리)
+decTimesDecOff(a, b, off) // 소수×소수 + 오프셋
+
+// 평균/합계
+avg3(a, b, c)         // 세 수의 평균
+avg4(a, b, c, d)      // 네 수의 평균
+sum3(a, b, c)         // 세 수의 합
+sum4(a, b, c, d)      // 네 수의 합
 ```
 
 ### 17.4 분수 렌더링 (KaTeX)

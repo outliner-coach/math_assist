@@ -1,0 +1,71 @@
+[
+  {
+    "id": "tmpl-commonden-choice-001",
+    "concept_id": "commonden-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "d1": { "min": 2, "max": 5 },
+      "d2": { "min": 6, "max": 9 }
+    },
+    "prompt_template": "분모가 {{d1}}인 분수와 분모가 {{d2}}인 분수를 통분할 때, 공통 분모는?",
+    "choices_template": [
+      "{{commonDen(d1, d2)}}",
+      "{{commonDen(d1, d2) + 3}}",
+      "{{commonDen(d1, d2) + 7}}",
+      "{{commonDen(d1, d2) + 12}}"
+    ],
+    "solver_rule": "commonDen(d1, d2)",
+    "solution_steps_template": [
+      "두 분모 {{d1}}와 {{d2}}의 최소공배수를 구합니다.",
+      "{{d1}}의 배수: {{multiples(d1, 5)}}",
+      "{{d2}}의 배수: {{multiples(d2, 5)}}",
+      "공통 분모(최소공배수): {{commonDen(d1, d2)}}"
+    ]
+  },
+  {
+    "id": "tmpl-commonden-number-001",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 2,
+    "param_schema": {
+      "n1": { "min": 1, "max": 3 },
+      "d1": { "min": 2, "max": 4 },
+      "d2": { "min": 5, "max": 8 }
+    },
+    "prompt_template": "{{n1}}/{{d1}}를 분모가 {{commonDen(d1, d2)}}인 분수로 바꾸면 분자는?",
+    "solver_rule": "convertNum1(n1, d1, d2)",
+    "solution_steps_template": [
+      "공통 분모 {{commonDen(d1, d2)}}를 원래 분모 {{d1}}로 나눕니다.",
+      "{{commonDen(d1, d2)}} ÷ {{d1}} = {{commonDen(d1, d2) / d1}}",
+      "분자에도 같은 수를 곱합니다: {{n1}} × {{commonDen(d1, d2) / d1}} = {{convertNum1(n1, d1, d2)}}",
+      "{{n1}}/{{d1}} = {{convertNum1(n1, d1, d2)}}/{{commonDen(d1, d2)}}"
+    ]
+  },
+  {
+    "id": "tmpl-commonden-choice-002",
+    "concept_id": "commonden-001",
+    "type": "choice",
+    "difficulty": 2,
+    "param_schema": {
+      "n1": { "min": 1, "max": 2 },
+      "d1": { "min": 3, "max": 4 },
+      "n2": { "min": 1, "max": 3 },
+      "d2": { "min": 5, "max": 7 }
+    },
+    "prompt_template": "{{n1}}/{{d1}}과 {{n2}}/{{d2}}를 통분하면, 첫째 분수의 분자는?",
+    "choices_template": [
+      "{{convertNum1(n1, d1, d2)}}",
+      "{{convertNum1(n1, d1, d2) + 1}}",
+      "{{convertNum1(n1, d1, d2) + 3}}",
+      "{{convertNum1(n1, d1, d2) + 5}}"
+    ],
+    "solver_rule": "convertNum1(n1, d1, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "{{n1}}/{{d1}}: 분자와 분모에 {{commonDen(d1, d2) / d1}}을 곱합니다.",
+      "{{n1}}/{{d1}} = {{convertNum1(n1, d1, d2)}}/{{commonDen(d1, d2)}}",
+      "첫째 분수의 분자: {{convertNum1(n1, d1, d2)}}"
+    ]
+  }
+]

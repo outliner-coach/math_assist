@@ -1,0 +1,69 @@
+[
+  {
+    "id": "tmpl-average-choice-001",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "a": { "min": 60, "max": 90 },
+      "b": { "min": 60, "max": 90 },
+      "c": { "min": 60, "max": 90 }
+    },
+    "prompt_template": "세 수 {{a}}, {{b}}, {{c}}의 평균은?",
+    "choices_template": [
+      "{{avg3(a, b, c)}}",
+      "{{avg3(a, b, c) + 3}}",
+      "{{avg3(a, b, c) + 7}}",
+      "{{avg3(a, b, c) + 12}}"
+    ],
+    "solver_rule": "avg3(a, b, c)",
+    "solution_steps_template": [
+      "세 수를 모두 더합니다: {{a}} + {{b}} + {{c}} = {{sum3(a, b, c)}}",
+      "합을 자료의 수(3)로 나눕니다: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}",
+      "평균: {{avg3(a, b, c)}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-number-001",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 2,
+    "param_schema": {
+      "a": { "min": 50, "max": 95 },
+      "b": { "min": 50, "max": 95 },
+      "c": { "min": 50, "max": 95 },
+      "d": { "min": 50, "max": 95 }
+    },
+    "prompt_template": "네 수 {{a}}, {{b}}, {{c}}, {{d}}의 평균을 구하세요.",
+    "solver_rule": "avg4(a, b, c, d)",
+    "solution_steps_template": [
+      "네 수를 모두 더합니다: {{a}} + {{b}} + {{c}} + {{d}} = {{sum4(a, b, c, d)}}",
+      "합을 자료의 수(4)로 나눕니다: {{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}",
+      "평균: {{avg4(a, b, c, d)}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-choice-002",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "a": { "min": 70, "max": 100 },
+      "b": { "min": 70, "max": 100 },
+      "c": { "min": 70, "max": 100 }
+    },
+    "prompt_template": "수학 {{a}}점, 국어 {{b}}점, 영어 {{c}}점의 평균 점수는?",
+    "choices_template": [
+      "{{avg3(a, b, c)}}",
+      "{{avg3(a, b, c) + 5}}",
+      "{{avg3(a, b, c) + 10}}",
+      "{{avg3(a, b, c) - 5}}"
+    ],
+    "solver_rule": "avg3(a, b, c)",
+    "solution_steps_template": [
+      "세 과목 점수를 더합니다: {{a}} + {{b}} + {{c}} = {{sum3(a, b, c)}}",
+      "합을 과목 수(3)로 나눕니다: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}",
+      "평균 점수: {{avg3(a, b, c)}}점"
+    ]
+  }
+]

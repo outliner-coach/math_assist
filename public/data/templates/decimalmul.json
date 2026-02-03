@@ -1,0 +1,65 @@
+[
+  {
+    "id": "tmpl-decimalmul-choice-001",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "a": { "min": 12, "max": 45 },
+      "b": { "min": 2, "max": 6 }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}} = ?",
+    "choices_template": [
+      "{{decTimesNat(a, b)}}",
+      "{{decTimesNatOff(a, b, 3)}}",
+      "{{decTimesNatOff(a, b, 7)}}",
+      "{{decTimesNatOff(a, b, 11)}}"
+    ],
+    "solver_rule": "decTimesNat(a, b)",
+    "solution_steps_template": [
+      "소수점을 없애고 자연수로 계산합니다: {{a}} × {{b}} = {{a * b}}",
+      "원래 소수점 아래 자릿수(1자리)만큼 소수점을 찍습니다.",
+      "{{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-number-001",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "param_schema": {
+      "a": { "min": 15, "max": 49 },
+      "b": { "min": 2, "max": 5 }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}} 를 계산하세요.",
+    "solver_rule": "decTimesNat(a, b)",
+    "solution_steps_template": [
+      "소수점을 없애고 자연수로 계산합니다: {{a}} × {{b}} = {{a * b}}",
+      "소수점 아래 자릿수가 1자리이므로 결과에 소수점을 찍습니다.",
+      "정답: {{decTimesNat(a, b)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-choice-002",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 2,
+    "param_schema": {
+      "a": { "min": 11, "max": 35 },
+      "b": { "min": 12, "max": 35 }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
+    "choices_template": [
+      "{{decTimesDec(a, b)}}",
+      "{{decTimesDecOff(a, b, 3)}}",
+      "{{decTimesDecOff(a, b, 7)}}",
+      "{{decTimesDecOff(a, b, 12)}}"
+    ],
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "소수점을 없애고 자연수로 계산합니다: {{a}} × {{b}} = {{a * b}}",
+      "두 수의 소수점 아래 자릿수의 합(1+1=2자리)만큼 소수점을 찍습니다.",
+      "{{dec1(a)}} × {{dec1(b)}} = {{decTimesDec(a, b)}}"
+    ]
+  }
+]

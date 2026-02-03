@@ -1,0 +1,71 @@
+[
+  {
+    "id": "tmpl-fracmul-choice-001",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "n1": { "min": 1, "max": 4 },
+      "d1": { "min": 2, "max": 5 },
+      "n2": { "min": 1, "max": 3 },
+      "d2": { "min": 3, "max": 7 }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
+    "choices_template": [
+      "{{fracMul(n1, d1, n2, d2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 3)}}"
+    ],
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "분자끼리 곱합니다: {{n1}} × {{n2}} = {{n1 * n2}}",
+      "분모끼리 곱합니다: {{d1}} × {{d2}} = {{d1 * d2}}",
+      "{{n1 * n2}}/{{d1 * d2}}를 약분하면 {{fracMul(n1, d1, n2, d2)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-number-001",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "param_schema": {
+      "n1": { "min": 2, "max": 5 },
+      "d1": { "min": 3, "max": 6 },
+      "n2": { "min": 1, "max": 4 },
+      "d2": { "min": 2, "max": 5 }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요. (예: 2/15)",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "분자끼리 곱합니다: {{n1}} × {{n2}} = {{n1 * n2}}",
+      "분모끼리 곱합니다: {{d1}} × {{d2}} = {{d1 * d2}}",
+      "약분하면: {{fracMul(n1, d1, n2, d2)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-choice-002",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 1,
+    "param_schema": {
+      "a": { "min": 2, "max": 6 },
+      "n1": { "min": 1, "max": 3 },
+      "d1": { "min": 2, "max": 5 }
+    },
+    "prompt_template": "{{a}} × {{n1}}/{{d1}} = ?",
+    "choices_template": [
+      "{{fracMul(a, 1, n1, d1)}}",
+      "{{fracMulOff(a, 1, n1, d1, 1)}}",
+      "{{fracMulOff(a, 1, n1, d1, 2)}}",
+      "{{fracMulOff(a, 1, n1, d1, 3)}}"
+    ],
+    "solver_rule": "fracMul(a, 1, n1, d1)",
+    "solution_steps_template": [
+      "자연수 {{a}}를 분수로 바꿉니다: {{a}}/1",
+      "분자끼리 곱합니다: {{a}} × {{n1}} = {{a * n1}}",
+      "분모: 1 × {{d1}} = {{d1}}",
+      "{{a * n1}}/{{d1}} = {{fracMul(a, 1, n1, d1)}}"
+    ]
+  }
+]
