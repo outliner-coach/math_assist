@@ -4,16 +4,18 @@
 
 import type { Unit, Concept, ProblemTemplate } from './types'
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
 // 단원 목록 로드
 export async function getUnits(): Promise<Unit[]> {
-  const res = await fetch('/data/units.json')
+  const res = await fetch(`${BASE_PATH}/data/units.json`)
   if (!res.ok) throw new Error('Failed to load units')
   return res.json()
 }
 
 // 개념 목록 로드
 export async function getConcepts(): Promise<Concept[]> {
-  const res = await fetch('/data/concepts.json')
+  const res = await fetch(`${BASE_PATH}/data/concepts.json`)
   if (!res.ok) throw new Error('Failed to load concepts')
   return res.json()
 }
@@ -38,7 +40,7 @@ export async function getTemplatesByConceptId(conceptId: string): Promise<Proble
   const prefix = conceptId.split('-')[0]
 
   try {
-    const res = await fetch(`/data/templates/${prefix}.json`)
+    const res = await fetch(`${BASE_PATH}/data/templates/${prefix}.json`)
     if (!res.ok) return []
 
     const templates: ProblemTemplate[] = await res.json()
