@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { Suspense } from 'react'
 import PracticeClient from './PracticeClient'
 
 export function generateStaticParams() {
@@ -9,5 +10,9 @@ export function generateStaticParams() {
 }
 
 export default function PracticePage() {
-  return <PracticeClient />
+  return (
+    <Suspense fallback={<div className="text-center py-12">로딩 중...</div>}>
+      <PracticeClient />
+    </Suspense>
+  )
 }
