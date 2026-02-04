@@ -1,71 +1,1076 @@
 [
   {
-    "id": "tmpl-commonden-choice-001",
+    "id": "tmpl-commonden-A-01",
     "concept_id": "commonden-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "d1": { "min": 2, "max": 5 },
-      "d2": { "min": 6, "max": 9 }
+      "n1": {
+        "min": 1,
+        "max": 3
+      },
+      "d1": {
+        "min": 2,
+        "max": 5
+      },
+      "n2": {
+        "min": 1,
+        "max": 3
+      },
+      "d2": {
+        "min": 4,
+        "max": 7
+      }
     },
-    "prompt_template": "분모가 {{d1}}인 분수와 분모가 {{d2}}인 분수를 통분할 때, 공통 분모는?",
-    "choices_template": [
-      "{{commonDen(d1, d2)}}",
-      "{{commonDen(d1, d2) + 3}}",
-      "{{commonDen(d1, d2) + 7}}",
-      "{{commonDen(d1, d2) + 12}}"
-    ],
+    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모는?",
     "solver_rule": "commonDen(d1, d2)",
     "solution_steps_template": [
-      "두 분모 {{d1}}와 {{d2}}의 최소공배수를 구합니다.",
-      "{{d1}}의 배수: {{multiples(d1, 5)}}",
-      "{{d2}}의 배수: {{multiples(d2, 5)}}",
-      "공통 분모(최소공배수): {{commonDen(d1, d2)}}"
+      "공통 분모는 분모의 최소공배수입니다.",
+      "최소공배수: {{commonDen(d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분모들의 최소공배수를 찾아요.",
+      "그 값이 공통 분모예요."
+    ],
+    "choices_template": [
+      "{{commonDen(d1, d2)}}",
+      "{{commonDen(d1, d2) + 2}}",
+      "{{commonDen(d1, d2) + 4}}",
+      "{{commonDen(d1, d2) + 6}}"
     ]
   },
   {
-    "id": "tmpl-commonden-number-001",
+    "id": "tmpl-commonden-A-02",
     "concept_id": "commonden-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n1": { "min": 1, "max": 3 },
-      "d1": { "min": 2, "max": 4 },
-      "d2": { "min": 5, "max": 8 }
+      "n1": {
+        "min": 1,
+        "max": 3
+      },
+      "d1": {
+        "min": 2,
+        "max": 5
+      },
+      "n2": {
+        "min": 1,
+        "max": 3
+      },
+      "d2": {
+        "min": 4,
+        "max": 7
+      }
     },
-    "prompt_template": "{{n1}}/{{d1}}를 분모가 {{commonDen(d1, d2)}}인 분수로 바꾸면 분자는?",
-    "solver_rule": "convertNum1(n1, d1, d2)",
+    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모는 얼마인가요?",
+    "solver_rule": "commonDen(d1, d2)",
     "solution_steps_template": [
-      "공통 분모 {{commonDen(d1, d2)}}를 원래 분모 {{d1}}로 나눕니다.",
-      "{{commonDen(d1, d2)}} ÷ {{d1}} = {{commonDen(d1, d2) / d1}}",
-      "분자에도 같은 수를 곱합니다: {{n1}} × {{commonDen(d1, d2) / d1}} = {{convertNum1(n1, d1, d2)}}",
-      "{{n1}}/{{d1}} = {{convertNum1(n1, d1, d2)}}/{{commonDen(d1, d2)}}"
+      "공통 분모는 분모의 최소공배수입니다.",
+      "공통 분모: {{commonDen(d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "최소공배수를 구해요.",
+      "그 값이 정답이에요."
     ]
   },
   {
-    "id": "tmpl-commonden-choice-002",
+    "id": "tmpl-commonden-A-03",
     "concept_id": "commonden-001",
-    "type": "choice",
-    "difficulty": 2,
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n1": { "min": 1, "max": 2 },
-      "d1": { "min": 3, "max": 4 },
-      "n2": { "min": 1, "max": 3 },
-      "d2": { "min": 5, "max": 7 }
+      "n1": {
+        "min": 1,
+        "max": 4
+      },
+      "d1": {
+        "min": 2,
+        "max": 6
+      },
+      "d2": {
+        "min": 3,
+        "max": 7
+      }
     },
-    "prompt_template": "{{n1}}/{{d1}}과 {{n2}}/{{d2}}를 통분하면, 첫째 분수의 분자는?",
-    "choices_template": [
-      "{{convertNum1(n1, d1, d2)}}",
-      "{{convertNum1(n1, d1, d2) + 1}}",
-      "{{convertNum1(n1, d1, d2) + 3}}",
-      "{{convertNum1(n1, d1, d2) + 5}}"
-    ],
+    "prompt_template": "{{n1}}/{{d1}}를 분모 {{commonDen(d1, d2)}}로 통분했을 때 분자는?",
     "solver_rule": "convertNum1(n1, d1, d2)",
     "solution_steps_template": [
       "공통 분모: {{commonDen(d1, d2)}}",
-      "{{n1}}/{{d1}}: 분자와 분모에 {{commonDen(d1, d2) / d1}}을 곱합니다.",
-      "{{n1}}/{{d1}} = {{convertNum1(n1, d1, d2)}}/{{commonDen(d1, d2)}}",
-      "첫째 분수의 분자: {{convertNum1(n1, d1, d2)}}"
+      "새 분자: {{convertNum1(n1, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분모를 키운 만큼 분자도 키워요.",
+      "새 분자를 계산해요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-A-04",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "n2": {
+        "min": 1,
+        "max": 4
+      },
+      "d1": {
+        "min": 2,
+        "max": 6
+      },
+      "d2": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{n2}}/{{d2}}를 분모 {{commonDen(d1, d2)}}로 통분했을 때 분자는?",
+    "solver_rule": "convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "새 분자: {{convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분모를 맞추면서 분자도 바꿔요.",
+      "새 분자를 계산해요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-A-05",
+    "concept_id": "commonden-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 6
+      },
+      "d1": {
+        "min": 4,
+        "max": 8
+      },
+      "d2": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}를 통분했을 때 분자는?",
+    "solver_rule": "convertNum1(n1, d1, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "새 분자: {{convertNum1(n1, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 먼저 구해요.",
+      "분모를 키운 만큼 분자도 키워요."
+    ],
+    "choices_template": [
+      "{{convertNum1(n1, d1, d2)}}",
+      "{{convertNum1(n1, d1, d2) + 2}}",
+      "{{convertNum1(n1, d1, d2) + 4}}",
+      "{{convertNum1(n1, d1, d2) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-commonden-A-06",
+    "concept_id": "commonden-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n2": {
+        "min": 3,
+        "max": 6
+      },
+      "d1": {
+        "min": 4,
+        "max": 8
+      },
+      "d2": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n2}}/{{d2}}를 통분했을 때 분자는?",
+    "solver_rule": "convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "새 분자: {{convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 구해요.",
+      "분모를 맞추며 분자도 바꿔요."
+    ],
+    "choices_template": [
+      "{{convertNum2(n2, d1, d2)}}",
+      "{{convertNum2(n2, d1, d2) + 2}}",
+      "{{convertNum2(n2, d1, d2) + 4}}",
+      "{{convertNum2(n2, d1, d2) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-commonden-A-07",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 6
+      },
+      "d1": {
+        "min": 4,
+        "max": 8
+      },
+      "n2": {
+        "min": 3,
+        "max": 6
+      },
+      "d2": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모에 1을 더한 값은?",
+    "solver_rule": "commonDen(d1, d2) + 1",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "1을 더하면 {{commonDen(d1, d2) + 1}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 구해요.",
+      "그 값에 1을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-A-08",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 6
+      },
+      "d1": {
+        "min": 4,
+        "max": 8
+      },
+      "n2": {
+        "min": 3,
+        "max": 6
+      },
+      "d2": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "통분한 뒤 {{n1}}/{{d1}}의 분자와 {{n2}}/{{d2}}의 분자를 더하면?",
+    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
+      "합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자를 각각 구해요.",
+      "두 값을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-A-09",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 6,
+        "max": 10
+      },
+      "n2": {
+        "min": 5,
+        "max": 8
+      },
+      "d2": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "통분한 뒤 첫 번째 분자에서 두 번째 분자를 빼면?",
+    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
+      "차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자를 구해요.",
+      "앞에서 뒤를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-A-10",
+    "concept_id": "commonden-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 6,
+        "max": 10
+      },
+      "n2": {
+        "min": 5,
+        "max": 8
+      },
+      "d2": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모는?",
+    "solver_rule": "commonDen(d1, d2)",
+    "solution_steps_template": [
+      "공통 분모는 최소공배수입니다.",
+      "최소공배수: {{commonDen(d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분모의 최소공배수를 찾아요.",
+      "그 값이 공통 분모예요."
+    ],
+    "choices_template": [
+      "{{commonDen(d1, d2)}}",
+      "{{commonDen(d1, d2) + 3}}",
+      "{{commonDen(d1, d2) + 6}}",
+      "{{commonDen(d1, d2) + 9}}"
+    ]
+  },
+  {
+    "id": "tmpl-commonden-B-01",
+    "concept_id": "commonden-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 5
+      },
+      "d1": {
+        "min": 4,
+        "max": 7
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모는?",
+    "solver_rule": "commonDen(d1, d2)",
+    "solution_steps_template": [
+      "공통 분모는 분모의 최소공배수입니다.",
+      "최소공배수: {{commonDen(d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분모들의 최소공배수를 찾아요.",
+      "그 값이 공통 분모예요."
+    ],
+    "choices_template": [
+      "{{commonDen(d1, d2)}}",
+      "{{commonDen(d1, d2) + 2}}",
+      "{{commonDen(d1, d2) + 4}}",
+      "{{commonDen(d1, d2) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-commonden-B-02",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 5
+      },
+      "d1": {
+        "min": 4,
+        "max": 7
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모는 얼마인가요?",
+    "solver_rule": "commonDen(d1, d2)",
+    "solution_steps_template": [
+      "공통 분모는 분모의 최소공배수입니다.",
+      "공통 분모: {{commonDen(d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "최소공배수를 구해요.",
+      "그 값이 정답이에요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-B-03",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 6
+      },
+      "d1": {
+        "min": 4,
+        "max": 8
+      },
+      "d2": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}를 분모 {{commonDen(d1, d2)}}로 통분했을 때 분자는?",
+    "solver_rule": "convertNum1(n1, d1, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "새 분자: {{convertNum1(n1, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분모를 키운 만큼 분자도 키워요.",
+      "새 분자를 계산해요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-B-04",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n2": {
+        "min": 3,
+        "max": 6
+      },
+      "d1": {
+        "min": 4,
+        "max": 8
+      },
+      "d2": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n2}}/{{d2}}를 분모 {{commonDen(d1, d2)}}로 통분했을 때 분자는?",
+    "solver_rule": "convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "새 분자: {{convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분모를 맞추면서 분자도 바꿔요.",
+      "새 분자를 계산해요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-B-05",
+    "concept_id": "commonden-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 6,
+        "max": 10
+      },
+      "d2": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}를 통분했을 때 분자는?",
+    "solver_rule": "convertNum1(n1, d1, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "새 분자: {{convertNum1(n1, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 먼저 구해요.",
+      "분모를 키운 만큼 분자도 키워요."
+    ],
+    "choices_template": [
+      "{{convertNum1(n1, d1, d2)}}",
+      "{{convertNum1(n1, d1, d2) + 2}}",
+      "{{convertNum1(n1, d1, d2) + 4}}",
+      "{{convertNum1(n1, d1, d2) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-commonden-B-06",
+    "concept_id": "commonden-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n2": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 6,
+        "max": 10
+      },
+      "d2": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n2}}/{{d2}}를 통분했을 때 분자는?",
+    "solver_rule": "convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "새 분자: {{convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 구해요.",
+      "분모를 맞추며 분자도 바꿔요."
+    ],
+    "choices_template": [
+      "{{convertNum2(n2, d1, d2)}}",
+      "{{convertNum2(n2, d1, d2) + 2}}",
+      "{{convertNum2(n2, d1, d2) + 4}}",
+      "{{convertNum2(n2, d1, d2) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-commonden-B-07",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 6,
+        "max": 10
+      },
+      "n2": {
+        "min": 5,
+        "max": 8
+      },
+      "d2": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모에 1을 더한 값은?",
+    "solver_rule": "commonDen(d1, d2) + 1",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "1을 더하면 {{commonDen(d1, d2) + 1}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 구해요.",
+      "그 값에 1을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-B-08",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 6,
+        "max": 10
+      },
+      "n2": {
+        "min": 5,
+        "max": 8
+      },
+      "d2": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "통분한 뒤 {{n1}}/{{d1}}의 분자와 {{n2}}/{{d2}}의 분자를 더하면?",
+    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
+      "합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자를 각각 구해요.",
+      "두 값을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-B-09",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 10
+      },
+      "d1": {
+        "min": 8,
+        "max": 12
+      },
+      "n2": {
+        "min": 7,
+        "max": 10
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "통분한 뒤 첫 번째 분자에서 두 번째 분자를 빼면?",
+    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
+      "차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자를 구해요.",
+      "앞에서 뒤를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-B-10",
+    "concept_id": "commonden-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 10
+      },
+      "d1": {
+        "min": 8,
+        "max": 12
+      },
+      "n2": {
+        "min": 7,
+        "max": 10
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모는?",
+    "solver_rule": "commonDen(d1, d2)",
+    "solution_steps_template": [
+      "공통 분모는 최소공배수입니다.",
+      "최소공배수: {{commonDen(d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분모의 최소공배수를 찾아요.",
+      "그 값이 공통 분모예요."
+    ],
+    "choices_template": [
+      "{{commonDen(d1, d2)}}",
+      "{{commonDen(d1, d2) + 3}}",
+      "{{commonDen(d1, d2) + 6}}",
+      "{{commonDen(d1, d2) + 9}}"
+    ]
+  },
+  {
+    "id": "tmpl-commonden-C-01",
+    "concept_id": "commonden-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 6,
+        "max": 9
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모는?",
+    "solver_rule": "commonDen(d1, d2)",
+    "solution_steps_template": [
+      "공통 분모는 분모의 최소공배수입니다.",
+      "최소공배수: {{commonDen(d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분모들의 최소공배수를 찾아요.",
+      "그 값이 공통 분모예요."
+    ],
+    "choices_template": [
+      "{{commonDen(d1, d2)}}",
+      "{{commonDen(d1, d2) + 2}}",
+      "{{commonDen(d1, d2) + 4}}",
+      "{{commonDen(d1, d2) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-commonden-C-02",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 6,
+        "max": 9
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모는 얼마인가요?",
+    "solver_rule": "commonDen(d1, d2)",
+    "solution_steps_template": [
+      "공통 분모는 분모의 최소공배수입니다.",
+      "공통 분모: {{commonDen(d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "최소공배수를 구해요.",
+      "그 값이 정답이에요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-C-03",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 6,
+        "max": 10
+      },
+      "d2": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}를 분모 {{commonDen(d1, d2)}}로 통분했을 때 분자는?",
+    "solver_rule": "convertNum1(n1, d1, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "새 분자: {{convertNum1(n1, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분모를 키운 만큼 분자도 키워요.",
+      "새 분자를 계산해요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-C-04",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n2": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 6,
+        "max": 10
+      },
+      "d2": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n2}}/{{d2}}를 분모 {{commonDen(d1, d2)}}로 통분했을 때 분자는?",
+    "solver_rule": "convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "새 분자: {{convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분모를 맞추면서 분자도 바꿔요.",
+      "새 분자를 계산해요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-C-05",
+    "concept_id": "commonden-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 10
+      },
+      "d1": {
+        "min": 8,
+        "max": 12
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}를 통분했을 때 분자는?",
+    "solver_rule": "convertNum1(n1, d1, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "새 분자: {{convertNum1(n1, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 먼저 구해요.",
+      "분모를 키운 만큼 분자도 키워요."
+    ],
+    "choices_template": [
+      "{{convertNum1(n1, d1, d2)}}",
+      "{{convertNum1(n1, d1, d2) + 2}}",
+      "{{convertNum1(n1, d1, d2) + 4}}",
+      "{{convertNum1(n1, d1, d2) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-commonden-C-06",
+    "concept_id": "commonden-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n2": {
+        "min": 7,
+        "max": 10
+      },
+      "d1": {
+        "min": 8,
+        "max": 12
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n2}}/{{d2}}를 통분했을 때 분자는?",
+    "solver_rule": "convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "새 분자: {{convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 구해요.",
+      "분모를 맞추며 분자도 바꿔요."
+    ],
+    "choices_template": [
+      "{{convertNum2(n2, d1, d2)}}",
+      "{{convertNum2(n2, d1, d2) + 2}}",
+      "{{convertNum2(n2, d1, d2) + 4}}",
+      "{{convertNum2(n2, d1, d2) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-commonden-C-07",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 10
+      },
+      "d1": {
+        "min": 8,
+        "max": 12
+      },
+      "n2": {
+        "min": 7,
+        "max": 10
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모에 1을 더한 값은?",
+    "solver_rule": "commonDen(d1, d2) + 1",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "1을 더하면 {{commonDen(d1, d2) + 1}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 구해요.",
+      "그 값에 1을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-C-08",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 10
+      },
+      "d1": {
+        "min": 8,
+        "max": 12
+      },
+      "n2": {
+        "min": 7,
+        "max": 10
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "통분한 뒤 {{n1}}/{{d1}}의 분자와 {{n2}}/{{d2}}의 분자를 더하면?",
+    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
+      "합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자를 각각 구해요.",
+      "두 값을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-C-09",
+    "concept_id": "commonden-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 9,
+        "max": 12
+      },
+      "d1": {
+        "min": 10,
+        "max": 12
+      },
+      "n2": {
+        "min": 9,
+        "max": 12
+      },
+      "d2": {
+        "min": 11,
+        "max": 12
+      }
+    },
+    "prompt_template": "통분한 뒤 첫 번째 분자에서 두 번째 분자를 빼면?",
+    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
+      "차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자를 구해요.",
+      "앞에서 뒤를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-commonden-C-10",
+    "concept_id": "commonden-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 9,
+        "max": 12
+      },
+      "d1": {
+        "min": 10,
+        "max": 12
+      },
+      "n2": {
+        "min": 9,
+        "max": 12
+      },
+      "d2": {
+        "min": 11,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모는?",
+    "solver_rule": "commonDen(d1, d2)",
+    "solution_steps_template": [
+      "공통 분모는 최소공배수입니다.",
+      "최소공배수: {{commonDen(d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분모의 최소공배수를 찾아요.",
+      "그 값이 공통 분모예요."
+    ],
+    "choices_template": [
+      "{{commonDen(d1, d2)}}",
+      "{{commonDen(d1, d2) + 3}}",
+      "{{commonDen(d1, d2) + 6}}",
+      "{{commonDen(d1, d2) + 9}}"
     ]
   }
 ]

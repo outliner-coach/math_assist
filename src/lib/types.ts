@@ -14,6 +14,11 @@ export interface Concept {
   unit_id: string
   concept_title: string
   base_explanation: string
+  friendly_explanation: string
+  key_points: string[]
+  steps: string[]
+  visual_aids: VisualAid[]
+  mini_checks: { question: string; answer: string }[]
   examples: string[]
   pitfalls: string[]
   order: number
@@ -25,17 +30,20 @@ export interface ProblemTemplate {
   concept_id: string
   type: 'choice' | 'number'
   difficulty: 1 | 2 | 3
+  set_id: 'A' | 'B' | 'C'
   param_schema: Record<string, { min: number; max: number }>
   prompt_template: string
   choices_template?: string[] // 객관식인 경우
   solver_rule: string
   solution_steps_template: string[]
+  hint_steps_template?: string[]
 }
 
 // 생성된 문제
 export interface Problem {
   index: number
   templateId: string
+  setId: 'A' | 'B' | 'C'
   params: Record<string, number>
   prompt: string
   type: 'choice' | 'number'
@@ -43,12 +51,14 @@ export interface Problem {
   correctAnswer: string
   correctChoiceIndex?: number // 객관식인 경우 정답 인덱스
   solutionSteps: string[]
+  hintSteps?: string[]
 }
 
 // 연습 세션
 export interface PracticeSession {
   sessionId: string
   conceptId: string
+  setId: 'A' | 'B' | 'C'
   problems: Problem[]
   answers: (string | null)[]
   currentIndex: number
@@ -68,6 +78,7 @@ export interface SubmissionResult {
 export interface SessionResult {
   sessionId: string
   conceptId: string
+  setId: 'A' | 'B' | 'C'
   score: number
   total: number
   results: SubmissionResult[]
@@ -80,3 +91,25 @@ export interface NormalizedValue {
   numerator: number
   denominator: number
 }
+
+export type VisualAid =
+  | {
+      type: 'number_line'
+      props: { start: number; end: number; highlights: number[] }
+    }
+  | {
+      type: 'bar_model'
+      props: { total: number; parts: number[]; labels?: string[] }
+    }
+  | {
+      type: 'array_grid'
+      props: { rows: number; cols: number; filled?: number }
+    }
+  | {
+      type: 'rule_table'
+      props: { inputs: number[]; outputs: number[]; rule: string }
+    }
+  | {
+      type: 'factor_tree'
+      props: { value: number; factors: number[] }
+    }

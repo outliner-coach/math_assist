@@ -1,74 +1,1157 @@
 [
   {
-    "id": "tmpl-fracadd-choice-001",
+    "id": "tmpl-fracadd-A-01",
     "concept_id": "fracadd-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n1": { "min": 1, "max": 2 },
-      "d1": { "min": 2, "max": 4 },
-      "n2": { "min": 1, "max": 2 },
-      "d2": { "min": 5, "max": 7 }
+      "n1": {
+        "min": 1,
+        "max": 2
+      },
+      "d1": {
+        "min": 2,
+        "max": 4
+      },
+      "n2": {
+        "min": 1,
+        "max": 2
+      },
+      "d2": {
+        "min": 5,
+        "max": 7
+      }
     },
     "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 통분해요.",
+      "분자끼리 더해요."
+    ],
     "choices_template": [
       "{{fracAdd(n1, d1, n2, d2)}}",
       "{{fracAddOff(n1, d1, n2, d2, 1)}}",
       "{{fracAddOff(n1, d1, n2, d2, 2)}}",
       "{{fracAddOff(n1, d1, n2, d2, 3)}}"
-    ],
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
-    "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "{{n1}}/{{d1}} = {{convertNum1(n1, d1, d2)}}/{{commonDen(d1, d2)}}",
-      "{{n2}}/{{d2}} = {{convertNum2(n2, d1, d2)}}/{{commonDen(d1, d2)}}",
-      "분자끼리 더합니다: {{convertNum1(n1, d1, d2)}} + {{convertNum2(n2, d1, d2)}} = {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
     ]
   },
   {
-    "id": "tmpl-fracadd-number-001",
+    "id": "tmpl-fracadd-A-02",
     "concept_id": "fracadd-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n1": { "min": 1, "max": 3 },
-      "d1": { "min": 3, "max": 5 },
-      "n2": { "min": 1, "max": 2 },
-      "d2": { "min": 6, "max": 8 }
+      "n1": {
+        "min": 1,
+        "max": 3
+      },
+      "d1": {
+        "min": 3,
+        "max": 5
+      },
+      "n2": {
+        "min": 1,
+        "max": 2
+      },
+      "d2": {
+        "min": 6,
+        "max": 8
+      }
     },
     "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 를 계산하세요. (예: 7/12)",
     "solver_rule": "fracAdd(n1, d1, n2, d2)",
     "solution_steps_template": [
       "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "{{n1}}/{{d1}} = {{convertNum1(n1, d1, d2)}}/{{commonDen(d1, d2)}}",
-      "{{n2}}/{{d2}} = {{convertNum2(n2, d1, d2)}}/{{commonDen(d1, d2)}}",
       "분자끼리 더합니다.",
       "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 구해요.",
+      "분자끼리 더해요."
     ]
   },
   {
-    "id": "tmpl-fracadd-choice-002",
+    "id": "tmpl-fracadd-A-03",
     "concept_id": "fracadd-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n1": { "min": 1, "max": 3 },
-      "d1": { "min": 2, "max": 3 },
-      "n2": { "min": 1, "max": 3 },
-      "d2": { "min": 4, "max": 6 }
+      "n1": {
+        "min": 1,
+        "max": 3
+      },
+      "d1": {
+        "min": 2,
+        "max": 3
+      },
+      "n2": {
+        "min": 1,
+        "max": 3
+      },
+      "d2": {
+        "min": 4,
+        "max": 6
+      }
     },
     "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "{{n1}}/{{d1}} + {{n2}}/{{d2}} = {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 뒤 더해요.",
+      "정답은 기약분수예요."
+    ],
     "choices_template": [
       "{{fracAdd(n1, d1, n2, d2)}}",
       "{{fracAddOff(n1, d1, n2, d2, -1)}}",
       "{{fracAddOff(n1, d1, n2, d2, 2)}}",
       "{{fracAddOff(n1, d1, n2, d2, 4)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-A-04",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 1,
+        "max": 3
+      },
+      "d1": {
+        "min": 4,
+        "max": 6
+      },
+      "n2": {
+        "min": 1,
+        "max": 3
+      },
+      "d2": {
+        "min": 6,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 를 계산하세요.",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
     ],
+    "hint_steps_template": [
+      "공통 분모를 찾아요.",
+      "분자끼리 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-A-05",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 5
+      },
+      "d1": {
+        "min": 4,
+        "max": 7
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 구해요.",
+      "분자끼리 더해요."
+    ],
+    "choices_template": [
+      "{{fracAdd(n1, d1, n2, d2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 3)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 5)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-A-06",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 5
+      },
+      "d1": {
+        "min": 5,
+        "max": 8
+      },
+      "n2": {
+        "min": 2,
+        "max": 4
+      },
+      "d2": {
+        "min": 7,
+        "max": 10
+      }
+    },
+    "prompt_template": "케이크 {{n1}}/{{d1}}과 {{n2}}/{{d2}}를 먹었습니다. 모두 몇 개를 먹었나요?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "같은 크기로 맞춘 뒤 더해요.",
+      "분자끼리 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-A-07",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 5
+      },
+      "d1": {
+        "min": 4,
+        "max": 7
+      },
+      "n2": {
+        "min": 2,
+        "max": 4
+      },
+      "d2": {
+        "min": 5,
+        "max": 8
+      }
+    },
+    "prompt_template": "통분한 뒤 분자끼리 더한 값은?",
+    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
+      "합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자를 각각 구해요.",
+      "두 값을 더해요."
+    ],
+    "choices_template": [
+      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
+      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 1}}",
+      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 2}}",
+      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-A-08",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 5
+      },
+      "d1": {
+        "min": 5,
+        "max": 8
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 의 분자를 통분한 뒤 합하면?",
+    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자 합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자 합을 먼저 구해요.",
+      "분모는 공통 분모예요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-A-09",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 6,
+        "max": 10
+      },
+      "n2": {
+        "min": 4,
+        "max": 6
+      },
+      "d2": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "통분한 뒤 분자에 1을 더한 값은?",
+    "solver_rule": "fracAddOff(n1, d1, n2, d2, 1)",
+    "solution_steps_template": [
+      "통분한 뒤 분자에 1을 더합니다.",
+      "정답: {{fracAddOff(n1, d1, n2, d2, 1)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 분자에 1을 더해요.",
+      "기약분수로 써요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-A-10",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 6,
+        "max": 10
+      },
+      "n2": {
+        "min": 4,
+        "max": 6
+      },
+      "d2": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "두 분수를 더한 값은?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분 후 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모로 통분해요.",
+      "분자를 더해요."
+    ],
+    "choices_template": [
+      "{{fracAdd(n1, d1, n2, d2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-B-01",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 4
+      },
+      "d1": {
+        "min": 4,
+        "max": 6
+      },
+      "n2": {
+        "min": 3,
+        "max": 4
+      },
+      "d2": {
+        "min": 7,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 통분해요.",
+      "분자끼리 더해요."
+    ],
+    "choices_template": [
+      "{{fracAdd(n1, d1, n2, d2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-B-02",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 5
+      },
+      "d1": {
+        "min": 5,
+        "max": 7
+      },
+      "n2": {
+        "min": 3,
+        "max": 4
+      },
+      "d2": {
+        "min": 8,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 를 계산하세요. (예: 7/12)",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 구해요.",
+      "분자끼리 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-B-03",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 5
+      },
+      "d1": {
+        "min": 4,
+        "max": 5
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
     "solver_rule": "fracAdd(n1, d1, n2, d2)",
     "solution_steps_template": [
       "공통 분모: {{commonDen(d1, d2)}}",
       "{{n1}}/{{d1}} + {{n2}}/{{d2}} = {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 뒤 더해요.",
+      "정답은 기약분수예요."
+    ],
+    "choices_template": [
+      "{{fracAdd(n1, d1, n2, d2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, -1)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 4)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-B-04",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 5
+      },
+      "d1": {
+        "min": 6,
+        "max": 8
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 8,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 를 계산하세요.",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 찾아요.",
+      "분자끼리 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-B-05",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 6,
+        "max": 9
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 구해요.",
+      "분자끼리 더해요."
+    ],
+    "choices_template": [
+      "{{fracAdd(n1, d1, n2, d2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 3)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 5)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-B-06",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 7,
+        "max": 10
+      },
+      "n2": {
+        "min": 4,
+        "max": 6
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "케이크 {{n1}}/{{d1}}과 {{n2}}/{{d2}}를 먹었습니다. 모두 몇 개를 먹었나요?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "같은 크기로 맞춘 뒤 더해요.",
+      "분자끼리 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-B-07",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 6,
+        "max": 9
+      },
+      "n2": {
+        "min": 4,
+        "max": 6
+      },
+      "d2": {
+        "min": 7,
+        "max": 10
+      }
+    },
+    "prompt_template": "통분한 뒤 분자끼리 더한 값은?",
+    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
+      "합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자를 각각 구해요.",
+      "두 값을 더해요."
+    ],
+    "choices_template": [
+      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
+      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 1}}",
+      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 2}}",
+      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-B-08",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 7,
+        "max": 10
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 의 분자를 통분한 뒤 합하면?",
+    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자 합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자 합을 먼저 구해요.",
+      "분모는 공통 분모예요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-B-09",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 9
+      },
+      "d1": {
+        "min": 8,
+        "max": 12
+      },
+      "n2": {
+        "min": 6,
+        "max": 8
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "통분한 뒤 분자에 1을 더한 값은?",
+    "solver_rule": "fracAddOff(n1, d1, n2, d2, 1)",
+    "solution_steps_template": [
+      "통분한 뒤 분자에 1을 더합니다.",
+      "정답: {{fracAddOff(n1, d1, n2, d2, 1)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 분자에 1을 더해요.",
+      "기약분수로 써요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-B-10",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 9
+      },
+      "d1": {
+        "min": 8,
+        "max": 12
+      },
+      "n2": {
+        "min": 6,
+        "max": 8
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "두 분수를 더한 값은?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분 후 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모로 통분해요.",
+      "분자를 더해요."
+    ],
+    "choices_template": [
+      "{{fracAdd(n1, d1, n2, d2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-C-01",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 6
+      },
+      "d1": {
+        "min": 6,
+        "max": 8
+      },
+      "n2": {
+        "min": 5,
+        "max": 6
+      },
+      "d2": {
+        "min": 9,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 통분해요.",
+      "분자끼리 더해요."
+    ],
+    "choices_template": [
+      "{{fracAdd(n1, d1, n2, d2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-C-02",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 7,
+        "max": 9
+      },
+      "n2": {
+        "min": 5,
+        "max": 6
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 를 계산하세요. (예: 7/12)",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 구해요.",
+      "분자끼리 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-C-03",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 6,
+        "max": 7
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "{{n1}}/{{d1}} + {{n2}}/{{d2}} = {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 뒤 더해요.",
+      "정답은 기약분수예요."
+    ],
+    "choices_template": [
+      "{{fracAdd(n1, d1, n2, d2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, -1)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 4)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-C-04",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 8,
+        "max": 10
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 를 계산하세요.",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 찾아요.",
+      "분자끼리 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-C-05",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 9
+      },
+      "d1": {
+        "min": 8,
+        "max": 11
+      },
+      "n2": {
+        "min": 7,
+        "max": 9
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 구해요.",
+      "분자끼리 더해요."
+    ],
+    "choices_template": [
+      "{{fracAdd(n1, d1, n2, d2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 3)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 5)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-C-06",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 9
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 6,
+        "max": 8
+      },
+      "d2": {
+        "min": 11,
+        "max": 12
+      }
+    },
+    "prompt_template": "케이크 {{n1}}/{{d1}}과 {{n2}}/{{d2}}를 먹었습니다. 모두 몇 개를 먹었나요?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "같은 크기로 맞춘 뒤 더해요.",
+      "분자끼리 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-C-07",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 9
+      },
+      "d1": {
+        "min": 8,
+        "max": 11
+      },
+      "n2": {
+        "min": 6,
+        "max": 8
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "통분한 뒤 분자끼리 더한 값은?",
+    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
+      "합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자를 각각 구해요.",
+      "두 값을 더해요."
+    ],
+    "choices_template": [
+      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
+      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 1}}",
+      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 2}}",
+      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-C-08",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 9
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 7,
+        "max": 9
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 의 분자를 통분한 뒤 합하면?",
+    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자 합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자 합을 먼저 구해요.",
+      "분모는 공통 분모예요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-C-09",
+    "concept_id": "fracadd-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 9,
+        "max": 11
+      },
+      "d1": {
+        "min": 10,
+        "max": 12
+      },
+      "n2": {
+        "min": 8,
+        "max": 10
+      },
+      "d2": {
+        "min": 11,
+        "max": 12
+      }
+    },
+    "prompt_template": "통분한 뒤 분자에 1을 더한 값은?",
+    "solver_rule": "fracAddOff(n1, d1, n2, d2, 1)",
+    "solution_steps_template": [
+      "통분한 뒤 분자에 1을 더합니다.",
+      "정답: {{fracAddOff(n1, d1, n2, d2, 1)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 분자에 1을 더해요.",
+      "기약분수로 써요."
+    ]
+  },
+  {
+    "id": "tmpl-fracadd-C-10",
+    "concept_id": "fracadd-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 9,
+        "max": 11
+      },
+      "d1": {
+        "min": 10,
+        "max": 12
+      },
+      "n2": {
+        "min": 8,
+        "max": 10
+      },
+      "d2": {
+        "min": 11,
+        "max": 12
+      }
+    },
+    "prompt_template": "두 분수를 더한 값은?",
+    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분 후 더합니다.",
+      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모로 통분해요.",
+      "분자를 더해요."
+    ],
+    "choices_template": [
+      "{{fracAdd(n1, d1, n2, d2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
+      "{{fracAddOff(n1, d1, n2, d2, 3)}}"
     ]
   }
 ]

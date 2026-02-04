@@ -1,65 +1,902 @@
 [
   {
-    "id": "tmpl-decimalmul-choice-001",
+    "id": "tmpl-decimalmul-A-01",
     "concept_id": "decimalmul-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "a": { "min": 12, "max": 45 },
-      "b": { "min": 2, "max": 6 }
+      "a": {
+        "min": 2,
+        "max": 9
+      },
+      "b": {
+        "min": 2,
+        "max": 9
+      }
     },
     "prompt_template": "{{dec1(a)}} × {{b}} = ?",
-    "choices_template": [
-      "{{decTimesNat(a, b)}}",
-      "{{decTimesNatOff(a, b, 3)}}",
-      "{{decTimesNatOff(a, b, 7)}}",
-      "{{decTimesNatOff(a, b, 11)}}"
-    ],
     "solver_rule": "decTimesNat(a, b)",
     "solution_steps_template": [
-      "소수점을 없애고 자연수로 계산합니다: {{a}} × {{b}} = {{a * b}}",
-      "원래 소수점 아래 자릿수(1자리)만큼 소수점을 찍습니다.",
-      "{{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}"
+      "자연수처럼 곱합니다: {{a}} × {{b}} = {{a * b}}",
+      "소수점 한 자리: {{decTimesNat(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 {{a}} × {{b}}를 계산해요.",
+      "소수점 한 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesNat(a, b)}}",
+      "{{decTimesNatOff(a, b, 1)}}",
+      "{{decTimesNatOff(a, b, 2)}}",
+      "{{decTimesNatOff(a, b, 3)}}"
     ]
   },
   {
-    "id": "tmpl-decimalmul-number-001",
+    "id": "tmpl-decimalmul-A-02",
     "concept_id": "decimalmul-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "a": { "min": 15, "max": 49 },
-      "b": { "min": 2, "max": 5 }
+      "a": {
+        "min": 2,
+        "max": 9
+      },
+      "b": {
+        "min": 2,
+        "max": 9
+      }
     },
     "prompt_template": "{{dec1(a)}} × {{b}} 를 계산하세요.",
     "solver_rule": "decTimesNat(a, b)",
     "solution_steps_template": [
-      "소수점을 없애고 자연수로 계산합니다: {{a}} × {{b}} = {{a * b}}",
-      "소수점 아래 자릿수가 1자리이므로 결과에 소수점을 찍습니다.",
-      "정답: {{decTimesNat(a, b)}}"
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 한 자리: {{decTimesNat(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 한 자리를 찍어요."
     ]
   },
   {
-    "id": "tmpl-decimalmul-choice-002",
+    "id": "tmpl-decimalmul-A-03",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 2,
+        "max": 9
+      },
+      "b": {
+        "min": 2,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "자연수처럼 곱합니다: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 {{a}} × {{b}}를 계산해요.",
+      "소수점 두 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesDec(a, b)}}",
+      "{{decTimesDecOff(a, b, 1)}}",
+      "{{decTimesDecOff(a, b, 2)}}",
+      "{{decTimesDecOff(a, b, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-A-04",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 2,
+        "max": 9
+      },
+      "b": {
+        "min": 2,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} 를 계산하세요.",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 두 자리를 찍어요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-A-05",
     "concept_id": "decimalmul-001",
     "type": "choice",
     "difficulty": 2,
+    "set_id": "A",
     "param_schema": {
-      "a": { "min": 11, "max": 35 },
-      "b": { "min": 12, "max": 35 }
+      "a": {
+        "min": 4,
+        "max": 10
+      },
+      "b": {
+        "min": 5,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}} = ?",
+    "solver_rule": "decTimesNat(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 한 자리: {{decTimesNat(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 한 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesNat(a, b)}}",
+      "{{decTimesNatOff(a, b, 2)}}",
+      "{{decTimesNatOff(a, b, 4)}}",
+      "{{decTimesNatOff(a, b, 6)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-A-06",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 10
+      },
+      "b": {
+        "min": 5,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}} 를 계산하세요.",
+    "solver_rule": "decTimesNat(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 한 자리: {{decTimesNat(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 한 자리를 찍어요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-A-07",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 10
+      },
+      "b": {
+        "min": 4,
+        "max": 10
+      }
     },
     "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
-    "choices_template": [
-      "{{decTimesDec(a, b)}}",
-      "{{decTimesDecOff(a, b, 3)}}",
-      "{{decTimesDecOff(a, b, 7)}}",
-      "{{decTimesDecOff(a, b, 12)}}"
-    ],
     "solver_rule": "decTimesDec(a, b)",
     "solution_steps_template": [
-      "소수점을 없애고 자연수로 계산합니다: {{a}} × {{b}} = {{a * b}}",
-      "두 수의 소수점 아래 자릿수의 합(1+1=2자리)만큼 소수점을 찍습니다.",
-      "{{dec1(a)}} × {{dec1(b)}} = {{decTimesDec(a, b)}}"
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 두 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesDec(a, b)}}",
+      "{{decTimesDecOff(a, b, 1)}}",
+      "{{decTimesDecOff(a, b, 3)}}",
+      "{{decTimesDecOff(a, b, 5)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-A-08",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 10
+      },
+      "b": {
+        "min": 4,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} 를 계산하세요.",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 두 자리를 찍어요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-A-09",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 11
+      },
+      "b": {
+        "min": 6,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}}에서 1을 빼면?",
+    "solver_rule": "decTimesNat(a, b) - 1",
+    "solution_steps_template": [
+      "곱: {{decTimesNat(a, b)}}",
+      "1을 빼면 {{decTimesNat(a, b) - 1}}"
+    ],
+    "hint_steps_template": [
+      "먼저 곱셈을 해요.",
+      "그 값에서 1을 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-A-10",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 11
+      },
+      "b": {
+        "min": 6,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}}의 값은?",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 두 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesDec(a, b)}}",
+      "{{decTimesDecOff(a, b, 2)}}",
+      "{{decTimesDecOff(a, b, 4)}}",
+      "{{decTimesDecOff(a, b, 6)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-B-01",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 11
+      },
+      "b": {
+        "min": 4,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}} = ?",
+    "solver_rule": "decTimesNat(a, b)",
+    "solution_steps_template": [
+      "자연수처럼 곱합니다: {{a}} × {{b}} = {{a * b}}",
+      "소수점 한 자리: {{decTimesNat(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 {{a}} × {{b}}를 계산해요.",
+      "소수점 한 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesNat(a, b)}}",
+      "{{decTimesNatOff(a, b, 1)}}",
+      "{{decTimesNatOff(a, b, 2)}}",
+      "{{decTimesNatOff(a, b, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-B-02",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 11
+      },
+      "b": {
+        "min": 4,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}} 를 계산하세요.",
+    "solver_rule": "decTimesNat(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 한 자리: {{decTimesNat(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 한 자리를 찍어요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-B-03",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 11
+      },
+      "b": {
+        "min": 4,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "자연수처럼 곱합니다: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 {{a}} × {{b}}를 계산해요.",
+      "소수점 두 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesDec(a, b)}}",
+      "{{decTimesDecOff(a, b, 1)}}",
+      "{{decTimesDecOff(a, b, 2)}}",
+      "{{decTimesDecOff(a, b, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-B-04",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 11
+      },
+      "b": {
+        "min": 4,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} 를 계산하세요.",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 두 자리를 찍어요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-B-05",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 12
+      },
+      "b": {
+        "min": 7,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}} = ?",
+    "solver_rule": "decTimesNat(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 한 자리: {{decTimesNat(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 한 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesNat(a, b)}}",
+      "{{decTimesNatOff(a, b, 2)}}",
+      "{{decTimesNatOff(a, b, 4)}}",
+      "{{decTimesNatOff(a, b, 6)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-B-06",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 12
+      },
+      "b": {
+        "min": 7,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}} 를 계산하세요.",
+    "solver_rule": "decTimesNat(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 한 자리: {{decTimesNat(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 한 자리를 찍어요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-B-07",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 12
+      },
+      "b": {
+        "min": 6,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 두 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesDec(a, b)}}",
+      "{{decTimesDecOff(a, b, 1)}}",
+      "{{decTimesDecOff(a, b, 3)}}",
+      "{{decTimesDecOff(a, b, 5)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-B-08",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 12
+      },
+      "b": {
+        "min": 6,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} 를 계산하세요.",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 두 자리를 찍어요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-B-09",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 8,
+        "max": 13
+      },
+      "b": {
+        "min": 8,
+        "max": 13
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}}에서 1을 빼면?",
+    "solver_rule": "decTimesNat(a, b) - 1",
+    "solution_steps_template": [
+      "곱: {{decTimesNat(a, b)}}",
+      "1을 빼면 {{decTimesNat(a, b) - 1}}"
+    ],
+    "hint_steps_template": [
+      "먼저 곱셈을 해요.",
+      "그 값에서 1을 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-B-10",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 8,
+        "max": 13
+      },
+      "b": {
+        "min": 8,
+        "max": 13
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}}의 값은?",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 두 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesDec(a, b)}}",
+      "{{decTimesDecOff(a, b, 2)}}",
+      "{{decTimesDecOff(a, b, 4)}}",
+      "{{decTimesDecOff(a, b, 6)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-C-01",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 13
+      },
+      "b": {
+        "min": 6,
+        "max": 13
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}} = ?",
+    "solver_rule": "decTimesNat(a, b)",
+    "solution_steps_template": [
+      "자연수처럼 곱합니다: {{a}} × {{b}} = {{a * b}}",
+      "소수점 한 자리: {{decTimesNat(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 {{a}} × {{b}}를 계산해요.",
+      "소수점 한 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesNat(a, b)}}",
+      "{{decTimesNatOff(a, b, 1)}}",
+      "{{decTimesNatOff(a, b, 2)}}",
+      "{{decTimesNatOff(a, b, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-C-02",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 13
+      },
+      "b": {
+        "min": 6,
+        "max": 13
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}} 를 계산하세요.",
+    "solver_rule": "decTimesNat(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 한 자리: {{decTimesNat(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 한 자리를 찍어요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-C-03",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 13
+      },
+      "b": {
+        "min": 6,
+        "max": 13
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "자연수처럼 곱합니다: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 {{a}} × {{b}}를 계산해요.",
+      "소수점 두 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesDec(a, b)}}",
+      "{{decTimesDecOff(a, b, 1)}}",
+      "{{decTimesDecOff(a, b, 2)}}",
+      "{{decTimesDecOff(a, b, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-C-04",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 13
+      },
+      "b": {
+        "min": 6,
+        "max": 13
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} 를 계산하세요.",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 두 자리를 찍어요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-C-05",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 8,
+        "max": 14
+      },
+      "b": {
+        "min": 9,
+        "max": 14
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}} = ?",
+    "solver_rule": "decTimesNat(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 한 자리: {{decTimesNat(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 한 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesNat(a, b)}}",
+      "{{decTimesNatOff(a, b, 2)}}",
+      "{{decTimesNatOff(a, b, 4)}}",
+      "{{decTimesNatOff(a, b, 6)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-C-06",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 8,
+        "max": 14
+      },
+      "b": {
+        "min": 9,
+        "max": 14
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}} 를 계산하세요.",
+    "solver_rule": "decTimesNat(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 한 자리: {{decTimesNat(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 한 자리를 찍어요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-C-07",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 8,
+        "max": 14
+      },
+      "b": {
+        "min": 8,
+        "max": 14
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 두 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesDec(a, b)}}",
+      "{{decTimesDecOff(a, b, 1)}}",
+      "{{decTimesDecOff(a, b, 3)}}",
+      "{{decTimesDecOff(a, b, 5)}}"
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-C-08",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 8,
+        "max": 14
+      },
+      "b": {
+        "min": 8,
+        "max": 14
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} 를 계산하세요.",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 두 자리를 찍어요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-C-09",
+    "concept_id": "decimalmul-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 10,
+        "max": 15
+      },
+      "b": {
+        "min": 10,
+        "max": 15
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{b}}에서 1을 빼면?",
+    "solver_rule": "decTimesNat(a, b) - 1",
+    "solution_steps_template": [
+      "곱: {{decTimesNat(a, b)}}",
+      "1을 빼면 {{decTimesNat(a, b) - 1}}"
+    ],
+    "hint_steps_template": [
+      "먼저 곱셈을 해요.",
+      "그 값에서 1을 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-decimalmul-C-10",
+    "concept_id": "decimalmul-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 10,
+        "max": 15
+      },
+      "b": {
+        "min": 10,
+        "max": 15
+      }
+    },
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}}의 값은?",
+    "solver_rule": "decTimesDec(a, b)",
+    "solution_steps_template": [
+      "곱: {{a}} × {{b}} = {{a * b}}",
+      "소수점 두 자리: {{decTimesDec(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "자연수처럼 곱해요.",
+      "소수점 두 자리를 찍어요."
+    ],
+    "choices_template": [
+      "{{decTimesDec(a, b)}}",
+      "{{decTimesDecOff(a, b, 2)}}",
+      "{{decTimesDecOff(a, b, 4)}}",
+      "{{decTimesDecOff(a, b, 6)}}"
     ]
   }
 ]

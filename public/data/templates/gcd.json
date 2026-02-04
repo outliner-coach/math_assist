@@ -1,36 +1,54 @@
 [
   {
-    "id": "tmpl-gcd-choice-001",
+    "id": "tmpl-gcd-A-01",
     "concept_id": "gcd-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "a": { "min": 6, "max": 15 },
-      "b": { "min": 8, "max": 20 }
+      "a": {
+        "min": 6,
+        "max": 15
+      },
+      "b": {
+        "min": 8,
+        "max": 20
+      }
     },
     "prompt_template": "{{a}}와 {{b}}의 최대공약수는?",
-    "choices_template": [
-      "{{gcd(a, b)}}",
-      "{{gcd(a, b) + 2}}",
-      "{{gcd(a, b) + 5}}",
-      "{{gcd(a, b) + 9}}"
-    ],
     "solver_rule": "gcd(a, b)",
     "solution_steps_template": [
       "{{a}}의 약수: {{divisors(a)}}",
       "{{b}}의 약수: {{divisors(b)}}",
       "공약수: {{commonDivisors(a, b)}}",
       "최대공약수: {{gcd(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "두 수의 약수를 적어봐요.",
+      "공통인 약수 중 가장 큰 값을 찾아요."
+    ],
+    "choices_template": [
+      "{{gcd(a, b)}}",
+      "{{gcd(a, b) + 2}}",
+      "{{gcd(a, b) + 5}}",
+      "{{gcd(a, b) + 9}}"
     ]
   },
   {
-    "id": "tmpl-gcd-number-001",
+    "id": "tmpl-gcd-A-02",
     "concept_id": "gcd-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "a": { "min": 8, "max": 18 },
-      "b": { "min": 12, "max": 24 }
+      "a": {
+        "min": 8,
+        "max": 18
+      },
+      "b": {
+        "min": 12,
+        "max": 24
+      }
     },
     "prompt_template": "{{a}}와 {{b}}의 최대공약수를 구하세요.",
     "solver_rule": "gcd(a, b)",
@@ -39,30 +57,873 @@
       "{{b}}의 약수: {{divisors(b)}}",
       "공약수: {{commonDivisors(a, b)}}",
       "최대공약수: {{gcd(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "공약수를 찾아요.",
+      "가장 큰 공약수를 선택해요."
     ]
   },
   {
-    "id": "tmpl-gcd-choice-002",
+    "id": "tmpl-gcd-A-03",
     "concept_id": "gcd-001",
     "type": "choice",
-    "difficulty": 2,
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "a": { "min": 10, "max": 20 },
-      "b": { "min": 15, "max": 30 }
+      "a": {
+        "min": 10,
+        "max": 20
+      },
+      "b": {
+        "min": 15,
+        "max": 30
+      }
     },
     "prompt_template": "다음 중 {{a}}와 {{b}}의 공약수인 것은?",
-    "choices_template": [
-      "1",
-      "{{a + b}}",
-      "{{a + b + 3}}",
-      "{{a + b + 7}}"
-    ],
     "solver_rule": "1",
     "solution_steps_template": [
       "{{a}}의 약수: {{divisors(a)}}",
       "{{b}}의 약수: {{divisors(b)}}",
       "공약수: {{commonDivisors(a, b)}}",
       "1은 모든 수의 공약수입니다."
+    ],
+    "hint_steps_template": [
+      "1은 항상 공약수예요.",
+      "다른 보기들은 너무 커요."
+    ],
+    "choices_template": [
+      "1",
+      "{{a + b}}",
+      "{{a + b + 3}}",
+      "{{a + b + 7}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-A-04",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 24
+      },
+      "b": {
+        "min": 18,
+        "max": 30
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 공약수 중 가장 큰 수는?",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "공약수를 찾습니다: {{commonDivisors(a, b)}}",
+      "가장 큰 공약수는 {{gcd(a, b)}}입니다."
+    ],
+    "hint_steps_template": [
+      "공약수 목록을 적어봐요.",
+      "가장 큰 값을 고르면 돼요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-A-05",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 13,
+        "max": 31
+      },
+      "b": {
+        "min": 19,
+        "max": 37
+      }
+    },
+    "prompt_template": "{{a}}개와 {{b}}개를 똑같이 나누어 주려면 최대 몇 명까지 가능할까요?",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "최대로 나누려면 최대공약수를 찾습니다.",
+      "최대공약수는 {{gcd(a, b)}}입니다."
+    ],
+    "hint_steps_template": [
+      "최대공약수를 구하면 돼요.",
+      "가장 큰 공통 약수를 찾으세요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-A-06",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 11,
+        "max": 29
+      },
+      "b": {
+        "min": 15,
+        "max": 33
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}를 같은 수로 묶을 때 최대 묶음 수는?",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "같은 크기로 묶는 최대값은 최대공약수입니다.",
+      "{{a}}와 {{b}}의 최대공약수는 {{gcd(a, b)}}입니다."
+    ],
+    "hint_steps_template": [
+      "최대공약수를 찾으면 돼요.",
+      "공약수 중 가장 큰 수예요."
+    ],
+    "choices_template": [
+      "{{gcd(a, b)}}",
+      "{{gcd(a, b) + 2}}",
+      "{{gcd(a, b) + 4}}",
+      "{{gcd(a, b) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-A-07",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 13,
+        "max": 31
+      },
+      "b": {
+        "min": 19,
+        "max": 37
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최대공약수의 2배는?",
+    "solver_rule": "gcd(a, b) * 2",
+    "solution_steps_template": [
+      "최대공약수: {{gcd(a, b)}}",
+      "2배: {{gcd(a, b)}} × 2 = {{gcd(a, b) * 2}}"
+    ],
+    "hint_steps_template": [
+      "최대공약수를 먼저 구해요.",
+      "그 값을 두 배 해요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-A-08",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 13,
+        "max": 31
+      },
+      "b": {
+        "min": 19,
+        "max": 37
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최대공약수의 2배는?",
+    "solver_rule": "gcd(a, b) * 2",
+    "solution_steps_template": [
+      "최대공약수: {{gcd(a, b)}}",
+      "2배: {{gcd(a, b) * 2}}"
+    ],
+    "hint_steps_template": [
+      "최대공약수를 구하고 두 배를 해요.",
+      "계산 결과를 선택해요."
+    ],
+    "choices_template": [
+      "{{gcd(a, b) * 2}}",
+      "{{gcd(a, b) * 2 + 2}}",
+      "{{gcd(a, b) * 2 + 4}}",
+      "{{gcd(a, b) * 2 + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-A-09",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 20,
+        "max": 42
+      },
+      "b": {
+        "min": 22,
+        "max": 47
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}를 최대공약수로 나눈 몫의 합은?",
+    "solver_rule": "a / gcd(a, b) + b / gcd(a, b)",
+    "solution_steps_template": [
+      "최대공약수: {{gcd(a, b)}}",
+      "{{a}} ÷ {{gcd(a, b)}} = {{a / gcd(a, b)}}",
+      "{{b}} ÷ {{gcd(a, b)}} = {{b / gcd(a, b)}}",
+      "합: {{a / gcd(a, b) + b / gcd(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "최대공약수를 먼저 구해요.",
+      "각 수를 그 값으로 나눈 뒤 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-A-10",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 20,
+        "max": 42
+      },
+      "b": {
+        "min": 22,
+        "max": 47
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}를 최대공약수로 나눈 몫의 합은?",
+    "solver_rule": "a / gcd(a, b) + b / gcd(a, b)",
+    "solution_steps_template": [
+      "최대공약수: {{gcd(a, b)}}",
+      "각 수를 최대공약수로 나눈 후 더합니다.",
+      "합: {{a / gcd(a, b) + b / gcd(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "최대공약수를 찾아요.",
+      "나눗셈 결과를 더해요."
+    ],
+    "choices_template": [
+      "{{a / gcd(a, b) + b / gcd(a, b)}}",
+      "{{a / gcd(a, b) + b / gcd(a, b) + 2}}",
+      "{{a / gcd(a, b) + b / gcd(a, b) + 4}}",
+      "{{a / gcd(a, b) + b / gcd(a, b) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-B-01",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 8,
+        "max": 17
+      },
+      "b": {
+        "min": 10,
+        "max": 22
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최대공약수는?",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "{{a}}의 약수: {{divisors(a)}}",
+      "{{b}}의 약수: {{divisors(b)}}",
+      "공약수: {{commonDivisors(a, b)}}",
+      "최대공약수: {{gcd(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "두 수의 약수를 적어봐요.",
+      "공통인 약수 중 가장 큰 값을 찾아요."
+    ],
+    "choices_template": [
+      "{{gcd(a, b)}}",
+      "{{gcd(a, b) + 2}}",
+      "{{gcd(a, b) + 5}}",
+      "{{gcd(a, b) + 9}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-B-02",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 10,
+        "max": 20
+      },
+      "b": {
+        "min": 14,
+        "max": 26
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최대공약수를 구하세요.",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "{{a}}의 약수: {{divisors(a)}}",
+      "{{b}}의 약수: {{divisors(b)}}",
+      "공약수: {{commonDivisors(a, b)}}",
+      "최대공약수: {{gcd(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "공약수를 찾아요.",
+      "가장 큰 공약수를 선택해요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-B-03",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 22
+      },
+      "b": {
+        "min": 17,
+        "max": 32
+      }
+    },
+    "prompt_template": "다음 중 {{a}}와 {{b}}의 공약수인 것은?",
+    "solver_rule": "1",
+    "solution_steps_template": [
+      "{{a}}의 약수: {{divisors(a)}}",
+      "{{b}}의 약수: {{divisors(b)}}",
+      "공약수: {{commonDivisors(a, b)}}",
+      "1은 모든 수의 공약수입니다."
+    ],
+    "hint_steps_template": [
+      "1은 항상 공약수예요.",
+      "다른 보기들은 너무 커요."
+    ],
+    "choices_template": [
+      "1",
+      "{{a + b}}",
+      "{{a + b + 3}}",
+      "{{a + b + 7}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-B-04",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 14,
+        "max": 26
+      },
+      "b": {
+        "min": 20,
+        "max": 32
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 공약수 중 가장 큰 수는?",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "공약수를 찾습니다: {{commonDivisors(a, b)}}",
+      "가장 큰 공약수는 {{gcd(a, b)}}입니다."
+    ],
+    "hint_steps_template": [
+      "공약수 목록을 적어봐요.",
+      "가장 큰 값을 고르면 돼요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-B-05",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 15,
+        "max": 33
+      },
+      "b": {
+        "min": 21,
+        "max": 39
+      }
+    },
+    "prompt_template": "{{a}}개와 {{b}}개를 똑같이 나누어 주려면 최대 몇 명까지 가능할까요?",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "최대로 나누려면 최대공약수를 찾습니다.",
+      "최대공약수는 {{gcd(a, b)}}입니다."
+    ],
+    "hint_steps_template": [
+      "최대공약수를 구하면 돼요.",
+      "가장 큰 공통 약수를 찾으세요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-B-06",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 13,
+        "max": 31
+      },
+      "b": {
+        "min": 17,
+        "max": 35
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}를 같은 수로 묶을 때 최대 묶음 수는?",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "같은 크기로 묶는 최대값은 최대공약수입니다.",
+      "{{a}}와 {{b}}의 최대공약수는 {{gcd(a, b)}}입니다."
+    ],
+    "hint_steps_template": [
+      "최대공약수를 찾으면 돼요.",
+      "공약수 중 가장 큰 수예요."
+    ],
+    "choices_template": [
+      "{{gcd(a, b)}}",
+      "{{gcd(a, b) + 2}}",
+      "{{gcd(a, b) + 4}}",
+      "{{gcd(a, b) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-B-07",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 15,
+        "max": 33
+      },
+      "b": {
+        "min": 21,
+        "max": 39
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최대공약수의 2배는?",
+    "solver_rule": "gcd(a, b) * 2",
+    "solution_steps_template": [
+      "최대공약수: {{gcd(a, b)}}",
+      "2배: {{gcd(a, b)}} × 2 = {{gcd(a, b) * 2}}"
+    ],
+    "hint_steps_template": [
+      "최대공약수를 먼저 구해요.",
+      "그 값을 두 배 해요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-B-08",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 15,
+        "max": 33
+      },
+      "b": {
+        "min": 21,
+        "max": 39
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최대공약수의 2배는?",
+    "solver_rule": "gcd(a, b) * 2",
+    "solution_steps_template": [
+      "최대공약수: {{gcd(a, b)}}",
+      "2배: {{gcd(a, b) * 2}}"
+    ],
+    "hint_steps_template": [
+      "최대공약수를 구하고 두 배를 해요.",
+      "계산 결과를 선택해요."
+    ],
+    "choices_template": [
+      "{{gcd(a, b) * 2}}",
+      "{{gcd(a, b) * 2 + 2}}",
+      "{{gcd(a, b) * 2 + 4}}",
+      "{{gcd(a, b) * 2 + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-B-09",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 22,
+        "max": 44
+      },
+      "b": {
+        "min": 24,
+        "max": 49
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}를 최대공약수로 나눈 몫의 합은?",
+    "solver_rule": "a / gcd(a, b) + b / gcd(a, b)",
+    "solution_steps_template": [
+      "최대공약수: {{gcd(a, b)}}",
+      "{{a}} ÷ {{gcd(a, b)}} = {{a / gcd(a, b)}}",
+      "{{b}} ÷ {{gcd(a, b)}} = {{b / gcd(a, b)}}",
+      "합: {{a / gcd(a, b) + b / gcd(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "최대공약수를 먼저 구해요.",
+      "각 수를 그 값으로 나눈 뒤 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-B-10",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 22,
+        "max": 44
+      },
+      "b": {
+        "min": 24,
+        "max": 49
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}를 최대공약수로 나눈 몫의 합은?",
+    "solver_rule": "a / gcd(a, b) + b / gcd(a, b)",
+    "solution_steps_template": [
+      "최대공약수: {{gcd(a, b)}}",
+      "각 수를 최대공약수로 나눈 후 더합니다.",
+      "합: {{a / gcd(a, b) + b / gcd(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "최대공약수를 찾아요.",
+      "나눗셈 결과를 더해요."
+    ],
+    "choices_template": [
+      "{{a / gcd(a, b) + b / gcd(a, b)}}",
+      "{{a / gcd(a, b) + b / gcd(a, b) + 2}}",
+      "{{a / gcd(a, b) + b / gcd(a, b) + 4}}",
+      "{{a / gcd(a, b) + b / gcd(a, b) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-C-01",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 10,
+        "max": 19
+      },
+      "b": {
+        "min": 12,
+        "max": 24
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최대공약수는?",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "{{a}}의 약수: {{divisors(a)}}",
+      "{{b}}의 약수: {{divisors(b)}}",
+      "공약수: {{commonDivisors(a, b)}}",
+      "최대공약수: {{gcd(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "두 수의 약수를 적어봐요.",
+      "공통인 약수 중 가장 큰 값을 찾아요."
+    ],
+    "choices_template": [
+      "{{gcd(a, b)}}",
+      "{{gcd(a, b) + 2}}",
+      "{{gcd(a, b) + 5}}",
+      "{{gcd(a, b) + 9}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-C-02",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 22
+      },
+      "b": {
+        "min": 16,
+        "max": 28
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최대공약수를 구하세요.",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "{{a}}의 약수: {{divisors(a)}}",
+      "{{b}}의 약수: {{divisors(b)}}",
+      "공약수: {{commonDivisors(a, b)}}",
+      "최대공약수: {{gcd(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "공약수를 찾아요.",
+      "가장 큰 공약수를 선택해요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-C-03",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 14,
+        "max": 24
+      },
+      "b": {
+        "min": 19,
+        "max": 34
+      }
+    },
+    "prompt_template": "다음 중 {{a}}와 {{b}}의 공약수인 것은?",
+    "solver_rule": "1",
+    "solution_steps_template": [
+      "{{a}}의 약수: {{divisors(a)}}",
+      "{{b}}의 약수: {{divisors(b)}}",
+      "공약수: {{commonDivisors(a, b)}}",
+      "1은 모든 수의 공약수입니다."
+    ],
+    "hint_steps_template": [
+      "1은 항상 공약수예요.",
+      "다른 보기들은 너무 커요."
+    ],
+    "choices_template": [
+      "1",
+      "{{a + b}}",
+      "{{a + b + 3}}",
+      "{{a + b + 7}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-C-04",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 16,
+        "max": 28
+      },
+      "b": {
+        "min": 22,
+        "max": 34
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 공약수 중 가장 큰 수는?",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "공약수를 찾습니다: {{commonDivisors(a, b)}}",
+      "가장 큰 공약수는 {{gcd(a, b)}}입니다."
+    ],
+    "hint_steps_template": [
+      "공약수 목록을 적어봐요.",
+      "가장 큰 값을 고르면 돼요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-C-05",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 17,
+        "max": 35
+      },
+      "b": {
+        "min": 23,
+        "max": 41
+      }
+    },
+    "prompt_template": "{{a}}개와 {{b}}개를 똑같이 나누어 주려면 최대 몇 명까지 가능할까요?",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "최대로 나누려면 최대공약수를 찾습니다.",
+      "최대공약수는 {{gcd(a, b)}}입니다."
+    ],
+    "hint_steps_template": [
+      "최대공약수를 구하면 돼요.",
+      "가장 큰 공통 약수를 찾으세요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-C-06",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 15,
+        "max": 33
+      },
+      "b": {
+        "min": 19,
+        "max": 37
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}를 같은 수로 묶을 때 최대 묶음 수는?",
+    "solver_rule": "gcd(a, b)",
+    "solution_steps_template": [
+      "같은 크기로 묶는 최대값은 최대공약수입니다.",
+      "{{a}}와 {{b}}의 최대공약수는 {{gcd(a, b)}}입니다."
+    ],
+    "hint_steps_template": [
+      "최대공약수를 찾으면 돼요.",
+      "공약수 중 가장 큰 수예요."
+    ],
+    "choices_template": [
+      "{{gcd(a, b)}}",
+      "{{gcd(a, b) + 2}}",
+      "{{gcd(a, b) + 4}}",
+      "{{gcd(a, b) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-C-07",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 17,
+        "max": 35
+      },
+      "b": {
+        "min": 23,
+        "max": 41
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최대공약수의 2배는?",
+    "solver_rule": "gcd(a, b) * 2",
+    "solution_steps_template": [
+      "최대공약수: {{gcd(a, b)}}",
+      "2배: {{gcd(a, b)}} × 2 = {{gcd(a, b) * 2}}"
+    ],
+    "hint_steps_template": [
+      "최대공약수를 먼저 구해요.",
+      "그 값을 두 배 해요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-C-08",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 17,
+        "max": 35
+      },
+      "b": {
+        "min": 23,
+        "max": 41
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}의 최대공약수의 2배는?",
+    "solver_rule": "gcd(a, b) * 2",
+    "solution_steps_template": [
+      "최대공약수: {{gcd(a, b)}}",
+      "2배: {{gcd(a, b) * 2}}"
+    ],
+    "hint_steps_template": [
+      "최대공약수를 구하고 두 배를 해요.",
+      "계산 결과를 선택해요."
+    ],
+    "choices_template": [
+      "{{gcd(a, b) * 2}}",
+      "{{gcd(a, b) * 2 + 2}}",
+      "{{gcd(a, b) * 2 + 4}}",
+      "{{gcd(a, b) * 2 + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-gcd-C-09",
+    "concept_id": "gcd-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 24,
+        "max": 46
+      },
+      "b": {
+        "min": 26,
+        "max": 51
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}를 최대공약수로 나눈 몫의 합은?",
+    "solver_rule": "a / gcd(a, b) + b / gcd(a, b)",
+    "solution_steps_template": [
+      "최대공약수: {{gcd(a, b)}}",
+      "{{a}} ÷ {{gcd(a, b)}} = {{a / gcd(a, b)}}",
+      "{{b}} ÷ {{gcd(a, b)}} = {{b / gcd(a, b)}}",
+      "합: {{a / gcd(a, b) + b / gcd(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "최대공약수를 먼저 구해요.",
+      "각 수를 그 값으로 나눈 뒤 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-gcd-C-10",
+    "concept_id": "gcd-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 24,
+        "max": 46
+      },
+      "b": {
+        "min": 26,
+        "max": 51
+      }
+    },
+    "prompt_template": "{{a}}와 {{b}}를 최대공약수로 나눈 몫의 합은?",
+    "solver_rule": "a / gcd(a, b) + b / gcd(a, b)",
+    "solution_steps_template": [
+      "최대공약수: {{gcd(a, b)}}",
+      "각 수를 최대공약수로 나눈 후 더합니다.",
+      "합: {{a / gcd(a, b) + b / gcd(a, b)}}"
+    ],
+    "hint_steps_template": [
+      "최대공약수를 찾아요.",
+      "나눗셈 결과를 더해요."
+    ],
+    "choices_template": [
+      "{{a / gcd(a, b) + b / gcd(a, b)}}",
+      "{{a / gcd(a, b) + b / gcd(a, b) + 2}}",
+      "{{a / gcd(a, b) + b / gcd(a, b) + 4}}",
+      "{{a / gcd(a, b) + b / gcd(a, b) + 6}}"
     ]
   }
 ]

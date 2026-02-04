@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { loadResult, clearResult } from '@/lib/session'
 import { getConceptById } from '@/lib/data'
-import type { SessionResult, Concept, Problem } from '@/lib/types'
-import { Button, ResultCard } from '@/components'
+import type { SessionResult, Concept } from '@/lib/types'
+import { Button } from '@/components'
 
 export default function ResultPage() {
   const router = useRouter()
@@ -77,6 +77,9 @@ export default function ResultPage() {
         <h1 className="text-2xl font-bold text-gray-800 mb-2">
           {concept?.concept_title || '연습'} 결과
         </h1>
+        {result.setId && (
+          <p className="text-sm text-gray-500">세트 {result.setId}</p>
+        )}
       </header>
 
       {/* 점수 */}

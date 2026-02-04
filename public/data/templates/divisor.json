@@ -1,60 +1,782 @@
 [
   {
-    "id": "tmpl-divisor-choice-001",
+    "id": "tmpl-divisor-A-01",
     "concept_id": "divisor-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n": { "min": 6, "max": 20 }
+      "n": {
+        "min": 6,
+        "max": 20
+      }
     },
     "prompt_template": "다음 중 {{n}}의 약수인 것은?",
+    "solver_rule": "n",
+    "solution_steps_template": [
+      "{{n}}의 약수를 구합니다: {{divisors(n)}}",
+      "{{n}}은 자기 자신의 약수입니다."
+    ],
+    "hint_steps_template": [
+      "자기 자신은 항상 약수예요.",
+      "{{n}}보다 큰 수는 약수가 될 수 없어요."
+    ],
     "choices_template": [
       "{{n}}",
       "{{n + 1}}",
       "{{n + 2}}",
       "{{n + 3}}"
-    ],
-    "solver_rule": "n",
-    "solution_steps_template": [
-      "{{n}}의 약수를 구합니다: {{divisors(n)}}",
-      "{{n}}은 자기 자신의 약수입니다.",
-      "{{n + 1}}, {{n + 2}}, {{n + 3}}은 {{n}}보다 크므로 약수가 아닙니다."
     ]
   },
   {
-    "id": "tmpl-divisor-number-001",
+    "id": "tmpl-divisor-A-02",
     "concept_id": "divisor-001",
     "type": "number",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n": { "min": 10, "max": 30 }
+      "n": {
+        "min": 10,
+        "max": 30
+      }
     },
     "prompt_template": "{{n}}의 약수 중 가장 큰 수는?",
     "solver_rule": "n",
     "solution_steps_template": [
       "{{n}}의 약수를 구합니다: {{divisors(n)}}",
       "가장 큰 약수는 자기 자신인 {{n}}입니다."
+    ],
+    "hint_steps_template": [
+      "자기 자신도 약수예요.",
+      "가장 큰 약수는 {{n}}이에요."
     ]
   },
   {
-    "id": "tmpl-divisor-choice-002",
+    "id": "tmpl-divisor-A-03",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 8,
+        "max": 24
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 가장 작은 수는?",
+    "solver_rule": "1",
+    "solution_steps_template": [
+      "모든 수의 약수에는 1이 포함됩니다.",
+      "가장 작은 약수는 1입니다."
+    ],
+    "hint_steps_template": [
+      "모든 수는 1로 나누어떨어져요.",
+      "가장 작은 약수는 1이에요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-A-04",
     "concept_id": "divisor-001",
     "type": "choice",
-    "difficulty": 2,
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n": { "min": 12, "max": 36 }
+      "n": {
+        "min": 12,
+        "max": 36
+      }
     },
     "prompt_template": "{{n}}의 약수는 모두 몇 개인가요?",
+    "solver_rule": "divisorCount(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수를 모두 구합니다: {{divisors(n)}}",
+      "약수의 개수를 세면 {{divisorCount(n)}}개입니다."
+    ],
+    "hint_steps_template": [
+      "약수를 하나씩 찾아요.",
+      "몇 개인지 세어 봐요."
+    ],
     "choices_template": [
       "{{divisorCount(n)}}",
       "{{divisorCount(n) + 2}}",
       "{{divisorCount(n) + 4}}",
       "{{divisorCount(n) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-divisor-A-05",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 13,
+        "max": 41
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 1을 제외한 가장 작은 수는?",
+    "solver_rule": "smallestDivisorOverOne(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수: {{divisors(n)}}",
+      "1을 제외한 가장 작은 약수는 {{smallestDivisorOverOne(n)}}입니다."
     ],
+    "hint_steps_template": [
+      "1을 제외한 약수 중 가장 작은 수를 찾아요.",
+      "가장 작은 소인수를 떠올려요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-A-06",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 13,
+        "max": 46
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 가장 큰 두 약수의 차는?",
+    "solver_rule": "n - largestProperDivisor(n)",
+    "solution_steps_template": [
+      "가장 큰 약수는 {{n}}, 그 다음은 {{largestProperDivisor(n)}}입니다.",
+      "차는 {{n}} - {{largestProperDivisor(n)}} = {{n - largestProperDivisor(n)}}"
+    ],
+    "hint_steps_template": [
+      "가장 큰 약수는 {{n}}이에요.",
+      "두 번째로 큰 약수를 찾은 뒤 빼요."
+    ],
+    "choices_template": [
+      "{{n - largestProperDivisor(n)}}",
+      "{{n - largestProperDivisor(n) + 2}}",
+      "{{n - largestProperDivisor(n) + 4}}",
+      "{{n - largestProperDivisor(n) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-divisor-A-07",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 13,
+        "max": 51
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 {{n}}을 제외한 가장 큰 수는?",
+    "solver_rule": "largestProperDivisor(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수: {{divisors(n)}}",
+      "{{n}}을 제외한 가장 큰 약수는 {{largestProperDivisor(n)}}입니다."
+    ],
+    "hint_steps_template": [
+      "{{n}}보다 작은 약수 중 가장 큰 수를 찾아요.",
+      "나눗셈으로 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-A-08",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 11,
+        "max": 31
+      }
+    },
+    "prompt_template": "다음 중 {{n}}의 약수인 것은?",
+    "solver_rule": "1",
+    "solution_steps_template": [
+      "1은 모든 수의 약수입니다.",
+      "{{n + 1}}, {{n + 2}}, {{n + 3}}은 {{n}}보다 커서 약수가 아닙니다."
+    ],
+    "hint_steps_template": [
+      "1은 항상 약수예요.",
+      "{{n}}보다 큰 수는 약수가 아니에요."
+    ],
+    "choices_template": [
+      "1",
+      "{{n + 1}}",
+      "{{n + 2}}",
+      "{{n + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-divisor-A-09",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 20,
+        "max": 62
+      }
+    },
+    "prompt_template": "{{n}}의 두 번째로 큰 약수는?",
+    "solver_rule": "secondLargestDivisor(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수: {{divisors(n)}}",
+      "큰 순서로 두 번째 약수는 {{secondLargestDivisor(n)}}입니다."
+    ],
+    "hint_steps_template": [
+      "가장 큰 약수는 {{n}}이에요.",
+      "그 다음 약수를 찾아요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-A-10",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 22,
+        "max": 62
+      }
+    },
+    "prompt_template": "{{n}}의 두 번째로 큰 약수는?",
+    "solver_rule": "secondLargestDivisor(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수: {{divisors(n)}}",
+      "두 번째로 큰 약수는 {{secondLargestDivisor(n)}}입니다."
+    ],
+    "hint_steps_template": [
+      "가장 큰 약수는 {{n}}이에요.",
+      "그 다음 약수를 찾아요."
+    ],
+    "choices_template": [
+      "{{secondLargestDivisor(n)}}",
+      "{{secondLargestDivisor(n) + 2}}",
+      "{{secondLargestDivisor(n) + 4}}",
+      "{{secondLargestDivisor(n) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-divisor-B-01",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 8,
+        "max": 22
+      }
+    },
+    "prompt_template": "다음 중 {{n}}의 약수인 것은?",
+    "solver_rule": "n",
+    "solution_steps_template": [
+      "{{n}}의 약수를 구합니다: {{divisors(n)}}",
+      "{{n}}은 자기 자신의 약수입니다."
+    ],
+    "hint_steps_template": [
+      "자기 자신은 항상 약수예요.",
+      "{{n}}보다 큰 수는 약수가 될 수 없어요."
+    ],
+    "choices_template": [
+      "{{n}}",
+      "{{n + 1}}",
+      "{{n + 2}}",
+      "{{n + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-divisor-B-02",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 12,
+        "max": 32
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 가장 큰 수는?",
+    "solver_rule": "n",
+    "solution_steps_template": [
+      "{{n}}의 약수를 구합니다: {{divisors(n)}}",
+      "가장 큰 약수는 자기 자신인 {{n}}입니다."
+    ],
+    "hint_steps_template": [
+      "자기 자신도 약수예요.",
+      "가장 큰 약수는 {{n}}이에요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-B-03",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 10,
+        "max": 26
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 가장 작은 수는?",
+    "solver_rule": "1",
+    "solution_steps_template": [
+      "모든 수의 약수에는 1이 포함됩니다.",
+      "가장 작은 약수는 1입니다."
+    ],
+    "hint_steps_template": [
+      "모든 수는 1로 나누어떨어져요.",
+      "가장 작은 약수는 1이에요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-B-04",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 14,
+        "max": 38
+      }
+    },
+    "prompt_template": "{{n}}의 약수는 모두 몇 개인가요?",
     "solver_rule": "divisorCount(n)",
     "solution_steps_template": [
       "{{n}}의 약수를 모두 구합니다: {{divisors(n)}}",
       "약수의 개수를 세면 {{divisorCount(n)}}개입니다."
+    ],
+    "hint_steps_template": [
+      "약수를 하나씩 찾아요.",
+      "몇 개인지 세어 봐요."
+    ],
+    "choices_template": [
+      "{{divisorCount(n)}}",
+      "{{divisorCount(n) + 2}}",
+      "{{divisorCount(n) + 4}}",
+      "{{divisorCount(n) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-divisor-B-05",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 15,
+        "max": 43
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 1을 제외한 가장 작은 수는?",
+    "solver_rule": "smallestDivisorOverOne(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수: {{divisors(n)}}",
+      "1을 제외한 가장 작은 약수는 {{smallestDivisorOverOne(n)}}입니다."
+    ],
+    "hint_steps_template": [
+      "1을 제외한 약수 중 가장 작은 수를 찾아요.",
+      "가장 작은 소인수를 떠올려요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-B-06",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 15,
+        "max": 48
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 가장 큰 두 약수의 차는?",
+    "solver_rule": "n - largestProperDivisor(n)",
+    "solution_steps_template": [
+      "가장 큰 약수는 {{n}}, 그 다음은 {{largestProperDivisor(n)}}입니다.",
+      "차는 {{n}} - {{largestProperDivisor(n)}} = {{n - largestProperDivisor(n)}}"
+    ],
+    "hint_steps_template": [
+      "가장 큰 약수는 {{n}}이에요.",
+      "두 번째로 큰 약수를 찾은 뒤 빼요."
+    ],
+    "choices_template": [
+      "{{n - largestProperDivisor(n)}}",
+      "{{n - largestProperDivisor(n) + 2}}",
+      "{{n - largestProperDivisor(n) + 4}}",
+      "{{n - largestProperDivisor(n) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-divisor-B-07",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 15,
+        "max": 53
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 {{n}}을 제외한 가장 큰 수는?",
+    "solver_rule": "largestProperDivisor(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수: {{divisors(n)}}",
+      "{{n}}을 제외한 가장 큰 약수는 {{largestProperDivisor(n)}}입니다."
+    ],
+    "hint_steps_template": [
+      "{{n}}보다 작은 약수 중 가장 큰 수를 찾아요.",
+      "나눗셈으로 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-B-08",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 13,
+        "max": 33
+      }
+    },
+    "prompt_template": "다음 중 {{n}}의 약수인 것은?",
+    "solver_rule": "1",
+    "solution_steps_template": [
+      "1은 모든 수의 약수입니다.",
+      "{{n + 1}}, {{n + 2}}, {{n + 3}}은 {{n}}보다 커서 약수가 아닙니다."
+    ],
+    "hint_steps_template": [
+      "1은 항상 약수예요.",
+      "{{n}}보다 큰 수는 약수가 아니에요."
+    ],
+    "choices_template": [
+      "1",
+      "{{n + 1}}",
+      "{{n + 2}}",
+      "{{n + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-divisor-B-09",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 22,
+        "max": 64
+      }
+    },
+    "prompt_template": "{{n}}의 두 번째로 큰 약수는?",
+    "solver_rule": "secondLargestDivisor(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수: {{divisors(n)}}",
+      "큰 순서로 두 번째 약수는 {{secondLargestDivisor(n)}}입니다."
+    ],
+    "hint_steps_template": [
+      "가장 큰 약수는 {{n}}이에요.",
+      "그 다음 약수를 찾아요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-B-10",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 24,
+        "max": 64
+      }
+    },
+    "prompt_template": "{{n}}의 두 번째로 큰 약수는?",
+    "solver_rule": "secondLargestDivisor(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수: {{divisors(n)}}",
+      "두 번째로 큰 약수는 {{secondLargestDivisor(n)}}입니다."
+    ],
+    "hint_steps_template": [
+      "가장 큰 약수는 {{n}}이에요.",
+      "그 다음 약수를 찾아요."
+    ],
+    "choices_template": [
+      "{{secondLargestDivisor(n)}}",
+      "{{secondLargestDivisor(n) + 2}}",
+      "{{secondLargestDivisor(n) + 4}}",
+      "{{secondLargestDivisor(n) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-divisor-C-01",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 10,
+        "max": 24
+      }
+    },
+    "prompt_template": "다음 중 {{n}}의 약수인 것은?",
+    "solver_rule": "n",
+    "solution_steps_template": [
+      "{{n}}의 약수를 구합니다: {{divisors(n)}}",
+      "{{n}}은 자기 자신의 약수입니다."
+    ],
+    "hint_steps_template": [
+      "자기 자신은 항상 약수예요.",
+      "{{n}}보다 큰 수는 약수가 될 수 없어요."
+    ],
+    "choices_template": [
+      "{{n}}",
+      "{{n + 1}}",
+      "{{n + 2}}",
+      "{{n + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-divisor-C-02",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 14,
+        "max": 34
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 가장 큰 수는?",
+    "solver_rule": "n",
+    "solution_steps_template": [
+      "{{n}}의 약수를 구합니다: {{divisors(n)}}",
+      "가장 큰 약수는 자기 자신인 {{n}}입니다."
+    ],
+    "hint_steps_template": [
+      "자기 자신도 약수예요.",
+      "가장 큰 약수는 {{n}}이에요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-C-03",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 12,
+        "max": 28
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 가장 작은 수는?",
+    "solver_rule": "1",
+    "solution_steps_template": [
+      "모든 수의 약수에는 1이 포함됩니다.",
+      "가장 작은 약수는 1입니다."
+    ],
+    "hint_steps_template": [
+      "모든 수는 1로 나누어떨어져요.",
+      "가장 작은 약수는 1이에요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-C-04",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 16,
+        "max": 40
+      }
+    },
+    "prompt_template": "{{n}}의 약수는 모두 몇 개인가요?",
+    "solver_rule": "divisorCount(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수를 모두 구합니다: {{divisors(n)}}",
+      "약수의 개수를 세면 {{divisorCount(n)}}개입니다."
+    ],
+    "hint_steps_template": [
+      "약수를 하나씩 찾아요.",
+      "몇 개인지 세어 봐요."
+    ],
+    "choices_template": [
+      "{{divisorCount(n)}}",
+      "{{divisorCount(n) + 2}}",
+      "{{divisorCount(n) + 4}}",
+      "{{divisorCount(n) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-divisor-C-05",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 17,
+        "max": 45
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 1을 제외한 가장 작은 수는?",
+    "solver_rule": "smallestDivisorOverOne(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수: {{divisors(n)}}",
+      "1을 제외한 가장 작은 약수는 {{smallestDivisorOverOne(n)}}입니다."
+    ],
+    "hint_steps_template": [
+      "1을 제외한 약수 중 가장 작은 수를 찾아요.",
+      "가장 작은 소인수를 떠올려요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-C-06",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 17,
+        "max": 50
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 가장 큰 두 약수의 차는?",
+    "solver_rule": "n - largestProperDivisor(n)",
+    "solution_steps_template": [
+      "가장 큰 약수는 {{n}}, 그 다음은 {{largestProperDivisor(n)}}입니다.",
+      "차는 {{n}} - {{largestProperDivisor(n)}} = {{n - largestProperDivisor(n)}}"
+    ],
+    "hint_steps_template": [
+      "가장 큰 약수는 {{n}}이에요.",
+      "두 번째로 큰 약수를 찾은 뒤 빼요."
+    ],
+    "choices_template": [
+      "{{n - largestProperDivisor(n)}}",
+      "{{n - largestProperDivisor(n) + 2}}",
+      "{{n - largestProperDivisor(n) + 4}}",
+      "{{n - largestProperDivisor(n) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-divisor-C-07",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 17,
+        "max": 55
+      }
+    },
+    "prompt_template": "{{n}}의 약수 중 {{n}}을 제외한 가장 큰 수는?",
+    "solver_rule": "largestProperDivisor(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수: {{divisors(n)}}",
+      "{{n}}을 제외한 가장 큰 약수는 {{largestProperDivisor(n)}}입니다."
+    ],
+    "hint_steps_template": [
+      "{{n}}보다 작은 약수 중 가장 큰 수를 찾아요.",
+      "나눗셈으로 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-C-08",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 15,
+        "max": 35
+      }
+    },
+    "prompt_template": "다음 중 {{n}}의 약수인 것은?",
+    "solver_rule": "1",
+    "solution_steps_template": [
+      "1은 모든 수의 약수입니다.",
+      "{{n + 1}}, {{n + 2}}, {{n + 3}}은 {{n}}보다 커서 약수가 아닙니다."
+    ],
+    "hint_steps_template": [
+      "1은 항상 약수예요.",
+      "{{n}}보다 큰 수는 약수가 아니에요."
+    ],
+    "choices_template": [
+      "1",
+      "{{n + 1}}",
+      "{{n + 2}}",
+      "{{n + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-divisor-C-09",
+    "concept_id": "divisor-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 24,
+        "max": 66
+      }
+    },
+    "prompt_template": "{{n}}의 두 번째로 큰 약수는?",
+    "solver_rule": "secondLargestDivisor(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수: {{divisors(n)}}",
+      "큰 순서로 두 번째 약수는 {{secondLargestDivisor(n)}}입니다."
+    ],
+    "hint_steps_template": [
+      "가장 큰 약수는 {{n}}이에요.",
+      "그 다음 약수를 찾아요."
+    ]
+  },
+  {
+    "id": "tmpl-divisor-C-10",
+    "concept_id": "divisor-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 26,
+        "max": 66
+      }
+    },
+    "prompt_template": "{{n}}의 두 번째로 큰 약수는?",
+    "solver_rule": "secondLargestDivisor(n)",
+    "solution_steps_template": [
+      "{{n}}의 약수: {{divisors(n)}}",
+      "두 번째로 큰 약수는 {{secondLargestDivisor(n)}}입니다."
+    ],
+    "hint_steps_template": [
+      "가장 큰 약수는 {{n}}이에요.",
+      "그 다음 약수를 찾아요."
+    ],
+    "choices_template": [
+      "{{secondLargestDivisor(n)}}",
+      "{{secondLargestDivisor(n) + 2}}",
+      "{{secondLargestDivisor(n) + 4}}",
+      "{{secondLargestDivisor(n) + 6}}"
     ]
   }
 ]

@@ -1,65 +1,1073 @@
 [
   {
-    "id": "tmpl-mixedcalc-choice-001",
+    "id": "tmpl-mixedcalc-A-01",
     "concept_id": "mixedcalc-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "a": { "min": 2, "max": 9 },
-      "b": { "min": 2, "max": 5 },
-      "c": { "min": 2, "max": 9 }
+      "a": {
+        "min": 2,
+        "max": 9
+      },
+      "b": {
+        "min": 2,
+        "max": 5
+      },
+      "c": {
+        "min": 2,
+        "max": 9
+      }
     },
     "prompt_template": "{{a}} + {{b}} × {{c}} = ?",
+    "solver_rule": "a + b * c",
+    "solution_steps_template": [
+      "곱셈을 먼저 계산합니다: {{b}} × {{c}} = {{b * c}}",
+      "그 다음 덧셈을 계산합니다: {{a}} + {{b * c}} = {{a + b * c}}"
+    ],
+    "hint_steps_template": [
+      "곱셈과 나눗셈을 먼저 계산해요.",
+      "{{b}} × {{c}} 값을 먼저 구해요."
+    ],
     "choices_template": [
       "{{a + b * c}}",
       "{{a + b * c + 5}}",
       "{{a + b * c + 11}}",
       "{{a + b * c + 17}}"
-    ],
-    "solver_rule": "a + b * c",
-    "solution_steps_template": [
-      "곱셈을 먼저 계산합니다: {{b}} × {{c}} = {{b * c}}",
-      "그 다음 덧셈을 계산합니다: {{a}} + {{b * c}} = {{a + b * c}}"
     ]
   },
   {
-    "id": "tmpl-mixedcalc-number-001",
+    "id": "tmpl-mixedcalc-A-02",
     "concept_id": "mixedcalc-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "a": { "min": 3, "max": 8 },
-      "b": { "min": 2, "max": 6 },
-      "c": { "min": 2, "max": 9 }
+      "a": {
+        "min": 3,
+        "max": 8
+      },
+      "b": {
+        "min": 2,
+        "max": 6
+      },
+      "c": {
+        "min": 2,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{a}} × {{b}} + {{c}} 를 계산하세요.",
+    "solver_rule": "a * b + c",
+    "solution_steps_template": [
+      "곱셈을 먼저 계산합니다: {{a}} × {{b}} = {{a * b}}",
+      "그 다음 덧셈을 계산합니다: {{a * b}} + {{c}} = {{a * b + c}}"
+    ],
+    "hint_steps_template": [
+      "곱셈부터 계산해요.",
+      "곱셈 결과에 {{c}}를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-A-03",
+    "concept_id": "mixedcalc-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 2,
+        "max": 6
+      },
+      "b": {
+        "min": 3,
+        "max": 8
+      },
+      "c": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "({{a}} + {{b}}) × {{c}} = ?",
+    "solver_rule": "(a + b) * c",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{a}} + {{b}} = {{a + b}}",
+      "그 다음 곱셈을 계산합니다: {{a + b}} × {{c}} = {{(a + b) * c}}"
+    ],
+    "hint_steps_template": [
+      "괄호 안을 먼저 계산해요.",
+      "{{a + b}}에 {{c}}를 곱해요."
+    ],
+    "choices_template": [
+      "{{(a + b) * c}}",
+      "{{(a + b) * c + 4}}",
+      "{{(a + b) * c + 9}}",
+      "{{(a + b) * c + 15}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-A-04",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 3,
+        "max": 9
+      },
+      "b": {
+        "min": 2,
+        "max": 5
+      },
+      "c": {
+        "min": 2,
+        "max": 8
+      }
     },
     "prompt_template": "{{a}} × {{b}} - {{c}} 를 계산하세요.",
     "solver_rule": "a * b - c",
     "solution_steps_template": [
       "곱셈을 먼저 계산합니다: {{a}} × {{b}} = {{a * b}}",
       "그 다음 뺄셈을 계산합니다: {{a * b}} - {{c}} = {{a * b - c}}"
+    ],
+    "hint_steps_template": [
+      "곱셈부터 계산해요.",
+      "곱셈 결과에서 {{c}}를 빼요."
     ]
   },
   {
-    "id": "tmpl-mixedcalc-choice-002",
+    "id": "tmpl-mixedcalc-A-05",
     "concept_id": "mixedcalc-001",
     "type": "choice",
     "difficulty": 2,
+    "set_id": "A",
     "param_schema": {
-      "a": { "min": 2, "max": 6 },
-      "b": { "min": 3, "max": 8 },
-      "c": { "min": 2, "max": 5 }
+      "a": {
+        "min": 6,
+        "max": 13
+      },
+      "b": {
+        "min": 3,
+        "max": 7
+      },
+      "c": {
+        "min": 3,
+        "max": 8
+      },
+      "d": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{a}} + {{b}} × {{c}} - {{d}} = ?",
+    "solver_rule": "a + b * c - d",
+    "solution_steps_template": [
+      "곱셈을 먼저 계산합니다: {{b}} × {{c}} = {{b * c}}",
+      "그 다음 덧셈과 뺄셈을 합니다: {{a}} + {{b * c}} - {{d}} = {{a + b * c - d}}"
+    ],
+    "hint_steps_template": [
+      "곱셈부터 계산해요.",
+      "나머지 덧셈/뺄셈을 해요."
+    ],
+    "choices_template": [
+      "{{a + b * c - d}}",
+      "{{a + b * c - d + 5}}",
+      "{{a + b * c - d + 11}}",
+      "{{a + b * c - d + 17}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-A-06",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 5,
+        "max": 10
+      },
+      "b": {
+        "min": 4,
+        "max": 9
+      },
+      "c": {
+        "min": 3,
+        "max": 7
+      },
+      "d": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "({{a}} + {{b}}) × {{c}} - {{d}} 를 계산하세요.",
+    "solver_rule": "(a + b) * c - d",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{a}} + {{b}} = {{a + b}}",
+      "곱셈을 합니다: {{a + b}} × {{c}} = {{(a + b) * c}}",
+      "마지막으로 뺄셈: {{(a + b) * c}} - {{d}} = {{(a + b) * c - d}}"
+    ],
+    "hint_steps_template": [
+      "괄호부터 계산해요.",
+      "곱셈 후 {{d}}를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-A-07",
+    "concept_id": "mixedcalc-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 9
+      },
+      "b": {
+        "min": 3,
+        "max": 7
+      },
+      "c": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{a}} × ({{b}} + {{c}}) = ?",
+    "solver_rule": "a * (b + c)",
+    "solution_steps_template": [
+      "괄호 안을 계산합니다: {{b}} + {{c}} = {{b + c}}",
+      "곱셈을 합니다: {{a}} × {{b + c}} = {{a * (b + c)}}"
+    ],
+    "hint_steps_template": [
+      "괄호 안을 먼저 계산해요.",
+      "그 결과에 {{a}}를 곱해요."
+    ],
+    "choices_template": [
+      "{{a * (b + c)}}",
+      "{{a * (b + c) + 6}}",
+      "{{a * (b + c) + 12}}",
+      "{{a * (b + c) + 18}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-A-08",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 8,
+        "max": 14
+      },
+      "b": {
+        "min": 3,
+        "max": 7
+      },
+      "c": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "({{a}} - {{b}}) × {{c}} 를 계산하세요.",
+    "solver_rule": "(a - b) * c",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{a}} - {{b}} = {{a - b}}",
+      "곱셈을 합니다: {{a - b}} × {{c}} = {{(a - b) * c}}"
+    ],
+    "hint_steps_template": [
+      "{{a}} - {{b}} 값을 먼저 구해요.",
+      "그 값에 {{c}}를 곱해요."
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-A-09",
+    "concept_id": "mixedcalc-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 11
+      },
+      "b": {
+        "min": 5,
+        "max": 9
+      },
+      "c": {
+        "min": 8,
+        "max": 14
+      },
+      "d": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "({{a}} + {{b}}) × ({{c}} - {{d}}) = ?",
+    "solver_rule": "(a + b) * (c - d)",
+    "solution_steps_template": [
+      "괄호 안을 각각 계산합니다: {{a + b}}, {{c - d}}",
+      "두 결과를 곱합니다: {{a + b}} × {{c - d}} = {{(a + b) * (c - d)}}"
+    ],
+    "hint_steps_template": [
+      "두 괄호를 먼저 계산해요.",
+      "그 결과들을 곱해요."
+    ],
+    "choices_template": [
+      "{{(a + b) * (c - d)}}",
+      "{{(a + b) * (c - d) + 10}}",
+      "{{(a + b) * (c - d) + 20}}",
+      "{{(a + b) * (c - d) + 30}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-A-10",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 10
+      },
+      "b": {
+        "min": 7,
+        "max": 11
+      },
+      "c": {
+        "min": 4,
+        "max": 8
+      },
+      "d": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{a}} × {{b}} + {{c}} × {{d}} 를 계산하세요.",
+    "solver_rule": "a * b + c * d",
+    "solution_steps_template": [
+      "각 곱셈을 계산합니다: {{a}} × {{b}} = {{a * b}}, {{c}} × {{d}} = {{c * d}}",
+      "두 값을 더합니다: {{a * b}} + {{c * d}} = {{a * b + c * d}}"
+    ],
+    "hint_steps_template": [
+      "두 곱셈을 각각 계산해요.",
+      "그 결과들을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-B-01",
+    "concept_id": "mixedcalc-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 11
+      },
+      "b": {
+        "min": 4,
+        "max": 7
+      },
+      "c": {
+        "min": 4,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{a}} + {{b}} × {{c}} = ?",
+    "solver_rule": "a + b * c",
+    "solution_steps_template": [
+      "곱셈을 먼저 계산합니다: {{b}} × {{c}} = {{b * c}}",
+      "그 다음 덧셈을 계산합니다: {{a}} + {{b * c}} = {{a + b * c}}"
+    ],
+    "hint_steps_template": [
+      "곱셈과 나눗셈을 먼저 계산해요.",
+      "{{b}} × {{c}} 값을 먼저 구해요."
+    ],
+    "choices_template": [
+      "{{a + b * c}}",
+      "{{a + b * c + 5}}",
+      "{{a + b * c + 11}}",
+      "{{a + b * c + 17}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-B-02",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 5,
+        "max": 10
+      },
+      "b": {
+        "min": 4,
+        "max": 8
+      },
+      "c": {
+        "min": 4,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{a}} × {{b}} + {{c}} 를 계산하세요.",
+    "solver_rule": "a * b + c",
+    "solution_steps_template": [
+      "곱셈을 먼저 계산합니다: {{a}} × {{b}} = {{a * b}}",
+      "그 다음 덧셈을 계산합니다: {{a * b}} + {{c}} = {{a * b + c}}"
+    ],
+    "hint_steps_template": [
+      "곱셈부터 계산해요.",
+      "곱셈 결과에 {{c}}를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-B-03",
+    "concept_id": "mixedcalc-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 8
+      },
+      "b": {
+        "min": 5,
+        "max": 10
+      },
+      "c": {
+        "min": 4,
+        "max": 7
+      }
     },
     "prompt_template": "({{a}} + {{b}}) × {{c}} = ?",
+    "solver_rule": "(a + b) * c",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{a}} + {{b}} = {{a + b}}",
+      "그 다음 곱셈을 계산합니다: {{a + b}} × {{c}} = {{(a + b) * c}}"
+    ],
+    "hint_steps_template": [
+      "괄호 안을 먼저 계산해요.",
+      "{{a + b}}에 {{c}}를 곱해요."
+    ],
     "choices_template": [
       "{{(a + b) * c}}",
       "{{(a + b) * c + 4}}",
       "{{(a + b) * c + 9}}",
       "{{(a + b) * c + 15}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-B-04",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 5,
+        "max": 11
+      },
+      "b": {
+        "min": 4,
+        "max": 7
+      },
+      "c": {
+        "min": 4,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{a}} × {{b}} - {{c}} 를 계산하세요.",
+    "solver_rule": "a * b - c",
+    "solution_steps_template": [
+      "곱셈을 먼저 계산합니다: {{a}} × {{b}} = {{a * b}}",
+      "그 다음 뺄셈을 계산합니다: {{a * b}} - {{c}} = {{a * b - c}}"
     ],
+    "hint_steps_template": [
+      "곱셈부터 계산해요.",
+      "곱셈 결과에서 {{c}}를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-B-05",
+    "concept_id": "mixedcalc-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 8,
+        "max": 15
+      },
+      "b": {
+        "min": 5,
+        "max": 9
+      },
+      "c": {
+        "min": 5,
+        "max": 10
+      },
+      "d": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{a}} + {{b}} × {{c}} - {{d}} = ?",
+    "solver_rule": "a + b * c - d",
+    "solution_steps_template": [
+      "곱셈을 먼저 계산합니다: {{b}} × {{c}} = {{b * c}}",
+      "그 다음 덧셈과 뺄셈을 합니다: {{a}} + {{b * c}} - {{d}} = {{a + b * c - d}}"
+    ],
+    "hint_steps_template": [
+      "곱셈부터 계산해요.",
+      "나머지 덧셈/뺄셈을 해요."
+    ],
+    "choices_template": [
+      "{{a + b * c - d}}",
+      "{{a + b * c - d + 5}}",
+      "{{a + b * c - d + 11}}",
+      "{{a + b * c - d + 17}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-B-06",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 7,
+        "max": 12
+      },
+      "b": {
+        "min": 6,
+        "max": 11
+      },
+      "c": {
+        "min": 5,
+        "max": 9
+      },
+      "d": {
+        "min": 5,
+        "max": 10
+      }
+    },
+    "prompt_template": "({{a}} + {{b}}) × {{c}} - {{d}} 를 계산하세요.",
+    "solver_rule": "(a + b) * c - d",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{a}} + {{b}} = {{a + b}}",
+      "곱셈을 합니다: {{a + b}} × {{c}} = {{(a + b) * c}}",
+      "마지막으로 뺄셈: {{(a + b) * c}} - {{d}} = {{(a + b) * c - d}}"
+    ],
+    "hint_steps_template": [
+      "괄호부터 계산해요.",
+      "곱셈 후 {{d}}를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-B-07",
+    "concept_id": "mixedcalc-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 11
+      },
+      "b": {
+        "min": 5,
+        "max": 9
+      },
+      "c": {
+        "min": 5,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{a}} × ({{b}} + {{c}}) = ?",
+    "solver_rule": "a * (b + c)",
+    "solution_steps_template": [
+      "괄호 안을 계산합니다: {{b}} + {{c}} = {{b + c}}",
+      "곱셈을 합니다: {{a}} × {{b + c}} = {{a * (b + c)}}"
+    ],
+    "hint_steps_template": [
+      "괄호 안을 먼저 계산해요.",
+      "그 결과에 {{a}}를 곱해요."
+    ],
+    "choices_template": [
+      "{{a * (b + c)}}",
+      "{{a * (b + c) + 6}}",
+      "{{a * (b + c) + 12}}",
+      "{{a * (b + c) + 18}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-B-08",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 10,
+        "max": 16
+      },
+      "b": {
+        "min": 5,
+        "max": 9
+      },
+      "c": {
+        "min": 5,
+        "max": 10
+      }
+    },
+    "prompt_template": "({{a}} - {{b}}) × {{c}} 를 계산하세요.",
+    "solver_rule": "(a - b) * c",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{a}} - {{b}} = {{a - b}}",
+      "곱셈을 합니다: {{a - b}} × {{c}} = {{(a - b) * c}}"
+    ],
+    "hint_steps_template": [
+      "{{a}} - {{b}} 값을 먼저 구해요.",
+      "그 값에 {{c}}를 곱해요."
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-B-09",
+    "concept_id": "mixedcalc-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 8,
+        "max": 13
+      },
+      "b": {
+        "min": 7,
+        "max": 11
+      },
+      "c": {
+        "min": 10,
+        "max": 16
+      },
+      "d": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "({{a}} + {{b}}) × ({{c}} - {{d}}) = ?",
+    "solver_rule": "(a + b) * (c - d)",
+    "solution_steps_template": [
+      "괄호 안을 각각 계산합니다: {{a + b}}, {{c - d}}",
+      "두 결과를 곱합니다: {{a + b}} × {{c - d}} = {{(a + b) * (c - d)}}"
+    ],
+    "hint_steps_template": [
+      "두 괄호를 먼저 계산해요.",
+      "그 결과들을 곱해요."
+    ],
+    "choices_template": [
+      "{{(a + b) * (c - d)}}",
+      "{{(a + b) * (c - d) + 10}}",
+      "{{(a + b) * (c - d) + 20}}",
+      "{{(a + b) * (c - d) + 30}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-B-10",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 8,
+        "max": 12
+      },
+      "b": {
+        "min": 9,
+        "max": 13
+      },
+      "c": {
+        "min": 6,
+        "max": 10
+      },
+      "d": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{a}} × {{b}} + {{c}} × {{d}} 를 계산하세요.",
+    "solver_rule": "a * b + c * d",
+    "solution_steps_template": [
+      "각 곱셈을 계산합니다: {{a}} × {{b}} = {{a * b}}, {{c}} × {{d}} = {{c * d}}",
+      "두 값을 더합니다: {{a * b}} + {{c * d}} = {{a * b + c * d}}"
+    ],
+    "hint_steps_template": [
+      "두 곱셈을 각각 계산해요.",
+      "그 결과들을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-C-01",
+    "concept_id": "mixedcalc-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 13
+      },
+      "b": {
+        "min": 6,
+        "max": 9
+      },
+      "c": {
+        "min": 6,
+        "max": 13
+      }
+    },
+    "prompt_template": "{{a}} + {{b}} × {{c}} = ?",
+    "solver_rule": "a + b * c",
+    "solution_steps_template": [
+      "곱셈을 먼저 계산합니다: {{b}} × {{c}} = {{b * c}}",
+      "그 다음 덧셈을 계산합니다: {{a}} + {{b * c}} = {{a + b * c}}"
+    ],
+    "hint_steps_template": [
+      "곱셈과 나눗셈을 먼저 계산해요.",
+      "{{b}} × {{c}} 값을 먼저 구해요."
+    ],
+    "choices_template": [
+      "{{a + b * c}}",
+      "{{a + b * c + 5}}",
+      "{{a + b * c + 11}}",
+      "{{a + b * c + 17}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-C-02",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 7,
+        "max": 12
+      },
+      "b": {
+        "min": 6,
+        "max": 10
+      },
+      "c": {
+        "min": 6,
+        "max": 13
+      }
+    },
+    "prompt_template": "{{a}} × {{b}} + {{c}} 를 계산하세요.",
+    "solver_rule": "a * b + c",
+    "solution_steps_template": [
+      "곱셈을 먼저 계산합니다: {{a}} × {{b}} = {{a * b}}",
+      "그 다음 덧셈을 계산합니다: {{a * b}} + {{c}} = {{a * b + c}}"
+    ],
+    "hint_steps_template": [
+      "곱셈부터 계산해요.",
+      "곱셈 결과에 {{c}}를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-C-03",
+    "concept_id": "mixedcalc-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 10
+      },
+      "b": {
+        "min": 7,
+        "max": 12
+      },
+      "c": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "({{a}} + {{b}}) × {{c}} = ?",
     "solver_rule": "(a + b) * c",
     "solution_steps_template": [
       "괄호 안을 먼저 계산합니다: {{a}} + {{b}} = {{a + b}}",
       "그 다음 곱셈을 계산합니다: {{a + b}} × {{c}} = {{(a + b) * c}}"
+    ],
+    "hint_steps_template": [
+      "괄호 안을 먼저 계산해요.",
+      "{{a + b}}에 {{c}}를 곱해요."
+    ],
+    "choices_template": [
+      "{{(a + b) * c}}",
+      "{{(a + b) * c + 4}}",
+      "{{(a + b) * c + 9}}",
+      "{{(a + b) * c + 15}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-C-04",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 7,
+        "max": 13
+      },
+      "b": {
+        "min": 6,
+        "max": 9
+      },
+      "c": {
+        "min": 6,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{a}} × {{b}} - {{c}} 를 계산하세요.",
+    "solver_rule": "a * b - c",
+    "solution_steps_template": [
+      "곱셈을 먼저 계산합니다: {{a}} × {{b}} = {{a * b}}",
+      "그 다음 뺄셈을 계산합니다: {{a * b}} - {{c}} = {{a * b - c}}"
+    ],
+    "hint_steps_template": [
+      "곱셈부터 계산해요.",
+      "곱셈 결과에서 {{c}}를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-C-05",
+    "concept_id": "mixedcalc-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 10,
+        "max": 17
+      },
+      "b": {
+        "min": 7,
+        "max": 11
+      },
+      "c": {
+        "min": 7,
+        "max": 12
+      },
+      "d": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{a}} + {{b}} × {{c}} - {{d}} = ?",
+    "solver_rule": "a + b * c - d",
+    "solution_steps_template": [
+      "곱셈을 먼저 계산합니다: {{b}} × {{c}} = {{b * c}}",
+      "그 다음 덧셈과 뺄셈을 합니다: {{a}} + {{b * c}} - {{d}} = {{a + b * c - d}}"
+    ],
+    "hint_steps_template": [
+      "곱셈부터 계산해요.",
+      "나머지 덧셈/뺄셈을 해요."
+    ],
+    "choices_template": [
+      "{{a + b * c - d}}",
+      "{{a + b * c - d + 5}}",
+      "{{a + b * c - d + 11}}",
+      "{{a + b * c - d + 17}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-C-06",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 9,
+        "max": 14
+      },
+      "b": {
+        "min": 8,
+        "max": 13
+      },
+      "c": {
+        "min": 7,
+        "max": 11
+      },
+      "d": {
+        "min": 7,
+        "max": 12
+      }
+    },
+    "prompt_template": "({{a}} + {{b}}) × {{c}} - {{d}} 를 계산하세요.",
+    "solver_rule": "(a + b) * c - d",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{a}} + {{b}} = {{a + b}}",
+      "곱셈을 합니다: {{a + b}} × {{c}} = {{(a + b) * c}}",
+      "마지막으로 뺄셈: {{(a + b) * c}} - {{d}} = {{(a + b) * c - d}}"
+    ],
+    "hint_steps_template": [
+      "괄호부터 계산해요.",
+      "곱셈 후 {{d}}를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-C-07",
+    "concept_id": "mixedcalc-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 8,
+        "max": 13
+      },
+      "b": {
+        "min": 7,
+        "max": 11
+      },
+      "c": {
+        "min": 7,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{a}} × ({{b}} + {{c}}) = ?",
+    "solver_rule": "a * (b + c)",
+    "solution_steps_template": [
+      "괄호 안을 계산합니다: {{b}} + {{c}} = {{b + c}}",
+      "곱셈을 합니다: {{a}} × {{b + c}} = {{a * (b + c)}}"
+    ],
+    "hint_steps_template": [
+      "괄호 안을 먼저 계산해요.",
+      "그 결과에 {{a}}를 곱해요."
+    ],
+    "choices_template": [
+      "{{a * (b + c)}}",
+      "{{a * (b + c) + 6}}",
+      "{{a * (b + c) + 12}}",
+      "{{a * (b + c) + 18}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-C-08",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 18
+      },
+      "b": {
+        "min": 7,
+        "max": 11
+      },
+      "c": {
+        "min": 7,
+        "max": 12
+      }
+    },
+    "prompt_template": "({{a}} - {{b}}) × {{c}} 를 계산하세요.",
+    "solver_rule": "(a - b) * c",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{a}} - {{b}} = {{a - b}}",
+      "곱셈을 합니다: {{a - b}} × {{c}} = {{(a - b) * c}}"
+    ],
+    "hint_steps_template": [
+      "{{a}} - {{b}} 값을 먼저 구해요.",
+      "그 값에 {{c}}를 곱해요."
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-C-09",
+    "concept_id": "mixedcalc-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 10,
+        "max": 15
+      },
+      "b": {
+        "min": 9,
+        "max": 13
+      },
+      "c": {
+        "min": 12,
+        "max": 18
+      },
+      "d": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "({{a}} + {{b}}) × ({{c}} - {{d}}) = ?",
+    "solver_rule": "(a + b) * (c - d)",
+    "solution_steps_template": [
+      "괄호 안을 각각 계산합니다: {{a + b}}, {{c - d}}",
+      "두 결과를 곱합니다: {{a + b}} × {{c - d}} = {{(a + b) * (c - d)}}"
+    ],
+    "hint_steps_template": [
+      "두 괄호를 먼저 계산해요.",
+      "그 결과들을 곱해요."
+    ],
+    "choices_template": [
+      "{{(a + b) * (c - d)}}",
+      "{{(a + b) * (c - d) + 10}}",
+      "{{(a + b) * (c - d) + 20}}",
+      "{{(a + b) * (c - d) + 30}}"
+    ]
+  },
+  {
+    "id": "tmpl-mixedcalc-C-10",
+    "concept_id": "mixedcalc-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 10,
+        "max": 14
+      },
+      "b": {
+        "min": 11,
+        "max": 15
+      },
+      "c": {
+        "min": 8,
+        "max": 12
+      },
+      "d": {
+        "min": 9,
+        "max": 13
+      }
+    },
+    "prompt_template": "{{a}} × {{b}} + {{c}} × {{d}} 를 계산하세요.",
+    "solver_rule": "a * b + c * d",
+    "solution_steps_template": [
+      "각 곱셈을 계산합니다: {{a}} × {{b}} = {{a * b}}, {{c}} × {{d}} = {{c * d}}",
+      "두 값을 더합니다: {{a * b}} + {{c * d}} = {{a * b + c * d}}"
+    ],
+    "hint_steps_template": [
+      "두 곱셈을 각각 계산해요.",
+      "그 결과들을 더해요."
     ]
   }
 ]

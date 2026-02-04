@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test'
 
+const basePath = '/math_assist'
+
 /**
  * 각 개념의 객관식 문제에서:
  * 1. 보기가 모두 다른 값인지 (중복 없음)
@@ -19,7 +21,7 @@ for (const concept of concepts) {
     let totalChoiceProblems = 0
 
     for (let attempt = 0; attempt < 3; attempt++) {
-      await page.goto(`/practice/${concept.id}`)
+      await page.goto(`${basePath}/practice/${concept.id}`)
       await page.evaluate(() => localStorage.clear())
       await page.reload()
       await page.waitForSelector('button:has-text("다음")', { timeout: 10000 })

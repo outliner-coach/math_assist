@@ -23,6 +23,17 @@
 
 지원되는 표현식만 사용합니다. 지원되지 않는 JavaScript 문법은 `[표현식?]` 으로 노출됩니다.
 
+### 1.4 세트/난이도 필드 필수
+
+- 모든 템플릿은 `set_id: "A" | "B" | "C"` 를 가져야 합니다.
+- `difficulty`는 1(쉬움), 2(보통), 3(어려움)만 사용합니다.
+- 세트 내 난이도 분배는 4-4-2(1/2/3)입니다.
+
+### 1.5 힌트 템플릿 추가
+
+- `hint_steps_template`는 단계 힌트 문장 배열입니다.
+- 힌트는 풀이의 핵심 단계만 2~3개로 간결히 작성합니다.
+
 ---
 
 ## 2. "~인 것은?" vs "~아닌 것은?" 질문 설계
@@ -129,6 +140,9 @@
 | `lcm(a, b)` | 정수 2개 | 최소공배수 | `lcm(4, 6)` → `12` |
 | `divisors(n)` | 정수 1개 | 약수 목록 (문자열) | `divisors(12)` → `1, 2, 3, 4, 6, 12` |
 | `divisorCount(n)` | 정수 1개 | 약수 개수 | `divisorCount(12)` → `6` |
+| `smallestDivisorOverOne(n)` | 정수 1개 | 1을 제외한 가장 작은 약수 | `smallestDivisorOverOne(12)` → `2` |
+| `largestProperDivisor(n)` | 정수 1개 | 자기 자신을 제외한 가장 큰 약수 | `largestProperDivisor(12)` → `6` |
+| `secondLargestDivisor(n)` | 정수 1개 | 두 번째로 큰 약수 | `secondLargestDivisor(12)` → `6` |
 | `multiples(n, k)` | 정수 2개 | 배수 k개 (문자열) | `multiples(3, 4)` → `3, 6, 9, 12, ...` |
 | `commonDivisors(a, b)` | 정수 2개 | 공약수 목록 (문자열) | `commonDivisors(12, 8)` → `1, 2, 4` |
 

@@ -15,7 +15,7 @@ export default function ConceptCard({ concept }: ConceptCardProps) {
           {concept.concept_title}
         </h3>
         <p className="text-gray-600 text-sm line-clamp-2">
-          {concept.base_explanation}
+          {concept.friendly_explanation || concept.base_explanation}
         </p>
         <div className="mt-4 flex items-center text-primary-600 text-sm font-medium">
           학습하기

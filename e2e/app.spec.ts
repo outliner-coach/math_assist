@@ -1,56 +1,58 @@
 import { test, expect } from '@playwright/test'
 
+const basePath = '/math_assist'
+
 test.describe('Home Page', () => {
   test('should display app title and unit list', async ({ page }) => {
-    await page.goto('/')
+    await page.goto(`${basePath}/`)
 
     // 앱 타이틀 확인
     await expect(page.locator('h1')).toContainText('수학 연습장')
 
     // 단원 링크가 표시되는지 확인
-    const unitLinks = page.locator('a[href^="/unit/"]')
+    const unitLinks = page.locator(`a[href^="${basePath}/unit/"]`)
     await expect(unitLinks.first()).toBeVisible()
   })
 
   test('should navigate to unit page when clicking unit card', async ({ page }) => {
-    await page.goto('/')
+    await page.goto(`${basePath}/`)
 
     // 첫 번째 단원 클릭
-    const firstUnit = page.locator('a[href^="/unit/"]').first()
+    const firstUnit = page.locator(`a[href^="${basePath}/unit/"]`).first()
     await firstUnit.click()
 
     // URL이 변경되었는지 확인
-    await expect(page).toHaveURL(/\/unit\//)
+    await expect(page).toHaveURL(/\/math_assist\/unit\//)
   })
 })
 
 test.describe('Unit Page', () => {
   test('should display concepts list', async ({ page }) => {
-    await page.goto('/unit/unit-5-1-divisor-multiple')
+    await page.goto(`${basePath}/unit/unit-5-1-divisor-multiple`)
 
     // 개념 목록 헤더 확인
     await expect(page.locator('h2')).toContainText('개념 선택')
 
     // 개념 카드들이 표시되는지 확인
-    const conceptLinks = page.locator('a[href^="/concept/"]')
+    const conceptLinks = page.locator(`a[href^="${basePath}/concept/"]`)
     await expect(conceptLinks.first()).toBeVisible()
   })
 
   test('should navigate back to home', async ({ page }) => {
-    await page.goto('/unit/unit-5-1-divisor-multiple')
+    await page.goto(`${basePath}/unit/unit-5-1-divisor-multiple`)
 
     // 뒤로가기 버튼 클릭
-    await page.locator('a[href="/"]').click()
-    await expect(page).toHaveURL('/')
+    await page.locator(`a[href="${basePath}"], a[href="${basePath}/"]`).click()
+    await expect(page).toHaveURL(new RegExp(`${basePath}/?$`))
   })
 })
 
 test.describe('Concept Detail Page', () => {
   test('should display concept explanation', async ({ page }) => {
-    await page.goto('/concept/divisor-001')
+    await page.goto(`${basePath}/concept/divisor-001`)
 
-    // 개념 설명 섹션 확인
-    await expect(page.locator('h2').filter({ hasText: '개념 설명' })).toBeVisible()
+    // 친절한 설명 섹션 확인
+    await expect(page.locator('h2').filter({ hasText: '친절한 설명' })).toBeVisible()
 
     // 예시 섹션 확인
     await expect(page.locator('h2').filter({ hasText: '예시' })).toBeVisible()
@@ -60,27 +62,27 @@ test.describe('Concept Detail Page', () => {
   })
 
   test('should have practice start button', async ({ page }) => {
-    await page.goto('/concept/divisor-001')
+    await page.goto(`${basePath}/concept/divisor-001`)
 
-    // 연습 시작 버튼 확인
-    const startButton = page.locator('button').filter({ hasText: '연습 시작' })
-    await expect(startButton).toBeVisible()
+    // 세트 선택 버튼 확인
+    const setButton = page.locator('button').filter({ hasText: '세트 A' })
+    await expect(setButton).toBeVisible()
   })
 
   test('should navigate to practice page', async ({ page }) => {
-    await page.goto('/concept/divisor-001')
+    await page.goto(`${basePath}/concept/divisor-001`)
 
-    // 연습 시작 버튼 클릭
-    await page.locator('button').filter({ hasText: '연습 시작' }).click()
+    // 세트 A 클릭
+    await page.locator('button').filter({ hasText: '세트 A' }).click()
 
     // practice 페이지로 이동했는지 확인
-    await expect(page).toHaveURL('/practice/divisor-001')
+    await expect(page).toHaveURL(/\/math_assist\/practice\/divisor-001\?set=A/)
   })
 })
 
 test.describe('Practice Page', () => {
   test('should display problem and progress', async ({ page }) => {
-    await page.goto('/practice/divisor-001')
+    await page.goto(`${basePath}/practice/divisor-001`)
 
     // 진행률 표시 확인
     await expect(page.locator('text=/\\d+\\s*\\/\\s*10/')).toBeVisible()
@@ -90,7 +92,7 @@ test.describe('Practice Page', () => {
   })
 
   test('should show navigation buttons', async ({ page }) => {
-    await page.goto('/practice/divisor-001')
+    await page.goto(`${basePath}/practice/divisor-001`)
 
     // 이전/다음 버튼 확인
     await expect(page.locator('button').filter({ hasText: '이전' })).toBeVisible()
@@ -98,7 +100,7 @@ test.describe('Practice Page', () => {
   })
 
   test('should allow answering choice questions', async ({ page }) => {
-    await page.goto('/practice/divisor-001')
+    await page.goto(`${basePath}/practice/divisor-001`)
 
     // 보기 버튼이 있으면 클릭
     const choiceButton = page.locator('button[class*="border"]').first()
@@ -111,7 +113,7 @@ test.describe('Practice Page', () => {
   })
 
   test('should navigate between problems', async ({ page }) => {
-    await page.goto('/practice/divisor-001')
+    await page.goto(`${basePath}/practice/divisor-001`)
 
     // 첫 문제에서 '다음' 클릭
     await page.locator('button').filter({ hasText: '다음' }).click()
@@ -127,7 +129,7 @@ test.describe('Practice Page', () => {
 
 test.describe('Full Practice Flow', () => {
   test('should complete practice and show results', async ({ page }) => {
-    await page.goto('/practice/divisor-001')
+    await page.goto(`${basePath}/practice/divisor-001`)
 
     // 10문제 모두 답하기
     for (let i = 0; i < 10; i++) {
@@ -159,7 +161,7 @@ test.describe('Full Practice Flow', () => {
       await submitButton.click()
 
       // 결과 페이지로 이동 확인
-      await expect(page).toHaveURL('/result', { timeout: 10000 })
+      await expect(page).toHaveURL(`${basePath}/result`, { timeout: 10000 })
 
       // 점수가 표시되는지 확인
       await expect(page.locator('[data-testid="score"]')).toBeVisible()
@@ -169,7 +171,7 @@ test.describe('Full Practice Flow', () => {
 
 test.describe('Result Page', () => {
   test('should show message when accessed without session', async ({ page }) => {
-    await page.goto('/result')
+    await page.goto(`${basePath}/result`)
 
     // 로딩 후 "결과를 찾을 수 없습니다" 메시지 표시 확인
     await expect(page.locator('text=결과를 찾을 수 없습니다')).toBeVisible({ timeout: 5000 })

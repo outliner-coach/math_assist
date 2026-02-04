@@ -1,65 +1,974 @@
 [
   {
-    "id": "tmpl-pattern-choice-001",
+    "id": "tmpl-pattern-A-01",
     "concept_id": "pattern-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "k": { "min": 2, "max": 6 },
-      "t": { "min": 5, "max": 9 }
+      "k": {
+        "min": 2,
+        "max": 6
+      },
+      "t": {
+        "min": 5,
+        "max": 9
+      }
     },
     "prompt_template": "○가 1일 때 △는 {{k}}, ○가 2일 때 △는 {{k * 2}}, ○가 3일 때 △는 {{k * 3}}. ○가 {{t}}일 때 △는?",
+    "solver_rule": "k * t",
+    "solution_steps_template": [
+      "규칙을 찾습니다: △ = ○ × {{k}}",
+      "○가 {{t}}일 때: {{t}} × {{k}} = {{k * t}}"
+    ],
+    "hint_steps_template": [
+      "○가 1일 때 {{k}}이면 ×{{k}} 규칙이에요.",
+      "{{t}} × {{k}}를 계산해요."
+    ],
     "choices_template": [
       "{{k * t}}",
       "{{k * t + 3}}",
       "{{k * t + 7}}",
       "{{k * t + 12}}"
-    ],
-    "solver_rule": "k * t",
-    "solution_steps_template": [
-      "규칙을 찾습니다: △ = ○ × {{k}}",
-      "○가 1일 때 {{k}}, ○가 2일 때 {{k * 2}}, ○가 3일 때 {{k * 3}} → 매번 {{k}}씩 늘어남",
-      "○가 {{t}}일 때: {{t}} × {{k}} = {{k * t}}"
     ]
   },
   {
-    "id": "tmpl-pattern-number-001",
+    "id": "tmpl-pattern-A-02",
     "concept_id": "pattern-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "d": { "min": 3, "max": 9 },
-      "t": { "min": 6, "max": 10 }
+      "d": {
+        "min": 3,
+        "max": 9
+      },
+      "t": {
+        "min": 6,
+        "max": 10
+      }
     },
-    "prompt_template": "○가 1일 때 △는 {{d + 1}}, ○가 2일 때 △는 {{d + 2}}, ○가 3일 때 △는 {{d + 3}}. ○가 {{t}}일 때 △는 얼마인지 구하세요.",
+    "prompt_template": "○가 1일 때 △는 {{d + 1}}, ○가 2일 때 △는 {{d + 2}}, ○가 3일 때 △는 {{d + 3}}. ○가 {{t}}일 때 △는 얼마인가요?",
     "solver_rule": "d + t",
     "solution_steps_template": [
       "규칙을 찾습니다: △ = ○ + {{d}}",
-      "○가 1일 때 {{d + 1}}, ○가 2일 때 {{d + 2}} → 매번 1씩 늘어나고 ○보다 {{d}} 큼",
       "○가 {{t}}일 때: {{t}} + {{d}} = {{d + t}}"
+    ],
+    "hint_steps_template": [
+      "매번 1씩 늘어요.",
+      "○에 {{d}}를 더하면 돼요."
     ]
   },
   {
-    "id": "tmpl-pattern-choice-002",
+    "id": "tmpl-pattern-A-03",
     "concept_id": "pattern-001",
     "type": "choice",
-    "difficulty": 2,
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "k": { "min": 2, "max": 5 },
-      "d": { "min": 1, "max": 4 },
-      "t": { "min": 5, "max": 8 }
+      "k": {
+        "min": 2,
+        "max": 5
+      },
+      "d": {
+        "min": 1,
+        "max": 4
+      },
+      "t": {
+        "min": 5,
+        "max": 8
+      }
     },
     "prompt_template": "○가 1일 때 △는 {{k + d}}, ○가 2일 때 △는 {{k * 2 + d}}, ○가 3일 때 △는 {{k * 3 + d}}. ○가 {{t}}일 때 △는?",
+    "solver_rule": "k * t + d",
+    "solution_steps_template": [
+      "규칙을 찾습니다: △ = ○ × {{k}} + {{d}}",
+      "○가 {{t}}일 때: {{k * t + d}}"
+    ],
+    "hint_steps_template": [
+      "곱하는 규칙과 더하는 규칙을 함께 봐요.",
+      "{{k}}를 곱하고 {{d}}를 더해요."
+    ],
     "choices_template": [
       "{{k * t + d}}",
       "{{k * t + d + 4}}",
       "{{k * t + d + 8}}",
       "{{k * t + d + 13}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-A-04",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "k": {
+        "min": 2,
+        "max": 5
+      },
+      "t": {
+        "min": 4,
+        "max": 7
+      }
+    },
+    "prompt_template": "○가 1일 때 △는 {{k + 1}}, ○가 2일 때 △는 {{k + 2}}. 규칙이 △ = ○ + {{k}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "k + t",
+    "solution_steps_template": [
+      "규칙: △ = ○ + {{k}}",
+      "○가 {{t}}이면 △ = {{t}} + {{k}} = {{k + t}}"
     ],
+    "hint_steps_template": [
+      "더하기 규칙이에요.",
+      "{{t}}에 {{k}}를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-A-05",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "k": {
+        "min": 4,
+        "max": 7
+      },
+      "d": {
+        "min": 3,
+        "max": 6
+      },
+      "t": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "규칙이 △ = ○ × {{k}} + {{d}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "k * t + d",
+    "solution_steps_template": [
+      "규칙: △ = ○ × {{k}} + {{d}}",
+      "○가 {{t}}일 때: {{k * t + d}}"
+    ],
+    "hint_steps_template": [
+      "먼저 {{t}} × {{k}}",
+      "그 값에 {{d}}를 더해요."
+    ],
+    "choices_template": [
+      "{{k * t + d}}",
+      "{{k * t + d + 5}}",
+      "{{k * t + d + 10}}",
+      "{{k * t + d + 15}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-A-06",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "k": {
+        "min": 3,
+        "max": 7
+      },
+      "d": {
+        "min": 2,
+        "max": 5
+      },
+      "t": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "규칙이 △ = ○ × {{k}} - {{d}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "k * t - d",
+    "solution_steps_template": [
+      "규칙: △ = ○ × {{k}} - {{d}}",
+      "○가 {{t}}일 때: {{k * t - d}}"
+    ],
+    "hint_steps_template": [
+      "먼저 곱하기를 해요.",
+      "그 값에서 {{d}}를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-A-07",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "k": {
+        "min": 3,
+        "max": 6
+      },
+      "t": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "○가 2일 때 △는 {{k * 2}}, ○가 4일 때 △는 {{k * 4}}. ○가 {{t}}일 때 △는?",
+    "solver_rule": "k * t",
+    "solution_steps_template": [
+      "규칙은 △ = ○ × {{k}}입니다.",
+      "○가 {{t}}일 때: {{k * t}}"
+    ],
+    "hint_steps_template": [
+      "곱셈 규칙을 찾아요.",
+      "{{t}} × {{k}}를 계산해요."
+    ],
+    "choices_template": [
+      "{{k * t}}",
+      "{{k * t + 4}}",
+      "{{k * t + 8}}",
+      "{{k * t + 12}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-A-08",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "k": {
+        "min": 4,
+        "max": 7
+      },
+      "d": {
+        "min": 3,
+        "max": 6
+      },
+      "t": {
+        "min": 7,
+        "max": 10
+      }
+    },
+    "prompt_template": "규칙이 △ = ○ × {{k}} + {{d}}일 때 ○가 {{t}}이면 △는 얼마인가요?",
+    "solver_rule": "k * t + d",
+    "solution_steps_template": [
+      "규칙: △ = ○ × {{k}} + {{d}}",
+      "○가 {{t}}일 때: {{k * t + d}}"
+    ],
+    "hint_steps_template": [
+      "{{t}} × {{k}}를 먼저 계산해요.",
+      "그 값에 {{d}}를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-A-09",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "k": {
+        "min": 5,
+        "max": 9
+      },
+      "d": {
+        "min": 4,
+        "max": 8
+      },
+      "t": {
+        "min": 10,
+        "max": 14
+      }
+    },
+    "prompt_template": "규칙이 △ = (○ × {{k}}) + {{d}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "k * t + d",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{t}} × {{k}} = {{k * t}}",
+      "그 다음 {{d}}를 더합니다: {{k * t + d}}"
+    ],
+    "hint_steps_template": [
+      "곱셈을 먼저 해요.",
+      "그 결과에 {{d}}를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-A-10",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "k": {
+        "min": 6,
+        "max": 10
+      },
+      "d": {
+        "min": 5,
+        "max": 8
+      },
+      "t": {
+        "min": 10,
+        "max": 14
+      }
+    },
+    "prompt_template": "규칙이 △ = (○ + {{d}}) × {{k}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "(t + d) * k",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{t}} + {{d}} = {{t + d}}",
+      "그 다음 곱합니다: {{t + d}} × {{k}} = {{(t + d) * k}}"
+    ],
+    "hint_steps_template": [
+      "먼저 {{t}} + {{d}}를 계산해요.",
+      "그 값에 {{k}}를 곱해요."
+    ],
+    "choices_template": [
+      "{{(t + d) * k}}",
+      "{{(t + d) * k + 6}}",
+      "{{(t + d) * k + 12}}",
+      "{{(t + d) * k + 18}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-B-01",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "k": {
+        "min": 4,
+        "max": 8
+      },
+      "t": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "○가 1일 때 △는 {{k}}, ○가 2일 때 △는 {{k * 2}}, ○가 3일 때 △는 {{k * 3}}. ○가 {{t}}일 때 △는?",
+    "solver_rule": "k * t",
+    "solution_steps_template": [
+      "규칙을 찾습니다: △ = ○ × {{k}}",
+      "○가 {{t}}일 때: {{t}} × {{k}} = {{k * t}}"
+    ],
+    "hint_steps_template": [
+      "○가 1일 때 {{k}}이면 ×{{k}} 규칙이에요.",
+      "{{t}} × {{k}}를 계산해요."
+    ],
+    "choices_template": [
+      "{{k * t}}",
+      "{{k * t + 3}}",
+      "{{k * t + 7}}",
+      "{{k * t + 12}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-B-02",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "d": {
+        "min": 5,
+        "max": 11
+      },
+      "t": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "○가 1일 때 △는 {{d + 1}}, ○가 2일 때 △는 {{d + 2}}, ○가 3일 때 △는 {{d + 3}}. ○가 {{t}}일 때 △는 얼마인가요?",
+    "solver_rule": "d + t",
+    "solution_steps_template": [
+      "규칙을 찾습니다: △ = ○ + {{d}}",
+      "○가 {{t}}일 때: {{t}} + {{d}} = {{d + t}}"
+    ],
+    "hint_steps_template": [
+      "매번 1씩 늘어요.",
+      "○에 {{d}}를 더하면 돼요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-B-03",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "k": {
+        "min": 4,
+        "max": 7
+      },
+      "d": {
+        "min": 3,
+        "max": 6
+      },
+      "t": {
+        "min": 7,
+        "max": 10
+      }
+    },
+    "prompt_template": "○가 1일 때 △는 {{k + d}}, ○가 2일 때 △는 {{k * 2 + d}}, ○가 3일 때 △는 {{k * 3 + d}}. ○가 {{t}}일 때 △는?",
     "solver_rule": "k * t + d",
     "solution_steps_template": [
       "규칙을 찾습니다: △ = ○ × {{k}} + {{d}}",
-      "○가 {{t}}일 때: {{t}} × {{k}} + {{d}} = {{k * t}} + {{d}} = {{k * t + d}}"
+      "○가 {{t}}일 때: {{k * t + d}}"
+    ],
+    "hint_steps_template": [
+      "곱하는 규칙과 더하는 규칙을 함께 봐요.",
+      "{{k}}를 곱하고 {{d}}를 더해요."
+    ],
+    "choices_template": [
+      "{{k * t + d}}",
+      "{{k * t + d + 4}}",
+      "{{k * t + d + 8}}",
+      "{{k * t + d + 13}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-B-04",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "k": {
+        "min": 4,
+        "max": 7
+      },
+      "t": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "○가 1일 때 △는 {{k + 1}}, ○가 2일 때 △는 {{k + 2}}. 규칙이 △ = ○ + {{k}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "k + t",
+    "solution_steps_template": [
+      "규칙: △ = ○ + {{k}}",
+      "○가 {{t}}이면 △ = {{t}} + {{k}} = {{k + t}}"
+    ],
+    "hint_steps_template": [
+      "더하기 규칙이에요.",
+      "{{t}}에 {{k}}를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-B-05",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "k": {
+        "min": 6,
+        "max": 9
+      },
+      "d": {
+        "min": 5,
+        "max": 8
+      },
+      "t": {
+        "min": 9,
+        "max": 13
+      }
+    },
+    "prompt_template": "규칙이 △ = ○ × {{k}} + {{d}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "k * t + d",
+    "solution_steps_template": [
+      "규칙: △ = ○ × {{k}} + {{d}}",
+      "○가 {{t}}일 때: {{k * t + d}}"
+    ],
+    "hint_steps_template": [
+      "먼저 {{t}} × {{k}}",
+      "그 값에 {{d}}를 더해요."
+    ],
+    "choices_template": [
+      "{{k * t + d}}",
+      "{{k * t + d + 5}}",
+      "{{k * t + d + 10}}",
+      "{{k * t + d + 15}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-B-06",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "k": {
+        "min": 5,
+        "max": 9
+      },
+      "d": {
+        "min": 4,
+        "max": 7
+      },
+      "t": {
+        "min": 10,
+        "max": 14
+      }
+    },
+    "prompt_template": "규칙이 △ = ○ × {{k}} - {{d}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "k * t - d",
+    "solution_steps_template": [
+      "규칙: △ = ○ × {{k}} - {{d}}",
+      "○가 {{t}}일 때: {{k * t - d}}"
+    ],
+    "hint_steps_template": [
+      "먼저 곱하기를 해요.",
+      "그 값에서 {{d}}를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-B-07",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "k": {
+        "min": 5,
+        "max": 8
+      },
+      "t": {
+        "min": 8,
+        "max": 11
+      }
+    },
+    "prompt_template": "○가 2일 때 △는 {{k * 2}}, ○가 4일 때 △는 {{k * 4}}. ○가 {{t}}일 때 △는?",
+    "solver_rule": "k * t",
+    "solution_steps_template": [
+      "규칙은 △ = ○ × {{k}}입니다.",
+      "○가 {{t}}일 때: {{k * t}}"
+    ],
+    "hint_steps_template": [
+      "곱셈 규칙을 찾아요.",
+      "{{t}} × {{k}}를 계산해요."
+    ],
+    "choices_template": [
+      "{{k * t}}",
+      "{{k * t + 4}}",
+      "{{k * t + 8}}",
+      "{{k * t + 12}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-B-08",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "k": {
+        "min": 6,
+        "max": 9
+      },
+      "d": {
+        "min": 5,
+        "max": 8
+      },
+      "t": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "규칙이 △ = ○ × {{k}} + {{d}}일 때 ○가 {{t}}이면 △는 얼마인가요?",
+    "solver_rule": "k * t + d",
+    "solution_steps_template": [
+      "규칙: △ = ○ × {{k}} + {{d}}",
+      "○가 {{t}}일 때: {{k * t + d}}"
+    ],
+    "hint_steps_template": [
+      "{{t}} × {{k}}를 먼저 계산해요.",
+      "그 값에 {{d}}를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-B-09",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "k": {
+        "min": 7,
+        "max": 11
+      },
+      "d": {
+        "min": 6,
+        "max": 10
+      },
+      "t": {
+        "min": 12,
+        "max": 16
+      }
+    },
+    "prompt_template": "규칙이 △ = (○ × {{k}}) + {{d}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "k * t + d",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{t}} × {{k}} = {{k * t}}",
+      "그 다음 {{d}}를 더합니다: {{k * t + d}}"
+    ],
+    "hint_steps_template": [
+      "곱셈을 먼저 해요.",
+      "그 결과에 {{d}}를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-B-10",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "k": {
+        "min": 8,
+        "max": 12
+      },
+      "d": {
+        "min": 7,
+        "max": 10
+      },
+      "t": {
+        "min": 12,
+        "max": 16
+      }
+    },
+    "prompt_template": "규칙이 △ = (○ + {{d}}) × {{k}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "(t + d) * k",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{t}} + {{d}} = {{t + d}}",
+      "그 다음 곱합니다: {{t + d}} × {{k}} = {{(t + d) * k}}"
+    ],
+    "hint_steps_template": [
+      "먼저 {{t}} + {{d}}를 계산해요.",
+      "그 값에 {{k}}를 곱해요."
+    ],
+    "choices_template": [
+      "{{(t + d) * k}}",
+      "{{(t + d) * k + 6}}",
+      "{{(t + d) * k + 12}}",
+      "{{(t + d) * k + 18}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-C-01",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "k": {
+        "min": 6,
+        "max": 10
+      },
+      "t": {
+        "min": 9,
+        "max": 13
+      }
+    },
+    "prompt_template": "○가 1일 때 △는 {{k}}, ○가 2일 때 △는 {{k * 2}}, ○가 3일 때 △는 {{k * 3}}. ○가 {{t}}일 때 △는?",
+    "solver_rule": "k * t",
+    "solution_steps_template": [
+      "규칙을 찾습니다: △ = ○ × {{k}}",
+      "○가 {{t}}일 때: {{t}} × {{k}} = {{k * t}}"
+    ],
+    "hint_steps_template": [
+      "○가 1일 때 {{k}}이면 ×{{k}} 규칙이에요.",
+      "{{t}} × {{k}}를 계산해요."
+    ],
+    "choices_template": [
+      "{{k * t}}",
+      "{{k * t + 3}}",
+      "{{k * t + 7}}",
+      "{{k * t + 12}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-C-02",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "d": {
+        "min": 7,
+        "max": 13
+      },
+      "t": {
+        "min": 10,
+        "max": 14
+      }
+    },
+    "prompt_template": "○가 1일 때 △는 {{d + 1}}, ○가 2일 때 △는 {{d + 2}}, ○가 3일 때 △는 {{d + 3}}. ○가 {{t}}일 때 △는 얼마인가요?",
+    "solver_rule": "d + t",
+    "solution_steps_template": [
+      "규칙을 찾습니다: △ = ○ + {{d}}",
+      "○가 {{t}}일 때: {{t}} + {{d}} = {{d + t}}"
+    ],
+    "hint_steps_template": [
+      "매번 1씩 늘어요.",
+      "○에 {{d}}를 더하면 돼요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-C-03",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "k": {
+        "min": 6,
+        "max": 9
+      },
+      "d": {
+        "min": 5,
+        "max": 8
+      },
+      "t": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "○가 1일 때 △는 {{k + d}}, ○가 2일 때 △는 {{k * 2 + d}}, ○가 3일 때 △는 {{k * 3 + d}}. ○가 {{t}}일 때 △는?",
+    "solver_rule": "k * t + d",
+    "solution_steps_template": [
+      "규칙을 찾습니다: △ = ○ × {{k}} + {{d}}",
+      "○가 {{t}}일 때: {{k * t + d}}"
+    ],
+    "hint_steps_template": [
+      "곱하는 규칙과 더하는 규칙을 함께 봐요.",
+      "{{k}}를 곱하고 {{d}}를 더해요."
+    ],
+    "choices_template": [
+      "{{k * t + d}}",
+      "{{k * t + d + 4}}",
+      "{{k * t + d + 8}}",
+      "{{k * t + d + 13}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-C-04",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "k": {
+        "min": 6,
+        "max": 9
+      },
+      "t": {
+        "min": 8,
+        "max": 11
+      }
+    },
+    "prompt_template": "○가 1일 때 △는 {{k + 1}}, ○가 2일 때 △는 {{k + 2}}. 규칙이 △ = ○ + {{k}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "k + t",
+    "solution_steps_template": [
+      "규칙: △ = ○ + {{k}}",
+      "○가 {{t}}이면 △ = {{t}} + {{k}} = {{k + t}}"
+    ],
+    "hint_steps_template": [
+      "더하기 규칙이에요.",
+      "{{t}}에 {{k}}를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-C-05",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "k": {
+        "min": 8,
+        "max": 11
+      },
+      "d": {
+        "min": 7,
+        "max": 10
+      },
+      "t": {
+        "min": 11,
+        "max": 15
+      }
+    },
+    "prompt_template": "규칙이 △ = ○ × {{k}} + {{d}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "k * t + d",
+    "solution_steps_template": [
+      "규칙: △ = ○ × {{k}} + {{d}}",
+      "○가 {{t}}일 때: {{k * t + d}}"
+    ],
+    "hint_steps_template": [
+      "먼저 {{t}} × {{k}}",
+      "그 값에 {{d}}를 더해요."
+    ],
+    "choices_template": [
+      "{{k * t + d}}",
+      "{{k * t + d + 5}}",
+      "{{k * t + d + 10}}",
+      "{{k * t + d + 15}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-C-06",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "k": {
+        "min": 7,
+        "max": 11
+      },
+      "d": {
+        "min": 6,
+        "max": 9
+      },
+      "t": {
+        "min": 12,
+        "max": 16
+      }
+    },
+    "prompt_template": "규칙이 △ = ○ × {{k}} - {{d}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "k * t - d",
+    "solution_steps_template": [
+      "규칙: △ = ○ × {{k}} - {{d}}",
+      "○가 {{t}}일 때: {{k * t - d}}"
+    ],
+    "hint_steps_template": [
+      "먼저 곱하기를 해요.",
+      "그 값에서 {{d}}를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-C-07",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "k": {
+        "min": 7,
+        "max": 10
+      },
+      "t": {
+        "min": 10,
+        "max": 13
+      }
+    },
+    "prompt_template": "○가 2일 때 △는 {{k * 2}}, ○가 4일 때 △는 {{k * 4}}. ○가 {{t}}일 때 △는?",
+    "solver_rule": "k * t",
+    "solution_steps_template": [
+      "규칙은 △ = ○ × {{k}}입니다.",
+      "○가 {{t}}일 때: {{k * t}}"
+    ],
+    "hint_steps_template": [
+      "곱셈 규칙을 찾아요.",
+      "{{t}} × {{k}}를 계산해요."
+    ],
+    "choices_template": [
+      "{{k * t}}",
+      "{{k * t + 4}}",
+      "{{k * t + 8}}",
+      "{{k * t + 12}}"
+    ]
+  },
+  {
+    "id": "tmpl-pattern-C-08",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "k": {
+        "min": 8,
+        "max": 11
+      },
+      "d": {
+        "min": 7,
+        "max": 10
+      },
+      "t": {
+        "min": 11,
+        "max": 14
+      }
+    },
+    "prompt_template": "규칙이 △ = ○ × {{k}} + {{d}}일 때 ○가 {{t}}이면 △는 얼마인가요?",
+    "solver_rule": "k * t + d",
+    "solution_steps_template": [
+      "규칙: △ = ○ × {{k}} + {{d}}",
+      "○가 {{t}}일 때: {{k * t + d}}"
+    ],
+    "hint_steps_template": [
+      "{{t}} × {{k}}를 먼저 계산해요.",
+      "그 값에 {{d}}를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-C-09",
+    "concept_id": "pattern-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "k": {
+        "min": 9,
+        "max": 13
+      },
+      "d": {
+        "min": 8,
+        "max": 12
+      },
+      "t": {
+        "min": 14,
+        "max": 18
+      }
+    },
+    "prompt_template": "규칙이 △ = (○ × {{k}}) + {{d}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "k * t + d",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{t}} × {{k}} = {{k * t}}",
+      "그 다음 {{d}}를 더합니다: {{k * t + d}}"
+    ],
+    "hint_steps_template": [
+      "곱셈을 먼저 해요.",
+      "그 결과에 {{d}}를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-pattern-C-10",
+    "concept_id": "pattern-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "k": {
+        "min": 10,
+        "max": 14
+      },
+      "d": {
+        "min": 9,
+        "max": 12
+      },
+      "t": {
+        "min": 14,
+        "max": 18
+      }
+    },
+    "prompt_template": "규칙이 △ = (○ + {{d}}) × {{k}}일 때 ○가 {{t}}이면 △는?",
+    "solver_rule": "(t + d) * k",
+    "solution_steps_template": [
+      "괄호 안을 먼저 계산합니다: {{t}} + {{d}} = {{t + d}}",
+      "그 다음 곱합니다: {{t + d}} × {{k}} = {{(t + d) * k}}"
+    ],
+    "hint_steps_template": [
+      "먼저 {{t}} + {{d}}를 계산해요.",
+      "그 값에 {{k}}를 곱해요."
+    ],
+    "choices_template": [
+      "{{(t + d) * k}}",
+      "{{(t + d) * k + 6}}",
+      "{{(t + d) * k + 12}}",
+      "{{(t + d) * k + 18}}"
     ]
   }
 ]

@@ -1,69 +1,1067 @@
 [
   {
-    "id": "tmpl-average-choice-001",
+    "id": "tmpl-average-A-01",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "a": { "min": 60, "max": 90 },
-      "b": { "min": 60, "max": 90 },
-      "c": { "min": 60, "max": 90 }
+      "a": {
+        "min": 2,
+        "max": 8
+      },
+      "b": {
+        "min": 2,
+        "max": 8
+      },
+      "c": {
+        "min": 2,
+        "max": 8
+      }
     },
-    "prompt_template": "세 수 {{a}}, {{b}}, {{c}}의 평균은?",
-    "choices_template": [
-      "{{avg3(a, b, c)}}",
-      "{{avg3(a, b, c) + 3}}",
-      "{{avg3(a, b, c) + 7}}",
-      "{{avg3(a, b, c) + 12}}"
-    ],
+    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
     "solver_rule": "avg3(a, b, c)",
     "solution_steps_template": [
-      "세 수를 모두 더합니다: {{a}} + {{b}} + {{c}} = {{sum3(a, b, c)}}",
-      "합을 자료의 수(3)로 나눕니다: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}",
-      "평균: {{avg3(a, b, c)}}"
+      "합: {{a}} + {{b}} + {{c}} = {{sum3(a, b, c)}}",
+      "평균: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 세 수를 더해요.",
+      "3으로 나눠요."
     ]
   },
   {
-    "id": "tmpl-average-number-001",
+    "id": "tmpl-average-A-02",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 2,
+        "max": 8
+      },
+      "b": {
+        "min": 2,
+        "max": 8
+      },
+      "c": {
+        "min": 2,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
+    "solver_rule": "avg3(a, b, c)",
+    "solution_steps_template": [
+      "합: {{sum3(a, b, c)}}",
+      "평균: {{avg3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "세 수를 더한 후 3으로 나눠요.",
+      "평균을 찾으세요."
+    ],
+    "choices_template": [
+      "{{avg3(a, b, c)}}",
+      "{{avg3(a, b, c) + 1}}",
+      "{{avg3(a, b, c) + 2}}",
+      "{{avg3(a, b, c) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-A-03",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 2,
+        "max": 8
+      },
+      "b": {
+        "min": 2,
+        "max": 8
+      },
+      "c": {
+        "min": 2,
+        "max": 8
+      },
+      "d": {
+        "min": 2,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균은?",
+    "solver_rule": "avg4(a, b, c, d)",
+    "solution_steps_template": [
+      "합: {{sum4(a, b, c, d)}}",
+      "평균: {{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}"
+    ],
+    "hint_steps_template": [
+      "네 수의 합을 구해요.",
+      "4로 나눠요."
+    ]
+  },
+  {
+    "id": "tmpl-average-A-04",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 2,
+        "max": 8
+      },
+      "b": {
+        "min": 2,
+        "max": 8
+      },
+      "c": {
+        "min": 2,
+        "max": 8
+      },
+      "d": {
+        "min": 2,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균은?",
+    "solver_rule": "avg4(a, b, c, d)",
+    "solution_steps_template": [
+      "합: {{sum4(a, b, c, d)}}",
+      "평균: {{avg4(a, b, c, d)}}"
+    ],
+    "hint_steps_template": [
+      "네 수를 더한 뒤 4로 나눠요.",
+      "평균을 고르세요."
+    ],
+    "choices_template": [
+      "{{avg4(a, b, c, d)}}",
+      "{{avg4(a, b, c, d) + 1}}",
+      "{{avg4(a, b, c, d) + 2}}",
+      "{{avg4(a, b, c, d) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-A-05",
     "concept_id": "average-001",
     "type": "number",
     "difficulty": 2,
+    "set_id": "A",
     "param_schema": {
-      "a": { "min": 50, "max": 95 },
-      "b": { "min": 50, "max": 95 },
-      "c": { "min": 50, "max": 95 },
-      "d": { "min": 50, "max": 95 }
+      "a": {
+        "min": 5,
+        "max": 11
+      },
+      "b": {
+        "min": 5,
+        "max": 11
+      },
+      "c": {
+        "min": 5,
+        "max": 11
+      }
     },
-    "prompt_template": "네 수 {{a}}, {{b}}, {{c}}, {{d}}의 평균을 구하세요.",
-    "solver_rule": "avg4(a, b, c, d)",
+    "prompt_template": "{{a}}, {{b}}, {{c}}의 합이 {{sum3(a, b, c)}}일 때 평균은?",
+    "solver_rule": "avg3(a, b, c)",
     "solution_steps_template": [
-      "네 수를 모두 더합니다: {{a}} + {{b}} + {{c}} + {{d}} = {{sum4(a, b, c, d)}}",
-      "합을 자료의 수(4)로 나눕니다: {{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}",
-      "평균: {{avg4(a, b, c, d)}}"
+      "합은 {{sum3(a, b, c)}}입니다.",
+      "평균: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "합을 3으로 나누면 돼요.",
+      "평균을 계산해요."
     ]
   },
   {
-    "id": "tmpl-average-choice-002",
+    "id": "tmpl-average-A-06",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 5,
+        "max": 11
+      },
+      "b": {
+        "min": 5,
+        "max": 11
+      },
+      "c": {
+        "min": 5,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
+    "solver_rule": "avg3(a, b, c)",
+    "solution_steps_template": [
+      "합: {{sum3(a, b, c)}}",
+      "평균: {{avg3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "세 수를 더해요.",
+      "3으로 나눠요."
+    ],
+    "choices_template": [
+      "{{avg3(a, b, c)}}",
+      "{{avg3(a, b, c) + 1}}",
+      "{{avg3(a, b, c) + 2}}",
+      "{{avg3(a, b, c) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-A-07",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 5,
+        "max": 11
+      },
+      "b": {
+        "min": 5,
+        "max": 11
+      },
+      "c": {
+        "min": 5,
+        "max": 11
+      },
+      "d": {
+        "min": 5,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균에서 1을 더하면?",
+    "solver_rule": "avg4(a, b, c, d) + 1",
+    "solution_steps_template": [
+      "평균: {{avg4(a, b, c, d)}}",
+      "1을 더하면 {{avg4(a, b, c, d) + 1}}"
+    ],
+    "hint_steps_template": [
+      "평균을 먼저 구해요.",
+      "그 값에 1을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-average-A-08",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 5,
+        "max": 11
+      },
+      "b": {
+        "min": 5,
+        "max": 11
+      },
+      "c": {
+        "min": 5,
+        "max": 11
+      },
+      "d": {
+        "min": 5,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 합은?",
+    "solver_rule": "sum4(a, b, c, d)",
+    "solution_steps_template": [
+      "합: {{sum4(a, b, c, d)}}"
+    ],
+    "hint_steps_template": [
+      "네 수를 모두 더해요.",
+      "합을 고르세요."
+    ],
+    "choices_template": [
+      "{{sum4(a, b, c, d)}}",
+      "{{sum4(a, b, c, d) + 2}}",
+      "{{sum4(a, b, c, d) + 4}}",
+      "{{sum4(a, b, c, d) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-A-09",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 7,
+        "max": 14
+      },
+      "b": {
+        "min": 7,
+        "max": 14
+      },
+      "c": {
+        "min": 7,
+        "max": 14
+      }
+    },
+    "prompt_template": "세 수의 평균이 {{avg3(a, b, c)}}일 때 합은?",
+    "solver_rule": "sum3(a, b, c)",
+    "solution_steps_template": [
+      "평균 × 개수 = 합",
+      "{{avg3(a, b, c)}} × 3 = {{sum3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "평균 × 개수 = 합",
+      "3을 곱해요."
+    ]
+  },
+  {
+    "id": "tmpl-average-A-10",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "a": {
+        "min": 7,
+        "max": 14
+      },
+      "b": {
+        "min": 7,
+        "max": 14
+      },
+      "c": {
+        "min": 7,
+        "max": 14
+      }
+    },
+    "prompt_template": "세 수의 평균이 {{avg3(a, b, c)}}일 때 합은?",
+    "solver_rule": "sum3(a, b, c)",
+    "solution_steps_template": [
+      "평균 × 개수 = 합",
+      "{{avg3(a, b, c)}} × 3 = {{sum3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "평균에 3을 곱하면 합이에요.",
+      "정답을 선택해요."
+    ],
+    "choices_template": [
+      "{{sum3(a, b, c)}}",
+      "{{sum3(a, b, c) + 3}}",
+      "{{sum3(a, b, c) + 6}}",
+      "{{sum3(a, b, c) + 9}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-B-01",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 10
+      },
+      "b": {
+        "min": 4,
+        "max": 10
+      },
+      "c": {
+        "min": 4,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
+    "solver_rule": "avg3(a, b, c)",
+    "solution_steps_template": [
+      "합: {{a}} + {{b}} + {{c}} = {{sum3(a, b, c)}}",
+      "평균: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 세 수를 더해요.",
+      "3으로 나눠요."
+    ]
+  },
+  {
+    "id": "tmpl-average-B-02",
     "concept_id": "average-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "B",
     "param_schema": {
-      "a": { "min": 70, "max": 100 },
-      "b": { "min": 70, "max": 100 },
-      "c": { "min": 70, "max": 100 }
+      "a": {
+        "min": 4,
+        "max": 10
+      },
+      "b": {
+        "min": 4,
+        "max": 10
+      },
+      "c": {
+        "min": 4,
+        "max": 10
+      }
     },
-    "prompt_template": "수학 {{a}}점, 국어 {{b}}점, 영어 {{c}}점의 평균 점수는?",
-    "choices_template": [
-      "{{avg3(a, b, c)}}",
-      "{{avg3(a, b, c) + 5}}",
-      "{{avg3(a, b, c) + 10}}",
-      "{{avg3(a, b, c) - 5}}"
-    ],
+    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
     "solver_rule": "avg3(a, b, c)",
     "solution_steps_template": [
-      "세 과목 점수를 더합니다: {{a}} + {{b}} + {{c}} = {{sum3(a, b, c)}}",
-      "합을 과목 수(3)로 나눕니다: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}",
-      "평균 점수: {{avg3(a, b, c)}}점"
+      "합: {{sum3(a, b, c)}}",
+      "평균: {{avg3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "세 수를 더한 후 3으로 나눠요.",
+      "평균을 찾으세요."
+    ],
+    "choices_template": [
+      "{{avg3(a, b, c)}}",
+      "{{avg3(a, b, c) + 1}}",
+      "{{avg3(a, b, c) + 2}}",
+      "{{avg3(a, b, c) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-B-03",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 10
+      },
+      "b": {
+        "min": 4,
+        "max": 10
+      },
+      "c": {
+        "min": 4,
+        "max": 10
+      },
+      "d": {
+        "min": 4,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균은?",
+    "solver_rule": "avg4(a, b, c, d)",
+    "solution_steps_template": [
+      "합: {{sum4(a, b, c, d)}}",
+      "평균: {{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}"
+    ],
+    "hint_steps_template": [
+      "네 수의 합을 구해요.",
+      "4로 나눠요."
+    ]
+  },
+  {
+    "id": "tmpl-average-B-04",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 10
+      },
+      "b": {
+        "min": 4,
+        "max": 10
+      },
+      "c": {
+        "min": 4,
+        "max": 10
+      },
+      "d": {
+        "min": 4,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균은?",
+    "solver_rule": "avg4(a, b, c, d)",
+    "solution_steps_template": [
+      "합: {{sum4(a, b, c, d)}}",
+      "평균: {{avg4(a, b, c, d)}}"
+    ],
+    "hint_steps_template": [
+      "네 수를 더한 뒤 4로 나눠요.",
+      "평균을 고르세요."
+    ],
+    "choices_template": [
+      "{{avg4(a, b, c, d)}}",
+      "{{avg4(a, b, c, d) + 1}}",
+      "{{avg4(a, b, c, d) + 2}}",
+      "{{avg4(a, b, c, d) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-B-05",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 7,
+        "max": 13
+      },
+      "b": {
+        "min": 7,
+        "max": 13
+      },
+      "c": {
+        "min": 7,
+        "max": 13
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}의 합이 {{sum3(a, b, c)}}일 때 평균은?",
+    "solver_rule": "avg3(a, b, c)",
+    "solution_steps_template": [
+      "합은 {{sum3(a, b, c)}}입니다.",
+      "평균: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "합을 3으로 나누면 돼요.",
+      "평균을 계산해요."
+    ]
+  },
+  {
+    "id": "tmpl-average-B-06",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 7,
+        "max": 13
+      },
+      "b": {
+        "min": 7,
+        "max": 13
+      },
+      "c": {
+        "min": 7,
+        "max": 13
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
+    "solver_rule": "avg3(a, b, c)",
+    "solution_steps_template": [
+      "합: {{sum3(a, b, c)}}",
+      "평균: {{avg3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "세 수를 더해요.",
+      "3으로 나눠요."
+    ],
+    "choices_template": [
+      "{{avg3(a, b, c)}}",
+      "{{avg3(a, b, c) + 1}}",
+      "{{avg3(a, b, c) + 2}}",
+      "{{avg3(a, b, c) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-B-07",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 7,
+        "max": 13
+      },
+      "b": {
+        "min": 7,
+        "max": 13
+      },
+      "c": {
+        "min": 7,
+        "max": 13
+      },
+      "d": {
+        "min": 7,
+        "max": 13
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균에서 1을 더하면?",
+    "solver_rule": "avg4(a, b, c, d) + 1",
+    "solution_steps_template": [
+      "평균: {{avg4(a, b, c, d)}}",
+      "1을 더하면 {{avg4(a, b, c, d) + 1}}"
+    ],
+    "hint_steps_template": [
+      "평균을 먼저 구해요.",
+      "그 값에 1을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-average-B-08",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 7,
+        "max": 13
+      },
+      "b": {
+        "min": 7,
+        "max": 13
+      },
+      "c": {
+        "min": 7,
+        "max": 13
+      },
+      "d": {
+        "min": 7,
+        "max": 13
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 합은?",
+    "solver_rule": "sum4(a, b, c, d)",
+    "solution_steps_template": [
+      "합: {{sum4(a, b, c, d)}}"
+    ],
+    "hint_steps_template": [
+      "네 수를 모두 더해요.",
+      "합을 고르세요."
+    ],
+    "choices_template": [
+      "{{sum4(a, b, c, d)}}",
+      "{{sum4(a, b, c, d) + 2}}",
+      "{{sum4(a, b, c, d) + 4}}",
+      "{{sum4(a, b, c, d) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-B-09",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 9,
+        "max": 16
+      },
+      "b": {
+        "min": 9,
+        "max": 16
+      },
+      "c": {
+        "min": 9,
+        "max": 16
+      }
+    },
+    "prompt_template": "세 수의 평균이 {{avg3(a, b, c)}}일 때 합은?",
+    "solver_rule": "sum3(a, b, c)",
+    "solution_steps_template": [
+      "평균 × 개수 = 합",
+      "{{avg3(a, b, c)}} × 3 = {{sum3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "평균 × 개수 = 합",
+      "3을 곱해요."
+    ]
+  },
+  {
+    "id": "tmpl-average-B-10",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "a": {
+        "min": 9,
+        "max": 16
+      },
+      "b": {
+        "min": 9,
+        "max": 16
+      },
+      "c": {
+        "min": 9,
+        "max": 16
+      }
+    },
+    "prompt_template": "세 수의 평균이 {{avg3(a, b, c)}}일 때 합은?",
+    "solver_rule": "sum3(a, b, c)",
+    "solution_steps_template": [
+      "평균 × 개수 = 합",
+      "{{avg3(a, b, c)}} × 3 = {{sum3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "평균에 3을 곱하면 합이에요.",
+      "정답을 선택해요."
+    ],
+    "choices_template": [
+      "{{sum3(a, b, c)}}",
+      "{{sum3(a, b, c) + 3}}",
+      "{{sum3(a, b, c) + 6}}",
+      "{{sum3(a, b, c) + 9}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-C-01",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 12
+      },
+      "b": {
+        "min": 6,
+        "max": 12
+      },
+      "c": {
+        "min": 6,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
+    "solver_rule": "avg3(a, b, c)",
+    "solution_steps_template": [
+      "합: {{a}} + {{b}} + {{c}} = {{sum3(a, b, c)}}",
+      "평균: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 세 수를 더해요.",
+      "3으로 나눠요."
+    ]
+  },
+  {
+    "id": "tmpl-average-C-02",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 12
+      },
+      "b": {
+        "min": 6,
+        "max": 12
+      },
+      "c": {
+        "min": 6,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
+    "solver_rule": "avg3(a, b, c)",
+    "solution_steps_template": [
+      "합: {{sum3(a, b, c)}}",
+      "평균: {{avg3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "세 수를 더한 후 3으로 나눠요.",
+      "평균을 찾으세요."
+    ],
+    "choices_template": [
+      "{{avg3(a, b, c)}}",
+      "{{avg3(a, b, c) + 1}}",
+      "{{avg3(a, b, c) + 2}}",
+      "{{avg3(a, b, c) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-C-03",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 12
+      },
+      "b": {
+        "min": 6,
+        "max": 12
+      },
+      "c": {
+        "min": 6,
+        "max": 12
+      },
+      "d": {
+        "min": 6,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균은?",
+    "solver_rule": "avg4(a, b, c, d)",
+    "solution_steps_template": [
+      "합: {{sum4(a, b, c, d)}}",
+      "평균: {{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}"
+    ],
+    "hint_steps_template": [
+      "네 수의 합을 구해요.",
+      "4로 나눠요."
+    ]
+  },
+  {
+    "id": "tmpl-average-C-04",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 12
+      },
+      "b": {
+        "min": 6,
+        "max": 12
+      },
+      "c": {
+        "min": 6,
+        "max": 12
+      },
+      "d": {
+        "min": 6,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균은?",
+    "solver_rule": "avg4(a, b, c, d)",
+    "solution_steps_template": [
+      "합: {{sum4(a, b, c, d)}}",
+      "평균: {{avg4(a, b, c, d)}}"
+    ],
+    "hint_steps_template": [
+      "네 수를 더한 뒤 4로 나눠요.",
+      "평균을 고르세요."
+    ],
+    "choices_template": [
+      "{{avg4(a, b, c, d)}}",
+      "{{avg4(a, b, c, d) + 1}}",
+      "{{avg4(a, b, c, d) + 2}}",
+      "{{avg4(a, b, c, d) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-C-05",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 9,
+        "max": 15
+      },
+      "b": {
+        "min": 9,
+        "max": 15
+      },
+      "c": {
+        "min": 9,
+        "max": 15
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}의 합이 {{sum3(a, b, c)}}일 때 평균은?",
+    "solver_rule": "avg3(a, b, c)",
+    "solution_steps_template": [
+      "합은 {{sum3(a, b, c)}}입니다.",
+      "평균: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "합을 3으로 나누면 돼요.",
+      "평균을 계산해요."
+    ]
+  },
+  {
+    "id": "tmpl-average-C-06",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 9,
+        "max": 15
+      },
+      "b": {
+        "min": 9,
+        "max": 15
+      },
+      "c": {
+        "min": 9,
+        "max": 15
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
+    "solver_rule": "avg3(a, b, c)",
+    "solution_steps_template": [
+      "합: {{sum3(a, b, c)}}",
+      "평균: {{avg3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "세 수를 더해요.",
+      "3으로 나눠요."
+    ],
+    "choices_template": [
+      "{{avg3(a, b, c)}}",
+      "{{avg3(a, b, c) + 1}}",
+      "{{avg3(a, b, c) + 2}}",
+      "{{avg3(a, b, c) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-C-07",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 9,
+        "max": 15
+      },
+      "b": {
+        "min": 9,
+        "max": 15
+      },
+      "c": {
+        "min": 9,
+        "max": 15
+      },
+      "d": {
+        "min": 9,
+        "max": 15
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균에서 1을 더하면?",
+    "solver_rule": "avg4(a, b, c, d) + 1",
+    "solution_steps_template": [
+      "평균: {{avg4(a, b, c, d)}}",
+      "1을 더하면 {{avg4(a, b, c, d) + 1}}"
+    ],
+    "hint_steps_template": [
+      "평균을 먼저 구해요.",
+      "그 값에 1을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-average-C-08",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 9,
+        "max": 15
+      },
+      "b": {
+        "min": 9,
+        "max": 15
+      },
+      "c": {
+        "min": 9,
+        "max": 15
+      },
+      "d": {
+        "min": 9,
+        "max": 15
+      }
+    },
+    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 합은?",
+    "solver_rule": "sum4(a, b, c, d)",
+    "solution_steps_template": [
+      "합: {{sum4(a, b, c, d)}}"
+    ],
+    "hint_steps_template": [
+      "네 수를 모두 더해요.",
+      "합을 고르세요."
+    ],
+    "choices_template": [
+      "{{sum4(a, b, c, d)}}",
+      "{{sum4(a, b, c, d) + 2}}",
+      "{{sum4(a, b, c, d) + 4}}",
+      "{{sum4(a, b, c, d) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-average-C-09",
+    "concept_id": "average-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 11,
+        "max": 18
+      },
+      "b": {
+        "min": 11,
+        "max": 18
+      },
+      "c": {
+        "min": 11,
+        "max": 18
+      }
+    },
+    "prompt_template": "세 수의 평균이 {{avg3(a, b, c)}}일 때 합은?",
+    "solver_rule": "sum3(a, b, c)",
+    "solution_steps_template": [
+      "평균 × 개수 = 합",
+      "{{avg3(a, b, c)}} × 3 = {{sum3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "평균 × 개수 = 합",
+      "3을 곱해요."
+    ]
+  },
+  {
+    "id": "tmpl-average-C-10",
+    "concept_id": "average-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "a": {
+        "min": 11,
+        "max": 18
+      },
+      "b": {
+        "min": 11,
+        "max": 18
+      },
+      "c": {
+        "min": 11,
+        "max": 18
+      }
+    },
+    "prompt_template": "세 수의 평균이 {{avg3(a, b, c)}}일 때 합은?",
+    "solver_rule": "sum3(a, b, c)",
+    "solution_steps_template": [
+      "평균 × 개수 = 합",
+      "{{avg3(a, b, c)}} × 3 = {{sum3(a, b, c)}}"
+    ],
+    "hint_steps_template": [
+      "평균에 3을 곱하면 합이에요.",
+      "정답을 선택해요."
+    ],
+    "choices_template": [
+      "{{sum3(a, b, c)}}",
+      "{{sum3(a, b, c) + 3}}",
+      "{{sum3(a, b, c) + 6}}",
+      "{{sum3(a, b, c) + 9}}"
     ]
   }
 ]

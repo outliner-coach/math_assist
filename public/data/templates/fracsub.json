@@ -1,74 +1,1157 @@
 [
   {
-    "id": "tmpl-fracsub-choice-001",
+    "id": "tmpl-fracsub-A-01",
     "concept_id": "fracsub-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n1": { "min": 3, "max": 5 },
-      "d1": { "min": 2, "max": 4 },
-      "n2": { "min": 1, "max": 2 },
-      "d2": { "min": 5, "max": 7 }
+      "n1": {
+        "min": 2,
+        "max": 4
+      },
+      "d1": {
+        "min": 3,
+        "max": 6
+      },
+      "n2": {
+        "min": 1,
+        "max": 3
+      },
+      "d2": {
+        "min": 4,
+        "max": 7
+      }
     },
     "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 통분해요.",
+      "분자를 빼요."
+    ],
     "choices_template": [
       "{{fracSub(n1, d1, n2, d2)}}",
       "{{fracSubOff(n1, d1, n2, d2, 1)}}",
       "{{fracSubOff(n1, d1, n2, d2, 2)}}",
       "{{fracSubOff(n1, d1, n2, d2, 3)}}"
-    ],
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
-    "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "{{n1}}/{{d1}} = {{convertNum1(n1, d1, d2)}}/{{commonDen(d1, d2)}}",
-      "{{n2}}/{{d2}} = {{convertNum2(n2, d1, d2)}}/{{commonDen(d1, d2)}}",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
     ]
   },
   {
-    "id": "tmpl-fracsub-number-001",
+    "id": "tmpl-fracsub-A-02",
     "concept_id": "fracsub-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n1": { "min": 3, "max": 5 },
-      "d1": { "min": 3, "max": 4 },
-      "n2": { "min": 1, "max": 2 },
-      "d2": { "min": 5, "max": 8 }
+      "n1": {
+        "min": 2,
+        "max": 5
+      },
+      "d1": {
+        "min": 4,
+        "max": 7
+      },
+      "n2": {
+        "min": 1,
+        "max": 3
+      },
+      "d2": {
+        "min": 5,
+        "max": 8
+      }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} 를 계산하세요. (예: 5/12)",
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} 를 계산하세요.",
     "solver_rule": "fracSub(n1, d1, n2, d2)",
     "solution_steps_template": [
       "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "{{n1}}/{{d1}} = {{convertNum1(n1, d1, d2)}}/{{commonDen(d1, d2)}}",
-      "{{n2}}/{{d2}} = {{convertNum2(n2, d1, d2)}}/{{commonDen(d1, d2)}}",
       "분자끼리 뺍니다.",
       "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 찾아요.",
+      "분자끼리 빼요."
     ]
   },
   {
-    "id": "tmpl-fracsub-choice-002",
+    "id": "tmpl-fracsub-A-03",
     "concept_id": "fracsub-001",
     "type": "choice",
-    "difficulty": 2,
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n1": { "min": 4, "max": 6 },
-      "d1": { "min": 2, "max": 3 },
-      "n2": { "min": 1, "max": 3 },
-      "d2": { "min": 4, "max": 6 }
+      "n1": {
+        "min": 3,
+        "max": 5
+      },
+      "d1": {
+        "min": 3,
+        "max": 5
+      },
+      "n2": {
+        "min": 1,
+        "max": 3
+      },
+      "d2": {
+        "min": 4,
+        "max": 6
+      }
     },
     "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 빼요.",
+      "정답은 기약분수예요."
+    ],
     "choices_template": [
       "{{fracSub(n1, d1, n2, d2)}}",
       "{{fracSubOff(n1, d1, n2, d2, -1)}}",
       "{{fracSubOff(n1, d1, n2, d2, 2)}}",
       "{{fracSubOff(n1, d1, n2, d2, 4)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-A-04",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 6
+      },
+      "d1": {
+        "min": 4,
+        "max": 7
+      },
+      "n2": {
+        "min": 1,
+        "max": 3
+      },
+      "d2": {
+        "min": 5,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} 를 계산하세요. (예: 1/6)",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
     ],
+    "hint_steps_template": [
+      "공통 분모를 찾고 빼요.",
+      "분자끼리 뺄셈이에요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-A-05",
+    "concept_id": "fracsub-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 4,
+        "max": 7
+      },
+      "d1": {
+        "min": 5,
+        "max": 9
+      },
+      "n2": {
+        "min": 2,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 빼요.",
+      "분자를 빼는 계산이에요."
+    ],
+    "choices_template": [
+      "{{fracSub(n1, d1, n2, d2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 3)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 5)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-A-06",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 4,
+        "max": 7
+      },
+      "d1": {
+        "min": 5,
+        "max": 9
+      },
+      "n2": {
+        "min": 3,
+        "max": 6
+      },
+      "d2": {
+        "min": 7,
+        "max": 10
+      }
+    },
+    "prompt_template": "남은 케이크는 {{n1}}/{{d1}}, 먹은 것은 {{n2}}/{{d2}}입니다. 남은 양에서 먹은 양을 빼면?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분하여 분자를 맞춥니다.",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 빼기예요.",
+      "분자끼리 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-A-07",
+    "concept_id": "fracsub-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 4,
+        "max": 7
+      },
+      "d1": {
+        "min": 5,
+        "max": 9
+      },
+      "n2": {
+        "min": 2,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "통분한 뒤 분자끼리 뺀 값은?",
+    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
+      "차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자를 각각 구해요.",
+      "앞에서 뒤를 빼요."
+    ],
+    "choices_template": [
+      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}",
+      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 1}}",
+      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 2}}",
+      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-A-08",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 4,
+        "max": 7
+      },
+      "d1": {
+        "min": 5,
+        "max": 9
+      },
+      "n2": {
+        "min": 3,
+        "max": 6
+      },
+      "d2": {
+        "min": 7,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}}의 분자를 통분한 뒤 빼면?",
+    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자 차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자끼리 빼요.",
+      "분모는 공통 분모예요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-A-09",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 6,
+        "max": 9
+      },
+      "d1": {
+        "min": 7,
+        "max": 11
+      },
+      "n2": {
+        "min": 4,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "통분한 뒤 분자에 1을 더한 값은?",
+    "solver_rule": "fracSubOff(n1, d1, n2, d2, 1)",
+    "solution_steps_template": [
+      "통분한 뒤 분자에 1을 더합니다.",
+      "정답: {{fracSubOff(n1, d1, n2, d2, 1)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 분자에 1을 더해요.",
+      "기약분수로 써요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-A-10",
+    "concept_id": "fracsub-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 6,
+        "max": 9
+      },
+      "d1": {
+        "min": 7,
+        "max": 11
+      },
+      "n2": {
+        "min": 4,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "두 분수를 뺀 값은?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분 후 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모로 통분해요.",
+      "분자를 빼요."
+    ],
+    "choices_template": [
+      "{{fracSub(n1, d1, n2, d2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-B-01",
+    "concept_id": "fracsub-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 4,
+        "max": 6
+      },
+      "d1": {
+        "min": 5,
+        "max": 8
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 통분해요.",
+      "분자를 빼요."
+    ],
+    "choices_template": [
+      "{{fracSub(n1, d1, n2, d2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-B-02",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 4,
+        "max": 7
+      },
+      "d1": {
+        "min": 6,
+        "max": 9
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 7,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} 를 계산하세요.",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 찾아요.",
+      "분자끼리 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-B-03",
+    "concept_id": "fracsub-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 5,
+        "max": 7
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
     "solver_rule": "fracSub(n1, d1, n2, d2)",
     "solution_steps_template": [
       "공통 분모: {{commonDen(d1, d2)}}",
-      "{{n1}}/{{d1}} - {{n2}}/{{d2}} = {{fracSub(n1, d1, n2, d2)}}"
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 빼요.",
+      "정답은 기약분수예요."
+    ],
+    "choices_template": [
+      "{{fracSub(n1, d1, n2, d2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, -1)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 4)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-B-04",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 6,
+        "max": 9
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 7,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} 를 계산하세요. (예: 1/6)",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 찾고 빼요.",
+      "분자끼리 뺄셈이에요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-B-05",
+    "concept_id": "fracsub-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 6,
+        "max": 9
+      },
+      "d1": {
+        "min": 7,
+        "max": 11
+      },
+      "n2": {
+        "min": 4,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 빼요.",
+      "분자를 빼는 계산이에요."
+    ],
+    "choices_template": [
+      "{{fracSub(n1, d1, n2, d2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 3)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 5)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-B-06",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 6,
+        "max": 9
+      },
+      "d1": {
+        "min": 7,
+        "max": 11
+      },
+      "n2": {
+        "min": 5,
+        "max": 8
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "남은 케이크는 {{n1}}/{{d1}}, 먹은 것은 {{n2}}/{{d2}}입니다. 남은 양에서 먹은 양을 빼면?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분하여 분자를 맞춥니다.",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 빼기예요.",
+      "분자끼리 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-B-07",
+    "concept_id": "fracsub-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 6,
+        "max": 9
+      },
+      "d1": {
+        "min": 7,
+        "max": 11
+      },
+      "n2": {
+        "min": 4,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "통분한 뒤 분자끼리 뺀 값은?",
+    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
+      "차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자를 각각 구해요.",
+      "앞에서 뒤를 빼요."
+    ],
+    "choices_template": [
+      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}",
+      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 1}}",
+      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 2}}",
+      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-B-08",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 6,
+        "max": 9
+      },
+      "d1": {
+        "min": 7,
+        "max": 11
+      },
+      "n2": {
+        "min": 5,
+        "max": 8
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}}의 분자를 통분한 뒤 빼면?",
+    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자 차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자끼리 빼요.",
+      "분모는 공통 분모예요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-B-09",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 8,
+        "max": 11
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 6,
+        "max": 9
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "통분한 뒤 분자에 1을 더한 값은?",
+    "solver_rule": "fracSubOff(n1, d1, n2, d2, 1)",
+    "solution_steps_template": [
+      "통분한 뒤 분자에 1을 더합니다.",
+      "정답: {{fracSubOff(n1, d1, n2, d2, 1)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 분자에 1을 더해요.",
+      "기약분수로 써요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-B-10",
+    "concept_id": "fracsub-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 8,
+        "max": 11
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 6,
+        "max": 9
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "두 분수를 뺀 값은?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분 후 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모로 통분해요.",
+      "분자를 빼요."
+    ],
+    "choices_template": [
+      "{{fracSub(n1, d1, n2, d2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-C-01",
+    "concept_id": "fracsub-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 6,
+        "max": 8
+      },
+      "d1": {
+        "min": 7,
+        "max": 10
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 통분해요.",
+      "분자를 빼요."
+    ],
+    "choices_template": [
+      "{{fracSub(n1, d1, n2, d2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-C-02",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 6,
+        "max": 9
+      },
+      "d1": {
+        "min": 8,
+        "max": 11
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} 를 계산하세요.",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 찾아요.",
+      "분자끼리 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-C-03",
+    "concept_id": "fracsub-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 9
+      },
+      "d1": {
+        "min": 7,
+        "max": 9
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "공통 분모: {{commonDen(d1, d2)}}",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 빼요.",
+      "정답은 기약분수예요."
+    ],
+    "choices_template": [
+      "{{fracSub(n1, d1, n2, d2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, -1)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 4)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-C-04",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 10
+      },
+      "d1": {
+        "min": 8,
+        "max": 11
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 9,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} 를 계산하세요. (예: 1/6)",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모를 찾고 빼요.",
+      "분자끼리 뺄셈이에요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-C-05",
+    "concept_id": "fracsub-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 8,
+        "max": 11
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 6,
+        "max": 9
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 빼요.",
+      "분자를 빼는 계산이에요."
+    ],
+    "choices_template": [
+      "{{fracSub(n1, d1, n2, d2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 3)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 5)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-C-06",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 8,
+        "max": 11
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 7,
+        "max": 10
+      },
+      "d2": {
+        "min": 11,
+        "max": 12
+      }
+    },
+    "prompt_template": "남은 케이크는 {{n1}}/{{d1}}, 먹은 것은 {{n2}}/{{d2}}입니다. 남은 양에서 먹은 양을 빼면?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분하여 분자를 맞춥니다.",
+      "분자끼리 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 빼기예요.",
+      "분자끼리 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-C-07",
+    "concept_id": "fracsub-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 8,
+        "max": 11
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 6,
+        "max": 9
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "통분한 뒤 분자끼리 뺀 값은?",
+    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
+      "차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자를 각각 구해요.",
+      "앞에서 뒤를 빼요."
+    ],
+    "choices_template": [
+      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}",
+      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 1}}",
+      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 2}}",
+      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-C-08",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 8,
+        "max": 11
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 7,
+        "max": 10
+      },
+      "d2": {
+        "min": 11,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}}의 분자를 통분한 뒤 빼면?",
+    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "solution_steps_template": [
+      "통분한 분자 차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "통분한 분자끼리 빼요.",
+      "분모는 공통 분모예요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-C-09",
+    "concept_id": "fracsub-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 10,
+        "max": 13
+      },
+      "d1": {
+        "min": 11,
+        "max": 12
+      },
+      "n2": {
+        "min": 8,
+        "max": 11
+      },
+      "d2": {
+        "min": 12,
+        "max": 12
+      }
+    },
+    "prompt_template": "통분한 뒤 분자에 1을 더한 값은?",
+    "solver_rule": "fracSubOff(n1, d1, n2, d2, 1)",
+    "solution_steps_template": [
+      "통분한 뒤 분자에 1을 더합니다.",
+      "정답: {{fracSubOff(n1, d1, n2, d2, 1)}}"
+    ],
+    "hint_steps_template": [
+      "통분 후 분자에 1을 더해요.",
+      "기약분수로 써요."
+    ]
+  },
+  {
+    "id": "tmpl-fracsub-C-10",
+    "concept_id": "fracsub-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 10,
+        "max": 13
+      },
+      "d1": {
+        "min": 11,
+        "max": 12
+      },
+      "n2": {
+        "min": 8,
+        "max": 11
+      },
+      "d2": {
+        "min": 12,
+        "max": 12
+      }
+    },
+    "prompt_template": "두 분수를 뺀 값은?",
+    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "통분 후 뺍니다.",
+      "정답: {{fracSub(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "공통 분모로 통분해요.",
+      "분자를 빼요."
+    ],
+    "choices_template": [
+      "{{fracSub(n1, d1, n2, d2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
+      "{{fracSubOff(n1, d1, n2, d2, 3)}}"
     ]
   }
 ]

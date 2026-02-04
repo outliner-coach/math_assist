@@ -1,69 +1,902 @@
 [
   {
-    "id": "tmpl-simplify-choice-001",
+    "id": "tmpl-simplify-A-01",
     "concept_id": "simplify-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "f": { "min": 2, "max": 4 },
-      "p": { "min": 1, "max": 4 },
-      "q": { "min": 3, "max": 7 }
+      "n": {
+        "min": 2,
+        "max": 6
+      },
+      "d": {
+        "min": 4,
+        "max": 12
+      }
     },
-    "prompt_template": "{{f * p}}/{{f * q}}를 약분하면?",
-    "choices_template": [
-      "{{reduceFrac(f * p, f * q)}}",
-      "{{reduceFracOff(f * p, f * q, 1)}}",
-      "{{reduceFracOff(f * p, f * q, 2)}}",
-      "{{reduceFracOff(f * p, f * q, 3)}}"
-    ],
-    "solver_rule": "reduceFrac(f * p, f * q)",
+    "prompt_template": "{{n}}/{{d}}를 약분하면?",
+    "solver_rule": "reduceFrac(n, d)",
     "solution_steps_template": [
-      "{{f * p}}와 {{f * q}}의 최대공약수를 구합니다.",
-      "분자와 분모를 최대공약수로 나눕니다.",
-      "{{f * p}}/{{f * q}} = {{reduceFrac(f * p, f * q)}}"
+      "{{n}}과 {{d}}의 공약수를 찾습니다.",
+      "약분 결과: {{reduceFrac(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "분자와 분모를 같은 수로 나눠요.",
+      "기약분수로 바꿔요."
+    ],
+    "choices_template": [
+      "{{reduceFrac(n, d)}}",
+      "{{reduceFracOff(n, d, 1)}}",
+      "{{reduceFracOff(n, d, 2)}}",
+      "{{reduceFracOff(n, d, 3)}}"
     ]
   },
   {
-    "id": "tmpl-simplify-number-001",
+    "id": "tmpl-simplify-A-02",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 4,
+        "max": 10
+      },
+      "d": {
+        "min": 6,
+        "max": 14
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분했을 때 분자는?",
+    "solver_rule": "reducedNum(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분자: {{reducedNum(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분한 분수를 먼저 구해요.",
+      "분자를 적어요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-A-03",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 4,
+        "max": 10
+      },
+      "d": {
+        "min": 6,
+        "max": 14
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분했을 때 분모는?",
+    "solver_rule": "reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분모: {{reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분한 분수를 먼저 구해요.",
+      "분모를 적어요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-A-04",
+    "concept_id": "simplify-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 6,
+        "max": 12
+      },
+      "d": {
+        "min": 8,
+        "max": 18
+      }
+    },
+    "prompt_template": "다음 중 {{n}}/{{d}}의 기약분수는?",
+    "solver_rule": "reduceFrac(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "기약분수는 더 이상 약분되지 않습니다."
+    ],
+    "hint_steps_template": [
+      "분자와 분모를 최대한 나눠요.",
+      "기약분수를 찾으세요."
+    ],
+    "choices_template": [
+      "{{reduceFrac(n, d)}}",
+      "{{reduceFracOff(n, d, 2)}}",
+      "{{reduceFracOff(n, d, 3)}}",
+      "{{reduceFracOff(n, d, 4)}}"
+    ]
+  },
+  {
+    "id": "tmpl-simplify-A-05",
     "concept_id": "simplify-001",
     "type": "number",
     "difficulty": 2,
+    "set_id": "A",
     "param_schema": {
-      "f": { "min": 2, "max": 5 },
-      "p": { "min": 1, "max": 5 },
-      "q": { "min": 2, "max": 6 }
+      "n": {
+        "min": 7,
+        "max": 15
+      },
+      "d": {
+        "min": 11,
+        "max": 21
+      }
     },
-    "prompt_template": "{{f * p}}/{{f * q}}를 기약분수로 나타내세요. (예: 1/2)",
-    "solver_rule": "reduceFrac(f * p, f * q)",
+    "prompt_template": "{{n}}/{{d}}를 약분한 뒤 분자와 분모의 합은?",
+    "solver_rule": "reducedNum(n, d) + reducedDen(n, d)",
     "solution_steps_template": [
-      "{{f * p}}와 {{f * q}}의 공약수를 찾습니다.",
-      "최대공약수인 {{f}}로 분자와 분모를 나눕니다.",
-      "{{f * p}} ÷ {{f}} = {{p}}, {{f * q}} ÷ {{f}} = {{q}}",
-      "기약분수: {{reduceFrac(f * p, f * q)}}"
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분자+분모: {{reducedNum(n, d)}} + {{reducedDen(n, d)}} = {{reducedNum(n, d) + reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분한 분자와 분모를 구해요.",
+      "두 값을 더해요."
     ]
   },
   {
-    "id": "tmpl-simplify-choice-002",
+    "id": "tmpl-simplify-A-06",
+    "concept_id": "simplify-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 7,
+        "max": 15
+      },
+      "d": {
+        "min": 11,
+        "max": 21
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분했을 때 분자는?",
+    "solver_rule": "reducedNum(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분자: {{reducedNum(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 약분하세요.",
+      "분자를 확인하세요."
+    ],
+    "choices_template": [
+      "{{reducedNum(n, d)}}",
+      "{{reducedNum(n, d) + 1}}",
+      "{{reducedNum(n, d) + 2}}",
+      "{{reducedNum(n, d) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-simplify-A-07",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 9,
+        "max": 17
+      },
+      "d": {
+        "min": 13,
+        "max": 25
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분했을 때 분모는?",
+    "solver_rule": "reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분모: {{reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분 후 분모를 찾아요.",
+      "분모 값만 적어요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-A-08",
+    "concept_id": "simplify-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 9,
+        "max": 17
+      },
+      "d": {
+        "min": 13,
+        "max": 25
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분한 뒤 분모는?",
+    "solver_rule": "reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분모: {{reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분 후 분모를 확인해요.",
+      "정답 보기를 고르세요."
+    ],
+    "choices_template": [
+      "{{reducedDen(n, d)}}",
+      "{{reducedDen(n, d) + 1}}",
+      "{{reducedDen(n, d) + 2}}",
+      "{{reducedDen(n, d) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-simplify-A-09",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 12,
+        "max": 22
+      },
+      "d": {
+        "min": 16,
+        "max": 30
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분한 뒤 분자와 분모의 차는?",
+    "solver_rule": "reducedDen(n, d) - reducedNum(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "차: {{reducedDen(n, d)}} - {{reducedNum(n, d)}} = {{reducedDen(n, d) - reducedNum(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분한 분자와 분모를 구해요.",
+      "분모에서 분자를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-A-10",
+    "concept_id": "simplify-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 12,
+        "max": 22
+      },
+      "d": {
+        "min": 16,
+        "max": 30
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분한 뒤 분자와 분모의 합은?",
+    "solver_rule": "reducedNum(n, d) + reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "합: {{reducedNum(n, d) + reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분 후 분자와 분모를 더해요.",
+      "합을 선택해요."
+    ],
+    "choices_template": [
+      "{{reducedNum(n, d) + reducedDen(n, d)}}",
+      "{{reducedNum(n, d) + reducedDen(n, d) + 2}}",
+      "{{reducedNum(n, d) + reducedDen(n, d) + 4}}",
+      "{{reducedNum(n, d) + reducedDen(n, d) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-simplify-B-01",
     "concept_id": "simplify-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "B",
     "param_schema": {
-      "f": { "min": 2, "max": 3 },
-      "p": { "min": 1, "max": 3 },
-      "q": { "min": 4, "max": 8 }
+      "n": {
+        "min": 4,
+        "max": 8
+      },
+      "d": {
+        "min": 6,
+        "max": 14
+      }
     },
-    "prompt_template": "{{f * p}}/{{f * q}}를 약분했을 때 분자는?",
-    "choices_template": [
-      "{{reducedNum(f * p, f * q)}}",
-      "{{reducedNum(f * p, f * q) + 1}}",
-      "{{reducedNum(f * p, f * q) + 2}}",
-      "{{reducedNum(f * p, f * q) + 4}}"
-    ],
-    "solver_rule": "reducedNum(f * p, f * q)",
+    "prompt_template": "{{n}}/{{d}}를 약분하면?",
+    "solver_rule": "reduceFrac(n, d)",
     "solution_steps_template": [
-      "{{f * p}}/{{f * q}}를 약분합니다.",
-      "{{f * p}}/{{f * q}} = {{reduceFrac(f * p, f * q)}}",
-      "약분한 분자: {{reducedNum(f * p, f * q)}}"
+      "{{n}}과 {{d}}의 공약수를 찾습니다.",
+      "약분 결과: {{reduceFrac(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "분자와 분모를 같은 수로 나눠요.",
+      "기약분수로 바꿔요."
+    ],
+    "choices_template": [
+      "{{reduceFrac(n, d)}}",
+      "{{reduceFracOff(n, d, 1)}}",
+      "{{reduceFracOff(n, d, 2)}}",
+      "{{reduceFracOff(n, d, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-simplify-B-02",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 6,
+        "max": 12
+      },
+      "d": {
+        "min": 8,
+        "max": 16
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분했을 때 분자는?",
+    "solver_rule": "reducedNum(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분자: {{reducedNum(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분한 분수를 먼저 구해요.",
+      "분자를 적어요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-B-03",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 6,
+        "max": 12
+      },
+      "d": {
+        "min": 8,
+        "max": 16
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분했을 때 분모는?",
+    "solver_rule": "reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분모: {{reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분한 분수를 먼저 구해요.",
+      "분모를 적어요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-B-04",
+    "concept_id": "simplify-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 8,
+        "max": 14
+      },
+      "d": {
+        "min": 10,
+        "max": 20
+      }
+    },
+    "prompt_template": "다음 중 {{n}}/{{d}}의 기약분수는?",
+    "solver_rule": "reduceFrac(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "기약분수는 더 이상 약분되지 않습니다."
+    ],
+    "hint_steps_template": [
+      "분자와 분모를 최대한 나눠요.",
+      "기약분수를 찾으세요."
+    ],
+    "choices_template": [
+      "{{reduceFrac(n, d)}}",
+      "{{reduceFracOff(n, d, 2)}}",
+      "{{reduceFracOff(n, d, 3)}}",
+      "{{reduceFracOff(n, d, 4)}}"
+    ]
+  },
+  {
+    "id": "tmpl-simplify-B-05",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 9,
+        "max": 17
+      },
+      "d": {
+        "min": 13,
+        "max": 23
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분한 뒤 분자와 분모의 합은?",
+    "solver_rule": "reducedNum(n, d) + reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분자+분모: {{reducedNum(n, d)}} + {{reducedDen(n, d)}} = {{reducedNum(n, d) + reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분한 분자와 분모를 구해요.",
+      "두 값을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-B-06",
+    "concept_id": "simplify-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 9,
+        "max": 17
+      },
+      "d": {
+        "min": 13,
+        "max": 23
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분했을 때 분자는?",
+    "solver_rule": "reducedNum(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분자: {{reducedNum(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 약분하세요.",
+      "분자를 확인하세요."
+    ],
+    "choices_template": [
+      "{{reducedNum(n, d)}}",
+      "{{reducedNum(n, d) + 1}}",
+      "{{reducedNum(n, d) + 2}}",
+      "{{reducedNum(n, d) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-simplify-B-07",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 11,
+        "max": 19
+      },
+      "d": {
+        "min": 15,
+        "max": 27
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분했을 때 분모는?",
+    "solver_rule": "reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분모: {{reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분 후 분모를 찾아요.",
+      "분모 값만 적어요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-B-08",
+    "concept_id": "simplify-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 11,
+        "max": 19
+      },
+      "d": {
+        "min": 15,
+        "max": 27
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분한 뒤 분모는?",
+    "solver_rule": "reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분모: {{reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분 후 분모를 확인해요.",
+      "정답 보기를 고르세요."
+    ],
+    "choices_template": [
+      "{{reducedDen(n, d)}}",
+      "{{reducedDen(n, d) + 1}}",
+      "{{reducedDen(n, d) + 2}}",
+      "{{reducedDen(n, d) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-simplify-B-09",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 14,
+        "max": 24
+      },
+      "d": {
+        "min": 18,
+        "max": 32
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분한 뒤 분자와 분모의 차는?",
+    "solver_rule": "reducedDen(n, d) - reducedNum(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "차: {{reducedDen(n, d)}} - {{reducedNum(n, d)}} = {{reducedDen(n, d) - reducedNum(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분한 분자와 분모를 구해요.",
+      "분모에서 분자를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-B-10",
+    "concept_id": "simplify-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 14,
+        "max": 24
+      },
+      "d": {
+        "min": 18,
+        "max": 32
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분한 뒤 분자와 분모의 합은?",
+    "solver_rule": "reducedNum(n, d) + reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "합: {{reducedNum(n, d) + reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분 후 분자와 분모를 더해요.",
+      "합을 선택해요."
+    ],
+    "choices_template": [
+      "{{reducedNum(n, d) + reducedDen(n, d)}}",
+      "{{reducedNum(n, d) + reducedDen(n, d) + 2}}",
+      "{{reducedNum(n, d) + reducedDen(n, d) + 4}}",
+      "{{reducedNum(n, d) + reducedDen(n, d) + 6}}"
+    ]
+  },
+  {
+    "id": "tmpl-simplify-C-01",
+    "concept_id": "simplify-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 6,
+        "max": 10
+      },
+      "d": {
+        "min": 8,
+        "max": 16
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분하면?",
+    "solver_rule": "reduceFrac(n, d)",
+    "solution_steps_template": [
+      "{{n}}과 {{d}}의 공약수를 찾습니다.",
+      "약분 결과: {{reduceFrac(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "분자와 분모를 같은 수로 나눠요.",
+      "기약분수로 바꿔요."
+    ],
+    "choices_template": [
+      "{{reduceFrac(n, d)}}",
+      "{{reduceFracOff(n, d, 1)}}",
+      "{{reduceFracOff(n, d, 2)}}",
+      "{{reduceFracOff(n, d, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-simplify-C-02",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 8,
+        "max": 14
+      },
+      "d": {
+        "min": 10,
+        "max": 18
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분했을 때 분자는?",
+    "solver_rule": "reducedNum(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분자: {{reducedNum(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분한 분수를 먼저 구해요.",
+      "분자를 적어요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-C-03",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 8,
+        "max": 14
+      },
+      "d": {
+        "min": 10,
+        "max": 18
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분했을 때 분모는?",
+    "solver_rule": "reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분모: {{reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분한 분수를 먼저 구해요.",
+      "분모를 적어요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-C-04",
+    "concept_id": "simplify-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 10,
+        "max": 16
+      },
+      "d": {
+        "min": 12,
+        "max": 22
+      }
+    },
+    "prompt_template": "다음 중 {{n}}/{{d}}의 기약분수는?",
+    "solver_rule": "reduceFrac(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "기약분수는 더 이상 약분되지 않습니다."
+    ],
+    "hint_steps_template": [
+      "분자와 분모를 최대한 나눠요.",
+      "기약분수를 찾으세요."
+    ],
+    "choices_template": [
+      "{{reduceFrac(n, d)}}",
+      "{{reduceFracOff(n, d, 2)}}",
+      "{{reduceFracOff(n, d, 3)}}",
+      "{{reduceFracOff(n, d, 4)}}"
+    ]
+  },
+  {
+    "id": "tmpl-simplify-C-05",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 11,
+        "max": 19
+      },
+      "d": {
+        "min": 15,
+        "max": 25
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분한 뒤 분자와 분모의 합은?",
+    "solver_rule": "reducedNum(n, d) + reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분자+분모: {{reducedNum(n, d)}} + {{reducedDen(n, d)}} = {{reducedNum(n, d) + reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분한 분자와 분모를 구해요.",
+      "두 값을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-C-06",
+    "concept_id": "simplify-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 11,
+        "max": 19
+      },
+      "d": {
+        "min": 15,
+        "max": 25
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분했을 때 분자는?",
+    "solver_rule": "reducedNum(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분자: {{reducedNum(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 약분하세요.",
+      "분자를 확인하세요."
+    ],
+    "choices_template": [
+      "{{reducedNum(n, d)}}",
+      "{{reducedNum(n, d) + 1}}",
+      "{{reducedNum(n, d) + 2}}",
+      "{{reducedNum(n, d) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-simplify-C-07",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 13,
+        "max": 21
+      },
+      "d": {
+        "min": 17,
+        "max": 29
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분했을 때 분모는?",
+    "solver_rule": "reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분모: {{reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분 후 분모를 찾아요.",
+      "분모 값만 적어요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-C-08",
+    "concept_id": "simplify-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 13,
+        "max": 21
+      },
+      "d": {
+        "min": 17,
+        "max": 29
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분한 뒤 분모는?",
+    "solver_rule": "reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "분모: {{reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분 후 분모를 확인해요.",
+      "정답 보기를 고르세요."
+    ],
+    "choices_template": [
+      "{{reducedDen(n, d)}}",
+      "{{reducedDen(n, d) + 1}}",
+      "{{reducedDen(n, d) + 2}}",
+      "{{reducedDen(n, d) + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-simplify-C-09",
+    "concept_id": "simplify-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 16,
+        "max": 26
+      },
+      "d": {
+        "min": 20,
+        "max": 34
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분한 뒤 분자와 분모의 차는?",
+    "solver_rule": "reducedDen(n, d) - reducedNum(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "차: {{reducedDen(n, d)}} - {{reducedNum(n, d)}} = {{reducedDen(n, d) - reducedNum(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분한 분자와 분모를 구해요.",
+      "분모에서 분자를 빼요."
+    ]
+  },
+  {
+    "id": "tmpl-simplify-C-10",
+    "concept_id": "simplify-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 16,
+        "max": 26
+      },
+      "d": {
+        "min": 20,
+        "max": 34
+      }
+    },
+    "prompt_template": "{{n}}/{{d}}를 약분한 뒤 분자와 분모의 합은?",
+    "solver_rule": "reducedNum(n, d) + reducedDen(n, d)",
+    "solution_steps_template": [
+      "약분 결과: {{reduceFrac(n, d)}}",
+      "합: {{reducedNum(n, d) + reducedDen(n, d)}}"
+    ],
+    "hint_steps_template": [
+      "약분 후 분자와 분모를 더해요.",
+      "합을 선택해요."
+    ],
+    "choices_template": [
+      "{{reducedNum(n, d) + reducedDen(n, d)}}",
+      "{{reducedNum(n, d) + reducedDen(n, d) + 2}}",
+      "{{reducedNum(n, d) + reducedDen(n, d) + 4}}",
+      "{{reducedNum(n, d) + reducedDen(n, d) + 6}}"
     ]
   }
 ]

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { getConceptById, getTemplatesByConceptId } from '@/lib/data'
 import { generateProblems, generateSessionId } from '@/lib/problem-generator'
@@ -16,18 +16,22 @@ import {
   saveResult,
   isSessionExpired
 } from '@/lib/session'
-import type { Concept, PracticeSession, Problem } from '@/lib/types'
-import { Button, ProblemCard, ProgressIndicator } from '@/components'
+import type { Concept, PracticeSession } from '@/lib/types'
+import { Button, ProblemCard, ProgressIndicator, MathText } from '@/components'
 
 export default function PracticeClient() {
   const params = useParams()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const conceptId = params.conceptId as string
+  const rawSet = searchParams.get('set')
+  const setId = rawSet === 'B' || rawSet === 'C' ? rawSet : 'A'
 
   const [concept, setConcept] = useState<Concept | null>(null)
   const [session, setSession] = useState<PracticeSession | null>(null)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
+  const [hintLevel, setHintLevel] = useState(0)
 
   // 세션 초기화 또는 복구
   useEffect(() => {
@@ -43,7 +47,12 @@ export default function PracticeClient() {
 
         // 기존 세션 확인
         const existingSession = loadSession()
-        if (existingSession && existingSession.conceptId === conceptId && !isSessionExpired(existingSession)) {
+        if (
+          existingSession &&
+          existingSession.conceptId === conceptId &&
+          existingSession.setId === setId &&
+          !isSessionExpired(existingSession)
+        ) {
           setSession(existingSession)
           setLoading(false)
           return
@@ -57,12 +66,13 @@ export default function PracticeClient() {
           return
         }
 
-        const problems = generateProblems(templates, 10)
+        const problems = generateProblems(templates, { count: 10, setId })
         const timing = createSessionTiming()
 
         const newSession: PracticeSession = {
           sessionId: generateSessionId(),
           conceptId,
+          setId,
           problems,
           answers: Array(10).fill(null),
           currentIndex: 0,
@@ -79,7 +89,7 @@ export default function PracticeClient() {
     }
 
     initSession()
-  }, [conceptId])
+  }, [conceptId, setId])
 
   // 답안 변경
   const handleAnswer = useCallback((answer: string) => {
@@ -112,6 +122,7 @@ export default function PracticeClient() {
       saveResult({
         sessionId: session.sessionId,
         conceptId: session.conceptId,
+        setId: session.setId,
         score,
         total: session.problems.length,
         results,
@@ -125,6 +136,10 @@ export default function PracticeClient() {
       setSubmitting(false)
     }
   }, [session, router])
+
+  useEffect(() => {
+    setHintLevel(0)
+  }, [session?.currentIndex])
 
   if (loading) {
     return (
@@ -149,6 +164,7 @@ export default function PracticeClient() {
   const currentAnswer = session.answers[session.currentIndex]
   const allAnswered = session.answers.every(a => a !== null)
   const answeredCount = session.answers.filter(a => a !== null).length
+  const hintSteps = currentProblem.hintSteps ?? []
 
   return (
     <div className="space-y-6 pb-32">
@@ -163,6 +179,7 @@ export default function PracticeClient() {
           <h1 className="text-lg font-bold text-gray-800">{concept.concept_title}</h1>
         </div>
         <span className="text-sm text-gray-500">
+          세트 {session.setId} ·{' '}
           {answeredCount} / {session.problems.length}
         </span>
       </header>
@@ -181,6 +198,36 @@ export default function PracticeClient() {
         answer={currentAnswer}
         onAnswer={handleAnswer}
       />
+
+      {/* 힌트 */}
+      <div className="bg-white rounded-2xl shadow-md p-6">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-base font-bold text-gray-700">단계 힌트</h2>
+          <Button
+            variant="secondary"
+            onClick={() => setHintLevel(prev => Math.min(prev + 1, hintSteps.length))}
+            disabled={hintSteps.length === 0 || hintLevel >= hintSteps.length}
+          >
+            {hintSteps.length === 0
+              ? '힌트 없음'
+              : hintLevel >= hintSteps.length
+                ? '모두 열람'
+                : `힌트 보기 (${hintLevel + 1}/${hintSteps.length})`}
+          </Button>
+        </div>
+        {hintSteps.length === 0 ? (
+          <p className="text-sm text-gray-500">이 문제는 힌트가 준비되지 않았어요.</p>
+        ) : (
+          <ol className="space-y-2 text-sm text-gray-700">
+            {hintSteps.slice(0, hintLevel).map((step, i) => (
+              <li key={i} className="flex">
+                <span className="text-gray-400 mr-2">{i + 1}.</span>
+                <MathText>{step}</MathText>
+              </li>
+            ))}
+          </ol>
+        )}
+      </div>
 
       {/* 네비게이션 */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">

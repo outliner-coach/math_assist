@@ -90,6 +90,29 @@ export function divisorCount(n: number): number {
   return divisors(n).length
 }
 
+// 1을 제외한 가장 작은 약수
+export function smallestDivisorOverOne(n: number): number {
+  const ds = divisors(n)
+  for (const d of ds) {
+    if (d > 1) return d
+  }
+  return 1
+}
+
+// 자기 자신을 제외한 가장 큰 약수
+export function largestProperDivisor(n: number): number {
+  const ds = divisors(n)
+  if (ds.length <= 1) return 1
+  return ds[ds.length - 2]
+}
+
+// 두 번째로 큰 약수
+export function secondLargestDivisor(n: number): number {
+  const ds = divisors(n)
+  if (ds.length <= 1) return 1
+  return ds[ds.length - 2]
+}
+
 // --- 분수 관련 함수 ---
 
 // 약분 결과를 문자열로 ("분자/분모")

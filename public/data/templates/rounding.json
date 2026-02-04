@@ -1,62 +1,767 @@
 [
   {
-    "id": "tmpl-rounding-choice-001",
-    "concept_id": "rounding-001",
-    "type": "choice",
-    "difficulty": 1,
-    "param_schema": {
-      "n": { "min": 1200, "max": 4800 }
-    },
-    "prompt_template": "{{n}}을 백의 자리까지 반올림하면?",
-    "choices_template": [
-      "{{roundTo(n, 100)}}",
-      "{{roundTo(n, 100) + 100}}",
-      "{{roundTo(n, 100) - 100}}",
-      "{{roundTo(n, 100) + 200}}"
-    ],
-    "solver_rule": "roundTo(n, 100)",
-    "solution_steps_template": [
-      "백의 자리까지 나타내려면 십의 자리 숫자를 봅니다.",
-      "십의 자리 숫자가 5 이상이면 올림, 4 이하이면 버림합니다.",
-      "{{n}}을 반올림하면 {{roundTo(n, 100)}}"
-    ]
-  },
-  {
-    "id": "tmpl-rounding-number-001",
+    "id": "tmpl-rounding-A-01",
     "concept_id": "rounding-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n": { "min": 2100, "max": 8900 }
+      "n": {
+        "min": 120,
+        "max": 980
+      }
     },
-    "prompt_template": "{{n}}을 천의 자리까지 반올림하세요.",
-    "solver_rule": "roundTo(n, 1000)",
+    "prompt_template": "{{n}}을(를) 십의 자리까지 반올림하면?",
+    "solver_rule": "roundTo(n, 10)",
     "solution_steps_template": [
-      "천의 자리까지 나타내려면 백의 자리 숫자를 봅니다.",
-      "백의 자리 숫자가 5 이상이면 올림, 4 이하이면 버림합니다.",
-      "{{n}}을 반올림하면 {{roundTo(n, 1000)}}"
+      "십의 자리 반올림: 일의 자리를 봅니다.",
+      "{{n}} → {{roundTo(n, 10)}}"
+    ],
+    "hint_steps_template": [
+      "일의 자리 숫자를 확인해요.",
+      "5 이상이면 올려요."
     ]
   },
   {
-    "id": "tmpl-rounding-choice-002",
+    "id": "tmpl-rounding-A-02",
     "concept_id": "rounding-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n": { "min": 120, "max": 480 }
+      "n": {
+        "min": 120,
+        "max": 980
+      }
     },
-    "prompt_template": "{{n}}을 십의 자리까지 반올림하면?",
+    "prompt_template": "{{n}}을(를) 십의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 10)",
+    "solution_steps_template": [
+      "십의 자리 반올림: {{roundTo(n, 10)}}"
+    ],
+    "hint_steps_template": [
+      "일의 자리를 봐요.",
+      "반올림 규칙을 적용해요."
+    ],
     "choices_template": [
       "{{roundTo(n, 10)}}",
       "{{roundTo(n, 10) + 10}}",
       "{{roundTo(n, 10) - 10}}",
       "{{roundTo(n, 10) + 20}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-A-03",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 1200,
+        "max": 9800
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림하면?",
+    "solver_rule": "roundTo(n, 100)",
+    "solution_steps_template": [
+      "백의 자리 반올림: 십의 자리를 봅니다.",
+      "{{n}} → {{roundTo(n, 100)}}"
     ],
+    "hint_steps_template": [
+      "십의 자리 숫자를 확인해요.",
+      "5 이상이면 올림이에요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-A-04",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 1200,
+        "max": 9800
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 100)",
+    "solution_steps_template": [
+      "백의 자리 반올림: {{roundTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "십의 자리 숫자를 봐요.",
+      "반올림해서 백의 자리로 맞춰요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 100)}}",
+      "{{roundTo(n, 100) + 100}}",
+      "{{roundTo(n, 100) - 100}}",
+      "{{roundTo(n, 100) + 200}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-A-05",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 1501,
+        "max": 9951
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림하면?",
+    "solver_rule": "roundTo(n, 100)",
+    "solution_steps_template": [
+      "백의 자리 반올림: 십의 자리를 봅니다.",
+      "{{n}} → {{roundTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "십의 자리 숫자를 확인해요.",
+      "5 이상이면 올려요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-A-06",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 1501,
+        "max": 9951
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 100)",
+    "solution_steps_template": [
+      "백의 자리 반올림: {{roundTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "십의 자리 숫자를 봐요.",
+      "반올림 규칙을 적용해요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 100)}}",
+      "{{roundTo(n, 100) + 100}}",
+      "{{roundTo(n, 100) - 100}}",
+      "{{roundTo(n, 100) + 200}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-A-07",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 12001,
+        "max": 98001
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림하면?",
+    "solver_rule": "roundTo(n, 1000)",
+    "solution_steps_template": [
+      "천의 자리 반올림: 백의 자리를 봅니다.",
+      "{{n}} → {{roundTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리 숫자를 확인해요.",
+      "5 이상이면 올려요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-A-08",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 12001,
+        "max": 98001
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 1000)",
+    "solution_steps_template": [
+      "천의 자리 반올림: {{roundTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리 숫자를 봐요.",
+      "반올림해서 천의 자리로 맞춰요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 1000)}}",
+      "{{roundTo(n, 1000) + 1000}}",
+      "{{roundTo(n, 1000) - 1000}}",
+      "{{roundTo(n, 1000) + 2000}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-A-09",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 20002,
+        "max": 99002
+      }
+    },
+    "prompt_template": "도서관에는 {{n}}권의 책이 있습니다. 천의 자리까지 반올림하면 몇 권인가요?",
+    "solver_rule": "roundTo(n, 1000)",
+    "solution_steps_template": [
+      "천의 자리 반올림: 백의 자리를 확인합니다.",
+      "결과: {{roundTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리 숫자를 확인해요.",
+      "반올림 규칙을 적용해요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-A-10",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 20002,
+        "max": 99002
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 1000)",
+    "solution_steps_template": [
+      "천의 자리 반올림: {{roundTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리를 보고 올림/버림을 결정해요.",
+      "천의 자리로 맞춰요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 1000)}}",
+      "{{roundTo(n, 1000) + 1000}}",
+      "{{roundTo(n, 1000) - 1000}}",
+      "{{roundTo(n, 1000) + 2000}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-B-01",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 122,
+        "max": 982
+      }
+    },
+    "prompt_template": "{{n}}을(를) 십의 자리까지 반올림하면?",
     "solver_rule": "roundTo(n, 10)",
     "solution_steps_template": [
-      "십의 자리까지 나타내려면 일의 자리 숫자를 봅니다.",
-      "일의 자리 숫자가 5 이상이면 올림, 4 이하이면 버림합니다.",
-      "{{n}}을 반올림하면 {{roundTo(n, 10)}}"
+      "십의 자리 반올림: 일의 자리를 봅니다.",
+      "{{n}} → {{roundTo(n, 10)}}"
+    ],
+    "hint_steps_template": [
+      "일의 자리 숫자를 확인해요.",
+      "5 이상이면 올려요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-B-02",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 122,
+        "max": 982
+      }
+    },
+    "prompt_template": "{{n}}을(를) 십의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 10)",
+    "solution_steps_template": [
+      "십의 자리 반올림: {{roundTo(n, 10)}}"
+    ],
+    "hint_steps_template": [
+      "일의 자리를 봐요.",
+      "반올림 규칙을 적용해요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 10)}}",
+      "{{roundTo(n, 10) + 10}}",
+      "{{roundTo(n, 10) - 10}}",
+      "{{roundTo(n, 10) + 20}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-B-03",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 1202,
+        "max": 9802
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림하면?",
+    "solver_rule": "roundTo(n, 100)",
+    "solution_steps_template": [
+      "백의 자리 반올림: 십의 자리를 봅니다.",
+      "{{n}} → {{roundTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "십의 자리 숫자를 확인해요.",
+      "5 이상이면 올림이에요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-B-04",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 1202,
+        "max": 9802
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 100)",
+    "solution_steps_template": [
+      "백의 자리 반올림: {{roundTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "십의 자리 숫자를 봐요.",
+      "반올림해서 백의 자리로 맞춰요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 100)}}",
+      "{{roundTo(n, 100) + 100}}",
+      "{{roundTo(n, 100) - 100}}",
+      "{{roundTo(n, 100) + 200}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-B-05",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 1503,
+        "max": 9953
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림하면?",
+    "solver_rule": "roundTo(n, 100)",
+    "solution_steps_template": [
+      "백의 자리 반올림: 십의 자리를 봅니다.",
+      "{{n}} → {{roundTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "십의 자리 숫자를 확인해요.",
+      "5 이상이면 올려요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-B-06",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 1503,
+        "max": 9953
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 100)",
+    "solution_steps_template": [
+      "백의 자리 반올림: {{roundTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "십의 자리 숫자를 봐요.",
+      "반올림 규칙을 적용해요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 100)}}",
+      "{{roundTo(n, 100) + 100}}",
+      "{{roundTo(n, 100) - 100}}",
+      "{{roundTo(n, 100) + 200}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-B-07",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 12003,
+        "max": 98003
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림하면?",
+    "solver_rule": "roundTo(n, 1000)",
+    "solution_steps_template": [
+      "천의 자리 반올림: 백의 자리를 봅니다.",
+      "{{n}} → {{roundTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리 숫자를 확인해요.",
+      "5 이상이면 올려요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-B-08",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 12003,
+        "max": 98003
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 1000)",
+    "solution_steps_template": [
+      "천의 자리 반올림: {{roundTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리 숫자를 봐요.",
+      "반올림해서 천의 자리로 맞춰요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 1000)}}",
+      "{{roundTo(n, 1000) + 1000}}",
+      "{{roundTo(n, 1000) - 1000}}",
+      "{{roundTo(n, 1000) + 2000}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-B-09",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 20004,
+        "max": 99004
+      }
+    },
+    "prompt_template": "도서관에는 {{n}}권의 책이 있습니다. 천의 자리까지 반올림하면 몇 권인가요?",
+    "solver_rule": "roundTo(n, 1000)",
+    "solution_steps_template": [
+      "천의 자리 반올림: 백의 자리를 확인합니다.",
+      "결과: {{roundTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리 숫자를 확인해요.",
+      "반올림 규칙을 적용해요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-B-10",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 20004,
+        "max": 99004
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 1000)",
+    "solution_steps_template": [
+      "천의 자리 반올림: {{roundTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리를 보고 올림/버림을 결정해요.",
+      "천의 자리로 맞춰요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 1000)}}",
+      "{{roundTo(n, 1000) + 1000}}",
+      "{{roundTo(n, 1000) - 1000}}",
+      "{{roundTo(n, 1000) + 2000}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-C-01",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 124,
+        "max": 984
+      }
+    },
+    "prompt_template": "{{n}}을(를) 십의 자리까지 반올림하면?",
+    "solver_rule": "roundTo(n, 10)",
+    "solution_steps_template": [
+      "십의 자리 반올림: 일의 자리를 봅니다.",
+      "{{n}} → {{roundTo(n, 10)}}"
+    ],
+    "hint_steps_template": [
+      "일의 자리 숫자를 확인해요.",
+      "5 이상이면 올려요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-C-02",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 124,
+        "max": 984
+      }
+    },
+    "prompt_template": "{{n}}을(를) 십의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 10)",
+    "solution_steps_template": [
+      "십의 자리 반올림: {{roundTo(n, 10)}}"
+    ],
+    "hint_steps_template": [
+      "일의 자리를 봐요.",
+      "반올림 규칙을 적용해요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 10)}}",
+      "{{roundTo(n, 10) + 10}}",
+      "{{roundTo(n, 10) - 10}}",
+      "{{roundTo(n, 10) + 20}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-C-03",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 1204,
+        "max": 9804
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림하면?",
+    "solver_rule": "roundTo(n, 100)",
+    "solution_steps_template": [
+      "백의 자리 반올림: 십의 자리를 봅니다.",
+      "{{n}} → {{roundTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "십의 자리 숫자를 확인해요.",
+      "5 이상이면 올림이에요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-C-04",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 1204,
+        "max": 9804
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 100)",
+    "solution_steps_template": [
+      "백의 자리 반올림: {{roundTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "십의 자리 숫자를 봐요.",
+      "반올림해서 백의 자리로 맞춰요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 100)}}",
+      "{{roundTo(n, 100) + 100}}",
+      "{{roundTo(n, 100) - 100}}",
+      "{{roundTo(n, 100) + 200}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-C-05",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 1505,
+        "max": 9955
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림하면?",
+    "solver_rule": "roundTo(n, 100)",
+    "solution_steps_template": [
+      "백의 자리 반올림: 십의 자리를 봅니다.",
+      "{{n}} → {{roundTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "십의 자리 숫자를 확인해요.",
+      "5 이상이면 올려요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-C-06",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 1505,
+        "max": 9955
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 100)",
+    "solution_steps_template": [
+      "백의 자리 반올림: {{roundTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "십의 자리 숫자를 봐요.",
+      "반올림 규칙을 적용해요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 100)}}",
+      "{{roundTo(n, 100) + 100}}",
+      "{{roundTo(n, 100) - 100}}",
+      "{{roundTo(n, 100) + 200}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-C-07",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 12005,
+        "max": 98005
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림하면?",
+    "solver_rule": "roundTo(n, 1000)",
+    "solution_steps_template": [
+      "천의 자리 반올림: 백의 자리를 봅니다.",
+      "{{n}} → {{roundTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리 숫자를 확인해요.",
+      "5 이상이면 올려요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-C-08",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 12005,
+        "max": 98005
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 1000)",
+    "solution_steps_template": [
+      "천의 자리 반올림: {{roundTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리 숫자를 봐요.",
+      "반올림해서 천의 자리로 맞춰요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 1000)}}",
+      "{{roundTo(n, 1000) + 1000}}",
+      "{{roundTo(n, 1000) - 1000}}",
+      "{{roundTo(n, 1000) + 2000}}"
+    ]
+  },
+  {
+    "id": "tmpl-rounding-C-09",
+    "concept_id": "rounding-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 20006,
+        "max": 99006
+      }
+    },
+    "prompt_template": "도서관에는 {{n}}권의 책이 있습니다. 천의 자리까지 반올림하면 몇 권인가요?",
+    "solver_rule": "roundTo(n, 1000)",
+    "solution_steps_template": [
+      "천의 자리 반올림: 백의 자리를 확인합니다.",
+      "결과: {{roundTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리 숫자를 확인해요.",
+      "반올림 규칙을 적용해요."
+    ]
+  },
+  {
+    "id": "tmpl-rounding-C-10",
+    "concept_id": "rounding-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 20006,
+        "max": 99006
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림한 값은?",
+    "solver_rule": "roundTo(n, 1000)",
+    "solution_steps_template": [
+      "천의 자리 반올림: {{roundTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리를 보고 올림/버림을 결정해요.",
+      "천의 자리로 맞춰요."
+    ],
+    "choices_template": [
+      "{{roundTo(n, 1000)}}",
+      "{{roundTo(n, 1000) + 1000}}",
+      "{{roundTo(n, 1000) - 1000}}",
+      "{{roundTo(n, 1000) + 2000}}"
     ]
   }
 ]

@@ -1,71 +1,1142 @@
 [
   {
-    "id": "tmpl-fracmul-choice-001",
+    "id": "tmpl-fracmul-A-01",
     "concept_id": "fracmul-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n1": { "min": 1, "max": 4 },
-      "d1": { "min": 2, "max": 5 },
-      "n2": { "min": 1, "max": 3 },
-      "d2": { "min": 3, "max": 7 }
+      "n1": {
+        "min": 1,
+        "max": 3
+      },
+      "d1": {
+        "min": 2,
+        "max": 4
+      },
+      "n2": {
+        "min": 1,
+        "max": 3
+      },
+      "d2": {
+        "min": 3,
+        "max": 5
+      }
     },
     "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "분자끼리, 분모끼리 곱합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자끼리 곱해요.",
+      "분모끼리 곱해요."
+    ],
     "choices_template": [
       "{{fracMul(n1, d1, n2, d2)}}",
       "{{fracMulOff(n1, d1, n2, d2, 1)}}",
       "{{fracMulOff(n1, d1, n2, d2, 2)}}",
       "{{fracMulOff(n1, d1, n2, d2, 3)}}"
-    ],
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
-    "solution_steps_template": [
-      "분자끼리 곱합니다: {{n1}} × {{n2}} = {{n1 * n2}}",
-      "분모끼리 곱합니다: {{d1}} × {{d2}} = {{d1 * d2}}",
-      "{{n1 * n2}}/{{d1 * d2}}를 약분하면 {{fracMul(n1, d1, n2, d2)}}"
     ]
   },
   {
-    "id": "tmpl-fracmul-number-001",
+    "id": "tmpl-fracmul-A-02",
     "concept_id": "fracmul-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n1": { "min": 2, "max": 5 },
-      "d1": { "min": 3, "max": 6 },
-      "n2": { "min": 1, "max": 4 },
-      "d2": { "min": 2, "max": 5 }
+      "n1": {
+        "min": 1,
+        "max": 3
+      },
+      "d1": {
+        "min": 2,
+        "max": 5
+      },
+      "n2": {
+        "min": 1,
+        "max": 3
+      },
+      "d2": {
+        "min": 3,
+        "max": 6
+      }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요. (예: 2/15)",
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요.",
     "solver_rule": "fracMul(n1, d1, n2, d2)",
     "solution_steps_template": [
-      "분자끼리 곱합니다: {{n1}} × {{n2}} = {{n1 * n2}}",
-      "분모끼리 곱합니다: {{d1}} × {{d2}} = {{d1 * d2}}",
-      "약분하면: {{fracMul(n1, d1, n2, d2)}}"
+      "분자끼리 곱합니다: {{n1}} × {{n2}}",
+      "분모끼리 곱합니다: {{d1}} × {{d2}}",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자끼리 곱해요.",
+      "분모끼리 곱해요."
     ]
   },
   {
-    "id": "tmpl-fracmul-choice-002",
+    "id": "tmpl-fracmul-A-03",
     "concept_id": "fracmul-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "a": { "min": 2, "max": 6 },
-      "n1": { "min": 1, "max": 3 },
-      "d1": { "min": 2, "max": 5 }
+      "n1": {
+        "min": 2,
+        "max": 4
+      },
+      "d1": {
+        "min": 3,
+        "max": 6
+      },
+      "n2": {
+        "min": 1,
+        "max": 3
+      },
+      "d2": {
+        "min": 4,
+        "max": 7
+      }
     },
-    "prompt_template": "{{a}} × {{n1}}/{{d1}} = ?",
-    "choices_template": [
-      "{{fracMul(a, 1, n1, d1)}}",
-      "{{fracMulOff(a, 1, n1, d1, 1)}}",
-      "{{fracMulOff(a, 1, n1, d1, 2)}}",
-      "{{fracMulOff(a, 1, n1, d1, 3)}}"
-    ],
-    "solver_rule": "fracMul(a, 1, n1, d1)",
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
     "solution_steps_template": [
-      "자연수 {{a}}를 분수로 바꿉니다: {{a}}/1",
-      "분자끼리 곱합니다: {{a}} × {{n1}} = {{a * n1}}",
-      "분모: 1 × {{d1}} = {{d1}}",
-      "{{a * n1}}/{{d1}} = {{fracMul(a, 1, n1, d1)}}"
+      "곱셈을 하고 약분합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "곱한 뒤 약분해요.",
+      "기약분수로 쓰세요."
+    ],
+    "choices_template": [
+      "{{fracMul(n1, d1, n2, d2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, -1)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 4)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-A-04",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 2,
+        "max": 4
+      },
+      "d1": {
+        "min": 3,
+        "max": 6
+      },
+      "n2": {
+        "min": 1,
+        "max": 3
+      },
+      "d2": {
+        "min": 4,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요. (예: 2/3)",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "분자끼리 곱하고 분모끼리 곱합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자 × 분자, 분모 × 분모",
+      "약분해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-A-05",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 6
+      },
+      "d1": {
+        "min": 5,
+        "max": 8
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "곱셈 후 약분합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자끼리, 분모끼리 곱해요.",
+      "기약분수로 만들어요."
+    ],
+    "choices_template": [
+      "{{fracMul(n1, d1, n2, d2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 3)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 5)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-A-06",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 6
+      },
+      "d1": {
+        "min": 5,
+        "max": 9
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "색칠한 부분이 {{n1}}/{{d1}}, 또 {{n2}}/{{d2}}만큼입니다. 모두 얼마인가요? (곱셈)",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "분자끼리 곱하고 분모끼리 곱합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "곱셈 문제예요.",
+      "분자와 분모를 각각 곱해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-A-07",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 6
+      },
+      "d1": {
+        "min": 5,
+        "max": 9
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "곱한 뒤 분자를 더한 값은?",
+    "solver_rule": "n1 * n2",
+    "solution_steps_template": [
+      "분자끼리 곱합니다: {{n1}} × {{n2}} = {{n1 * n2}}"
+    ],
+    "hint_steps_template": [
+      "분자끼리 곱하면 돼요.",
+      "보기에서 그 값을 찾아요."
+    ],
+    "choices_template": [
+      "{{n1 * n2}}",
+      "{{n1 * n2 + 1}}",
+      "{{n1 * n2 + 2}}",
+      "{{n1 * n2 + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-A-08",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 6
+      },
+      "d1": {
+        "min": 5,
+        "max": 9
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}}에서 분자와 분모의 합은?",
+    "solver_rule": "reducedNum(n1 * n2, d1 * d2) + reducedDen(n1 * n2, d1 * d2)",
+    "solution_steps_template": [
+      "곱: {{fracMul(n1, d1, n2, d2)}}",
+      "약분한 분자+분모: {{reducedNum(n1 * n2, d1 * d2) + reducedDen(n1 * n2, d1 * d2)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 곱셈 결과를 구해요.",
+      "기약분수의 분자와 분모를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-A-09",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 7,
+        "max": 11
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "곱한 뒤 분자에 1을 더한 값은?",
+    "solver_rule": "fracMulOff(n1, d1, n2, d2, 1)",
+    "solution_steps_template": [
+      "곱한 뒤 분자에 1을 더합니다.",
+      "정답: {{fracMulOff(n1, d1, n2, d2, 1)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 곱셈을 해요.",
+      "분자에 1을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-A-10",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 7,
+        "max": 11
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "두 분수를 곱한 값은?",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "곱셈 후 약분합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자와 분모를 각각 곱해요.",
+      "기약분수로 만들어요."
+    ],
+    "choices_template": [
+      "{{fracMul(n1, d1, n2, d2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-B-01",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 5
+      },
+      "d1": {
+        "min": 4,
+        "max": 6
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 5,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "분자끼리, 분모끼리 곱합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자끼리 곱해요.",
+      "분모끼리 곱해요."
+    ],
+    "choices_template": [
+      "{{fracMul(n1, d1, n2, d2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-B-02",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 3,
+        "max": 5
+      },
+      "d1": {
+        "min": 4,
+        "max": 7
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 5,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요.",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "분자끼리 곱합니다: {{n1}} × {{n2}}",
+      "분모끼리 곱합니다: {{d1}} × {{d2}}",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자끼리 곱해요.",
+      "분모끼리 곱해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-B-03",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 4,
+        "max": 6
+      },
+      "d1": {
+        "min": 5,
+        "max": 8
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "곱셈을 하고 약분합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "곱한 뒤 약분해요.",
+      "기약분수로 쓰세요."
+    ],
+    "choices_template": [
+      "{{fracMul(n1, d1, n2, d2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, -1)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 4)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-B-04",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 4,
+        "max": 6
+      },
+      "d1": {
+        "min": 5,
+        "max": 8
+      },
+      "n2": {
+        "min": 3,
+        "max": 5
+      },
+      "d2": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요. (예: 2/3)",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "분자끼리 곱하고 분모끼리 곱합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자 × 분자, 분모 × 분모",
+      "약분해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-B-05",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 7,
+        "max": 10
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "곱셈 후 약분합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자끼리, 분모끼리 곱해요.",
+      "기약분수로 만들어요."
+    ],
+    "choices_template": [
+      "{{fracMul(n1, d1, n2, d2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 3)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 5)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-B-06",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 7,
+        "max": 11
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "색칠한 부분이 {{n1}}/{{d1}}, 또 {{n2}}/{{d2}}만큼입니다. 모두 얼마인가요? (곱셈)",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "분자끼리 곱하고 분모끼리 곱합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "곱셈 문제예요.",
+      "분자와 분모를 각각 곱해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-B-07",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 7,
+        "max": 11
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "곱한 뒤 분자를 더한 값은?",
+    "solver_rule": "n1 * n2",
+    "solution_steps_template": [
+      "분자끼리 곱합니다: {{n1}} × {{n2}} = {{n1 * n2}}"
+    ],
+    "hint_steps_template": [
+      "분자끼리 곱하면 돼요.",
+      "보기에서 그 값을 찾아요."
+    ],
+    "choices_template": [
+      "{{n1 * n2}}",
+      "{{n1 * n2 + 1}}",
+      "{{n1 * n2 + 2}}",
+      "{{n1 * n2 + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-B-08",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 8
+      },
+      "d1": {
+        "min": 7,
+        "max": 11
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}}에서 분자와 분모의 합은?",
+    "solver_rule": "reducedNum(n1 * n2, d1 * d2) + reducedDen(n1 * n2, d1 * d2)",
+    "solution_steps_template": [
+      "곱: {{fracMul(n1, d1, n2, d2)}}",
+      "약분한 분자+분모: {{reducedNum(n1 * n2, d1 * d2) + reducedDen(n1 * n2, d1 * d2)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 곱셈 결과를 구해요.",
+      "기약분수의 분자와 분모를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-B-09",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 10
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 7,
+        "max": 9
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "곱한 뒤 분자에 1을 더한 값은?",
+    "solver_rule": "fracMulOff(n1, d1, n2, d2, 1)",
+    "solution_steps_template": [
+      "곱한 뒤 분자에 1을 더합니다.",
+      "정답: {{fracMulOff(n1, d1, n2, d2, 1)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 곱셈을 해요.",
+      "분자에 1을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-B-10",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 10
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 7,
+        "max": 9
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "두 분수를 곱한 값은?",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "곱셈 후 약분합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자와 분모를 각각 곱해요.",
+      "기약분수로 만들어요."
+    ],
+    "choices_template": [
+      "{{fracMul(n1, d1, n2, d2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-C-01",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 6,
+        "max": 8
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 7,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "분자끼리, 분모끼리 곱합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자끼리 곱해요.",
+      "분모끼리 곱해요."
+    ],
+    "choices_template": [
+      "{{fracMul(n1, d1, n2, d2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 3)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-C-02",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 5,
+        "max": 7
+      },
+      "d1": {
+        "min": 6,
+        "max": 9
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 7,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요.",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "분자끼리 곱합니다: {{n1}} × {{n2}}",
+      "분모끼리 곱합니다: {{d1}} × {{d2}}",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자끼리 곱해요.",
+      "분모끼리 곱해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-C-03",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 6,
+        "max": 8
+      },
+      "d1": {
+        "min": 7,
+        "max": 10
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "곱셈을 하고 약분합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "곱한 뒤 약분해요.",
+      "기약분수로 쓰세요."
+    ],
+    "choices_template": [
+      "{{fracMul(n1, d1, n2, d2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, -1)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 4)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-C-04",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 6,
+        "max": 8
+      },
+      "d1": {
+        "min": 7,
+        "max": 10
+      },
+      "n2": {
+        "min": 5,
+        "max": 7
+      },
+      "d2": {
+        "min": 8,
+        "max": 11
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요. (예: 2/3)",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "분자끼리 곱하고 분모끼리 곱합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자 × 분자, 분모 × 분모",
+      "약분해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-C-05",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 10
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 7,
+        "max": 9
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "곱셈 후 약분합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자끼리, 분모끼리 곱해요.",
+      "기약분수로 만들어요."
+    ],
+    "choices_template": [
+      "{{fracMul(n1, d1, n2, d2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 3)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 5)}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-C-06",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 10
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 7,
+        "max": 9
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "색칠한 부분이 {{n1}}/{{d1}}, 또 {{n2}}/{{d2}}만큼입니다. 모두 얼마인가요? (곱셈)",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "분자끼리 곱하고 분모끼리 곱합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "곱셈 문제예요.",
+      "분자와 분모를 각각 곱해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-C-07",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 10
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 7,
+        "max": 9
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "곱한 뒤 분자를 더한 값은?",
+    "solver_rule": "n1 * n2",
+    "solution_steps_template": [
+      "분자끼리 곱합니다: {{n1}} × {{n2}} = {{n1 * n2}}"
+    ],
+    "hint_steps_template": [
+      "분자끼리 곱하면 돼요.",
+      "보기에서 그 값을 찾아요."
+    ],
+    "choices_template": [
+      "{{n1 * n2}}",
+      "{{n1 * n2 + 1}}",
+      "{{n1 * n2 + 2}}",
+      "{{n1 * n2 + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-C-08",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 7,
+        "max": 10
+      },
+      "d1": {
+        "min": 9,
+        "max": 12
+      },
+      "n2": {
+        "min": 7,
+        "max": 9
+      },
+      "d2": {
+        "min": 10,
+        "max": 12
+      }
+    },
+    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}}에서 분자와 분모의 합은?",
+    "solver_rule": "reducedNum(n1 * n2, d1 * d2) + reducedDen(n1 * n2, d1 * d2)",
+    "solution_steps_template": [
+      "곱: {{fracMul(n1, d1, n2, d2)}}",
+      "약분한 분자+분모: {{reducedNum(n1 * n2, d1 * d2) + reducedDen(n1 * n2, d1 * d2)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 곱셈 결과를 구해요.",
+      "기약분수의 분자와 분모를 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-C-09",
+    "concept_id": "fracmul-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 9,
+        "max": 12
+      },
+      "d1": {
+        "min": 11,
+        "max": 12
+      },
+      "n2": {
+        "min": 9,
+        "max": 11
+      },
+      "d2": {
+        "min": 12,
+        "max": 12
+      }
+    },
+    "prompt_template": "곱한 뒤 분자에 1을 더한 값은?",
+    "solver_rule": "fracMulOff(n1, d1, n2, d2, 1)",
+    "solution_steps_template": [
+      "곱한 뒤 분자에 1을 더합니다.",
+      "정답: {{fracMulOff(n1, d1, n2, d2, 1)}}"
+    ],
+    "hint_steps_template": [
+      "먼저 곱셈을 해요.",
+      "분자에 1을 더해요."
+    ]
+  },
+  {
+    "id": "tmpl-fracmul-C-10",
+    "concept_id": "fracmul-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n1": {
+        "min": 9,
+        "max": 12
+      },
+      "d1": {
+        "min": 11,
+        "max": 12
+      },
+      "n2": {
+        "min": 9,
+        "max": 11
+      },
+      "d2": {
+        "min": 12,
+        "max": 12
+      }
+    },
+    "prompt_template": "두 분수를 곱한 값은?",
+    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "solution_steps_template": [
+      "곱셈 후 약분합니다.",
+      "정답: {{fracMul(n1, d1, n2, d2)}}"
+    ],
+    "hint_steps_template": [
+      "분자와 분모를 각각 곱해요.",
+      "기약분수로 만들어요."
+    ],
+    "choices_template": [
+      "{{fracMul(n1, d1, n2, d2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
+      "{{fracMulOff(n1, d1, n2, d2, 3)}}"
     ]
   }
 ]

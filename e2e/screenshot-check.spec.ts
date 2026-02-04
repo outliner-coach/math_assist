@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test'
 
+const basePath = '/math_assist'
+
 const concepts = [
   { id: 'divisor-001', name: '약수' },
   { id: 'multiple-001', name: '배수' },
@@ -9,7 +11,7 @@ const concepts = [
 
 for (const concept of concepts) {
   test(`Screenshot: ${concept.name} (${concept.id})`, async ({ page }) => {
-    await page.goto(`/practice/${concept.id}`)
+    await page.goto(`${basePath}/practice/${concept.id}`)
 
     // 로딩 대기
     await page.waitForSelector('button:has-text("다음")', { timeout: 10000 })

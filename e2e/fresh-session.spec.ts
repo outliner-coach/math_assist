@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test'
 
+const basePath = '/math_assist'
+
 /**
  * localStorage를 완전히 클리어한 뒤 새 세션에서
  * 모든 문제가 올바르게 생성되는지 확인합니다.
@@ -14,7 +16,7 @@ const concepts = [
 for (const concept of concepts) {
   test(`Fresh session: ${concept.name}`, async ({ page }) => {
     // localStorage 완전 클리어 후 새 세션
-    await page.goto(`/practice/${concept.id}`)
+    await page.goto(`${basePath}/practice/${concept.id}`)
     await page.evaluate(() => localStorage.clear())
     await page.reload()
     await page.waitForSelector('button:has-text("다음")', { timeout: 10000 })

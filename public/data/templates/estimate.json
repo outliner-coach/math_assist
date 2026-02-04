@@ -1,60 +1,782 @@
 [
   {
-    "id": "tmpl-estimate-choice-001",
+    "id": "tmpl-estimate-A-01",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n": { "min": 1201, "max": 4899 }
+      "n": {
+        "min": 120,
+        "max": 980
+      }
     },
-    "prompt_template": "{{n}}을 백의 자리까지 올림하면?",
-    "choices_template": [
-      "{{ceilTo(n, 100)}}",
-      "{{ceilTo(n, 100) + 100}}",
-      "{{ceilTo(n, 100) - 100}}",
-      "{{ceilTo(n, 100) + 200}}"
-    ],
-    "solver_rule": "ceilTo(n, 100)",
+    "prompt_template": "{{n}}을(를) 십의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 10)",
     "solution_steps_template": [
-      "올림은 구하려는 자리 아래 수가 있으면 무조건 올립니다.",
-      "{{n}}을 백의 자리까지 올림하면 {{ceilTo(n, 100)}}"
+      "올림은 아래 자리가 있으면 무조건 올립니다.",
+      "{{n}} → {{ceilTo(n, 10)}}"
+    ],
+    "hint_steps_template": [
+      "올림은 무조건 올려요.",
+      "십의 자리로 맞춰요."
     ]
   },
   {
-    "id": "tmpl-estimate-choice-002",
+    "id": "tmpl-estimate-A-02",
     "concept_id": "estimate-001",
     "type": "choice",
     "difficulty": 1,
+    "set_id": "A",
     "param_schema": {
-      "n": { "min": 1210, "max": 4890 }
+      "n": {
+        "min": 120,
+        "max": 980
+      }
     },
-    "prompt_template": "{{n}}을 백의 자리까지 버림하면?",
+    "prompt_template": "{{n}}을(를) 십의 자리까지 버림한 값은?",
+    "solver_rule": "floorTo(n, 10)",
+    "solution_steps_template": [
+      "버림은 아래 자리를 모두 버립니다.",
+      "{{n}} → {{floorTo(n, 10)}}"
+    ],
+    "hint_steps_template": [
+      "버림은 무조건 버려요.",
+      "십의 자리로 맞춰요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 10)}}",
+      "{{floorTo(n, 10) + 10}}",
+      "{{floorTo(n, 10) - 10}}",
+      "{{floorTo(n, 10) + 20}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-A-03",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 1200,
+        "max": 9800
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 100)",
+    "solution_steps_template": [
+      "올림: 백의 자리까지 올립니다.",
+      "{{n}} → {{ceilTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리로 올려요.",
+      "아래 자리가 있으면 올림이에요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-A-04",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 1200,
+        "max": 9800
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 버림한 값은?",
+    "solver_rule": "floorTo(n, 100)",
+    "solution_steps_template": [
+      "버림: 백의 자리까지 버립니다.",
+      "{{n}} → {{floorTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리로 버려요.",
+      "아래 자리는 0이 돼요."
+    ],
     "choices_template": [
       "{{floorTo(n, 100)}}",
       "{{floorTo(n, 100) + 100}}",
       "{{floorTo(n, 100) - 100}}",
       "{{floorTo(n, 100) + 200}}"
-    ],
-    "solver_rule": "floorTo(n, 100)",
-    "solution_steps_template": [
-      "버림은 구하려는 자리 아래 수를 무조건 버립니다.",
-      "{{n}}을 백의 자리까지 버림하면 {{floorTo(n, 100)}}"
     ]
   },
   {
-    "id": "tmpl-estimate-number-001",
+    "id": "tmpl-estimate-A-05",
     "concept_id": "estimate-001",
     "type": "number",
     "difficulty": 2,
+    "set_id": "A",
     "param_schema": {
-      "n": { "min": 2150, "max": 7850 }
+      "n": {
+        "min": 1501,
+        "max": 9951
+      }
     },
-    "prompt_template": "{{n}}을 천의 자리까지 올림하세요.",
+    "prompt_template": "{{n}}을(를) 백의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 100)",
+    "solution_steps_template": [
+      "올림: 백의 자리까지 올립니다.",
+      "{{n}} → {{ceilTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "아래 자리가 있으면 올림이에요.",
+      "백의 자리로 맞춰요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-A-06",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 1501,
+        "max": 9951
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 버림한 값은?",
+    "solver_rule": "floorTo(n, 100)",
+    "solution_steps_template": [
+      "버림: 백의 자리까지 버립니다.",
+      "{{n}} → {{floorTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리로 버려요.",
+      "아래 자리는 0이 돼요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 100)}}",
+      "{{floorTo(n, 100) + 100}}",
+      "{{floorTo(n, 100) - 100}}",
+      "{{floorTo(n, 100) + 200}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-A-07",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 12001,
+        "max": 98001
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 올림하면?",
     "solver_rule": "ceilTo(n, 1000)",
     "solution_steps_template": [
-      "올림은 구하려는 자리 아래 수가 있으면 무조건 올립니다.",
-      "{{n}}의 백의 자리 이하를 보면 0이 아닌 수가 있으므로 올립니다.",
-      "{{n}}을 천의 자리까지 올림하면 {{ceilTo(n, 1000)}}"
+      "올림: 천의 자리까지 올립니다.",
+      "{{n}} → {{ceilTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "천의 자리로 올려요.",
+      "아래 자리가 있으면 올림이에요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-A-08",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 12001,
+        "max": 98001
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 버림한 값은?",
+    "solver_rule": "floorTo(n, 1000)",
+    "solution_steps_template": [
+      "버림: 천의 자리까지 버립니다.",
+      "{{n}} → {{floorTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "천의 자리로 버려요.",
+      "아래 자리는 0이 돼요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 1000)}}",
+      "{{floorTo(n, 1000) + 1000}}",
+      "{{floorTo(n, 1000) - 1000}}",
+      "{{floorTo(n, 1000) + 2000}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-A-09",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 20002,
+        "max": 99002
+      }
+    },
+    "prompt_template": "운동장에 {{n}}명이 모였습니다. 천의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 1000)",
+    "solution_steps_template": [
+      "올림: 천의 자리까지 올립니다.",
+      "{{n}} → {{ceilTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "천의 자리로 올려요.",
+      "아래 자리가 있으면 올림이에요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-A-10",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "param_schema": {
+      "n": {
+        "min": 20002,
+        "max": 99002
+      }
+    },
+    "prompt_template": "운동장에 {{n}}명이 모였습니다. 천의 자리까지 버림하면?",
+    "solver_rule": "floorTo(n, 1000)",
+    "solution_steps_template": [
+      "버림: 천의 자리까지 버립니다.",
+      "{{n}} → {{floorTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "천의 자리로 버려요.",
+      "아래 자리는 0이 돼요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 1000)}}",
+      "{{floorTo(n, 1000) + 1000}}",
+      "{{floorTo(n, 1000) - 1000}}",
+      "{{floorTo(n, 1000) + 2000}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-B-01",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 122,
+        "max": 982
+      }
+    },
+    "prompt_template": "{{n}}을(를) 십의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 10)",
+    "solution_steps_template": [
+      "올림은 아래 자리가 있으면 무조건 올립니다.",
+      "{{n}} → {{ceilTo(n, 10)}}"
+    ],
+    "hint_steps_template": [
+      "올림은 무조건 올려요.",
+      "십의 자리로 맞춰요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-B-02",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 122,
+        "max": 982
+      }
+    },
+    "prompt_template": "{{n}}을(를) 십의 자리까지 버림한 값은?",
+    "solver_rule": "floorTo(n, 10)",
+    "solution_steps_template": [
+      "버림은 아래 자리를 모두 버립니다.",
+      "{{n}} → {{floorTo(n, 10)}}"
+    ],
+    "hint_steps_template": [
+      "버림은 무조건 버려요.",
+      "십의 자리로 맞춰요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 10)}}",
+      "{{floorTo(n, 10) + 10}}",
+      "{{floorTo(n, 10) - 10}}",
+      "{{floorTo(n, 10) + 20}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-B-03",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 1202,
+        "max": 9802
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 100)",
+    "solution_steps_template": [
+      "올림: 백의 자리까지 올립니다.",
+      "{{n}} → {{ceilTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리로 올려요.",
+      "아래 자리가 있으면 올림이에요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-B-04",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 1202,
+        "max": 9802
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 버림한 값은?",
+    "solver_rule": "floorTo(n, 100)",
+    "solution_steps_template": [
+      "버림: 백의 자리까지 버립니다.",
+      "{{n}} → {{floorTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리로 버려요.",
+      "아래 자리는 0이 돼요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 100)}}",
+      "{{floorTo(n, 100) + 100}}",
+      "{{floorTo(n, 100) - 100}}",
+      "{{floorTo(n, 100) + 200}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-B-05",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 1503,
+        "max": 9953
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 100)",
+    "solution_steps_template": [
+      "올림: 백의 자리까지 올립니다.",
+      "{{n}} → {{ceilTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "아래 자리가 있으면 올림이에요.",
+      "백의 자리로 맞춰요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-B-06",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 1503,
+        "max": 9953
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 버림한 값은?",
+    "solver_rule": "floorTo(n, 100)",
+    "solution_steps_template": [
+      "버림: 백의 자리까지 버립니다.",
+      "{{n}} → {{floorTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리로 버려요.",
+      "아래 자리는 0이 돼요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 100)}}",
+      "{{floorTo(n, 100) + 100}}",
+      "{{floorTo(n, 100) - 100}}",
+      "{{floorTo(n, 100) + 200}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-B-07",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 12003,
+        "max": 98003
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 1000)",
+    "solution_steps_template": [
+      "올림: 천의 자리까지 올립니다.",
+      "{{n}} → {{ceilTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "천의 자리로 올려요.",
+      "아래 자리가 있으면 올림이에요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-B-08",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 12003,
+        "max": 98003
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 버림한 값은?",
+    "solver_rule": "floorTo(n, 1000)",
+    "solution_steps_template": [
+      "버림: 천의 자리까지 버립니다.",
+      "{{n}} → {{floorTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "천의 자리로 버려요.",
+      "아래 자리는 0이 돼요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 1000)}}",
+      "{{floorTo(n, 1000) + 1000}}",
+      "{{floorTo(n, 1000) - 1000}}",
+      "{{floorTo(n, 1000) + 2000}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-B-09",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 20004,
+        "max": 99004
+      }
+    },
+    "prompt_template": "운동장에 {{n}}명이 모였습니다. 천의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 1000)",
+    "solution_steps_template": [
+      "올림: 천의 자리까지 올립니다.",
+      "{{n}} → {{ceilTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "천의 자리로 올려요.",
+      "아래 자리가 있으면 올림이에요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-B-10",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "param_schema": {
+      "n": {
+        "min": 20004,
+        "max": 99004
+      }
+    },
+    "prompt_template": "운동장에 {{n}}명이 모였습니다. 천의 자리까지 버림하면?",
+    "solver_rule": "floorTo(n, 1000)",
+    "solution_steps_template": [
+      "버림: 천의 자리까지 버립니다.",
+      "{{n}} → {{floorTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "천의 자리로 버려요.",
+      "아래 자리는 0이 돼요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 1000)}}",
+      "{{floorTo(n, 1000) + 1000}}",
+      "{{floorTo(n, 1000) - 1000}}",
+      "{{floorTo(n, 1000) + 2000}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-C-01",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 124,
+        "max": 984
+      }
+    },
+    "prompt_template": "{{n}}을(를) 십의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 10)",
+    "solution_steps_template": [
+      "올림은 아래 자리가 있으면 무조건 올립니다.",
+      "{{n}} → {{ceilTo(n, 10)}}"
+    ],
+    "hint_steps_template": [
+      "올림은 무조건 올려요.",
+      "십의 자리로 맞춰요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-C-02",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 124,
+        "max": 984
+      }
+    },
+    "prompt_template": "{{n}}을(를) 십의 자리까지 버림한 값은?",
+    "solver_rule": "floorTo(n, 10)",
+    "solution_steps_template": [
+      "버림은 아래 자리를 모두 버립니다.",
+      "{{n}} → {{floorTo(n, 10)}}"
+    ],
+    "hint_steps_template": [
+      "버림은 무조건 버려요.",
+      "십의 자리로 맞춰요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 10)}}",
+      "{{floorTo(n, 10) + 10}}",
+      "{{floorTo(n, 10) - 10}}",
+      "{{floorTo(n, 10) + 20}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-C-03",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 1204,
+        "max": 9804
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 100)",
+    "solution_steps_template": [
+      "올림: 백의 자리까지 올립니다.",
+      "{{n}} → {{ceilTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리로 올려요.",
+      "아래 자리가 있으면 올림이에요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-C-04",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 1204,
+        "max": 9804
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 버림한 값은?",
+    "solver_rule": "floorTo(n, 100)",
+    "solution_steps_template": [
+      "버림: 백의 자리까지 버립니다.",
+      "{{n}} → {{floorTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리로 버려요.",
+      "아래 자리는 0이 돼요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 100)}}",
+      "{{floorTo(n, 100) + 100}}",
+      "{{floorTo(n, 100) - 100}}",
+      "{{floorTo(n, 100) + 200}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-C-05",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 1505,
+        "max": 9955
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 100)",
+    "solution_steps_template": [
+      "올림: 백의 자리까지 올립니다.",
+      "{{n}} → {{ceilTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "아래 자리가 있으면 올림이에요.",
+      "백의 자리로 맞춰요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-C-06",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 1505,
+        "max": 9955
+      }
+    },
+    "prompt_template": "{{n}}을(를) 백의 자리까지 버림한 값은?",
+    "solver_rule": "floorTo(n, 100)",
+    "solution_steps_template": [
+      "버림: 백의 자리까지 버립니다.",
+      "{{n}} → {{floorTo(n, 100)}}"
+    ],
+    "hint_steps_template": [
+      "백의 자리로 버려요.",
+      "아래 자리는 0이 돼요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 100)}}",
+      "{{floorTo(n, 100) + 100}}",
+      "{{floorTo(n, 100) - 100}}",
+      "{{floorTo(n, 100) + 200}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-C-07",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 12005,
+        "max": 98005
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 1000)",
+    "solution_steps_template": [
+      "올림: 천의 자리까지 올립니다.",
+      "{{n}} → {{ceilTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "천의 자리로 올려요.",
+      "아래 자리가 있으면 올림이에요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-C-08",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 12005,
+        "max": 98005
+      }
+    },
+    "prompt_template": "{{n}}을(를) 천의 자리까지 버림한 값은?",
+    "solver_rule": "floorTo(n, 1000)",
+    "solution_steps_template": [
+      "버림: 천의 자리까지 버립니다.",
+      "{{n}} → {{floorTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "천의 자리로 버려요.",
+      "아래 자리는 0이 돼요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 1000)}}",
+      "{{floorTo(n, 1000) + 1000}}",
+      "{{floorTo(n, 1000) - 1000}}",
+      "{{floorTo(n, 1000) + 2000}}"
+    ]
+  },
+  {
+    "id": "tmpl-estimate-C-09",
+    "concept_id": "estimate-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 20006,
+        "max": 99006
+      }
+    },
+    "prompt_template": "운동장에 {{n}}명이 모였습니다. 천의 자리까지 올림하면?",
+    "solver_rule": "ceilTo(n, 1000)",
+    "solution_steps_template": [
+      "올림: 천의 자리까지 올립니다.",
+      "{{n}} → {{ceilTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "천의 자리로 올려요.",
+      "아래 자리가 있으면 올림이에요."
+    ]
+  },
+  {
+    "id": "tmpl-estimate-C-10",
+    "concept_id": "estimate-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "param_schema": {
+      "n": {
+        "min": 20006,
+        "max": 99006
+      }
+    },
+    "prompt_template": "운동장에 {{n}}명이 모였습니다. 천의 자리까지 버림하면?",
+    "solver_rule": "floorTo(n, 1000)",
+    "solution_steps_template": [
+      "버림: 천의 자리까지 버립니다.",
+      "{{n}} → {{floorTo(n, 1000)}}"
+    ],
+    "hint_steps_template": [
+      "천의 자리로 버려요.",
+      "아래 자리는 0이 돼요."
+    ],
+    "choices_template": [
+      "{{floorTo(n, 1000)}}",
+      "{{floorTo(n, 1000) + 1000}}",
+      "{{floorTo(n, 1000) - 1000}}",
+      "{{floorTo(n, 1000) + 2000}}"
     ]
   }
 ]

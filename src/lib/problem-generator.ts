@@ -40,6 +40,12 @@ function evaluateFunction(funcName: string, args: number[]): string | null {
       return math.divisors(args[0]).join(', ')
     case 'divisorCount':
       return String(math.divisorCount(args[0]))
+    case 'smallestDivisorOverOne':
+      return String(math.smallestDivisorOverOne(args[0]))
+    case 'largestProperDivisor':
+      return String(math.largestProperDivisor(args[0]))
+    case 'secondLargestDivisor':
+      return String(math.secondLargestDivisor(args[0]))
     case 'multiples':
       return math.formatNumberList(math.multiples(args[0], args[1] || 5), true)
     case 'commonDivisors':
@@ -209,6 +215,9 @@ function generateSingleProblem(
   const solutionSteps = template.solution_steps_template.map(step =>
     evaluateTemplate(step, params)
   )
+  const hintSteps = template.hint_steps_template
+    ? template.hint_steps_template.map(step => evaluateTemplate(step, params))
+    : undefined
 
   if (template.type === 'choice' && template.choices_template) {
     // 객관식: 보기 생성 및 셔플
@@ -226,57 +235,103 @@ function generateSingleProblem(
     return {
       index,
       templateId: template.id,
+      setId: template.set_id,
       params,
       prompt,
       type: 'choice',
       choices: shuffled,
       correctAnswer,
       correctChoiceIndex,
-      solutionSteps
+      solutionSteps,
+      hintSteps
     }
   }
 
   return {
     index,
     templateId: template.id,
+    setId: template.set_id,
     params,
     prompt,
     type: 'number',
     correctAnswer,
-    solutionSteps
+    solutionSteps,
+    hintSteps
   }
 }
 
 // 문제 세트 생성
 export function generateProblems(
   templates: ProblemTemplate[],
-  count: number = 10,
-  seed?: number
+  options?: {
+    count?: number
+    setId?: 'A' | 'B' | 'C'
+    difficultyMix?: { 1: number; 2: number; 3: number }
+    seed?: number
+  }
 ): Problem[] {
-  const actualSeed = seed ?? Date.now()
+  const count = options?.count ?? 10
+  const setId = options?.setId ?? 'A'
+  const difficultyMix = options?.difficultyMix ?? { 1: 4, 2: 4, 3: 2 }
+  const actualSeed = options?.seed ?? Date.now()
   const random = seededRandom(actualSeed)
+
+  const setTemplates = templates.filter(t => t.set_id === setId)
+  const totalMix = Object.values(difficultyMix).reduce((a, b) => a + b, 0)
+  if (totalMix !== count) {
+    throw new Error(`difficultyMix total (${totalMix}) must match count (${count})`)
+  }
+
+  const byDifficulty: Record<1 | 2 | 3, ProblemTemplate[]> = {
+    1: [],
+    2: [],
+    3: []
+  }
+
+  for (const template of setTemplates) {
+    byDifficulty[template.difficulty].push(template)
+  }
+
+  for (const level of [1, 2, 3] as const) {
+    if (byDifficulty[level].length < difficultyMix[level]) {
+      throw new Error(
+        `Not enough templates for set ${setId}, difficulty ${level}: ` +
+        `${byDifficulty[level].length} < ${difficultyMix[level]}`
+      )
+    }
+  }
+
+  const selectedTemplates: ProblemTemplate[] = []
+  for (const level of [1, 2, 3] as const) {
+    const shuffled = shuffleArray(byDifficulty[level], random)
+    selectedTemplates.push(...shuffled.slice(0, difficultyMix[level]))
+  }
+
+  const orderedTemplates = shuffleArray(selectedTemplates, random)
 
   const problems: Problem[] = []
   const usedKeys = new Set<string>()
 
-  let attempts = 0
-  const maxAttempts = count * 10
+  orderedTemplates.forEach((template, idx) => {
+    let attempts = 0
+    const maxAttempts = 20
+    let params = generateParams(template.param_schema, random)
+    let key = paramsKey(template.id, params)
 
-  while (problems.length < count && attempts < maxAttempts) {
-    attempts++
+    while (usedKeys.has(key) && attempts < maxAttempts) {
+      attempts++
+      params = generateParams(template.param_schema, random)
+      key = paramsKey(template.id, params)
+    }
 
-    // 랜덤 템플릿 선택
-    const template = templates[Math.floor(random() * templates.length)]
-    const params = generateParams(template.param_schema, random)
-    const key = paramsKey(template.id, params)
-
-    // 중복 체크
-    if (usedKeys.has(key)) continue
+    if (usedKeys.has(key)) {
+      throw new Error(`Failed to generate unique params for template ${template.id}`)
+    }
 
     usedKeys.add(key)
-    const problem = generateSingleProblem(template, params, problems.length, random)
+    const problem = generateSingleProblem(template, params, idx, random)
     problems.push(problem)
-  }
+  })
 
   return problems
 }

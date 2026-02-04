@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test'
 
+const basePath = '/math_assist'
+
 const concepts = [
   { id: 'divisor-001', name: '약수' },
   { id: 'multiple-001', name: '배수' },
@@ -12,7 +14,7 @@ for (const concept of concepts) {
     // 여러 번 시도해서 객관식 문제 찾기
     for (let attempt = 0; attempt < 5; attempt++) {
       // 새 세션 시작을 위해 localStorage 클리어
-      await page.goto(`/practice/${concept.id}`)
+      await page.goto(`${basePath}/practice/${concept.id}`)
       await page.evaluate(() => localStorage.clear())
       await page.reload()
       await page.waitForSelector('button:has-text("다음")', { timeout: 10000 })
