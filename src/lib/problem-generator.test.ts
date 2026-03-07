@@ -9,8 +9,8 @@ function makeTemplate(overrides: Partial<ProblemTemplate>): ProblemTemplate {
     type: 'number',
     difficulty: 1,
     set_id: 'A',
-    param_schema: { n: { min: 2, max: 3 } },
-    prompt_template: '{{n}}',
+    param_schema: { n: { min: 2, max: 20 } },
+    prompt_template: `문제 ${overrides.id ?? 'tmpl-1'}: {{n}}`,
     solver_rule: 'n',
     solution_steps_template: ['{{n}}'],
     ...overrides
@@ -59,5 +59,21 @@ describe('generateProblems', () => {
     ]
 
     expect(() => generateProblems(templates, { count: 10, setId: 'A' })).toThrow()
+  })
+
+  it('regenerates params to avoid duplicate rendered prompts in one session', () => {
+    const templates: ProblemTemplate[] = [
+      makeTemplate({ id: 'a1', difficulty: 1, set_id: 'A', prompt_template: '값은 {{n}}' }),
+      makeTemplate({ id: 'a2', difficulty: 1, set_id: 'A', prompt_template: '값은 {{n}}' }),
+    ]
+
+    const problems = generateProblems(templates, {
+      count: 2,
+      setId: 'A',
+      seed: 7,
+      difficultyMix: { 1: 2, 2: 0, 3: 0 }
+    })
+
+    expect(new Set(problems.map(problem => problem.prompt)).size).toBe(2)
   })
 })

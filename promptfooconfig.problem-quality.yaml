@@ -1,0 +1,16 @@
+description: Math Assist problem quality gate
+
+providers:
+  - file://scripts/promptfoo/problem-quality-provider.js
+
+prompts:
+  - '{{auditType}}'
+
+tests:
+  - path: file://scripts/promptfoo/problem-quality-tests.js:generateTests
+    config:
+      sampleCount: 16
+      sessionSeeds:
+        - 11
+        - 29
+        - 47

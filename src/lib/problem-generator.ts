@@ -311,32 +311,30 @@ export function generateProblems(
 
   const problems: Problem[] = []
   const usedKeys = new Set<string>()
+  const usedPrompts = new Set<string>()
 
   orderedTemplates.forEach((template, idx) => {
     let attempts = 0
     const maxAttempts = 20
     let params = generateParams(template.param_schema, random)
     let key = paramsKey(template.id, params)
+    let problem = generateSingleProblem(template, params, idx, random)
 
-    while (usedKeys.has(key) && attempts < maxAttempts) {
+    while ((usedKeys.has(key) || usedPrompts.has(problem.prompt)) && attempts < maxAttempts) {
       attempts++
       params = generateParams(template.param_schema, random)
       key = paramsKey(template.id, params)
+      problem = generateSingleProblem(template, params, idx, random)
     }
 
-    if (usedKeys.has(key)) {
-      throw new Error(`Failed to generate unique params for template ${template.id}`)
+    if (usedKeys.has(key) || usedPrompts.has(problem.prompt)) {
+      throw new Error(`Failed to generate unique prompt for template ${template.id}`)
     }
 
     usedKeys.add(key)
-    const problem = generateSingleProblem(template, params, idx, random)
+    usedPrompts.add(problem.prompt)
     problems.push(problem)
   })
 
   return problems
-}
-
-// 세션 ID 생성
-export function generateSessionId(): string {
-  return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 }

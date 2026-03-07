@@ -16,13 +16,14 @@ export default function ProgressIndicator({
   return (
     <div className="flex justify-center gap-2 flex-wrap">
       {Array.from({ length: total }, (_, i) => {
-        const isAnswered = answers[i] !== null
+        const isAnswered = typeof answers[i] === 'string' && answers[i]!.trim() !== ''
         const isCurrent = i === current
 
         return (
           <button
             key={i}
             onClick={() => onSelect?.(i)}
+            data-testid={`progress-step-${i + 1}`}
             className={`
               w-10 h-10 rounded-full flex items-center justify-center
               font-medium text-sm transition-all duration-200

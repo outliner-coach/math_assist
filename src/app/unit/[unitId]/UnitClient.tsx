@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { getUnitById, getConceptsByUnit } from '@/lib/data'
-import type { Unit, Concept } from '@/lib/types'
+import { loadConceptProgressMap } from '@/lib/progress'
+import type { Unit, Concept, ConceptProgressMap } from '@/lib/types'
 import { ConceptCard, Button } from '@/components'
 
 export default function UnitClient() {
@@ -13,6 +14,7 @@ export default function UnitClient() {
 
   const [unit, setUnit] = useState<Unit | null>(null)
   const [concepts, setConcepts] = useState<Concept[]>([])
+  const [progressMap, setProgressMap] = useState<ConceptProgressMap>({})
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -23,6 +25,7 @@ export default function UnitClient() {
       .then(([unitData, conceptsData]) => {
         setUnit(unitData)
         setConcepts(conceptsData)
+        setProgressMap(loadConceptProgressMap())
       })
       .catch(console.error)
       .finally(() => setLoading(false))
@@ -69,7 +72,11 @@ export default function UnitClient() {
         </h2>
         <div className="grid gap-4">
           {concepts.map(concept => (
-            <ConceptCard key={concept.id} concept={concept} />
+            <ConceptCard
+              key={concept.id}
+              concept={concept}
+              progress={progressMap[concept.id] ?? null}
+            />
           ))}
         </div>
       </section>

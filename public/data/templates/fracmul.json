@@ -232,7 +232,7 @@
     "id": "tmpl-fracmul-A-07",
     "concept_id": "fracmul-001",
     "type": "choice",
-    "difficulty": 2,
+    "difficulty": 3,
     "set_id": "A",
     "param_schema": {
       "n1": {
@@ -252,7 +252,7 @@
         "max": 10
       }
     },
-    "prompt_template": "곱한 뒤 분자를 더한 값은?",
+    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱했을 때 분자끼리 곱한 값은?",
     "solver_rule": "n1 * n2",
     "solution_steps_template": [
       "분자끼리 곱합니다: {{n1}} × {{n2}} = {{n1 * n2}}"
@@ -272,7 +272,7 @@
     "id": "tmpl-fracmul-A-08",
     "concept_id": "fracmul-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 3,
     "set_id": "A",
     "param_schema": {
       "n1": {
@@ -307,7 +307,7 @@
     "id": "tmpl-fracmul-A-09",
     "concept_id": "fracmul-001",
     "type": "number",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "A",
     "param_schema": {
       "n1": {
@@ -327,7 +327,7 @@
         "max": 12
       }
     },
-    "prompt_template": "곱한 뒤 분자에 1을 더한 값은?",
+    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱한 뒤, 분자에 1을 더해 만든 분수는?",
     "solver_rule": "fracMulOff(n1, d1, n2, d2, 1)",
     "solution_steps_template": [
       "곱한 뒤 분자에 1을 더합니다.",
@@ -342,7 +342,7 @@
     "id": "tmpl-fracmul-A-10",
     "concept_id": "fracmul-001",
     "type": "choice",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "A",
     "param_schema": {
       "n1": {
@@ -362,7 +362,7 @@
         "max": 12
       }
     },
-    "prompt_template": "두 분수를 곱한 값은?",
+    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱한 값은?",
     "solver_rule": "fracMul(n1, d1, n2, d2)",
     "solution_steps_template": [
       "곱셈 후 약분합니다.",
@@ -612,7 +612,7 @@
     "id": "tmpl-fracmul-B-07",
     "concept_id": "fracmul-001",
     "type": "choice",
-    "difficulty": 2,
+    "difficulty": 3,
     "set_id": "B",
     "param_schema": {
       "n1": {
@@ -632,7 +632,7 @@
         "max": 12
       }
     },
-    "prompt_template": "곱한 뒤 분자를 더한 값은?",
+    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱했을 때 분자끼리 곱한 값은?",
     "solver_rule": "n1 * n2",
     "solution_steps_template": [
       "분자끼리 곱합니다: {{n1}} × {{n2}} = {{n1 * n2}}"
@@ -652,7 +652,7 @@
     "id": "tmpl-fracmul-B-08",
     "concept_id": "fracmul-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 3,
     "set_id": "B",
     "param_schema": {
       "n1": {
@@ -687,7 +687,7 @@
     "id": "tmpl-fracmul-B-09",
     "concept_id": "fracmul-001",
     "type": "number",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "B",
     "param_schema": {
       "n1": {
@@ -707,7 +707,7 @@
         "max": 12
       }
     },
-    "prompt_template": "곱한 뒤 분자에 1을 더한 값은?",
+    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱한 뒤, 분자에 1을 더해 만든 분수는?",
     "solver_rule": "fracMulOff(n1, d1, n2, d2, 1)",
     "solution_steps_template": [
       "곱한 뒤 분자에 1을 더합니다.",
@@ -722,7 +722,7 @@
     "id": "tmpl-fracmul-B-10",
     "concept_id": "fracmul-001",
     "type": "choice",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "B",
     "param_schema": {
       "n1": {
@@ -742,7 +742,7 @@
         "max": 12
       }
     },
-    "prompt_template": "두 분수를 곱한 값은?",
+    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱한 값은?",
     "solver_rule": "fracMul(n1, d1, n2, d2)",
     "solution_steps_template": [
       "곱셈 후 약분합니다.",
@@ -992,7 +992,7 @@
     "id": "tmpl-fracmul-C-07",
     "concept_id": "fracmul-001",
     "type": "choice",
-    "difficulty": 2,
+    "difficulty": 3,
     "set_id": "C",
     "param_schema": {
       "n1": {
@@ -1012,7 +1012,7 @@
         "max": 12
       }
     },
-    "prompt_template": "곱한 뒤 분자를 더한 값은?",
+    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱했을 때 분자끼리 곱한 값은?",
     "solver_rule": "n1 * n2",
     "solution_steps_template": [
       "분자끼리 곱합니다: {{n1}} × {{n2}} = {{n1 * n2}}"
@@ -1032,7 +1032,7 @@
     "id": "tmpl-fracmul-C-08",
     "concept_id": "fracmul-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 3,
     "set_id": "C",
     "param_schema": {
       "n1": {
@@ -1067,7 +1067,7 @@
     "id": "tmpl-fracmul-C-09",
     "concept_id": "fracmul-001",
     "type": "number",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "C",
     "param_schema": {
       "n1": {
@@ -1087,7 +1087,7 @@
         "max": 12
       }
     },
-    "prompt_template": "곱한 뒤 분자에 1을 더한 값은?",
+    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱한 뒤, 분자에 1을 더해 만든 분수는?",
     "solver_rule": "fracMulOff(n1, d1, n2, d2, 1)",
     "solution_steps_template": [
       "곱한 뒤 분자에 1을 더합니다.",
@@ -1102,7 +1102,7 @@
     "id": "tmpl-fracmul-C-10",
     "concept_id": "fracmul-001",
     "type": "choice",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "C",
     "param_schema": {
       "n1": {
@@ -1122,7 +1122,7 @@
         "max": 12
       }
     },
-    "prompt_template": "두 분수를 곱한 값은?",
+    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱한 값은?",
     "solver_rule": "fracMul(n1, d1, n2, d2)",
     "solution_steps_template": [
       "곱셈 후 약분합니다.",

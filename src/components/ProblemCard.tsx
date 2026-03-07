@@ -12,9 +12,12 @@ interface ProblemCardProps {
 
 export default function ProblemCard({ problem, answer, onAnswer }: ProblemCardProps) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+    <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8" data-testid="problem-card">
       {/* 문제 */}
-      <div className="text-xl md:text-2xl font-medium text-gray-800 mb-8 text-center leading-relaxed">
+      <div
+        className="text-xl md:text-2xl font-medium text-gray-800 mb-8 text-center leading-relaxed"
+        data-testid="problem-prompt"
+      >
         <MathText>{problem.prompt}</MathText>
       </div>
 
@@ -25,6 +28,7 @@ export default function ProblemCard({ problem, answer, onAnswer }: ProblemCardPr
             <button
               key={index}
               data-choice={index}
+              data-testid={`choice-${index}`}
               onClick={() => onAnswer(String(index))}
               className={`
                 p-4 md:p-6 rounded-xl text-lg md:text-xl font-medium

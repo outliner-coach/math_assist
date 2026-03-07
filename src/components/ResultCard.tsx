@@ -1,15 +1,28 @@
 'use client'
 
 import MathText from './MathText'
-import type { SubmissionResult, Problem } from '@/lib/types'
+import type { SubmissionResult } from '@/lib/types'
 
 interface ResultCardProps {
   result: SubmissionResult
-  problem: Problem
 }
 
-export default function ResultCard({ result, problem }: ResultCardProps) {
-  const { correct, userAnswer, correctAnswer, solutionSteps } = result
+function getRenderedAnswer(result: SubmissionResult): string | null {
+  if (result.userAnswer === null || result.userAnswer.trim() === '') {
+    return null
+  }
+
+  if (result.problem.type === 'choice' && result.problem.choices) {
+    const choiceIndex = parseInt(result.userAnswer, 10)
+    return result.problem.choices[choiceIndex] ?? result.userAnswer
+  }
+
+  return result.userAnswer
+}
+
+export default function ResultCard({ result }: ResultCardProps) {
+  const { correct, correctAnswer, solutionSteps } = result
+  const renderedAnswer = getRenderedAnswer(result)
 
   return (
     <div className={`
@@ -19,8 +32,8 @@ export default function ResultCard({ result, problem }: ResultCardProps) {
       {/* 문제 */}
       <div className="flex items-start justify-between mb-4">
         <div className="text-lg font-medium text-gray-800">
-          <span className="text-gray-400 mr-2">Q{result.index + 1}.</span>
-          <MathText>{problem.prompt}</MathText>
+          <span className="text-gray-400 mr-2">Q{result.problem.index + 1}.</span>
+          <MathText>{result.problem.prompt}</MathText>
         </div>
         <span className={`
           px-3 py-1 rounded-full text-sm font-bold
@@ -35,10 +48,8 @@ export default function ResultCard({ result, problem }: ResultCardProps) {
         <div className={`p-3 rounded-lg ${correct ? 'bg-green-50' : 'bg-red-50'}`}>
           <p className="text-xs text-gray-500 mb-1">내 답</p>
           <p className={`text-lg font-medium ${correct ? 'text-green-700' : 'text-red-700'}`}>
-            {userAnswer !== null ? (
-              problem.type === 'choice' && problem.choices
-                ? <MathText>{problem.choices[parseInt(userAnswer)]}</MathText>
-                : <MathText>{userAnswer}</MathText>
+            {renderedAnswer ? (
+              <MathText>{renderedAnswer}</MathText>
             ) : (
               <span className="text-gray-400">미응답</span>
             )}

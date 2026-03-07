@@ -4,20 +4,29 @@ import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { getConceptById, getTemplatesByConceptId } from '@/lib/data'
-import { generateProblems, generateSessionId } from '@/lib/problem-generator'
-import { gradeSession, calculateScore } from '@/lib/grader'
+import { generateProblems } from '@/lib/problem-generator'
+import { gradeSession } from '@/lib/grader'
+import { recordConceptProgress } from '@/lib/progress'
 import {
+  buildSessionResult,
   saveSession,
   loadSession,
   clearSession,
   createSessionTiming,
+  createSessionId,
+  createRetrySessionFromResult,
   updateAnswer,
   updateCurrentIndex,
   saveResult,
-  isSessionExpired
+  loadResult,
+  matchesSessionRequest
 } from '@/lib/session'
-import type { Concept, PracticeSession } from '@/lib/types'
+import type { Concept, PracticeMode, PracticeSession } from '@/lib/types'
 import { Button, ProblemCard, ProgressIndicator, MathText } from '@/components'
+
+function isAnswered(answer: string | null): boolean {
+  return typeof answer === 'string' && answer.trim() !== ''
+}
 
 export default function PracticeClient() {
   const params = useParams()
@@ -26,6 +35,9 @@ export default function PracticeClient() {
   const conceptId = params.conceptId as string
   const rawSet = searchParams.get('set')
   const setId = rawSet === 'B' || rawSet === 'C' ? rawSet : 'A'
+  const requestedMode: PracticeMode =
+    searchParams.get('mode') === 'retry-wrong' ? 'retry-wrong' : 'standard'
+  const sourceResultId = searchParams.get('source') ?? undefined
 
   const [concept, setConcept] = useState<Concept | null>(null)
   const [session, setSession] = useState<PracticeSession | null>(null)
@@ -49,11 +61,32 @@ export default function PracticeClient() {
         const existingSession = loadSession()
         if (
           existingSession &&
-          existingSession.conceptId === conceptId &&
-          existingSession.setId === setId &&
-          !isSessionExpired(existingSession)
+          matchesSessionRequest(existingSession, {
+            conceptId,
+            setId,
+            mode: requestedMode,
+            sourceResultId
+          })
         ) {
           setSession(existingSession)
+          setLoading(false)
+          return
+        }
+
+        if (requestedMode === 'retry-wrong') {
+          const result = loadResult()
+          if (
+            result &&
+            result.sessionId === sourceResultId &&
+            result.conceptId === conceptId &&
+            result.setId === setId
+          ) {
+            const retrySession = createRetrySessionFromResult(result)
+            if (retrySession) {
+              saveSession(retrySession)
+              setSession(retrySession)
+            }
+          }
           setLoading(false)
           return
         }
@@ -70,11 +103,12 @@ export default function PracticeClient() {
         const timing = createSessionTiming()
 
         const newSession: PracticeSession = {
-          sessionId: generateSessionId(),
+          sessionId: createSessionId(),
           conceptId,
           setId,
+          mode: 'standard',
           problems,
-          answers: Array(10).fill(null),
+          answers: Array(problems.length).fill(null),
           currentIndex: 0,
           ...timing
         }
@@ -89,7 +123,7 @@ export default function PracticeClient() {
     }
 
     initSession()
-  }, [conceptId, setId])
+  }, [conceptId, requestedMode, setId, sourceResultId])
 
   // 답안 변경
   const handleAnswer = useCallback((answer: string) => {
@@ -117,17 +151,10 @@ export default function PracticeClient() {
 
     try {
       const results = gradeSession(session.problems, session.answers)
-      const score = calculateScore(results)
+      const sessionResult = buildSessionResult(session, results)
 
-      saveResult({
-        sessionId: session.sessionId,
-        conceptId: session.conceptId,
-        setId: session.setId,
-        score,
-        total: session.problems.length,
-        results,
-        completedAt: Date.now()
-      })
+      saveResult(sessionResult)
+      recordConceptProgress(sessionResult)
 
       clearSession()
       router.push('/result')
@@ -162,9 +189,10 @@ export default function PracticeClient() {
 
   const currentProblem = session.problems[session.currentIndex]
   const currentAnswer = session.answers[session.currentIndex]
-  const allAnswered = session.answers.every(a => a !== null)
-  const answeredCount = session.answers.filter(a => a !== null).length
+  const allAnswered = session.answers.every(isAnswered)
+  const answeredCount = session.answers.filter(isAnswered).length
   const hintSteps = currentProblem.hintSteps ?? []
+  const modeLabel = session.mode === 'retry-wrong' ? '오답 다시 풀기' : `세트 ${session.setId}`
 
   return (
     <div className="space-y-6 pb-32">
@@ -176,10 +204,14 @@ export default function PracticeClient() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </Link>
-          <h1 className="text-lg font-bold text-gray-800">{concept.concept_title}</h1>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-600">
+              {modeLabel}
+            </p>
+            <h1 className="text-lg font-bold text-gray-800">{concept.concept_title}</h1>
+          </div>
         </div>
         <span className="text-sm text-gray-500">
-          세트 {session.setId} ·{' '}
           {answeredCount} / {session.problems.length}
         </span>
       </header>
@@ -237,6 +269,7 @@ export default function PracticeClient() {
             onClick={() => handleNavigate(session.currentIndex - 1)}
             disabled={session.currentIndex === 0}
             className="flex-1"
+            data-testid="previous-button"
           >
             이전
           </Button>
@@ -245,6 +278,7 @@ export default function PracticeClient() {
             <Button
               onClick={() => handleNavigate(session.currentIndex + 1)}
               className="flex-1"
+              data-testid="next-button"
             >
               다음
             </Button>
@@ -253,8 +287,13 @@ export default function PracticeClient() {
               onClick={handleSubmit}
               disabled={!allAnswered || submitting}
               className="flex-1"
+              data-testid="submit-button"
             >
-              {submitting ? '제출 중...' : allAnswered ? '제출하기' : `${answeredCount}/10 완료`}
+              {submitting
+                ? '제출 중...'
+                : allAnswered
+                  ? '제출하기'
+                  : `${answeredCount}/${session.problems.length} 완료`}
             </Button>
           )}
         </div>

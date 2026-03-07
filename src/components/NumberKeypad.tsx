@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 interface NumberKeypadProps {
   value: string
@@ -80,6 +80,7 @@ export default function NumberKeypad({ value, onChange, onComplete }: NumberKeyp
     <div className="w-full">
       {/* 입력 필드 */}
       <div
+        data-testid="keypad-display"
         className="w-full p-4 text-2xl text-center bg-white border-2 border-gray-300 rounded-xl mb-4 min-h-[60px] cursor-pointer"
         onClick={() => setIsOpen(true)}
       >
@@ -92,6 +93,7 @@ export default function NumberKeypad({ value, onChange, onComplete }: NumberKeyp
           {keys.flat().map((key, index) => (
             <button
               key={index}
+              data-testid={`key-${encodeURIComponent(key)}`}
               className={`p-4 text-xl font-medium rounded-xl min-h-touch touch-manipulation transition-colors ${getKeyStyle(key)} border border-gray-200 active:bg-gray-100`}
               onClick={() => handleKey(key)}
             >

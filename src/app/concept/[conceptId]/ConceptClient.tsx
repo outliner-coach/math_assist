@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { getConceptById, getUnitById } from '@/lib/data'
-import type { Concept, Unit } from '@/lib/types'
+import { loadConceptProgress } from '@/lib/progress'
+import type { Concept, ConceptProgressSummary, Unit } from '@/lib/types'
 import { Button, MathText, VisualAid } from '@/components'
 
 export default function ConceptClient() {
@@ -14,6 +15,7 @@ export default function ConceptClient() {
 
   const [concept, setConcept] = useState<Concept | null>(null)
   const [unit, setUnit] = useState<Unit | null>(null)
+  const [progress, setProgress] = useState<ConceptProgressSummary | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -24,6 +26,7 @@ export default function ConceptClient() {
           const unitData = await getUnitById(conceptData.unit_id)
           setUnit(unitData)
         }
+        setProgress(loadConceptProgress(conceptId))
       })
       .catch(console.error)
       .finally(() => setLoading(false))
@@ -62,6 +65,32 @@ export default function ConceptClient() {
           <h1 className="text-2xl font-bold text-gray-800">{concept.concept_title}</h1>
         </div>
       </header>
+
+      {progress && (
+        <section
+          className={`rounded-2xl p-5 ${
+            progress.needsReview ? 'bg-amber-50' : 'bg-emerald-50'
+          }`}
+        >
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-sm font-semibold text-gray-700">최근 학습 요약</p>
+              <p className="text-sm text-gray-600">
+                최근 점수 {progress.latestScore}점 · 최고 {progress.bestScore}점 · 총 {progress.attemptCount}회
+              </p>
+            </div>
+            <span
+              className={`rounded-full px-3 py-1 text-sm font-medium ${
+                progress.needsReview
+                  ? 'bg-amber-200 text-amber-900'
+                  : 'bg-emerald-200 text-emerald-800'
+              }`}
+            >
+              {progress.needsReview ? '복습 추천' : '진행 양호'}
+            </span>
+          </div>
+        </section>
+      )}
 
       {/* 친절한 설명 */}
       <section className="bg-white rounded-2xl shadow-md p-6 space-y-3">
@@ -163,7 +192,11 @@ export default function ConceptClient() {
       {/* 연습 세트 선택 */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">
         <div className="max-w-4xl mx-auto space-y-3">
-          <p className="text-sm text-gray-600 text-center">연습 세트를 선택하세요 (각 10문항)</p>
+          <p className="text-sm text-gray-600 text-center">
+            {progress?.needsReview
+              ? '최근에 틀린 문제가 있었어요. 같은 개념으로 다시 감각을 잡아보세요.'
+              : '연습 세트를 선택하세요 (각 10문항)'}
+          </p>
           <div className="grid grid-cols-3 gap-3">
             {(['A', 'B', 'C'] as const).map((set) => (
               <Button

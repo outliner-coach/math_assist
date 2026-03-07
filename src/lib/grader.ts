@@ -136,7 +136,7 @@ export function gradeSession(
     const userAnswer = answers[index]
     let correct = false
 
-    if (userAnswer !== null) {
+    if (userAnswer !== null && userAnswer.trim() !== '') {
       if (problem.type === 'choice') {
         const userChoice = parseInt(userAnswer)
         correct = !isNaN(userChoice) && userChoice === problem.correctChoiceIndex
@@ -150,7 +150,8 @@ export function gradeSession(
       correct,
       userAnswer,
       correctAnswer: problem.correctAnswer,
-      solutionSteps: problem.solutionSteps
+      solutionSteps: problem.solutionSteps,
+      problem
     }
   })
 }

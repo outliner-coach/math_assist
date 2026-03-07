@@ -54,11 +54,16 @@ export interface Problem {
   hintSteps?: string[]
 }
 
+export type PracticeMode = 'standard' | 'retry-wrong'
+
 // 연습 세션
 export interface PracticeSession {
   sessionId: string
   conceptId: string
   setId: 'A' | 'B' | 'C'
+  mode: PracticeMode
+  sourceResultId?: string
+  sourceProblemIndexes?: number[]
   problems: Problem[]
   answers: (string | null)[]
   currentIndex: number
@@ -73,17 +78,32 @@ export interface SubmissionResult {
   userAnswer: string | null
   correctAnswer: string
   solutionSteps: string[]
+  problem: Problem
 }
 
 export interface SessionResult {
   sessionId: string
   conceptId: string
   setId: 'A' | 'B' | 'C'
+  mode: PracticeMode
   score: number
   total: number
+  wrongCount: number
   results: SubmissionResult[]
   completedAt: number
 }
+
+export interface ConceptProgressSummary {
+  conceptId: string
+  attemptCount: number
+  bestScore: number
+  latestScore: number
+  lastCompletedAt: number
+  needsReview: boolean
+  lastMode: PracticeMode
+}
+
+export type ConceptProgressMap = Record<string, ConceptProgressSummary>
 
 // 채점용 정규화된 값
 export interface NormalizedValue {
