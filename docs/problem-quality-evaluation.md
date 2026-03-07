@@ -40,8 +40,14 @@ npm run promptfoo:problems
 ```
 
 - 출력물: `out/promptfoo/problem-quality.json`
+- 웹 리포트: `public/reports/promptfoo-problem-quality.html`
 - 기본 동작: `promptfoo`가 4개 스위트를 모두 평가하고, 실패 케이스가 하나라도 있으면 exit code 1로 종료
 - 특징: 외부 LLM API 없이 로컬 규칙만 사용하므로 어떤 에이전트가 실행해도 같은 결과가 나옵니다.
+
+브라우저에서 확인할 때:
+
+- 로컬 개발 서버: `/math_assist/reports/promptfoo-problem-quality.html`
+- GitHub Pages: `https://outliner-coach.github.io/math_assist/reports/promptfoo-problem-quality.html`
 
 ## Evaluation Model
 

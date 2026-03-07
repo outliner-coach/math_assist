@@ -11,7 +11,7 @@
     "test:e2e": "playwright test",
     "validate:templates": "node scripts/validate-templates.js",
     "audit:problems": "node scripts/problem-quality-report.js",
-    "promptfoo:problems": "promptfoo eval -c promptfooconfig.problem-quality.yaml --no-progress-bar -o out/promptfoo/problem-quality.json"
+    "promptfoo:problems": "mkdir -p public/reports out/promptfoo && promptfoo eval -c promptfooconfig.problem-quality.yaml --no-progress-bar -o public/reports/promptfoo-problem-quality.html -o out/promptfoo/problem-quality.json"
   },
   "dependencies": {
     "katex": "0.16.11",
