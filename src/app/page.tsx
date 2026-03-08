@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { getUnits } from '@/lib/data'
 import type { Unit } from '@/lib/types'
-import { Button } from '@/components'
-
 export default function HomePage() {
   const [units, setUnits] = useState<Unit[]>([])
   const [loading, setLoading] = useState(true)
@@ -35,6 +33,14 @@ export default function HomePage() {
         <p className="text-gray-600">
           초등학교 5학년 수학 개념을 배우고 연습해요
         </p>
+        <div className="mt-4">
+          <Link
+            href="/review/problems"
+            className="inline-flex min-h-[40px] items-center rounded-full border-2 border-primary-600 px-4 py-2 text-sm font-medium text-primary-600 transition hover:bg-primary-50"
+          >
+            문제 검수 보드
+          </Link>
+        </div>
       </header>
 
       {/* 단원 목록 */}

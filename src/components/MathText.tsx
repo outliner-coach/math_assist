@@ -1,6 +1,4 @@
-'use client'
-
-import { useEffect, useRef } from 'react'
+import React, { Fragment } from 'react'
 import katex from 'katex'
 
 interface MathTextProps {
@@ -9,55 +7,63 @@ interface MathTextProps {
   block?: boolean
 }
 
+type MathSegment =
+  | { type: 'text'; value: string }
+  | { type: 'math'; value: string }
+
+function splitMathSegments(text: string): MathSegment[] {
+  const segments: MathSegment[] = []
+  let lastIndex = 0
+  const regex = /\$([^$]+)\$/g
+  let match: RegExpExecArray | null = null
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      segments.push({ type: 'text', value: text.slice(lastIndex, match.index) })
+    }
+
+    segments.push({ type: 'math', value: match[1] })
+    lastIndex = regex.lastIndex
+  }
+
+  if (lastIndex < text.length) {
+    segments.push({ type: 'text', value: text.slice(lastIndex) })
+  }
+
+  if (segments.length === 0) {
+    segments.push({ type: 'text', value: text })
+  }
+
+  return segments
+}
+
 export default function MathText({ children, className = '', block = false }: MathTextProps) {
-  const containerRef = useRef<HTMLSpanElement>(null)
+  const parts = splitMathSegments(children)
 
-  useEffect(() => {
-    if (!containerRef.current) return
+  return (
+    <span className={className}>
+      {parts.map((part, index) => {
+        if (part.type === 'text') {
+          return <Fragment key={`text-${index}`}>{part.value}</Fragment>
+        }
 
-    // $...$ 패턴을 찾아서 KaTeX로 렌더링
-    const text = children
-    const parts: (string | { math: string })[] = []
-    let lastIndex = 0
-
-    const regex = /\$([^$]+)\$/g
-    let match
-
-    while ((match = regex.exec(text)) !== null) {
-      // 이전 텍스트 부분
-      if (match.index > lastIndex) {
-        parts.push(text.slice(lastIndex, match.index))
-      }
-      // 수학 부분
-      parts.push({ math: match[1] })
-      lastIndex = regex.lastIndex
-    }
-
-    // 남은 텍스트
-    if (lastIndex < text.length) {
-      parts.push(text.slice(lastIndex))
-    }
-
-    // 렌더링
-    containerRef.current.innerHTML = ''
-
-    parts.forEach(part => {
-      if (typeof part === 'string') {
-        containerRef.current!.appendChild(document.createTextNode(part))
-      } else {
-        const span = document.createElement('span')
         try {
-          katex.render(part.math, span, {
+          const html = katex.renderToString(part.value, {
             throwOnError: false,
             displayMode: block,
           })
-        } catch {
-          span.textContent = `$${part.math}$`
-        }
-        containerRef.current!.appendChild(span)
-      }
-    })
-  }, [children, block])
 
-  return <span ref={containerRef} className={className} />
+          return (
+            <span
+              key={`math-${index}`}
+              className={block ? 'block overflow-x-auto py-1' : ''}
+              dangerouslySetInnerHTML={{ __html: html }}
+            />
+          )
+        } catch {
+          return <Fragment key={`math-${index}`}>{`$${part.value}$`}</Fragment>
+        }
+      })}
+    </span>
+  )
 }
