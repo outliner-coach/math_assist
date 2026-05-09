@@ -156,11 +156,18 @@ test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수
   await page.getByTestId('grade1-choice-7').click()
   await expect(page.getByTestId('mission-success')).toBeVisible()
   await expect(page.getByTestId('reward-reveal')).toBeVisible()
+  await expect(page.getByTestId('next-grade1-mission-panel')).toContainText('2. 10보다 큰 수를 세어요')
+  await expect(page.getByTestId('next-grade1-mission')).toBeVisible()
 
   const progress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE1_PROGRESS_KEY)
   expect(progress.completedStageIds).toContain('count-cove-01')
   expect(progress.reviewStageIds).toContain('count-cove-01')
   expect(progress.todaySolvedCount).toBe(1)
+
+  await page.getByTestId('next-grade1-mission').click()
+  await expect(page.getByTestId('mission-problem-card')).toHaveAttribute('data-mission-id', 'count-cove-02')
+  await expect(page.getByTestId('reward-reveal')).toHaveCount(0)
+  await expect(page.getByTestId('grade1-number-input')).toBeVisible()
 })
 
 test('1학년 게임 모드에서 손상된 진행 기록을 복구한다', async ({ page }) => {

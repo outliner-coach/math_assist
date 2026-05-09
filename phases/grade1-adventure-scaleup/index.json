@@ -6,32 +6,32 @@
     {
       "step": 1,
       "name": "grade1-problem-contract",
-      "status": "pending",
-      "summary": ""
+      "status": "completed",
+      "summary": "Implemented Grade 1 mission template contract and safe fallback in src/lib/grade1-problems.ts."
     },
     {
       "step": 2,
       "name": "alpha-mission-bank",
-      "status": "pending",
-      "summary": ""
+      "status": "completed",
+      "summary": "Added 24 deterministic Alpha mission templates across the Grade 1 adventure islands."
     },
     {
       "step": 3,
       "name": "data-driven-adventure-ui",
-      "status": "pending",
-      "summary": ""
+      "status": "completed",
+      "summary": "Replaced the static Grade 1 flow with data-driven map, mission card, visual renderers, and reward surfaces."
     },
     {
       "step": 4,
       "name": "progress-and-review-loop",
-      "status": "pending",
-      "summary": ""
+      "status": "completed",
+      "summary": "Added localStorage progress, review tracking, storage recovery, and direct reward-to-next continuation."
     },
     {
       "step": 5,
       "name": "grade1-quality-gates",
-      "status": "pending",
-      "summary": ""
+      "status": "completed",
+      "summary": "Added validate:grade1, focused unit coverage, and Playwright E2E for Grade 1 route, hint, reward, recovery, and next-mission flow."
     }
   ]
 }

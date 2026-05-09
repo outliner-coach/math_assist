@@ -11,7 +11,10 @@ import MascotGuide from './MascotGuide'
 interface RewardRevealProps {
   visible: boolean
   onReset: () => void
+  onOpenMap: () => void
   mission?: Grade1Mission
+  nextMission?: Pick<Grade1Mission, 'stageOrder' | 'learnerGoal'>
+  onNextMission?: () => void
   reviewRecommended?: boolean
 }
 
@@ -20,7 +23,10 @@ const rewards = grade1Rewards
 export default function RewardReveal({
   visible,
   onReset,
+  onOpenMap,
   mission,
+  nextMission,
+  onNextMission,
   reviewRecommended = false,
 }: RewardRevealProps) {
   if (!visible) {
@@ -28,6 +34,12 @@ export default function RewardReveal({
   }
 
   const reward = mission ? rewards[mission.rewardId] : rewards.numberShard
+  const hasNextMission = Boolean(nextMission && onNextMission)
+  const rewardMessage = hasNextMission
+    ? reviewRecommended
+      ? '복습섬에도 저장했고, 다음 길도 바로 갈 수 있어요.'
+      : '보상이 반짝였어요. 다음 스테이지로 바로 이어가요!'
+    : '모든 길을 열었어요. 원하는 미션을 다시 풀 수 있어요.'
 
   return (
     <section
@@ -38,11 +50,7 @@ export default function RewardReveal({
         <MascotGuide
           asset={grade1Mascots.semoriCheer}
           eyebrow="보상 획득"
-          message={
-            reviewRecommended
-              ? '보상을 얻었어요. 복습섬에도 저장해 둘게요.'
-              : '보상이 반짝였어요. 다음 스테이지가 열렸어요!'
-          }
+          message={rewardMessage}
           tone="success"
         />
 
@@ -62,16 +70,44 @@ export default function RewardReveal({
             </p>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
-            <GameButton className="w-full" onClick={onReset}>
+          {hasNextMission && nextMission && (
+            <div
+              className="rounded-2xl border-2 border-[#1cb0f6] bg-white p-4 text-center"
+              data-testid="next-grade1-mission-panel"
+            >
+              <p className="text-sm font-black uppercase tracking-[0.2em] text-[#1cb0f6]">
+                다음 길
+              </p>
+              <p className="mt-1 text-lg font-black leading-tight text-[#3c3c3c]">
+                {nextMission.stageOrder}. {nextMission.learnerGoal}
+              </p>
+            </div>
+          )}
+
+          <div className={`grid gap-3 ${hasNextMission ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
+            {hasNextMission && (
+              <GameButton
+                className="w-full"
+                onClick={onNextMission}
+                data-testid="next-grade1-mission"
+              >
+                다음 미션 풀기
+              </GameButton>
+            )}
+            <GameButton
+              className="w-full"
+              variant={hasNextMission ? 'secondary' : 'primary'}
+              onClick={onReset}
+            >
               다시 풀기
             </GameButton>
             <GameButton
               className="w-full"
-              variant="secondary"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              variant="quiet"
+              onClick={onOpenMap}
+              data-testid="open-grade1-map"
             >
-              지도로 가기
+              지도 보기
             </GameButton>
           </div>
         </div>

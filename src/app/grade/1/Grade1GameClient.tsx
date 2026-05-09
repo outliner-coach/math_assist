@@ -32,13 +32,21 @@ function firstOpenMission(missions: Grade1Mission[], progress: Grade1Progress): 
   const reviewMission = missions.find((mission) => progress.reviewStageIds.includes(mission.id))
   if (reviewMission) return reviewMission
 
+  const nextPathMission = firstUnlockedIncompleteMission(missions, progress)
+  return nextPathMission ?? missions[0] ?? getGrade1MissionById('', MISSION_SEED)
+}
+
+function firstUnlockedIncompleteMission(
+  missions: Grade1Mission[],
+  progress: Grade1Progress
+): Grade1Mission | null {
   const firstIncomplete = missions.find((mission, index) => {
     if (progress.completedStageIds.includes(mission.id)) return false
     if (index === 0) return true
     return progress.completedStageIds.includes(missions[index - 1].id)
   })
 
-  return firstIncomplete ?? missions[0] ?? getGrade1MissionById('', MISSION_SEED)
+  return firstIncomplete ?? null
 }
 
 function strongestTag(progress: Grade1Progress): string {
@@ -64,6 +72,7 @@ export default function Grade1GameClient() {
   const [wrongAttemptCount, setWrongAttemptCount] = useState(0)
 
   const recommendedMission = firstOpenMission(missions, progress)
+  const nextPathMission = firstUnlockedIncompleteMission(missions, progress)
   const selectedMission =
     missions.find((mission) => mission.id === selectedMissionId) ??
     recommendedMission
@@ -87,12 +96,13 @@ export default function Grade1GameClient() {
       JSON.stringify({
         selectedMissionId,
         selectedPrompt: selectedMission.prompt,
+        nextPathMissionId: nextPathMission?.id ?? null,
         solved,
         wrongAttemptCount,
         todaySolvedCount: progress.todaySolvedCount,
         reviewCount: progress.reviewStageIds.length,
       })
-  }, [progress.reviewStageIds.length, progress.todaySolvedCount, selectedMission.prompt, selectedMissionId, solved, wrongAttemptCount])
+  }, [nextPathMission?.id, progress.reviewStageIds.length, progress.todaySolvedCount, selectedMission.prompt, selectedMissionId, solved, wrongAttemptCount])
 
   const persistProgress = (nextProgress: Grade1Progress) => {
     setProgress(nextProgress)
@@ -113,12 +123,21 @@ export default function Grade1GameClient() {
     resetMissionState()
   }
 
-  const resetMission = () => {
-    resetMissionState()
+  const scrollToMission = () => {
     document.getElementById('grade1-mission')?.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
     })
+  }
+
+  const continueToMission = (missionId: string) => {
+    selectMission(missionId)
+    window.requestAnimationFrame(scrollToMission)
+  }
+
+  const resetMission = () => {
+    resetMissionState()
+    scrollToMission()
   }
 
   const resetAllProgress = () => {
@@ -183,11 +202,7 @@ export default function Grade1GameClient() {
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <GameButton
                 onClick={() => {
-                  selectMission(recommendedMission.id)
-                  document.getElementById('grade1-mission')?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start',
-                  })
+                  continueToMission(recommendedMission.id)
                 }}
                 data-testid="start-grade1-mission"
               >
@@ -260,8 +275,15 @@ export default function Grade1GameClient() {
         <RewardReveal
           visible={solved}
           mission={selectedMission}
+          nextMission={nextPathMission ?? undefined}
           reviewRecommended={reviewRecommended}
           onReset={resetMission}
+          onNextMission={
+            nextPathMission
+              ? () => continueToMission(nextPathMission.id)
+              : undefined
+          }
+          onOpenMap={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         />
 
         <section

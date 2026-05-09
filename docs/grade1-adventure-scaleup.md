@@ -5,16 +5,51 @@ Owner lane: `workstreams/_shared`
 
 ## Current Baseline
 
-The Grade 1 game currently has one hardcoded counting mission:
+The Grade 1 game has reached the Alpha target:
 
 - Route: `/grade/1`
 - UI shell: `src/app/grade/1/Grade1GameClient.tsx`
 - Mission component: `src/components/grade1/MissionProblemCard.tsx`
 - Asset manifest: `src/lib/grade1-assets.ts`
-- Current concrete problem count: 1
+- Mission bank: 24 deterministic Alpha templates in `src/lib/grade1-problems.ts`
+- Progress storage: localStorage via `src/lib/grade1-progress.ts`
+- Validation: `npm run validate:grade1`
 
 The scale-up should preserve the deterministic core rule: answers and grading are
 rule-based, while character copy and feedback can stay presentation-only.
+
+## 2026-05-10 Implementation Status
+
+The 24-template Alpha path is implemented and verified. Future agents should
+treat the TypeScript mission bank as the current source of truth, not the older
+planning assumption that `/grade/1` has only one hardcoded problem.
+
+Implemented surfaces:
+
+- `src/lib/grade1-problems.ts`: mission template contract, islands, deterministic
+  renderers, safe fallback mission, and validator helpers.
+- `src/lib/grade1-progress.ts`: completed stages, review stages, latest stage,
+  today count, parent summary tags, storage recovery, and reset behavior.
+- `src/app/grade/1/Grade1GameClient.tsx`: data-driven route, recommended mission,
+  selected mission state, retry/hint flow, progress persistence, and next-path
+  continuation.
+- `src/components/grade1/**`: map, stage nodes, mission visual renderers,
+  mission card, reward reveal, mascot guide, and asset image wrapper.
+- `scripts/validate-grade1-problems.js`: CI-friendly validation for mission
+  template quality.
+- `e2e/learning-loop.spec.ts`: route, hint, reward, corrupt storage, and
+  reward-to-next-mission flow coverage.
+
+Verification snapshot from the 2026-05-10 UX pass:
+
+- `npm run lint`
+- `npm run validate:grade1`
+- `npm run test -- src/lib/grade1-progress.test.ts src/lib/grade1-problems.test.ts src/components/grade1/grade1-components.test.ts`
+- `npm run build`
+- `PLAYWRIGHT_PORT=3111 npm run test:e2e`
+- `npm run tdd:guard`
+- Browser check on `/math_assist/grade/1/` confirmed the reward panel shows
+  `다음 미션 풀기`, `다시 풀기`, and `지도 보기` without layout overlap.
 
 ## Target Shape
 
@@ -129,6 +164,27 @@ The intended session is short, concrete, and visually led:
 Target session length is 5-10 minutes. Alpha does not need a full dashboard, but
 it should already make the next action obvious after every answer.
 
+## Reward-to-Next UX Rule
+
+After a learner solves a mission, the reward screen must provide a direct forward
+action. Do not force the learner to return to the map just to continue.
+
+Current behavior:
+
+- The primary reward action is `다음 미션 풀기`.
+- `다음 미션 풀기` chooses the first unlocked incomplete stage, ignoring review
+  recommendations for this one forward action.
+- `오늘 추천 미션` in the header still prioritizes review missions through
+  `firstOpenMission`; this is intentional for now because it is a recommendation
+  surface, not the immediate continuation path.
+- The reward panel keeps `다시 풀기` and `지도 보기` as secondary actions.
+
+Next UX candidate:
+
+- Review whether `오늘 추천 미션` should also prefer the next path during an
+  active same-day play streak, then switch back to review-first after the learner
+  leaves and returns later.
+
 ## Mistake and Hint Policy
 
 Grade 1 mistakes should feel recoverable. Keep grading binary, but vary the help:
@@ -217,19 +273,19 @@ change.
 
 ## Implementation Sequence
 
-1. Extract the current hardcoded apple mission into a Grade 1 problem bank.
-2. Add 24 Alpha mission templates across Count Cove, Order Bridge, Orchard Port,
-   and River Dock.
-3. Add learner journey states for recommended, open, complete, and review stages.
-4. Replace the static `GameMap` stage list with data-driven stages.
-5. Add visual renderers by `visualModel`, starting with counting grid, object
-   groups, number cards, and shape cards.
-6. Add localStorage progress for unlocked, completed, review, and parent summary
-   fields.
-7. Add runtime fallbacks for generation, storage, missing stage, and missing asset
-   cases.
-8. Add `validate-grade1-problems` and route-level E2E coverage.
-9. Expand to 60 Beta templates and add review island behavior.
+1. Done: extract the current hardcoded apple mission into a Grade 1 problem bank.
+2. Done: add 24 Alpha mission templates across the adventure islands.
+3. Done: add learner journey states for recommended, open, complete, and review
+   stages.
+4. Done: replace the static `GameMap` stage list with data-driven stages.
+5. Done: add visual renderers by `visualModel`, including counting grid, object
+   groups, number cards, shape cards, clock face, and pattern strip.
+6. Done: add localStorage progress for unlocked, completed, review, and parent
+   summary fields.
+7. Done: add runtime fallbacks for generation, storage, missing stage, and
+   missing asset cases.
+8. Done: add `validate-grade1-problems` and route-level E2E coverage.
+9. Next: expand to 60 Beta templates and deepen Review Island behavior.
 
 ## Acceptance Gates
 

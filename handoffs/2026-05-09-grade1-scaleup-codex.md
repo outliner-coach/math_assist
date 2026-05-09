@@ -1,5 +1,9 @@
 # 2026-05-09 Grade 1 Scale-up Handoff
 
+Update 2026-05-10: the "one hardcoded mission" risk below has been resolved by
+the Alpha implementation. Use `handoffs/2026-05-10-03-ui-and-visuals-codex.md`
+and `docs/grade1-adventure-scaleup.md` for the current state.
+
 ## What changed
 
 - Added `docs/grade1-adventure-scaleup.md` as the shared plan for expanding the

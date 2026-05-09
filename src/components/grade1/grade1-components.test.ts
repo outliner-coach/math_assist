@@ -64,19 +64,26 @@ describe('grade 1 game components', () => {
           visible: false,
           mission,
           onReset: vi.fn(),
+          onOpenMap: vi.fn(),
         })
       )
     ).toBe('')
 
+    const missions = getGrade1Missions(42)
     const html = renderToStaticMarkup(
       createElement(RewardReveal, {
         visible: true,
         mission,
+        nextMission: missions[1],
         onReset: vi.fn(),
+        onNextMission: vi.fn(),
+        onOpenMap: vi.fn(),
       })
     )
 
     expect(html).toContain('보상 획득')
     expect(html).toContain('/assets/grade1/rewards/number-shard.png')
+    expect(html).toContain('다음 미션 풀기')
+    expect(html).toContain('2. 10보다 큰 수를 세어요')
   })
 })
