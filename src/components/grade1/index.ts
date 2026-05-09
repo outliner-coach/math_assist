@@ -1,6 +1,7 @@
 export { default as GameButton } from './GameButton'
 export { default as GameMap } from './GameMap'
 export { default as Grade1AssetImage } from './Grade1AssetImage'
+export { default as Grade1MissionVisual } from './Grade1MissionVisual'
 export { default as MascotGuide } from './MascotGuide'
 export { default as MissionProblemCard } from './MissionProblemCard'
 export { default as RewardReveal } from './RewardReveal'

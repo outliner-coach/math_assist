@@ -10,6 +10,17 @@ Each subfolder defines one parallel lane of work. The goal is to let multiple ag
 - `04-quality-and-automation/`
 - `_shared/`
 
+## Current cross-lane initiative
+
+- Grade 1 Adventure Scale-up: see `docs/grade1-adventure-scaleup.md` and
+  `phases/grade1-adventure-scaleup/`.
+- Coordination lane: `_shared/`.
+- Implementation lanes:
+  - content bank and deterministic problem contract: `01-content-and-curriculum/`
+  - stage progress and review flow: `02-learning-loop/`
+  - map, mission card, and visual renderers: `03-ui-and-visuals/`
+  - validator, unit tests, and E2E coverage: `04-quality-and-automation/`
+
 ## How to use
 
 1. Choose one lane before starting.

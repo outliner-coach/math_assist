@@ -1,0 +1,95 @@
+import { describe, expect, it, vi } from 'vitest'
+
+import {
+  createInitialGrade1Progress,
+  GRADE1_PROGRESS_KEY,
+  loadGrade1Progress,
+  recordGrade1Attempt,
+  saveGrade1Progress,
+  type StorageLike,
+} from './grade1-progress'
+
+function memoryStorage(initial: Record<string, string> = {}): StorageLike {
+  const store = new Map(Object.entries(initial))
+  return {
+    getItem: vi.fn((key: string) => store.get(key) ?? null),
+    setItem: vi.fn((key: string, value: string) => {
+      store.set(key, value)
+    }),
+    removeItem: vi.fn((key: string) => {
+      store.delete(key)
+    }),
+  }
+}
+
+const mission = {
+  id: 'count-cove-01',
+  parentSummaryTag: 'counting-to-10',
+}
+
+describe('grade1 progress persistence', () => {
+  it('loads and saves progress through localStorage-compatible storage', () => {
+    const storage = memoryStorage()
+    const progress = createInitialGrade1Progress(100)
+    const next = recordGrade1Attempt(progress, mission, true, { now: 200 })
+
+    expect(saveGrade1Progress(next, storage)).toBe(true)
+
+    const loaded = loadGrade1Progress(storage, 300)
+    expect(loaded.storageAvailable).toBe(true)
+    expect(loaded.recovered).toBe(false)
+    expect(loaded.progress.completedStageIds).toContain('count-cove-01')
+    expect(loaded.progress.todaySolvedCount).toBe(1)
+  })
+
+  it('marks wrong and hinted-correct missions for review', () => {
+    const progress = createInitialGrade1Progress(100)
+    const wrong = recordGrade1Attempt(progress, mission, false, { now: 200 })
+    const corrected = recordGrade1Attempt(wrong, mission, true, {
+      hadHint: true,
+      now: 300,
+    })
+
+    expect(corrected.completedStageIds).toContain('count-cove-01')
+    expect(corrected.reviewStageIds).toContain('count-cove-01')
+    expect(corrected.skillSummaryByTag['counting-to-10']).toEqual({
+      attempted: 2,
+      correct: 1,
+    })
+  })
+
+  it('recovers from corrupt storage without throwing', () => {
+    const storage = memoryStorage({ [GRADE1_PROGRESS_KEY]: '{bad json' })
+    const loaded = loadGrade1Progress(storage, 100)
+
+    expect(loaded.recovered).toBe(true)
+    expect(loaded.progress.completedStageIds).toEqual([])
+  })
+
+  it('resets incompatible schema versions', () => {
+    const storage = memoryStorage({
+      [GRADE1_PROGRESS_KEY]: JSON.stringify({
+        schemaVersion: 999,
+        completedStageIds: ['old'],
+        reviewStageIds: [],
+        latestStageId: 'old',
+        todaySolvedCount: 3,
+        skillSummaryByTag: {},
+        lastPlayedAt: 100,
+      }),
+    })
+
+    const loaded = loadGrade1Progress(storage, 100)
+
+    expect(loaded.recovered).toBe(true)
+    expect(loaded.progress.completedStageIds).toEqual([])
+    expect(loaded.progress.todaySolvedCount).toBe(0)
+  })
+
+  it('continues in memory when storage is unavailable', () => {
+    const loaded = loadGrade1Progress(null, 100)
+
+    expect(loaded.storageAvailable).toBe(false)
+    expect(loaded.progress.lastPlayedAt).toBe(100)
+  })
+})

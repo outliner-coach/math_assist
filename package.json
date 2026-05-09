@@ -9,6 +9,7 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "validate:grade1": "node scripts/validate-grade1-problems.js",
     "validate:templates": "node scripts/validate-templates.js",
     "audit:problems": "node scripts/problem-quality-report.js",
     "promptfoo:problems": "mkdir -p public/reports out/promptfoo && promptfoo eval -c promptfooconfig.problem-quality.yaml --no-progress-bar -o public/reports/promptfoo-problem-quality.html -o out/promptfoo/problem-quality.json"

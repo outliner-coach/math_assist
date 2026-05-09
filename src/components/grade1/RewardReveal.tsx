@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { grade1Mascots, grade1Rewards } from '@/lib/grade1-assets'
+import type { Grade1Mission } from '@/lib/grade1-problems'
 
 import GameButton from './GameButton'
 import Grade1AssetImage from './Grade1AssetImage'
@@ -10,18 +11,23 @@ import MascotGuide from './MascotGuide'
 interface RewardRevealProps {
   visible: boolean
   onReset: () => void
+  mission?: Grade1Mission
+  reviewRecommended?: boolean
 }
 
-const rewards = [
-  grade1Rewards.numberShard,
-  grade1Rewards.shapeBadge,
-  grade1Rewards.clockBadge,
-]
+const rewards = grade1Rewards
 
-export default function RewardReveal({ visible, onReset }: RewardRevealProps) {
+export default function RewardReveal({
+  visible,
+  onReset,
+  mission,
+  reviewRecommended = false,
+}: RewardRevealProps) {
   if (!visible) {
     return null
   }
+
+  const reward = mission ? rewards[mission.rewardId] : rewards.numberShard
 
   return (
     <section
@@ -32,28 +38,28 @@ export default function RewardReveal({ visible, onReset }: RewardRevealProps) {
         <MascotGuide
           asset={grade1Mascots.semoriCheer}
           eyebrow="보상 획득"
-          message="숫자 조각이 반짝였어요. 다음 스테이지가 열렸어요!"
+          message={
+            reviewRecommended
+              ? '보상을 얻었어요. 복습섬에도 저장해 둘게요.'
+              : '보상이 반짝였어요. 다음 스테이지가 열렸어요!'
+          }
           tone="success"
         />
 
         <div className="space-y-4">
-          <div className="grid grid-cols-3 gap-3">
-            {rewards.map((reward) => (
-              <div
-                key={reward.src}
-                className="rounded-2xl border-2 border-white bg-white p-3 shadow-[0_5px_0_#d7ffb8]"
-              >
-                <Grade1AssetImage
-                  asset={reward}
-                  className="mx-auto h-24 w-24 object-contain"
-                  fallback={
-                    <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-[#ffc700] text-xl font-black text-white">
-                      별
-                    </div>
-                  }
-                />
-              </div>
-            ))}
+          <div className="rounded-2xl border-2 border-white bg-white p-4 shadow-[0_5px_0_#d7ffb8]">
+            <Grade1AssetImage
+              asset={reward}
+              className="mx-auto h-28 w-28 object-contain"
+              fallback={
+                <div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full bg-[#ffc700] text-xl font-black text-white">
+                  보상
+                </div>
+              }
+            />
+            <p className="mt-3 text-center text-lg font-black text-[#3c3c3c]">
+              {reward.alt}
+            </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">

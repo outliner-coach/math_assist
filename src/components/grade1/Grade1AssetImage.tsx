@@ -10,12 +10,14 @@ interface Grade1AssetImageProps {
   asset: Grade1Asset
   className?: string
   fallback?: ReactNode
+  priority?: boolean
 }
 
 export default function Grade1AssetImage({
   asset,
   className = '',
   fallback = null,
+  priority = false,
 }: Grade1AssetImageProps) {
   const [failed, setFailed] = useState(false)
 
@@ -33,6 +35,7 @@ export default function Grade1AssetImage({
       width={320}
       height={320}
       unoptimized
+      priority={priority}
       onError={() => setFailed(true)}
     />
   )

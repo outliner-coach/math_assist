@@ -20,8 +20,11 @@
 - add data and generator unit tests
 - harden GitHub Actions
 - add reporting around template validation failures
+- add Grade 1 mission-bank validation and adventure E2E coverage
 
 ## Watch-outs
 
 - Keep tests aligned with current learner-facing copy.
 - Coordinate workflow changes because they affect everyone.
+- Grade 1 content scale-up should have a dedicated validator before templates
+  move from TypeScript into JSON.

@@ -8,10 +8,13 @@ import Grade1AssetImage from './Grade1AssetImage'
 export type StageStatus = 'open' | 'complete' | 'locked' | 'review'
 
 interface StageNodeProps {
+  stageId?: string
   title: string
   subtitle: string
   status: StageStatus
   index: number
+  selected?: boolean
+  recommended?: boolean
   onSelect?: () => void
 }
 
@@ -37,10 +40,13 @@ const statusStyle = {
 }
 
 export default function StageNode({
+  stageId,
   title,
   subtitle,
   status,
   index,
+  selected = false,
+  recommended = false,
   onSelect,
 }: StageNodeProps) {
   const disabled = status === 'locked'
@@ -51,7 +57,10 @@ export default function StageNode({
       onClick={onSelect}
       disabled={disabled}
       data-testid={`stage-node-${index}`}
-      className={`grid min-h-[88px] grid-cols-[56px_1fr] items-center gap-3 rounded-2xl border-2 p-3 text-left transition hover:-translate-y-0.5 disabled:hover:translate-y-0 ${statusStyle[status]}`}
+      data-stage-id={stageId}
+      className={`grid min-h-[88px] grid-cols-[56px_1fr] items-center gap-3 rounded-2xl border-2 p-3 text-left transition hover:-translate-y-0.5 disabled:hover:translate-y-0 ${
+        selected ? 'ring-4 ring-[#d7ffb8]' : ''
+      } ${statusStyle[status]}`}
     >
       <div className="relative h-14 w-14">
         <Grade1AssetImage
@@ -70,8 +79,9 @@ export default function StageNode({
         )}
       </div>
       <span className="min-w-0">
-        <span className="block text-xs font-black text-[#777777]">
-          {statusLabel[status]}
+        <span className="flex flex-wrap items-center gap-2 text-xs font-black text-[#777777]">
+          <span>{recommended ? '오늘 추천' : statusLabel[status]}</span>
+          {selected && <span className="rounded-full bg-[#d7ffb8] px-2 py-0.5 text-[#3c3c3c]">선택됨</span>}
         </span>
         <span className="mt-1 block text-base font-black leading-tight text-[#3c3c3c]">
           {title}

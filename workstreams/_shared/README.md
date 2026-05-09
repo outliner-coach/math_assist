@@ -32,3 +32,11 @@ When you change a high-conflict file, add a short dated note below:
 - 2026-03-07: `src/lib/problem-generator.ts`, `public/data/templates/fracadd.json`, `public/data/templates/fracsub.json`, `public/data/templates/fracmul.json`
   session generation now rejects duplicate rendered prompts inside one 10-problem set, and fraction templates were reworded/re-leveled so prompt clarity and difficulty gates pass.
   Re-check any flows or snapshots that depend on prior prompt copy or assume duplicate wording can appear in one session.
+- 2026-05-09: Grade 1 Adventure Scale-up is tracked in `docs/grade1-adventure-scaleup.md`
+  and `phases/grade1-adventure-scaleup/`. Start with a Grade 1-specific problem contract in
+  `src/lib/grade1-problems.ts` instead of changing `src/lib/problem-generator.ts` immediately.
+  The initial target is 24 Alpha mission templates, then 60 Beta templates, then 96 V1
+  templates. UI agents should consume the contract through `src/components/grade1/**`; content
+  agents own deterministic templates and tests; quality agents own validation and E2E gates.
+  The plan also requires learner journey, wrong-answer hint policy, parent summary metadata,
+  and runtime recovery for localStorage, missing stages, missing assets, and repeated answer taps.

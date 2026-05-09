@@ -3,6 +3,7 @@ import { expect, test, type Page } from '@playwright/test'
 const BASE_PATH = '/math_assist'
 const SESSION_KEY = 'mathAssist_currentSession'
 const RESULT_KEY = 'mathAssist_lastResult'
+const GRADE1_PROGRESS_KEY = 'mathAssist_grade1Progress'
 
 type StoredProblem = {
   type: 'choice' | 'number'
@@ -88,7 +89,7 @@ test('표준 10문항 완료 후 행동 중심 결과 화면이 보인다', asyn
   await page.goto(`${BASE_PATH}/practice/divisor-001?set=A`)
   await completeSession(page, [0, 2])
 
-  await expect(page).toHaveURL(/\/math_assist\/result$/)
+  await expect(page).toHaveURL(/\/math_assist\/result\/?$/)
   await expect(page.getByTestId('score')).toBeVisible()
   await expect(page.getByTestId('retry-wrong-button')).toBeVisible()
   await expect(page.getByTestId('wrong-results')).toBeVisible()
@@ -112,7 +113,7 @@ test('결과 화면에서 틀린 문제만 다시 풀 수 있다', async ({ page
 
   await completeSession(page)
 
-  await expect(page).toHaveURL(/\/math_assist\/result$/)
+  await expect(page).toHaveURL(/\/math_assist\/result\/?$/)
   await expect(page.getByTestId('retry-wrong-button')).toHaveCount(0)
 
   const retryResult = await readResult(page)
@@ -132,7 +133,7 @@ test('만점 결과에서는 오답 재도전 대신 새 세트 액션만 노출
   await page.goto(`${BASE_PATH}/practice/divisor-001?set=A`)
   await completeSession(page)
 
-  await expect(page).toHaveURL(/\/math_assist\/result$/)
+  await expect(page).toHaveURL(/\/math_assist\/result\/?$/)
   await expect(page.getByTestId('retry-wrong-button')).toHaveCount(0)
   await expect(page.getByTestId('practice-more-button')).toBeVisible()
 
@@ -146,11 +147,30 @@ test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수
 
   await expect(page.getByTestId('grade1-game-map')).toBeVisible()
   await expect(page.getByTestId('mission-problem-card')).toBeVisible()
+  await expect(page.getByTestId('parent-summary')).toBeVisible()
 
   await page.getByTestId('grade1-choice-6').click()
   await expect(page.getByTestId('mission-hint')).toBeVisible()
 
   await page.getByTestId('grade1-choice-7').click()
+  await page.getByTestId('grade1-choice-7').click()
   await expect(page.getByTestId('mission-success')).toBeVisible()
   await expect(page.getByTestId('reward-reveal')).toBeVisible()
+
+  const progress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE1_PROGRESS_KEY)
+  expect(progress.completedStageIds).toContain('count-cove-01')
+  expect(progress.reviewStageIds).toContain('count-cove-01')
+  expect(progress.todaySolvedCount).toBe(1)
+})
+
+test('1학년 게임 모드에서 손상된 진행 기록을 복구한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/`)
+  await page.evaluate((key) => localStorage.setItem(key, '{bad json'), GRADE1_PROGRESS_KEY)
+
+  await page.goto(`${BASE_PATH}/grade/1`)
+
+  await expect(page.getByTestId('grade1-storage-notice')).toBeVisible()
+  await expect(page.getByTestId('mission-problem-card')).toBeVisible()
+  await page.getByTestId('grade1-choice-7').click()
+  await expect(page.getByTestId('mission-success')).toBeVisible()
 })

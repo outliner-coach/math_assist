@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import {
   GameButton,
@@ -12,25 +12,157 @@ import {
   RewardReveal,
 } from '@/components/grade1'
 import { grade1Mascots, grade1Objects } from '@/lib/grade1-assets'
+import {
+  getGrade1MissionById,
+  getGrade1Missions,
+  type Grade1Mission,
+} from '@/lib/grade1-problems'
+import {
+  createInitialGrade1Progress,
+  loadGrade1Progress,
+  recordGrade1Attempt,
+  resetGrade1Progress,
+  saveGrade1Progress,
+  type Grade1Progress,
+} from '@/lib/grade1-progress'
+
+const MISSION_SEED = 20260509
+
+function firstOpenMission(missions: Grade1Mission[], progress: Grade1Progress): Grade1Mission {
+  const reviewMission = missions.find((mission) => progress.reviewStageIds.includes(mission.id))
+  if (reviewMission) return reviewMission
+
+  const firstIncomplete = missions.find((mission, index) => {
+    if (progress.completedStageIds.includes(mission.id)) return false
+    if (index === 0) return true
+    return progress.completedStageIds.includes(missions[index - 1].id)
+  })
+
+  return firstIncomplete ?? missions[0] ?? getGrade1MissionById('', MISSION_SEED)
+}
+
+function strongestTag(progress: Grade1Progress): string {
+  const entries = Object.entries(progress.skillSummaryByTag)
+  if (entries.length === 0) return '아직 시작 전'
+  return entries
+    .slice()
+    .sort(([, a], [, b]) => b.correct - a.correct || b.attempted - a.attempted)[0][0]
+}
 
 export default function Grade1GameClient() {
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
+  const missions = useMemo(() => getGrade1Missions(MISSION_SEED), [])
+  const [progress, setProgress] = useState<Grade1Progress>(() =>
+    createInitialGrade1Progress()
+  )
+  const [storageAvailable, setStorageAvailable] = useState(true)
+  const [storageRecovered, setStorageRecovered] = useState(false)
+  const [selectedMissionId, setSelectedMissionId] = useState(() => missions[0]?.id ?? 'count-cove-01')
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
+  const [numberAnswer, setNumberAnswer] = useState('')
+  const [numberInputError, setNumberInputError] = useState<string | null>(null)
   const [showHint, setShowHint] = useState(false)
-  const solved = selectedAnswer === 7
+  const [wrongAttemptCount, setWrongAttemptCount] = useState(0)
+
+  const recommendedMission = firstOpenMission(missions, progress)
+  const selectedMission =
+    missions.find((mission) => mission.id === selectedMissionId) ??
+    recommendedMission
+  const solved = selectedAnswer === selectedMission.correctAnswer
+  const reviewRecommended = progress.reviewStageIds.includes(selectedMission.id)
+
+  useEffect(() => {
+    const result = loadGrade1Progress()
+    const recommended = firstOpenMission(missions, result.progress)
+    setProgress(result.progress)
+    setStorageAvailable(result.storageAvailable)
+    setStorageRecovered((wasRecovered) => wasRecovered || result.recovered)
+    setSelectedMissionId((current) =>
+      missions.some((mission) => mission.id === current) ? current : recommended.id
+    )
+  }, [missions])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    ;(window as unknown as { render_game_to_text?: () => string }).render_game_to_text = () =>
+      JSON.stringify({
+        selectedMissionId,
+        selectedPrompt: selectedMission.prompt,
+        solved,
+        wrongAttemptCount,
+        todaySolvedCount: progress.todaySolvedCount,
+        reviewCount: progress.reviewStageIds.length,
+      })
+  }, [progress.reviewStageIds.length, progress.todaySolvedCount, selectedMission.prompt, selectedMissionId, solved, wrongAttemptCount])
+
+  const persistProgress = (nextProgress: Grade1Progress) => {
+    setProgress(nextProgress)
+    const saved = saveGrade1Progress(nextProgress)
+    setStorageAvailable(saved)
+  }
+
+  const resetMissionState = () => {
+    setSelectedAnswer(null)
+    setNumberAnswer('')
+    setNumberInputError(null)
+    setShowHint(false)
+    setWrongAttemptCount(0)
+  }
+
+  const selectMission = (missionId: string) => {
+    setSelectedMissionId(missionId)
+    resetMissionState()
+  }
 
   const resetMission = () => {
-    setSelectedAnswer(null)
-    setShowHint(false)
+    resetMissionState()
     document.getElementById('grade1-mission')?.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
     })
   }
 
+  const resetAllProgress = () => {
+    const nextProgress = resetGrade1Progress()
+    setProgress(nextProgress)
+    setStorageAvailable(true)
+    setStorageRecovered(false)
+    setSelectedMissionId(missions[0]?.id ?? selectedMission.id)
+    resetMissionState()
+  }
+
+  const submitAnswer = (rawAnswer: string) => {
+    if (solved) return
+
+    const answer = rawAnswer.trim()
+    if (selectedMission.answerType === 'number' && !/^\d+$/.test(answer)) {
+      setNumberInputError('숫자만 써요.')
+      return
+    }
+
+    setNumberInputError(null)
+    const correct = answer === selectedMission.correctAnswer
+    setSelectedAnswer(answer)
+
+    if (correct) {
+      const alreadyCompleted = progress.completedStageIds.includes(selectedMission.id)
+      const nextProgress = recordGrade1Attempt(progress, selectedMission, true, {
+        hadHint: wrongAttemptCount > 0,
+        countSolved: !alreadyCompleted,
+      })
+      persistProgress(nextProgress)
+      return
+    }
+
+    const nextWrongAttemptCount = wrongAttemptCount + 1
+    setWrongAttemptCount(nextWrongAttemptCount)
+    setShowHint(true)
+    persistProgress(recordGrade1Attempt(progress, selectedMission, false))
+  }
+
   return (
     <main className="grade1-game-surface -mx-4 -my-6 min-h-screen px-4 py-5 md:px-6">
       <div className="mx-auto max-w-6xl space-y-6">
-        <header className="grid gap-5 rounded-[2rem] border-2 border-[#e5e5e5] bg-white p-5 md:grid-cols-[1fr_280px] md:items-center md:p-6">
+        <header className="grid gap-5 rounded-[2rem] border-2 border-[#e5e5e5] bg-white p-5 md:grid-cols-[1fr_300px] md:items-center md:p-6">
           <div>
             <Link
               href="/"
@@ -45,20 +177,21 @@ export default function Grade1GameClient() {
               숫자 탐험섬
             </h1>
             <p className="mt-3 max-w-2xl text-lg font-bold leading-relaxed text-[#777777]">
-              보고, 세고, 눌러서 수학 미션을 해결해요. 문제를 맞히면
-              섬 조각과 배지가 열려요.
+              짧은 미션을 하나씩 풀며 섬 길을 열어요. 틀려도 힌트를 보고
+              다시 도전할 수 있어요.
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <GameButton
-                onClick={() =>
+                onClick={() => {
+                  selectMission(recommendedMission.id)
                   document.getElementById('grade1-mission')?.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start',
                   })
-                }
+                }}
                 data-testid="start-grade1-mission"
               >
-                오늘 미션 시작
+                오늘 추천 미션
               </GameButton>
               <GameButton
                 variant="secondary"
@@ -66,36 +199,106 @@ export default function Grade1GameClient() {
               >
                 힌트 먼저 보기
               </GameButton>
+              <GameButton
+                variant="quiet"
+                onClick={resetAllProgress}
+                data-testid="grade1-reset-progress"
+              >
+                진행 초기화
+              </GameButton>
             </div>
           </div>
 
           <MascotGuide
             asset={grade1Mascots.nemoriCheer}
             eyebrow="혼자 10분"
-            message="큰 버튼을 누르며 하나씩 해결하면 돼요."
+            message="오늘 추천 길을 따라 3개만 풀어도 보물이 보여요."
             tone="success"
           />
         </header>
 
-        <GameMap />
+        {(!storageAvailable || storageRecovered) && (
+          <section
+            className="rounded-2xl border-2 border-[#ffc700] bg-[#fff8d9] p-4 text-sm font-black text-[#3c3c3c]"
+            data-testid="grade1-storage-notice"
+          >
+            저장 기록을 다시 준비했어요. 지금 푸는 미션은 계속할 수 있어요.
+          </section>
+        )}
+
+        <GameMap
+          missions={missions}
+          progress={progress}
+          selectedMissionId={selectedMission.id}
+          recommendedMissionId={recommendedMission.id}
+          onSelectMission={selectMission}
+        />
 
         <MissionProblemCard
+          mission={selectedMission}
           selectedAnswer={selectedAnswer}
+          numberAnswer={numberAnswer}
           showHint={showHint}
-          onAnswer={(answer) => {
-            setSelectedAnswer(answer)
-            if (answer !== 7) setShowHint(true)
+          wrongAttemptCount={wrongAttemptCount}
+          onAnswer={submitAnswer}
+          onNumberAnswerChange={(answer) => {
+            setNumberAnswer(answer)
+            setNumberInputError(null)
           }}
           onShowHint={() => setShowHint(true)}
         />
 
-        <RewardReveal visible={solved} onReset={resetMission} />
+        {numberInputError && (
+          <div
+            className="rounded-2xl border-2 border-[#ff4b4b] bg-[#fff2f2] p-4 text-center text-base font-black text-[#3c3c3c]"
+            data-testid="grade1-number-error"
+          >
+            {numberInputError}
+          </div>
+        )}
+
+        <RewardReveal
+          visible={solved}
+          mission={selectedMission}
+          reviewRecommended={reviewRecommended}
+          onReset={resetMission}
+        />
+
+        <section
+          className="grid gap-4 rounded-[2rem] border-2 border-[#e5e5e5] bg-white p-5 md:grid-cols-[1fr_1fr_1fr] md:p-6"
+          data-testid="parent-summary"
+        >
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.2em] text-[#58cc02]">
+              오늘 기록
+            </p>
+            <p className="mt-2 text-2xl font-black text-[#3c3c3c]">
+              {progress.todaySolvedCount}개 해결
+            </p>
+          </div>
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.2em] text-[#1cb0f6]">
+              잘한 영역
+            </p>
+            <p className="mt-2 text-lg font-black text-[#3c3c3c]">
+              {strongestTag(progress)}
+            </p>
+          </div>
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.2em] text-[#ffc700]">
+              다시 볼 미션
+            </p>
+            <p className="mt-2 text-lg font-black text-[#3c3c3c]">
+              {progress.reviewStageIds.length}개
+            </p>
+          </div>
+        </section>
 
         <section className="grid gap-4 rounded-[2rem] border-2 border-[#e5e5e5] bg-white p-5 md:grid-cols-3 md:p-6">
           {[
             {
               title: '그림은 재미 담당',
-              body: '캐릭터와 보상은 흥미를 만들고, 정답 판단은 코드로 만든 수학 화면이 맡아요.',
+              body: '캐릭터와 보상은 흥미를 만들고, 정답 판단은 코드로 만든 수학 규칙이 맡아요.',
               asset: grade1Mascots.donggeuriHint,
             },
             {
@@ -105,7 +308,7 @@ export default function Grade1GameClient() {
             },
             {
               title: '실패는 다시 도전',
-              body: '틀리면 점수를 깎기보다 힌트를 열고 같은 미션을 다시 세어볼 수 있어요.',
+              body: '틀리면 점수를 깎기보다 힌트를 열고 복습섬에 남겨 다시 볼 수 있어요.',
               asset: grade1Mascots.donggeuriRetry,
             },
           ].map((item) => (

@@ -1,0 +1,10 @@
+{
+  "phases": [
+    {
+      "dir": "grade1-adventure-scaleup",
+      "name": "Grade 1 Adventure Scale-up",
+      "status": "pending",
+      "summary": "Scale the one-problem Grade 1 game into a deterministic adventure mission bank with data-driven UI, progress, and quality gates."
+    }
+  ]
+}
