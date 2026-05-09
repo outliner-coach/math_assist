@@ -20,6 +20,17 @@ module.exports = {
           800: '#1e40af',
           900: '#1e3a8a',
         },
+        grade1: {
+          green: '#58cc02',
+          sky: '#1cb0f6',
+          greenLight: '#d7ffb8',
+          yellow: '#ffc700',
+          grape: '#a570ff',
+          pink: '#cc348d',
+          cloud: '#e5e5e5',
+          graphite: '#777777',
+          text: '#3c3c3c',
+        },
       },
       minHeight: {
         'touch': '48px',

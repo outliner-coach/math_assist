@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: '수학 연습장 - 초등 5학년',
-  description: '초등학교 5학년 수학 개념 학습과 연습문제',
+  title: '수학 연습장',
+  description: '초등 수학 개념 학습과 게임형 연습문제',
 }
 
 export const viewport: Viewport = {

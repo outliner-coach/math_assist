@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { Grade1AssetImage } from '@/components/grade1'
 import { getUnits } from '@/lib/data'
+import { grade1MapAssets, grade1Mascots } from '@/lib/grade1-assets'
 import type { Unit } from '@/lib/types'
 export default function HomePage() {
   const [units, setUnits] = useState<Unit[]>([])
@@ -42,6 +44,39 @@ export default function HomePage() {
           </Link>
         </div>
       </header>
+
+      <section className="overflow-hidden rounded-[2rem] border-2 border-[#e5e5e5] bg-white shadow-sm">
+        <div className="grid gap-0 md:grid-cols-[1fr_260px]">
+          <div className="p-6 md:p-8">
+            <span className="inline-flex rounded-full bg-[#d7ffb8] px-4 py-2 text-sm font-black text-[#3c3c3c]">
+              새로 추가
+            </span>
+            <h2 className="mt-4 text-3xl font-black leading-tight text-[#3c3c3c]">
+              1학년 숫자 탐험섬
+            </h2>
+            <p className="mt-3 max-w-xl text-gray-600">
+              큰 버튼과 캐릭터, 보상 그래픽으로 수 세기 미션을 바로 시작해요.
+            </p>
+            <Link
+              href="/grade/1"
+              className="mt-5 inline-flex min-h-[56px] items-center rounded-xl bg-[#58cc02] px-6 py-3 text-base font-black text-white shadow-[0_5px_0_#3f8f01] transition hover:bg-[#61d90a] active:translate-y-[3px] active:shadow-[0_2px_0_#3f8f01]"
+              data-testid="grade1-entry-link"
+            >
+              탐험 시작
+            </Link>
+          </div>
+          <div className="relative min-h-[220px] bg-[#f0ffe7]">
+            <Grade1AssetImage
+              asset={grade1MapAssets.semester1Island}
+              className="h-full min-h-[220px] w-full object-cover"
+            />
+            <Grade1AssetImage
+              asset={grade1Mascots.donggeuriCheer}
+              className="absolute bottom-3 left-3 h-24 w-24 object-contain"
+            />
+          </div>
+        </div>
+      </section>
 
       {/* 단원 목록 */}
       <section>

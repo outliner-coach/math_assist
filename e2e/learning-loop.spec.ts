@@ -140,3 +140,17 @@ test('만점 결과에서는 오답 재도전 대신 새 세트 액션만 노출
   expect(result.wrongCount).toBe(0)
   expect(result.score).toBe(10)
 })
+
+test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수 있다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/1`)
+
+  await expect(page.getByTestId('grade1-game-map')).toBeVisible()
+  await expect(page.getByTestId('mission-problem-card')).toBeVisible()
+
+  await page.getByTestId('grade1-choice-6').click()
+  await expect(page.getByTestId('mission-hint')).toBeVisible()
+
+  await page.getByTestId('grade1-choice-7').click()
+  await expect(page.getByTestId('mission-success')).toBeVisible()
+  await expect(page.getByTestId('reward-reveal')).toBeVisible()
+})
