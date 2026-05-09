@@ -4,6 +4,7 @@ const nextConfig = {
   output: 'export',
   basePath: '/math_assist',
   assetPrefix: '/math_assist/',
+  trailingSlash: true,
   images: {
     unoptimized: true,
   },
