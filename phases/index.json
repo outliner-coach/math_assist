@@ -5,6 +5,12 @@
       "name": "Grade 1 Adventure Scale-up",
       "status": "completed",
       "summary": "Scaled Grade 1 into a 24-template deterministic adventure mission bank with data-driven UI, local progress, reward-to-next continuation, and quality gates."
+    },
+    {
+      "dir": "grade2-adventure-alpha",
+      "name": "Grade 2 Adventure Alpha",
+      "status": "completed",
+      "summary": "Added a 36-template Grade 2 Alpha with unit-first flow, structured length/time inputs, Grade 2 visual models, local progress, validation, and tests."
     }
   ]
 }

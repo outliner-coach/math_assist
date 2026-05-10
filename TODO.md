@@ -294,7 +294,7 @@ test('complete learning flow', async ({ page }) => {
 ## 현재 상태
 
 - [x] PRD 작성 완료 (`math_prd.md`)
-- [x] CLAUDE.md 작성 완료
+- [x] AGENTS.md 작성 완료
 - [x] GitHub 저장소 연동
 - [x] TODO 작업 계획 작성 (59개 작업)
 - [ ] **다음 단계: 1.1 프로젝트 초기화**

@@ -1,0 +1,14 @@
+# Harness-owned Codex configuration marker.
+# Codex CLI may not consume project-local hooks directly; scripts/execute.py does.
+# (Removed `hooks = true` — newer Codex CLI parses `hooks` as a table and rejected the boolean.)
+
+[hook_paths]
+preflight = ".codex/hooks/preflight.sh"
+tdd_guard = ".codex/hooks/tdd-guard.sh"
+post_step = ".codex/hooks/post-step.sh"
+
+[tdd_guard]
+mode = "changed-files"
+allow_no_test_env = "TDD_GUARD_ALLOW_NO_TEST"
+production = ["src/**", "public/data/**"]
+tests = ["src/**/*.test.ts", "src/**/*.test.tsx", "e2e/**/*.test.ts", "scripts/**/*test*"]

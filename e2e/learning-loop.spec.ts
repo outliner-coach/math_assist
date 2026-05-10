@@ -4,6 +4,7 @@ const BASE_PATH = '/math_assist'
 const SESSION_KEY = 'mathAssist_currentSession'
 const RESULT_KEY = 'mathAssist_lastResult'
 const GRADE1_PROGRESS_KEY = 'mathAssist_grade1Progress'
+const GRADE2_PROGRESS_KEY = 'mathAssist_grade2Progress'
 
 type StoredProblem = {
   type: 'choice' | 'number'
@@ -190,4 +191,82 @@ test('1학년 게임 모드에서 손상된 진행 기록을 복구한다', asyn
   await expect(page.getByTestId('mission-problem-card')).toBeVisible()
   await page.getByTestId('grade1-choice-7').click()
   await expect(page.getByTestId('mission-success')).toBeVisible()
+})
+
+test('2학년 게임 모드에서 단원 선택, 힌트, 보상, 다음 미션 흐름을 확인한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/2`)
+
+  await expect(page.getByTestId('grade2-unit-list')).toBeVisible()
+  await expect(page.getByTestId('grade2-unit-card-g2-1-place-value')).toBeVisible()
+  await expect(page.getByTestId('grade2-mission-card')).toHaveCount(0)
+
+  await page.getByTestId('grade2-unit-card-g2-1-place-value').click()
+  await expect(page).toHaveURL(/\/math_assist\/grade\/2\/mission\/?\?unitId=g2-1-place-value$/)
+  await expect(page.getByTestId('grade2-unit-list')).toHaveCount(0)
+  await expect(page.getByTestId('grade2-mission-nav')).toBeVisible()
+  await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-place-value-01')
+  await expect(page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)).toHaveCount(3)
+
+  await page.getByTestId('grade2-integer-input').fill('111')
+  await page.getByTestId('grade2-integer-submit').click()
+  await expect(page.getByTestId('grade2-mission-hint')).toBeVisible()
+
+  await page.getByTestId('grade2-integer-input').fill('342')
+  await page.getByTestId('grade2-integer-submit').click()
+  await page.getByTestId('grade2-integer-submit').click()
+  await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
+  await expect(page.getByTestId('grade2-reward-panel')).toBeVisible()
+
+  const progress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE2_PROGRESS_KEY)
+  expect(progress.completedMissionIds).toContain('g2-1-place-value-01')
+  expect(progress.reviewMissionIds).toContain('g2-1-place-value-01')
+  expect(progress.todaySolvedCount).toBe(1)
+
+  await page.getByTestId('next-grade2-mission').click()
+  await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-place-value-02')
+  await expect(page.getByTestId('grade2-reward-panel')).toHaveCount(0)
+})
+
+test('2학년 게임 모드에서 길이와 시간 구조화 입력을 사용한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-1-length`)
+
+  await page.getByTestId('grade2-mission-node-2').click()
+  await page.getByTestId('grade2-length-meters').fill('1')
+  await page.getByTestId('grade2-length-centimeters').fill('20')
+  await page.getByTestId('grade2-length-submit').click()
+  await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
+
+  await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-2-time`)
+  await page.getByTestId('grade2-time-hours').fill('3')
+  await page.getByTestId('grade2-time-minutes').fill('60')
+  await page.getByTestId('grade2-time-submit').click()
+  await expect(page.getByTestId('grade2-input-error')).toBeVisible()
+
+  await page.getByTestId('grade2-time-minutes').fill('25')
+  await page.getByTestId('grade2-time-submit').click()
+  await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
+
+  await page.getByTestId('next-grade2-mission').click()
+  await page.getByTestId('grade2-duration-hours').fill('0')
+  await page.getByTestId('grade2-duration-minutes').fill('35')
+  await page.getByTestId('grade2-duration-submit').click()
+  await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
+})
+
+test('2학년 게임 모드에서 손상된 진행 기록을 2학년만 복구한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/`)
+  await page.evaluate(
+    ([grade1Key, grade2Key]) => {
+      localStorage.setItem(grade1Key, '{"keep":true}')
+      localStorage.setItem(grade2Key, '{bad json')
+    },
+    [GRADE1_PROGRESS_KEY, GRADE2_PROGRESS_KEY]
+  )
+
+  await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-1-place-value`)
+
+  await expect(page.getByTestId('grade2-storage-notice')).toBeVisible()
+  await expect(page.getByTestId('grade2-mission-card')).toBeVisible()
+  const grade1Value = await page.evaluate((key) => localStorage.getItem(key), GRADE1_PROGRESS_KEY)
+  expect(grade1Value).toBe('{"keep":true}')
 })

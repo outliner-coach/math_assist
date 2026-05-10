@@ -6,6 +6,8 @@
 
 # testing
 /coverage
+/output
+/harness_framework
 
 # next.js
 /.next/
