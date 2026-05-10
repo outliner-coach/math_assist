@@ -80,9 +80,10 @@ function emptyTimeAnswer(): Grade2StructuredTimeInput {
   return { hours: '', minutes: '' }
 }
 
-function formatStructuredLength(answer: Grade2StructuredLengthInput): string {
+function formatStructuredLength(answer: Grade2StructuredLengthInput, unit: 'cm' | 'm-cm' = 'm-cm'): string {
   const meters = String(answer.meters ?? '').trim()
   const centimeters = String(answer.centimeters ?? '').trim()
+  if (unit === 'cm') return `${centimeters || '0'}cm`
   return `${meters || '0'}m ${centimeters || '0'}cm`
 }
 
@@ -386,7 +387,11 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
             setInputError(null)
           }}
           onSubmitText={() => submitAnswer(textAnswer.trim(), textAnswer.trim())}
-          onSubmitLength={() => submitAnswer(lengthAnswer, formatStructuredLength(lengthAnswer))}
+          onSubmitLength={() => {
+            const lengthUnit = selectedMission.answerConfig.unit === 'cm' ? 'cm' : 'm-cm'
+            const displayAnswer = formatStructuredLength(lengthAnswer, lengthUnit)
+            submitAnswer(lengthUnit === 'cm' ? displayAnswer : lengthAnswer, displayAnswer)
+          }}
           onSubmitTime={() =>
             submitAnswer(
               timeAnswer,

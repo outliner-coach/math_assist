@@ -230,7 +230,23 @@ test('2학년 게임 모드에서 단원 선택, 힌트, 보상, 다음 미션 �
 test('2학년 게임 모드에서 길이와 시간 구조화 입력을 사용한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-1-length`)
 
+  await page.getByTestId('grade2-mission-node-1').click()
+  await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-length-01')
+  await expect(page.getByTestId('grade2-length-meters')).toHaveCount(0)
+  await page.getByTestId('grade2-length-centimeters').fill('8')
+  await page.getByTestId('grade2-length-submit').click()
+  await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
+
   await page.getByTestId('grade2-mission-node-2').click()
+  await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-length-02')
+  await expect(page.getByTestId('grade2-length-meters')).toHaveCount(0)
+  await page.getByTestId('grade2-length-centimeters').fill('120')
+  await page.getByTestId('grade2-length-submit').click()
+  await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
+
+  await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-2-length`)
+  await page.getByTestId('grade2-mission-node-3').click()
+  await expect(page.getByTestId('grade2-length-meters')).toBeVisible()
   await page.getByTestId('grade2-length-meters').fill('1')
   await page.getByTestId('grade2-length-centimeters').fill('20')
   await page.getByTestId('grade2-length-submit').click()
@@ -251,6 +267,58 @@ test('2학년 게임 모드에서 길이와 시간 구조화 입력을 사용한
   await page.getByTestId('grade2-duration-minutes').fill('35')
   await page.getByTestId('grade2-duration-submit').click()
   await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
+})
+
+test('2학년 분류하기 시각화는 풀이 전 개수 숫자를 표식으로 보여준다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-1-classification`)
+  await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-classification-01')
+
+  const classificationVisual = page.getByTestId('grade2-visual-classification-table')
+  await expect(classificationVisual.getByTestId('grade2-classification-marks-0')).toBeVisible()
+  await expect(classificationVisual.getByText('4', { exact: true })).toHaveCount(0)
+
+  await page.getByTestId('grade2-integer-input').fill('4')
+  await page.getByTestId('grade2-integer-submit').click()
+
+  await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
+  await expect(classificationVisual.getByText('4', { exact: true })).toHaveCount(1)
+})
+
+test('2학년 자리값 블록 시각화는 풀이 전 자리 숫자 라벨을 숨긴다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-1-place-value`)
+  await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-place-value-01')
+
+  const placeValueVisual = page.getByTestId('grade2-visual-place-value-blocks')
+  await expect(placeValueVisual.getByTestId('grade2-place-value-count-hundreds')).toContainText('□')
+  await expect(placeValueVisual.getByTestId('grade2-place-value-count-tens')).toContainText('□')
+  await expect(placeValueVisual.getByTestId('grade2-place-value-count-ones')).toContainText('□')
+  await expect(placeValueVisual.getByText('3', { exact: true })).toHaveCount(0)
+  await expect(placeValueVisual.getByText('4', { exact: true })).toHaveCount(0)
+  await expect(placeValueVisual.getByText('2', { exact: true })).toHaveCount(0)
+
+  await page.getByTestId('grade2-integer-input').fill('342')
+  await page.getByTestId('grade2-integer-submit').click()
+
+  await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
+  await expect(placeValueVisual.getByTestId('grade2-place-value-count-hundreds')).toContainText('3')
+  await expect(placeValueVisual.getByTestId('grade2-place-value-count-tens')).toContainText('4')
+  await expect(placeValueVisual.getByTestId('grade2-place-value-count-ones')).toContainText('2')
+})
+
+test('2학년 세로셈 시각화는 풀이 전 정답을 숨긴다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-1-add-sub`)
+  await page.getByTestId('grade2-mission-node-2').click()
+  await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-add-sub-02')
+
+  const verticalVisual = page.getByTestId('grade2-visual-vertical-operation')
+  await expect(verticalVisual.getByTestId('grade2-vertical-result')).toContainText('□')
+  await expect(verticalVisual.getByText('24', { exact: true })).toHaveCount(0)
+
+  await page.getByTestId('grade2-integer-input').fill('24')
+  await page.getByTestId('grade2-integer-submit').click()
+
+  await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
+  await expect(verticalVisual.getByTestId('grade2-vertical-result')).toContainText('24')
 })
 
 test('2학년 게임 모드에서 손상된 진행 기록을 2학년만 복구한다', async ({ page }) => {

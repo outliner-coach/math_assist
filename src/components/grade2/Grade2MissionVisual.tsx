@@ -7,6 +7,7 @@ import type { Grade2Mission } from '@/lib/grade2-problems'
 interface Grade2MissionVisualProps {
   mission: Grade2Mission
   emphasize?: boolean
+  showAnswer?: boolean
 }
 
 function asNumber(value: string | number | boolean | undefined, fallback = 0): number {
@@ -53,12 +54,12 @@ function VisualShell({
   )
 }
 
-function PlaceValueBlocks({ mission, emphasize }: Grade2MissionVisualProps) {
+function PlaceValueBlocks({ mission, emphasize, showAnswer = false }: Grade2MissionVisualProps) {
   const columns = [
-    { label: '천', count: asNumber(mission.visualConfig.thousands), color: '#7c3aed' },
-    { label: '백', count: asNumber(mission.visualConfig.hundreds), color: '#0ea5e9' },
-    { label: '십', count: asNumber(mission.visualConfig.tens), color: '#10b981' },
-    { label: '일', count: asNumber(mission.visualConfig.ones), color: '#f97316' },
+    { key: 'thousands', label: '천', count: asNumber(mission.visualConfig.thousands), color: '#7c3aed' },
+    { key: 'hundreds', label: '백', count: asNumber(mission.visualConfig.hundreds), color: '#0ea5e9' },
+    { key: 'tens', label: '십', count: asNumber(mission.visualConfig.tens), color: '#10b981' },
+    { key: 'ones', label: '일', count: asNumber(mission.visualConfig.ones), color: '#f97316' },
   ].filter((column) => column.count > 0 || column.label !== '천')
 
   return (
@@ -79,7 +80,13 @@ function PlaceValueBlocks({ mission, emphasize }: Grade2MissionVisualProps) {
                 />
               ))}
             </div>
-            <div className="mt-3 text-center text-2xl font-black text-[#0f172a]">{column.count}</div>
+            <div
+              className={`mt-3 text-center text-2xl font-black ${showAnswer ? 'text-[#0f172a]' : 'text-[#94a3b8]'}`}
+              data-testid={`grade2-place-value-count-${column.key}`}
+              aria-label={showAnswer ? `${column.label} 자리 모형 개수` : '정답 확인 전 빈칸'}
+            >
+              {showAnswer ? column.count : '□'}
+            </div>
           </div>
         ))}
       </div>
@@ -87,11 +94,12 @@ function PlaceValueBlocks({ mission, emphasize }: Grade2MissionVisualProps) {
   )
 }
 
-function ExpandedNumberCards({ mission, emphasize }: Grade2MissionVisualProps) {
+function ExpandedNumberCards({ mission, emphasize, showAnswer = false }: Grade2MissionVisualProps) {
   const cards = splitList(mission.visualConfig.cards)
   const parts = splitList(mission.visualConfig.parts)
   const values = cards.length > 0 ? cards : parts
   const target = asString(mission.visualConfig.target)
+  const showsExpandedTarget = parts.length > 0
 
   return (
     <VisualShell emphasize={emphasize} testId="grade2-visual-expanded-number-cards">
@@ -100,7 +108,7 @@ function ExpandedNumberCards({ mission, emphasize }: Grade2MissionVisualProps) {
           <div
             key={`${value}-${index}`}
             className={`flex min-h-[86px] min-w-[110px] items-center justify-center rounded-2xl border-2 px-5 text-3xl font-black ${
-              value === target && emphasize
+              value === target && emphasize && showAnswer
                 ? 'border-[#16a34a] bg-[#dcfce7] text-[#14532d]'
                 : 'border-[#cbd5e1] bg-white text-[#0f172a]'
             }`}
@@ -108,15 +116,17 @@ function ExpandedNumberCards({ mission, emphasize }: Grade2MissionVisualProps) {
             {value}
           </div>
         ))}
-        {parts.length > 0 && (
-          <div className="basis-full text-center text-4xl font-black text-[#2563eb]">= {target}</div>
+        {showsExpandedTarget && (
+          <div className="basis-full text-center text-4xl font-black text-[#2563eb]" data-testid="grade2-expanded-target">
+            = {showAnswer ? target : '□'}
+          </div>
         )}
       </div>
     </VisualShell>
   )
 }
 
-function VerticalOperation({ mission, emphasize }: Grade2MissionVisualProps) {
+function VerticalOperation({ mission, emphasize, showAnswer = false }: Grade2MissionVisualProps) {
   const top = asString(mission.visualConfig.top)
   const bottom = asString(mission.visualConfig.bottom)
   const operator = asString(mission.visualConfig.operator)
@@ -135,8 +145,14 @@ function VerticalOperation({ mission, emphasize }: Grade2MissionVisualProps) {
           <span>{operator}</span>
           <span className="text-right">{bottom}</span>
         </div>
-        <div className="mt-2 border-t-4 border-[#334155] pt-2 text-right text-[#2563eb]">
-          {result}
+        <div
+          className={`mt-2 border-t-4 border-[#334155] pt-2 text-right ${
+            showAnswer ? 'text-[#2563eb]' : 'text-[#94a3b8]'
+          }`}
+          data-testid="grade2-vertical-result"
+          aria-label={showAnswer ? '세로셈 결과' : '정답 확인 전 빈칸'}
+        >
+          {showAnswer ? result : '□'}
         </div>
       </div>
     </VisualShell>
@@ -182,7 +198,7 @@ function ArrayGroups({ mission, emphasize }: Grade2MissionVisualProps) {
   )
 }
 
-function MultiplicationTable({ mission, emphasize }: Grade2MissionVisualProps) {
+function MultiplicationTable({ mission, emphasize, showAnswer = false }: Grade2MissionVisualProps) {
   const dan = asNumber(mission.visualConfig.dan, 1)
   const factor = asNumber(mission.visualConfig.factor, 1)
   const sequence = splitList(mission.visualConfig.sequence)
@@ -201,15 +217,22 @@ function MultiplicationTable({ mission, emphasize }: Grade2MissionVisualProps) {
         <div className="grid grid-cols-3 gap-2">
           {Array.from({ length: 9 }, (_, index) => {
             const current = index + 1
+            const targetCell = current === factor
             return (
               <div
                 key={current}
                 className={`rounded-xl border-2 p-3 text-center text-xl font-black ${
-                  current === factor ? 'border-[#2563eb] bg-[#dbeafe]' : 'border-[#cbd5e1] bg-white'
+                  targetCell && showAnswer ? 'border-[#2563eb] bg-[#dbeafe]' : 'border-[#cbd5e1] bg-white'
                 }`}
               >
                 {dan} x {current}
-                <div className="text-2xl text-[#0f172a]">{dan * current}</div>
+                <div
+                  className={`text-2xl ${showAnswer ? 'text-[#0f172a]' : 'text-[#94a3b8]'}`}
+                  data-testid={`grade2-multiplication-product-${current}`}
+                  aria-label={showAnswer ? `${dan} 곱하기 ${current}의 값` : '정답 확인 전 빈칸'}
+                >
+                  {showAnswer ? dan * current : '□'}
+                </div>
               </div>
             )
           })}
@@ -235,7 +258,7 @@ function ShapeGlyph({ shape }: { shape: string }) {
   return <span className="h-16 w-16 rounded-xl bg-[#22c55e]" />
 }
 
-function SolidShapeCards({ mission, emphasize }: Grade2MissionVisualProps) {
+function SolidShapeCards({ mission, emphasize, showAnswer = false }: Grade2MissionVisualProps) {
   const shapes = splitList(mission.visualConfig.shapes)
   const target = asString(mission.visualConfig.target)
 
@@ -246,7 +269,7 @@ function SolidShapeCards({ mission, emphasize }: Grade2MissionVisualProps) {
           <div
             key={shape}
             className={`flex flex-col items-center justify-center gap-3 rounded-2xl border-2 bg-white p-4 text-xl font-black text-[#0f172a] ${
-              shape === target && emphasize ? 'border-[#16a34a]' : 'border-[#cbd5e1]'
+              shape === target && emphasize && showAnswer ? 'border-[#16a34a]' : 'border-[#cbd5e1]'
             }`}
           >
             <ShapeGlyph shape={shape} />
@@ -286,20 +309,32 @@ function RulerLine({ mission, emphasize }: Grade2MissionVisualProps) {
   const max = asNumber(mission.visualConfig.maxCm, 12)
   const left = (start / max) * 100
   const width = ((end - start) / max) * 100
+  const endPosition = (end / max) * 100
 
   return (
     <VisualShell emphasize={emphasize} testId="grade2-visual-ruler-line">
       <div className="flex min-h-[220px] flex-col justify-center">
         <div className="relative h-20 rounded-2xl bg-white p-4 shadow-sm">
-          <div className="absolute bottom-4 left-4 right-4 h-3 rounded-full bg-[#e2e8f0]" />
-          <div
-            className="absolute bottom-4 h-3 rounded-full bg-[#f97316]"
-            style={{ left: `calc(1rem + ${left}%)`, width: `calc(${width}% - 1rem)` }}
-          />
-          <div className="absolute bottom-8 left-4 right-4 flex justify-between text-xs font-black text-[#64748b]">
+          <div className="relative mx-3 h-full">
             {Array.from({ length: max + 1 }, (_, index) => (
-              <span key={index}>{index}</span>
+              <span
+                key={index}
+                className="absolute top-0 min-w-6 -translate-x-1/2 text-center text-xs font-black text-[#64748b]"
+                style={{ left: `${(index / max) * 100}%` }}
+              >
+                {index}
+              </span>
             ))}
+            <div className="absolute bottom-3 left-0 right-0 h-3 rounded-full bg-[#e2e8f0]" />
+            <div
+              className="absolute bottom-3 h-3 rounded-full bg-[#f97316]"
+              style={{ left: `${left}%`, width: `${width}%` }}
+            />
+            <div
+              className="absolute bottom-1 h-7 w-1 -translate-x-1/2 rounded-full bg-[#f97316]"
+              style={{ left: `${endPosition}%` }}
+              aria-label={`${end}cm 끝 눈금`}
+            />
           </div>
         </div>
       </div>
@@ -307,19 +342,24 @@ function RulerLine({ mission, emphasize }: Grade2MissionVisualProps) {
   )
 }
 
-function LengthBars({ mission, emphasize }: Grade2MissionVisualProps) {
+function LengthBars({ mission, emphasize, showAnswer = false }: Grade2MissionVisualProps) {
   const leftLabel = asString(mission.visualConfig.leftLabel)
   const rightLabel = asString(mission.visualConfig.rightLabel)
   const leftCm = asNumber(mission.visualConfig.leftCm)
   const rightCm = asNumber(mission.visualConfig.rightCm)
   const max = Math.max(leftCm, rightCm, asNumber(mission.visualConfig.totalCm), 1)
+  const hideRightLabelUntilReveal = Boolean(mission.visualConfig.hideRightLabelUntilReveal)
 
   return (
     <VisualShell emphasize={emphasize} testId="grade2-visual-length-bars">
       <div className="space-y-5 py-8">
         {[
           { label: leftLabel, value: leftCm, color: '#2563eb' },
-          { label: rightLabel, value: rightCm, color: '#f97316' },
+          {
+            label: hideRightLabelUntilReveal && !showAnswer ? '□' : rightLabel,
+            value: rightCm,
+            color: '#f97316',
+          },
         ].map((bar) => (
           <div key={bar.label} className="grid grid-cols-[90px_1fr] items-center gap-3">
             <div className="text-right text-lg font-black text-[#334155]">{bar.label}</div>
@@ -398,10 +438,11 @@ function CalendarStrip({ mission, emphasize }: Grade2MissionVisualProps) {
   )
 }
 
-function ClassificationTable({ mission, emphasize }: Grade2MissionVisualProps) {
+function ClassificationTable({ mission, emphasize, showAnswer = false }: Grade2MissionVisualProps) {
   const categories = splitList(mission.visualConfig.categories)
   const counts = splitList(mission.visualConfig.counts)
   const target = asString(mission.visualConfig.target)
+  const showCountMarks = mission.visualConfig.countDisplay === 'marks' && !showAnswer
 
   return (
     <VisualShell emphasize={emphasize} testId="grade2-visual-classification-table">
@@ -410,11 +451,23 @@ function ClassificationTable({ mission, emphasize }: Grade2MissionVisualProps) {
           <div
             key={category}
             className={`grid grid-cols-[1fr_110px] items-center border-b-2 border-[#e2e8f0] p-4 last:border-b-0 ${
-              target.includes(category) && emphasize ? 'bg-[#dcfce7]' : ''
+              target.includes(category) && emphasize && showAnswer ? 'bg-[#dcfce7]' : ''
             }`}
           >
             <span className="text-xl font-black text-[#0f172a]">{category}</span>
-            <span className="text-center text-3xl font-black text-[#2563eb]">{counts[index]}</span>
+            {showCountMarks ? (
+              <span
+                className="flex flex-wrap justify-end gap-1"
+                data-testid={`grade2-classification-marks-${index}`}
+                aria-label={`${category} 표식`}
+              >
+                {Array.from({ length: asNumber(counts[index]) }, (_, markIndex) => (
+                  <span key={markIndex} className="h-4 w-4 rounded-full bg-[#2563eb]" />
+                ))}
+              </span>
+            ) : (
+              <span className="text-center text-3xl font-black text-[#2563eb]">{counts[index]}</span>
+            )}
           </div>
         ))}
       </div>
@@ -422,7 +475,7 @@ function ClassificationTable({ mission, emphasize }: Grade2MissionVisualProps) {
   )
 }
 
-function MarkGraph({ mission, emphasize }: Grade2MissionVisualProps) {
+function MarkGraph({ mission, emphasize, showAnswer = false }: Grade2MissionVisualProps) {
   const categories = splitList(mission.visualConfig.categories)
   const counts = splitList(mission.visualConfig.counts).map(Number)
   const target = asString(mission.visualConfig.target)
@@ -432,7 +485,7 @@ function MarkGraph({ mission, emphasize }: Grade2MissionVisualProps) {
     <VisualShell emphasize={emphasize} testId="grade2-visual-mark-graph">
       <div className="grid min-h-[220px] items-end gap-3 sm:grid-cols-3">
         {categories.map((category, index) => (
-          <div key={category} className={`rounded-2xl border-2 bg-white p-3 ${target.includes(category) && emphasize ? 'border-[#16a34a]' : 'border-[#cbd5e1]'}`}>
+          <div key={category} className={`rounded-2xl border-2 bg-white p-3 ${target.includes(category) && emphasize && showAnswer ? 'border-[#16a34a]' : 'border-[#cbd5e1]'}`}>
             <div className="flex min-h-[120px] flex-col justify-end gap-1">
               {Array.from({ length: counts[index] }, (_, markIndex) => (
                 <span key={markIndex} className="h-5 rounded-full bg-[#2563eb]" style={{ width: `${Math.max(35, (counts[index] / max) * 100)}%` }} />
@@ -472,39 +525,39 @@ function FallbackVisual({ mission }: { mission: Grade2Mission }) {
   )
 }
 
-export default function Grade2MissionVisual({ mission, emphasize = false }: Grade2MissionVisualProps) {
+export default function Grade2MissionVisual({ mission, emphasize = false, showAnswer = false }: Grade2MissionVisualProps) {
   try {
     switch (mission.visualModel) {
       case 'place-value-blocks':
-        return <PlaceValueBlocks mission={mission} emphasize={emphasize} />
+        return <PlaceValueBlocks mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'expanded-number-cards':
-        return <ExpandedNumberCards mission={mission} emphasize={emphasize} />
+        return <ExpandedNumberCards mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'vertical-operation':
-        return <VerticalOperation mission={mission} emphasize={emphasize} />
+        return <VerticalOperation mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'box-equation':
-        return <BoxEquation mission={mission} emphasize={emphasize} />
+        return <BoxEquation mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'array-groups':
-        return <ArrayGroups mission={mission} emphasize={emphasize} />
+        return <ArrayGroups mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'multiplication-table':
-        return <MultiplicationTable mission={mission} emphasize={emphasize} />
+        return <MultiplicationTable mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'solid-shape-cards':
-        return <SolidShapeCards mission={mission} emphasize={emphasize} />
+        return <SolidShapeCards mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'stack-cubes':
-        return <StackCubes mission={mission} emphasize={emphasize} />
+        return <StackCubes mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'ruler-line':
-        return <RulerLine mission={mission} emphasize={emphasize} />
+        return <RulerLine mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'length-bars':
-        return <LengthBars mission={mission} emphasize={emphasize} />
+        return <LengthBars mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'clock-face':
-        return <ClockFace mission={mission} emphasize={emphasize} />
+        return <ClockFace mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'calendar-strip':
-        return <CalendarStrip mission={mission} emphasize={emphasize} />
+        return <CalendarStrip mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'classification-table':
-        return <ClassificationTable mission={mission} emphasize={emphasize} />
+        return <ClassificationTable mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'mark-graph':
-        return <MarkGraph mission={mission} emphasize={emphasize} />
+        return <MarkGraph mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       case 'pattern-strip':
-        return <PatternStrip mission={mission} emphasize={emphasize} />
+        return <PatternStrip mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
       default:
         return <FallbackVisual mission={mission} />
     }

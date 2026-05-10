@@ -201,6 +201,13 @@ Grade 1 object groups can show simple add/subtract scenes. Grade 2 needs column
 alignment, carrying/borrowing indicators, and box-value equations. Avoid
 rendering all of this as plain text.
 
+Answer safety for these visuals is part of the renderer contract. It is fine for
+`visualConfig` to keep a `result`, `target`, `product`, or equivalent-answer
+label so the solved state can render a complete worked view, but the first
+attempt must mask those answer-only values. Use a reveal flag from the mission
+card, currently `showAnswer`, and add a focused component or E2E test whenever a
+new visual model can print the final answer directly.
+
 3. Measurement answers are not plain integers.
 
 Problems can ask for `몇 cm`, `몇 m 몇 cm`, or a comparison between lengths. The
@@ -303,4 +310,3 @@ The next session should answer these before coding:
    separate `mathAssist_grade2Progress` key?
 6. What is the minimum E2E path that proves the new unit types without making the
    first implementation too large?
-

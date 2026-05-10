@@ -30,3 +30,7 @@
 - If UI depends on new data fields, document that dependency in `_shared/README.md`.
 - Grade 1 map and mission UI should remain in `src/components/grade1/**` unless a
   shared component is genuinely reusable outside the game.
+- Grade 2 visuals must distinguish problem data from answer-only values. Renderers
+  may use `visualConfig.result`, `target`, `product`, or equivalent labels after
+  the learner solves or the solution path opens, but they should mask those values
+  during the first attempt and cover the behavior with tests.

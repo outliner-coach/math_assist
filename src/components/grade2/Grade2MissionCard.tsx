@@ -110,6 +110,9 @@ export default function Grade2MissionCard({
   const isWrong = selectedAnswer !== null && !solved
   const emphasizeVisual = wrongAttemptCount >= 2 && !solved
   const showSolutionPath = wrongAttemptCount >= 3 && !solved
+  const revealVisualAnswer = solved || showSolutionPath
+  const lengthInputUnit = mission.answerConfig.unit ?? 'm-cm'
+  const lengthInputLabel = mission.answerConfig.inputLabel ?? '길이를 써요'
 
   return (
     <section
@@ -134,7 +137,7 @@ export default function Grade2MissionCard({
       </div>
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <Grade2MissionVisual mission={mission} emphasize={emphasizeVisual} />
+        <Grade2MissionVisual mission={mission} emphasize={emphasizeVisual} showAnswer={revealVisualAnswer} />
 
         <div className="space-y-4">
           <div className={`rounded-2xl border-2 p-4 ${isWrong ? 'border-[#ffb020] bg-[#fff7e6]' : 'border-[#d8e3ef] bg-[#f8fbff]'}`}>
@@ -217,21 +220,28 @@ export default function Grade2MissionCard({
 
           {mission.answerType === 'length' && (
             <div className="space-y-3">
-              <p className="text-sm font-black text-[#475569]">길이를 써요</p>
-              <div className="grid grid-cols-2 gap-3">
-                <FieldInput
-                  id="grade2-length-meters"
-                  testId="grade2-length-meters"
-                  value={lengthAnswer.meters}
-                  suffix="m"
-                  onChange={(meters) => onLengthAnswerChange({ ...lengthAnswer, meters })}
-                />
+              <p className="text-sm font-black text-[#475569]">{lengthInputLabel}</p>
+              <div className={lengthInputUnit === 'cm' ? 'grid gap-3' : 'grid grid-cols-2 gap-3'}>
+                {lengthInputUnit !== 'cm' && (
+                  <FieldInput
+                    id="grade2-length-meters"
+                    testId="grade2-length-meters"
+                    value={lengthAnswer.meters}
+                    suffix="m"
+                    onChange={(meters) => onLengthAnswerChange({ ...lengthAnswer, meters })}
+                  />
+                )}
                 <FieldInput
                   id="grade2-length-centimeters"
                   testId="grade2-length-centimeters"
                   value={lengthAnswer.centimeters}
                   suffix="cm"
-                  onChange={(centimeters) => onLengthAnswerChange({ ...lengthAnswer, centimeters })}
+                  onChange={(centimeters) =>
+                    onLengthAnswerChange({
+                      meters: lengthInputUnit === 'cm' ? '' : lengthAnswer.meters,
+                      centimeters,
+                    })
+                  }
                 />
               </div>
               <SubmitButton onClick={onSubmitLength} testId="grade2-length-submit">

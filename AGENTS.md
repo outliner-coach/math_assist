@@ -62,6 +62,11 @@ Use `TDD_GUARD_ALLOW_NO_TEST=1` only for an explicitly reviewed maintenance chan
 - Number input must normalize integers, decimals, fractions, and mixed numbers.
 - Fractions such as `2/4` should normalize to lowest terms.
 - Mixed numbers such as `1 1/2` should convert to improper fractions internally.
+- Problem visuals may show the data needed to solve a problem, but must not render
+  answer-only values before the learner submits or the solution path is shown.
+  If `visualConfig` carries fields such as `result`, `target`, `product`, or an
+  equivalent-answer label, gate them behind a reveal prop such as `showAnswer`
+  and add a focused renderer or E2E regression test.
 - The UI target is tablet-first with large touch targets and one problem per screen.
 - Geometry problems should generate SVG dynamically in React components; answers remain number or multiple choice.
 
