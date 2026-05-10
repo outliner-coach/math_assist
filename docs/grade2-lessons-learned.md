@@ -22,14 +22,32 @@ full-course coverage.
 3. `docs/grade2-lessons-learned.md`
 4. `handoffs/2026-05-10-grade2-visual-answer-safety-codex.md`
 5. `handoffs/2026-05-11-grade2-continuity-codex.md`
-6. `src/lib/grade2-problems.ts`
-7. `src/lib/grade2-answer-normalizers.ts`
-8. `src/components/grade2/Grade2MissionCard.tsx`
-9. `src/components/grade2/Grade2MissionVisual.tsx`
-10. `src/components/grade2/grade2-components.test.ts`
-11. `e2e/learning-loop.spec.ts`
+6. `handoffs/2026-05-11-grade1-grade2-beta-scaleup-codex.md`
+7. `src/lib/grade2-problems.ts`
+8. `src/lib/grade2-answer-normalizers.ts`
+9. `src/components/grade2/Grade2MissionCard.tsx`
+10. `src/components/grade2/Grade2MissionVisual.tsx`
+11. `src/components/grade2/grade2-components.test.ts`
+12. `e2e/learning-loop.spec.ts`
 
 ## Product Lessons
+
+### Beta Expands Volume, Not Screen Complexity
+
+The Grade 2 Beta bank has 72 missions: 12 units x 6 missions. The product flow
+should still stay unit-first and one-mission-focused. Do not make the first
+screen a dense full-course mission list just because each unit now has more
+missions.
+
+The 2026-05-11 Beta closeout verified:
+
+- unit cards and mission nodes show 6 missions per unit
+- mission card progress uses dynamic `unitMissionOrder/missionCount`
+- `진행 초기화` requires a second click before clearing local progress
+- desktop, tablet, and mobile browser checks do not show visible overlap in the
+  checked Grade 2 flows
+- vertical-operation results remain hidden before submission and reveal only
+  after success
 
 ### Keep Alpha Separate From Mastery
 
@@ -49,7 +67,7 @@ Do not claim full-course sufficiency from the Alpha mission count.
 ### Preserve The Unit-First Flow
 
 Grade 2 should remain unit-first. The learner chooses a unit, then sees that
-unit's three missions. Do not replace the first screen with a dense full-course
+unit's missions. Do not replace the first screen with a dense full-course
 mission list unless the product direction explicitly changes.
 
 For child-facing work:
@@ -141,8 +159,9 @@ It catches template shape mistakes before they become UI bugs.
 
 The validator should remain strict about:
 
-- 36 Alpha templates until the target scope changes
-- 12 units with 3 missions each
+- 72 Beta templates until the target scope changes
+- 12 units with 6 missions each
+- two `easy`, two `medium`, and two `applied` missions per unit
 - unique ids and mission orders
 - curriculum code traceability
 - answer config matching answer type
@@ -255,4 +274,3 @@ Before adding or changing a Grade 2 mission:
 - Add or update focused tests in the same change.
 - Browser-check the actual route at desktop, tablet, and mobile widths.
 - Leave a dated handoff if the change affects future agents.
-

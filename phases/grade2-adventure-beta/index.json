@@ -1,0 +1,42 @@
+{
+  "project": "math_assist",
+  "phase": "grade2-adventure-beta",
+  "created_at": "2026-05-11T00:00:00+0900",
+  "steps": [
+    {
+      "step": 1,
+      "name": "quality-audit",
+      "status": "completed",
+      "summary": "Add a Grade 1/2 mission-bank quality audit that fails on warnings before volume expansion."
+    },
+    {
+      "step": 2,
+      "name": "grade1-beta-bank",
+      "status": "completed",
+      "summary": "Expand Grade 1 adventure missions from 24 Alpha templates to 60 Beta templates."
+    },
+    {
+      "step": 3,
+      "name": "grade2-beta-bank",
+      "status": "completed",
+      "summary": "Expand Grade 2 missions from 36 Alpha templates to 72 Beta templates, six per unit."
+    },
+    {
+      "step": 4,
+      "name": "beta-ux-and-verification",
+      "status": "completed",
+      "summary": "Remove Alpha fixed-count UI copy, add reset confirmation, and verify through tests and browser QA."
+    }
+  ],
+  "verification": [
+    "npm run validate:grade1",
+    "npm run validate:grade2",
+    "npm run audit:missions",
+    "npm run test",
+    "npm run lint",
+    "npm run build",
+    "PLAYWRIGHT_PORT=3111 npm run test:e2e",
+    "npm run tdd:guard"
+  ],
+  "handoff": "handoffs/2026-05-11-grade1-grade2-beta-scaleup-codex.md"
+}

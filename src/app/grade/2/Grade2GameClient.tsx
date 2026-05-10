@@ -183,6 +183,7 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
   const [showHint, setShowHint] = useState(false)
   const [wrongAttemptCount, setWrongAttemptCount] = useState(0)
   const [lastSubmissionCorrect, setLastSubmissionCorrect] = useState(false)
+  const [confirmReset, setConfirmReset] = useState(false)
 
   const selectedUnit = grade2Units.find((unit) => unit.id === selectedUnitId) ?? grade2Units[0]
   const selectedUnitMissions = unitMissions(missions, selectedUnit.id)
@@ -241,6 +242,7 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
   }
 
   const chooseMission = (missionId: string) => {
+    setConfirmReset(false)
     const nextProgress = dismissGrade2Intro(progress)
     if (nextProgress !== progress) persistProgress(nextProgress)
     setSelectedMissionId(missionId)
@@ -256,12 +258,17 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
   }
 
   const resetAllProgress = () => {
+    if (!confirmReset) {
+      setConfirmReset(true)
+      return
+    }
     const nextProgress = resetGrade2Progress()
     setProgress(nextProgress)
     setStorageAvailable(true)
     setStorageRecovered(false)
     setSelectedUnitId(initialUnit.id)
     setSelectedMissionId(unitMissions(missions, initialUnit.id)[0]?.id ?? 'g2-1-place-value-01')
+    setConfirmReset(false)
     resetMissionState()
   }
 
@@ -318,7 +325,7 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
                 {selectedUnit.title}
               </h1>
               <p className="mt-3 max-w-2xl text-lg font-bold leading-relaxed text-[#64748b]">
-                {selectedUnit.subtitle} 한 단원에 집중해서 세 문제를 차례로 풀어요.
+                {selectedUnit.subtitle} 한 단원에 집중해서 한 문제씩 차례로 풀어요.
               </p>
             </div>
             <button
@@ -327,7 +334,7 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
               className="min-h-[50px] rounded-xl bg-[#ffedd5] px-5 py-3 text-base font-black text-[#9a3412] shadow-[0_5px_0_#fed7aa]"
               data-testid="grade2-reset-progress"
             >
-              진행 초기화
+              {confirmReset ? '한 번 더 누르면 초기화' : '진행 초기화'}
             </button>
           </div>
         </header>
@@ -373,6 +380,7 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
           wrongAttemptCount={wrongAttemptCount}
           inputError={inputError}
           solved={solved}
+          missionCount={selectedUnitMissions.length}
           onChoiceAnswer={(answer) => submitAnswer(answer, answer)}
           onTextAnswerChange={(answer) => {
             setTextAnswer(answer)

@@ -11,6 +11,12 @@
       "name": "Grade 2 Adventure Alpha",
       "status": "completed",
       "summary": "Added a 36-template Grade 2 Alpha with unit-first flow, structured length/time inputs, Grade 2 visual models, local progress, validation, and tests."
+    },
+    {
+      "dir": "grade2-adventure-beta",
+      "name": "Grade 1/2 Adventure Beta",
+      "status": "completed",
+      "summary": "Expanded Grade 1 to 60 missions and Grade 2 to 72 missions with mission-bank quality audit, dynamic mission counts, and browser QA."
     }
   ]
 }

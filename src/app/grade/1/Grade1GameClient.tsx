@@ -91,6 +91,7 @@ export default function Grade1GameClient() {
   const [numberInputError, setNumberInputError] = useState<string | null>(null)
   const [showHint, setShowHint] = useState(false)
   const [wrongAttemptCount, setWrongAttemptCount] = useState(0)
+  const [confirmReset, setConfirmReset] = useState(false)
 
   const recommendedMission = firstOpenMission(missions, progress)
   const nextPathMission = firstUnlockedIncompleteMission(missions, progress)
@@ -99,6 +100,7 @@ export default function Grade1GameClient() {
     recommendedMission
   const solved = selectedAnswer === selectedMission.correctAnswer
   const reviewRecommended = progress.reviewStageIds.includes(selectedMission.id)
+  const totalMissionCount = missions.length
   const rewardCounts = useMemo(
     () => getGrade1RewardCounts(missions, progress.completedStageIds),
     [missions, progress.completedStageIds]
@@ -156,6 +158,7 @@ export default function Grade1GameClient() {
   }
 
   const selectMission = (missionId: string) => {
+    setConfirmReset(false)
     dismissIntroGuide()
     setSelectedMissionId(missionId)
     resetMissionState()
@@ -179,11 +182,16 @@ export default function Grade1GameClient() {
   }
 
   const resetAllProgress = () => {
+    if (!confirmReset) {
+      setConfirmReset(true)
+      return
+    }
     const nextProgress = resetGrade1Progress()
     setProgress(nextProgress)
     setStorageAvailable(true)
     setStorageRecovered(false)
     setSelectedMissionId(missions[0]?.id ?? selectedMission.id)
+    setConfirmReset(false)
     resetMissionState()
   }
 
@@ -261,7 +269,7 @@ export default function Grade1GameClient() {
                 onClick={resetAllProgress}
                 data-testid="grade1-reset-progress"
               >
-                진행 초기화
+                {confirmReset ? '한 번 더 누르면 초기화' : '진행 초기화'}
               </GameButton>
             </div>
           </div>
@@ -269,7 +277,7 @@ export default function Grade1GameClient() {
           <MascotGuide
             asset={grade1Mascots.nemoriCheer}
             eyebrow="혼자 10분"
-            message="오늘 추천 길을 따라 3개만 풀어도 보물이 보여요."
+            message={`전체 ${totalMissionCount}개 미션 중 오늘 추천 길을 하나씩 열어요.`}
             tone="success"
           />
         </header>

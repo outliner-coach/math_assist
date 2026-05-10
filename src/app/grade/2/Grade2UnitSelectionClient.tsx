@@ -81,7 +81,7 @@ function UnitCard({
         <span className="rounded-full bg-[#ffedd5] px-3 py-1 text-xs font-black text-[#9a3412]">
           {unit.semester}
         </span>
-        <span className="text-sm font-black text-[#2563eb]">{completed}/3</span>
+        <span className="text-sm font-black text-[#2563eb]">{completed}/{items.length}</span>
       </div>
       <h3 className="mt-3 text-xl font-black leading-tight text-[#0f172a]">{unit.title}</h3>
       <p className="mt-2 text-sm font-bold leading-snug text-[#64748b]">{unit.subtitle}</p>
@@ -104,6 +104,7 @@ export default function Grade2UnitSelectionClient() {
   const [progress, setProgress] = useState<Grade2Progress>(() => createInitialGrade2Progress())
   const [storageAvailable, setStorageAvailable] = useState(true)
   const [storageRecovered, setStorageRecovered] = useState(false)
+  const [confirmReset, setConfirmReset] = useState(false)
 
   useEffect(() => {
     const result = loadGrade2Progress()
@@ -118,14 +119,20 @@ export default function Grade2UnitSelectionClient() {
   }
 
   const chooseUnit = (unitId: string) => {
+    setConfirmReset(false)
     persistProgress(dismissGrade2Intro(selectGrade2Unit(progress, unitId)))
   }
 
   const resetAllProgress = () => {
+    if (!confirmReset) {
+      setConfirmReset(true)
+      return
+    }
     const nextProgress = resetGrade2Progress()
     setProgress(nextProgress)
     setStorageAvailable(true)
     setStorageRecovered(false)
+    setConfirmReset(false)
   }
 
   return (
@@ -147,7 +154,7 @@ export default function Grade2UnitSelectionClient() {
                 2학년 탐험섬
               </h1>
               <p className="mt-3 max-w-2xl text-lg font-bold leading-relaxed text-[#64748b]">
-                오늘 풀 단원만 먼저 고르고, 다음 화면에서 세 문제에 집중해요.
+                오늘 풀 단원만 먼저 고르고, 다음 화면에서 한 문제씩 집중해요.
               </p>
             </div>
             <button
@@ -156,7 +163,7 @@ export default function Grade2UnitSelectionClient() {
               className="min-h-[50px] rounded-xl bg-[#ffedd5] px-5 py-3 text-base font-black text-[#9a3412] shadow-[0_5px_0_#fed7aa]"
               data-testid="grade2-reset-progress"
             >
-              진행 초기화
+              {confirmReset ? '한 번 더 누르면 초기화' : '진행 초기화'}
             </button>
           </div>
         </header>

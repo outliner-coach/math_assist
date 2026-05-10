@@ -49,13 +49,13 @@ export default function HomePage() {
         <div className="grid gap-0 md:grid-cols-[1fr_260px]">
           <div className="p-6 md:p-8">
             <span className="inline-flex rounded-full bg-[#d7ffb8] px-4 py-2 text-sm font-black text-[#3c3c3c]">
-              새로 추가
+              Beta
             </span>
             <h2 className="mt-4 text-3xl font-black leading-tight text-[#3c3c3c]">
               1학년 숫자 탐험섬
             </h2>
             <p className="mt-3 max-w-xl text-gray-600">
-              큰 버튼과 캐릭터, 보상 그래픽으로 수 세기 미션을 바로 시작해요.
+              60개 미션을 큰 버튼과 보상 그래픽으로 하나씩 풀어요.
             </p>
             <Link
               href="/grade/1"
@@ -82,13 +82,13 @@ export default function HomePage() {
         <div className="grid gap-0 md:grid-cols-[1fr_260px]">
           <div className="p-6 md:p-8">
             <span className="inline-flex rounded-full bg-[#ffedd5] px-4 py-2 text-sm font-black text-[#9a3412]">
-              Alpha
+              Beta
             </span>
             <h2 className="mt-4 text-3xl font-black leading-tight text-[#0f172a]">
               2학년 탐험섬
             </h2>
             <p className="mt-3 max-w-xl text-gray-600">
-              단원을 고르고 자리값, 길이, 시각, 표와 그래프 미션을 한 문제씩 풀어요.
+              단원을 고르고 72개 자리값, 길이, 시각, 표와 그래프 미션을 한 문제씩 풀어요.
             </p>
             <Link
               href="/grade/2"

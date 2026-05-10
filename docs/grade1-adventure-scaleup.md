@@ -18,9 +18,34 @@ The Grade 1 game has reached the Alpha target:
 The scale-up should preserve the deterministic core rule: answers and grading are
 rule-based, while character copy and feedback can stay presentation-only.
 
+## 2026-05-11 Beta Closeout
+
+The Beta scale-up is complete for the current target:
+
+- Grade 1 mission bank: 60 templates.
+- Grade 2 mission bank: 72 templates, tracked separately in
+  `docs/grade2-lessons-learned.md`.
+- Shared mission-bank quality gate: `npm run audit:missions`.
+- Handoff: `handoffs/2026-05-11-grade1-grade2-beta-scaleup-codex.md`.
+
+Current verification set:
+
+- `npm run validate:grade1`
+- `npm run validate:grade2`
+- `npm run audit:missions`
+- `npm run test`
+- `npm run lint`
+- `npm run build`
+- `PLAYWRIGHT_PORT=3111 npm run test:e2e`
+- `npm run tdd:guard`
+
+Browser QA confirmed `/math_assist/grade/1/` on mobile shows the 60-mission
+Beta copy and map-first flow without visible overlap. Grade 2 browser QA is
+documented in `docs/grade2-lessons-learned.md`.
+
 ## 2026-05-10 Implementation Status
 
-The 24-template Alpha path is implemented and verified. Future agents should
+The 60-template Beta path is implemented and verified. Future agents should
 treat the TypeScript mission bank as the current source of truth, not the older
 planning assumption that `/grade/1` has only one hardcoded problem.
 
@@ -39,6 +64,8 @@ Implemented surfaces:
   wrapper.
 - `scripts/validate-grade1-problems.js`: CI-friendly validation for mission
   template quality.
+- `scripts/mission-bank-quality-report.js`: Grade 1/2 mission-bank audit that
+  fails on warnings during scale-up.
 - `e2e/learning-loop.spec.ts`: route, hint, reward, corrupt storage, and
   reward-to-next-mission flow coverage.
 
@@ -293,7 +320,8 @@ change.
 8. Done: add `validate-grade1-problems` and route-level E2E coverage.
 9. Done: add one-time first-start guidance and a visible reward collection
    surface.
-10. Next: expand to 60 Beta templates and deepen Review Island behavior.
+10. Done: expand to 60 Beta templates.
+11. Next: deepen Review Island behavior and parent-facing summary quality.
 
 ## Acceptance Gates
 

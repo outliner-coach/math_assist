@@ -9,12 +9,12 @@ import {
 } from './grade1-problems'
 
 describe('grade1 mission bank', () => {
-  it('provides an Alpha-sized deterministic adventure bank', () => {
+  it('provides a Beta-sized deterministic adventure bank', () => {
     const missions = getGrade1Missions(42)
 
-    expect(missions).toHaveLength(24)
+    expect(missions).toHaveLength(60)
     expect(missions.map((mission) => mission.stageOrder)).toEqual(
-      Array.from({ length: 24 }, (_, index) => index + 1)
+      Array.from({ length: 60 }, (_, index) => index + 1)
     )
     expect(new Set(missions.map((mission) => mission.islandId)).size).toBeGreaterThanOrEqual(6)
   })

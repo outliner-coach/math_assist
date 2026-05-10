@@ -205,7 +205,7 @@ test('2학년 게임 모드에서 단원 선택, 힌트, 보상, 다음 미션 �
   await expect(page.getByTestId('grade2-unit-list')).toHaveCount(0)
   await expect(page.getByTestId('grade2-mission-nav')).toBeVisible()
   await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-place-value-01')
-  await expect(page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)).toHaveCount(3)
+  await expect(page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)).toHaveCount(6)
 
   await page.getByTestId('grade2-integer-input').fill('111')
   await page.getByTestId('grade2-integer-submit').click()

@@ -20,6 +20,7 @@ interface Grade2MissionCardProps {
   wrongAttemptCount: number
   inputError: string | null
   solved: boolean
+  missionCount: number
   onChoiceAnswer: (answer: string) => void
   onTextAnswerChange: (answer: string) => void
   onLengthAnswerChange: (answer: Grade2StructuredLengthInput) => void
@@ -98,6 +99,7 @@ export default function Grade2MissionCard({
   wrongAttemptCount,
   inputError,
   solved,
+  missionCount,
   onChoiceAnswer,
   onTextAnswerChange,
   onLengthAnswerChange,
@@ -124,7 +126,9 @@ export default function Grade2MissionCard({
       <div className="mb-5 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <p className="text-sm font-black uppercase tracking-[0.18em] text-[#2563eb]">
-            {mission.curriculumCode} · {mission.unitMissionOrder}/3
+            <span className="text-[#64748b]">{mission.curriculumCode}</span>
+            <span aria-hidden="true"> · </span>
+            {mission.unitMissionOrder}/{missionCount}
           </p>
           <h2 className="mt-2 text-2xl font-black leading-tight text-[#0f172a] md:text-3xl">
             {mission.prompt}

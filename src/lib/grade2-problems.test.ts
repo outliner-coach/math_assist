@@ -11,20 +11,23 @@ import {
 } from './grade2-problems'
 
 describe('grade2 mission bank', () => {
-  it('provides a 36-template Alpha bank across 12 units', () => {
+  it('provides a 72-template Beta bank across 12 units', () => {
     const missions = getGrade2Missions(42)
 
-    expect(missions).toHaveLength(36)
+    expect(missions).toHaveLength(72)
     expect(grade2Units).toHaveLength(12)
     expect(missions.map((mission) => mission.stageOrder)).toEqual(
-      Array.from({ length: 36 }, (_, index) => index + 1)
+      Array.from({ length: 72 }, (_, index) => index + 1)
     )
 
     for (const unit of grade2Units) {
       const unitMissions = getGrade2MissionsByUnit(unit.id, 42)
-      expect(unitMissions).toHaveLength(3)
-      expect(unitMissions.map((mission) => mission.unitMissionOrder)).toEqual([1, 2, 3])
+      expect(unitMissions).toHaveLength(6)
+      expect(unitMissions.map((mission) => mission.unitMissionOrder)).toEqual([1, 2, 3, 4, 5, 6])
       expect(unitMissions.map((mission) => mission.difficultyStep)).toEqual([
+        'easy',
+        'medium',
+        'applied',
         'easy',
         'medium',
         'applied',

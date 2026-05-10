@@ -45,3 +45,10 @@ When you change a high-conflict file, add a short dated note below:
   first-start guide. Existing stored progress without the field must normalize to
   `null`; reset should clear it. UI and learning-loop agents should use this
   field only for onboarding visibility, not for reward or stage completion.
+- 2026-05-11: Grade 1/2 Beta scale-up
+  Grade 1 now has 60 mission templates and Grade 2 now has 72 mission templates
+  with 6 missions per unit. `Grade2MissionCard` now receives `missionCount`
+  instead of assuming `/3`, and `unitMissionOrder` is no longer limited to
+  `1 | 2 | 3`. Re-check mission navigation, tests, and browser QA if another
+  workstream touches Grade 1/2 mission banks, Grade 2 mission cards, or progress
+  copy. The handoff is `handoffs/2026-05-11-grade1-grade2-beta-scaleup-codex.md`.
