@@ -276,6 +276,18 @@ test('2학년 분류하기 시각화는 풀이 전 개수 숫자를 표식으로
   const classificationVisual = page.getByTestId('grade2-visual-classification-table')
   await expect(classificationVisual.getByTestId('grade2-classification-marks-0')).toBeVisible()
   await expect(classificationVisual.getByText('4', { exact: true })).toHaveCount(0)
+  await expect(classificationVisual.getByTestId('grade2-classification-category-0')).toHaveCSS('color', 'rgb(153, 27, 27)')
+  await expect(classificationVisual.getByTestId('grade2-classification-category-1')).toHaveCSS('color', 'rgb(30, 58, 138)')
+  await expect(classificationVisual.getByTestId('grade2-classification-category-2')).toHaveCSS('color', 'rgb(133, 77, 14)')
+
+  const markColors = await Promise.all(
+    [0, 1, 2].map((index) =>
+      classificationVisual
+        .getByTestId(`grade2-classification-mark-${index}-0`)
+        .evaluate((node) => getComputedStyle(node).backgroundColor)
+    )
+  )
+  expect(new Set(markColors).size).toBe(3)
 
   await page.getByTestId('grade2-integer-input').fill('4')
   await page.getByTestId('grade2-integer-submit').click()

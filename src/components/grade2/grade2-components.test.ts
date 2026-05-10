@@ -230,10 +230,17 @@ describe('grade 2 components', () => {
       const revealedHtml = renderToStaticMarkup(
         createElement(Grade2MissionVisual, { mission, emphasize: true, showAnswer: true })
       )
+      const hasAnswerHighlight =
+        revealedHtml.includes('border-[#16a34a]') ||
+        revealedHtml.includes('bg-[#dcfce7]') ||
+        revealedHtml.includes('border-color:#16a34a') ||
+        revealedHtml.includes('background-color:#dcfce7')
 
       expect(hiddenHtml).not.toContain('border-[#16a34a]')
       expect(hiddenHtml).not.toContain('bg-[#dcfce7]')
-      expect(revealedHtml.includes('border-[#16a34a]') || revealedHtml.includes('bg-[#dcfce7]')).toBe(true)
+      expect(hiddenHtml).not.toContain('border-color:#16a34a')
+      expect(hiddenHtml).not.toContain('background-color:#dcfce7')
+      expect(hasAnswerHighlight).toBe(true)
     }
   })
 

@@ -33,6 +33,89 @@ function splitList(value: string | number | boolean | undefined): string[] {
     .filter(Boolean)
 }
 
+const classificationThemes = {
+  red: {
+    rowBg: '#fff7f7',
+    rowBorder: '#fecaca',
+    labelBg: '#fee2e2',
+    labelBorder: '#fca5a5',
+    labelText: '#991b1b',
+    markBg: '#ef4444',
+  },
+  blue: {
+    rowBg: '#f5f9ff',
+    rowBorder: '#bfdbfe',
+    labelBg: '#dbeafe',
+    labelBorder: '#93c5fd',
+    labelText: '#1e3a8a',
+    markBg: '#2563eb',
+  },
+  yellow: {
+    rowBg: '#fffbea',
+    rowBorder: '#fde68a',
+    labelBg: '#fef3c7',
+    labelBorder: '#facc15',
+    labelText: '#854d0e',
+    markBg: '#eab308',
+  },
+  green: {
+    rowBg: '#f3fcf7',
+    rowBorder: '#bbf7d0',
+    labelBg: '#bbf7d0',
+    labelBorder: '#86efac',
+    labelText: '#166534',
+    markBg: '#16a34a',
+  },
+  purple: {
+    rowBg: '#faf7ff',
+    rowBorder: '#ddd6fe',
+    labelBg: '#ede9fe',
+    labelBorder: '#c4b5fd',
+    labelText: '#5b21b6',
+    markBg: '#7c3aed',
+  },
+  orange: {
+    rowBg: '#fff8f1',
+    rowBorder: '#fed7aa',
+    labelBg: '#ffedd5',
+    labelBorder: '#fdba74',
+    labelText: '#9a3412',
+    markBg: '#f97316',
+  },
+} as const
+
+const classificationThemeOrder = [
+  classificationThemes.red,
+  classificationThemes.blue,
+  classificationThemes.yellow,
+  classificationThemes.green,
+  classificationThemes.purple,
+  classificationThemes.orange,
+]
+
+function getClassificationTheme(category: string, index: number) {
+  if (category.includes('빨강') || category.includes('사과') || category.includes('딸기')) {
+    return classificationThemes.red
+  }
+  if (category.includes('파랑') || category.includes('야구')) {
+    return classificationThemes.blue
+  }
+  if (category.includes('노랑') || category.includes('배')) {
+    return classificationThemes.yellow
+  }
+  if (category.includes('수박') || category.includes('축구') || category.includes('동물')) {
+    return classificationThemes.green
+  }
+  if (category.includes('포도')) {
+    return classificationThemes.purple
+  }
+  if (category.includes('귤') || category.includes('피구') || category.includes('탈것')) {
+    return classificationThemes.orange
+  }
+
+  return classificationThemeOrder[index % classificationThemeOrder.length]
+}
+
 function VisualShell({
   children,
   emphasize = false,
@@ -446,30 +529,52 @@ function ClassificationTable({ mission, emphasize, showAnswer = false }: Grade2M
 
   return (
     <VisualShell emphasize={emphasize} testId="grade2-visual-classification-table">
-      <div className="overflow-hidden rounded-2xl border-2 border-[#cbd5e1] bg-white">
-        {categories.map((category, index) => (
-          <div
-            key={category}
-            className={`grid grid-cols-[1fr_110px] items-center border-b-2 border-[#e2e8f0] p-4 last:border-b-0 ${
-              target.includes(category) && emphasize && showAnswer ? 'bg-[#dcfce7]' : ''
-            }`}
-          >
-            <span className="text-xl font-black text-[#0f172a]">{category}</span>
-            {showCountMarks ? (
+      <div className="grid gap-3">
+        {categories.map((category, index) => {
+          const theme = getClassificationTheme(category, index)
+          const isRevealedTarget = target.includes(category) && emphasize && showAnswer
+
+          return (
+            <div
+              key={category}
+              className="grid grid-cols-[minmax(5rem,1fr)_minmax(7rem,auto)] items-center gap-3 rounded-2xl border-2 p-3 shadow-sm"
+              style={{
+                backgroundColor: isRevealedTarget ? '#dcfce7' : theme.rowBg,
+                borderColor: isRevealedTarget ? '#16a34a' : theme.rowBorder,
+              }}
+            >
               <span
-                className="flex flex-wrap justify-end gap-1"
-                data-testid={`grade2-classification-marks-${index}`}
-                aria-label={`${category} 표식`}
+                className="inline-flex min-h-12 w-fit min-w-20 items-center justify-center rounded-xl border-2 px-4 text-xl font-black"
+                style={{
+                  backgroundColor: theme.labelBg,
+                  borderColor: theme.labelBorder,
+                  color: theme.labelText,
+                }}
+                data-testid={`grade2-classification-category-${index}`}
               >
-                {Array.from({ length: asNumber(counts[index]) }, (_, markIndex) => (
-                  <span key={markIndex} className="h-4 w-4 rounded-full bg-[#2563eb]" />
-                ))}
+                {category}
               </span>
-            ) : (
-              <span className="text-center text-3xl font-black text-[#2563eb]">{counts[index]}</span>
-            )}
-          </div>
-        ))}
+              {showCountMarks ? (
+                <span
+                  className="flex flex-wrap justify-end gap-1.5"
+                  data-testid={`grade2-classification-marks-${index}`}
+                  aria-label={`${category} 표식`}
+                >
+                  {Array.from({ length: asNumber(counts[index]) }, (_, markIndex) => (
+                    <span
+                      key={markIndex}
+                      className="h-4 w-4 rounded-full shadow-sm"
+                      style={{ backgroundColor: theme.markBg }}
+                      data-testid={`grade2-classification-mark-${index}-${markIndex}`}
+                    />
+                  ))}
+                </span>
+              ) : (
+                <span className="text-center text-3xl font-black text-[#2563eb]">{counts[index]}</span>
+              )}
+            </div>
+          )
+        })}
       </div>
     </VisualShell>
   )
