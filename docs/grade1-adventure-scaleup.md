@@ -29,12 +29,14 @@ Implemented surfaces:
 - `src/lib/grade1-problems.ts`: mission template contract, islands, deterministic
   renderers, safe fallback mission, and validator helpers.
 - `src/lib/grade1-progress.ts`: completed stages, review stages, latest stage,
-  today count, parent summary tags, storage recovery, and reset behavior.
+  today count, parent summary tags, first-start intro dismissal, storage
+  recovery, and reset behavior.
 - `src/app/grade/1/Grade1GameClient.tsx`: data-driven route, recommended mission,
-  selected mission state, retry/hint flow, progress persistence, and next-path
-  continuation.
+  selected mission state, retry/hint flow, one-time intro guide, progress
+  persistence, reward collection state, and next-path continuation.
 - `src/components/grade1/**`: map, stage nodes, mission visual renderers,
-  mission card, reward reveal, mascot guide, and asset image wrapper.
+  mission card, reward reveal, reward collection, mascot guide, and asset image
+  wrapper.
 - `scripts/validate-grade1-problems.js`: CI-friendly validation for mission
   template quality.
 - `e2e/learning-loop.spec.ts`: route, hint, reward, corrupt storage, and
@@ -50,6 +52,9 @@ Verification snapshot from the 2026-05-10 UX pass:
 - `npm run tdd:guard`
 - Browser check on `/math_assist/grade/1/` confirmed the reward panel shows
   `다음 미션 풀기`, `다시 풀기`, and `지도 보기` without layout overlap.
+- Follow-up browser check confirmed the first-start guide hides after the learner
+  begins, `RewardReveal` shows the current reward count, and `보물 가방` updates
+  `숫자 조각 보상` from `0개` to `1개`.
 
 ## Target Shape
 
@@ -250,6 +255,7 @@ fallbacks, visible retry paths, and validation failures before runtime.
 | Asset missing or slow | Use existing `Grade1AssetImage` fallback and preserve layout dimensions |
 | GitHub Pages base path mismatch | Tests must cover `/math_assist` asset/data paths before deploy |
 | Double tap or repeated answer | Treat answer submission idempotently and avoid duplicate rewards |
+| Older Grade 1 progress storage | Normalize missing `introDismissedAt` to `null` instead of resetting progress |
 | Number input invalid | Keep the answer unsubmitted and show a friendly inline correction |
 | E2E/browser unsupported feature | Keep mission content readable without advanced animation |
 
@@ -285,7 +291,9 @@ change.
 7. Done: add runtime fallbacks for generation, storage, missing stage, and
    missing asset cases.
 8. Done: add `validate-grade1-problems` and route-level E2E coverage.
-9. Next: expand to 60 Beta templates and deepen Review Island behavior.
+9. Done: add one-time first-start guidance and a visible reward collection
+   surface.
+10. Next: expand to 60 Beta templates and deepen Review Island behavior.
 
 ## Acceptance Gates
 

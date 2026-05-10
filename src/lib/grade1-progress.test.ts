@@ -2,9 +2,11 @@ import { describe, expect, it, vi } from 'vitest'
 
 import {
   createInitialGrade1Progress,
+  dismissGrade1Intro,
   GRADE1_PROGRESS_KEY,
   loadGrade1Progress,
   recordGrade1Attempt,
+  resetGrade1Progress,
   saveGrade1Progress,
   type StorageLike,
 } from './grade1-progress'
@@ -40,6 +42,7 @@ describe('grade1 progress persistence', () => {
     expect(loaded.recovered).toBe(false)
     expect(loaded.progress.completedStageIds).toContain('count-cove-01')
     expect(loaded.progress.todaySolvedCount).toBe(1)
+    expect(loaded.progress.introDismissedAt).toBe(null)
   })
 
   it('marks wrong and hinted-correct missions for review', () => {
@@ -84,6 +87,42 @@ describe('grade1 progress persistence', () => {
     expect(loaded.recovered).toBe(true)
     expect(loaded.progress.completedStageIds).toEqual([])
     expect(loaded.progress.todaySolvedCount).toBe(0)
+    expect(loaded.progress.introDismissedAt).toBe(null)
+  })
+
+  it('loads older progress without an intro dismissal field', () => {
+    const storage = memoryStorage({
+      [GRADE1_PROGRESS_KEY]: JSON.stringify({
+        schemaVersion: 1,
+        completedStageIds: ['count-cove-01'],
+        reviewStageIds: [],
+        latestStageId: 'count-cove-01',
+        todaySolvedCount: 1,
+        skillSummaryByTag: {},
+        lastPlayedAt: 100,
+      }),
+    })
+
+    const loaded = loadGrade1Progress(storage, 100)
+
+    expect(loaded.recovered).toBe(false)
+    expect(loaded.progress.completedStageIds).toEqual(['count-cove-01'])
+    expect(loaded.progress.introDismissedAt).toBe(null)
+  })
+
+  it('stores and resets the intro dismissal state', () => {
+    const storage = memoryStorage()
+    const dismissed = dismissGrade1Intro(createInitialGrade1Progress(100), 200)
+
+    expect(dismissed.introDismissedAt).toBe(200)
+    expect(saveGrade1Progress(dismissed, storage)).toBe(true)
+
+    const loaded = loadGrade1Progress(storage, 250)
+    expect(loaded.progress.introDismissedAt).toBe(200)
+
+    const reset = resetGrade1Progress(storage, 300)
+    expect(reset.introDismissedAt).toBe(null)
+    expect(loadGrade1Progress(storage, 300).progress.introDismissedAt).toBe(null)
   })
 
   it('continues in memory when storage is unavailable', () => {

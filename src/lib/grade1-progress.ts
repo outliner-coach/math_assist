@@ -15,6 +15,7 @@ export interface Grade1Progress {
   latestStageId: string | null
   todaySolvedCount: number
   skillSummaryByTag: Record<string, Grade1SkillSummary>
+  introDismissedAt: number | null
   lastPlayedAt: number | null
 }
 
@@ -38,6 +39,7 @@ export function createInitialGrade1Progress(now = Date.now()): Grade1Progress {
     latestStageId: null,
     todaySolvedCount: 0,
     skillSummaryByTag: {},
+    introDismissedAt: null,
     lastPlayedAt: now,
   }
 }
@@ -93,6 +95,8 @@ function normalizeProgress(value: unknown, now: number): Grade1Progress | null {
       ? Number(candidate.todaySolvedCount ?? 0)
       : 0,
     skillSummaryByTag: candidate.skillSummaryByTag as Record<string, Grade1SkillSummary>,
+    introDismissedAt:
+      typeof candidate.introDismissedAt === 'number' ? candidate.introDismissedAt : null,
     lastPlayedAt: typeof candidate.lastPlayedAt === 'number' ? candidate.lastPlayedAt : now,
   }
 }
@@ -202,6 +206,19 @@ export function recordGrade1Attempt(
         correct: summary.correct + (correct ? 1 : 0),
       },
     },
+    lastPlayedAt: now,
+  }
+}
+
+export function dismissGrade1Intro(
+  progress: Grade1Progress,
+  now = Date.now()
+): Grade1Progress {
+  if (progress.introDismissedAt !== null) return progress
+
+  return {
+    ...progress,
+    introDismissedAt: now,
     lastPlayedAt: now,
   }
 }

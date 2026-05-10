@@ -9,7 +9,9 @@ import {
   Grade1AssetImage,
   MascotGuide,
   MissionProblemCard,
+  RewardCollection,
   RewardReveal,
+  getGrade1RewardCounts,
 } from '@/components/grade1'
 import { grade1Mascots, grade1Objects } from '@/lib/grade1-assets'
 import {
@@ -19,6 +21,7 @@ import {
 } from '@/lib/grade1-problems'
 import {
   createInitialGrade1Progress,
+  dismissGrade1Intro,
   loadGrade1Progress,
   recordGrade1Attempt,
   resetGrade1Progress,
@@ -27,6 +30,24 @@ import {
 } from '@/lib/grade1-progress'
 
 const MISSION_SEED = 20260509
+
+const introGuideItems = [
+  {
+    title: '그림은 재미 담당',
+    body: '캐릭터와 보상은 흥미를 만들고, 정답 판단은 코드로 만든 수학 규칙이 맡아요.',
+    asset: grade1Mascots.donggeuriHint,
+  },
+  {
+    title: '큰 터치 버튼',
+    body: '스테이지와 보기 버튼은 1학년 손가락으로 누르기 쉽게 크게 만들었어요.',
+    asset: grade1Objects.star,
+  },
+  {
+    title: '실패는 다시 도전',
+    body: '틀리면 점수를 깎기보다 힌트를 열고 복습섬에 남겨 다시 볼 수 있어요.',
+    asset: grade1Mascots.donggeuriRetry,
+  },
+]
 
 function firstOpenMission(missions: Grade1Mission[], progress: Grade1Progress): Grade1Mission {
   const reviewMission = missions.find((mission) => progress.reviewStageIds.includes(mission.id))
@@ -78,6 +99,12 @@ export default function Grade1GameClient() {
     recommendedMission
   const solved = selectedAnswer === selectedMission.correctAnswer
   const reviewRecommended = progress.reviewStageIds.includes(selectedMission.id)
+  const rewardCounts = useMemo(
+    () => getGrade1RewardCounts(missions, progress.completedStageIds),
+    [missions, progress.completedStageIds]
+  )
+  const currentRewardCount = solved ? rewardCounts[selectedMission.rewardId] : undefined
+  const showIntroGuide = progress.introDismissedAt === null
 
   useEffect(() => {
     const result = loadGrade1Progress()
@@ -101,13 +128,23 @@ export default function Grade1GameClient() {
         wrongAttemptCount,
         todaySolvedCount: progress.todaySolvedCount,
         reviewCount: progress.reviewStageIds.length,
+        introDismissed: progress.introDismissedAt !== null,
+        rewardCounts,
       })
-  }, [nextPathMission?.id, progress.reviewStageIds.length, progress.todaySolvedCount, selectedMission.prompt, selectedMissionId, solved, wrongAttemptCount])
+  }, [nextPathMission?.id, progress.introDismissedAt, progress.reviewStageIds.length, progress.todaySolvedCount, rewardCounts, selectedMission.prompt, selectedMissionId, solved, wrongAttemptCount])
 
   const persistProgress = (nextProgress: Grade1Progress) => {
     setProgress(nextProgress)
     const saved = saveGrade1Progress(nextProgress)
     setStorageAvailable(saved)
+  }
+
+  const dismissIntroGuide = (baseProgress = progress): Grade1Progress => {
+    const nextProgress = dismissGrade1Intro(baseProgress)
+    if (nextProgress !== baseProgress) {
+      persistProgress(nextProgress)
+    }
+    return nextProgress
   }
 
   const resetMissionState = () => {
@@ -119,6 +156,7 @@ export default function Grade1GameClient() {
   }
 
   const selectMission = (missionId: string) => {
+    dismissIntroGuide()
     setSelectedMissionId(missionId)
     resetMissionState()
   }
@@ -152,8 +190,12 @@ export default function Grade1GameClient() {
   const submitAnswer = (rawAnswer: string) => {
     if (solved) return
 
+    const progressWithIntroDismissed = dismissGrade1Intro(progress)
     const answer = rawAnswer.trim()
     if (selectedMission.answerType === 'number' && !/^\d+$/.test(answer)) {
+      if (progressWithIntroDismissed !== progress) {
+        persistProgress(progressWithIntroDismissed)
+      }
       setNumberInputError('숫자만 써요.')
       return
     }
@@ -163,8 +205,8 @@ export default function Grade1GameClient() {
     setSelectedAnswer(answer)
 
     if (correct) {
-      const alreadyCompleted = progress.completedStageIds.includes(selectedMission.id)
-      const nextProgress = recordGrade1Attempt(progress, selectedMission, true, {
+      const alreadyCompleted = progressWithIntroDismissed.completedStageIds.includes(selectedMission.id)
+      const nextProgress = recordGrade1Attempt(progressWithIntroDismissed, selectedMission, true, {
         hadHint: wrongAttemptCount > 0,
         countSolved: !alreadyCompleted,
       })
@@ -175,7 +217,7 @@ export default function Grade1GameClient() {
     const nextWrongAttemptCount = wrongAttemptCount + 1
     setWrongAttemptCount(nextWrongAttemptCount)
     setShowHint(true)
-    persistProgress(recordGrade1Attempt(progress, selectedMission, false))
+    persistProgress(recordGrade1Attempt(progressWithIntroDismissed, selectedMission, false))
   }
 
   return (
@@ -241,6 +283,50 @@ export default function Grade1GameClient() {
           </section>
         )}
 
+        {showIntroGuide && (
+          <section
+            className="rounded-[2rem] border-2 border-[#e5e5e5] bg-white p-5 md:p-6"
+            data-testid="grade1-intro-guide"
+          >
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="text-sm font-black uppercase tracking-[0.2em] text-[#58cc02]">
+                  처음 안내
+                </p>
+                <h2 className="mt-1 text-2xl font-black text-[#3c3c3c]">
+                  이렇게 놀면서 풀어요
+                </h2>
+              </div>
+              <GameButton
+                variant="quiet"
+                onClick={() => dismissIntroGuide()}
+                data-testid="grade1-dismiss-intro"
+              >
+                안내 닫기
+              </GameButton>
+            </div>
+            <div className="mt-5 grid gap-4 md:grid-cols-3">
+              {introGuideItems.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-2xl border-2 border-[#e5e5e5] bg-[#fbfffa] p-4"
+                >
+                  <div className="mb-3 h-16 w-16">
+                    <Grade1AssetImage
+                      asset={item.asset}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                  <h3 className="text-lg font-black text-[#3c3c3c]">{item.title}</h3>
+                  <p className="mt-2 text-sm font-bold leading-relaxed text-[#777777]">
+                    {item.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         <GameMap
           missions={missions}
           progress={progress}
@@ -277,6 +363,7 @@ export default function Grade1GameClient() {
           mission={selectedMission}
           nextMission={nextPathMission ?? undefined}
           reviewRecommended={reviewRecommended}
+          rewardCount={currentRewardCount}
           onReset={resetMission}
           onNextMission={
             nextPathMission
@@ -316,41 +403,11 @@ export default function Grade1GameClient() {
           </div>
         </section>
 
-        <section className="grid gap-4 rounded-[2rem] border-2 border-[#e5e5e5] bg-white p-5 md:grid-cols-3 md:p-6">
-          {[
-            {
-              title: '그림은 재미 담당',
-              body: '캐릭터와 보상은 흥미를 만들고, 정답 판단은 코드로 만든 수학 규칙이 맡아요.',
-              asset: grade1Mascots.donggeuriHint,
-            },
-            {
-              title: '큰 터치 버튼',
-              body: '스테이지와 보기 버튼은 1학년 손가락으로 누르기 쉽게 크게 만들었어요.',
-              asset: grade1Objects.star,
-            },
-            {
-              title: '실패는 다시 도전',
-              body: '틀리면 점수를 깎기보다 힌트를 열고 복습섬에 남겨 다시 볼 수 있어요.',
-              asset: grade1Mascots.donggeuriRetry,
-            },
-          ].map((item) => (
-            <div
-              key={item.title}
-              className="rounded-2xl border-2 border-[#e5e5e5] bg-[#fbfffa] p-4"
-            >
-              <div className="mb-3 h-16 w-16">
-                <Grade1AssetImage
-                  asset={item.asset}
-                  className="h-full w-full object-contain"
-                />
-              </div>
-              <h2 className="text-lg font-black text-[#3c3c3c]">{item.title}</h2>
-              <p className="mt-2 text-sm font-bold leading-relaxed text-[#777777]">
-                {item.body}
-              </p>
-            </div>
-          ))}
-        </section>
+        <RewardCollection
+          missions={missions}
+          completedStageIds={progress.completedStageIds}
+          highlightRewardId={solved ? selectedMission.rewardId : undefined}
+        />
       </div>
     </main>
   )

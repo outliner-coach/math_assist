@@ -40,3 +40,8 @@ When you change a high-conflict file, add a short dated note below:
   agents own deterministic templates and tests; quality agents own validation and E2E gates.
   The plan also requires learner journey, wrong-answer hint policy, parent summary metadata,
   and runtime recovery for localStorage, missing stages, missing assets, and repeated answer taps.
+- 2026-05-10: `src/lib/grade1-progress.ts`
+  Grade 1 progress now includes `introDismissedAt: number | null` for the
+  first-start guide. Existing stored progress without the field must normalize to
+  `null`; reset should clear it. UI and learning-loop agents should use this
+  field only for onboarding visibility, not for reward or stage completion.

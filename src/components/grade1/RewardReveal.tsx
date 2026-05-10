@@ -16,6 +16,7 @@ interface RewardRevealProps {
   nextMission?: Pick<Grade1Mission, 'stageOrder' | 'learnerGoal'>
   onNextMission?: () => void
   reviewRecommended?: boolean
+  rewardCount?: number
 }
 
 const rewards = grade1Rewards
@@ -28,6 +29,7 @@ export default function RewardReveal({
   nextMission,
   onNextMission,
   reviewRecommended = false,
+  rewardCount,
 }: RewardRevealProps) {
   if (!visible) {
     return null
@@ -68,6 +70,14 @@ export default function RewardReveal({
             <p className="mt-3 text-center text-lg font-black text-[#3c3c3c]">
               {reward.alt}
             </p>
+            {rewardCount !== undefined && (
+              <p
+                className="mt-1 text-center text-sm font-black text-[#58cc02]"
+                data-testid="reward-count-message"
+              >
+                {reward.alt}, 이제 {rewardCount}개예요.
+              </p>
+            )}
           </div>
 
           {hasNextMission && nextMission && (

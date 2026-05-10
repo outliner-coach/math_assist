@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import GameMap from './GameMap'
 import MissionProblemCard from './MissionProblemCard'
+import RewardCollection from './RewardCollection'
 import RewardReveal from './RewardReveal'
 import { createInitialGrade1Progress, recordGrade1Attempt } from '@/lib/grade1-progress'
 import { getGrade1Missions, getSafeGrade1Mission } from '@/lib/grade1-problems'
@@ -75,6 +76,7 @@ describe('grade 1 game components', () => {
         visible: true,
         mission,
         nextMission: missions[1],
+        rewardCount: 1,
         onReset: vi.fn(),
         onNextMission: vi.fn(),
         onOpenMap: vi.fn(),
@@ -83,7 +85,25 @@ describe('grade 1 game components', () => {
 
     expect(html).toContain('보상 획득')
     expect(html).toContain('/assets/grade1/rewards/number-shard.png')
+    expect(html).toContain('숫자 조각 보상, 이제 1개예요.')
     expect(html).toContain('다음 미션 풀기')
     expect(html).toContain('2. 10보다 큰 수를 세어요')
+  })
+
+  it('shows collected reward counts without duplicating incomplete rewards', () => {
+    const missions = getGrade1Missions(42)
+    const html = renderToStaticMarkup(
+      createElement(RewardCollection, {
+        missions,
+        completedStageIds: [missions[0].id, missions[1].id],
+        highlightRewardId: 'numberShard',
+      })
+    )
+
+    expect(html).toContain('보물 가방')
+    expect(html).toContain('aria-label="숫자 조각 보상 2개"')
+    expect(html).toContain('aria-label="도형 배지 보상 0개"')
+    expect(html).toContain('data-testid="reward-count-numberShard"')
+    expect(html).toContain('방금 받았어요')
   })
 })

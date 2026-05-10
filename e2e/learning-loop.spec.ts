@@ -148,6 +148,12 @@ test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수
   await expect(page.getByTestId('grade1-game-map')).toBeVisible()
   await expect(page.getByTestId('mission-problem-card')).toBeVisible()
   await expect(page.getByTestId('parent-summary')).toBeVisible()
+  await expect(page.getByTestId('grade1-intro-guide')).toBeVisible()
+  await expect(page.getByTestId('reward-collection')).toBeVisible()
+  await expect(page.getByTestId('reward-count-numberShard')).toContainText('0개')
+
+  await page.getByTestId('start-grade1-mission').click()
+  await expect(page.getByTestId('grade1-intro-guide')).toHaveCount(0)
 
   await page.getByTestId('grade1-choice-6').click()
   await expect(page.getByTestId('mission-hint')).toBeVisible()
@@ -156,6 +162,9 @@ test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수
   await page.getByTestId('grade1-choice-7').click()
   await expect(page.getByTestId('mission-success')).toBeVisible()
   await expect(page.getByTestId('reward-reveal')).toBeVisible()
+  await expect(page.getByTestId('reward-count-message')).toContainText('숫자 조각 보상, 이제 1개예요.')
+  await expect(page.getByTestId('reward-count-numberShard')).toContainText('1개')
+  await expect(page.getByTestId('reward-tile-numberShard')).toContainText('방금 받았어요')
   await expect(page.getByTestId('next-grade1-mission-panel')).toContainText('2. 10보다 큰 수를 세어요')
   await expect(page.getByTestId('next-grade1-mission')).toBeVisible()
 
@@ -163,6 +172,7 @@ test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수
   expect(progress.completedStageIds).toContain('count-cove-01')
   expect(progress.reviewStageIds).toContain('count-cove-01')
   expect(progress.todaySolvedCount).toBe(1)
+  expect(typeof progress.introDismissedAt).toBe('number')
 
   await page.getByTestId('next-grade1-mission').click()
   await expect(page.getByTestId('mission-problem-card')).toHaveAttribute('data-mission-id', 'count-cove-02')
