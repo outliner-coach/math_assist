@@ -24,11 +24,12 @@ npm run validate:templates
 npm run audit:missions
 ```
 
-- 대상: `src/lib/grade1-problems.ts`, `src/lib/grade2-problems.ts`
+- 대상: `src/lib/grade1-problems.ts`, `src/lib/grade2-problems.ts`, `src/lib/grade3-problems.ts`
 - 출력물: `out/quality/mission-bank-quality-report.json`, `out/quality/mission-bank-quality-report.md`
 - 기본 동작: `error`와 `warning` 모두 실패
-- 실패 조건: Beta 문항 수 미달, 단원/섬 coverage 부족, 선택지 중복, 중복 prompt, 빈 prompt/hint/solution, 난이도 균형 오류, 어린이에게 긴 prompt, Grade 2 입력 형태와 prompt 불일치
+- 실패 조건: Beta/Alpha 문항 수 미달, 단원/섬 coverage 부족, 선택지 중복, 중복 prompt, 빈 prompt/hint/solution, 난이도 균형 오류, 어린이에게 긴 prompt, Grade 2/3 입력 형태와 prompt 불일치
 - Grade 2 시각자료 기준: `classification` count는 풀이 전 표식으로 보여주고, 길이 등가 답 라벨은 reveal 전 숨깁니다.
+- Grade 3 기준: 12개 단원 x 3문항 Alpha, 단원별 `easy`/`medium`/`applied` 각 1문항, `[4수..]` 성취기준 추적, 구조화 정답 self-check, 조작형 발판, 시각자료 정답 은닉을 모두 요구합니다.
 
 품질 평가 리포트:
 
@@ -122,13 +123,22 @@ npm run promptfoo:problems
 5. 실제 수정 후 같은 세 명령을 다시 실행
 6. 경고를 남기고 넘길 때는 handoff에 이유를 적기
 
-탐험섬 Grade 1/2 문항 확장 작업은 아래 순서를 추가로 사용합니다.
+탐험섬 Grade 1/2/3 문항 확장 작업은 아래 순서를 추가로 사용합니다.
 
 1. `npm run validate:grade1`
 2. `npm run validate:grade2`
-3. `npm run audit:missions`
-4. focused unit/component tests
-5. 실제 브라우저 확인과 E2E
+3. `npm run validate:grade3`
+4. `npm run audit:missions`
+5. focused unit/component tests
+6. 실제 브라우저 확인과 E2E
+
+Grade 3 Alpha 문제 품질 기준:
+
+- 문제 문장은 한 번에 읽히는 짧은 문장으로 씁니다.
+- 필요한 숫자와 도형 정보는 시각 자료에서도 확인 가능해야 합니다.
+- 정답이 암산력만으로 갈리지 않도록 발판 또는 모델을 제공합니다.
+- 한 문제에서 새 개념을 두 개 이상 동시에 요구하지 않습니다.
+- 빈 답, 범위 초과, 단위 칸 오류는 오답으로 기록하지 않고 입력 오류로만 처리합니다.
 
 ## Review Policy
 
@@ -175,3 +185,10 @@ npm run promptfoo:problems
 - `PLAYWRIGHT_PORT=3135 npm run test:e2e` 결과 13 passed
 - 실제 게임 클라이언트로 Grade 1/2 화면, `render_game_to_text`, 보상/재도전
   상태를 확인하고 콘솔 오류가 없음을 확인
+
+2026년 5월 16일 Grade 3 Alpha 기준 통과선은 다음입니다.
+
+- `npm run validate:grade3` 결과 36 templates 통과
+- `npm run audit:missions`에 Grade 3 포함, 결과 `0 errors`, `0 warnings`
+- Grade 3 normalizer, mission bank, progress, component tests 통과
+- E2E에서 Grade 3 단원 선택, 발판, 입력 오류 비채점, 정답 은닉 흐름 확인

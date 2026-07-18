@@ -18,6 +18,34 @@ function makeTemplate(overrides: Partial<ProblemTemplate>): ProblemTemplate {
 }
 
 describe('generateProblems', () => {
+  it('evaluates numeric expressions inside a problem visual without exposing derived answers', () => {
+    const templates: ProblemTemplate[] = Array.from({ length: 10 }, (_, index) =>
+      makeTemplate({
+        id: `visual-${index}`,
+        difficulty: index < 4 ? 1 : index < 8 ? 2 : 3,
+        visual_template: {
+          type: 'l_shape',
+          props: {
+            width: '{{n + 4}}',
+            height: '{{n}}',
+            notchWidth: 3,
+            notchHeight: '{{n / 2}}'
+          }
+        }
+      })
+    )
+
+    const [problem] = generateProblems(templates, { count: 10, setId: 'A', seed: 7 })
+
+    expect(problem.visual?.type).toBe('l_shape')
+    if (problem.visual?.type === 'l_shape') {
+      expect(problem.visual.props.width).toBe(problem.params.n + 4)
+      expect(problem.visual.props.height).toBe(problem.params.n)
+      expect(problem.visual.props.notchWidth).toBe(3)
+      expect(problem.visual.props).not.toHaveProperty('answer')
+    }
+  })
+
   it('selects problems by set and difficulty mix', () => {
     const templates: ProblemTemplate[] = [
       // set A

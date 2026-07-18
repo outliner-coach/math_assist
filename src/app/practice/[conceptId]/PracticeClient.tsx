@@ -22,7 +22,7 @@ import {
   matchesSessionRequest
 } from '@/lib/session'
 import type { Concept, PracticeMode, PracticeSession } from '@/lib/types'
-import { Button, ProblemCard, ProgressIndicator, MathText } from '@/components'
+import { Button, ProblemCard, ProgressIndicator, MathText, ScratchPad } from '@/components'
 
 function isAnswered(answer: string | null): boolean {
   return typeof answer === 'string' && answer.trim() !== ''
@@ -224,12 +224,17 @@ export default function PracticeClient() {
         onSelect={handleNavigate}
       />
 
-      {/* 문제 카드 */}
-      <ProblemCard
-        problem={currentProblem}
-        answer={currentAnswer}
-        onAnswer={handleAnswer}
-      />
+      {/* 문제와 태블릿용 임시 풀이장 */}
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
+        <ProblemCard
+          problem={currentProblem}
+          answer={currentAnswer}
+          onAnswer={handleAnswer}
+        />
+        <div className="lg:sticky lg:top-4">
+          <ScratchPad key={`${session.sessionId}-${session.currentIndex}`} />
+        </div>
+      </div>
 
       {/* 힌트 */}
       <div className="bg-white rounded-2xl shadow-md p-6">

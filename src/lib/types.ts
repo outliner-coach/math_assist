@@ -32,7 +32,51 @@ export type PolygonShape =
   | 'trapezoid'
   | 'rhombus'
 
+export type ProblemVisual =
+  | {
+      type: 'basic_shape'
+      props: {
+        shape: 'rectangle' | 'triangle' | 'parallelogram'
+        width: number
+        height: number
+      }
+    }
+  | {
+      type: 'l_shape'
+      props: {
+        width: number
+        height: number
+        notchWidth: number
+        notchHeight: number
+      }
+    }
+  | {
+      type: 'overlap_rectangles'
+      props: {
+        totalWidth: number
+        overlapWidth: number
+        overlapArea: number
+      }
+    }
+  | {
+      type: 'rectangle_square'
+      props: {
+        totalWidth: number
+        rectangleHeight: number
+        totalArea: number
+      }
+    }
+  | {
+      type: 'three_shape_overlap'
+      props: {
+        shapeArea: number
+        exclusiveAreas: [number, number, number]
+        tripleOverlap: number
+      }
+    }
+
 export type GeometryVisual =
+  | ProblemVisual
   | {
       type: 'polygon'
       shape: PolygonShape

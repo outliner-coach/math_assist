@@ -13,6 +13,7 @@
     "tdd:guard": "bash .codex/hooks/tdd-guard.sh",
     "validate:grade1": "node scripts/validate-grade1-problems.js",
     "validate:grade2": "node scripts/validate-grade2-problems.js",
+    "validate:grade3": "node scripts/validate-grade3-problems.js",
     "audit:missions": "node scripts/mission-bank-quality-report.js",
     "generate:grade5-geometry": "node scripts/generate-grade5-geometry-templates.js",
     "validate:templates": "node scripts/validate-templates.js",

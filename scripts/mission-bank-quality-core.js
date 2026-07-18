@@ -41,6 +41,10 @@ function loadGrade2Module() {
   return compileTsModule(path.join(ROOT_DIR, 'src', 'lib', 'grade2-problems.ts'), 'grade2-problems')
 }
 
+function loadGrade3Module() {
+  return compileTsModule(path.join(ROOT_DIR, 'src', 'lib', 'grade3-problems.ts'), 'grade3-problems')
+}
+
 function textLength(value) {
   return String(value ?? '').replace(/\{\{[^}]+\}\}/g, '0').trim().length
 }
@@ -246,8 +250,86 @@ function auditGrade2() {
   }
 }
 
+function auditGrade3VisualSafety(template, warnings) {
+  if (template.visualModel === 'vertical-operation' && template.visualConfig.result === undefined) {
+    warnings.push(createIssue('warning', 'grade3_vertical_missing_masked_result', `Grade 3 ${template.id}: vertical result should be present and masked before reveal`, { missionId: template.id }))
+  }
+  if (template.visualModel === 'line-angle-cards' && template.answerType === 'angle' && !template.visualConfig.hideAngleUntilReveal) {
+    warnings.push(createIssue('warning', 'grade3_angle_answer_visible', `Grade 3 ${template.id}: angle answer should be hidden before reveal`, { missionId: template.id }))
+  }
+}
+
+function auditGrade3() {
+  const {
+    grade3MissionTemplates,
+    grade3Units,
+    getGrade3Missions,
+    validateGrade3MissionBank,
+  } = loadGrade3Module()
+  const validation = validateGrade3MissionBank()
+  const errors = validation.errors.map((message) => createIssue('error', 'grade3_validator', message))
+  const warnings = validation.warnings.map((message) => createIssue('warning', 'grade3_validator', message))
+  const missions = getGrade3Missions(20260516)
+  const byUnit = new Map()
+
+  for (const template of grade3MissionTemplates) {
+    if (!template.curriculumCode.trim()) errors.push(createIssue('error', 'missing_curriculum_code', `Grade 3 ${template.id}: missing curriculum code`, { missionId: template.id }))
+    if (!template.learnerGoal.trim()) errors.push(createIssue('error', 'missing_goal', `Grade 3 ${template.id}: missing learner goal`, { missionId: template.id }))
+    if (!template.prompt.trim()) errors.push(createIssue('error', 'missing_prompt', `Grade 3 ${template.id}: missing prompt`, { missionId: template.id }))
+    if (template.hintSteps.length < 2) errors.push(createIssue('error', 'missing_hint', `Grade 3 ${template.id}: needs at least two hints`, { missionId: template.id }))
+    if (!template.solutionSteps.length) errors.push(createIssue('error', 'missing_solution', `Grade 3 ${template.id}: missing solution`, { missionId: template.id }))
+    if (String(template.prompt).length > 72) warnings.push(createIssue('warning', 'prompt_too_long', `Grade 3 ${template.id}: prompt is too long for Grade 3`, { missionId: template.id }))
+    if (template.answerConfig.kind !== template.answerType) {
+      errors.push(createIssue('error', 'answer_config_mismatch', `Grade 3 ${template.id}: answerConfig.kind must match answerType`, { missionId: template.id }))
+    }
+    if (template.difficultyStep === 'applied' && !/상황|그림|컴퍼스|묶음|모두|남은|더|보다|합하면|먹었|봉지|몇 명|몇 권|몇 개/.test(template.prompt)) {
+      warnings.push(createIssue('warning', 'grade3_applied_without_context', `Grade 3 ${template.id}: applied prompt should include context or interpretation`, { missionId: template.id }))
+    }
+    auditGrade3VisualSafety(template, warnings)
+
+    const bucket = byUnit.get(template.unitId) ?? { total: 0, steps: { easy: 0, medium: 0, applied: 0 } }
+    bucket.total += 1
+    bucket.steps[template.difficultyStep] += 1
+    byUnit.set(template.unitId, bucket)
+  }
+
+  for (const mission of missions) {
+    const template = grade3MissionTemplates.find((item) => item.id === mission.id)
+    auditChoiceIntegrity('Grade 3', template, mission, errors)
+  }
+
+  for (const [first, second] of collectDuplicateRenderedPrompts(missions, (mission) => mission.unitId)) {
+    warnings.push(createIssue('warning', 'duplicate_prompt', `Grade 3 ${first.unitId}: repeated prompt "${first.prompt}"`, { missionId: second.id }))
+  }
+
+  if (grade3MissionTemplates.length !== 36) {
+    errors.push(createIssue('error', 'grade3_alpha_count', `Grade 3 Alpha expects 36 missions, got ${grade3MissionTemplates.length}`))
+  }
+
+  for (const unit of grade3Units) {
+    const bucket = byUnit.get(unit.id)
+    if (!bucket) {
+      errors.push(createIssue('error', 'grade3_unit_coverage', `Grade 3 ${unit.id}: missing missions`))
+      continue
+    }
+    if (bucket.total !== 3) errors.push(createIssue('error', 'grade3_unit_count', `Grade 3 ${unit.id}: Alpha expects 3 missions, got ${bucket.total}`))
+    for (const step of ['easy', 'medium', 'applied']) {
+      if (bucket.steps[step] !== 1) {
+        errors.push(createIssue('error', 'grade3_difficulty_balance', `Grade 3 ${unit.id}: expected one ${step} mission, got ${bucket.steps[step]}`))
+      }
+    }
+  }
+
+  return {
+    grade: 'grade3',
+    templateCount: grade3MissionTemplates.length,
+    errors,
+    warnings,
+  }
+}
+
 function generateMissionBankQualityReport() {
-  const gradeReports = [auditGrade1(), auditGrade2()]
+  const gradeReports = [auditGrade1(), auditGrade2(), auditGrade3()]
   const errors = gradeReports.flatMap((report) => report.errors)
   const warnings = gradeReports.flatMap((report) => report.warnings)
 

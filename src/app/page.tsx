@@ -113,6 +113,41 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="overflow-hidden rounded-[2rem] border-2 border-[#ccfbf1] bg-white shadow-sm">
+        <div className="grid gap-0 md:grid-cols-[1fr_260px]">
+          <div className="p-6 md:p-8">
+            <span className="inline-flex rounded-full bg-[#ccfbf1] px-4 py-2 text-sm font-black text-[#0f766e]">
+              Alpha
+            </span>
+            <h2 className="mt-4 text-3xl font-black leading-tight text-[#0f172a]">
+              3학년 탐험섬
+            </h2>
+            <p className="mt-3 max-w-xl text-gray-600">
+              도형, 분수, 측정, 그래프를 조작형 발판과 구조화 입력으로 풀어요.
+            </p>
+            <Link
+              href="/grade/3"
+              className="mt-5 inline-flex min-h-[56px] items-center rounded-xl bg-[#0f766e] px-6 py-3 text-base font-black text-white shadow-[0_5px_0_#115e59] transition hover:bg-[#0d9488] active:translate-y-[3px] active:shadow-[0_2px_0_#115e59]"
+              data-testid="grade3-entry-link"
+            >
+              단원 고르기
+            </Link>
+          </div>
+          <div className="grid min-h-[220px] place-items-center bg-[#f0fdfa] p-6">
+            <div className="grid grid-cols-2 gap-3">
+              {['2/5', '120도', '4cm', '그래프'].map((item) => (
+                <div
+                  key={item}
+                  className="flex h-24 w-24 items-center justify-center rounded-2xl border-2 border-white bg-white text-xl font-black text-[#0f766e] shadow-sm"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 단원 목록 */}
       <section>
         <h2 className="text-xl font-bold text-gray-700 mb-4">단원 선택</h2>

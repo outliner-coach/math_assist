@@ -60,3 +60,20 @@ When you change a high-conflict file, add a short dated note below:
   v2 with shared deterministic variant, XP, streak, daily-goal, and mastery
   helpers. Existing v1 localStorage data must migrate without losing completion
   or review IDs.
+- 2026-05-16: Grade 3 Alpha implementation
+  Grade 3 now has a grade-specific Alpha contract under `src/lib/grade3-problems.ts`,
+  `src/lib/grade3-answer-normalizers.ts`, `src/lib/grade3-progress.ts`,
+  `src/components/grade3/**`, and `src/app/grade/3/**`. The shared mission-bank
+  gate now includes `validate:grade3` and Grade 3 inside `audit:missions`.
+  Re-check content, UI, and quality workstreams when touching mission-bank
+  validation, structured answer normalizers, visual answer masking, or progress
+  storage. The detailed note is `docs/grade3-alpha-implementation.md`; the
+  handoff is `handoffs/2026-05-16-grade3-alpha-codex.md`.
+- 2026-07-18: Grade 5 geometry quality upgrade (primary workstream 01, UI dependency on workstream 03)
+  `src/lib/types.ts` and `src/lib/problem-generator.ts` now support an optional
+  evaluated `visual_template` / `visual` contract. Grade 5 `area-001` uses five
+  answer-safe SVG models, while the shared practice route mounts a temporary
+  pointer-based `ScratchPad` beside every problem at tablet widths. Re-check
+  answer masking, serialized `Problem` compatibility, responsive practice
+  layout, and renderer tests when changing the generator or practice UI. The
+  handoff is `handoffs/2026-07-18-grade5-quality-upgrade-codex.md`.

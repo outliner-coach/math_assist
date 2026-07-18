@@ -2,6 +2,7 @@
 
 import MathText from './MathText'
 import GeometryProblemVisual from './GeometryProblemVisual'
+import ProblemDiagram, { isProblemVisual } from './ProblemDiagram'
 import type { SubmissionResult } from '@/lib/types'
 
 interface ResultCardProps {
@@ -45,7 +46,13 @@ export default function ResultCard({ result }: ResultCardProps) {
       </div>
 
       {result.problem.visual && (
-        <GeometryProblemVisual visual={result.problem.visual} showAnswer />
+        isProblemVisual(result.problem.visual) ? (
+          <div className="mb-6">
+            <ProblemDiagram visual={result.problem.visual} />
+          </div>
+        ) : (
+          <GeometryProblemVisual visual={result.problem.visual} showAnswer />
+        )
       )}
 
       {/* 내 답안 / 정답 */}

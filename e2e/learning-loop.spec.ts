@@ -5,6 +5,7 @@ const SESSION_KEY = 'mathAssist_currentSession'
 const RESULT_KEY = 'mathAssist_lastResult'
 const GRADE1_PROGRESS_KEY = 'mathAssist_grade1Progress'
 const GRADE2_PROGRESS_KEY = 'mathAssist_grade2Progress'
+const GRADE3_PROGRESS_KEY = 'mathAssist_grade3Progress'
 
 type StoredProblem = {
   type: 'choice' | 'number'
@@ -401,4 +402,95 @@ test('2학년 게임 모드에서 손상된 진행 기록을 2학년만 복구�
   await expect(page.getByTestId('grade2-mission-card')).toBeVisible()
   const grade1Value = await page.evaluate((key) => localStorage.getItem(key), GRADE1_PROGRESS_KEY)
   expect(grade1Value).toBe('{"keep":true}')
+})
+
+test('3학년 탐험섬에서 단원 선택, 발판, 힌트, 보상 흐름을 확인한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/3`)
+
+  await expect(page.getByTestId('grade3-unit-list')).toBeVisible()
+  await expect(page.getByTestId('grade3-unit-card-g3-1-add-sub')).toBeVisible()
+  await expect(page.getByTestId('grade3-mission-card')).toHaveCount(0)
+
+  await page.getByTestId('grade3-unit-card-g3-1-add-sub').click()
+  await expect(page).toHaveURL(/\/math_assist\/grade\/3\/mission\/?\?unitId=g3-1-add-sub$/)
+  await expect(page.getByTestId('grade3-mission-nav')).toBeVisible()
+  await expect(page.getByTestId('grade3-mission-card')).toHaveAttribute('data-mission-id', 'g3-1-add-sub-01')
+  await expect(page.getByTestId('grade3-unit-missions').getByTestId(/grade3-mission-node-/)).toHaveCount(3)
+
+  await page.getByTestId('grade3-scaffold-option-일').click()
+  await page.getByTestId('grade3-integer-input').fill('111')
+  await page.getByTestId('grade3-integer-submit').click()
+  await expect(page.getByTestId('grade3-mission-hint')).toBeVisible()
+
+  await page.getByTestId('grade3-integer-input').fill('385')
+  await page.getByTestId('grade3-integer-submit').click()
+  await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
+  await expect(page.getByTestId('grade3-reward-panel')).toBeVisible()
+
+  const progress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE3_PROGRESS_KEY)
+  expect(progress.completedMissionIds).toContain('g3-1-add-sub-01')
+  expect(progress.reviewMissionIds).toContain('g3-1-add-sub-01')
+  expect(progress.todaySolvedCount).toBe(1)
+
+  await page.getByTestId('next-grade3-mission').click()
+  await expect(page.getByTestId('grade3-mission-card')).toHaveAttribute('data-mission-id', 'g3-1-add-sub-02')
+  await expect(page.getByTestId('grade3-reward-panel')).toHaveCount(0)
+})
+
+test('3학년 구조화 입력 오류는 오답 횟수로 기록하지 않는다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-1-fraction-decimal`)
+
+  await expect(page.getByTestId('grade3-mission-card')).toHaveAttribute('data-mission-id', 'g3-1-fraction-decimal-01')
+  await page.getByTestId('grade3-scaffold-option-전체 5').click()
+  await page.getByTestId('grade3-fraction-numerator').fill('2')
+  await page.getByTestId('grade3-fraction-denominator').fill('0')
+  await page.getByTestId('grade3-fraction-submit').click()
+
+  await expect(page.getByTestId('grade3-input-error')).toBeVisible()
+  await expect(page.getByTestId('grade3-mission-hint')).toHaveCount(0)
+
+  const progressAfterInputError = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE3_PROGRESS_KEY)
+  expect(progressAfterInputError.reviewMissionIds).toEqual([])
+  expect(progressAfterInputError.skillSummaryByTag).toEqual({})
+
+  await page.getByTestId('grade3-fraction-denominator').fill('5')
+  await page.getByTestId('grade3-fraction-submit').click()
+  await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
+
+  await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-1-length-time`)
+  await page.getByTestId('grade3-length-centimeters').fill('4')
+  await page.getByTestId('grade3-length-millimeters').fill('7')
+  await page.getByTestId('grade3-length-submit').click()
+  await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
+
+  await page.getByTestId('next-grade3-mission').click()
+  await page.getByTestId('grade3-time-hours').fill('3')
+  await page.getByTestId('grade3-time-minutes').fill('25')
+  await page.getByTestId('grade3-time-seconds').fill('40')
+  await page.getByTestId('grade3-time-submit').click()
+  await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
+})
+
+test('3학년 시각화는 풀이 전 정답을 숨기고 성공 후 공개한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-1-add-sub`)
+
+  const verticalVisual = page.getByTestId('grade3-visual-vertical-operation')
+  await expect(verticalVisual.getByTestId('grade3-vertical-result')).toContainText('□')
+  await expect(verticalVisual.getByText('385', { exact: true })).toHaveCount(0)
+
+  await page.getByTestId('grade3-integer-input').fill('385')
+  await page.getByTestId('grade3-integer-submit').click()
+  await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
+  await expect(verticalVisual.getByTestId('grade3-vertical-result')).toContainText('385')
+
+  await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-1-fraction-decimal`)
+  const fractionVisual = page.getByTestId('grade3-visual-fraction-strip')
+  await expect(fractionVisual.getByTestId('grade3-fraction-result')).toContainText('□')
+  await expect(fractionVisual.getByText('2/5', { exact: true })).toHaveCount(0)
+
+  await page.getByTestId('grade3-fraction-numerator').fill('2')
+  await page.getByTestId('grade3-fraction-denominator').fill('5')
+  await page.getByTestId('grade3-fraction-submit').click()
+  await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
+  await expect(fractionVisual.getByTestId('grade3-fraction-result')).toContainText('2/5')
 })

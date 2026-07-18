@@ -16,6 +16,8 @@ Use this folder for short async notes between parallel agents.
 
 - For Grade 2 continuation work, start with
   `2026-05-11-grade2-continuity-codex.md`.
+- For Grade 3 continuation work, start with
+  `2026-05-16-grade3-alpha-codex.md`.
 
 ## Example
 
