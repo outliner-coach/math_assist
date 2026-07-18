@@ -11,12 +11,23 @@ interface GeometryProblemVisualProps {
 
 const optionLabels = ['가', '나', '다', '라']
 
-function MeasurementLabel({ x, y, value, unit = 'cm' }: { x: number; y: number; value?: number; unit?: string }) {
+function MeasurementLabel({ x, y, value, unit = 'cm', hidden = false, showAnswer = false }: {
+  x: number
+  y: number
+  value?: number
+  unit?: string
+  hidden?: boolean
+  showAnswer?: boolean
+}) {
   if (value === undefined) return null
-  return <text x={x} y={y} textAnchor="middle" fontSize="13" fill="#334155">{value}{unit}</text>
+  const displayValue = hidden && !showAnswer ? '?' : value
+  return <text x={x} y={y} textAnchor="middle" fontSize="13" fill="#334155">{displayValue}{unit}</text>
 }
 
-function PolygonVisual({ visual }: { visual: Extract<GeometryVisual, { type: 'polygon' }> }) {
+function PolygonVisual({ visual, showAnswer }: {
+  visual: Extract<GeometryVisual, { type: 'polygon' }>
+  showAnswer: boolean
+}) {
   const { shape, a, b, c, height, unit = 'cm' } = visual
   const common = { fill: '#dbeafe', stroke: '#2563eb', strokeWidth: 3 }
   const shapeNames: Record<PolygonShape, string> = {
@@ -38,38 +49,38 @@ function PolygonVisual({ visual }: { visual: Extract<GeometryVisual, { type: 'po
       {shape === 'rhombus' && <polygon points="150,25 245,95 150,165 55,95" {...common} />}
 
       {shape === 'rectangle' && <>
-        <MeasurementLabel x={150} y={172} value={a} unit={unit} />
-        <MeasurementLabel x={266} y={98} value={b} unit={unit} />
+        <MeasurementLabel x={150} y={172} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
+        <MeasurementLabel x={266} y={98} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />
       </>}
-      {shape === 'square' && <MeasurementLabel x={150} y={180} value={a} unit={unit} />}
+      {shape === 'square' && <MeasurementLabel x={150} y={180} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />}
       {shape === 'parallelogram' && <>
-        <MeasurementLabel x={158} y={172} value={a} unit={unit} />
-        <MeasurementLabel x={47} y={100} value={b} unit={unit} />
+        <MeasurementLabel x={158} y={172} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
+        <MeasurementLabel x={47} y={100} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />
         <line x1="210" y1="45" x2="210" y2="145" stroke="#64748b" strokeDasharray="5 4" />
-        <MeasurementLabel x={230} y={100} value={height} unit={unit} />
+        <MeasurementLabel x={230} y={100} value={height} unit={unit} hidden={visual.unknownMeasurement === 'height'} showAnswer={showAnswer} />
       </>}
       {shape === 'triangle' && visual.measurementMode === 'sides' && <>
-        <MeasurementLabel x={150} y={172} value={a} unit={unit} />
-        <MeasurementLabel x={90} y={88} value={b} unit={unit} />
-        <MeasurementLabel x={225} y={92} value={c} unit={unit} />
+        <MeasurementLabel x={150} y={172} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
+        <MeasurementLabel x={90} y={88} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />
+        <MeasurementLabel x={225} y={92} value={c} unit={unit} hidden={visual.unknownMeasurement === 'c'} showAnswer={showAnswer} />
       </>}
       {shape === 'triangle' && visual.measurementMode !== 'sides' && <>
-        <MeasurementLabel x={150} y={172} value={a} unit={unit} />
+        <MeasurementLabel x={150} y={172} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
         <line x1="175" y1="35" x2="175" y2="145" stroke="#64748b" strokeDasharray="5 4" />
-        <MeasurementLabel x={196} y={95} value={height} unit={unit} />
+        <MeasurementLabel x={196} y={95} value={height} unit={unit} hidden={visual.unknownMeasurement === 'height'} showAnswer={showAnswer} />
       </>}
       {shape === 'trapezoid' && <>
-        <MeasurementLabel x={150} y={36} value={a} unit={unit} />
-        <MeasurementLabel x={150} y={172} value={b} unit={unit} />
+        <MeasurementLabel x={150} y={36} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
+        <MeasurementLabel x={150} y={172} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />
         <line x1="210" y1="45" x2="210" y2="145" stroke="#64748b" strokeDasharray="5 4" />
-        <MeasurementLabel x={230} y={100} value={height} unit={unit} />
-        <MeasurementLabel x={62} y={100} value={c} unit={unit} />
+        <MeasurementLabel x={230} y={100} value={height} unit={unit} hidden={visual.unknownMeasurement === 'height'} showAnswer={showAnswer} />
+        <MeasurementLabel x={62} y={100} value={c} unit={unit} hidden={visual.unknownMeasurement === 'c'} showAnswer={showAnswer} />
       </>}
       {shape === 'rhombus' && <>
         <line x1="150" y1="25" x2="150" y2="165" stroke="#64748b" strokeDasharray="5 4" />
         <line x1="55" y1="95" x2="245" y2="95" stroke="#64748b" strokeDasharray="5 4" />
-        <MeasurementLabel x={170} y={90} value={a} unit={unit} />
-        <MeasurementLabel x={150} y={187} value={b} unit={unit} />
+        <MeasurementLabel x={170} y={90} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
+        <MeasurementLabel x={150} y={187} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />
       </>}
     </svg>
   )
@@ -175,7 +186,10 @@ function SymmetryVisual({ visual, showAnswer }: { visual: Extract<GeometryVisual
   )
 }
 
-function CuboidVisual({ visual }: { visual: Extract<GeometryVisual, { type: 'cuboid' }> }) {
+function CuboidVisual({ visual, showAnswer }: {
+  visual: Extract<GeometryVisual, { type: 'cuboid' }>
+  showAnswer: boolean
+}) {
   const { width, height, depth, unit = 'cm' } = visual
   return (
     <svg viewBox="0 0 310 190" className="mx-auto w-full max-w-sm" role="img" aria-label="직육면체의 가로 세로 높이">
@@ -185,9 +199,9 @@ function CuboidVisual({ visual }: { visual: Extract<GeometryVisual, { type: 'cub
       <line x1="55" y1="155" x2="100" y2="125" stroke="#64748b" strokeDasharray="5 4" />
       <line x1="100" y1="125" x2="265" y2="125" stroke="#64748b" strokeDasharray="5 4" />
       <line x1="100" y1="30" x2="100" y2="125" stroke="#64748b" strokeDasharray="5 4" />
-      <MeasurementLabel x={138} y={181} value={width} unit={unit} />
-      <MeasurementLabel x={34} y={111} value={height} unit={unit} />
-      <MeasurementLabel x={258} y={159} value={depth} unit={unit} />
+      <MeasurementLabel x={138} y={181} value={width} unit={unit} hidden={visual.unknownMeasurement === 'width'} showAnswer={showAnswer} />
+      <MeasurementLabel x={34} y={111} value={height} unit={unit} hidden={visual.unknownMeasurement === 'height'} showAnswer={showAnswer} />
+      <MeasurementLabel x={258} y={159} value={depth} unit={unit} hidden={visual.unknownMeasurement === 'depth'} showAnswer={showAnswer} />
     </svg>
   )
 }
@@ -237,10 +251,10 @@ function CuboidNetVisual({ visual, showAnswer }: { visual: Extract<GeometryVisua
 export default function GeometryProblemVisual({ visual, showAnswer = false }: GeometryProblemVisualProps) {
   return (
     <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-3" data-testid={`geometry-visual-${visual.type}`}>
-      {visual.type === 'polygon' && <PolygonVisual visual={visual} />}
+      {visual.type === 'polygon' && <PolygonVisual visual={visual} showAnswer={showAnswer} />}
       {visual.type === 'congruence' && <CongruenceVisual visual={visual} showAnswer={showAnswer} />}
       {visual.type === 'symmetry' && <SymmetryVisual visual={visual} showAnswer={showAnswer} />}
-      {visual.type === 'cuboid' && <CuboidVisual visual={visual} />}
+      {visual.type === 'cuboid' && <CuboidVisual visual={visual} showAnswer={showAnswer} />}
       {visual.type === 'cuboid-net' && <CuboidNetVisual visual={visual} showAnswer={showAnswer} />}
     </div>
   )

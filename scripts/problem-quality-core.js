@@ -362,6 +362,18 @@ function visualHasAnswerOnlyKey(value) {
   )
 }
 
+const REQUIRED_UNKNOWN_MEASUREMENTS = {
+  'perimeter-rectangle-width-from-area': 'a',
+  'perimeter-rectangle-height-from-area': 'b',
+  'perimeter-rectangle-side-from-perimeter': 'b',
+  'polygonarea-parallelogram-height': 'height',
+  'polygonarea-triangle-height': 'height',
+  'polygonarea-trapezoid-bottom': 'b',
+  'polygonarea-rhombus-missing-diagonal': 'b',
+  'cuboid-missing-width-from-edges': 'width',
+  'cuboid-missing-depth-from-edges': 'depth',
+}
+
 function seededRandom(seed) {
   let current = seed
   return function next() {
@@ -637,6 +649,15 @@ function validateTemplates(options = {}) {
             templateId: template.id,
             conceptId: template.concept_id,
             message: `${file} ${template.id}: visual_template contains an answer-only key`,
+          }))
+        }
+        const requiredUnknownMeasurement = REQUIRED_UNKNOWN_MEASUREMENTS[template.problem_family]
+        if (requiredUnknownMeasurement && template.visual_template?.unknownMeasurement !== requiredUnknownMeasurement) {
+          errors.push(createIssue('error', 'ungated_geometry_measurement', {
+            file,
+            templateId: template.id,
+            conceptId: template.concept_id,
+            message: `${file} ${template.id}: expected unknownMeasurement=${requiredUnknownMeasurement}`,
           }))
         }
       }

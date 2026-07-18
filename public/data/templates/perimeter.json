@@ -249,7 +249,8 @@
       "shape": "rectangle",
       "unit": "cm",
       "a": "{{w}}",
-      "b": "{{h}}"
+      "b": "{{h}}",
+      "unknownMeasurement": "a"
     }
   },
   {
@@ -284,7 +285,8 @@
       "shape": "rectangle",
       "unit": "cm",
       "a": "{{w}}",
-      "b": "{{h}}"
+      "b": "{{h}}",
+      "unknownMeasurement": "b"
     }
   },
   {
@@ -319,7 +321,8 @@
       "shape": "rectangle",
       "unit": "cm",
       "a": "{{w}}",
-      "b": "{{h}}"
+      "b": "{{h}}",
+      "unknownMeasurement": "b"
     }
   },
   {
@@ -611,7 +614,8 @@
       "shape": "rectangle",
       "unit": "cm",
       "a": "{{w}}",
-      "b": "{{h}}"
+      "b": "{{h}}",
+      "unknownMeasurement": "a"
     }
   },
   {
@@ -646,7 +650,8 @@
       "shape": "rectangle",
       "unit": "cm",
       "a": "{{w}}",
-      "b": "{{h}}"
+      "b": "{{h}}",
+      "unknownMeasurement": "b"
     }
   },
   {
@@ -681,7 +686,8 @@
       "shape": "rectangle",
       "unit": "cm",
       "a": "{{w}}",
-      "b": "{{h}}"
+      "b": "{{h}}",
+      "unknownMeasurement": "b"
     }
   },
   {
@@ -973,7 +979,8 @@
       "shape": "rectangle",
       "unit": "cm",
       "a": "{{w}}",
-      "b": "{{h}}"
+      "b": "{{h}}",
+      "unknownMeasurement": "a"
     }
   },
   {
@@ -1008,7 +1015,8 @@
       "shape": "rectangle",
       "unit": "cm",
       "a": "{{w}}",
-      "b": "{{h}}"
+      "b": "{{h}}",
+      "unknownMeasurement": "b"
     }
   },
   {
@@ -1043,7 +1051,8 @@
       "shape": "rectangle",
       "unit": "cm",
       "a": "{{w}}",
-      "b": "{{h}}"
+      "b": "{{h}}",
+      "unknownMeasurement": "b"
     }
   },
   {

@@ -16,6 +16,38 @@ describe('GeometryProblemVisual', () => {
     expect(html).not.toContain('26cm')
   })
 
+  it('hides reverse-problem measurements until the solution is shown', () => {
+    const polygon = {
+      type: 'polygon' as const,
+      shape: 'rectangle' as const,
+      a: 10,
+      b: 5,
+      unit: 'cm',
+      unknownMeasurement: 'b' as const,
+    }
+    const hiddenPolygon = renderToStaticMarkup(createElement(GeometryProblemVisual, { visual: polygon }))
+    const revealedPolygon = renderToStaticMarkup(createElement(GeometryProblemVisual, { visual: polygon, showAnswer: true }))
+
+    expect(hiddenPolygon).toContain('?cm')
+    expect(hiddenPolygon).not.toContain('5cm')
+    expect(revealedPolygon).toContain('5cm')
+
+    const cuboid = {
+      type: 'cuboid' as const,
+      width: 8,
+      height: 4,
+      depth: 3,
+      unit: 'cm',
+      unknownMeasurement: 'width' as const,
+    }
+    const hiddenCuboid = renderToStaticMarkup(createElement(GeometryProblemVisual, { visual: cuboid }))
+    const revealedCuboid = renderToStaticMarkup(createElement(GeometryProblemVisual, { visual: cuboid, showAnswer: true }))
+
+    expect(hiddenCuboid).toContain('?cm')
+    expect(hiddenCuboid).not.toContain('8cm')
+    expect(revealedCuboid).toContain('8cm')
+  })
+
   it('reveals congruence and net answers only after submission', () => {
     const congruence = { type: 'congruence' as const, mode: 'pair' as const, variant: 2 }
     const hiddenCongruence = renderToStaticMarkup(createElement(GeometryProblemVisual, { visual: congruence }))

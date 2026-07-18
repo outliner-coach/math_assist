@@ -98,7 +98,7 @@ function perimeterTemplates(set) {
       solver_rule: 'w',
       solution_steps_template: ['가로 × {{h}} = {{w * h}}입니다.', '{{w * h}} ÷ {{h}} = {{w}}cm입니다.'],
       hint_steps_template: ['넓이를 알고 있으므로 나눗셈을 이용해요.', '넓이 ÷ 세로를 계산해요.'],
-      visual_template: polygonVisual('rectangle', { a: '{{w}}', b: '{{h}}' }),
+      visual_template: polygonVisual('rectangle', { a: '{{w}}', b: '{{h}}', unknownMeasurement: 'a' }),
     }),
     template(set, 'perimeter-001', 8, 'rectangle-height-from-area', 2, 'number', {
       param_schema: { w: range(5, 10, s), h: range(3, 7, s) },
@@ -106,7 +106,7 @@ function perimeterTemplates(set) {
       solver_rule: 'h',
       solution_steps_template: ['{{w}} × 세로 = {{w * h}}입니다.', '{{w * h}} ÷ {{w}} = {{h}}cm입니다.'],
       hint_steps_template: ['넓이 ÷ 가로를 계산해요.', '구한 세로를 다시 곱해 확인해요.'],
-      visual_template: polygonVisual('rectangle', { a: '{{w}}', b: '{{h}}' }),
+      visual_template: polygonVisual('rectangle', { a: '{{w}}', b: '{{h}}', unknownMeasurement: 'b' }),
     }),
     template(set, 'perimeter-001', 9, 'rectangle-side-from-perimeter', 3, 'number', {
       param_schema: { w: range(6, 12, s), h: range(3, 8, s) },
@@ -114,7 +114,7 @@ function perimeterTemplates(set) {
       solver_rule: 'h',
       solution_steps_template: ['둘레의 절반은 가로 + 세로이므로 {{w + h}}cm입니다.', '{{w + h}} - {{w}} = {{h}}cm입니다.'],
       hint_steps_template: ['둘레를 2로 나누어 가로와 세로의 합을 구해요.', '그 합에서 가로를 빼요.'],
-      visual_template: polygonVisual('rectangle', { a: '{{w}}', b: '{{h}}' }),
+      visual_template: polygonVisual('rectangle', { a: '{{w}}', b: '{{h}}', unknownMeasurement: 'b' }),
     }),
     template(set, 'perimeter-001', 10, 'fence-with-gate', 3, 'number', {
       param_schema: { w: range(8, 14, s), h: range(5, 10, s), gate: range(1, 3) },
@@ -168,7 +168,7 @@ function polygonAreaTemplates(set) {
       solver_rule: 'height',
       solution_steps_template: ['밑변 × 높이 = {{base * height}}입니다.', '{{base * height}} ÷ {{base}} = {{height}}cm입니다.'],
       hint_steps_template: ['넓이를 밑변으로 나눠요.', '기울어진 변의 길이와 높이를 구별해요.'],
-      visual_template: polygonVisual('parallelogram', { a: '{{base}}', b: '{{side}}', height: '{{height}}' }),
+      visual_template: polygonVisual('parallelogram', { a: '{{base}}', b: '{{side}}', height: '{{height}}', unknownMeasurement: 'height' }),
     }),
     template(set, 'polygonarea-001', 6, 'triangle-height', 2, 'number', {
       param_schema: { base: range(4, 8, s * 2), height: range(3, 8, s) },
@@ -176,7 +176,7 @@ function polygonAreaTemplates(set) {
       solver_rule: 'height',
       solution_steps_template: ['넓이에 2를 곱하면 {{base * height}}입니다.', '{{base * height}} ÷ {{base}} = {{height}}cm입니다.'],
       hint_steps_template: ['먼저 넓이를 2배 해요.', '그 값을 밑변으로 나눠요.'],
-      visual_template: polygonVisual('triangle', { a: '{{base}}', height: '{{height}}' }),
+      visual_template: polygonVisual('triangle', { a: '{{base}}', height: '{{height}}', unknownMeasurement: 'height' }),
     }),
     template(set, 'polygonarea-001', 7, 'trapezoid-bottom', 2, 'number', {
       param_schema: { top: range(3, 7, s), bottom: range(8, 13, s), height: range(4, 8, s * 2), side: range(4, 8, s) },
@@ -184,7 +184,7 @@ function polygonAreaTemplates(set) {
       solver_rule: 'bottom',
       solution_steps_template: ['넓이 × 2 ÷ 높이로 윗변과 아랫변의 합 {{top + bottom}}cm를 구합니다.', '{{top + bottom}} - {{top}} = {{bottom}}cm입니다.'],
       hint_steps_template: ['평행한 두 변의 합을 먼저 역산해요.', '그 합에서 윗변을 빼요.'],
-      visual_template: polygonVisual('trapezoid', { a: '{{top}}', b: '{{bottom}}', c: '{{side}}', height: '{{height}}' }),
+      visual_template: polygonVisual('trapezoid', { a: '{{top}}', b: '{{bottom}}', c: '{{side}}', height: '{{height}}', unknownMeasurement: 'b' }),
     }),
     template(set, 'polygonarea-001', 8, 'two-shape-area-sum', 2, 'number', {
       param_schema: { base: range(4, 8, s * 2), height: range(3, 7, s), pbase: range(5, 10, s), pheight: range(2, 6, s) },
@@ -208,7 +208,7 @@ function polygonAreaTemplates(set) {
       solver_rule: 'd2',
       solution_steps_template: ['넓이에 2를 곱하면 두 대각선의 곱 {{d1 * d2}}를 얻습니다.', '{{d1 * d2}} ÷ {{d1}} = {{d2}}cm입니다.'],
       hint_steps_template: ['넓이를 먼저 2배 해요.', '그 값을 알고 있는 대각선 길이로 나눠요.'],
-      visual_template: polygonVisual('rhombus', { a: '{{d1}}', b: '{{d2}}' }),
+      visual_template: polygonVisual('rhombus', { a: '{{d1}}', b: '{{d2}}', unknownMeasurement: 'b' }),
     }),
   ]
 }
@@ -409,7 +409,7 @@ function cuboidTemplates(set) {
       prompt_template: '모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 세로가 {{d}}cm, 높이가 {{h}}cm인 직육면체의 가로는 몇 cm인가요?',
       solver_rule: 'w',
       solution_steps_template: ['전체 모서리 길이를 4로 나누면 가로 + 세로 + 높이인 {{w + h + d}}cm입니다.', '{{w + h + d}} - {{d}} - {{h}} = {{w}}cm입니다.'],
-      hint_steps_template: ['전체 길이를 먼저 4로 나눠요.', '세로와 높이를 차례로 빼요.'], visual_template: visual,
+      hint_steps_template: ['전체 길이를 먼저 4로 나눠요.', '세로와 높이를 차례로 빼요.'], visual_template: { ...visual, unknownMeasurement: 'width' },
     }),
     template(set, 'cuboid-001', 7, 'front-face-area', 2, 'number', {
       param_schema: { w: range(5, 9, s), h: range(3, 7, s), d: range(2, 6, s) },
@@ -428,7 +428,7 @@ function cuboidTemplates(set) {
       prompt_template: '모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 가로가 {{w}}cm, 높이가 {{h}}cm인 직육면체의 세로는 몇 cm인가요?',
       solver_rule: 'd',
       solution_steps_template: ['전체를 4로 나누면 {{w + h + d}}cm입니다.', '{{w + h + d}} - {{w}} - {{h}} = {{d}}cm입니다.'],
-      hint_steps_template: ['같은 길이의 모서리가 각각 4개씩 있어요.', '가로 + 세로 + 높이를 역산해요.'], visual_template: visual,
+      hint_steps_template: ['같은 길이의 모서리가 각각 4개씩 있어요.', '가로 + 세로 + 높이를 역산해요.'], visual_template: { ...visual, unknownMeasurement: 'depth' },
     }),
     template(set, 'cuboid-001', 10, 'three-face-area-sum', 3, 'number', {
       param_schema: { w: range(5, 9, s), h: range(3, 7, s), d: range(2, 6, s) },

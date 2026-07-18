@@ -230,7 +230,8 @@
       "width": "{{w}}",
       "height": "{{h}}",
       "depth": "{{d}}",
-      "unit": "cm"
+      "unit": "cm",
+      "unknownMeasurement": "width"
     }
   },
   {
@@ -347,7 +348,8 @@
       "width": "{{w}}",
       "height": "{{h}}",
       "depth": "{{d}}",
-      "unit": "cm"
+      "unit": "cm",
+      "unknownMeasurement": "depth"
     }
   },
   {
@@ -620,7 +622,8 @@
       "width": "{{w}}",
       "height": "{{h}}",
       "depth": "{{d}}",
-      "unit": "cm"
+      "unit": "cm",
+      "unknownMeasurement": "width"
     }
   },
   {
@@ -737,7 +740,8 @@
       "width": "{{w}}",
       "height": "{{h}}",
       "depth": "{{d}}",
-      "unit": "cm"
+      "unit": "cm",
+      "unknownMeasurement": "depth"
     }
   },
   {
@@ -1010,7 +1014,8 @@
       "width": "{{w}}",
       "height": "{{h}}",
       "depth": "{{d}}",
-      "unit": "cm"
+      "unit": "cm",
+      "unknownMeasurement": "width"
     }
   },
   {
@@ -1127,7 +1132,8 @@
       "width": "{{w}}",
       "height": "{{h}}",
       "depth": "{{d}}",
-      "unit": "cm"
+      "unit": "cm",
+      "unknownMeasurement": "depth"
     }
   },
   {

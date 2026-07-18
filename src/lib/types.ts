@@ -42,6 +42,7 @@ export type GeometryVisual =
       height?: number
       unit?: string
       measurementMode?: 'area' | 'sides'
+      unknownMeasurement?: 'a' | 'b' | 'c' | 'height'
     }
   | {
       type: 'congruence'
@@ -69,6 +70,7 @@ export type GeometryVisual =
       depth: number
       focus?: 'structure' | 'edges' | 'faces'
       unit?: string
+      unknownMeasurement?: 'width' | 'height' | 'depth'
     }
   | {
       type: 'cuboid-net'

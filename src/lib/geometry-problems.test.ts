@@ -94,6 +94,36 @@ describe('grade 5 geometry problem core', () => {
     })
   })
 
+  it('marks every reverse geometry measurement as unknown before submission', () => {
+    const expectedUnknownMeasurements = {
+      'perimeter-rectangle-width-from-area': 'a',
+      'perimeter-rectangle-height-from-area': 'b',
+      'perimeter-rectangle-side-from-perimeter': 'b',
+      'polygonarea-parallelogram-height': 'height',
+      'polygonarea-triangle-height': 'height',
+      'polygonarea-trapezoid-bottom': 'b',
+      'polygonarea-rhombus-missing-diagonal': 'b',
+      'cuboid-missing-width-from-edges': 'width',
+      'cuboid-missing-depth-from-edges': 'depth',
+    } as const
+
+    const geometryTemplates = banks.flatMap(([name]) => readBank(name))
+    const gatedFamilies = new Set(
+      geometryTemplates
+        .filter(template => (template.visual_template as { unknownMeasurement?: string }).unknownMeasurement)
+        .map(template => template.problem_family)
+    )
+    expect(gatedFamilies).toEqual(new Set(Object.keys(expectedUnknownMeasurements)))
+
+    for (const [family, measurement] of Object.entries(expectedUnknownMeasurements)) {
+      const familyTemplates = geometryTemplates.filter(template => template.problem_family === family)
+      expect(familyTemplates).toHaveLength(3)
+      expect(familyTemplates.every(template => (
+        template.visual_template as { unknownMeasurement?: string }
+      ).unknownMeasurement === measurement)).toBe(true)
+    }
+  })
+
   it('generates every geometry practice set with unique prompts and safe visuals', () => {
     for (const [name] of banks) {
       const templates = readBank(name)
