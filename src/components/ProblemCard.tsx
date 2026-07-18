@@ -2,6 +2,7 @@
 
 import MathText from './MathText'
 import NumberKeypad from './NumberKeypad'
+import GeometryProblemVisual from './GeometryProblemVisual'
 import type { Problem } from '@/lib/types'
 
 interface ProblemCardProps {
@@ -20,6 +21,8 @@ export default function ProblemCard({ problem, answer, onAnswer }: ProblemCardPr
       >
         <MathText>{problem.prompt}</MathText>
       </div>
+
+      {problem.visual && <GeometryProblemVisual visual={problem.visual} />}
 
       {/* 답 입력 */}
       {problem.type === 'choice' && problem.choices ? (
@@ -51,6 +54,7 @@ export default function ProblemCard({ problem, answer, onAnswer }: ProblemCardPr
         <NumberKeypad
           value={answer || ''}
           onChange={onAnswer}
+          inputHint={problem.visual ? '단위는 쓰지 않고 숫자만 입력하세요.' : undefined}
         />
       )}
     </div>

@@ -113,6 +113,50 @@ export function secondLargestDivisor(n: number): number {
   return ds[ds.length - 2]
 }
 
+// --- 도형 문제용 결정적 도우미 ---
+
+const GEOMETRY_OPTION_LABELS = ['가', '나', '다', '라'] as const
+
+export function geometryOptionIndex(kind: number, variant: number): number {
+  const normalized = Math.abs(Math.floor(variant)) % 4
+  const mappings: Record<number, readonly number[]> = {
+    1: [1, 3, 2, 4], // 합동 도형/대응점
+    2: [2, 4, 1, 3], // 올바른 전개도
+    3: [4, 1, 3, 2], // 대칭 도형 분류
+  }
+  return (mappings[kind] ?? mappings[1])[normalized]
+}
+
+export function geometryOption(kind: number, variant: number, offset: number): string {
+  const answerIndex = geometryOptionIndex(kind, variant)
+  const optionIndex = ((answerIndex - 1 + Math.floor(offset)) % 4 + 4) % 4
+  return GEOMETRY_OPTION_LABELS[optionIndex]
+}
+
+export function symmetryAxisCount(shapeCode: number): number {
+  const counts: Record<number, number> = {
+    1: 4, // 정사각형
+    2: 2, // 직사각형
+    3: 3, // 정삼각형
+    4: 1, // 이등변삼각형
+    5: 2, // 마름모
+    6: 0, // 일반 부등변삼각형
+  }
+  return counts[Math.floor(shapeCode)] ?? 0
+}
+
+export function cuboidOppositeFace(face: number): number {
+  const opposite: Record<number, number> = {
+    1: 6,
+    6: 1,
+    2: 3,
+    3: 2,
+    4: 5,
+    5: 4,
+  }
+  return opposite[Math.floor(face)] ?? 0
+}
+
 // --- 분수 관련 함수 ---
 
 // 약분 결과를 문자열로 ("분자/분모")

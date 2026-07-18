@@ -21,6 +21,9 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-18: `src/lib/types.ts`, `src/lib/problem-generator.ts`, `src/components/ProblemCard.tsx`, `src/components/ResultCard.tsx`
+  Grade 5 practice problems now support parameter-resolved `GeometryVisual` payloads shared by prompts, deterministic solvers, SVG practice rendering, and result rendering. Answer-only visual annotations remain hidden until `showAnswer` is enabled. Re-check session persistence, result snapshots, template validation, and tablet rendering when changing the shared `Problem` contract.
+
 - 2026-03-07: collaboration structure added. No runtime contract changed in this step.
 - 2026-03-07: `src/lib/types.ts`, `src/lib/session.ts`
   action-centered retry loop added with `PracticeSession.mode`, retry source metadata,

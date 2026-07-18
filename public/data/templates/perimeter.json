@@ -1,0 +1,1088 @@
+[
+  {
+    "id": "tmpl-perimeter-A-01",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "perimeter-rectangle-perimeter",
+    "param_schema": {
+      "w": {
+        "min": 4,
+        "max": 9
+      },
+      "h": {
+        "min": 2,
+        "max": 6
+      }
+    },
+    "prompt_template": "그림의 직사각형 둘레는 몇 cm인가요?",
+    "solver_rule": "2 * (w + h)",
+    "solution_steps_template": [
+      "가로와 세로를 한 번씩 더하면 {{w + h}}cm입니다.",
+      "둘레는 {{w + h}} × 2 = {{2 * (w + h)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "가로 2개와 세로 2개의 길이를 모두 더해요.",
+      "(가로 + 세로) × 2를 계산해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-A-02",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "perimeter-square-perimeter",
+    "param_schema": {
+      "side": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "한 변의 길이가 표시된 정사각형의 둘레는 몇 cm인가요?",
+    "solver_rule": "4 * side",
+    "solution_steps_template": [
+      "정사각형은 네 변의 길이가 같습니다.",
+      "{{side}} × 4 = {{4 * side}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "같은 길이의 변이 4개예요.",
+      "한 변의 길이에 4를 곱해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "square",
+      "unit": "cm",
+      "a": "{{side}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-A-03",
+    "concept_id": "perimeter-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "perimeter-rectangle-perimeter-choice",
+    "param_schema": {
+      "w": {
+        "min": 5,
+        "max": 10
+      },
+      "h": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "직사각형의 둘레로 알맞은 값을 고르세요.",
+    "solver_rule": "2 * (w + h)",
+    "choices_template": [
+      "{{2 * (w + h)}}",
+      "{{2 * (w + h) + 2}}",
+      "{{2 * (w + h) + 4}}",
+      "{{2 * (w + h) + 6}}"
+    ],
+    "solution_steps_template": [
+      "(가로 + 세로) × 2를 이용합니다.",
+      "({{w}} + {{h}}) × 2 = {{2 * (w + h)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "가로와 세로를 먼저 더해요.",
+      "그 합을 2배 해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-A-04",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "perimeter-triangle-perimeter",
+    "param_schema": {
+      "a": {
+        "min": 4,
+        "max": 8
+      },
+      "b": {
+        "min": 5,
+        "max": 9
+      },
+      "c": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "세 변의 길이가 표시된 삼각형의 둘레는 몇 cm인가요?",
+    "solver_rule": "a + b + c",
+    "solution_steps_template": [
+      "세 변의 길이를 모두 더합니다.",
+      "{{a}} + {{b}} + {{c}} = {{a + b + c}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "둘레는 도형의 가장자리 길이의 합이에요.",
+      "세 변을 빠짐없이 더해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "triangle",
+      "unit": "cm",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "measurementMode": "sides"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-A-05",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "perimeter-rectangle-area",
+    "param_schema": {
+      "w": {
+        "min": 4,
+        "max": 9
+      },
+      "h": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "직사각형의 넓이는 몇 cm²인가요?",
+    "solver_rule": "w * h",
+    "solution_steps_template": [
+      "직사각형의 넓이는 가로 × 세로입니다.",
+      "{{w}} × {{h}} = {{w * h}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "1cm² 정사각형이 몇 개인지 생각해요.",
+      "가로와 세로를 곱해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-A-06",
+    "concept_id": "perimeter-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "perimeter-square-area-choice",
+    "param_schema": {
+      "side": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "정사각형의 넓이로 알맞은 값을 고르세요.",
+    "solver_rule": "side * side",
+    "choices_template": [
+      "{{side * side}}",
+      "{{side * side + 1}}",
+      "{{side * side + 2}}",
+      "{{side * side + 3}}"
+    ],
+    "solution_steps_template": [
+      "정사각형의 넓이는 한 변 × 한 변입니다.",
+      "{{side}} × {{side}} = {{side * side}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "같은 길이를 두 번 곱해요.",
+      "둘레를 구하는 문제가 아닌지 확인해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "square",
+      "unit": "cm",
+      "a": "{{side}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-A-07",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "perimeter-rectangle-width-from-area",
+    "param_schema": {
+      "w": {
+        "min": 4,
+        "max": 9
+      },
+      "h": {
+        "min": 2,
+        "max": 6
+      }
+    },
+    "prompt_template": "넓이가 {{w * h}}cm²이고 세로가 {{h}}cm인 직사각형의 가로는 몇 cm인가요?",
+    "solver_rule": "w",
+    "solution_steps_template": [
+      "가로 × {{h}} = {{w * h}}입니다.",
+      "{{w * h}} ÷ {{h}} = {{w}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "넓이를 알고 있으므로 나눗셈을 이용해요.",
+      "넓이 ÷ 세로를 계산해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-A-08",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "perimeter-rectangle-height-from-area",
+    "param_schema": {
+      "w": {
+        "min": 5,
+        "max": 10
+      },
+      "h": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "넓이가 {{w * h}}cm²이고 가로가 {{w}}cm인 직사각형의 세로는 몇 cm인가요?",
+    "solver_rule": "h",
+    "solution_steps_template": [
+      "{{w}} × 세로 = {{w * h}}입니다.",
+      "{{w * h}} ÷ {{w}} = {{h}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "넓이 ÷ 가로를 계산해요.",
+      "구한 세로를 다시 곱해 확인해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-A-09",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "perimeter-rectangle-side-from-perimeter",
+    "param_schema": {
+      "w": {
+        "min": 6,
+        "max": 12
+      },
+      "h": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "둘레가 {{2 * (w + h)}}cm이고 가로가 {{w}}cm인 직사각형의 세로는 몇 cm인가요?",
+    "solver_rule": "h",
+    "solution_steps_template": [
+      "둘레의 절반은 가로 + 세로이므로 {{w + h}}cm입니다.",
+      "{{w + h}} - {{w}} = {{h}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "둘레를 2로 나누어 가로와 세로의 합을 구해요.",
+      "그 합에서 가로를 빼요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-A-10",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "perimeter-fence-with-gate",
+    "param_schema": {
+      "w": {
+        "min": 8,
+        "max": 14
+      },
+      "h": {
+        "min": 5,
+        "max": 10
+      },
+      "gate": {
+        "min": 1,
+        "max": 3
+      }
+    },
+    "prompt_template": "가로 {{w}}m, 세로 {{h}}m인 직사각형 꽃밭 둘레에 울타리를 두르되, {{gate}}m인 출입구에는 울타리를 놓지 않습니다. 필요한 울타리는 몇 m인가요?",
+    "solver_rule": "2 * (w + h) - gate",
+    "solution_steps_template": [
+      "꽃밭 전체 둘레는 ({{w}} + {{h}}) × 2 = {{2 * (w + h)}}m입니다.",
+      "출입구 {{gate}}m를 빼면 {{2 * (w + h) - gate}}m입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 꽃밭의 전체 둘레를 구해요.",
+      "울타리를 놓지 않는 출입구 길이를 빼요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "a": "{{w}}",
+      "b": "{{h}}",
+      "unit": "m"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-B-01",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "perimeter-rectangle-perimeter",
+    "param_schema": {
+      "w": {
+        "min": 6,
+        "max": 11
+      },
+      "h": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "그림의 직사각형 둘레는 몇 cm인가요?",
+    "solver_rule": "2 * (w + h)",
+    "solution_steps_template": [
+      "가로와 세로를 한 번씩 더하면 {{w + h}}cm입니다.",
+      "둘레는 {{w + h}} × 2 = {{2 * (w + h)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "가로 2개와 세로 2개의 길이를 모두 더해요.",
+      "(가로 + 세로) × 2를 계산해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-B-02",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "perimeter-square-perimeter",
+    "param_schema": {
+      "side": {
+        "min": 5,
+        "max": 10
+      }
+    },
+    "prompt_template": "한 변의 길이가 표시된 정사각형의 둘레는 몇 cm인가요?",
+    "solver_rule": "4 * side",
+    "solution_steps_template": [
+      "정사각형은 네 변의 길이가 같습니다.",
+      "{{side}} × 4 = {{4 * side}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "같은 길이의 변이 4개예요.",
+      "한 변의 길이에 4를 곱해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "square",
+      "unit": "cm",
+      "a": "{{side}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-B-03",
+    "concept_id": "perimeter-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "perimeter-rectangle-perimeter-choice",
+    "param_schema": {
+      "w": {
+        "min": 7,
+        "max": 12
+      },
+      "h": {
+        "min": 4,
+        "max": 7
+      }
+    },
+    "prompt_template": "직사각형의 둘레로 알맞은 값을 고르세요.",
+    "solver_rule": "2 * (w + h)",
+    "choices_template": [
+      "{{2 * (w + h)}}",
+      "{{2 * (w + h) + 2}}",
+      "{{2 * (w + h) + 4}}",
+      "{{2 * (w + h) + 6}}"
+    ],
+    "solution_steps_template": [
+      "(가로 + 세로) × 2를 이용합니다.",
+      "({{w}} + {{h}}) × 2 = {{2 * (w + h)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "가로와 세로를 먼저 더해요.",
+      "그 합을 2배 해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-B-04",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "perimeter-triangle-perimeter",
+    "param_schema": {
+      "a": {
+        "min": 6,
+        "max": 10
+      },
+      "b": {
+        "min": 7,
+        "max": 11
+      },
+      "c": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "세 변의 길이가 표시된 삼각형의 둘레는 몇 cm인가요?",
+    "solver_rule": "a + b + c",
+    "solution_steps_template": [
+      "세 변의 길이를 모두 더합니다.",
+      "{{a}} + {{b}} + {{c}} = {{a + b + c}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "둘레는 도형의 가장자리 길이의 합이에요.",
+      "세 변을 빠짐없이 더해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "triangle",
+      "unit": "cm",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "measurementMode": "sides"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-B-05",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "perimeter-rectangle-area",
+    "param_schema": {
+      "w": {
+        "min": 6,
+        "max": 11
+      },
+      "h": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "직사각형의 넓이는 몇 cm²인가요?",
+    "solver_rule": "w * h",
+    "solution_steps_template": [
+      "직사각형의 넓이는 가로 × 세로입니다.",
+      "{{w}} × {{h}} = {{w * h}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "1cm² 정사각형이 몇 개인지 생각해요.",
+      "가로와 세로를 곱해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-B-06",
+    "concept_id": "perimeter-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "perimeter-square-area-choice",
+    "param_schema": {
+      "side": {
+        "min": 5,
+        "max": 10
+      }
+    },
+    "prompt_template": "정사각형의 넓이로 알맞은 값을 고르세요.",
+    "solver_rule": "side * side",
+    "choices_template": [
+      "{{side * side}}",
+      "{{side * side + 1}}",
+      "{{side * side + 2}}",
+      "{{side * side + 3}}"
+    ],
+    "solution_steps_template": [
+      "정사각형의 넓이는 한 변 × 한 변입니다.",
+      "{{side}} × {{side}} = {{side * side}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "같은 길이를 두 번 곱해요.",
+      "둘레를 구하는 문제가 아닌지 확인해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "square",
+      "unit": "cm",
+      "a": "{{side}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-B-07",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "perimeter-rectangle-width-from-area",
+    "param_schema": {
+      "w": {
+        "min": 6,
+        "max": 11
+      },
+      "h": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "넓이가 {{w * h}}cm²이고 세로가 {{h}}cm인 직사각형의 가로는 몇 cm인가요?",
+    "solver_rule": "w",
+    "solution_steps_template": [
+      "가로 × {{h}} = {{w * h}}입니다.",
+      "{{w * h}} ÷ {{h}} = {{w}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "넓이를 알고 있으므로 나눗셈을 이용해요.",
+      "넓이 ÷ 세로를 계산해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-B-08",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "perimeter-rectangle-height-from-area",
+    "param_schema": {
+      "w": {
+        "min": 7,
+        "max": 12
+      },
+      "h": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "넓이가 {{w * h}}cm²이고 가로가 {{w}}cm인 직사각형의 세로는 몇 cm인가요?",
+    "solver_rule": "h",
+    "solution_steps_template": [
+      "{{w}} × 세로 = {{w * h}}입니다.",
+      "{{w * h}} ÷ {{w}} = {{h}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "넓이 ÷ 가로를 계산해요.",
+      "구한 세로를 다시 곱해 확인해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-B-09",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "perimeter-rectangle-side-from-perimeter",
+    "param_schema": {
+      "w": {
+        "min": 8,
+        "max": 14
+      },
+      "h": {
+        "min": 5,
+        "max": 10
+      }
+    },
+    "prompt_template": "둘레가 {{2 * (w + h)}}cm이고 가로가 {{w}}cm인 직사각형의 세로는 몇 cm인가요?",
+    "solver_rule": "h",
+    "solution_steps_template": [
+      "둘레의 절반은 가로 + 세로이므로 {{w + h}}cm입니다.",
+      "{{w + h}} - {{w}} = {{h}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "둘레를 2로 나누어 가로와 세로의 합을 구해요.",
+      "그 합에서 가로를 빼요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-B-10",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "perimeter-fence-with-gate",
+    "param_schema": {
+      "w": {
+        "min": 10,
+        "max": 16
+      },
+      "h": {
+        "min": 7,
+        "max": 12
+      },
+      "gate": {
+        "min": 1,
+        "max": 3
+      }
+    },
+    "prompt_template": "가로 {{w}}m, 세로 {{h}}m인 직사각형 꽃밭 둘레에 울타리를 두르되, {{gate}}m인 출입구에는 울타리를 놓지 않습니다. 필요한 울타리는 몇 m인가요?",
+    "solver_rule": "2 * (w + h) - gate",
+    "solution_steps_template": [
+      "꽃밭 전체 둘레는 ({{w}} + {{h}}) × 2 = {{2 * (w + h)}}m입니다.",
+      "출입구 {{gate}}m를 빼면 {{2 * (w + h) - gate}}m입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 꽃밭의 전체 둘레를 구해요.",
+      "울타리를 놓지 않는 출입구 길이를 빼요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "a": "{{w}}",
+      "b": "{{h}}",
+      "unit": "m"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-C-01",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "perimeter-rectangle-perimeter",
+    "param_schema": {
+      "w": {
+        "min": 8,
+        "max": 13
+      },
+      "h": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "그림의 직사각형 둘레는 몇 cm인가요?",
+    "solver_rule": "2 * (w + h)",
+    "solution_steps_template": [
+      "가로와 세로를 한 번씩 더하면 {{w + h}}cm입니다.",
+      "둘레는 {{w + h}} × 2 = {{2 * (w + h)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "가로 2개와 세로 2개의 길이를 모두 더해요.",
+      "(가로 + 세로) × 2를 계산해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-C-02",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "perimeter-square-perimeter",
+    "param_schema": {
+      "side": {
+        "min": 7,
+        "max": 12
+      }
+    },
+    "prompt_template": "한 변의 길이가 표시된 정사각형의 둘레는 몇 cm인가요?",
+    "solver_rule": "4 * side",
+    "solution_steps_template": [
+      "정사각형은 네 변의 길이가 같습니다.",
+      "{{side}} × 4 = {{4 * side}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "같은 길이의 변이 4개예요.",
+      "한 변의 길이에 4를 곱해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "square",
+      "unit": "cm",
+      "a": "{{side}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-C-03",
+    "concept_id": "perimeter-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "perimeter-rectangle-perimeter-choice",
+    "param_schema": {
+      "w": {
+        "min": 9,
+        "max": 14
+      },
+      "h": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "직사각형의 둘레로 알맞은 값을 고르세요.",
+    "solver_rule": "2 * (w + h)",
+    "choices_template": [
+      "{{2 * (w + h)}}",
+      "{{2 * (w + h) + 2}}",
+      "{{2 * (w + h) + 4}}",
+      "{{2 * (w + h) + 6}}"
+    ],
+    "solution_steps_template": [
+      "(가로 + 세로) × 2를 이용합니다.",
+      "({{w}} + {{h}}) × 2 = {{2 * (w + h)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "가로와 세로를 먼저 더해요.",
+      "그 합을 2배 해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-C-04",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "perimeter-triangle-perimeter",
+    "param_schema": {
+      "a": {
+        "min": 8,
+        "max": 12
+      },
+      "b": {
+        "min": 9,
+        "max": 13
+      },
+      "c": {
+        "min": 10,
+        "max": 14
+      }
+    },
+    "prompt_template": "세 변의 길이가 표시된 삼각형의 둘레는 몇 cm인가요?",
+    "solver_rule": "a + b + c",
+    "solution_steps_template": [
+      "세 변의 길이를 모두 더합니다.",
+      "{{a}} + {{b}} + {{c}} = {{a + b + c}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "둘레는 도형의 가장자리 길이의 합이에요.",
+      "세 변을 빠짐없이 더해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "triangle",
+      "unit": "cm",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "measurementMode": "sides"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-C-05",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "perimeter-rectangle-area",
+    "param_schema": {
+      "w": {
+        "min": 8,
+        "max": 13
+      },
+      "h": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "직사각형의 넓이는 몇 cm²인가요?",
+    "solver_rule": "w * h",
+    "solution_steps_template": [
+      "직사각형의 넓이는 가로 × 세로입니다.",
+      "{{w}} × {{h}} = {{w * h}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "1cm² 정사각형이 몇 개인지 생각해요.",
+      "가로와 세로를 곱해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-C-06",
+    "concept_id": "perimeter-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "perimeter-square-area-choice",
+    "param_schema": {
+      "side": {
+        "min": 7,
+        "max": 12
+      }
+    },
+    "prompt_template": "정사각형의 넓이로 알맞은 값을 고르세요.",
+    "solver_rule": "side * side",
+    "choices_template": [
+      "{{side * side}}",
+      "{{side * side + 1}}",
+      "{{side * side + 2}}",
+      "{{side * side + 3}}"
+    ],
+    "solution_steps_template": [
+      "정사각형의 넓이는 한 변 × 한 변입니다.",
+      "{{side}} × {{side}} = {{side * side}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "같은 길이를 두 번 곱해요.",
+      "둘레를 구하는 문제가 아닌지 확인해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "square",
+      "unit": "cm",
+      "a": "{{side}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-C-07",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "perimeter-rectangle-width-from-area",
+    "param_schema": {
+      "w": {
+        "min": 8,
+        "max": 13
+      },
+      "h": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "넓이가 {{w * h}}cm²이고 세로가 {{h}}cm인 직사각형의 가로는 몇 cm인가요?",
+    "solver_rule": "w",
+    "solution_steps_template": [
+      "가로 × {{h}} = {{w * h}}입니다.",
+      "{{w * h}} ÷ {{h}} = {{w}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "넓이를 알고 있으므로 나눗셈을 이용해요.",
+      "넓이 ÷ 세로를 계산해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-C-08",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "perimeter-rectangle-height-from-area",
+    "param_schema": {
+      "w": {
+        "min": 9,
+        "max": 14
+      },
+      "h": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "넓이가 {{w * h}}cm²이고 가로가 {{w}}cm인 직사각형의 세로는 몇 cm인가요?",
+    "solver_rule": "h",
+    "solution_steps_template": [
+      "{{w}} × 세로 = {{w * h}}입니다.",
+      "{{w * h}} ÷ {{w}} = {{h}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "넓이 ÷ 가로를 계산해요.",
+      "구한 세로를 다시 곱해 확인해요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-C-09",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "perimeter-rectangle-side-from-perimeter",
+    "param_schema": {
+      "w": {
+        "min": 10,
+        "max": 16
+      },
+      "h": {
+        "min": 7,
+        "max": 12
+      }
+    },
+    "prompt_template": "둘레가 {{2 * (w + h)}}cm이고 가로가 {{w}}cm인 직사각형의 세로는 몇 cm인가요?",
+    "solver_rule": "h",
+    "solution_steps_template": [
+      "둘레의 절반은 가로 + 세로이므로 {{w + h}}cm입니다.",
+      "{{w + h}} - {{w}} = {{h}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "둘레를 2로 나누어 가로와 세로의 합을 구해요.",
+      "그 합에서 가로를 빼요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "unit": "cm",
+      "a": "{{w}}",
+      "b": "{{h}}"
+    }
+  },
+  {
+    "id": "tmpl-perimeter-C-10",
+    "concept_id": "perimeter-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "perimeter-fence-with-gate",
+    "param_schema": {
+      "w": {
+        "min": 12,
+        "max": 18
+      },
+      "h": {
+        "min": 9,
+        "max": 14
+      },
+      "gate": {
+        "min": 1,
+        "max": 3
+      }
+    },
+    "prompt_template": "가로 {{w}}m, 세로 {{h}}m인 직사각형 꽃밭 둘레에 울타리를 두르되, {{gate}}m인 출입구에는 울타리를 놓지 않습니다. 필요한 울타리는 몇 m인가요?",
+    "solver_rule": "2 * (w + h) - gate",
+    "solution_steps_template": [
+      "꽃밭 전체 둘레는 ({{w}} + {{h}}) × 2 = {{2 * (w + h)}}m입니다.",
+      "출입구 {{gate}}m를 빼면 {{2 * (w + h) - gate}}m입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 꽃밭의 전체 둘레를 구해요.",
+      "울타리를 놓지 않는 출입구 길이를 빼요."
+    ],
+    "visual_template": {
+      "type": "polygon",
+      "shape": "rectangle",
+      "a": "{{w}}",
+      "b": "{{h}}",
+      "unit": "m"
+    }
+  }
+]

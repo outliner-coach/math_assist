@@ -208,6 +208,32 @@ function secondLargestDivisor(n) {
   return ds[ds.length - 2]
 }
 
+const GEOMETRY_OPTION_LABELS = ['가', '나', '다', '라']
+
+function geometryOptionIndex(kind, variant) {
+  const normalized = Math.abs(Math.floor(variant)) % 4
+  const mappings = {
+    1: [1, 3, 2, 4],
+    2: [2, 4, 1, 3],
+    3: [4, 1, 3, 2],
+  }
+  return (mappings[kind] || mappings[1])[normalized]
+}
+
+function geometryOption(kind, variant, offset) {
+  const answerIndex = geometryOptionIndex(kind, variant)
+  const optionIndex = ((answerIndex - 1 + Math.floor(offset)) % 4 + 4) % 4
+  return GEOMETRY_OPTION_LABELS[optionIndex]
+}
+
+function symmetryAxisCount(shapeCode) {
+  return ({ 1: 4, 2: 2, 3: 3, 4: 1, 5: 2, 6: 0 })[Math.floor(shapeCode)] ?? 0
+}
+
+function cuboidOppositeFace(face) {
+  return ({ 1: 6, 6: 1, 2: 3, 3: 2, 4: 5, 5: 4 })[Math.floor(face)] ?? 0
+}
+
 function evaluateFunction(funcName, args) {
   switch (funcName) {
     case 'gcd': return String(gcd(args[0], args[1]))
@@ -244,6 +270,9 @@ function evaluateFunction(funcName, args) {
     case 'smallestDivisorOverOne': return String(smallestDivisorOverOne(args[0]))
     case 'largestProperDivisor': return String(largestProperDivisor(args[0]))
     case 'secondLargestDivisor': return String(secondLargestDivisor(args[0]))
+    case 'geometryOption': return geometryOption(args[0], args[1], args[2])
+    case 'symmetryAxisCount': return String(symmetryAxisCount(args[0]))
+    case 'cuboidOppositeFace': return String(cuboidOppositeFace(args[0]))
     default: return null
   }
 }
@@ -305,6 +334,32 @@ function evaluateTemplate(template, params) {
 
 function hasUnevaluated(text) {
   return /\[[^\]]+\?\]/.test(text)
+}
+
+function evaluateVisualTemplate(value, params) {
+  if (typeof value === 'string') return evaluateTemplate(value, params)
+  if (Array.isArray(value)) return value.map(item => evaluateVisualTemplate(item, params))
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, evaluateVisualTemplate(item, params)])
+    )
+  }
+  return value
+}
+
+function visualHasUnevaluated(value) {
+  if (typeof value === 'string') return hasUnevaluated(value)
+  if (Array.isArray(value)) return value.some(visualHasUnevaluated)
+  if (value && typeof value === 'object') return Object.values(value).some(visualHasUnevaluated)
+  return false
+}
+
+function visualHasAnswerOnlyKey(value) {
+  if (!value || typeof value !== 'object') return false
+  if (Array.isArray(value)) return value.some(visualHasAnswerOnlyKey)
+  return Object.entries(value).some(([key, item]) =>
+    /^(answer|correct|result|target|product)$/i.test(key) || visualHasAnswerOnlyKey(item)
+  )
 }
 
 function seededRandom(seed) {
@@ -452,6 +507,7 @@ function calculateDifficultySignal(template, answerSamples) {
     ? magnitudeValues.reduce((sum, value) => sum + value, 0) / magnitudeValues.length
     : 0
   const hasStoryContext = /몇 명|나누어 주려면|묶음|버스|초마다|깜빡|케이크|남은 양|색칠한 부분/.test(prompt)
+  const hasReverseGeometry = /넓이가|둘레가|높이는|가로는|세로는|아랫변|표시되지 않은|두 길이|차이는|출입구|잘라냈|맞은편 면 쌍/.test(prompt)
 
   return round(
     functionCount * 1.2 +
@@ -466,6 +522,8 @@ function calculateDifficultySignal(template, answerSamples) {
     (/평균|규칙|대응/.test(prompt) ? 0.8 : 0) +
     (/합|차|더|빼|곱|계산/.test(prompt) ? 0.6 : 0) +
     (/최대공약수|최소공배수|공약수|공배수/.test(prompt) ? 0.7 : 0) +
+    (/둘레|넓이|합동|대칭|직육면체|전개도|대응/.test(prompt) ? 0.8 : 0) +
+    (hasReverseGeometry ? 2.1 : 0) +
     (hasStoryContext ? 0.65 : 0)
   )
 }
@@ -514,6 +572,14 @@ function validateTemplates(options = {}) {
   const sampleCount = options.sampleCount ?? 20
   const errors = []
   const conceptMap = loadConceptMap()
+  const geometryUnitIds = new Set([
+    'unit-5-1-perimeter-area',
+    'unit-5-2-congruence-symmetry',
+    'unit-5-2-cuboid',
+  ])
+  const geometryFamilies = Object.fromEntries(
+    Array.from(geometryUnitIds, unitId => [unitId, new Set()])
+  )
 
   for (const { file, templates } of catalog) {
     const bySet = {}
@@ -545,12 +611,45 @@ function validateTemplates(options = {}) {
         }))
       }
 
+
+      const unitId = conceptMap[template.concept_id]?.unit_id
+      if (geometryUnitIds.has(unitId)) {
+        if (!template.problem_family) {
+          errors.push(createIssue('error', 'missing_problem_family', {
+            file,
+            templateId: template.id,
+            conceptId: template.concept_id,
+            message: `${file} ${template.id}: geometry template needs problem_family`,
+          }))
+        } else {
+          geometryFamilies[unitId].add(template.problem_family)
+        }
+        if (!template.visual_template) {
+          errors.push(createIssue('error', 'missing_geometry_visual', {
+            file,
+            templateId: template.id,
+            conceptId: template.concept_id,
+            message: `${file} ${template.id}: geometry template needs visual_template`,
+          }))
+        } else if (visualHasAnswerOnlyKey(template.visual_template)) {
+          errors.push(createIssue('error', 'answer_only_visual_key', {
+            file,
+            templateId: template.id,
+            conceptId: template.concept_id,
+            message: `${file} ${template.id}: visual_template contains an answer-only key`,
+          }))
+        }
+      }
+
       const samples = buildParamSamples(template.param_schema, sampleCount, template.id.length * 97)
       for (const params of samples) {
         const prompt = evaluateTemplate(template.prompt_template, params)
         const correct = evaluateTemplate(`{{${template.solver_rule}}}`, params)
         const solutionSteps = (template.solution_steps_template || []).map(step => evaluateTemplate(step, params))
         const hintSteps = (template.hint_steps_template || []).map(step => evaluateTemplate(step, params))
+        const visual = template.visual_template
+          ? evaluateVisualTemplate(template.visual_template, params)
+          : null
 
         if (hasUnevaluated(prompt)) {
           errors.push(createIssue('error', 'unevaluated_prompt', {
@@ -581,6 +680,17 @@ function validateTemplates(options = {}) {
             conceptId: template.concept_id,
             params,
             message: `${file} ${template.id}: unevaluated hint step for params ${JSON.stringify(params)}`
+          }))
+          break
+        }
+
+        if (visual && visualHasUnevaluated(visual)) {
+          errors.push(createIssue('error', 'unevaluated_visual', {
+            file,
+            templateId: template.id,
+            conceptId: template.concept_id,
+            params,
+            message: `${file} ${template.id}: unevaluated visual value for params ${JSON.stringify(params)}`,
           }))
           break
         }
@@ -622,6 +732,18 @@ function validateTemplates(options = {}) {
           }
         }
       }
+    }
+  }
+
+  for (const [unitId, families] of Object.entries(geometryFamilies)) {
+    if (families.size < 20) {
+      errors.push(createIssue('error', 'geometry_unit_family_minimum', {
+        file: null,
+        templateId: null,
+        conceptId: null,
+        unitId,
+        message: `${unitId}: expected at least 20 distinct problem families, got ${families.size}`,
+      }))
     }
   }
 

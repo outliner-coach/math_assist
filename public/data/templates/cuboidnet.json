@@ -1,0 +1,941 @@
+[
+  {
+    "id": "tmpl-cuboidnet-A-01",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "cuboidnet-net-face-count",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "직육면체 전개도는 직사각형 몇 개로 이루어져 있나요?",
+    "solver_rule": "6",
+    "solution_steps_template": [
+      "직육면체의 면은 6개입니다.",
+      "전개도에도 면 6개가 빠짐없이 나타납니다."
+    ],
+    "hint_steps_template": [
+      "전개도의 칸을 하나씩 세어요.",
+      "겹치거나 빠진 칸이 없는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-A-02",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "cuboidnet-opposite-face-one",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "전개도를 접었을 때 1번 면과 마주 보는 면은 몇 번인가요?",
+    "solver_rule": "cuboidOppositeFace(1)",
+    "solution_steps_template": [
+      "1번 면 주변의 네 면을 먼저 접어 올립니다.",
+      "마지막에 덮이는 6번 면이 1번 면과 마주 봅니다."
+    ],
+    "hint_steps_template": [
+      "1번 면과 변을 공유하는 면은 마주 보는 면이 아니에요.",
+      "가장 멀리 이어진 면을 접어 봐요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": 1
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-A-03",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "cuboidnet-opposite-face-two",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "전개도를 접었을 때 2번 면과 마주 보는 면은 몇 번인가요?",
+    "solver_rule": "cuboidOppositeFace(2)",
+    "solution_steps_template": [
+      "2번 면과 3번 면은 중심 면의 양쪽에 있습니다.",
+      "접으면 서로 마주 보므로 정답은 3번입니다."
+    ],
+    "hint_steps_template": [
+      "중심 면의 왼쪽과 오른쪽 면을 찾아요.",
+      "두 면을 접어 올린 모습을 생각해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": 2
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-A-04",
+    "concept_id": "cuboidnet-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "cuboidnet-valid-net-choice",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "직육면체로 접을 수 있는 전개도를 고르세요.",
+    "solver_rule": "geometryOption(2, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(2, variant, 0)}}",
+      "{{geometryOption(2, variant, 1)}}",
+      "{{geometryOption(2, variant, 2)}}",
+      "{{geometryOption(2, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "각 전개도를 접을 때 면이 겹치는지 확인합니다.",
+      "{{geometryOption(2, variant, 0)}} 전개도는 여섯 면이 겹치지 않고 직육면체가 됩니다."
+    ],
+    "hint_steps_template": [
+      "한 면을 바닥으로 두고 주변 면을 접어 봐요.",
+      "같은 자리를 차지하는 면이 생기면 안 돼요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "options",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-A-05",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "cuboidnet-opposite-face-input",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "face": {
+        "min": 1,
+        "max": 6
+      }
+    },
+    "prompt_template": "전개도를 접었을 때 {{face}}번 면과 마주 보는 면은 몇 번인가요?",
+    "solver_rule": "cuboidOppositeFace(face)",
+    "solution_steps_template": [
+      "전개도에서 {{face}}번 면을 기준으로 접습니다.",
+      "마주 보는 면은 {{cuboidOppositeFace(face)}}번입니다."
+    ],
+    "hint_steps_template": [
+      "변을 직접 공유하는 면은 이웃한 면이에요.",
+      "접었을 때 반대쪽에 놓이는 면을 찾아요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": "{{face}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-A-06",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "cuboidnet-opposite-pair-count",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "직육면체에서 서로 마주 보는 면의 쌍은 모두 몇 쌍인가요?",
+    "solver_rule": "3",
+    "solution_steps_template": [
+      "앞뒤, 좌우, 위아래 면이 각각 한 쌍입니다.",
+      "따라서 모두 3쌍입니다."
+    ],
+    "hint_steps_template": [
+      "면 6개를 두 개씩 짝지어요.",
+      "서로 평행하면서 만나지 않는 면을 찾아요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-A-07",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "cuboidnet-top-bottom-pair",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "전개도에서 4번 면과 마주 보는 면의 번호는?",
+    "solver_rule": "cuboidOppositeFace(4)",
+    "solution_steps_template": [
+      "4번과 5번 면은 중심 면의 위와 아래에 있습니다.",
+      "접으면 서로 마주 보므로 5번입니다."
+    ],
+    "hint_steps_template": [
+      "중심 면의 위쪽과 아래쪽을 살펴봐요.",
+      "접어 올렸을 때의 위치를 생각해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": 4
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-A-08",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "cuboidnet-net-square-perimeter",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "side": {
+        "min": 2,
+        "max": 6
+      }
+    },
+    "prompt_template": "전개도의 각 면이 한 변 {{side}}cm인 정사각형입니다. 한 면의 둘레는 몇 cm인가요?",
+    "solver_rule": "4 * side",
+    "solution_steps_template": [
+      "한 면은 네 변의 길이가 같은 정사각형입니다.",
+      "{{side}} × 4 = {{4 * side}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "한 면만 떼어 생각해요.",
+      "한 변의 길이를 4번 더해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-A-09",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "cuboidnet-opposite-label-sum",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "face": {
+        "min": 1,
+        "max": 6
+      }
+    },
+    "prompt_template": "{{face}}번 면과 그 면의 맞은편 면에 적힌 두 수의 합은?",
+    "solver_rule": "face + cuboidOppositeFace(face)",
+    "solution_steps_template": [
+      "{{face}}번 면의 맞은편은 {{cuboidOppositeFace(face)}}번입니다.",
+      "{{face}} + {{cuboidOppositeFace(face)}} = {{face + cuboidOppositeFace(face)}}입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 마주 보는 면의 번호를 찾아요.",
+      "두 면의 번호를 더해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": "{{face}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-A-10",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "cuboidnet-all-opposite-pair-sums",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "전개도의 세 맞은편 면 쌍에서 각 쌍의 두 번호를 모두 더한 값은?",
+    "solver_rule": "1 + 6 + 2 + 3 + 4 + 5",
+    "solution_steps_template": [
+      "맞은편 면 쌍은 (1,6), (2,3), (4,5)입니다.",
+      "모든 번호를 더하면 1 + 6 + 2 + 3 + 4 + 5 = 21입니다."
+    ],
+    "hint_steps_template": [
+      "마주 보는 면을 세 쌍으로 묶어요.",
+      "1번부터 6번까지 한 번씩 더해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-B-01",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "cuboidnet-net-face-count",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "직육면체 전개도는 직사각형 몇 개로 이루어져 있나요?",
+    "solver_rule": "6",
+    "solution_steps_template": [
+      "직육면체의 면은 6개입니다.",
+      "전개도에도 면 6개가 빠짐없이 나타납니다."
+    ],
+    "hint_steps_template": [
+      "전개도의 칸을 하나씩 세어요.",
+      "겹치거나 빠진 칸이 없는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-B-02",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "cuboidnet-opposite-face-one",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "전개도를 접었을 때 1번 면과 마주 보는 면은 몇 번인가요?",
+    "solver_rule": "cuboidOppositeFace(1)",
+    "solution_steps_template": [
+      "1번 면 주변의 네 면을 먼저 접어 올립니다.",
+      "마지막에 덮이는 6번 면이 1번 면과 마주 봅니다."
+    ],
+    "hint_steps_template": [
+      "1번 면과 변을 공유하는 면은 마주 보는 면이 아니에요.",
+      "가장 멀리 이어진 면을 접어 봐요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": 1
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-B-03",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "cuboidnet-opposite-face-two",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "전개도를 접었을 때 2번 면과 마주 보는 면은 몇 번인가요?",
+    "solver_rule": "cuboidOppositeFace(2)",
+    "solution_steps_template": [
+      "2번 면과 3번 면은 중심 면의 양쪽에 있습니다.",
+      "접으면 서로 마주 보므로 정답은 3번입니다."
+    ],
+    "hint_steps_template": [
+      "중심 면의 왼쪽과 오른쪽 면을 찾아요.",
+      "두 면을 접어 올린 모습을 생각해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": 2
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-B-04",
+    "concept_id": "cuboidnet-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "cuboidnet-valid-net-choice",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "직육면체로 접을 수 있는 전개도를 고르세요.",
+    "solver_rule": "geometryOption(2, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(2, variant, 0)}}",
+      "{{geometryOption(2, variant, 1)}}",
+      "{{geometryOption(2, variant, 2)}}",
+      "{{geometryOption(2, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "각 전개도를 접을 때 면이 겹치는지 확인합니다.",
+      "{{geometryOption(2, variant, 0)}} 전개도는 여섯 면이 겹치지 않고 직육면체가 됩니다."
+    ],
+    "hint_steps_template": [
+      "한 면을 바닥으로 두고 주변 면을 접어 봐요.",
+      "같은 자리를 차지하는 면이 생기면 안 돼요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "options",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-B-05",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "cuboidnet-opposite-face-input",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "face": {
+        "min": 1,
+        "max": 6
+      }
+    },
+    "prompt_template": "전개도를 접었을 때 {{face}}번 면과 마주 보는 면은 몇 번인가요?",
+    "solver_rule": "cuboidOppositeFace(face)",
+    "solution_steps_template": [
+      "전개도에서 {{face}}번 면을 기준으로 접습니다.",
+      "마주 보는 면은 {{cuboidOppositeFace(face)}}번입니다."
+    ],
+    "hint_steps_template": [
+      "변을 직접 공유하는 면은 이웃한 면이에요.",
+      "접었을 때 반대쪽에 놓이는 면을 찾아요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": "{{face}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-B-06",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "cuboidnet-opposite-pair-count",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "직육면체에서 서로 마주 보는 면의 쌍은 모두 몇 쌍인가요?",
+    "solver_rule": "3",
+    "solution_steps_template": [
+      "앞뒤, 좌우, 위아래 면이 각각 한 쌍입니다.",
+      "따라서 모두 3쌍입니다."
+    ],
+    "hint_steps_template": [
+      "면 6개를 두 개씩 짝지어요.",
+      "서로 평행하면서 만나지 않는 면을 찾아요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-B-07",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "cuboidnet-top-bottom-pair",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "전개도에서 4번 면과 마주 보는 면의 번호는?",
+    "solver_rule": "cuboidOppositeFace(4)",
+    "solution_steps_template": [
+      "4번과 5번 면은 중심 면의 위와 아래에 있습니다.",
+      "접으면 서로 마주 보므로 5번입니다."
+    ],
+    "hint_steps_template": [
+      "중심 면의 위쪽과 아래쪽을 살펴봐요.",
+      "접어 올렸을 때의 위치를 생각해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": 4
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-B-08",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "cuboidnet-net-square-perimeter",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "side": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "전개도의 각 면이 한 변 {{side}}cm인 정사각형입니다. 한 면의 둘레는 몇 cm인가요?",
+    "solver_rule": "4 * side",
+    "solution_steps_template": [
+      "한 면은 네 변의 길이가 같은 정사각형입니다.",
+      "{{side}} × 4 = {{4 * side}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "한 면만 떼어 생각해요.",
+      "한 변의 길이를 4번 더해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-B-09",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "cuboidnet-opposite-label-sum",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "face": {
+        "min": 1,
+        "max": 6
+      }
+    },
+    "prompt_template": "{{face}}번 면과 그 면의 맞은편 면에 적힌 두 수의 합은?",
+    "solver_rule": "face + cuboidOppositeFace(face)",
+    "solution_steps_template": [
+      "{{face}}번 면의 맞은편은 {{cuboidOppositeFace(face)}}번입니다.",
+      "{{face}} + {{cuboidOppositeFace(face)}} = {{face + cuboidOppositeFace(face)}}입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 마주 보는 면의 번호를 찾아요.",
+      "두 면의 번호를 더해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": "{{face}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-B-10",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "cuboidnet-all-opposite-pair-sums",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "전개도의 세 맞은편 면 쌍에서 각 쌍의 두 번호를 모두 더한 값은?",
+    "solver_rule": "1 + 6 + 2 + 3 + 4 + 5",
+    "solution_steps_template": [
+      "맞은편 면 쌍은 (1,6), (2,3), (4,5)입니다.",
+      "모든 번호를 더하면 1 + 6 + 2 + 3 + 4 + 5 = 21입니다."
+    ],
+    "hint_steps_template": [
+      "마주 보는 면을 세 쌍으로 묶어요.",
+      "1번부터 6번까지 한 번씩 더해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-C-01",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "cuboidnet-net-face-count",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "직육면체 전개도는 직사각형 몇 개로 이루어져 있나요?",
+    "solver_rule": "6",
+    "solution_steps_template": [
+      "직육면체의 면은 6개입니다.",
+      "전개도에도 면 6개가 빠짐없이 나타납니다."
+    ],
+    "hint_steps_template": [
+      "전개도의 칸을 하나씩 세어요.",
+      "겹치거나 빠진 칸이 없는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-C-02",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "cuboidnet-opposite-face-one",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "전개도를 접었을 때 1번 면과 마주 보는 면은 몇 번인가요?",
+    "solver_rule": "cuboidOppositeFace(1)",
+    "solution_steps_template": [
+      "1번 면 주변의 네 면을 먼저 접어 올립니다.",
+      "마지막에 덮이는 6번 면이 1번 면과 마주 봅니다."
+    ],
+    "hint_steps_template": [
+      "1번 면과 변을 공유하는 면은 마주 보는 면이 아니에요.",
+      "가장 멀리 이어진 면을 접어 봐요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": 1
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-C-03",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "cuboidnet-opposite-face-two",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "전개도를 접었을 때 2번 면과 마주 보는 면은 몇 번인가요?",
+    "solver_rule": "cuboidOppositeFace(2)",
+    "solution_steps_template": [
+      "2번 면과 3번 면은 중심 면의 양쪽에 있습니다.",
+      "접으면 서로 마주 보므로 정답은 3번입니다."
+    ],
+    "hint_steps_template": [
+      "중심 면의 왼쪽과 오른쪽 면을 찾아요.",
+      "두 면을 접어 올린 모습을 생각해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": 2
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-C-04",
+    "concept_id": "cuboidnet-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "cuboidnet-valid-net-choice",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "직육면체로 접을 수 있는 전개도를 고르세요.",
+    "solver_rule": "geometryOption(2, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(2, variant, 0)}}",
+      "{{geometryOption(2, variant, 1)}}",
+      "{{geometryOption(2, variant, 2)}}",
+      "{{geometryOption(2, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "각 전개도를 접을 때 면이 겹치는지 확인합니다.",
+      "{{geometryOption(2, variant, 0)}} 전개도는 여섯 면이 겹치지 않고 직육면체가 됩니다."
+    ],
+    "hint_steps_template": [
+      "한 면을 바닥으로 두고 주변 면을 접어 봐요.",
+      "같은 자리를 차지하는 면이 생기면 안 돼요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "options",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-C-05",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "cuboidnet-opposite-face-input",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "face": {
+        "min": 1,
+        "max": 6
+      }
+    },
+    "prompt_template": "전개도를 접었을 때 {{face}}번 면과 마주 보는 면은 몇 번인가요?",
+    "solver_rule": "cuboidOppositeFace(face)",
+    "solution_steps_template": [
+      "전개도에서 {{face}}번 면을 기준으로 접습니다.",
+      "마주 보는 면은 {{cuboidOppositeFace(face)}}번입니다."
+    ],
+    "hint_steps_template": [
+      "변을 직접 공유하는 면은 이웃한 면이에요.",
+      "접었을 때 반대쪽에 놓이는 면을 찾아요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": "{{face}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-C-06",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "cuboidnet-opposite-pair-count",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "직육면체에서 서로 마주 보는 면의 쌍은 모두 몇 쌍인가요?",
+    "solver_rule": "3",
+    "solution_steps_template": [
+      "앞뒤, 좌우, 위아래 면이 각각 한 쌍입니다.",
+      "따라서 모두 3쌍입니다."
+    ],
+    "hint_steps_template": [
+      "면 6개를 두 개씩 짝지어요.",
+      "서로 평행하면서 만나지 않는 면을 찾아요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-C-07",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "cuboidnet-top-bottom-pair",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "전개도에서 4번 면과 마주 보는 면의 번호는?",
+    "solver_rule": "cuboidOppositeFace(4)",
+    "solution_steps_template": [
+      "4번과 5번 면은 중심 면의 위와 아래에 있습니다.",
+      "접으면 서로 마주 보므로 5번입니다."
+    ],
+    "hint_steps_template": [
+      "중심 면의 위쪽과 아래쪽을 살펴봐요.",
+      "접어 올렸을 때의 위치를 생각해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": 4
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-C-08",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "cuboidnet-net-square-perimeter",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "side": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "전개도의 각 면이 한 변 {{side}}cm인 정사각형입니다. 한 면의 둘레는 몇 cm인가요?",
+    "solver_rule": "4 * side",
+    "solution_steps_template": [
+      "한 면은 네 변의 길이가 같은 정사각형입니다.",
+      "{{side}} × 4 = {{4 * side}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "한 면만 떼어 생각해요.",
+      "한 변의 길이를 4번 더해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-C-09",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "cuboidnet-opposite-label-sum",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "face": {
+        "min": 1,
+        "max": 6
+      }
+    },
+    "prompt_template": "{{face}}번 면과 그 면의 맞은편 면에 적힌 두 수의 합은?",
+    "solver_rule": "face + cuboidOppositeFace(face)",
+    "solution_steps_template": [
+      "{{face}}번 면의 맞은편은 {{cuboidOppositeFace(face)}}번입니다.",
+      "{{face}} + {{cuboidOppositeFace(face)}} = {{face + cuboidOppositeFace(face)}}입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 마주 보는 면의 번호를 찾아요.",
+      "두 면의 번호를 더해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}",
+      "focusFace": "{{face}}"
+    }
+  },
+  {
+    "id": "tmpl-cuboidnet-C-10",
+    "concept_id": "cuboidnet-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "cuboidnet-all-opposite-pair-sums",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "전개도의 세 맞은편 면 쌍에서 각 쌍의 두 번호를 모두 더한 값은?",
+    "solver_rule": "1 + 6 + 2 + 3 + 4 + 5",
+    "solution_steps_template": [
+      "맞은편 면 쌍은 (1,6), (2,3), (4,5)입니다.",
+      "모든 번호를 더하면 1 + 6 + 2 + 3 + 4 + 5 = 21입니다."
+    ],
+    "hint_steps_template": [
+      "마주 보는 면을 세 쌍으로 묶어요.",
+      "1번부터 6번까지 한 번씩 더해요."
+    ],
+    "visual_template": {
+      "type": "cuboid-net",
+      "mode": "single",
+      "variant": "{{variant}}"
+    }
+  }
+]

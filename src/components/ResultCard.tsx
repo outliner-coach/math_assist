@@ -1,6 +1,7 @@
 'use client'
 
 import MathText from './MathText'
+import GeometryProblemVisual from './GeometryProblemVisual'
 import type { SubmissionResult } from '@/lib/types'
 
 interface ResultCardProps {
@@ -42,6 +43,10 @@ export default function ResultCard({ result }: ResultCardProps) {
           {correct ? '정답' : '오답'}
         </span>
       </div>
+
+      {result.problem.visual && (
+        <GeometryProblemVisual visual={result.problem.visual} showAnswer />
+      )}
 
       {/* 내 답안 / 정답 */}
       <div className="grid grid-cols-2 gap-4 mb-4">

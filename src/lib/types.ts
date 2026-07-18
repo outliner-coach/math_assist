@@ -24,6 +24,67 @@ export interface Concept {
   order: number
 }
 
+export type PolygonShape =
+  | 'rectangle'
+  | 'square'
+  | 'parallelogram'
+  | 'triangle'
+  | 'trapezoid'
+  | 'rhombus'
+
+export type GeometryVisual =
+  | {
+      type: 'polygon'
+      shape: PolygonShape
+      a: number
+      b?: number
+      c?: number
+      height?: number
+      unit?: string
+      measurementMode?: 'area' | 'sides'
+    }
+  | {
+      type: 'congruence'
+      mode: 'pair' | 'options'
+      variant: number
+      a?: number
+      b?: number
+      c?: number
+      unit?: string
+    }
+  | {
+      type: 'symmetry'
+      mode: 'axes' | 'line-coordinate' | 'point-coordinate' | 'options'
+      variant: number
+      x?: number
+      y?: number
+      axis?: number
+      centerX?: number
+      centerY?: number
+    }
+  | {
+      type: 'cuboid'
+      width: number
+      height: number
+      depth: number
+      focus?: 'structure' | 'edges' | 'faces'
+      unit?: string
+    }
+  | {
+      type: 'cuboid-net'
+      mode: 'single' | 'options'
+      variant: number
+      focusFace?: number
+    }
+
+export type VisualTemplateValue =
+  | string
+  | number
+  | boolean
+  | null
+  | VisualTemplateValue[]
+  | { [key: string]: VisualTemplateValue }
+
 // 문제 템플릿
 export interface ProblemTemplate {
   id: string
@@ -37,6 +98,8 @@ export interface ProblemTemplate {
   solver_rule: string
   solution_steps_template: string[]
   hint_steps_template?: string[]
+  problem_family?: string
+  visual_template?: { [key: string]: VisualTemplateValue }
 }
 
 // 생성된 문제
@@ -52,6 +115,8 @@ export interface Problem {
   correctChoiceIndex?: number // 객관식인 경우 정답 인덱스
   solutionSteps: string[]
   hintSteps?: string[]
+  problemFamily?: string
+  visual?: GeometryVisual
 }
 
 export type PracticeMode = 'standard' | 'retry-wrong'

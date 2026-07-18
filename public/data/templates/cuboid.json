@@ -1,0 +1,1172 @@
+[
+  {
+    "id": "tmpl-cuboid-A-01",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "cuboid-face-count",
+    "param_schema": {
+      "w": {
+        "min": 5,
+        "max": 8
+      },
+      "h": {
+        "min": 3,
+        "max": 6
+      },
+      "d": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "직육면체의 면은 모두 몇 개인가요?",
+    "solver_rule": "6",
+    "solution_steps_template": [
+      "서로 마주 보는 면이 3쌍입니다.",
+      "3쌍은 모두 6개입니다."
+    ],
+    "hint_steps_template": [
+      "앞뒤, 위아래, 양옆을 세어 봐요.",
+      "마주 보는 면을 한 쌍씩 세어요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-A-02",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "cuboid-edge-count",
+    "param_schema": {
+      "w": {
+        "min": 5,
+        "max": 8
+      },
+      "h": {
+        "min": 3,
+        "max": 6
+      },
+      "d": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "직육면체의 모서리는 모두 몇 개인가요?",
+    "solver_rule": "12",
+    "solution_steps_template": [
+      "윗면과 아랫면에 모서리가 각각 4개씩 있습니다.",
+      "두 면을 잇는 모서리 4개를 더하면 12개입니다."
+    ],
+    "hint_steps_template": [
+      "보이는 모서리와 숨은 모서리를 함께 세어요.",
+      "4 + 4 + 4로 묶어 볼 수 있어요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-A-03",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "cuboid-vertex-count",
+    "param_schema": {
+      "w": {
+        "min": 5,
+        "max": 8
+      },
+      "h": {
+        "min": 3,
+        "max": 6
+      },
+      "d": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "직육면체의 꼭짓점은 모두 몇 개인가요?",
+    "solver_rule": "8",
+    "solution_steps_template": [
+      "윗면과 아랫면에 꼭짓점이 각각 4개씩 있습니다.",
+      "4 + 4 = 8개입니다."
+    ],
+    "hint_steps_template": [
+      "위쪽 네 모서리 끝과 아래쪽 네 모서리 끝을 세어요.",
+      "숨은 꼭짓점도 빠뜨리지 않아요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-A-04",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "cuboid-edges-at-vertex",
+    "param_schema": {
+      "w": {
+        "min": 5,
+        "max": 8
+      },
+      "h": {
+        "min": 3,
+        "max": 6
+      },
+      "d": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "직육면체의 한 꼭짓점에서 만나는 모서리는 몇 개인가요?",
+    "solver_rule": "3",
+    "solution_steps_template": [
+      "한 꼭짓점에서는 가로, 세로, 높이 방향의 모서리가 만납니다.",
+      "따라서 3개입니다."
+    ],
+    "hint_steps_template": [
+      "한 꼭짓점에서 뻗어 나가는 선을 찾아요.",
+      "서로 다른 세 방향을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-A-05",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "cuboid-total-edge-length",
+    "param_schema": {
+      "w": {
+        "min": 5,
+        "max": 9
+      },
+      "h": {
+        "min": 3,
+        "max": 7
+      },
+      "d": {
+        "min": 2,
+        "max": 6
+      }
+    },
+    "prompt_template": "가로 {{w}}cm, 세로 {{d}}cm, 높이 {{h}}cm인 직육면체의 모든 모서리 길이의 합은 몇 cm인가요?",
+    "solver_rule": "4 * (w + h + d)",
+    "solution_steps_template": [
+      "가로, 세로, 높이 길이의 모서리는 각각 4개씩입니다.",
+      "({{w}} + {{h}} + {{d}}) × 4 = {{4 * (w + h + d)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "같은 길이의 모서리를 4개씩 묶어요.",
+      "가로 + 세로 + 높이를 먼저 계산해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-A-06",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "cuboid-missing-width-from-edges",
+    "param_schema": {
+      "w": {
+        "min": 5,
+        "max": 9
+      },
+      "h": {
+        "min": 3,
+        "max": 7
+      },
+      "d": {
+        "min": 2,
+        "max": 6
+      }
+    },
+    "prompt_template": "모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 세로가 {{d}}cm, 높이가 {{h}}cm인 직육면체의 가로는 몇 cm인가요?",
+    "solver_rule": "w",
+    "solution_steps_template": [
+      "전체 모서리 길이를 4로 나누면 가로 + 세로 + 높이인 {{w + h + d}}cm입니다.",
+      "{{w + h + d}} - {{d}} - {{h}} = {{w}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "전체 길이를 먼저 4로 나눠요.",
+      "세로와 높이를 차례로 빼요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-A-07",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "cuboid-front-face-area",
+    "param_schema": {
+      "w": {
+        "min": 5,
+        "max": 9
+      },
+      "h": {
+        "min": 3,
+        "max": 7
+      },
+      "d": {
+        "min": 2,
+        "max": 6
+      }
+    },
+    "prompt_template": "그림에서 가로 {{w}}cm, 높이 {{h}}cm인 앞면의 넓이는 몇 cm²인가요?",
+    "solver_rule": "w * h",
+    "solution_steps_template": [
+      "앞면은 가로 {{w}}cm, 세로 {{h}}cm인 직사각형입니다.",
+      "{{w}} × {{h}} = {{w * h}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "앞면만 떼어 평면으로 생각해요.",
+      "직사각형 넓이를 구해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-A-08",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "cuboid-front-face-perimeter",
+    "param_schema": {
+      "w": {
+        "min": 5,
+        "max": 9
+      },
+      "h": {
+        "min": 3,
+        "max": 7
+      },
+      "d": {
+        "min": 2,
+        "max": 6
+      }
+    },
+    "prompt_template": "그림에서 앞면의 둘레는 몇 cm인가요?",
+    "solver_rule": "2 * (w + h)",
+    "solution_steps_template": [
+      "앞면의 가로는 {{w}}cm, 세로는 {{h}}cm입니다.",
+      "({{w}} + {{h}}) × 2 = {{2 * (w + h)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "앞면은 직사각형이에요.",
+      "가로와 높이를 이용해 둘레를 구해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-A-09",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "cuboid-missing-depth-from-edges",
+    "param_schema": {
+      "w": {
+        "min": 6,
+        "max": 10
+      },
+      "h": {
+        "min": 4,
+        "max": 8
+      },
+      "d": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 가로가 {{w}}cm, 높이가 {{h}}cm인 직육면체의 세로는 몇 cm인가요?",
+    "solver_rule": "d",
+    "solution_steps_template": [
+      "전체를 4로 나누면 {{w + h + d}}cm입니다.",
+      "{{w + h + d}} - {{w}} - {{h}} = {{d}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "같은 길이의 모서리가 각각 4개씩 있어요.",
+      "가로 + 세로 + 높이를 역산해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-A-10",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "cuboid-three-face-area-sum",
+    "param_schema": {
+      "w": {
+        "min": 5,
+        "max": 9
+      },
+      "h": {
+        "min": 3,
+        "max": 7
+      },
+      "d": {
+        "min": 2,
+        "max": 6
+      }
+    },
+    "prompt_template": "서로 다른 크기의 세 면을 한 장씩 골랐습니다. 세 면의 넓이 합은 몇 cm²인가요?",
+    "solver_rule": "w * h + w * d + h * d",
+    "solution_steps_template": [
+      "세 면의 넓이는 각각 {{w * h}}cm², {{w * d}}cm², {{h * d}}cm²입니다.",
+      "합은 {{w * h + w * d + h * d}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "가로×높이, 가로×세로, 높이×세로를 각각 구해요.",
+      "서로 다른 세 넓이를 더해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-B-01",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "cuboid-face-count",
+    "param_schema": {
+      "w": {
+        "min": 7,
+        "max": 10
+      },
+      "h": {
+        "min": 5,
+        "max": 8
+      },
+      "d": {
+        "min": 4,
+        "max": 7
+      }
+    },
+    "prompt_template": "직육면체의 면은 모두 몇 개인가요?",
+    "solver_rule": "6",
+    "solution_steps_template": [
+      "서로 마주 보는 면이 3쌍입니다.",
+      "3쌍은 모두 6개입니다."
+    ],
+    "hint_steps_template": [
+      "앞뒤, 위아래, 양옆을 세어 봐요.",
+      "마주 보는 면을 한 쌍씩 세어요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-B-02",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "cuboid-edge-count",
+    "param_schema": {
+      "w": {
+        "min": 7,
+        "max": 10
+      },
+      "h": {
+        "min": 5,
+        "max": 8
+      },
+      "d": {
+        "min": 4,
+        "max": 7
+      }
+    },
+    "prompt_template": "직육면체의 모서리는 모두 몇 개인가요?",
+    "solver_rule": "12",
+    "solution_steps_template": [
+      "윗면과 아랫면에 모서리가 각각 4개씩 있습니다.",
+      "두 면을 잇는 모서리 4개를 더하면 12개입니다."
+    ],
+    "hint_steps_template": [
+      "보이는 모서리와 숨은 모서리를 함께 세어요.",
+      "4 + 4 + 4로 묶어 볼 수 있어요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-B-03",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "cuboid-vertex-count",
+    "param_schema": {
+      "w": {
+        "min": 7,
+        "max": 10
+      },
+      "h": {
+        "min": 5,
+        "max": 8
+      },
+      "d": {
+        "min": 4,
+        "max": 7
+      }
+    },
+    "prompt_template": "직육면체의 꼭짓점은 모두 몇 개인가요?",
+    "solver_rule": "8",
+    "solution_steps_template": [
+      "윗면과 아랫면에 꼭짓점이 각각 4개씩 있습니다.",
+      "4 + 4 = 8개입니다."
+    ],
+    "hint_steps_template": [
+      "위쪽 네 모서리 끝과 아래쪽 네 모서리 끝을 세어요.",
+      "숨은 꼭짓점도 빠뜨리지 않아요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-B-04",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "cuboid-edges-at-vertex",
+    "param_schema": {
+      "w": {
+        "min": 7,
+        "max": 10
+      },
+      "h": {
+        "min": 5,
+        "max": 8
+      },
+      "d": {
+        "min": 4,
+        "max": 7
+      }
+    },
+    "prompt_template": "직육면체의 한 꼭짓점에서 만나는 모서리는 몇 개인가요?",
+    "solver_rule": "3",
+    "solution_steps_template": [
+      "한 꼭짓점에서는 가로, 세로, 높이 방향의 모서리가 만납니다.",
+      "따라서 3개입니다."
+    ],
+    "hint_steps_template": [
+      "한 꼭짓점에서 뻗어 나가는 선을 찾아요.",
+      "서로 다른 세 방향을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-B-05",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "cuboid-total-edge-length",
+    "param_schema": {
+      "w": {
+        "min": 7,
+        "max": 11
+      },
+      "h": {
+        "min": 5,
+        "max": 9
+      },
+      "d": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "가로 {{w}}cm, 세로 {{d}}cm, 높이 {{h}}cm인 직육면체의 모든 모서리 길이의 합은 몇 cm인가요?",
+    "solver_rule": "4 * (w + h + d)",
+    "solution_steps_template": [
+      "가로, 세로, 높이 길이의 모서리는 각각 4개씩입니다.",
+      "({{w}} + {{h}} + {{d}}) × 4 = {{4 * (w + h + d)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "같은 길이의 모서리를 4개씩 묶어요.",
+      "가로 + 세로 + 높이를 먼저 계산해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-B-06",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "cuboid-missing-width-from-edges",
+    "param_schema": {
+      "w": {
+        "min": 7,
+        "max": 11
+      },
+      "h": {
+        "min": 5,
+        "max": 9
+      },
+      "d": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 세로가 {{d}}cm, 높이가 {{h}}cm인 직육면체의 가로는 몇 cm인가요?",
+    "solver_rule": "w",
+    "solution_steps_template": [
+      "전체 모서리 길이를 4로 나누면 가로 + 세로 + 높이인 {{w + h + d}}cm입니다.",
+      "{{w + h + d}} - {{d}} - {{h}} = {{w}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "전체 길이를 먼저 4로 나눠요.",
+      "세로와 높이를 차례로 빼요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-B-07",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "cuboid-front-face-area",
+    "param_schema": {
+      "w": {
+        "min": 7,
+        "max": 11
+      },
+      "h": {
+        "min": 5,
+        "max": 9
+      },
+      "d": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "그림에서 가로 {{w}}cm, 높이 {{h}}cm인 앞면의 넓이는 몇 cm²인가요?",
+    "solver_rule": "w * h",
+    "solution_steps_template": [
+      "앞면은 가로 {{w}}cm, 세로 {{h}}cm인 직사각형입니다.",
+      "{{w}} × {{h}} = {{w * h}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "앞면만 떼어 평면으로 생각해요.",
+      "직사각형 넓이를 구해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-B-08",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "cuboid-front-face-perimeter",
+    "param_schema": {
+      "w": {
+        "min": 7,
+        "max": 11
+      },
+      "h": {
+        "min": 5,
+        "max": 9
+      },
+      "d": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "그림에서 앞면의 둘레는 몇 cm인가요?",
+    "solver_rule": "2 * (w + h)",
+    "solution_steps_template": [
+      "앞면의 가로는 {{w}}cm, 세로는 {{h}}cm입니다.",
+      "({{w}} + {{h}}) × 2 = {{2 * (w + h)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "앞면은 직사각형이에요.",
+      "가로와 높이를 이용해 둘레를 구해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-B-09",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "cuboid-missing-depth-from-edges",
+    "param_schema": {
+      "w": {
+        "min": 8,
+        "max": 12
+      },
+      "h": {
+        "min": 6,
+        "max": 10
+      },
+      "d": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 가로가 {{w}}cm, 높이가 {{h}}cm인 직육면체의 세로는 몇 cm인가요?",
+    "solver_rule": "d",
+    "solution_steps_template": [
+      "전체를 4로 나누면 {{w + h + d}}cm입니다.",
+      "{{w + h + d}} - {{w}} - {{h}} = {{d}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "같은 길이의 모서리가 각각 4개씩 있어요.",
+      "가로 + 세로 + 높이를 역산해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-B-10",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "cuboid-three-face-area-sum",
+    "param_schema": {
+      "w": {
+        "min": 7,
+        "max": 11
+      },
+      "h": {
+        "min": 5,
+        "max": 9
+      },
+      "d": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "서로 다른 크기의 세 면을 한 장씩 골랐습니다. 세 면의 넓이 합은 몇 cm²인가요?",
+    "solver_rule": "w * h + w * d + h * d",
+    "solution_steps_template": [
+      "세 면의 넓이는 각각 {{w * h}}cm², {{w * d}}cm², {{h * d}}cm²입니다.",
+      "합은 {{w * h + w * d + h * d}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "가로×높이, 가로×세로, 높이×세로를 각각 구해요.",
+      "서로 다른 세 넓이를 더해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-C-01",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "cuboid-face-count",
+    "param_schema": {
+      "w": {
+        "min": 9,
+        "max": 12
+      },
+      "h": {
+        "min": 7,
+        "max": 10
+      },
+      "d": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "직육면체의 면은 모두 몇 개인가요?",
+    "solver_rule": "6",
+    "solution_steps_template": [
+      "서로 마주 보는 면이 3쌍입니다.",
+      "3쌍은 모두 6개입니다."
+    ],
+    "hint_steps_template": [
+      "앞뒤, 위아래, 양옆을 세어 봐요.",
+      "마주 보는 면을 한 쌍씩 세어요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-C-02",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "cuboid-edge-count",
+    "param_schema": {
+      "w": {
+        "min": 9,
+        "max": 12
+      },
+      "h": {
+        "min": 7,
+        "max": 10
+      },
+      "d": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "직육면체의 모서리는 모두 몇 개인가요?",
+    "solver_rule": "12",
+    "solution_steps_template": [
+      "윗면과 아랫면에 모서리가 각각 4개씩 있습니다.",
+      "두 면을 잇는 모서리 4개를 더하면 12개입니다."
+    ],
+    "hint_steps_template": [
+      "보이는 모서리와 숨은 모서리를 함께 세어요.",
+      "4 + 4 + 4로 묶어 볼 수 있어요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-C-03",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "cuboid-vertex-count",
+    "param_schema": {
+      "w": {
+        "min": 9,
+        "max": 12
+      },
+      "h": {
+        "min": 7,
+        "max": 10
+      },
+      "d": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "직육면체의 꼭짓점은 모두 몇 개인가요?",
+    "solver_rule": "8",
+    "solution_steps_template": [
+      "윗면과 아랫면에 꼭짓점이 각각 4개씩 있습니다.",
+      "4 + 4 = 8개입니다."
+    ],
+    "hint_steps_template": [
+      "위쪽 네 모서리 끝과 아래쪽 네 모서리 끝을 세어요.",
+      "숨은 꼭짓점도 빠뜨리지 않아요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-C-04",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "cuboid-edges-at-vertex",
+    "param_schema": {
+      "w": {
+        "min": 9,
+        "max": 12
+      },
+      "h": {
+        "min": 7,
+        "max": 10
+      },
+      "d": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "직육면체의 한 꼭짓점에서 만나는 모서리는 몇 개인가요?",
+    "solver_rule": "3",
+    "solution_steps_template": [
+      "한 꼭짓점에서는 가로, 세로, 높이 방향의 모서리가 만납니다.",
+      "따라서 3개입니다."
+    ],
+    "hint_steps_template": [
+      "한 꼭짓점에서 뻗어 나가는 선을 찾아요.",
+      "서로 다른 세 방향을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-C-05",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "cuboid-total-edge-length",
+    "param_schema": {
+      "w": {
+        "min": 9,
+        "max": 13
+      },
+      "h": {
+        "min": 7,
+        "max": 11
+      },
+      "d": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "가로 {{w}}cm, 세로 {{d}}cm, 높이 {{h}}cm인 직육면체의 모든 모서리 길이의 합은 몇 cm인가요?",
+    "solver_rule": "4 * (w + h + d)",
+    "solution_steps_template": [
+      "가로, 세로, 높이 길이의 모서리는 각각 4개씩입니다.",
+      "({{w}} + {{h}} + {{d}}) × 4 = {{4 * (w + h + d)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "같은 길이의 모서리를 4개씩 묶어요.",
+      "가로 + 세로 + 높이를 먼저 계산해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-C-06",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "cuboid-missing-width-from-edges",
+    "param_schema": {
+      "w": {
+        "min": 9,
+        "max": 13
+      },
+      "h": {
+        "min": 7,
+        "max": 11
+      },
+      "d": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 세로가 {{d}}cm, 높이가 {{h}}cm인 직육면체의 가로는 몇 cm인가요?",
+    "solver_rule": "w",
+    "solution_steps_template": [
+      "전체 모서리 길이를 4로 나누면 가로 + 세로 + 높이인 {{w + h + d}}cm입니다.",
+      "{{w + h + d}} - {{d}} - {{h}} = {{w}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "전체 길이를 먼저 4로 나눠요.",
+      "세로와 높이를 차례로 빼요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-C-07",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "cuboid-front-face-area",
+    "param_schema": {
+      "w": {
+        "min": 9,
+        "max": 13
+      },
+      "h": {
+        "min": 7,
+        "max": 11
+      },
+      "d": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "그림에서 가로 {{w}}cm, 높이 {{h}}cm인 앞면의 넓이는 몇 cm²인가요?",
+    "solver_rule": "w * h",
+    "solution_steps_template": [
+      "앞면은 가로 {{w}}cm, 세로 {{h}}cm인 직사각형입니다.",
+      "{{w}} × {{h}} = {{w * h}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "앞면만 떼어 평면으로 생각해요.",
+      "직사각형 넓이를 구해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-C-08",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "cuboid-front-face-perimeter",
+    "param_schema": {
+      "w": {
+        "min": 9,
+        "max": 13
+      },
+      "h": {
+        "min": 7,
+        "max": 11
+      },
+      "d": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "그림에서 앞면의 둘레는 몇 cm인가요?",
+    "solver_rule": "2 * (w + h)",
+    "solution_steps_template": [
+      "앞면의 가로는 {{w}}cm, 세로는 {{h}}cm입니다.",
+      "({{w}} + {{h}}) × 2 = {{2 * (w + h)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "앞면은 직사각형이에요.",
+      "가로와 높이를 이용해 둘레를 구해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-C-09",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "cuboid-missing-depth-from-edges",
+    "param_schema": {
+      "w": {
+        "min": 10,
+        "max": 14
+      },
+      "h": {
+        "min": 8,
+        "max": 12
+      },
+      "d": {
+        "min": 7,
+        "max": 11
+      }
+    },
+    "prompt_template": "모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 가로가 {{w}}cm, 높이가 {{h}}cm인 직육면체의 세로는 몇 cm인가요?",
+    "solver_rule": "d",
+    "solution_steps_template": [
+      "전체를 4로 나누면 {{w + h + d}}cm입니다.",
+      "{{w + h + d}} - {{w}} - {{h}} = {{d}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "같은 길이의 모서리가 각각 4개씩 있어요.",
+      "가로 + 세로 + 높이를 역산해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-cuboid-C-10",
+    "concept_id": "cuboid-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "cuboid-three-face-area-sum",
+    "param_schema": {
+      "w": {
+        "min": 9,
+        "max": 13
+      },
+      "h": {
+        "min": 7,
+        "max": 11
+      },
+      "d": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "서로 다른 크기의 세 면을 한 장씩 골랐습니다. 세 면의 넓이 합은 몇 cm²인가요?",
+    "solver_rule": "w * h + w * d + h * d",
+    "solution_steps_template": [
+      "세 면의 넓이는 각각 {{w * h}}cm², {{w * d}}cm², {{h * d}}cm²입니다.",
+      "합은 {{w * h + w * d + h * d}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "가로×높이, 가로×세로, 높이×세로를 각각 구해요.",
+      "서로 다른 세 넓이를 더해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "width": "{{w}}",
+      "height": "{{h}}",
+      "depth": "{{d}}",
+      "unit": "cm"
+    }
+  }
+]

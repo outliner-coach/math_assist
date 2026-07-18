@@ -40,6 +40,14 @@
     "description": "분모가 다른 분수의 덧셈과 뺄셈을 배웁니다."
   },
   {
+    "id": "unit-5-1-perimeter-area",
+    "grade": 5,
+    "semester": "5-1",
+    "order": 6,
+    "title": "다각형의 둘레와 넓이",
+    "description": "평면도형의 둘레와 넓이 단위를 이해하고 여러 다각형의 넓이를 구합니다."
+  },
+  {
     "id": "unit-5-2-rounding",
     "grade": 5,
     "semester": "5-2",
@@ -56,12 +64,28 @@
     "description": "분수와 자연수, 분수와 분수의 곱셈을 배웁니다."
   },
   {
+    "id": "unit-5-2-congruence-symmetry",
+    "grade": 5,
+    "semester": "5-2",
+    "order": 3,
+    "title": "합동과 대칭",
+    "description": "합동인 도형의 대응 관계와 선대칭·점대칭의 성질을 배웁니다."
+  },
+  {
     "id": "unit-5-2-decimal-mul",
     "grade": 5,
     "semester": "5-2",
     "order": 4,
     "title": "소수의 곱셈",
     "description": "소수와 자연수, 소수와 소수의 곱셈을 배웁니다."
+  },
+  {
+    "id": "unit-5-2-cuboid",
+    "grade": 5,
+    "semester": "5-2",
+    "order": 5,
+    "title": "직육면체",
+    "description": "직육면체와 정육면체의 구성 요소, 성질, 겨냥도와 전개도를 배웁니다."
   },
   {
     "id": "unit-5-2-average",

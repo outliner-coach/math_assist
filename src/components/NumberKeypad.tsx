@@ -6,9 +6,10 @@ interface NumberKeypadProps {
   value: string
   onChange: (value: string) => void
   onComplete?: () => void
+  inputHint?: string
 }
 
-export default function NumberKeypad({ value, onChange, onComplete }: NumberKeypadProps) {
+export default function NumberKeypad({ value, onChange, onComplete, inputHint }: NumberKeypadProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleKey = (key: string) => {
@@ -105,7 +106,7 @@ export default function NumberKeypad({ value, onChange, onComplete }: NumberKeyp
 
       {/* 힌트 */}
       <p className="text-sm text-gray-500 mt-2 text-center">
-        분수: 1/2 | 대분수: 1 1/2 (공백으로 구분)
+        {inputHint ?? '분수: 1/2 | 대분수: 1 1/2 (공백으로 구분)'}
       </p>
     </div>
   )

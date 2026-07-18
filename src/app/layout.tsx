@@ -4,6 +4,9 @@ import './globals.css'
 export const metadata: Metadata = {
   title: '수학 연습장',
   description: '초등 수학 개념 학습과 게임형 연습문제',
+  icons: {
+    icon: '/math_assist/favicon.ico',
+  },
 }
 
 export const viewport: Viewport = {

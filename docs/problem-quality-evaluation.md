@@ -152,3 +152,14 @@ npm run promptfoo:problems
 - `PLAYWRIGHT_PORT=3111 npm run test:e2e` 결과 12 passed
 - 실제 브라우저에서 Grade 1 mobile, Grade 2 desktop/tablet/mobile, Grade 2
   visual reveal 흐름 확인
+
+2026년 7월 18일 Grade 5 도형 확장 기준 통과선은 다음입니다.
+
+- 전체 630 templates, 도형 6개 개념별 30 templates
+- 도형 단원별 서로 다른 문제 유형 20개 이상
+- 개념별 연습 세트 A/B/C를 각 10 templates로 구성
+- 각 세트의 난이도 1/2/3을 4/4/2 templates로 구성
+- `npm run audit:problems -- --strict-warnings` 결과 `0 errors`, `0 warnings`
+- `npm run promptfoo:problems` 결과 `841 passed, 0 failed, 0 errors`
+- `PLAYWRIGHT_PORT=3125 npm run test:e2e` 결과 13 passed
+- 실제 브라우저에서 둘레·넓이, 합동·대칭, 직육면체·전개도의 제출 전/후 SVG 확인

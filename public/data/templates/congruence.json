@@ -1,0 +1,1232 @@
+[
+  {
+    "id": "tmpl-congruence-A-01",
+    "concept_id": "congruence-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "congruence-corresponding-vertex",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "합동인 두 도형에서 꼭짓점 ㄱ에 대응하는 도형 2의 꼭짓점을 고르세요.",
+    "solver_rule": "geometryOption(1, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(1, variant, 0)}}",
+      "{{geometryOption(1, variant, 1)}}",
+      "{{geometryOption(1, variant, 2)}}",
+      "{{geometryOption(1, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "도형을 돌리거나 뒤집어 같은 위치의 꼭짓점을 찾습니다.",
+      "ㄱ에 대응하는 꼭짓점은 {{geometryOption(1, variant, 0)}}입니다."
+    ],
+    "hint_steps_template": [
+      "ㄱ에서 만나는 두 변의 방향을 살펴봐요.",
+      "도형의 위치가 아니라 연결 관계를 비교해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-congruence-A-02",
+    "concept_id": "congruence-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "congruence-corresponding-angle",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "각 ㄱ과 크기가 같은 대응각의 꼭짓점을 고르세요.",
+    "solver_rule": "geometryOption(1, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(1, variant, 0)}}",
+      "{{geometryOption(1, variant, 1)}}",
+      "{{geometryOption(1, variant, 2)}}",
+      "{{geometryOption(1, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "합동인 도형의 대응각 크기는 같습니다.",
+      "각 ㄱ의 대응각은 {{geometryOption(1, variant, 0)}}입니다."
+    ],
+    "hint_steps_template": [
+      "합동인 도형에서 같은 모양의 모서리를 찾아요.",
+      "ㄱ에 연결된 변의 순서를 따라가요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-congruence-A-03",
+    "concept_id": "congruence-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "congruence-congruence-statement-order",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "도형 1과 도형 2의 대응 순서를 바르게 나타낼 때, ㄱ과 짝지어야 할 글자를 고르세요.",
+    "solver_rule": "geometryOption(1, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(1, variant, 0)}}",
+      "{{geometryOption(1, variant, 1)}}",
+      "{{geometryOption(1, variant, 2)}}",
+      "{{geometryOption(1, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "합동 기호를 쓸 때 대응하는 꼭짓점은 같은 순서에 둡니다.",
+      "ㄱ과 짝지어야 할 글자는 {{geometryOption(1, variant, 0)}}입니다."
+    ],
+    "hint_steps_template": [
+      "각 꼭짓점 주변의 변을 비교해요.",
+      "대응하는 순서가 바뀌지 않게 해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-congruence-A-04",
+    "concept_id": "congruence-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "congruence-same-correspondence",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "도형을 옮기거나 돌려 겹쳤을 때 ㄱ과 포개지는 꼭짓점을 고르세요.",
+    "solver_rule": "geometryOption(1, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(1, variant, 0)}}",
+      "{{geometryOption(1, variant, 1)}}",
+      "{{geometryOption(1, variant, 2)}}",
+      "{{geometryOption(1, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "옮기기와 돌리기는 도형의 크기와 모양을 바꾸지 않습니다.",
+      "포개지는 꼭짓점은 {{geometryOption(1, variant, 0)}}입니다."
+    ],
+    "hint_steps_template": [
+      "도형을 머릿속으로 돌려 봐요.",
+      "변의 연결 순서를 기준으로 판단해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-congruence-A-05",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "congruence-corresponding-side-length",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 4,
+        "max": 9
+      },
+      "b": {
+        "min": 5,
+        "max": 10
+      },
+      "c": {
+        "min": 6,
+        "max": 11
+      }
+    },
+    "prompt_template": "합동인 두 도형에서 ㄱㄴ의 길이가 {{a}}cm입니다. 대응하는 변의 길이는 몇 cm인가요?",
+    "solver_rule": "a",
+    "solution_steps_template": [
+      "합동인 도형의 대응변 길이는 같습니다.",
+      "ㄱㄴ의 대응변도 {{a}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "합동인 도형의 대응변 성질을 떠올려요.",
+      "모양을 돌려도 길이는 변하지 않아요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-A-06",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "congruence-missing-corresponding-side",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 5,
+        "max": 10
+      },
+      "b": {
+        "min": 6,
+        "max": 11
+      },
+      "c": {
+        "min": 7,
+        "max": 12
+      }
+    },
+    "prompt_template": "합동인 두 사각형에서 한 변과 그 대응변의 길이가 같습니다. 도형 1의 표시된 변이 {{b}}cm라면 도형 2의 대응변은 몇 cm인가요?",
+    "solver_rule": "b",
+    "solution_steps_template": [
+      "서로 대응하는 변을 확인합니다.",
+      "합동인 도형이므로 대응변은 {{b}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "대응하는 위치의 변을 찾아요.",
+      "합동이면 대응변의 길이는 같아요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-A-07",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "congruence-congruent-perimeter",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 4,
+        "max": 8
+      },
+      "b": {
+        "min": 5,
+        "max": 9
+      },
+      "c": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 둘레는 몇 cm인가요?",
+    "solver_rule": "2 * (a + b)",
+    "solution_steps_template": [
+      "합동인 두 직사각형의 가로와 세로 길이는 각각 같습니다.",
+      "도형 2의 둘레는 ({{a}} + {{b}}) × 2 = {{2 * (a + b)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "도형 1과 도형 2의 대응변은 같아요.",
+      "직사각형 둘레 공식을 적용해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-A-08",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "congruence-congruent-area",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 4,
+        "max": 9
+      },
+      "b": {
+        "min": 3,
+        "max": 7
+      },
+      "c": {
+        "min": 6,
+        "max": 10
+      }
+    },
+    "prompt_template": "합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 넓이는 몇 cm²인가요?",
+    "solver_rule": "a * b",
+    "solution_steps_template": [
+      "합동인 도형은 크기와 모양이 같으므로 넓이도 같습니다.",
+      "{{a}} × {{b}} = {{a * b}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "합동인 도형의 대응변 길이를 옮겨 생각해요.",
+      "가로와 세로를 곱해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-A-09",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "congruence-two-missing-sides",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 5,
+        "max": 10
+      },
+      "b": {
+        "min": 6,
+        "max": 11
+      },
+      "c": {
+        "min": 7,
+        "max": 12
+      }
+    },
+    "prompt_template": "합동인 두 도형에서 도형 2의 표시되지 않은 두 대응변은 각각 {{a}}cm와 {{c}}cm입니다. 두 길이의 합은 몇 cm인가요?",
+    "solver_rule": "a + c",
+    "solution_steps_template": [
+      "도형 1의 대응변에서 두 길이 {{a}}cm와 {{c}}cm를 찾습니다.",
+      "{{a}} + {{c}} = {{a + c}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "두 변에 각각 대응하는 변을 찾아요.",
+      "찾은 두 길이를 더해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-A-10",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "congruence-perimeter-difference",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 5,
+        "max": 10
+      },
+      "b": {
+        "min": 6,
+        "max": 11
+      },
+      "c": {
+        "min": 7,
+        "max": 12
+      }
+    },
+    "prompt_template": "합동인 두 도형의 둘레 차이는 몇 cm인가요? 도형의 위치와 방향은 서로 다릅니다.",
+    "solver_rule": "0",
+    "solution_steps_template": [
+      "합동인 도형은 모든 대응변의 길이가 같습니다.",
+      "따라서 두 도형의 둘레가 같으므로 차이는 0cm입니다."
+    ],
+    "hint_steps_template": [
+      "방향이 달라도 합동의 성질은 변하지 않아요.",
+      "같은 두 수의 차를 생각해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-B-01",
+    "concept_id": "congruence-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "congruence-corresponding-vertex",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "합동인 두 도형에서 꼭짓점 ㄱ에 대응하는 도형 2의 꼭짓점을 고르세요.",
+    "solver_rule": "geometryOption(1, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(1, variant, 0)}}",
+      "{{geometryOption(1, variant, 1)}}",
+      "{{geometryOption(1, variant, 2)}}",
+      "{{geometryOption(1, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "도형을 돌리거나 뒤집어 같은 위치의 꼭짓점을 찾습니다.",
+      "ㄱ에 대응하는 꼭짓점은 {{geometryOption(1, variant, 0)}}입니다."
+    ],
+    "hint_steps_template": [
+      "ㄱ에서 만나는 두 변의 방향을 살펴봐요.",
+      "도형의 위치가 아니라 연결 관계를 비교해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-congruence-B-02",
+    "concept_id": "congruence-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "congruence-corresponding-angle",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "각 ㄱ과 크기가 같은 대응각의 꼭짓점을 고르세요.",
+    "solver_rule": "geometryOption(1, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(1, variant, 0)}}",
+      "{{geometryOption(1, variant, 1)}}",
+      "{{geometryOption(1, variant, 2)}}",
+      "{{geometryOption(1, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "합동인 도형의 대응각 크기는 같습니다.",
+      "각 ㄱ의 대응각은 {{geometryOption(1, variant, 0)}}입니다."
+    ],
+    "hint_steps_template": [
+      "합동인 도형에서 같은 모양의 모서리를 찾아요.",
+      "ㄱ에 연결된 변의 순서를 따라가요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-congruence-B-03",
+    "concept_id": "congruence-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "congruence-congruence-statement-order",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "도형 1과 도형 2의 대응 순서를 바르게 나타낼 때, ㄱ과 짝지어야 할 글자를 고르세요.",
+    "solver_rule": "geometryOption(1, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(1, variant, 0)}}",
+      "{{geometryOption(1, variant, 1)}}",
+      "{{geometryOption(1, variant, 2)}}",
+      "{{geometryOption(1, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "합동 기호를 쓸 때 대응하는 꼭짓점은 같은 순서에 둡니다.",
+      "ㄱ과 짝지어야 할 글자는 {{geometryOption(1, variant, 0)}}입니다."
+    ],
+    "hint_steps_template": [
+      "각 꼭짓점 주변의 변을 비교해요.",
+      "대응하는 순서가 바뀌지 않게 해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-congruence-B-04",
+    "concept_id": "congruence-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "congruence-same-correspondence",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "도형을 옮기거나 돌려 겹쳤을 때 ㄱ과 포개지는 꼭짓점을 고르세요.",
+    "solver_rule": "geometryOption(1, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(1, variant, 0)}}",
+      "{{geometryOption(1, variant, 1)}}",
+      "{{geometryOption(1, variant, 2)}}",
+      "{{geometryOption(1, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "옮기기와 돌리기는 도형의 크기와 모양을 바꾸지 않습니다.",
+      "포개지는 꼭짓점은 {{geometryOption(1, variant, 0)}}입니다."
+    ],
+    "hint_steps_template": [
+      "도형을 머릿속으로 돌려 봐요.",
+      "변의 연결 순서를 기준으로 판단해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-congruence-B-05",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "congruence-corresponding-side-length",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 6,
+        "max": 11
+      },
+      "b": {
+        "min": 7,
+        "max": 12
+      },
+      "c": {
+        "min": 8,
+        "max": 13
+      }
+    },
+    "prompt_template": "합동인 두 도형에서 ㄱㄴ의 길이가 {{a}}cm입니다. 대응하는 변의 길이는 몇 cm인가요?",
+    "solver_rule": "a",
+    "solution_steps_template": [
+      "합동인 도형의 대응변 길이는 같습니다.",
+      "ㄱㄴ의 대응변도 {{a}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "합동인 도형의 대응변 성질을 떠올려요.",
+      "모양을 돌려도 길이는 변하지 않아요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-B-06",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "congruence-missing-corresponding-side",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 7,
+        "max": 12
+      },
+      "b": {
+        "min": 8,
+        "max": 13
+      },
+      "c": {
+        "min": 9,
+        "max": 14
+      }
+    },
+    "prompt_template": "합동인 두 사각형에서 한 변과 그 대응변의 길이가 같습니다. 도형 1의 표시된 변이 {{b}}cm라면 도형 2의 대응변은 몇 cm인가요?",
+    "solver_rule": "b",
+    "solution_steps_template": [
+      "서로 대응하는 변을 확인합니다.",
+      "합동인 도형이므로 대응변은 {{b}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "대응하는 위치의 변을 찾아요.",
+      "합동이면 대응변의 길이는 같아요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-B-07",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "congruence-congruent-perimeter",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 6,
+        "max": 10
+      },
+      "b": {
+        "min": 7,
+        "max": 11
+      },
+      "c": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 둘레는 몇 cm인가요?",
+    "solver_rule": "2 * (a + b)",
+    "solution_steps_template": [
+      "합동인 두 직사각형의 가로와 세로 길이는 각각 같습니다.",
+      "도형 2의 둘레는 ({{a}} + {{b}}) × 2 = {{2 * (a + b)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "도형 1과 도형 2의 대응변은 같아요.",
+      "직사각형 둘레 공식을 적용해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-B-08",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "congruence-congruent-area",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 6,
+        "max": 11
+      },
+      "b": {
+        "min": 5,
+        "max": 9
+      },
+      "c": {
+        "min": 8,
+        "max": 12
+      }
+    },
+    "prompt_template": "합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 넓이는 몇 cm²인가요?",
+    "solver_rule": "a * b",
+    "solution_steps_template": [
+      "합동인 도형은 크기와 모양이 같으므로 넓이도 같습니다.",
+      "{{a}} × {{b}} = {{a * b}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "합동인 도형의 대응변 길이를 옮겨 생각해요.",
+      "가로와 세로를 곱해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-B-09",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "congruence-two-missing-sides",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 7,
+        "max": 12
+      },
+      "b": {
+        "min": 8,
+        "max": 13
+      },
+      "c": {
+        "min": 9,
+        "max": 14
+      }
+    },
+    "prompt_template": "합동인 두 도형에서 도형 2의 표시되지 않은 두 대응변은 각각 {{a}}cm와 {{c}}cm입니다. 두 길이의 합은 몇 cm인가요?",
+    "solver_rule": "a + c",
+    "solution_steps_template": [
+      "도형 1의 대응변에서 두 길이 {{a}}cm와 {{c}}cm를 찾습니다.",
+      "{{a}} + {{c}} = {{a + c}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "두 변에 각각 대응하는 변을 찾아요.",
+      "찾은 두 길이를 더해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-B-10",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "congruence-perimeter-difference",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 7,
+        "max": 12
+      },
+      "b": {
+        "min": 8,
+        "max": 13
+      },
+      "c": {
+        "min": 9,
+        "max": 14
+      }
+    },
+    "prompt_template": "합동인 두 도형의 둘레 차이는 몇 cm인가요? 도형의 위치와 방향은 서로 다릅니다.",
+    "solver_rule": "0",
+    "solution_steps_template": [
+      "합동인 도형은 모든 대응변의 길이가 같습니다.",
+      "따라서 두 도형의 둘레가 같으므로 차이는 0cm입니다."
+    ],
+    "hint_steps_template": [
+      "방향이 달라도 합동의 성질은 변하지 않아요.",
+      "같은 두 수의 차를 생각해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-C-01",
+    "concept_id": "congruence-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "congruence-corresponding-vertex",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "합동인 두 도형에서 꼭짓점 ㄱ에 대응하는 도형 2의 꼭짓점을 고르세요.",
+    "solver_rule": "geometryOption(1, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(1, variant, 0)}}",
+      "{{geometryOption(1, variant, 1)}}",
+      "{{geometryOption(1, variant, 2)}}",
+      "{{geometryOption(1, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "도형을 돌리거나 뒤집어 같은 위치의 꼭짓점을 찾습니다.",
+      "ㄱ에 대응하는 꼭짓점은 {{geometryOption(1, variant, 0)}}입니다."
+    ],
+    "hint_steps_template": [
+      "ㄱ에서 만나는 두 변의 방향을 살펴봐요.",
+      "도형의 위치가 아니라 연결 관계를 비교해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-congruence-C-02",
+    "concept_id": "congruence-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "congruence-corresponding-angle",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "각 ㄱ과 크기가 같은 대응각의 꼭짓점을 고르세요.",
+    "solver_rule": "geometryOption(1, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(1, variant, 0)}}",
+      "{{geometryOption(1, variant, 1)}}",
+      "{{geometryOption(1, variant, 2)}}",
+      "{{geometryOption(1, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "합동인 도형의 대응각 크기는 같습니다.",
+      "각 ㄱ의 대응각은 {{geometryOption(1, variant, 0)}}입니다."
+    ],
+    "hint_steps_template": [
+      "합동인 도형에서 같은 모양의 모서리를 찾아요.",
+      "ㄱ에 연결된 변의 순서를 따라가요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-congruence-C-03",
+    "concept_id": "congruence-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "congruence-congruence-statement-order",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "도형 1과 도형 2의 대응 순서를 바르게 나타낼 때, ㄱ과 짝지어야 할 글자를 고르세요.",
+    "solver_rule": "geometryOption(1, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(1, variant, 0)}}",
+      "{{geometryOption(1, variant, 1)}}",
+      "{{geometryOption(1, variant, 2)}}",
+      "{{geometryOption(1, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "합동 기호를 쓸 때 대응하는 꼭짓점은 같은 순서에 둡니다.",
+      "ㄱ과 짝지어야 할 글자는 {{geometryOption(1, variant, 0)}}입니다."
+    ],
+    "hint_steps_template": [
+      "각 꼭짓점 주변의 변을 비교해요.",
+      "대응하는 순서가 바뀌지 않게 해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-congruence-C-04",
+    "concept_id": "congruence-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "congruence-same-correspondence",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "prompt_template": "도형을 옮기거나 돌려 겹쳤을 때 ㄱ과 포개지는 꼭짓점을 고르세요.",
+    "solver_rule": "geometryOption(1, variant, 0)",
+    "choices_template": [
+      "{{geometryOption(1, variant, 0)}}",
+      "{{geometryOption(1, variant, 1)}}",
+      "{{geometryOption(1, variant, 2)}}",
+      "{{geometryOption(1, variant, 3)}}"
+    ],
+    "solution_steps_template": [
+      "옮기기와 돌리기는 도형의 크기와 모양을 바꾸지 않습니다.",
+      "포개지는 꼭짓점은 {{geometryOption(1, variant, 0)}}입니다."
+    ],
+    "hint_steps_template": [
+      "도형을 머릿속으로 돌려 봐요.",
+      "변의 연결 순서를 기준으로 판단해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}"
+    }
+  },
+  {
+    "id": "tmpl-congruence-C-05",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "congruence-corresponding-side-length",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 8,
+        "max": 13
+      },
+      "b": {
+        "min": 9,
+        "max": 14
+      },
+      "c": {
+        "min": 10,
+        "max": 15
+      }
+    },
+    "prompt_template": "합동인 두 도형에서 ㄱㄴ의 길이가 {{a}}cm입니다. 대응하는 변의 길이는 몇 cm인가요?",
+    "solver_rule": "a",
+    "solution_steps_template": [
+      "합동인 도형의 대응변 길이는 같습니다.",
+      "ㄱㄴ의 대응변도 {{a}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "합동인 도형의 대응변 성질을 떠올려요.",
+      "모양을 돌려도 길이는 변하지 않아요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-C-06",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "congruence-missing-corresponding-side",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 9,
+        "max": 14
+      },
+      "b": {
+        "min": 10,
+        "max": 15
+      },
+      "c": {
+        "min": 11,
+        "max": 16
+      }
+    },
+    "prompt_template": "합동인 두 사각형에서 한 변과 그 대응변의 길이가 같습니다. 도형 1의 표시된 변이 {{b}}cm라면 도형 2의 대응변은 몇 cm인가요?",
+    "solver_rule": "b",
+    "solution_steps_template": [
+      "서로 대응하는 변을 확인합니다.",
+      "합동인 도형이므로 대응변은 {{b}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "대응하는 위치의 변을 찾아요.",
+      "합동이면 대응변의 길이는 같아요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-C-07",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "congruence-congruent-perimeter",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 8,
+        "max": 12
+      },
+      "b": {
+        "min": 9,
+        "max": 13
+      },
+      "c": {
+        "min": 10,
+        "max": 14
+      }
+    },
+    "prompt_template": "합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 둘레는 몇 cm인가요?",
+    "solver_rule": "2 * (a + b)",
+    "solution_steps_template": [
+      "합동인 두 직사각형의 가로와 세로 길이는 각각 같습니다.",
+      "도형 2의 둘레는 ({{a}} + {{b}}) × 2 = {{2 * (a + b)}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "도형 1과 도형 2의 대응변은 같아요.",
+      "직사각형 둘레 공식을 적용해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-C-08",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "congruence-congruent-area",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 8,
+        "max": 13
+      },
+      "b": {
+        "min": 7,
+        "max": 11
+      },
+      "c": {
+        "min": 10,
+        "max": 14
+      }
+    },
+    "prompt_template": "합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 넓이는 몇 cm²인가요?",
+    "solver_rule": "a * b",
+    "solution_steps_template": [
+      "합동인 도형은 크기와 모양이 같으므로 넓이도 같습니다.",
+      "{{a}} × {{b}} = {{a * b}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "합동인 도형의 대응변 길이를 옮겨 생각해요.",
+      "가로와 세로를 곱해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-C-09",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "congruence-two-missing-sides",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 9,
+        "max": 14
+      },
+      "b": {
+        "min": 10,
+        "max": 15
+      },
+      "c": {
+        "min": 11,
+        "max": 16
+      }
+    },
+    "prompt_template": "합동인 두 도형에서 도형 2의 표시되지 않은 두 대응변은 각각 {{a}}cm와 {{c}}cm입니다. 두 길이의 합은 몇 cm인가요?",
+    "solver_rule": "a + c",
+    "solution_steps_template": [
+      "도형 1의 대응변에서 두 길이 {{a}}cm와 {{c}}cm를 찾습니다.",
+      "{{a}} + {{c}} = {{a + c}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "두 변에 각각 대응하는 변을 찾아요.",
+      "찾은 두 길이를 더해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-congruence-C-10",
+    "concept_id": "congruence-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "congruence-perimeter-difference",
+    "param_schema": {
+      "variant": {
+        "min": 1,
+        "max": 4
+      },
+      "a": {
+        "min": 9,
+        "max": 14
+      },
+      "b": {
+        "min": 10,
+        "max": 15
+      },
+      "c": {
+        "min": 11,
+        "max": 16
+      }
+    },
+    "prompt_template": "합동인 두 도형의 둘레 차이는 몇 cm인가요? 도형의 위치와 방향은 서로 다릅니다.",
+    "solver_rule": "0",
+    "solution_steps_template": [
+      "합동인 도형은 모든 대응변의 길이가 같습니다.",
+      "따라서 두 도형의 둘레가 같으므로 차이는 0cm입니다."
+    ],
+    "hint_steps_template": [
+      "방향이 달라도 합동의 성질은 변하지 않아요.",
+      "같은 두 수의 차를 생각해요."
+    ],
+    "visual_template": {
+      "type": "congruence",
+      "mode": "pair",
+      "variant": "{{variant}}",
+      "a": "{{a}}",
+      "b": "{{b}}",
+      "c": "{{c}}",
+      "unit": "cm"
+    }
+  }
+]

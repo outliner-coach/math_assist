@@ -46,6 +46,12 @@ function evaluateFunction(funcName: string, args: number[]): string | null {
       return String(math.largestProperDivisor(args[0]))
     case 'secondLargestDivisor':
       return String(math.secondLargestDivisor(args[0]))
+    case 'geometryOption':
+      return math.geometryOption(args[0], args[1], args[2])
+    case 'symmetryAxisCount':
+      return String(math.symmetryAxisCount(args[0]))
+    case 'cuboidOppositeFace':
+      return String(math.cuboidOppositeFace(args[0]))
     case 'multiples':
       return math.formatNumberList(math.multiples(args[0], args[1] || 5), true)
     case 'commonDivisors':
@@ -185,6 +191,28 @@ function evaluateTemplate(template: string, params: Record<string, number>): str
   })
 }
 
+function resolveVisualTemplate(
+  value: unknown,
+  params: Record<string, number>
+): unknown {
+  if (typeof value === 'string') {
+    const evaluated = evaluateTemplate(value, params)
+    if (/^-?(?:\d+|\d*\.\d+)$/.test(evaluated)) {
+      return Number(evaluated)
+    }
+    return evaluated
+  }
+  if (Array.isArray(value)) {
+    return value.map(item => resolveVisualTemplate(item, params))
+  }
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, resolveVisualTemplate(item, params)])
+    )
+  }
+  return value
+}
+
 // 파라미터 생성
 function generateParams(
   schema: Record<string, { min: number; max: number }>,
@@ -218,6 +246,9 @@ function generateSingleProblem(
   const hintSteps = template.hint_steps_template
     ? template.hint_steps_template.map(step => evaluateTemplate(step, params))
     : undefined
+  const visual = template.visual_template
+    ? resolveVisualTemplate(template.visual_template, params) as Problem['visual']
+    : undefined
 
   if (template.type === 'choice' && template.choices_template) {
     // 객관식: 보기 생성 및 셔플
@@ -243,7 +274,9 @@ function generateSingleProblem(
       correctAnswer,
       correctChoiceIndex,
       solutionSteps,
-      hintSteps
+      hintSteps,
+      problemFamily: template.problem_family,
+      visual
     }
   }
 
@@ -256,7 +289,9 @@ function generateSingleProblem(
     type: 'number',
     correctAnswer,
     solutionSteps,
-    hintSteps
+    hintSteps,
+    problemFamily: template.problem_family,
+    visual
   }
 }
 

@@ -143,6 +143,19 @@ test('만점 결과에서는 오답 재도전 대신 새 세트 액션만 노출
   expect(result.score).toBe(10)
 })
 
+test('5학년 도형 연습은 SVG 정답을 제출 전 숨기고 결과에서 공개한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/practice/congruence-001?set=A`)
+
+  await expect(page.getByTestId('geometry-visual-congruence')).toBeVisible()
+  await expect(page.getByTestId('problem-card')).not.toContainText('정답:')
+
+  await completeSession(page, [0])
+
+  await expect(page).toHaveURL(/\/math_assist\/result\/?$/)
+  await expect(page.getByTestId('wrong-results').getByTestId('geometry-visual-congruence')).toBeVisible()
+  await expect(page.getByTestId('wrong-results')).toContainText('정답:')
+})
+
 test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수 있다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/grade/1`)
 
