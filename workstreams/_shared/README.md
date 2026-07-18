@@ -21,6 +21,13 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-18: `src/lib/types.ts`, `src/lib/session.ts`, `src/app/practice/**`, `src/components/**`
+  The shared Grade 4/5 practice flow now persists `PracticeSession.checkedAnswers`
+  so each problem can be graded and explained immediately before navigation. Old
+  localStorage sessions normalize to unchecked entries. Re-check result creation,
+  retry sessions, progress indicators, and any code that constructs a practice
+  session directly.
+
 - 2026-07-18: `src/lib/types.ts`, `src/lib/problem-generator.ts`, `src/components/ProblemCard.tsx`, `src/components/ResultCard.tsx`
   Grade 5 practice problems now support parameter-resolved `GeometryVisual` payloads shared by prompts, deterministic solvers, SVG practice rendering, and result rendering. Answer-only visual annotations remain hidden until `showAnswer` is enabled. Re-check session persistence, result snapshots, template validation, and tablet rendering when changing the shared `Problem` contract.
 

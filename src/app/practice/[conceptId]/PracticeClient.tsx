@@ -15,6 +15,7 @@ import {
   createSessionTiming,
   createSessionId,
   createRetrySessionFromResult,
+  markAnswerChecked,
   updateAnswer,
   updateCurrentIndex,
   saveResult,
@@ -22,7 +23,7 @@ import {
   matchesSessionRequest
 } from '@/lib/session'
 import type { Concept, PracticeMode, PracticeSession } from '@/lib/types'
-import { Button, ProblemCard, ProgressIndicator, MathText, ScratchPad } from '@/components'
+import { AnswerFeedback, Button, ProblemCard, ProgressIndicator, MathText, ScratchPad } from '@/components'
 
 function isAnswered(answer: string | null): boolean {
   return typeof answer === 'string' && answer.trim() !== ''
@@ -109,6 +110,7 @@ export default function PracticeClient() {
           mode: 'standard',
           problems,
           answers: Array(problems.length).fill(null),
+          checkedAnswers: Array(problems.length).fill(null),
           currentIndex: 0,
           ...timing
         }
@@ -134,6 +136,18 @@ export default function PracticeClient() {
     saveSession(updatedSession)
   }, [session])
 
+  // 현재 문제 즉시 채점
+  const handleCheckAnswer = useCallback(() => {
+    if (!session) return
+    const index = session.currentIndex
+    if (!isAnswered(session.answers[index]) || session.checkedAnswers[index] !== null) return
+
+    const result = gradeSession(session.problems, session.answers)[index]
+    const updatedSession = markAnswerChecked(session, index, result.correct)
+    setSession(updatedSession)
+    saveSession(updatedSession)
+  }, [session])
+
   // 문제 이동
   const handleNavigate = useCallback((index: number) => {
     if (!session || index < 0 || index >= session.problems.length) return
@@ -145,7 +159,7 @@ export default function PracticeClient() {
 
   // 제출
   const handleSubmit = useCallback(async () => {
-    if (!session) return
+    if (!session || session.checkedAnswers.some(value => value === null)) return
 
     setSubmitting(true)
 
@@ -189,8 +203,12 @@ export default function PracticeClient() {
 
   const currentProblem = session.problems[session.currentIndex]
   const currentAnswer = session.answers[session.currentIndex]
-  const allAnswered = session.answers.every(isAnswered)
-  const answeredCount = session.answers.filter(isAnswered).length
+  const checkedCount = session.checkedAnswers.filter(value => value !== null).length
+  const allChecked = checkedCount === session.problems.length
+  const currentChecked = session.checkedAnswers[session.currentIndex]
+  const currentResult = currentChecked === null
+    ? null
+    : gradeSession(session.problems, session.answers)[session.currentIndex]
   const hintSteps = currentProblem.hintSteps ?? []
   const modeLabel = session.mode === 'retry-wrong' ? '오답 다시 풀기' : `세트 ${session.setId}`
 
@@ -212,7 +230,7 @@ export default function PracticeClient() {
           </div>
         </div>
         <span className="text-sm text-gray-500">
-          {answeredCount} / {session.problems.length}
+          {checkedCount} / {session.problems.length} 확인
         </span>
       </header>
 
@@ -221,16 +239,21 @@ export default function PracticeClient() {
         total={session.problems.length}
         current={session.currentIndex}
         answers={session.answers}
+        checkedAnswers={session.checkedAnswers}
         onSelect={handleNavigate}
       />
 
       {/* 문제와 태블릿용 임시 풀이장 */}
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
-        <ProblemCard
-          problem={currentProblem}
-          answer={currentAnswer}
-          onAnswer={handleAnswer}
-        />
+        <div className="space-y-4">
+          <ProblemCard
+            problem={currentProblem}
+            answer={currentAnswer}
+            onAnswer={handleAnswer}
+            checked={currentChecked !== null}
+          />
+          {currentResult && <AnswerFeedback result={currentResult} />}
+        </div>
         <div className="lg:sticky lg:top-4">
           <ScratchPad key={`${session.sessionId}-${session.currentIndex}`} />
         </div>
@@ -279,7 +302,16 @@ export default function PracticeClient() {
             이전
           </Button>
 
-          {session.currentIndex < session.problems.length - 1 ? (
+          {currentChecked === null ? (
+            <Button
+              onClick={handleCheckAnswer}
+              disabled={!isAnswered(currentAnswer)}
+              className="flex-1"
+              data-testid="check-answer-button"
+            >
+              정답 확인
+            </Button>
+          ) : session.currentIndex < session.problems.length - 1 ? (
             <Button
               onClick={() => handleNavigate(session.currentIndex + 1)}
               className="flex-1"
@@ -290,15 +322,15 @@ export default function PracticeClient() {
           ) : (
             <Button
               onClick={handleSubmit}
-              disabled={!allAnswered || submitting}
+              disabled={!allChecked || submitting}
               className="flex-1"
               data-testid="submit-button"
             >
               {submitting
                 ? '제출 중...'
-                : allAnswered
-                  ? '제출하기'
-                  : `${answeredCount}/${session.problems.length} 완료`}
+                : allChecked
+                  ? '결과 보기'
+                  : `${checkedCount}/${session.problems.length} 확인`}
             </Button>
           )}
         </div>

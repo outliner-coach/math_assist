@@ -39,6 +39,7 @@ export type ProblemVisual =
         shape: 'rectangle' | 'triangle' | 'parallelogram'
         width: number
         height: number
+        unit: 'cm' | 'm'
       }
     }
   | {
@@ -48,6 +49,7 @@ export type ProblemVisual =
         height: number
         notchWidth: number
         notchHeight: number
+        unit: 'cm' | 'm'
       }
     }
   | {
@@ -56,14 +58,17 @@ export type ProblemVisual =
         totalWidth: number
         overlapWidth: number
         overlapArea: number
+        unit: 'cm' | 'm'
       }
     }
   | {
       type: 'rectangle_square'
       props: {
-        totalWidth: number
         rectangleHeight: number
-        totalArea: number
+        squareSide: number
+        totalWidth?: number
+        totalArea?: number
+        unit: 'cm' | 'm'
       }
     }
   | {
@@ -72,6 +77,7 @@ export type ProblemVisual =
         shapeArea: number
         exclusiveAreas: [number, number, number]
         tripleOverlap: number
+        unit: 'cm' | 'm'
       }
     }
 
@@ -177,6 +183,7 @@ export interface PracticeSession {
   sourceProblemIndexes?: number[]
   problems: Problem[]
   answers: (string | null)[]
+  checkedAnswers: (boolean | null)[]
   currentIndex: number
   startedAt: number
   expiresAt: number

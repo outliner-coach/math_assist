@@ -571,6 +571,46 @@ function analyzeRenderedPromptQuality(template, prompt) {
   return warnings
 }
 
+function analyzeRenderedMeasurementUnits(template, prompt, solutionSteps, visual) {
+  if (template.concept_id !== 'area-001') return null
+
+  const visualUnit = visual?.props?.unit
+  if (visualUnit !== 'cm' && visualUnit !== 'm') {
+    return {
+      code: 'missing_visual_unit',
+      message: '도형 visual에 cm 또는 m 단위가 명시되지 않았습니다.'
+    }
+  }
+
+  const renderedText = [prompt, ...solutionSteps].join(' ')
+  const textUnits = new Set(
+    Array.from(renderedText.matchAll(/\b(cm|m)(?:²)?/g), match => match[1])
+  )
+
+  if (textUnits.size !== 1 || !textUnits.has(visualUnit)) {
+    return {
+      code: 'measurement_unit_mismatch',
+      message: `문제·풀이 단위(${Array.from(textUnits).join(', ') || '없음'})와 그림 단위(${visualUnit})가 일치하지 않습니다.`
+    }
+  }
+
+  if (/넓이는\s*몇\s+(?:cm|m)(?!²)/.test(prompt)) {
+    return {
+      code: 'area_uses_length_unit',
+      message: '넓이를 묻는 문장에 길이 단위가 사용되었습니다.'
+    }
+  }
+
+  if (/(?:둘레|길이)(?:는|가)?\s*몇\s+(?:cm|m)²/.test(prompt)) {
+    return {
+      code: 'length_uses_area_unit',
+      message: '둘레나 길이를 묻는 문장에 넓이 단위가 사용되었습니다.'
+    }
+  }
+
+  return null
+}
+
 function createIssue(severity, code, context) {
   return {
     severity,
@@ -623,6 +663,22 @@ function validateTemplates(options = {}) {
         }))
       }
 
+      if (
+        template.concept_id === 'area-001' &&
+        /□\s*×\s*□|조건을 만족하는 .*찾|전체 넓이를 만족하는 .*찾/.test([
+          template.prompt_template,
+          ...(template.solution_steps_template || []),
+          ...(template.hint_steps_template || []),
+        ].join(' '))
+      ) {
+        errors.push(createIssue('error', 'grade5_nonlinear_unknown', {
+          file,
+          templateId: template.id,
+          conceptId: template.concept_id,
+          message: `${file} ${template.id}: Grade 5 problem relies on an unscaffolded nonlinear unknown.`,
+        }))
+      }
+
 
       const unitId = conceptMap[template.concept_id]?.unit_id
       if (geometryUnitIds.has(unitId)) {
@@ -671,6 +727,18 @@ function validateTemplates(options = {}) {
         const visual = template.visual_template
           ? evaluateVisualTemplate(template.visual_template, params)
           : null
+
+        const unitIssue = analyzeRenderedMeasurementUnits(template, prompt, solutionSteps, visual)
+        if (unitIssue) {
+          errors.push(createIssue('error', unitIssue.code, {
+            file,
+            templateId: template.id,
+            conceptId: template.concept_id,
+            params,
+            message: `${file} ${template.id}: ${unitIssue.message}`,
+          }))
+          break
+        }
 
         if (hasUnevaluated(prompt)) {
           errors.push(createIssue('error', 'unevaluated_prompt', {
@@ -1023,6 +1091,7 @@ function generateProblemQualityReport(options = {}) {
 }
 
 module.exports = {
+  analyzeRenderedMeasurementUnits,
   analyzeRenderedPromptQuality,
   buildParamSamples,
   calculateDifficultySignal,

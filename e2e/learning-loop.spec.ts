@@ -16,6 +16,7 @@ type StoredProblem = {
 type StoredSession = {
   currentIndex: number
   problems: StoredProblem[]
+  checkedAnswers: (boolean | null)[]
 }
 
 type AnswerMode = 'correct' | 'wrong'
@@ -54,6 +55,7 @@ function wrongNumberAnswer(correctAnswer: string): string {
 async function answerCurrentProblem(page: Page, mode: AnswerMode) {
   const session = await readSession(page)
   const problem = session.problems[session.currentIndex]
+  await expect(page.getByTestId('problem-card')).toBeVisible()
 
   if (problem.type === 'choice') {
     const correctIndex = problem.correctChoiceIndex ?? 0
@@ -73,6 +75,9 @@ async function completeSession(page: Page, wrongIndexes: number[] = []) {
 
   for (let index = 0; index < session.problems.length; index++) {
     await answerCurrentProblem(page, wrongIndexes.includes(index) ? 'wrong' : 'correct')
+    await expect(page.getByTestId('check-answer-button')).toBeEnabled()
+    await page.getByTestId('check-answer-button').click()
+    await expect(page.getByTestId('answer-feedback')).toBeVisible()
 
     if (index < session.problems.length - 1) {
       await page.getByTestId('next-button').click()
@@ -85,6 +90,21 @@ async function completeSession(page: Page, wrongIndexes: number[] = []) {
 
 test.beforeEach(async ({ page }) => {
   await clearStorage(page)
+})
+
+test('각 문제를 푼 직후 정답과 풀이를 확인한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/practice/divisor-001?set=A`)
+  await answerCurrentProblem(page, 'wrong')
+
+  await page.getByTestId('check-answer-button').click()
+
+  await expect(page.getByTestId('feedback-wrong')).toBeVisible()
+  await expect(page.getByTestId('feedback-answer')).not.toBeEmpty()
+  await expect(page.getByTestId('feedback-solution')).toBeVisible()
+  await expect(page.getByTestId('next-button')).toBeVisible()
+
+  const session = await readSession(page)
+  expect(session.checkedAnswers[0]).toBe(false)
 })
 
 test('표준 10문항 완료 후 행동 중심 결과 화면이 보인다', async ({ page }) => {

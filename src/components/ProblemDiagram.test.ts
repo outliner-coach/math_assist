@@ -8,11 +8,11 @@ import ProblemDiagram from './ProblemDiagram'
 describe('ProblemDiagram', () => {
   it('renders all Grade 5 geometry models without an answer field', () => {
     const visuals: ProblemVisual[] = [
-      { type: 'basic_shape', props: { shape: 'triangle', width: 12, height: 7 } },
-      { type: 'l_shape', props: { width: 21, height: 15, notchWidth: 8, notchHeight: 6 } },
-      { type: 'overlap_rectangles', props: { totalWidth: 30, overlapWidth: 4, overlapArea: 60 } },
-      { type: 'rectangle_square', props: { totalWidth: 18, rectangleHeight: 11, totalArea: 212 } },
-      { type: 'three_shape_overlap', props: { shapeArea: 28, exclusiveAreas: [20, 21, 22], tripleOverlap: 3 } }
+      { type: 'basic_shape', props: { shape: 'triangle', width: 12, height: 7, unit: 'cm' } },
+      { type: 'l_shape', props: { width: 21, height: 15, notchWidth: 8, notchHeight: 6, unit: 'cm' } },
+      { type: 'overlap_rectangles', props: { totalWidth: 30, overlapWidth: 4, overlapArea: 60, unit: 'cm' } },
+      { type: 'rectangle_square', props: { totalWidth: 18, rectangleHeight: 8, squareSide: 10, unit: 'cm' } },
+      { type: 'three_shape_overlap', props: { shapeArea: 28, exclusiveAreas: [20, 21, 22], tripleOverlap: 3, unit: 'cm' } }
     ]
 
     for (const visual of visuals) {
@@ -22,17 +22,42 @@ describe('ProblemDiagram', () => {
     }
   })
 
-  it('shows only the given measurements for the reverse rectangle-square problem', () => {
+  it('labels the given square side without an ambiguous question mark', () => {
     const html = renderToStaticMarkup(createElement(ProblemDiagram, {
       visual: {
         type: 'rectangle_square',
-        props: { totalWidth: 18, rectangleHeight: 11, totalArea: 212 }
+        props: { totalArea: 156, rectangleHeight: 8, squareSide: 10, unit: 'cm' }
       }
     }))
 
-    expect(html).toContain('18 cm')
-    expect(html).toContain('11 cm')
-    expect(html).toContain('212 cm²')
-    expect(html).toContain('?')
+    expect(html).toContain('8 cm')
+    expect(html).toContain('한 변 10 cm')
+    expect(html).toContain('156 cm²')
+    expect(html).not.toContain('&gt;?&lt;')
+  })
+
+  it('uses the unit supplied by the problem template', () => {
+    const html = renderToStaticMarkup(createElement(ProblemDiagram, {
+      visual: {
+        type: 'l_shape',
+        props: { width: 24, height: 16, notchWidth: 8, notchHeight: 6, unit: 'm' }
+      }
+    }))
+
+    expect(html).toContain('24 m')
+    expect(html).toContain('16 m')
+    expect(html).not.toContain('cm')
+  })
+
+  it('places narrow overlap area text outside the highlighted region', () => {
+    const html = renderToStaticMarkup(createElement(ProblemDiagram, {
+      visual: {
+        type: 'overlap_rectangles',
+        props: { totalWidth: 33, overlapWidth: 5, overlapArea: 55, unit: 'cm' }
+      }
+    }))
+
+    expect(html).toContain('겹친 넓이 55 cm²')
+    expect(html).toContain('<line')
   })
 })

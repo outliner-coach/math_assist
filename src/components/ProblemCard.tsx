@@ -10,9 +10,10 @@ interface ProblemCardProps {
   problem: Problem
   answer: string | null
   onAnswer: (answer: string) => void
+  checked?: boolean
 }
 
-export default function ProblemCard({ problem, answer, onAnswer }: ProblemCardProps) {
+export default function ProblemCard({ problem, answer, onAnswer, checked = false }: ProblemCardProps) {
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8" data-testid="problem-card">
       {/* 문제 */}
@@ -29,7 +30,7 @@ export default function ProblemCard({ problem, answer, onAnswer }: ProblemCardPr
             <ProblemDiagram visual={problem.visual} />
           </div>
         ) : (
-          <GeometryProblemVisual visual={problem.visual} />
+          <GeometryProblemVisual visual={problem.visual} showAnswer={checked} />
         )
       )}
 
@@ -41,6 +42,7 @@ export default function ProblemCard({ problem, answer, onAnswer }: ProblemCardPr
               key={index}
               data-choice={index}
               data-testid={`choice-${index}`}
+              disabled={checked}
               onClick={() => onAnswer(String(index))}
               className={`
                 p-4 md:p-6 rounded-xl text-lg md:text-xl font-medium
@@ -48,7 +50,9 @@ export default function ProblemCard({ problem, answer, onAnswer }: ProblemCardPr
                 min-h-touch border-2
                 ${answer === String(index)
                   ? 'bg-primary-600 text-white border-primary-600'
-                  : 'bg-white text-gray-800 border-gray-200 hover:border-primary-300 hover:bg-primary-50'
+                  : checked
+                    ? 'cursor-not-allowed bg-gray-100 text-gray-500 border-gray-200'
+                    : 'bg-white text-gray-800 border-gray-200 hover:border-primary-300 hover:bg-primary-50'
                 }
               `}
             >
@@ -63,6 +67,7 @@ export default function ProblemCard({ problem, answer, onAnswer }: ProblemCardPr
         <NumberKeypad
           value={answer || ''}
           onChange={onAnswer}
+          disabled={checked}
           inputHint={problem.visual ? '단위는 쓰지 않고 숫자만 입력하세요.' : undefined}
         />
       )}

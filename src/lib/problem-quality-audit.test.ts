@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  analyzeRenderedMeasurementUnits,
   analyzeRenderedPromptQuality,
   calculateDifficultySignal
 } from '../../scripts/problem-quality-core.js'
@@ -65,5 +66,16 @@ describe('problem quality audit helpers', () => {
     )
 
     expect(hardSignal).toBeGreaterThan(easySignal)
+  })
+
+  it('rejects a diagram unit that disagrees with the rendered problem', () => {
+    const issue = analyzeRenderedMeasurementUnits(
+      { concept_id: 'area-001' },
+      '전체 가로는 24 m이고 둘레는 몇 m인가요?',
+      ['둘레는 80 m입니다.'],
+      { type: 'l_shape', props: { unit: 'cm' } }
+    )
+
+    expect(issue).toMatchObject({ code: 'measurement_unit_mismatch' })
   })
 })

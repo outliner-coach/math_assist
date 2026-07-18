@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest'
 import {
   buildSessionResult,
   createRetrySessionFromResult,
-  matchesSessionRequest
+  markAnswerChecked,
+  matchesSessionRequest,
+  updateAnswer
 } from './session'
 import type { PracticeSession, Problem, SessionResult, SubmissionResult } from './types'
 
@@ -66,6 +68,17 @@ describe('session helpers', () => {
     })
     expect(retrySession?.problems).toHaveLength(2)
     expect(retrySession?.answers).toEqual([null, null])
+    expect(retrySession?.checkedAnswers).toEqual([null, null])
+  })
+
+  it('locks an answer after immediate grading', () => {
+    const session = createRetrySessionFromResult(makeResult(), 500)!
+    const answered = updateAnswer(session, 0, '2')
+    const checked = markAnswerChecked(answered, 0, true)
+
+    expect(checked.checkedAnswers).toEqual([true, null])
+    expect(updateAnswer(checked, 0, '999999')).toBe(checked)
+    expect(markAnswerChecked(checked, 0, false)).toBe(checked)
   })
 
   it('builds a variable-length session result from a retry session', () => {
@@ -78,6 +91,7 @@ describe('session helpers', () => {
       sourceProblemIndexes: [1, 2],
       problems: [makeProblem(1), makeProblem(2)],
       answers: ['2', '999999'],
+      checkedAnswers: [true, false],
       currentIndex: 1,
       startedAt: 10,
       expiresAt: 20

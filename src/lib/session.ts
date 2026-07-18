@@ -22,7 +22,11 @@ export function loadSession(): PracticeSession | null {
     const data = localStorage.getItem(SESSION_KEY)
     if (!data) return null
 
-    const session = JSON.parse(data) as PracticeSession
+    const parsed = JSON.parse(data) as PracticeSession
+    const checkedAnswers = Array.isArray(parsed.checkedAnswers) && parsed.checkedAnswers.length === parsed.problems.length
+      ? parsed.checkedAnswers.map(value => typeof value === 'boolean' ? value : null)
+      : Array(parsed.problems.length).fill(null)
+    const session = { ...parsed, checkedAnswers }
 
     // 만료 체크
     if (isSessionExpired(session)) {
@@ -88,9 +92,25 @@ export function clearResult(): void {
 
 // 답안 업데이트
 export function updateAnswer(session: PracticeSession, index: number, answer: string): PracticeSession {
+  if (session.checkedAnswers[index] !== null) return session
+
   const newAnswers = [...session.answers]
   newAnswers[index] = answer
   return { ...session, answers: newAnswers }
+}
+
+// 문제별 정답 확인 상태 저장
+export function markAnswerChecked(
+  session: PracticeSession,
+  index: number,
+  correct: boolean
+): PracticeSession {
+  if (index < 0 || index >= session.problems.length) return session
+  if (session.checkedAnswers[index] !== null) return session
+
+  const checkedAnswers = [...session.checkedAnswers]
+  checkedAnswers[index] = correct
+  return { ...session, checkedAnswers }
 }
 
 // 현재 문제 인덱스 업데이트
@@ -141,6 +161,7 @@ export function createRetrySessionFromResult(
     sourceProblemIndexes: wrongResults.map((entry) => entry.problem.index),
     problems: wrongResults.map((entry) => entry.problem),
     answers: Array(wrongResults.length).fill(null),
+    checkedAnswers: Array(wrongResults.length).fill(null),
     currentIndex: 0,
     ...timing
   }

@@ -28,8 +28,29 @@ describe('Grade 5 polygon area content', () => {
       expect(set.filter(template => template.difficulty === 3)).toHaveLength(2)
       expect(set.every(template => template.visual_template)).toBe(true)
       expect(set.filter(template => template.difficulty === 3).every(template =>
-        /겹|거꾸로|구하세요|찾아/.test(template.prompt_template)
+        template.solution_steps_template.length >= 4 &&
+        /triple-overlap|perimeter-from-area/.test(template.problem_family ?? '')
       )).toBe(true)
+    }
+  })
+
+  it('keeps rectangle-square applications inside Grade 5 arithmetic', () => {
+    const compositeProblems = areaTemplates.filter(template =>
+      template.problem_family?.startsWith('rectangle-square')
+    )
+
+    expect(compositeProblems).toHaveLength(6)
+    expect(compositeProblems.every(template => template.prompt_template.includes('한 변이 {{s}} cm'))).toBe(true)
+    expect(compositeProblems.every(template => !/□\s*×\s*□|조건을 만족하는|전체 넓이를 만족하는/.test(
+      [template.prompt_template, ...template.solution_steps_template, ...(template.hint_steps_template ?? [])].join(' ')
+    ))).toBe(true)
+    expect(areaTemplates.some(template => template.problem_family === 'rectangle-square-reverse')).toBe(false)
+  })
+
+  it('declares a visual unit matching each rendered prompt unit', () => {
+    for (const template of areaTemplates) {
+      const promptUnit = /(^|[^c])m(?:²|\b)/.test(template.prompt_template) ? 'm' : 'cm'
+      expect(template.visual_template?.props?.unit, template.id).toBe(promptUnit)
     }
   })
 })

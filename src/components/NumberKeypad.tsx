@@ -7,9 +7,16 @@ interface NumberKeypadProps {
   onChange: (value: string) => void
   onComplete?: () => void
   inputHint?: string
+  disabled?: boolean
 }
 
-export default function NumberKeypad({ value, onChange, onComplete, inputHint }: NumberKeypadProps) {
+export default function NumberKeypad({
+  value,
+  onChange,
+  onComplete,
+  inputHint,
+  disabled = false
+}: NumberKeypadProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleKey = (key: string) => {
@@ -82,8 +89,14 @@ export default function NumberKeypad({ value, onChange, onComplete, inputHint }:
       {/* 입력 필드 */}
       <div
         data-testid="keypad-display"
-        className="w-full p-4 text-2xl text-center bg-white border-2 border-gray-300 rounded-xl mb-4 min-h-[60px] cursor-pointer"
-        onClick={() => setIsOpen(true)}
+        className={`w-full p-4 text-2xl text-center border-2 rounded-xl mb-4 min-h-[60px] ${disabled
+          ? 'cursor-not-allowed border-gray-200 bg-gray-100 text-gray-600'
+          : 'cursor-pointer border-gray-300 bg-white'
+        }`}
+        aria-disabled={disabled}
+        onClick={() => {
+          if (!disabled) setIsOpen(true)
+        }}
       >
         {value || <span className="text-gray-400">터치하여 입력</span>}
       </div>
@@ -95,6 +108,7 @@ export default function NumberKeypad({ value, onChange, onComplete, inputHint }:
             <button
               key={index}
               data-testid={`key-${encodeURIComponent(key)}`}
+              disabled={disabled}
               className={`p-4 text-xl font-medium rounded-xl min-h-touch touch-manipulation transition-colors ${getKeyStyle(key)} border border-gray-200 active:bg-gray-100`}
               onClick={() => handleKey(key)}
             >
