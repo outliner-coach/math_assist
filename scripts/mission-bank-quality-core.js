@@ -118,8 +118,8 @@ function auditGrade1() {
     warnings.push(createIssue('warning', 'duplicate_prompt', `Grade 1 ${first.islandId}: repeated prompt "${first.prompt}"`, { missionId: second.id }))
   }
 
-  if (grade1MissionTemplates.length !== 60) {
-    errors.push(createIssue('error', 'grade1_beta_count', `Grade 1 Beta expects 60 missions, got ${grade1MissionTemplates.length}`))
+  if (grade1MissionTemplates.length !== 96) {
+    errors.push(createIssue('error', 'grade1_v1_count', `Grade 1 V1 expects 96 missions, got ${grade1MissionTemplates.length}`))
   }
 
   for (const island of grade1Islands) {
@@ -220,8 +220,8 @@ function auditGrade2() {
     warnings.push(createIssue('warning', 'duplicate_prompt', `Grade 2 ${first.unitId}: repeated prompt "${first.prompt}"`, { missionId: second.id }))
   }
 
-  if (grade2MissionTemplates.length !== 72) {
-    errors.push(createIssue('error', 'grade2_beta_count', `Grade 2 Beta expects 72 missions, got ${grade2MissionTemplates.length}`))
+  if (grade2MissionTemplates.length !== 144) {
+    errors.push(createIssue('error', 'grade2_v1_count', `Grade 2 V1 expects 144 missions, got ${grade2MissionTemplates.length}`))
   }
 
   for (const unit of grade2Units) {
@@ -230,10 +230,10 @@ function auditGrade2() {
       errors.push(createIssue('error', 'grade2_unit_coverage', `Grade 2 ${unit.id}: missing missions`))
       continue
     }
-    if (bucket.total !== 6) errors.push(createIssue('error', 'grade2_unit_count', `Grade 2 ${unit.id}: Beta expects 6 missions, got ${bucket.total}`))
+    if (bucket.total !== 12) errors.push(createIssue('error', 'grade2_unit_count', `Grade 2 ${unit.id}: V1 expects 12 missions, got ${bucket.total}`))
     for (const step of ['easy', 'medium', 'applied']) {
-      if (bucket.steps[step] !== 2) {
-        warnings.push(createIssue('warning', 'grade2_difficulty_balance', `Grade 2 ${unit.id}: expected 2 ${step} missions, got ${bucket.steps[step]}`))
+      if (bucket.steps[step] !== 4) {
+        warnings.push(createIssue('warning', 'grade2_difficulty_balance', `Grade 2 ${unit.id}: expected 4 ${step} missions, got ${bucket.steps[step]}`))
       }
     }
   }

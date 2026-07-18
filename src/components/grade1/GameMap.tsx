@@ -8,6 +8,7 @@ import {
   type Grade1Mission,
 } from '@/lib/grade1-problems'
 import type { Grade1Progress } from '@/lib/grade1-progress'
+import { getMasteryStars } from '@/lib/adventure-progression'
 
 import Grade1AssetImage from './Grade1AssetImage'
 import MascotGuide from './MascotGuide'
@@ -109,6 +110,7 @@ export default function GameMap({
                           status={status}
                           selected={selectedMissionId === mission.id}
                           recommended={recommendedMissionId === mission.id}
+                          masteryStars={getMasteryStars(progress.masteryByMissionId[mission.id])}
                           onSelect={() => {
                             if (status !== 'locked') {
                               onSelectMission(mission.id)

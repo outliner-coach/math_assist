@@ -108,8 +108,9 @@ export default function RewardReveal({
               className="w-full"
               variant={hasNextMission ? 'secondary' : 'primary'}
               onClick={onReset}
+              data-testid="replay-grade1-mission"
             >
-              다시 풀기
+              한 번 더 풀기
             </GameButton>
             <GameButton
               className="w-full"

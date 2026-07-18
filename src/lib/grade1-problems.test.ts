@@ -9,14 +9,28 @@ import {
 } from './grade1-problems'
 
 describe('grade1 mission bank', () => {
-  it('provides a Beta-sized deterministic adventure bank', () => {
+  it('provides a 96-mission V1 deterministic adventure bank', () => {
     const missions = getGrade1Missions(42)
 
-    expect(missions).toHaveLength(60)
+    expect(missions).toHaveLength(96)
     expect(missions.map((mission) => mission.stageOrder)).toEqual(
-      Array.from({ length: 60 }, (_, index) => index + 1)
+      Array.from({ length: 96 }, (_, index) => index + 1)
     )
-    expect(new Set(missions.map((mission) => mission.islandId)).size).toBeGreaterThanOrEqual(6)
+    expect(new Set(missions.map((mission) => mission.islandId)).size).toBe(7)
+    expect(Object.fromEntries(
+      Array.from(new Set(missions.map((mission) => mission.islandId)), (islandId) => [
+        islandId,
+        missions.filter((mission) => mission.islandId === islandId).length,
+      ])
+    )).toEqual({
+      'count-cove': 14,
+      'order-bridge': 14,
+      'orchard-port': 14,
+      'river-dock': 14,
+      'shape-forest': 14,
+      'clock-tower': 13,
+      'pattern-cave': 13,
+    })
   })
 
   it('keeps the original apple mission as the safe first mission', () => {
@@ -55,5 +69,23 @@ describe('grade1 mission bank', () => {
         expect(mission.correctChoiceIndex).toBeGreaterThanOrEqual(0)
       }
     }
+  })
+
+  it('changes a substantial part of the concrete bank across daily seeds', () => {
+    const first = getGrade1Missions(101)
+    const second = getGrade1Missions(202)
+    const changed = first.filter((mission, index) => (
+      JSON.stringify(mission.params) !== JSON.stringify(second[index].params) ||
+      JSON.stringify(mission.choices) !== JSON.stringify(second[index].choices)
+    ))
+
+    expect(changed.length).toBeGreaterThanOrEqual(40)
+
+    const concreteVariants = new Set(
+      Array.from({ length: 200 }, (_, seed) => getGrade1Missions(seed + 1)).flatMap((missions) =>
+        missions.map((mission) => `${mission.id}:${mission.prompt}:${JSON.stringify(mission.params)}:${JSON.stringify(mission.choices)}`)
+      )
+    )
+    expect(concreteVariants.size).toBeGreaterThanOrEqual(500)
   })
 })

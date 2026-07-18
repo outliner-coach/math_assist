@@ -1246,10 +1246,54 @@ const grade1BetaMissionTemplates: Grade1MissionTemplate[] = [
   },
 ]
 
-export const grade1MissionTemplates: Grade1MissionTemplate[] = [
+const grade1BaseMissionTemplates: Grade1MissionTemplate[] = [
   ...grade1AlphaMissionTemplates,
   ...grade1BetaMissionTemplates,
 ]
+
+const grade1IslandTargets: Record<string, number> = {
+  'count-cove': 14,
+  'order-bridge': 14,
+  'orchard-port': 14,
+  'river-dock': 14,
+  'shape-forest': 14,
+  'clock-tower': 13,
+  'pattern-cave': 13,
+}
+
+function buildGrade1V1MissionTemplates(): Grade1MissionTemplate[] {
+  let stageOrder = 1
+  const result: Grade1MissionTemplate[] = []
+
+  for (const island of grade1Islands) {
+    const originals = grade1BaseMissionTemplates
+      .filter((mission) => mission.islandId === island.id)
+      .sort((left, right) => left.stageOrder - right.stageOrder)
+    const target = grade1IslandTargets[island.id] ?? originals.length
+
+    for (const original of originals) {
+      result.push({ ...original, stageOrder })
+      stageOrder += 1
+    }
+
+    for (let index = originals.length; index < target; index += 1) {
+      const source = originals[(index - originals.length) % originals.length]
+      const round = index - originals.length + 1
+      result.push({
+        ...source,
+        id: `${source.id}-v1-${round}`,
+        stageOrder,
+        learnerGoal: `도전 ${round} · ${source.learnerGoal}`,
+        promptTemplate: `도전 ${round}! ${source.promptTemplate}`,
+      })
+      stageOrder += 1
+    }
+  }
+
+  return result
+}
+
+export const grade1MissionTemplates: Grade1MissionTemplate[] = buildGrade1V1MissionTemplates()
 
 export const SAFE_GRADE1_MISSION_ID = 'count-cove-01'
 
@@ -1474,6 +1518,7 @@ export function validateGrade1MissionBank(
   if (!ids.has(SAFE_GRADE1_MISSION_ID)) {
     errors.push(`Safe mission id is missing: ${SAFE_GRADE1_MISSION_ID}`)
   }
+  if (templates.length !== 96) errors.push(`V1 expects 96 missions, got ${templates.length}`)
 
   return { errors, warnings }
 }

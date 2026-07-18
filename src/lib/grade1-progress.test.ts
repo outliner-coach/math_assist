@@ -43,6 +43,8 @@ describe('grade1 progress persistence', () => {
     expect(loaded.progress.completedStageIds).toContain('count-cove-01')
     expect(loaded.progress.todaySolvedCount).toBe(1)
     expect(loaded.progress.introDismissedAt).toBe(null)
+    expect(loaded.progress.xp).toBe(15)
+    expect(loaded.progress.masteryByMissionId['count-cove-01'].correct).toBe(1)
   })
 
   it('marks wrong and hinted-correct missions for review', () => {
@@ -108,6 +110,30 @@ describe('grade1 progress persistence', () => {
     expect(loaded.recovered).toBe(false)
     expect(loaded.progress.completedStageIds).toEqual(['count-cove-01'])
     expect(loaded.progress.introDismissedAt).toBe(null)
+    expect(loaded.progress.schemaVersion).toBe(2)
+    expect(loaded.progress.xp).toBe(10)
+    expect(loaded.progress.masteryByMissionId['count-cove-01'].correct).toBe(1)
+  })
+
+  it('counts a new replay variant while blocking duplicate xp farming', () => {
+    const initial = createInitialGrade1Progress(100)
+    const first = recordGrade1Attempt(initial, mission, true, {
+      variantKey: 'count-cove-01:day-1',
+      now: 200,
+    })
+    const duplicate = recordGrade1Attempt(first, mission, true, {
+      variantKey: 'count-cove-01:day-1',
+      now: 300,
+    })
+    const replay = recordGrade1Attempt(duplicate, mission, true, {
+      variantKey: 'count-cove-01:day-2',
+      now: 400,
+    })
+
+    expect(first.xp).toBe(15)
+    expect(duplicate.xp).toBe(15)
+    expect(replay.xp).toBe(30)
+    expect(replay.todaySolvedCount).toBe(2)
   })
 
   it('stores and resets the intro dismissal state', () => {

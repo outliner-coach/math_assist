@@ -3,9 +3,9 @@
 Date: 2026-05-09
 Owner lane: `workstreams/_shared`
 
-## Current Baseline
+## Historical Alpha Baseline
 
-The Grade 1 game has reached the Alpha target:
+The Grade 1 game reached the Alpha target with this initial shape:
 
 - Route: `/grade/1`
 - UI shell: `src/app/grade/1/Grade1GameClient.tsx`
@@ -42,6 +42,25 @@ Current verification set:
 Browser QA confirmed `/math_assist/grade/1/` on mobile shows the 60-mission
 Beta copy and map-first flow without visible overlap. Grade 2 browser QA is
 documented in `docs/grade2-lessons-learned.md`.
+
+## 2026-07-18 V1 Closeout
+
+The V1 target is implemented. The source of truth for replay and reward behavior
+is `docs/grade1-grade2-replay-rewards-v1.md`.
+
+- Grade 1 mission bank: 96 authored missions across seven islands.
+- Daily deterministic seeds and direct `한 번 더 풀기` replay replace the fixed
+  one-seed path.
+- Progress schema v2 records concrete variants, XP, learning dates, and per-mission
+  mastery while migrating v1 completions without loss.
+- The map shows 0-3 mastery stars; the shared growth panel shows level, daily goal,
+  streak, variant count, and achievements.
+- Long-run tests enforce at least 500 distinct Grade 1 concrete signatures across
+  200 daily/replay seeds.
+
+Current V1 verification includes 96/144 mission validation, mission audit with
+0 errors and 0 warnings, full unit/lint/build/TDD checks, 13 passing Playwright
+scenarios, and game-client screenshot inspection.
 
 ## 2026-05-10 Implementation Status
 
@@ -201,7 +220,7 @@ it should already make the next action obvious after every answer.
 After a learner solves a mission, the reward screen must provide a direct forward
 action. Do not force the learner to return to the map just to continue.
 
-Current behavior:
+Beta behavior at the time of the 2026-05-11 closeout:
 
 - The primary reward action is `다음 미션 풀기`.
 - `다음 미션 풀기` chooses the first unlocked incomplete stage, ignoring review
@@ -209,7 +228,14 @@ Current behavior:
 - `오늘 추천 미션` in the header still prioritizes review missions through
   `firstOpenMission`; this is intentional for now because it is a recommendation
   surface, not the immediate continuation path.
-- The reward panel keeps `다시 풀기` and `지도 보기` as secondary actions.
+- The reward panel kept `다시 풀기` and `지도 보기` as secondary actions.
+
+Current V1 behavior:
+
+- `한 번 더 풀기` is the replay action. Parameterized missions can render a new
+  concrete problem; exact content repeats are recognized as the same variant.
+- The concrete variant is tracked independently for XP, the daily goal, and
+  mastery; an exact duplicate cannot be farmed for rewards.
 
 Next UX candidate:
 

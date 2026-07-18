@@ -49,6 +49,20 @@ The 2026-05-11 Beta closeout verified:
 - vertical-operation results remain hidden before submission and reveal only
   after success
 
+### V1 Adds Replay Depth And Mastery
+
+The 2026-07-18 V1 bank has 144 missions: 12 units x 12 missions. Each unit has
+4 easy, 4 medium, and 4 applied missions. The earlier 72/6 counts below are Beta
+history, not the current validator contract.
+
+The unit-first and one-problem-at-a-time product flow remains unchanged. The
+12-node unit list uses a two-column layout on tablet-sized screens so the larger
+bank does not turn into an unnecessarily long single column.
+
+V1 also adds daily/replay seeds, concrete variant keys, schema-v2 migration,
+XP/levels, an 8-problem daily goal, mastery stars, achievements, and a reward
+collection. See `docs/grade1-grade2-replay-rewards-v1.md` for the exact contract.
+
 ### Keep Alpha Separate From Mastery
 
 The 36-mission Grade 2 Alpha is a representative validation slice:
@@ -159,9 +173,9 @@ It catches template shape mistakes before they become UI bugs.
 
 The validator should remain strict about:
 
-- 72 Beta templates until the target scope changes
-- 12 units with 6 missions each
-- two `easy`, two `medium`, and two `applied` missions per unit
+- 144 V1 templates
+- 12 units with 12 missions each
+- four `easy`, four `medium`, and four `applied` missions per unit
 - unique ids and mission orders
 - curriculum code traceability
 - answer config matching answer type

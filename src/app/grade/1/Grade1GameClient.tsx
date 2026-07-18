@@ -13,6 +13,7 @@ import {
   RewardReveal,
   getGrade1RewardCounts,
 } from '@/components/grade1'
+import { AdventureProgressPanel } from '@/components/adventure'
 import { grade1Mascots, grade1Objects } from '@/lib/grade1-assets'
 import {
   getGrade1MissionById,
@@ -28,8 +29,12 @@ import {
   saveGrade1Progress,
   type Grade1Progress,
 } from '@/lib/grade1-progress'
-
-const MISSION_SEED = 20260509
+import {
+  getAdventureLevel,
+  getAdventureVariantKey,
+  getDailyAdventureSeed,
+  getMasteryStars,
+} from '@/lib/adventure-progression'
 
 const introGuideItems = [
   {
@@ -54,7 +59,7 @@ function firstOpenMission(missions: Grade1Mission[], progress: Grade1Progress): 
   if (reviewMission) return reviewMission
 
   const nextPathMission = firstUnlockedIncompleteMission(missions, progress)
-  return nextPathMission ?? missions[0] ?? getGrade1MissionById('', MISSION_SEED)
+  return nextPathMission ?? missions[0] ?? getGrade1MissionById('')
 }
 
 function firstUnlockedIncompleteMission(
@@ -79,7 +84,12 @@ function strongestTag(progress: Grade1Progress): string {
 }
 
 export default function Grade1GameClient() {
-  const missions = useMemo(() => getGrade1Missions(MISSION_SEED), [])
+  const [replayRound, setReplayRound] = useState(0)
+  const missionSeed = useMemo(
+    () => getDailyAdventureSeed('grade1', Date.now(), replayRound),
+    [replayRound]
+  )
+  const missions = useMemo(() => getGrade1Missions(missionSeed), [missionSeed])
   const [progress, setProgress] = useState<Grade1Progress>(() =>
     createInitialGrade1Progress()
   )
@@ -106,6 +116,12 @@ export default function Grade1GameClient() {
     [missions, progress.completedStageIds]
   )
   const currentRewardCount = solved ? rewardCounts[selectedMission.rewardId] : undefined
+  const currentVariantKey = getAdventureVariantKey(selectedMission.id, JSON.stringify([
+    selectedMission.prompt,
+    selectedMission.correctAnswer,
+    selectedMission.choices,
+    selectedMission.visualConfig,
+  ]))
   const showIntroGuide = progress.introDismissedAt === null
 
   useEffect(() => {
@@ -132,8 +148,12 @@ export default function Grade1GameClient() {
         reviewCount: progress.reviewStageIds.length,
         introDismissed: progress.introDismissedAt !== null,
         rewardCounts,
+        xp: progress.xp,
+        level: getAdventureLevel(progress.xp),
+        masteryStars: getMasteryStars(progress.masteryByMissionId[selectedMission.id]),
+        missionSeed,
       })
-  }, [nextPathMission?.id, progress.introDismissedAt, progress.reviewStageIds.length, progress.todaySolvedCount, rewardCounts, selectedMission.prompt, selectedMissionId, solved, wrongAttemptCount])
+  }, [missionSeed, nextPathMission?.id, progress.introDismissedAt, progress.masteryByMissionId, progress.reviewStageIds.length, progress.todaySolvedCount, progress.xp, rewardCounts, selectedMission.id, selectedMission.prompt, selectedMissionId, solved, wrongAttemptCount])
 
   const persistProgress = (nextProgress: Grade1Progress) => {
     setProgress(nextProgress)
@@ -177,6 +197,7 @@ export default function Grade1GameClient() {
   }
 
   const resetMission = () => {
+    setReplayRound((current) => current + 1)
     resetMissionState()
     scrollToMission()
   }
@@ -213,10 +234,11 @@ export default function Grade1GameClient() {
     setSelectedAnswer(answer)
 
     if (correct) {
-      const alreadyCompleted = progressWithIntroDismissed.completedStageIds.includes(selectedMission.id)
       const nextProgress = recordGrade1Attempt(progressWithIntroDismissed, selectedMission, true, {
         hadHint: wrongAttemptCount > 0,
-        countSolved: !alreadyCompleted,
+        wrongAttempts: wrongAttemptCount,
+        variantKey: currentVariantKey,
+        difficultyBonus: selectedMission.difficulty === 3 ? 5 : 0,
       })
       persistProgress(nextProgress)
       return
@@ -225,7 +247,10 @@ export default function Grade1GameClient() {
     const nextWrongAttemptCount = wrongAttemptCount + 1
     setWrongAttemptCount(nextWrongAttemptCount)
     setShowHint(true)
-    persistProgress(recordGrade1Attempt(progressWithIntroDismissed, selectedMission, false))
+    persistProgress(recordGrade1Attempt(progressWithIntroDismissed, selectedMission, false, {
+      variantKey: currentVariantKey,
+      wrongAttempts: nextWrongAttemptCount,
+    }))
   }
 
   return (
@@ -334,6 +359,12 @@ export default function Grade1GameClient() {
             </div>
           </section>
         )}
+
+        <AdventureProgressPanel
+          progress={progress}
+          totalMissionCount={totalMissionCount}
+          tone="green"
+        />
 
         <GameMap
           missions={missions}

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 
 import { Grade2MissionCard } from '@/components/grade2'
+import { AdventureProgressPanel } from '@/components/adventure'
 import {
   checkGrade2Answer,
   type Grade2StructuredLengthInput,
@@ -24,8 +25,12 @@ import {
   selectGrade2Unit,
   type Grade2Progress,
 } from '@/lib/grade2-progress'
-
-const MISSION_SEED = 20260510
+import {
+  getAdventureLevel,
+  getAdventureVariantKey,
+  getDailyAdventureSeed,
+  getMasteryStars,
+} from '@/lib/adventure-progression'
 
 function unitMissions(missions: Grade2Mission[], unitId: string): Grade2Mission[] {
   return missions
@@ -107,6 +112,17 @@ function rewardName(rewardId: Grade2Mission['rewardId']): string {
   return names[rewardId]
 }
 
+const grade2RewardOrder: Grade2Mission['rewardId'][] = [
+  'numberGem',
+  'shapeCompass',
+  'operationBadge',
+  'measureTape',
+  'multiplyMedal',
+  'clockStar',
+  'graphBadge',
+  'patternKey',
+]
+
 function MissionList({
   missions,
   progress,
@@ -119,7 +135,7 @@ function MissionList({
   onSelectMission: (missionId: string) => void
 }) {
   return (
-    <div className="grid gap-3" data-testid="grade2-unit-missions">
+    <div className="grid gap-3 md:grid-cols-2" data-testid="grade2-unit-missions">
       {missions.map((mission) => {
         const complete = progress.completedMissionIds.includes(mission.id)
         const review = progress.reviewMissionIds.includes(mission.id)
@@ -152,7 +168,11 @@ function MissionList({
               </span>
             </span>
             <span className="text-xs font-black text-[#64748b]">
-              {review ? '복습' : complete ? '완료' : '도전'}
+              <span className="block">{review ? '복습' : complete ? '완료' : '도전'}</span>
+              <span className="mt-1 block text-[#f59e0b]" aria-label={`숙련도 별 ${getMasteryStars(progress.masteryByMissionId[mission.id])}개`}>
+                {'★'.repeat(getMasteryStars(progress.masteryByMissionId[mission.id]))}
+                {'☆'.repeat(3 - getMasteryStars(progress.masteryByMissionId[mission.id]))}
+              </span>
             </span>
           </button>
         )
@@ -166,7 +186,12 @@ interface Grade2GameClientProps {
 }
 
 export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProps) {
-  const missions = useMemo(() => getGrade2Missions(MISSION_SEED), [])
+  const [replayRound, setReplayRound] = useState(0)
+  const missionSeed = useMemo(
+    () => getDailyAdventureSeed('grade2', Date.now(), replayRound),
+    [replayRound]
+  )
+  const missions = useMemo(() => getGrade2Missions(missionSeed), [missionSeed])
   const initialUnit = grade2Units.find((unit) => unit.id === initialUnitId) ?? grade2Units[0]
   const [progress, setProgress] = useState<Grade2Progress>(() => createInitialGrade2Progress())
   const [storageAvailable, setStorageAvailable] = useState(true)
@@ -192,6 +217,18 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
     firstMissionForUnit(missions, selectedUnit.id, progress)
   const solved = lastSubmissionCorrect
   const nextMission = solved ? nextMissionInUnit(missions, selectedMission, progress) : null
+  const currentVariantKey = getAdventureVariantKey(selectedMission.id, JSON.stringify([
+    selectedMission.prompt,
+    selectedMission.correctAnswer,
+    selectedMission.choices,
+    selectedMission.visualConfig,
+  ]))
+  const rewardCounts = Object.fromEntries(grade2RewardOrder.map((rewardId) => [
+    rewardId,
+    missions.filter((mission) => (
+      mission.rewardId === rewardId && progress.completedMissionIds.includes(mission.id)
+    )).length,
+  ])) as Record<Grade2Mission['rewardId'], number>
 
   useEffect(() => {
     const result = loadGrade2Progress()
@@ -221,8 +258,12 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
         todaySolvedCount: progress.todaySolvedCount,
         completedCount: progress.completedMissionIds.length,
         reviewCount: progress.reviewMissionIds.length,
+        xp: progress.xp,
+        level: getAdventureLevel(progress.xp),
+        masteryStars: getMasteryStars(progress.masteryByMissionId[selectedMission.id]),
+        missionSeed,
       })
-  }, [progress.completedMissionIds.length, progress.reviewMissionIds.length, progress.todaySolvedCount, selectedMission.prompt, selectedMissionId, selectedUnitId, solved, wrongAttemptCount])
+  }, [missionSeed, progress.completedMissionIds.length, progress.masteryByMissionId, progress.reviewMissionIds.length, progress.todaySolvedCount, progress.xp, selectedMission.id, selectedMission.prompt, selectedMissionId, selectedUnitId, solved, wrongAttemptCount])
 
   const persistProgress = (nextProgress: Grade2Progress) => {
     setProgress(nextProgress)
@@ -253,6 +294,7 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
   }
 
   const resetMission = () => {
+    setReplayRound((current) => current + 1)
     resetMissionState()
     document.getElementById('grade2-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
@@ -291,10 +333,11 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
     setLastSubmissionCorrect(result.correct)
 
     if (result.correct) {
-      const alreadyCompleted = progressWithIntroDismissed.completedMissionIds.includes(selectedMission.id)
       const nextProgress = recordGrade2Attempt(progressWithIntroDismissed, selectedMission, true, {
         hadHint: wrongAttemptCount > 0,
-        countSolved: !alreadyCompleted,
+        wrongAttempts: wrongAttemptCount,
+        variantKey: currentVariantKey,
+        difficultyBonus: selectedMission.difficultyStep === 'applied' ? 5 : 0,
       })
       persistProgress(nextProgress)
       return
@@ -303,7 +346,10 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
     const nextWrongAttemptCount = wrongAttemptCount + 1
     setWrongAttemptCount(nextWrongAttemptCount)
     setShowHint(true)
-    persistProgress(recordGrade2Attempt(progressWithIntroDismissed, selectedMission, false))
+    persistProgress(recordGrade2Attempt(progressWithIntroDismissed, selectedMission, false, {
+      variantKey: currentVariantKey,
+      wrongAttempts: nextWrongAttemptCount,
+    }))
   }
 
   return (
@@ -347,6 +393,12 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
             저장 기록을 다시 준비했어요. 지금 푸는 미션은 계속할 수 있어요.
           </section>
         )}
+
+        <AdventureProgressPanel
+          progress={progress}
+          totalMissionCount={missions.length}
+          tone="blue"
+        />
 
         <section
           className="grid gap-5 rounded-[2rem] border-2 border-[#d8e3ef] bg-white p-5 md:p-6 lg:grid-cols-[320px_1fr]"
@@ -444,12 +496,37 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
                   onClick={resetMission}
                   data-testid="grade2-retry-mission"
                 >
-                  다시 풀기
+                  한 번 더 풀기
                 </button>
               </div>
             </div>
           </section>
         )}
+
+        <section className="rounded-[2rem] border-2 border-[#d8e3ef] bg-white p-5 md:p-6" data-testid="grade2-reward-collection">
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-[#f97316]">보상 컬렉션</p>
+            <h2 className="mt-1 text-2xl font-black text-[#0f172a]">단원 보물을 모아요</h2>
+            <p className="mt-2 text-sm font-bold text-[#64748b]">새 미션을 해결할 때마다 관련 보상이 하나씩 열려요.</p>
+          </div>
+          <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
+            {grade2RewardOrder.map((rewardId) => {
+              const count = rewardCounts[rewardId]
+              return (
+                <div
+                  key={rewardId}
+                  className={`rounded-2xl border-2 p-4 text-center ${count > 0 ? 'border-[#93c5fd] bg-[#eff6ff]' : 'border-[#e5e7eb] bg-[#f8fafc] opacity-60 grayscale'}`}
+                  data-testid={`grade2-reward-${rewardId}`}
+                  aria-label={`${rewardName(rewardId)} ${count}개`}
+                >
+                  <p className="text-3xl" aria-hidden="true">{count > 0 ? '🏅' : '🔒'}</p>
+                  <p className="mt-2 text-sm font-black text-[#0f172a]">{rewardName(rewardId)}</p>
+                  <p className="mt-1 text-xl font-black text-[#2563eb]">{count}개</p>
+                </div>
+              )
+            })}
+          </div>
+        </section>
       </div>
     </main>
   )

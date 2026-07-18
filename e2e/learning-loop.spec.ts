@@ -164,6 +164,8 @@ test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수
   await expect(page.getByTestId('parent-summary')).toBeVisible()
   await expect(page.getByTestId('grade1-intro-guide')).toBeVisible()
   await expect(page.getByTestId('reward-collection')).toBeVisible()
+  await expect(page.getByTestId('adventure-progress-panel')).toBeVisible()
+  await expect(page.getByTestId('daily-goal')).toContainText('0/8')
   await expect(page.getByTestId('reward-count-numberShard')).toContainText('0개')
 
   await page.getByTestId('start-grade1-mission').click()
@@ -187,6 +189,23 @@ test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수
   expect(progress.reviewStageIds).toContain('count-cove-01')
   expect(progress.todaySolvedCount).toBe(1)
   expect(typeof progress.introDismissedAt).toBe('number')
+  expect(progress.schemaVersion).toBe(2)
+  expect(progress.xp).toBe(10)
+
+  const firstState = JSON.parse(await page.evaluate(() => (
+    window as typeof window & { render_game_to_text?: () => string }
+  ).render_game_to_text?.() ?? '{}'))
+  await page.getByTestId('replay-grade1-mission').click()
+  const replayState = JSON.parse(await page.evaluate(() => (
+    window as typeof window & { render_game_to_text?: () => string }
+  ).render_game_to_text?.() ?? '{}'))
+  expect(replayState.missionSeed).not.toBe(firstState.missionSeed)
+  await page.getByTestId('grade1-choice-7').click()
+  await expect(page.getByTestId('daily-goal')).toContainText('2/8')
+
+  const replayProgress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE1_PROGRESS_KEY)
+  expect(replayProgress.xp).toBe(25)
+  expect(replayProgress.solvedVariantKeys).toHaveLength(2)
 
   await page.getByTestId('next-grade1-mission').click()
   await expect(page.getByTestId('mission-problem-card')).toHaveAttribute('data-mission-id', 'count-cove-02')
@@ -218,7 +237,9 @@ test('2학년 게임 모드에서 단원 선택, 힌트, 보상, 다음 미션 �
   await expect(page.getByTestId('grade2-unit-list')).toHaveCount(0)
   await expect(page.getByTestId('grade2-mission-nav')).toBeVisible()
   await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-place-value-01')
-  await expect(page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)).toHaveCount(6)
+  await expect(page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)).toHaveCount(12)
+  await expect(page.getByTestId('adventure-progress-panel')).toBeVisible()
+  await expect(page.getByTestId('grade2-reward-collection')).toBeVisible()
 
   await page.getByTestId('grade2-integer-input').fill('111')
   await page.getByTestId('grade2-integer-submit').click()
@@ -234,6 +255,24 @@ test('2학년 게임 모드에서 단원 선택, 힌트, 보상, 다음 미션 �
   expect(progress.completedMissionIds).toContain('g2-1-place-value-01')
   expect(progress.reviewMissionIds).toContain('g2-1-place-value-01')
   expect(progress.todaySolvedCount).toBe(1)
+  expect(progress.schemaVersion).toBe(2)
+  expect(progress.xp).toBe(10)
+
+  const firstState = JSON.parse(await page.evaluate(() => (
+    window as typeof window & { render_game_to_text?: () => string }
+  ).render_game_to_text?.() ?? '{}'))
+  await page.getByTestId('grade2-retry-mission').click()
+  const replayState = JSON.parse(await page.evaluate(() => (
+    window as typeof window & { render_game_to_text?: () => string }
+  ).render_game_to_text?.() ?? '{}'))
+  expect(replayState.missionSeed).not.toBe(firstState.missionSeed)
+  await page.getByTestId('grade2-integer-input').fill('342')
+  await page.getByTestId('grade2-integer-submit').click()
+  await expect(page.getByTestId('daily-goal')).toContainText('1/8')
+
+  const replayProgress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE2_PROGRESS_KEY)
+  expect(replayProgress.xp).toBe(10)
+  expect(replayProgress.solvedVariantKeys).toHaveLength(1)
 
   await page.getByTestId('next-grade2-mission').click()
   await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-place-value-02')

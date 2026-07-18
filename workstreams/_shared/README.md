@@ -55,3 +55,8 @@ When you change a high-conflict file, add a short dated note below:
   `1 | 2 | 3`. Re-check mission navigation, tests, and browser QA if another
   workstream touches Grade 1/2 mission banks, Grade 2 mission cards, or progress
   copy. The handoff is `handoffs/2026-05-11-grade1-grade2-beta-scaleup-codex.md`.
+- 2026-07-18: Grade 1/2 replay expansion is owned by the learning-loop lane but
+  changes content-bank counts and reward UI. Both grade progress schemas move to
+  v2 with shared deterministic variant, XP, streak, daily-goal, and mastery
+  helpers. Existing v1 localStorage data must migrate without losing completion
+  or review IDs.

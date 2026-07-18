@@ -1,7 +1,13 @@
 import type { Grade2Mission } from './grade2-problems'
+import {
+  createAdventureState,
+  normalizeAdventureState,
+  recordAdventureAttempt,
+  type AdventureMastery,
+} from './adventure-progression'
 
 export const GRADE2_PROGRESS_KEY = 'mathAssist_grade2Progress'
-export const GRADE2_PROGRESS_SCHEMA_VERSION = 1
+export const GRADE2_PROGRESS_SCHEMA_VERSION = 2
 
 export interface Grade2SkillSummary {
   attempted: number
@@ -18,6 +24,10 @@ export interface Grade2Progress {
   skillSummaryByTag: Record<string, Grade2SkillSummary>
   introDismissedAt: number | null
   lastPlayedAt: number | null
+  xp: number
+  learningDates: string[]
+  solvedVariantKeys: string[]
+  masteryByMissionId: Record<string, AdventureMastery>
 }
 
 export interface Grade2ProgressLoadResult {
@@ -43,6 +53,7 @@ export function createInitialGrade2Progress(now = Date.now()): Grade2Progress {
     skillSummaryByTag: {},
     introDismissedAt: null,
     lastPlayedAt: now,
+    ...createAdventureState(),
   }
 }
 
@@ -75,7 +86,7 @@ function normalizeProgress(value: unknown, now: number): Grade2Progress | null {
   if (!value || typeof value !== 'object') return null
   const candidate = value as Partial<Grade2Progress>
 
-  if (candidate.schemaVersion !== GRADE2_PROGRESS_SCHEMA_VERSION) return null
+  if (candidate.schemaVersion !== 1 && candidate.schemaVersion !== GRADE2_PROGRESS_SCHEMA_VERSION) return null
   if (!Array.isArray(candidate.completedMissionIds)) return null
   if (!Array.isArray(candidate.reviewMissionIds)) return null
   if (
@@ -96,9 +107,13 @@ function normalizeProgress(value: unknown, now: number): Grade2Progress | null {
     return null
   }
 
+  const completedMissionIds = uniqueStrings(candidate.completedMissionIds)
+  const lastPlayedAt = typeof candidate.lastPlayedAt === 'number' ? candidate.lastPlayedAt : now
+  const adventure = normalizeAdventureState(candidate, completedMissionIds, lastPlayedAt)
+
   return {
     schemaVersion: GRADE2_PROGRESS_SCHEMA_VERSION,
-    completedMissionIds: uniqueStrings(candidate.completedMissionIds),
+    completedMissionIds,
     reviewMissionIds: uniqueStrings(candidate.reviewMissionIds),
     latestMissionId: candidate.latestMissionId ?? null,
     selectedUnitId: candidate.selectedUnitId ?? null,
@@ -108,7 +123,8 @@ function normalizeProgress(value: unknown, now: number): Grade2Progress | null {
     skillSummaryByTag: candidate.skillSummaryByTag as Record<string, Grade2SkillSummary>,
     introDismissedAt:
       typeof candidate.introDismissedAt === 'number' ? candidate.introDismissedAt : null,
-    lastPlayedAt: typeof candidate.lastPlayedAt === 'number' ? candidate.lastPlayedAt : now,
+    lastPlayedAt,
+    ...adventure,
   }
 }
 
@@ -211,14 +227,36 @@ export function recordGrade2Attempt(
   progress: Grade2Progress,
   mission: Pick<Grade2Mission, 'id' | 'unitId' | 'parentSummaryTag'>,
   correct: boolean,
-  options: { hadHint?: boolean; countSolved?: boolean; now?: number } = {}
+  options: {
+    hadHint?: boolean
+    countSolved?: boolean
+    now?: number
+    variantKey?: string
+    wrongAttempts?: number
+    difficultyBonus?: number
+  } = {}
 ): Grade2Progress {
   const now = options.now ?? Date.now()
   const countSolved = options.countSolved ?? true
+  const variantKey = options.variantKey ?? `${mission.id}:legacy`
+  const alreadySolvedVariant = progress.solvedVariantKeys.includes(variantKey)
   const summary = progress.skillSummaryByTag[mission.parentSummaryTag] ?? {
     attempted: 0,
     correct: 0,
   }
+
+  const adventure = recordAdventureAttempt({
+    xp: progress.xp,
+    learningDates: progress.learningDates,
+    solvedVariantKeys: progress.solvedVariantKeys,
+    masteryByMissionId: progress.masteryByMissionId,
+  }, mission.id, correct, {
+    variantKey,
+    now,
+    hadHint: options.hadHint,
+    wrongAttempts: options.wrongAttempts,
+    difficultyBonus: options.difficultyBonus,
+  })
 
   return {
     ...progress,
@@ -231,7 +269,9 @@ export function recordGrade2Attempt(
         : toggleId(progress.reviewMissionIds, mission.id, true),
     latestMissionId: mission.id,
     selectedUnitId: mission.unitId,
-    todaySolvedCount: correct && countSolved ? progress.todaySolvedCount + 1 : progress.todaySolvedCount,
+    todaySolvedCount: correct && countSolved && !alreadySolvedVariant
+      ? progress.todaySolvedCount + 1
+      : progress.todaySolvedCount,
     skillSummaryByTag: {
       ...progress.skillSummaryByTag,
       [mission.parentSummaryTag]: {
@@ -240,6 +280,7 @@ export function recordGrade2Attempt(
       },
     },
     lastPlayedAt: now,
+    ...adventure,
   }
 }
 

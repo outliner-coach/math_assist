@@ -15,6 +15,7 @@ interface StageNodeProps {
   index: number
   selected?: boolean
   recommended?: boolean
+  masteryStars?: 0 | 1 | 2 | 3
   onSelect?: () => void
 }
 
@@ -47,6 +48,7 @@ export default function StageNode({
   index,
   selected = false,
   recommended = false,
+  masteryStars = 0,
   onSelect,
 }: StageNodeProps) {
   const disabled = status === 'locked'
@@ -88,6 +90,9 @@ export default function StageNode({
         </span>
         <span className="mt-1 block text-sm font-bold leading-snug text-[#777777]">
           {subtitle}
+        </span>
+        <span className="mt-1 block text-sm font-black tracking-[0.12em] text-[#f59e0b]" aria-label={`숙련도 별 ${masteryStars}개`}>
+          {'★'.repeat(masteryStars)}{'☆'.repeat(3 - masteryStars)}
         </span>
       </span>
     </button>

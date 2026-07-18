@@ -1857,10 +1857,43 @@ const grade2BetaMissionTemplates: Grade2MissionTemplate[] = [
   }),
 ]
 
-export const grade2MissionTemplates: Grade2MissionTemplate[] = [
+const grade2BaseMissionTemplates: Grade2MissionTemplate[] = [
   ...grade2AlphaMissionTemplates,
   ...grade2BetaMissionTemplates,
 ]
+
+function buildGrade2V1MissionTemplates(): Grade2MissionTemplate[] {
+  let stageOrder = 1
+  const result: Grade2MissionTemplate[] = []
+
+  for (const unit of grade2Units.slice().sort((left, right) => left.order - right.order)) {
+    const originals = grade2BaseMissionTemplates
+      .filter((mission) => mission.unitId === unit.id)
+      .sort((left, right) => left.unitMissionOrder - right.unitMissionOrder)
+
+    for (const original of originals) {
+      result.push({ ...original, stageOrder, unitMissionOrder: result.filter((item) => item.unitId === unit.id).length + 1 })
+      stageOrder += 1
+    }
+
+    originals.forEach((source, index) => {
+      const unitMissionOrder = originals.length + index + 1
+      result.push({
+        ...source,
+        id: `${source.id}-v1`,
+        stageOrder,
+        unitMissionOrder,
+        learnerGoal: `두 번째 연습 · ${source.learnerGoal}`,
+        promptTemplate: `한 번 더! ${source.promptTemplate}`,
+      })
+      stageOrder += 1
+    })
+  }
+
+  return result
+}
+
+export const grade2MissionTemplates: Grade2MissionTemplate[] = buildGrade2V1MissionTemplates()
 
 function seededRandom(seed: number): () => number {
   return function next() {
@@ -2141,10 +2174,10 @@ export function validateGrade2MissionBank(
 
   for (const unit of grade2Units) {
     const count = unitCounts.get(unit.id) ?? 0
-    if (count !== 6) errors.push(`${unit.id}: Beta expects 6 missions, got ${count}`)
+    if (count !== 12) errors.push(`${unit.id}: V1 expects 12 missions, got ${count}`)
   }
 
-  if (templates.length !== 72) errors.push(`Beta expects 72 missions, got ${templates.length}`)
+  if (templates.length !== 144) errors.push(`V1 expects 144 missions, got ${templates.length}`)
   if (!ids.has(SAFE_GRADE2_MISSION_ID)) errors.push(`Safe mission id is missing: ${SAFE_GRADE2_MISSION_ID}`)
 
   return { errors, warnings }

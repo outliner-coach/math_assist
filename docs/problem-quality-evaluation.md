@@ -163,3 +163,15 @@ npm run promptfoo:problems
 - `npm run promptfoo:problems` 결과 `841 passed, 0 failed, 0 errors`
 - `PLAYWRIGHT_PORT=3125 npm run test:e2e` 결과 13 passed
 - 실제 브라우저에서 둘레·넓이, 합동·대칭, 직육면체·전개도의 제출 전/후 SVG 확인
+
+2026년 7월 18일 Grade 1/2 Replay and Rewards V1 통과선은 다음입니다.
+
+- `npm run validate:grade1` 결과 96 templates 통과
+- `npm run validate:grade2` 결과 144 templates 통과
+- Grade 2의 12개 단원마다 12 missions, 난이도 easy/medium/applied 4/4/4
+- 200개 시드에서 Grade 1 500종 이상, Grade 2 340종 이상의 서로 다른
+  concrete problem signature 확인(합계 하한 840종; 생성 가능한 상한 의미 아님)
+- `npm run audit:missions` 결과 `0 errors`, `0 warnings`
+- `PLAYWRIGHT_PORT=3135 npm run test:e2e` 결과 13 passed
+- 실제 게임 클라이언트로 Grade 1/2 화면, `render_game_to_text`, 보상/재도전
+  상태를 확인하고 콘솔 오류가 없음을 확인

@@ -51,6 +51,7 @@ describe('grade2 progress', () => {
     expect(loaded.progress.completedMissionIds).toContain(mission.id)
     expect(loaded.progress.todaySolvedCount).toBe(1)
     expect(loaded.progress.selectedUnitId).toBe(mission.unitId)
+    expect(loaded.progress.xp).toBe(15)
   })
 
   it('marks wrong answers for review and avoids duplicate solved counts', () => {
@@ -99,7 +100,31 @@ describe('grade2 progress', () => {
     const progress = resetGrade2Progress(storage, 100)
 
     expect(progress.todaySolvedCount).toBe(0)
-    expect(storage.getItem(GRADE2_PROGRESS_KEY)).toContain('"schemaVersion":1')
+    expect(storage.getItem(GRADE2_PROGRESS_KEY)).toContain('"schemaVersion":2')
     expect(storage.getItem('mathAssist_grade1Progress')).toBe('{"keep":true}')
+  })
+
+  it('migrates v1 completion into mastery and preserves the selected unit', () => {
+    const storage = createMemoryStorage({
+      [GRADE2_PROGRESS_KEY]: JSON.stringify({
+        schemaVersion: 1,
+        completedMissionIds: ['g2-1-place-value-01'],
+        reviewMissionIds: [],
+        latestMissionId: 'g2-1-place-value-01',
+        selectedUnitId: 'g2-1-place-value',
+        todaySolvedCount: 1,
+        skillSummaryByTag: {},
+        introDismissedAt: 50,
+        lastPlayedAt: 100,
+      }),
+    })
+
+    const loaded = loadGrade2Progress(storage, 100)
+
+    expect(loaded.recovered).toBe(false)
+    expect(loaded.progress.schemaVersion).toBe(2)
+    expect(loaded.progress.selectedUnitId).toBe('g2-1-place-value')
+    expect(loaded.progress.xp).toBe(10)
+    expect(loaded.progress.masteryByMissionId['g2-1-place-value-01'].correct).toBe(1)
   })
 })
