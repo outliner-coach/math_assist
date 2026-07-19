@@ -29,6 +29,20 @@ button, a, input {
   touch-action: manipulation;
 }
 
+/* iPadOS가 풀이장 펜 입력을 주변 텍스트 선택으로 넘기지 않도록 차단 */
+.practice-interaction-surface,
+.practice-interaction-surface * {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.practice-interaction-surface input,
+.practice-interaction-surface textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 /* 스크롤바 숨김 (태블릿 UX) */
 .hide-scrollbar {
   -ms-overflow-style: none;

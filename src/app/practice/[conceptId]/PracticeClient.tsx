@@ -213,7 +213,7 @@ export default function PracticeClient() {
   const modeLabel = session.mode === 'retry-wrong' ? '오답 다시 풀기' : `세트 ${session.setId}`
 
   return (
-    <div className="space-y-6 pb-32">
+    <div className="practice-interaction-surface space-y-6 pb-32">
       {/* 헤더 */}
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-3">

@@ -80,6 +80,28 @@ export default function ScratchPad() {
     return () => observer.disconnect()
   }, [resizeCanvas])
 
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const preventNativeGesture = (event: Event) => {
+      if (event.cancelable) event.preventDefault()
+    }
+    const listenerOptions: AddEventListenerOptions = { capture: true, passive: false }
+
+    canvas.addEventListener('pointerdown', preventNativeGesture, listenerOptions)
+    canvas.addEventListener('pointermove', preventNativeGesture, listenerOptions)
+    canvas.addEventListener('touchstart', preventNativeGesture, listenerOptions)
+    canvas.addEventListener('touchmove', preventNativeGesture, listenerOptions)
+
+    return () => {
+      canvas.removeEventListener('pointerdown', preventNativeGesture, true)
+      canvas.removeEventListener('pointermove', preventNativeGesture, true)
+      canvas.removeEventListener('touchstart', preventNativeGesture, true)
+      canvas.removeEventListener('touchmove', preventNativeGesture, true)
+    }
+  }, [])
+
   const finishDrawing = useCallback((pointerId: number) => {
     if (!isActiveScratchPointer(activePointerIdRef.current, pointerId)) return
 

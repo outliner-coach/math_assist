@@ -1,5 +1,7 @@
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 import ScratchPad, {
@@ -38,5 +40,18 @@ describe('ScratchPad', () => {
     expect(shouldCaptureScratchPointer('pen')).toBe(false)
     expect(shouldCaptureScratchPointer('touch')).toBe(false)
     expect(shouldCaptureScratchPointer('mouse')).toBe(true)
+  })
+
+  it('prevents iPadOS from selecting nearby hint text during a stroke', () => {
+    const practiceSource = readFileSync(
+      join(process.cwd(), 'src/app/practice/[conceptId]/PracticeClient.tsx'),
+      'utf8'
+    )
+    const globalStyles = readFileSync(join(process.cwd(), 'src/app/globals.css'), 'utf8')
+
+    expect(practiceSource).toContain('practice-interaction-surface')
+    expect(globalStyles).toContain('.practice-interaction-surface *')
+    expect(globalStyles).toContain('-webkit-user-select: none')
+    expect(globalStyles).toContain('-webkit-touch-callout: none')
   })
 })

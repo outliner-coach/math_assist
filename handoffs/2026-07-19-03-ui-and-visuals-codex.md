@@ -13,6 +13,10 @@
   명시적 캡처 실패나 조기 `lostpointercapture`가 스트로크를 중단하지 않게 했다.
 - 짧은 Apple Pencil 입력도 보이도록 누르는 순간 시작점을 그리고, 빠른 이동에서는
   coalesced pointer events를 순서대로 렌더링한다.
+- iPadOS에서 실패한 펜 입력이 아래 `단계 힌트` 텍스트 선택으로 이어지는 실기기
+  증상에 맞춰 연습 화면 전체의 WebKit 텍스트 선택과 터치 콜아웃을 차단했다.
+- 캔버스에는 non-passive native pointer/touch 리스너를 캡처 단계로 추가해 React
+  이벤트보다 먼저 브라우저의 선택 제스처 기본 동작을 취소한다.
 
 ## What is still risky
 
