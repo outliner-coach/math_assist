@@ -3,8 +3,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 type ScratchTool = 'pen' | 'eraser'
+type CanvasPoint = { x: number; y: number }
 
 type ScratchPointer = Pick<React.PointerEvent<HTMLCanvasElement>, 'button' | 'pointerId' | 'pointerType'>
+type CanvasPointerPosition = Pick<PointerEvent, 'clientX' | 'clientY'>
 
 export function canStartScratchStroke(activePointerId: number | null, event: ScratchPointer) {
   if (activePointerId !== null) return false
@@ -15,15 +17,40 @@ export function isActiveScratchPointer(activePointerId: number | null, pointerId
   return activePointerId === pointerId
 }
 
-function getCanvasPoint(canvas: HTMLCanvasElement, event: React.PointerEvent<HTMLCanvasElement>) {
+export function shouldCaptureScratchPointer(pointerType: string) {
+  return pointerType === 'mouse'
+}
+
+function getCanvasPoint(canvas: HTMLCanvasElement, event: CanvasPointerPosition) {
   const rect = canvas.getBoundingClientRect()
   return { x: event.clientX - rect.left, y: event.clientY - rect.top }
+}
+
+function applyTool(context: CanvasRenderingContext2D, tool: ScratchTool) {
+  context.globalCompositeOperation = tool === 'eraser' ? 'destination-out' : 'source-over'
+  context.strokeStyle = '#172554'
+  context.fillStyle = '#172554'
+  context.lineWidth = tool === 'eraser' ? 24 : 3.5
+  context.lineCap = 'round'
+  context.lineJoin = 'round'
+}
+
+function drawStrokeStart(canvas: HTMLCanvasElement, point: CanvasPoint, tool: ScratchTool) {
+  const context = canvas.getContext('2d')
+  if (!context) return
+
+  context.save()
+  applyTool(context, tool)
+  context.beginPath()
+  context.arc(point.x, point.y, context.lineWidth / 2, 0, Math.PI * 2)
+  context.fill()
+  context.restore()
 }
 
 export default function ScratchPad() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const activePointerIdRef = useRef<number | null>(null)
-  const lastPointRef = useRef<{ x: number; y: number } | null>(null)
+  const lastPointRef = useRef<CanvasPoint | null>(null)
   const [tool, setTool] = useState<ScratchTool>('pen')
   const [isDrawing, setIsDrawing] = useState(false)
 
@@ -53,6 +80,33 @@ export default function ScratchPad() {
     return () => observer.disconnect()
   }, [resizeCanvas])
 
+  const finishDrawing = useCallback((pointerId: number) => {
+    if (!isActiveScratchPointer(activePointerIdRef.current, pointerId)) return
+
+    activePointerIdRef.current = null
+    lastPointRef.current = null
+    setIsDrawing(false)
+
+    const canvas = canvasRef.current
+    if (!canvas?.hasPointerCapture(pointerId)) return
+
+    try {
+      canvas.releasePointerCapture(pointerId)
+    } catch {
+      // WebKit can already have released capture; the local stroke is still safely finished.
+    }
+  }, [])
+
+  useEffect(() => {
+    const finishFromWindow = (event: PointerEvent) => finishDrawing(event.pointerId)
+    window.addEventListener('pointerup', finishFromWindow)
+    window.addEventListener('pointercancel', finishFromWindow)
+    return () => {
+      window.removeEventListener('pointerup', finishFromWindow)
+      window.removeEventListener('pointercancel', finishFromWindow)
+    }
+  }, [finishDrawing])
+
   const drawTo = useCallback((event: React.PointerEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current
     const previous = lastPointRef.current
@@ -60,22 +114,25 @@ export default function ScratchPad() {
 
     event.preventDefault()
 
-    const next = getCanvasPoint(canvas, event)
     const context = canvas.getContext('2d')
     if (!context) return
 
+    const coalescedEvents = event.nativeEvent.getCoalescedEvents?.() ?? []
+    const pointerEvents = coalescedEvents.length > 0 ? coalescedEvents : [event.nativeEvent]
+
     context.save()
-    context.globalCompositeOperation = tool === 'eraser' ? 'destination-out' : 'source-over'
-    context.strokeStyle = '#172554'
-    context.lineWidth = tool === 'eraser' ? 24 : 3.5
-    context.lineCap = 'round'
-    context.lineJoin = 'round'
-    context.beginPath()
-    context.moveTo(previous.x, previous.y)
-    context.lineTo(next.x, next.y)
-    context.stroke()
+    applyTool(context, tool)
+    let lastPoint = previous
+    for (const pointerEvent of pointerEvents) {
+      const next = getCanvasPoint(canvas, pointerEvent)
+      context.beginPath()
+      context.moveTo(lastPoint.x, lastPoint.y)
+      context.lineTo(next.x, next.y)
+      context.stroke()
+      lastPoint = next
+    }
     context.restore()
-    lastPointRef.current = next
+    lastPointRef.current = lastPoint
   }, [tool])
 
   const startDrawing = useCallback((event: React.PointerEvent<HTMLCanvasElement>) => {
@@ -83,22 +140,27 @@ export default function ScratchPad() {
     if (!canvas || !canStartScratchStroke(activePointerIdRef.current, event)) return
 
     event.preventDefault()
+    const startPoint = getCanvasPoint(canvas, event.nativeEvent)
     activePointerIdRef.current = event.pointerId
-    canvas.setPointerCapture(event.pointerId)
-    lastPointRef.current = getCanvasPoint(canvas, event)
+    lastPointRef.current = startPoint
     setIsDrawing(true)
-  }, [])
+    drawStrokeStart(canvas, startPoint, tool)
+
+    if (shouldCaptureScratchPointer(event.pointerType)) {
+      try {
+        canvas.setPointerCapture(event.pointerId)
+      } catch {
+        // Drawing remains active even if WebKit rejects explicit pointer capture.
+      }
+    }
+  }, [tool])
 
   const stopDrawing = useCallback((event: React.PointerEvent<HTMLCanvasElement>) => {
     if (!isActiveScratchPointer(activePointerIdRef.current, event.pointerId)) return
 
     event.preventDefault()
-    const canvas = canvasRef.current
-    if (canvas?.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId)
-    activePointerIdRef.current = null
-    lastPointRef.current = null
-    setIsDrawing(false)
-  }, [])
+    finishDrawing(event.pointerId)
+  }, [finishDrawing])
 
   const clearCanvas = useCallback(() => {
     const canvas = canvasRef.current
@@ -127,7 +189,7 @@ export default function ScratchPad() {
             aria-pressed={tool === 'pen'}
             disabled={isDrawing}
             onClick={() => setTool('pen')}
-            className={`min-h-[44px] touch-manipulation rounded-xl px-3 text-sm font-bold disabled:pointer-events-none disabled:opacity-50 ${tool === 'pen' ? 'bg-primary-600 text-white' : 'bg-slate-100 text-slate-700'}`}
+            className={`min-h-[44px] touch-manipulation rounded-xl px-3 text-sm font-bold disabled:pointer-events-none ${tool === 'pen' ? 'bg-primary-600 text-white' : 'bg-slate-100 text-slate-700'}`}
           >
             펜
           </button>
@@ -136,7 +198,7 @@ export default function ScratchPad() {
             aria-pressed={tool === 'eraser'}
             disabled={isDrawing}
             onClick={() => setTool('eraser')}
-            className={`min-h-[44px] touch-manipulation rounded-xl px-3 text-sm font-bold disabled:pointer-events-none disabled:opacity-50 ${tool === 'eraser' ? 'bg-primary-600 text-white' : 'bg-slate-100 text-slate-700'}`}
+            className={`min-h-[44px] touch-manipulation rounded-xl px-3 text-sm font-bold disabled:pointer-events-none ${tool === 'eraser' ? 'bg-primary-600 text-white' : 'bg-slate-100 text-slate-700'}`}
           >
             지우개
           </button>
@@ -144,7 +206,7 @@ export default function ScratchPad() {
             type="button"
             disabled={isDrawing}
             onClick={clearCanvas}
-            className="min-h-[44px] touch-manipulation rounded-xl bg-rose-50 px-3 text-sm font-bold text-rose-700 disabled:pointer-events-none disabled:opacity-50"
+            className="min-h-[44px] touch-manipulation rounded-xl bg-rose-50 px-3 text-sm font-bold text-rose-700 disabled:pointer-events-none"
           >
             전체 지우기
           </button>
@@ -159,7 +221,6 @@ export default function ScratchPad() {
         onPointerMove={drawTo}
         onPointerUp={stopDrawing}
         onPointerCancel={stopDrawing}
-        onLostPointerCapture={stopDrawing}
       />
       <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-400">문제를 바꾸면 풀이장은 비워져요.</p>
     </section>

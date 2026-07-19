@@ -2,7 +2,11 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
-import ScratchPad, { canStartScratchStroke, isActiveScratchPointer } from './ScratchPad'
+import ScratchPad, {
+  canStartScratchStroke,
+  isActiveScratchPointer,
+  shouldCaptureScratchPointer,
+} from './ScratchPad'
 
 describe('ScratchPad', () => {
   it('renders tablet-friendly pen, eraser, clear controls and a temporary canvas', () => {
@@ -18,6 +22,7 @@ describe('ScratchPad', () => {
     expect(html).toContain('overscroll-contain')
     expect(html).toContain('touch-none')
     expect(html).toContain('disabled:pointer-events-none')
+    expect(html).not.toContain('disabled:opacity-50')
   })
 
   it('keeps one active touch or pen stroke isolated from other pointers', () => {
@@ -27,5 +32,11 @@ describe('ScratchPad', () => {
 
     expect(isActiveScratchPointer(7, 7)).toBe(true)
     expect(isActiveScratchPointer(7, 8)).toBe(false)
+  })
+
+  it('relies on implicit capture for touch and pen input on iPadOS', () => {
+    expect(shouldCaptureScratchPointer('pen')).toBe(false)
+    expect(shouldCaptureScratchPointer('touch')).toBe(false)
+    expect(shouldCaptureScratchPointer('mouse')).toBe(true)
   })
 })
