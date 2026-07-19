@@ -18,6 +18,9 @@ Use this folder for short async notes between parallel agents.
   `2026-05-11-grade2-continuity-codex.md`.
 - For Grade 3 continuation work, start with
   `2026-05-16-grade3-alpha-codex.md`.
+- For shared practice UI or scratch-pad continuation work, start with
+  `2026-07-19-03-ui-and-visuals-codex.md` and
+  `../docs/scratch-pad-ipados-lessons-learned.md`.
 
 ## Example
 

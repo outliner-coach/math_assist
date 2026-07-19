@@ -33,6 +33,11 @@ Every shared Grade 5 practice page now includes a temporary scratch pad.
 - At widths of 1024px and above, the problem and scratch pad are side by side.
 - On narrower screens they stack vertically.
 - The canvas resets when the learner changes problems and is never written to localStorage.
+- The 2026-07-19 iPadOS follow-up blocks WebKit text selection across the
+  practice surface, prevents native canvas selection gestures at capture time,
+  and keeps pen strokes alive when explicit pointer capture fails.
+- The investigation, final interaction contract, and regression checklist are
+  documented in `docs/scratch-pad-ipados-lessons-learned.md`.
 
 ## Verification
 

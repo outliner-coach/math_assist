@@ -84,3 +84,9 @@ When you change a high-conflict file, add a short dated note below:
   answer masking, serialized `Problem` compatibility, responsive practice
   layout, and renderer tests when changing the generator or practice UI. The
   handoff is `handoffs/2026-07-18-grade5-quality-upgrade-codex.md`.
+- 2026-07-19: iPadOS scratch-pad input stabilization (primary workstream 03)
+  The shared practice surface now blocks WebKit text selection and native
+  canvas selection gestures, isolates active pointers, and tolerates pointer
+  capture failure. The user verified the final fix on an iPad. Preserve the
+  interaction contract in `docs/scratch-pad-ipados-lessons-learned.md`; the
+  handoff is `handoffs/2026-07-19-03-ui-and-visuals-codex.md`.

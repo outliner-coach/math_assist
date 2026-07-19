@@ -1,5 +1,7 @@
 # 풀이장 모바일·태블릿 터치 안정화 핸드오프
 
+Status: resolved and verified on the user's iPad
+
 ## What changed
 
 - 풀이장 전체에서 브라우저 텍스트 선택을 막고 캔버스의 길게 누르기
@@ -24,9 +26,13 @@
   Pointer Events 품질에도 영향을 받는다. 앱은 두 번째 포인터와 조기 캡처 해제를
   방어하지만 운영체제 수준의 팜 리젝션을 대신할 수는 없다.
 - 화면 방향이나 캔버스 크기가 바뀌면 기존 정책대로 풀이 내용이 초기화된다.
+- 향후 연습 화면에 선택 가능한 텍스트 영역을 별도로 추가하면 iPadOS 회귀가 생길 수
+  있으므로 `practice-interaction-surface` 계약을 함께 확인해야 한다.
 
 ## What the next agent should do
 
 - 풀이장 입력을 바꿀 때 활성 `pointerId` 격리와 그리는 동안의 도구 잠금을 유지한다.
 - 390x844 모바일과 1024x768 태블릿 뷰에서 선 입력, 지우개, 전체 지우기, 페이지
   스크롤을 다시 확인한다.
+- iPadOS 관련 변경 전 `docs/scratch-pad-ipados-lessons-learned.md`의 구현 계약과
+  회귀 검증 체크리스트를 따른다.

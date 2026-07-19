@@ -34,3 +34,7 @@
   may use `visualConfig.result`, `target`, `product`, or equivalent labels after
   the learner solves or the solution path opens, but they should mask those values
   during the first attempt and cover the behavior with tests.
+- Before changing `ScratchPad` or the shared practice surface, read
+  `docs/scratch-pad-ipados-lessons-learned.md`. Keep the WebKit selection block,
+  native non-passive capture listeners, single-pointer isolation, and live iPad
+  verification checklist intact.
