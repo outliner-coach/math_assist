@@ -44,7 +44,7 @@ export default function ConceptClient() {
     return (
       <div className="text-center py-12">
         <p className="text-gray-500 mb-4">개념을 찾을 수 없습니다.</p>
-        <Link href="/">
+        <Link href="/home">
           <Button>홈으로 돌아가기</Button>
         </Link>
       </div>
@@ -55,7 +55,7 @@ export default function ConceptClient() {
     <div className="space-y-6">
       {/* 헤더 */}
       <header className="flex items-center gap-4">
-        <Link href={unit ? `/unit/${unit.id}` : '/'} className="p-2 -ml-2 touch-manipulation">
+        <Link href={unit ? `/unit/${unit.id}` : '/home'} className="p-2 -ml-2 touch-manipulation">
           <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>

@@ -21,6 +21,9 @@ Use this folder for short async notes between parallel agents.
 - For shared practice UI or scratch-pad continuation work, start with
   `2026-07-19-03-ui-and-visuals-codex.md` and
   `../docs/scratch-pad-ipados-lessons-learned.md`.
+- For landing, guest home, or future profile work, start with
+  `2026-07-19-03-ui-and-visuals-guest-home-codex.md` and
+  `../docs/landing-home-guest-v1.md`.
 
 ## Example
 

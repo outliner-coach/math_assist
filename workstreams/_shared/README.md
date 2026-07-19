@@ -21,6 +21,15 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-19: guest landing and learning home (primary workstream 03)
+  `/` is now a public landing, `/home` is the device-local learner home, and
+  `/grade/5` owns the Grade 5 unit list. `src/lib/guest-home.ts` reads the
+  existing Grade 1/2/3 progress keys, Grade 5 concept progress, and the current
+  two-hour practice session without rewriting them. The only new key is
+  `mathAssist_guestHome_v1`, currently `{ activeGrade }`. Re-check the home
+  adapter whenever a progress schema or storage key changes. Details are in
+  `docs/landing-home-guest-v1.md`.
+
 - 2026-07-18: `src/lib/types.ts`, `src/lib/session.ts`, `src/app/practice/**`, `src/components/**`
   The shared Grade 4/5 practice flow now persists `PracticeSession.checkedAnswers`
   so each problem can be graded and explained immediately before navigation. Old

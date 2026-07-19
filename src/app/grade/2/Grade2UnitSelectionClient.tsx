@@ -142,7 +142,7 @@ export default function Grade2UnitSelectionClient() {
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
               <Link
-                href="/"
+                href="/home"
                 className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[#d8e3ef] px-4 text-sm font-black text-[#2563eb]"
               >
                 홈으로

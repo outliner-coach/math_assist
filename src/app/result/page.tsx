@@ -69,7 +69,7 @@ export default function ResultPage() {
     return (
       <div className="text-center py-12">
         <p className="text-gray-500 mb-4">결과를 찾을 수 없습니다.</p>
-        <Link href="/">
+        <Link href="/home">
           <Button>홈으로 돌아가기</Button>
         </Link>
       </div>

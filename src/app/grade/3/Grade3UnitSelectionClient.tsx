@@ -115,7 +115,7 @@ export default function Grade3UnitSelectionClient() {
         <header className="rounded-[2rem] border-2 border-[#ccfbf1] bg-white p-5 md:p-7">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
-              <Link href="/" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[#ccfbf1] px-4 text-sm font-black text-[#0f766e]">
+              <Link href="/home" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[#ccfbf1] px-4 text-sm font-black text-[#0f766e]">
                 홈으로
               </Link>
               <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#0f766e]">Alpha</p>

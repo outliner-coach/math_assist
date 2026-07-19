@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import {
   GameButton,
@@ -102,6 +102,7 @@ export default function Grade1GameClient() {
   const [showHint, setShowHint] = useState(false)
   const [wrongAttemptCount, setWrongAttemptCount] = useState(0)
   const [confirmReset, setConfirmReset] = useState(false)
+  const restoredProgressRef = useRef(false)
 
   const recommendedMission = firstOpenMission(missions, progress)
   const nextPathMission = firstUnlockedIncompleteMission(missions, progress)
@@ -125,14 +126,14 @@ export default function Grade1GameClient() {
   const showIntroGuide = progress.introDismissedAt === null
 
   useEffect(() => {
+    if (restoredProgressRef.current) return
+    restoredProgressRef.current = true
     const result = loadGrade1Progress()
     const recommended = firstOpenMission(missions, result.progress)
     setProgress(result.progress)
     setStorageAvailable(result.storageAvailable)
     setStorageRecovered((wasRecovered) => wasRecovered || result.recovered)
-    setSelectedMissionId((current) =>
-      missions.some((mission) => mission.id === current) ? current : recommended.id
-    )
+    setSelectedMissionId(recommended.id)
   }, [missions])
 
   useEffect(() => {
@@ -259,7 +260,7 @@ export default function Grade1GameClient() {
         <header className="grid gap-5 rounded-[2rem] border-2 border-[#e5e5e5] bg-white p-5 md:grid-cols-[1fr_300px] md:items-center md:p-6">
           <div>
             <Link
-              href="/"
+              href="/home"
               className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[#e5e5e5] px-4 text-sm font-black text-[#1cb0f6]"
             >
               홈으로
