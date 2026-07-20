@@ -7,6 +7,21 @@ const ROOT_DIR = path.join(__dirname, '..')
 const TEMPLATES_DIR = path.join(ROOT_DIR, 'public', 'data', 'templates')
 const CONCEPTS_PATH = path.join(ROOT_DIR, 'public', 'data', 'concepts.json')
 
+function loadThreeShapeOverlapModel() {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'math-assist-overlap-model-'))
+  const sourcePath = path.join(ROOT_DIR, 'src', 'lib', 'three-shape-overlap.ts')
+  const code = ts.transpileModule(
+    fs.readFileSync(sourcePath, 'utf8'),
+    { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }
+  ).outputText
+
+  fs.writeFileSync(path.join(tempDir, 'types.js'), 'module.exports = {}')
+  fs.writeFileSync(path.join(tempDir, 'three-shape-overlap.js'), code)
+  return require(path.join(tempDir, 'three-shape-overlap.js'))
+}
+
+const { buildThreeShapeOverlapModel } = loadThreeShapeOverlapModel()
+
 function gcd(a, b) {
   a = Math.abs(Math.floor(a))
   b = Math.abs(Math.floor(b))
@@ -611,6 +626,32 @@ function analyzeRenderedMeasurementUnits(template, prompt, solutionSteps, visual
   return null
 }
 
+function analyzeThreeShapeOverlapVisual(visual) {
+  if (visual?.type !== 'three_shape_overlap') return null
+
+  if (visual.semantics !== 'quantitative') {
+    return {
+      code: 'missing_quantitative_visual_semantics',
+      message: 'three_shape_overlap visual must declare quantitative semantics.'
+    }
+  }
+
+  try {
+    buildThreeShapeOverlapModel({
+      shapeArea: Number(visual.props?.shapeArea),
+      exclusiveAreas: (visual.props?.exclusiveAreas || []).map(Number),
+      tripleOverlap: Number(visual.props?.tripleOverlap)
+    })
+  } catch (error) {
+    return {
+      code: 'invalid_three_shape_overlap_model',
+      message: error instanceof Error ? error.message : String(error)
+    }
+  }
+
+  return null
+}
+
 function createIssue(severity, code, context) {
   return {
     severity,
@@ -740,6 +781,18 @@ function validateTemplates(options = {}) {
           break
         }
 
+        const overlapIssue = analyzeThreeShapeOverlapVisual(visual)
+        if (overlapIssue) {
+          errors.push(createIssue('error', overlapIssue.code, {
+            file,
+            templateId: template.id,
+            conceptId: template.concept_id,
+            params,
+            message: `${file} ${template.id}: ${overlapIssue.message}`,
+          }))
+          break
+        }
+
         if (hasUnevaluated(prompt)) {
           errors.push(createIssue('error', 'unevaluated_prompt', {
             file,
@@ -848,6 +901,7 @@ function loadProblemGenerator() {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'math-assist-quality-'))
   const mathPath = path.join(ROOT_DIR, 'src', 'lib', 'math.ts')
   const generatorPath = path.join(ROOT_DIR, 'src', 'lib', 'problem-generator.ts')
+  const overlapModelPath = path.join(ROOT_DIR, 'src', 'lib', 'three-shape-overlap.ts')
 
   const mathCode = ts.transpileModule(
     fs.readFileSync(mathPath, 'utf8'),
@@ -857,9 +911,14 @@ function loadProblemGenerator() {
     fs.readFileSync(generatorPath, 'utf8'),
     { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }
   ).outputText
+  const overlapModelCode = ts.transpileModule(
+    fs.readFileSync(overlapModelPath, 'utf8'),
+    { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }
+  ).outputText
 
   fs.writeFileSync(path.join(tempDir, 'math.js'), mathCode)
   fs.writeFileSync(path.join(tempDir, 'types.js'), 'module.exports = {}')
+  fs.writeFileSync(path.join(tempDir, 'three-shape-overlap.js'), overlapModelCode)
   fs.writeFileSync(path.join(tempDir, 'problem-generator.js'), generatorCode)
 
   return require(path.join(tempDir, 'problem-generator.js'))
@@ -1093,6 +1152,7 @@ function generateProblemQualityReport(options = {}) {
 module.exports = {
   analyzeRenderedMeasurementUnits,
   analyzeRenderedPromptQuality,
+  analyzeThreeShapeOverlapVisual,
   buildParamSamples,
   calculateDifficultySignal,
   evaluateTemplate,

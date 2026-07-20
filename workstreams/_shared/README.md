@@ -21,6 +21,15 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-21: quantitative three-shape overlap repair (primary workstream 03,
+  dependencies on workstreams 01 and 04)
+  `src/lib/types.ts`, `src/lib/problem-generator.ts`, and
+  `public/data/templates/area.json` classify `three_shape_overlap` as a
+  quantitative visual. New problems carry a derived seven-region area model;
+  the renderer must also derive that model for older saved problem snapshots
+  that do not contain it. Re-check template validation, answer-safe DOM output,
+  session serialization, zero-region omission, and exact unit-cell ratios.
+
 - 2026-07-19: guest landing and learning home (primary workstream 03)
   `/` is now a public landing, `/home` is the device-local learner home, and
   `/grade/5` owns the Grade 5 unit list. `src/lib/guest-home.ts` reads the

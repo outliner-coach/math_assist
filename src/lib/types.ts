@@ -32,6 +32,21 @@ export type PolygonShape =
   | 'trapezoid'
   | 'rhombus'
 
+export interface ThreeShapeOverlapModel {
+  cellArea: 1
+  regions: {
+    aOnly: number
+    bOnly: number
+    cOnly: number
+    abOnly: number
+    acOnly: number
+    bcOnly: number
+    abc: number
+  }
+  shapeAreas: [number, number, number]
+  unionArea: number
+}
+
 export type ProblemVisual =
   | {
       type: 'basic_shape'
@@ -73,12 +88,14 @@ export type ProblemVisual =
     }
   | {
       type: 'three_shape_overlap'
+      semantics: 'quantitative'
       props: {
         shapeArea: number
         exclusiveAreas: [number, number, number]
         tripleOverlap: number
         unit: 'cm' | 'm'
       }
+      model?: ThreeShapeOverlapModel
     }
 
 export type GeometryVisual =

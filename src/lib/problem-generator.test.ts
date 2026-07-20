@@ -18,6 +18,40 @@ function makeTemplate(overrides: Partial<ProblemTemplate>): ProblemTemplate {
 }
 
 describe('generateProblems', () => {
+  it('attaches a feasible quantitative region model to three-shape overlap problems', () => {
+    const template = makeTemplate({
+      id: 'three-shape-overlap',
+      difficulty: 1,
+      visual_template: {
+        type: 'three_shape_overlap',
+        semantics: 'quantitative',
+        props: {
+          shapeArea: 29,
+          exclusiveAreas: [18, 20, 22],
+          tripleOverlap: 5,
+          unit: 'cm'
+        }
+      }
+    })
+
+    const [problem] = generateProblems([template], {
+      count: 1,
+      setId: 'A',
+      difficultyMix: { 1: 1, 2: 0, 3: 0 },
+      seed: 7
+    })
+
+    expect(problem.visual).toMatchObject({
+      type: 'three_shape_overlap',
+      semantics: 'quantitative',
+      model: {
+        regions: { abOnly: 4, acOnly: 2, bcOnly: 0, abc: 5 },
+        shapeAreas: [29, 29, 29],
+        unionArea: 71
+      }
+    })
+  })
+
   it('evaluates numeric expressions inside a problem visual without exposing derived answers', () => {
     const templates: ProblemTemplate[] = Array.from({ length: 10 }, (_, index) =>
       makeTemplate({

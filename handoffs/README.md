@@ -24,6 +24,11 @@ Use this folder for short async notes between parallel agents.
 - For landing, guest home, or future profile work, start with
   `2026-07-19-03-ui-and-visuals-guest-home-codex.md` and
   `../docs/landing-home-guest-v1.md`.
+- For the 1–6 production upgrade, implementation planning, application-problem
+  expansion, quantitative visual integrity, shared missions/scratchpad/mascots,
+  or architecture sequencing, start with
+  `2026-07-21-shared-production-upgrade-codex.md` and
+  `../docs/math-assist-production-proposal.html`.
 
 ## Example
 

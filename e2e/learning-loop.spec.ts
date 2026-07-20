@@ -11,6 +11,12 @@ type StoredProblem = {
   type: 'choice' | 'number'
   correctAnswer: string
   correctChoiceIndex?: number
+  visual?: {
+    type?: string
+    props: {
+      exclusiveAreas: [number, number, number]
+    }
+  }
 }
 
 type StoredSession = {
@@ -175,6 +181,43 @@ test('5학년 도형 연습은 SVG 정답을 제출 전 숨기고 결과에서 �
   await expect(page).toHaveURL(/\/math_assist\/result\/?$/)
   await expect(page.getByTestId('wrong-results').getByTestId('geometry-visual-congruence')).toBeVisible()
   await expect(page.getByTestId('wrong-results')).toContainText('정답:')
+})
+
+test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세션도 복구한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/practice/area-001?set=A`)
+  const session = await readSession(page)
+  const overlapProblemIndex = session.problems.findIndex(
+    problem => problem.visual?.type === 'three_shape_overlap'
+  )
+  const overlapVisual = session.problems[overlapProblemIndex]?.visual
+
+  expect(overlapProblemIndex).toBeGreaterThanOrEqual(0)
+  expect(overlapVisual).toBeTruthy()
+  if (!overlapVisual) throw new Error('three_shape_overlap visual was not generated')
+
+  await page.getByRole('button', { name: `문제 ${overlapProblemIndex + 1}`, exact: true }).click()
+
+  const diagram = page.getByTestId('problem-diagram-three-shape-overlap')
+  await expect(diagram).toBeVisible()
+  await expect(diagram.locator('[data-cell-region="aOnly"]')).toHaveCount(
+    overlapVisual.props.exclusiveAreas[0]
+  )
+  await expect(diagram.locator('[data-cell-region="abOnly"]')).toHaveCount(4)
+  await expect(diagram.locator('[data-cell-region="acOnly"]')).toHaveCount(2)
+  await expect(diagram.locator('[data-cell-region="bcOnly"]')).toHaveCount(0)
+  await expect(diagram).not.toContainText('AB만 4')
+  await expect(diagram).not.toContainText('AC만 2')
+
+  await page.evaluate((key) => {
+    const session = JSON.parse(localStorage.getItem(key) || 'null')
+    delete session.problems[session.currentIndex].visual.model
+    delete session.problems[session.currentIndex].visual.semantics
+    localStorage.setItem(key, JSON.stringify(session))
+  }, SESSION_KEY)
+  await page.reload()
+
+  await expect(page.getByTestId('problem-diagram-three-shape-overlap')).toBeVisible()
+  await expect(page.locator('[data-cell-region="bcOnly"]')).toHaveCount(0)
 })
 
 test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수 있다', async ({ page }) => {

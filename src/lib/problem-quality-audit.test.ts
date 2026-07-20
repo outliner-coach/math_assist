@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   analyzeRenderedMeasurementUnits,
   analyzeRenderedPromptQuality,
+  analyzeThreeShapeOverlapVisual,
   calculateDifficultySignal
 } from '../../scripts/problem-quality-core.js'
 
@@ -77,5 +78,20 @@ describe('problem quality audit helpers', () => {
     )
 
     expect(issue).toMatchObject({ code: 'measurement_unit_mismatch' })
+  })
+
+  it('rejects impossible quantitative overlap topology', () => {
+    const issue = analyzeThreeShapeOverlapVisual({
+      type: 'three_shape_overlap',
+      semantics: 'quantitative',
+      props: {
+        shapeArea: 10,
+        exclusiveAreas: [9, 1, 1],
+        tripleOverlap: 2,
+        unit: 'cm'
+      }
+    })
+
+    expect(issue).toMatchObject({ code: 'invalid_three_shape_overlap_model' })
   })
 })

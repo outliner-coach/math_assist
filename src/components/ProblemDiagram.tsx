@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { buildThreeShapeOverlapModel } from '@/lib/three-shape-overlap'
 import type { GeometryVisual, ProblemVisual } from '@/lib/types'
 
 interface ProblemDiagramProps {
@@ -28,6 +29,87 @@ function DimensionLabel({ x, y, children }: { x: number; y: number; children: Re
     <text x={x} y={y} textAnchor="middle" className="fill-slate-700 text-[14px] font-bold">
       {children}
     </text>
+  )
+}
+
+type OverlapRegionKey = keyof ReturnType<typeof buildThreeShapeOverlapModel>['regions']
+
+const overlapRegionLayout: Array<{
+  key: OverlapRegionKey
+  column: 0 | 1 | 2
+  row: 0 | 1 | 2
+  label: string
+  fill: string
+  given: boolean
+}> = [
+  { key: 'aOnly', column: 0, row: 0, label: 'A만', fill: '#93c5fd', given: true },
+  { key: 'abOnly', column: 1, row: 0, label: 'AB', fill: '#67e8f9', given: false },
+  { key: 'bOnly', column: 2, row: 0, label: 'B만', fill: '#86efac', given: true },
+  { key: 'acOnly', column: 0, row: 1, label: 'AC', fill: '#c4b5fd', given: false },
+  { key: 'abc', column: 1, row: 1, label: 'ABC', fill: '#fcd34d', given: true },
+  { key: 'bcOnly', column: 2, row: 1, label: 'BC', fill: '#fdba74', given: false },
+  { key: 'cOnly', column: 1, row: 2, label: 'C만', fill: '#fca5a5', given: true }
+]
+
+function OverlapRegionCells({
+  regionKey,
+  area,
+  column,
+  row,
+  label,
+  fill,
+  given
+}: {
+  regionKey: OverlapRegionKey
+  area: number
+  column: 0 | 1 | 2
+  row: 0 | 1 | 2
+  label: string
+  fill: string
+  given: boolean
+}) {
+  if (area === 0) return null
+
+  const zoneWidth = 118
+  const zoneHeight = 70
+  const pitch = 10
+  const cellSize = 9
+  const columns = Math.min(7, area)
+  const rows = Math.ceil(area / columns)
+  const blockWidth = columns * pitch - 1
+  const blockHeight = rows * pitch - 1
+  const zoneX = 17 + column * 124
+  const zoneY = 50 + row * 76
+  const startX = zoneX + (zoneWidth - blockWidth) / 2
+  const startY = zoneY + (zoneHeight - blockHeight) / 2
+  const labelX = startX + blockWidth / 2
+  const labelY = startY + blockHeight / 2 + 4
+
+  return (
+    <g data-region={regionKey} aria-hidden="true">
+      {Array.from({ length: area }, (_, index) => (
+        <rect
+          key={index}
+          data-cell-region={regionKey}
+          x={startX + (index % columns) * pitch}
+          y={startY + Math.floor(index / columns) * pitch}
+          width={cellSize}
+          height={cellSize}
+          rx="1"
+          fill={fill}
+          stroke="#64748b"
+          strokeWidth="0.7"
+        />
+      ))}
+      <text
+        x={labelX}
+        y={labelY}
+        textAnchor="middle"
+        className="fill-slate-900 text-[9px] font-extrabold"
+      >
+        {label}{given ? ` ${area}` : ''}
+      </text>
+    </g>
   )
 }
 
@@ -162,19 +244,36 @@ export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
   }
 
   const { shapeArea, exclusiveAreas, tripleOverlap, unit } = visual.props
+  const model = visual.model ?? buildThreeShapeOverlapModel(visual.props)
   return (
     <figure className="rounded-2xl border border-slate-200 bg-slate-50 p-3" data-testid="problem-diagram-three-shape-overlap">
-      <svg viewBox="0 0 400 260" role="img" aria-label={`각 넓이가 ${shapeArea}${unit}²인 세 도형의 겹침`} className="mx-auto w-full max-w-md">
-        <polygon points="75,75 215,45 240,185 95,205" fill="#93c5fd" fillOpacity="0.55" stroke={stroke} strokeWidth="3" />
-        <polygon points="185,35 325,85 275,220 145,175" fill="#86efac" fillOpacity="0.5" stroke={stroke} strokeWidth="3" />
-        <polygon points="75,170 190,70 330,175 205,235" fill="#fca5a5" fillOpacity="0.47" stroke={stroke} strokeWidth="3" />
-        <text x="55" y="55" className="fill-slate-700 text-[13px] font-bold">각 도형 {shapeArea} {unit}²</text>
-        <DimensionLabel x={105} y={125}>{exclusiveAreas[0]}</DimensionLabel>
-        <DimensionLabel x={278} y={126}>{exclusiveAreas[1]}</DimensionLabel>
-        <DimensionLabel x={185} y={215}>{exclusiveAreas[2]}</DimensionLabel>
-        <circle cx="198" cy="136" r="25" fill="#fef3c7" stroke={accent} strokeWidth="2" />
-        <text x="198" y="132" textAnchor="middle" className="fill-slate-700 text-[11px] font-bold">세 도형</text>
-        <text x="198" y="149" textAnchor="middle" className="fill-slate-700 text-[12px] font-bold">{tripleOverlap} {unit}²</text>
+      <svg
+        viewBox="0 0 400 300"
+        role="img"
+        aria-label={`각 넓이가 ${shapeArea}${unit}²이고, 겹치지 않은 부분이 ${exclusiveAreas.join(', ')}${unit}²이며, 세 도형 공통부분이 ${tripleOverlap}${unit}²인 단위 넓이 그림`}
+        className="mx-auto w-full max-w-md"
+      >
+        <text x="200" y="20" textAnchor="middle" className="fill-slate-800 text-[13px] font-bold">
+          각 도형 {shapeArea} {unit}²
+        </text>
+        <text x="200" y="38" textAnchor="middle" className="fill-slate-600 text-[11px] font-semibold">
+          한 칸 = 1 {unit}²
+        </text>
+        {overlapRegionLayout.map(region => (
+          <OverlapRegionCells
+            key={region.key}
+            regionKey={region.key}
+            area={model.regions[region.key]}
+            column={region.column}
+            row={region.row}
+            label={region.label}
+            fill={region.fill}
+            given={region.given}
+          />
+        ))}
+        <text x="200" y="290" textAnchor="middle" className="fill-slate-500 text-[10px] font-semibold">
+          AB·AC·BC는 표시된 두 도형만 겹친 칸이에요.
+        </text>
       </svg>
     </figure>
   )

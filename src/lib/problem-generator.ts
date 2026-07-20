@@ -3,6 +3,7 @@
  */
 
 import * as math from './math'
+import { buildThreeShapeOverlapModel } from './three-shape-overlap'
 import type { Problem, ProblemTemplate } from './types'
 
 // 시드 기반 난수 생성기 (재현 가능)
@@ -212,6 +213,21 @@ function resolveVisualTemplate(
   }
   return value
 }
+
+function resolveProblemVisual(
+  template: ProblemTemplate,
+  params: Record<string, number>
+): Problem['visual'] {
+  if (!template.visual_template) return undefined
+
+  const visual = resolveVisualTemplate(template.visual_template, params) as Problem['visual']
+  if (visual?.type !== 'three_shape_overlap') return visual
+
+  return {
+    ...visual,
+    model: buildThreeShapeOverlapModel(visual.props)
+  }
+}
 // 파라미터 생성
 function generateParams(
   schema: Record<string, { min: number; max: number }>,
@@ -245,9 +261,7 @@ function generateSingleProblem(
   const hintSteps = template.hint_steps_template
     ? template.hint_steps_template.map(step => evaluateTemplate(step, params))
     : undefined
-  const visual = template.visual_template
-    ? resolveVisualTemplate(template.visual_template, params) as Problem['visual']
-    : undefined
+  const visual = resolveProblemVisual(template, params)
 
   if (template.type === 'choice' && template.choices_template) {
     // 객관식: 보기 생성 및 셔플

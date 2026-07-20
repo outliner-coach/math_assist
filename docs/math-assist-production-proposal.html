@@ -1,0 +1,1216 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Math Assist를 초등 1–6학년용 프로덕션 서비스로 확장하기 위한 제품·콘텐츠·로그인·UX 제안서" />
+  <link rel="icon" href="data:," />
+  <title>Math Assist — Production Upgrade Proposal</title>
+  <style>
+    :root {
+      --ink: #10253f;
+      --ink-2: #29425f;
+      --muted: #687b91;
+      --paper: #f5f7f2;
+      --card: #ffffff;
+      --line: #dce4df;
+      --navy: #0d2742;
+      --navy-2: #163a5c;
+      --mint: #18b892;
+      --mint-pale: #dff8ef;
+      --lime: #b9e44b;
+      --lime-pale: #eff8d4;
+      --blue: #3478f6;
+      --blue-pale: #e8f0ff;
+      --orange: #ff8a4c;
+      --orange-pale: #fff0e7;
+      --purple: #8168e5;
+      --purple-pale: #eeeafe;
+      --red: #e75b52;
+      --shadow: 0 22px 70px rgba(13, 39, 66, .09);
+      --radius: 28px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(185, 228, 75, .20), transparent 28rem),
+        radial-gradient(circle at 95% 24%, rgba(52, 120, 246, .10), transparent 32rem),
+        var(--paper);
+      font-family: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+
+    a { color: inherit; }
+    button { font: inherit; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(220, 228, 223, .78);
+      background: rgba(245, 247, 242, .88);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 900; letter-spacing: -.03em; }
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: var(--navy);
+      background: var(--lime);
+      box-shadow: inset 0 -4px 0 rgba(13, 39, 66, .15);
+      font-size: 23px;
+    }
+    .brand small { display: block; color: var(--muted); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; }
+
+    .nav-links { display: flex; align-items: center; gap: 7px; }
+    .nav-links a {
+      padding: 9px 12px;
+      border-radius: 12px;
+      color: var(--ink-2);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .nav-links a:hover { background: #fff; }
+
+    .hero { padding: 78px 0 44px; }
+    .hero-grid { display: grid; grid-template-columns: 1.13fr .87fr; gap: 38px; align-items: center; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 12px;
+      border: 1px solid #cad7d1;
+      border-radius: 999px;
+      background: rgba(255,255,255,.78);
+      color: var(--ink-2);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 5px rgba(24,184,146,.13); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin: 22px 0 20px; font-size: clamp(48px, 7vw, 84px); line-height: .98; letter-spacing: -.065em; }
+    .hero h1 span { display: block; color: var(--mint); }
+    .lede { max-width: 690px; color: var(--ink-2); font-size: 20px; font-weight: 680; line-height: 1.7; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 30px; }
+    .button {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 16px;
+      text-decoration: none;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .button.primary { color: white; background: var(--navy); box-shadow: 0 6px 0 #06192b; }
+    .button.secondary { border: 1px solid var(--line); background: #fff; color: var(--ink); }
+    .button:active { transform: translateY(3px); box-shadow: none; }
+    .micro { margin: 18px 0 0; color: var(--muted); font-size: 12px; font-weight: 700; }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 455px;
+      padding: 30px;
+      border-radius: 38px;
+      color: #fff;
+      background: var(--navy);
+      box-shadow: 0 30px 90px rgba(13,39,66,.24);
+    }
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      right: -100px;
+      top: -95px;
+      border-radius: 50%;
+      background: var(--lime);
+      opacity: .95;
+    }
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 145px;
+      height: 145px;
+      right: 88px;
+      bottom: -80px;
+      border: 30px solid var(--mint);
+      border-radius: 50%;
+      opacity: .55;
+    }
+    .hero-card > * { position: relative; z-index: 1; }
+    .hero-card .overline { color: #b7c8d8; font-size: 11px; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
+    .hero-card blockquote { margin: 22px 0 38px; max-width: 430px; font-size: 26px; line-height: 1.45; font-weight: 900; letter-spacing: -.03em; }
+    .hero-card blockquote b { color: var(--lime); }
+    .orbit {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .orbit > div { min-height: 114px; padding: 16px; border-radius: 20px; background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.11); }
+    .orbit span { display: block; color: var(--lime); font-size: 24px; font-weight: 950; }
+    .orbit small { color: #cfdae5; font-weight: 750; }
+    .north-star { position: absolute; left: 30px; right: 30px; bottom: 26px; display: flex; align-items: center; gap: 12px; color: #c9d7e2; font-size: 12px; font-weight: 800; }
+    .north-star::before { content: "N"; flex: 0 0 auto; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; color: var(--navy); background: var(--lime); font-size: 11px; }
+
+    .metrics { padding: 18px 0 78px; }
+    .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .metric { min-height: 155px; padding: 23px; border: 1px solid var(--line); border-radius: 22px; background: rgba(255,255,255,.84); box-shadow: 0 10px 35px rgba(13,39,66,.04); }
+    .metric .value { margin-bottom: 7px; color: var(--navy); font-size: 38px; font-weight: 950; letter-spacing: -.05em; }
+    .metric .label { font-weight: 900; }
+    .metric p { margin: 7px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+
+    section.section { padding: 82px 0; }
+    section.tinted { border-block: 1px solid #e1e7e2; background: rgba(255,255,255,.58); }
+    .section-head { display: grid; grid-template-columns: .8fr 1.2fr; gap: 40px; align-items: end; margin-bottom: 34px; }
+    .section-kicker { color: var(--mint); font-size: 12px; font-weight: 950; letter-spacing: .14em; text-transform: uppercase; }
+    h2 { margin: 8px 0 0; max-width: 780px; font-size: clamp(35px, 5vw, 58px); line-height: 1.08; letter-spacing: -.05em; }
+    .section-head p { margin: 0; color: var(--ink-2); font-size: 17px; font-weight: 650; }
+
+    .diagnosis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .diagnosis article { min-height: 260px; padding: 26px; border-radius: var(--radius); background: var(--card); box-shadow: var(--shadow); }
+    .issue-no { color: var(--muted); font-size: 11px; font-weight: 950; letter-spacing: .16em; }
+    .diagnosis h3 { margin: 42px 0 12px; font-size: 25px; line-height: 1.25; letter-spacing: -.035em; }
+    .diagnosis p { margin: 0; color: var(--muted); font-size: 14px; }
+    .diagnosis .answer { margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--line); color: var(--ink); font-size: 13px; font-weight: 850; }
+    .diagnosis article:nth-child(1) { border-top: 6px solid var(--orange); }
+    .diagnosis article:nth-child(2) { border-top: 6px solid var(--blue); }
+    .diagnosis article:nth-child(3) { border-top: 6px solid var(--purple); }
+
+    .principle-band {
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 30px;
+      align-items: center;
+      margin-top: 24px;
+      padding: 32px;
+      border-radius: 30px;
+      color: white;
+      background: var(--navy);
+    }
+    .principle-band h3 { margin: 0 0 9px; font-size: 30px; letter-spacing: -.04em; }
+    .principle-band p { margin: 0; color: #c9d7e3; }
+    .equation { display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 950; }
+    .equation span { padding: 10px 13px; border-radius: 13px; background: rgba(255,255,255,.1); }
+    .equation b { color: var(--lime); font-size: 25px; }
+
+    .benchmark-section { color: white; background: var(--navy); }
+    .benchmark-section .section-kicker { color: var(--lime); }
+    .benchmark-section .section-head p { color: #c7d5e1; }
+    .benchmark-thesis { display: grid; grid-template-columns: .62fr 1.38fr; gap: 18px; margin-bottom: 18px; }
+    .benchmark-count, .benchmark-blend { min-height: 210px; padding: 27px; border: 1px solid rgba(255,255,255,.1); border-radius: 28px; background: rgba(255,255,255,.06); }
+    .benchmark-count strong { display: block; color: var(--lime); font-size: 76px; line-height: .9; letter-spacing: -.07em; }
+    .benchmark-count span { display: block; margin-top: 17px; font-size: 16px; font-weight: 950; }
+    .benchmark-count small { display: block; margin-top: 6px; color: #9fb4c5; font-size: 11px; }
+    .benchmark-blend > span { color: #9fb4c5; font-size: 9px; font-weight: 950; letter-spacing: .14em; text-transform: uppercase; }
+    .benchmark-blend h3 { margin: 10px 0 22px; color: white; font-size: 27px; line-height: 1.28; letter-spacing: -.035em; }
+    .blend-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+    .blend-pills span { padding: 8px 10px; border-radius: 11px; color: #dce7ef; background: rgba(255,255,255,.08); font-size: 9px; font-weight: 900; }
+    .blend-pills b { color: var(--lime); }
+    .benchmark-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .benchmark-card { min-height: 205px; padding: 20px; border-radius: 22px; color: var(--ink); background: white; }
+    .benchmark-card .bench-no { color: var(--mint); font-size: 9px; font-weight: 950; letter-spacing: .12em; }
+    .benchmark-card h3 { margin: 22px 0 8px; font-size: 17px; line-height: 1.2; letter-spacing: -.025em; }
+    .benchmark-card p { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
+    .benchmark-card a { display: inline-block; margin-top: 12px; color: var(--blue); font-size: 9px; font-weight: 950; text-decoration: none; }
+    .benchmark-decisions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
+    .benchmark-decision { padding: 20px; border: 1px solid rgba(255,255,255,.11); border-radius: 22px; background: rgba(255,255,255,.06); }
+    .benchmark-decision b { display: inline-block; padding: 5px 8px; border-radius: 99px; color: var(--navy); background: var(--lime); font-size: 8px; letter-spacing: .1em; }
+    .benchmark-decision:nth-child(2) b { background: #77b7ff; }
+    .benchmark-decision:nth-child(3) b { background: var(--orange); }
+    .benchmark-decision strong { display: block; margin: 12px 0 5px; font-size: 14px; }
+    .benchmark-decision small { display: block; color: #adc0cf; font-size: 10px; line-height: 1.55; }
+    .benchmark-evidence { display: grid; grid-template-columns: 1.25fr repeat(3, .75fr); gap: 1px; margin-top: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,.11); border-radius: 22px; background: rgba(255,255,255,.11); }
+    .evidence-intro, .evidence-stat { padding: 18px 20px; background: var(--navy-2); }
+    .evidence-intro b { display: block; color: var(--lime); font-size: 9px; letter-spacing: .12em; }
+    .evidence-intro strong { display: block; margin-top: 7px; font-size: 13px; }
+    .evidence-intro small { display: block; margin-top: 4px; color: #adc0cf; font-size: 9px; }
+    .evidence-stat strong { display: block; color: white; font-size: 24px; letter-spacing: -.035em; }
+    .evidence-stat small { display: block; color: #adc0cf; font-size: 8px; line-height: 1.4; }
+    .research-link { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 18px; padding: 17px 20px; border-radius: 18px; color: var(--navy); background: var(--lime); text-decoration: none; }
+    .research-link strong { font-size: 13px; }
+    .research-link span { font-size: 11px; font-weight: 950; white-space: nowrap; }
+
+    .grade-board { overflow: hidden; border: 1px solid var(--line); border-radius: 30px; background: white; box-shadow: var(--shadow); }
+    .grade-row { display: grid; grid-template-columns: 72px 1.05fr .95fr 1.2fr 130px; align-items: center; gap: 16px; min-height: 102px; padding: 16px 22px; border-top: 1px solid var(--line); }
+    .grade-row:first-child { border-top: 0; }
+    .grade-row.head { min-height: 48px; background: var(--navy); color: #d8e5ef; font-size: 10px; font-weight: 950; letter-spacing: .12em; text-transform: uppercase; }
+    .grade-badge { width: 52px; height: 52px; display: grid; place-items: center; border-radius: 18px; color: var(--navy); background: var(--lime-pale); font-size: 22px; font-weight: 950; }
+    .grade-row:nth-child(3) .grade-badge { background: var(--blue-pale); }
+    .grade-row:nth-child(4) .grade-badge, .grade-row:nth-child(5) .grade-badge { background: var(--mint-pale); }
+    .grade-row:nth-child(6) .grade-badge, .grade-row:nth-child(7) .grade-badge { background: var(--purple-pale); }
+    .grade-title { font-weight: 950; }
+    .grade-row small { display: block; color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .bar { height: 8px; margin-top: 9px; overflow: hidden; border-radius: 99px; background: #e9efeb; }
+    .bar i { display: block; height: 100%; border-radius: inherit; background: var(--mint); }
+    .status { justify-self: end; padding: 7px 10px; border-radius: 999px; white-space: nowrap; font-size: 11px; font-weight: 950; }
+    .status.strong { color: #0f6e55; background: var(--mint-pale); }
+    .status.alpha { color: #1e57bb; background: var(--blue-pale); }
+    .status.gap { color: #9f4018; background: var(--orange-pale); }
+    .status.quality { color: #5c48b2; background: var(--purple-pale); }
+
+    .content-pipeline { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 22px; }
+    .pipeline-step { position: relative; min-height: 145px; padding: 18px; border-radius: 20px; background: #fff; border: 1px solid var(--line); }
+    .pipeline-step:not(:last-child)::after { content: "→"; position: absolute; right: -12px; top: 50%; z-index: 2; color: var(--mint); font-weight: 950; }
+    .pipeline-step b { display: block; margin-bottom: 10px; color: var(--mint); font-size: 12px; letter-spacing: .08em; }
+    .pipeline-step strong { display: block; font-size: 15px; }
+    .pipeline-step small { display: block; margin-top: 8px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+
+    .application-audit { display: grid; grid-template-columns: .72fr 1.28fr; gap: 18px; margin-top: 22px; }
+    .audit-summary { padding: 26px; border-radius: 27px; color: white; background: var(--navy); }
+    .audit-summary > span { color: var(--lime); font-size: 9px; font-weight: 950; letter-spacing: .13em; text-transform: uppercase; }
+    .audit-summary h3 { margin: 9px 0 20px; font-size: 24px; line-height: 1.22; letter-spacing: -.035em; }
+    .audit-number { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; padding: 13px 0; border-top: 1px solid rgba(255,255,255,.13); }
+    .audit-number strong { color: var(--lime); font-size: 25px; letter-spacing: -.04em; }
+    .audit-number small { color: #c6d5df; font-size: 10px; line-height: 1.45; }
+    .cognitive-panel { padding: 24px; border: 1px solid var(--line); border-radius: 27px; background: white; }
+    .cognitive-panel > b { color: var(--mint); font-size: 9px; letter-spacing: .12em; }
+    .cognitive-panel h3 { margin: 7px 0 16px; font-size: 22px; letter-spacing: -.03em; }
+    .cognitive-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+    .cognitive-card { min-height: 148px; padding: 16px; border-radius: 17px; background: var(--paper); }
+    .cognitive-card:nth-child(2) { background: var(--blue-pale); }
+    .cognitive-card:nth-child(3) { background: var(--purple-pale); }
+    .cognitive-card span { display: inline-block; padding: 4px 7px; border-radius: 99px; color: #0b765a; background: white; font-size: 8px; font-weight: 950; }
+    .cognitive-card:nth-child(2) span { color: #1e57bb; }
+    .cognitive-card:nth-child(3) span { color: #5c48b2; }
+    .cognitive-card strong { display: block; margin-top: 12px; font-size: 14px; }
+    .cognitive-card small { display: block; margin-top: 5px; color: var(--muted); font-size: 9px; line-height: 1.5; }
+    .type-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 13px; }
+    .type-cloud span { padding: 6px 8px; border: 1px solid var(--line); border-radius: 9px; color: var(--ink-2); background: white; font-size: 8px; font-weight: 900; }
+
+    .visual-integrity { display: grid; grid-template-columns: .94fr 1.06fr; gap: 18px; margin-top: 18px; }
+    .visual-case, .integrity-contract { padding: 25px; border-radius: 27px; }
+    .visual-case { color: white; background: #1d3349; }
+    .visual-case > b, .integrity-contract > b { display: block; color: var(--orange); font-size: 9px; letter-spacing: .12em; }
+    .visual-case h3, .integrity-contract h3 { margin: 8px 0 7px; font-size: 21px; line-height: 1.25; letter-spacing: -.03em; }
+    .visual-case > p, .integrity-contract > p { margin: 0 0 16px; color: #c8d6e1; font-size: 10px; line-height: 1.55; }
+    .ratio-row { display: grid; grid-template-columns: 54px 1fr 1fr; gap: 9px; align-items: center; padding: 9px 0; border-top: 1px solid rgba(255,255,255,.12); font-size: 9px; }
+    .ratio-row strong { color: white; }
+    .ratio-row span { color: #b6c8d6; }
+    .ratio-row em { color: #ffab75; font-style: normal; font-weight: 950; }
+    .topology-alert { margin-top: 14px; padding: 12px 13px; border-radius: 13px; color: #763310; background: var(--orange-pale); font-size: 9px; font-weight: 900; }
+    .integrity-contract { border: 1px solid var(--line); background: white; }
+    .integrity-contract > p { color: var(--muted); }
+    .integrity-contract > b { color: var(--mint); }
+    .integrity-rule { display: grid; grid-template-columns: 30px 1fr; gap: 11px; align-items: start; padding: 11px 0; border-top: 1px solid var(--line); }
+    .integrity-rule > b { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 8px; color: var(--navy); background: var(--lime); font-size: 9px; }
+    .integrity-rule strong { display: block; font-size: 12px; }
+    .integrity-rule small { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; line-height: 1.45; }
+    .content-research-link { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 18px; padding: 17px 20px; border-radius: 18px; color: white; background: var(--purple); text-decoration: none; }
+    .content-research-link strong { font-size: 12px; }
+    .content-research-link span { color: #e4defe; font-size: 10px; font-weight: 950; white-space: nowrap; }
+
+    .mode-picker { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .mode-button { padding: 10px 15px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--ink-2); font-weight: 900; cursor: pointer; }
+    .mode-button[aria-pressed="true"] { border-color: var(--navy); color: #fff; background: var(--navy); }
+    .experience-stage { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .mock-device { overflow: hidden; min-height: 530px; border: 8px solid var(--navy); border-radius: 34px; background: #fff; box-shadow: var(--shadow); }
+    .mock-top { height: 62px; display: flex; align-items: center; justify-content: space-between; padding: 0 19px; border-bottom: 1px solid var(--line); background: white; }
+    .mock-logo { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 950; }
+    .mock-logo i { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 10px; color: var(--navy); background: var(--lime); font-style: normal; }
+    .profile-pill { padding: 7px 10px; border-radius: 99px; background: var(--paper); font-size: 10px; font-weight: 900; }
+    .mock-body { min-height: 452px; padding: 19px; background: #f9fbf8; }
+    .mock-chip { display: inline-flex; padding: 6px 9px; border-radius: 99px; color: #0b765a; background: var(--mint-pale); font-size: 9px; font-weight: 950; }
+    .mock-title { margin: 10px 0 4px; font-size: 24px; line-height: 1.2; font-weight: 950; letter-spacing: -.035em; }
+    .mock-copy { color: var(--muted); font-size: 11px; font-weight: 700; }
+    .mission-scene { position: relative; height: 168px; margin: 16px 0; overflow: hidden; border-radius: 23px; background: linear-gradient(180deg, #dff8ef, #eff8d4); }
+    .mission-scene .sun { position: absolute; right: 24px; top: 20px; width: 35px; height: 35px; border-radius: 50%; background: #ffca4b; }
+    .mission-scene .path { position: absolute; left: -20px; bottom: -70px; width: 300px; height: 190px; border: 28px solid #fff; border-radius: 50%; transform: rotate(-8deg); }
+    .mission-scene .node { position: absolute; width: 42px; height: 42px; display: grid; place-items: center; border: 4px solid white; border-radius: 50%; color: white; background: var(--mint); box-shadow: 0 5px 0 #0e876c; font-size: 12px; font-weight: 950; }
+    .mission-scene .n1 { left: 55px; bottom: 21px; }
+    .mission-scene .n2 { left: 153px; bottom: 61px; }
+    .mission-scene .n3 { right: 56px; top: 35px; background: #bbc7c1; box-shadow: 0 5px 0 #8e9c95; }
+    .primary-action { width: 100%; min-height: 48px; border: 0; border-radius: 15px; color: white; background: var(--mint); box-shadow: 0 5px 0 #0c8067; font-weight: 950; }
+    .mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+    .mini-stats div { padding: 10px 8px; border-radius: 13px; background: white; text-align: center; }
+    .mini-stats b { display: block; font-size: 15px; }
+    .mini-stats small { color: var(--muted); font-size: 9px; }
+    .study-card { margin: 16px 0; padding: 18px; border: 1px solid var(--line); border-radius: 20px; background: white; }
+    .study-meta { display: flex; justify-content: space-between; color: var(--purple); font-size: 10px; font-weight: 950; }
+    .problem { margin: 24px 0; font-size: 25px; font-weight: 950; text-align: center; }
+    .answer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .answer-grid div { padding: 11px; border: 2px solid #e4e8e5; border-radius: 12px; text-align: center; font-size: 12px; font-weight: 900; }
+    .scratch { position: relative; height: 104px; margin-top: 12px; overflow: hidden; border: 2px dashed #cfd9d3; border-radius: 16px; background: repeating-linear-gradient(0deg, transparent 0 20px, #e8eeea 21px); }
+    .scratch::before { content: "2 × 3  →  6"; position: absolute; left: 22px; top: 28px; color: #5b6f85; font-size: 18px; font-weight: 900; transform: rotate(-3deg); }
+    .scratch-tools { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; }
+    .scratch-tools span { padding: 5px 7px; border-radius: 8px; color: var(--ink-2); background: var(--paper); font-size: 8px; font-weight: 900; }
+    .contract-panel { padding: 27px; border: 1px solid var(--line); border-radius: 28px; background: white; }
+    .contract-panel h3 { margin-bottom: 17px; font-size: 23px; }
+    .contract-list { display: grid; gap: 10px; }
+    .contract-item { display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start; padding: 13px; border-radius: 15px; background: var(--paper); }
+    .contract-item b { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 9px; color: var(--navy); background: var(--lime); font-size: 11px; }
+    .contract-item strong { display: block; font-size: 13px; }
+    .contract-item small { display: block; color: var(--muted); font-size: 11px; }
+    .adaptive-note { margin-top: 14px; padding: 14px; border-radius: 15px; color: #6c3e1f; background: var(--orange-pale); font-size: 11px; font-weight: 800; }
+
+    .shared-system-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .system-card { overflow: hidden; border: 1px solid var(--line); border-radius: 30px; background: white; box-shadow: var(--shadow); }
+    .system-card-head { min-height: 185px; padding: 28px; color: white; background: var(--navy); }
+    .system-card:nth-child(2) .system-card-head { color: var(--ink); background: var(--lime); }
+    .system-card-head span { font-size: 10px; font-weight: 950; letter-spacing: .13em; text-transform: uppercase; }
+    .system-card-head h3 { margin: 8px 0 7px; font-size: 31px; line-height: 1.12; letter-spacing: -.045em; }
+    .system-card-head p { margin: 0; max-width: 520px; color: #cad8e3; font-size: 13px; font-weight: 700; }
+    .system-card:nth-child(2) .system-card-head p { color: #38504c; }
+    .system-card-body { padding: 24px 28px 28px; }
+    .universal-loop { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; margin-bottom: 22px; }
+    .loop-step { position: relative; padding: 12px 7px; border-radius: 13px; background: var(--paper); text-align: center; }
+    .loop-step:not(:last-child)::after { content: "›"; position: absolute; right: -7px; top: 14px; z-index: 2; color: var(--mint); font-size: 18px; font-weight: 950; }
+    .loop-step b { display: block; color: var(--mint); font-size: 9px; }
+    .loop-step small { display: block; margin-top: 3px; color: var(--ink-2); font-size: 8px; font-weight: 900; }
+    .tool-preview { padding: 16px; border-radius: 19px; background: #f7faf8; border: 1px solid var(--line); }
+    .tool-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tool { min-width: 44px; padding: 8px 9px; border-radius: 11px; color: var(--ink-2); background: white; border: 1px solid var(--line); text-align: center; font-size: 9px; font-weight: 900; }
+    .tool.active { color: white; background: var(--mint); border-color: var(--mint); }
+    .tool-canvas { position: relative; height: 126px; margin-top: 10px; overflow: hidden; border-radius: 15px; background: repeating-linear-gradient(0deg, #fff 0 24px, #e9efeb 25px); }
+    .tool-canvas::before { content: "12 ÷ 3 = 4"; position: absolute; left: 24px; top: 36px; color: #395573; font-size: 26px; font-weight: 900; transform: rotate(-3deg); }
+    .tool-canvas::after { content: "✓ 자동 저장"; position: absolute; right: 12px; bottom: 10px; padding: 5px 8px; border-radius: 99px; color: #0b765a; background: var(--mint-pale); font-size: 8px; font-weight: 950; }
+    .character-stage { position: relative; margin: 0 0 18px; padding: 12px 12px 10px; overflow: hidden; border: 1px solid var(--line); border-radius: 21px; background: linear-gradient(125deg, var(--mint-pale), var(--blue-pale) 52%, var(--orange-pale)); }
+    .character-stage::before { content: "CHARACTER CONCEPT · V1"; position: absolute; left: 13px; top: 12px; z-index: 1; padding: 4px 7px; border-radius: 99px; color: var(--ink-2); background: rgba(255,255,255,.82); font-size: 7px; font-weight: 950; letter-spacing: .1em; }
+    .mascot-lineup { width: 100%; aspect-ratio: 1623 / 784; display: block; object-fit: contain; filter: drop-shadow(0 9px 12px rgba(13,39,66,.11)); }
+    .character-labels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 3px; }
+    .character { padding: 9px 5px 8px; border: 1px solid rgba(255,255,255,.68); border-radius: 13px; background: rgba(255,255,255,.76); text-align: center; backdrop-filter: blur(8px); }
+    .character strong { display: block; font-size: 11px; }
+    .character em { display: inline-block; margin-left: 3px; color: var(--mint); font-size: 8px; font-style: normal; font-weight: 950; }
+    .character:nth-child(2) em { color: var(--blue); }
+    .character:nth-child(3) em { color: var(--orange); }
+    .character small { display: block; color: var(--muted); font-size: 8px; }
+    .system-rules { display: grid; gap: 8px; }
+    .system-rule { display: grid; grid-template-columns: 26px 1fr; gap: 9px; align-items: start; }
+    .system-rule b { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 8px; color: var(--navy); background: var(--lime); font-size: 9px; }
+    .system-rule strong { display: block; font-size: 11px; }
+    .system-rule small { display: block; color: var(--muted); font-size: 9px; }
+    .age-system-table { margin-top: 20px; overflow: hidden; border: 1px solid var(--line); border-radius: 26px; background: white; }
+    .age-system-row { display: grid; grid-template-columns: 135px 1fr 1.1fr 1fr; gap: 16px; align-items: center; min-height: 118px; padding: 18px 22px; border-top: 1px solid var(--line); }
+    .age-system-row:first-child { border-top: 0; }
+    .age-system-row.head { min-height: 46px; color: #dce7f0; background: var(--navy); font-size: 9px; font-weight: 950; letter-spacing: .12em; text-transform: uppercase; }
+    .age-label { font-size: 18px; font-weight: 950; }
+    .age-label small { display: block; color: var(--muted); font-size: 9px; }
+    .age-system-row strong { display: block; font-size: 12px; }
+    .age-system-row p { margin: 3px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+    .intensity { display: flex; gap: 4px; margin-top: 8px; }
+    .intensity i { width: 18px; height: 6px; border-radius: 99px; background: #dce4df; }
+    .intensity i.on { background: var(--mint); }
+
+    .auth-layout { display: grid; grid-template-columns: .82fr 1.18fr; gap: 22px; }
+    .auth-principles { padding: 30px; border-radius: 30px; color: white; background: var(--navy); }
+    .auth-principles h3 { font-size: 28px; letter-spacing: -.04em; }
+    .big-rule { margin: 30px 0; color: var(--lime); font-size: 42px; line-height: 1.12; font-weight: 950; letter-spacing: -.05em; }
+    .auth-principles ul { padding: 0; list-style: none; }
+    .auth-principles li { padding: 11px 0; border-top: 1px solid rgba(255,255,255,.12); color: #d7e2eb; font-size: 13px; font-weight: 750; }
+    .auth-flow { display: grid; gap: 11px; }
+    .flow-row { display: grid; grid-template-columns: 42px 1fr auto; gap: 14px; align-items: center; padding: 17px; border: 1px solid var(--line); border-radius: 20px; background: white; }
+    .flow-no { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 13px; color: white; background: var(--mint); font-size: 12px; font-weight: 950; }
+    .flow-row:nth-child(4) .flow-no, .flow-row:nth-child(5) .flow-no { background: var(--blue); }
+    .flow-row:nth-child(6) .flow-no { background: var(--purple); }
+    .flow-row strong { display: block; font-size: 14px; }
+    .flow-row small { display: block; color: var(--muted); font-size: 11px; }
+    .flow-role { padding: 5px 8px; border-radius: 99px; color: var(--ink-2); background: var(--paper); font-size: 9px; font-weight: 950; white-space: nowrap; }
+    .auth-states { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+    .auth-state { padding: 18px; border-radius: 19px; background: #fff; border: 1px solid var(--line); }
+    .auth-state b { display: block; margin-bottom: 5px; color: var(--mint); font-size: 12px; }
+    .auth-state strong { display: block; font-size: 13px; }
+    .auth-state small { display: block; margin-top: 7px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+
+    .architecture { display: grid; grid-template-columns: 1fr 44px 1fr 44px .95fr; align-items: stretch; }
+    .arch-column { display: grid; gap: 10px; }
+    .arch-title { margin-bottom: 4px; color: var(--muted); font-size: 10px; font-weight: 950; letter-spacing: .14em; text-transform: uppercase; }
+    .arch-box { padding: 16px; border: 1px solid var(--line); border-radius: 18px; background: white; }
+    .arch-box strong { display: block; font-size: 13px; }
+    .arch-box small { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; }
+    .arch-box.core { border-color: #9ce0cc; background: var(--mint-pale); }
+    .arch-box.new { border-color: #c9c0f4; background: var(--purple-pale); }
+    .arch-arrow { display: grid; place-items: center; color: var(--mint); font-size: 25px; font-weight: 950; }
+    .arch-foot { margin-top: 18px; padding: 16px 19px; border-radius: 18px; color: #6e3b1c; background: var(--orange-pale); font-size: 12px; font-weight: 800; }
+    .architecture-verdict { display: grid; grid-template-columns: .72fr 1.28fr; gap: 18px; margin-bottom: 22px; }
+    .verdict-score, .verdict-copy { padding: 25px; border-radius: 27px; }
+    .verdict-score { color: white; background: var(--navy); }
+    .verdict-score span { display: block; color: var(--lime); font-size: 10px; font-weight: 950; letter-spacing: .13em; text-transform: uppercase; }
+    .verdict-score strong { display: block; margin: 10px 0 6px; font-size: 31px; line-height: 1.12; letter-spacing: -.04em; }
+    .verdict-score small { color: #c9d7e2; font-size: 11px; }
+    .verdict-copy { border: 1px solid var(--line); background: white; }
+    .verdict-copy b { display: block; color: var(--mint); font-size: 11px; letter-spacing: .08em; }
+    .verdict-copy p { margin: 9px 0 0; color: var(--ink-2); font-size: 13px; font-weight: 750; }
+    .child-loop { display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px; margin-bottom: 22px; }
+    .child-loop article { position: relative; min-height: 112px; padding: 17px 14px; border: 1px solid var(--line); border-radius: 19px; background: white; }
+    .child-loop article:not(:last-child)::after { content: "›"; position: absolute; right: -9px; top: 38px; z-index: 2; color: var(--mint); font-size: 25px; font-weight: 950; }
+    .child-loop b { display: block; color: var(--mint); font-size: 9px; letter-spacing: .08em; }
+    .child-loop strong { display: block; margin-top: 7px; font-size: 13px; }
+    .child-loop small { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; line-height: 1.45; }
+    .complexity-budget { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 22px 0; }
+    .scope-card { padding: 21px; border: 1px solid var(--line); border-radius: 23px; background: white; }
+    .scope-card > b { display: inline-block; padding: 5px 8px; border-radius: 99px; color: #0c755d; background: var(--mint-pale); font-size: 9px; letter-spacing: .09em; }
+    .scope-card:nth-child(2) > b { color: #73500b; background: #fff5cf; }
+    .scope-card:nth-child(3) > b { color: #8f3a34; background: #fff0ef; }
+    .scope-card h3 { margin: 12px 0 6px; font-size: 19px; }
+    .scope-card p { margin: 0 0 12px; min-height: 43px; color: var(--muted); font-size: 10px; }
+    .scope-card ul { margin: 0; padding: 0; list-style: none; }
+    .scope-card li { padding: 8px 0; border-top: 1px solid var(--line); color: var(--ink-2); font-size: 10px; font-weight: 750; }
+    .stress-test-link { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 18px; padding: 15px 18px; border: 1px solid #a7d9ca; border-radius: 17px; color: #0b7159; background: var(--mint-pale); text-decoration: none; }
+    .stress-test-link strong { font-size: 12px; }
+    .stress-test-link span { font-size: 10px; font-weight: 950; white-space: nowrap; }
+
+    .roadmap { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .roadmap::before { content: ""; position: absolute; top: 34px; left: 10%; right: 10%; height: 3px; background: #dce5df; }
+    .phase { position: relative; padding-top: 68px; }
+    .phase::before { content: ""; position: absolute; top: 22px; left: 26px; width: 25px; height: 25px; border: 7px solid var(--paper); border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 2px var(--mint); }
+    .phase:nth-child(2)::before { background: var(--blue); box-shadow: 0 0 0 2px var(--blue); }
+    .phase:nth-child(3)::before { background: var(--purple); box-shadow: 0 0 0 2px var(--purple); }
+    .phase:nth-child(4)::before { background: var(--orange); box-shadow: 0 0 0 2px var(--orange); }
+    .phase-card { min-height: 430px; padding: 23px; border: 1px solid var(--line); border-radius: 25px; background: white; }
+    .phase-time { color: var(--muted); font-size: 10px; font-weight: 950; letter-spacing: .1em; text-transform: uppercase; }
+    .phase h3 { margin: 9px 0 5px; font-size: 22px; line-height: 1.25; letter-spacing: -.03em; }
+    .phase-outcome { min-height: 50px; color: var(--ink-2); font-size: 12px; font-weight: 750; }
+    .phase ul { margin: 18px 0 0; padding: 0; list-style: none; }
+    .phase li { position: relative; padding: 9px 0 9px 17px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+    .phase li::before { content: ""; position: absolute; left: 0; top: 17px; width: 6px; height: 6px; border-radius: 50%; background: var(--mint); }
+    .phase-gate { margin-top: 16px; padding: 10px; border-radius: 12px; color: var(--ink); background: var(--lime-pale); font-size: 10px; font-weight: 900; }
+
+    .gates { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .gate-card { padding: 28px; border-radius: 27px; background: white; border: 1px solid var(--line); }
+    .gate-card h3 { font-size: 24px; letter-spacing: -.03em; }
+    .score-row { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; padding: 13px 0; border-top: 1px solid var(--line); }
+    .score-row strong { font-size: 13px; }
+    .score-row small { display: block; color: var(--muted); font-size: 10px; }
+    .target { color: var(--mint); font-size: 12px; font-weight: 950; }
+    .risk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .risk { padding: 15px; border-radius: 16px; background: var(--paper); }
+    .risk b { display: block; margin-bottom: 5px; color: var(--red); font-size: 10px; letter-spacing: .09em; }
+    .risk strong { display: block; font-size: 12px; }
+    .risk small { display: block; margin-top: 5px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+
+    .decision { padding: 75px 0 95px; }
+    .decision-card { position: relative; overflow: hidden; padding: 48px; border-radius: 36px; color: white; background: var(--navy); }
+    .decision-card::after { content: ""; position: absolute; right: -40px; top: -95px; width: 280px; height: 280px; border: 45px solid var(--lime); border-radius: 50%; opacity: .83; }
+    .decision-card > * { position: relative; z-index: 1; }
+    .decision-card h2 { max-width: 880px; margin: 8px 0 14px; }
+    .decision-card p { max-width: 700px; color: #ccdae5; }
+    .decision-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
+    .decision-option { padding: 20px; border-radius: 18px; background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.12); }
+    .decision-option b { display: block; color: var(--lime); font-size: 11px; letter-spacing: .08em; }
+    .decision-option strong { display: block; margin-top: 7px; font-size: 15px; }
+    .decision-option small { display: block; margin-top: 5px; color: #cbd8e3; font-size: 10px; }
+
+    footer { padding: 28px 0 44px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+    .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    footer code { color: var(--ink-2); }
+
+    @media (max-width: 980px) {
+      .nav-links { display: none; }
+      .hero-grid, .section-head, .auth-layout, .shared-system-grid, .benchmark-thesis, .architecture-verdict, .application-audit, .visual-integrity { grid-template-columns: 1fr; }
+      .hero-card { min-height: 410px; }
+      .metric-grid, .diagnosis, .auth-states, .roadmap { grid-template-columns: repeat(2, 1fr); }
+      .grade-row { grid-template-columns: 58px 1fr 1fr 110px; }
+      .grade-row > :nth-child(4), .grade-row.head > :nth-child(4) { display: none; }
+      .content-pipeline { grid-template-columns: repeat(3, 1fr); }
+      .benchmark-grid { grid-template-columns: repeat(2, 1fr); }
+      .benchmark-card:last-child { grid-column: 1 / -1; min-height: auto; }
+      .pipeline-step:nth-child(3)::after { display: none; }
+      .architecture { grid-template-columns: 1fr; gap: 12px; }
+      .arch-arrow { transform: rotate(90deg); }
+      .complexity-budget { grid-template-columns: 1fr; }
+      .roadmap::before { display: none; }
+      .phase { padding-top: 0; }
+      .phase::before { display: none; }
+      .phase-card { min-height: auto; }
+    }
+
+    @media (max-width: 720px) {
+      .wrap { width: min(calc(100% - 24px), var(--max)); }
+      .hero { padding-top: 45px; }
+      .hero h1 { font-size: 49px; }
+      .lede { font-size: 16px; }
+      .hero-card { min-height: 470px; padding: 23px; border-radius: 28px; }
+      .hero-card blockquote { font-size: 22px; }
+      .orbit { grid-template-columns: 1fr; }
+      .orbit > div { min-height: auto; }
+      .north-star { position: static; margin-top: 23px; }
+      .metric-grid, .diagnosis, .experience-stage, .gates, .decision-options, .footer-grid { grid-template-columns: 1fr; }
+      .metric { min-height: auto; }
+      section.section { padding: 60px 0; }
+      .section-head { gap: 18px; }
+      .grade-board { overflow-x: auto; }
+      .grade-row { min-width: 770px; }
+      .grade-row > :nth-child(4), .grade-row.head > :nth-child(4) { display: block; }
+      .content-pipeline { grid-template-columns: 1fr 1fr; }
+      .pipeline-step::after { display: none; }
+      .auth-states, .roadmap { grid-template-columns: 1fr; }
+      .decision-card { padding: 30px 24px; }
+      .principle-band { grid-template-columns: 1fr; }
+      .equation { justify-content: flex-start; flex-wrap: wrap; }
+      .risk-grid { grid-template-columns: 1fr; }
+      .benchmark-grid, .benchmark-decisions { grid-template-columns: 1fr; }
+      .benchmark-card, .benchmark-card:last-child { grid-column: auto; min-height: auto; }
+      .benchmark-evidence { grid-template-columns: 1fr; }
+      .research-link { align-items: flex-start; flex-direction: column; }
+      .cognitive-grid { grid-template-columns: 1fr; }
+      .cognitive-card { min-height: auto; }
+      .content-research-link { align-items: flex-start; flex-direction: column; }
+      .child-loop { grid-template-columns: 1fr; }
+      .child-loop article { min-height: auto; }
+      .child-loop article:not(:last-child)::after { display: none; }
+      .stress-test-link { align-items: flex-start; flex-direction: column; }
+      .age-system-table { overflow-x: auto; }
+      .age-system-row { min-width: 760px; }
+      .universal-loop { grid-template-columns: repeat(5, minmax(52px, 1fr)); overflow-x: auto; }
+    }
+
+    @media print {
+      :root { --paper: #fff; }
+      .topbar, .hero-actions, .mode-picker { display: none !important; }
+      body { background: white; }
+      section.section, .hero, .metrics, .decision { padding-block: 26px; }
+      .hero-card, .diagnosis article, .metric, .grade-board, .mock-device, .contract-panel, .gate-card, .phase-card { box-shadow: none; }
+      .mock-device, .gate-card, .phase-card, .diagnosis article { break-inside: avoid; }
+      .roadmap { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="제안서 맨 위로">
+        <span class="brand-mark">+</span>
+        <span>Math Assist <small>Production proposal</small></span>
+      </a>
+      <nav class="nav-links" aria-label="제안서 목차">
+        <a href="#diagnosis">진단</a>
+        <a href="#benchmark">벤치마크</a>
+        <a href="#content">콘텐츠</a>
+        <a href="#experience">UX</a>
+        <a href="#shared-systems">공통 도구</a>
+        <a href="#architecture">구조</a>
+        <a href="#roadmap">로드맵</a>
+        <a href="#gates">출시 기준</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">Proposal 01 · 2026.07.20</span>
+          <h1>하나의 제품,<span>세 가지 학습 리듬.</span></h1>
+          <p class="lede">Math Assist를 1–6학년 모두가 신뢰할 수 있는 서비스로 끌어올리되, 전 학년이 풀이장·미션·캐릭터를 함께 사용하고 표현의 밀도만 학년군에 맞춥니다. 통일할 것은 학습 도구와 동기 구조이고, 달라야 할 것은 경험의 디테일입니다.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#roadmap">실행 순서 보기</a>
+            <button class="button secondary" type="button" onclick="window.print()">인쇄 · PDF 저장</button>
+          </div>
+          <p class="micro">현재 저장소의 라우트·콘텐츠·진행 데이터·지난 로그인 구상을 기준으로 작성</p>
+        </div>
+
+        <aside class="hero-card" aria-label="프로덕션 비전 요약">
+          <p class="overline">North star</p>
+          <blockquote>아이는 <b>바로 시작</b>하고,<br />보호자는 기록을 <b>안전하게 연결</b>하며,<br />모든 학년은 같은 <b>정확성</b>을 경험한다.</blockquote>
+          <div class="orbit">
+            <div><span>01</span><small>빈 학년 없이<br />1–6 콘텐츠 완성</small></div>
+            <div><span>02</span><small>로그인 장벽 없는<br />보호자–아이 계정</small></div>
+            <div><span>03</span><small>풀이장·미션·캐릭터<br />전 학년 공통화</small></div>
+          </div>
+          <div class="north-star">프로덕션의 기준은 “기능 수”가 아니라 학습 기록의 연속성과 문제의 신뢰성입니다.</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="metrics" aria-label="현재 제품 기준선">
+      <div class="wrap metric-grid">
+        <article class="metric"><div class="value">4/6</div><div class="label">현재 진입 가능한 학년</div><p>1·2·3·5학년 제공. 4·6학년은 제품 공백입니다.</p></article>
+        <article class="metric"><div class="value">276</div><div class="label">1–3학년 작성 미션</div><p>1학년 96 · 2학년 144 · 3학년 36(Alpha).</p></article>
+        <article class="metric"><div class="value">660</div><div class="label">5학년 문제 템플릿</div><p>12단원 · 22개념 · 개념별 30개 템플릿.</p></article>
+        <article class="metric"><div class="value">Local</div><div class="label">현재 학습 기록의 경계</div><p>브라우저 localStorage 전용. 기기 변경·다중 학습자에 취약합니다.</p></article>
+      </div>
+    </section>
+
+    <section class="section tinted" id="diagnosis">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-kicker">01 · Diagnosis</span><h2>차이는 문제가 아닙니다.<br />단절이 문제입니다.</h2></div>
+          <p>현재 Math Assist에는 서로 보완적인 강점이 있습니다. 1·2학년의 미션·지도·보상은 학습을 시작하게 만들고, 5학년의 풀이장은 생각의 과정을 밖으로 꺼내 줍니다. 이제 두 강점을 전 학년에 적용하되 1–2, 3–4, 5–6학년에서 세션 단위와 기능 밀도를 다르게 조절해야 합니다.</p>
+        </div>
+
+        <div class="diagnosis">
+          <article>
+            <span class="issue-no">GAP 01 · CONTENT</span>
+            <h3>학년별 완성도가<br />서로 다른 단계</h3>
+            <p>1·2학년은 V1 규모, 3학년은 Alpha, 5학년은 강한 템플릿 은행입니다. 4·6학년은 아직 비어 있어 “1–6학년 서비스” 약속을 할 수 없습니다.</p>
+            <div class="answer">해법: 공식 교육과정 추적성 + 학년별 최소 콘텐츠 기준 + 동일 품질 게이트</div>
+          </article>
+          <article>
+            <span class="issue-no">GAP 02 · IDENTITY</span>
+            <h3>기록은 있지만<br />학습자는 없습니다</h3>
+            <p>진도·복습·XP는 기기에 저장되지만 학습자 프로필에 귀속되지 않습니다. 한 기기를 형제자매가 공유하거나 기기를 바꾸면 기록의 연속성이 깨집니다.</p>
+            <div class="answer">해법: 게스트 유지 + learnerId 경계 + 보호자 계정 아래 어린이 프로필</div>
+          </article>
+          <article>
+            <span class="issue-no">GAP 03 · EXPERIENCE</span>
+            <h3>시각 언어보다<br />행동 규칙이 다릅니다</h3>
+            <p>풀이장은 5학년에만, 강한 미션·보상은 저학년에만 있습니다. 서로 좋은 요소가 학년 경계에 갇혀 있어 아이가 학년을 올라갈 때 제품 경험이 끊깁니다.</p>
+            <div class="answer">해법: 공통 풀이장·미션·캐릭터 엔진을 만들고 표현 강도만 연령별 적응</div>
+          </article>
+        </div>
+
+        <div class="principle-band">
+          <div><h3>통일의 단위는 ‘학습 루프’</h3><p>모든 학년이 미션을 받고, 풀이장으로 생각하고, 피드백을 받고, 캐릭터와 함께 숙달을 쌓습니다. 지도 표현, 보상 톤, 풀이장 도구 수, 세션 길이만 학년군에 맞게 달라집니다.</p></div>
+          <div class="equation" aria-label="공통 학습 키트와 적응형 경험의 결합"><span>Learning kit</span><b>×</b><span>3 age modes</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section benchmark-section" id="benchmark">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-kicker">02 · Benchmark deep research</span><h2>한 서비스를 베끼지 않고,<br />검증된 강점을 조합합니다.</h2></div>
+          <p>국내외 10개 서비스와 학습과학·아동 안전 근거를 비교했습니다. 결론은 “게임을 덧씌운 문제집”이 아니라, 수학적 조작 자체가 미션이 되고 캐릭터가 생각을 안내하는 제품입니다.</p>
+        </div>
+
+        <div class="benchmark-thesis">
+          <div class="benchmark-count">
+            <strong>10</strong>
+            <span>products · 24 sources</span>
+            <small>공식 제품·지원 문서 우선<br />독립 연구·아동 프라이버시 교차 검토</small>
+          </div>
+          <div class="benchmark-blend">
+            <span>Recommended product blend</span>
+            <h3>수학 자체는 ST Math처럼,<br />생각의 공간은 Mathigon처럼,<br />다음 행동은 IXL처럼.</h3>
+            <div class="blend-pills">
+              <span><b>Character</b> · Khan Kids</span>
+              <span><b>Math-native play</b> · ST Math</span>
+              <span><b>Workspace</b> · Mathigon</span>
+              <span><b>Mastery</b> · IXL</span>
+              <span><b>Family signal</b> · SplashLearn</span>
+              <span><b>World &amp; collection</b> · Prodigy</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="benchmark-grid" aria-label="벤치마크에서 발견한 다섯 가지 제품 패턴">
+          <article class="benchmark-card">
+            <span class="bench-no">01 · MATH-NATIVE</span>
+            <h3>수학 행동이 곧 게임</h3>
+            <p>조작하고 예측한 결과가 즉시 보이는 퍼즐. 수학과 무관한 전투를 통과하기 위한 문제 풀이와 구분합니다.</p>
+            <a href="https://www.mindeducation.org/programs/st-math/" target="_blank" rel="noreferrer">ST Math · Matific ↗</a>
+          </article>
+          <article class="benchmark-card">
+            <span class="bench-no">02 · GUIDE</span>
+            <h3>역할이 있는 캐릭터</h3>
+            <p>수리·모아·루미는 같은 칭찬을 반복하지 않고 탐험, 전략, 재도전이라는 서로 다른 역할을 맡습니다.</p>
+            <a href="https://learn.khanacademy.org/khan-academy-kids/" target="_blank" rel="noreferrer">Khan Kids · ST Math ↗</a>
+          </article>
+          <article class="benchmark-card">
+            <span class="bench-no">03 · ACTION PLAN</span>
+            <h3>점수보다 다음 한 걸음</h3>
+            <p>결과 화면은 총점보다 잘한 전략, 다시 볼 오개념, 추천 미션을 먼저 보여 줍니다.</p>
+            <a href="https://www.ixl.com/diagnostic/info" target="_blank" rel="noreferrer">IXL · Mathpid ↗</a>
+          </article>
+          <article class="benchmark-card">
+            <span class="bench-no">04 · WORKSPACE</span>
+            <h3>저장되는 수학 작업대</h3>
+            <p>펜만 있는 메모장이 아니라 수블록·분수 막대·자·각도기와 획이 문제별로 복구되는 공간입니다.</p>
+            <a href="https://mathigon.org/teachers" target="_blank" rel="noreferrer">Mathigon Polypad ↗</a>
+          </article>
+          <article class="benchmark-card">
+            <span class="bench-no">05 · FAMILY</span>
+            <h3>통제가 아닌 보호자 신호</h3>
+            <p>주간 요약은 시간 감시보다 강점, 다음 복습, 도와줄 말을 제공하고 여러 어린이 기록을 보호합니다.</p>
+            <a href="https://support.splashlearn.com/hc/en-us/articles/12275144246546-How-can-parents-view-and-track-their-child-s-progress-reports" target="_blank" rel="noreferrer">SplashLearn · Prodigy ↗</a>
+          </article>
+        </div>
+
+        <div class="benchmark-decisions">
+          <div class="benchmark-decision"><b>ADOPT</b><strong>학습 루프와 수학적 상호작용</strong><small>추천 1개 + 자유 탐색, 시각 조작, 문제별 풀이 복구, 네 단계 숙달, 구체적인 다음 행동.</small></div>
+          <div class="benchmark-decision"><b>ADAPT</b><strong>세계·미션·표정 세트</strong><small>전 학년에 적용하되 전신 캐릭터 → 배지형 동반자 → 프로필 코치로 노출 강도를 낮춥니다.</small></div>
+          <div class="benchmark-decision"><b>REJECT</b><strong>압박형 참여 장치</strong><small>순위표, streak 손실, 힌트 벌점, 유료 능력치, 타이머 기본값, 수학과 무관한 체류 시간은 제외합니다.</small></div>
+        </div>
+
+        <div class="benchmark-evidence" aria-label="2026 수학 게임 학습 2차 메타분석 결과">
+          <div class="evidence-intro"><b>2026 SECOND-ORDER META-ANALYSIS</b><strong>게임은 학습을 도울 수 있지만, 재미를 보장하지는 않습니다.</strong><small>20개 메타분석 · 688개 1차 연구 종합</small></div>
+          <div class="evidence-stat"><strong>g .407</strong><small>전체 결과<br />중간 수준 양의 효과</small></div>
+          <div class="evidence-stat"><strong>g .454</strong><small>인지 결과<br />통계적으로 유의</small></div>
+          <div class="evidence-stat"><strong>g .226</strong><small>정의적 결과<br />유의하지 않음</small></div>
+        </div>
+
+        <a class="research-link" href="../references/2026-07-20-elementary-math-product-benchmark.md">
+          <strong>서비스별 판정·캐릭터 9상태 세트·24개 출처 전체 보기</strong>
+          <span>Deep research note →</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section" id="content">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-kicker">03 · Content system</span><h2>콘텐츠를 “많이”가 아니라<br />“출시 가능하게” 만듭니다.</h2></div>
+          <p>각 학년을 같은 개수로 맞출 필요는 없습니다. 대신 모든 단원에 개념 확인·적용·추론 문제가 있어야 하며, 교육과정 코드, 결정적 정답, 그림–수치 일치, 반복 다양성, 학습자 검토라는 동일한 출고 조건을 통과해야 합니다.</p>
+        </div>
+
+        <div class="grade-board" role="table" aria-label="1학년부터 6학년까지의 현재 상태와 제안">
+          <div class="grade-row head" role="row"><div>Grade</div><div>현재 기준선</div><div>콘텐츠 완성도</div><div>권장 경험</div><div>우선 조치</div></div>
+          <div class="grade-row" role="row">
+            <div class="grade-badge">1</div><div><span class="grade-title">96 미션 · 7개 탐험섬</span><small>V1 보상·숙달·복습 루프</small></div><div><strong>안정화 단계</strong><div class="bar"><i style="width:82%"></i></div></div><div><strong>Play-first</strong><small>1문제 미션 · 그림 풀이장 · 캐릭터 보상</small></div><div class="status strong">풀이장 추가</div>
+          </div>
+          <div class="grade-row" role="row">
+            <div class="grade-badge">2</div><div><span class="grade-title">144 미션 · 12단원</span><small>단원당 12개 · 쉬움/보통/응용</small></div><div><strong>안정화 단계</strong><div class="bar"><i style="width:86%"></i></div></div><div><strong>Play-first+</strong><small>1–3문제 미션 · 수블록 풀이장 · 수집 보상</small></div><div class="status strong">풀이장 추가</div>
+          </div>
+          <div class="grade-row" role="row">
+            <div class="grade-badge">3</div><div><span class="grade-title">36 미션 · 12단원</span><small>단원당 3개 대표 미션의 Alpha</small></div><div><strong>대표성만 확보</strong><div class="bar"><i style="width:36%"></i></div></div><div><strong>Bridge</strong><small>3–5문제 퀘스트 · 도형 도구 · 스킬 배지</small></div><div class="status alpha">통합 확장</div>
+          </div>
+          <div class="grade-row" role="row">
+            <div class="grade-badge">4</div><div><span class="grade-title">현재 미제공</span><small>홈에서 ‘준비 중’으로만 노출</small></div><div><strong>제품 공백</strong><div class="bar"><i style="width:4%;background:var(--orange)"></i></div></div><div><strong>Bridge+</strong><small>챕터 퀘스트 · 자·각도기 · 아바타 성장</small></div><div class="status gap">신규 구축</div>
+          </div>
+          <div class="grade-row" role="row">
+            <div class="grade-badge">5</div><div><span class="grade-title">12단원 · 22개념</span><small>660 템플릿 · 도형 SVG · 기본 풀이장</small></div><div><strong>폭넓은 연습 은행</strong><div class="bar"><i style="width:90%;background:var(--purple)"></i></div></div><div><strong>Study-first</strong><small>5문제 기본 · 10문제 선택 · 문제별 풀이장 복구</small></div><div class="status quality">기능 확장</div>
+          </div>
+          <div class="grade-row" role="row">
+            <div class="grade-badge">6</div><div><span class="grade-title">현재 미제공</span><small>상위 학년 공통 엔진 활용 가능</small></div><div><strong>제품 공백</strong><div class="bar"><i style="width:4%;background:var(--orange)"></i></div></div><div><strong>Study-first+</strong><small>주간 원정 · 고급 도구 · 전략형 캐릭터 코치</small></div><div class="status gap">신규 구축</div>
+          </div>
+        </div>
+
+        <div class="application-audit" aria-label="응용문제 콘텐츠 감사와 새 분류 체계">
+          <article class="audit-summary">
+            <span>Repository content audit · Grade 5</span>
+            <h3>30문제의 4·4·2 배분만으로는<br />응용 사고를 보장할 수 없습니다.</h3>
+            <div class="audit-number"><strong>15 / 22</strong><small>개념 템플릿에 의미 있는 문제군 분류가 없어 유형 다양성을 추적하기 어려움</small></div>
+            <div class="audit-number"><strong>7 / 22</strong><small>최근 도형·응용 개념만 개념당 10개 문제군을 갖춘 상태</small></div>
+            <div class="audit-number"><strong>4·4·2 ≠ K·A·R</strong><small>현재 difficulty는 수와 절차의 어려움이며 인지 유형을 대신하지 못함</small></div>
+          </article>
+
+          <article class="cognitive-panel">
+            <b>NEW BLUEPRINT AXIS</b>
+            <h3>난이도와 사고 유형을 분리해 설계합니다.</h3>
+            <div class="cognitive-grid">
+              <div class="cognitive-card"><span>KNOWING</span><strong>알고 계산하기</strong><small>정의·사실·표현을 기억하고 익숙한 절차를 정확히 수행합니다.</small></div>
+              <div class="cognitive-card"><span>APPLYING</span><strong>상황에 적용하기</strong><small>생활 또는 수학 맥락을 식·표·그림으로 바꾸고 여러 단계를 연결합니다.</small></div>
+              <div class="cognitive-card"><span>REASONING</span><strong>추론하고 검증하기</strong><small>조건을 해석하고 전략을 비교하며 일반화·반례·모델 타당성을 설명합니다.</small></div>
+            </div>
+            <div class="type-cloud" aria-label="전 단원에 확장할 응용문제 유형">
+              <span>역문제</span><span>조건 충족</span><span>다단계 모델링</span><span>표현 전환</span><span>전략 비교</span><span>오류 분석</span><span>규칙 일반화</span><span>체계적 경우의 수</span><span>최적화</span><span>정보 선별</span><span>불변량</span><span>모델 검증</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="visual-integrity" aria-label="겹친 도형 문제의 시각 무결성 진단과 해결 계약">
+          <article class="visual-case">
+            <b>SCREENSHOT ROOT-CAUSE ANALYSIS</b>
+            <h3>정답은 11 cm²이지만,<br />그림은 같은 문제를 말하지 않습니다.</h3>
+            <p>세 도형 넓이의 합 87에서 겹치지 않은 부분 60과 세 도형 공통부분의 중복 15를 빼면, 정확히 두 도형만 겹친 부분은 6입니다. 따라서 두 개 이상 겹친 넓이는 6 + 5 = 11입니다.</p>
+            <div class="ratio-row"><strong>도형 A</strong><span>문제값의 단독 비율 62%</span><em>그림 약 31%</em></div>
+            <div class="ratio-row"><strong>도형 B</strong><span>문제값의 단독 비율 69%</span><em>그림 약 31%</em></div>
+            <div class="ratio-row"><strong>도형 C</strong><span>문제값의 단독 비율 76%</span><em>그림 약 17%</em></div>
+            <div class="topology-alert">더 근본적인 불일치: 수치상 B–C만 겹친 영역은 0이어야 하지만 현재 고정 SVG에는 그 영역이 보입니다.</div>
+          </article>
+
+          <article class="integrity-contract">
+            <b>QUANTITATIVE VISUAL CONTRACT</b>
+            <h3>그림을 장식이 아니라 검증 가능한 데이터로 만듭니다.</h3>
+            <p>현재 렌더러는 문제 수치와 독립된 고정 좌표를 사용합니다. 문제 생성기와 그림 생성기가 하나의 수학 모델을 공유하도록 경계를 다시 세워야 합니다.</p>
+            <div class="integrity-rule"><b>01</b><div><strong>시각 의미 수준 명시</strong><small>decorative · schematic · quantitative 중 하나를 필수로 지정하고, 넓이·길이·비율을 읽는 그림은 quantitative로 제한합니다.</small></div></div>
+            <div class="integrity-rule"><b>02</b><div><strong>가능한 영역 분할만 생성</strong><small>단독·두 도형·세 도형 영역을 먼저 산출하고 음수, 불가능한 교집합, 0인 영역의 가시화를 차단합니다.</small></div></div>
+            <div class="integrity-rule"><b>03</b><div><strong>수학 모델에서 SVG 도출</strong><small>격자 셀 또는 측정 가능한 도형 조각으로 넓이를 구성해 수치와 모양이 같은 원천을 공유하게 합니다.</small></div></div>
+            <div class="integrity-rule"><b>04</b><div><strong>자동 + 사람 검증</strong><small>위상 일치 100%, 면적 비율 오차 ±10%, 라벨 겹침 0을 자동 검사하고 학습자 관찰로 오해 가능성을 확인합니다.</small></div></div>
+          </article>
+        </div>
+
+        <div class="content-pipeline" aria-label="콘텐츠 출고 파이프라인">
+          <div class="pipeline-step"><b>01</b><strong>교육과정 맵</strong><small>단원–성취기준–선수개념을 한 표로 연결</small></div>
+          <div class="pipeline-step"><b>02</b><strong>문제 청사진</strong><small>난이도 × Knowing·Applying·Reasoning × 표현을 설계</small></div>
+          <div class="pipeline-step"><b>03</b><strong>결정적 생성</strong><small>정답·채점·해설은 규칙 기반으로 유지</small></div>
+          <div class="pipeline-step"><b>04</b><strong>자동 품질 게이트</strong><small>중복·단일 정답·위상·비율·수량 현실성 검증</small></div>
+          <div class="pipeline-step"><b>05</b><strong>학습자 검토</strong><small>문장 이해, 시각 혼동, 입력 마찰을 관찰</small></div>
+          <div class="pipeline-step"><b>06</b><strong>버전 출시</strong><small>콘텐츠 버전과 회귀 결과를 함께 기록</small></div>
+        </div>
+
+        <a class="content-research-link" href="../references/2026-07-20-application-problem-visual-integrity-research.md">
+          <strong>전 단원 응용문제 유형·학년군 난이도 계약·시각 무결성 수식과 게이트 전체 보기</strong>
+          <span>Content research note →</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section tinted" id="experience">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-kicker">04 · Adaptive experience</span><h2>같은 미션과 풀이장,<br />학년에 맞는 밀도.</h2></div>
+          <p>아래 미리보기는 모든 학년이 캐릭터와 미션을 만나고 풀이장을 쓰되, 미션 길이·도구 수·보상 표현을 세 단계로 바꾸는 제안입니다. 탭을 눌러 같은 학습 루프가 어떻게 성장하는지 확인할 수 있습니다.</p>
+        </div>
+
+        <div class="mode-picker" role="group" aria-label="학년군 미리보기 선택">
+          <button class="mode-button" type="button" data-mode="low" aria-pressed="true">1–2학년 · Play-first</button>
+          <button class="mode-button" type="button" data-mode="bridge" aria-pressed="false">3–4학년 · Bridge</button>
+          <button class="mode-button" type="button" data-mode="high" aria-pressed="false">5–6학년 · Study-first</button>
+        </div>
+
+        <div class="experience-stage">
+          <div class="mock-device" aria-label="적응형 학습 홈 예시">
+            <div class="mock-top"><span class="mock-logo"><i>+</i> Math Assist</span><span class="profile-pill" id="profileLabel">● 하늘 · 2학년</span></div>
+            <div class="mock-body" id="mockBody">
+              <span class="mock-chip" id="mockChip">오늘의 다음 걸음</span>
+              <div class="mock-title" id="mockTitle">숫자 탐험을 이어가요</div>
+              <div class="mock-copy" id="mockCopy">순서 다리 · 다음 미션까지 한 걸음 남았어요.</div>
+              <div id="lowVisual">
+                <div class="mission-scene"><i class="sun"></i><i class="path"></i><b class="node n1">✓</b><b class="node n2">8</b><b class="node n3">🔒</b></div>
+                <div class="scratch" style="height:76px"><div class="scratch-tools"><span>굵은 펜</span><span>수블록</span><span>되돌리기</span></div></div>
+                <button class="primary-action" type="button">다음 미션 시작</button>
+                <div class="mini-stats"><div><b>3/8</b><small>오늘</small></div><div><b>2</b><small>복습</small></div><div><b>★ 7</b><small>숙달</small></div></div>
+              </div>
+              <div id="highVisual" hidden>
+                <div class="study-card"><div class="study-meta"><span id="missionMeta">분수의 곱셈 원정 · 3/10</span><span>자동 저장됨</span></div><div class="problem">2/3 × 3/5 = ?</div><div class="answer-grid"><div>2/5</div><div>3/8</div><div>5/8</div><div>6/15</div></div><div class="scratch"></div><div class="scratch-tools" id="mockTools"><span>펜</span><span>지우개</span><span>되돌리기</span><span>격자</span><span>자</span></div></div>
+                <button class="primary-action" type="button" style="background:var(--purple);box-shadow:0 5px 0 #5a49ab">답 확인하기</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="contract-panel">
+            <h3>공통으로 지킬 6가지 계약</h3>
+            <div class="contract-list">
+              <div class="contract-item"><b>01</b><div><strong>모든 학습을 미션으로 감싸기</strong><small>1문제부터 10문제 세트까지 시작–진행–완료 구조를 공유합니다.</small></div></div>
+              <div class="contract-item"><b>02</b><div><strong>모든 문제에 풀이장 제공</strong><small>기본 도구는 같고 학년이 오를수록 격자·자·각도기·페이지가 추가됩니다.</small></div></div>
+              <div class="contract-item"><b>03</b><div><strong>캐릭터는 안내자이자 아바타</strong><small>프로필, 격려, 꾸미기 보상에 쓰되 채점과 능력치에는 영향을 주지 않습니다.</small></div></div>
+              <div class="contract-item"><b>04</b><div><strong>48px 이상 터치와 키보드 접근</strong><small>태블릿 우선이지만 휴대폰·데스크톱에서도 같은 조작 의미를 유지합니다.</small></div></div>
+              <div class="contract-item"><b>05</b><div><strong>진행과 풀이를 함께 복구</strong><small>기기 저장, 동기화 상태, 현재 풀이장 페이지를 세션과 함께 보존합니다.</small></div></div>
+              <div class="contract-item"><b>06</b><div><strong>보상은 노력의 흔적만 표현</strong><small>콘텐츠를 잠그거나 도움 요청을 벌하지 않고, 중복 풀이 보상은 제한합니다.</small></div></div>
+            </div>
+            <div class="adaptive-note" id="adaptiveNote">1–2학년은 큰 캐릭터와 1–3문제 미션, 굵은 펜·수블록 중심의 그림 풀이장을 사용합니다. 보상은 문제마다 끊지 않고 짧은 미션이 끝날 때 한 번 보여줍니다.</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="shared-systems">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-kicker">05 · Shared learning kit</span><h2>풀이장·미션·캐릭터를<br />전 학년의 공용 자산으로.</h2></div>
+          <p>세 기능은 학습 코어를 가리는 장식이 아니라 생각과 재도전을 돕는 얇은 셸이어야 합니다. 캐릭터는 한 번에 한 명만 안내하고, 보상은 짧은 미션이 끝날 때 한 종류만 보여주며, 학년이 바뀌어도 문제 풀이의 기본 조작은 그대로 남깁니다.</p>
+        </div>
+
+        <div class="shared-system-grid">
+          <article class="system-card">
+            <div class="system-card-head">
+              <span>System A · Scratchpad v2</span>
+              <h3>답이 아니라<br />생각을 저장하는 도구</h3>
+              <p>현재 5학년의 펜·지우개·전체 지우기와 안정적인 터치 계약을 기반으로, 전 학년용 도구·되돌리기·문제별 저장을 추가합니다.</p>
+            </div>
+            <div class="system-card-body">
+              <div class="tool-preview" aria-label="확장 풀이장 예시">
+                <div class="tool-row"><span class="tool active">펜</span><span class="tool">지우개</span><span class="tool">↶</span><span class="tool">↷</span><span class="tool">격자</span><span class="tool">도구 +</span></div>
+                <div class="tool-canvas"></div>
+              </div>
+              <div class="system-rules" style="margin-top:18px">
+                <div class="system-rule"><b>01</b><div><strong>작은 공통 코어</strong><small>V1은 펜·지우개·되돌리기·전체 지우기만 고정하고, 다시하기·색·왼손 배치는 관찰 뒤 확장합니다.</small></div></div>
+                <div class="system-rule"><b>02</b><div><strong>문제별 자동 저장</strong><small>비트맵 대신 획 데이터로 가볍게 저장하고, 세션 복구와 함께 되살립니다.</small></div></div>
+                <div class="system-rule"><b>03</b><div><strong>문제 맞춤 보조 도구</strong><small>수블록·수직선·격자·자·각도기·분수 막대 중 문제와 맞는 한 가지만 열고 정답은 계산하지 않습니다.</small></div></div>
+                <div class="system-rule"><b>04</b><div><strong>현재 입력 계약 보존</strong><small>iPadOS 선택 방지, 단일 활성 포인터, Pointer Capture 실패 허용을 그대로 유지합니다.</small></div></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="system-card">
+            <div class="system-card-head">
+              <span>System B · Mission &amp; character</span>
+              <h3>문제 풀이를<br />나의 원정으로</h3>
+              <p>모든 학습을 짧은 미션으로 감싸되, 캐릭터는 프로필 아바타와 상황별 안내자 역할부터 시작합니다. 세계·상점·복수 보상 체계는 학습 루프가 검증된 뒤 확장합니다.</p>
+            </div>
+            <div class="system-card-body">
+              <div class="universal-loop" aria-label="공통 미션 루프">
+                <div class="loop-step"><b>01</b><small>미션 브리핑</small></div>
+                <div class="loop-step"><b>02</b><small>풀이장 생각</small></div>
+                <div class="loop-step"><b>03</b><small>즉시 피드백</small></div>
+                <div class="loop-step"><b>04</b><small>숙달 기록</small></div>
+                <div class="loop-step"><b>05</b><small>다음 원정</small></div>
+              </div>
+              <figure class="character-stage" aria-label="Math Assist 동물 캐릭터 콘셉트">
+                <img class="mascot-lineup" src="assets/math-assist-animal-mascots.png" alt="민트색 수달 수리, 안경을 쓴 파란 부엉이 모아, 별을 든 주황 여우 루미가 함께 서 있는 캐릭터 디자인" />
+                <figcaption class="character-labels">
+                  <div class="character"><strong>수리 <em>수달</em></strong><small>호기심 많은 탐험 안내자</small></div>
+                  <div class="character"><strong>모아 <em>부엉이</em></strong><small>차분한 풀이 전략 친구</small></div>
+                  <div class="character"><strong>루미 <em>여우</em></strong><small>용기를 북돋는 도전 파트너</small></div>
+                </figcaption>
+              </figure>
+              <div class="system-rules">
+                <div class="system-rule"><b>01</b><div><strong>한 화면, 한 캐릭터</strong><small>선택한 한 캐릭터를 저학년은 큰 전신, 중학년은 동반자, 고학년은 절제된 코치로 표시합니다.</small></div></div>
+                <div class="system-rule"><b>02</b><div><strong>5개 반응부터</strong><small>자산은 풍부하게 만들되 V1은 환영·생각·힌트·회복·축하만 상태에 연결하고 표정은 저장하지 않습니다.</small></div></div>
+                <div class="system-rule"><b>03</b><div><strong>건강한 게이미피케이션</strong><small>힌트 사용을 벌하지 않고, 연속 학습이 끊겨도 손실을 주지 않으며, 동일 문제 보상 농사를 막습니다.</small></div></div>
+                <div class="system-rule"><b>04</b><div><strong>학습 접근권은 열어두기</strong><small>미션 경로는 추천을 제공하지만 보상 때문에 필수 단원 콘텐츠를 잠그지 않습니다.</small></div></div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="age-system-table" role="table" aria-label="학년군별 공통 시스템 적용 강도">
+          <div class="age-system-row head" role="row"><div>Age mode</div><div>풀이장</div><div>미션·게이미피케이션</div><div>캐릭터·아바타</div></div>
+          <div class="age-system-row" role="row">
+            <div class="age-label">1–2학년<small>Play-first</small><div class="intensity"><i class="on"></i><i></i><i></i></div></div>
+            <div><strong>그림 풀이장</strong><p>굵은 펜·지우개·되돌리기와 문제 맞춤 수직선 또는 수블록 1개. 한 화면에서 바로 열림.</p></div>
+            <div><strong>1–3문제 지도 미션</strong><p>미션 종료 스티커 1개와 큰 다음 버튼. 5–10분 안에 작은 원정 완료.</p></div>
+            <div><strong>화면 속 탐험 친구</strong><p>큰 캐릭터와 감정 피드백. 세 캐릭터 선택만 제공하고 의상·배경 상점은 보류.</p></div>
+          </div>
+          <div class="age-system-row" role="row">
+            <div class="age-label">3–4학년<small>Bridge</small><div class="intensity"><i class="on"></i><i class="on"></i><i></i></div></div>
+            <div><strong>도구형 풀이장</strong><p>기본 도구와 문제에 필요한 격자·자·각도기 중 1개, 문제별 임시 저장.</p></div>
+            <div><strong>3–5문제 챕터</strong><p>한 줄 경로와 배지 1종. 사이드 퀘스트·복습 보스는 사용 근거가 생길 때 추가.</p></div>
+            <div><strong>동반자형 아바타</strong><p>헤더와 미션 브리핑에 작게 등장하고 요청할 때 전략 힌트를 연결.</p></div>
+          </div>
+          <div class="age-system-row" role="row">
+            <div class="age-label">5–6학년<small>Study-first</small><div class="intensity"><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+            <div><strong>집중형 학습 노트</strong><p>기본 도구와 필요한 수학 도구 1개, 문제별 복구. 다중 페이지는 후속 검증.</p></div>
+            <div><strong>5문제 기본 · 10문제 선택</strong><p>개념 경로와 숙달 진전 중심. 주간 계획은 보호자·아이 수요를 확인한 뒤 추가.</p></div>
+            <div><strong>절제된 전략 코치</strong><p>프로필·힌트·완료 피드백에만 등장하고 학습 화면의 정보 밀도를 지킴.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="identity">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-kicker">06 · Identity &amp; login</span><h2>아이에게 로그인시키지 말고,<br />기록과 아바타를 연결합니다.</h2></div>
+          <p>지난 설계의 방향을 유지합니다. 학습 시작은 계속 게스트로 열어두고, 보호자가 기록을 지키고 싶을 때 계정을 연결합니다. 어린이는 이메일 대신 캐릭터 아바타와 짧은 PIN으로 돌아옵니다. 첫 동기화 범위는 완료·복습·최근 활동·선택 아바타로 제한하고 풀이 획은 필요가 확인된 뒤 연결합니다.</p>
+        </div>
+
+        <div class="auth-layout">
+          <aside class="auth-principles">
+            <span class="section-kicker" style="color:var(--lime)">Design rule</span>
+            <div class="big-rule">No login wall.<br />Never lose progress.</div>
+            <ul>
+              <li>게스트는 이름·이메일 없이 바로 첫 문제를 풉니다.</li>
+              <li>보호자는 이메일/소셜 인증으로 계정을 만듭니다.</li>
+              <li>한 보호자 아래 여러 어린이 프로필을 둡니다.</li>
+              <li>어린이는 별명·아바타·짧은 PIN을 기본으로 씁니다.</li>
+              <li>연결 시 기존 localStorage 기록을 선택한 프로필로 이관합니다.</li>
+              <li>개인정보 최소화와 보호자 동의 흐름은 출시 전 별도 검토합니다.</li>
+            </ul>
+          </aside>
+
+          <div class="auth-flow" aria-label="게스트에서 연결된 어린이 프로필까지의 흐름">
+            <div class="flow-row"><span class="flow-no">01</span><div><strong>게스트로 즉시 시작</strong><small>학년만 고르고 현재 기기에 임시 learnerId를 생성</small></div><span class="flow-role">아이</span></div>
+            <div class="flow-row"><span class="flow-no">02</span><div><strong>자연스러운 순간에 “기록 지키기” 제안</strong><small>첫 세션 완료·새 기기 연결·설정에서만 노출</small></div><span class="flow-role">제품</span></div>
+            <div class="flow-row"><span class="flow-no">03</span><div><strong>보호자 계정 인증</strong><small>이메일 또는 소셜 로그인, 복구 수단은 보호자가 소유</small></div><span class="flow-role">보호자</span></div>
+            <div class="flow-row"><span class="flow-no">04</span><div><strong>어린이 프로필 만들기</strong><small>별명·아바타·학년·선택 PIN, 실명과 어린이 이메일은 기본 요구하지 않음</small></div><span class="flow-role">보호자</span></div>
+            <div class="flow-row"><span class="flow-no">05</span><div><strong>게스트 기록 안전 이관</strong><small>미리보기 → 병합 확인 → 서버 저장 → 로컬 백업 유지</small></div><span class="flow-role">시스템</span></div>
+            <div class="flow-row"><span class="flow-no">06</span><div><strong>다음 기기에서 간단히 복귀</strong><small>프로필 선택 + PIN 또는 보호자 QR 연결</small></div><span class="flow-role">아이</span></div>
+          </div>
+        </div>
+
+        <div class="auth-states">
+          <article class="auth-state"><b>STATE 01</b><strong>Guest learner</strong><small>현재 기기에서만 학습. 계정 없이도 모든 핵심 학습 가능.</small></article>
+          <article class="auth-state"><b>STATE 02</b><strong>Linked learner</strong><small>보호자 계정에 연결되고 기기 간 완료·복습·최근 활동·선택 아바타를 우선 동기화.</small></article>
+          <article class="auth-state"><b>STATE 03</b><strong>Guardian mode</strong><small>프로필 관리·복구·요약 확인. 아이 학습 UI와 분리.</small></article>
+          <article class="auth-state"><b>STATE 04</b><strong>Offline / conflict</strong><small>로컬 우선으로 계속 학습하고 재연결 시 명시적으로 병합.</small></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tinted" id="architecture">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-kicker">07 · Architecture &amp; complexity</span><h2>학습 코어는 얇게,<br />재미는 바깥에서 돕습니다.</h2></div>
+          <p>구조의 방향은 맞지만 범위는 줄여야 합니다. 현재는 1·2·3학년 미션 앱과 5학년 10문제 앱, 네 종류 진도 저장 방식이 병존합니다. 먼저 공통 활동·진도 계약을 만들고, 미션·캐릭터·보상은 채점과 복구를 막지 않는 파생 경험으로 붙입니다.</p>
+        </div>
+
+        <div class="architecture-verdict">
+          <article class="verdict-score"><span>Stress-test verdict</span><strong>방향은 Yes.<br />동시 범위는 No.</strong><small>계정·동기화·고급 풀이장·꾸미기·4·6학년을 한 번에 묶지 않습니다.</small></article>
+          <article class="verdict-copy"><b>ARCHITECTURE RULE</b><p><strong>채점 가능한 학습 활동</strong>이 제품의 코어입니다. 미션은 활동을 묶고, 캐릭터는 상태를 설명하며, 보상은 완료를 축하합니다. 이 세 기능의 상태가 문제 생성·답안 저장·채점·다음 문제 진입을 통제해서는 안 됩니다.</p></article>
+        </div>
+
+        <div class="child-loop" aria-label="아이 중심 공통 학습 루프">
+          <article><b>01 · START</b><strong>바로 시작</strong><small>홈의 추천 활동 한 개로 문제까지 주요 탭 3회 이내</small></article>
+          <article><b>02 · THINK</b><strong>생각하고 표현</strong><small>보기·숫자·풀이장을 같은 문제 맥락에서 사용</small></article>
+          <article><b>03 · CHECK</b><strong>즉시 확인</strong><small>정오와 짧은 이유를 한 화면에서 이해</small></article>
+          <article><b>04 · RECOVER</b><strong>안전하게 재도전</strong><small>손실 없이 힌트·다른 표현으로 다시 풀기</small></article>
+          <article><b>05 · CONTINUE</b><strong>작게 성취</strong><small>경로가 한 칸 움직이고 다음 행동은 하나만 강조</small></article>
+        </div>
+
+        <div class="architecture" aria-label="제안 제품 아키텍처">
+          <div class="arch-column">
+            <div class="arch-title">Experience presets · 표현만 다름</div>
+            <div class="arch-box"><strong>Common child shell</strong><small>추천 1개, 주요 행동 1개, 선택 가능한 다른 활동</small></div>
+            <div class="arch-box"><strong>Play preset · 1–2</strong><small>1–3문제, 큰 캐릭터, 문제 맞춤 도구 1개</small></div>
+            <div class="arch-box"><strong>Bridge preset · 3–4</strong><small>3–5문제, 작은 동반자, 중간 밀도</small></div>
+            <div class="arch-box"><strong>Study preset · 5–6</strong><small>5문제 기본·10문제 선택, 절제된 코치</small></div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-column">
+            <div class="arch-title">Shared learning contracts · 먼저 통일</div>
+            <div class="arch-box new"><strong>Learning activity session</strong><small>1문제 미션과 10문제 세트의 공통 활동 계약</small></div>
+            <div class="arch-box new"><strong>Attempt receipt → progress view</strong><small>완료·복습·숙달·보상을 작은 시도 기록에서 투영</small></div>
+            <div class="arch-box new"><strong>Motivation projection</strong><small>미션 경로·캐릭터 반응은 학습 상태에서 계산</small></div>
+            <div class="arch-box core"><strong>Deterministic learning core</strong><small>생성·채점·정답·해설 규칙 유지</small></div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-column">
+            <div class="arch-title">Persistence ports · 구현은 단계별</div>
+            <div class="arch-box core"><strong>Local repositories first</strong><small>기존 네 키 어댑터, 활동·진도·풀이장 복구</small></div>
+            <div class="arch-box new"><strong>Profile link second</strong><small>보호자 인증과 어린이 프로필은 같은 저장 인터페이스 사용</small></div>
+            <div class="arch-box new"><strong>Thin sync scope</strong><small>완료·복습·최근 활동·선택 아바타부터 동기화</small></div>
+            <div class="arch-box"><strong>Versioned content releases</strong><small>정적 데이터 배포 + 품질 리포트</small></div>
+          </div>
+        </div>
+
+        <div class="complexity-budget" aria-label="기능 복잡도 예산">
+          <article class="scope-card"><b>KEEP NOW</b><h3>학습을 직접 돕는 것</h3><p>아이의 시작·생각·피드백·재도전을 개선하는 공통 기반입니다.</p><ul><li>결정적 채점과 즉시 피드백</li><li>게스트 시작과 한 개 이어하기</li><li>풀이장 V1 · 짧은 미션 셸</li><li>한 화면 한 캐릭터 · 보상 1종</li></ul></article>
+          <article class="scope-card"><b>SIMPLIFY</b><h3>좋지만 작게 시작할 것</h3><p>설계 자산은 넓게 준비하되 런타임과 저장 상태는 최소화합니다.</p><ul><li>캐릭터 9개 자산 → 5개 상태 연결</li><li>지도 → 챕터 카드와 한 줄 경로</li><li>여러 지표 → 경로 진전 + 보상 1종</li><li>모든 도구 → 기본 3개 + 맞춤 1개</li></ul></article>
+          <article class="scope-card"><b>DEFER</b><h3>근거 뒤에 만들 것</h3><p>재미처럼 보이지만 핵심 루프와 운영 복잡도를 빠르게 키우는 범위입니다.</p><ul><li>월드·보스·상점·복수 화폐</li><li>리더보드·손실형 연속 학습</li><li>AI 필기 판정·무제한 학습 노트</li><li>전체 풀이 획 다중 기기 동기화</li></ul></article>
+        </div>
+
+        <div class="arch-foot">현재 저학년 구현에는 XP·레벨·연속일·오늘 목표·숙련 별·수집 보상이 함께 있습니다. 아이 화면에는 경로 진전과 미션 보상 한 종류만 남기고, 나머지는 내부 계산 또는 보호자 요약으로 숨기는 편이 집중과 설명 가능성에 유리합니다.</div>
+        <a class="stress-test-link" href="math-assist-architecture-ux-stress-test.md"><strong>현재 코드 근거, 권장 타입 계약, 동기화 우선순위, 아동 관찰 시나리오</strong><span>상세 스트레스 테스트 열기 →</span></a>
+      </div>
+    </section>
+
+    <section class="section" id="roadmap">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-kicker">08 · Release roadmap</span><h2>네 번의 출시로<br />공통 학습 기반을 만듭니다.</h2></div>
+          <p>일정은 팀 규모에 따라 달라질 수 있으므로 기간은 상대적 추정치입니다. 중요한 것은 공통 활동·저장 경계 → 얇은 재미 셸의 아동 검증 → 콘텐츠와 기록 연결 → 근거가 확인된 확장 순서입니다. 계정과 세계를 먼저 만들지 않습니다.</p>
+        </div>
+
+        <div class="roadmap">
+          <article class="phase"><div class="phase-card"><span class="phase-time">Release 0 · 2–3 weeks</span><h3>활동·문제·저장을 통일한다</h3><p class="phase-outcome">미션과 10문제를 같은 학습 활동으로 보고 문제 청사진과 기존 기록을 공통 계약으로 읽습니다.</p><ul><li>Learning activity session 계약</li><li>작은 attempt receipt 설계</li><li>난이도 × 인지영역 문제 청사진</li><li>정량 시각 모델·검증 계약</li><li>1–6 교육과정·문제군 커버리지 맵</li></ul><div class="phase-gate">Gate: 기존 기록 무손실 · 시각 위상 불일치 blocker 0</div></div></article>
+          <article class="phase"><div class="phase-card"><span class="phase-time">Release 1 · 5–7 weeks</span><h3>얇은 재미를 검증한다</h3><p class="phase-outcome">전 학년 풀이장과 짧은 미션 셸을 만들고 아이가 더 쉽게 계속 푸는지 확인합니다.</p><ul><li>Scratchpad V1 공통 컴포넌트</li><li>1–2·3–4·5–6 경험 프리셋</li><li>미션 시작·완료 셸</li><li>세 아바타 선택·5개 반응</li><li>경로 진전 + 보상 1종</li></ul><div class="phase-gate">Gate: 문제까지 3탭 이내 · 주요 행동 혼동 없음</div></div></article>
+          <article class="phase"><div class="phase-card"><span class="phase-time">Release 2 · 8–12 weeks</span><h3>응용 콘텐츠와 기록을 연결한다</h3><p class="phase-outcome">3학년을 안정화하고 4학년 핵심 단원과 전 학년 응용문제군을 확장하며 보호자 연결은 필요한 기록부터 시작합니다.</p><ul><li>3학년 Production 안정화</li><li>전 단원 Applying·Reasoning 문제군</li><li>4학년 핵심 단원·정량 시각 모델</li><li>보호자 인증·복구</li><li>완료·복습·최근 활동 동기화</li></ul><div class="phase-gate">Gate: 단원별 사고 유형 기준 충족 · 실패 시 로컬 복구</div></div></article>
+          <article class="phase"><div class="phase-card"><span class="phase-time">Release 3 · 10–14 weeks</span><h3>근거 있는 기능만 넓힌다</h3><p class="phase-outcome">6학년과 선택형 집중 연습을 완성하고 실제 사용된 도구·꾸미기·동기화만 확장합니다.</p><ul><li>4학년 승격·6학년 핵심 콘텐츠</li><li>5문제 기본·10문제 선택</li><li>사용률 높은 풀이 도구 확장</li><li>검증된 꾸미기·풀이 획 동기화</li><li>모니터링·백업·개인정보 검토</li></ul><div class="phase-gate">Gate: 자발적 재방문·재도전·복구 지표 개선</div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tinted" id="gates">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-kicker">09 · Production gates</span><h2>완료를 기능이 아니라<br />검증으로 정의합니다.</h2></div>
+          <p>아래 수치는 현재 성과가 아니라 출시 목표입니다. 각 릴리스는 기능 데모가 아니라 데이터 무결성, 학습 콘텐츠 품질, 브라우저 신뢰성, 보호자–어린이 계정 복구까지 통과해야 합니다.</p>
+        </div>
+
+        <div class="gates">
+          <article class="gate-card">
+            <h3>출시 대시보드</h3>
+            <div class="score-row"><div><strong>교육과정 추적 가능 콘텐츠</strong><small>모든 출시 문제에 학년·단원·성취기준 연결</small></div><span class="target">100%</span></div>
+            <div class="score-row"><div><strong>단원별 사고 유형 커버리지</strong><small>Knowing·Applying·Reasoning과 최소 2개 추론 문제군</small></div><span class="target">100%</span></div>
+            <div class="score-row"><div><strong>정량 그림의 수학적 무결성</strong><small>영역 위상 100% · 측정 비율 오차 범위 내 · 답 선노출 없음</small></div><span class="target">± 10%</span></div>
+            <div class="score-row"><div><strong>자동 품질 감사 오류</strong><small>단일 정답, 중복, 표현식, 답 노출 포함</small></div><span class="target">0</span></div>
+            <div class="score-row"><div><strong>문제까지의 시작 마찰</strong><small>학년 선택 또는 이어하기부터 첫 문제 도달</small></div><span class="target">≤ 3 taps</span></div>
+            <div class="score-row"><div><strong>아이 화면의 동기 지표</strong><small>경로 진전과 미션 보상 외 동시 카운터 제한</small></div><span class="target">≤ 2</span></div>
+            <div class="score-row"><div><strong>저장·동기화 성공</strong><small>재시도 후 학습 기록이 서버 또는 로컬에 보존</small></div><span class="target">≥ 99.5%</span></div>
+            <div class="score-row"><div><strong>전 학년 풀이장 입력·복구</strong><small>펜·터치·지우기·되돌리기·문제별 복귀</small></div><span class="target">100% pass</span></div>
+            <div class="score-row"><div><strong>핵심 학습 흐름 E2E</strong><small>게스트·연결·오프라인·프로필 전환 포함</small></div><span class="target">100% pass</span></div>
+            <div class="score-row"><div><strong>접근성·태블릿 회귀</strong><small>키보드, 큰 터치, 모바일/태블릿 주요 뷰포트</small></div><span class="target">Blocker 0</span></div>
+          </article>
+
+          <article class="gate-card">
+            <h3>가장 큰 리스크와 대응</h3>
+            <div class="risk-grid">
+              <div class="risk"><b>RISK 01</b><strong>로그인 도입 중 기록 유실</strong><small>저장 인터페이스 → 미리보기 이관 → 백업 유지 순서로 분리합니다.</small></div>
+              <div class="risk"><b>RISK 02</b><strong>콘텐츠 수만 늘고 품질 하락</strong><small>단원별 청사진과 자동 게이트를 먼저 만들고 릴리스 단위를 작게 둡니다.</small></div>
+              <div class="risk"><b>RISK 03</b><strong>과도한 UI·게임 통일</strong><small>공통 루프만 통일하고 주요 행동 1개·보상 1종·문제 맞춤 도구 1개를 복잡도 예산으로 둡니다.</small></div>
+              <div class="risk"><b>RISK 04</b><strong>4·6학년 동시 확장 병목</strong><small>3→4 Bridge와 5→6 Study-first를 서로 다른 콘텐츠 트랙으로 운영합니다.</small></div>
+              <div class="risk"><b>RISK 05</b><strong>다중 기기 충돌</strong><small>진행 이벤트에 버전을 두고 충돌 시 완료·숙달을 잃지 않는 병합 규칙을 사용합니다.</small></div>
+              <div class="risk"><b>RISK 06</b><strong>풀이 데이터 비대화</strong><small>비트맵 대신 압축한 획 데이터, 문제별 용량 제한, 오래된 임시 풀이의 만료 정책을 둡니다.</small></div>
+              <div class="risk"><b>RISK 07</b><strong>정답은 맞지만 그림은 틀림</strong><small>수치와 SVG가 공유하는 영역 모델, 위상·비율 게이트, 대표 이미지 회귀 스냅숏을 둡니다.</small></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="decision">
+      <div class="wrap">
+        <div class="decision-card">
+          <span class="section-kicker" style="color:var(--lime)">Recommended next decision</span>
+          <h2>다음 구현은 기능 추가가 아니라<br />‘공통 학습 활동’ 하나를 세우는 일입니다.</h2>
+          <p>미션과 10문제를 같은 세션 계약으로 묶고 기존 네 진도 키를 공통 뷰로 읽은 뒤, 풀이장·미션·캐릭터를 얇게 붙입니다. 이 구조가 검증되기 전에는 월드·상점·고급 동기화 범위를 늘리지 않습니다.</p>
+          <div class="decision-options">
+            <div class="decision-option"><b>FIRST</b><strong>Activity + progress contracts</strong><small>공통 세션, 시도 영수증, 기존 진도 읽기 어댑터</small></div>
+            <div class="decision-option"><b>SECOND</b><strong>Thin motivation shell</strong><small>풀이장 V1, 짧은 미션, 한 캐릭터, 보상 1종</small></div>
+            <div class="decision-option"><b>THIRD</b><strong>Evidence-led expansion</strong><small>아동 관찰 뒤 계정·콘텐츠·도구·꾸미기 확장</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div><strong>Math Assist Production Upgrade Proposal</strong><br />제안 기준일 2026.07.20 · Workstream 03 — UI &amp; Visuals 관점</div>
+      <div>근거 표면: <code>src/app/home</code>, <code>src/app/grade/*</code>, <code>src/components/ScratchPad.tsx</code>, <code>src/lib/*-progress</code>, <code>public/data</code>, <code>docs/scratch-pad-ipados-lessons-learned.md</code>, <code>docs/grade1-grade2-replay-rewards-v1.md</code>.</div>
+    </div>
+  </footer>
+
+  <script>
+    const modeCopy = {
+      low: {
+        profile: '● 하늘 · 2학년',
+        chip: '오늘의 다음 걸음',
+        title: '숫자 탐험을 이어가요',
+        copy: '순서 다리 · 다음 미션까지 한 걸음 남았어요.',
+        note: '1–2학년은 큰 캐릭터와 1–3문제 미션, 굵은 펜·수블록 중심의 그림 풀이장을 사용합니다. 보상은 문제마다 끊지 않고 짧은 미션이 끝날 때 한 번 보여줍니다.',
+        meta: '',
+        tools: [],
+        high: false
+      },
+      bridge: {
+        profile: '▲ 하늘 · 4학년',
+        chip: '오늘의 학습 경로',
+        title: '분수 단원을 이어가요',
+        copy: '대표 미션 2개를 풀고, 짧은 복습으로 마무리해요.',
+        note: '3–4학년은 3–5문제 챕터, 기본 도구와 문제 맞춤 도구 1개, 배지 1종을 결합합니다. 캐릭터는 요청할 때 전략을 알려주는 작은 동반자로 바뀝니다.',
+        meta: '분수 챕터 퀘스트 · 2/5',
+        tools: ['펜', '지우개', '되돌리기', '문제 도구'],
+        high: true
+      },
+      high: {
+        profile: '✦ 하늘 · 6학년',
+        chip: '진행 중인 연습',
+        title: '분수의 나눗셈 3/10',
+        copy: '풀이장은 그대로 보존되어 있어요. 답을 확인하고 해설로 이어갑니다.',
+        note: '5–6학년은 5문제 기본·10문제 선택 연습과 문제별 복구 풀이장을 사용합니다. 캐릭터는 힌트와 완료 피드백에만 등장하는 절제된 전략 코치로 남습니다.',
+        meta: '분수의 나눗셈 원정 · 3/10',
+        tools: ['펜', '지우개', '↶', '격자', '문제 도구'],
+        high: true
+      }
+    };
+
+    document.querySelectorAll('.mode-button').forEach((button) => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.mode-button').forEach((item) => item.setAttribute('aria-pressed', 'false'));
+        button.setAttribute('aria-pressed', 'true');
+        const config = modeCopy[button.dataset.mode];
+        document.getElementById('profileLabel').textContent = config.profile;
+        document.getElementById('mockChip').textContent = config.chip;
+        document.getElementById('mockTitle').textContent = config.title;
+        document.getElementById('mockCopy').textContent = config.copy;
+        document.getElementById('adaptiveNote').textContent = config.note;
+        document.getElementById('lowVisual').hidden = config.high;
+        document.getElementById('highVisual').hidden = !config.high;
+        if (config.high) {
+          document.getElementById('missionMeta').textContent = config.meta;
+          document.getElementById('mockTools').innerHTML = config.tools.map((tool) => `<span>${tool}</span>`).join('');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

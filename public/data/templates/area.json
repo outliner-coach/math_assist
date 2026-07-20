@@ -90,7 +90,7 @@
     "solver_rule": "(3 * (e + 8 + k) - e - (e + 2) - (e + 4) - 3 * (2 + k)) / 2 + (2 + k)",
     "solution_steps_template": ["세 도형의 넓이 합은 {{3 * (e + 8 + k)}} cm²입니다.", "겹치지 않은 부분과 세 번 센 공통 부분을 빼면 두 도형만 겹친 부분을 두 번 센 값이 남습니다.", "두 도형만 겹친 부분의 합은 {{(3 * (e + 8 + k) - e - (e + 2) - (e + 4) - 3 * (2 + k)) / 2}} cm²입니다.", "세 도형 공통 부분 {{2 + k}} cm²를 더하면 {{(3 * (e + 8 + k) - e - (e + 2) - (e + 4) - 3 * (2 + k)) / 2 + (2 + k)}} cm²입니다."],
     "hint_steps_template": ["세 도형의 넓이를 모두 더해 각 부분이 몇 번 세어졌는지 표시해요.", "두 도형만 겹친 부분은 두 번, 세 도형 공통 부분은 세 번 세어졌어요.", "마지막에는 두 개 이상 겹친 부분을 한 번씩만 합쳐요."],
-    "visual_template": { "type": "three_shape_overlap", "props": { "shapeArea": "{{e + 8 + k}}", "exclusiveAreas": ["{{e}}", "{{e + 2}}", "{{e + 4}}"], "tripleOverlap": "{{2 + k}}", "unit": "cm" } }
+    "visual_template": { "type": "three_shape_overlap", "semantics": "quantitative", "props": { "shapeArea": "{{e + 8 + k}}", "exclusiveAreas": ["{{e}}", "{{e + 2}}", "{{e + 4}}"], "tripleOverlap": "{{2 + k}}", "unit": "cm" } }
   },
   {
     "id": "tmpl-area-A-10", "concept_id": "area-001", "type": "number", "difficulty": 3, "set_id": "A",
@@ -195,7 +195,7 @@
     "solver_rule": "(3 * (e + 8 + k) - e - (e + 2) - (e + 4) - 3 * (2 + k)) / 2 + (2 + k)",
     "solution_steps_template": ["색종이 세 장의 넓이 합은 {{3 * (e + 8 + k)}} cm²입니다.", "겹치지 않은 부분을 빼고, 세 장 공통 부분이 세 번 세어진 것도 따로 봅니다.", "두 장만 겹친 부분의 합은 {{(3 * (e + 8 + k) - e - (e + 2) - (e + 4) - 3 * (2 + k)) / 2}} cm²입니다.", "세 장 공통 부분을 더하면 답은 {{(3 * (e + 8 + k) - e - (e + 2) - (e + 4) - 3 * (2 + k)) / 2 + (2 + k)}} cm²입니다."],
     "hint_steps_template": ["각 영역이 전체 넓이 합에서 몇 번 세어지는지 적어 봐요.", "두 장만 겹친 곳은 2번, 세 장 겹친 곳은 3번이에요.", "구하려는 넓이는 각 겹친 영역을 한 번씩 센 값이에요."],
-    "visual_template": { "type": "three_shape_overlap", "props": { "shapeArea": "{{e + 8 + k}}", "exclusiveAreas": ["{{e}}", "{{e + 2}}", "{{e + 4}}"], "tripleOverlap": "{{2 + k}}", "unit": "cm" } }
+    "visual_template": { "type": "three_shape_overlap", "semantics": "quantitative", "props": { "shapeArea": "{{e + 8 + k}}", "exclusiveAreas": ["{{e}}", "{{e + 2}}", "{{e + 4}}"], "tripleOverlap": "{{2 + k}}", "unit": "cm" } }
   },
   {
     "id": "tmpl-area-B-10", "concept_id": "area-001", "type": "number", "difficulty": 3, "set_id": "B",
@@ -300,7 +300,7 @@
     "solver_rule": "(3 * (e + 8 + k) - e - (e + 2) - (e + 4) - 3 * (2 + k)) / 2 + (2 + k)",
     "solution_steps_template": ["세 도형의 넓이를 더하면 {{3 * (e + 8 + k)}} cm²입니다.", "겹치지 않은 세 부분과 세 번 포함된 공통 부분을 구분합니다.", "두 도형만 겹친 부분의 합은 {{(3 * (e + 8 + k) - e - (e + 2) - (e + 4) - 3 * (2 + k)) / 2}} cm²입니다.", "세 도형 공통 부분까지 한 번 더하면 {{(3 * (e + 8 + k) - e - (e + 2) - (e + 4) - 3 * (2 + k)) / 2 + (2 + k)}} cm²입니다."],
     "hint_steps_template": ["전체 넓이 합을 영역별로 다시 표현해요.", "두 도형만 겹친 곳은 합에서 두 번 세어져요.", "세 도형이 겹친 곳은 최종 답에 한 번만 넣어요."],
-    "visual_template": { "type": "three_shape_overlap", "props": { "shapeArea": "{{e + 8 + k}}", "exclusiveAreas": ["{{e}}", "{{e + 2}}", "{{e + 4}}"], "tripleOverlap": "{{2 + k}}", "unit": "cm" } }
+    "visual_template": { "type": "three_shape_overlap", "semantics": "quantitative", "props": { "shapeArea": "{{e + 8 + k}}", "exclusiveAreas": ["{{e}}", "{{e + 2}}", "{{e + 4}}"], "tripleOverlap": "{{2 + k}}", "unit": "cm" } }
   },
   {
     "id": "tmpl-area-C-10", "concept_id": "area-001", "type": "number", "difficulty": 3, "set_id": "C",
