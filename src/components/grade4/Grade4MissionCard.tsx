@@ -69,7 +69,7 @@ export default function Grade4MissionCard({
 
           {inputError && <p data-testid="grade4-input-error" className="rounded-2xl border-2 border-[#f97316] bg-[#fff7ed] p-4 text-sm font-black text-[#9a3412]">{inputError}</p>}
           {!solved && wrongAttemptCount > 0 && <p data-testid="grade4-wrong-feedback" className="rounded-2xl bg-[#fff7ed] p-4 text-sm font-black text-[#9a3412]">아직 아니에요. 자릿값을 다시 확인해요.</p>}
-          {!solved && !showHint && <button type="button" onClick={onShowHint} className="min-h-[48px] w-full rounded-xl border-2 border-[#f59e0b] bg-[#fffbeb] px-4 font-black text-[#92400e]">단계 힌트</button>}
+          {!solved && !showHint && <button type="button" onClick={onShowHint} data-testid="grade4-show-hint" className="min-h-[48px] w-full rounded-xl border-2 border-[#f59e0b] bg-[#fffbeb] px-4 font-black text-[#92400e]">단계 힌트</button>}
           {showHint && !solved && <div data-testid="grade4-hint" className="space-y-2 rounded-2xl border-2 border-[#f59e0b] bg-[#fffbeb] p-4 text-sm font-black text-[#0f172a]">{mission.hintSteps.map((hint) => <p key={hint}>{hint}</p>)}</div>}
           {solved && <div data-testid="grade4-solution" className="space-y-2 rounded-2xl border-2 border-[#16a34a] bg-[#f0fdf4] p-4 text-sm font-black text-[#166534]">{mission.solutionSteps.map((step) => <p key={step}>{step}</p>)}</div>}
         </div>

@@ -15,7 +15,7 @@
 | 1. 숫자 입력 형식 | 완료 | 완성되지 않은 숫자·분수·대분수 형식은 오답, 답 잠금, 진도, receipt로 기록하지 않는다. |
 | 2. 문제 청사진 | 완료 | 5학년 660개 모두 명시적 문제군·K/A/R 청사진과 의미 self-check를 통과한다. 발견된 9개는 문장·범위·solver·풀이를 함께 바로잡았다. |
 | 3. 공통 활동·진도 | 완료 | 기존 학년별 localStorage 원문을 쓰지 않는 공통 read projection과 append-only attempt receipt가 현재 공개 대상인 1·2·3·4·5·6학년에 연결되어 있다. |
-| 4. 풀이장·경험 프리셋 | 완료 | 정규화 벡터 획, 문제별 복구, clear, undo/redo, 펜·지우개, `play / bridge / study` 프리셋이 1·2·3·4·5·6학년에 연결되어 있다. |
+| 4. 풀이장·경험 프리셋 | 완료 | 정규화 벡터 획, 문제별 복구, clear, undo/redo, 펜·지우개와 `play / bridge / study` 프리셋이 1·2·3·4·5·6학년에 연결되어 있다. 수리·모아·루미 선택과 `환영·생각·힌트·회복·축하` 5개 표현 상태는 같은 프리셋의 `full / companion / coach` 강도로 표시되며 채점·진도와 분리되어 있다. |
 | 5. 선택적 원격 저장 | 비공개 기반만 구현 | merge·rollback backup·엄격한 envelope, mock transport, auth core, one-time recovery와 동의 provisioning 기반이 있다. production flag는 `false`이며 공개 UI·API·실제 provider는 없다. 정책·provider·의존성 blocker가 해소되기 전 배포하지 않는다. |
 | 6A. 교육과정 원장 | 완료 | 3~4·5~6학년군 공식 성취기준 92개를 versioned 원장에 배정하고 release reference를 검증한다. |
 | 6B. 4학년 Bridge | 배포 완료 | `[4수01-01]`, `[4수01-02]` 큰 수 범위의 10개 문제 틀과 K/A/R 각 1개인 3문제 활동이 홈·이어하기와 연결되어 있다. 나머지 4학년 기준 20개는 `planned`다. |
@@ -32,6 +32,8 @@
 - 정답·채점은 계속 규칙 기반이며 원격 AI 호출은 없다. AI는 향후 힌트 품질 필요성이 입증된 경우에도 정답·채점·원본 풀이를 결정할 수 없다.
 
 ## 2026-07-21 검증 기록
+
+- 수리·모아·루미 런타임 반영은 Vitest 61개 파일 388/388, lint, TDD guard, 정적 페이지 75/75 build, Playwright E2E 36/36을 통과했다. 390×844 랜딩·학습 화면과 1024×768 홈에서 선택·저장·프리셋·힌트·오답·정답 반응, 가로 넘침 없음, 콘솔 오류 0을 확인했다.
 
 - 전체 Vitest 59개 파일 384/384, lint, TDD guard 통과.
 - Grade 1·2·3·4·6, curriculum, template validator 통과: 각각 96, 144, 36, 10, 30개 콘텐츠와 공식 성취기준 92개를 확인했고 template metadata는 690/690이다.

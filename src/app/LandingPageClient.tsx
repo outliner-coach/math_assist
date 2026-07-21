@@ -1,27 +1,29 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { loadGuestHomeState } from '@/lib/guest-home'
 
-function MathPreview() {
+function MascotPreview() {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
   return (
-    <div className="relative mx-auto h-[320px] w-full max-w-[430px]" aria-hidden="true">
-      <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#d7ffb8] opacity-70 blur-2xl" />
-      <div className="absolute left-6 top-10 -rotate-6 rounded-[2rem] border-4 border-white bg-[#2563eb] px-7 py-8 text-center text-white shadow-[0_18px_40px_rgba(37,99,235,0.24)]">
-        <p className="text-sm font-black text-blue-100">오늘의 문제</p>
-        <p className="mt-3 text-4xl font-black">7 × 8</p>
+    <div className="relative mx-auto w-full max-w-[560px]" data-testid="landing-mascot-lineup">
+      <div className="absolute inset-x-10 bottom-2 h-28 rounded-full bg-[#d7ffb8] opacity-70 blur-3xl" aria-hidden="true" />
+      <Image
+        src={`${basePath}/assets/mascots/lineup.png`}
+        alt="수달 수리, 부엉이 모아, 여우 루미가 함께 인사하는 모습"
+        width={1400}
+        height={676}
+        priority
+        className="relative w-full object-contain drop-shadow-[0_24px_32px_rgba(15,23,42,0.14)]"
+      />
+      <div className="relative -mt-3 flex justify-center gap-2 text-xs font-black text-[#475569] sm:gap-4 sm:text-sm">
+        <span className="rounded-full bg-[#ecfdf5] px-3 py-2">수리 · 탐험</span>
+        <span className="rounded-full bg-[#eff6ff] px-3 py-2">모아 · 전략</span>
+        <span className="rounded-full bg-[#fff7ed] px-3 py-2">루미 · 도전</span>
       </div>
-      <div className="absolute right-4 top-2 rotate-6 rounded-[2rem] border-4 border-white bg-[#ffc700] px-7 py-8 text-center text-[#3c3c3c] shadow-[0_18px_40px_rgba(255,199,0,0.28)]">
-        <p className="text-sm font-black">그림으로</p>
-        <p className="mt-2 text-5xl font-black">◒</p>
-      </div>
-      <div className="absolute bottom-3 left-16 rounded-[2rem] border-4 border-white bg-white px-8 py-7 text-center shadow-[0_24px_60px_rgba(15,23,42,0.16)]">
-        <p className="text-sm font-black text-[#777777]">한 문제씩</p>
-        <p className="mt-2 text-4xl font-black text-[#58cc02]">참 잘했어요!</p>
-      </div>
-      <div className="absolute bottom-12 right-1 rounded-full bg-[#a570ff] px-5 py-4 text-3xl shadow-lg">★</div>
     </div>
   )
 }
@@ -75,7 +77,7 @@ export default function LandingPageClient() {
             </div>
           </div>
 
-          <MathPreview />
+          <MascotPreview />
         </section>
 
         <section className="grid gap-4 pb-14 md:grid-cols-3" aria-label="학습 특징">

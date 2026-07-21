@@ -42,6 +42,7 @@ import {
   createMissionSketchKey,
   resolveMissionSketchStatus,
 } from '@/lib/mission-sketch-identity'
+import { dispatchMascotReaction } from '@/lib/mascot'
 
 const introGuideItems = [
   {
@@ -272,6 +273,7 @@ export default function Grade1GameClient() {
     setSelectedAnswer(answer)
 
     if (correct) {
+      dispatchMascotReaction('celebrate')
       const nextProgress = recordGrade1Attempt(progressWithIntroDismissed, selectedMission, true, {
         hadHint: wrongAttemptCount > 0,
         wrongAttempts: wrongAttemptCount,
@@ -283,6 +285,7 @@ export default function Grade1GameClient() {
     }
 
     const nextWrongAttemptCount = wrongAttemptCount + 1
+    dispatchMascotReaction('recover')
     setWrongAttemptCount(nextWrongAttemptCount)
     setShowHint(true)
     persistProgress(recordGrade1Attempt(progressWithIntroDismissed, selectedMission, false, {
@@ -323,7 +326,10 @@ export default function Grade1GameClient() {
               </GameButton>
               <GameButton
                 variant="secondary"
-                onClick={() => setShowHint(true)}
+                onClick={() => {
+                  setShowHint(true)
+                  dispatchMascotReaction('hint')
+                }}
               >
                 힌트 먼저 보기
               </GameButton>
@@ -423,7 +429,10 @@ export default function Grade1GameClient() {
             setNumberAnswer(answer)
             setNumberInputError(null)
           }}
-          onShowHint={() => setShowHint(true)}
+          onShowHint={() => {
+            setShowHint(true)
+            dispatchMascotReaction('hint')
+          }}
         />
 
         <ScratchPad

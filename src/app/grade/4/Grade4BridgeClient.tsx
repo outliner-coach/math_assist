@@ -8,6 +8,7 @@ import { Grade4MissionCard } from '@/components/grade4'
 import { checkGrade4Answer } from '@/lib/grade4-answer-normalizers'
 import { appendGrade4AttemptReceipt } from '@/lib/grade4-attempt-receipt'
 import { resolveExperiencePreset } from '@/lib/experience-preset'
+import { dispatchMascotReaction, mascotReactionForAnswer } from '@/lib/mascot'
 import { getGrade4Activity, grade4Units, SAFE_GRADE4_UNIT_ID } from '@/lib/grade4-problems'
 import {
   advanceGrade4Activity,
@@ -90,6 +91,7 @@ export default function Grade4BridgeClient({ initialUnitId }: { initialUnitId: s
       usedHint,
     })
     persist(next)
+    dispatchMascotReaction(mascotReactionForAnswer(result.correct))
     if (result.correct) setSolved(true)
     else setWrongAttemptCount((count) => count + 1)
   }
@@ -133,7 +135,7 @@ export default function Grade4BridgeClient({ initialUnitId }: { initialUnitId: s
         ) : (
           <>
             <Grade4MissionCard mission={mission} selectedAnswer={selectedAnswer} textAnswer={textAnswer} inputError={inputError} wrongAttemptCount={wrongAttemptCount} showHint={showHint} solved={solved}
-              onChoiceAnswer={(answer) => { setSelectedAnswer(answer); submit(answer) }} onTextAnswerChange={setTextAnswer} onSubmitText={() => submit(textAnswer)} onShowHint={() => setShowHint(true)} />
+              onChoiceAnswer={(answer) => { setSelectedAnswer(answer); submit(answer) }} onTextAnswerChange={setTextAnswer} onSubmitText={() => submit(textAnswer)} onShowHint={() => { setShowHint(true); dispatchMascotReaction('hint') }} />
             {mission.supportTool === 'grid' && <aside data-testid="grade4-support-grid" className="rounded-2xl border-2 border-[#a5b4fc] bg-white p-4 text-sm font-black text-[#4338ca]">보조 도구 1개 · 자릿수를 맞춰 쓸 수 있는 모눈을 풀이장에서 사용해요.</aside>}
             <ScratchPad learnerId={null} sessionId={`grade4:${unitId}:activity-${progress.activityRun}`} itemId={mission.variantKey} sessionStatus={solved ? 'completed' : 'active'} />
             {solved && <button type="button" data-testid="grade4-next-mission" onClick={nextMission} className="min-h-[58px] w-full rounded-xl bg-[#16a34a] px-6 text-lg font-black text-white shadow-[0_5px_0_#166534]">{progress.activeItemIndex === activity.length - 1 ? '활동 마치기' : '다음 문제'}</button>}

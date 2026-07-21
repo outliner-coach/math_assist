@@ -38,6 +38,7 @@ import {
   createMissionSketchKey,
   resolveMissionSketchStatus,
 } from '@/lib/mission-sketch-identity'
+import { dispatchMascotReaction, mascotReactionForAnswer } from '@/lib/mascot'
 
 function unitMissions(missions: Grade2Mission[], unitId: string): Grade2Mission[] {
   return missions
@@ -368,6 +369,7 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
     })
     setSelectedAnswer(displayAnswer)
     setLastSubmissionCorrect(result.correct)
+    dispatchMascotReaction(mascotReactionForAnswer(result.correct))
 
     if (result.correct) {
       const nextProgress = recordGrade2Attempt(progressWithIntroDismissed, selectedMission, true, {
@@ -495,7 +497,10 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
               formatStructuredTime(timeAnswer, selectedMission.answerType === 'duration' ? '시간' : '시')
             )
           }
-          onShowHint={() => setShowHint(true)}
+          onShowHint={() => {
+            setShowHint(true)
+            dispatchMascotReaction('hint')
+          }}
         />
 
         <ScratchPad

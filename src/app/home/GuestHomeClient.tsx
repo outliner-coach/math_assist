@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 
+import { MascotCharacter, MascotPicker } from '@/components'
 import { getUnits } from '@/lib/data'
 import {
   loadGuestHomeState,
@@ -14,6 +15,13 @@ import {
 import { grade2Units } from '@/lib/grade2-problems'
 import { grade3Units } from '@/lib/grade3-problems'
 import { grade4Units } from '@/lib/grade4-problems'
+import {
+  DEFAULT_MASCOT_ID,
+  dispatchMascotSelection,
+  loadMascotPreference,
+  saveMascotPreference,
+  type MascotId,
+} from '@/lib/mascot'
 import type { Unit } from '@/lib/types'
 
 const gradeStyles: Record<SupportedGrade, {
@@ -140,9 +148,11 @@ export default function GuestHomeClient() {
   const [showGradePicker, setShowGradePicker] = useState(false)
   const [storageAvailable, setStorageAvailable] = useState(true)
   const [grade5Units, setGrade5Units] = useState<Unit[]>([])
+  const [mascotId, setMascotId] = useState<MascotId>(DEFAULT_MASCOT_ID)
 
   useEffect(() => {
     setHomeState(loadGuestHomeState())
+    setMascotId(loadMascotPreference())
     getUnits().then(setGrade5Units).catch(() => setGrade5Units([]))
   }, [])
 
@@ -151,6 +161,13 @@ export default function GuestHomeClient() {
     setStorageAvailable(saved)
     setHomeState((current) => current ? { ...current, activeGrade: grade } : loadGuestHomeState())
     setShowGradePicker(false)
+  }
+
+  const chooseMascot = (nextMascotId: MascotId) => {
+    const saved = saveMascotPreference(nextMascotId)
+    setStorageAvailable((current) => current && saved)
+    setMascotId(nextMascotId)
+    dispatchMascotSelection(nextMascotId)
   }
 
   if (!homeState) {
@@ -217,10 +234,15 @@ export default function GuestHomeClient() {
                         </Link>
                         <p className="mt-4 text-sm font-bold text-[#94a3b8]">이 기기에 자동 저장돼요.</p>
                       </div>
-                      <div className="grid min-h-[210px] place-items-center p-6" style={{ backgroundColor: style.pale }} aria-hidden="true">
+                      <div className="grid min-h-[250px] place-items-center p-5" style={{ backgroundColor: style.pale }}>
                         <div className="text-center">
-                          <span className="mx-auto grid h-28 w-28 place-items-center rounded-[2rem] bg-white text-6xl font-black shadow-sm" style={{ color: style.accent }}>{style.symbol}</span>
-                          <p className="mt-4 text-lg font-black" style={{ color: style.accent }}>{style.name} 수학</p>
+                          <MascotCharacter
+                            mascotId={mascotId}
+                            state={summary.hasProgress ? 'welcome' : 'think'}
+                            mode={activeGrade <= 2 ? 'full' : activeGrade <= 4 ? 'companion' : 'coach'}
+                            className="mx-auto"
+                          />
+                          <p className="mt-3 text-lg font-black" style={{ color: style.accent }}>{style.name} 수학 친구</p>
                         </div>
                       </div>
                     </div>
@@ -246,6 +268,8 @@ export default function GuestHomeClient() {
                       <p className="font-black text-[#1e40af]">첫 학습을 마치면 여기에 완료 기록과 복습할 문제가 보여요.</p>
                     </section>
                   )}
+
+                  <MascotPicker selected={mascotId} onSelect={chooseMascot} />
 
                   {!storageAvailable && (
                     <section className="rounded-2xl border-2 border-[#fecaca] bg-[#fef2f2] p-4 text-sm font-black text-[#991b1b]" data-testid="home-storage-warning">

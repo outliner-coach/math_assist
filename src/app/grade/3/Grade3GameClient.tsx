@@ -30,6 +30,7 @@ import {
   createMissionSketchKey,
   resolveMissionSketchStatus,
 } from '@/lib/mission-sketch-identity'
+import { dispatchMascotReaction, mascotReactionForAnswer } from '@/lib/mascot'
 
 const MISSION_SEED = 20260516
 
@@ -310,6 +311,7 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
     })
     setSelectedAnswer(displayAnswer)
     setLastSubmissionCorrect(result.correct)
+    dispatchMascotReaction(mascotReactionForAnswer(result.correct))
 
     if (result.correct) {
       const alreadyCompleted = progressWithIntroDismissed.completedMissionIds.includes(selectedMission.id)
@@ -418,7 +420,10 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
         onSubmitTime={() => submitAnswer(timeAnswer, formatTime(timeAnswer, selectedMission.answerType === 'duration'))}
         onSubmitCapacity={() => submitAnswer(capacityAnswer, formatCapacity(capacityAnswer))}
         onSubmitWeight={() => submitAnswer(weightAnswer, formatWeight(weightAnswer))}
-        onShowHint={() => setShowHint(true)}
+        onShowHint={() => {
+          setShowHint(true)
+          dispatchMascotReaction('hint')
+        }}
       />
 
       <ScratchPad

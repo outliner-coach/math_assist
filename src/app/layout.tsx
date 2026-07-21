@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import { MascotRouteCompanion } from '@/components'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default function RootLayout({
         <div className="max-w-4xl mx-auto px-4 py-6">
           {children}
         </div>
+        <MascotRouteCompanion />
       </body>
     </html>
   )

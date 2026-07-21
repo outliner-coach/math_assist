@@ -14,6 +14,7 @@ import {
 import { resolveExperiencePreset } from '@/lib/experience-preset'
 import { isCurriculumGradeReleased } from '@/lib/grade-release'
 import { persistCompletedPractice } from '@/lib/practice-completion'
+import { dispatchMascotReaction, mascotReactionForAnswer } from '@/lib/mascot'
 import {
   saveSession,
   loadSession,
@@ -225,6 +226,7 @@ export default function PracticeClient() {
     const updatedSession = markAnswerChecked(session, index, result.correct)
     setSession(updatedSession)
     saveSession(updatedSession)
+    dispatchMascotReaction(mascotReactionForAnswer(result.correct))
 
     const checkedAt = Date.now()
     const receipt = createAttemptReceipt({
@@ -266,6 +268,7 @@ export default function PracticeClient() {
     const updatedSession = updateCurrentIndex(session, index)
     setSession(updatedSession)
     saveSession(updatedSession)
+    dispatchMascotReaction('think')
   }, [session])
 
   // 제출
@@ -416,7 +419,10 @@ export default function PracticeClient() {
           <h2 className="text-base font-bold text-gray-700">단계 힌트</h2>
           <Button
             variant="secondary"
-            onClick={() => setHintLevel(prev => Math.min(prev + 1, hintSteps.length))}
+            onClick={() => {
+              setHintLevel(prev => Math.min(prev + 1, hintSteps.length))
+              dispatchMascotReaction('hint')
+            }}
             disabled={hintSteps.length === 0 || hintLevel >= hintSteps.length}
           >
             {hintSteps.length === 0
