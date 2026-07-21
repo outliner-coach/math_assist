@@ -91,7 +91,8 @@ describe('grade2 progress', () => {
 
     expect(result.recovered).toBe(true)
     expect(result.progress.completedMissionIds).toEqual([])
-    expect(storage.getItem(GRADE2_PROGRESS_KEY)).toBeNull()
+    expect(storage.getItem(GRADE2_PROGRESS_KEY)).toBe('{bad json')
+    expect(saveGrade2Progress(result.progress, storage)).toBe(false)
     expect(storage.getItem('mathAssist_grade1Progress')).toBe('{"keep":true}')
   })
 
@@ -126,5 +127,6 @@ describe('grade2 progress', () => {
     expect(loaded.progress.selectedUnitId).toBe('g2-1-place-value')
     expect(loaded.progress.xp).toBe(10)
     expect(loaded.progress.masteryByMissionId['g2-1-place-value-01'].correct).toBe(1)
+    expect(loaded.progress.missionSketchRunOrdinal).toBe(0)
   })
 })

@@ -6,6 +6,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "symmetry-square-axes",
+    "blueprint": {"problemFamily":"symmetry-square-axes","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "shape": {
         "min": 1,
@@ -35,6 +36,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "symmetry-rectangle-axes",
+    "blueprint": {"problemFamily":"symmetry-rectangle-axes","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "shape": {
         "min": 2,
@@ -64,6 +66,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "symmetry-equilateral-triangle-axes",
+    "blueprint": {"problemFamily":"symmetry-equilateral-triangle-axes","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "shape": {
         "min": 3,
@@ -93,6 +96,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "symmetry-rhombus-axes",
+    "blueprint": {"problemFamily":"symmetry-rhombus-axes","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "shape": {
         "min": 5,
@@ -122,6 +126,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "symmetry-vertical-reflection-x",
+    "blueprint": {"problemFamily":"symmetry-vertical-reflection-x","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -162,6 +167,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "symmetry-vertical-reflection-distance",
+    "blueprint": {"problemFamily":"symmetry-vertical-reflection-distance","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -202,6 +208,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "symmetry-point-reflection-x",
+    "blueprint": {"problemFamily":"symmetry-point-reflection-x","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -247,6 +254,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "symmetry-point-reflection-y",
+    "blueprint": {"problemFamily":"symmetry-point-reflection-y","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -292,6 +300,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "symmetry-point-reflection-coordinate-sum",
+    "blueprint": {"problemFamily":"symmetry-point-reflection-coordinate-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -337,6 +346,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "symmetry-two-reflections",
+    "blueprint": {"problemFamily":"symmetry-two-reflections","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -381,6 +391,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "symmetry-square-axes",
+    "blueprint": {"problemFamily":"symmetry-square-axes","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "shape": {
         "min": 1,
@@ -410,6 +421,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "symmetry-rectangle-axes",
+    "blueprint": {"problemFamily":"symmetry-rectangle-axes","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "shape": {
         "min": 2,
@@ -439,6 +451,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "symmetry-equilateral-triangle-axes",
+    "blueprint": {"problemFamily":"symmetry-equilateral-triangle-axes","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "shape": {
         "min": 3,
@@ -468,6 +481,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "symmetry-rhombus-axes",
+    "blueprint": {"problemFamily":"symmetry-rhombus-axes","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "shape": {
         "min": 5,
@@ -497,6 +511,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "symmetry-vertical-reflection-x",
+    "blueprint": {"problemFamily":"symmetry-vertical-reflection-x","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -537,6 +552,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "symmetry-vertical-reflection-distance",
+    "blueprint": {"problemFamily":"symmetry-vertical-reflection-distance","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -577,6 +593,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "symmetry-point-reflection-x",
+    "blueprint": {"problemFamily":"symmetry-point-reflection-x","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -622,6 +639,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "symmetry-point-reflection-y",
+    "blueprint": {"problemFamily":"symmetry-point-reflection-y","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -667,6 +685,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "symmetry-point-reflection-coordinate-sum",
+    "blueprint": {"problemFamily":"symmetry-point-reflection-coordinate-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -712,6 +731,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "symmetry-two-reflections",
+    "blueprint": {"problemFamily":"symmetry-two-reflections","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -756,6 +776,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "symmetry-square-axes",
+    "blueprint": {"problemFamily":"symmetry-square-axes","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "shape": {
         "min": 1,
@@ -785,6 +806,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "symmetry-rectangle-axes",
+    "blueprint": {"problemFamily":"symmetry-rectangle-axes","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "shape": {
         "min": 2,
@@ -814,6 +836,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "symmetry-equilateral-triangle-axes",
+    "blueprint": {"problemFamily":"symmetry-equilateral-triangle-axes","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "shape": {
         "min": 3,
@@ -843,6 +866,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "symmetry-rhombus-axes",
+    "blueprint": {"problemFamily":"symmetry-rhombus-axes","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "shape": {
         "min": 5,
@@ -872,6 +896,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "symmetry-vertical-reflection-x",
+    "blueprint": {"problemFamily":"symmetry-vertical-reflection-x","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -912,6 +937,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "symmetry-vertical-reflection-distance",
+    "blueprint": {"problemFamily":"symmetry-vertical-reflection-distance","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -952,6 +978,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "symmetry-point-reflection-x",
+    "blueprint": {"problemFamily":"symmetry-point-reflection-x","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -997,6 +1024,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "symmetry-point-reflection-y",
+    "blueprint": {"problemFamily":"symmetry-point-reflection-y","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -1042,6 +1070,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "symmetry-point-reflection-coordinate-sum",
+    "blueprint": {"problemFamily":"symmetry-point-reflection-coordinate-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,
@@ -1087,6 +1116,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "symmetry-two-reflections",
+    "blueprint": {"problemFamily":"symmetry-two-reflections","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-02","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "x": {
         "min": 1,

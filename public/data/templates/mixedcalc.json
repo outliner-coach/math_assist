@@ -5,6 +5,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "mixedcalc-add-multiply-order",
+    "blueprint": {"problemFamily":"mixedcalc-add-multiply-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 2,
@@ -42,6 +44,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "mixedcalc-multiply-add-order",
+    "blueprint": {"problemFamily":"mixedcalc-multiply-add-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 3,
@@ -73,6 +77,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "mixedcalc-parenthesized-sum-product",
+    "blueprint": {"problemFamily":"mixedcalc-parenthesized-sum-product","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 2,
@@ -110,6 +116,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "mixedcalc-multiply-subtract-order",
+    "blueprint": {"problemFamily":"mixedcalc-multiply-subtract-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 3,
@@ -141,6 +149,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "mixedcalc-three-operation-order",
+    "blueprint": {"problemFamily":"mixedcalc-three-operation-order","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 6,
@@ -182,6 +192,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "mixedcalc-parentheses-then-subtract",
+    "blueprint": {"problemFamily":"mixedcalc-parentheses-then-subtract","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 5,
@@ -218,6 +230,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "mixedcalc-parenthesized-factor-product",
+    "blueprint": {"problemFamily":"mixedcalc-parenthesized-factor-product","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 4,
@@ -255,6 +269,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "mixedcalc-difference-times-factor",
+    "blueprint": {"problemFamily":"mixedcalc-difference-times-factor","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 8,
@@ -286,6 +302,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "mixedcalc-two-parentheses-product",
+    "blueprint": {"problemFamily":"mixedcalc-two-parentheses-product","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 6,
@@ -327,6 +345,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "mixedcalc-sum-of-two-products",
+    "blueprint": {"problemFamily":"mixedcalc-sum-of-two-products","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 6,
@@ -362,6 +382,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "mixedcalc-add-multiply-order",
+    "blueprint": {"problemFamily":"mixedcalc-add-multiply-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 4,
@@ -399,6 +421,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "mixedcalc-multiply-add-order",
+    "blueprint": {"problemFamily":"mixedcalc-multiply-add-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 5,
@@ -430,6 +454,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "mixedcalc-parenthesized-sum-product",
+    "blueprint": {"problemFamily":"mixedcalc-parenthesized-sum-product","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 4,
@@ -467,6 +493,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "mixedcalc-multiply-subtract-order",
+    "blueprint": {"problemFamily":"mixedcalc-multiply-subtract-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 5,
@@ -498,6 +526,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "mixedcalc-three-operation-order",
+    "blueprint": {"problemFamily":"mixedcalc-three-operation-order","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 8,
@@ -539,6 +569,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "mixedcalc-parentheses-then-subtract",
+    "blueprint": {"problemFamily":"mixedcalc-parentheses-then-subtract","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 7,
@@ -575,6 +607,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "mixedcalc-parenthesized-factor-product",
+    "blueprint": {"problemFamily":"mixedcalc-parenthesized-factor-product","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 6,
@@ -612,6 +646,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "mixedcalc-difference-times-factor",
+    "blueprint": {"problemFamily":"mixedcalc-difference-times-factor","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 10,
@@ -643,6 +679,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "mixedcalc-two-parentheses-product",
+    "blueprint": {"problemFamily":"mixedcalc-two-parentheses-product","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 8,
@@ -684,6 +722,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "mixedcalc-sum-of-two-products",
+    "blueprint": {"problemFamily":"mixedcalc-sum-of-two-products","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 8,
@@ -719,6 +759,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "mixedcalc-add-multiply-order",
+    "blueprint": {"problemFamily":"mixedcalc-add-multiply-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 6,
@@ -756,6 +798,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "mixedcalc-multiply-add-order",
+    "blueprint": {"problemFamily":"mixedcalc-multiply-add-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 7,
@@ -787,6 +831,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "mixedcalc-parenthesized-sum-product",
+    "blueprint": {"problemFamily":"mixedcalc-parenthesized-sum-product","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 6,
@@ -824,6 +870,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "mixedcalc-multiply-subtract-order",
+    "blueprint": {"problemFamily":"mixedcalc-multiply-subtract-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 7,
@@ -855,6 +903,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "mixedcalc-three-operation-order",
+    "blueprint": {"problemFamily":"mixedcalc-three-operation-order","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 10,
@@ -896,6 +946,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "mixedcalc-parentheses-then-subtract",
+    "blueprint": {"problemFamily":"mixedcalc-parentheses-then-subtract","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 9,
@@ -932,6 +984,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "mixedcalc-parenthesized-factor-product",
+    "blueprint": {"problemFamily":"mixedcalc-parenthesized-factor-product","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 8,
@@ -969,6 +1023,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "mixedcalc-difference-times-factor",
+    "blueprint": {"problemFamily":"mixedcalc-difference-times-factor","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 12,
@@ -1000,6 +1056,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "mixedcalc-two-parentheses-product",
+    "blueprint": {"problemFamily":"mixedcalc-two-parentheses-product","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 10,
@@ -1041,6 +1099,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "mixedcalc-sum-of-two-products",
+    "blueprint": {"problemFamily":"mixedcalc-sum-of-two-products","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 10,

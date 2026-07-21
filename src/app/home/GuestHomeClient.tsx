@@ -13,6 +13,7 @@ import {
 } from '@/lib/guest-home'
 import { grade2Units } from '@/lib/grade2-problems'
 import { grade3Units } from '@/lib/grade3-problems'
+import { grade4Units } from '@/lib/grade4-problems'
 import type { Unit } from '@/lib/types'
 
 const gradeStyles: Record<SupportedGrade, {
@@ -26,7 +27,9 @@ const gradeStyles: Record<SupportedGrade, {
   1: { accent: '#58cc02', border: '#d7ffb8', pale: '#f0ffe7', shadow: '#3f8f01', name: '1학년', symbol: '●' },
   2: { accent: '#2563eb', border: '#bfdbfe', pale: '#eff6ff', shadow: '#1e40af', name: '2학년', symbol: '◆' },
   3: { accent: '#0f766e', border: '#99f6e4', pale: '#f0fdfa', shadow: '#115e59', name: '3학년', symbol: '▲' },
+  4: { accent: '#4f46e5', border: '#c7d2fe', pale: '#eef2ff', shadow: '#3730a3', name: '4학년', symbol: '■' },
   5: { accent: '#7c3aed', border: '#ddd6fe', pale: '#f5f3ff', shadow: '#5b21b6', name: '5학년', symbol: '✦' },
+  6: { accent: '#0369a1', border: '#bae6fd', pale: '#f0f9ff', shadow: '#075985', name: '6학년', symbol: '✺' },
 }
 
 function GradePicker({ onSelect }: { onSelect: (grade: SupportedGrade) => void }) {
@@ -35,7 +38,7 @@ function GradePicker({ onSelect }: { onSelect: (grade: SupportedGrade) => void }
       <span className="inline-flex rounded-full bg-[#d7ffb8] px-4 py-2 text-sm font-black text-[#166534]">처음 오셨나요?</span>
       <h1 className="mt-5 text-4xl font-black tracking-tight text-[#0f172a] md:text-5xl">어느 학년 수학을 공부할까요?</h1>
       <p className="mt-4 text-lg font-bold text-[#64748b]">가입하지 않아도 괜찮아요. 학년은 나중에 언제든 바꿀 수 있어요.</p>
-      <div className="mx-auto mt-8 grid max-w-3xl grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="mx-auto mt-8 grid max-w-5xl grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
         {SUPPORTED_GRADES.map((grade) => {
           const style = gradeStyles[grade]
           return (
@@ -56,7 +59,6 @@ function GradePicker({ onSelect }: { onSelect: (grade: SupportedGrade) => void }
           )
         })}
       </div>
-      <p className="mt-5 text-sm font-bold text-[#94a3b8]">4학년 과정은 준비 중이에요.</p>
     </section>
   )
 }
@@ -86,7 +88,15 @@ function LearningLinks({ grade, grade5Units }: { grade: SupportedGrade; grade5Un
         badge: unit.semester,
       }))
     }
-    return grade5Units.slice(0, 4).map((unit) => ({
+    if (grade === 4) {
+      return grade4Units.map((unit) => ({
+        title: unit.title,
+        body: unit.subtitle,
+        href: `/grade/4/mission?unitId=${unit.id}`,
+        badge: `${unit.semester} · Bridge`,
+      }))
+    }
+    return grade5Units.filter((unit) => unit.grade === grade).slice(0, 4).map((unit) => ({
       title: unit.title,
       body: unit.description ?? '개념을 읽고 10문제로 연습해요.',
       href: `/unit/${unit.id}`,

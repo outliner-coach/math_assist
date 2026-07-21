@@ -6,6 +6,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "polygonarea-parallelogram-area",
+    "blueprint": {"problemFamily":"polygonarea-parallelogram-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 4,
@@ -46,6 +47,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "polygonarea-triangle-area",
+    "blueprint": {"problemFamily":"polygonarea-triangle-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 4,
@@ -81,6 +83,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "polygonarea-trapezoid-area",
+    "blueprint": {"problemFamily":"polygonarea-trapezoid-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "top": {
         "min": 3,
@@ -126,6 +129,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "polygonarea-rhombus-area",
+    "blueprint": {"problemFamily":"polygonarea-rhombus-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "d1": {
         "min": 4,
@@ -161,6 +165,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "polygonarea-parallelogram-height",
+    "blueprint": {"problemFamily":"polygonarea-parallelogram-height","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 5,
@@ -202,6 +207,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "polygonarea-triangle-height",
+    "blueprint": {"problemFamily":"polygonarea-triangle-height","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 4,
@@ -238,6 +244,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "polygonarea-trapezoid-bottom",
+    "blueprint": {"problemFamily":"polygonarea-trapezoid-bottom","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "top": {
         "min": 3,
@@ -284,6 +291,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "polygonarea-two-shape-area-sum",
+    "blueprint": {"problemFamily":"polygonarea-two-shape-area-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 4,
@@ -327,6 +335,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "polygonarea-rectangle-minus-triangle",
+    "blueprint": {"problemFamily":"polygonarea-rectangle-minus-triangle","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 8,
@@ -370,6 +379,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "polygonarea-rhombus-missing-diagonal",
+    "blueprint": {"problemFamily":"polygonarea-rhombus-missing-diagonal","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "d1": {
         "min": 4,
@@ -406,6 +416,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "polygonarea-parallelogram-area",
+    "blueprint": {"problemFamily":"polygonarea-parallelogram-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 6,
@@ -446,6 +457,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "polygonarea-triangle-area",
+    "blueprint": {"problemFamily":"polygonarea-triangle-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 8,
@@ -481,6 +493,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "polygonarea-trapezoid-area",
+    "blueprint": {"problemFamily":"polygonarea-trapezoid-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "top": {
         "min": 5,
@@ -526,6 +539,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "polygonarea-rhombus-area",
+    "blueprint": {"problemFamily":"polygonarea-rhombus-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "d1": {
         "min": 8,
@@ -561,6 +575,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "polygonarea-parallelogram-height",
+    "blueprint": {"problemFamily":"polygonarea-parallelogram-height","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 7,
@@ -602,6 +617,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "polygonarea-triangle-height",
+    "blueprint": {"problemFamily":"polygonarea-triangle-height","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 8,
@@ -638,6 +654,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "polygonarea-trapezoid-bottom",
+    "blueprint": {"problemFamily":"polygonarea-trapezoid-bottom","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "top": {
         "min": 5,
@@ -684,6 +701,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "polygonarea-two-shape-area-sum",
+    "blueprint": {"problemFamily":"polygonarea-two-shape-area-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 8,
@@ -727,6 +745,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "polygonarea-rectangle-minus-triangle",
+    "blueprint": {"problemFamily":"polygonarea-rectangle-minus-triangle","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 10,
@@ -770,6 +789,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "polygonarea-rhombus-missing-diagonal",
+    "blueprint": {"problemFamily":"polygonarea-rhombus-missing-diagonal","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "d1": {
         "min": 8,
@@ -806,6 +826,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "polygonarea-parallelogram-area",
+    "blueprint": {"problemFamily":"polygonarea-parallelogram-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 8,
@@ -846,6 +867,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "polygonarea-triangle-area",
+    "blueprint": {"problemFamily":"polygonarea-triangle-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 12,
@@ -881,6 +903,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "polygonarea-trapezoid-area",
+    "blueprint": {"problemFamily":"polygonarea-trapezoid-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "top": {
         "min": 7,
@@ -926,6 +949,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "polygonarea-rhombus-area",
+    "blueprint": {"problemFamily":"polygonarea-rhombus-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "d1": {
         "min": 12,
@@ -961,6 +985,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "polygonarea-parallelogram-height",
+    "blueprint": {"problemFamily":"polygonarea-parallelogram-height","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 9,
@@ -1002,6 +1027,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "polygonarea-triangle-height",
+    "blueprint": {"problemFamily":"polygonarea-triangle-height","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 12,
@@ -1038,6 +1064,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "polygonarea-trapezoid-bottom",
+    "blueprint": {"problemFamily":"polygonarea-trapezoid-bottom","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "top": {
         "min": 7,
@@ -1084,6 +1111,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "polygonarea-two-shape-area-sum",
+    "blueprint": {"problemFamily":"polygonarea-two-shape-area-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "base": {
         "min": 12,
@@ -1127,6 +1155,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "polygonarea-rectangle-minus-triangle",
+    "blueprint": {"problemFamily":"polygonarea-rectangle-minus-triangle","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 12,
@@ -1170,6 +1199,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "polygonarea-rhombus-missing-diagonal",
+    "blueprint": {"problemFamily":"polygonarea-rhombus-missing-diagonal","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "d1": {
         "min": 12,

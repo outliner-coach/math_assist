@@ -6,6 +6,7 @@ const RESULT_KEY = 'mathAssist_lastResult'
 const GRADE1_PROGRESS_KEY = 'mathAssist_grade1Progress'
 const GRADE2_PROGRESS_KEY = 'mathAssist_grade2Progress'
 const GRADE3_PROGRESS_KEY = 'mathAssist_grade3Progress'
+const ATTEMPT_RECEIPT_KEY = 'mathAssist_attemptReceipts_v1'
 
 type StoredProblem = {
   type: 'choice' | 'number'
@@ -42,8 +43,39 @@ async function readResult(page: Page) {
   return page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), RESULT_KEY)
 }
 
+async function readAttemptReceipts(page: Page) {
+  await page.waitForFunction((key) => Boolean(localStorage.getItem(key)), ATTEMPT_RECEIPT_KEY)
+  return page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null').receipts, ATTEMPT_RECEIPT_KEY)
+}
+
 async function pressKeypadButton(page: Page, char: string) {
   await page.getByTestId(`key-${encodeURIComponent(char)}`).click()
+}
+
+async function drawScratchStroke(page: Page) {
+  const canvas = page.getByLabel('문제 풀이를 쓰는 캔버스')
+  await canvas.scrollIntoViewIfNeeded()
+  const box = await canvas.boundingBox()
+  if (!box) throw new Error('ScratchPad canvas is not visible')
+  await page.mouse.move(box.x + box.width * 0.25, box.y + box.height * 0.35)
+  await page.mouse.down()
+  await page.mouse.move(box.x + box.width * 0.65, box.y + box.height * 0.6, { steps: 6 })
+  await page.mouse.up()
+  await expect(page.getByText('이 문제의 풀이를 기기에 자동 저장했어요.')).toBeVisible()
+}
+
+async function paintedScratchPixels(page: Page): Promise<number> {
+  return page.getByLabel('문제 풀이를 쓰는 캔버스').evaluate((canvas) => {
+    const element = canvas as HTMLCanvasElement
+    const context = element.getContext('2d')
+    if (!context) return 0
+    const pixels = context.getImageData(0, 0, element.width, element.height).data
+    let painted = 0
+    for (let index = 3; index < pixels.length; index += 4) {
+      if (pixels[index] > 0) painted += 1
+    }
+    return painted
+  })
 }
 
 async function enterNumberAnswer(page: Page, answer: string) {
@@ -111,6 +143,115 @@ test('각 문제를 푼 직후 정답과 풀이를 확인한다', async ({ page 
 
   const session = await readSession(page)
   expect(session.checkedAnswers[0]).toBe(false)
+})
+
+test('5학년 풀이장은 문제별로 자동 저장하고 이동·새로고침 뒤 복구한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/practice/divisor-001?set=A`)
+  await drawScratchStroke(page)
+
+  const firstStored = await page.evaluate(() => Object.keys(localStorage).filter(
+    (key) => key.startsWith('mathAssist_sketch_v1:'),
+  ))
+  expect(firstStored).toHaveLength(1)
+
+  await answerCurrentProblem(page, 'correct')
+  await page.getByTestId('check-answer-button').click()
+  await page.getByTestId('next-button').click()
+  await expect.poll(() => paintedScratchPixels(page)).toBe(0)
+  await drawScratchStroke(page)
+
+  const secondStored = await page.evaluate(() => Object.keys(localStorage).filter(
+    (key) => key.startsWith('mathAssist_sketch_v1:'),
+  ))
+  expect(secondStored).toHaveLength(2)
+
+  await page.getByTestId('previous-button').click()
+  await expect.poll(() => paintedScratchPixels(page)).toBeGreaterThan(0)
+  await page.reload()
+  await expect.poll(() => paintedScratchPixels(page)).toBeGreaterThan(0)
+})
+
+test('5학년의 완성되지 않은 숫자 입력은 오답으로 잠그지 않는다', async ({ page }) => {
+  const now = Date.now()
+  await page.evaluate(({ key, now }) => {
+    localStorage.setItem(key, JSON.stringify({
+      sessionId: 'incomplete-number-input',
+      conceptId: 'divisor-001',
+      setId: 'A',
+      mode: 'standard',
+      problems: [{
+        index: 0,
+        templateId: 'number-format-boundary',
+        setId: 'A',
+        params: {},
+        prompt: '1과 1/2를 대분수로 쓰세요.',
+        type: 'number',
+        correctAnswer: '1 1/2',
+        solutionSteps: ['분자와 분모를 모두 씁니다.']
+      }],
+      answers: [null],
+      checkedAnswers: [null],
+      currentIndex: 0,
+      startedAt: now,
+      expiresAt: now + 60 * 60 * 1000
+    }))
+  }, { key: SESSION_KEY, now })
+
+  await page.goto(`${BASE_PATH}/practice/divisor-001?set=A`)
+
+  await enterNumberAnswer(page, '1/')
+  await page.getByTestId('check-answer-button').click()
+  await expect(page.getByTestId('number-input-error')).toContainText('분모')
+  await expect(page.getByTestId('answer-feedback')).toHaveCount(0)
+  expect((await readSession(page)).checkedAnswers).toEqual([null])
+  expect(await page.evaluate((key) => localStorage.getItem(key), ATTEMPT_RECEIPT_KEY)).toBeNull()
+
+  await page.getByTestId('keypad-display').click()
+  await pressKeypadButton(page, 'backspace')
+  await pressKeypadButton(page, 'backspace')
+  await pressKeypadButton(page, '-')
+  await page.getByTestId('key-done').click()
+  await page.getByTestId('check-answer-button').click()
+  await expect(page.getByTestId('number-input-error')).toContainText('숫자')
+  expect((await readSession(page)).checkedAnswers).toEqual([null])
+  expect(await page.evaluate((key) => localStorage.getItem(key), ATTEMPT_RECEIPT_KEY)).toBeNull()
+
+  await page.getByTestId('keypad-display').click()
+  await pressKeypadButton(page, 'backspace')
+  await pressKeypadButton(page, '.')
+  await page.getByTestId('key-done').click()
+  await page.getByTestId('check-answer-button').click()
+  await expect(page.getByTestId('number-input-error')).toContainText('소수점')
+  expect((await readSession(page)).checkedAnswers).toEqual([null])
+  expect(await page.evaluate((key) => localStorage.getItem(key), ATTEMPT_RECEIPT_KEY)).toBeNull()
+
+  await page.getByTestId('keypad-display').click()
+  await pressKeypadButton(page, 'backspace')
+  for (const char of '1 1/') await pressKeypadButton(page, char)
+  await page.getByTestId('key-done').click()
+  await page.getByTestId('check-answer-button').click()
+  await expect(page.getByTestId('number-input-error')).toContainText('대분수')
+  expect((await readSession(page)).checkedAnswers).toEqual([null])
+  expect(await page.evaluate((key) => localStorage.getItem(key), ATTEMPT_RECEIPT_KEY)).toBeNull()
+
+  await page.getByTestId('keypad-display').click()
+  await pressKeypadButton(page, '2')
+  await page.getByTestId('key-done').click()
+  await expect(page.getByTestId('number-input-error')).toHaveCount(0)
+  await page.getByTestId('check-answer-button').click()
+  await expect(page.getByTestId('feedback-correct')).toBeVisible()
+  expect((await readSession(page)).checkedAnswers).toEqual([true])
+  const ledger = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), ATTEMPT_RECEIPT_KEY)
+  expect(ledger.receipts).toHaveLength(1)
+  expect(ledger.receipts[0]).toMatchObject({
+    schemaVersion: 1,
+    sessionId: 'incomplete-number-input',
+    activityId: 'divisor-001',
+    grade: 5,
+    correct: true,
+    usedHint: false,
+  })
+  expect(JSON.stringify(ledger)).not.toContain('1 1/2')
 })
 
 test('표준 10문항 완료 후 행동 중심 결과 화면이 보인다', async ({ page }) => {
@@ -256,6 +397,19 @@ test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수
   expect(progress.schemaVersion).toBe(2)
   expect(progress.xp).toBe(10)
 
+  const grade1Receipts = await readAttemptReceipts(page)
+  expect(grade1Receipts).toHaveLength(2)
+  expect(grade1Receipts.map((receipt: { correct: boolean }) => receipt.correct)).toEqual([false, true])
+  expect(grade1Receipts[1]).toMatchObject({
+    grade: 1,
+    activityId: 'count-cove-01',
+    itemId: 'count-cove-01',
+    attemptOrdinal: 1,
+    usedHint: true,
+  })
+  expect(grade1Receipts[1]).not.toHaveProperty('answer')
+  expect(grade1Receipts[1]).not.toHaveProperty('strokes')
+
   const firstState = JSON.parse(await page.evaluate(() => (
     window as typeof window & { render_game_to_text?: () => string }
   ).render_game_to_text?.() ?? '{}'))
@@ -275,6 +429,44 @@ test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수
   await expect(page.getByTestId('mission-problem-card')).toHaveAttribute('data-mission-id', 'count-cove-02')
   await expect(page.getByTestId('reward-reveal')).toHaveCount(0)
   await expect(page.getByTestId('grade1-number-input')).toBeVisible()
+  const grade1ReceiptCountBeforeFormatError = (await readAttemptReceipts(page)).length
+  await page.getByTestId('grade1-number-input').fill('1/')
+  await page.getByTestId('grade1-number-submit').click()
+  await expect(page.getByTestId('grade1-number-error')).toBeVisible()
+  expect((await readAttemptReceipts(page))).toHaveLength(grade1ReceiptCountBeforeFormatError)
+})
+
+test('1학년 풀이장은 새로고침 복구, 완료 읽기 전용, 재시작 격리를 유지한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/1`)
+  await drawScratchStroke(page)
+  await page.reload()
+  await expect(page.getByTestId('mission-problem-card')).toHaveAttribute('data-mission-id', 'count-cove-01')
+  await expect.poll(() => paintedScratchPixels(page)).toBeGreaterThan(0)
+
+  await page.getByTestId('grade1-choice-7').click()
+  await expect(page.getByTestId('mission-success')).toBeVisible()
+  await expect(page.getByLabel('문제 풀이를 쓰는 캔버스')).toHaveAttribute('aria-disabled', 'true')
+  await expect(page.getByTestId('scratch-pad').getByRole('button', { name: '펜', exact: true })).toBeDisabled()
+
+  await page.getByTestId('next-grade1-mission').click()
+  await expect.poll(() => paintedScratchPixels(page)).toBe(0)
+  await page.getByTestId('stage-node-1').click()
+  await expect.poll(() => paintedScratchPixels(page)).toBeGreaterThan(0)
+  await page.getByTestId('grade1-choice-7').click()
+  await expect(page.getByTestId('mission-success')).toBeVisible()
+  await page.getByTestId('replay-grade1-mission').click()
+  await expect(page.getByLabel('문제 풀이를 쓰는 캔버스')).toHaveAttribute('aria-disabled', 'false')
+  await expect.poll(() => paintedScratchPixels(page)).toBe(0)
+  await drawScratchStroke(page)
+  await page.reload()
+  await expect(page.getByTestId('mission-problem-card')).toHaveAttribute('data-mission-id', 'count-cove-01')
+  await expect.poll(() => paintedScratchPixels(page)).toBeGreaterThan(0)
+  const replayProgress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE1_PROGRESS_KEY)
+  expect(replayProgress.missionSketchRunOrdinal).toBe(1)
+  const documents = await page.evaluate(() => Object.keys(localStorage).filter(
+    (key) => key.startsWith('mathAssist_sketch_v1:'),
+  ))
+  expect(documents).toHaveLength(2)
 })
 
 test('1학년 게임 모드에서 손상된 진행 기록을 복구한다', async ({ page }) => {
@@ -322,6 +514,19 @@ test('2학년 게임 모드에서 단원 선택, 힌트, 보상, 다음 미션 �
   expect(progress.schemaVersion).toBe(2)
   expect(progress.xp).toBe(10)
 
+  const grade2Receipts = await readAttemptReceipts(page)
+  expect(grade2Receipts).toHaveLength(2)
+  expect(grade2Receipts.map((receipt: { correct: boolean }) => receipt.correct)).toEqual([false, true])
+  expect(grade2Receipts[1]).toMatchObject({
+    grade: 2,
+    activityId: 'g2-1-place-value-01',
+    itemId: 'g2-1-place-value-01',
+    attemptOrdinal: 1,
+    usedHint: true,
+  })
+  expect(grade2Receipts[1]).not.toHaveProperty('answer')
+  expect(grade2Receipts[1]).not.toHaveProperty('strokes')
+
   const firstState = JSON.parse(await page.evaluate(() => (
     window as typeof window & { render_game_to_text?: () => string }
   ).render_game_to_text?.() ?? '{}'))
@@ -341,6 +546,37 @@ test('2학년 게임 모드에서 단원 선택, 힌트, 보상, 다음 미션 �
   await page.getByTestId('next-grade2-mission').click()
   await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-place-value-02')
   await expect(page.getByTestId('grade2-reward-panel')).toHaveCount(0)
+})
+
+test('2학년 풀이장은 문항 이동과 새로고침을 복구하고 재시작을 격리한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-1-place-value`)
+  await drawScratchStroke(page)
+
+  await page.getByTestId('grade2-mission-node-2').click()
+  await expect.poll(() => paintedScratchPixels(page)).toBe(0)
+  await drawScratchStroke(page)
+  await page.getByTestId('grade2-mission-node-1').click()
+  await expect.poll(() => paintedScratchPixels(page)).toBeGreaterThan(0)
+  await page.reload()
+  await expect.poll(() => paintedScratchPixels(page)).toBeGreaterThan(0)
+
+  await page.getByTestId('grade2-integer-input').fill('342')
+  await page.getByTestId('grade2-integer-submit').click()
+  await expect(page.getByLabel('문제 풀이를 쓰는 캔버스')).toHaveAttribute('aria-disabled', 'true')
+
+  await page.getByTestId('grade2-retry-mission').click()
+  await expect(page.getByLabel('문제 풀이를 쓰는 캔버스')).toHaveAttribute('aria-disabled', 'false')
+  await expect.poll(() => paintedScratchPixels(page)).toBe(0)
+  await drawScratchStroke(page)
+  await page.reload()
+  await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-place-value-01')
+  await expect.poll(() => paintedScratchPixels(page)).toBeGreaterThan(0)
+  const replayProgress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE2_PROGRESS_KEY)
+  expect(replayProgress.missionSketchRunOrdinal).toBe(1)
+  const documents = await page.evaluate(() => Object.keys(localStorage).filter(
+    (key) => key.startsWith('mathAssist_sketch_v1:'),
+  ))
+  expect(documents).toHaveLength(3)
 })
 
 test('2학년 게임 모드에서 길이와 시간 구조화 입력을 사용한다', async ({ page }) => {
@@ -369,10 +605,12 @@ test('2학년 게임 모드에서 길이와 시간 구조화 입력을 사용한
   await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
 
   await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-2-time`)
+  const grade2ReceiptCountBeforeFormatError = (await readAttemptReceipts(page)).length
   await page.getByTestId('grade2-time-hours').fill('3')
   await page.getByTestId('grade2-time-minutes').fill('60')
   await page.getByTestId('grade2-time-submit').click()
   await expect(page.getByTestId('grade2-input-error')).toBeVisible()
+  expect((await readAttemptReceipts(page))).toHaveLength(grade2ReceiptCountBeforeFormatError)
 
   await page.getByTestId('grade2-time-minutes').fill('25')
   await page.getByTestId('grade2-time-submit').click()
@@ -495,9 +733,53 @@ test('3학년 탐험섬에서 단원 선택, 발판, 힌트, 보상 흐름을 �
   expect(progress.reviewMissionIds).toContain('g3-1-add-sub-01')
   expect(progress.todaySolvedCount).toBe(1)
 
+  const grade3Receipts = await readAttemptReceipts(page)
+  expect(grade3Receipts).toHaveLength(2)
+  expect(grade3Receipts.map((receipt: { correct: boolean }) => receipt.correct)).toEqual([false, true])
+  expect(grade3Receipts[1]).toMatchObject({
+    grade: 3,
+    activityId: 'g3-1-add-sub-01',
+    itemId: 'g3-1-add-sub-01',
+    attemptOrdinal: 1,
+    usedHint: true,
+  })
+  expect(grade3Receipts[1]).not.toHaveProperty('answer')
+  expect(grade3Receipts[1]).not.toHaveProperty('strokes')
+
   await page.getByTestId('next-grade3-mission').click()
   await expect(page.getByTestId('grade3-mission-card')).toHaveAttribute('data-mission-id', 'g3-1-add-sub-02')
   await expect(page.getByTestId('grade3-reward-panel')).toHaveCount(0)
+})
+
+test('3학년 풀이장은 문항 이동과 새로고침을 복구하고 재시작을 격리한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-1-add-sub`)
+  await drawScratchStroke(page)
+
+  await page.getByTestId('grade3-mission-node-2').click()
+  await expect.poll(() => paintedScratchPixels(page)).toBe(0)
+  await drawScratchStroke(page)
+  await page.getByTestId('grade3-mission-node-1').click()
+  await expect.poll(() => paintedScratchPixels(page)).toBeGreaterThan(0)
+  await page.reload()
+  await expect.poll(() => paintedScratchPixels(page)).toBeGreaterThan(0)
+
+  await page.getByTestId('grade3-integer-input').fill('385')
+  await page.getByTestId('grade3-integer-submit').click()
+  await expect(page.getByLabel('문제 풀이를 쓰는 캔버스')).toHaveAttribute('aria-disabled', 'true')
+
+  await page.getByTestId('grade3-retry-mission').click()
+  await expect(page.getByLabel('문제 풀이를 쓰는 캔버스')).toHaveAttribute('aria-disabled', 'false')
+  await expect.poll(() => paintedScratchPixels(page)).toBe(0)
+  await drawScratchStroke(page)
+  await page.reload()
+  await expect(page.getByTestId('grade3-mission-card')).toHaveAttribute('data-mission-id', 'g3-1-add-sub-01')
+  await expect.poll(() => paintedScratchPixels(page)).toBeGreaterThan(0)
+  const replayProgress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE3_PROGRESS_KEY)
+  expect(replayProgress.missionSketchRunOrdinal).toBe(1)
+  const documents = await page.evaluate(() => Object.keys(localStorage).filter(
+    (key) => key.startsWith('mathAssist_sketch_v1:'),
+  ))
+  expect(documents).toHaveLength(3)
 })
 
 test('3학년 구조화 입력 오류는 오답 횟수로 기록하지 않는다', async ({ page }) => {
@@ -511,6 +793,7 @@ test('3학년 구조화 입력 오류는 오답 횟수로 기록하지 않는다
 
   await expect(page.getByTestId('grade3-input-error')).toBeVisible()
   await expect(page.getByTestId('grade3-mission-hint')).toHaveCount(0)
+  expect(await page.evaluate((key) => localStorage.getItem(key), ATTEMPT_RECEIPT_KEY)).toBeNull()
 
   const progressAfterInputError = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE3_PROGRESS_KEY)
   expect(progressAfterInputError.reviewMissionIds).toEqual([])

@@ -5,6 +5,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 120,
@@ -28,6 +30,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 120,
@@ -56,6 +60,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 1200,
@@ -79,6 +85,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 1200,
@@ -107,6 +115,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 1501,
@@ -130,6 +140,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 1501,
@@ -158,6 +170,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 12001,
@@ -181,6 +195,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 12001,
@@ -209,6 +225,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "rounding-context-estimate",
+    "blueprint": {"problemFamily":"rounding-context-estimate","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 20002,
@@ -232,6 +250,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 20002,
@@ -260,6 +280,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 122,
@@ -283,6 +305,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 122,
@@ -311,6 +335,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 1202,
@@ -334,6 +360,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 1202,
@@ -362,6 +390,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 1503,
@@ -385,6 +415,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 1503,
@@ -413,6 +445,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 12003,
@@ -436,6 +470,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 12003,
@@ -464,6 +500,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "rounding-context-estimate",
+    "blueprint": {"problemFamily":"rounding-context-estimate","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 20004,
@@ -487,6 +525,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 20004,
@@ -515,6 +555,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 124,
@@ -538,6 +580,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 124,
@@ -566,6 +610,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 1204,
@@ -589,6 +635,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 1204,
@@ -617,6 +665,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 1505,
@@ -640,6 +690,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 1505,
@@ -668,6 +720,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 12005,
@@ -691,6 +745,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 12005,
@@ -719,6 +775,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "rounding-context-estimate",
+    "blueprint": {"problemFamily":"rounding-context-estimate","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 20006,
@@ -742,6 +800,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "rounding-direct-at-place",
+    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 20006,

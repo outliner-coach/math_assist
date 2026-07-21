@@ -186,6 +186,36 @@
     .metric .label { font-weight: 900; }
     .metric p { margin: 7px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
 
+    .snapshot-baseline {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 22px;
+      padding: 20px 22px;
+      border: 1px solid #cbd8d2;
+      border-radius: 20px;
+      background: rgba(255,255,255,.78);
+    }
+    .snapshot-baseline b { color: var(--navy); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+    .snapshot-baseline p { margin: 0; color: var(--ink-2); font-size: 14px; font-weight: 720; }
+    .snapshot-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .snapshot-card { min-height: 190px; padding: 23px; border: 1px solid var(--line); border-radius: 22px; background: white; }
+    .snapshot-card header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .snapshot-card .phase-name { color: var(--muted); font-size: 11px; font-weight: 950; letter-spacing: .11em; text-transform: uppercase; }
+    .snapshot-card h3 { margin: 28px 0 8px; font-size: 22px; line-height: 1.25; letter-spacing: -.03em; }
+    .snapshot-card p { margin: 0; color: var(--muted); font-size: 13px; }
+    .snapshot-card code { padding: 2px 5px; border-radius: 6px; color: var(--ink-2); background: var(--paper); font-size: .92em; }
+    .snapshot-status { flex: 0 0 auto; padding: 6px 9px; border-radius: 999px; font-size: 10px; font-weight: 950; }
+    .snapshot-status.complete { color: #08765f; background: var(--mint-pale); }
+    .snapshot-status.partial { color: #94501f; background: var(--orange-pale); }
+    .snapshot-status.blocked { color: #a43731; background: #fde9e7; }
+    .snapshot-status.active { color: #2859bd; background: var(--blue-pale); }
+    .snapshot-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+    .snapshot-link { display: flex; min-height: 92px; flex-direction: column; justify-content: space-between; padding: 17px; border: 1px solid var(--line); border-radius: 18px; background: var(--navy); color: white; text-decoration: none; }
+    .snapshot-link strong { font-size: 13px; }
+    .snapshot-link span { color: var(--lime); font-size: 10px; font-weight: 900; }
+
     section.section { padding: 82px 0; }
     section.tinted { border-block: 1px solid #e1e7e2; background: rgba(255,255,255,.58); }
     .section-head { display: grid; grid-template-columns: .8fr 1.2fr; gap: 40px; align-items: end; margin-bottom: 34px; }
@@ -524,7 +554,7 @@
       .nav-links { display: none; }
       .hero-grid, .section-head, .auth-layout, .shared-system-grid, .benchmark-thesis, .architecture-verdict, .application-audit, .visual-integrity { grid-template-columns: 1fr; }
       .hero-card { min-height: 410px; }
-      .metric-grid, .diagnosis, .auth-states, .roadmap { grid-template-columns: repeat(2, 1fr); }
+      .metric-grid, .diagnosis, .auth-states, .roadmap, .snapshot-grid { grid-template-columns: repeat(2, 1fr); }
       .grade-row { grid-template-columns: 58px 1fr 1fr 110px; }
       .grade-row > :nth-child(4), .grade-row.head > :nth-child(4) { display: none; }
       .content-pipeline { grid-template-columns: repeat(3, 1fr); }
@@ -550,8 +580,10 @@
       .orbit { grid-template-columns: 1fr; }
       .orbit > div { min-height: auto; }
       .north-star { position: static; margin-top: 23px; }
-      .metric-grid, .diagnosis, .experience-stage, .gates, .decision-options, .footer-grid { grid-template-columns: 1fr; }
+      .metric-grid, .diagnosis, .experience-stage, .gates, .decision-options, .footer-grid, .snapshot-grid, .snapshot-links { grid-template-columns: 1fr; }
       .metric { min-height: auto; }
+      .snapshot-baseline { grid-template-columns: 1fr; }
+      .snapshot-card { min-height: auto; }
       section.section { padding: 60px 0; }
       .section-head { gap: 18px; }
       .grade-board { overflow-x: auto; }
@@ -599,6 +631,7 @@
         <span>Math Assist <small>Production proposal</small></span>
       </a>
       <nav class="nav-links" aria-label="제안서 목차">
+        <a href="#implementation-snapshot">구현 현황</a>
         <a href="#diagnosis">진단</a>
         <a href="#benchmark">벤치마크</a>
         <a href="#content">콘텐츠</a>
@@ -622,7 +655,7 @@
             <a class="button primary" href="#roadmap">실행 순서 보기</a>
             <button class="button secondary" type="button" onclick="window.print()">인쇄 · PDF 저장</button>
           </div>
-          <p class="micro">현재 저장소의 라우트·콘텐츠·진행 데이터·지난 로그인 구상을 기준으로 작성</p>
+          <p class="micro">2026.07.20 제안 기준선은 역사적 기록으로 유지하며, 2026.07.21 구현 결과는 아래 스냅샷에서 별도로 추적</p>
         </div>
 
         <aside class="hero-card" aria-label="프로덕션 비전 요약">
@@ -630,7 +663,7 @@
           <blockquote>아이는 <b>바로 시작</b>하고,<br />보호자는 기록을 <b>안전하게 연결</b>하며,<br />모든 학년은 같은 <b>정확성</b>을 경험한다.</blockquote>
           <div class="orbit">
             <div><span>01</span><small>빈 학년 없이<br />1–6 콘텐츠 완성</small></div>
-            <div><span>02</span><small>로그인 장벽 없는<br />보호자–아이 계정</small></div>
+            <div><span>02</span><small>로그인 장벽 없는<br />선택적 기록 연결</small></div>
             <div><span>03</span><small>풀이장·미션·캐릭터<br />전 학년 공통화</small></div>
           </div>
           <div class="north-star">프로덕션의 기준은 “기능 수”가 아니라 학습 기록의 연속성과 문제의 신뢰성입니다.</div>
@@ -638,12 +671,66 @@
       </div>
     </section>
 
-    <section class="metrics" aria-label="현재 제품 기준선">
+    <section class="metrics" aria-label="2026년 7월 20일 제안 당시 제품 기준선">
       <div class="wrap metric-grid">
-        <article class="metric"><div class="value">4/6</div><div class="label">현재 진입 가능한 학년</div><p>1·2·3·5학년 제공. 4·6학년은 제품 공백입니다.</p></article>
+        <article class="metric"><div class="value">4/6</div><div class="label">2026.07.20 진입 가능 학년</div><p>제안 당시 1·2·3·5학년 제공. 4·6학년은 제품 공백이었습니다.</p></article>
         <article class="metric"><div class="value">276</div><div class="label">1–3학년 작성 미션</div><p>1학년 96 · 2학년 144 · 3학년 36(Alpha).</p></article>
         <article class="metric"><div class="value">660</div><div class="label">5학년 문제 템플릿</div><p>12단원 · 22개념 · 개념별 30개 템플릿.</p></article>
-        <article class="metric"><div class="value">Local</div><div class="label">현재 학습 기록의 경계</div><p>브라우저 localStorage 전용. 기기 변경·다중 학습자에 취약합니다.</p></article>
+        <article class="metric"><div class="value">Local</div><div class="label">2026.07.20 기록 경계</div><p>제안 당시 브라우저 localStorage 전용. 아래 구현 스냅샷과 구분합니다.</p></article>
+      </div>
+    </section>
+
+    <section class="section tinted" id="implementation-snapshot">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-kicker">Implementation snapshot · 2026.07.21</span><h2>제안은 기준선으로 남기고,<br />구현 사실은 따로 갱신합니다.</h2></div>
+          <p>아래 상태는 2026년 7월 21일 작업 트리와 검증 기록의 스냅샷입니다. 이 문서의 나머지 진단·벤치마크·로드맵은 2026년 7월 20일에 작성한 역사적 제안 기준선이며, 현재 구현 완료를 뜻하지 않습니다.</p>
+        </div>
+
+        <div class="snapshot-baseline" role="note" aria-label="제안 기준선과 구현 스냅샷 구분">
+          <b>읽는 법</b>
+          <p><strong>2026.07.20 baseline</strong>은 당시의 문제 정의와 권고안입니다. <strong>2026.07.21 snapshot</strong>만 현재 완료·부분 완료·차단 상태를 나타내며, 검증이 끝나지 않은 기능을 공개 완료로 계산하지 않습니다.</p>
+        </div>
+
+        <div class="snapshot-grid" aria-label="단계별 구현 상태">
+          <article class="snapshot-card">
+            <header><span class="phase-name">Phase 1 · Numeric input</span><span class="snapshot-status complete">완료</span></header>
+            <h3>형식 오류와 수학적 오답을 분리</h3>
+            <p>완성되지 않은 숫자·분수 입력은 오답이나 확정 시도로 기록하지 않고 구체적인 형식 안내 뒤 다시 입력하게 합니다.</p>
+          </article>
+          <article class="snapshot-card">
+            <header><span class="phase-name">Phase 2 · Blueprint migration</span><span class="snapshot-status complete">660 / 660</span></header>
+            <h3>의미 오류 수정과 전체 이관 완료</h3>
+            <p>5학년 템플릿 660개 모두 청사진 계약과 self-check를 통과합니다. 분수 곱셈·뺄셈·평균의 잘못된 9개는 문장·범위·solver·풀이를 함께 바로잡았습니다.</p>
+          </article>
+          <article class="snapshot-card">
+            <header><span class="phase-name">Phase 3 · Activity &amp; progress</span><span class="snapshot-status complete">완료</span></header>
+            <h3>공통 활동·시도·진도 읽기 경계</h3>
+            <p>학년별 저장 원문을 바꾸지 않는 read-only projection, 유효 확인만 남기는 attempt receipt, 손상 학년 격리 계약이 연결됐습니다.</p>
+          </article>
+          <article class="snapshot-card">
+            <header><span class="phase-name">Phase 4 · Scratchpad &amp; presets</span><span class="snapshot-status partial">로컬 완료</span></header>
+            <h3>1·2·3·4·5·6학년 풀이장과 프리셋</h3>
+            <p>문제별 로컬 풀이 복구와 Play·Bridge·Study 프리셋이 1–6학년 경로에 연결됐습니다. 학년별 기록은 서로 격리하고 손상 원문은 명시적 초기화 전 보존합니다.</p>
+          </article>
+          <article class="snapshot-card">
+            <header><span class="phase-name">Phase 5 · Optional remote storage</span><span class="snapshot-status blocked">Flag off</span></header>
+            <h3>비공개 기반만 준비</h3>
+            <p>인증·동의 provisioning·백업·충돌 preview의 내부 기반은 있으나 공개 기능 플래그는 꺼져 있습니다. 보안 검토, 적용 법과 보호자 동의 정책, 실제 provider 의존성이 출시 blocker입니다.</p>
+          </article>
+          <article class="snapshot-card">
+            <header><span class="phase-name">Phase 6B · Grade 4 Bridge</span><span class="snapshot-status complete">Released</span></header>
+            <h3>큰 수 단원 홈 출시</h3>
+            <p><code>[4수01-01]</code>·<code>[4수01-02]</code>의 10개 문제 틀과 K/A/R 3문제 활동이 홈 선택·이어하기에 연결됐습니다. 나머지 4학년 기준은 planned 상태입니다.</p>
+          </article>
+          <article class="snapshot-card" data-phase-status="grade6"><header><span class="phase-name">Phase 6C · Grade 6 Study</span><span class="snapshot-status complete">Released</span></header><h3>비와 비율 단원 홈 공개</h3><p><code>[6수02-02]</code>·<code>[6수02-03]</code> 범위에 A/B/C 30개 독립 문제군, 실제 정량 표, 5/10문제, 손상 저장 복구와 모바일·태블릿 접근성 검증이 연결됐습니다. 원장 오류는 계속 fail-closed하며 실제 GitHub Pages 배포는 별도입니다.</p></article>
+        </div>
+
+        <div class="snapshot-links" aria-label="구현 근거 문서">
+          <a class="snapshot-link" href="phases/README.md"><strong>단계별 구현 명세</strong><span>docs/phases/README.md →</span></a>
+          <a class="snapshot-link" href="../handoffs/2026-07-21-12-grade5-grade6-approved-release-codex.md"><strong>최근 Grade 5·6 인계</strong><span>handoff 열기 →</span></a>
+          <a class="snapshot-link" href="tracking/status.md"><strong>검증된 현재 상태</strong><span>docs/tracking/status.md →</span></a>
+        </div>
       </div>
     </section>
 
@@ -665,7 +752,7 @@
             <span class="issue-no">GAP 02 · IDENTITY</span>
             <h3>기록은 있지만<br />학습자는 없습니다</h3>
             <p>진도·복습·XP는 기기에 저장되지만 학습자 프로필에 귀속되지 않습니다. 한 기기를 형제자매가 공유하거나 기기를 바꾸면 기록의 연속성이 깨집니다.</p>
-            <div class="answer">해법: 게스트 유지 + learnerId 경계 + 보호자 계정 아래 어린이 프로필</div>
+            <div class="answer">해법: 게스트 로컬 기록 유지 + 동의가 확인된 선택적 원격 계정 + 무손실 이관</div>
           </article>
           <article>
             <span class="issue-no">GAP 03 · EXPERIENCE</span>
@@ -989,7 +1076,7 @@
       <div class="wrap">
         <div class="section-head">
           <div><span class="section-kicker">06 · Identity &amp; login</span><h2>아이에게 로그인시키지 말고,<br />기록과 아바타를 연결합니다.</h2></div>
-          <p>지난 설계의 방향을 유지합니다. 학습 시작은 계속 게스트로 열어두고, 보호자가 기록을 지키고 싶을 때 계정을 연결합니다. 어린이는 이메일 대신 캐릭터 아바타와 짧은 PIN으로 돌아옵니다. 첫 동기화 범위는 완료·복습·최근 활동·선택 아바타로 제한하고 풀이 획은 필요가 확인된 뒤 연결합니다.</p>
+          <p>학습 시작은 계속 게스트로 열어둡니다. 어린이는 “기록 저장하기”를 직접 선택하고 이메일 대신 자동 생성 학습 번호와 4자리 PIN으로 돌아옵니다. 다만 만 14세 미만 기록을 서버에 만들고 동기화하는 단계는 법정대리인 동의와 확인을 통과해야 합니다. 첫 동기화 범위는 완료·복습·최근 활동·선택 아바타로 제한하고 풀이 획은 필요가 확인된 뒤 연결합니다.</p>
         </div>
 
         <div class="auth-layout">
@@ -998,27 +1085,27 @@
             <div class="big-rule">No login wall.<br />Never lose progress.</div>
             <ul>
               <li>게스트는 이름·이메일 없이 바로 첫 문제를 풉니다.</li>
-              <li>보호자는 이메일/소셜 인증으로 계정을 만듭니다.</li>
-              <li>한 보호자 아래 여러 어린이 프로필을 둡니다.</li>
-              <li>어린이는 별명·아바타·짧은 PIN을 기본으로 씁니다.</li>
-              <li>연결 시 기존 localStorage 기록을 선택한 프로필로 이관합니다.</li>
-              <li>개인정보 최소화와 보호자 동의 흐름은 출시 전 별도 검토합니다.</li>
+              <li>어린이가 기록 저장을 선택하면 학습 번호·4자리 PIN·일회성 복구 카드를 준비합니다.</li>
+              <li>원격 계정 생성 전 법정대리인 동의와 동의자 확인을 완료합니다.</li>
+              <li>보호자 연결은 동의·복구·여러 어린이 프로필 관리에만 사용하고 학습 시작을 막지 않습니다.</li>
+              <li>연결 시 기존 localStorage 기록을 미리 보여 주고 서버 확인 뒤에도 로컬 백업을 유지합니다.</li>
+              <li>삭제·보존·연결 해제·세션 만료 정책과 개인정보 검토가 끝나기 전에는 원격 기능을 공개하지 않습니다.</li>
             </ul>
           </aside>
 
           <div class="auth-flow" aria-label="게스트에서 연결된 어린이 프로필까지의 흐름">
-            <div class="flow-row"><span class="flow-no">01</span><div><strong>게스트로 즉시 시작</strong><small>학년만 고르고 현재 기기에 임시 learnerId를 생성</small></div><span class="flow-role">아이</span></div>
+            <div class="flow-row"><span class="flow-no">01</span><div><strong>게스트로 즉시 시작</strong><small>학년만 고르고 기존 학년별 localStorage 계약으로 기록</small></div><span class="flow-role">아이</span></div>
             <div class="flow-row"><span class="flow-no">02</span><div><strong>자연스러운 순간에 “기록 지키기” 제안</strong><small>첫 세션 완료·새 기기 연결·설정에서만 노출</small></div><span class="flow-role">제품</span></div>
-            <div class="flow-row"><span class="flow-no">03</span><div><strong>보호자 계정 인증</strong><small>이메일 또는 소셜 로그인, 복구 수단은 보호자가 소유</small></div><span class="flow-role">보호자</span></div>
-            <div class="flow-row"><span class="flow-no">04</span><div><strong>어린이 프로필 만들기</strong><small>별명·아바타·학년·선택 PIN, 실명과 어린이 이메일은 기본 요구하지 않음</small></div><span class="flow-role">보호자</span></div>
-            <div class="flow-row"><span class="flow-no">05</span><div><strong>게스트 기록 안전 이관</strong><small>미리보기 → 병합 확인 → 서버 저장 → 로컬 백업 유지</small></div><span class="flow-role">시스템</span></div>
-            <div class="flow-row"><span class="flow-no">06</span><div><strong>다음 기기에서 간단히 복귀</strong><small>프로필 선택 + PIN 또는 보호자 QR 연결</small></div><span class="flow-role">아이</span></div>
+            <div class="flow-row"><span class="flow-no">03</span><div><strong>보호자 동의와 확인</strong><small>원격 저장 전에만 요청하고 동의 확인에 필요한 최소 정보만 처리</small></div><span class="flow-role">보호자</span></div>
+            <div class="flow-row"><span class="flow-no">04</span><div><strong>학습 번호·PIN·복구 카드 발급</strong><small>PIN과 복구 코드 원문은 서버에 저장하지 않고 복구 카드는 한 번만 표시</small></div><span class="flow-role">시스템</span></div>
+            <div class="flow-row"><span class="flow-no">05</span><div><strong>게스트 기록 안전 이관</strong><small>미리보기 → 병합 확인 → 서버 저장 확인 → 로컬 백업 유지</small></div><span class="flow-role">시스템</span></div>
+            <div class="flow-row"><span class="flow-no">06</span><div><strong>다음 기기에서 간단히 복귀</strong><small>학습 번호 + PIN, 복구 카드 또는 연결된 보호자는 복구에만 사용</small></div><span class="flow-role">아이</span></div>
           </div>
         </div>
 
         <div class="auth-states">
           <article class="auth-state"><b>STATE 01</b><strong>Guest learner</strong><small>현재 기기에서만 학습. 계정 없이도 모든 핵심 학습 가능.</small></article>
-          <article class="auth-state"><b>STATE 02</b><strong>Linked learner</strong><small>보호자 계정에 연결되고 기기 간 완료·복습·최근 활동·선택 아바타를 우선 동기화.</small></article>
+          <article class="auth-state"><b>STATE 02</b><strong>Linked learner</strong><small>보호자 동의 확인 뒤 기기 간 완료·복습·최근 활동·선택 아바타를 우선 동기화.</small></article>
           <article class="auth-state"><b>STATE 03</b><strong>Guardian mode</strong><small>프로필 관리·복구·요약 확인. 아이 학습 UI와 분리.</small></article>
           <article class="auth-state"><b>STATE 04</b><strong>Offline / conflict</strong><small>로컬 우선으로 계속 학습하고 재연결 시 명시적으로 병합.</small></article>
         </div>
@@ -1065,7 +1152,7 @@
           <div class="arch-column">
             <div class="arch-title">Persistence ports · 구현은 단계별</div>
             <div class="arch-box core"><strong>Local repositories first</strong><small>기존 네 키 어댑터, 활동·진도·풀이장 복구</small></div>
-            <div class="arch-box new"><strong>Profile link second</strong><small>보호자 인증과 어린이 프로필은 같은 저장 인터페이스 사용</small></div>
+            <div class="arch-box new"><strong>Optional remote link second</strong><small>법정대리인 동의 확인 뒤 학습 번호·PIN 계정을 같은 저장 인터페이스에 연결</small></div>
             <div class="arch-box new"><strong>Thin sync scope</strong><small>완료·복습·최근 활동·선택 아바타부터 동기화</small></div>
             <div class="arch-box"><strong>Versioned content releases</strong><small>정적 데이터 배포 + 품질 리포트</small></div>
           </div>
@@ -1095,6 +1182,8 @@
           <article class="phase"><div class="phase-card"><span class="phase-time">Release 2 · 8–12 weeks</span><h3>응용 콘텐츠와 기록을 연결한다</h3><p class="phase-outcome">3학년을 안정화하고 4학년 핵심 단원과 전 학년 응용문제군을 확장하며 보호자 연결은 필요한 기록부터 시작합니다.</p><ul><li>3학년 Production 안정화</li><li>전 단원 Applying·Reasoning 문제군</li><li>4학년 핵심 단원·정량 시각 모델</li><li>보호자 인증·복구</li><li>완료·복습·최근 활동 동기화</li></ul><div class="phase-gate">Gate: 단원별 사고 유형 기준 충족 · 실패 시 로컬 복구</div></div></article>
           <article class="phase"><div class="phase-card"><span class="phase-time">Release 3 · 10–14 weeks</span><h3>근거 있는 기능만 넓힌다</h3><p class="phase-outcome">6학년과 선택형 집중 연습을 완성하고 실제 사용된 도구·꾸미기·동기화만 확장합니다.</p><ul><li>4학년 승격·6학년 핵심 콘텐츠</li><li>5문제 기본·10문제 선택</li><li>사용률 높은 풀이 도구 확장</li><li>검증된 꾸미기·풀이 획 동기화</li><li>모니터링·백업·개인정보 검토</li></ul><div class="phase-gate">Gate: 자발적 재방문·재도전·복구 지표 개선</div></div></article>
         </div>
+        <a class="stress-test-link" href="phases/README.md"><strong>1~6 구현 단계, 의존성, 단계별 검증 명세</strong><span>실행 문서 열기 →</span></a>
+        <a class="stress-test-link" href="phases/acceptance-gates.md"><strong>회귀·브라우저·개인정보·배포 승인 게이트</strong><span>통합 게이트 열기 →</span></a>
       </div>
     </section>
 
@@ -1116,7 +1205,8 @@
             <div class="score-row"><div><strong>아이 화면의 동기 지표</strong><small>경로 진전과 미션 보상 외 동시 카운터 제한</small></div><span class="target">≤ 2</span></div>
             <div class="score-row"><div><strong>저장·동기화 성공</strong><small>재시도 후 학습 기록이 서버 또는 로컬에 보존</small></div><span class="target">≥ 99.5%</span></div>
             <div class="score-row"><div><strong>전 학년 풀이장 입력·복구</strong><small>펜·터치·지우기·되돌리기·문제별 복귀</small></div><span class="target">100% pass</span></div>
-            <div class="score-row"><div><strong>핵심 학습 흐름 E2E</strong><small>게스트·연결·오프라인·프로필 전환 포함</small></div><span class="target">100% pass</span></div>
+            <div class="score-row"><div><strong>핵심 학습 흐름 E2E</strong><small>게스트·보호자 동의·연결·오프라인·복구 포함</small></div><span class="target">100% pass</span></div>
+            <div class="score-row"><div><strong>아동 원격 계정 출시 조건</strong><small>법정대리인 동의 확인·삭제/보존·연결 해제·세션 만료 정책</small></div><span class="target">Blocker 0</span></div>
             <div class="score-row"><div><strong>접근성·태블릿 회귀</strong><small>키보드, 큰 터치, 모바일/태블릿 주요 뷰포트</small></div><span class="target">Blocker 0</span></div>
           </article>
 
@@ -1130,6 +1220,7 @@
               <div class="risk"><b>RISK 05</b><strong>다중 기기 충돌</strong><small>진행 이벤트에 버전을 두고 충돌 시 완료·숙달을 잃지 않는 병합 규칙을 사용합니다.</small></div>
               <div class="risk"><b>RISK 06</b><strong>풀이 데이터 비대화</strong><small>비트맵 대신 압축한 획 데이터, 문제별 용량 제한, 오래된 임시 풀이의 만료 정책을 둡니다.</small></div>
               <div class="risk"><b>RISK 07</b><strong>정답은 맞지만 그림은 틀림</strong><small>수치와 SVG가 공유하는 영역 모델, 위상·비율 게이트, 대표 이미지 회귀 스냅숏을 둡니다.</small></div>
+              <div class="risk"><b>RISK 08</b><strong>아동 동의 없는 원격 기록</strong><small>게스트 로컬 학습을 기본으로 두고, 서버 계정 생성 전 법정대리인 동의와 확인을 출시 게이트로 둡니다.</small></div>
             </div>
           </article>
         </div>

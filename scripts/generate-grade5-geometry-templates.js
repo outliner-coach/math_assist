@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const { getReviewedBlueprint } = require('./migrate-grade5-blueprints')
 
 const ROOT = path.join(__dirname, '..')
 const OUT_DIR = path.join(ROOT, 'public', 'data', 'templates')
@@ -15,13 +16,17 @@ function range(min, max, shift = 0) {
 }
 
 function template(set, concept, index, family, difficulty, type, fields) {
-  return {
+  const base = {
     id: `tmpl-${concept.replace('-001', '')}-${set.id}-${String(index).padStart(2, '0')}`,
     concept_id: concept,
     type,
     difficulty,
     set_id: set.id,
     problem_family: `${concept.replace('-001', '')}-${family}`,
+  }
+  return {
+    ...base,
+    blueprint: getReviewedBlueprint(base),
     ...fields,
   }
 }
@@ -505,8 +510,12 @@ const banks = {
   'cuboidnet.json': SETS.flatMap(cuboidNetTemplates),
 }
 
-fs.mkdirSync(OUT_DIR, { recursive: true })
-for (const [filename, templates] of Object.entries(banks)) {
-  fs.writeFileSync(path.join(OUT_DIR, filename), `${JSON.stringify(templates, null, 2)}\n`)
-  console.log(`${filename}: ${templates.length} templates`)
+if (require.main === module) {
+  fs.mkdirSync(OUT_DIR, { recursive: true })
+  for (const [filename, templates] of Object.entries(banks)) {
+    fs.writeFileSync(path.join(OUT_DIR, filename), `${JSON.stringify(templates, null, 2)}\n`)
+    console.log(`${filename}: ${templates.length} templates`)
+  }
 }
+
+module.exports = { banks }

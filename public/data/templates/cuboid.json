@@ -6,6 +6,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "cuboid-face-count",
+    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -45,6 +46,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "cuboid-edge-count",
+    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -84,6 +86,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "cuboid-vertex-count",
+    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -123,6 +126,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "cuboid-edges-at-vertex",
+    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -162,6 +166,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-total-edge-length",
+    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -201,6 +206,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-missing-width-from-edges",
+    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -241,6 +247,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-front-face-area",
+    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -280,6 +287,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-front-face-perimeter",
+    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -319,6 +327,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "cuboid-missing-depth-from-edges",
+    "blueprint": {"problemFamily":"cuboid-missing-depth-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 6,
@@ -359,6 +368,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "cuboid-three-face-area-sum",
+    "blueprint": {"problemFamily":"cuboid-three-face-area-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -398,6 +408,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "cuboid-face-count",
+    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -437,6 +448,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "cuboid-edge-count",
+    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -476,6 +488,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "cuboid-vertex-count",
+    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -515,6 +528,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "cuboid-edges-at-vertex",
+    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -554,6 +568,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-total-edge-length",
+    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -593,6 +608,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-missing-width-from-edges",
+    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -633,6 +649,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-front-face-area",
+    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -672,6 +689,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-front-face-perimeter",
+    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -711,6 +729,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "cuboid-missing-depth-from-edges",
+    "blueprint": {"problemFamily":"cuboid-missing-depth-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 8,
@@ -751,6 +770,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "cuboid-three-face-area-sum",
+    "blueprint": {"problemFamily":"cuboid-three-face-area-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -790,6 +810,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "cuboid-face-count",
+    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "w": {
         "min": 9,
@@ -829,6 +850,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "cuboid-edge-count",
+    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "w": {
         "min": 9,
@@ -868,6 +890,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "cuboid-vertex-count",
+    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "w": {
         "min": 9,
@@ -907,6 +930,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "cuboid-edges-at-vertex",
+    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "w": {
         "min": 9,
@@ -946,6 +970,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-total-edge-length",
+    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 9,
@@ -985,6 +1010,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-missing-width-from-edges",
+    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 9,
@@ -1025,6 +1051,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-front-face-area",
+    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 9,
@@ -1064,6 +1091,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-front-face-perimeter",
+    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 9,
@@ -1103,6 +1131,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "cuboid-missing-depth-from-edges",
+    "blueprint": {"problemFamily":"cuboid-missing-depth-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 10,
@@ -1143,6 +1172,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "cuboid-three-face-area-sum",
+    "blueprint": {"problemFamily":"cuboid-three-face-area-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 9,

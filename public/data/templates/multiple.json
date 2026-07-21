@@ -5,6 +5,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "multiple-identify",
+    "blueprint": {"problemFamily":"multiple-identify","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 2,
@@ -34,6 +36,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "multiple-nth",
+    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 2,
@@ -57,6 +61,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "multiple-identify-nonmultiple",
+    "blueprint": {"problemFamily":"multiple-identify-nonmultiple","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 2,
@@ -86,6 +92,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "multiple-nth",
+    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 3,
@@ -109,6 +117,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "multiple-sum-two-terms",
+    "blueprint": {"problemFamily":"multiple-sum-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 4,
@@ -133,6 +143,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "multiple-scale-term",
+    "blueprint": {"problemFamily":"multiple-scale-term","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 4,
@@ -162,6 +174,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "multiple-difference-two-terms",
+    "blueprint": {"problemFamily":"multiple-difference-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 5,
@@ -185,6 +199,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "multiple-identify",
+    "blueprint": {"problemFamily":"multiple-identify","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 5,
@@ -214,6 +230,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "multiple-difference-two-terms",
+    "blueprint": {"problemFamily":"multiple-difference-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 7,
@@ -238,6 +256,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "multiple-nth",
+    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 8,
@@ -267,6 +287,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "multiple-identify",
+    "blueprint": {"problemFamily":"multiple-identify","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 4,
@@ -296,6 +318,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "multiple-nth",
+    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 4,
@@ -319,6 +343,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "multiple-identify-nonmultiple",
+    "blueprint": {"problemFamily":"multiple-identify-nonmultiple","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 4,
@@ -348,6 +374,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "multiple-nth",
+    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 5,
@@ -371,6 +399,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "multiple-sum-two-terms",
+    "blueprint": {"problemFamily":"multiple-sum-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 6,
@@ -395,6 +425,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "multiple-scale-term",
+    "blueprint": {"problemFamily":"multiple-scale-term","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 6,
@@ -424,6 +456,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "multiple-difference-two-terms",
+    "blueprint": {"problemFamily":"multiple-difference-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 7,
@@ -447,6 +481,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "multiple-identify",
+    "blueprint": {"problemFamily":"multiple-identify","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 7,
@@ -476,6 +512,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "multiple-difference-two-terms",
+    "blueprint": {"problemFamily":"multiple-difference-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 9,
@@ -500,6 +538,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "multiple-nth",
+    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 10,
@@ -529,6 +569,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "multiple-identify",
+    "blueprint": {"problemFamily":"multiple-identify","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 6,
@@ -558,6 +600,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "multiple-nth",
+    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 6,
@@ -581,6 +625,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "multiple-identify-nonmultiple",
+    "blueprint": {"problemFamily":"multiple-identify-nonmultiple","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 6,
@@ -610,6 +656,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "multiple-nth",
+    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 7,
@@ -633,6 +681,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "multiple-sum-two-terms",
+    "blueprint": {"problemFamily":"multiple-sum-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 8,
@@ -657,6 +707,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "multiple-scale-term",
+    "blueprint": {"problemFamily":"multiple-scale-term","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 8,
@@ -686,6 +738,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "multiple-difference-two-terms",
+    "blueprint": {"problemFamily":"multiple-difference-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 9,
@@ -709,6 +763,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "multiple-identify",
+    "blueprint": {"problemFamily":"multiple-identify","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 9,
@@ -738,6 +794,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "multiple-difference-two-terms",
+    "blueprint": {"problemFamily":"multiple-difference-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n": {
         "min": 11,
@@ -762,6 +820,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "multiple-nth",
+    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n": {
         "min": 12,

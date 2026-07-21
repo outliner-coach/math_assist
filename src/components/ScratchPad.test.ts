@@ -11,20 +11,24 @@ import ScratchPad, {
 } from './ScratchPad'
 
 describe('ScratchPad', () => {
-  it('renders tablet-friendly pen, eraser, clear controls and a temporary canvas', () => {
+  it('renders persisted pen, eraser, history, and clear controls with 48px targets', () => {
     const html = renderToStaticMarkup(createElement(ScratchPad))
 
     expect(html).toContain('data-testid="scratch-pad"')
     expect(html).toContain('펜')
     expect(html).toContain('지우개')
+    expect(html).toContain('되돌리기')
+    expect(html).toContain('다시하기')
     expect(html).toContain('전체 지우기')
-    expect(html).toContain('aria-label="문제 풀이를 쓰는 임시 캔버스"')
+    expect(html).toContain('aria-label="문제 풀이를 쓰는 캔버스"')
     expect(html).toContain('data-drawing="false"')
     expect(html).toContain('select-none')
     expect(html).toContain('overscroll-contain')
     expect(html).toContain('touch-none')
     expect(html).toContain('disabled:pointer-events-none')
+    expect(html).toContain('min-h-[48px]')
     expect(html).not.toContain('disabled:opacity-50')
+    expect(html).not.toContain('문제를 바꾸면 풀이장은 비워져요')
   })
 
   it('keeps one active touch or pen stroke isolated from other pointers', () => {
@@ -53,5 +57,19 @@ describe('ScratchPad', () => {
     expect(globalStyles).toContain('.practice-interaction-surface *')
     expect(globalStyles).toContain('-webkit-user-select: none')
     expect(globalStyles).toContain('-webkit-touch-callout: none')
+  })
+
+  it('protects every connected Grade 1, 2, 3, and 5 interaction surface', () => {
+    const connectedSources = [
+      'src/app/grade/1/Grade1GameClient.tsx',
+      'src/app/grade/2/Grade2GameClient.tsx',
+      'src/app/grade/3/Grade3GameClient.tsx',
+      'src/app/practice/[conceptId]/PracticeClient.tsx',
+    ].map((path) => readFileSync(join(process.cwd(), path), 'utf8'))
+
+    for (const source of connectedSources) {
+      expect(source).toContain('practice-interaction-surface')
+      expect(source).toContain('<ScratchPad')
+    }
   })
 })

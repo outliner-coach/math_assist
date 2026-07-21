@@ -5,6 +5,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 2,
@@ -36,6 +38,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 2,
@@ -73,6 +77,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 2,
@@ -108,6 +114,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 2,
@@ -149,6 +157,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 5,
@@ -180,6 +190,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 5,
@@ -217,6 +229,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "average-offset",
+    "blueprint": {"problemFamily":"average-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 5,
@@ -252,6 +266,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "average-context-mean",
+    "blueprint": {"problemFamily":"average-context-mean","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 5,
@@ -270,20 +286,21 @@
         "max": 11
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 합은?",
-    "solver_rule": "sum4(a, b, c, d)",
+    "prompt_template": "네 날 동안 읽은 쪽수가 {{a}}, {{b}}, {{c}}, {{d}}쪽입니다. 하루 평균은 몇 쪽인가요?",
+    "solver_rule": "avg4(a, b, c, d)",
     "solution_steps_template": [
-      "합: {{sum4(a, b, c, d)}}"
+      "네 수의 합은 {{sum4(a, b, c, d)}}입니다.",
+      "{{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}입니다."
     ],
     "hint_steps_template": [
       "네 수를 모두 더해요.",
-      "합을 고르세요."
+      "합을 4로 나눠요."
     ],
     "choices_template": [
-      "{{sum4(a, b, c, d)}}",
-      "{{sum4(a, b, c, d) + 2}}",
-      "{{sum4(a, b, c, d) + 4}}",
-      "{{sum4(a, b, c, d) + 6}}"
+      "{{avg4(a, b, c, d)}}",
+      "{{avg4(a, b, c, d) + 1}}",
+      "{{avg4(a, b, c, d) + 2}}",
+      "{{avg4(a, b, c, d) + 3}}"
     ]
   },
   {
@@ -292,6 +309,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "average-inverse-total",
+    "blueprint": {"problemFamily":"average-inverse-total","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 7,
@@ -323,6 +342,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "average-inverse-total",
+    "blueprint": {"problemFamily":"average-inverse-total","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 7,
@@ -360,6 +381,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 4,
@@ -391,6 +414,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 4,
@@ -428,6 +453,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 4,
@@ -463,6 +490,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 4,
@@ -504,6 +533,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 7,
@@ -535,6 +566,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 7,
@@ -572,6 +605,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "average-offset",
+    "blueprint": {"problemFamily":"average-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 7,
@@ -607,6 +642,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "average-context-mean",
+    "blueprint": {"problemFamily":"average-context-mean","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 7,
@@ -625,20 +662,21 @@
         "max": 13
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 합은?",
-    "solver_rule": "sum4(a, b, c, d)",
+    "prompt_template": "네 번의 줄넘기 횟수가 {{a}}, {{b}}, {{c}}, {{d}}회입니다. 한 번 평균은 몇 회인가요?",
+    "solver_rule": "avg4(a, b, c, d)",
     "solution_steps_template": [
-      "합: {{sum4(a, b, c, d)}}"
+      "네 수의 합은 {{sum4(a, b, c, d)}}입니다.",
+      "{{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}입니다."
     ],
     "hint_steps_template": [
       "네 수를 모두 더해요.",
-      "합을 고르세요."
+      "합을 4로 나눠요."
     ],
     "choices_template": [
-      "{{sum4(a, b, c, d)}}",
-      "{{sum4(a, b, c, d) + 2}}",
-      "{{sum4(a, b, c, d) + 4}}",
-      "{{sum4(a, b, c, d) + 6}}"
+      "{{avg4(a, b, c, d)}}",
+      "{{avg4(a, b, c, d) + 1}}",
+      "{{avg4(a, b, c, d) + 2}}",
+      "{{avg4(a, b, c, d) + 3}}"
     ]
   },
   {
@@ -647,6 +685,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "average-inverse-total",
+    "blueprint": {"problemFamily":"average-inverse-total","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 9,
@@ -678,6 +718,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "average-inverse-total",
+    "blueprint": {"problemFamily":"average-inverse-total","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 9,
@@ -715,6 +757,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 6,
@@ -746,6 +790,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 6,
@@ -783,6 +829,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 6,
@@ -818,6 +866,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 6,
@@ -859,6 +909,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 9,
@@ -890,6 +942,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "average-direct",
+    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 9,
@@ -927,6 +981,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "average-offset",
+    "blueprint": {"problemFamily":"average-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 9,
@@ -962,6 +1018,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "average-context-mean",
+    "blueprint": {"problemFamily":"average-context-mean","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 9,
@@ -980,20 +1038,21 @@
         "max": 15
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 합은?",
-    "solver_rule": "sum4(a, b, c, d)",
+    "prompt_template": "네 모둠의 재활용품 수가 {{a}}, {{b}}, {{c}}, {{d}}개입니다. 모둠당 평균은 몇 개인가요?",
+    "solver_rule": "avg4(a, b, c, d)",
     "solution_steps_template": [
-      "합: {{sum4(a, b, c, d)}}"
+      "네 수의 합은 {{sum4(a, b, c, d)}}입니다.",
+      "{{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}입니다."
     ],
     "hint_steps_template": [
       "네 수를 모두 더해요.",
-      "합을 고르세요."
+      "합을 4로 나눠요."
     ],
     "choices_template": [
-      "{{sum4(a, b, c, d)}}",
-      "{{sum4(a, b, c, d) + 2}}",
-      "{{sum4(a, b, c, d) + 4}}",
-      "{{sum4(a, b, c, d) + 6}}"
+      "{{avg4(a, b, c, d)}}",
+      "{{avg4(a, b, c, d) + 1}}",
+      "{{avg4(a, b, c, d) + 2}}",
+      "{{avg4(a, b, c, d) + 3}}"
     ]
   },
   {
@@ -1002,6 +1061,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "average-inverse-total",
+    "blueprint": {"problemFamily":"average-inverse-total","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 11,
@@ -1033,6 +1094,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "average-inverse-total",
+    "blueprint": {"problemFamily":"average-inverse-total","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 11,

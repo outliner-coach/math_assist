@@ -2,6 +2,7 @@
   {
     "id": "tmpl-area-A-01", "concept_id": "area-001", "type": "choice", "difficulty": 1, "set_id": "A",
     "problem_family": "rectangle-area-foundation",
+    "blueprint": {"problemFamily":"rectangle-area-foundation","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": { "w": { "min": 6, "max": 14 }, "h": { "min": 4, "max": 11 } },
     "prompt_template": "가로가 {{w}} cm, 세로가 {{h}} cm인 직사각형의 넓이는 몇 cm²인가요?",
     "solver_rule": "w * h",
@@ -13,6 +14,7 @@
   {
     "id": "tmpl-area-A-02", "concept_id": "area-001", "type": "number", "difficulty": 1, "set_id": "A",
     "problem_family": "rectangle-perimeter-foundation",
+    "blueprint": {"problemFamily":"rectangle-perimeter-foundation","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": { "w": { "min": 8, "max": 16 }, "h": { "min": 5, "max": 12 } },
     "prompt_template": "가로 {{w}} cm, 세로 {{h}} cm인 직사각형의 둘레는 몇 cm인가요?",
     "solver_rule": "2 * (w + h)",
@@ -23,6 +25,7 @@
   {
     "id": "tmpl-area-A-03", "concept_id": "area-001", "type": "choice", "difficulty": 1, "set_id": "A",
     "problem_family": "parallelogram-area-foundation",
+    "blueprint": {"problemFamily":"parallelogram-area-foundation","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": { "b": { "min": 7, "max": 15 }, "h": { "min": 4, "max": 10 } },
     "prompt_template": "밑변 {{b}} cm, 높이 {{h}} cm인 평행사변형의 넓이는 몇 cm²인가요?",
     "solver_rule": "b * h",
@@ -34,6 +37,7 @@
   {
     "id": "tmpl-area-A-04", "concept_id": "area-001", "type": "number", "difficulty": 1, "set_id": "A",
     "problem_family": "triangle-area-foundation",
+    "blueprint": {"problemFamily":"triangle-area-foundation","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": { "b": { "min": 4, "max": 9 }, "h": { "min": 5, "max": 12 } },
     "prompt_template": "밑변 {{2 * b}} cm, 높이 {{h}} cm인 삼각형의 넓이는 몇 cm²인가요?",
     "solver_rule": "b * h",
@@ -44,6 +48,7 @@
   {
     "id": "tmpl-area-A-05", "concept_id": "area-001", "type": "number", "difficulty": 2, "set_id": "A",
     "problem_family": "l-shape-perimeter",
+    "blueprint": {"problemFamily":"l-shape-perimeter","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": { "w": { "min": 16, "max": 24 }, "h": { "min": 11, "max": 18 }, "nw": { "min": 4, "max": 8 }, "nh": { "min": 3, "max": 7 } },
     "prompt_template": "그림의 ㄴ자 도형은 전체 가로가 {{w}} cm, 전체 세로가 {{h}} cm입니다. 도형의 둘레는 몇 cm인가요?",
     "solver_rule": "2 * (w + h)",
@@ -54,6 +59,7 @@
   {
     "id": "tmpl-area-A-06", "concept_id": "area-001", "type": "choice", "difficulty": 2, "set_id": "A",
     "problem_family": "l-shape-subtractive-area",
+    "blueprint": {"problemFamily":"l-shape-subtractive-area","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": { "w": { "min": 15, "max": 22 }, "h": { "min": 11, "max": 17 }, "nw": { "min": 3, "max": 7 }, "nh": { "min": 3, "max": 7 } },
     "prompt_template": "가로 {{w}} cm, 세로 {{h}} cm인 직사각형에서 가로 {{nw}} cm, 세로 {{nh}} cm인 부분을 잘라 ㄴ자 도형을 만들었습니다. 남은 넓이는 몇 cm²인가요?",
     "solver_rule": "w * h - nw * nh",
@@ -65,6 +71,7 @@
   {
     "id": "tmpl-area-A-07", "concept_id": "area-001", "type": "number", "difficulty": 2, "set_id": "A",
     "problem_family": "overlapping-rectangles",
+    "blueprint": {"problemFamily":"overlapping-rectangles","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": { "sw": { "min": 15, "max": 22 }, "ow": { "min": 3, "max": 6 }, "h": { "min": 8, "max": 15 } },
     "prompt_template": "같은 직사각형 두 장을 가로로 {{ow}} cm 겹쳐 붙였습니다. 전체 가로는 {{2 * sw - ow}} cm이고 겹친 부분의 넓이는 {{ow * h}} cm²입니다. 직사각형 한 장의 넓이는 몇 cm²인가요?",
     "solver_rule": "sw * h",
@@ -75,6 +82,7 @@
   {
     "id": "tmpl-area-A-08", "concept_id": "area-001", "type": "number", "difficulty": 2, "set_id": "A",
     "problem_family": "rectangle-square-perimeter",
+    "blueprint": {"problemFamily":"rectangle-square-perimeter","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-11","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": { "rw": { "min": 6, "max": 10 }, "rh": { "min": 6, "max": 9 }, "s": { "min": 10, "max": 14 } },
     "prompt_template": "높이 {{rh}} cm인 직사각형의 한 변 전체를 한 변이 {{s}} cm인 정사각형에 맞대어 붙였습니다. 전체 가로가 {{rw + s}} cm일 때, 붙인 도형의 둘레는 몇 cm인가요?",
     "solver_rule": "2 * (rw + rh) + 4 * s - 2 * rh",
@@ -85,6 +93,7 @@
   {
     "id": "tmpl-area-A-09", "concept_id": "area-001", "type": "number", "difficulty": 3, "set_id": "A",
     "problem_family": "triple-overlap-inclusion",
+    "blueprint": {"problemFamily":"triple-overlap-inclusion","cognitiveDomain":"reasoning","reasoningPattern":"model_and_check","primaryStandard":"6수03-14","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": { "e": { "min": 14, "max": 20 }, "k": { "min": 1, "max": 4 } },
     "prompt_template": "넓이가 각각 {{e + 8 + k}} cm²인 세 도형을 겹쳐 놓았습니다. 다른 도형과 겹치지 않은 세 부분은 각각 {{e}} cm², {{e + 2}} cm², {{e + 4}} cm²이고, 세 도형이 모두 겹친 부분은 {{2 + k}} cm²입니다. 두 개 이상 도형이 겹친 부분의 넓이를 구하세요.",
     "solver_rule": "(3 * (e + 8 + k) - e - (e + 2) - (e + 4) - 3 * (2 + k)) / 2 + (2 + k)",
@@ -95,6 +104,7 @@
   {
     "id": "tmpl-area-A-10", "concept_id": "area-001", "type": "number", "difficulty": 3, "set_id": "A",
     "problem_family": "rectangle-square-perimeter-from-area",
+    "blueprint": {"problemFamily":"rectangle-square-perimeter-from-area","cognitiveDomain":"reasoning","reasoningPattern":"inverse","primaryStandard":"6수03-11","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": { "rw": { "min": 6, "max": 10 }, "rh": { "min": 6, "max": 9 }, "s": { "min": 10, "max": 14 } },
     "prompt_template": "높이 {{rh}} cm인 직사각형의 한 변 전체를 한 변이 {{s}} cm인 정사각형에 맞대어 붙였습니다. 전체 넓이가 {{rw * rh + s * s}} cm²일 때, 붙인 도형의 둘레는 몇 cm인가요?",
     "solver_rule": "2 * (rw + rh) + 4 * s - 2 * rh",
@@ -106,6 +116,7 @@
   {
     "id": "tmpl-area-B-01", "concept_id": "area-001", "type": "number", "difficulty": 1, "set_id": "B",
     "problem_family": "rectangle-area-foundation",
+    "blueprint": {"problemFamily":"rectangle-area-foundation","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": { "w": { "min": 9, "max": 17 }, "h": { "min": 5, "max": 12 } },
     "prompt_template": "가로 {{w}} cm, 세로 {{h}} cm인 직사각형 모양 색종이의 넓이는 몇 cm²인가요?",
     "solver_rule": "w * h",
@@ -116,6 +127,7 @@
   {
     "id": "tmpl-area-B-02", "concept_id": "area-001", "type": "choice", "difficulty": 1, "set_id": "B",
     "problem_family": "rectangle-perimeter-foundation",
+    "blueprint": {"problemFamily":"rectangle-perimeter-foundation","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": { "w": { "min": 10, "max": 18 }, "h": { "min": 6, "max": 13 } },
     "prompt_template": "가로 {{w}} cm, 세로 {{h}} cm인 사진의 가장자리를 한 바퀴 두르는 끈은 몇 cm 필요한가요?",
     "solver_rule": "2 * (w + h)",
@@ -127,6 +139,7 @@
   {
     "id": "tmpl-area-B-03", "concept_id": "area-001", "type": "number", "difficulty": 1, "set_id": "B",
     "problem_family": "parallelogram-area-foundation",
+    "blueprint": {"problemFamily":"parallelogram-area-foundation","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": { "b": { "min": 8, "max": 16 }, "h": { "min": 5, "max": 11 } },
     "prompt_template": "밑변 {{b}} cm, 높이 {{h}} cm인 평행사변형 모양 천의 넓이는 몇 cm²인가요?",
     "solver_rule": "b * h",
@@ -137,6 +150,7 @@
   {
     "id": "tmpl-area-B-04", "concept_id": "area-001", "type": "choice", "difficulty": 1, "set_id": "B",
     "problem_family": "triangle-area-foundation",
+    "blueprint": {"problemFamily":"triangle-area-foundation","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": { "b": { "min": 5, "max": 10 }, "h": { "min": 6, "max": 13 } },
     "prompt_template": "밑변 {{2 * b}} cm, 높이 {{h}} cm인 삼각형 깃발의 넓이는 몇 cm²인가요?",
     "solver_rule": "b * h",
@@ -148,6 +162,7 @@
   {
     "id": "tmpl-area-B-05", "concept_id": "area-001", "type": "choice", "difficulty": 2, "set_id": "B",
     "problem_family": "l-shape-perimeter",
+    "blueprint": {"problemFamily":"l-shape-perimeter","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": { "w": { "min": 18, "max": 26 }, "h": { "min": 12, "max": 19 }, "nw": { "min": 5, "max": 9 }, "nh": { "min": 4, "max": 8 } },
     "prompt_template": "ㄴ자 모양 화단의 전체 가로는 {{w}} m, 전체 세로는 {{h}} m입니다. 화단의 둘레는 몇 m인가요?",
     "solver_rule": "2 * (w + h)",
@@ -159,6 +174,7 @@
   {
     "id": "tmpl-area-B-06", "concept_id": "area-001", "type": "number", "difficulty": 2, "set_id": "B",
     "problem_family": "l-shape-subtractive-area",
+    "blueprint": {"problemFamily":"l-shape-subtractive-area","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": { "w": { "min": 17, "max": 24 }, "h": { "min": 12, "max": 18 }, "nw": { "min": 4, "max": 8 }, "nh": { "min": 4, "max": 8 } },
     "prompt_template": "가로 {{w}} m, 세로 {{h}} m인 땅에서 가로 {{nw}} m, 세로 {{nh}} m인 직사각형을 제외했습니다. 남은 ㄴ자 모양 땅의 넓이는 몇 m²인가요?",
     "solver_rule": "w * h - nw * nh",
@@ -169,6 +185,7 @@
   {
     "id": "tmpl-area-B-07", "concept_id": "area-001", "type": "choice", "difficulty": 2, "set_id": "B",
     "problem_family": "overlapping-rectangles",
+    "blueprint": {"problemFamily":"overlapping-rectangles","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": { "sw": { "min": 17, "max": 24 }, "ow": { "min": 4, "max": 7 }, "h": { "min": 9, "max": 16 } },
     "prompt_template": "같은 포장지 두 장을 {{ow}} cm 겹쳐 이어 붙였습니다. 전체 가로는 {{2 * sw - ow}} cm, 겹친 부분의 넓이는 {{ow * h}} cm²입니다. 포장지 한 장의 넓이는 몇 cm²인가요?",
     "solver_rule": "sw * h",
@@ -180,6 +197,7 @@
   {
     "id": "tmpl-area-B-08", "concept_id": "area-001", "type": "number", "difficulty": 2, "set_id": "B",
     "problem_family": "rectangle-square-perimeter",
+    "blueprint": {"problemFamily":"rectangle-square-perimeter","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-11","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": { "rw": { "min": 7, "max": 11 }, "rh": { "min": 6, "max": 9 }, "s": { "min": 11, "max": 15 } },
     "prompt_template": "높이 {{rh}} cm인 직사각형의 한 변 전체를 한 변이 {{s}} cm인 정사각형에 맞대어 붙였습니다. 전체 가로가 {{rw + s}} cm일 때 완성된 도형의 둘레는 몇 cm인가요?",
     "solver_rule": "2 * (rw + rh) + 4 * s - 2 * rh",
@@ -190,6 +208,7 @@
   {
     "id": "tmpl-area-B-09", "concept_id": "area-001", "type": "number", "difficulty": 3, "set_id": "B",
     "problem_family": "triple-overlap-inclusion",
+    "blueprint": {"problemFamily":"triple-overlap-inclusion","cognitiveDomain":"reasoning","reasoningPattern":"model_and_check","primaryStandard":"6수03-14","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": { "e": { "min": 16, "max": 22 }, "k": { "min": 2, "max": 5 } },
     "prompt_template": "각 넓이가 {{e + 8 + k}} cm²인 세 장의 색종이를 겹쳐 놓았습니다. 겹치지 않은 부분은 각각 {{e}} cm², {{e + 2}} cm², {{e + 4}} cm²이고 세 장이 모두 겹친 부분은 {{2 + k}} cm²입니다. 두 장 이상 겹친 부분의 넓이를 구하세요.",
     "solver_rule": "(3 * (e + 8 + k) - e - (e + 2) - (e + 4) - 3 * (2 + k)) / 2 + (2 + k)",
@@ -200,6 +219,7 @@
   {
     "id": "tmpl-area-B-10", "concept_id": "area-001", "type": "number", "difficulty": 3, "set_id": "B",
     "problem_family": "rectangle-square-perimeter-from-area",
+    "blueprint": {"problemFamily":"rectangle-square-perimeter-from-area","cognitiveDomain":"reasoning","reasoningPattern":"inverse","primaryStandard":"6수03-11","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": { "rw": { "min": 7, "max": 11 }, "rh": { "min": 6, "max": 9 }, "s": { "min": 11, "max": 15 } },
     "prompt_template": "높이 {{rh}} cm인 직사각형의 한 변 전체를 한 변이 {{s}} cm인 정사각형에 맞대어 붙였습니다. 전체 넓이가 {{rw * rh + s * s}} cm²일 때 완성된 도형의 둘레는 몇 cm인가요?",
     "solver_rule": "2 * (rw + rh) + 4 * s - 2 * rh",
@@ -211,6 +231,7 @@
   {
     "id": "tmpl-area-C-01", "concept_id": "area-001", "type": "choice", "difficulty": 1, "set_id": "C",
     "problem_family": "rectangle-area-foundation",
+    "blueprint": {"problemFamily":"rectangle-area-foundation","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": { "w": { "min": 11, "max": 19 }, "h": { "min": 7, "max": 14 } },
     "prompt_template": "가로 {{w}} m, 세로 {{h}} m인 직사각형 운동장의 넓이는 몇 m²인가요?",
     "solver_rule": "w * h",
@@ -222,6 +243,7 @@
   {
     "id": "tmpl-area-C-02", "concept_id": "area-001", "type": "number", "difficulty": 1, "set_id": "C",
     "problem_family": "rectangle-perimeter-foundation",
+    "blueprint": {"problemFamily":"rectangle-perimeter-foundation","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": { "w": { "min": 12, "max": 20 }, "h": { "min": 8, "max": 15 } },
     "prompt_template": "가로 {{w}} m, 세로 {{h}} m인 직사각형 울타리를 한 바퀴 두르려면 몇 m가 필요한가요?",
     "solver_rule": "2 * (w + h)",
@@ -232,6 +254,7 @@
   {
     "id": "tmpl-area-C-03", "concept_id": "area-001", "type": "choice", "difficulty": 1, "set_id": "C",
     "problem_family": "parallelogram-area-foundation",
+    "blueprint": {"problemFamily":"parallelogram-area-foundation","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": { "b": { "min": 10, "max": 18 }, "h": { "min": 6, "max": 12 } },
     "prompt_template": "밑변 {{b}} m, 높이 {{h}} m인 평행사변형 모양 밭의 넓이는 몇 m²인가요?",
     "solver_rule": "b * h",
@@ -243,6 +266,7 @@
   {
     "id": "tmpl-area-C-04", "concept_id": "area-001", "type": "number", "difficulty": 1, "set_id": "C",
     "problem_family": "triangle-area-foundation",
+    "blueprint": {"problemFamily":"triangle-area-foundation","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": { "b": { "min": 6, "max": 11 }, "h": { "min": 7, "max": 14 } },
     "prompt_template": "밑변 {{2 * b}} m, 높이 {{h}} m인 삼각형 모양 잔디밭의 넓이는 몇 m²인가요?",
     "solver_rule": "b * h",
@@ -253,6 +277,7 @@
   {
     "id": "tmpl-area-C-05", "concept_id": "area-001", "type": "number", "difficulty": 2, "set_id": "C",
     "problem_family": "l-shape-perimeter",
+    "blueprint": {"problemFamily":"l-shape-perimeter","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": { "w": { "min": 20, "max": 28 }, "h": { "min": 14, "max": 21 }, "nw": { "min": 5, "max": 10 }, "nh": { "min": 4, "max": 9 } },
     "prompt_template": "ㄴ자 모양 산책로의 전체 가로는 {{w}} m, 전체 세로는 {{h}} m입니다. 산책로의 바깥선을 한 바퀴 걸으면 몇 m인가요?",
     "solver_rule": "2 * (w + h)",
@@ -263,6 +288,7 @@
   {
     "id": "tmpl-area-C-06", "concept_id": "area-001", "type": "choice", "difficulty": 2, "set_id": "C",
     "problem_family": "l-shape-subtractive-area",
+    "blueprint": {"problemFamily":"l-shape-subtractive-area","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": { "w": { "min": 19, "max": 26 }, "h": { "min": 14, "max": 20 }, "nw": { "min": 5, "max": 9 }, "nh": { "min": 5, "max": 9 } },
     "prompt_template": "가로 {{w}} m, 세로 {{h}} m인 직사각형 공원에서 가로 {{nw}} m, 세로 {{nh}} m인 연못 부분을 제외했습니다. 남은 ㄴ자 모양 땅의 넓이는 몇 m²인가요?",
     "solver_rule": "w * h - nw * nh",
@@ -274,6 +300,7 @@
   {
     "id": "tmpl-area-C-07", "concept_id": "area-001", "type": "number", "difficulty": 2, "set_id": "C",
     "problem_family": "overlapping-rectangles",
+    "blueprint": {"problemFamily":"overlapping-rectangles","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": { "sw": { "min": 19, "max": 26 }, "ow": { "min": 5, "max": 8 }, "h": { "min": 10, "max": 17 } },
     "prompt_template": "같은 직사각형 판 두 개를 {{ow}} cm 겹쳐 고정했습니다. 전체 가로는 {{2 * sw - ow}} cm이고 겹친 부분의 넓이는 {{ow * h}} cm²입니다. 판 한 개의 넓이는 몇 cm²인가요?",
     "solver_rule": "sw * h",
@@ -284,6 +311,7 @@
   {
     "id": "tmpl-area-C-08", "concept_id": "area-001", "type": "choice", "difficulty": 2, "set_id": "C",
     "problem_family": "rectangle-square-perimeter",
+    "blueprint": {"problemFamily":"rectangle-square-perimeter","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-11","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": { "rw": { "min": 8, "max": 12 }, "rh": { "min": 7, "max": 10 }, "s": { "min": 12, "max": 16 } },
     "prompt_template": "높이 {{rh}} cm인 직사각형의 한 변 전체를 한 변이 {{s}} cm인 정사각형에 맞대어 붙였습니다. 전체 가로가 {{rw + s}} cm일 때 도형의 둘레를 구하세요.",
     "solver_rule": "2 * (rw + rh) + 4 * s - 2 * rh",
@@ -295,6 +323,7 @@
   {
     "id": "tmpl-area-C-09", "concept_id": "area-001", "type": "number", "difficulty": 3, "set_id": "C",
     "problem_family": "triple-overlap-inclusion",
+    "blueprint": {"problemFamily":"triple-overlap-inclusion","cognitiveDomain":"reasoning","reasoningPattern":"model_and_check","primaryStandard":"6수03-14","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": { "e": { "min": 18, "max": 24 }, "k": { "min": 3, "max": 6 } },
     "prompt_template": "넓이가 각각 {{e + 8 + k}} cm²인 세 도형을 겹쳤습니다. 어느 도형과도 겹치지 않은 부분은 {{e}} cm², {{e + 2}} cm², {{e + 4}} cm²이고 세 도형이 한꺼번에 겹친 부분은 {{2 + k}} cm²입니다. 두 도형 이상이 겹친 전체 부분의 넓이를 구하세요.",
     "solver_rule": "(3 * (e + 8 + k) - e - (e + 2) - (e + 4) - 3 * (2 + k)) / 2 + (2 + k)",
@@ -305,6 +334,7 @@
   {
     "id": "tmpl-area-C-10", "concept_id": "area-001", "type": "number", "difficulty": 3, "set_id": "C",
     "problem_family": "rectangle-square-perimeter-from-area",
+    "blueprint": {"problemFamily":"rectangle-square-perimeter-from-area","cognitiveDomain":"reasoning","reasoningPattern":"inverse","primaryStandard":"6수03-11","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": { "rw": { "min": 8, "max": 12 }, "rh": { "min": 7, "max": 10 }, "s": { "min": 12, "max": 16 } },
     "prompt_template": "높이 {{rh}} cm인 직사각형의 한 변 전체를 한 변이 {{s}} cm인 정사각형에 맞대어 붙였습니다. 전체 넓이가 {{rw * rh + s * s}} cm²일 때 도형의 둘레를 구하세요.",
     "solver_rule": "2 * (rw + rh) + 4 * s - 2 * rh",

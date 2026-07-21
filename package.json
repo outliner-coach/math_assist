@@ -14,8 +14,12 @@
     "validate:grade1": "node scripts/validate-grade1-problems.js",
     "validate:grade2": "node scripts/validate-grade2-problems.js",
     "validate:grade3": "node scripts/validate-grade3-problems.js",
+    "validate:grade4": "node scripts/validate-grade4-problems.js",
+    "validate:grade6": "node scripts/validate-grade6-templates.js",
+    "validate:curriculum": "node scripts/validate-curriculum.js",
     "audit:missions": "node scripts/mission-bank-quality-report.js",
     "generate:grade5-geometry": "node scripts/generate-grade5-geometry-templates.js",
+    "migrate:grade5-blueprints": "node scripts/migrate-grade5-blueprints.js",
     "validate:templates": "node scripts/validate-templates.js",
     "audit:problems": "node scripts/problem-quality-report.js",
     "promptfoo:problems": "mkdir -p public/reports out/promptfoo && promptfoo eval -c promptfooconfig.problem-quality.yaml --no-progress-bar -o public/reports/promptfoo-problem-quality.html -o out/promptfoo/problem-quality.json"

@@ -60,7 +60,7 @@ export default function LandingPageClient() {
               <span className="block text-[#2563eb]">내 속도로.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg font-bold leading-8 text-[#64748b] md:text-xl">
-              그림으로 개념을 이해하고, 짧은 미션과 연습문제로 바로 확인해요.
+              1·2·3·4·5학년 수학을 그림으로 이해하고, 짧은 미션과 연습문제로 바로 확인해요.
               틀려도 힌트를 보고 다시 도전할 수 있어요.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">

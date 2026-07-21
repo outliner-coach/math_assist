@@ -1,8 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   buildConceptProgressSummary,
+  GRADE5_PROGRESS_KEY,
+  GRADE6_PROGRESS_KEY,
   loadConceptProgress,
-  recordConceptProgress
+  recordConceptProgress,
+  saveConceptProgressMap,
+  clearConceptProgress,
 } from './progress'
 import type { SessionResult } from './types'
 
@@ -91,7 +95,7 @@ describe('progress_v1', () => {
   })
 
   it('records and reloads concept summaries from progress_v1 storage', () => {
-    recordConceptProgress(makeResult())
+    expect(recordConceptProgress(makeResult()).saved).toBe(true)
 
     expect(loadConceptProgress('divisor-001')).toMatchObject({
       conceptId: 'divisor-001',
@@ -99,5 +103,58 @@ describe('progress_v1', () => {
       attemptCount: 1,
       needsReview: true
     })
+  })
+
+  it('records Grade 6 progress without changing the legacy Grade 5 namespace', () => {
+    expect(recordConceptProgress(makeResult()).saved).toBe(true)
+    expect(recordConceptProgress(makeResult({
+      sessionId: 'grade6-session',
+      conceptId: 'g6ratio-001',
+      grade: 6,
+      itemCount: 5,
+      score: 4,
+      total: 5,
+      wrongCount: 1,
+    })).saved).toBe(true)
+
+    expect(loadConceptProgress('divisor-001', 5)?.latestScore).toBe(60)
+    expect(loadConceptProgress('g6ratio-001', 6)?.latestScore).toBe(80)
+    expect(localStorage.getItem(GRADE5_PROGRESS_KEY)).not.toContain('g6ratio-001')
+    expect(localStorage.getItem(GRADE6_PROGRESS_KEY)).not.toContain('divisor-001')
+  })
+
+  it('preserves corrupt Grade 6 progress until explicit clear', () => {
+    localStorage.setItem(GRADE6_PROGRESS_KEY, '{corrupt-progress')
+
+    expect(loadConceptProgress('g6ratio-001', 6)).toBeNull()
+    expect(recordConceptProgress(makeResult({
+      conceptId: 'g6ratio-001',
+      grade: 6,
+      itemCount: 5,
+    })).saved).toBe(false)
+    expect(saveConceptProgressMap({
+      'g6ratio-001': buildConceptProgressSummary(null, makeResult({
+        conceptId: 'g6ratio-001',
+        grade: 6,
+        itemCount: 5,
+      })),
+    }, 6)).toBe(false)
+    expect(localStorage.getItem(GRADE6_PROGRESS_KEY)).toBe('{corrupt-progress')
+
+    clearConceptProgress(6)
+    expect(saveConceptProgressMap({}, 6)).toBe(true)
+    expect(localStorage.getItem(GRADE6_PROGRESS_KEY)).toBe('{}')
+  })
+
+  it('preserves corrupt legacy Grade 5 progress until explicit clear', () => {
+    localStorage.setItem(GRADE5_PROGRESS_KEY, '{corrupt-progress-v1')
+
+    expect(loadConceptProgress('divisor-001', 5)).toBeNull()
+    expect(recordConceptProgress(makeResult()).saved).toBe(false)
+    expect(saveConceptProgressMap({}, 5)).toBe(false)
+    expect(localStorage.getItem(GRADE5_PROGRESS_KEY)).toBe('{corrupt-progress-v1')
+
+    clearConceptProgress(5)
+    expect(saveConceptProgressMap({}, 5)).toBe(true)
   })
 })

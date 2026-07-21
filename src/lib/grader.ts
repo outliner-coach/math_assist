@@ -17,7 +17,7 @@ function parseFraction(input: string): NormalizedValue | null {
     const den = parseInt(mixedMatch[3])
     if (den === 0) return null
 
-    const sign = whole < 0 ? -1 : 1
+    const sign = mixedMatch[1].startsWith('-') ? -1 : 1
     const totalNum = sign * (Math.abs(whole) * den + num)
     const g = gcd(Math.abs(totalNum), den)
 
@@ -50,8 +50,12 @@ function parseFraction(input: string): NormalizedValue | null {
 function parseDecimal(input: string): NormalizedValue | null {
   const trimmed = input.trim()
 
-  // ".5" → "0.5" 정규화
-  const normalized = trimmed.startsWith('.') ? '0' + trimmed : trimmed
+  // parseFloat는 "1/", "1." 같은 부분 입력도 1로 처리하므로
+  // 지원하는 소수 형식 전체가 일치한 뒤에만 숫자로 변환한다.
+  if (!/^-?(?:\d+\.\d+|\.\d+)$/.test(trimmed)) return null
+
+  // ".5" → "0.5", "-.5" → "-0.5" 정규화
+  const normalized = trimmed.replace(/^(-?)\./, '$10.')
 
   const num = parseFloat(normalized)
   if (isNaN(num)) return null
@@ -104,6 +108,23 @@ export function normalizeAnswer(input: string): NormalizedValue | null {
   if (decimal) return decimal
 
   return null
+}
+
+// 숫자 입력이 채점 가능한 완성 형식인지 확인하고 학습자용 안내를 반환
+export function getNumberAnswerInputError(input: string): string | null {
+  if (normalizeAnswer(input)) return null
+
+  const trimmed = typeof input === 'string' ? input.trim() : ''
+  if (!trimmed) return '답을 숫자로 입력해 주세요.'
+  if (trimmed === '-') return '음수 기호 뒤에 숫자를 입력해 주세요.'
+  if (trimmed === '.' || trimmed === '-.' || /^-?\d+\.$/.test(trimmed)) {
+    return '소수점 뒤에 숫자를 입력해 주세요.'
+  }
+  if (trimmed.includes('/') || /\s/.test(trimmed)) {
+    return '분수는 1/2처럼 분자와 분모를 모두 입력하고, 대분수는 1 1/2처럼 입력해 주세요.'
+  }
+
+  return '정수, 소수, 분수 또는 대분수 모양으로 입력해 주세요.'
 }
 
 // 두 정규화된 값 비교

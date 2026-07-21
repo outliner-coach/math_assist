@@ -5,6 +5,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 1,
@@ -47,6 +49,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 1,
@@ -83,6 +87,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 1,
@@ -124,6 +130,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 1,
@@ -160,6 +168,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -202,6 +212,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "fracadd-context-total",
+    "blueprint": {"problemFamily":"fracadd-context-total","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -238,6 +250,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "fracadd-common-denominator-numerator-sum",
+    "blueprint": {"problemFamily":"fracadd-common-denominator-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -279,6 +293,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "fracadd-common-denominator-numerator-sum",
+    "blueprint": {"problemFamily":"fracadd-common-denominator-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -314,6 +330,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "fracadd-adjusted-result",
+    "blueprint": {"problemFamily":"fracadd-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -349,6 +367,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -390,6 +410,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -432,6 +454,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -468,6 +492,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -509,6 +535,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -545,6 +573,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -587,6 +617,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "fracadd-context-total",
+    "blueprint": {"problemFamily":"fracadd-context-total","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -623,6 +655,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "fracadd-common-denominator-numerator-sum",
+    "blueprint": {"problemFamily":"fracadd-common-denominator-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -664,6 +698,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "fracadd-common-denominator-numerator-sum",
+    "blueprint": {"problemFamily":"fracadd-common-denominator-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -699,6 +735,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "fracadd-adjusted-result",
+    "blueprint": {"problemFamily":"fracadd-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -734,6 +772,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -775,6 +815,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -817,6 +859,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -853,6 +897,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -894,6 +940,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -930,6 +978,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -972,6 +1022,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "fracadd-context-total",
+    "blueprint": {"problemFamily":"fracadd-context-total","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -1008,6 +1060,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "fracadd-common-denominator-numerator-sum",
+    "blueprint": {"problemFamily":"fracadd-common-denominator-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -1049,6 +1103,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "fracadd-common-denominator-numerator-sum",
+    "blueprint": {"problemFamily":"fracadd-common-denominator-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -1084,6 +1140,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "fracadd-adjusted-result",
+    "blueprint": {"problemFamily":"fracadd-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
     "param_schema": {
       "n1": {
         "min": 9,
@@ -1119,6 +1177,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "fracadd-direct",
+    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 9,

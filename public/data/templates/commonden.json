@@ -5,6 +5,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "commonden-find-denominator",
+    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 1,
@@ -46,6 +48,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "commonden-find-denominator",
+    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 1,
@@ -81,6 +85,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "commonden-convert-numerator",
+    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 1,
@@ -112,6 +118,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "commonden-convert-numerator",
+    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n2": {
         "min": 1,
@@ -143,6 +151,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "commonden-convert-numerator",
+    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -180,6 +190,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "commonden-convert-numerator",
+    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n2": {
         "min": 3,
@@ -217,6 +229,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "commonden-denominator-offset",
+    "blueprint": {"problemFamily":"commonden-denominator-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -252,6 +266,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "commonden-converted-numerator-sum",
+    "blueprint": {"problemFamily":"commonden-converted-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -287,6 +303,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "commonden-converted-numerator-difference",
+    "blueprint": {"problemFamily":"commonden-converted-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -322,6 +340,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "commonden-find-denominator",
+    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -363,6 +383,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "commonden-find-denominator",
+    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -404,6 +426,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "commonden-find-denominator",
+    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -439,6 +463,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "commonden-convert-numerator",
+    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -470,6 +496,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "commonden-convert-numerator",
+    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n2": {
         "min": 3,
@@ -501,6 +529,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "commonden-convert-numerator",
+    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -538,6 +568,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "commonden-convert-numerator",
+    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n2": {
         "min": 5,
@@ -575,6 +607,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "commonden-denominator-offset",
+    "blueprint": {"problemFamily":"commonden-denominator-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -610,6 +644,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "commonden-converted-numerator-sum",
+    "blueprint": {"problemFamily":"commonden-converted-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -645,6 +681,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "commonden-converted-numerator-difference",
+    "blueprint": {"problemFamily":"commonden-converted-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -680,6 +718,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "commonden-find-denominator",
+    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -721,6 +761,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "commonden-find-denominator",
+    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -762,6 +804,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "commonden-find-denominator",
+    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -797,6 +841,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "commonden-convert-numerator",
+    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -828,6 +874,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "commonden-convert-numerator",
+    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n2": {
         "min": 5,
@@ -859,6 +907,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "commonden-convert-numerator",
+    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -896,6 +946,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "commonden-convert-numerator",
+    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n2": {
         "min": 7,
@@ -933,6 +985,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "commonden-denominator-offset",
+    "blueprint": {"problemFamily":"commonden-denominator-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -968,6 +1022,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "commonden-converted-numerator-sum",
+    "blueprint": {"problemFamily":"commonden-converted-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -1003,6 +1059,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "commonden-converted-numerator-difference",
+    "blueprint": {"problemFamily":"commonden-converted-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 9,
@@ -1038,6 +1096,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "commonden-find-denominator",
+    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 9,

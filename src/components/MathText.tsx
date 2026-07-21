@@ -51,6 +51,7 @@ export default function MathText({ children, className = '', block = false }: Ma
           const html = katex.renderToString(part.value, {
             throwOnError: false,
             displayMode: block,
+            trust: false,
           })
 
           return (

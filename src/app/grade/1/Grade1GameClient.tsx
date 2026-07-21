@@ -13,6 +13,7 @@ import {
   RewardReveal,
   getGrade1RewardCounts,
 } from '@/components/grade1'
+import { ScratchPad } from '@/components'
 import { AdventureProgressPanel } from '@/components/adventure'
 import { grade1Mascots, grade1Objects } from '@/lib/grade1-assets'
 import {
@@ -35,6 +36,12 @@ import {
   getDailyAdventureSeed,
   getMasteryStars,
 } from '@/lib/adventure-progression'
+import { appendMissionAttemptReceipt } from '@/lib/mission-attempt-receipt'
+import {
+  advanceMissionSketchRun,
+  createMissionSketchKey,
+  resolveMissionSketchStatus,
+} from '@/lib/mission-sketch-identity'
 
 const introGuideItems = [
   {
@@ -123,6 +130,12 @@ export default function Grade1GameClient() {
     selectedMission.choices,
     selectedMission.visualConfig,
   ]))
+  const scratchKey = createMissionSketchKey({
+    grade: 1,
+    sessionRunKey: missionSeed,
+    missionId: selectedMission.id,
+    variantKey: currentVariantKey,
+  })
   const showIntroGuide = progress.introDismissedAt === null
 
   useEffect(() => {
@@ -130,10 +143,14 @@ export default function Grade1GameClient() {
     restoredProgressRef.current = true
     const result = loadGrade1Progress()
     const recommended = firstOpenMission(missions, result.progress)
+    const restoredMission = result.progress.missionSketchRunOrdinal > 0
+      ? missions.find((mission) => mission.id === result.progress.latestStageId) ?? recommended
+      : recommended
     setProgress(result.progress)
+    setReplayRound(result.progress.missionSketchRunOrdinal)
     setStorageAvailable(result.storageAvailable)
     setStorageRecovered((wasRecovered) => wasRecovered || result.recovered)
-    setSelectedMissionId(recommended.id)
+    setSelectedMissionId(restoredMission.id)
   }, [missions])
 
   useEffect(() => {
@@ -198,7 +215,9 @@ export default function Grade1GameClient() {
   }
 
   const resetMission = () => {
-    setReplayRound((current) => current + 1)
+    const nextProgress = advanceMissionSketchRun(progress)
+    persistProgress(nextProgress)
+    setReplayRound(nextProgress.missionSketchRunOrdinal)
     resetMissionState()
     scrollToMission()
   }
@@ -208,9 +227,12 @@ export default function Grade1GameClient() {
       setConfirmReset(true)
       return
     }
-    const nextProgress = resetGrade1Progress()
-    setProgress(nextProgress)
-    setStorageAvailable(true)
+    const nextProgress = {
+      ...resetGrade1Progress(),
+      missionSketchRunOrdinal: progress.missionSketchRunOrdinal + 1,
+    }
+    persistProgress(nextProgress)
+    setReplayRound(nextProgress.missionSketchRunOrdinal)
     setStorageRecovered(false)
     setSelectedMissionId(missions[0]?.id ?? selectedMission.id)
     setConfirmReset(false)
@@ -232,6 +254,21 @@ export default function Grade1GameClient() {
 
     setNumberInputError(null)
     const correct = answer === selectedMission.correctAnswer
+    void appendMissionAttemptReceipt({
+      grade: 1,
+      mission: selectedMission,
+      sessionRunKey: missionSeed,
+      attemptIndex: wrongAttemptCount,
+      variantKey: currentVariantKey,
+      correct,
+      usedHint: showHint || wrongAttemptCount > 0,
+    }).then((appendResult) => {
+      if (appendResult === 'corrupt') {
+        console.error('Attempt receipt ledger is corrupt; Grade 1 progress remains authoritative')
+      }
+    }).catch((error: unknown) => {
+      console.error('Failed to append Grade 1 attempt receipt; legacy progress remains authoritative', error)
+    })
     setSelectedAnswer(answer)
 
     if (correct) {
@@ -255,7 +292,7 @@ export default function Grade1GameClient() {
   }
 
   return (
-    <main className="grade1-game-surface -mx-4 -my-6 min-h-screen px-4 py-5 md:px-6">
+    <main className="practice-interaction-surface grade1-game-surface -mx-4 -my-6 min-h-screen px-4 py-5 md:px-6">
       <div className="mx-auto max-w-6xl space-y-6">
         <header className="grid gap-5 rounded-[2rem] border-2 border-[#e5e5e5] bg-white p-5 md:grid-cols-[1fr_300px] md:items-center md:p-6">
           <div>
@@ -387,6 +424,11 @@ export default function Grade1GameClient() {
             setNumberInputError(null)
           }}
           onShowHint={() => setShowHint(true)}
+        />
+
+        <ScratchPad
+          {...scratchKey}
+          sessionStatus={resolveMissionSketchStatus({ completed: solved })}
         />
 
         {numberInputError && (

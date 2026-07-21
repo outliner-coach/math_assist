@@ -47,6 +47,54 @@ export interface ThreeShapeOverlapModel {
   unionArea: number
 }
 
+export type CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
+
+export type ReasoningPattern =
+  | 'direct'
+  | 'inverse'
+  | 'constraint'
+  | 'multi_step'
+  | 'representation_shift'
+  | 'compare_methods'
+  | 'error_analysis'
+  | 'pattern_generalization'
+  | 'systematic_counting'
+  | 'optimization'
+  | 'data_sufficiency'
+  | 'model_and_check'
+
+export type ProblemRepresentation =
+  | 'text'
+  | 'equation'
+  | 'table'
+  | 'diagram'
+  | 'graph'
+  | 'manipulative'
+
+export type ProblemContextType = 'pure_math' | 'real_world' | 'puzzle'
+export type ReadingLoad = 'low' | 'medium' | 'high'
+export type VisualSemantics = 'decorative' | 'schematic' | 'quantitative'
+
+/**
+ * A reviewed content-design axis that is independent from numeric difficulty.
+ *
+ * This metadata stays optional on legacy templates and saved problems only
+ * during the staged Grade 5 migration. New metadata must be supplied as a
+ * complete object; consumers must never infer it from `difficulty`.
+ */
+export interface ProblemBlueprintMeta {
+  problemFamily: string
+  cognitiveDomain: CognitiveDomain
+  reasoningPattern: ReasoningPattern
+  primaryStandard: string
+  connectedStandards?: string[]
+  representations: ProblemRepresentation[]
+  contextType: ProblemContextType
+  estimatedSteps: number
+  readingLoad: ReadingLoad
+  visualSemantics?: VisualSemantics
+}
+
 export type ProblemVisual =
   | {
       type: 'basic_shape'
@@ -96,6 +144,18 @@ export type ProblemVisual =
         unit: 'cm' | 'm'
       }
       model?: ThreeShapeOverlapModel
+    }
+  | {
+      type: 'ratio_table'
+      semantics: 'quantitative'
+      props: {
+        caption: string
+        columns: [string, string, string]
+        rows: Array<{
+          label: string
+          values: [string | number, string | number]
+        }>
+      }
     }
 
 export type GeometryVisual =
@@ -168,6 +228,7 @@ export interface ProblemTemplate {
   solution_steps_template: string[]
   hint_steps_template?: string[]
   problem_family?: string
+  blueprint?: ProblemBlueprintMeta
   visual_template?: { [key: string]: VisualTemplateValue }
 }
 
@@ -185,10 +246,13 @@ export interface Problem {
   solutionSteps: string[]
   hintSteps?: string[]
   problemFamily?: string
+  blueprint?: ProblemBlueprintMeta
   visual?: GeometryVisual
 }
 
 export type PracticeMode = 'standard' | 'retry-wrong'
+export type PracticeGrade = 5 | 6
+export type PracticeItemCount = 5 | 10
 
 // 연습 세션
 export interface PracticeSession {
@@ -196,6 +260,8 @@ export interface PracticeSession {
   conceptId: string
   setId: 'A' | 'B' | 'C'
   mode: PracticeMode
+  grade?: PracticeGrade
+  itemCount?: PracticeItemCount
   sourceResultId?: string
   sourceProblemIndexes?: number[]
   problems: Problem[]
@@ -221,6 +287,8 @@ export interface SessionResult {
   conceptId: string
   setId: 'A' | 'B' | 'C'
   mode: PracticeMode
+  grade?: PracticeGrade
+  itemCount?: PracticeItemCount
   score: number
   total: number
   wrongCount: number

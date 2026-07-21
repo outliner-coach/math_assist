@@ -12,7 +12,7 @@ export default function Grade5UnitSelectionClient() {
 
   useEffect(() => {
     getUnits()
-      .then(setUnits)
+      .then((items) => setUnits(items.filter((unit) => unit.grade === 5)))
       .catch(() => setUnits([]))
       .finally(() => setLoading(false))
   }, [])

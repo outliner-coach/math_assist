@@ -5,6 +5,7 @@ import {
   recordAdventureAttempt,
   type AdventureMastery,
 } from './adventure-progression'
+import { normalizeMissionSketchRunOrdinal } from './mission-sketch-identity'
 
 export const GRADE2_PROGRESS_KEY = 'mathAssist_grade2Progress'
 export const GRADE2_PROGRESS_SCHEMA_VERSION = 2
@@ -28,6 +29,7 @@ export interface Grade2Progress {
   learningDates: string[]
   solvedVariantKeys: string[]
   masteryByMissionId: Record<string, AdventureMastery>
+  missionSketchRunOrdinal: number
 }
 
 export interface Grade2ProgressLoadResult {
@@ -42,6 +44,8 @@ export interface StorageLike {
   removeItem(key: string): void
 }
 
+const corruptProgressStorages = new WeakSet<object>()
+
 export function createInitialGrade2Progress(now = Date.now()): Grade2Progress {
   return {
     schemaVersion: GRADE2_PROGRESS_SCHEMA_VERSION,
@@ -54,6 +58,7 @@ export function createInitialGrade2Progress(now = Date.now()): Grade2Progress {
     introDismissedAt: null,
     lastPlayedAt: now,
     ...createAdventureState(),
+    missionSketchRunOrdinal: 0,
   }
 }
 
@@ -125,6 +130,7 @@ function normalizeProgress(value: unknown, now: number): Grade2Progress | null {
       typeof candidate.introDismissedAt === 'number' ? candidate.introDismissedAt : null,
     lastPlayedAt,
     ...adventure,
+    missionSketchRunOrdinal: normalizeMissionSketchRunOrdinal(candidate.missionSketchRunOrdinal),
   }
 }
 
@@ -152,7 +158,7 @@ export function loadGrade2Progress(
 
     const normalized = normalizeProgress(JSON.parse(raw), now)
     if (!normalized) {
-      storage.removeItem(GRADE2_PROGRESS_KEY)
+      corruptProgressStorages.add(storage)
       return {
         progress: createInitialGrade2Progress(now),
         storageAvailable: true,
@@ -166,11 +172,7 @@ export function loadGrade2Progress(
       recovered: false,
     }
   } catch {
-    try {
-      storage.removeItem(GRADE2_PROGRESS_KEY)
-    } catch {
-      // Continue in memory when storage is unavailable.
-    }
+    corruptProgressStorages.add(storage)
     return {
       progress: createInitialGrade2Progress(now),
       storageAvailable: false,
@@ -183,7 +185,7 @@ export function saveGrade2Progress(
   progress: Grade2Progress,
   storage: StorageLike | null = getBrowserStorage()
 ): boolean {
-  if (!storage) return false
+  if (!storage || corruptProgressStorages.has(storage)) return false
   try {
     storage.setItem(GRADE2_PROGRESS_KEY, JSON.stringify(progress))
     return true
@@ -289,6 +291,7 @@ export function resetGrade2Progress(
   now = Date.now()
 ): Grade2Progress {
   const progress = createInitialGrade2Progress(now)
+  if (storage) corruptProgressStorages.delete(storage)
   saveGrade2Progress(progress, storage)
   return progress
 }

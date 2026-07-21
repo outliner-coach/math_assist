@@ -3,10 +3,50 @@ import {
   analyzeRenderedMeasurementUnits,
   analyzeRenderedPromptQuality,
   analyzeThreeShapeOverlapVisual,
-  calculateDifficultySignal
+  buildProblemBlueprintCoverage,
+  calculateDifficultySignal,
+  inspectProblemBlueprintMeta,
+  loadProblemGenerator
 } from '../../scripts/problem-quality-core.js'
 
+const completeBlueprint = {
+  problemFamily: 'inverse-area',
+  cognitiveDomain: 'reasoning',
+  reasoningPattern: 'inverse',
+  primaryStandard: '6수03-06',
+  connectedStandards: ['6수01-11'],
+  representations: ['text', 'equation'],
+  contextType: 'pure_math',
+  estimatedSteps: 3,
+  readingLoad: 'medium',
+  visualSemantics: undefined
+}
+
 describe('problem quality audit helpers', () => {
+  it('loads the runtime generator with its safe arithmetic dependency', () => {
+    const { generateProblems } = loadProblemGenerator()
+    const [problem] = generateProblems([
+      {
+        id: 'safe-arithmetic-loader',
+        concept_id: 'test-concept',
+        type: 'number',
+        difficulty: 1,
+        set_id: 'A',
+        param_schema: { n: { min: 3, max: 3 } },
+        prompt_template: '{{n}}',
+        solver_rule: 'n * 2 + 1',
+        solution_steps_template: ['{{n}}']
+      }
+    ], {
+      count: 1,
+      setId: 'A',
+      difficultyMix: { 1: 1, 2: 0, 3: 0 },
+      seed: 1
+    })
+
+    expect(problem.correctAnswer).toBe('7')
+  })
+
   it('warns when fraction prompts hide the operands', () => {
     const warnings = analyzeRenderedPromptQuality(
       {
@@ -93,5 +133,96 @@ describe('problem quality audit helpers', () => {
     })
 
     expect(issue).toMatchObject({ code: 'invalid_three_shape_overlap_model' })
+  })
+
+  it('accepts a complete reviewed problem blueprint', () => {
+    const result = inspectProblemBlueprintMeta({
+      id: 'reviewed',
+      concept_id: 'area-001',
+      problem_family: 'inverse-area',
+      blueprint: completeBlueprint
+    })
+
+    expect(result).toEqual({ status: 'complete', issues: [] })
+  })
+
+  it('rejects partial or invalid declared blueprint metadata', () => {
+    const result = inspectProblemBlueprintMeta({
+      id: 'invalid',
+      concept_id: 'area-001',
+      problem_family: 'legacy-family',
+      visual_template: { type: 'basic_shape' },
+      blueprint: {
+        problemFamily: 'different-family',
+        cognitiveDomain: 'hard',
+        reasoningPattern: 'guess',
+        primaryStandard: '',
+        representations: [],
+        contextType: 'story',
+        estimatedSteps: 0,
+        readingLoad: 'very-high'
+      }
+    })
+
+    expect(result.status).toBe('invalid')
+    expect(result.issues.map((issue: { code: string }) => issue.code)).toEqual(
+      expect.arrayContaining([
+        'problem_family_mismatch',
+        'invalid_cognitive_domain',
+        'invalid_reasoning_pattern',
+        'missing_primary_standard',
+        'missing_representations',
+        'invalid_context_type',
+        'invalid_estimated_steps',
+        'invalid_reading_load',
+        'missing_visual_semantics'
+      ])
+    )
+  })
+
+  it('reports missing and invalid metadata separately without inferring from difficulty', () => {
+    const coverage = buildProblemBlueprintCoverage([
+      {
+        id: 'complete',
+        concept_id: 'area-001',
+        difficulty: 1,
+        blueprint: completeBlueprint
+      },
+      {
+        id: 'missing',
+        concept_id: 'area-001',
+        difficulty: 3
+      },
+      {
+        id: 'invalid',
+        concept_id: 'average-001',
+        difficulty: 3,
+        blueprint: { ...completeBlueprint, cognitiveDomain: 'hard' }
+      }
+    ])
+
+    expect(coverage.summary).toMatchObject({
+      templateCount: 3,
+      completeCount: 1,
+      missingCount: 1,
+      invalidCount: 1,
+      coveragePercent: 33.33
+    })
+    expect(coverage.byConcept).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          conceptId: 'area-001',
+          completeCount: 1,
+          missingCount: 1,
+          invalidCount: 0
+        }),
+        expect.objectContaining({
+          conceptId: 'average-001',
+          completeCount: 0,
+          missingCount: 0,
+          invalidCount: 1
+        })
+      ])
+    )
   })
 })

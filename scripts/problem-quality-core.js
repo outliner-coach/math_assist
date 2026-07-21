@@ -389,6 +389,249 @@ const REQUIRED_UNKNOWN_MEASUREMENTS = {
   'cuboid-missing-depth-from-edges': 'depth',
 }
 
+const COGNITIVE_DOMAINS = new Set(['knowing', 'applying', 'reasoning'])
+const REASONING_PATTERNS = new Set([
+  'direct',
+  'inverse',
+  'constraint',
+  'multi_step',
+  'representation_shift',
+  'compare_methods',
+  'error_analysis',
+  'pattern_generalization',
+  'systematic_counting',
+  'optimization',
+  'data_sufficiency',
+  'model_and_check',
+])
+const PROBLEM_REPRESENTATIONS = new Set([
+  'text',
+  'equation',
+  'table',
+  'diagram',
+  'graph',
+  'manipulative',
+])
+const CONTEXT_TYPES = new Set(['pure_math', 'real_world', 'puzzle'])
+const READING_LOADS = new Set(['low', 'medium', 'high'])
+const VISUAL_SEMANTICS = new Set(['decorative', 'schematic', 'quantitative'])
+
+function blueprintIssue(code, message) {
+  return { code, message }
+}
+
+/**
+ * Validates only explicitly declared metadata. A wholly absent blueprint is a
+ * migration state, not a valid completed declaration; coverage auditing tracks
+ * it separately so legacy templates stay readable without being misreported as
+ * classified.
+ */
+function inspectProblemBlueprintMeta(template) {
+  if (template.blueprint === undefined || template.blueprint === null) {
+    return { status: 'missing', issues: [] }
+  }
+
+  if (typeof template.blueprint !== 'object' || Array.isArray(template.blueprint)) {
+    return {
+      status: 'invalid',
+      issues: [blueprintIssue('invalid_problem_blueprint', 'blueprint must be an object')]
+    }
+  }
+
+  const blueprint = template.blueprint
+  const issues = []
+
+  if (typeof blueprint.problemFamily !== 'string' || !blueprint.problemFamily.trim()) {
+    issues.push(blueprintIssue('missing_problem_family', 'problemFamily must be a non-empty string'))
+  }
+  if (
+    template.problem_family &&
+    blueprint.problemFamily &&
+    template.problem_family !== blueprint.problemFamily
+  ) {
+    issues.push(blueprintIssue(
+      'problem_family_mismatch',
+      `blueprint problemFamily (${blueprint.problemFamily}) must match legacy problem_family (${template.problem_family})`
+    ))
+  }
+  if (!COGNITIVE_DOMAINS.has(blueprint.cognitiveDomain)) {
+    issues.push(blueprintIssue(
+      'invalid_cognitive_domain',
+      `cognitiveDomain must be one of ${Array.from(COGNITIVE_DOMAINS).join(', ')}`
+    ))
+  }
+  if (!REASONING_PATTERNS.has(blueprint.reasoningPattern)) {
+    issues.push(blueprintIssue(
+      'invalid_reasoning_pattern',
+      `reasoningPattern must be one of ${Array.from(REASONING_PATTERNS).join(', ')}`
+    ))
+  }
+  if (typeof blueprint.primaryStandard !== 'string' || !blueprint.primaryStandard.trim()) {
+    issues.push(blueprintIssue('missing_primary_standard', 'primaryStandard must be a non-empty string'))
+  }
+  if (blueprint.connectedStandards !== undefined && (
+    !Array.isArray(blueprint.connectedStandards) ||
+    blueprint.connectedStandards.some(value => typeof value !== 'string' || !value.trim()) ||
+    new Set(blueprint.connectedStandards).size !== blueprint.connectedStandards.length
+  )) {
+    issues.push(blueprintIssue(
+      'invalid_connected_standards',
+      'connectedStandards must contain unique non-empty strings'
+    ))
+  }
+  if (!Array.isArray(blueprint.representations) || blueprint.representations.length === 0) {
+    issues.push(blueprintIssue('missing_representations', 'representations must contain at least one value'))
+  } else if (
+    blueprint.representations.some(value => !PROBLEM_REPRESENTATIONS.has(value)) ||
+    new Set(blueprint.representations).size !== blueprint.representations.length
+  ) {
+    issues.push(blueprintIssue(
+      'invalid_representations',
+      `representations must be unique values from ${Array.from(PROBLEM_REPRESENTATIONS).join(', ')}`
+    ))
+  }
+  if (!CONTEXT_TYPES.has(blueprint.contextType)) {
+    issues.push(blueprintIssue(
+      'invalid_context_type',
+      `contextType must be one of ${Array.from(CONTEXT_TYPES).join(', ')}`
+    ))
+  }
+  if (!Number.isInteger(blueprint.estimatedSteps) || blueprint.estimatedSteps < 1) {
+    issues.push(blueprintIssue(
+      'invalid_estimated_steps',
+      'estimatedSteps must be a positive integer'
+    ))
+  }
+  if (!READING_LOADS.has(blueprint.readingLoad)) {
+    issues.push(blueprintIssue(
+      'invalid_reading_load',
+      `readingLoad must be one of ${Array.from(READING_LOADS).join(', ')}`
+    ))
+  }
+
+  const hasVisual = Boolean(template.visual_template)
+  if (hasVisual && !VISUAL_SEMANTICS.has(blueprint.visualSemantics)) {
+    issues.push(blueprintIssue(
+      blueprint.visualSemantics === undefined
+        ? 'missing_visual_semantics'
+        : 'invalid_visual_semantics',
+      `visual templates require visualSemantics from ${Array.from(VISUAL_SEMANTICS).join(', ')}`
+    ))
+  } else if (!hasVisual && blueprint.visualSemantics !== undefined) {
+    issues.push(blueprintIssue(
+      'unexpected_visual_semantics',
+      'visualSemantics must be omitted when the template has no visual_template'
+    ))
+  }
+
+  const declaredVisualSemantics = template.visual_template?.semantics
+  if (
+    declaredVisualSemantics !== undefined &&
+    blueprint.visualSemantics !== declaredVisualSemantics
+  ) {
+    issues.push(blueprintIssue(
+      'visual_semantics_mismatch',
+      `blueprint visualSemantics (${blueprint.visualSemantics || 'missing'}) must match visual_template semantics (${declaredVisualSemantics})`
+    ))
+  }
+
+  return {
+    status: issues.length === 0 ? 'complete' : 'invalid',
+    issues
+  }
+}
+
+function buildProblemBlueprintCoverage(templates) {
+  const summary = {
+    templateCount: templates.length,
+    completeCount: 0,
+    missingCount: 0,
+    invalidCount: 0,
+    coveragePercent: 0
+  }
+  const byConceptMap = {}
+
+  for (const template of templates) {
+    const conceptId = template.concept_id || 'unknown'
+    const entry = byConceptMap[conceptId] || {
+      conceptId,
+      templateCount: 0,
+      completeCount: 0,
+      missingCount: 0,
+      invalidCount: 0,
+      problemFamilies: new Set(),
+      reasoningFamilies: new Set(),
+      representations: new Set(),
+      cognitiveCounts: { knowing: 0, applying: 0, reasoning: 0 }
+    }
+    const inspection = inspectProblemBlueprintMeta(template)
+
+    entry.templateCount += 1
+    summary[`${inspection.status}Count`] += 1
+    entry[`${inspection.status}Count`] += 1
+
+    if (inspection.status === 'complete') {
+      const blueprint = template.blueprint
+      entry.problemFamilies.add(blueprint.problemFamily)
+      entry.cognitiveCounts[blueprint.cognitiveDomain] += 1
+      for (const representation of blueprint.representations) {
+        entry.representations.add(representation)
+      }
+      if (blueprint.cognitiveDomain === 'reasoning') {
+        entry.reasoningFamilies.add(blueprint.problemFamily)
+      }
+    }
+    byConceptMap[conceptId] = entry
+  }
+
+  summary.coveragePercent = summary.templateCount === 0
+    ? 100
+    : round(summary.completeCount / summary.templateCount * 100)
+
+  const byConcept = Object.values(byConceptMap)
+    .sort((left, right) => left.conceptId.localeCompare(right.conceptId))
+    .map(entry => {
+      const coveragePercent = entry.templateCount === 0
+        ? 100
+        : round(entry.completeCount / entry.templateCount * 100)
+      const readyForCoverageGate = entry.missingCount === 0 && entry.invalidCount === 0
+      const targetGaps = []
+
+      if (readyForCoverageGate) {
+        const knowingPercent = entry.cognitiveCounts.knowing / entry.templateCount * 100
+        const applyingPercent = entry.cognitiveCounts.applying / entry.templateCount * 100
+        const reasoningPercent = entry.cognitiveCounts.reasoning / entry.templateCount * 100
+        if (entry.problemFamilies.size < 8) targetGaps.push('problem_family_minimum')
+        if (entry.reasoningFamilies.size < 2) targetGaps.push('reasoning_family_minimum')
+        if (entry.representations.size < 2) targetGaps.push('representation_minimum')
+        if (
+          knowingPercent < 30 || knowingPercent > 40 ||
+          applyingPercent < 40 || applyingPercent > 50 ||
+          reasoningPercent < 20 || reasoningPercent > 30
+        ) {
+          targetGaps.push('cognitive_domain_mix')
+        }
+      }
+
+      return {
+        conceptId: entry.conceptId,
+        templateCount: entry.templateCount,
+        completeCount: entry.completeCount,
+        missingCount: entry.missingCount,
+        invalidCount: entry.invalidCount,
+        coveragePercent,
+        problemFamilyCount: entry.problemFamilies.size,
+        reasoningFamilyCount: entry.reasoningFamilies.size,
+        representationCount: entry.representations.size,
+        cognitiveCounts: entry.cognitiveCounts,
+        readyForCoverageGate,
+        targetGaps
+      }
+    })
+
+  return { summary, byConcept }
+}
+
 function seededRandom(seed) {
   let current = seed
   return function next() {
@@ -662,6 +905,8 @@ function createIssue(severity, code, context) {
 
 function validateTemplates(options = {}) {
   const catalog = loadTemplateCatalog()
+  const allTemplates = catalog.flatMap(entry => entry.templates)
+  const blueprintCoverage = buildProblemBlueprintCoverage(allTemplates)
   const sampleCount = options.sampleCount ?? 20
   const errors = []
   const conceptMap = loadConceptMap()
@@ -695,6 +940,16 @@ function validateTemplates(options = {}) {
     }
 
     for (const template of templates) {
+      const blueprintInspection = inspectProblemBlueprintMeta(template)
+      for (const issue of blueprintInspection.issues) {
+        errors.push(createIssue('error', issue.code, {
+          file,
+          templateId: template.id,
+          conceptId: template.concept_id,
+          message: `${file} ${template.id}: ${issue.message}`,
+        }))
+      }
+
       if (!conceptMap[template.concept_id]) {
         errors.push(createIssue('error', 'unknown_concept', {
           file,
@@ -892,7 +1147,8 @@ function validateTemplates(options = {}) {
   return {
     sampleCount,
     templateFiles: catalog.length,
-    templateCount: catalog.reduce((sum, entry) => sum + entry.templates.length, 0),
+    templateCount: allTemplates.length,
+    blueprintCoverage,
     errors
   }
 }
@@ -900,6 +1156,7 @@ function validateTemplates(options = {}) {
 function loadProblemGenerator() {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'math-assist-quality-'))
   const mathPath = path.join(ROOT_DIR, 'src', 'lib', 'math.ts')
+  const arithmeticExpressionPath = path.join(ROOT_DIR, 'src', 'lib', 'arithmetic-expression.ts')
   const generatorPath = path.join(ROOT_DIR, 'src', 'lib', 'problem-generator.ts')
   const overlapModelPath = path.join(ROOT_DIR, 'src', 'lib', 'three-shape-overlap.ts')
 
@@ -911,12 +1168,17 @@ function loadProblemGenerator() {
     fs.readFileSync(generatorPath, 'utf8'),
     { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }
   ).outputText
+  const arithmeticExpressionCode = ts.transpileModule(
+    fs.readFileSync(arithmeticExpressionPath, 'utf8'),
+    { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }
+  ).outputText
   const overlapModelCode = ts.transpileModule(
     fs.readFileSync(overlapModelPath, 'utf8'),
     { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }
   ).outputText
 
   fs.writeFileSync(path.join(tempDir, 'math.js'), mathCode)
+  fs.writeFileSync(path.join(tempDir, 'arithmetic-expression.js'), arithmeticExpressionCode)
   fs.writeFileSync(path.join(tempDir, 'types.js'), 'module.exports = {}')
   fs.writeFileSync(path.join(tempDir, 'three-shape-overlap.js'), overlapModelCode)
   fs.writeFileSync(path.join(tempDir, 'problem-generator.js'), generatorCode)
@@ -973,6 +1235,7 @@ function generateProblemQualityReport(options = {}) {
   const allTemplates = catalog.flatMap(entry =>
     entry.templates.map(template => ({ ...template, __file: entry.file }))
   )
+  const blueprintCoverage = buildProblemBlueprintCoverage(allTemplates)
   const templatesByConcept = allTemplates.reduce((acc, template) => {
     acc[template.concept_id] = acc[template.concept_id] || []
     acc[template.concept_id].push(template)
@@ -980,6 +1243,28 @@ function generateProblemQualityReport(options = {}) {
   }, {})
 
   const templateRecords = []
+
+  for (const conceptCoverage of blueprintCoverage.byConcept) {
+    const conceptTitle = conceptMap[conceptCoverage.conceptId]?.concept_title || conceptCoverage.conceptId
+    if (!conceptCoverage.readyForCoverageGate) {
+      warnings.push(createIssue('warning', 'problem_blueprint_coverage_gap', {
+        file: null,
+        templateId: null,
+        conceptId: conceptCoverage.conceptId,
+        message: `${conceptTitle}: blueprint metadata ${conceptCoverage.completeCount}/${conceptCoverage.templateCount} complete (${conceptCoverage.missingCount} missing, ${conceptCoverage.invalidCount} invalid)`
+      }))
+      continue
+    }
+
+    for (const code of conceptCoverage.targetGaps) {
+      warnings.push(createIssue('warning', code, {
+        file: null,
+        templateId: null,
+        conceptId: conceptCoverage.conceptId,
+        message: `${conceptTitle}: blueprint coverage target is not met (${code})`
+      }))
+    }
+  }
 
   for (const template of allTemplates) {
     const samples = buildParamSamples(template.param_schema, sampleCount, template.id.length * 211)
@@ -1141,10 +1426,15 @@ function generateProblemQualityReport(options = {}) {
       sampleCountPerTemplate: sampleCount,
       sessionSeeds,
       errorCount: errors.length,
-      warningCount: warnings.length
+      warningCount: warnings.length,
+      blueprintCompleteCount: blueprintCoverage.summary.completeCount,
+      blueprintMissingCount: blueprintCoverage.summary.missingCount,
+      blueprintInvalidCount: blueprintCoverage.summary.invalidCount,
+      blueprintCoveragePercent: blueprintCoverage.summary.coveragePercent
     },
     errors,
     warnings,
+    blueprintCoverage,
     conceptSummaries
   }
 }
@@ -1153,11 +1443,13 @@ module.exports = {
   analyzeRenderedMeasurementUnits,
   analyzeRenderedPromptQuality,
   analyzeThreeShapeOverlapVisual,
+  buildProblemBlueprintCoverage,
   buildParamSamples,
   calculateDifficultySignal,
   evaluateTemplate,
   extractNumericMagnitude,
   generateProblemQualityReport,
+  inspectProblemBlueprintMeta,
   loadConceptMap,
   loadProblemGenerator,
   loadTemplateCatalog,

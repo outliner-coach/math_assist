@@ -1,4 +1,5 @@
 import type { Grade3Mission } from './grade3-problems'
+import { normalizeMissionSketchRunOrdinal } from './mission-sketch-identity'
 
 export const GRADE3_PROGRESS_KEY = 'mathAssist_grade3Progress'
 export const GRADE3_PROGRESS_SCHEMA_VERSION = 1
@@ -18,6 +19,7 @@ export interface Grade3Progress {
   skillSummaryByTag: Record<string, Grade3SkillSummary>
   introDismissedAt: number | null
   lastPlayedAt: number | null
+  missionSketchRunOrdinal: number
 }
 
 export interface Grade3ProgressLoadResult {
@@ -32,6 +34,8 @@ export interface StorageLike {
   removeItem(key: string): void
 }
 
+const corruptProgressStorages = new WeakSet<object>()
+
 export function createInitialGrade3Progress(now = Date.now()): Grade3Progress {
   return {
     schemaVersion: GRADE3_PROGRESS_SCHEMA_VERSION,
@@ -43,6 +47,7 @@ export function createInitialGrade3Progress(now = Date.now()): Grade3Progress {
     skillSummaryByTag: {},
     introDismissedAt: null,
     lastPlayedAt: now,
+    missionSketchRunOrdinal: 0,
   }
 }
 
@@ -101,6 +106,7 @@ function normalizeProgress(value: unknown, now: number): Grade3Progress | null {
     skillSummaryByTag: candidate.skillSummaryByTag as Record<string, Grade3SkillSummary>,
     introDismissedAt: typeof candidate.introDismissedAt === 'number' ? candidate.introDismissedAt : null,
     lastPlayedAt: typeof candidate.lastPlayedAt === 'number' ? candidate.lastPlayedAt : now,
+    missionSketchRunOrdinal: normalizeMissionSketchRunOrdinal(candidate.missionSketchRunOrdinal),
   }
 }
 
@@ -118,16 +124,12 @@ export function loadGrade3Progress(
     }
     const normalized = normalizeProgress(JSON.parse(raw), now)
     if (!normalized) {
-      storage.removeItem(GRADE3_PROGRESS_KEY)
+      corruptProgressStorages.add(storage)
       return { progress: createInitialGrade3Progress(now), storageAvailable: true, recovered: true }
     }
     return { progress: normalized, storageAvailable: true, recovered: false }
   } catch {
-    try {
-      storage.removeItem(GRADE3_PROGRESS_KEY)
-    } catch {
-      // Continue in memory when storage is unavailable.
-    }
+    corruptProgressStorages.add(storage)
     return { progress: createInitialGrade3Progress(now), storageAvailable: false, recovered: true }
   }
 }
@@ -136,7 +138,7 @@ export function saveGrade3Progress(
   progress: Grade3Progress,
   storage: StorageLike | null = getBrowserStorage()
 ): boolean {
-  if (!storage) return false
+  if (!storage || corruptProgressStorages.has(storage)) return false
   try {
     storage.setItem(GRADE3_PROGRESS_KEY, JSON.stringify(progress))
     return true
@@ -202,6 +204,7 @@ export function resetGrade3Progress(
   now = Date.now()
 ): Grade3Progress {
   const progress = createInitialGrade3Progress(now)
+  if (storage) corruptProgressStorages.delete(storage)
   saveGrade3Progress(progress, storage)
   return progress
 }

@@ -6,6 +6,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "perimeter-rectangle-perimeter",
+    "blueprint": {"problemFamily":"perimeter-rectangle-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 4,
@@ -41,6 +42,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "perimeter-square-perimeter",
+    "blueprint": {"problemFamily":"perimeter-square-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "side": {
         "min": 3,
@@ -71,6 +73,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "perimeter-rectangle-perimeter-choice",
+    "blueprint": {"problemFamily":"perimeter-rectangle-perimeter-choice","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -112,6 +115,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "perimeter-triangle-perimeter",
+    "blueprint": {"problemFamily":"perimeter-triangle-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "a": {
         "min": 4,
@@ -153,6 +157,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "perimeter-rectangle-area",
+    "blueprint": {"problemFamily":"perimeter-rectangle-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 4,
@@ -188,6 +193,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "perimeter-square-area-choice",
+    "blueprint": {"problemFamily":"perimeter-square-area-choice","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "side": {
         "min": 3,
@@ -224,6 +230,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "perimeter-rectangle-width-from-area",
+    "blueprint": {"problemFamily":"perimeter-rectangle-width-from-area","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 4,
@@ -260,6 +267,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "perimeter-rectangle-height-from-area",
+    "blueprint": {"problemFamily":"perimeter-rectangle-height-from-area","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -296,6 +304,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "perimeter-rectangle-side-from-perimeter",
+    "blueprint": {"problemFamily":"perimeter-rectangle-side-from-perimeter","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 6,
@@ -332,6 +341,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "perimeter-fence-with-gate",
+    "blueprint": {"problemFamily":"perimeter-fence-with-gate","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 8,
@@ -371,6 +381,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "perimeter-rectangle-perimeter",
+    "blueprint": {"problemFamily":"perimeter-rectangle-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 6,
@@ -406,6 +417,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "perimeter-square-perimeter",
+    "blueprint": {"problemFamily":"perimeter-square-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "side": {
         "min": 5,
@@ -436,6 +448,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "perimeter-rectangle-perimeter-choice",
+    "blueprint": {"problemFamily":"perimeter-rectangle-perimeter-choice","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -477,6 +490,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "perimeter-triangle-perimeter",
+    "blueprint": {"problemFamily":"perimeter-triangle-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "a": {
         "min": 6,
@@ -518,6 +532,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "perimeter-rectangle-area",
+    "blueprint": {"problemFamily":"perimeter-rectangle-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 6,
@@ -553,6 +568,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "perimeter-square-area-choice",
+    "blueprint": {"problemFamily":"perimeter-square-area-choice","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "side": {
         "min": 5,
@@ -589,6 +605,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "perimeter-rectangle-width-from-area",
+    "blueprint": {"problemFamily":"perimeter-rectangle-width-from-area","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 6,
@@ -625,6 +642,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "perimeter-rectangle-height-from-area",
+    "blueprint": {"problemFamily":"perimeter-rectangle-height-from-area","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -661,6 +679,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "perimeter-rectangle-side-from-perimeter",
+    "blueprint": {"problemFamily":"perimeter-rectangle-side-from-perimeter","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 8,
@@ -697,6 +716,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "perimeter-fence-with-gate",
+    "blueprint": {"problemFamily":"perimeter-fence-with-gate","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 10,
@@ -736,6 +756,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "perimeter-rectangle-perimeter",
+    "blueprint": {"problemFamily":"perimeter-rectangle-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 8,
@@ -771,6 +792,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "perimeter-square-perimeter",
+    "blueprint": {"problemFamily":"perimeter-square-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "side": {
         "min": 7,
@@ -801,6 +823,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "perimeter-rectangle-perimeter-choice",
+    "blueprint": {"problemFamily":"perimeter-rectangle-perimeter-choice","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 9,
@@ -842,6 +865,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "perimeter-triangle-perimeter",
+    "blueprint": {"problemFamily":"perimeter-triangle-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "a": {
         "min": 8,
@@ -883,6 +907,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "perimeter-rectangle-area",
+    "blueprint": {"problemFamily":"perimeter-rectangle-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 8,
@@ -918,6 +943,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "perimeter-square-area-choice",
+    "blueprint": {"problemFamily":"perimeter-square-area-choice","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
       "side": {
         "min": 7,
@@ -954,6 +980,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "perimeter-rectangle-width-from-area",
+    "blueprint": {"problemFamily":"perimeter-rectangle-width-from-area","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 8,
@@ -990,6 +1017,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "perimeter-rectangle-height-from-area",
+    "blueprint": {"problemFamily":"perimeter-rectangle-height-from-area","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-13","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 9,
@@ -1026,6 +1054,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "perimeter-rectangle-side-from-perimeter",
+    "blueprint": {"problemFamily":"perimeter-rectangle-side-from-perimeter","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 10,
@@ -1062,6 +1091,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "perimeter-fence-with-gate",
+    "blueprint": {"problemFamily":"perimeter-fence-with-gate","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-11","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 12,

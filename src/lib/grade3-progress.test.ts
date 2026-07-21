@@ -71,6 +71,28 @@ describe('grade3 progress', () => {
     expect(dismissed.introDismissedAt).toBe(300)
   })
 
+  it('loads legacy progress without a sketch run ordinal without losing activity', () => {
+    const storage = createMemoryStorage({
+      [GRADE3_PROGRESS_KEY]: JSON.stringify({
+        schemaVersion: 1,
+        completedMissionIds: ['g3-1-add-sub-01'],
+        reviewMissionIds: [],
+        latestMissionId: 'g3-1-add-sub-01',
+        selectedUnitId: 'g3-1-add-sub',
+        todaySolvedCount: 1,
+        skillSummaryByTag: {},
+        introDismissedAt: 50,
+        lastPlayedAt: 100,
+      }),
+    })
+
+    const loaded = loadGrade3Progress(storage, 100)
+
+    expect(loaded.recovered).toBe(false)
+    expect(loaded.progress.completedMissionIds).toEqual(['g3-1-add-sub-01'])
+    expect(loaded.progress.missionSketchRunOrdinal).toBe(0)
+  })
+
   it('recovers corrupt progress without touching other grade storage', () => {
     const storage = createMemoryStorage({
       [GRADE3_PROGRESS_KEY]: '{bad json',
@@ -81,7 +103,8 @@ describe('grade3 progress', () => {
 
     expect(result.recovered).toBe(true)
     expect(result.progress.completedMissionIds).toEqual([])
-    expect(storage.getItem(GRADE3_PROGRESS_KEY)).toBeNull()
+    expect(storage.getItem(GRADE3_PROGRESS_KEY)).toBe('{bad json')
+    expect(saveGrade3Progress(result.progress, storage)).toBe(false)
     expect(storage.getItem('mathAssist_grade1Progress')).toBe('{"keep":1}')
     expect(storage.getItem('mathAssist_grade2Progress')).toBe('{"keep":2}')
   })

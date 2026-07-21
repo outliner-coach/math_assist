@@ -45,6 +45,10 @@ function loadGrade3Module() {
   return compileTsModule(path.join(ROOT_DIR, 'src', 'lib', 'grade3-problems.ts'), 'grade3-problems')
 }
 
+function loadGrade4Module() {
+  return compileTsModule(path.join(ROOT_DIR, 'src', 'lib', 'grade4-problems.ts'), 'grade4-problems')
+}
+
 function textLength(value) {
   return String(value ?? '').replace(/\{\{[^}]+\}\}/g, '0').trim().length
 }
@@ -328,8 +332,36 @@ function auditGrade3() {
   }
 }
 
+function auditGrade4() {
+  const {
+    grade4MissionTemplates,
+    getGrade4MissionBank,
+    validateGrade4MissionBank,
+  } = loadGrade4Module()
+  const ledger = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, 'public', 'data', 'curriculum-allocations-v1.json'), 'utf8'))
+  const validation = validateGrade4MissionBank(ledger)
+  const errors = validation.errors.map((message) => createIssue('error', 'grade4_validator', message))
+  const warnings = validation.warnings.map((message) => createIssue('warning', 'grade4_validator', message))
+  const missions = getGrade4MissionBank(20260721)
+
+  for (const mission of missions) {
+    const template = grade4MissionTemplates.find((item) => item.id === mission.id)
+    auditChoiceIntegrity('Grade 4', template, mission, errors)
+  }
+  if (grade4MissionTemplates.length !== 10) {
+    errors.push(createIssue('error', 'grade4_release_count', `Grade 4 release candidate expects 10 templates, got ${grade4MissionTemplates.length}`))
+  }
+
+  return {
+    grade: 'grade4-release-candidate',
+    templateCount: grade4MissionTemplates.length,
+    errors,
+    warnings,
+  }
+}
+
 function generateMissionBankQualityReport() {
-  const gradeReports = [auditGrade1(), auditGrade2(), auditGrade3()]
+  const gradeReports = [auditGrade1(), auditGrade2(), auditGrade3(), auditGrade4()]
   const errors = gradeReports.flatMap((report) => report.errors)
   const warnings = gradeReports.flatMap((report) => report.warnings)
 

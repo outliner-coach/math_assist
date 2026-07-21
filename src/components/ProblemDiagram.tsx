@@ -17,7 +17,8 @@ const problemVisualTypes = new Set<ProblemVisual['type']>([
   'l_shape',
   'overlap_rectangles',
   'rectangle_square',
-  'three_shape_overlap'
+  'three_shape_overlap',
+  'ratio_table'
 ])
 
 export function isProblemVisual(visual: GeometryVisual): visual is ProblemVisual {
@@ -239,6 +240,41 @@ export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
             <text x={(left + right) / 2} y="22" textAnchor="middle" className="fill-slate-700 text-[14px] font-bold">전체 넓이 {totalArea} {unit}²</text>
           )}
         </svg>
+      </figure>
+    )
+  }
+
+  if (visual.type === 'ratio_table') {
+    const { caption, columns, rows } = visual.props
+    return (
+      <figure
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
+        data-testid="problem-diagram-ratio-table"
+      >
+        <table className="w-full table-fixed border-collapse text-center text-sm md:text-base">
+          <caption className="px-2 pb-3 text-base font-extrabold text-slate-800">{caption}</caption>
+          <thead>
+            <tr>
+              {columns.map((column) => (
+                <th key={column} scope="col" className="border border-slate-300 bg-sky-100 px-2 py-3 font-extrabold text-slate-800">
+                  {column}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.label}>
+                <th scope="row" className="border border-slate-300 bg-white px-2 py-3 font-extrabold text-slate-800">{row.label}</th>
+                {row.values.map((value, index) => (
+                  <td key={`${row.label}-${index}`} className="border border-slate-300 bg-white px-2 py-3 font-bold text-slate-700">
+                    {value}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </figure>
     )
   }

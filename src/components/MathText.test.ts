@@ -15,4 +15,13 @@ describe('MathText', () => {
     expect(html).toContain('mfrac')
     expect(html).toContain('읽어 보세요')
   })
+
+  it('keeps KaTeX trust disabled for HTML attribute commands', () => {
+    const html = renderToStaticMarkup(
+      createElement(MathText, null, '$\\htmlData{onmouseover=alert(1)}{x}$')
+    )
+
+    expect(html).not.toMatch(/\sonmouseover=/i)
+    expect(html).not.toContain('<script')
+  })
 })

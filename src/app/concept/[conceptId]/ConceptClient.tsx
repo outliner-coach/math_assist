@@ -5,8 +5,9 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { getConceptById, getUnitById } from '@/lib/data'
 import { loadConceptProgress } from '@/lib/progress'
+import { isCurriculumGradeReleased } from '@/lib/grade-release'
 import type { Concept, ConceptProgressSummary, Unit } from '@/lib/types'
-import { Button, MathText, VisualAid } from '@/components'
+import { Button, GradeReleaseBlocked, MathText, VisualAid } from '@/components'
 
 export default function ConceptClient() {
   const params = useParams()
@@ -17,6 +18,7 @@ export default function ConceptClient() {
   const [unit, setUnit] = useState<Unit | null>(null)
   const [progress, setProgress] = useState<ConceptProgressSummary | null>(null)
   const [loading, setLoading] = useState(true)
+  const [releaseBlocked, setReleaseBlocked] = useState(false)
 
   useEffect(() => {
     getConceptById(conceptId)
@@ -24,13 +26,19 @@ export default function ConceptClient() {
         setConcept(conceptData)
         if (conceptData) {
           const unitData = await getUnitById(conceptData.unit_id)
+          if (unitData?.grade === 6 && !await isCurriculumGradeReleased(6)) {
+            setReleaseBlocked(true)
+            return
+          }
           setUnit(unitData)
+          setProgress(loadConceptProgress(conceptId, unitData?.grade === 6 ? 6 : 5))
         }
-        setProgress(loadConceptProgress(conceptId))
       })
       .catch(console.error)
       .finally(() => setLoading(false))
   }, [conceptId])
+
+  if (releaseBlocked) return <GradeReleaseBlocked grade={6} />
 
   if (loading) {
     return (
@@ -55,7 +63,7 @@ export default function ConceptClient() {
     <div className="space-y-6">
       {/* 헤더 */}
       <header className="flex items-center gap-4">
-        <Link href={unit ? `/unit/${unit.id}` : '/home'} className="p-2 -ml-2 touch-manipulation">
+        <Link href={unit ? `/unit/${unit.id}` : '/home'} aria-label="단원으로 돌아가기" className="-ml-2 inline-flex min-h-[48px] min-w-[48px] items-center justify-center rounded-full touch-manipulation">
           <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
@@ -195,20 +203,36 @@ export default function ConceptClient() {
           <p className="text-sm text-gray-600 text-center">
             {progress?.needsReview
               ? '최근에 틀린 문제가 있었어요. 같은 개념으로 다시 감각을 잡아보세요.'
-              : '연습 세트를 선택하세요 (각 10문항)'}
+              : unit?.grade === 6
+                ? '연습 세트를 선택하세요 (기본 5문항, 집중 10문항)'
+                : '연습 세트를 선택하세요 (각 10문항)'}
           </p>
           <div className="grid grid-cols-3 gap-3">
             {(['A', 'B', 'C'] as const).map((set) => (
               <Button
                 key={set}
-                onClick={() => router.push(`/practice/${conceptId}?set=${set}`)}
+                onClick={() => router.push(`/practice/${conceptId}?set=${set}${unit?.grade === 6 ? '&count=5' : ''}`)}
                 className="w-full"
                 size="lg"
               >
-                세트 {set}
+                세트 {set}{unit?.grade === 6 ? ' · 5문제' : ''}
               </Button>
             ))}
           </div>
+          {unit?.grade === 6 && (
+            <div className="grid grid-cols-3 gap-3" data-testid="grade6-ten-item-options">
+              {(['A', 'B', 'C'] as const).map((set) => (
+                <Button
+                  key={set}
+                  variant="outline"
+                  onClick={() => router.push(`/practice/${conceptId}?set=${set}&count=10`)}
+                  className="w-full"
+                >
+                  {set} · 10문제
+                </Button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

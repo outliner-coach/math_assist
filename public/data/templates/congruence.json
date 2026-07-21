@@ -6,6 +6,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "congruence-corresponding-vertex",
+    "blueprint": {"problemFamily":"congruence-corresponding-vertex","cognitiveDomain":"knowing","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -41,6 +42,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "congruence-corresponding-angle",
+    "blueprint": {"problemFamily":"congruence-corresponding-angle","cognitiveDomain":"knowing","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -76,6 +78,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "congruence-congruence-statement-order",
+    "blueprint": {"problemFamily":"congruence-congruence-statement-order","cognitiveDomain":"knowing","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -111,6 +114,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "congruence-same-correspondence",
+    "blueprint": {"problemFamily":"congruence-same-correspondence","cognitiveDomain":"knowing","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -146,6 +150,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "congruence-corresponding-side-length",
+    "blueprint": {"problemFamily":"congruence-corresponding-side-length","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -191,6 +196,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "congruence-missing-corresponding-side",
+    "blueprint": {"problemFamily":"congruence-missing-corresponding-side","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -236,6 +242,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "congruence-congruent-perimeter",
+    "blueprint": {"problemFamily":"congruence-congruent-perimeter","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-01","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -281,6 +288,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "congruence-congruent-area",
+    "blueprint": {"problemFamily":"congruence-congruent-area","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-01","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -326,6 +334,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "congruence-two-missing-sides",
+    "blueprint": {"problemFamily":"congruence-two-missing-sides","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -371,6 +380,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "congruence-perimeter-difference",
+    "blueprint": {"problemFamily":"congruence-perimeter-difference","cognitiveDomain":"reasoning","reasoningPattern":"model_and_check","primaryStandard":"6수03-01","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -416,6 +426,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "congruence-corresponding-vertex",
+    "blueprint": {"problemFamily":"congruence-corresponding-vertex","cognitiveDomain":"knowing","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -451,6 +462,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "congruence-corresponding-angle",
+    "blueprint": {"problemFamily":"congruence-corresponding-angle","cognitiveDomain":"knowing","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -486,6 +498,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "congruence-congruence-statement-order",
+    "blueprint": {"problemFamily":"congruence-congruence-statement-order","cognitiveDomain":"knowing","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -521,6 +534,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "congruence-same-correspondence",
+    "blueprint": {"problemFamily":"congruence-same-correspondence","cognitiveDomain":"knowing","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -556,6 +570,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "congruence-corresponding-side-length",
+    "blueprint": {"problemFamily":"congruence-corresponding-side-length","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -601,6 +616,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "congruence-missing-corresponding-side",
+    "blueprint": {"problemFamily":"congruence-missing-corresponding-side","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -646,6 +662,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "congruence-congruent-perimeter",
+    "blueprint": {"problemFamily":"congruence-congruent-perimeter","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-01","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -691,6 +708,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "congruence-congruent-area",
+    "blueprint": {"problemFamily":"congruence-congruent-area","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-01","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -736,6 +754,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "congruence-two-missing-sides",
+    "blueprint": {"problemFamily":"congruence-two-missing-sides","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -781,6 +800,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "congruence-perimeter-difference",
+    "blueprint": {"problemFamily":"congruence-perimeter-difference","cognitiveDomain":"reasoning","reasoningPattern":"model_and_check","primaryStandard":"6수03-01","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -826,6 +846,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "congruence-corresponding-vertex",
+    "blueprint": {"problemFamily":"congruence-corresponding-vertex","cognitiveDomain":"knowing","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -861,6 +882,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "congruence-corresponding-angle",
+    "blueprint": {"problemFamily":"congruence-corresponding-angle","cognitiveDomain":"knowing","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -896,6 +918,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "congruence-congruence-statement-order",
+    "blueprint": {"problemFamily":"congruence-congruence-statement-order","cognitiveDomain":"knowing","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -931,6 +954,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "congruence-same-correspondence",
+    "blueprint": {"problemFamily":"congruence-same-correspondence","cognitiveDomain":"knowing","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -966,6 +990,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "congruence-corresponding-side-length",
+    "blueprint": {"problemFamily":"congruence-corresponding-side-length","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -1011,6 +1036,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "congruence-missing-corresponding-side",
+    "blueprint": {"problemFamily":"congruence-missing-corresponding-side","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -1056,6 +1082,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "congruence-congruent-perimeter",
+    "blueprint": {"problemFamily":"congruence-congruent-perimeter","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-01","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -1101,6 +1128,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "congruence-congruent-area",
+    "blueprint": {"problemFamily":"congruence-congruent-area","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-01","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -1146,6 +1174,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "congruence-two-missing-sides",
+    "blueprint": {"problemFamily":"congruence-two-missing-sides","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -1191,6 +1220,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "congruence-perimeter-difference",
+    "blueprint": {"problemFamily":"congruence-perimeter-difference","cognitiveDomain":"reasoning","reasoningPattern":"model_and_check","primaryStandard":"6수03-01","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
     "param_schema": {
       "variant": {
         "min": 1,

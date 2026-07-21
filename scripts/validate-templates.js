@@ -10,4 +10,9 @@ if (result.errors.length > 0) {
   process.exit(1)
 }
 
+const coverage = result.blueprintCoverage.summary
 console.log('Template validation passed.')
+console.log(
+  `Blueprint metadata: ${coverage.completeCount}/${coverage.templateCount} complete ` +
+  `(${coverage.missingCount} missing, ${coverage.invalidCount} invalid).`
+)

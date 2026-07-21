@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 
 import { Grade3MissionCard } from '@/components/grade3'
+import { ScratchPad } from '@/components'
 import {
   checkGrade3Answer,
   type Grade3StructuredCapacityInput,
@@ -23,6 +24,12 @@ import {
   selectGrade3Unit,
   type Grade3Progress,
 } from '@/lib/grade3-progress'
+import { appendMissionAttemptReceipt } from '@/lib/mission-attempt-receipt'
+import {
+  advanceMissionSketchRun,
+  createMissionSketchKey,
+  resolveMissionSketchStatus,
+} from '@/lib/mission-sketch-identity'
 
 const MISSION_SEED = 20260516
 
@@ -185,6 +192,7 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
   const [wrongAttemptCount, setWrongAttemptCount] = useState(0)
   const [lastSubmissionCorrect, setLastSubmissionCorrect] = useState(false)
   const [confirmReset, setConfirmReset] = useState(false)
+  const [missionRun, setMissionRun] = useState(0)
 
   const selectedUnit = grade3Units.find((unit) => unit.id === selectedUnitId) ?? grade3Units[0]
   const selectedUnitMissions = unitMissions(missions, selectedUnit.id)
@@ -193,13 +201,24 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
     firstMissionForUnit(missions, selectedUnit.id, progress)
   const solved = lastSubmissionCorrect
   const nextMission = solved ? nextMissionInUnit(missions, selectedMission, progress) : null
+  const currentVariantKey = `${selectedMission.id}:seed-${MISSION_SEED}`
+  const scratchKey = createMissionSketchKey({
+    grade: 3,
+    sessionRunKey: `${MISSION_SEED}:run-${missionRun}`,
+    missionId: selectedMission.id,
+    variantKey: currentVariantKey,
+  })
 
   useEffect(() => {
     const result = loadGrade3Progress()
     const progressForUnit =
       result.progress.selectedUnitId === initialUnit.id ? result.progress : selectGrade3Unit(result.progress, initialUnit.id)
-    const restoredMission = firstMissionForUnit(missions, initialUnit.id, progressForUnit)
+    const recommendedMission = firstMissionForUnit(missions, initialUnit.id, progressForUnit)
+    const restoredMission = progressForUnit.missionSketchRunOrdinal > 0
+      ? unitMissions(missions, initialUnit.id).find((mission) => mission.id === progressForUnit.latestMissionId) ?? recommendedMission
+      : recommendedMission
     setProgress(progressForUnit)
+    setMissionRun(progressForUnit.missionSketchRunOrdinal)
     setStorageAvailable(progressForUnit === result.progress ? result.storageAvailable : saveGrade3Progress(progressForUnit))
     setStorageRecovered((wasRecovered) => wasRecovered || result.recovered)
     setSelectedUnitId(initialUnit.id)
@@ -238,6 +257,9 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
   }
 
   const resetMission = () => {
+    const nextProgress = advanceMissionSketchRun(progress)
+    persistProgress(nextProgress)
+    setMissionRun(nextProgress.missionSketchRunOrdinal)
     resetMissionState()
     document.getElementById('grade3-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
@@ -247,13 +269,16 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
       setConfirmReset(true)
       return
     }
-    const nextProgress = resetGrade3Progress()
-    setProgress(nextProgress)
-    setStorageAvailable(true)
+    const nextProgress = {
+      ...resetGrade3Progress(),
+      missionSketchRunOrdinal: progress.missionSketchRunOrdinal + 1,
+    }
+    persistProgress(nextProgress)
     setStorageRecovered(false)
     setSelectedUnitId(initialUnit.id)
     setSelectedMissionId(unitMissions(missions, initialUnit.id)[0]?.id ?? 'g3-1-add-sub-01')
     setConfirmReset(false)
+    setMissionRun(nextProgress.missionSketchRunOrdinal)
     resetMissionState()
   }
 
@@ -268,6 +293,21 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
     }
 
     setInputError(null)
+    void appendMissionAttemptReceipt({
+      grade: 3,
+      mission: selectedMission,
+      sessionRunKey: `${MISSION_SEED}:run-${missionRun}`,
+      attemptIndex: wrongAttemptCount,
+      variantKey: currentVariantKey,
+      correct: result.correct,
+      usedHint: showHint || wrongAttemptCount > 0,
+    }).then((appendResult) => {
+      if (appendResult === 'corrupt') {
+        console.error('Attempt receipt ledger is corrupt; Grade 3 progress remains authoritative')
+      }
+    }).catch((error: unknown) => {
+      console.error('Failed to append Grade 3 attempt receipt; legacy progress remains authoritative', error)
+    })
     setSelectedAnswer(displayAnswer)
     setLastSubmissionCorrect(result.correct)
 
@@ -286,7 +326,7 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
   }
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6">
+    <div className="practice-interaction-surface mx-auto max-w-6xl space-y-6">
       <header className="rounded-[2rem] border-2 border-[#ccfbf1] bg-white p-5 md:p-6">
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
@@ -379,6 +419,11 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
         onSubmitCapacity={() => submitAnswer(capacityAnswer, formatCapacity(capacityAnswer))}
         onSubmitWeight={() => submitAnswer(weightAnswer, formatWeight(weightAnswer))}
         onShowHint={() => setShowHint(true)}
+      />
+
+      <ScratchPad
+        {...scratchKey}
+        sessionStatus={resolveMissionSketchStatus({ completed: solved })}
       />
 
       {solved && (

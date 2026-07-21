@@ -37,12 +37,30 @@ function renderMarkdown(report) {
     `- session seeds: ${report.summary.sessionSeeds.join(', ')}`,
     `- errors: ${report.summary.errorCount}`,
     `- warnings: ${report.summary.warningCount}`,
+    `- blueprint metadata: ${report.summary.blueprintCompleteCount}/${report.summary.templateCount} complete (${report.summary.blueprintMissingCount} missing, ${report.summary.blueprintInvalidCount} invalid; ${report.summary.blueprintCoveragePercent}%)`,
+    '',
+    '## Problem Blueprint Coverage',
+    '',
+    '| Concept | Complete | Missing | Invalid | K / A / R | Families | Reasoning families | Representations | Gate |',
+    '| --- | ---: | ---: | ---: | --- | ---: | ---: | ---: | --- |'
+  ]
+
+  for (const coverage of report.blueprintCoverage.byConcept) {
+    const gate = coverage.readyForCoverageGate
+      ? (coverage.targetGaps.length === 0 ? 'pass' : coverage.targetGaps.join(', '))
+      : 'migration incomplete'
+    lines.push(
+      `| \`${coverage.conceptId}\` | ${coverage.completeCount} | ${coverage.missingCount} | ${coverage.invalidCount} | ${coverage.cognitiveCounts.knowing} / ${coverage.cognitiveCounts.applying} / ${coverage.cognitiveCounts.reasoning} | ${coverage.problemFamilyCount} | ${coverage.reasoningFamilyCount} | ${coverage.representationCount} | ${gate} |`
+    )
+  }
+
+  lines.push(
     '',
     '## Concept Difficulty Summary',
     '',
     '| Concept | Templates | Avg Signal (1/2/3) | Avg Magnitude (1/2/3) |',
     '| --- | ---: | --- | --- |'
-  ]
+  )
 
   for (const summary of report.conceptSummaries) {
     lines.push(

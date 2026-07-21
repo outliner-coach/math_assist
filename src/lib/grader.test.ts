@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { calculateScore, gradeSession } from './grader'
+import { calculateScore, getNumberAnswerInputError, gradeSession, normalizeAnswer } from './grader'
 import type { Problem } from './types'
 
 function makeChoiceProblem(): Problem {
@@ -52,5 +52,42 @@ describe('gradeSession', () => {
 
     expect(results[0].correct).toBe(false)
     expect(results[0].userAnswer).toBe('')
+  })
+})
+
+describe('number answer input validation', () => {
+  it.each([
+    '1/',
+    '-',
+    '.',
+    '-.',
+    '1.',
+    '1 1',
+    '1 1/',
+    '1 /2',
+    '1/2 extra'
+  ])('rejects incomplete or partially parsed input %j', (input) => {
+    expect(normalizeAnswer(input)).toBeNull()
+    expect(getNumberAnswerInputError(input)).not.toBeNull()
+  })
+
+  it.each([
+    ['-3', -3, 1],
+    ['.5', 1, 2],
+    ['-.5', -1, 2],
+    ['2/4', 1, 2],
+    ['1 1/2', 3, 2],
+    ['-0 1/2', -1, 2],
+    [' 1/2 ', 1, 2]
+  ])('keeps complete supported input %j', (input, numerator, denominator) => {
+    expect(normalizeAnswer(String(input))).toMatchObject({ numerator, denominator })
+    expect(getNumberAnswerInputError(String(input))).toBeNull()
+  })
+
+  it('gives concrete guidance for incomplete fractions, decimals, and signs', () => {
+    expect(getNumberAnswerInputError('1/')).toContain('분모')
+    expect(getNumberAnswerInputError('.')).toContain('소수점')
+    expect(getNumberAnswerInputError('-')).toContain('숫자')
+    expect(getNumberAnswerInputError('1 1/')).toContain('대분수')
   })
 })

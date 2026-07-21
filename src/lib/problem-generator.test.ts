@@ -80,6 +80,47 @@ describe('generateProblems', () => {
     }
   })
 
+  it('carries reviewed blueprint metadata without deriving it from difficulty', () => {
+    const reviewed = makeTemplate({
+      id: 'reviewed-blueprint',
+      difficulty: 3,
+      problem_family: 'inverse-area',
+      blueprint: {
+        problemFamily: 'inverse-area',
+        cognitiveDomain: 'applying',
+        reasoningPattern: 'inverse',
+        primaryStandard: '6수03-06',
+        connectedStandards: ['6수01-11'],
+        representations: ['text', 'equation'],
+        contextType: 'pure_math',
+        estimatedSteps: 3,
+        readingLoad: 'medium'
+      }
+    })
+    const unreviewed = makeTemplate({
+      id: 'unreviewed-blueprint',
+      difficulty: 3
+    })
+
+    const [reviewedProblem] = generateProblems([reviewed], {
+      count: 1,
+      setId: 'A',
+      difficultyMix: { 1: 0, 2: 0, 3: 1 },
+      seed: 5
+    })
+    const [unreviewedProblem] = generateProblems([unreviewed], {
+      count: 1,
+      setId: 'A',
+      difficultyMix: { 1: 0, 2: 0, 3: 1 },
+      seed: 5
+    })
+
+    expect(reviewedProblem.blueprint).toEqual(reviewed.blueprint)
+    expect(reviewedProblem.problemFamily).toBe('inverse-area')
+    expect(unreviewedProblem.blueprint).toBeUndefined()
+    expect(unreviewedProblem).not.toHaveProperty('cognitiveDomain')
+  })
+
   it('selects problems by set and difficulty mix', () => {
     const templates: ProblemTemplate[] = [
       // set A
@@ -137,5 +178,39 @@ describe('generateProblems', () => {
     })
 
     expect(new Set(problems.map(problem => problem.prompt)).size).toBe(2)
+  })
+
+  it('keeps registered functions and arithmetic arguments compatible without dynamic code execution', () => {
+    const template = makeTemplate({
+      id: 'function-arithmetic',
+      param_schema: { n: { min: 4, max: 4 } },
+      solver_rule: 'gcd(n * 2, n + 2) + 1',
+    })
+
+    const [problem] = generateProblems([template], {
+      count: 1,
+      setId: 'A',
+      difficultyMix: { 1: 1, 2: 0, 3: 0 },
+      seed: 1,
+    })
+
+    expect(problem.correctAnswer).toBe('3')
+  })
+
+  it.each([
+    '2 ** 3',
+    '1 / 0',
+    'Infinity',
+    '1 + 2 trailing',
+  ])('renders an explicit unresolved marker for rejected expression %s', (solverRule) => {
+    const template = makeTemplate({ id: `invalid-${solverRule}`, solver_rule: solverRule })
+    const [problem] = generateProblems([template], {
+      count: 1,
+      setId: 'A',
+      difficultyMix: { 1: 1, 2: 0, 3: 0 },
+      seed: 1,
+    })
+
+    expect(problem.correctAnswer).toBe(`[${solverRule}?]`)
   })
 })

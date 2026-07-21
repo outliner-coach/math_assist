@@ -5,6 +5,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "lcm-direct",
+    "blueprint": {"problemFamily":"lcm-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 4,
@@ -39,6 +41,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "lcm-direct",
+    "blueprint": {"problemFamily":"lcm-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 4,
@@ -67,6 +71,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "lcm-identify-non-common-multiple",
+    "blueprint": {"problemFamily":"lcm-identify-non-common-multiple","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 3,
@@ -100,6 +106,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "lcm-direct",
+    "blueprint": {"problemFamily":"lcm-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 5,
@@ -127,6 +135,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "lcm-simultaneous-cycle",
+    "blueprint": {"problemFamily":"lcm-simultaneous-cycle","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 7,
@@ -154,6 +164,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "lcm-double",
+    "blueprint": {"problemFamily":"lcm-double","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 7,
@@ -187,6 +199,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "lcm-offset",
+    "blueprint": {"problemFamily":"lcm-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 8,
@@ -214,6 +228,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "lcm-offset",
+    "blueprint": {"problemFamily":"lcm-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 8,
@@ -247,6 +263,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "lcm-simultaneous-cycle",
+    "blueprint": {"problemFamily":"lcm-simultaneous-cycle","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 10,
@@ -274,6 +292,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "lcm-offset",
+    "blueprint": {"problemFamily":"lcm-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 11,
@@ -307,6 +327,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "lcm-direct",
+    "blueprint": {"problemFamily":"lcm-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 6,
@@ -341,6 +363,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "lcm-direct",
+    "blueprint": {"problemFamily":"lcm-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 6,
@@ -369,6 +393,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "lcm-identify-non-common-multiple",
+    "blueprint": {"problemFamily":"lcm-identify-non-common-multiple","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 5,
@@ -402,6 +428,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "lcm-direct",
+    "blueprint": {"problemFamily":"lcm-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 7,
@@ -429,6 +457,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "lcm-simultaneous-cycle",
+    "blueprint": {"problemFamily":"lcm-simultaneous-cycle","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 9,
@@ -456,6 +486,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "lcm-double",
+    "blueprint": {"problemFamily":"lcm-double","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 9,
@@ -489,6 +521,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "lcm-offset",
+    "blueprint": {"problemFamily":"lcm-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 10,
@@ -516,6 +550,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "lcm-offset",
+    "blueprint": {"problemFamily":"lcm-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 10,
@@ -549,6 +585,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "lcm-simultaneous-cycle",
+    "blueprint": {"problemFamily":"lcm-simultaneous-cycle","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 12,
@@ -576,6 +614,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "lcm-offset",
+    "blueprint": {"problemFamily":"lcm-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 13,
@@ -609,6 +649,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "lcm-direct",
+    "blueprint": {"problemFamily":"lcm-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 8,
@@ -643,6 +685,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "lcm-direct",
+    "blueprint": {"problemFamily":"lcm-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 8,
@@ -671,6 +715,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "lcm-identify-non-common-multiple",
+    "blueprint": {"problemFamily":"lcm-identify-non-common-multiple","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 7,
@@ -704,6 +750,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "lcm-direct",
+    "blueprint": {"problemFamily":"lcm-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
     "param_schema": {
       "a": {
         "min": 9,
@@ -731,6 +779,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "lcm-simultaneous-cycle",
+    "blueprint": {"problemFamily":"lcm-simultaneous-cycle","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 11,
@@ -758,6 +808,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "lcm-double",
+    "blueprint": {"problemFamily":"lcm-double","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 11,
@@ -791,6 +843,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "lcm-offset",
+    "blueprint": {"problemFamily":"lcm-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 12,
@@ -818,6 +872,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "lcm-offset",
+    "blueprint": {"problemFamily":"lcm-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 12,
@@ -851,6 +907,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "lcm-simultaneous-cycle",
+    "blueprint": {"problemFamily":"lcm-simultaneous-cycle","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 14,
@@ -878,6 +936,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "lcm-offset",
+    "blueprint": {"problemFamily":"lcm-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
     "param_schema": {
       "a": {
         "min": 15,

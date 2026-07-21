@@ -3,6 +3,7 @@
  */
 
 import * as math from './math'
+import { evaluateArithmeticExpression } from './arithmetic-expression'
 import { buildThreeShapeOverlapModel } from './three-shape-overlap'
 import type { Problem, ProblemTemplate } from './types'
 
@@ -135,10 +136,11 @@ function evaluateArg(argStr: string, params: Record<string, number>): number {
   for (const [key, value] of Object.entries(params)) {
     evalExpr = evalExpr.replace(new RegExp(`\\b${key}\\b`, 'g'), String(value))
   }
-  if (/^[\d\s+\-*/().]+$/.test(evalExpr)) {
-    try { return eval(evalExpr) } catch { return 0 }
+  try {
+    return evaluateArithmeticExpression(evalExpr)
+  } catch {
+    return 0
   }
-  return 0
 }
 
 // 표현식 내 함수 호출을 값으로 치환
@@ -180,10 +182,8 @@ function evaluateTemplate(template: string, params: Record<string, number>): str
         evalExpr = evalExpr.replace(new RegExp(`\\b${key}\\b`, 'g'), String(value))
       }
 
-      // 3. 간단한 산술만 허용 (보안)
-      if (/^[\d\s+\-*/().]+$/.test(evalExpr)) {
-        return String(eval(evalExpr))
-      }
+      // 3. 제한된 산술 문법만 코드 실행 없이 평가
+      return String(evaluateArithmeticExpression(evalExpr))
     } catch {
       // 평가 실패
     }
@@ -288,7 +288,8 @@ function generateSingleProblem(
       correctChoiceIndex,
       solutionSteps,
       hintSteps,
-      problemFamily: template.problem_family,
+      problemFamily: template.blueprint?.problemFamily ?? template.problem_family,
+      blueprint: template.blueprint,
       visual
     }
   }
@@ -303,7 +304,8 @@ function generateSingleProblem(
     correctAnswer,
     solutionSteps,
     hintSteps,
-    problemFamily: template.problem_family,
+    problemFamily: template.blueprint?.problemFamily ?? template.problem_family,
+    blueprint: template.blueprint,
     visual
   }
 }

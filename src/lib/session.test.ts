@@ -1,9 +1,23 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   buildSessionResult,
   createRetrySessionFromResult,
+  GRADE5_RESULT_KEY,
+  GRADE5_SESSION_KEY,
+  GRADE6_RESULT_KEY,
+  GRADE6_SESSION_KEY,
+  getResultStorageStatus,
+  getSessionStorageStatus,
+  loadResult,
+  loadSession,
   markAnswerChecked,
   matchesSessionRequest,
+  resetGrade6ResultStorage,
+  resetGrade6SessionStorage,
+  resetGrade5ResultStorage,
+  resetGrade5SessionStorage,
+  saveResult,
+  saveSession,
   updateAnswer
 } from './session'
 import type { PracticeSession, Problem, SessionResult, SubmissionResult } from './types'
@@ -32,7 +46,7 @@ function makeSubmissionResult(problem: Problem, correct: boolean): SubmissionRes
   }
 }
 
-function makeResult(): SessionResult {
+function makeResult(overrides: Partial<SessionResult> = {}): SessionResult {
   const first = makeProblem(0)
   const second = makeProblem(1)
   const third = makeProblem(2)
@@ -50,11 +64,16 @@ function makeResult(): SessionResult {
       makeSubmissionResult(first, true),
       makeSubmissionResult(second, false),
       makeSubmissionResult(third, false)
-    ]
+    ],
+    ...overrides,
   }
 }
 
 describe('session helpers', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
   it('creates a retry session with only wrong problems', () => {
     const retrySession = createRetrySessionFromResult(makeResult(), 500)
 
@@ -133,5 +152,154 @@ describe('session helpers', () => {
         sourceResultId: 'other-session'
       })
     ).toBe(false)
+  })
+
+  it('keeps legacy Grade 5 sessions on the original key and isolates Grade 6', () => {
+    const data = new Map<string, string>()
+    const storage = {
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => data.set(key, value),
+      removeItem: (key: string) => data.delete(key),
+    }
+    vi.stubGlobal('window', {})
+    vi.stubGlobal('localStorage', storage)
+
+    const legacyGrade5: PracticeSession = {
+      sessionId: 'legacy-5',
+      conceptId: 'divisor-001',
+      setId: 'A',
+      mode: 'standard',
+      problems: [makeProblem(0)],
+      answers: [null],
+      checkedAnswers: [null],
+      currentIndex: 0,
+      startedAt: Date.now(),
+      expiresAt: Date.now() + 10_000,
+    }
+    data.set(GRADE5_SESSION_KEY, JSON.stringify(legacyGrade5))
+
+    expect(loadSession(5)).toMatchObject({ sessionId: 'legacy-5', itemCount: 10 })
+    expect(loadSession(6)).toBeNull()
+
+    saveSession({ ...legacyGrade5, sessionId: 'grade-6', conceptId: 'g6ratio-001', grade: 6, itemCount: 5 })
+    expect(data.get(GRADE5_SESSION_KEY)).toContain('legacy-5')
+    expect(data.get(GRADE6_SESSION_KEY)).toContain('grade-6')
+    expect(loadSession(6)).toMatchObject({ sessionId: 'grade-6', grade: 6, itemCount: 5 })
+  })
+
+  it('preserves Grade 6 grade and requested count through retry and results', () => {
+    const grade6Result = makeResult({
+      conceptId: 'g6ratio-001',
+      grade: 6,
+      itemCount: 5,
+    })
+    const retrySession = createRetrySessionFromResult(grade6Result, 500)!
+
+    expect(retrySession).toMatchObject({ grade: 6, itemCount: 5 })
+    expect(matchesSessionRequest(retrySession, {
+      conceptId: 'g6ratio-001',
+      setId: 'A',
+      mode: 'retry-wrong',
+      sourceResultId: 'session-1',
+      grade: 6,
+      itemCount: 5,
+    })).toBe(true)
+    expect(matchesSessionRequest(retrySession, {
+      conceptId: 'g6ratio-001',
+      setId: 'A',
+      mode: 'retry-wrong',
+      sourceResultId: 'session-1',
+      grade: 6,
+      itemCount: 10,
+    })).toBe(false)
+  })
+
+  it('preserves corrupt Grade 6 session and result bytes until an explicit reset', () => {
+    const data = new Map<string, string>([
+      [GRADE6_SESSION_KEY, '{corrupt-session'],
+      [GRADE6_RESULT_KEY, JSON.stringify({ grade: 6, itemCount: 7, keep: true })],
+    ])
+    const storage = {
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => data.set(key, value),
+      removeItem: (key: string) => data.delete(key),
+    }
+    vi.stubGlobal('window', {})
+    vi.stubGlobal('localStorage', storage)
+    const grade6Session: PracticeSession = {
+      sessionId: 'grade6_session_1_safe',
+      conceptId: 'g6ratio-001',
+      setId: 'A',
+      mode: 'standard',
+      grade: 6,
+      itemCount: 5,
+      problems: [makeProblem(0)],
+      answers: [null],
+      checkedAnswers: [null],
+      currentIndex: 0,
+      startedAt: 100,
+      expiresAt: Date.now() + 10_000,
+    }
+    const grade6Result = makeResult({ grade: 6, itemCount: 5, conceptId: 'g6ratio-001' })
+
+    expect(loadSession(6)).toBeNull()
+    expect(loadResult(6)).toBeNull()
+    expect(getSessionStorageStatus(6)).toBe('corrupt')
+    expect(getResultStorageStatus(6)).toBe('corrupt')
+    expect(saveSession(grade6Session)).toBe(false)
+    expect(saveResult(grade6Result)).toBe(false)
+    expect(data.get(GRADE6_SESSION_KEY)).toBe('{corrupt-session')
+    expect(data.get(GRADE6_RESULT_KEY)).toBe(JSON.stringify({ grade: 6, itemCount: 7, keep: true }))
+
+    resetGrade6SessionStorage()
+    resetGrade6ResultStorage()
+    expect(getSessionStorageStatus(6)).toBe('missing')
+    expect(getResultStorageStatus(6)).toBe('missing')
+    expect(saveSession(grade6Session)).toBe(true)
+    expect(saveResult(grade6Result)).toBe(true)
+    expect(getSessionStorageStatus(6)).toBe('valid')
+    expect(getResultStorageStatus(6)).toBe('valid')
+  })
+
+  it('preserves corrupt legacy Grade 5 bytes while still expiring valid sessions', () => {
+    const corruptSession = '{corrupt-grade5-session'
+    const corruptResult = '{corrupt-grade5-result'
+    const data = new Map<string, string>([
+      [GRADE5_SESSION_KEY, corruptSession],
+      [GRADE5_RESULT_KEY, corruptResult],
+    ])
+    const storage = {
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => data.set(key, value),
+      removeItem: (key: string) => data.delete(key),
+    }
+    vi.stubGlobal('window', {})
+    vi.stubGlobal('localStorage', storage)
+    const grade5Session: PracticeSession = {
+      sessionId: 'session_1_safe',
+      conceptId: 'divisor-001',
+      setId: 'A',
+      mode: 'standard',
+      problems: [makeProblem(0)],
+      answers: [null],
+      checkedAnswers: [null],
+      currentIndex: 0,
+      startedAt: 100,
+      expiresAt: Date.now() + 10_000,
+    }
+
+    expect(loadSession(5)).toBeNull()
+    expect(loadResult(5)).toBeNull()
+    expect(saveSession(grade5Session)).toBe(false)
+    expect(saveResult(makeResult())).toBe(false)
+    expect(data.get(GRADE5_SESSION_KEY)).toBe(corruptSession)
+    expect(data.get(GRADE5_RESULT_KEY)).toBe(corruptResult)
+
+    resetGrade5SessionStorage()
+    resetGrade5ResultStorage()
+    const expired = { ...grade5Session, expiresAt: Date.now() - 1 }
+    expect(saveSession(expired)).toBe(true)
+    expect(loadSession(5)).toBeNull()
+    expect(data.has(GRADE5_SESSION_KEY)).toBe(false)
   })
 })

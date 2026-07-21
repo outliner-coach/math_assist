@@ -5,6 +5,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 2,
@@ -47,6 +49,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 2,
@@ -83,6 +87,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -124,6 +130,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -160,6 +168,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 4,
@@ -202,25 +212,27 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "fracsub-context-difference",
+    "blueprint": {"problemFamily":"fracsub-context-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 4,
-        "max": 7
+        "max": 6
       },
       "d1": {
-        "min": 5,
+        "min": 7,
         "max": 9
       },
       "n2": {
-        "min": 3,
-        "max": 6
+        "min": 1,
+        "max": 2
       },
       "d2": {
         "min": 7,
-        "max": 10
+        "max": 9
       }
     },
-    "prompt_template": "남은 케이크는 {{n1}}/{{d1}}, 먹은 것은 {{n2}}/{{d2}}입니다. 남은 양에서 먹은 양을 빼면?",
+    "prompt_template": "물 {{n1}}/{{d1}}L 중에서 {{n2}}/{{d2}}L를 마셨습니다. 남은 물은 몇 L인가요?",
     "solver_rule": "fracSub(n1, d1, n2, d2)",
     "solution_steps_template": [
       "통분하여 분자를 맞춥니다.",
@@ -238,6 +250,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "fracsub-common-denominator-numerator-difference",
+    "blueprint": {"problemFamily":"fracsub-common-denominator-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 4,
@@ -279,6 +293,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "fracsub-common-denominator-numerator-difference",
+    "blueprint": {"problemFamily":"fracsub-common-denominator-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 4,
@@ -314,6 +330,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "fracsub-adjusted-result",
+    "blueprint": {"problemFamily":"fracsub-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
     "param_schema": {
       "n1": {
         "min": 6,
@@ -349,6 +367,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 6,
@@ -390,6 +410,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 4,
@@ -432,6 +454,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 4,
@@ -468,6 +492,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -509,6 +535,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -545,6 +573,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 6,
@@ -587,25 +617,27 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "fracsub-context-difference",
+    "blueprint": {"problemFamily":"fracsub-context-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
-        "min": 6,
-        "max": 9
+        "min": 5,
+        "max": 7
       },
       "d1": {
-        "min": 7,
-        "max": 11
+        "min": 8,
+        "max": 10
       },
       "n2": {
-        "min": 5,
-        "max": 8
+        "min": 2,
+        "max": 3
       },
       "d2": {
         "min": 9,
-        "max": 12
+        "max": 11
       }
     },
-    "prompt_template": "남은 케이크는 {{n1}}/{{d1}}, 먹은 것은 {{n2}}/{{d2}}입니다. 남은 양에서 먹은 양을 빼면?",
+    "prompt_template": "색종이 {{n1}}/{{d1}}장만큼의 조각에서 {{n2}}/{{d2}}장만큼을 사용했습니다. 남은 양은 몇 장인가요?",
     "solver_rule": "fracSub(n1, d1, n2, d2)",
     "solution_steps_template": [
       "통분하여 분자를 맞춥니다.",
@@ -623,6 +655,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "fracsub-common-denominator-numerator-difference",
+    "blueprint": {"problemFamily":"fracsub-common-denominator-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 6,
@@ -664,6 +698,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "fracsub-common-denominator-numerator-difference",
+    "blueprint": {"problemFamily":"fracsub-common-denominator-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 6,
@@ -699,6 +735,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "fracsub-adjusted-result",
+    "blueprint": {"problemFamily":"fracsub-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
     "param_schema": {
       "n1": {
         "min": 8,
@@ -734,6 +772,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 8,
@@ -775,6 +815,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 6,
@@ -817,6 +859,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 6,
@@ -853,6 +897,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -894,6 +940,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -930,6 +978,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 8,
@@ -972,25 +1022,27 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "fracsub-context-difference",
+    "blueprint": {"problemFamily":"fracsub-context-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
-        "min": 8,
-        "max": 11
+        "min": 6,
+        "max": 8
       },
       "d1": {
         "min": 9,
-        "max": 12
+        "max": 11
       },
       "n2": {
-        "min": 7,
-        "max": 10
+        "min": 2,
+        "max": 4
       },
       "d2": {
-        "min": 11,
+        "min": 10,
         "max": 12
       }
     },
-    "prompt_template": "남은 케이크는 {{n1}}/{{d1}}, 먹은 것은 {{n2}}/{{d2}}입니다. 남은 양에서 먹은 양을 빼면?",
+    "prompt_template": "찰흙 {{n1}}/{{d1}}kg 중에서 {{n2}}/{{d2}}kg을 작품에 썼습니다. 남은 찰흙은 몇 kg인가요?",
     "solver_rule": "fracSub(n1, d1, n2, d2)",
     "solution_steps_template": [
       "통분하여 분자를 맞춥니다.",
@@ -1008,6 +1060,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "fracsub-common-denominator-numerator-difference",
+    "blueprint": {"problemFamily":"fracsub-common-denominator-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 8,
@@ -1049,6 +1103,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "fracsub-common-denominator-numerator-difference",
+    "blueprint": {"problemFamily":"fracsub-common-denominator-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 8,
@@ -1084,6 +1140,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "fracsub-adjusted-result",
+    "blueprint": {"problemFamily":"fracsub-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
     "param_schema": {
       "n1": {
         "min": 10,
@@ -1119,6 +1177,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "fracsub-direct",
+    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 10,

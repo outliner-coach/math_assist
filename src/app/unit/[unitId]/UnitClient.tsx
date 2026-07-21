@@ -5,8 +5,9 @@ import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { getUnitById, getConceptsByUnit } from '@/lib/data'
 import { loadConceptProgressMap } from '@/lib/progress'
+import { isCurriculumGradeReleased } from '@/lib/grade-release'
 import type { Unit, Concept, ConceptProgressMap } from '@/lib/types'
-import { ConceptCard, Button } from '@/components'
+import { ConceptCard, Button, GradeReleaseBlocked } from '@/components'
 
 export default function UnitClient() {
   const params = useParams()
@@ -16,20 +17,30 @@ export default function UnitClient() {
   const [concepts, setConcepts] = useState<Concept[]>([])
   const [progressMap, setProgressMap] = useState<ConceptProgressMap>({})
   const [loading, setLoading] = useState(true)
+  const [releaseBlocked, setReleaseBlocked] = useState(false)
 
   useEffect(() => {
-    Promise.all([
-      getUnitById(unitId),
-      getConceptsByUnit(unitId)
-    ])
-      .then(([unitData, conceptsData]) => {
+    const loadReleasedUnit = async () => {
+      try {
+        const unitData = await getUnitById(unitId)
+        if (unitData?.grade === 6 && !await isCurriculumGradeReleased(6)) {
+          setReleaseBlocked(true)
+          return
+        }
+        const conceptsData = await getConceptsByUnit(unitId)
         setUnit(unitData)
         setConcepts(conceptsData)
-        setProgressMap(loadConceptProgressMap())
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false))
+        setProgressMap(loadConceptProgressMap(unitData?.grade === 6 ? 6 : 5))
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    void loadReleasedUnit()
   }, [unitId])
+
+  if (releaseBlocked) return <GradeReleaseBlocked grade={6} />
 
   if (loading) {
     return (
@@ -54,7 +65,7 @@ export default function UnitClient() {
     <div className="space-y-6">
       {/* 헤더 */}
       <header className="flex items-center gap-4">
-        <Link href="/grade/5" className="p-2 -ml-2 touch-manipulation">
+        <Link href={`/grade/${unit.grade === 6 ? 6 : 5}`} aria-label="학년 단원으로 돌아가기" className="-ml-2 inline-flex min-h-[48px] min-w-[48px] items-center justify-center rounded-full touch-manipulation">
           <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>

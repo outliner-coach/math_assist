@@ -45,6 +45,7 @@ describe('grade1 progress persistence', () => {
     expect(loaded.progress.introDismissedAt).toBe(null)
     expect(loaded.progress.xp).toBe(15)
     expect(loaded.progress.masteryByMissionId['count-cove-01'].correct).toBe(1)
+    expect(loaded.progress.missionSketchRunOrdinal).toBe(0)
   })
 
   it('marks wrong and hinted-correct missions for review', () => {
@@ -69,6 +70,8 @@ describe('grade1 progress persistence', () => {
 
     expect(loaded.recovered).toBe(true)
     expect(loaded.progress.completedStageIds).toEqual([])
+    expect(storage.removeItem).not.toHaveBeenCalled()
+    expect(saveGrade1Progress(loaded.progress, storage)).toBe(false)
   })
 
   it('resets incompatible schema versions', () => {
@@ -90,6 +93,7 @@ describe('grade1 progress persistence', () => {
     expect(loaded.progress.completedStageIds).toEqual([])
     expect(loaded.progress.todaySolvedCount).toBe(0)
     expect(loaded.progress.introDismissedAt).toBe(null)
+    expect(storage.removeItem).not.toHaveBeenCalled()
   })
 
   it('loads older progress without an intro dismissal field', () => {
@@ -113,6 +117,7 @@ describe('grade1 progress persistence', () => {
     expect(loaded.progress.schemaVersion).toBe(2)
     expect(loaded.progress.xp).toBe(10)
     expect(loaded.progress.masteryByMissionId['count-cove-01'].correct).toBe(1)
+    expect(loaded.progress.missionSketchRunOrdinal).toBe(0)
   })
 
   it('counts a new replay variant while blocking duplicate xp farming', () => {

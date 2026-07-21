@@ -94,5 +94,13 @@
     "order": 6,
     "title": "평균과 가능성",
     "description": "평균의 의미를 이해하고 평균을 구합니다."
+  },
+  {
+    "id": "unit-6-1-ratio",
+    "grade": 6,
+    "semester": "6-1",
+    "order": 4,
+    "title": "비와 비율",
+    "description": "두 양의 관계를 비로 나타내고 비율을 분수, 소수, 백분율로 표현합니다."
   }
 ]

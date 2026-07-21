@@ -5,6 +5,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 1,
@@ -46,6 +48,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 1,
@@ -82,6 +86,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 2,
@@ -123,6 +129,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 2,
@@ -158,6 +166,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -199,25 +209,27 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "fracmul-context-product",
+    "blueprint": {"problemFamily":"fracmul-context-product","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
-        "min": 3,
-        "max": 6
+        "min": 2,
+        "max": 4
       },
       "d1": {
-        "min": 5,
+        "min": 6,
         "max": 9
       },
       "n2": {
-        "min": 3,
-        "max": 5
+        "min": 2,
+        "max": 4
       },
       "d2": {
         "min": 6,
-        "max": 10
+        "max": 9
       }
     },
-    "prompt_template": "색칠한 부분이 {{n1}}/{{d1}}, 또 {{n2}}/{{d2}}만큼입니다. 모두 얼마인가요? (곱셈)",
+    "prompt_template": "리본 전체의 {{n1}}/{{d1}}을 장식에 쓰고, 그중 {{n2}}/{{d2}}에 별을 붙였습니다. 별을 붙인 부분은 전체의 얼마인가요?",
     "solver_rule": "fracMul(n1, d1, n2, d2)",
     "solution_steps_template": [
       "분자끼리 곱하고 분모끼리 곱합니다.",
@@ -234,6 +246,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "fracmul-numerator-product",
+    "blueprint": {"problemFamily":"fracmul-numerator-product","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -274,6 +288,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "problem_family": "fracmul-reduced-component-sum",
+    "blueprint": {"problemFamily":"fracmul-reduced-component-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -309,6 +325,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "fracmul-adjusted-result",
+    "blueprint": {"problemFamily":"fracmul-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -344,6 +362,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -385,6 +405,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -426,6 +448,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 3,
@@ -462,6 +486,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 4,
@@ -503,6 +529,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 4,
@@ -538,6 +566,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -579,25 +609,27 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "fracmul-context-product",
+    "blueprint": {"problemFamily":"fracmul-context-product","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
-        "min": 5,
-        "max": 8
+        "min": 3,
+        "max": 5
       },
       "d1": {
         "min": 7,
-        "max": 11
+        "max": 10
       },
       "n2": {
-        "min": 5,
-        "max": 7
+        "min": 2,
+        "max": 5
       },
       "d2": {
-        "min": 8,
-        "max": 12
+        "min": 7,
+        "max": 10
       }
     },
-    "prompt_template": "색칠한 부분이 {{n1}}/{{d1}}, 또 {{n2}}/{{d2}}만큼입니다. 모두 얼마인가요? (곱셈)",
+    "prompt_template": "화단 전체의 {{n1}}/{{d1}}에 꽃을 심고, 그중 {{n2}}/{{d2}}에 팻말을 세웠습니다. 팻말을 세운 부분은 전체의 얼마인가요?",
     "solver_rule": "fracMul(n1, d1, n2, d2)",
     "solution_steps_template": [
       "분자끼리 곱하고 분모끼리 곱합니다.",
@@ -614,6 +646,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "fracmul-numerator-product",
+    "blueprint": {"problemFamily":"fracmul-numerator-product","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -654,6 +688,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "problem_family": "fracmul-reduced-component-sum",
+    "blueprint": {"problemFamily":"fracmul-reduced-component-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -689,6 +725,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "fracmul-adjusted-result",
+    "blueprint": {"problemFamily":"fracmul-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -724,6 +762,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -765,6 +805,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -806,6 +848,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 5,
@@ -842,6 +886,8 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 6,
@@ -883,6 +929,8 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 6,
@@ -918,6 +966,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -959,25 +1009,27 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "fracmul-context-product",
+    "blueprint": {"problemFamily":"fracmul-context-product","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
-        "min": 7,
-        "max": 10
+        "min": 4,
+        "max": 6
       },
       "d1": {
-        "min": 9,
-        "max": 12
+        "min": 8,
+        "max": 11
       },
       "n2": {
-        "min": 7,
-        "max": 9
+        "min": 3,
+        "max": 5
       },
       "d2": {
-        "min": 10,
-        "max": 12
+        "min": 7,
+        "max": 10
       }
     },
-    "prompt_template": "색칠한 부분이 {{n1}}/{{d1}}, 또 {{n2}}/{{d2}}만큼입니다. 모두 얼마인가요? (곱셈)",
+    "prompt_template": "운동장 전체의 {{n1}}/{{d1}}을 놀이 구역으로 정하고, 그중 {{n2}}/{{d2}}에 선을 그었습니다. 선을 그은 부분은 전체의 얼마인가요?",
     "solver_rule": "fracMul(n1, d1, n2, d2)",
     "solution_steps_template": [
       "분자끼리 곱하고 분모끼리 곱합니다.",
@@ -994,6 +1046,8 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "fracmul-numerator-product",
+    "blueprint": {"problemFamily":"fracmul-numerator-product","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -1034,6 +1088,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "problem_family": "fracmul-reduced-component-sum",
+    "blueprint": {"problemFamily":"fracmul-reduced-component-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
     "param_schema": {
       "n1": {
         "min": 7,
@@ -1069,6 +1125,8 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "fracmul-adjusted-result",
+    "blueprint": {"problemFamily":"fracmul-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
     "param_schema": {
       "n1": {
         "min": 9,
@@ -1104,6 +1162,8 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
+    "problem_family": "fracmul-direct",
+    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
     "param_schema": {
       "n1": {
         "min": 9,

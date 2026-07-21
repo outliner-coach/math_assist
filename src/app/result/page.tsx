@@ -5,22 +5,40 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   createRetrySessionFromResult,
+  getResultStorageStatus,
   loadResult,
+  resetGrade6ResultStorage,
+  resolvePracticeGrade,
+  resolvePracticeItemCount,
   saveSession
 } from '@/lib/session'
 import { getConceptById } from '@/lib/data'
+import { isCurriculumGradeReleased } from '@/lib/grade-release'
 import type { Concept, SessionResult } from '@/lib/types'
-import { Button, ResultCard } from '@/components'
+import { Button, GradeReleaseBlocked, ResultCard } from '@/components'
 
 export default function ResultPage() {
   const router = useRouter()
   const [result, setResult] = useState<SessionResult | null>(null)
   const [concept, setConcept] = useState<Concept | null>(null)
   const [loading, setLoading] = useState(true)
+  const [releaseBlocked, setReleaseBlocked] = useState(false)
+  const [storageRecoveryNeeded, setStorageRecoveryNeeded] = useState(false)
 
   useEffect(() => {
     const loadData = async () => {
-      const resultData = loadResult()
+      const requestedGrade = new URLSearchParams(window.location.search).get('grade') === '6' ? 6 : 5
+      if (requestedGrade === 6 && !await isCurriculumGradeReleased(6)) {
+        setReleaseBlocked(true)
+        setLoading(false)
+        return
+      }
+      if (requestedGrade === 6 && getResultStorageStatus(6) === 'corrupt') {
+        setStorageRecoveryNeeded(true)
+        setLoading(false)
+        return
+      }
+      const resultData = loadResult(requestedGrade)
       if (!resultData) {
         setLoading(false)
         return
@@ -35,6 +53,32 @@ export default function ResultPage() {
     loadData()
   }, [])
 
+  if (releaseBlocked) return <GradeReleaseBlocked grade={6} />
+
+  if (storageRecoveryNeeded) {
+    return (
+      <main className="mx-auto max-w-2xl py-10" data-testid="grade6-result-recovery">
+        <section className="rounded-3xl border-2 border-amber-300 bg-amber-50 p-6 text-center md:p-8">
+          <h1 className="text-2xl font-black text-slate-900">6학년 결과 저장을 복구해야 해요</h1>
+          <p className="mt-3 font-bold leading-7 text-slate-700">손상된 원문을 자동으로 덮어쓰지 않았어요. 결과 저장만 초기화한 뒤 새 연습을 시작할 수 있어요.</p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <Button
+              type="button"
+              onClick={() => {
+                resetGrade6ResultStorage()
+                router.push('/grade/6')
+              }}
+              data-testid="reset-grade6-result"
+            >
+              6학년 결과 저장 초기화
+            </Button>
+            <Link href="/home"><Button variant="outline" className="w-full">학습 홈으로</Button></Link>
+          </div>
+        </section>
+      </main>
+    )
+  }
+
   const handleRetryWrong = () => {
     if (!result) return
 
@@ -42,14 +86,18 @@ export default function ResultPage() {
     if (!retrySession) return
 
     saveSession(retrySession)
+    const grade = resolvePracticeGrade(result.grade)
+    const count = resolvePracticeItemCount(result.itemCount, grade)
     router.push(
-      `/practice/${result.conceptId}?set=${result.setId}&mode=retry-wrong&source=${result.sessionId}`
+      `/practice/${result.conceptId}?set=${result.setId}&count=${count}&mode=retry-wrong&source=${result.sessionId}`
     )
   }
 
   const handlePracticeMore = () => {
     if (!result) return
-    router.push(`/practice/${result.conceptId}?set=${result.setId}`)
+    const grade = resolvePracticeGrade(result.grade)
+    const count = resolvePracticeItemCount(result.itemCount, grade)
+    router.push(`/practice/${result.conceptId}?set=${result.setId}&count=${count}`)
   }
 
   const handleConcept = () => {
@@ -81,8 +129,9 @@ export default function ResultPage() {
   const wrongResults = result.results.filter((entry) => !entry.correct)
   const correctResults = result.results.filter((entry) => entry.correct)
   const modeLabel = result.mode === 'retry-wrong' ? '오답 다시 풀기 결과' : `세트 ${result.setId} 결과`
+  const practiceItemCount = resolvePracticeItemCount(result.itemCount, resolvePracticeGrade(result.grade))
   const nextActionLabel = isPerfect
-    ? '비슷한 문제 10개 더'
+    ? `비슷한 문제 ${practiceItemCount}개 더`
     : '틀린 문제부터 바로 다시'
   const headline = isPerfect
     ? result.mode === 'retry-wrong'
@@ -187,7 +236,7 @@ export default function ResultPage() {
             className="w-full"
             data-testid="practice-more-button"
           >
-            비슷한 문제 10개 더
+            비슷한 문제 {practiceItemCount}개 더
           </Button>
           <Button
             variant="outline"

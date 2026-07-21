@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { Grade2MissionCard } from '@/components/grade2'
 import { AdventureProgressPanel } from '@/components/adventure'
+import { ScratchPad } from '@/components'
 import {
   checkGrade2Answer,
   type Grade2StructuredLengthInput,
@@ -31,6 +32,12 @@ import {
   getDailyAdventureSeed,
   getMasteryStars,
 } from '@/lib/adventure-progression'
+import { appendMissionAttemptReceipt } from '@/lib/mission-attempt-receipt'
+import {
+  advanceMissionSketchRun,
+  createMissionSketchKey,
+  resolveMissionSketchStatus,
+} from '@/lib/mission-sketch-identity'
 
 function unitMissions(missions: Grade2Mission[], unitId: string): Grade2Mission[] {
   return missions
@@ -223,6 +230,12 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
     selectedMission.choices,
     selectedMission.visualConfig,
   ]))
+  const scratchKey = createMissionSketchKey({
+    grade: 2,
+    sessionRunKey: missionSeed,
+    missionId: selectedMission.id,
+    variantKey: currentVariantKey,
+  })
   const rewardCounts = Object.fromEntries(grade2RewardOrder.map((rewardId) => [
     rewardId,
     missions.filter((mission) => (
@@ -236,8 +249,12 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
       result.progress.selectedUnitId === initialUnit.id
         ? result.progress
         : selectGrade2Unit(result.progress, initialUnit.id)
-    const restoredMission = firstMissionForUnit(missions, initialUnit.id, progressForUnit)
+    const recommendedMission = firstMissionForUnit(missions, initialUnit.id, progressForUnit)
+    const restoredMission = progressForUnit.missionSketchRunOrdinal > 0
+      ? unitMissions(missions, initialUnit.id).find((mission) => mission.id === progressForUnit.latestMissionId) ?? recommendedMission
+      : recommendedMission
     setProgress(progressForUnit)
+    setReplayRound(progressForUnit.missionSketchRunOrdinal)
     setStorageAvailable(
       progressForUnit === result.progress ? result.storageAvailable : saveGrade2Progress(progressForUnit)
     )
@@ -294,7 +311,9 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
   }
 
   const resetMission = () => {
-    setReplayRound((current) => current + 1)
+    const nextProgress = advanceMissionSketchRun(progress)
+    persistProgress(nextProgress)
+    setReplayRound(nextProgress.missionSketchRunOrdinal)
     resetMissionState()
     document.getElementById('grade2-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
@@ -304,9 +323,12 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
       setConfirmReset(true)
       return
     }
-    const nextProgress = resetGrade2Progress()
-    setProgress(nextProgress)
-    setStorageAvailable(true)
+    const nextProgress = {
+      ...resetGrade2Progress(),
+      missionSketchRunOrdinal: progress.missionSketchRunOrdinal + 1,
+    }
+    persistProgress(nextProgress)
+    setReplayRound(nextProgress.missionSketchRunOrdinal)
     setStorageRecovered(false)
     setSelectedUnitId(initialUnit.id)
     setSelectedMissionId(unitMissions(missions, initialUnit.id)[0]?.id ?? 'g2-1-place-value-01')
@@ -329,6 +351,21 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
     }
 
     setInputError(null)
+    void appendMissionAttemptReceipt({
+      grade: 2,
+      mission: selectedMission,
+      sessionRunKey: missionSeed,
+      attemptIndex: wrongAttemptCount,
+      variantKey: currentVariantKey,
+      correct: result.correct,
+      usedHint: showHint || wrongAttemptCount > 0,
+    }).then((appendResult) => {
+      if (appendResult === 'corrupt') {
+        console.error('Attempt receipt ledger is corrupt; Grade 2 progress remains authoritative')
+      }
+    }).catch((error: unknown) => {
+      console.error('Failed to append Grade 2 attempt receipt; legacy progress remains authoritative', error)
+    })
     setSelectedAnswer(displayAnswer)
     setLastSubmissionCorrect(result.correct)
 
@@ -353,7 +390,7 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
   }
 
   return (
-    <main className="grade2-game-surface -mx-4 -my-6 min-h-screen bg-[#f1f7fb] px-4 py-5 md:px-6">
+    <main className="practice-interaction-surface grade2-game-surface -mx-4 -my-6 min-h-screen bg-[#f1f7fb] px-4 py-5 md:px-6">
       <div className="mx-auto max-w-6xl space-y-6">
         <header className="rounded-[2rem] border-2 border-[#d8e3ef] bg-white p-5 md:p-6">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
@@ -459,6 +496,11 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
             )
           }
           onShowHint={() => setShowHint(true)}
+        />
+
+        <ScratchPad
+          {...scratchKey}
+          sessionStatus={resolveMissionSketchStatus({ completed: solved })}
         />
 
         {solved && (

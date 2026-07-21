@@ -1,15 +1,19 @@
 import { grade2Units } from './grade2-problems'
 import { grade3Units } from './grade3-problems'
+import { grade4Units } from './grade4-problems'
+import type { LearningActivitySession, LearningProgressProjection } from './learning-activity'
+import { createLocalProgressRepository } from './local-progress-repository'
 
 export const GUEST_HOME_PREFERENCES_KEY = 'mathAssist_guestHome_v1'
 
 const GRADE1_PROGRESS_KEY = 'mathAssist_grade1Progress'
 const GRADE2_PROGRESS_KEY = 'mathAssist_grade2Progress'
 const GRADE3_PROGRESS_KEY = 'mathAssist_grade3Progress'
-const GRADE5_PROGRESS_KEY = 'mathAssist_progress_v1'
+const GRADE4_PROGRESS_KEY = 'mathAssist_grade4Progress'
 const GRADE5_SESSION_KEY = 'mathAssist_currentSession'
+const GRADE6_SESSION_KEY = 'mathAssist_grade6CurrentSession'
 
-export const SUPPORTED_GRADES = [1, 2, 3, 5] as const
+export const SUPPORTED_GRADES = [1, 2, 3, 4, 5, 6] as const
 export type SupportedGrade = (typeof SUPPORTED_GRADES)[number]
 
 export interface GuestHomeStorage {
@@ -61,12 +65,6 @@ function parseRecord(storage: GuestHomeStorage | null, key: string): JsonRecord 
   }
 }
 
-function stringList(value: unknown): string[] {
-  return Array.isArray(value)
-    ? value.filter((item): item is string => typeof item === 'string')
-    : []
-}
-
 function stringValue(value: unknown): string | null {
   return typeof value === 'string' && value.length > 0 ? value : null
 }
@@ -79,17 +77,20 @@ function supportedGrade(value: unknown): SupportedGrade | null {
   return SUPPORTED_GRADES.find((grade) => grade === value) ?? null
 }
 
-function grade1Summary(storage: GuestHomeStorage | null): GradeHomeSummary {
+function grade1Summary(
+  storage: GuestHomeStorage | null,
+  projection: LearningProgressProjection,
+): GradeHomeSummary {
   const progress = parseRecord(storage, GRADE1_PROGRESS_KEY)
-  const completed = stringList(progress?.completedStageIds)
-  const review = stringList(progress?.reviewStageIds)
+  const completed = [...projection.completed]
+  const review = [...projection.review]
   const latest = stringValue(progress?.latestStageId)
   const hasProgress = completed.length > 0 || review.length > 0 || latest !== null
 
   return {
     grade: 1,
     hasProgress,
-    lastPlayedAt: hasProgress ? numberValue(progress?.lastPlayedAt) : null,
+    lastPlayedAt: hasProgress ? projection.lastActivityAt : null,
     completedCount: completed.length,
     reviewCount: review.length,
     todaySolvedCount: hasProgress ? numberValue(progress?.todaySolvedCount) ?? 0 : null,
@@ -102,10 +103,13 @@ function grade1Summary(storage: GuestHomeStorage | null): GradeHomeSummary {
   }
 }
 
-function grade2Summary(storage: GuestHomeStorage | null): GradeHomeSummary {
+function grade2Summary(
+  storage: GuestHomeStorage | null,
+  projection: LearningProgressProjection,
+): GradeHomeSummary {
   const progress = parseRecord(storage, GRADE2_PROGRESS_KEY)
-  const completed = stringList(progress?.completedMissionIds)
-  const review = stringList(progress?.reviewMissionIds)
+  const completed = [...projection.completed]
+  const review = [...projection.review]
   const latest = stringValue(progress?.latestMissionId)
   const selectedUnitId = stringValue(progress?.selectedUnitId)
   const selectedUnit = grade2Units.find((unit) => unit.id === selectedUnitId)
@@ -117,7 +121,7 @@ function grade2Summary(storage: GuestHomeStorage | null): GradeHomeSummary {
   return {
     grade: 2,
     hasProgress,
-    lastPlayedAt: hasProgress ? numberValue(progress?.lastPlayedAt) : null,
+    lastPlayedAt: hasProgress ? projection.lastActivityAt : null,
     completedCount: completed.length,
     reviewCount: review.length,
     todaySolvedCount: hasProgress ? numberValue(progress?.todaySolvedCount) ?? 0 : null,
@@ -134,10 +138,13 @@ function grade2Summary(storage: GuestHomeStorage | null): GradeHomeSummary {
   }
 }
 
-function grade3Summary(storage: GuestHomeStorage | null): GradeHomeSummary {
+function grade3Summary(
+  storage: GuestHomeStorage | null,
+  projection: LearningProgressProjection,
+): GradeHomeSummary {
   const progress = parseRecord(storage, GRADE3_PROGRESS_KEY)
-  const completed = stringList(progress?.completedMissionIds)
-  const review = stringList(progress?.reviewMissionIds)
+  const completed = [...projection.completed]
+  const review = [...projection.review]
   const latest = stringValue(progress?.latestMissionId)
   const selectedUnitId = stringValue(progress?.selectedUnitId)
   const selectedUnit = grade3Units.find((unit) => unit.id === selectedUnitId)
@@ -149,7 +156,7 @@ function grade3Summary(storage: GuestHomeStorage | null): GradeHomeSummary {
   return {
     grade: 3,
     hasProgress,
-    lastPlayedAt: hasProgress ? numberValue(progress?.lastPlayedAt) : null,
+    lastPlayedAt: hasProgress ? projection.lastActivityAt : null,
     completedCount: completed.length,
     reviewCount: review.length,
     todaySolvedCount: hasProgress ? numberValue(progress?.todaySolvedCount) ?? 0 : null,
@@ -166,43 +173,31 @@ function grade3Summary(storage: GuestHomeStorage | null): GradeHomeSummary {
   }
 }
 
-function grade5Summary(storage: GuestHomeStorage | null, now: number): GradeHomeSummary {
-  const progress = parseRecord(storage, GRADE5_PROGRESS_KEY) ?? {}
-  const progressEntries = Object.values(progress).filter(
-    (value): value is JsonRecord => Boolean(value) && typeof value === 'object' && !Array.isArray(value)
-  )
-  const reviewCount = progressEntries.filter((entry) => entry.needsReview === true).length
-  const latestProgress = progressEntries
-    .slice()
-    .sort((a, b) => (numberValue(b.lastCompletedAt) ?? 0) - (numberValue(a.lastCompletedAt) ?? 0))[0]
-  const session = parseRecord(storage, GRADE5_SESSION_KEY)
-  const sessionExpiresAt = numberValue(session?.expiresAt)
-  const sessionConceptId = stringValue(session?.conceptId)
-  const sessionSetId = stringValue(session?.setId)
-  const hasActiveSession = Boolean(
-    session && sessionConceptId && sessionExpiresAt && sessionExpiresAt > now
-  )
-  const latestConceptId = stringValue(latestProgress?.conceptId)
-  const conceptId = hasActiveSession ? sessionConceptId : latestConceptId
+function grade5Summary(
+  storage: GuestHomeStorage | null,
+  projection: LearningProgressProjection,
+  session: LearningActivitySession | null,
+): GradeHomeSummary {
+  const rawSession = parseRecord(storage, GRADE5_SESSION_KEY)
+  const sessionSetId = stringValue(rawSession?.setId)
+  const hasActiveSession = session?.status === 'active'
+  const conceptId = session?.activityId ?? projection.resume?.activityId ?? null
   const setId = sessionSetId === 'B' || sessionSetId === 'C' ? sessionSetId : 'A'
-  const hasProgress = progressEntries.length > 0 || hasActiveSession
-  const lastPlayedAt = Math.max(
-    numberValue(latestProgress?.lastCompletedAt) ?? 0,
-    hasActiveSession ? numberValue(session?.startedAt) ?? 0 : 0
-  ) || null
+  const hasProgress = projection.completed.length > 0 || hasActiveSession
+  const reviewCount = projection.review.length
 
   return {
     grade: 5,
     hasProgress,
-    lastPlayedAt,
-    completedCount: progressEntries.length,
+    lastPlayedAt: projection.lastActivityAt,
+    completedCount: projection.completed.length,
     reviewCount,
     todaySolvedCount: null,
     continueTitle: hasActiveSession ? '풀던 10문제를 이어가요' : hasProgress ? '최근 개념을 다시 확인해요' : '5학년 단원을 골라요',
     continueDescription: hasActiveSession
       ? '답은 이 기기에 저장되어 있어요. 멈춘 문제부터 계속 풀 수 있어요.'
       : hasProgress
-        ? `연습한 개념 ${progressEntries.length}개 · 복습할 개념 ${reviewCount}개`
+        ? `연습한 개념 ${projection.completed.length}개 · 복습할 개념 ${reviewCount}개`
         : '개념을 짧게 읽고 10문제 연습으로 바로 확인해요.',
     continueHref: hasActiveSession && conceptId
       ? `/practice/${encodeURIComponent(conceptId)}?set=${setId}`
@@ -213,15 +208,95 @@ function grade5Summary(storage: GuestHomeStorage | null, now: number): GradeHome
   }
 }
 
+function grade6Summary(
+  storage: GuestHomeStorage | null,
+  projection: LearningProgressProjection,
+  session: LearningActivitySession | null,
+): GradeHomeSummary {
+  const rawSession = parseRecord(storage, GRADE6_SESSION_KEY)
+  const rawSetId = stringValue(rawSession?.setId)
+  const setId = rawSetId === 'B' || rawSetId === 'C' ? rawSetId : 'A'
+  const rawCount = numberValue(rawSession?.itemCount)
+  const itemCount = rawCount === 10 ? 10 : 5
+  const hasActiveSession = session?.status === 'active'
+  const conceptId = session?.activityId ?? projection.resume?.activityId ?? null
+  const hasProgress = projection.completed.length > 0 || hasActiveSession
+  const reviewCount = projection.review.length
+
+  return {
+    grade: 6,
+    hasProgress,
+    lastPlayedAt: projection.lastActivityAt,
+    completedCount: projection.completed.length,
+    reviewCount,
+    todaySolvedCount: null,
+    continueTitle: hasActiveSession
+      ? `풀던 ${itemCount}문제를 이어가요`
+      : hasProgress
+        ? '최근 비와 비율을 다시 확인해요'
+        : '6학년 Study를 시작해요',
+    continueDescription: hasActiveSession
+      ? '답과 풀이장은 이 기기에 저장되어 있어요. 멈춘 문제부터 계속 풀 수 있어요.'
+      : hasProgress
+        ? `연습한 개념 ${projection.completed.length}개 · 복습할 개념 ${reviewCount}개`
+        : '비와 비율 개념을 확인하고 5문제부터 가볍게 시작해요.',
+    continueHref: hasActiveSession && conceptId
+      ? `/practice/${encodeURIComponent(conceptId)}?set=${setId}&count=${itemCount}`
+      : conceptId
+        ? `/concept/${encodeURIComponent(conceptId)}`
+        : '/grade/6',
+    continueLabel: hasActiveSession ? '문제 이어서 풀기' : hasProgress ? '최근 개념 보기' : 'Study 시작',
+  }
+}
+
+function grade4Summary(
+  storage: GuestHomeStorage | null,
+  projection: LearningProgressProjection,
+): GradeHomeSummary {
+  const progress = parseRecord(storage, GRADE4_PROGRESS_KEY)
+  const completed = [...projection.completed]
+  const review = [...projection.review]
+  const latest = stringValue(progress?.latestMissionId)
+  const selectedUnitId = stringValue(progress?.selectedUnitId)
+  const selectedUnit = grade4Units.find((unit) => unit.id === selectedUnitId)
+  const hasProgress = completed.length > 0 || review.length > 0 || latest !== null
+  const continueHref = selectedUnit
+    ? `/grade/4/mission?unitId=${encodeURIComponent(selectedUnit.id)}`
+    : '/grade/4'
+
+  return {
+    grade: 4,
+    hasProgress,
+    lastPlayedAt: hasProgress ? projection.lastActivityAt : null,
+    completedCount: completed.length,
+    reviewCount: review.length,
+    todaySolvedCount: hasProgress ? numberValue(progress?.todaySolvedCount) ?? 0 : null,
+    continueTitle: selectedUnit
+      ? hasProgress ? `${selectedUnit.title} 활동 이어하기` : `${selectedUnit.title} 첫 활동`
+      : '4학년 Bridge 단원을 골라요',
+    continueDescription: review.length > 0
+      ? `다시 볼 문제 ${review.length}개를 자리표와 수직선으로 확인해요.`
+      : hasProgress
+        ? `해결한 문제 ${completed.length}개 · 알기·적용·추론을 한 문제씩 이어가요.`
+        : '큰 수를 자리표와 수직선으로 확인하고 3문제 활동을 시작해요.',
+    continueHref,
+    continueLabel: hasProgress ? '활동 이어서 하기' : selectedUnit ? '첫 활동 시작' : '단원 고르기',
+  }
+}
+
 export function loadGuestHomeState(
   storage: GuestHomeStorage | null = browserStorage(),
   now = Date.now()
 ): GuestHomeState {
+  const repository = createLocalProgressRepository(storage)
+  const projections = repository.readAllProgress(now)
   const summaries = {
-    1: grade1Summary(storage),
-    2: grade2Summary(storage),
-    3: grade3Summary(storage),
-    5: grade5Summary(storage, now),
+    1: grade1Summary(storage, projections[1]),
+    2: grade2Summary(storage, projections[2]),
+    3: grade3Summary(storage, projections[3]),
+    4: grade4Summary(storage, projections[4]),
+    5: grade5Summary(storage, projections[5], repository.readSession(5, now)),
+    6: grade6Summary(storage, projections[6], repository.readSession(6, now)),
   } satisfies Record<SupportedGrade, GradeHomeSummary>
   const preferences = parseRecord(storage, GUEST_HOME_PREFERENCES_KEY)
   const preferredGrade = supportedGrade(preferences?.activeGrade)
