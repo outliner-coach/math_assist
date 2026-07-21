@@ -178,7 +178,7 @@ Gate 6C: 6학년 모든 출시 concept의 공식 추적성·세트 분포·K/A/R
 
 Gate 6D: 1~6 핵심 흐름·접근성·모바일·태블릿 blocker 0.
 
-2026-07-21 작업트리는 Gate 6C와 로컬 Gate 6D를 통과해 4·6학년 원장을 `released`로 유지한다. Grade 6 전용 Chromium E2E는 홈 진입, 5/10문제, 실제 표, 정답 선노출 방지, 손상 복구, Grade 5 격리와 390×844·1024×768의 48px 동작을 확인한다. 다만 `main` 반영·GitHub Pages 성공·새 브라우저 hydration이 없으므로 실제 배포 완료는 아니다.
+2026-07-21 Gate 6C와 6D를 통과해 4·6학년 원장을 `released`로 유지한다. Grade 6 전용 Chromium E2E는 홈 진입, 5/10문제, 실제 표, 정답 선노출 방지, 손상 복구, Grade 5 격리와 390×844·1024×768의 48px 동작을 확인한다. 커밋 `14a0904`의 Pages 실행 `29792892987`과 새 브라우저에서 `/math_assist` basePath, 랜딩·홈·4·6학년 hydration과 콘솔 오류 0까지 확인했다.
 
 ## 완료 조건
 

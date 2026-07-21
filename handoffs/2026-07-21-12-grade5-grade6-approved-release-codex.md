@@ -7,7 +7,7 @@
 - 사용자가 보고된 5학년 9개 문항의 의미 수정과 6학년 권고 공개 방향을 모두 승인했다.
 - 5학년 청사진은 660/660, 전체 template metadata는 690/690이다.
 - 6학년 `unit-6-1-ratio`와 `g6ratio-001`은 작업트리 curriculum ledger에서 `released`이며 홈·이어하기·단원·개념·5/10문제·결과·재도전에 연결됐다.
-- 이는 작업트리 공개 상태다. 커밋·푸시·GitHub Pages 배포는 요청받지 않았고 실행하지 않았다.
+- 커밋 `0a88f80`으로 구현을 반영하고 공개 문구 수정 `14a0904`까지 `main`에 푸시했다. Pages 실행 `29792892987`과 새 브라우저로 실제 배포를 확인했다.
 - 선택적 원격 기록은 별도 정책·보안·provider 조건이 남아 `REMOTE_PROGRESS_ENABLED = false`다.
 
 ## 5학년 원인과 수정
@@ -63,6 +63,5 @@
 
 ## 다음 작업
 
-1. 배포 요청이 있으면 의도한 파일만 스테이징·커밋·푸시하고 GitHub Actions 성공과 실제 `/math_assist` hydration을 확인한다.
-2. 원격 기록은 guardian 확인·적법 근거·삭제/보존·연결 해제·세션 만료 정책, production provider와 distributed security, 의존성 감사를 해소한 뒤 비공개 staging부터 시작한다.
-3. `[6수02-04]` 비례식과 다른 planned 기준은 새 단원·개념·문제군으로 별도 검토한다.
+1. 원격 기록은 guardian 확인·적법 근거·삭제/보존·연결 해제·세션 만료 정책, production provider와 distributed security, 의존성 감사를 해소한 뒤 비공개 staging부터 시작한다.
+2. `[6수02-04]` 비례식과 다른 planned 기준은 새 단원·개념·문제군으로 별도 검토한다.

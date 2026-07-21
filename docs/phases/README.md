@@ -2,7 +2,7 @@
 
 기준일: 2026-07-21
 
-이 디렉터리는 `docs/math-assist-production-proposal.html`의 제품 방향을 현재 코드에서 실행 가능한 계약으로 나눈다. 상세 문서는 설계 당시의 승인 기준과 유지보수 계약을 보존하고, 이 README와 `docs/tracking/status.md`가 2026-07-21 구현 상태를 요약한다. 작업트리의 `released`를 실제 GitHub Pages 배포 완료로 해석하면 안 된다.
+이 디렉터리는 `docs/math-assist-production-proposal.html`의 제품 방향을 현재 코드에서 실행 가능한 계약으로 나눈다. 상세 문서는 설계 당시의 승인 기준과 유지보수 계약을 보존하고, 이 README와 `docs/tracking/status.md`가 2026-07-21 구현·배포 상태를 요약한다.
 
 ## 문서 목록
 
@@ -11,7 +11,7 @@
 | 3 | 완료 | 공통 읽기 투영, 시도 영수증, 기존 키 어댑터가 현재 공개 대상 1~6학년에 연결됨 | [03-common-activity-and-progress.md](03-common-activity-and-progress.md) |
 | 4 | 완료 | 1~6학년 문제별 풀이 복구, clear, undo/redo, 세 학년군 경험 프리셋 연결 | [04-scratchpad-and-experience-presets.md](04-scratchpad-and-experience-presets.md) |
 | 5 | 비공개 기반 | 원격 merge·backup·mock transport·auth·동의 기반만 존재하며 flag는 `false` | [05-optional-remote-storage.md](05-optional-remote-storage.md) |
-| 6 | 작업트리 released | 4학년 큰 수 Bridge와 6학년 비와 비율 Study가 홈·이어하기에 연결됨 | [06-grade4-grade6.md](06-grade4-grade6.md) |
+| 6 | 배포 완료 | 4학년 큰 수 Bridge와 6학년 비와 비율 Study가 홈·이어하기에 연결되고 GitHub Pages에서 확인됨 | [06-grade4-grade6.md](06-grade4-grade6.md) |
 | 공통 | 통합 검증 완료 | 384/384 unit, validator·audit, 75-page build, 34/34 E2E 통과. 실제 배포와 원격 정책 blocker는 별도 유지 | [acceptance-gates.md](acceptance-gates.md) |
 
 ## 근거 우선순위
@@ -28,7 +28,7 @@
 
 ## 현재 기준선
 
-- **실제 배포 경계**: GitHub Pages 정적 사이트이고 공개 서버 API·계정·원격 저장이 없다. 이번 작업트리 변경은 아직 실제 배포 확인을 마치지 않았다.
+- **실제 배포 경계**: GitHub Pages 정적 사이트이고 공개 서버 API·계정·원격 저장이 없다. 커밋 `14a0904`, Pages 실행 `29792892987`과 새 브라우저 hydration으로 이번 변경의 실제 배포를 확인했다.
 - **작업트리 공개 대상**: 1·2·3·4·5·6학년이다. 4학년은 큰 수 Bridge, 6학년은 비와 비율 Study만 `released`이고 나머지 배정 기준은 `planned`다.
 - **공통 저장 경계**: 학년별 기존 형식을 read-only projection으로 모으고 새 유효 확인만 append-only `AttemptReceipt`에 추가한다. 기존 학년별 진도는 계속 권위 있는 원장이다.
 - **풀이장**: normalized vector command, 문제별 local repository, 펜·지우개·clear·undo·redo와 `play / bridge / study` 프리셋이 1·2·3·4·5·6학년에 연결되어 있다.
