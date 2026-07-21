@@ -33,6 +33,8 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('홈에서 6학년을 선택해 단원·개념·기본 5문제까지 진입한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/`)
+  await expect(page.getByText(/1·2·3·4·5·6학년 수학/)).toBeVisible()
   await page.goto(`${BASE_PATH}/home`)
   await page.getByTestId('choose-grade-6').click()
   await expect(page.getByTestId('home-primary-action')).toHaveAttribute('href', /\/grade\/6\/?$/)

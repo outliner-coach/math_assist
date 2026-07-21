@@ -47,7 +47,7 @@ export default function Grade4UnitSelectionClient() {
           <Link href="/home" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[#c7d2fe] px-4 text-sm font-black text-[#4338ca]">홈으로</Link>
           <div className="mt-5 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-sm font-black uppercase tracking-[0.18em] text-[#6366f1]">Bridge · Release candidate</p>
+              <p className="text-sm font-black uppercase tracking-[0.18em] text-[#6366f1]">Bridge · Released</p>
               <h1 className="mt-2 text-4xl font-black text-[#0f172a] md:text-5xl">4학년 큰 수 다리</h1>
               <p className="mt-3 max-w-2xl text-lg font-bold leading-relaxed text-[#64748b]">큰 수를 자리표와 수직선으로 확인하고, 알기·적용·추론 문제를 한 개씩 풀어요.</p>
             </div>
@@ -61,7 +61,7 @@ export default function Grade4UnitSelectionClient() {
 
         <section className="rounded-[2rem] border-2 border-[#c7d2fe] bg-white p-5 md:p-6">
           <div className="flex flex-wrap items-end justify-between gap-3">
-            <div><p className="text-sm font-black text-[#6366f1]">현재 공개 준비 범위</p><h2 className="mt-1 text-2xl font-black text-[#0f172a]">검증된 단원 1개</h2></div>
+            <div><p className="text-sm font-black text-[#6366f1]">현재 공개 범위</p><h2 className="mt-1 text-2xl font-black text-[#0f172a]">검증된 단원 1개</h2></div>
             <p className="text-sm font-black text-[#64748b]">오늘 {progress.todaySolvedCount}개 해결 · 복습 {progress.reviewVariantKeys.length}개</p>
           </div>
           <div className="mt-5 grid gap-4">

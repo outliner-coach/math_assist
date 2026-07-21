@@ -18,6 +18,9 @@ test('홈에서 4학년을 골라 세 번의 탭 안에 3문제 Bridge 활동에
   await expect(page.getByTestId('home-primary-action')).toHaveAttribute('href', /\/math_assist\/grade\/4\/?$/)
   await page.getByTestId('home-primary-action').click(); taps += 1
   await expect(page).toHaveURL(/\/math_assist\/grade\/4\/?$/)
+  await expect(page.getByText('Bridge · Released')).toBeVisible()
+  await expect(page.getByText('현재 공개 범위')).toBeVisible()
+  await expect(page.getByText(/Release candidate|공개 준비 범위/)).toHaveCount(0)
   await page.getByTestId('grade4-unit-card-unit-4-1-large-numbers').click(); taps += 1
 
   await expect(page).toHaveURL(/\/math_assist\/grade\/4\/mission\/?\?unitId=unit-4-1-large-numbers/)
