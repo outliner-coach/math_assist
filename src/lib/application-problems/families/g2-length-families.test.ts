@@ -1,3 +1,7 @@
+import { createHash } from 'node:crypto'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+
 import { describe, expect, it } from 'vitest'
 
 import g2LengthPack from '../../../../public/data/application-problems/packs/g2-2-length.json'
@@ -64,6 +68,11 @@ const familyCases = [
 
 function withoutProvenance(params: Record<string, unknown>): Record<string, unknown> {
   return Object.fromEntries(Object.entries(params).filter(([key]) => key !== '__generation'))
+}
+
+function sourceDigest(sourceModule: string): string {
+  const bytes = readFileSync(resolve(process.cwd(), sourceModule))
+  return `sha256:${createHash('sha256').update(bytes).digest('hex')}`
 }
 
 describe('Grade 2 length application families', () => {
@@ -324,6 +333,20 @@ describe('Grade 2 length application families', () => {
       expect(report.checkedCount).toBe(
         proof.domain.cases.length * proof.domain.variantIndexes.length,
       )
+    })
+  })
+
+  it('pins every authority, dependency, and implementation digest to actual source bytes', () => {
+    G2_LENGTH_PROOF_AUTHORITY_ENTRIES.forEach((authority) => {
+      expect(authority.manifest.sourceDigest).toBe(
+        sourceDigest(authority.manifest.sourceModule),
+      )
+    })
+    G2_LENGTH_PROOF_DEPENDENCIES.forEach((dependency) => {
+      expect(dependency.digest).toBe(sourceDigest(dependency.sourceModule))
+    })
+    G2_LENGTH_PROOF_IMPLEMENTATIONS.forEach((implementation) => {
+      expect(implementation.sourceDigest).toBe(sourceDigest(implementation.sourceModule))
     })
   })
 })
