@@ -1,3 +1,4 @@
+import type { GeneratedApplicationProblemV1 } from '../contracts'
 import type {
   ApplicationVisualDiagramSceneV1,
   ApplicationVisualPoint,
@@ -9,6 +10,21 @@ import {
   measureOverlapPolygons,
   pointInPolygon,
 } from './g5-area-overlap-reconstruction-oracle'
+import {
+  buildG5AreaCompositeInverseScene,
+  generateG5AreaCompositeInverseProblem,
+  type G5AreaCompositeInverseParams,
+} from './g5-area-composite-inverse'
+import {
+  buildG5AreaOverlapReconstructionScene,
+  generateG5AreaOverlapReconstructionProblem,
+  type G5AreaOverlapReconstructionParams,
+} from './g5-area-overlap-reconstruction'
+import {
+  buildG5PerimeterBoundaryRebuildScene,
+  generateG5PerimeterBoundaryRebuildProblem,
+  type G5PerimeterBoundaryRebuildParams,
+} from './g5-perimeter-boundary-rebuild'
 
 const EPSILON = 1e-9
 const SUPPORTED_FAMILIES = new Set([
@@ -16,6 +32,41 @@ const SUPPORTED_FAMILIES = new Set([
   'g5-area-composite-inverse',
   'g5-area-overlap-reconstruction',
 ])
+const DECLARED_PARAM_KEYS: Readonly<Record<string, readonly string[]>> = {
+  'g5-perimeter-boundary-rebuild': [
+    '__generation',
+    'width',
+    'height',
+    'notchWidth',
+    'notchHeight',
+    'rotation',
+  ],
+  'g5-area-composite-inverse': [
+    '__generation',
+    'rectangleWidth',
+    'rectangleHeight',
+    'squareSide',
+    'attachmentPosition',
+    'totalArea',
+  ],
+  'g5-area-overlap-reconstruction': [
+    '__generation',
+    'aOnly',
+    'ab',
+    'ac',
+    'abc',
+    'zeroPair',
+    'shapeArea',
+    'unionArea',
+    'hubShape',
+    'upperShape',
+    'rightShape',
+    'knownPair',
+    'targetPair',
+    'knownOverlap',
+    'targetOverlap',
+  ],
+}
 
 function issue(
   issues: ApplicationVisualValidationIssue[],
@@ -28,6 +79,308 @@ function issue(
 
 function close(actual: number, expected: number): boolean {
   return Math.abs(actual - expected) <= Math.max(EPSILON, Math.abs(expected) * 1e-9)
+}
+
+function numericParam(
+  params: Readonly<Record<string, unknown>>,
+  key: string,
+): number {
+  const value = params[key]
+  if (typeof value !== 'number' || !Number.isFinite(value)) {
+    throw new TypeError(`${key} must be finite numeric data`)
+  }
+  return value
+}
+
+function textParam<T extends string>(
+  params: Readonly<Record<string, unknown>>,
+  key: string,
+): T {
+  const value = params[key]
+  if (typeof value !== 'string') throw new TypeError(`${key} must be text data`)
+  return value as T
+}
+
+function expectedSceneForProblem(
+  problem: Readonly<GeneratedApplicationProblemV1>,
+): ApplicationVisualDiagramSceneV1 {
+  const params = problem.params
+  if (problem.familyId === 'g5-perimeter-boundary-rebuild') {
+    return buildG5PerimeterBoundaryRebuildScene({
+      width: numericParam(params, 'width'),
+      height: numericParam(params, 'height'),
+      notchWidth: numericParam(params, 'notchWidth'),
+      notchHeight: numericParam(params, 'notchHeight'),
+      rotation: numericParam(params, 'rotation') as G5PerimeterBoundaryRebuildParams['rotation'],
+    })
+  }
+  if (problem.familyId === 'g5-area-composite-inverse') {
+    return buildG5AreaCompositeInverseScene({
+      rectangleWidth: numericParam(params, 'rectangleWidth'),
+      rectangleHeight: numericParam(params, 'rectangleHeight'),
+      squareSide: numericParam(params, 'squareSide'),
+      attachmentPosition: numericParam(params, 'attachmentPosition') as G5AreaCompositeInverseParams['attachmentPosition'],
+      totalArea: numericParam(params, 'totalArea'),
+    })
+  }
+  if (problem.familyId === 'g5-area-overlap-reconstruction') {
+    return buildG5AreaOverlapReconstructionScene({
+      aOnly: numericParam(params, 'aOnly'),
+      ab: numericParam(params, 'ab'),
+      ac: numericParam(params, 'ac'),
+      abc: numericParam(params, 'abc'),
+      zeroPair: textParam<G5AreaOverlapReconstructionParams['zeroPair']>(params, 'zeroPair'),
+      shapeArea: numericParam(params, 'shapeArea'),
+      unionArea: numericParam(params, 'unionArea'),
+      hubShape: textParam<G5AreaOverlapReconstructionParams['hubShape']>(params, 'hubShape'),
+      upperShape: textParam<G5AreaOverlapReconstructionParams['upperShape']>(params, 'upperShape'),
+      rightShape: textParam<G5AreaOverlapReconstructionParams['rightShape']>(params, 'rightShape'),
+      knownPair: textParam<G5AreaOverlapReconstructionParams['knownPair']>(params, 'knownPair'),
+      targetPair: textParam<G5AreaOverlapReconstructionParams['targetPair']>(params, 'targetPair'),
+      knownOverlap: numericParam(params, 'knownOverlap'),
+      targetOverlap: numericParam(params, 'targetOverlap'),
+    })
+  }
+  throw new TypeError('unsupported Grade 5 geometry family')
+}
+
+function replayCanonicalProblem(
+  problem: Readonly<GeneratedApplicationProblemV1>,
+): GeneratedApplicationProblemV1 {
+  const input = { seed: problem.seed, variantIndex: problem.variantIndex }
+  if (problem.familyId === 'g5-perimeter-boundary-rebuild') {
+    return generateG5PerimeterBoundaryRebuildProblem(input)
+  }
+  if (problem.familyId === 'g5-area-composite-inverse') {
+    return generateG5AreaCompositeInverseProblem(input)
+  }
+  if (problem.familyId === 'g5-area-overlap-reconstruction') {
+    return generateG5AreaOverlapReconstructionProblem(input)
+  }
+  throw new TypeError('unsupported Grade 5 geometry family')
+}
+
+function canonical(value: unknown): unknown {
+  if (value === null || typeof value !== 'object') return value
+  if (Array.isArray(value)) return value.map(canonical)
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>)
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([key, entry]) => [key, canonical(entry)]),
+  )
+}
+
+function stableJson(value: unknown): string {
+  return JSON.stringify(canonical(value))
+}
+
+function rejectUndeclaredKeys(
+  actual: readonly { key: string }[],
+  expected: readonly { key: string }[],
+  collection: 'primitive' | 'label',
+  issues: ApplicationVisualValidationIssue[],
+): void {
+  const expectedKeys = new Set(expected.map((entry) => entry.key))
+  const actualKeys = new Set(actual.map((entry) => entry.key))
+  actual.forEach((entry, index) => {
+    if (!expectedKeys.has(entry.key)) {
+      issue(
+        issues,
+        `undeclared_${collection}`,
+        `scene.${collection}s[${index}]`,
+        `${entry.key} is not declared by this problem instance`,
+      )
+    }
+  })
+  expected.forEach((entry) => {
+    if (!actualKeys.has(entry.key)) {
+      issue(
+        issues,
+        `missing_declared_${collection}`,
+        `scene.${collection}s`,
+        `${entry.key} is required by this problem instance`,
+      )
+    }
+  })
+}
+
+function rejectUndeclaredConstraints(
+  scene: ApplicationVisualDiagramSceneV1,
+  expected: ApplicationVisualDiagramSceneV1,
+  issues: ApplicationVisualValidationIssue[],
+): void {
+  const remaining = new Map<string, number>()
+  expected.constraints.forEach((constraint) => {
+    const signature = stableJson(constraint)
+    remaining.set(signature, (remaining.get(signature) ?? 0) + 1)
+  })
+  scene.constraints.forEach((constraint, index) => {
+    const signature = stableJson(constraint)
+    const count = remaining.get(signature) ?? 0
+    if (count === 0) {
+      issue(
+        issues,
+        'undeclared_constraint',
+        `scene.constraints[${index}]`,
+        'constraint is not declared by this problem instance',
+      )
+      return
+    }
+    remaining.set(signature, count - 1)
+  })
+  if (Array.from(remaining.values()).some((count) => count > 0)) {
+    issue(
+      issues,
+      'missing_declared_constraint',
+      'scene.constraints',
+      'the problem instance is missing a declared constraint',
+    )
+  }
+}
+
+function validateDeclaredParams(
+  problem: Readonly<GeneratedApplicationProblemV1>,
+  issues: ApplicationVisualValidationIssue[],
+): void {
+  const expectedKeys = new Set(DECLARED_PARAM_KEYS[problem.familyId] ?? [])
+  const actualKeys = new Set(Object.keys(problem.params))
+  actualKeys.forEach((key) => {
+    if (!expectedKeys.has(key)) {
+      issue(
+        issues,
+        'undeclared_grade5_geometry_param',
+        `problem.params.${key}`,
+        `${key} is not declared by this Grade 5 problem family`,
+      )
+    }
+  })
+  expectedKeys.forEach((key) => {
+    if (!actualKeys.has(key)) {
+      issue(
+        issues,
+        'missing_grade5_geometry_param',
+        `problem.params.${key}`,
+        `${key} is required by this Grade 5 problem family`,
+      )
+    }
+  })
+}
+
+function naturalAnswer(value: number): string {
+  const rounded = Math.round(value)
+  if (!Number.isSafeInteger(rounded) || rounded <= 0 || !close(value, rounded)) {
+    throw new TypeError('the measured model answer must be a positive safe integer')
+  }
+  return String(rounded)
+}
+
+function measuredAnswer(
+  problem: Readonly<GeneratedApplicationProblemV1>,
+  scene: ApplicationVisualDiagramSceneV1,
+): string {
+  const primitives = primitiveMap(scene)
+  if (problem.familyId === 'g5-perimeter-boundary-rebuild') {
+    const polygon = pointsOf(primitives.get('remaining-board'))
+    if (!polygon) throw new TypeError('remaining-board polygon is required')
+    return naturalAnswer(length(polygon, true))
+  }
+  if (problem.familyId === 'g5-area-composite-inverse') {
+    const polygon = pointsOf(primitives.get('combined-shape'))
+    if (!polygon) throw new TypeError('combined-shape polygon is required')
+    return naturalAnswer(length(polygon, true))
+  }
+  const polygons = {
+    A: pointsOf(primitives.get('shape-a')),
+    B: pointsOf(primitives.get('shape-b')),
+    C: pointsOf(primitives.get('shape-c')),
+  }
+  if (!polygons.A || !polygons.B || !polygons.C) {
+    throw new TypeError('three overlap polygons are required')
+  }
+  const targetPair = textParam<'ab' | 'ac' | 'bc'>(problem.params, 'targetPair')
+  if (!['ab', 'ac', 'bc'].includes(targetPair)) {
+    throw new TypeError('targetPair is unsupported')
+  }
+  const measured = measureOverlapPolygons(
+    polygons as Record<'A' | 'B' | 'C', ApplicationVisualPoint[]>,
+  )
+  return naturalAnswer(measured.atomicAreas[targetPair])
+}
+
+function validateProblemBinding(
+  problem: Readonly<GeneratedApplicationProblemV1>,
+  scene: ApplicationVisualDiagramSceneV1,
+): ApplicationVisualValidationIssue[] {
+  const issues: ApplicationVisualValidationIssue[] = []
+  validateDeclaredParams(problem, issues)
+  let canonicalProblem: GeneratedApplicationProblemV1
+  let expected: ApplicationVisualDiagramSceneV1
+  try {
+    canonicalProblem = replayCanonicalProblem(problem)
+    expected = expectedSceneForProblem(canonicalProblem)
+  } catch {
+    issue(
+      issues,
+      'invalid_grade5_geometry_params',
+      'problem.params',
+      'problem parameters do not define a supported Grade 5 quantitative model',
+    )
+    return issues
+  }
+
+  if (stableJson(problem.params) !== stableJson(canonicalProblem.params)) {
+    issue(
+      issues,
+      'grade5_params_instance_mismatch',
+      'problem.params',
+      'problem parameters and generator provenance do not match family, seed, and variant',
+    )
+  }
+  if (
+    problem.instanceId !== canonicalProblem.instanceId ||
+    problem.generatorVersion !== canonicalProblem.generatorVersion ||
+    problem.packId !== canonicalProblem.packId ||
+    problem.packVersion !== canonicalProblem.packVersion
+  ) {
+    issue(
+      issues,
+      'grade5_problem_identity_mismatch',
+      'problem.instanceId',
+      'problem identity does not match its canonical Grade 5 generated instance',
+    )
+  }
+
+  rejectUndeclaredKeys(scene.primitives, expected.primitives, 'primitive', issues)
+  rejectUndeclaredKeys(scene.labels, expected.labels, 'label', issues)
+  rejectUndeclaredConstraints(scene, expected, issues)
+  if (stableJson(scene) !== stableJson(expected)) {
+    issue(
+      issues,
+      'grade5_scene_problem_mismatch',
+      'visual.mathModel',
+      'the quantitative scene does not exactly match this problem instance',
+    )
+  }
+
+  try {
+    const expectedAnswer = measuredAnswer(canonicalProblem, scene)
+    if (problem.answer.format !== 'choice' || problem.answer.normalized !== expectedAnswer) {
+      issue(
+        issues,
+        'grade5_answer_model_mismatch',
+        'problem.answer.normalized',
+        'the normalized answer does not close over the measured quantitative model',
+      )
+    }
+  } catch {
+    issue(
+      issues,
+      'grade5_answer_model_unmeasurable',
+      'problem.answer.normalized',
+      'the quantitative model cannot independently close the answer',
+    )
+  }
+  return issues
 }
 
 function pointsOf(primitive: ApplicationVisualPrimitive | undefined): ApplicationVisualPoint[] | null {
@@ -300,10 +653,11 @@ function validateOverlap(scene: ApplicationVisualDiagramSceneV1) {
   return issues
 }
 
-export function validateGrade5ApplicationGeometryScene(
-  familyId: string,
+export function validateGrade5ApplicationGeometryProblem(
+  problem: Readonly<GeneratedApplicationProblemV1>,
   scene: Readonly<ApplicationVisualSceneV1>,
 ): readonly ApplicationVisualValidationIssue[] {
+  const familyId = problem.familyId
   if (!SUPPORTED_FAMILIES.has(familyId)) {
     return [{
       code: 'unsupported_grade5_geometry_family',
@@ -318,7 +672,9 @@ export function validateGrade5ApplicationGeometryScene(
       message: 'Grade 5 quantitative geometry requires a quantitative diagram',
     }]
   }
-  if (familyId === 'g5-perimeter-boundary-rebuild') return validateBoundary(scene)
-  if (familyId === 'g5-area-composite-inverse') return validateComposite(scene)
-  return validateOverlap(scene)
+  const issues = validateProblemBinding(problem, scene)
+  if (familyId === 'g5-perimeter-boundary-rebuild') issues.push(...validateBoundary(scene))
+  else if (familyId === 'g5-area-composite-inverse') issues.push(...validateComposite(scene))
+  else issues.push(...validateOverlap(scene))
+  return issues
 }

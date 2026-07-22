@@ -6,6 +6,8 @@ import { describe, expect, it } from 'vitest'
 
 import { parseApplicationProblemFamilyV1, type JsonValue } from '../contracts'
 import { createApplicationProofManifestDigest } from '../proof'
+import { applicationProofDependencyClosureV1 } from '../proof-trust.internal'
+import { createTestApplicationProofImplementationRegistryV1 } from '../__test-support__/proof-trust'
 import { parseApplicationVisualSceneV1 } from '../visual-model'
 import { validateApplicationVisualScene } from '../visual-validator'
 import {
@@ -43,7 +45,7 @@ import {
   G5_GEOMETRY_PROOF_IMPLEMENTATION_RECORDS_V1,
 } from './grade5-geometry-proof-registration'
 import {
-  validateGrade5ApplicationGeometryScene,
+  validateGrade5ApplicationGeometryProblem,
 } from './grade5-geometry-visual-validator'
 
 const PACK_ID = 'pack-unit-5-1-perimeter-area'
@@ -164,7 +166,7 @@ describe('Grade 5 quantitative geometry family metadata', () => {
       const sourceBytes = readFileSync(join(process.cwd(), source.sourceModule))
       expect(source.sourceDigest).toBe(`sha256:${createHash('sha256').update(sourceBytes).digest('hex')}`)
     }
-    expect(G5_GEOMETRY_PROOF_DEPENDENCY_RECORDS_V1.length).toBeGreaterThanOrEqual(6)
+    expect(G5_GEOMETRY_PROOF_DEPENDENCY_RECORDS_V1).toHaveLength(9)
     expect(G5_GEOMETRY_PROOF_IMPLEMENTATION_RECORDS_V1).toHaveLength(6)
     for (const entry of G5_GEOMETRY_PROOF_DEPENDENCY_RECORDS_V1) {
       expect(entry.digest).toMatch(/^sha256:[a-f0-9]{64}$/)
@@ -175,6 +177,70 @@ describe('Grade 5 quantitative geometry family metadata', () => {
       expect(entry.sourceDigest).toMatch(/^sha256:[a-f0-9]{64}$/)
       const sourceBytes = readFileSync(join(process.cwd(), entry.sourceModule))
       expect(entry.sourceDigest).toBe(`sha256:${createHash('sha256').update(sourceBytes).digest('hex')}`)
+    }
+  })
+
+  it('records the complete common runtime dependency closure for every generator', () => {
+    const commonInfrastructureIds = [
+      'application-problem-generator-infrastructure',
+      'application-problem-contracts-infrastructure',
+      'application-problem-random-infrastructure',
+    ]
+    const registry = createTestApplicationProofImplementationRegistryV1({
+      dependencies: G5_GEOMETRY_PROOF_DEPENDENCY_RECORDS_V1,
+      implementations: G5_GEOMETRY_PROOF_IMPLEMENTATION_RECORDS_V1,
+    })
+    const dependencies = new Map(
+      G5_GEOMETRY_PROOF_DEPENDENCY_RECORDS_V1.map((entry) => [entry.dependencyId, entry]),
+    )
+    const generatorInfrastructure = dependencies.get(commonInfrastructureIds[0])
+
+    for (const dependencyId of commonInfrastructureIds) {
+      expect(dependencies.get(dependencyId)?.kind).toBe('infrastructure')
+    }
+    expect(generatorInfrastructure?.sourceModule).toBe('src/lib/application-problems/generator.ts')
+    expect(generatorInfrastructure?.imports.map((entry) => entry.dependencyId).sort()).toEqual(
+      commonInfrastructureIds.slice(1).sort(),
+    )
+    expect(dependencies.get(commonInfrastructureIds[1])?.sourceModule).toBe(
+      'src/lib/application-problems/contracts.ts',
+    )
+    expect(dependencies.get(commonInfrastructureIds[1])?.imports).toEqual([])
+    expect(dependencies.get(commonInfrastructureIds[2])?.sourceModule).toBe(
+      'src/lib/application-problems/random.ts',
+    )
+    expect(dependencies.get(commonInfrastructureIds[2])?.imports).toEqual([])
+
+    for (const authority of G5_GEOMETRY_PROOF_AUTHORITY_SOURCES_V1) {
+      expect(authority.allowedSharedInfrastructure).toEqual([])
+    }
+
+    const generatorRegistrations = G5_GEOMETRY_PROOF_IMPLEMENTATION_RECORDS_V1.filter(
+      (entry) => entry.kind === 'generator',
+    )
+    for (const registration of generatorRegistrations) {
+      const root = dependencies.get(registration.rootDependency.dependencyId)
+      expect(root?.imports.map((entry) => entry.dependencyId)).toEqual([
+        'application-problem-generator-infrastructure',
+      ])
+      const closure = applicationProofDependencyClosureV1(registry, registration.rootDependency)
+      expect(new Set(Array.from(closure.values()).map((entry) => entry.dependencyId))).toEqual(new Set([
+        `${registration.implementationId}-root`,
+        ...commonInfrastructureIds,
+      ]))
+      const familyId = registration.implementationId.replace(/-generator$/, '')
+      const oracle = G5_GEOMETRY_PROOF_IMPLEMENTATION_RECORDS_V1.find(
+        (entry) => entry.kind === 'oracle' && entry.implementationId === `${familyId}-oracle`,
+      )
+      if (!oracle) throw new Error(`missing oracle registration for ${familyId}`)
+      const oracleRoot = dependencies.get(oracle.rootDependency.dependencyId)
+      expect(oracleRoot?.imports).toEqual([])
+      const oracleClosure = applicationProofDependencyClosureV1(registry, oracle.rootDependency)
+      expect(Array.from(oracleClosure.values()).map((entry) => entry.dependencyId)).toEqual([
+        `${oracle.implementationId}-root`,
+      ])
+      const shared = Array.from(closure.keys()).filter((key) => oracleClosure.has(key))
+      expect(shared).toEqual([])
     }
   })
 })
@@ -191,7 +257,7 @@ describe('g5-perimeter-boundary-rebuild', () => {
       const scene = parseApplicationVisualSceneV1(problem.visual.mathModel)
       const common = validateApplicationVisualScene(scene)
       expect(common.ok).toBe(true)
-      expect(validateGrade5ApplicationGeometryScene(problem.familyId, scene)).toEqual([])
+      expect(validateGrade5ApplicationGeometryProblem(problem, scene)).toEqual([])
       const measured = measureBoundaryRebuildModel(params)
       expect(measured.perimeter).toBe(2 * (params.width + params.height))
       expect(problem.answer.normalized).toBe(evaluateG5PerimeterBoundaryRebuildOracle(proofInput(problem)))
@@ -231,7 +297,7 @@ describe('g5-area-composite-inverse', () => {
       const problem = generateG5AreaCompositeInverseProblem({ seed: 0, variantIndex })
       const scene = parseApplicationVisualSceneV1(problem.visual.mathModel)
       expect(validateApplicationVisualScene(scene).ok).toBe(true)
-      expect(validateGrade5ApplicationGeometryScene(problem.familyId, scene)).toEqual([])
+      expect(validateGrade5ApplicationGeometryProblem(problem, scene)).toEqual([])
       const measured = measureCompositeInverseModel(params)
       expect(measured.area).toBe(params.totalArea)
       expect(measured.inferredWidth).toBe(params.rectangleWidth)
@@ -241,6 +307,34 @@ describe('g5-area-composite-inverse', () => {
     }
     expect(combinations.size).toBe(108)
     expect(signatures).toEqual(new Set(['0', '1', '2']))
+  })
+
+  it('keeps every attachment direction aligned across prompt, solution, and geometry', () => {
+    const directionByPosition = ['위쪽', '가운데', '아래쪽'] as const
+    for (let variantIndex = 0; variantIndex < G5_AREA_COMPOSITE_INVERSE_DOMAIN_SIZE; variantIndex += 1) {
+      const problem = generateG5AreaCompositeInverseProblem({ seed: 0, variantIndex })
+      const scene = parseApplicationVisualSceneV1(problem.visual.mathModel)
+      if (scene.surface !== 'diagram') throw new Error('expected a diagram')
+      const square = scene.primitives.find((entry) => entry.key === 'square')
+      const rectangle = scene.primitives.find((entry) => entry.key === 'rectangle')
+      if (square?.kind !== 'polygon' || rectangle?.kind !== 'polygon') {
+        throw new Error('expected square and rectangle polygons')
+      }
+      const squareMinY = Math.min(...square.points.map((point) => point.y))
+      const squareMaxY = Math.max(...square.points.map((point) => point.y))
+      const rectangleMinY = Math.min(...rectangle.points.map((point) => point.y))
+      const rectangleMaxY = Math.max(...rectangle.points.map((point) => point.y))
+      const position = Number(problem.params.attachmentPosition) as 0 | 1 | 2
+      const direction = directionByPosition[position]
+
+      expect(problem.prompt).toContain(`정사각형 오른쪽 변의 ${direction}에`)
+      expect(problem.solutionSteps.join(' ')).toContain(direction)
+      if (position === 0) expect(rectangleMinY).toBe(squareMinY)
+      if (position === 1) {
+        expect((rectangleMinY + rectangleMaxY) / 2).toBe((squareMinY + squareMaxY) / 2)
+      }
+      if (position === 2) expect(rectangleMaxY).toBe(squareMaxY)
+    }
   })
 
   it('rejects impossible area and attachment data instead of drawing a fallback', () => {
@@ -267,7 +361,7 @@ describe('g5-area-overlap-reconstruction', () => {
       const scene = parseApplicationVisualSceneV1(problem.visual.mathModel)
       const common = validateApplicationVisualScene(scene)
       if (!common.ok) throw new Error(JSON.stringify(common.issues))
-      expect(validateGrade5ApplicationGeometryScene(problem.familyId, scene)).toEqual([])
+      expect(validateGrade5ApplicationGeometryProblem(problem, scene)).toEqual([])
       const measured = measureOverlapReconstructionModel(params)
       expect(measured.shapeAreas.A).toBeCloseTo(params.shapeArea, 9)
       expect(measured.shapeAreas.B).toBeCloseTo(params.shapeArea, 9)
@@ -300,10 +394,8 @@ describe('g5-area-overlap-reconstruction', () => {
           : primitive,
       ),
     }
-    expect(validateGrade5ApplicationGeometryScene(
-      G5_AREA_OVERLAP_RECONSTRUCTION_FAMILY.familyId,
-      tampered,
-    ).length).toBeGreaterThan(0)
+    const problem = generateG5AreaOverlapReconstructionProblem({ seed: 0, variantIndex: 0 })
+    expect(validateGrade5ApplicationGeometryProblem(problem, tampered).length).toBeGreaterThan(0)
     for (const seed of [Number.MIN_SAFE_INTEGER, -244, -1, Number.MAX_SAFE_INTEGER]) {
       expect(selectG5AreaOverlapReconstructionParams(seed, Number.MAX_SAFE_INTEGER)).toEqual(
         selectG5AreaOverlapReconstructionParams(seed, Number.MAX_SAFE_INTEGER),

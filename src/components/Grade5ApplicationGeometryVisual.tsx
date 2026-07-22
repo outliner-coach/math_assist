@@ -2,7 +2,7 @@ import React, { type CSSProperties } from 'react'
 
 import type { GeneratedApplicationProblemV1 } from '../lib/application-problems/contracts'
 import { resolveApplicationVisual } from '../lib/application-problems/visual-validator'
-import { validateGrade5ApplicationGeometryScene } from '../lib/application-problems/families/grade5-geometry-visual-validator'
+import { validateGrade5ApplicationGeometryProblem } from '../lib/application-problems/families/grade5-geometry-visual-validator'
 import ApplicationProblemVisual from './ApplicationProblemVisual'
 
 interface Grade5ApplicationGeometryVisualProps {
@@ -61,7 +61,7 @@ export default function Grade5ApplicationGeometryVisual({
     return <FatalGeometry />
   }
   const resolution = resolveApplicationVisual(problem.visual, {
-    familyValidator: (scene) => validateGrade5ApplicationGeometryScene(problem.familyId, scene),
+    familyValidator: (scene) => validateGrade5ApplicationGeometryProblem(problem, scene),
   })
   if (resolution.status !== 'ready') {
     return <FatalGeometry />

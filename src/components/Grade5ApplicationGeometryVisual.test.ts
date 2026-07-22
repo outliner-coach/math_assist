@@ -2,11 +2,16 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
+import type {
+  GeneratedApplicationProblemV1,
+  JsonValue,
+} from '../lib/application-problems/contracts'
 import {
   generateG5AreaCompositeInverseProblem,
   generateG5AreaOverlapReconstructionProblem,
   generateG5PerimeterBoundaryRebuildProblem,
 } from '../lib/application-problems/families/grade5-geometry-families'
+import { parseApplicationVisualSceneV1 } from '../lib/application-problems/visual-model'
 import Grade5ApplicationGeometryVisual from './Grade5ApplicationGeometryVisual'
 
 function renderPair(
@@ -35,6 +40,22 @@ function answerChannels(markup: string): string {
     ...Array.from(markup.matchAll(/<(?:title|text)[^>]*>(.*?)<\/(?:title|text)>/g)),
     ...Array.from(markup.matchAll(/(?:aria-label|data-[a-z-]+)="([^"]*)"/g)),
   ].map((match) => match[1]).join(' ')
+}
+
+function renderProblem(problem: GeneratedApplicationProblemV1): string {
+  return renderToStaticMarkup(createElement(Grade5ApplicationGeometryVisual, {
+    problem,
+    showAnswer: false,
+    availableWidth: 390,
+    availableHeight: 844,
+  }))
+}
+
+function withMathModel(
+  problem: GeneratedApplicationProblemV1,
+  mathModel: JsonValue,
+): GeneratedApplicationProblemV1 {
+  return { ...problem, visual: { ...problem.visual, mathModel } }
 }
 
 describe('Grade5ApplicationGeometryVisual', () => {
@@ -132,6 +153,128 @@ describe('Grade5ApplicationGeometryVisual', () => {
       availableWidth: 390,
       availableHeight: 844,
     }))
+    expect(markup).toContain('정량 그림을 만들 수 없습니다')
+    expect(markup).not.toContain('<svg')
+  })
+
+  it('blocks a valid same-family scene substituted from a different generated instance', () => {
+    const problem = generateG5AreaCompositeInverseProblem({ seed: 0, variantIndex: 0 })
+    const other = generateG5AreaCompositeInverseProblem({ seed: 0, variantIndex: 1 })
+    expect(other.answer.normalized).toBe(problem.answer.normalized)
+    expect(other.params.attachmentPosition).not.toBe(problem.params.attachmentPosition)
+
+    const markup = renderProblem(withMathModel(problem, other.visual.mathModel as JsonValue))
+    expect(markup).toContain('정량 그림을 만들 수 없습니다')
+    expect(markup).not.toContain('<svg')
+  })
+
+  it('blocks joint params and scene substitution from a same-answer generated instance', () => {
+    const problem = generateG5AreaCompositeInverseProblem({ seed: 0, variantIndex: 0 })
+    const other = generateG5AreaCompositeInverseProblem({ seed: 0, variantIndex: 1 })
+    expect(other.answer.normalized).toBe(problem.answer.normalized)
+    const substituted: GeneratedApplicationProblemV1 = {
+      ...problem,
+      params: other.params,
+      visual: { ...problem.visual, mathModel: other.visual.mathModel },
+    }
+
+    const markup = renderProblem(substituted)
+    expect(markup).toContain('정량 그림을 만들 수 없습니다')
+    expect(markup).not.toContain('<svg')
+  })
+
+  it('blocks forged generator provenance even when math params and scene still agree', () => {
+    const problem = generateG5AreaCompositeInverseProblem({ seed: 0, variantIndex: 0 })
+    const forged: GeneratedApplicationProblemV1 = {
+      ...problem,
+      params: { ...problem.params, __generation: { forged: true } },
+    }
+
+    const markup = renderProblem(forged)
+    expect(markup).toContain('정량 그림을 만들 수 없습니다')
+    expect(markup).not.toContain('<svg')
+  })
+
+  it('blocks a contract-valid forged answer that no longer closes over the quantitative model', () => {
+    const problem = generateG5AreaCompositeInverseProblem({ seed: 0, variantIndex: 0 })
+    const forgedIndex = problem.choices?.findIndex((choice) => choice !== problem.answer.normalized)
+    if (forgedIndex === undefined || forgedIndex < 0 || !problem.choices) {
+      throw new Error('expected distractor')
+    }
+    const forged: GeneratedApplicationProblemV1 = {
+      ...problem,
+      answer: { ...problem.answer, normalized: problem.choices[forgedIndex] },
+      correctChoiceIndex: forgedIndex,
+    }
+
+    const markup = renderProblem(forged)
+    expect(markup).toContain('정량 그림을 만들 수 없습니다')
+    expect(markup).not.toContain('<svg')
+  })
+
+  it('blocks an otherwise valid scene with an undeclared detached primitive', () => {
+    const problem = generateG5PerimeterBoundaryRebuildProblem({ seed: 0, variantIndex: 0 })
+    const scene = parseApplicationVisualSceneV1(problem.visual.mathModel)
+    if (scene.surface !== 'diagram') throw new Error('expected a diagram')
+    const forgedScene = {
+      ...scene,
+      primitives: [...scene.primitives, {
+        kind: 'polygon' as const,
+        key: 'forged-primitive',
+        points: [{ x: 0.25, y: 0.25 }, { x: 1.25, y: 0.25 }, { x: 0.25, y: 1.25 }],
+        disclosure: 'given' as const,
+        styleRole: 'primary' as const,
+        emphasis: 'normal' as const,
+      }],
+    }
+
+    const markup = renderProblem(withMathModel(problem, forgedScene as unknown as JsonValue))
+    expect(markup).toContain('정량 그림을 만들 수 없습니다')
+    expect(markup).not.toContain('<svg')
+  })
+
+  it('blocks an otherwise valid scene with an undeclared label', () => {
+    const problem = generateG5PerimeterBoundaryRebuildProblem({ seed: 0, variantIndex: 0 })
+    const scene = parseApplicationVisualSceneV1(problem.visual.mathModel)
+    if (scene.surface !== 'diagram') throw new Error('expected a diagram')
+    const forgedScene = {
+      ...scene,
+      labels: [...scene.labels, {
+        key: 'forged-label',
+        x: 1,
+        y: 1,
+        content: { before: { text: '추가 정보', disclosure: 'given' as const } },
+        styleRole: 'primary' as const,
+      }],
+    }
+
+    const markup = renderProblem(withMathModel(problem, forgedScene as unknown as JsonValue))
+    expect(markup).toContain('정량 그림을 만들 수 없습니다')
+    expect(markup).not.toContain('<svg')
+  })
+
+  it('blocks an otherwise valid scene with an undeclared constraint', () => {
+    const problem = generateG5PerimeterBoundaryRebuildProblem({ seed: 0, variantIndex: 0 })
+    const scene = parseApplicationVisualSceneV1(problem.visual.mathModel)
+    if (scene.surface !== 'diagram') throw new Error('expected a diagram')
+    const forgedScene = {
+      ...scene,
+      constraints: [...scene.constraints, scene.constraints[0]],
+    }
+
+    const markup = renderProblem(withMathModel(problem, forgedScene as unknown as JsonValue))
+    expect(markup).toContain('정량 그림을 만들 수 없습니다')
+    expect(markup).not.toContain('<svg')
+  })
+
+  it('blocks an otherwise valid problem with an undeclared unused parameter', () => {
+    const problem = generateG5PerimeterBoundaryRebuildProblem({ seed: 0, variantIndex: 0 })
+    const forged: GeneratedApplicationProblemV1 = {
+      ...problem,
+      params: { ...problem.params, detachedValue: 123 },
+    }
+
+    const markup = renderProblem(forged)
     expect(markup).toContain('정량 그림을 만들 수 없습니다')
     expect(markup).not.toContain('<svg')
   })

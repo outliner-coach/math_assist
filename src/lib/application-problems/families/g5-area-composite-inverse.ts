@@ -324,7 +324,7 @@ function assertScene(context: ApplicationProblemRenderContextV1, expected: Appli
   }
 }
 
-const POSITION_TEXT = ['아래쪽', '가운데', '위쪽'] as const
+const POSITION_TEXT = ['위쪽', '가운데', '아래쪽'] as const
 
 export const G5_AREA_COMPOSITE_INVERSE_FAMILY = {
   schemaVersion: 'application-problem-family-v1',
@@ -386,7 +386,7 @@ export const G5_AREA_COMPOSITE_INVERSE_GENERATOR = {
     const rectangleArea = params.totalArea - squareArea
     const perimeter = 2 * params.rectangleWidth + 4 * params.squareSide
     return {
-      prompt: `한 변이 ${params.squareSide} cm인 정사각형의 ${POSITION_TEXT[params.attachmentPosition]}에 세로 ${params.rectangleHeight} cm인 직사각형을 한 변 전체로 붙였습니다. 합친 넓이는 ${params.totalArea} cm²입니다. 직사각형의 빠진 가로를 먼저 구한 뒤 합친 도형의 바깥 둘레를 구하세요.`,
+      prompt: `한 변이 ${params.squareSide} cm인 정사각형 오른쪽 변의 ${POSITION_TEXT[params.attachmentPosition]}에 세로 ${params.rectangleHeight} cm인 직사각형의 세로 전체가 빈틈없이 붙어 있습니다. 합친 넓이는 ${params.totalArea} cm²입니다. 직사각형의 빠진 가로를 먼저 구한 뒤 합친 도형의 바깥 둘레를 구하세요.`,
       answer: { format: 'choice', normalized: String(perimeter) },
       choices: [
         String(perimeter),
@@ -396,7 +396,7 @@ export const G5_AREA_COMPOSITE_INVERSE_GENERATOR = {
       ],
       correctChoiceIndex: 0,
       solutionSteps: [
-        `정사각형의 넓이는 ${params.squareSide}×${params.squareSide}=${squareArea} cm²입니다.`,
+        `그림처럼 직사각형의 세로 전체가 정사각형 오른쪽 변의 ${POSITION_TEXT[params.attachmentPosition]}에 붙어 있고, 정사각형의 넓이는 ${params.squareSide}×${params.squareSide}=${squareArea} cm²입니다.`,
         `직사각형의 넓이는 ${params.totalArea}-${squareArea}=${rectangleArea} cm²입니다.`,
         `${rectangleArea}÷${params.rectangleHeight}=${params.rectangleWidth}이므로 직사각형의 가로는 ${params.rectangleWidth} cm입니다.`,
         `붙어 있는 ${params.rectangleHeight} cm 변은 바깥 둘레가 아니므로, 바깥 둘레는 ${perimeter} cm입니다.`,
