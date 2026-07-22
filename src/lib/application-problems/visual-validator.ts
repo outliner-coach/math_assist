@@ -292,6 +292,24 @@ function topologyHolds(
   ) {
     return null
   }
+  if (first.kind === 'rect' && second.kind === 'rect') {
+    const horizontalOverlap =
+      Math.min(first.x + first.width, second.x + second.width) - Math.max(first.x, second.x)
+    const verticalOverlap =
+      Math.min(first.y + first.height, second.y + second.height) - Math.max(first.y, second.y)
+    const overlap = horizontalOverlap > DEFAULT_EPSILON && verticalOverlap > DEFAULT_EPSILON
+    const touching =
+      !overlap &&
+      horizontalOverlap >= -DEFAULT_EPSILON &&
+      verticalOverlap >= -DEFAULT_EPSILON
+    const disjoint = horizontalOverlap < -DEFAULT_EPSILON || verticalOverlap < -DEFAULT_EPSILON
+    const contains =
+      second.x >= first.x - DEFAULT_EPSILON &&
+      second.y >= first.y - DEFAULT_EPSILON &&
+      second.x + second.width <= first.x + first.width + DEFAULT_EPSILON &&
+      second.y + second.height <= first.y + first.height + DEFAULT_EPSILON
+    return { disjoint, touching, overlap, contains }[relation]
+  }
   const firstPolygon = primitivePoints(first)
   const secondPolygon = primitivePoints(second)
   let hasTouch = false
@@ -377,6 +395,17 @@ function validateDiagram(
     validatePrimitiveShape(primitive, path, issues)
     if (primitive.emphasis === 'answer' && scene.semantics === 'decorative') {
       issue(issues, 'decorative_answer_emphasis', path, 'decorative visuals cannot emphasize answers')
+    }
+    if (
+      scene.semantics === 'decorative' &&
+      (primitive.disclosure === 'solution' || primitive.disclosure === 'intermediate')
+    ) {
+      issue(
+        issues,
+        'decorative_answer_geometry',
+        path,
+        'decorative visuals cannot contain answer-only geometry',
+      )
     }
   })
 

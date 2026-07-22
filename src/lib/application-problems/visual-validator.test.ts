@@ -167,4 +167,43 @@ describe('application visual validation', () => {
     expect(result.ok).toBe(false)
     if (!result.ok) expect(result.issues.map((issue) => issue.code)).toContain('ratio_mismatch')
   })
+
+  it('distinguishes aligned rectangle overlap from boundary-only touching', () => {
+    const scene = diagramScene()
+    scene.primitives = [
+      {
+        key: 'first',
+        kind: 'rect',
+        x: 10,
+        y: 10,
+        width: 30,
+        height: 20,
+        disclosure: 'given',
+        styleRole: 'primary',
+        emphasis: 'normal',
+      },
+      {
+        key: 'second',
+        kind: 'rect',
+        x: 25,
+        y: 10,
+        width: 30,
+        height: 20,
+        disclosure: 'given',
+        styleRole: 'secondary',
+        emphasis: 'normal',
+      },
+    ]
+    scene.labels = []
+    scene.constraints = [
+      { kind: 'area', primitiveKey: 'first', expected: 600 },
+      { kind: 'area', primitiveKey: 'second', expected: 600 },
+      { kind: 'topology', firstKey: 'first', secondKey: 'second', relation: 'overlap' },
+    ]
+    expect(validateApplicationVisualScene(parseApplicationVisualSceneV1(scene)).ok).toBe(true)
+
+    ;(scene.primitives[1] as { x: number }).x = 40
+    ;(scene.constraints[2] as { relation: string }).relation = 'touching'
+    expect(validateApplicationVisualScene(parseApplicationVisualSceneV1(scene)).ok).toBe(true)
+  })
 })

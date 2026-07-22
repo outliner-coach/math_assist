@@ -117,7 +117,12 @@ function ApplicationDiagram({
   const description = scene.description
     ? visibleContent(scene.description, showAnswer)
     : null
-  const accessibleName = description ?? '문제 풀이를 돕는 그림'
+  const visibleLabels = scene.labels
+    .map((label) => visibleContent(label.content, showAnswer))
+    .filter((text): text is string => text !== null)
+  const accessibleName =
+    [description, ...visibleLabels].filter((text): text is string => Boolean(text)).join('. ') ||
+    '문제 풀이를 돕는 그림'
   return (
     <svg
       className="application-visual application-visual__diagram"
