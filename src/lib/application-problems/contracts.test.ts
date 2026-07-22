@@ -9,6 +9,7 @@ import {
   validateReleaseTransition,
   validateUnitKnowledgePackCoverage,
   type ApplicationProblemFamilyV1,
+  type CurriculumStandardAllocationV1,
   type GeneratedApplicationProblemV1,
   type UnitKnowledgePackV1,
 } from './contracts'
@@ -17,6 +18,27 @@ const pendingApproval = {
   ownerStatus: 'pending' as const,
   evidenceRefs: [] as string[],
   expertStatus: 'not-reviewed' as const,
+}
+
+const approvedApproval = {
+  ownerStatus: 'approved' as const,
+  ownerId: 'project-owner',
+  approvedAt: '2026-07-22T00:00:00.000Z',
+  evidenceRefs: ['reports/application-problems/review.md'],
+  expertStatus: 'not-reviewed' as const,
+}
+
+function allocation(
+  standardCode: string,
+  overrides: Record<string, unknown> = {},
+): CurriculumStandardAllocationV1 {
+  return {
+    standardCode,
+    unitId: 'g2-2-length',
+    assignedGrade: 2,
+    semester: '2-2',
+    ...overrides,
+  } as CurriculumStandardAllocationV1
 }
 
 function draftPack(overrides: Record<string, unknown> = {}) {
@@ -175,6 +197,13 @@ describe('application problem authoring contracts', () => {
     )
   })
 
+  it('rejects a semester identifier that does not match the pack grade', () => {
+    expectContractError(
+      () => parseUnitKnowledgePackV1(draftPack({ semester: '5-1' })),
+      'invalid_semester',
+    )
+  })
+
   it('parses a non-direct application family with ordered reasoning actions', () => {
     const family = parseApplicationProblemFamilyV1(draftFamily())
 
@@ -315,7 +344,7 @@ describe('catalog and lifecycle validation', () => {
     const issues = validateApplicationProblemCatalog({
       packs: [pack],
       families: [family],
-      ledgerStandardCodes: ['[2수03-09]', '[2수03-10]'],
+      ledgerAllocations: [allocation('[2수03-09]'), allocation('[2수03-10]')],
     })
 
     expect(issues.map((issue) => issue.code)).toEqual(
@@ -345,13 +374,151 @@ describe('catalog and lifecycle validation', () => {
     const issues = validateApplicationProblemCatalog({
       packs: [pack],
       families: [referenced, orphan],
-      ledgerStandardCodes: ['[2수03-09]', '[2수03-10]', '[2수03-11]'],
+      ledgerAllocations: [
+        allocation('[2수03-09]'),
+        allocation('[2수03-10]'),
+        allocation('[2수03-11]'),
+      ],
     })
 
     expect(issues.map((issue) => issue.code)).toEqual(
       expect.arrayContaining([
         'primary_standard_outside_pack',
         'family_not_declared_by_pack',
+      ]),
+    )
+  })
+
+  it('requires explicit passing completeness evidence for every complete pack', () => {
+    const pack = parseUnitKnowledgePackV1(
+      draftPack({ coverageStatus: 'complete' }),
+    )
+    const family = parseApplicationProblemFamilyV1(draftFamily())
+    const baseInput = {
+      packs: [pack],
+      families: [family],
+      ledgerAllocations: [
+        allocation('[2수03-09]'),
+        allocation('[2수03-10]'),
+      ],
+    }
+
+    const missingContext = validateApplicationProblemCatalog(baseInput)
+    expect(missingContext.map((issue) => issue.code)).toContain(
+      'missing_complete_coverage_context',
+    )
+
+    const failedEvidence = validateApplicationProblemCatalog({
+      ...baseInput,
+      completeCoverageContexts: [
+        {
+          packId: pack.packId,
+          version: pack.version,
+          coreConceptIds: ['length-compose'],
+          requiredRepresentations: ['text', 'diagram'],
+          hasKnowingCoverage: false,
+        },
+      ],
+    })
+    expect(failedEvidence.map((issue) => issue.code)).toContain('missing_knowing_coverage')
+  })
+
+  it('validates new and revised current versions against the previous catalog', () => {
+    const family = parseApplicationProblemFamilyV1(draftFamily())
+    const previousPack = parseUnitKnowledgePackV1(draftPack())
+    const approvedPackV2 = parseUnitKnowledgePackV1(
+      draftPack({
+        version: 2,
+        releaseStatus: 'approved',
+        approval: approvedApproval,
+      }),
+    )
+    const revisedIssues = validateApplicationProblemCatalog({
+      packs: [approvedPackV2],
+      families: [family],
+      ledgerAllocations: [allocation('[2수03-09]'), allocation('[2수03-10]')],
+      previous: {
+        packs: [previousPack],
+        families: [family],
+      },
+    })
+    expect(revisedIssues.map((issue) => issue.code)).toContain('new_version_not_draft')
+
+    const approvedFamily = parseApplicationProblemFamilyV1(
+      draftFamily({ releaseStatus: 'approved', approval: approvedApproval }),
+    )
+    const approvedNewPack = parseUnitKnowledgePackV1(
+      draftPack({ releaseStatus: 'approved', approval: approvedApproval }),
+    )
+    const newIdentityIssues = validateApplicationProblemCatalog({
+      packs: [approvedNewPack],
+      families: [approvedFamily],
+      ledgerAllocations: [allocation('[2수03-09]'), allocation('[2수03-10]')],
+      previous: { packs: [], families: [] },
+    })
+    expect(newIdentityIssues.map((issue) => issue.code)).toContain('new_version_not_draft')
+  })
+
+  it('allows an unchanged retired snapshot but rejects retired identity reuse', () => {
+    const approved = parseApplicationProblemFamilyV1(
+      draftFamily({ releaseStatus: 'approved', approval: approvedApproval }),
+    )
+    const retired = { ...approved, releaseStatus: 'retired' as const }
+    const changedRetired = { ...retired, modelId: 'changed-model' }
+
+    expect(validateReleaseTransition(retired, { ...retired })).toEqual([])
+    expect(
+      validateReleaseTransition(retired, changedRetired).map((issue) => issue.code),
+    ).toContain('retired_identity_reused')
+    expect(
+      validateReleaseTransition(retired, {
+        ...retired,
+        version: 2,
+        releaseStatus: 'draft',
+        approval: pendingApproval,
+      }).map((issue) => issue.code),
+    ).toContain('retired_identity_reused')
+  })
+
+  it('rejects an approved pack that still activates a retired family', () => {
+    const pack = parseUnitKnowledgePackV1(
+      draftPack({ releaseStatus: 'approved', approval: approvedApproval }),
+    )
+    const family = parseApplicationProblemFamilyV1(
+      draftFamily({ releaseStatus: 'retired', approval: approvedApproval }),
+    )
+
+    const issues = validateApplicationProblemCatalog({
+      packs: [pack],
+      families: [family],
+      ledgerAllocations: [allocation('[2수03-09]'), allocation('[2수03-10]')],
+    })
+
+    expect(issues.map((issue) => issue.code)).toContain(
+      'approved_pack_references_retired_family',
+    )
+  })
+
+  it('rejects standards allocated to another unit, grade, or semester', () => {
+    const pack = parseUnitKnowledgePackV1(draftPack())
+    const family = parseApplicationProblemFamilyV1(
+      draftFamily({ connectedStandards: ['[2수03-11]'] }),
+    )
+
+    const issues = validateApplicationProblemCatalog({
+      packs: [pack],
+      families: [family],
+      ledgerAllocations: [
+        allocation('[2수03-09]'),
+        allocation('[2수03-10]', { unitId: 'g2-2-time' }),
+        allocation('[2수03-11]', { assignedGrade: 3, semester: '3-1' }),
+      ],
+    })
+
+    expect(issues.map((issue) => issue.code)).toEqual(
+      expect.arrayContaining([
+        'standard_allocation_mismatch',
+        'family_standard_allocation_mismatch',
       ]),
     )
   })
@@ -367,7 +534,7 @@ describe('catalog and lifecycle validation', () => {
     const issues = validateApplicationProblemCatalog({
       packs: [firstPack, movedPack],
       families: [firstFamily, changedFamily],
-      ledgerStandardCodes: ['[2수03-09]', '[2수03-10]'],
+      ledgerAllocations: [allocation('[2수03-09]'), allocation('[2수03-10]')],
     })
 
     expect(issues.map((issue) => issue.code)).toEqual(

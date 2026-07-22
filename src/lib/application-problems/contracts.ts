@@ -601,7 +601,21 @@ export function parseUnitKnowledgePackV1(value: unknown): UnitKnowledgePackV1 {
   if (!Number.isInteger(grade) || (grade as number) < 1 || (grade as number) > 6) {
     issue(issues, 'invalid_grade', 'pack.grade', 'pack.grade must be an integer from 1 through 6')
   }
-  readString(record.semester, 'pack.semester', issues)
+  const semester = readString(record.semester, 'pack.semester', issues)
+  if (
+    Number.isInteger(grade) &&
+    (grade as number) >= 1 &&
+    (grade as number) <= 6 &&
+    semester !== `${grade}-1` &&
+    semester !== `${grade}-2`
+  ) {
+    issue(
+      issues,
+      'invalid_semester',
+      'pack.semester',
+      `pack.semester must be ${grade}-1 or ${grade}-2`,
+    )
+  }
   readEnum(record.coverageStatus, COVERAGE_STATUSES, 'pack.coverageStatus', issues)
   const releaseStatus = readEnum(record.releaseStatus, RELEASE_STATUSES, 'pack.releaseStatus', issues)
   readUniqueStrings(record.coveredStandardCodes, 'pack.coveredStandardCodes', issues, false)
@@ -1027,11 +1041,27 @@ export function validateUnitKnowledgePackCoverage(
 export interface ApplicationProblemCatalogInput {
   packs: readonly UnitKnowledgePackV1[]
   families: readonly ApplicationProblemFamilyV1[]
-  ledgerStandardCodes: readonly string[]
+  ledgerAllocations: readonly CurriculumStandardAllocationV1[]
+  completeCoverageContexts?: readonly CompletePackCoverageContext[]
   previous?: {
     packs: readonly UnitKnowledgePackV1[]
     families: readonly ApplicationProblemFamilyV1[]
   }
+}
+
+export interface CurriculumStandardAllocationV1 {
+  standardCode: string
+  unitId: string
+  assignedGrade: 1 | 2 | 3 | 4 | 5 | 6
+  semester: string
+}
+
+export interface CompletePackCoverageContext {
+  packId: string
+  version: number
+  coreConceptIds: readonly string[]
+  requiredRepresentations: readonly ProblemRepresentation[]
+  hasKnowingCoverage: boolean
 }
 
 function stableJson(value: unknown): string {
@@ -1142,13 +1172,107 @@ function validateFamilyIdentity(
   })
 }
 
+function allocationMatchesPack(
+  allocation: CurriculumStandardAllocationV1,
+  pack: UnitKnowledgePackV1,
+): boolean {
+  return (
+    allocation.unitId === pack.unitId &&
+    allocation.assignedGrade === pack.grade &&
+    allocation.semester === pack.semester
+  )
+}
+
+function validateLedgerAllocations(
+  allocations: readonly CurriculumStandardAllocationV1[],
+  issues: ContractValidationIssue[],
+): Map<string, CurriculumStandardAllocationV1> {
+  const byCode = new Map<string, CurriculumStandardAllocationV1>()
+  allocations.forEach((allocation, index) => {
+    const path = `ledgerAllocations[${index}]`
+    if (
+      typeof allocation.standardCode !== 'string' ||
+      allocation.standardCode.trim() === '' ||
+      typeof allocation.unitId !== 'string' ||
+      allocation.unitId.trim() === '' ||
+      !Number.isInteger(allocation.assignedGrade) ||
+      allocation.assignedGrade < 1 ||
+      allocation.assignedGrade > 6 ||
+      (allocation.semester !== `${allocation.assignedGrade}-1` &&
+        allocation.semester !== `${allocation.assignedGrade}-2`)
+    ) {
+      issue(
+        issues,
+        'invalid_ledger_allocation',
+        path,
+        'ledger allocation must declare a standard, unit, grade 1-6, and matching semester',
+      )
+    }
+    if (byCode.has(allocation.standardCode)) {
+      issue(
+        issues,
+        'duplicate_standard_allocation',
+        path,
+        `standard ${allocation.standardCode} has more than one allocation`,
+      )
+    } else {
+      byCode.set(allocation.standardCode, allocation)
+    }
+  })
+  return byCode
+}
+
+function latestPreviousVersion<T extends ReleaseVersionLike>(
+  values: readonly T[],
+  identity: string,
+): T | undefined {
+  return values
+    .filter((value) => releaseIdentity(value) === identity)
+    .reduce<T | undefined>(
+      (latest, value) => (!latest || value.version > latest.version ? value : latest),
+      undefined,
+    )
+}
+
+function validateCatalogEvolution<T extends ReleaseVersionLike>(
+  current: readonly T[],
+  previous: readonly T[],
+): ContractValidationIssue[] {
+  const previousByVersion = new Map(
+    previous.map((value) => [`${releaseIdentity(value)}@${value.version}`, value]),
+  )
+  return current.flatMap((value) => {
+    const identity = releaseIdentity(value)
+    const sameVersion = previousByVersion.get(`${identity}@${value.version}`)
+    return validateReleaseTransition(
+      sameVersion ?? latestPreviousVersion(previous, identity),
+      value,
+    )
+  })
+}
+
 export function validateApplicationProblemCatalog(
   input: ApplicationProblemCatalogInput,
 ): ContractValidationIssue[] {
   const issues: ContractValidationIssue[] = []
   validatePackIdentity(input.packs, issues)
   validateFamilyIdentity(input.families, issues)
-  const ledger = new Set(input.ledgerStandardCodes)
+  const allocations = validateLedgerAllocations(input.ledgerAllocations, issues)
+  const completeCoverageContexts = new Map<string, CompletePackCoverageContext>()
+  const providedCoverageContexts = input.completeCoverageContexts ?? []
+  providedCoverageContexts.forEach((context, index) => {
+    const key = `${context.packId}@${context.version}`
+    if (completeCoverageContexts.has(key)) {
+      issue(
+        issues,
+        'duplicate_complete_coverage_context',
+        `completeCoverageContexts[${index}]`,
+        `complete coverage context ${key} is duplicated`,
+      )
+    } else {
+      completeCoverageContexts.set(key, context)
+    }
+  })
   const familyVersions = new Map(
     input.families.map((family) => [`${family.familyId}@${family.version}`, family]),
   )
@@ -1174,19 +1298,35 @@ export function validateApplicationProblemCatalog(
     const misconceptionIds = new Set(
       pack.concepts.flatMap((concept) => concept.misconceptions.map((entry) => entry.id)),
     )
+    if (pack.semester !== `${pack.grade}-1` && pack.semester !== `${pack.grade}-2`) {
+      issue(
+        issues,
+        'invalid_semester',
+        `packs[${packIndex}].semester`,
+        `pack semester ${pack.semester} does not match Grade ${pack.grade}`,
+      )
+    }
     pack.coveredStandardCodes.forEach((standardCode, standardIndex) => {
-      if (!ledger.has(standardCode)) {
+      const allocation = allocations.get(standardCode)
+      if (!allocation) {
         issue(
           issues,
           'unknown_standard_reference',
           `packs[${packIndex}].coveredStandardCodes[${standardIndex}]`,
           `unknown standard ${standardCode}`,
         )
+      } else if (!allocationMatchesPack(allocation, pack)) {
+        issue(
+          issues,
+          'standard_allocation_mismatch',
+          `packs[${packIndex}].coveredStandardCodes[${standardIndex}]`,
+          `standard ${standardCode} is allocated to another unit, grade, or semester`,
+        )
       }
     })
     pack.concepts.forEach((concept, conceptIndex) => {
       concept.standardCodes.forEach((standardCode, standardIndex) => {
-        if (!ledger.has(standardCode)) {
+        if (!allocations.has(standardCode)) {
           issue(
             issues,
             'unknown_standard_reference',
@@ -1212,7 +1352,7 @@ export function validateApplicationProblemCatalog(
             `unknown concept prerequisite ${prerequisite.conceptId}`,
           )
         }
-        if (prerequisite.kind === 'standard' && !ledger.has(prerequisite.standardCode)) {
+        if (prerequisite.kind === 'standard' && !allocations.has(prerequisite.standardCode)) {
           issue(
             issues,
             'unknown_prerequisite_reference',
@@ -1241,12 +1381,12 @@ export function validateApplicationProblemCatalog(
           `${reference.familyId}@${reference.version} belongs to another pack or unit`,
         )
       }
-      if (!coveredStandards.has(family.primaryStandard)) {
+      if (pack.releaseStatus === 'approved' && family.releaseStatus === 'retired') {
         issue(
           issues,
-          'primary_standard_outside_pack',
-          `families.${family.familyId}.primaryStandard`,
-          `primary standard ${family.primaryStandard} is not covered by ${pack.packId}`,
+          'approved_pack_references_retired_family',
+          `packs[${packIndex}].familyRefs[${referenceIndex}]`,
+          `approved pack ${pack.packId} cannot activate retired family ${family.familyId}`,
         )
       }
       family.conceptIds.forEach((conceptId, conceptIndex) => {
@@ -1261,12 +1401,30 @@ export function validateApplicationProblemCatalog(
       })
       ;[family.primaryStandard, ...family.connectedStandards].forEach(
         (standardCode, standardIndex) => {
-          if (!ledger.has(standardCode)) {
+          const allocation = allocations.get(standardCode)
+          if (!allocation) {
             issue(
               issues,
               'unknown_standard_reference',
               `families.${family.familyId}.standards[${standardIndex}]`,
               `unknown standard ${standardCode}`,
+            )
+          } else if (!allocationMatchesPack(allocation, pack)) {
+            issue(
+              issues,
+              'family_standard_allocation_mismatch',
+              `families.${family.familyId}.standards[${standardIndex}]`,
+              `family standard ${standardCode} is allocated outside ${pack.packId}`,
+            )
+          }
+          if (!coveredStandards.has(standardCode)) {
+            issue(
+              issues,
+              standardIndex === 0
+                ? 'primary_standard_outside_pack'
+                : 'connected_standard_outside_pack',
+              `families.${family.familyId}.standards[${standardIndex}]`,
+              `family standard ${standardCode} is not covered by ${pack.packId}`,
             )
           }
         },
@@ -1282,23 +1440,47 @@ export function validateApplicationProblemCatalog(
         }
       })
     })
+    if (pack.coverageStatus === 'complete') {
+      const coverageKey = `${pack.packId}@${pack.version}`
+      const coverageContext = completeCoverageContexts.get(coverageKey)
+      if (!coverageContext) {
+        issue(
+          issues,
+          'missing_complete_coverage_context',
+          `packs[${packIndex}].coverageStatus`,
+          `complete pack ${coverageKey} requires explicit completeness evidence`,
+        )
+      } else {
+        if (
+          coverageContext.coreConceptIds.length === 0 ||
+          coverageContext.requiredRepresentations.length === 0
+        ) {
+          issue(
+            issues,
+            'invalid_complete_coverage_context',
+            `completeCoverageContexts.${coverageKey}`,
+            'complete coverage evidence requires core concepts and representations',
+          )
+        }
+        const unitStandardCodes = Array.from(allocations.values())
+          .filter((allocation) => allocationMatchesPack(allocation, pack))
+          .map((allocation) => allocation.standardCode)
+        issues.push(
+          ...validateUnitKnowledgePackCoverage(pack, {
+            unitStandardCodes,
+            coreConceptIds: coverageContext.coreConceptIds,
+            requiredRepresentations: coverageContext.requiredRepresentations,
+            hasKnowingCoverage: coverageContext.hasKnowingCoverage,
+            families: input.families,
+          }),
+        )
+      }
+    }
   })
 
   if (input.previous) {
-    const currentPacks = new Map(
-      input.packs.map((pack) => [`${pack.packId}@${pack.version}`, pack]),
-    )
-    input.previous.packs.forEach((previous) => {
-      const current = currentPacks.get(`${previous.packId}@${previous.version}`)
-      if (current) issues.push(...validateReleaseTransition(previous, current))
-    })
-    const currentFamilies = new Map(
-      input.families.map((family) => [`${family.familyId}@${family.version}`, family]),
-    )
-    input.previous.families.forEach((previous) => {
-      const current = currentFamilies.get(`${previous.familyId}@${previous.version}`)
-      if (current) issues.push(...validateReleaseTransition(previous, current))
-    })
+    issues.push(...validateCatalogEvolution(input.packs, input.previous.packs))
+    issues.push(...validateCatalogEvolution(input.families, input.previous.families))
   }
 
   return issues
@@ -1341,6 +1523,21 @@ export function validateReleaseTransition(
     )
     return issues
   }
+  if (previous.releaseStatus === 'retired') {
+    const unchangedRetiredSnapshot =
+      next.version === previous.version &&
+      next.releaseStatus === 'retired' &&
+      stableJson(releaseComparable(previous)) === stableJson(releaseComparable(next))
+    if (!unchangedRetiredSnapshot) {
+      issue(
+        issues,
+        'retired_identity_reused',
+        'releaseStatus',
+        'retired identities cannot change status, meaning, or version',
+      )
+    }
+    return issues
+  }
   if (next.version < previous.version || next.version > previous.version + 1) {
     issue(
       issues,
@@ -1348,10 +1545,6 @@ export function validateReleaseTransition(
       'version',
       'versions must stay fixed for status changes or increase by one for a revision',
     )
-    return issues
-  }
-  if (previous.releaseStatus === 'retired') {
-    issue(issues, 'retired_identity_reused', 'releaseStatus', 'retired identities are terminal')
     return issues
   }
   if (next.version === previous.version + 1) {
