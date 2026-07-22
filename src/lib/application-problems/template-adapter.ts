@@ -2,6 +2,7 @@ import type { ApplicationProblemSource, Problem } from '../types'
 import {
   parseGeneratedApplicationProblemV1,
   type GeneratedApplicationProblemV1,
+  type GeneratedApplicationVisualV1,
   type JsonValue,
 } from './contracts'
 
@@ -15,6 +16,9 @@ export interface ApplicationPracticePlacementV1 {
 export type ApplicationPracticeProblemV1 = Problem & {
   placementDifficulty: 1 | 2 | 3
   applicationSource: ApplicationProblemSource
+  applicationParams: Record<string, JsonValue>
+  applicationMisconceptionRefs: string[]
+  applicationVisual: GeneratedApplicationVisualV1
 }
 
 export interface AdaptApplicationProblemToPracticeInputV1 {
@@ -67,6 +71,57 @@ function validateLegacyParams(params: Record<string, number>): Record<string, nu
   return { ...params }
 }
 
+function canonicalJsonCopy(value: unknown, seen = new Set<object>()): JsonValue {
+  if (
+    value === null ||
+    typeof value === 'string' ||
+    typeof value === 'boolean' ||
+    (typeof value === 'number' && Number.isFinite(value))
+  ) {
+    return value as JsonValue
+  }
+  if (typeof value !== 'object' || value === null) {
+    throw new TypeError('application snapshots must contain only JSON-safe values')
+  }
+  if (seen.has(value)) {
+    throw new TypeError('application snapshots must not contain cycles')
+  }
+
+  seen.add(value)
+  if (Array.isArray(value)) {
+    const result = value.map((entry) => canonicalJsonCopy(entry, seen))
+    seen.delete(value)
+    return result
+  }
+
+  const result: Record<string, JsonValue> = {}
+  Object.keys(value as Record<string, unknown>)
+    .sort((left, right) => left.localeCompare(right))
+    .forEach((key) => {
+      result[key] = canonicalJsonCopy((value as Record<string, unknown>)[key], seen)
+    })
+  seen.delete(value)
+  return result
+}
+
+function canonicalApplicationParams(
+  params: Readonly<Record<string, JsonValue>>,
+): Record<string, JsonValue> {
+  return canonicalJsonCopy(params) as Record<string, JsonValue>
+}
+
+function canonicalApplicationVisual(
+  visual: GeneratedApplicationVisualV1,
+): GeneratedApplicationVisualV1 {
+  return canonicalJsonCopy(visual) as unknown as GeneratedApplicationVisualV1
+}
+
+function canonicalPracticeVisual(
+  visual: NonNullable<Problem['visual']>,
+): NonNullable<Problem['visual']> {
+  return canonicalJsonCopy(visual) as unknown as NonNullable<Problem['visual']>
+}
+
 export function adaptGeneratedApplicationProblemToPractice(
   input: AdaptApplicationProblemToPracticeInputV1,
 ): ApplicationPracticeProblemV1 {
@@ -79,8 +134,12 @@ export function adaptGeneratedApplicationProblemToPractice(
     throw new TypeError('text application answers cannot use the numeric practice shell')
   }
 
+  const applicationParams = canonicalApplicationParams(problem.params)
+  const applicationMisconceptionRefs = [...problem.misconceptionRefs]
+  const applicationVisual = canonicalApplicationVisual(problem.visual)
   const params = validateLegacyParams(input.mapParams(problem.params))
-  const visual = input.mapVisual?.(problem.visual)
+  const mappedVisual = input.mapVisual?.(problem.visual)
+  const visual = mappedVisual === undefined ? undefined : canonicalPracticeVisual(mappedVisual)
   const choice = problem.answer.format === 'choice'
 
   return {
@@ -98,6 +157,9 @@ export function adaptGeneratedApplicationProblemToPractice(
     hintSteps: [...problem.hintSteps],
     problemFamily: problem.familyId,
     applicationSource: applicationProblemSourceOf(problem),
+    applicationParams,
+    applicationMisconceptionRefs,
+    applicationVisual,
     ...(visual === undefined ? {} : { visual }),
   }
 }
