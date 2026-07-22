@@ -135,7 +135,11 @@ describe('application visual validation', () => {
         {
           key: 'a',
           cells: [
-            { before: { text: '3', disclosure: 'given' }, numericValue: 3 },
+            {
+              before: { text: '3', disclosure: 'given' },
+              numericValue: 3,
+              numericDisclosure: 'given',
+            },
           ],
         },
       ],
@@ -149,8 +153,16 @@ describe('application visual validation', () => {
         {
           key: 'a',
           cells: [
-            { before: { text: '3', disclosure: 'given' }, numericValue: 3 },
-            { before: { text: '5', disclosure: 'given' }, numericValue: 5 },
+            {
+              before: { text: '3', disclosure: 'given' },
+              numericValue: 3,
+              numericDisclosure: 'given',
+            },
+            {
+              before: { text: '5', disclosure: 'given' },
+              numericValue: 5,
+              numericDisclosure: 'given',
+            },
           ],
         },
       ],
@@ -166,6 +178,50 @@ describe('application visual validation', () => {
     const result = validateApplicationVisualScene(parseApplicationVisualSceneV1(wrongRatio))
     expect(result.ok).toBe(false)
     if (!result.ok) expect(result.issues.map((issue) => issue.code)).toContain('ratio_mismatch')
+  })
+
+  it('rejects table ratios when the rendered numbers disagree with the numeric model', () => {
+    const contradictory = {
+      schemaVersion: 'application-visual-v1',
+      surface: 'table',
+      semantics: 'quantitative',
+      caption: { before: { text: '비율표', disclosure: 'given' } },
+      columns: [
+        { before: { text: '기준량', disclosure: 'identifier' } },
+        { before: { text: '비교량', disclosure: 'identifier' } },
+      ],
+      rows: [
+        {
+          key: 'a',
+          cells: [
+            {
+              before: { text: '2', disclosure: 'given' },
+              numericValue: 4,
+              numericDisclosure: 'given',
+            },
+            {
+              before: { text: '3', disclosure: 'given' },
+              numericValue: 2,
+              numericDisclosure: 'given',
+            },
+          ],
+        },
+      ],
+      constraints: [
+        {
+          kind: 'table-ratio',
+          numerator: { rowKey: 'a', columnIndex: 0 },
+          denominator: { rowKey: 'a', columnIndex: 1 },
+          expected: 2,
+        },
+      ],
+    }
+
+    const result = validateApplicationVisualScene(parseApplicationVisualSceneV1(contradictory))
+    expect(result.ok).toBe(false)
+    if (!result.ok) {
+      expect(result.issues.map((entry) => entry.code)).toContain('display_value_mismatch')
+    }
   })
 
   it('distinguishes aligned rectangle overlap from boundary-only touching', () => {

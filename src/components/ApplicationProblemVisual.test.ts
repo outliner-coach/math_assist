@@ -51,11 +51,16 @@ describe('ApplicationProblemVisual', () => {
         {
           key: 'a',
           cells: [
-            { before: { text: '3', disclosure: 'given' }, numericValue: 3 },
+            {
+              before: { text: '3', disclosure: 'given' },
+              numericValue: 3,
+              numericDisclosure: 'given',
+            },
             {
               before: { text: '?', disclosure: 'identifier' },
-              after: { text: 'INTERMEDIATE-SENTINEL-731', disclosure: 'intermediate' },
+              after: { text: '5', disclosure: 'intermediate' },
               numericValue: 5,
+              numericDisclosure: 'intermediate',
             },
           ],
         },
@@ -80,8 +85,8 @@ describe('ApplicationProblemVisual', () => {
     )
     expect(hidden).toContain('<table')
     expect(hidden).toContain('<caption>비율표</caption>')
-    expect(hidden).not.toContain('INTERMEDIATE-SENTINEL-731')
-    expect(revealed).toContain('INTERMEDIATE-SENTINEL-731')
+    expect(hidden).not.toContain('>5</td>')
+    expect(revealed).toContain('>5</td>')
     expect(revealed).not.toContain('>?</td>')
   })
 })

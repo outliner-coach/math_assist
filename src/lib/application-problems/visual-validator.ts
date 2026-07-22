@@ -547,6 +547,55 @@ function tableCell(
   return scene.rows.find((row) => row.key === address.rowKey)?.cells[address.columnIndex]
 }
 
+function parseDisplayedNumber(text: string): number | undefined {
+  const normalized = text.trim()
+  const decimal = /^-?(?:0|[1-9]\d*)(?:\.\d+)?$/
+  if (decimal.test(normalized)) return Number(normalized)
+
+  const fraction = normalized.match(/^(-?(?:0|[1-9]\d*))\/(?:([1-9]\d*))$/)
+  if (!fraction) return undefined
+  return Number(fraction[1]) / Number(fraction[2])
+}
+
+function validateTableCellDisplayValue(
+  cell: ApplicationVisualTableSceneV1['rows'][number]['cells'][number],
+  path: string,
+  issues: ApplicationVisualValidationIssue[],
+): void {
+  if (cell.numericValue === undefined) return
+
+  const boundContent = [cell.before, cell.after].find(
+    (content) => content?.disclosure === cell.numericDisclosure,
+  )
+  if (!boundContent) {
+    issue(
+      issues,
+      'missing_numeric_display_binding',
+      path,
+      'the checked numeric value must name the disclosure that renders it',
+    )
+    return
+  }
+  const parsed = parseDisplayedNumber(boundContent.text)
+  if (parsed === undefined) {
+    issue(
+      issues,
+      'non_numeric_display_value',
+      path,
+      'a numeric table cell must render a canonical decimal or fraction',
+    )
+    return
+  }
+  if (!nearlyEqual(parsed, cell.numericValue)) {
+    issue(
+      issues,
+      'display_value_mismatch',
+      path,
+      'the rendered table number does not match its independently checked numeric value',
+    )
+  }
+}
+
 function validateTable(
   scene: ApplicationVisualTableSceneV1,
   issues: ApplicationVisualValidationIssue[],
@@ -570,7 +619,9 @@ function validateTable(
       )
     }
     row.cells.forEach((cell, cellIndex) => {
-      validateContent(cell, scene.semantics, `scene.rows[${rowIndex}].cells[${cellIndex}]`, issues)
+      const cellPath = `scene.rows[${rowIndex}].cells[${cellIndex}]`
+      validateContent(cell, scene.semantics, cellPath, issues)
+      validateTableCellDisplayValue(cell, cellPath, issues)
       if (scene.semantics === 'decorative' && cell.numericValue !== undefined) {
         issue(
           issues,

@@ -126,8 +126,16 @@ describe('application visual scene parser', () => {
           key: 'group-a',
           cells: [
             { before: { text: '가', disclosure: 'identifier' } },
-            { before: { text: '3', disclosure: 'given' }, numericValue: 3 },
-            { before: { text: '5', disclosure: 'given' }, numericValue: 5 },
+            {
+              before: { text: '3', disclosure: 'given' },
+              numericValue: 3,
+              numericDisclosure: 'given',
+            },
+            {
+              before: { text: '5', disclosure: 'given' },
+              numericValue: 5,
+              numericDisclosure: 'given',
+            },
           ],
         },
       ],

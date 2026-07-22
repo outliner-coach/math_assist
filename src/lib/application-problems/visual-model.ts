@@ -114,6 +114,7 @@ export interface ApplicationVisualTableRatioConstraint {
 
 export interface ApplicationVisualTableCell extends ApplicationVisualContent {
   numericValue?: number
+  numericDisclosure?: ApplicationVisualDisclosure
 }
 
 export interface ApplicationVisualTableRow {
@@ -644,13 +645,35 @@ export function parseApplicationVisualSceneV1(value: unknown): ApplicationVisual
         (cell, cellIndex) => {
           const cellPath = `${path}.cells[${cellIndex}]`
           const cellRecord = asRecord(cell, cellPath, issues)
-          const content = parseContent(cellRecord, cellPath, issues, ['numericValue'])
+          const content = parseContent(cellRecord, cellPath, issues, [
+            'numericValue',
+            'numericDisclosure',
+          ])
+          const hasNumericValue = cellRecord.numericValue !== undefined
+          const hasNumericDisclosure = cellRecord.numericDisclosure !== undefined
+          if (hasNumericValue !== hasNumericDisclosure) {
+            addIssue(
+              issues,
+              'incomplete_numeric_display_binding',
+              cellPath,
+              'numericValue and numericDisclosure must be provided together',
+            )
+          }
           return {
             ...content,
             numericValue:
-              cellRecord.numericValue === undefined
+              !hasNumericValue
                 ? undefined
                 : asNumber(cellRecord.numericValue, `${cellPath}.numericValue`, issues),
+            numericDisclosure:
+              !hasNumericDisclosure
+                ? undefined
+                : asEnum(
+                    cellRecord.numericDisclosure,
+                    DISCLOSURES,
+                    `${cellPath}.numericDisclosure`,
+                    issues,
+                  ),
           }
         },
       )
