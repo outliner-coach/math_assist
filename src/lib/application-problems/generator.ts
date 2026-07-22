@@ -22,6 +22,9 @@ export type ApplicationProblemGenerationErrorCode =
   | 'INVALID_MAX_ATTEMPTS'
   | 'INVALID_SET_COUNT'
   | 'FAMILY_GENERATOR_MISMATCH'
+  | 'PACK_ID_MISMATCH'
+  | 'PACK_VERSION_MISMATCH'
+  | 'MAX_ATTEMPTS_POLICY_MISMATCH'
   | 'UNSUPPORTED_RUNTIME_MODE'
   | 'GENERATOR_CALLBACK_FAILED'
   | 'NON_DETERMINISTIC_SAMPLE'
@@ -90,6 +93,9 @@ export interface ApplicationProblemRenderedContentV1 {
 export interface ApplicationProblemFamilyGeneratorV1 {
   familyId: string
   version: number
+  packId: string
+  packVersion: number
+  maxAttempts: number
   visualGeneratorVersion?: number
   sample(context: ApplicationProblemSampleContextV1): ApplicationProblemSampleV1 | null
   render(context: ApplicationProblemRenderContextV1): ApplicationProblemRenderedContentV1
@@ -136,7 +142,7 @@ function canonicalJson(value: unknown, seen = new Set<object>()): JsonValue {
     typeof value === 'boolean' ||
     (typeof value === 'number' && Number.isFinite(value))
   ) {
-    return value
+    return value as JsonValue
   }
   if (typeof value !== 'object' || value === null) {
     throw new TypeError('value must be JSON-safe')
@@ -166,6 +172,22 @@ function canonicalRecord(value: unknown): Record<string, JsonValue> {
   return result
 }
 
+function deepFreezeJson<T extends JsonValue>(value: T): T {
+  if (value !== null && typeof value === 'object') {
+    if (Array.isArray(value)) {
+      value.forEach((entry) => deepFreezeJson(entry))
+    } else {
+      Object.values(value).forEach((entry) => deepFreezeJson(entry))
+    }
+    Object.freeze(value)
+  }
+  return value
+}
+
+function canonicalSnapshot<T>(value: T): T {
+  return deepFreezeJson(canonicalJson(value)) as T
+}
+
 function stableJson(value: unknown): string {
   return JSON.stringify(canonicalJson(value))
 }
@@ -189,12 +211,12 @@ function assertInput(input: GenerateApplicationProblemInputV1): {
   if (!Number.isSafeInteger(input.packVersion) || input.packVersion < 1) {
     throw errorFor(input, 'INVALID_PACK_VERSION', 'packVersion must be a positive safe integer', 0)
   }
-  const maxAttempts = input.maxAttempts ?? MAX_GENERATION_ATTEMPTS
+  const maxAttempts = input.generator.maxAttempts
   if (!Number.isSafeInteger(maxAttempts) || maxAttempts < 1 || maxAttempts > MAX_GENERATION_ATTEMPTS) {
     throw errorFor(
       input,
       'INVALID_MAX_ATTEMPTS',
-      `maxAttempts must be between 1 and ${MAX_GENERATION_ATTEMPTS}`,
+      `generator recipe maxAttempts must be between 1 and ${MAX_GENERATION_ATTEMPTS}`,
       0,
     )
   }
@@ -203,6 +225,34 @@ function assertInput(input: GenerateApplicationProblemInputV1): {
       input,
       'FAMILY_GENERATOR_MISMATCH',
       'generator identity must match familyId@version',
+      0,
+    )
+  }
+  if (family.packId !== input.generator.packId) {
+    throw errorFor(
+      input,
+      'PACK_ID_MISMATCH',
+      'generator recipe packId must match the family packId',
+      0,
+    )
+  }
+  if (
+    !Number.isSafeInteger(input.generator.packVersion) ||
+    input.generator.packVersion < 1 ||
+    input.packVersion !== input.generator.packVersion
+  ) {
+    throw errorFor(
+      input,
+      'PACK_VERSION_MISMATCH',
+      'requested packVersion must match the generator recipe packVersion',
+      0,
+    )
+  }
+  if (input.maxAttempts !== undefined && input.maxAttempts !== maxAttempts) {
+    throw errorFor(
+      input,
+      'MAX_ATTEMPTS_POLICY_MISMATCH',
+      'caller maxAttempts cannot differ from the generator recipe policy',
       0,
     )
   }
@@ -231,8 +281,8 @@ function renderTwice(
   let first: ApplicationProblemRenderedContentV1
   let second: ApplicationProblemRenderedContentV1
   try {
-    first = renderOnce()
-    second = renderOnce()
+    first = canonicalSnapshot(renderOnce())
+    second = canonicalSnapshot(renderOnce())
   } catch (cause) {
     throw errorFor(
       input,
@@ -251,7 +301,7 @@ function renderTwice(
         attempt + 1,
       )
     }
-    return canonicalJson(first) as unknown as ApplicationProblemRenderedContentV1
+    return first
   } catch (cause) {
     if (cause instanceof ApplicationProblemGenerationError) throw cause
     throw errorFor(
@@ -321,18 +371,22 @@ export function generateApplicationProblem(
     let sample: ApplicationProblemSampleV1 | null
     let replaySample: ApplicationProblemSampleV1 | null
     try {
-      sample = input.generator.sample({
-        seed: input.seed,
-        variantIndex: input.variantIndex,
-        attempt,
-        random,
-      })
-      replaySample = input.generator.sample({
-        seed: input.seed,
-        variantIndex: input.variantIndex,
-        attempt,
-        random: replayRandom,
-      })
+      sample = canonicalSnapshot(
+        input.generator.sample({
+          seed: input.seed,
+          variantIndex: input.variantIndex,
+          attempt,
+          random,
+        }),
+      )
+      replaySample = canonicalSnapshot(
+        input.generator.sample({
+          seed: input.seed,
+          variantIndex: input.variantIndex,
+          attempt,
+          random: replayRandom,
+        }),
+      )
     } catch (cause) {
       throw errorFor(
         input,

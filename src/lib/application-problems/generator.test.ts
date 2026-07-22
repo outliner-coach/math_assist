@@ -92,6 +92,9 @@ function generator(
   return {
     familyId: 'g2-length-route-total',
     version: 1,
+    packId: 'pack-g2-2-length',
+    packVersion: 1,
+    maxAttempts: 8,
     sample: ({ random }) => {
       const firstCm = random.params.intInclusive(100, 180)
       const secondCm = random.params.intInclusive(20, 90)
@@ -304,6 +307,7 @@ describe('application problem generator', () => {
   it('retries rejected candidates in a fixed bounded order', () => {
     const attempts: number[] = []
     const retrying = generator({
+      maxAttempts: 3,
       sample: (input) => {
         attempts.push(input.attempt)
         if (input.attempt < 2) return null
@@ -327,7 +331,7 @@ describe('application problem generator', () => {
   })
 
   it('fails explicitly when the bounded attempts cannot produce a problem', () => {
-    const rejecting = generator({ sample: () => null })
+    const rejecting = generator({ maxAttempts: 3, sample: () => null })
 
     try {
       generate({ generator: rejecting, maxAttempts: 3 })
@@ -361,6 +365,22 @@ describe('application problem generator', () => {
     )
   })
 
+  it('rejects pack identity drift for the same public instance identity', () => {
+    expect(() => generate({ packVersion: 2 })).toThrowError(
+      expect.objectContaining({ code: 'PACK_VERSION_MISMATCH' }),
+    )
+    expect(() => generate({
+      generator: generator({ packId: 'different-pack' }),
+    })).toThrowError(expect.objectContaining({ code: 'PACK_ID_MISMATCH' }))
+  })
+
+  it('rejects caller retry drift from the generator recipe policy', () => {
+    expect(() => generate({
+      generator: generator({ maxAttempts: 3 }),
+      maxAttempts: 2,
+    })).toThrowError(expect.objectContaining({ code: 'MAX_ATTEMPTS_POLICY_MISMATCH' }))
+  })
+
   it('rejects a sampler that does not replay from the supplied streams', () => {
     let sampleCount = 0
     const impure = generator({
@@ -381,8 +401,58 @@ describe('application problem generator', () => {
     )
   })
 
+  it('snapshots a shared sampler result before the replay can mutate it', () => {
+    const sharedSample = {
+      params: { value: 1 },
+      mathModel: { kind: 'shared-sample', value: 1 },
+    }
+    let sampleCount = 0
+    const shared = generator({
+      sample: () => {
+        sampleCount += 1
+        if (sampleCount === 2) {
+          sharedSample.params.value = 2
+          sharedSample.mathModel.value = 2
+        }
+        return sharedSample
+      },
+      render: ({ params }) => ({
+        prompt: `값 ${params.value}를 쓰세요.`,
+        answer: { format: 'number', normalized: String(params.value) },
+        solutionSteps: ['주어진 값을 씁니다.'],
+        hintSteps: ['값을 확인하세요.'],
+      }),
+    })
+
+    expect(() => generate({ generator: shared })).toThrowError(
+      expect.objectContaining({ code: 'NON_DETERMINISTIC_SAMPLE' }),
+    )
+  })
+
+  it('snapshots a shared renderer result before the replay can mutate it', () => {
+    const sharedRender = {
+      prompt: '첫 번째 문장',
+      answer: { format: 'number' as const, normalized: '1' },
+      solutionSteps: ['1입니다.'],
+      hintSteps: ['1을 보세요.'],
+    }
+    let renderCount = 0
+    const shared = generator({
+      render: () => {
+        renderCount += 1
+        if (renderCount === 2) sharedRender.prompt = '두 번째 문장'
+        return sharedRender
+      },
+    })
+
+    expect(() => generate({ generator: shared })).toThrowError(
+      expect.objectContaining({ code: 'NON_DETERMINISTIC_RENDER' }),
+    )
+  })
+
   it('fails the whole requested set when a sequential variant cannot be produced', () => {
     const sparse = generator({
+      maxAttempts: 2,
       sample: ({ variantIndex, random }) =>
         variantIndex === 1
           ? null
@@ -615,5 +685,48 @@ describe('application problem registry', () => {
     expect(selectApprovedRuntimeCandidates(registry).map((entry) => entry.family.familyId)).toEqual([
       'g2-length-route-total',
     ])
+  })
+
+  it('admits only non-empty canonical reviewed static corpora for the exact family', () => {
+    const staticFamily = family({
+      proofMode: 'static-corpus',
+      runtimeMode: 'static-corpus',
+      releaseStatus: 'approved',
+      approval: approvedApproval,
+    })
+    const problem = generate()
+    const review = {
+      status: 'approved' as const,
+      reviewerId: 'curriculum-reviewer',
+      reviewedAt: '2026-07-22T00:00:00.000Z',
+      evidenceRefs: ['reports/application-problems/static-corpus-review.md'],
+    }
+    const reviewedEntry = { corpusId: 'length-corpus-001', problem, review }
+    const selectedCount = (entries: readonly unknown[]) =>
+      selectApprovedRuntimeCandidates({
+        entries: [{
+          family: staticFamily,
+          runtime: { kind: 'static-corpus', entries } as never,
+        }],
+      }).length
+
+    const foreignProblem: GeneratedApplicationProblemV1 = {
+      ...problem,
+      instanceId: `foreign-family@1:${problem.seed}:${problem.variantIndex}`,
+      familyId: 'foreign-family',
+    }
+    const malformedProblem = {
+      ...problem,
+      answer: { ...problem.answer, normalized: '' },
+    } as GeneratedApplicationProblemV1
+
+    expect(selectedCount([reviewedEntry])).toBe(1)
+    expect(selectedCount([])).toBe(0)
+    expect(selectedCount([{
+      ...reviewedEntry,
+      review: { ...review, status: 'pending' as const },
+    }])).toBe(0)
+    expect(selectedCount([{ ...reviewedEntry, problem: foreignProblem }])).toBe(0)
+    expect(selectedCount([{ ...reviewedEntry, problem: malformedProblem }])).toBe(0)
   })
 })

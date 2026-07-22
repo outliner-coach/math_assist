@@ -6,7 +6,10 @@ import {
   type GeneratedApplicationProblemV1,
   type JsonValue,
 } from './contracts'
-import { runApplicationProblemProof } from './proof'
+import {
+  createApplicationProofManifestDigest,
+  runApplicationProblemProof,
+} from './proof'
 
 const pendingApproval = {
   ownerStatus: 'pending' as const,
@@ -78,8 +81,106 @@ function numeric(params: Readonly<Record<string, JsonValue>>, key: string): numb
 
 const independentSumOracle = {
   oracleId: 'independent-sum-oracle-v1',
+  oracleVersion: 1,
+  sourceModule: 'src/lib/application-problems/oracles/independent-sum-v1.ts',
+  evidenceRefs: ['reports/application-problems/independent-sum-oracle-v1.md'],
+  dependencies: ['independent-integer-addition-v1'],
   evaluate: ({ params }: { params: Readonly<Record<string, JsonValue>> }) =>
     String(numeric(params, 'left') + numeric(params, 'right')),
+}
+
+const proofGeneratorMetadata = {
+  dependencyId: 'proof-generator-answer-v1',
+  sourceModule: 'src/lib/application-problems/generators/proof-generator-v1.ts',
+}
+
+describe('application proof manifest digest', () => {
+  it('uses canonical JSON key order for a stable domain digest', () => {
+    expect(createApplicationProofManifestDigest([
+      { caseId: 'a', seed: 1, variantIndex: 0 },
+    ])).toBe('fnv1a32:f32bd42c')
+    expect(createApplicationProofManifestDigest([
+      { variantIndex: 0, caseId: 'a', seed: 1 },
+    ])).toBe('fnv1a32:f32bd42c')
+  })
+})
+
+type ExhaustiveDomainCase = { caseId: string; seed: number }
+type ExhaustiveEnumeratedCase = ExhaustiveDomainCase & { variantIndex: number }
+type BoundaryDomainCase = ExhaustiveEnumeratedCase & { boundary: string }
+
+const manifestReview = {
+  reviewedBy: 'proof-manifest-reviewer',
+  reviewedAt: '2026-07-22T00:00:00.000Z',
+  evidenceRefs: ['reports/application-problems/proof-manifest-review.md'],
+}
+
+function proofManifest<T extends 'exhaustive' | 'invariant-boundary' | 'static-corpus'>(
+  domainKind: T,
+  entries: JsonValue[],
+  overrides: Record<string, unknown> = {},
+): ReturnType<typeof manifestShape<T>> {
+  return manifestShape(domainKind, entries, overrides)
+}
+
+function manifestShape<T extends 'exhaustive' | 'invariant-boundary' | 'static-corpus'>(
+  domainKind: T,
+  entries: JsonValue[],
+  overrides: Record<string, unknown>,
+) {
+  const manifest = {
+    schemaVersion: 'application-proof-manifest-v1' as const,
+    manifestId: `proof-family-${domainKind}-manifest`,
+    manifestVersion: 1,
+    familyId: 'proof-family',
+    familyVersion: 1,
+    domainKind,
+    expectedCount: entries.length,
+    domainDigest: createApplicationProofManifestDigest(entries),
+    ...manifestReview,
+    ...overrides,
+  }
+  return manifest as typeof manifest & { domainKind: T }
+}
+
+function exhaustiveAuthority(
+  cases: readonly ExhaustiveDomainCase[],
+  variantIndexes: readonly number[],
+  overrides: Record<string, unknown> = {},
+) {
+  const enumerated: ExhaustiveEnumeratedCase[] = cases.flatMap((entry) =>
+    variantIndexes.map((variantIndex) => ({ ...entry, variantIndex })),
+  )
+  return {
+    manifest: proofManifest('exhaustive', enumerated as JsonValue[], overrides),
+    enumerateDomain: () => enumerated,
+  }
+}
+
+function boundaryAuthority(
+  boundaries: readonly string[],
+  cases: readonly BoundaryDomainCase[],
+  overrides: Record<string, unknown> = {},
+) {
+  return {
+    manifest: {
+      ...proofManifest('invariant-boundary', cases as unknown as JsonValue[], overrides),
+      requiredBoundaryClasses: [...boundaries],
+    },
+    enumerateDomain: () => cases,
+  }
+}
+
+function staticAuthority(
+  corpusIds: readonly string[],
+  overrides: Record<string, unknown> = {},
+) {
+  return {
+    manifest: {
+      ...proofManifest('static-corpus', corpusIds as JsonValue[], overrides),
+      approvedCorpusIds: [...corpusIds],
+    },
+  }
 }
 
 describe('exhaustive application proof', () => {
@@ -97,7 +198,12 @@ describe('exhaustive application proof', () => {
         ],
         variantIndexes: [0, 1, 2],
       },
+      ...exhaustiveAuthority(
+        [{ caseId: 'small', seed: 2 }, { caseId: 'large', seed: 9 }],
+        [0, 1, 2],
+      ),
       generator: {
+        ...proofGeneratorMetadata,
         generatorId: 'proof-generator-v1',
         generate: ({ seed, variantIndex }) => {
           generatedKeys.push(`${seed}:${variantIndex}`)
@@ -105,6 +211,7 @@ describe('exhaustive application proof', () => {
         },
       },
       oracle: {
+        ...independentSumOracle,
         oracleId: independentSumOracle.oracleId,
         evaluate: (input) => {
           oracleInputs.push(input)
@@ -137,7 +244,9 @@ describe('exhaustive application proof', () => {
         cases: [{ caseId: 'wrong', seed: 4 }],
         variantIndexes: [0, 1],
       },
+      ...exhaustiveAuthority([{ caseId: 'wrong', seed: 4 }], [0, 1]),
       generator: {
+        ...proofGeneratorMetadata,
         generatorId: 'proof-generator-v1',
         generate: ({ seed, variantIndex }) =>
           generated(seed, variantIndex, variantIndex === 1 ? 999 : seed + variantIndex),
@@ -157,6 +266,115 @@ describe('exhaustive application proof', () => {
     }))
   })
 
+  it('rejects a self-shrunk one-case authoritative domain', () => {
+    const report = runApplicationProblemProof({
+      mode: 'exhaustive',
+      family: family(),
+      domain: {
+        kind: 'finite-complete',
+        cases: [{ caseId: 'only', seed: 1 }],
+        variantIndexes: [0],
+      },
+      ...exhaustiveAuthority([{ caseId: 'only', seed: 1 }], [0]),
+      generator: {
+        ...proofGeneratorMetadata,
+        generatorId: 'proof-generator-v1',
+        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
+      },
+      oracle: independentSumOracle,
+    })
+
+    expect(report.proven).toBe(false)
+    expect(report.checkedCount).toBe(0)
+    expect(report.provenProblems).toEqual([])
+    expect(report.issues.map((issue) => issue.code)).toContain('MANIFEST_DOMAIN_TOO_SMALL')
+  })
+
+  it('rejects submitted cases that do not exactly match the authoritative enumerator', () => {
+    const report = runApplicationProblemProof({
+      mode: 'exhaustive',
+      family: family(),
+      domain: {
+        kind: 'finite-complete',
+        cases: [{ caseId: 'submitted', seed: 1 }],
+        variantIndexes: [0, 1],
+      },
+      ...exhaustiveAuthority(
+        [{ caseId: 'submitted', seed: 1 }, { caseId: 'missing', seed: 2 }],
+        [0],
+      ),
+      generator: {
+        ...proofGeneratorMetadata,
+        generatorId: 'proof-generator-v1',
+        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
+      },
+      oracle: independentSumOracle,
+    })
+
+    expect(report.proven).toBe(false)
+    expect(report.checkedCount).toBe(0)
+    expect(report.provenProblems).toEqual([])
+    expect(report.issues.map((issue) => issue.code)).toContain('MANIFEST_CASE_SET_MISMATCH')
+  })
+
+  it('binds the reviewed manifest to family version, expected count, and digest', () => {
+    const report = runApplicationProblemProof({
+      mode: 'exhaustive',
+      family: family(),
+      domain: {
+        kind: 'finite-complete',
+        cases: [{ caseId: 'pair', seed: 1 }],
+        variantIndexes: [0, 1],
+      },
+      ...exhaustiveAuthority([{ caseId: 'pair', seed: 1 }], [0, 1], {
+        familyVersion: 2,
+        expectedCount: 3,
+        domainDigest: 'fnv1a32:00000000',
+      }),
+      generator: {
+        ...proofGeneratorMetadata,
+        generatorId: 'proof-generator-v1',
+        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
+      },
+      oracle: independentSumOracle,
+    })
+
+    expect(report.proven).toBe(false)
+    expect(report.checkedCount).toBe(0)
+    expect(report.issues.map((issue) => issue.code)).toEqual(expect.arrayContaining([
+      'MANIFEST_FAMILY_MISMATCH',
+      'MANIFEST_COUNT_MISMATCH',
+      'MANIFEST_DIGEST_MISMATCH',
+    ]))
+  })
+
+  it('requires explicit review evidence on the authoritative manifest', () => {
+    const report = runApplicationProblemProof({
+      mode: 'exhaustive',
+      family: family(),
+      domain: {
+        kind: 'finite-complete',
+        cases: [{ caseId: 'pair', seed: 1 }],
+        variantIndexes: [0, 1],
+      },
+      ...exhaustiveAuthority([{ caseId: 'pair', seed: 1 }], [0, 1], {
+        reviewedBy: '',
+        evidenceRefs: [],
+      }),
+      generator: {
+        ...proofGeneratorMetadata,
+        generatorId: 'proof-generator-v1',
+        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
+      },
+      oracle: independentSumOracle,
+    })
+
+    expect(report.proven).toBe(false)
+    expect(report.checkedCount).toBe(0)
+    expect(report.provenProblems).toEqual([])
+    expect(report.issues.map((issue) => issue.code)).toContain('MANIFEST_REVIEW_REQUIRED')
+  })
+
   it('rejects an oracle that declares the generator identity as its own', () => {
     const report = runApplicationProblemProof({
       mode: 'exhaustive',
@@ -166,11 +384,14 @@ describe('exhaustive application proof', () => {
         cases: [{ caseId: 'only', seed: 1 }],
         variantIndexes: [0],
       },
+      ...exhaustiveAuthority([{ caseId: 'only', seed: 1 }], [0]),
       generator: {
+        ...proofGeneratorMetadata,
         generatorId: 'shared-claim-function',
         generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
       },
       oracle: {
+        ...independentSumOracle,
         oracleId: 'shared-claim-function',
         evaluate: independentSumOracle.evaluate,
       },
@@ -198,11 +419,14 @@ describe('exhaustive application proof', () => {
         cases: [{ caseId: 'only', seed: 1 }],
         variantIndexes: [0],
       },
+      ...exhaustiveAuthority([{ caseId: 'only', seed: 1 }], [0]),
       generator: {
+        ...proofGeneratorMetadata,
         generatorId: 'generator-label',
         generate: sharedImplementation as never,
       },
       oracle: {
+        ...independentSumOracle,
         oracleId: 'oracle-label',
         evaluate: sharedImplementation as never,
       },
@@ -210,6 +434,72 @@ describe('exhaustive application proof', () => {
 
     expect(report.proven).toBe(false)
     expect(report.checkedCount).toBe(0)
+    expect(report.issues.map((issue) => issue.code)).toContain('ORACLE_NOT_INDEPENDENT')
+  })
+
+  it('rejects an oracle wrapper that depends on the generator answer dependency', () => {
+    const sharedAnswerDependency = (seed: number, variantIndex: number) =>
+      seed + variantIndex
+    const report = runApplicationProblemProof({
+      mode: 'exhaustive',
+      family: family(),
+      domain: {
+        kind: 'finite-complete',
+        cases: [{ caseId: 'shared-dependency', seed: 2 }],
+        variantIndexes: [0, 1],
+      },
+      ...exhaustiveAuthority([{ caseId: 'shared-dependency', seed: 2 }], [0, 1]),
+      generator: {
+        generatorId: 'wrapped-generator-v1',
+        dependencyId: 'shared-answer-dependency-v1',
+        sourceModule: 'src/lib/application-problems/generators/wrapped-generator-v1.ts',
+        generate: ({ seed, variantIndex }) =>
+          generated(seed, variantIndex, sharedAnswerDependency(seed, variantIndex)),
+      },
+      oracle: {
+        oracleId: 'wrapped-oracle-v1',
+        oracleVersion: 1,
+        sourceModule: 'src/lib/application-problems/oracles/wrapped-oracle-v1.ts',
+        evidenceRefs: ['reports/application-problems/wrapped-oracle-v1.md'],
+        dependencies: ['shared-answer-dependency-v1'],
+        evaluate: ({ seed, variantIndex }) =>
+          String(sharedAnswerDependency(seed, variantIndex)),
+      },
+    })
+
+    expect(report.proven).toBe(false)
+    expect(report.checkedCount).toBe(0)
+    expect(report.provenProblems).toEqual([])
+    expect(report.issues.map((issue) => issue.code)).toContain('ORACLE_NOT_INDEPENDENT')
+  })
+
+  it('rejects oracle metadata without a versioned distinct source and review evidence', () => {
+    const report = runApplicationProblemProof({
+      mode: 'exhaustive',
+      family: family(),
+      domain: {
+        kind: 'finite-complete',
+        cases: [{ caseId: 'unverifiable-oracle', seed: 3 }],
+        variantIndexes: [0, 1],
+      },
+      ...exhaustiveAuthority([{ caseId: 'unverifiable-oracle', seed: 3 }], [0, 1]),
+      generator: {
+        ...proofGeneratorMetadata,
+        generatorId: 'proof-generator-v1',
+        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
+      },
+      oracle: {
+        ...independentSumOracle,
+        oracleVersion: 0,
+        sourceModule: proofGeneratorMetadata.sourceModule,
+        evidenceRefs: [],
+        dependencies: [],
+      },
+    })
+
+    expect(report.proven).toBe(false)
+    expect(report.checkedCount).toBe(0)
+    expect(report.provenProblems).toEqual([])
     expect(report.issues.map((issue) => issue.code)).toContain('ORACLE_NOT_INDEPENDENT')
   })
 })
@@ -226,11 +516,21 @@ describe('invariant-boundary application proof', () => {
         { caseId: 'middle', boundary: 'interior', seed: 5, variantIndex: 1 },
         { caseId: 'max', boundary: 'maximum', seed: 10, variantIndex: 2 },
       ],
+      ...boundaryAuthority(
+        ['minimum', 'interior', 'maximum'],
+        [
+          { caseId: 'min', boundary: 'minimum', seed: 0, variantIndex: 0 },
+          { caseId: 'middle', boundary: 'interior', seed: 5, variantIndex: 1 },
+          { caseId: 'max', boundary: 'maximum', seed: 10, variantIndex: 2 },
+        ],
+      ),
       generator: {
+        ...proofGeneratorMetadata,
         generatorId: 'proof-generator-v1',
         generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
       },
       oracle: {
+        ...independentSumOracle,
         oracleId: independentSumOracle.oracleId,
         evaluate: (input) => {
           visitedBoundaries.push(input.boundary!)
@@ -251,7 +551,12 @@ describe('invariant-boundary application proof', () => {
       family: family({ proofMode: 'invariant-boundary' }),
       boundaries: ['minimum', 'maximum'],
       cases: [{ caseId: 'min', boundary: 'minimum', seed: 0, variantIndex: 0 }],
+      ...boundaryAuthority(
+        ['minimum', 'maximum'],
+        [{ caseId: 'min', boundary: 'minimum', seed: 0, variantIndex: 0 }],
+      ),
       generator: {
+        ...proofGeneratorMetadata,
         generatorId: 'proof-generator-v1',
         generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
       },
@@ -268,6 +573,40 @@ describe('invariant-boundary application proof', () => {
     }))
   })
 
+  it('rejects a boundary submission that omits an authoritative class and case', () => {
+    const submitted = [
+      { caseId: 'min', boundary: 'minimum', seed: 0, variantIndex: 0 },
+      { caseId: 'middle', boundary: 'interior', seed: 5, variantIndex: 1 },
+    ]
+    const report = runApplicationProblemProof({
+      mode: 'invariant-boundary',
+      family: family({ proofMode: 'invariant-boundary' }),
+      boundaries: ['minimum', 'interior'],
+      cases: submitted,
+      ...boundaryAuthority(
+        ['minimum', 'interior', 'maximum'],
+        [
+          ...submitted,
+          { caseId: 'max', boundary: 'maximum', seed: 10, variantIndex: 2 },
+        ],
+      ),
+      generator: {
+        ...proofGeneratorMetadata,
+        generatorId: 'proof-generator-v1',
+        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
+      },
+      oracle: independentSumOracle,
+    })
+
+    expect(report.proven).toBe(false)
+    expect(report.checkedCount).toBe(0)
+    expect(report.provenProblems).toEqual([])
+    expect(report.issues.map((issue) => issue.code)).toEqual(expect.arrayContaining([
+      'BOUNDARY_SET_MISMATCH',
+      'MANIFEST_CASE_SET_MISMATCH',
+    ]))
+  })
+
   it('reports generation and oracle failures with stable seed provenance', () => {
     const report = runApplicationProblemProof({
       mode: 'invariant-boundary',
@@ -277,7 +616,15 @@ describe('invariant-boundary application proof', () => {
         { caseId: 'generation', boundary: 'minimum', seed: 1, variantIndex: 0 },
         { caseId: 'oracle', boundary: 'maximum', seed: 2, variantIndex: 1 },
       ],
+      ...boundaryAuthority(
+        ['minimum', 'maximum'],
+        [
+          { caseId: 'generation', boundary: 'minimum', seed: 1, variantIndex: 0 },
+          { caseId: 'oracle', boundary: 'maximum', seed: 2, variantIndex: 1 },
+        ],
+      ),
       generator: {
+        ...proofGeneratorMetadata,
         generatorId: 'proof-generator-v1',
         generate: ({ seed, variantIndex }) => {
           if (seed === 1) throw new Error('candidate unavailable')
@@ -285,6 +632,7 @@ describe('invariant-boundary application proof', () => {
         },
       },
       oracle: {
+        ...independentSumOracle,
         oracleId: independentSumOracle.oracleId,
         evaluate: () => {
           throw new Error('oracle unavailable')
@@ -322,6 +670,7 @@ describe('static corpus application proof', () => {
         { corpusId: 'proof-corpus-001', problem: generated(1, 0), review: approvedCorpusReview },
         { corpusId: 'proof-corpus-002', problem: generated(2, 0), review: approvedCorpusReview },
       ],
+      ...staticAuthority(['proof-corpus-001', 'proof-corpus-002']),
     })
 
     expect(report).toMatchObject({
@@ -342,6 +691,7 @@ describe('static corpus application proof', () => {
         problem: generated(1, 0),
         review: { ...approvedCorpusReview, status: 'pending' as const, evidenceRefs: [] },
       }],
+      ...staticAuthority(['proof-corpus-unreviewed']),
     })
 
     expect(report.proven).toBe(false)
@@ -350,6 +700,27 @@ describe('static corpus application proof', () => {
       code: 'CORPUS_REVIEW_REQUIRED',
       corpusId: 'proof-corpus-unreviewed',
     }))
+  })
+
+  it('rejects a static corpus that omits a manifest-approved entry ID', () => {
+    const report = runApplicationProblemProof({
+      mode: 'static-corpus',
+      family: staticFamily(),
+      entries: [
+        { corpusId: 'proof-corpus-001', problem: generated(1, 0), review: approvedCorpusReview },
+        { corpusId: 'proof-corpus-002', problem: generated(2, 0), review: approvedCorpusReview },
+      ],
+      ...staticAuthority([
+        'proof-corpus-001',
+        'proof-corpus-002',
+        'proof-corpus-003',
+      ]),
+    })
+
+    expect(report.proven).toBe(false)
+    expect(report.checkedCount).toBe(0)
+    expect(report.provenProblems).toEqual([])
+    expect(report.issues.map((issue) => issue.code)).toContain('MANIFEST_CASE_SET_MISMATCH')
   })
 
   it('rejects an empty corpus identity and non-ISO review evidence', () => {
@@ -361,6 +732,7 @@ describe('static corpus application proof', () => {
         problem: generated(1, 0),
         review: { ...approvedCorpusReview, reviewedAt: 'tomorrow' },
       }],
+      ...staticAuthority(['']),
     })
 
     expect(report.proven).toBe(false)
@@ -376,6 +748,7 @@ describe('static corpus application proof', () => {
       mode: 'static-corpus',
       family: staticFamily(),
       entries: [{ corpusId: 'proof-corpus-001', problem: generated(1, 0), review: approvedCorpusReview }],
+      ...staticAuthority(['proof-corpus-001']),
       generate: () => generated(99, 0),
     } as Parameters<typeof runApplicationProblemProof>[0])
 
@@ -392,6 +765,7 @@ describe('static corpus application proof', () => {
       mode: 'static-corpus',
       family: staticFamily(),
       entries: [{ corpusId: 'proof-corpus-001', problem: generated(1, 0), review: approvedCorpusReview }],
+      ...staticAuthority(['proof-corpus-001']),
       generator: { generate: () => generated(99, 0) },
     } as Parameters<typeof runApplicationProblemProof>[0])
 
