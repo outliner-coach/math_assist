@@ -299,6 +299,48 @@ describe('independent BigInt rational oracle', () => {
       compareOracleFractions(BigInt(1), BigInt(0), BigInt(1), BigInt(2)),
     ).toThrow(/denominator/i)
   })
+
+  it('rejects each independently forged representation claim instead of echoing params', () => {
+    const problem = generateG6RatioRepresentationCheck({ seed: 0, variantIndex: 0 })
+    const referenceInversion = generateG6RatioRepresentationCheck({ seed: 1, variantIndex: 0 })
+    const numeratorOnly = generateG6RatioRepresentationCheck({ seed: 2, variantIndex: 0 })
+    const input = oracleInput(problem)
+    for (const [key, forgedClaim] of [
+      ['fractionClaim', referenceInversion.params.fractionClaim],
+      ['decimalClaim', '소수 주장: 같은 비율은 0.5입니다.'],
+      ['percentClaim', referenceInversion.params.percentClaim],
+      ['hundredthsClaim', numeratorOnly.params.hundredthsClaim],
+    ] as const) {
+      expect(() =>
+        evaluateG6RatioRepresentationCheckOracle({
+          ...input,
+          params: { ...input.params, [key]: forgedClaim },
+        }),
+      ).toThrow(/claim/i)
+    }
+  })
+
+  it('derives the erroneous representation claim without trusting errorMode', () => {
+    const problem = generateG6RatioRepresentationCheck({ seed: 0, variantIndex: 0 })
+    const input = oracleInput(problem)
+    expect(
+      evaluateG6RatioRepresentationCheckOracle({
+        ...input,
+        params: { ...input.params, errorMode: 'forged-mode' },
+      }),
+    ).toBe(problem.params.percentClaim)
+  })
+
+  it('rejects a zero raw denominator before evaluating representation claims', () => {
+    const problem = generateG6RatioRepresentationCheck({ seed: 0, variantIndex: 0 })
+    const input = oracleInput(problem)
+    expect(() =>
+      evaluateG6RatioRepresentationCheckOracle({
+        ...input,
+        params: { ...input.params, denominator: 0 },
+      }),
+    ).toThrow(/denominator/i)
+  })
 })
 
 describe('Grade 6 family structural diversity', () => {
