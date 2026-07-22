@@ -18,7 +18,7 @@ import {
 import {
   createTestApplicationProofAuthorityRegistryV1,
   createTestApplicationProofImplementationRegistryV1,
-  runApplicationProblemProofWithTestTrust,
+  runTestApplicationProblemProofEngineV1,
 } from './__test-support__/proof-trust'
 import type {
   ApplicationProofAuthorityEntryV1,
@@ -275,7 +275,7 @@ function runPair(
   authority: ApplicationProofAuthorityEntryV1 = pairAuthority,
   implementations = implementationRegistry(),
 ) {
-  return runApplicationProblemProofWithTestTrust(
+  return runTestApplicationProblemProofEngineV1(
     proof,
     createTestApplicationProofAuthorityRegistryV1([authority]),
     implementations,
@@ -413,14 +413,31 @@ describe('exhaustive application proof', () => {
     expect(report.issues.map((issue) => issue.code)).toContain('PROOF_AUTHORITY_NOT_FOUND')
   })
 
+  it('ignores forged registry arguments passed to the production runner at runtime', () => {
+    const runtimeCall = runApplicationProblemProof as unknown as (
+      input: ApplicationProblemProofV1,
+      authority: unknown,
+      implementations: unknown,
+    ) => ReturnType<typeof runApplicationProblemProof>
+    const report = runtimeCall(
+      pairProof(),
+      createTestApplicationProofAuthorityRegistryV1([pairAuthority]),
+      implementationRegistry(),
+    )
+
+    expect(report.proven).toBe(false)
+    expect(report.checkedCount).toBe(0)
+    expect(report.issues.map((issue) => issue.code)).toContain('PROOF_AUTHORITY_NOT_FOUND')
+  })
+
   it('fails closed for missing and wrong family-version authority', () => {
     const empty = createTestApplicationProofAuthorityRegistryV1([])
-    const missing = runApplicationProblemProofWithTestTrust(
+    const missing = runTestApplicationProblemProofEngineV1(
       pairProof(),
       empty,
       implementationRegistry(),
     )
-    const wrongVersion = runApplicationProblemProofWithTestTrust(
+    const wrongVersion = runTestApplicationProblemProofEngineV1(
       pairProof(defaultGenerator, defaultOracle, { family: family({ version: 2 }) }),
       createTestApplicationProofAuthorityRegistryV1([pairAuthority]),
       implementationRegistry(),
@@ -677,7 +694,7 @@ describe('invariant-boundary application proof', () => {
       proof.oracle.evaluate,
     ),
   ) {
-    return runApplicationProblemProofWithTestTrust(
+    return runTestApplicationProblemProofEngineV1(
       proof,
       createTestApplicationProofAuthorityRegistryV1([boundaryAuthority]),
       implementations,
@@ -762,7 +779,7 @@ describe('static corpus application proof', () => {
     { corpusId: corpusIds[1], problem: generated(2, 0), review: approvedCorpusReview },
   ]
   const runStatic = (proof: StaticCorpusApplicationProofV1) =>
-    runApplicationProblemProofWithTestTrust(
+    runTestApplicationProblemProofEngineV1(
       proof,
       createTestApplicationProofAuthorityRegistryV1([staticAuthority]),
     )

@@ -1,7 +1,7 @@
-import {
-  runApplicationProblemProof,
-  type ApplicationProofReportV1,
-  type ApplicationProblemProofV1,
+import { runApplicationProblemProofEngineV1Internal } from '../proof-engine.internal'
+import type {
+  ApplicationProofReportV1,
+  ApplicationProblemProofV1,
 } from '../proof'
 import {
   buildApplicationProofAuthorityRegistryV1Internal,
@@ -28,15 +28,14 @@ export function createTestApplicationProofImplementationRegistryV1(
   return buildApplicationProofImplementationRegistryV1Internal(input)
 }
 
-export function runApplicationProblemProofWithTestTrust(
+export function runTestApplicationProblemProofEngineV1(
   input: ApplicationProblemProofV1,
   authorityRegistry: ApplicationProofAuthorityRegistryV1,
   implementationRegistry?: ApplicationProofImplementationRegistryV1,
 ): ApplicationProofReportV1 {
-  const testRunner = runApplicationProblemProof as unknown as (
-    proof: ApplicationProblemProofV1,
-    authority: ApplicationProofAuthorityRegistryV1,
-    implementations?: ApplicationProofImplementationRegistryV1,
-  ) => ApplicationProofReportV1
-  return testRunner(input, authorityRegistry, implementationRegistry)
+  return runApplicationProblemProofEngineV1Internal(
+    input,
+    authorityRegistry,
+    implementationRegistry,
+  )
 }
