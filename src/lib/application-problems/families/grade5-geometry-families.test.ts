@@ -4,7 +4,11 @@ import { join } from 'node:path'
 
 import { describe, expect, it } from 'vitest'
 
-import { parseApplicationProblemFamilyV1, type JsonValue } from '../contracts'
+import {
+  parseApplicationProblemFamilyV1,
+  type GeneratedApplicationProblemV1,
+  type JsonValue,
+} from '../contracts'
 import { createApplicationProofManifestDigest } from '../proof'
 import { applicationProofDependencyClosureV1 } from '../proof-trust.internal'
 import { createTestApplicationProofImplementationRegistryV1 } from '../__test-support__/proof-trust'
@@ -242,6 +246,41 @@ describe('Grade 5 quantitative geometry family metadata', () => {
       const shared = Array.from(closure.keys()).filter((key) => oracleClosure.has(key))
       expect(shared).toEqual([])
     }
+  })
+})
+
+describe('Grade 5 canonical problem binding', () => {
+  const problem = generateG5AreaCompositeInverseProblem({ seed: 0, variantIndex: 0 })
+  const scene = parseApplicationVisualSceneV1(problem.visual.mathModel)
+
+  it.each([
+    ['schema version', { ...problem, schemaVersion: 'forged-schema' }],
+    ['instance id', { ...problem, instanceId: 'forged-instance' }],
+    ['family id', { ...problem, familyId: 'forged-family' }],
+    ['generator version', { ...problem, generatorVersion: problem.generatorVersion + 1 }],
+    ['pack id', { ...problem, packId: 'forged-pack' }],
+    ['pack version', { ...problem, packVersion: problem.packVersion + 1 }],
+    ['seed', { ...problem, seed: problem.seed + 1 }],
+    ['variant index', { ...problem, variantIndex: problem.variantIndex + 1 }],
+    ['curriculum codes', { ...problem, curriculumCodes: ['[forged]'] }],
+  ])('rejects a mismatched canonical %s', (_name, forged) => {
+    expect(validateGrade5ApplicationGeometryProblem(
+      forged as unknown as GeneratedApplicationProblemV1,
+      scene,
+    ).length).toBeGreaterThan(0)
+  })
+
+  it.each([
+    ['role', { ...problem.visual, role: 'support', answerCritical: false }],
+    ['answer-critical flag', { ...problem.visual, answerCritical: false }],
+    ['semantics', { ...problem.visual, semantics: 'schematic' }],
+    ['generator id', { ...problem.visual, generatorId: 'forged-visual' }],
+    ['generator version', { ...problem.visual, generatorVersion: 2 }],
+  ])('rejects a mismatched canonical visual %s', (_name, visual) => {
+    expect(validateGrade5ApplicationGeometryProblem(
+      { ...problem, visual } as unknown as GeneratedApplicationProblemV1,
+      scene,
+    ).length).toBeGreaterThan(0)
   })
 })
 

@@ -307,6 +307,30 @@ function measuredAnswer(
   return naturalAnswer(measured.atomicAreas[targetPair])
 }
 
+function immutableProvenance(problem: Readonly<GeneratedApplicationProblemV1>) {
+  return {
+    schemaVersion: problem.schemaVersion,
+    instanceId: problem.instanceId,
+    familyId: problem.familyId,
+    generatorVersion: problem.generatorVersion,
+    packId: problem.packId,
+    packVersion: problem.packVersion,
+    seed: problem.seed,
+    variantIndex: problem.variantIndex,
+    curriculumCodes: problem.curriculumCodes,
+  }
+}
+
+function immutableVisualPolicy(problem: Readonly<GeneratedApplicationProblemV1>) {
+  return {
+    role: problem.visual.role,
+    semantics: problem.visual.semantics,
+    generatorId: problem.visual.generatorId,
+    generatorVersion: problem.visual.generatorVersion,
+    answerCritical: problem.visual.answerCritical,
+  }
+}
+
 function validateProblemBinding(
   problem: Readonly<GeneratedApplicationProblemV1>,
   scene: ApplicationVisualDiagramSceneV1,
@@ -336,17 +360,23 @@ function validateProblemBinding(
       'problem parameters and generator provenance do not match family, seed, and variant',
     )
   }
+  if (stableJson(immutableProvenance(problem)) !== stableJson(immutableProvenance(canonicalProblem))) {
+    issue(
+      issues,
+      'grade5_problem_provenance_mismatch',
+      'problem',
+      'problem identity and provenance do not match its canonical Grade 5 generated instance',
+    )
+  }
   if (
-    problem.instanceId !== canonicalProblem.instanceId ||
-    problem.generatorVersion !== canonicalProblem.generatorVersion ||
-    problem.packId !== canonicalProblem.packId ||
-    problem.packVersion !== canonicalProblem.packVersion
+    stableJson(immutableVisualPolicy(problem)) !==
+    stableJson(immutableVisualPolicy(canonicalProblem))
   ) {
     issue(
       issues,
-      'grade5_problem_identity_mismatch',
-      'problem.instanceId',
-      'problem identity does not match its canonical Grade 5 generated instance',
+      'grade5_visual_policy_mismatch',
+      'problem.visual',
+      'visual policy does not match its canonical Grade 5 generated instance',
     )
   }
 

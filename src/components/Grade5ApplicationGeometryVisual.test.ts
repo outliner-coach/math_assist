@@ -2,9 +2,10 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
-import type {
-  GeneratedApplicationProblemV1,
-  JsonValue,
+import {
+  parseGeneratedApplicationProblemV1,
+  type GeneratedApplicationProblemV1,
+  type JsonValue,
 } from '../lib/application-problems/contracts'
 import {
   generateG5AreaCompositeInverseProblem,
@@ -153,6 +154,54 @@ describe('Grade5ApplicationGeometryVisual', () => {
       availableWidth: 390,
       availableHeight: 844,
     }))
+    expect(markup).toContain('정량 그림을 만들 수 없습니다')
+    expect(markup).not.toContain('<svg')
+  })
+
+  it('blocks contract-valid forged curriculum provenance before rendering', () => {
+    const problem = generateG5AreaCompositeInverseProblem({ seed: 0, variantIndex: 0 })
+    const forged = parseGeneratedApplicationProblemV1({
+      ...problem,
+      curriculumCodes: ['[forged]'],
+    })
+
+    const markup = renderProblem(forged)
+    expect(markup).toContain('정량 그림을 만들 수 없습니다')
+    expect(markup).not.toContain('<svg')
+  })
+
+  it('blocks a contract-valid required-to-support visual policy downgrade', () => {
+    const problem = generateG5AreaCompositeInverseProblem({ seed: 0, variantIndex: 0 })
+    const downgraded = parseGeneratedApplicationProblemV1({
+      ...problem,
+      visual: { ...problem.visual, role: 'support', answerCritical: false },
+    })
+
+    const markup = renderProblem(downgraded)
+    expect(markup).toContain('정량 그림을 만들 수 없습니다')
+    expect(markup).not.toContain('<svg')
+  })
+
+  it('blocks an answer-critical policy downgrade before rendering', () => {
+    const problem = generateG5AreaCompositeInverseProblem({ seed: 0, variantIndex: 0 })
+    const downgraded: GeneratedApplicationProblemV1 = {
+      ...problem,
+      visual: { ...problem.visual, answerCritical: false },
+    }
+
+    const markup = renderProblem(downgraded)
+    expect(markup).toContain('정량 그림을 만들 수 없습니다')
+    expect(markup).not.toContain('<svg')
+  })
+
+  it('blocks a contract-valid visual semantics change before rendering', () => {
+    const problem = generateG5AreaCompositeInverseProblem({ seed: 0, variantIndex: 0 })
+    const changed = parseGeneratedApplicationProblemV1({
+      ...problem,
+      visual: { ...problem.visual, semantics: 'schematic' },
+    })
+
+    const markup = renderProblem(changed)
     expect(markup).toContain('정량 그림을 만들 수 없습니다')
     expect(markup).not.toContain('<svg')
   })
