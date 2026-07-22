@@ -594,6 +594,26 @@ function validateTableCellDisplayValue(
       'the rendered table number does not match its independently checked numeric value',
     )
   }
+
+  for (const alternate of [cell.before, cell.after]) {
+    if (!alternate || alternate === boundContent) continue
+    const alternateValue = parseDisplayedNumber(alternate.text)
+    if (alternateValue !== undefined && !nearlyEqual(alternateValue, cell.numericValue)) {
+      issue(
+        issues,
+        'display_value_mismatch',
+        path,
+        'an alternate rendered table number contradicts the independently checked value',
+      )
+    } else if (alternateValue === undefined && /\d/.test(alternate.text)) {
+      issue(
+        issues,
+        'non_numeric_display_value',
+        path,
+        'an alternate numeric table display must be canonical or use a nonnumeric placeholder',
+      )
+    }
+  }
 }
 
 function validateTable(

@@ -224,6 +224,54 @@ describe('application visual validation', () => {
     }
   })
 
+  it('rejects a contradictory numeric value in the alternate disclosure phase', () => {
+    const contradictoryPhases = {
+      schemaVersion: 'application-visual-v1',
+      surface: 'table',
+      semantics: 'quantitative',
+      caption: { before: { text: '비율표', disclosure: 'given' } },
+      columns: [
+        { before: { text: '기준량', disclosure: 'identifier' } },
+        { before: { text: '비교량', disclosure: 'identifier' } },
+      ],
+      rows: [
+        {
+          key: 'a',
+          cells: [
+            {
+              before: { text: '2', disclosure: 'given' },
+              after: { text: '4', disclosure: 'intermediate' },
+              numericValue: 4,
+              numericDisclosure: 'intermediate',
+            },
+            {
+              before: { text: '3', disclosure: 'given' },
+              after: { text: '2', disclosure: 'intermediate' },
+              numericValue: 2,
+              numericDisclosure: 'intermediate',
+            },
+          ],
+        },
+      ],
+      constraints: [
+        {
+          kind: 'table-ratio',
+          numerator: { rowKey: 'a', columnIndex: 0 },
+          denominator: { rowKey: 'a', columnIndex: 1 },
+          expected: 2,
+        },
+      ],
+    }
+
+    const result = validateApplicationVisualScene(
+      parseApplicationVisualSceneV1(contradictoryPhases),
+    )
+    expect(result.ok).toBe(false)
+    if (!result.ok) {
+      expect(result.issues.map((entry) => entry.code)).toContain('display_value_mismatch')
+    }
+  })
+
   it('distinguishes aligned rectangle overlap from boundary-only touching', () => {
     const scene = diagramScene()
     scene.primitives = [
