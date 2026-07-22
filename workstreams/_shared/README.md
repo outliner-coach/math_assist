@@ -21,6 +21,18 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-22: application-problem authoring contracts (primary shared
+  foundation workstream) own the narrow extension to `src/lib/types.ts` and
+  the new `src/lib/application-problems/contracts.ts`. Existing Grade 2
+  missions, Grade 5/6 generated `Problem` snapshots, `PracticeSession`,
+  grading, progress, rewards, and localStorage keys remain authoritative and
+  readable without the optional `Problem.applicationSource` field. New
+  unit-pack and family content must use the V1 parsers, immutable identity and
+  release-transition validators before adapters or runtime registries consume
+  it. Re-check legacy session normalization plus pack/family provenance when
+  an adapter, generator, content validator, or review surface adopts this
+  contract. This step does not approve or release any content.
+
 - 2026-07-21: approved Grade 5 semantic corrections and Grade 6 public
   promotion (primary workstreams 01, 02, 03, and 04) close the nine blocked
   Grade 5 blueprint slots, redesign `g6ratio-001` so A/B/C use materially

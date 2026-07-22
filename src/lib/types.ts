@@ -95,6 +95,23 @@ export interface ProblemBlueprintMeta {
   visualSemantics?: VisualSemantics
 }
 
+/**
+ * Optional provenance for problems produced through the common application
+ * authoring contract. Legacy mission, template, and saved problem payloads do
+ * not need this field and keep their existing identifiers and behavior.
+ */
+export interface ApplicationProblemSource {
+  schemaVersion: 'generated-application-problem-v1'
+  instanceId: string
+  familyId: string
+  generatorVersion: number
+  packId: string
+  packVersion: number
+  seed: number
+  variantIndex: number
+  curriculumCodes: string[]
+}
+
 export type ProblemVisual =
   | {
       type: 'basic_shape'
@@ -247,6 +264,7 @@ export interface Problem {
   hintSteps?: string[]
   problemFamily?: string
   blueprint?: ProblemBlueprintMeta
+  applicationSource?: ApplicationProblemSource
   visual?: GeometryVisual
 }
 
