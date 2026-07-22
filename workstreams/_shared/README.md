@@ -21,6 +21,20 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-22: application-problem pilot families are split by ownership before
+  generator work begins: Grade 2 length families belong to workstreams 01 and
+  03, Grade 5 quantitative geometry families belong to workstreams 01, 03, and
+  04, and Grade 6 ratio families belong to workstreams 01 and 03. Each lane
+  owns only its family, independent oracle, proof-registration source, and thin
+  visual wrapper. The common contracts, production proof catalogs, existing
+  `src/lib/problem-generator.ts`, curriculum JSON, sessions, grading, progress,
+  and release wiring stay under the shared integration lane. All pilot
+  families remain `draft` / `pending` until review evidence and explicit owner
+  approval are recorded; re-check deterministic enumeration, oracle
+  independence, quantitative scene validation, answer-safe rendering, legacy
+  snapshot compatibility, and release-ledger fail-closed behavior before any
+  runtime registration or promotion.
+
 - 2026-07-22: application-problem authoring contracts (primary shared
   foundation workstream) own the narrow extension to `src/lib/types.ts` and
   the new `src/lib/application-problems/contracts.ts`. Existing Grade 2
