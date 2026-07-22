@@ -10,14 +10,61 @@ const STANDARD_RANGES = Object.freeze({
 })
 
 const OFFICIAL_SOURCE_URL = 'https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W'
+const GRADE12_OFFICIAL_SOURCE_URL = 'https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0'
+const PRODUCT_ALLOCATION_RATIONALE_MARKER = '교육과정 자체는 학기와 단원을 배정하지 않으므로'
+const PILOT_GRADE12_ALLOCATIONS = Object.freeze({
+  '[2수03-10]': Object.freeze({
+    officialText: '길이 단위 1cm와 1m를 알고, 이를 이용하여 주변 사물의 길이를 측정할 수 있다.',
+    band: '1-2',
+    assignedGrade: 2,
+    semester: '2-1',
+    unitId: 'g2-1-length',
+    coverageStatus: 'planned',
+    sourceUrl: GRADE12_OFFICIAL_SOURCE_URL,
+    sourcePage: 14,
+  }),
+  '[2수03-11]': Object.freeze({
+    officialText: '1m와 1cm의 관계를 이해하고, 길이를 ‘몇 m 몇 cm’와 ‘몇 cm’로 표현할 수 있다.',
+    band: '1-2',
+    assignedGrade: 2,
+    semester: '2-2',
+    unitId: 'g2-2-length',
+    coverageStatus: 'existing-reference',
+    sourceUrl: GRADE12_OFFICIAL_SOURCE_URL,
+    sourcePage: 14,
+  }),
+  '[2수03-12]': Object.freeze({
+    officialText: '여러 가지 물건의 길이를 어림하고, 길이에 대한 양감을 기른다.',
+    band: '1-2',
+    assignedGrade: 2,
+    semester: '2-1',
+    unitId: 'g2-1-length',
+    coverageStatus: 'planned',
+    sourceUrl: GRADE12_OFFICIAL_SOURCE_URL,
+    sourcePage: 14,
+  }),
+  '[2수03-13]': Object.freeze({
+    officialText: '실생활 문제 상황과 연결하여 길이의 덧셈과 뺄셈을 할 수 있다.',
+    band: '1-2',
+    assignedGrade: 2,
+    semester: '2-2',
+    unitId: 'g2-2-length',
+    coverageStatus: 'existing-reference',
+    sourceUrl: GRADE12_OFFICIAL_SOURCE_URL,
+    sourcePage: 14,
+  }),
+})
 const REVIEW_STATUSES = new Set(['draft', 'curriculum-reviewed', 'released'])
 const COVERAGE_STATUSES = new Set(['planned', 'existing-reference'])
 const RELEASE_STATES = new Set(['not-released', 'release-candidate', 'released'])
 
 function expectedStandardCodes() {
-  return Object.entries(STANDARD_RANGES).flatMap(([prefix, count]) => (
-    Array.from({ length: count }, (_, index) => `[${prefix}-${String(index + 1).padStart(2, '0')}]`)
-  ))
+  return [
+    ...Object.keys(PILOT_GRADE12_ALLOCATIONS),
+    ...Object.entries(STANDARD_RANGES).flatMap(([prefix, count]) => (
+      Array.from({ length: count }, (_, index) => `[${prefix}-${String(index + 1).padStart(2, '0')}]`)
+    )),
+  ]
 }
 
 function normalizeStandardCode(value) {
@@ -77,11 +124,33 @@ function templateSupportsStandard(templates, conceptId, standardCode) {
     })
 }
 
-function validateRecord(record, expectedSet, unitIds, conceptIds, templates, grade3Source, grade4Source) {
+function grade2UnitSupportsStandard(source, unitId, standardCode) {
+  if (!source || !unitId || !standardCode) return false
+  const templateBlocks = source.match(/template\(\{[\s\S]*?\n\s*\}\),/g) ?? []
+  return templateBlocks.some((block) => (
+    block.includes(`unitId: '${unitId}'`)
+    && block.includes(`curriculumCode: '${standardCode}'`)
+  ))
+}
+
+function validateRecord(record, expectedSet, unitIds, conceptIds, templates, grade2Source, grade3Source, grade4Source) {
   const errors = []
   const standardCode = normalizeStandardCode(record?.standardCode)
-  const expectedBand = standardCode.startsWith('[4수') ? '3-4' : standardCode.startsWith('[6수') ? '5-6' : null
-  const allowedGrades = expectedBand === '3-4' ? [3, 4] : expectedBand === '5-6' ? [5, 6] : []
+  const pilotAllocation = PILOT_GRADE12_ALLOCATIONS[standardCode]
+  const expectedBand = pilotAllocation
+    ? '1-2'
+    : standardCode.startsWith('[4수')
+      ? '3-4'
+      : standardCode.startsWith('[6수')
+        ? '5-6'
+        : null
+  const allowedGrades = expectedBand === '1-2'
+    ? [1, 2]
+    : expectedBand === '3-4'
+      ? [3, 4]
+      : expectedBand === '5-6'
+        ? [5, 6]
+        : []
 
   if (!expectedSet.has(standardCode)) errors.push(issue('invalid_standard', '공식 학년군 코드가 아닙니다.', standardCode))
   if (record?.band !== expectedBand) errors.push(issue('band_mismatch', '코드와 학년군이 일치하지 않습니다.', standardCode))
@@ -90,6 +159,9 @@ function validateRecord(record, expectedSet, unitIds, conceptIds, templates, gra
     errors.push(issue('semester_mismatch', '배정 학년과 학기가 일치하지 않습니다.', standardCode))
   }
   if (typeof record?.unitId !== 'string' || !record.unitId.trim()) errors.push(issue('missing_unit', 'unitId가 없습니다.', standardCode))
+  if (record?.assignedGrade === 2 && !grade2Source.includes(`id: '${record.unitId}'`)) {
+    errors.push(issue('unknown_grade2_unit', `현재 2학년 unit ${record.unitId}를 찾을 수 없습니다.`, standardCode))
+  }
   if (record?.assignedGrade === 3 && !grade3Source.includes(`id: '${record.unitId}'`)) {
     errors.push(issue('unknown_grade3_unit', `현재 3학년 unit ${record.unitId}를 찾을 수 없습니다.`, standardCode))
   }
@@ -99,16 +171,47 @@ function validateRecord(record, expectedSet, unitIds, conceptIds, templates, gra
   if (record?.assignedGrade === 6 && record?.coverageStatus === 'existing-reference' && !unitIds.has(record.unitId)) {
     errors.push(issue('unknown_grade6_unit', `현재 6학년 unit ${record.unitId}를 찾을 수 없습니다.`, standardCode))
   }
-  if (typeof record?.officialText !== 'string' || record.officialText.length < 10 || !record.officialText.endsWith('다.')) {
+  if (
+    typeof record?.officialText !== 'string'
+    || record.officialText.length < 10
+    || !record.officialText.endsWith('다.')
+    || (pilotAllocation && record.officialText !== pilotAllocation.officialText)
+  ) {
     errors.push(issue('invalid_official_text', '공식 성취기준 원문이 필요합니다.', standardCode))
   }
-  if (record?.sourceUrl !== OFFICIAL_SOURCE_URL || !Number.isInteger(record?.sourcePage) || record.sourcePage < 1) {
+  const expectedSourceUrl = pilotAllocation?.sourceUrl ?? OFFICIAL_SOURCE_URL
+  const hasExpectedSourcePage = pilotAllocation
+    ? record?.sourcePage === pilotAllocation.sourcePage
+    : Number.isInteger(record?.sourcePage) && record.sourcePage >= 1
+  if (record?.sourceUrl !== expectedSourceUrl || !hasExpectedSourcePage) {
     errors.push(issue('invalid_source', '교육부 원문 URL과 쪽수가 필요합니다.', standardCode))
   }
   if (!REVIEW_STATUSES.has(record?.reviewStatus)) errors.push(issue('invalid_review_status', 'reviewStatus가 유효하지 않습니다.', standardCode))
   if (!COVERAGE_STATUSES.has(record?.coverageStatus)) errors.push(issue('invalid_coverage_status', 'coverageStatus가 유효하지 않습니다.', standardCode))
   if (typeof record?.reviewedBy !== 'string' || !record.reviewedBy.trim()) errors.push(issue('missing_reviewer', '검토자가 없습니다.', standardCode))
   if (typeof record?.allocationRationale !== 'string' || !record.allocationRationale.trim()) errors.push(issue('missing_rationale', '학년 배정 근거가 없습니다.', standardCode))
+
+  if (pilotAllocation) {
+    if (record?.assignedGrade !== pilotAllocation.assignedGrade) {
+      errors.push(issue('grade_mismatch', '시범 성취기준의 제품 배정 학년과 일치하지 않습니다.', standardCode))
+    }
+    if (record?.semester !== pilotAllocation.semester) {
+      errors.push(issue('semester_mismatch', '시범 성취기준의 제품 배정 학기와 일치하지 않습니다.', standardCode))
+    }
+    if (record?.unitId !== pilotAllocation.unitId) {
+      errors.push(issue('unit_mismatch', '시범 성취기준의 제품 단원 배정과 일치하지 않습니다.', standardCode))
+    }
+    if (record?.coverageStatus !== pilotAllocation.coverageStatus) {
+      errors.push(issue('coverage_mismatch', '시범 성취기준의 검증된 콘텐츠 범위와 일치하지 않습니다.', standardCode))
+    }
+    if (!record?.allocationRationale?.includes(PRODUCT_ALLOCATION_RATIONALE_MARKER)) {
+      errors.push(issue(
+        'missing_product_allocation_rationale',
+        '공식 교육과정과 제품의 학기·단원 배정 판단을 구분해야 합니다.',
+        standardCode,
+      ))
+    }
+  }
 
   const prerequisites = Array.isArray(record?.prerequisiteCodes) ? record.prerequisiteCodes : []
   if (!Array.isArray(record?.prerequisiteCodes)) errors.push(issue('invalid_prerequisites', 'prerequisiteCodes는 배열이어야 합니다.', standardCode))
@@ -130,7 +233,16 @@ function validateRecord(record, expectedSet, unitIds, conceptIds, templates, gra
     errors.push(issue('planned_has_reference', 'planned 항목에 기존 콘텐츠 참조가 있습니다.', standardCode))
   }
   for (const ref of contentRefs) {
-    if (ref.startsWith('grade3:')) {
+    if (ref.startsWith('grade2:')) {
+      const unitId = ref.slice('grade2:'.length)
+      if (
+        record?.assignedGrade !== 2
+        || unitId !== record?.unitId
+        || !grade2UnitSupportsStandard(grade2Source, unitId, standardCode)
+      ) {
+        errors.push(issue('invalid_grade2_reference', `2학년 참조 ${ref}를 단원과 curriculumCode에서 추적할 수 없습니다.`, standardCode))
+      }
+    } else if (ref.startsWith('grade3:')) {
       const unitId = ref.slice('grade3:'.length)
       if (record?.assignedGrade !== 3 || !grade3Source.includes(`id: '${unitId}'`) || !grade3Source.includes(standardCode)) {
         errors.push(issue('invalid_grade3_reference', `3학년 참조 ${ref}를 추적할 수 없습니다.`, standardCode))
@@ -164,7 +276,7 @@ function validateRecord(record, expectedSet, unitIds, conceptIds, templates, gra
   return errors
 }
 
-function validateCurriculumLedger({ ledger, grade3Source = '', grade4Source = '', guestHomeSource = '', units = [], concepts = [], templates = {}, supportedGrades }) {
+function validateCurriculumLedger({ ledger, grade2Source = '', grade3Source = '', grade4Source = '', guestHomeSource = '', units = [], concepts = [], templates = {}, supportedGrades }) {
   const errors = []
   const expected = expectedStandardCodes()
   const expectedSet = new Set(expected)
@@ -185,7 +297,7 @@ function validateCurriculumLedger({ ledger, grade3Source = '', grade4Source = ''
   for (const allocation of allocations) {
     const standardCode = normalizeStandardCode(allocation?.standardCode)
     counts.set(standardCode, (counts.get(standardCode) ?? 0) + 1)
-    errors.push(...validateRecord(allocation, expectedSet, unitIds, conceptIds, templates, grade3Source, grade4Source))
+    errors.push(...validateRecord(allocation, expectedSet, unitIds, conceptIds, templates, grade2Source, grade3Source, grade4Source))
   }
 
   const missing = expected.filter((code) => !counts.has(code))
@@ -251,11 +363,18 @@ function validateCurriculumLedger({ ledger, grade3Source = '', grade4Source = ''
     errors,
     summary: {
       total: allocations.length,
+      grade12PilotTotal: allocations.filter((allocation) => allocation.band === '1-2').length,
       grade34Total: allocations.filter((allocation) => allocation.band === '3-4').length,
       grade56Total: allocations.filter((allocation) => allocation.band === '5-6').length,
+      upperGradeTotal: allocations.filter((allocation) => allocation.band === '3-4' || allocation.band === '5-6').length,
       missingCount: missing.length,
       duplicateCount: duplicates.length,
       existingReferenceCount: allocations.filter((allocation) => allocation.coverageStatus === 'existing-reference').length,
+      grade2ReferenceCount: allocations.filter((allocation) => (
+        allocation.assignedGrade === 2
+        && allocation.coverageStatus === 'existing-reference'
+        && (allocation.existingContentRefs ?? []).some((ref) => ref.startsWith('grade2:'))
+      )).length,
       grade3ReferenceCount: grade3References.size,
       grade4ReferenceCount: grade4References.size,
       grade5ReferenceCount: grade5References.size,

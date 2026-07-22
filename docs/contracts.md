@@ -37,9 +37,19 @@
 | `/data/units.json` | 없음 | `id`, `grade`, `semester`, `order`, 제목을 가진 단원 배열 | 비정상 응답이면 단원 로더가 예외를 반환 |
 | `/data/concepts.json` | 없음 | 단원 연결, 설명, 예시, 실수, 순서를 가진 개념 배열 | 비정상 응답이면 개념 로더가 예외를 반환 |
 | `/data/templates/<prefix>.json` | 개념 식별자의 첫 `-` 앞부분과 같은 파일 접두사 | 같은 `concept_id`를 가진 문제 템플릿 배열 | 파일 없음·비정상 응답·파싱 실패는 빈 템플릿 목록으로 처리 |
-| `/data/curriculum-allocations-v1.json` | 없음 | 공식 성취기준 92개의 배정·참조와 학년별 `releaseState` | 원장 부재·비정상 JSON·알 수 없는 상태는 gated 학년을 열지 않고 fail-closed |
+| `/data/curriculum-allocations-v1.json` | 없음 | 검증된 1~2학년군 길이 시범 기준 4개와 기존 3~4·5~6학년군 기준 92개의 배정·참조, 학년별 `releaseState` | 원장 부재·비정상 JSON·알 수 없는 상태는 gated 학년을 열지 않고 fail-closed |
+| `/data/application-problems/packs/<pack>.json` | `g2-2-length`, `unit-5-1-perimeter-area`, `unit-6-1-ratio` 중 하나 | `unit-knowledge-pack-v1` 계약의 개념·범위·오개념·안정적인 family 참조를 가진 `pilot`/`draft` 묶음 | 파일 없음·JSON 파싱 실패·계약 불일치는 묶음을 사용할 수 없는 상태이며 기존 학습 흐름으로 대체 승인하지 않음 |
 
 템플릿 소비자는 `type`이 `choice`면 네 보기와 정답 보기 위치를, `number`면 정규화 가능한 `solver_rule` 결과를 기대한다. 모든 템플릿은 A·B·C 세트, 난이도 1·2·3, 매개변수 범위, 문제 문장, 정답 규칙, 풀이 단계를 제공해야 한다. 템플릿 산술은 등록 함수 치환 뒤 제한된 유한 십진수·괄호·사칙연산·단항 부호 parser만 사용하며 `eval`, 식별자, 지수, 비유한 수, 0 나눗셈을 허용하지 않는다.
+
+응용문제 지식 묶음 세 개의 불변 ID는 `pack-g2-2-length`,
+`pack-unit-5-1-perimeter-area`, `pack-unit-6-1-ratio`이고 모두 version 1이다.
+세 묶음은 저작 기반 자료일 뿐 현재 학습 화면의 공개 gate, 채점, 세션 또는
+localStorage 계약을 바꾸지 않는다. `coverageStatus: pilot`,
+`releaseStatus: draft`, owner `pending`, expert `not-reviewed`에서 시작하며 참조된
+family 파일이 아직 없다는 이유로 승인 상태를 올리거나 기존 런타임에 연결하지
+않는다. 2학년 공식 원문과 제품의 학기·단원 판단 구분은
+`docs/grade2-length-curriculum-evidence.md`에 보존한다.
 
 5학년 청사진은 660/660이며 `fracmul` A/B/C-06, `fracsub` A/B/C-06, `average` A/B/C-08은 문장·범위·solver·풀이를 함께 바로잡고 생성 self-check를 통과한다. 새 6학년 concept의 bank 계약은 A·B·C 각 10개, 세트 간 family 중복 0, 난이도·K/A/R 4/4/2, reasoning family 2개 이상, 실제 표현과 blueprint 일치다. 구조 검증과 함께 교육과정·어린이 문장·브라우저 검토를 통과한 범위만 원장에서 `released`로 승격한다.
 

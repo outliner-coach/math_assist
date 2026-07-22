@@ -12,6 +12,7 @@ function readJson(relativePath) {
 const ledger = readJson('public/data/curriculum-allocations-v1.json')
 const units = readJson('public/data/units.json')
 const concepts = readJson('public/data/concepts.json')
+const grade2Source = fs.readFileSync(path.join(ROOT_DIR, 'src/lib/grade2-problems.ts'), 'utf8')
 const grade3Source = fs.readFileSync(path.join(ROOT_DIR, 'src/lib/grade3-problems.ts'), 'utf8')
 const grade4Source = fs.readFileSync(path.join(ROOT_DIR, 'src/lib/grade4-problems.ts'), 'utf8')
 const guestHomeSource = fs.readFileSync(path.join(ROOT_DIR, 'src/lib/guest-home.ts'), 'utf8')
@@ -22,6 +23,7 @@ const templates = Object.fromEntries(concepts.map((concept) => {
 
 const result = validateCurriculumLedger({
   ledger,
+  grade2Source,
   grade3Source,
   grade4Source,
   guestHomeSource,
@@ -40,7 +42,8 @@ if (result.errors.length > 0) {
 
 console.log(
   `Curriculum allocation validation passed: ${result.summary.total} standards ` +
-  `(3-4 ${result.summary.grade34Total}, 5-6 ${result.summary.grade56Total}), ` +
+  `(1-2 pilot ${result.summary.grade12PilotTotal}, 3-4 ${result.summary.grade34Total}, ` +
+  `5-6 ${result.summary.grade56Total}), ` +
   `${result.summary.existingReferenceCount} current references, ` +
   `Grade 4 ${ledger.releaseState.grade4}, Grade 6 ${ledger.releaseState.grade6}.`
 )
