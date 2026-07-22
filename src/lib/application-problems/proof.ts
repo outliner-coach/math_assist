@@ -5,26 +5,30 @@ import {
   type GeneratedApplicationProblemV1,
   type JsonValue,
 } from './contracts'
+import {
+  APPLICATION_PROOF_AUTHORITY_REGISTRY_V1,
+  APPLICATION_PROOF_IMPLEMENTATION_REGISTRY_V1,
+} from './proof-trust-catalog'
+import {
+  applicationProofDependencyClosureV1,
+  findApplicationProofAuthorityV1,
+  findApplicationProofImplementationV1,
+  isApplicationProofAuthorityRegistryV1,
+  isApplicationProofImplementationRegistryV1,
+  type ApplicationProofAuthorityEntryV1,
+  type ApplicationProofAuthorityRegistryV1,
+  type BoundaryProofAuthorityV1,
+  type ExhaustiveProofAuthorityV1,
+  type ApplicationProofImplementationRegistrationV1,
+  type ApplicationProofImplementationRegistryV1,
+  type StaticCorpusProofAuthorityV1,
+} from './proof-trust.internal'
 
-function canonicalManifestJson(value: JsonValue): JsonValue {
-  if (value === null || typeof value !== 'object') return value
-  if (Array.isArray(value)) return value.map(canonicalManifestJson)
-  return Object.fromEntries(
-    Object.keys(value)
-      .sort((left, right) => left.localeCompare(right))
-      .map((key) => [key, canonicalManifestJson(value[key])]),
-  )
-}
-
-export function createApplicationProofManifestDigest(value: JsonValue): string {
-  const serialized = JSON.stringify(canonicalManifestJson(value))
-  let hash = 0x811c9dc5
-  for (let index = 0; index < serialized.length; index += 1) {
-    hash ^= serialized.charCodeAt(index)
-    hash = Math.imul(hash, 0x01000193) >>> 0
-  }
-  return `fnv1a32:${hash.toString(16).padStart(8, '0')}`
-}
+export { createApplicationProofManifestDigest } from './proof-trust.internal'
+export type {
+  ApplicationProofAuthorityEntryV1,
+  ApplicationProofAuthorityRegistryV1,
+} from './proof-trust.internal'
 
 export const APPLICATION_PROOF_ERROR_CODES = [
   'PROOF_MODE_MISMATCH',
@@ -34,6 +38,11 @@ export const APPLICATION_PROOF_ERROR_CODES = [
   'INVALID_PROOF_SEED',
   'INVALID_PROOF_VARIANT',
   'ORACLE_NOT_INDEPENDENT',
+  'INVALID_PROOF_AUTHORITY_REGISTRY',
+  'PROOF_AUTHORITY_NOT_FOUND',
+  'INVALID_PROOF_IMPLEMENTATION_REGISTRY',
+  'IMPLEMENTATION_NOT_REGISTERED',
+  'IMPLEMENTATION_CALLBACK_MISMATCH',
   'INVALID_PROOF_MANIFEST',
   'MANIFEST_REVIEW_REQUIRED',
   'MANIFEST_FAMILY_MISMATCH',
@@ -71,7 +80,28 @@ export interface ApplicationProofIssueV1 {
   variantIndex?: number
   boundary?: string
   corpusId?: string
-  manifestId?: string
+  authorityId?: string
+}
+
+export interface ApplicationProofAuthorityRefV1 {
+  authorityId: string
+  authorityVersion: number
+  domainDigest: string
+  sourceModule: string
+  sourceDigest: string
+}
+
+export interface ApplicationProofImplementationRefV1 {
+  kind: 'generator' | 'oracle'
+  implementationId: string
+  implementationVersion: number
+  sourceModule: string
+  sourceDigest: string
+  rootDependency: {
+    dependencyId: string
+    dependencyVersion: number
+    digest: string
+  }
 }
 
 export interface ApplicationProofReportV1 {
@@ -83,12 +113,12 @@ export interface ApplicationProofReportV1 {
   issues: ApplicationProofIssueV1[]
   provenProblems: GeneratedApplicationProblemV1[]
   corpusIds?: string[]
+  authorityRef?: ApplicationProofAuthorityRefV1
+  generatorRef?: ApplicationProofImplementationRefV1
+  oracleRef?: ApplicationProofImplementationRefV1
 }
 
 export interface ApplicationProofGeneratorV1 {
-  generatorId: string
-  dependencyId: string
-  sourceModule: string
   generate(input: { seed: number; variantIndex: number }): GeneratedApplicationProblemV1
 }
 
@@ -102,26 +132,7 @@ export interface ApplicationProofOracleInputV1 {
 }
 
 export interface ApplicationProofOracleV1 {
-  oracleId: string
-  oracleVersion: number
-  sourceModule: string
-  evidenceRefs: readonly string[]
-  dependencies: readonly string[]
   evaluate(input: ApplicationProofOracleInputV1): string
-}
-
-export interface ApplicationProofManifestV1 {
-  schemaVersion: 'application-proof-manifest-v1'
-  manifestId: string
-  manifestVersion: number
-  familyId: string
-  familyVersion: number
-  domainKind: 'exhaustive' | 'invariant-boundary' | 'static-corpus'
-  expectedCount: number
-  domainDigest: string
-  reviewedBy: string
-  reviewedAt: string
-  evidenceRefs: readonly string[]
 }
 
 export interface ExhaustiveProofCaseV1 {
@@ -137,8 +148,6 @@ export interface ExhaustiveApplicationProofV1 {
     cases: readonly ExhaustiveProofCaseV1[]
     variantIndexes: readonly number[]
   }
-  manifest: ApplicationProofManifestV1 & { domainKind: 'exhaustive' }
-  enumerateDomain(): readonly (ExhaustiveProofCaseV1 & { variantIndex: number })[]
   generator: ApplicationProofGeneratorV1
   oracle: ApplicationProofOracleV1
 }
@@ -155,11 +164,6 @@ export interface InvariantBoundaryApplicationProofV1 {
   family: ApplicationProblemFamilyV1
   boundaries: readonly string[]
   cases: readonly InvariantBoundaryProofCaseV1[]
-  manifest: ApplicationProofManifestV1 & {
-    domainKind: 'invariant-boundary'
-    requiredBoundaryClasses: readonly string[]
-  }
-  enumerateDomain(): readonly InvariantBoundaryProofCaseV1[]
   generator: ApplicationProofGeneratorV1
   oracle: ApplicationProofOracleV1
 }
@@ -181,10 +185,6 @@ export interface StaticCorpusApplicationProofV1 {
   mode: 'static-corpus'
   family: ApplicationProblemFamilyV1
   entries: readonly StaticCorpusEntryV1[]
-  manifest: ApplicationProofManifestV1 & {
-    domainKind: 'static-corpus'
-    approvedCorpusIds: readonly string[]
-  }
 }
 
 export type ApplicationProblemProofV1 =
@@ -199,6 +199,9 @@ interface ReportState {
   checkedCount: number
   checkedProblems: GeneratedApplicationProblemV1[]
   corpusIds?: string[]
+  authorityRef?: ApplicationProofAuthorityRefV1
+  generatorRef?: ApplicationProofImplementationRefV1
+  oracleRef?: ApplicationProofImplementationRefV1
 }
 
 interface GeneratedCaseContext {
@@ -212,7 +215,7 @@ function issue(
   state: ReportState,
   code: ApplicationProofErrorCode,
   message: string,
-  context: Partial<GeneratedCaseContext & { corpusId: string; manifestId: string }> = {},
+  context: Partial<GeneratedCaseContext & { corpusId: string; authorityId: string }> = {},
 ): void {
   state.issues.push({
     code,
@@ -234,6 +237,23 @@ function report(state: ReportState): ApplicationProofReportV1 {
     issues: state.issues,
     provenProblems: proven ? state.checkedProblems : [],
     ...(state.corpusIds === undefined ? {} : { corpusIds: state.corpusIds }),
+    ...(state.authorityRef === undefined ? {} : { authorityRef: state.authorityRef }),
+    ...(state.generatorRef === undefined ? {} : { generatorRef: state.generatorRef }),
+    ...(state.oracleRef === undefined ? {} : { oracleRef: state.oracleRef }),
+  }
+}
+
+function bindAuthority(
+  state: ReportState,
+  authority: ApplicationProofAuthorityEntryV1,
+): void {
+  const { manifest } = authority
+  state.authorityRef = {
+    authorityId: manifest.authorityId,
+    authorityVersion: manifest.authorityVersion,
+    domainDigest: manifest.domainDigest,
+    sourceModule: manifest.sourceModule,
+    sourceDigest: manifest.sourceDigest,
   }
 }
 
@@ -260,48 +280,119 @@ function validateMode(state: ReportState): boolean {
   return false
 }
 
+function proofImplementationRef(
+  registration: ApplicationProofImplementationRegistrationV1,
+): ApplicationProofImplementationRefV1 {
+  return {
+    kind: registration.kind,
+    implementationId: registration.implementationId,
+    implementationVersion: registration.implementationVersion,
+    sourceModule: registration.sourceModule,
+    sourceDigest: registration.sourceDigest,
+    rootDependency: { ...registration.rootDependency },
+  }
+}
+
+function dependencyRefKey(reference: {
+  dependencyId: string
+  dependencyVersion: number
+}): string {
+  return `${reference.dependencyId}@${reference.dependencyVersion}`
+}
+
 function validateGeneratorOracleIndependence(
   state: ReportState,
+  authority: ExhaustiveProofAuthorityV1 | BoundaryProofAuthorityV1,
+  registry: ApplicationProofImplementationRegistryV1,
   generator: ApplicationProofGeneratorV1,
   oracle: ApplicationProofOracleV1,
 ): boolean {
-  const stableId = /^[a-z0-9][a-z0-9-]*$/
-  const validRepositoryPath = (value: unknown): value is string =>
-    typeof value === 'string' &&
-    value.trim() !== '' &&
-    !value.startsWith('/') &&
-    !value.split('/').includes('..')
-  const oracleDependencies = Array.isArray(oracle.dependencies)
-    ? oracle.dependencies
-    : []
-  const dependencySet = new Set(oracleDependencies)
-  if (
-    stableId.test(generator.generatorId) &&
-    stableId.test(generator.dependencyId) &&
-    validRepositoryPath(generator.sourceModule) &&
-    stableId.test(oracle.oracleId) &&
-    Number.isSafeInteger(oracle.oracleVersion) &&
-    oracle.oracleVersion >= 1 &&
-    validRepositoryPath(oracle.sourceModule) &&
-    Array.isArray(oracle.evidenceRefs) &&
-    oracle.evidenceRefs.length > 0 &&
-    oracle.evidenceRefs.every(validRepositoryPath) &&
-    oracleDependencies.length > 0 &&
-    oracleDependencies.every((dependency) => stableId.test(dependency)) &&
-    dependencySet.size === oracleDependencies.length &&
-    generator.generatorId !== oracle.oracleId &&
-    generator.sourceModule !== oracle.sourceModule &&
-    !dependencySet.has(generator.dependencyId) &&
-    (generator.generate as unknown) !== oracle.evaluate
-  ) {
-    return true
+  const { generatorRef, oracleRef, allowedSharedInfrastructure = [] } = authority.manifest
+  if (generatorRef === undefined || oracleRef === undefined) {
+    issue(state, 'IMPLEMENTATION_NOT_REGISTERED', 'authority does not pin exact implementations')
+    return false
   }
-  issue(
-    state,
-    'ORACLE_NOT_INDEPENDENT',
-    'oracle requires distinct versioned source evidence and dependencies independent of the generator answer dependency',
+  const generatorRegistration = findApplicationProofImplementationV1(
+    registry,
+    'generator',
+    generatorRef.implementationId,
+    generatorRef.implementationVersion,
   )
-  return false
+  const oracleRegistration = findApplicationProofImplementationV1(
+    registry,
+    'oracle',
+    oracleRef.implementationId,
+    oracleRef.implementationVersion,
+  )
+  if (
+    generatorRegistration === undefined ||
+    generatorRegistration.kind !== 'generator' ||
+    generatorRegistration.sourceDigest !== generatorRef.sourceDigest ||
+    oracleRegistration === undefined ||
+    oracleRegistration.kind !== 'oracle' ||
+    oracleRegistration.sourceDigest !== oracleRef.sourceDigest
+  ) {
+    issue(
+      state,
+      'IMPLEMENTATION_NOT_REGISTERED',
+      'authority-pinned generator and oracle refs must resolve exactly in the trusted registry',
+    )
+    return false
+  }
+  state.generatorRef = proofImplementationRef(generatorRegistration)
+  state.oracleRef = proofImplementationRef(oracleRegistration)
+  if (
+    generator.generate !== generatorRegistration.execute ||
+    oracle.evaluate !== oracleRegistration.execute
+  ) {
+    issue(
+      state,
+      'IMPLEMENTATION_CALLBACK_MISMATCH',
+      'proof callbacks must be the exact functions registered by the authority refs',
+    )
+    return false
+  }
+  if (
+    generatorRegistration.implementationId === oracleRegistration.implementationId ||
+    generatorRegistration.sourceModule === oracleRegistration.sourceModule ||
+    generatorRegistration.execute === (oracleRegistration.execute as unknown)
+  ) {
+    issue(state, 'ORACLE_NOT_INDEPENDENT', 'generator and oracle implementations must be distinct')
+    return false
+  }
+
+  const generatorClosure = applicationProofDependencyClosureV1(
+    registry,
+    generatorRegistration.rootDependency,
+  )
+  const oracleClosure = applicationProofDependencyClosureV1(
+    registry,
+    oracleRegistration.rootDependency,
+  )
+  const allowed = new Map(
+    allowedSharedInfrastructure.map((reference) => [dependencyRefKey(reference), reference]),
+  )
+  let invalidSharedDependency = false
+  generatorClosure.forEach((dependency, key) => {
+    if (!oracleClosure.has(key)) return
+    const allowedReference = allowed.get(key)
+    if (
+      dependency.kind !== 'infrastructure' ||
+      allowedReference === undefined ||
+      allowedReference.digest !== dependency.digest
+    ) {
+      invalidSharedDependency = true
+    }
+  })
+  if (invalidSharedDependency) {
+    issue(
+      state,
+      'ORACLE_NOT_INDEPENDENT',
+      'generator and oracle dependency closures may share only authority-allowed infrastructure',
+    )
+    return false
+  }
+  return true
 }
 
 function validateCaseIdentity(
@@ -432,127 +523,22 @@ function boundaryCaseKey(entry: InvariantBoundaryProofCaseV1): string {
   return JSON.stringify([entry.caseId, entry.boundary, entry.seed, entry.variantIndex])
 }
 
-function validateManifestDomain(
-  state: ReportState,
-  manifest: ApplicationProofManifestV1 | undefined,
-  expectedKind: ApplicationProofManifestV1['domainKind'],
-  entries: JsonValue[],
-): boolean {
-  const issueCount = state.issues.length
-  const context = manifest === undefined ? {} : { manifestId: manifest.manifestId }
-  const stableId = /^[a-z0-9][a-z0-9-]*$/
-  const isoInstant = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/
-
-  if (!manifest) {
-    issue(
-      state,
-      'INVALID_PROOF_MANIFEST',
-      'proof manifest identity, version, and domain kind must be canonical',
-      context,
-    )
-    return false
-  }
-  if (
-    manifest.schemaVersion !== 'application-proof-manifest-v1' ||
-    !stableId.test(manifest.manifestId) ||
-    !Number.isSafeInteger(manifest.manifestVersion) ||
-    manifest.manifestVersion < 1 ||
-    manifest.domainKind !== expectedKind
-  ) {
-    issue(
-      state,
-      'INVALID_PROOF_MANIFEST',
-      'proof manifest identity, version, and domain kind must be canonical',
-      context,
-    )
-  }
-  if (
-    manifest.familyId !== state.family.familyId ||
-    manifest.familyVersion !== state.family.version
-  ) {
-    issue(
-      state,
-      'MANIFEST_FAMILY_MISMATCH',
-      'proof manifest must be bound to the exact familyId@version',
-      context,
-    )
-  }
-  if (
-    typeof manifest.reviewedBy !== 'string' ||
-    manifest.reviewedBy.trim() === '' ||
-    typeof manifest.reviewedAt !== 'string' ||
-    !isoInstant.test(manifest.reviewedAt) ||
-    !Number.isFinite(Date.parse(manifest.reviewedAt)) ||
-    !Array.isArray(manifest.evidenceRefs) ||
-    manifest.evidenceRefs.length === 0 ||
-    manifest.evidenceRefs.some(
-      (reference) =>
-        typeof reference !== 'string' ||
-        reference.trim() === '' ||
-        reference.startsWith('/') ||
-        reference.split('/').includes('..'),
-    )
-  ) {
-    issue(
-      state,
-      'MANIFEST_REVIEW_REQUIRED',
-      'proof manifest requires reviewer identity, ISO review time, and repository evidence',
-      context,
-    )
-  }
-  if (
-    !Number.isSafeInteger(manifest.expectedCount) ||
-    manifest.expectedCount < 2 ||
-    entries.length < 2
-  ) {
-    issue(
-      state,
-      'MANIFEST_DOMAIN_TOO_SMALL',
-      'authoritative proof domains must contain at least two reviewed entries',
-      context,
-    )
-  }
-  if (manifest.expectedCount !== entries.length) {
-    issue(
-      state,
-      'MANIFEST_COUNT_MISMATCH',
-      'enumerated domain count must equal manifest expectedCount',
-      context,
-    )
-  }
-  if (manifest.domainDigest !== createApplicationProofManifestDigest(entries)) {
-    issue(
-      state,
-      'MANIFEST_DIGEST_MISMATCH',
-      'enumerated domain digest must equal the reviewed manifest digest',
-      context,
-    )
-  }
-  return state.issues.length === issueCount
-}
-
-function runExhaustive(input: ExhaustiveApplicationProofV1): ApplicationProofReportV1 {
+function runExhaustive(
+  input: ExhaustiveApplicationProofV1,
+  authority: ExhaustiveProofAuthorityV1,
+  implementationRegistry: ApplicationProofImplementationRegistryV1,
+): ApplicationProofReportV1 {
   const state = createState(parseApplicationProblemFamilyV1(input.family), input.mode)
+  bindAuthority(state, authority)
   const validMode = validateMode(state)
-  const independent = validateGeneratorOracleIndependence(state, input.generator, input.oracle)
-  let authoritativeCases: Array<ExhaustiveProofCaseV1 & { variantIndex: number }>
-  try {
-    authoritativeCases = [...input.enumerateDomain()]
-  } catch {
-    issue(
-      state,
-      'DOMAIN_ENUMERATION_FAILED',
-      'authoritative exhaustive domain enumeration failed',
-      { manifestId: input.manifest?.manifestId },
-    )
-    return report(state)
-  }
-  const manifestValid = validateManifestDomain(
+  const independent = validateGeneratorOracleIndependence(
     state,
-    input.manifest,
-    'exhaustive',
-    authoritativeCases as unknown as JsonValue[],
+    authority,
+    implementationRegistry,
+    input.generator,
+    input.oracle,
   )
+  const authoritativeCases = authority.domain
   const submittedCases = input.domain.cases.flatMap((entry) =>
     input.domain.variantIndexes.map((variantIndex) => ({ ...entry, variantIndex })),
   )
@@ -565,8 +551,8 @@ function runExhaustive(input: ExhaustiveApplicationProofV1): ApplicationProofRep
     issue(
       state,
       'MANIFEST_CASE_SET_MISMATCH',
-      'submitted exhaustive cases must exactly match the authoritative enumerator',
-      input.manifest === undefined ? {} : { manifestId: input.manifest.manifestId },
+      'submitted exhaustive cases must exactly match the registered authority domain',
+      { authorityId: authority.manifest.authorityId },
     )
   }
   if (input.domain.kind !== 'finite-complete' || input.domain.cases.length === 0 || input.domain.variantIndexes.length === 0) {
@@ -587,7 +573,7 @@ function runExhaustive(input: ExhaustiveApplicationProofV1): ApplicationProofRep
     }),
   )
 
-  if (!validMode || !independent || !manifestValid || state.issues.length > 0) return report(state)
+  if (!validMode || !independent || state.issues.length > 0) return report(state)
   authoritativeCases.forEach((proofCase) => {
     checkGeneratedCase(state, input.generator, input.oracle, proofCase)
   })
@@ -596,45 +582,27 @@ function runExhaustive(input: ExhaustiveApplicationProofV1): ApplicationProofRep
 
 function runInvariantBoundary(
   input: InvariantBoundaryApplicationProofV1,
+  authority: BoundaryProofAuthorityV1,
+  implementationRegistry: ApplicationProofImplementationRegistryV1,
 ): ApplicationProofReportV1 {
   const state = createState(parseApplicationProblemFamilyV1(input.family), input.mode)
+  bindAuthority(state, authority)
   const validMode = validateMode(state)
-  const independent = validateGeneratorOracleIndependence(state, input.generator, input.oracle)
-  let authoritativeCases: InvariantBoundaryProofCaseV1[]
-  try {
-    authoritativeCases = [...input.enumerateDomain()]
-  } catch {
-    issue(
-      state,
-      'DOMAIN_ENUMERATION_FAILED',
-      'authoritative boundary domain enumeration failed',
-      { manifestId: input.manifest?.manifestId },
-    )
-    return report(state)
-  }
-  const manifestValid = validateManifestDomain(
+  const independent = validateGeneratorOracleIndependence(
     state,
-    input.manifest,
-    'invariant-boundary',
-    authoritativeCases as unknown as JsonValue[],
+    authority,
+    implementationRegistry,
+    input.generator,
+    input.oracle,
   )
-  const requiredBoundaryClasses = Array.isArray(input.manifest?.requiredBoundaryClasses)
-    ? input.manifest.requiredBoundaryClasses
-    : []
-  if (!Array.isArray(input.manifest?.requiredBoundaryClasses)) {
-    issue(
-      state,
-      'INVALID_PROOF_MANIFEST',
-      'boundary manifest requires canonical requiredBoundaryClasses',
-      input.manifest === undefined ? {} : { manifestId: input.manifest.manifestId },
-    )
-  }
+  const authoritativeCases = authority.cases
+  const requiredBoundaryClasses = authority.boundaryClasses
   if (!exactUniqueSetMatch(input.boundaries, requiredBoundaryClasses)) {
     issue(
       state,
       'BOUNDARY_SET_MISMATCH',
-      'submitted boundaries must exactly match manifest requiredBoundaryClasses',
-      input.manifest === undefined ? {} : { manifestId: input.manifest.manifestId },
+      'submitted boundaries must exactly match registered boundary classes',
+      { authorityId: authority.manifest.authorityId },
     )
   }
   if (
@@ -646,8 +614,8 @@ function runInvariantBoundary(
     issue(
       state,
       'MANIFEST_CASE_SET_MISMATCH',
-      'submitted boundary cases must exactly match the authoritative enumerator',
-      input.manifest === undefined ? {} : { manifestId: input.manifest.manifestId },
+      'submitted boundary cases must exactly match the registered authority domain',
+      { authorityId: authority.manifest.authorityId },
     )
   }
   if (input.boundaries.length === 0) {
@@ -680,7 +648,7 @@ function runInvariantBoundary(
     }
   })
 
-  if (!validMode || !independent || !manifestValid || state.issues.length > 0) return report(state)
+  if (!validMode || !independent || state.issues.length > 0) return report(state)
   authoritativeCases.forEach((proofCase) => {
     checkGeneratedCase(state, input.generator, input.oracle, proofCase)
   })
@@ -703,27 +671,15 @@ function validReviewedCorpusEntry(entry: StaticCorpusEntryV1): boolean {
   )
 }
 
-function runStaticCorpus(input: StaticCorpusApplicationProofV1): ApplicationProofReportV1 {
+function runStaticCorpus(
+  input: StaticCorpusApplicationProofV1,
+  authority: StaticCorpusProofAuthorityV1,
+): ApplicationProofReportV1 {
   const state = createState(parseApplicationProblemFamilyV1(input.family), input.mode)
+  bindAuthority(state, authority)
   state.corpusIds = input.entries.map((entry) => entry.corpusId)
   const validMode = validateMode(state)
-  const approvedCorpusIds = Array.isArray(input.manifest?.approvedCorpusIds)
-    ? input.manifest.approvedCorpusIds
-    : []
-  if (!Array.isArray(input.manifest?.approvedCorpusIds)) {
-    issue(
-      state,
-      'INVALID_PROOF_MANIFEST',
-      'static corpus manifest requires canonical approvedCorpusIds',
-      input.manifest === undefined ? {} : { manifestId: input.manifest.manifestId },
-    )
-  }
-  const manifestValid = validateManifestDomain(
-    state,
-    input.manifest,
-    'static-corpus',
-    approvedCorpusIds as JsonValue[],
-  )
+  const approvedCorpusIds = authority.corpusIds
   const corpusSetValid = exactUniqueSetMatch(
     state.corpusIds,
     approvedCorpusIds,
@@ -732,8 +688,8 @@ function runStaticCorpus(input: StaticCorpusApplicationProofV1): ApplicationProo
     issue(
       state,
       'MANIFEST_CASE_SET_MISMATCH',
-      'submitted corpus IDs must exactly match the manifest-approved corpus IDs',
-      input.manifest === undefined ? {} : { manifestId: input.manifest.manifestId },
+      'submitted corpus IDs must exactly match the registered authority corpus IDs',
+      { authorityId: authority.manifest.authorityId },
     )
   }
   if (
@@ -803,7 +759,7 @@ function runStaticCorpus(input: StaticCorpusApplicationProofV1): ApplicationProo
       )
       return
     }
-    if (manifestValid && corpusSetValid) {
+    if (corpusSetValid) {
       state.checkedCount += 1
       state.checkedProblems.push(problem)
     }
@@ -813,13 +769,77 @@ function runStaticCorpus(input: StaticCorpusApplicationProofV1): ApplicationProo
 
 export function runApplicationProblemProof(
   input: ApplicationProblemProofV1,
+): ApplicationProofReportV1
+export function runApplicationProblemProof(
+  input: ApplicationProblemProofV1,
+  injectedAuthorityRegistry?: unknown,
+  injectedImplementationRegistry?: unknown,
 ): ApplicationProofReportV1 {
+  const testTrustInjected = injectedAuthorityRegistry !== undefined
+  const authorityRegistry = injectedAuthorityRegistry === undefined
+    ? APPLICATION_PROOF_AUTHORITY_REGISTRY_V1
+    : injectedAuthorityRegistry
+  const implementationRegistry = testTrustInjected
+    ? injectedImplementationRegistry
+    : APPLICATION_PROOF_IMPLEMENTATION_REGISTRY_V1
+  if (
+    !isApplicationProofAuthorityRegistryV1(authorityRegistry)
+  ) {
+    const state = createState(parseApplicationProblemFamilyV1(input.family), input.mode)
+    issue(
+      state,
+      'INVALID_PROOF_AUTHORITY_REGISTRY',
+      'proof execution requires a branded authority registry',
+    )
+    return report(state)
+  }
+  if (
+    input.mode !== 'static-corpus' &&
+    !isApplicationProofImplementationRegistryV1(implementationRegistry)
+  ) {
+    const state = createState(parseApplicationProblemFamilyV1(input.family), input.mode)
+    issue(
+      state,
+      'INVALID_PROOF_IMPLEMENTATION_REGISTRY',
+      'dynamic proof execution requires a branded implementation registry',
+    )
+    return report(state)
+  }
+  const authority = findApplicationProofAuthorityV1(
+    authorityRegistry,
+    input.family.familyId,
+    input.family.version,
+    input.mode,
+  )
+  if (authority === undefined) {
+    const state = createState(parseApplicationProblemFamilyV1(input.family), input.mode)
+    issue(
+      state,
+      'PROOF_AUTHORITY_NOT_FOUND',
+      'no trusted proof authority is registered for familyId@version and proof mode',
+    )
+    return report(state)
+  }
   switch (input.mode) {
     case 'exhaustive':
-      return runExhaustive(input)
+      if (authority.mode !== 'exhaustive') break
+      return runExhaustive(
+        input,
+        authority,
+        implementationRegistry as ApplicationProofImplementationRegistryV1,
+      )
     case 'invariant-boundary':
-      return runInvariantBoundary(input)
+      if (authority.mode !== 'invariant-boundary') break
+      return runInvariantBoundary(
+        input,
+        authority,
+        implementationRegistry as ApplicationProofImplementationRegistryV1,
+      )
     case 'static-corpus':
-      return runStaticCorpus(input)
+      if (authority.mode !== 'static-corpus') break
+      return runStaticCorpus(input, authority)
   }
+  const state = createState(parseApplicationProblemFamilyV1(input.family), input.mode)
+  issue(state, 'PROOF_AUTHORITY_NOT_FOUND', 'registered proof authority mode mismatch')
+  return report(state)
 }

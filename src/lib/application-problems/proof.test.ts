@@ -9,7 +9,24 @@ import {
 import {
   createApplicationProofManifestDigest,
   runApplicationProblemProof,
+  type ApplicationProblemProofV1,
+  type ApplicationProofOracleInputV1,
+  type ExhaustiveApplicationProofV1,
+  type InvariantBoundaryApplicationProofV1,
+  type StaticCorpusApplicationProofV1,
 } from './proof'
+import {
+  createTestApplicationProofAuthorityRegistryV1,
+  createTestApplicationProofImplementationRegistryV1,
+  runApplicationProblemProofWithTestTrust,
+} from './__test-support__/proof-trust'
+import type {
+  ApplicationProofAuthorityEntryV1,
+  ApplicationProofDependencyRecordV1,
+  ApplicationProofDependencyRefV1,
+  RegisteredProofGeneratorV1,
+  RegisteredProofOracleV1,
+} from './proof-trust.internal'
 
 const pendingApproval = {
   ownerStatus: 'pending' as const,
@@ -79,35 +96,10 @@ function numeric(params: Readonly<Record<string, JsonValue>>, key: string): numb
   return value
 }
 
-const independentSumOracle = {
-  oracleId: 'independent-sum-oracle-v1',
-  oracleVersion: 1,
-  sourceModule: 'src/lib/application-problems/oracles/independent-sum-v1.ts',
-  evidenceRefs: ['reports/application-problems/independent-sum-oracle-v1.md'],
-  dependencies: ['independent-integer-addition-v1'],
-  evaluate: ({ params }: { params: Readonly<Record<string, JsonValue>> }) =>
-    String(numeric(params, 'left') + numeric(params, 'right')),
-}
-
-const proofGeneratorMetadata = {
-  dependencyId: 'proof-generator-answer-v1',
-  sourceModule: 'src/lib/application-problems/generators/proof-generator-v1.ts',
-}
-
-describe('application proof manifest digest', () => {
-  it('uses canonical JSON key order for a stable domain digest', () => {
-    expect(createApplicationProofManifestDigest([
-      { caseId: 'a', seed: 1, variantIndex: 0 },
-    ])).toBe('fnv1a32:f32bd42c')
-    expect(createApplicationProofManifestDigest([
-      { variantIndex: 0, caseId: 'a', seed: 1 },
-    ])).toBe('fnv1a32:f32bd42c')
-  })
-})
-
-type ExhaustiveDomainCase = { caseId: string; seed: number }
-type ExhaustiveEnumeratedCase = ExhaustiveDomainCase & { variantIndex: number }
-type BoundaryDomainCase = ExhaustiveEnumeratedCase & { boundary: string }
+const defaultGenerator: RegisteredProofGeneratorV1 = ({ seed, variantIndex }) =>
+  generated(seed, variantIndex)
+const defaultOracle: RegisteredProofOracleV1 = ({ params }) =>
+  String(numeric(params, 'left') + numeric(params, 'right'))
 
 const manifestReview = {
   reviewedBy: 'proof-manifest-reviewer',
@@ -115,536 +107,640 @@ const manifestReview = {
   evidenceRefs: ['reports/application-problems/proof-manifest-review.md'],
 }
 
-function proofManifest<T extends 'exhaustive' | 'invariant-boundary' | 'static-corpus'>(
-  domainKind: T,
-  entries: JsonValue[],
-  overrides: Record<string, unknown> = {},
-): ReturnType<typeof manifestShape<T>> {
-  return manifestShape(domainKind, entries, overrides)
+const generatorPin = {
+  implementationId: 'proof-generator-v1',
+  implementationVersion: 1,
+  sourceDigest: 'sha256:3333333333333333333333333333333333333333333333333333333333333333',
+}
+const oraclePin = {
+  implementationId: 'independent-sum-oracle-v1',
+  implementationVersion: 1,
+  sourceDigest: 'sha256:4444444444444444444444444444444444444444444444444444444444444444',
 }
 
-function manifestShape<T extends 'exhaustive' | 'invariant-boundary' | 'static-corpus'>(
-  domainKind: T,
-  entries: JsonValue[],
-  overrides: Record<string, unknown>,
-) {
-  const manifest = {
-    schemaVersion: 'application-proof-manifest-v1' as const,
-    manifestId: `proof-family-${domainKind}-manifest`,
-    manifestVersion: 1,
+const pairAuthority = {
+  schemaVersion: 'application-proof-authority-entry-v1' as const,
+  familyId: 'proof-family',
+  familyVersion: 1,
+  mode: 'exhaustive' as const,
+  manifest: {
+    schemaVersion: 'application-proof-authority-manifest-v1' as const,
+    authorityId: 'proof-family-exhaustive-authority',
+    authorityVersion: 1,
     familyId: 'proof-family',
     familyVersion: 1,
-    domainKind,
-    expectedCount: entries.length,
-    domainDigest: createApplicationProofManifestDigest(entries),
+    mode: 'exhaustive' as const,
+    expectedCount: 2,
+    domainDigest: 'sha256:5890e29870fb7a2ddd52cd2fdabe7cc7c70f2f0cead1c836ef2268744d87f1d4',
+    sourceModule: 'src/lib/application-problems/authorities/proof-family-exhaustive-v1.ts',
+    sourceDigest: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    generatorRef: generatorPin,
+    oracleRef: oraclePin,
+    allowedSharedInfrastructure: [],
     ...manifestReview,
+  },
+  domain: [
+    { caseId: 'pair', seed: 1, variantIndex: 0 },
+    { caseId: 'pair', seed: 1, variantIndex: 1 },
+  ],
+} satisfies ApplicationProofAuthorityEntryV1
+
+const boundaryClasses = ['minimum', 'interior', 'maximum'] as const
+const boundaryCases = [
+  { caseId: 'min', boundary: 'minimum', seed: 0, variantIndex: 0 },
+  { caseId: 'middle', boundary: 'interior', seed: 5, variantIndex: 1 },
+  { caseId: 'max', boundary: 'maximum', seed: 10, variantIndex: 2 },
+] as const
+const boundaryAuthority = {
+  schemaVersion: 'application-proof-authority-entry-v1' as const,
+  familyId: 'proof-family',
+  familyVersion: 1,
+  mode: 'invariant-boundary' as const,
+  manifest: {
+    ...pairAuthority.manifest,
+    authorityId: 'proof-family-boundary-authority',
+    mode: 'invariant-boundary' as const,
+    expectedCount: 3,
+    domainDigest: 'sha256:be9bfc6a2c2108d6af0205fcce26ae93bf1ed069c75444edde76e7f0122fb15e',
+    sourceModule: 'src/lib/application-problems/authorities/proof-family-boundary-v1.ts',
+    sourceDigest: 'sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+  },
+  boundaryClasses,
+  cases: boundaryCases,
+} satisfies ApplicationProofAuthorityEntryV1
+
+const corpusIds = ['proof-corpus-001', 'proof-corpus-002'] as const
+const staticAuthority = {
+  schemaVersion: 'application-proof-authority-entry-v1' as const,
+  familyId: 'proof-family',
+  familyVersion: 1,
+  mode: 'static-corpus' as const,
+  manifest: {
+    schemaVersion: 'application-proof-authority-manifest-v1' as const,
+    authorityId: 'proof-family-static-authority',
+    authorityVersion: 1,
+    familyId: 'proof-family',
+    familyVersion: 1,
+    mode: 'static-corpus' as const,
+    expectedCount: 2,
+    domainDigest: 'sha256:43793ae8aeff9b3cfaa4179dd7f1978811f8ed73daffb65e3d4e0cdb2a204448',
+    sourceModule: 'src/lib/application-problems/authorities/proof-family-static-v1.ts',
+    sourceDigest: 'sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+    ...manifestReview,
+  },
+  corpusIds,
+} satisfies ApplicationProofAuthorityEntryV1
+
+const generatorDependency = {
+  schemaVersion: 'application-proof-dependency-v1' as const,
+  dependencyId: 'proof-generator-answer',
+  dependencyVersion: 1,
+  kind: 'answer-logic' as const,
+  sourceModule: 'src/lib/application-problems/generators/proof-answer.ts',
+  digest: 'sha256:1111111111111111111111111111111111111111111111111111111111111111',
+  imports: [],
+} satisfies ApplicationProofDependencyRecordV1
+const oracleDependency = {
+  schemaVersion: 'application-proof-dependency-v1' as const,
+  dependencyId: 'proof-oracle-answer',
+  dependencyVersion: 1,
+  kind: 'answer-logic' as const,
+  sourceModule: 'src/lib/application-problems/oracles/proof-answer.ts',
+  digest: 'sha256:2222222222222222222222222222222222222222222222222222222222222222',
+  imports: [],
+} satisfies ApplicationProofDependencyRecordV1
+
+function implementationRegistry(
+  generator: RegisteredProofGeneratorV1 = defaultGenerator,
+  oracle: RegisteredProofOracleV1 = defaultOracle,
+) {
+  return createTestApplicationProofImplementationRegistryV1({
+    dependencies: [generatorDependency, oracleDependency],
+    implementations: [
+      {
+        schemaVersion: 'application-proof-implementation-v1',
+        kind: 'generator',
+        implementationId: generatorPin.implementationId,
+        implementationVersion: generatorPin.implementationVersion,
+        sourceModule: 'src/lib/application-problems/generators/proof-generator-v1.ts',
+        sourceDigest: generatorPin.sourceDigest,
+        evidenceRefs: ['reports/application-problems/proof-generator-v1.md'],
+        rootDependency: {
+          dependencyId: generatorDependency.dependencyId,
+          dependencyVersion: generatorDependency.dependencyVersion,
+          digest: generatorDependency.digest,
+        },
+        execute: generator,
+      },
+      {
+        schemaVersion: 'application-proof-implementation-v1',
+        kind: 'oracle',
+        implementationId: oraclePin.implementationId,
+        implementationVersion: oraclePin.implementationVersion,
+        sourceModule: 'src/lib/application-problems/oracles/independent-sum-v1.ts',
+        sourceDigest: oraclePin.sourceDigest,
+        evidenceRefs: ['reports/application-problems/independent-sum-oracle-v1.md'],
+        rootDependency: {
+          dependencyId: oracleDependency.dependencyId,
+          dependencyVersion: oracleDependency.dependencyVersion,
+          digest: oracleDependency.digest,
+        },
+        execute: oracle,
+      },
+    ],
+  })
+}
+
+function pairProof(
+  generator: RegisteredProofGeneratorV1 = defaultGenerator,
+  oracle: RegisteredProofOracleV1 = defaultOracle,
+  overrides: Partial<ExhaustiveApplicationProofV1> = {},
+): ExhaustiveApplicationProofV1 {
+  return {
+    mode: 'exhaustive',
+    family: family(),
+    domain: {
+      kind: 'finite-complete',
+      cases: [{ caseId: 'pair', seed: 1 }],
+      variantIndexes: [0, 1],
+    },
+    generator: { generate: generator },
+    oracle: { evaluate: oracle },
     ...overrides,
   }
-  return manifest as typeof manifest & { domainKind: T }
 }
 
-function exhaustiveAuthority(
-  cases: readonly ExhaustiveDomainCase[],
-  variantIndexes: readonly number[],
-  overrides: Record<string, unknown> = {},
+function runPair(
+  proof: ExhaustiveApplicationProofV1 = pairProof(),
+  authority: ApplicationProofAuthorityEntryV1 = pairAuthority,
+  implementations = implementationRegistry(),
 ) {
-  const enumerated: ExhaustiveEnumeratedCase[] = cases.flatMap((entry) =>
-    variantIndexes.map((variantIndex) => ({ ...entry, variantIndex })),
+  return runApplicationProblemProofWithTestTrust(
+    proof,
+    createTestApplicationProofAuthorityRegistryV1([authority]),
+    implementations,
   )
-  return {
-    manifest: proofManifest('exhaustive', enumerated as JsonValue[], overrides),
-    enumerateDomain: () => enumerated,
-  }
 }
 
-function boundaryAuthority(
-  boundaries: readonly string[],
-  cases: readonly BoundaryDomainCase[],
-  overrides: Record<string, unknown> = {},
-) {
-  return {
-    manifest: {
-      ...proofManifest('invariant-boundary', cases as unknown as JsonValue[], overrides),
-      requiredBoundaryClasses: [...boundaries],
-    },
-    enumerateDomain: () => cases,
-  }
-}
+describe('application proof digest', () => {
+  it('uses canonical JSON key order and SHA-256', () => {
+    const expected = 'sha256:c83fbe7d1868f80e6f8cdbf88728e8a734589fa74e7bf4f87fcc318fd9cfaa09'
+    expect(createApplicationProofManifestDigest([
+      { caseId: 'a', seed: 1, variantIndex: 0 },
+    ])).toBe(expected)
+    expect(createApplicationProofManifestDigest([
+      { variantIndex: 0, caseId: 'a', seed: 1 },
+    ])).toBe(expected)
+  })
+})
 
-function staticAuthority(
-  corpusIds: readonly string[],
-  overrides: Record<string, unknown> = {},
-) {
-  return {
-    manifest: {
-      ...proofManifest('static-corpus', corpusIds as JsonValue[], overrides),
-      approvedCorpusIds: [...corpusIds],
-    },
-  }
-}
+describe('trusted proof registries', () => {
+  it('freezes canonical authority records and rejects self-inconsistent records', () => {
+    const registry = createTestApplicationProofAuthorityRegistryV1([pairAuthority])
+    expect(Object.isFrozen(registry)).toBe(true)
+    expect(Object.isFrozen(registry.entries[0])).toBe(true)
+    expect(registry.entries[0]).not.toBe(pairAuthority)
+    expect(() => createTestApplicationProofAuthorityRegistryV1([
+      pairAuthority,
+      pairAuthority,
+    ])).toThrow(/unique/i)
+    expect(() => createTestApplicationProofAuthorityRegistryV1([{
+      ...pairAuthority,
+      manifest: { ...pairAuthority.manifest, familyVersion: 2 },
+    }])).toThrow(/bind/i)
+    expect(() => createTestApplicationProofAuthorityRegistryV1([{
+      ...pairAuthority,
+      manifest: {
+        ...pairAuthority.manifest,
+        domainDigest: 'sha256:0000000000000000000000000000000000000000000000000000000000000000',
+      },
+    }])).toThrow(/domainDigest/i)
+    expect(() => createTestApplicationProofAuthorityRegistryV1([{
+      ...pairAuthority,
+      manifest: { ...pairAuthority.manifest, expectedCount: 3 },
+    }])).toThrow(/expectedCount/i)
+    expect(() => createTestApplicationProofAuthorityRegistryV1([{
+      ...pairAuthority,
+      manifest: { ...pairAuthority.manifest, evidenceRefs: [] },
+    }])).toThrow(/evidenceRefs/i)
+    expect(() => createTestApplicationProofAuthorityRegistryV1([{
+      ...pairAuthority,
+      manifest: { ...pairAuthority.manifest, reviewedBy: '' },
+    }])).toThrow(/reviewedBy/i)
+    expect(() => createTestApplicationProofAuthorityRegistryV1([{
+      ...pairAuthority,
+      manifest: {
+        ...pairAuthority.manifest,
+        expectedCount: 1,
+        domainDigest: 'sha256:c83fbe7d1868f80e6f8cdbf88728e8a734589fa74e7bf4f87fcc318fd9cfaa09',
+      },
+      domain: [{ caseId: 'a', seed: 1, variantIndex: 0 }],
+    }])).toThrow(/at least two/i)
+  })
+
+  it('rejects duplicate, dangling, digest-mismatched, and cyclic dependency graphs', () => {
+    expect(() => createTestApplicationProofImplementationRegistryV1({
+      dependencies: [generatorDependency, generatorDependency],
+      implementations: [],
+    })).toThrow(/duplicate/i)
+    expect(() => createTestApplicationProofImplementationRegistryV1({
+      dependencies: [{
+        ...generatorDependency,
+        imports: [{
+          dependencyId: 'missing-dependency',
+          dependencyVersion: 1,
+          digest: 'sha256:9999999999999999999999999999999999999999999999999999999999999999',
+        }],
+      }],
+      implementations: [],
+    })).toThrow(/dangling/i)
+    expect(() => createTestApplicationProofImplementationRegistryV1({
+      dependencies: [
+        {
+          ...generatorDependency,
+          imports: [{
+            dependencyId: oracleDependency.dependencyId,
+            dependencyVersion: oracleDependency.dependencyVersion,
+            digest: 'sha256:9999999999999999999999999999999999999999999999999999999999999999',
+          }],
+        },
+        oracleDependency,
+      ],
+      implementations: [],
+    })).toThrow(/digest mismatch/i)
+    expect(() => createTestApplicationProofImplementationRegistryV1({
+      dependencies: [
+        {
+          ...generatorDependency,
+          imports: [{
+            dependencyId: oracleDependency.dependencyId,
+            dependencyVersion: oracleDependency.dependencyVersion,
+            digest: oracleDependency.digest,
+          }],
+        },
+        {
+          ...oracleDependency,
+          imports: [{
+            dependencyId: generatorDependency.dependencyId,
+            dependencyVersion: generatorDependency.dependencyVersion,
+            digest: generatorDependency.digest,
+          }],
+        },
+      ],
+      implementations: [],
+    })).toThrow(/cycle/i)
+
+    const valid = implementationRegistry()
+    expect(() => createTestApplicationProofImplementationRegistryV1({
+      dependencies: valid.dependencies,
+      implementations: [valid.implementations[0], valid.implementations[0]],
+    })).toThrow(/unique/i)
+  })
+})
 
 describe('exhaustive application proof', () => {
-  it('executes every case and variant in the declared finite domain', () => {
-    const generatedKeys: string[] = []
-    const oracleInputs: unknown[] = []
-    const report = runApplicationProblemProof({
-      mode: 'exhaustive',
-      family: family(),
-      domain: {
-        kind: 'finite-complete',
-        cases: [
-          { caseId: 'small', seed: 2 },
-          { caseId: 'large', seed: 9 },
-        ],
-        variantIndexes: [0, 1, 2],
-      },
-      ...exhaustiveAuthority(
-        [{ caseId: 'small', seed: 2 }, { caseId: 'large', seed: 9 }],
-        [0, 1, 2],
-      ),
-      generator: {
-        ...proofGeneratorMetadata,
-        generatorId: 'proof-generator-v1',
-        generate: ({ seed, variantIndex }) => {
-          generatedKeys.push(`${seed}:${variantIndex}`)
-          return generated(seed, variantIndex)
-        },
-      },
-      oracle: {
-        ...independentSumOracle,
-        oracleId: independentSumOracle.oracleId,
-        evaluate: (input) => {
-          oracleInputs.push(input)
-          expect(input).not.toHaveProperty('answer')
-          expect(input).not.toHaveProperty('problem')
-          return independentSumOracle.evaluate(input)
-        },
-      },
-    })
+  it('does not accept caller-declared authority through the production runner', () => {
+    const selfDeclared = {
+      ...pairProof(),
+      manifest: pairAuthority.manifest,
+      enumerateDomain: () => pairAuthority.domain,
+    } as unknown as ApplicationProblemProofV1
+
+    const report = runApplicationProblemProof(selfDeclared)
+
+    expect(report.proven).toBe(false)
+    expect(report.checkedCount).toBe(0)
+    expect(report.issues.map((issue) => issue.code)).toContain('PROOF_AUTHORITY_NOT_FOUND')
+  })
+
+  it('fails closed for missing and wrong family-version authority', () => {
+    const empty = createTestApplicationProofAuthorityRegistryV1([])
+    const missing = runApplicationProblemProofWithTestTrust(
+      pairProof(),
+      empty,
+      implementationRegistry(),
+    )
+    const wrongVersion = runApplicationProblemProofWithTestTrust(
+      pairProof(defaultGenerator, defaultOracle, { family: family({ version: 2 }) }),
+      createTestApplicationProofAuthorityRegistryV1([pairAuthority]),
+      implementationRegistry(),
+    )
+
+    expect(missing.issues.map((issue) => issue.code)).toContain('PROOF_AUTHORITY_NOT_FOUND')
+    expect(wrongVersion.issues.map((issue) => issue.code)).toContain(
+      'PROOF_AUTHORITY_NOT_FOUND',
+    )
+    expect(missing.provenProblems).toEqual([])
+    expect(wrongVersion.provenProblems).toEqual([])
+  })
+
+  it('executes only the exact registered authority and records all proof refs', () => {
+    const report = runPair()
 
     expect(report).toMatchObject({
       proven: true,
-      mode: 'exhaustive',
-      familyId: 'proof-family',
-      version: 1,
-      checkedCount: 6,
+      checkedCount: 2,
       issues: [],
+      authorityRef: {
+        authorityId: pairAuthority.manifest.authorityId,
+        authorityVersion: 1,
+        domainDigest: pairAuthority.manifest.domainDigest,
+      },
+      generatorRef: {
+        implementationId: generatorPin.implementationId,
+        implementationVersion: 1,
+        sourceDigest: generatorPin.sourceDigest,
+      },
+      oracleRef: {
+        implementationId: oraclePin.implementationId,
+        implementationVersion: 1,
+        sourceDigest: oraclePin.sourceDigest,
+      },
     })
-    expect(generatedKeys).toEqual(['2:0', '2:1', '2:2', '9:0', '9:1', '9:2'])
-    expect(oracleInputs).toHaveLength(6)
-    expect(report.provenProblems).toHaveLength(6)
+    expect(report.provenProblems).toHaveLength(2)
   })
 
-  it('does not return any problem as proven when one answer claim fails', () => {
-    const report = runApplicationProblemProof({
-      mode: 'exhaustive',
-      family: family(),
+  it('rejects a submitted domain that differs from registered authority', () => {
+    const report = runPair(pairProof(defaultGenerator, defaultOracle, {
       domain: {
         kind: 'finite-complete',
-        cases: [{ caseId: 'wrong', seed: 4 }],
-        variantIndexes: [0, 1],
-      },
-      ...exhaustiveAuthority([{ caseId: 'wrong', seed: 4 }], [0, 1]),
-      generator: {
-        ...proofGeneratorMetadata,
-        generatorId: 'proof-generator-v1',
-        generate: ({ seed, variantIndex }) =>
-          generated(seed, variantIndex, variantIndex === 1 ? 999 : seed + variantIndex),
-      },
-      oracle: independentSumOracle,
-    })
-
-    expect(report.proven).toBe(false)
-    expect(report.provenProblems).toEqual([])
-    expect(report.issues).toContainEqual(expect.objectContaining({
-      code: 'ANSWER_MISMATCH',
-      familyId: 'proof-family',
-      version: 1,
-      seed: 4,
-      variantIndex: 1,
-      caseId: 'wrong',
-    }))
-  })
-
-  it('rejects a self-shrunk one-case authoritative domain', () => {
-    const report = runApplicationProblemProof({
-      mode: 'exhaustive',
-      family: family(),
-      domain: {
-        kind: 'finite-complete',
-        cases: [{ caseId: 'only', seed: 1 }],
+        cases: [{ caseId: 'pair', seed: 1 }],
         variantIndexes: [0],
       },
-      ...exhaustiveAuthority([{ caseId: 'only', seed: 1 }], [0]),
-      generator: {
-        ...proofGeneratorMetadata,
-        generatorId: 'proof-generator-v1',
-        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
-      },
-      oracle: independentSumOracle,
-    })
+    }))
 
     expect(report.proven).toBe(false)
     expect(report.checkedCount).toBe(0)
-    expect(report.provenProblems).toEqual([])
-    expect(report.issues.map((issue) => issue.code)).toContain('MANIFEST_DOMAIN_TOO_SMALL')
-  })
-
-  it('rejects submitted cases that do not exactly match the authoritative enumerator', () => {
-    const report = runApplicationProblemProof({
-      mode: 'exhaustive',
-      family: family(),
-      domain: {
-        kind: 'finite-complete',
-        cases: [{ caseId: 'submitted', seed: 1 }],
-        variantIndexes: [0, 1],
-      },
-      ...exhaustiveAuthority(
-        [{ caseId: 'submitted', seed: 1 }, { caseId: 'missing', seed: 2 }],
-        [0],
-      ),
-      generator: {
-        ...proofGeneratorMetadata,
-        generatorId: 'proof-generator-v1',
-        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
-      },
-      oracle: independentSumOracle,
-    })
-
-    expect(report.proven).toBe(false)
-    expect(report.checkedCount).toBe(0)
-    expect(report.provenProblems).toEqual([])
     expect(report.issues.map((issue) => issue.code)).toContain('MANIFEST_CASE_SET_MISMATCH')
   })
 
-  it('binds the reviewed manifest to family version, expected count, and digest', () => {
-    const report = runApplicationProblemProof({
-      mode: 'exhaustive',
-      family: family(),
-      domain: {
-        kind: 'finite-complete',
-        cases: [{ caseId: 'pair', seed: 1 }],
-        variantIndexes: [0, 1],
-      },
-      ...exhaustiveAuthority([{ caseId: 'pair', seed: 1 }], [0, 1], {
-        familyVersion: 2,
-        expectedCount: 3,
-        domainDigest: 'fnv1a32:00000000',
-      }),
-      generator: {
-        ...proofGeneratorMetadata,
-        generatorId: 'proof-generator-v1',
-        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
-      },
-      oracle: independentSumOracle,
-    })
+  it('does not return proven problems when a registered generator answer is wrong', () => {
+    const wrongGenerator: RegisteredProofGeneratorV1 = ({ seed, variantIndex }) =>
+      generated(seed, variantIndex, variantIndex === 1 ? 999 : seed + variantIndex)
+    const report = runPair(
+      pairProof(wrongGenerator),
+      pairAuthority,
+      implementationRegistry(wrongGenerator),
+    )
 
     expect(report.proven).toBe(false)
-    expect(report.checkedCount).toBe(0)
-    expect(report.issues.map((issue) => issue.code)).toEqual(expect.arrayContaining([
-      'MANIFEST_FAMILY_MISMATCH',
-      'MANIFEST_COUNT_MISMATCH',
-      'MANIFEST_DIGEST_MISMATCH',
-    ]))
-  })
-
-  it('requires explicit review evidence on the authoritative manifest', () => {
-    const report = runApplicationProblemProof({
-      mode: 'exhaustive',
-      family: family(),
-      domain: {
-        kind: 'finite-complete',
-        cases: [{ caseId: 'pair', seed: 1 }],
-        variantIndexes: [0, 1],
-      },
-      ...exhaustiveAuthority([{ caseId: 'pair', seed: 1 }], [0, 1], {
-        reviewedBy: '',
-        evidenceRefs: [],
-      }),
-      generator: {
-        ...proofGeneratorMetadata,
-        generatorId: 'proof-generator-v1',
-        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
-      },
-      oracle: independentSumOracle,
-    })
-
-    expect(report.proven).toBe(false)
-    expect(report.checkedCount).toBe(0)
+    expect(report.checkedCount).toBe(2)
     expect(report.provenProblems).toEqual([])
-    expect(report.issues.map((issue) => issue.code)).toContain('MANIFEST_REVIEW_REQUIRED')
+    expect(report.issues).toContainEqual(expect.objectContaining({
+      code: 'ANSWER_MISMATCH',
+      caseId: 'pair',
+      seed: 1,
+      variantIndex: 1,
+    }))
   })
 
-  it('rejects an oracle that declares the generator identity as its own', () => {
-    const report = runApplicationProblemProof({
-      mode: 'exhaustive',
-      family: family(),
-      domain: {
-        kind: 'finite-complete',
-        cases: [{ caseId: 'only', seed: 1 }],
-        variantIndexes: [0],
-      },
-      ...exhaustiveAuthority([{ caseId: 'only', seed: 1 }], [0]),
+  it('rejects wrappers and caller-invented implementation metadata', () => {
+    const wrappedGenerator: RegisteredProofGeneratorV1 = (input) => defaultGenerator(input)
+    const wrappedOracle: RegisteredProofOracleV1 = (input) => defaultOracle(input)
+    const fakeInput = {
+      ...pairProof(wrappedGenerator, wrappedOracle),
       generator: {
-        ...proofGeneratorMetadata,
-        generatorId: 'shared-claim-function',
-        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
+        generatorId: 'fake-generator',
+        sourceModule: 'src/fake-generator.ts',
+        sourceDigest: 'sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+        generate: wrappedGenerator,
       },
       oracle: {
-        ...independentSumOracle,
-        oracleId: 'shared-claim-function',
-        evaluate: independentSumOracle.evaluate,
+        oracleId: 'fake-oracle',
+        sourceModule: 'src/fake-oracle.ts',
+        sourceDigest: 'sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+        evaluate: wrappedOracle,
       },
-    })
+    } as unknown as ExhaustiveApplicationProofV1
+    const report = runPair(fakeInput, pairAuthority, implementationRegistry())
 
     expect(report.proven).toBe(false)
     expect(report.checkedCount).toBe(0)
-    expect(report.provenProblems).toEqual([])
-    expect(report.issues.map((issue) => issue.code)).toContain('ORACLE_NOT_INDEPENDENT')
+    expect(report.issues.map((issue) => issue.code)).toContain(
+      'IMPLEMENTATION_CALLBACK_MISMATCH',
+    )
   })
 
-  it('rejects the same executable callback even when it is given two IDs', () => {
-    const sharedImplementation = (input: Record<string, unknown>) =>
+  it('rejects the same executable callback even when it is registered under two IDs', () => {
+    const sharedImplementation = ((input: Record<string, unknown>) =>
       'params' in input
         ? String(
             numeric(input.params as Readonly<Record<string, JsonValue>>, 'left') +
             numeric(input.params as Readonly<Record<string, JsonValue>>, 'right'),
           )
-        : generated(input.seed as number, input.variantIndex as number)
-    const report = runApplicationProblemProof({
-      mode: 'exhaustive',
-      family: family(),
-      domain: {
-        kind: 'finite-complete',
-        cases: [{ caseId: 'only', seed: 1 }],
-        variantIndexes: [0],
-      },
-      ...exhaustiveAuthority([{ caseId: 'only', seed: 1 }], [0]),
-      generator: {
-        ...proofGeneratorMetadata,
-        generatorId: 'generator-label',
-        generate: sharedImplementation as never,
-      },
-      oracle: {
-        ...independentSumOracle,
-        oracleId: 'oracle-label',
-        evaluate: sharedImplementation as never,
-      },
+        : generated(input.seed as number, input.variantIndex as number))
+    const base = implementationRegistry()
+    const generatorRegistration = base.implementations.find(
+      (registration) => registration.kind === 'generator',
+    )
+    const oracleRegistration = base.implementations.find(
+      (registration) => registration.kind === 'oracle',
+    )
+    if (generatorRegistration?.kind !== 'generator' || oracleRegistration?.kind !== 'oracle') {
+      throw new Error('proof implementation fixtures are incomplete')
+    }
+    const registry = createTestApplicationProofImplementationRegistryV1({
+      dependencies: base.dependencies,
+      implementations: [
+        {
+          ...generatorRegistration,
+          execute: sharedImplementation as unknown as RegisteredProofGeneratorV1,
+        },
+        {
+          ...oracleRegistration,
+          execute: sharedImplementation as unknown as RegisteredProofOracleV1,
+        },
+      ],
     })
+    const report = runPair(
+      pairProof(
+        sharedImplementation as unknown as RegisteredProofGeneratorV1,
+        sharedImplementation as unknown as RegisteredProofOracleV1,
+      ),
+      pairAuthority,
+      registry,
+    )
 
     expect(report.proven).toBe(false)
     expect(report.checkedCount).toBe(0)
     expect(report.issues.map((issue) => issue.code)).toContain('ORACLE_NOT_INDEPENDENT')
   })
 
-  it('rejects an oracle wrapper that depends on the generator answer dependency', () => {
-    const sharedAnswerDependency = (seed: number, variantIndex: number) =>
-      seed + variantIndex
-    const report = runApplicationProblemProof({
-      mode: 'exhaustive',
-      family: family(),
-      domain: {
-        kind: 'finite-complete',
-        cases: [{ caseId: 'shared-dependency', seed: 2 }],
-        variantIndexes: [0, 1],
-      },
-      ...exhaustiveAuthority([{ caseId: 'shared-dependency', seed: 2 }], [0, 1]),
-      generator: {
-        generatorId: 'wrapped-generator-v1',
-        dependencyId: 'shared-answer-dependency-v1',
-        sourceModule: 'src/lib/application-problems/generators/wrapped-generator-v1.ts',
-        generate: ({ seed, variantIndex }) =>
-          generated(seed, variantIndex, sharedAnswerDependency(seed, variantIndex)),
-      },
-      oracle: {
-        oracleId: 'wrapped-oracle-v1',
-        oracleVersion: 1,
-        sourceModule: 'src/lib/application-problems/oracles/wrapped-oracle-v1.ts',
-        evidenceRefs: ['reports/application-problems/wrapped-oracle-v1.md'],
-        dependencies: ['shared-answer-dependency-v1'],
-        evaluate: ({ seed, variantIndex }) =>
-          String(sharedAnswerDependency(seed, variantIndex)),
-      },
-    })
-
-    expect(report.proven).toBe(false)
-    expect(report.checkedCount).toBe(0)
-    expect(report.provenProblems).toEqual([])
-    expect(report.issues.map((issue) => issue.code)).toContain('ORACLE_NOT_INDEPENDENT')
-  })
-
-  it('rejects oracle metadata without a versioned distinct source and review evidence', () => {
-    const report = runApplicationProblemProof({
-      mode: 'exhaustive',
-      family: family(),
-      domain: {
-        kind: 'finite-complete',
-        cases: [{ caseId: 'unverifiable-oracle', seed: 3 }],
-        variantIndexes: [0, 1],
-      },
-      ...exhaustiveAuthority([{ caseId: 'unverifiable-oracle', seed: 3 }], [0, 1]),
-      generator: {
-        ...proofGeneratorMetadata,
-        generatorId: 'proof-generator-v1',
-        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
-      },
-      oracle: {
-        ...independentSumOracle,
-        oracleVersion: 0,
-        sourceModule: proofGeneratorMetadata.sourceModule,
+  it('rejects unverifiable oracle registration metadata and a shared source', () => {
+    const base = implementationRegistry()
+    expect(() => createTestApplicationProofImplementationRegistryV1({
+      dependencies: base.dependencies,
+      implementations: [{
+        ...base.implementations[1],
+        implementationVersion: 0,
         evidenceRefs: [],
-        dependencies: [],
-      },
+      }],
+    })).toThrow(/implementationVersion/i)
+
+    const sameSourceRegistry = createTestApplicationProofImplementationRegistryV1({
+      dependencies: base.dependencies,
+      implementations: [
+        base.implementations[0],
+        {
+          ...base.implementations[1],
+          sourceModule: base.implementations[0].sourceModule,
+        },
+      ],
     })
+    const report = runPair(pairProof(), pairAuthority, sameSourceRegistry)
 
     expect(report.proven).toBe(false)
     expect(report.checkedCount).toBe(0)
-    expect(report.provenProblems).toEqual([])
     expect(report.issues.map((issue) => issue.code)).toContain('ORACLE_NOT_INDEPENDENT')
   })
+
+  it.each([
+    ['answer-logic', false],
+    ['infrastructure', true],
+  ] as const)(
+    'allows a shared %s dependency only when authority allowlists infrastructure',
+    (sharedKind, expectedProven) => {
+      const sharedDependency = {
+        schemaVersion: 'application-proof-dependency-v1' as const,
+        dependencyId: 'shared-proof-dependency',
+        dependencyVersion: 1,
+        kind: sharedKind,
+        sourceModule: 'src/lib/application-problems/shared/proof-dependency.ts',
+        digest: 'sha256:5555555555555555555555555555555555555555555555555555555555555555',
+        imports: [],
+      } satisfies ApplicationProofDependencyRecordV1
+      const sharedRef: ApplicationProofDependencyRefV1 = {
+        dependencyId: sharedDependency.dependencyId,
+        dependencyVersion: sharedDependency.dependencyVersion,
+        digest: sharedDependency.digest,
+      }
+      const generatorRoot = { ...generatorDependency, imports: [sharedRef] }
+      const oracleRoot = { ...oracleDependency, imports: [sharedRef] }
+      const base = implementationRegistry()
+      const implementations = base.implementations.map((registration) => ({
+        ...registration,
+        rootDependency: registration.kind === 'generator'
+          ? {
+              dependencyId: generatorRoot.dependencyId,
+              dependencyVersion: generatorRoot.dependencyVersion,
+              digest: generatorRoot.digest,
+            }
+          : {
+              dependencyId: oracleRoot.dependencyId,
+              dependencyVersion: oracleRoot.dependencyVersion,
+              digest: oracleRoot.digest,
+            },
+      }))
+      const registry = createTestApplicationProofImplementationRegistryV1({
+        dependencies: [generatorRoot, oracleRoot, sharedDependency],
+        implementations,
+      })
+      const authority = {
+        ...pairAuthority,
+        manifest: {
+          ...pairAuthority.manifest,
+          allowedSharedInfrastructure: [sharedRef],
+        },
+      } satisfies ApplicationProofAuthorityEntryV1
+      const report = runPair(pairProof(), authority, registry)
+
+      expect(report.proven).toBe(expectedProven)
+      expect(report.checkedCount).toBe(expectedProven ? 2 : 0)
+      if (!expectedProven) {
+        expect(report.issues.map((issue) => issue.code)).toContain('ORACLE_NOT_INDEPENDENT')
+      }
+    },
+  )
 })
 
 describe('invariant-boundary application proof', () => {
-  it('runs an independent oracle for every explicitly declared boundary class', () => {
-    const visitedBoundaries: string[] = []
-    const report = runApplicationProblemProof({
+  function boundaryProof(
+    generator: RegisteredProofGeneratorV1 = defaultGenerator,
+    oracle: RegisteredProofOracleV1 = defaultOracle,
+    overrides: Partial<InvariantBoundaryApplicationProofV1> = {},
+  ): InvariantBoundaryApplicationProofV1 {
+    return {
       mode: 'invariant-boundary',
       family: family({ proofMode: 'invariant-boundary' }),
-      boundaries: ['minimum', 'interior', 'maximum'],
-      cases: [
-        { caseId: 'min', boundary: 'minimum', seed: 0, variantIndex: 0 },
-        { caseId: 'middle', boundary: 'interior', seed: 5, variantIndex: 1 },
-        { caseId: 'max', boundary: 'maximum', seed: 10, variantIndex: 2 },
-      ],
-      ...boundaryAuthority(
-        ['minimum', 'interior', 'maximum'],
-        [
-          { caseId: 'min', boundary: 'minimum', seed: 0, variantIndex: 0 },
-          { caseId: 'middle', boundary: 'interior', seed: 5, variantIndex: 1 },
-          { caseId: 'max', boundary: 'maximum', seed: 10, variantIndex: 2 },
-        ],
-      ),
-      generator: {
-        ...proofGeneratorMetadata,
-        generatorId: 'proof-generator-v1',
-        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
-      },
-      oracle: {
-        ...independentSumOracle,
-        oracleId: independentSumOracle.oracleId,
-        evaluate: (input) => {
-          visitedBoundaries.push(input.boundary!)
-          expect(input).not.toHaveProperty('answer')
-          return independentSumOracle.evaluate(input)
-        },
-      },
-    })
+      boundaries: boundaryClasses,
+      cases: boundaryCases,
+      generator: { generate: generator },
+      oracle: { evaluate: oracle },
+      ...overrides,
+    }
+  }
+
+  function runBoundary(
+    proof: InvariantBoundaryApplicationProofV1,
+    implementations = implementationRegistry(
+      proof.generator.generate,
+      proof.oracle.evaluate,
+    ),
+  ) {
+    return runApplicationProblemProofWithTestTrust(
+      proof,
+      createTestApplicationProofAuthorityRegistryV1([boundaryAuthority]),
+      implementations,
+    )
+  }
+
+  it('executes every registered boundary class with the exact oracle', () => {
+    const visited: string[] = []
+    const oracle: RegisteredProofOracleV1 = (input) => {
+      visited.push(input.boundary!)
+      return defaultOracle(input)
+    }
+    const report = runBoundary(boundaryProof(defaultGenerator, oracle))
 
     expect(report.proven).toBe(true)
     expect(report.checkedCount).toBe(3)
-    expect(visitedBoundaries).toEqual(['minimum', 'interior', 'maximum'])
+    expect(visited).toEqual(boundaryClasses)
   })
 
-  it('fails when a declared boundary classification did not execute', () => {
-    const report = runApplicationProblemProof({
-      mode: 'invariant-boundary',
-      family: family({ proofMode: 'invariant-boundary' }),
-      boundaries: ['minimum', 'maximum'],
-      cases: [{ caseId: 'min', boundary: 'minimum', seed: 0, variantIndex: 0 }],
-      ...boundaryAuthority(
-        ['minimum', 'maximum'],
-        [{ caseId: 'min', boundary: 'minimum', seed: 0, variantIndex: 0 }],
-      ),
-      generator: {
-        ...proofGeneratorMetadata,
-        generatorId: 'proof-generator-v1',
-        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
-      },
-      oracle: independentSumOracle,
-    })
-
-    expect(report.proven).toBe(false)
-    expect(report.provenProblems).toEqual([])
-    expect(report.issues).toContainEqual(expect.objectContaining({
-      code: 'BOUNDARY_NOT_EXECUTED',
-      familyId: 'proof-family',
-      version: 1,
-      boundary: 'maximum',
-    }))
-  })
-
-  it('rejects a boundary submission that omits an authoritative class and case', () => {
-    const submitted = [
-      { caseId: 'min', boundary: 'minimum', seed: 0, variantIndex: 0 },
-      { caseId: 'middle', boundary: 'interior', seed: 5, variantIndex: 1 },
-    ]
-    const report = runApplicationProblemProof({
-      mode: 'invariant-boundary',
-      family: family({ proofMode: 'invariant-boundary' }),
+  it('rejects omitted registered boundary classes and cases', () => {
+    const report = runBoundary(boundaryProof(defaultGenerator, defaultOracle, {
       boundaries: ['minimum', 'interior'],
-      cases: submitted,
-      ...boundaryAuthority(
-        ['minimum', 'interior', 'maximum'],
-        [
-          ...submitted,
-          { caseId: 'max', boundary: 'maximum', seed: 10, variantIndex: 2 },
-        ],
-      ),
-      generator: {
-        ...proofGeneratorMetadata,
-        generatorId: 'proof-generator-v1',
-        generate: ({ seed, variantIndex }) => generated(seed, variantIndex),
-      },
-      oracle: independentSumOracle,
-    })
+      cases: boundaryCases.slice(0, 2),
+    }))
 
     expect(report.proven).toBe(false)
     expect(report.checkedCount).toBe(0)
-    expect(report.provenProblems).toEqual([])
     expect(report.issues.map((issue) => issue.code)).toEqual(expect.arrayContaining([
       'BOUNDARY_SET_MISMATCH',
       'MANIFEST_CASE_SET_MISMATCH',
     ]))
   })
 
-  it('reports generation and oracle failures with stable seed provenance', () => {
-    const report = runApplicationProblemProof({
-      mode: 'invariant-boundary',
-      family: family({ proofMode: 'invariant-boundary' }),
-      boundaries: ['minimum', 'maximum'],
-      cases: [
-        { caseId: 'generation', boundary: 'minimum', seed: 1, variantIndex: 0 },
-        { caseId: 'oracle', boundary: 'maximum', seed: 2, variantIndex: 1 },
-      ],
-      ...boundaryAuthority(
-        ['minimum', 'maximum'],
-        [
-          { caseId: 'generation', boundary: 'minimum', seed: 1, variantIndex: 0 },
-          { caseId: 'oracle', boundary: 'maximum', seed: 2, variantIndex: 1 },
-        ],
-      ),
-      generator: {
-        ...proofGeneratorMetadata,
-        generatorId: 'proof-generator-v1',
-        generate: ({ seed, variantIndex }) => {
-          if (seed === 1) throw new Error('candidate unavailable')
-          return generated(seed, variantIndex)
-        },
-      },
-      oracle: {
-        ...independentSumOracle,
-        oracleId: independentSumOracle.oracleId,
-        evaluate: () => {
-          throw new Error('oracle unavailable')
-        },
-      },
-    })
+  it('fails when a declared boundary classification did not execute', () => {
+    const report = runBoundary(boundaryProof(defaultGenerator, defaultOracle, {
+      boundaries: boundaryClasses,
+      cases: boundaryCases.slice(0, 2),
+    }))
+
+    expect(report.proven).toBe(false)
+    expect(report.provenProblems).toEqual([])
+    expect(report.issues).toContainEqual(expect.objectContaining({
+      code: 'BOUNDARY_NOT_EXECUTED',
+      boundary: 'maximum',
+    }))
+  })
+
+  it('reports registered generation and oracle failures with seed provenance', () => {
+    const generator: RegisteredProofGeneratorV1 = ({ seed, variantIndex }) => {
+      if (seed === 0) throw new Error('unavailable')
+      return generated(seed, variantIndex)
+    }
+    const oracle: RegisteredProofOracleV1 = (input: ApplicationProofOracleInputV1) => {
+      if (input.seed === 5) throw new Error('unavailable')
+      return defaultOracle(input)
+    }
+    const report = runBoundary(boundaryProof(generator, oracle))
 
     expect(report.proven).toBe(false)
     expect(report.provenProblems).toEqual([])
     expect(report.issues).toEqual(expect.arrayContaining([
-      expect.objectContaining({ code: 'GENERATION_FAILED', seed: 1, variantIndex: 0 }),
-      expect.objectContaining({ code: 'ORACLE_FAILED', seed: 2, variantIndex: 1 }),
+      expect.objectContaining({ code: 'GENERATION_FAILED', seed: 0, variantIndex: 0 }),
+      expect.objectContaining({ code: 'ORACLE_FAILED', seed: 5, variantIndex: 1 }),
     ]))
   })
 })
@@ -661,70 +757,79 @@ describe('static corpus application proof', () => {
     proofMode: 'static-corpus',
     runtimeMode: 'static-corpus',
   })
+  const reviewedEntries = () => [
+    { corpusId: corpusIds[0], problem: generated(1, 0), review: approvedCorpusReview },
+    { corpusId: corpusIds[1], problem: generated(2, 0), review: approvedCorpusReview },
+  ]
+  const runStatic = (proof: StaticCorpusApplicationProofV1) =>
+    runApplicationProblemProofWithTestTrust(
+      proof,
+      createTestApplicationProofAuthorityRegistryV1([staticAuthority]),
+    )
 
-  it('accepts only the exhaustively reviewed corpus entries', () => {
-    const report = runApplicationProblemProof({
+  it('accepts only the exact registered and reviewed corpus', () => {
+    const report = runStatic({
       mode: 'static-corpus',
       family: staticFamily(),
-      entries: [
-        { corpusId: 'proof-corpus-001', problem: generated(1, 0), review: approvedCorpusReview },
-        { corpusId: 'proof-corpus-002', problem: generated(2, 0), review: approvedCorpusReview },
-      ],
-      ...staticAuthority(['proof-corpus-001', 'proof-corpus-002']),
+      entries: reviewedEntries(),
     })
 
     expect(report).toMatchObject({
       proven: true,
       checkedCount: 2,
-      corpusIds: ['proof-corpus-001', 'proof-corpus-002'],
+      corpusIds,
       issues: [],
+      authorityRef: { authorityId: staticAuthority.manifest.authorityId },
     })
     expect(report.provenProblems).toHaveLength(2)
   })
 
-  it('rejects unreviewed entries and includes their corpus IDs', () => {
-    const report = runApplicationProblemProof({
+  it('rejects omitted IDs and unreviewed entries without returning proven problems', () => {
+    const omitted = runStatic({
       mode: 'static-corpus',
       family: staticFamily(),
-      entries: [{
-        corpusId: 'proof-corpus-unreviewed',
-        problem: generated(1, 0),
-        review: { ...approvedCorpusReview, status: 'pending' as const, evidenceRefs: [] },
-      }],
-      ...staticAuthority(['proof-corpus-unreviewed']),
+      entries: reviewedEntries().slice(0, 1),
+    })
+    const entries: StaticCorpusApplicationProofV1['entries'] = reviewedEntries().map(
+      (entry, index) => index === 1
+        ? {
+            ...entry,
+            review: { ...approvedCorpusReview, status: 'pending', evidenceRefs: [] },
+          }
+        : entry,
+    )
+    const unreviewed = runStatic({
+      mode: 'static-corpus',
+      family: staticFamily(),
+      entries,
     })
 
-    expect(report.proven).toBe(false)
-    expect(report.provenProblems).toEqual([])
-    expect(report.issues).toContainEqual(expect.objectContaining({
+    expect(omitted.issues.map((issue) => issue.code)).toContain('MANIFEST_CASE_SET_MISMATCH')
+    expect(unreviewed.issues).toContainEqual(expect.objectContaining({
       code: 'CORPUS_REVIEW_REQUIRED',
-      corpusId: 'proof-corpus-unreviewed',
+      corpusId: corpusIds[1],
     }))
+    expect(omitted.provenProblems).toEqual([])
+    expect(unreviewed.provenProblems).toEqual([])
   })
 
-  it('rejects a static corpus that omits a manifest-approved entry ID', () => {
-    const report = runApplicationProblemProof({
+  it('rejects dynamic generator metadata on a static corpus proof', () => {
+    const report = runStatic({
       mode: 'static-corpus',
       family: staticFamily(),
-      entries: [
-        { corpusId: 'proof-corpus-001', problem: generated(1, 0), review: approvedCorpusReview },
-        { corpusId: 'proof-corpus-002', problem: generated(2, 0), review: approvedCorpusReview },
-      ],
-      ...staticAuthority([
-        'proof-corpus-001',
-        'proof-corpus-002',
-        'proof-corpus-003',
-      ]),
-    })
+      entries: reviewedEntries(),
+      generator: { generate: defaultGenerator },
+    } as unknown as StaticCorpusApplicationProofV1)
 
     expect(report.proven).toBe(false)
     expect(report.checkedCount).toBe(0)
-    expect(report.provenProblems).toEqual([])
-    expect(report.issues.map((issue) => issue.code)).toContain('MANIFEST_CASE_SET_MISMATCH')
+    expect(report.issues.map((issue) => issue.code)).toContain(
+      'STATIC_CORPUS_DYNAMIC_GENERATOR_FORBIDDEN',
+    )
   })
 
   it('rejects an empty corpus identity and non-ISO review evidence', () => {
-    const report = runApplicationProblemProof({
+    const report = runStatic({
       mode: 'static-corpus',
       family: staticFamily(),
       entries: [{
@@ -732,7 +837,6 @@ describe('static corpus application proof', () => {
         problem: generated(1, 0),
         review: { ...approvedCorpusReview, reviewedAt: 'tomorrow' },
       }],
-      ...staticAuthority(['']),
     })
 
     expect(report.proven).toBe(false)
@@ -743,31 +847,13 @@ describe('static corpus application proof', () => {
     ]))
   })
 
-  it('rejects a dynamic generator disguised as a static corpus proof', () => {
-    const report = runApplicationProblemProof({
+  it('rejects a dynamic generate callback disguised as static corpus metadata', () => {
+    const report = runStatic({
       mode: 'static-corpus',
       family: staticFamily(),
-      entries: [{ corpusId: 'proof-corpus-001', problem: generated(1, 0), review: approvedCorpusReview }],
-      ...staticAuthority(['proof-corpus-001']),
+      entries: reviewedEntries(),
       generate: () => generated(99, 0),
-    } as Parameters<typeof runApplicationProblemProof>[0])
-
-    expect(report.proven).toBe(false)
-    expect(report.checkedCount).toBe(0)
-    expect(report.provenProblems).toEqual([])
-    expect(report.issues.map((issue) => issue.code)).toContain(
-      'STATIC_CORPUS_DYNAMIC_GENERATOR_FORBIDDEN',
-    )
-  })
-
-  it('rejects a generator object disguised as static corpus metadata', () => {
-    const report = runApplicationProblemProof({
-      mode: 'static-corpus',
-      family: staticFamily(),
-      entries: [{ corpusId: 'proof-corpus-001', problem: generated(1, 0), review: approvedCorpusReview }],
-      ...staticAuthority(['proof-corpus-001']),
-      generator: { generate: () => generated(99, 0) },
-    } as Parameters<typeof runApplicationProblemProof>[0])
+    } as unknown as StaticCorpusApplicationProofV1)
 
     expect(report.proven).toBe(false)
     expect(report.checkedCount).toBe(0)
