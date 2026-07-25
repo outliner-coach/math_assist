@@ -288,6 +288,13 @@ When you change a high-conflict file, add a short dated note below:
   Construct GCD/LCM operands from a shared factor and consecutive cofactors so
   the declared greatest/least common value is exact for every parameter tuple.
 
+- 2026-07-26: Grade 5 pattern quality upgrade (primary workstreams 01 and 04)
+  owns `public/data/templates/pattern.json`,
+  `scripts/generate-grade5-pattern-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, and focused exhaustive tests.
+  Preserve deterministic integer rules while expanding the bank to distinct
+  input-output, inverse, context, comparison, and error-analysis families.
+
 - 2026-07-21: quantitative three-shape overlap repair (primary workstream 03,
   dependencies on workstreams 01 and 04)
   `src/lib/types.ts`, `src/lib/problem-generator.ts`, and

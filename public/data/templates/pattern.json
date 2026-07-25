@@ -5,33 +5,45 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "pattern-infer-multiplicative",
-    "blueprint": {"problemFamily":"pattern-infer-multiplicative","cognitiveDomain":"reasoning","reasoningPattern":"pattern_generalization","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-rule-multiplicative",
+    "blueprint": {
+      "problemFamily": "pattern-rule-multiplicative",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "k": {
         "min": 2,
-        "max": 6
+        "max": 3
       },
       "t": {
-        "min": 5,
-        "max": 9
+        "min": 6,
+        "max": 8
       }
     },
-    "prompt_template": "○가 1일 때 △는 {{k}}, ○가 2일 때 △는 {{k * 2}}, ○가 3일 때 △는 {{k * 3}}. ○가 {{t}}일 때 △는?",
+    "prompt_template": "입력 수의 {{k}}배인 수가 대응합니다. 입력 수가 {{t}}일 때 대응하는 수를 구하세요.",
     "solver_rule": "k * t",
     "solution_steps_template": [
-      "규칙을 찾습니다: △ = ○ × {{k}}",
-      "○가 {{t}}일 때: {{t}} × {{k}} = {{k * t}}"
+      "입력 수 {{t}}의 {{k}}배를 구합니다.",
+      "{{t}} × {{k}} = {{k * t}}입니다."
     ],
     "hint_steps_template": [
-      "○가 1일 때 {{k}}이면 ×{{k}} 규칙이에요.",
-      "{{t}} × {{k}}를 계산해요."
+      "입력 수에 어떤 계산을 차례로 하는지 확인해요.",
+      "곱셈을 먼저 하고 덧셈이 있으면 그다음에 계산해요."
     ],
     "choices_template": [
       "{{k * t}}",
-      "{{k * t + 3}}",
-      "{{k * t + 7}}",
-      "{{k * t + 12}}"
+      "{{(k * t) + 1}}",
+      "{{(k * t) + 2}}",
+      "{{(k * t) + 3}}"
     ]
   },
   {
@@ -40,27 +52,39 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "pattern-infer-additive",
-    "blueprint": {"problemFamily":"pattern-infer-additive","cognitiveDomain":"reasoning","reasoningPattern":"pattern_generalization","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-rule-additive",
+    "blueprint": {
+      "problemFamily": "pattern-rule-additive",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "d": {
-        "min": 3,
-        "max": 9
+        "min": 2,
+        "max": 3
       },
       "t": {
         "min": 6,
-        "max": 10
+        "max": 8
       }
     },
-    "prompt_template": "○가 1일 때 △는 {{d + 1}}, ○가 2일 때 △는 {{d + 2}}, ○가 3일 때 △는 {{d + 3}}. ○가 {{t}}일 때 △는 얼마인가요?",
-    "solver_rule": "d + t",
+    "prompt_template": "입력 수보다 {{d}}만큼 큰 수가 대응합니다. 입력 수가 {{t}}일 때 대응하는 수를 구하세요.",
+    "solver_rule": "t + d",
     "solution_steps_template": [
-      "규칙을 찾습니다: △ = ○ + {{d}}",
-      "○가 {{t}}일 때: {{t}} + {{d}} = {{d + t}}"
+      "입력 수 {{t}}보다 {{d}}만큼 큰 수를 구합니다.",
+      "{{t}} + {{d}} = {{t + d}}입니다."
     ],
     "hint_steps_template": [
-      "매번 1씩 늘어요.",
-      "○에 {{d}}를 더하면 돼요."
+      "입력 수에 어떤 계산을 차례로 하는지 확인해요.",
+      "곱셈을 먼저 하고 덧셈이 있으면 그다음에 계산해요."
     ]
   },
   {
@@ -69,37 +93,49 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "pattern-infer-affine",
-    "blueprint": {"problemFamily":"pattern-infer-affine","cognitiveDomain":"reasoning","reasoningPattern":"pattern_generalization","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "pattern-rule-affine",
+    "blueprint": {
+      "problemFamily": "pattern-rule-affine",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
         "min": 2,
-        "max": 5
+        "max": 3
       },
       "d": {
-        "min": 1,
-        "max": 4
+        "min": 2,
+        "max": 3
       },
       "t": {
-        "min": 5,
+        "min": 6,
         "max": 8
       }
     },
-    "prompt_template": "○가 1일 때 △는 {{k + d}}, ○가 2일 때 △는 {{k * 2 + d}}, ○가 3일 때 △는 {{k * 3 + d}}. ○가 {{t}}일 때 △는?",
+    "prompt_template": "입력 수의 {{k}}배에 {{d}}만큼 더한 수가 대응합니다. 입력 수가 {{t}}일 때 대응하는 수를 구하세요.",
     "solver_rule": "k * t + d",
     "solution_steps_template": [
-      "규칙을 찾습니다: △ = ○ × {{k}} + {{d}}",
-      "○가 {{t}}일 때: {{k * t + d}}"
+      "입력 수 {{t}}의 {{k}}배는 {{k * t}}입니다.",
+      "{{k * t}}보다 {{d}}만큼 큰 수는 {{k * t + d}}입니다."
     ],
     "hint_steps_template": [
-      "곱하는 규칙과 더하는 규칙을 함께 봐요.",
-      "{{k}}를 곱하고 {{d}}를 더해요."
+      "입력 수에 어떤 계산을 차례로 하는지 확인해요.",
+      "곱셈을 먼저 하고 덧셈이 있으면 그다음에 계산해요."
     ],
     "choices_template": [
       "{{k * t + d}}",
-      "{{k * t + d + 4}}",
-      "{{k * t + d + 8}}",
-      "{{k * t + d + 13}}"
+      "{{(k * t + d) + 1}}",
+      "{{(k * t + d) + 2}}",
+      "{{(k * t + d) + 3}}"
     ]
   },
   {
@@ -108,27 +144,39 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "pattern-apply-additive",
-    "blueprint": {"problemFamily":"pattern-apply-additive","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "pattern-inverse-multiplicative",
+    "blueprint": {
+      "problemFamily": "pattern-inverse-multiplicative",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
         "min": 2,
-        "max": 5
+        "max": 3
       },
       "t": {
-        "min": 4,
-        "max": 7
+        "min": 6,
+        "max": 8
       }
     },
-    "prompt_template": "○가 1일 때 △는 {{k + 1}}, ○가 2일 때 △는 {{k + 2}}. 규칙이 △ = ○ + {{k}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "k + t",
+    "prompt_template": "입력 수의 {{k}}배가 대응하는 수이고, 대응하는 수가 {{k * t}}입니다. 입력 수를 구하세요.",
+    "solver_rule": "t",
     "solution_steps_template": [
-      "규칙: △ = ○ + {{k}}",
-      "○가 {{t}}이면 △ = {{t}} + {{k}} = {{k + t}}"
+      "대응하는 수와 곱한 수를 이용해 나눗셈식으로 나타냅니다.",
+      "{{k * t}} ÷ {{k}} = {{t}}입니다."
     ],
     "hint_steps_template": [
-      "더하기 규칙이에요.",
-      "{{t}}에 {{k}}를 더해요."
+      "곱한 결과에서 처음 수를 찾으려면 나눗셈을 이용해요.",
+      "대응하는 수를 곱한 수로 나누어요."
     ]
   },
   {
@@ -137,37 +185,48 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "pattern-apply-affine",
-    "blueprint": {"problemFamily":"pattern-apply-affine","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-context-equal-groups",
+    "blueprint": {
+      "problemFamily": "pattern-context-equal-groups",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수02-01",
+      "connectedStandards": [
+        "6수01-01"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 4,
-        "max": 7
-      },
-      "d": {
-        "min": 3,
-        "max": 6
+        "min": 2,
+        "max": 3
       },
       "t": {
-        "min": 7,
-        "max": 11
+        "min": 6,
+        "max": 8
       }
     },
-    "prompt_template": "규칙이 △ = ○ × {{k}} + {{d}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "k * t + d",
+    "prompt_template": "다음은 생활 속 대응 관계입니다. 한 봉지에 붙임 딱지를 {{k}}장씩 넣습니다. 봉지가 {{t}}개일 때 붙임 딱지는 모두 몇 장인가요?",
+    "solver_rule": "k * t",
     "solution_steps_template": [
-      "규칙: △ = ○ × {{k}} + {{d}}",
-      "○가 {{t}}일 때: {{k * t + d}}"
+      "한 묶음의 수와 묶음 수가 각각 {{k}}, {{t}}입니다.",
+      "{{k}} × {{t}} = {{k * t}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 {{t}} × {{k}}",
-      "그 값에 {{d}}를 더해요."
+      "처음부터 있는 양과 반복해서 늘어나는 양을 구분해요.",
+      "반복되는 양은 한 번의 양 × 반복 횟수로 나타내요."
     ],
     "choices_template": [
-      "{{k * t + d}}",
-      "{{k * t + d + 5}}",
-      "{{k * t + d + 10}}",
-      "{{k * t + d + 15}}"
+      "{{k * t}}",
+      "{{(k * t) + 1}}",
+      "{{(k * t) + 2}}",
+      "{{(k * t) + 3}}"
     ]
   },
   {
@@ -176,31 +235,46 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "pattern-apply-subtractive",
-    "blueprint": {"problemFamily":"pattern-apply-subtractive","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-context-fixed-plus-rate",
+    "blueprint": {
+      "problemFamily": "pattern-context-fixed-plus-rate",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수02-01",
+      "connectedStandards": [
+        "6수01-01"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 3,
-        "max": 7
+        "min": 2,
+        "max": 3
       },
       "d": {
         "min": 2,
-        "max": 5
+        "max": 3
       },
       "t": {
-        "min": 8,
-        "max": 12
+        "min": 6,
+        "max": 8
       }
     },
-    "prompt_template": "규칙이 △ = ○ × {{k}} - {{d}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "k * t - d",
+    "prompt_template": "다음은 생활 속 대응 관계입니다. 구슬 장식을 만들 때 처음에 구슬 {{d}}개를 놓고, 한 줄마다 {{k}}개씩 더 놓습니다. 줄이 {{t}}개일 때 구슬은 모두 몇 개인가요?",
+    "solver_rule": "k * t + d",
     "solution_steps_template": [
-      "규칙: △ = ○ × {{k}} - {{d}}",
-      "○가 {{t}}일 때: {{k * t - d}}"
+      "반복해서 더하는 양은 {{k}} × {{t}} = {{k * t}}입니다.",
+      "처음의 고정된 양 {{d}}를 더하면 {{k * t + d}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 곱하기를 해요.",
-      "그 값에서 {{d}}를 빼요."
+      "처음부터 있는 양과 반복해서 늘어나는 양을 구분해요.",
+      "반복되는 양은 한 번의 양 × 반복 횟수로 나타내요."
     ]
   },
   {
@@ -209,33 +283,49 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "pattern-infer-multiplicative",
-    "blueprint": {"problemFamily":"pattern-infer-multiplicative","cognitiveDomain":"reasoning","reasoningPattern":"pattern_generalization","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-inverse-affine",
+    "blueprint": {
+      "problemFamily": "pattern-inverse-affine",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 3,
-        "max": 6
+        "min": 2,
+        "max": 3
+      },
+      "d": {
+        "min": 2,
+        "max": 3
       },
       "t": {
         "min": 6,
-        "max": 9
+        "max": 8
       }
     },
-    "prompt_template": "○가 2일 때 △는 {{k * 2}}, ○가 4일 때 △는 {{k * 4}}. ○가 {{t}}일 때 △는?",
-    "solver_rule": "k * t",
+    "prompt_template": "다음은 생활 속 대응 관계입니다. 입장할 때 놀이 토큰 {{d}}개를 내고, 놀이 기구 한 번마다 {{k}}개씩 더 냅니다. 토큰을 모두 {{k * t + d}}개 냈다면 놀이 기구를 몇 번 탔나요?",
+    "solver_rule": "t",
     "solution_steps_template": [
-      "규칙은 △ = ○ × {{k}}입니다.",
-      "○가 {{t}}일 때: {{k * t}}"
+      "전체는 {{k * t + d}}, 처음의 고정된 양은 {{d}}이므로 반복해서 늘어난 양은 {{k * t}}입니다.",
+      "{{k * t}} ÷ {{k}} = {{t}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈 규칙을 찾아요.",
-      "{{t}} × {{k}}를 계산해요."
+      "계산 순서를 거꾸로 따라가거나 한 묶음의 수를 먼저 구해요.",
+      "전체에서 고정된 양을 빼거나 괄호 안을 먼저 계산해요."
     ],
     "choices_template": [
-      "{{k * t}}",
-      "{{k * t + 4}}",
-      "{{k * t + 8}}",
-      "{{k * t + 12}}"
+      "{{t}}",
+      "{{(t) + 1}}",
+      "{{(t) + 2}}",
+      "{{(t) + 3}}"
     ]
   },
   {
@@ -244,103 +334,135 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "pattern-apply-affine",
-    "blueprint": {"problemFamily":"pattern-apply-affine","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-shift-then-scale",
+    "blueprint": {
+      "problemFamily": "pattern-shift-then-scale",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 4,
-        "max": 7
+        "min": 2,
+        "max": 3
       },
       "d": {
-        "min": 3,
-        "max": 6
+        "min": 2,
+        "max": 3
       },
       "t": {
-        "min": 7,
-        "max": 10
+        "min": 6,
+        "max": 8
       }
     },
-    "prompt_template": "규칙이 △ = ○ × {{k}} + {{d}}일 때 ○가 {{t}}이면 △는 얼마인가요?",
-    "solver_rule": "k * t + d",
+    "prompt_template": "다음은 생활 속 대응 관계입니다. 한 모둠에 학생 {{t}}명과 도우미 {{d}}명이 있습니다. 같은 모둠이 {{k}}개일 때 사람은 모두 몇 명인가요?",
+    "solver_rule": "(t + d) * k",
     "solution_steps_template": [
-      "규칙: △ = ○ × {{k}} + {{d}}",
-      "○가 {{t}}일 때: {{k * t + d}}"
+      "한 묶음의 수는 {{t}} + {{d}} = {{t + d}}입니다.",
+      "묶음이 {{k}}개이므로 {{t + d}} × {{k}} = {{(t + d) * k}}입니다."
     ],
     "hint_steps_template": [
-      "{{t}} × {{k}}를 먼저 계산해요.",
-      "그 값에 {{d}}를 더해요."
+      "계산 순서를 거꾸로 따라가거나 한 묶음의 수를 먼저 구해요.",
+      "전체에서 고정된 양을 빼거나 괄호 안을 먼저 계산해요."
     ]
   },
   {
     "id": "tmpl-pattern-A-09",
     "concept_id": "pattern-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "pattern-apply-affine",
-    "blueprint": {"problemFamily":"pattern-apply-affine","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-rule-comparison-gap",
+    "blueprint": {
+      "problemFamily": "pattern-rule-comparison-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "k": {
-        "min": 5,
-        "max": 9
+        "min": 2,
+        "max": 3
       },
       "d": {
-        "min": 4,
-        "max": 8
+        "min": 2,
+        "max": 3
       },
       "t": {
-        "min": 10,
-        "max": 14
+        "min": 6,
+        "max": 8
       }
     },
-    "prompt_template": "규칙이 △ = (○ × {{k}}) + {{d}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "k * t + d",
+    "prompt_template": "규칙 가는 입력 수의 {{k}}배에 {{d}}만큼 더합니다. 규칙 나는 입력 수의 {{k + 1}}배입니다. 입력 수가 {{t}}일 때 두 결과의 차이는 얼마인가요?",
+    "solver_rule": "t - d",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{t}} × {{k}} = {{k * t}}",
-      "그 다음 {{d}}를 더합니다: {{k * t + d}}"
+      "규칙 가의 결과는 {{k * t}} + {{d}} = {{k * t + d}}입니다.",
+      "규칙 나의 결과는 {{(k + 1) * t}}이므로 두 결과의 차는 {{t - d}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈을 먼저 해요.",
-      "그 결과에 {{d}}를 더해요."
+      "두 규칙을 같은 입력 수에 각각 적용해 결과를 비교해요.",
+      "올바른 두 값을 모두 구한 뒤 큰 값에서 작은 값을 빼요."
+    ],
+    "choices_template": [
+      "{{t - d}}",
+      "{{(t - d) + 1}}",
+      "{{(t - d) + 2}}",
+      "{{(t - d) + 3}}"
     ]
   },
   {
     "id": "tmpl-pattern-A-10",
     "concept_id": "pattern-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "pattern-shift-then-scale",
-    "blueprint": {"problemFamily":"pattern-shift-then-scale","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-additive-error-gap",
+    "blueprint": {
+      "problemFamily": "pattern-additive-error-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "k": {
-        "min": 6,
-        "max": 10
-      },
-      "d": {
-        "min": 5,
-        "max": 8
+        "min": 2,
+        "max": 3
       },
       "t": {
-        "min": 10,
-        "max": 14
+        "min": 6,
+        "max": 8
       }
     },
-    "prompt_template": "규칙이 △ = (○ + {{d}}) × {{k}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "(t + d) * k",
+    "prompt_template": "실제 규칙은 입력 수의 {{k}}배를 구하는 것입니다. 민수는 잘못하여 입력 수보다 {{k}}만큼 큰 수를 구했습니다. 입력 수가 {{t}}일 때 실제 결과와 민수의 결과의 차이는 얼마인가요?",
+    "solver_rule": "k * t - (t + k)",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{t}} + {{d}} = {{t + d}}",
-      "그 다음 곱합니다: {{t + d}} × {{k}} = {{(t + d) * k}}"
+      "올바른 결과는 {{t}} × {{k}} = {{k * t}}이고, 잘못 구한 결과는 {{t}} + {{k}} = {{t + k}}입니다.",
+      "두 결과의 차는 {{k * t}} - {{t + k}} = {{k * t - (t + k)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 {{t}} + {{d}}를 계산해요.",
-      "그 값에 {{k}}를 곱해요."
-    ],
-    "choices_template": [
-      "{{(t + d) * k}}",
-      "{{(t + d) * k + 6}}",
-      "{{(t + d) * k + 12}}",
-      "{{(t + d) * k + 18}}"
+      "두 규칙을 같은 입력 수에 각각 적용해 결과를 비교해요.",
+      "올바른 두 값을 모두 구한 뒤 큰 값에서 작은 값을 빼요."
     ]
   },
   {
@@ -349,33 +471,45 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "pattern-infer-multiplicative",
-    "blueprint": {"problemFamily":"pattern-infer-multiplicative","cognitiveDomain":"reasoning","reasoningPattern":"pattern_generalization","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-rule-multiplicative",
+    "blueprint": {
+      "problemFamily": "pattern-rule-multiplicative",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "k": {
-        "min": 4,
-        "max": 8
+        "min": 3,
+        "max": 4
       },
       "t": {
         "min": 7,
-        "max": 11
+        "max": 10
       }
     },
-    "prompt_template": "○가 1일 때 △는 {{k}}, ○가 2일 때 △는 {{k * 2}}, ○가 3일 때 △는 {{k * 3}}. ○가 {{t}}일 때 △는?",
+    "prompt_template": "수 기계에 넣는 수가 {{t}}이면 넣은 수의 {{k}}배가 나옵니다. 나오는 수를 구하세요.",
     "solver_rule": "k * t",
     "solution_steps_template": [
-      "규칙을 찾습니다: △ = ○ × {{k}}",
-      "○가 {{t}}일 때: {{t}} × {{k}} = {{k * t}}"
+      "입력 수 {{t}}의 {{k}}배를 구합니다.",
+      "{{t}} × {{k}} = {{k * t}}입니다."
     ],
     "hint_steps_template": [
-      "○가 1일 때 {{k}}이면 ×{{k}} 규칙이에요.",
-      "{{t}} × {{k}}를 계산해요."
+      "입력 수에 어떤 계산을 차례로 하는지 확인해요.",
+      "곱셈을 먼저 하고 덧셈이 있으면 그다음에 계산해요."
     ],
     "choices_template": [
       "{{k * t}}",
-      "{{k * t + 3}}",
-      "{{k * t + 7}}",
-      "{{k * t + 12}}"
+      "{{(k * t) + 1}}",
+      "{{(k * t) + 2}}",
+      "{{(k * t) + 3}}"
     ]
   },
   {
@@ -384,27 +518,39 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "pattern-infer-additive",
-    "blueprint": {"problemFamily":"pattern-infer-additive","cognitiveDomain":"reasoning","reasoningPattern":"pattern_generalization","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-rule-additive",
+    "blueprint": {
+      "problemFamily": "pattern-rule-additive",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "d": {
-        "min": 5,
-        "max": 11
+        "min": 2,
+        "max": 4
       },
       "t": {
-        "min": 8,
-        "max": 12
+        "min": 7,
+        "max": 10
       }
     },
-    "prompt_template": "○가 1일 때 △는 {{d + 1}}, ○가 2일 때 △는 {{d + 2}}, ○가 3일 때 △는 {{d + 3}}. ○가 {{t}}일 때 △는 얼마인가요?",
-    "solver_rule": "d + t",
+    "prompt_template": "대응표에서 아래쪽 수는 위쪽 수보다 {{d}}만큼 큽니다. 위쪽 수가 {{t}}일 때 아래쪽 수를 구하세요.",
+    "solver_rule": "t + d",
     "solution_steps_template": [
-      "규칙을 찾습니다: △ = ○ + {{d}}",
-      "○가 {{t}}일 때: {{t}} + {{d}} = {{d + t}}"
+      "입력 수 {{t}}보다 {{d}}만큼 큰 수를 구합니다.",
+      "{{t}} + {{d}} = {{t + d}}입니다."
     ],
     "hint_steps_template": [
-      "매번 1씩 늘어요.",
-      "○에 {{d}}를 더하면 돼요."
+      "입력 수에 어떤 계산을 차례로 하는지 확인해요.",
+      "곱셈을 먼저 하고 덧셈이 있으면 그다음에 계산해요."
     ]
   },
   {
@@ -413,37 +559,49 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "pattern-infer-affine",
-    "blueprint": {"problemFamily":"pattern-infer-affine","cognitiveDomain":"reasoning","reasoningPattern":"pattern_generalization","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "pattern-rule-affine",
+    "blueprint": {
+      "problemFamily": "pattern-rule-affine",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 4,
-        "max": 7
+        "min": 3,
+        "max": 4
       },
       "d": {
-        "min": 3,
-        "max": 6
+        "min": 2,
+        "max": 4
       },
       "t": {
         "min": 7,
         "max": 10
       }
     },
-    "prompt_template": "○가 1일 때 △는 {{k + d}}, ○가 2일 때 △는 {{k * 2 + d}}, ○가 3일 때 △는 {{k * 3 + d}}. ○가 {{t}}일 때 △는?",
+    "prompt_template": "대응하는 수는 입력 수의 {{k}}배보다 {{d}}만큼 큽니다. 입력 수가 {{t}}일 때 대응하는 수를 구하세요.",
     "solver_rule": "k * t + d",
     "solution_steps_template": [
-      "규칙을 찾습니다: △ = ○ × {{k}} + {{d}}",
-      "○가 {{t}}일 때: {{k * t + d}}"
+      "입력 수 {{t}}의 {{k}}배는 {{k * t}}입니다.",
+      "{{k * t}}보다 {{d}}만큼 큰 수는 {{k * t + d}}입니다."
     ],
     "hint_steps_template": [
-      "곱하는 규칙과 더하는 규칙을 함께 봐요.",
-      "{{k}}를 곱하고 {{d}}를 더해요."
+      "입력 수에 어떤 계산을 차례로 하는지 확인해요.",
+      "곱셈을 먼저 하고 덧셈이 있으면 그다음에 계산해요."
     ],
     "choices_template": [
       "{{k * t + d}}",
-      "{{k * t + d + 4}}",
-      "{{k * t + d + 8}}",
-      "{{k * t + d + 13}}"
+      "{{(k * t + d) + 1}}",
+      "{{(k * t + d) + 2}}",
+      "{{(k * t + d) + 3}}"
     ]
   },
   {
@@ -452,27 +610,39 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "pattern-apply-additive",
-    "blueprint": {"problemFamily":"pattern-apply-additive","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "pattern-inverse-multiplicative",
+    "blueprint": {
+      "problemFamily": "pattern-inverse-multiplicative",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 4,
-        "max": 7
+        "min": 3,
+        "max": 4
       },
       "t": {
-        "min": 6,
-        "max": 9
+        "min": 7,
+        "max": 10
       }
     },
-    "prompt_template": "○가 1일 때 △는 {{k + 1}}, ○가 2일 때 △는 {{k + 2}}. 규칙이 △ = ○ + {{k}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "k + t",
+    "prompt_template": "어떤 수를 {{k}}배 했더니 {{k * t}}가 되었습니다. 어떤 수를 구하세요.",
+    "solver_rule": "t",
     "solution_steps_template": [
-      "규칙: △ = ○ + {{k}}",
-      "○가 {{t}}이면 △ = {{t}} + {{k}} = {{k + t}}"
+      "대응하는 수와 곱한 수를 이용해 나눗셈식으로 나타냅니다.",
+      "{{k * t}} ÷ {{k}} = {{t}}입니다."
     ],
     "hint_steps_template": [
-      "더하기 규칙이에요.",
-      "{{t}}에 {{k}}를 더해요."
+      "곱한 결과에서 처음 수를 찾으려면 나눗셈을 이용해요.",
+      "대응하는 수를 곱한 수로 나누어요."
     ]
   },
   {
@@ -481,37 +651,48 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "pattern-apply-affine",
-    "blueprint": {"problemFamily":"pattern-apply-affine","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-context-equal-groups",
+    "blueprint": {
+      "problemFamily": "pattern-context-equal-groups",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수02-01",
+      "connectedStandards": [
+        "6수01-01"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 6,
-        "max": 9
-      },
-      "d": {
-        "min": 5,
-        "max": 8
+        "min": 3,
+        "max": 4
       },
       "t": {
-        "min": 9,
-        "max": 13
+        "min": 7,
+        "max": 10
       }
     },
-    "prompt_template": "규칙이 △ = ○ × {{k}} + {{d}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "k * t + d",
+    "prompt_template": "다음은 생활 속 대응 관계입니다. 의자 한 줄에 {{k}}명씩 앉습니다. 줄이 {{t}}개일 때 앉을 수 있는 사람은 모두 몇 명인가요?",
+    "solver_rule": "k * t",
     "solution_steps_template": [
-      "규칙: △ = ○ × {{k}} + {{d}}",
-      "○가 {{t}}일 때: {{k * t + d}}"
+      "한 묶음의 수와 묶음 수가 각각 {{k}}, {{t}}입니다.",
+      "{{k}} × {{t}} = {{k * t}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 {{t}} × {{k}}",
-      "그 값에 {{d}}를 더해요."
+      "처음부터 있는 양과 반복해서 늘어나는 양을 구분해요.",
+      "반복되는 양은 한 번의 양 × 반복 횟수로 나타내요."
     ],
     "choices_template": [
-      "{{k * t + d}}",
-      "{{k * t + d + 5}}",
-      "{{k * t + d + 10}}",
-      "{{k * t + d + 15}}"
+      "{{k * t}}",
+      "{{(k * t) + 1}}",
+      "{{(k * t) + 2}}",
+      "{{(k * t) + 3}}"
     ]
   },
   {
@@ -520,31 +701,46 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "pattern-apply-subtractive",
-    "blueprint": {"problemFamily":"pattern-apply-subtractive","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-context-fixed-plus-rate",
+    "blueprint": {
+      "problemFamily": "pattern-context-fixed-plus-rate",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수02-01",
+      "connectedStandards": [
+        "6수01-01"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 5,
-        "max": 9
+        "min": 3,
+        "max": 4
       },
       "d": {
-        "min": 4,
-        "max": 7
+        "min": 2,
+        "max": 4
       },
       "t": {
-        "min": 10,
-        "max": 14
+        "min": 7,
+        "max": 10
       }
     },
-    "prompt_template": "규칙이 △ = ○ × {{k}} - {{d}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "k * t - d",
+    "prompt_template": "다음은 생활 속 대응 관계입니다. 택배 상자에는 완충재 {{d}}개를 먼저 넣고, 물건 한 개마다 완충재 {{k}}개씩 더 넣습니다. 물건이 {{t}}개일 때 완충재는 모두 몇 개인가요?",
+    "solver_rule": "k * t + d",
     "solution_steps_template": [
-      "규칙: △ = ○ × {{k}} - {{d}}",
-      "○가 {{t}}일 때: {{k * t - d}}"
+      "반복해서 더하는 양은 {{k}} × {{t}} = {{k * t}}입니다.",
+      "처음의 고정된 양 {{d}}를 더하면 {{k * t + d}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 곱하기를 해요.",
-      "그 값에서 {{d}}를 빼요."
+      "처음부터 있는 양과 반복해서 늘어나는 양을 구분해요.",
+      "반복되는 양은 한 번의 양 × 반복 횟수로 나타내요."
     ]
   },
   {
@@ -553,33 +749,49 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "pattern-infer-multiplicative",
-    "blueprint": {"problemFamily":"pattern-infer-multiplicative","cognitiveDomain":"reasoning","reasoningPattern":"pattern_generalization","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-inverse-affine",
+    "blueprint": {
+      "problemFamily": "pattern-inverse-affine",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 5,
-        "max": 8
+        "min": 3,
+        "max": 4
+      },
+      "d": {
+        "min": 2,
+        "max": 4
       },
       "t": {
-        "min": 8,
-        "max": 11
+        "min": 7,
+        "max": 10
       }
     },
-    "prompt_template": "○가 2일 때 △는 {{k * 2}}, ○가 4일 때 △는 {{k * 4}}. ○가 {{t}}일 때 △는?",
-    "solver_rule": "k * t",
+    "prompt_template": "다음은 생활 속 대응 관계입니다. 기본 점수 {{d}}점에 성공 한 번마다 {{k}}점씩 더해 {{k * t + d}}점이 되었습니다. 몇 번 성공했나요?",
+    "solver_rule": "t",
     "solution_steps_template": [
-      "규칙은 △ = ○ × {{k}}입니다.",
-      "○가 {{t}}일 때: {{k * t}}"
+      "전체는 {{k * t + d}}, 처음의 고정된 양은 {{d}}이므로 반복해서 늘어난 양은 {{k * t}}입니다.",
+      "{{k * t}} ÷ {{k}} = {{t}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈 규칙을 찾아요.",
-      "{{t}} × {{k}}를 계산해요."
+      "계산 순서를 거꾸로 따라가거나 한 묶음의 수를 먼저 구해요.",
+      "전체에서 고정된 양을 빼거나 괄호 안을 먼저 계산해요."
     ],
     "choices_template": [
-      "{{k * t}}",
-      "{{k * t + 4}}",
-      "{{k * t + 8}}",
-      "{{k * t + 12}}"
+      "{{t}}",
+      "{{(t) + 1}}",
+      "{{(t) + 2}}",
+      "{{(t) + 3}}"
     ]
   },
   {
@@ -588,103 +800,135 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "pattern-apply-affine",
-    "blueprint": {"problemFamily":"pattern-apply-affine","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-shift-then-scale",
+    "blueprint": {
+      "problemFamily": "pattern-shift-then-scale",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 6,
-        "max": 9
+        "min": 3,
+        "max": 4
       },
       "d": {
-        "min": 5,
-        "max": 8
+        "min": 2,
+        "max": 4
       },
       "t": {
-        "min": 9,
-        "max": 12
+        "min": 7,
+        "max": 10
       }
     },
-    "prompt_template": "규칙이 △ = ○ × {{k}} + {{d}}일 때 ○가 {{t}}이면 △는 얼마인가요?",
-    "solver_rule": "k * t + d",
+    "prompt_template": "다음은 생활 속 대응 관계입니다. 화분 한 줄에 큰 화분 {{t}}개와 작은 화분 {{d}}개를 놓습니다. 같은 줄이 {{k}}줄일 때 화분은 모두 몇 개인가요?",
+    "solver_rule": "(t + d) * k",
     "solution_steps_template": [
-      "규칙: △ = ○ × {{k}} + {{d}}",
-      "○가 {{t}}일 때: {{k * t + d}}"
+      "한 묶음의 수는 {{t}} + {{d}} = {{t + d}}입니다.",
+      "묶음이 {{k}}개이므로 {{t + d}} × {{k}} = {{(t + d) * k}}입니다."
     ],
     "hint_steps_template": [
-      "{{t}} × {{k}}를 먼저 계산해요.",
-      "그 값에 {{d}}를 더해요."
+      "계산 순서를 거꾸로 따라가거나 한 묶음의 수를 먼저 구해요.",
+      "전체에서 고정된 양을 빼거나 괄호 안을 먼저 계산해요."
     ]
   },
   {
     "id": "tmpl-pattern-B-09",
     "concept_id": "pattern-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "pattern-apply-affine",
-    "blueprint": {"problemFamily":"pattern-apply-affine","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-rule-comparison-gap",
+    "blueprint": {
+      "problemFamily": "pattern-rule-comparison-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "k": {
-        "min": 7,
-        "max": 11
+        "min": 3,
+        "max": 4
       },
       "d": {
-        "min": 6,
-        "max": 10
+        "min": 2,
+        "max": 4
       },
       "t": {
-        "min": 12,
-        "max": 16
+        "min": 7,
+        "max": 10
       }
     },
-    "prompt_template": "규칙이 △ = (○ × {{k}}) + {{d}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "k * t + d",
+    "prompt_template": "수 기계 가는 입력 수의 {{k}}배보다 {{d}}만큼 큰 수를 내보내고, 수 기계 나는 입력 수의 {{k + 1}}배를 내보냅니다. 넣은 수가 {{t}}일 때 나오는 두 수의 차이는 얼마인가요?",
+    "solver_rule": "t - d",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{t}} × {{k}} = {{k * t}}",
-      "그 다음 {{d}}를 더합니다: {{k * t + d}}"
+      "규칙 가의 결과는 {{k * t}} + {{d}} = {{k * t + d}}입니다.",
+      "규칙 나의 결과는 {{(k + 1) * t}}이므로 두 결과의 차는 {{t - d}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈을 먼저 해요.",
-      "그 결과에 {{d}}를 더해요."
+      "두 규칙을 같은 입력 수에 각각 적용해 결과를 비교해요.",
+      "올바른 두 값을 모두 구한 뒤 큰 값에서 작은 값을 빼요."
+    ],
+    "choices_template": [
+      "{{t - d}}",
+      "{{(t - d) + 1}}",
+      "{{(t - d) + 2}}",
+      "{{(t - d) + 3}}"
     ]
   },
   {
     "id": "tmpl-pattern-B-10",
     "concept_id": "pattern-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "pattern-shift-then-scale",
-    "blueprint": {"problemFamily":"pattern-shift-then-scale","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-additive-error-gap",
+    "blueprint": {
+      "problemFamily": "pattern-additive-error-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "k": {
-        "min": 8,
-        "max": 12
-      },
-      "d": {
-        "min": 7,
-        "max": 10
+        "min": 3,
+        "max": 4
       },
       "t": {
-        "min": 12,
-        "max": 16
+        "min": 7,
+        "max": 10
       }
     },
-    "prompt_template": "규칙이 △ = (○ + {{d}}) × {{k}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "(t + d) * k",
+    "prompt_template": "대응 규칙은 입력 수의 {{k}}배입니다. 서윤이는 곱셈을 덧셈으로 잘못 보고 입력 수보다 {{k}}만큼 큰 수를 구했습니다. 입력 수가 {{t}}일 때 두 결과의 차이는 얼마인가요?",
+    "solver_rule": "k * t - (t + k)",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{t}} + {{d}} = {{t + d}}",
-      "그 다음 곱합니다: {{t + d}} × {{k}} = {{(t + d) * k}}"
+      "올바른 결과는 {{t}} × {{k}} = {{k * t}}이고, 잘못 구한 결과는 {{t}} + {{k}} = {{t + k}}입니다.",
+      "두 결과의 차는 {{k * t}} - {{t + k}} = {{k * t - (t + k)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 {{t}} + {{d}}를 계산해요.",
-      "그 값에 {{k}}를 곱해요."
-    ],
-    "choices_template": [
-      "{{(t + d) * k}}",
-      "{{(t + d) * k + 6}}",
-      "{{(t + d) * k + 12}}",
-      "{{(t + d) * k + 18}}"
+      "두 규칙을 같은 입력 수에 각각 적용해 결과를 비교해요.",
+      "올바른 두 값을 모두 구한 뒤 큰 값에서 작은 값을 빼요."
     ]
   },
   {
@@ -693,33 +937,45 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "pattern-infer-multiplicative",
-    "blueprint": {"problemFamily":"pattern-infer-multiplicative","cognitiveDomain":"reasoning","reasoningPattern":"pattern_generalization","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-rule-multiplicative",
+    "blueprint": {
+      "problemFamily": "pattern-rule-multiplicative",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "k": {
-        "min": 6,
-        "max": 10
+        "min": 4,
+        "max": 6
       },
       "t": {
         "min": 9,
-        "max": 13
+        "max": 12
       }
     },
-    "prompt_template": "○가 1일 때 △는 {{k}}, ○가 2일 때 △는 {{k * 2}}, ○가 3일 때 △는 {{k * 3}}. ○가 {{t}}일 때 △는?",
+    "prompt_template": "대응 관계가 출력 수 = 입력 수 × {{k}}입니다. 입력 수가 {{t}}일 때 출력 수를 구하세요.",
     "solver_rule": "k * t",
     "solution_steps_template": [
-      "규칙을 찾습니다: △ = ○ × {{k}}",
-      "○가 {{t}}일 때: {{t}} × {{k}} = {{k * t}}"
+      "입력 수 {{t}}의 {{k}}배를 구합니다.",
+      "{{t}} × {{k}} = {{k * t}}입니다."
     ],
     "hint_steps_template": [
-      "○가 1일 때 {{k}}이면 ×{{k}} 규칙이에요.",
-      "{{t}} × {{k}}를 계산해요."
+      "입력 수에 어떤 계산을 차례로 하는지 확인해요.",
+      "곱셈을 먼저 하고 덧셈이 있으면 그다음에 계산해요."
     ],
     "choices_template": [
       "{{k * t}}",
-      "{{k * t + 3}}",
-      "{{k * t + 7}}",
-      "{{k * t + 12}}"
+      "{{(k * t) + 1}}",
+      "{{(k * t) + 2}}",
+      "{{(k * t) + 3}}"
     ]
   },
   {
@@ -728,27 +984,39 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "pattern-infer-additive",
-    "blueprint": {"problemFamily":"pattern-infer-additive","cognitiveDomain":"reasoning","reasoningPattern":"pattern_generalization","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-rule-additive",
+    "blueprint": {
+      "problemFamily": "pattern-rule-additive",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "d": {
-        "min": 7,
-        "max": 13
+        "min": 3,
+        "max": 5
       },
       "t": {
-        "min": 10,
-        "max": 14
+        "min": 9,
+        "max": 12
       }
     },
-    "prompt_template": "○가 1일 때 △는 {{d + 1}}, ○가 2일 때 △는 {{d + 2}}, ○가 3일 때 △는 {{d + 3}}. ○가 {{t}}일 때 △는 얼마인가요?",
-    "solver_rule": "d + t",
+    "prompt_template": "대응 관계가 출력 수 = 입력 수 + {{d}}입니다. 입력 수가 {{t}}일 때 출력 수를 구하세요.",
+    "solver_rule": "t + d",
     "solution_steps_template": [
-      "규칙을 찾습니다: △ = ○ + {{d}}",
-      "○가 {{t}}일 때: {{t}} + {{d}} = {{d + t}}"
+      "입력 수 {{t}}보다 {{d}}만큼 큰 수를 구합니다.",
+      "{{t}} + {{d}} = {{t + d}}입니다."
     ],
     "hint_steps_template": [
-      "매번 1씩 늘어요.",
-      "○에 {{d}}를 더하면 돼요."
+      "입력 수에 어떤 계산을 차례로 하는지 확인해요.",
+      "곱셈을 먼저 하고 덧셈이 있으면 그다음에 계산해요."
     ]
   },
   {
@@ -757,37 +1025,49 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "pattern-infer-affine",
-    "blueprint": {"problemFamily":"pattern-infer-affine","cognitiveDomain":"reasoning","reasoningPattern":"pattern_generalization","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "pattern-rule-affine",
+    "blueprint": {
+      "problemFamily": "pattern-rule-affine",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 6,
-        "max": 9
+        "min": 4,
+        "max": 6
       },
       "d": {
-        "min": 5,
-        "max": 8
+        "min": 3,
+        "max": 5
       },
       "t": {
         "min": 9,
         "max": 12
       }
     },
-    "prompt_template": "○가 1일 때 △는 {{k + d}}, ○가 2일 때 △는 {{k * 2 + d}}, ○가 3일 때 △는 {{k * 3 + d}}. ○가 {{t}}일 때 △는?",
+    "prompt_template": "대응 관계가 출력 수 = 입력 수 × {{k}} + {{d}}입니다. 입력 수가 {{t}}일 때 출력 수를 구하세요.",
     "solver_rule": "k * t + d",
     "solution_steps_template": [
-      "규칙을 찾습니다: △ = ○ × {{k}} + {{d}}",
-      "○가 {{t}}일 때: {{k * t + d}}"
+      "입력 수 {{t}}의 {{k}}배는 {{k * t}}입니다.",
+      "{{k * t}}보다 {{d}}만큼 큰 수는 {{k * t + d}}입니다."
     ],
     "hint_steps_template": [
-      "곱하는 규칙과 더하는 규칙을 함께 봐요.",
-      "{{k}}를 곱하고 {{d}}를 더해요."
+      "입력 수에 어떤 계산을 차례로 하는지 확인해요.",
+      "곱셈을 먼저 하고 덧셈이 있으면 그다음에 계산해요."
     ],
     "choices_template": [
       "{{k * t + d}}",
-      "{{k * t + d + 4}}",
-      "{{k * t + d + 8}}",
-      "{{k * t + d + 13}}"
+      "{{(k * t + d) + 1}}",
+      "{{(k * t + d) + 2}}",
+      "{{(k * t + d) + 3}}"
     ]
   },
   {
@@ -796,27 +1076,39 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "pattern-apply-additive",
-    "blueprint": {"problemFamily":"pattern-apply-additive","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "pattern-inverse-multiplicative",
+    "blueprint": {
+      "problemFamily": "pattern-inverse-multiplicative",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 6,
-        "max": 9
+        "min": 4,
+        "max": 6
       },
       "t": {
-        "min": 8,
-        "max": 11
+        "min": 9,
+        "max": 12
       }
     },
-    "prompt_template": "○가 1일 때 △는 {{k + 1}}, ○가 2일 때 △는 {{k + 2}}. 규칙이 △ = ○ + {{k}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "k + t",
+    "prompt_template": "출력 수 = 입력 수 × {{k}}이고 출력 수가 {{k * t}}입니다. 입력 수를 구하세요.",
+    "solver_rule": "t",
     "solution_steps_template": [
-      "규칙: △ = ○ + {{k}}",
-      "○가 {{t}}이면 △ = {{t}} + {{k}} = {{k + t}}"
+      "대응하는 수와 곱한 수를 이용해 나눗셈식으로 나타냅니다.",
+      "{{k * t}} ÷ {{k}} = {{t}}입니다."
     ],
     "hint_steps_template": [
-      "더하기 규칙이에요.",
-      "{{t}}에 {{k}}를 더해요."
+      "곱한 결과에서 처음 수를 찾으려면 나눗셈을 이용해요.",
+      "대응하는 수를 곱한 수로 나누어요."
     ]
   },
   {
@@ -825,37 +1117,48 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "pattern-apply-affine",
-    "blueprint": {"problemFamily":"pattern-apply-affine","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-context-equal-groups",
+    "blueprint": {
+      "problemFamily": "pattern-context-equal-groups",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수02-01",
+      "connectedStandards": [
+        "6수01-01"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 8,
-        "max": 11
-      },
-      "d": {
-        "min": 7,
-        "max": 10
+        "min": 4,
+        "max": 6
       },
       "t": {
-        "min": 11,
-        "max": 15
+        "min": 9,
+        "max": 12
       }
     },
-    "prompt_template": "규칙이 △ = ○ × {{k}} + {{d}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "k * t + d",
+    "prompt_template": "다음은 생활 속 대응 관계입니다. 정사각형 무늬 한 줄에 타일 {{k}}개씩 놓습니다. 같은 줄을 {{t}}줄 만들 때 타일은 모두 몇 개인가요?",
+    "solver_rule": "k * t",
     "solution_steps_template": [
-      "규칙: △ = ○ × {{k}} + {{d}}",
-      "○가 {{t}}일 때: {{k * t + d}}"
+      "한 묶음의 수와 묶음 수가 각각 {{k}}, {{t}}입니다.",
+      "{{k}} × {{t}} = {{k * t}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 {{t}} × {{k}}",
-      "그 값에 {{d}}를 더해요."
+      "처음부터 있는 양과 반복해서 늘어나는 양을 구분해요.",
+      "반복되는 양은 한 번의 양 × 반복 횟수로 나타내요."
     ],
     "choices_template": [
-      "{{k * t + d}}",
-      "{{k * t + d + 5}}",
-      "{{k * t + d + 10}}",
-      "{{k * t + d + 15}}"
+      "{{k * t}}",
+      "{{(k * t) + 1}}",
+      "{{(k * t) + 2}}",
+      "{{(k * t) + 3}}"
     ]
   },
   {
@@ -864,31 +1167,46 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "pattern-apply-subtractive",
-    "blueprint": {"problemFamily":"pattern-apply-subtractive","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-context-fixed-plus-rate",
+    "blueprint": {
+      "problemFamily": "pattern-context-fixed-plus-rate",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수02-01",
+      "connectedStandards": [
+        "6수01-01"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 7,
-        "max": 11
+        "min": 4,
+        "max": 6
       },
       "d": {
-        "min": 6,
-        "max": 9
+        "min": 3,
+        "max": 5
       },
       "t": {
-        "min": 12,
-        "max": 16
+        "min": 9,
+        "max": 12
       }
     },
-    "prompt_template": "규칙이 △ = ○ × {{k}} - {{d}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "k * t - d",
+    "prompt_template": "다음은 생활 속 대응 관계입니다. 배달 요금은 기본 {{d}}천 원에 이동 거리 1칸마다 {{k}}천 원씩 더해집니다. {{t}}칸 이동할 때 요금을 천 원 단위의 수로 나타내면 얼마인가요?",
+    "solver_rule": "k * t + d",
     "solution_steps_template": [
-      "규칙: △ = ○ × {{k}} - {{d}}",
-      "○가 {{t}}일 때: {{k * t - d}}"
+      "반복해서 더하는 양은 {{k}} × {{t}} = {{k * t}}입니다.",
+      "처음의 고정된 양 {{d}}를 더하면 {{k * t + d}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 곱하기를 해요.",
-      "그 값에서 {{d}}를 빼요."
+      "처음부터 있는 양과 반복해서 늘어나는 양을 구분해요.",
+      "반복되는 양은 한 번의 양 × 반복 횟수로 나타내요."
     ]
   },
   {
@@ -897,33 +1215,49 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "pattern-infer-multiplicative",
-    "blueprint": {"problemFamily":"pattern-infer-multiplicative","cognitiveDomain":"reasoning","reasoningPattern":"pattern_generalization","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-inverse-affine",
+    "blueprint": {
+      "problemFamily": "pattern-inverse-affine",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 7,
-        "max": 10
+        "min": 4,
+        "max": 6
+      },
+      "d": {
+        "min": 3,
+        "max": 5
       },
       "t": {
-        "min": 10,
-        "max": 13
+        "min": 9,
+        "max": 12
       }
     },
-    "prompt_template": "○가 2일 때 △는 {{k * 2}}, ○가 4일 때 △는 {{k * 4}}. ○가 {{t}}일 때 △는?",
-    "solver_rule": "k * t",
+    "prompt_template": "다음은 생활 속 대응 관계입니다. 출력 수 = 입력 수 × {{k}} + {{d}}이고 출력 수가 {{k * t + d}}입니다. 입력 수를 구하세요.",
+    "solver_rule": "t",
     "solution_steps_template": [
-      "규칙은 △ = ○ × {{k}}입니다.",
-      "○가 {{t}}일 때: {{k * t}}"
+      "전체는 {{k * t + d}}, 처음의 고정된 양은 {{d}}이므로 반복해서 늘어난 양은 {{k * t}}입니다.",
+      "{{k * t}} ÷ {{k}} = {{t}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈 규칙을 찾아요.",
-      "{{t}} × {{k}}를 계산해요."
+      "계산 순서를 거꾸로 따라가거나 한 묶음의 수를 먼저 구해요.",
+      "전체에서 고정된 양을 빼거나 괄호 안을 먼저 계산해요."
     ],
     "choices_template": [
-      "{{k * t}}",
-      "{{k * t + 4}}",
-      "{{k * t + 8}}",
-      "{{k * t + 12}}"
+      "{{t}}",
+      "{{(t) + 1}}",
+      "{{(t) + 2}}",
+      "{{(t) + 3}}"
     ]
   },
   {
@@ -932,103 +1266,135 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "pattern-apply-affine",
-    "blueprint": {"problemFamily":"pattern-apply-affine","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-shift-then-scale",
+    "blueprint": {
+      "problemFamily": "pattern-shift-then-scale",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "k": {
-        "min": 8,
-        "max": 11
+        "min": 4,
+        "max": 6
       },
       "d": {
-        "min": 7,
-        "max": 10
+        "min": 3,
+        "max": 5
       },
       "t": {
-        "min": 11,
-        "max": 14
+        "min": 9,
+        "max": 12
       }
     },
-    "prompt_template": "규칙이 △ = ○ × {{k}} + {{d}}일 때 ○가 {{t}}이면 △는 얼마인가요?",
-    "solver_rule": "k * t + d",
+    "prompt_template": "다음은 생활 속 대응 관계입니다. 상자 한 개에 연필 {{t}}자루와 지우개 {{d}}개를 함께 넣습니다. 같은 상자가 {{k}}개일 때 물건은 모두 몇 개인가요?",
+    "solver_rule": "(t + d) * k",
     "solution_steps_template": [
-      "규칙: △ = ○ × {{k}} + {{d}}",
-      "○가 {{t}}일 때: {{k * t + d}}"
+      "한 묶음의 수는 {{t}} + {{d}} = {{t + d}}입니다.",
+      "묶음이 {{k}}개이므로 {{t + d}} × {{k}} = {{(t + d) * k}}입니다."
     ],
     "hint_steps_template": [
-      "{{t}} × {{k}}를 먼저 계산해요.",
-      "그 값에 {{d}}를 더해요."
+      "계산 순서를 거꾸로 따라가거나 한 묶음의 수를 먼저 구해요.",
+      "전체에서 고정된 양을 빼거나 괄호 안을 먼저 계산해요."
     ]
   },
   {
     "id": "tmpl-pattern-C-09",
     "concept_id": "pattern-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "pattern-apply-affine",
-    "blueprint": {"problemFamily":"pattern-apply-affine","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-rule-comparison-gap",
+    "blueprint": {
+      "problemFamily": "pattern-rule-comparison-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "k": {
-        "min": 9,
-        "max": 13
+        "min": 4,
+        "max": 6
       },
       "d": {
-        "min": 8,
-        "max": 12
+        "min": 3,
+        "max": 5
       },
       "t": {
-        "min": 14,
-        "max": 18
+        "min": 9,
+        "max": 12
       }
     },
-    "prompt_template": "규칙이 △ = (○ × {{k}}) + {{d}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "k * t + d",
+    "prompt_template": "규칙 가는 출력 수 = 입력 수 × {{k}} + {{d}}, 규칙 나는 출력 수 = 입력 수 × {{k + 1}}입니다. 입력 수가 {{t}}일 때 두 출력 수의 차이는 얼마인가요?",
+    "solver_rule": "t - d",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{t}} × {{k}} = {{k * t}}",
-      "그 다음 {{d}}를 더합니다: {{k * t + d}}"
+      "규칙 가의 결과는 {{k * t}} + {{d}} = {{k * t + d}}입니다.",
+      "규칙 나의 결과는 {{(k + 1) * t}}이므로 두 결과의 차는 {{t - d}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈을 먼저 해요.",
-      "그 결과에 {{d}}를 더해요."
+      "두 규칙을 같은 입력 수에 각각 적용해 결과를 비교해요.",
+      "올바른 두 값을 모두 구한 뒤 큰 값에서 작은 값을 빼요."
+    ],
+    "choices_template": [
+      "{{t - d}}",
+      "{{(t - d) + 1}}",
+      "{{(t - d) + 2}}",
+      "{{(t - d) + 3}}"
     ]
   },
   {
     "id": "tmpl-pattern-C-10",
     "concept_id": "pattern-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "pattern-shift-then-scale",
-    "blueprint": {"problemFamily":"pattern-shift-then-scale","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수02-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "pattern-additive-error-gap",
+    "blueprint": {
+      "problemFamily": "pattern-additive-error-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수02-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "k": {
-        "min": 10,
-        "max": 14
-      },
-      "d": {
-        "min": 9,
-        "max": 12
+        "min": 4,
+        "max": 6
       },
       "t": {
-        "min": 14,
-        "max": 18
+        "min": 9,
+        "max": 12
       }
     },
-    "prompt_template": "규칙이 △ = (○ + {{d}}) × {{k}}일 때 ○가 {{t}}이면 △는?",
-    "solver_rule": "(t + d) * k",
+    "prompt_template": "입력 수의 {{k}}배를 구해야 하는데, 준호는 입력 수보다 {{k}}만큼 큰 수를 구했습니다. 입력 수가 {{t}}일 때 올바른 결과와 준호의 결과의 차이는 얼마인가요?",
+    "solver_rule": "k * t - (t + k)",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{t}} + {{d}} = {{t + d}}",
-      "그 다음 곱합니다: {{t + d}} × {{k}} = {{(t + d) * k}}"
+      "올바른 결과는 {{t}} × {{k}} = {{k * t}}이고, 잘못 구한 결과는 {{t}} + {{k}} = {{t + k}}입니다.",
+      "두 결과의 차는 {{k * t}} - {{t + k}} = {{k * t - (t + k)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 {{t}} + {{d}}를 계산해요.",
-      "그 값에 {{k}}를 곱해요."
-    ],
-    "choices_template": [
-      "{{(t + d) * k}}",
-      "{{(t + d) * k + 6}}",
-      "{{(t + d) * k + 12}}",
-      "{{(t + d) * k + 18}}"
+      "두 규칙을 같은 입력 수에 각각 적용해 결과를 비교해요.",
+      "올바른 두 값을 모두 구한 뒤 큰 값에서 작은 값을 빼요."
     ]
   }
 ]

@@ -22,6 +22,7 @@ import {
 import { templates as generatedFractionMultiplicationTemplates } from '../../scripts/generate-grade5-fracmul-templates.js'
 import { banks as generatedGeometryBanks } from '../../scripts/generate-grade5-geometry-templates.js'
 import { templates as generatedMixedCalculationTemplates } from '../../scripts/generate-grade5-mixedcalc-templates.js'
+import { templates as generatedPatternTemplates } from '../../scripts/generate-grade5-pattern-templates.js'
 import { templates as generatedRoundingTemplates } from '../../scripts/generate-grade5-rounding-templates.js'
 import {
   buildProblemBlueprintCoverage,
@@ -102,7 +103,7 @@ describe('Grade 5 reviewed blueprint metadata', () => {
 
     expect(templates).toHaveLength(660)
     expect(BLOCKED_CONTENT_TEMPLATE_IDS.size).toBe(0)
-    expect(families.size).toBe(217)
+    expect(families.size).toBe(220)
     expect(new Set(Object.keys(REVIEWED_FAMILY_BLUEPRINTS))).toEqual(families)
   })
 
@@ -241,6 +242,33 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       }, {})).toEqual({ knowing: 12, applying: 12, reasoning: 6 })
       expect(collectExhaustiveTemplateIssues(generated, /^\d+$/)).toEqual([])
     }
+  })
+
+  it('keeps the correspondence-pattern bank reproducible and exhaustive', () => {
+    const committed = JSON.parse(fs.readFileSync(
+      path.join(process.cwd(), 'public', 'data', 'templates', 'pattern.json'),
+      'utf8'
+    )) as ProblemTemplate[]
+
+    expect(generatedPatternTemplates).toEqual(committed)
+    expect(generatedPatternTemplates).toHaveLength(30)
+    expect(new Set(
+      generatedPatternTemplates.map(template => template.problem_family)
+    )).toHaveLength(10)
+    expect(generatedPatternTemplates.reduce<Record<string, number>>((counts, template) => {
+      const domain = template.blueprint!.cognitiveDomain
+      counts[domain] = (counts[domain] ?? 0) + 1
+      return counts
+    }, {})).toEqual({ knowing: 12, applying: 12, reasoning: 6 })
+    expect(new Set(
+      generatedPatternTemplates
+        .filter(template => template.blueprint!.cognitiveDomain === 'reasoning')
+        .map(template => template.problem_family)
+    )).toHaveLength(2)
+    expect(collectExhaustiveTemplateIssues(
+      generatedPatternTemplates,
+      /^\d+$/
+    )).toEqual([])
   })
 
   it('keeps the reviewed rounding bank reproducible from its generator', () => {
@@ -388,10 +416,11 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       primaryStandard: '6수01-01',
       contextType: 'puzzle'
     })
-    expect(byId['tmpl-pattern-A-01']).toMatchObject({
+    expect(byId['tmpl-pattern-A-10']).toMatchObject({
       cognitiveDomain: 'reasoning',
-      reasoningPattern: 'pattern_generalization',
-      primaryStandard: '6수02-01'
+      reasoningPattern: 'error_analysis',
+      primaryStandard: '6수02-01',
+      contextType: 'puzzle'
     })
     expect(byId['tmpl-gcd-A-05']).toMatchObject({
       cognitiveDomain: 'applying',

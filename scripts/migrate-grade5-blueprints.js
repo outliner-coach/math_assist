@@ -90,10 +90,11 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
     'lcm-product-error-gap', 'lcm-sum-error-gap'
   ],
   'pattern-001': [
-    'pattern-infer-multiplicative', 'pattern-infer-additive', 'pattern-infer-affine',
-    'pattern-apply-additive', 'pattern-apply-affine', 'pattern-apply-subtractive',
-    'pattern-infer-multiplicative', 'pattern-apply-affine', 'pattern-apply-affine',
-    'pattern-shift-then-scale'
+    'pattern-rule-multiplicative', 'pattern-rule-additive',
+    'pattern-rule-affine', 'pattern-inverse-multiplicative',
+    'pattern-context-equal-groups', 'pattern-context-fixed-plus-rate',
+    'pattern-inverse-affine', 'pattern-shift-then-scale',
+    'pattern-rule-comparison-gap', 'pattern-additive-error-gap'
   ],
   'simplify-001': [
     'simplify-reduce-scaled-fraction', 'simplify-identify-numerator',
@@ -222,13 +223,16 @@ const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'lcm-sum-error-gap': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-05', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
 
   // Correspondence patterns
-  'pattern-infer-multiplicative': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'pattern_generalization', primaryStandard: '6수02-01', estimatedSteps: 2, readingLoad: 'medium' }),
-  'pattern-infer-additive': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'pattern_generalization', primaryStandard: '6수02-01', estimatedSteps: 2, readingLoad: 'medium' }),
-  'pattern-infer-affine': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'pattern_generalization', primaryStandard: '6수02-01', estimatedSteps: 3, readingLoad: 'high' }),
-  'pattern-apply-additive': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수02-01', estimatedSteps: 1, readingLoad: 'low' }),
-  'pattern-apply-affine': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수02-01', estimatedSteps: 2, readingLoad: 'medium' }),
-  'pattern-apply-subtractive': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수02-01', estimatedSteps: 2, readingLoad: 'medium' }),
-  'pattern-shift-then-scale': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수02-01', estimatedSteps: 2, readingLoad: 'medium' }),
+  'pattern-rule-multiplicative': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수02-01', estimatedSteps: 1, readingLoad: 'low' }),
+  'pattern-rule-additive': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수02-01', estimatedSteps: 1, readingLoad: 'low' }),
+  'pattern-rule-affine': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'multi_step', primaryStandard: '6수02-01', estimatedSteps: 2, readingLoad: 'medium' }),
+  'pattern-inverse-multiplicative': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'inverse', primaryStandard: '6수02-01', estimatedSteps: 2, readingLoad: 'medium' }),
+  'pattern-context-equal-groups': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수02-01', connectedStandards: ['6수01-01'], estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'pattern-context-fixed-plus-rate': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수02-01', connectedStandards: ['6수01-01'], estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'pattern-inverse-affine': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수02-01', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
+  'pattern-shift-then-scale': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수02-01', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'pattern-rule-comparison-gap': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'model_and_check', primaryStandard: '6수02-01', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle' }),
+  'pattern-additive-error-gap': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수02-01', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle' }),
 
   // Fraction equivalence and common denominators
   'simplify-reduce-scaled-fraction': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-06', estimatedSteps: 1, readingLoad: 'low' }),
