@@ -106,14 +106,18 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
     'commonden-converted-numerator-difference', 'commonden-find-denominator'
   ],
   'fracadd-001': [
-    'fracadd-direct', 'fracadd-direct', 'fracadd-direct', 'fracadd-direct',
-    'fracadd-direct', 'fracadd-context-total', 'fracadd-common-denominator-numerator-sum',
-    'fracadd-common-denominator-numerator-sum', 'fracadd-adjusted-result', 'fracadd-direct'
+    'fracadd-unlike-direct', 'fracadd-multiple-denominator',
+    'fracadd-complement-to-whole', 'fracadd-common-denominator-numerator-sum',
+    'fracadd-context-total', 'fracadd-context-three-part-total',
+    'fracadd-missing-addend', 'fracadd-context-perimeter',
+    'fracadd-denominator-sum-error', 'fracadd-balanced-missing-numerator'
   ],
   'fracsub-001': [
-    'fracsub-direct', 'fracsub-direct', 'fracsub-direct', 'fracsub-direct',
-    'fracsub-direct', 'fracsub-context-difference', 'fracsub-common-denominator-numerator-difference',
-    'fracsub-common-denominator-numerator-difference', 'fracsub-adjusted-result', 'fracsub-direct'
+    'fracsub-unlike-direct', 'fracsub-same-numerator',
+    'fracsub-from-whole', 'fracsub-common-denominator-numerator-difference',
+    'fracsub-context-remaining', 'fracsub-context-distance-gap',
+    'fracsub-missing-subtrahend', 'fracsub-missing-minuend',
+    'fracsub-unconverted-numerator-error', 'fracsub-addition-instead-error'
   ],
   'rounding-001': [
     'rounding-direct-tens', 'rounding-direct-hundreds', 'rounding-direct-thousands',
@@ -219,14 +223,26 @@ const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'commonden-converted-numerator-difference': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'medium' }),
 
   // Fraction addition and subtraction
-  'fracadd-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-08', estimatedSteps: 2, readingLoad: 'low' }),
+  'fracadd-unlike-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-08', estimatedSteps: 2, readingLoad: 'low' }),
+  'fracadd-multiple-denominator': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-08', connectedStandards: ['6수01-06'], estimatedSteps: 2, readingLoad: 'low' }),
+  'fracadd-complement-to-whole': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'constraint', primaryStandard: '6수01-08', estimatedSteps: 2, readingLoad: 'medium' }),
+  'fracadd-common-denominator-numerator-sum': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-08', connectedStandards: ['6수01-06'], estimatedSteps: 2, readingLoad: 'medium' }),
   'fracadd-context-total': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-08', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
-  'fracadd-common-denominator-numerator-sum': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-08', connectedStandards: ['6수01-06'], estimatedSteps: 3, readingLoad: 'medium' }),
-  'fracadd-adjusted-result': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-08', estimatedSteps: 3, readingLoad: 'high' }),
-  'fracsub-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-08', estimatedSteps: 2, readingLoad: 'low' }),
-  'fracsub-context-difference': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-08', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
-  'fracsub-common-denominator-numerator-difference': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-08', connectedStandards: ['6수01-06'], estimatedSteps: 3, readingLoad: 'medium' }),
-  'fracsub-adjusted-result': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-08', estimatedSteps: 3, readingLoad: 'high' }),
+  'fracadd-context-three-part-total': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-08', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
+  'fracadd-missing-addend': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수01-08', estimatedSteps: 3, readingLoad: 'medium', contextType: 'puzzle' }),
+  'fracadd-context-perimeter': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-08', connectedStandards: ['6수03-13'], estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
+  'fracadd-denominator-sum-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-08', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle' }),
+  'fracadd-balanced-missing-numerator': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'constraint', primaryStandard: '6수01-08', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle' }),
+  'fracsub-unlike-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-08', estimatedSteps: 2, readingLoad: 'low' }),
+  'fracsub-same-numerator': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-08', estimatedSteps: 2, readingLoad: 'low' }),
+  'fracsub-from-whole': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'constraint', primaryStandard: '6수01-08', estimatedSteps: 2, readingLoad: 'medium' }),
+  'fracsub-common-denominator-numerator-difference': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-08', connectedStandards: ['6수01-06'], estimatedSteps: 2, readingLoad: 'medium' }),
+  'fracsub-context-remaining': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-08', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
+  'fracsub-context-distance-gap': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-08', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
+  'fracsub-missing-subtrahend': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수01-08', estimatedSteps: 3, readingLoad: 'medium', contextType: 'puzzle' }),
+  'fracsub-missing-minuend': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수01-08', estimatedSteps: 3, readingLoad: 'medium', contextType: 'puzzle' }),
+  'fracsub-unconverted-numerator-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-08', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle' }),
+  'fracsub-addition-instead-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-08', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle' }),
 
   // Rounding and directed estimation
   'rounding-direct-tens': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'low', contextType: 'real_world' }),

@@ -260,6 +260,17 @@ When you change a high-conflict file, add a short dated note below:
   9 missing, 0 invalid; do not make metadata mandatory or assign standards to
   those nine until their content correction is approved and tested.
 
+- 2026-07-25: Grade 5 fraction addition/subtraction quality upgrade (primary
+  workstreams 01 and 04) owns `public/data/templates/fracadd.json`,
+  `public/data/templates/fracsub.json`,
+  `scripts/generate-grade5-fraction-addsub-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, and the focused reproducibility and
+  exhaustive-combination checks in
+  `src/lib/grade5-blueprint-metadata.test.ts`. Preserve the existing template
+  IDs and A/B/C 4·4·2 difficulty contract while replacing the two four-family,
+  K18/A12/R0 banks with ten-family K12/A12/R6 banks. Subtraction parameter
+  structures must prove a positive result for every allowed combination.
+
 - 2026-07-21: quantitative three-shape overlap repair (primary workstream 03,
   dependencies on workstreams 01 and 04)
   `src/lib/types.ts`, `src/lib/problem-generator.ts`, and

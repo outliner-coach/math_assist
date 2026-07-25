@@ -5,42 +5,53 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-unlike-direct",
+    "blueprint": {
+      "problemFamily": "fracadd-unlike-direct",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
+      "n": {
         "min": 1,
-        "max": 2
+        "max": 3
       },
-      "d1": {
+      "b": {
         "min": 2,
         "max": 4
       },
-      "n2": {
-        "min": 1,
-        "max": 2
+      "m": {
+        "min": 2,
+        "max": 4
       },
-      "d2": {
-        "min": 5,
-        "max": 7
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{n}}/{{n + b}} + {{m}}/{{n + b + m + c}}. 값을 기약분수로 나타내세요.",
+    "solver_rule": "fracAdd(n, n + b, m, n + b + m + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "공통 분모는 {{commonDen(n + b, n + b + m + c)}}입니다.",
+      "두 분수를 통분해 더하고 약분하면 {{fracAdd(n, n + b, m, n + b + m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 통분해요.",
-      "분자끼리 더해요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ],
     "choices_template": [
-      "{{fracAdd(n1, d1, n2, d2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 3)}}"
+      "{{fracAdd(n, n + b, m, n + b + m + c)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 1)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 2)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 3)}}"
     ]
   },
   {
@@ -49,36 +60,46 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-multiple-denominator",
+    "blueprint": {
+      "problemFamily": "fracadd-multiple-denominator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-08",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
+      "n": {
         "min": 1,
         "max": 3
       },
-      "d1": {
-        "min": 3,
-        "max": 5
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 1,
-        "max": 2
-      },
-      "d2": {
-        "min": 6,
-        "max": 8
+      "m": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 를 계산하세요. (예: 7/12)",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{n}}/{{n + b}} + {{m}}/{{2 * n + 2 * b}}. 둘째 분모는 첫째 분모의 2배입니다.",
+    "solver_rule": "fracAdd(n, n + b, m, 2 * n + 2 * b)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "둘째 분모 {{2 * n + 2 * b}}에 맞추면 첫째 분자는 {{2 * n}}이 됩니다.",
+      "계산 결과는 {{2 * n + m}}/{{2 * n + 2 * b}}입니다. 약분하면 {{fracAdd(n, n + b, m, 2 * n + 2 * b)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 구해요.",
-      "분자끼리 더해요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
@@ -87,41 +108,45 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-complement-to-whole",
+    "blueprint": {
+      "problemFamily": "fracadd-complement-to-whole",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
+      "n": {
         "min": 1,
         "max": 3
       },
-      "d1": {
+      "b": {
         "min": 2,
-        "max": 3
-      },
-      "n2": {
-        "min": 1,
-        "max": 3
-      },
-      "d2": {
-        "min": 4,
-        "max": 6
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "{{n}}/{{n + b}}에 얼마를 더하면 1이 되나요?",
+    "solver_rule": "reduceFrac(b, n + b)",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "{{n1}}/{{d1}} + {{n2}}/{{d2}} = {{fracAdd(n1, d1, n2, d2)}}"
+      "1은 {{n + b}}/{{n + b}}입니다.",
+      "비어 있는 분자는 {{b}}이므로 더할 분수는 {{reduceFrac(b, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 뒤 더해요.",
-      "정답은 기약분수예요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ],
     "choices_template": [
-      "{{fracAdd(n1, d1, n2, d2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, -1)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 4)}}"
+      "{{reduceFrac(b, n + b)}}",
+      "{{reduceFrac(b + 1, n + b)}}",
+      "{{reduceFrac(b + 2, n + b)}}",
+      "{{reduceFrac(b + 3, n + b)}}"
     ]
   },
   {
@@ -130,36 +155,46 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-common-denominator-numerator-sum",
+    "blueprint": {
+      "problemFamily": "fracadd-common-denominator-numerator-sum",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-08",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
+      "n": {
         "min": 1,
         "max": 3
       },
-      "d1": {
-        "min": 4,
-        "max": 6
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 1,
-        "max": 3
-      },
-      "d2": {
-        "min": 6,
-        "max": 8
+      "m": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 를 계산하세요.",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "첫째 분수는 {{n}}/{{n + b}}, 둘째 분수는 {{m}}/{{2 * n + 2 * b}}입니다. 공통 분모가 {{2 * n + 2 * b}}일 때 바뀐 두 분자의 합을 구하세요.",
+    "solver_rule": "2 * n + m",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "첫째 분수의 분모를 2배로 만들면 분자는 {{2 * n}}이 되고, 둘째 분자는 {{m}}입니다.",
+      "바뀐 두 분자의 합은 {{2 * n}} + {{m}} = {{2 * n + m}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 찾아요.",
-      "분자끼리 더해요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
@@ -168,42 +203,53 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-context-total",
+    "blueprint": {
+      "problemFamily": "fracadd-context-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
-        "max": 5
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 4,
-        "max": 7
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 3,
-        "max": 5
+      "m": {
+        "min": 2,
+        "max": 4
       },
-      "d2": {
-        "min": 6,
-        "max": 9
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "주스는 {{n}}/{{n + b}} L이고 물은 {{m}}/{{n + b + m + c}} L입니다. 두 양을 섞으면 모두 몇 L인가요?",
+    "solver_rule": "fracAdd(n, n + b, m, n + b + m + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "두 양의 단위가 같으므로 분수의 덧셈으로 나타냅니다.",
+      "{{n}}/{{n + b}} + {{m}}/{{n + b + m + c}} = {{fracAdd(n, n + b, m, n + b + m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 구해요.",
-      "분자끼리 더해요."
+      "같은 단위의 양인지 확인하고 상황을 덧셈이나 뺄셈 식으로 나타내요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ],
     "choices_template": [
-      "{{fracAdd(n1, d1, n2, d2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 3)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 5)}}"
+      "{{fracAdd(n, n + b, m, n + b + m + c)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 1)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 2)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 3)}}"
     ]
   },
   {
@@ -212,196 +258,258 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "fracadd-context-total",
-    "blueprint": {"problemFamily":"fracadd-context-total","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "fracadd-context-three-part-total",
+    "blueprint": {
+      "problemFamily": "fracadd-context-three-part-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
-        "max": 5
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 5,
-        "max": 8
-      },
-      "n2": {
+      "b": {
         "min": 2,
         "max": 4
       },
-      "d2": {
-        "min": 7,
-        "max": 10
+      "m": {
+        "min": 2,
+        "max": 4
+      },
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "케이크 {{n1}}/{{d1}}과 {{n2}}/{{d2}}를 먹었습니다. 모두 몇 개를 먹었나요?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "빨간 색 테이프는 {{n}}/{{n + b}} m, 파란색은 {{m}}/{{n + b}} m, 노란색은 {{c}}/{{n + b}} m입니다. 세 길이의 합은 몇 m인가요?",
+    "solver_rule": "reduceFrac(n + m + c, n + b)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "세 분수의 공통 분모는 {{n + b}}입니다.",
+      "분자를 모두 더하면 {{n + m + c}}입니다. 합을 약분하면 {{reduceFrac(n + m + c, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "같은 크기로 맞춘 뒤 더해요.",
-      "분자끼리 더해요."
+      "같은 단위의 양인지 확인하고 상황을 덧셈이나 뺄셈 식으로 나타내요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
     "id": "tmpl-fracadd-A-07",
     "concept_id": "fracadd-001",
     "type": "choice",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "A",
-    "problem_family": "fracadd-common-denominator-numerator-sum",
-    "blueprint": {"problemFamily":"fracadd-common-denominator-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracadd-missing-addend",
+    "blueprint": {
+      "problemFamily": "fracadd-missing-addend",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
-        "max": 5
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 4,
-        "max": 7
-      },
-      "n2": {
+      "b": {
         "min": 2,
         "max": 4
       },
-      "d2": {
-        "min": 5,
-        "max": 8
+      "m": {
+        "min": 2,
+        "max": 4
+      },
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분한 뒤 분자끼리 더한 값은?",
-    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "prompt_template": "{{n}}/{{n + b}} + 어떤 분수 = {{fracAdd(n, n + b, m, n + b + m + c)}}입니다. 어떤 분수를 구하세요.",
+    "solver_rule": "reduceFrac(m, n + b + m + c)",
     "solution_steps_template": [
-      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
-      "합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}"
+      "합에서 첫째 분수를 빼면 빠진 덧셈 항을 찾을 수 있습니다.",
+      "빠진 분수는 {{m}}/{{n + b + m + c}}이고 기약분수는 {{reduceFrac(m, n + b + m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자를 각각 구해요.",
-      "두 값을 더해요."
+      "결과와 알고 있는 수의 관계를 반대 연산이나 둘레 식으로 나타내요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ],
     "choices_template": [
-      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
-      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 1}}",
-      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 2}}",
-      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 3}}"
+      "{{reduceFrac(m, n + b + m + c)}}",
+      "{{reduceFrac(m + 1, n + b + m + c)}}",
+      "{{reduceFrac(m + 2, n + b + m + c)}}",
+      "{{reduceFrac(m + 3, n + b + m + c)}}"
     ]
   },
   {
     "id": "tmpl-fracadd-A-08",
     "concept_id": "fracadd-001",
     "type": "number",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "A",
-    "problem_family": "fracadd-common-denominator-numerator-sum",
-    "blueprint": {"problemFamily":"fracadd-common-denominator-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracadd-context-perimeter",
+    "blueprint": {
+      "problemFamily": "fracadd-context-perimeter",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-08",
+      "connectedStandards": [
+        "6수03-13"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
-        "max": 5
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 5,
-        "max": 8
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 3,
-        "max": 5
+      "m": {
+        "min": 2,
+        "max": 4
       },
-      "d2": {
-        "min": 6,
-        "max": 9
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 의 분자를 통분한 뒤 합하면?",
-    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "prompt_template": "직사각형 액자의 가로는 {{n}}/{{n + b}} m, 세로는 {{m}}/{{n + b + m + c}} m입니다. 둘레는 몇 m인가요?",
+    "solver_rule": "reduceFrac(2 * n * n + 2 * n * b + 2 * n * m + 2 * n * c + 2 * m * n + 2 * m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c)",
     "solution_steps_template": [
-      "통분한 분자 합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "직사각형의 둘레는 가로와 세로를 더한 값의 2배입니다.",
+      "2 × ({{n}}/{{n + b}} + {{m}}/{{n + b + m + c}}) = {{reduceFrac(2 * n * n + 2 * n * b + 2 * n * m + 2 * n * c + 2 * m * n + 2 * m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c)}}이므로 둘레를 구할 수 있습니다."
     ],
     "hint_steps_template": [
-      "통분한 분자 합을 먼저 구해요.",
-      "분모는 공통 분모예요."
+      "결과와 알고 있는 수의 관계를 반대 연산이나 둘레 식으로 나타내요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
     "id": "tmpl-fracadd-A-09",
     "concept_id": "fracadd-001",
-    "type": "number",
-    "difficulty": 2,
+    "type": "choice",
+    "difficulty": 3,
     "set_id": "A",
-    "problem_family": "fracadd-adjusted-result",
-    "blueprint": {"problemFamily":"fracadd-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "fracadd-denominator-sum-error",
+    "blueprint": {
+      "problemFamily": "fracadd-denominator-sum-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 7
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 6,
-        "max": 10
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 4,
-        "max": 6
+      "m": {
+        "min": 2,
+        "max": 4
       },
-      "d2": {
-        "min": 7,
-        "max": 11
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분하여 더한 뒤, 분자에 1을 더해 만든 분수는?",
-    "solver_rule": "fracAddOff(n1, d1, n2, d2, 1)",
+    "prompt_template": "첫째 분수는 {{n}}/{{n + b}}, 둘째 분수는 {{m}}/{{n + b + m + c}}입니다. 분자끼리와 분모끼리를 각각 더해 {{n + m}}/{{2 * n + 2 * b + m + c}}라고 잘못 계산했습니다. 올바른 값은 잘못된 값보다 얼마 큰가요?",
+    "solver_rule": "fracSub(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c)",
     "solution_steps_template": [
-      "통분한 뒤 분자에 1을 더합니다.",
-      "정답: {{fracAddOff(n1, d1, n2, d2, 1)}}"
+      "올바른 합은 {{fracAdd(n, n + b, m, n + b + m + c)}}이고 분모와 분자를 각각 더한 값은 {{reduceFrac(n + m, 2 * n + 2 * b + m + c)}}입니다.",
+      "두 값을 빼면 {{fracSub(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 분자에 1을 더해요.",
-      "기약분수로 써요."
+      "올바른 통분 계산과 잘못된 계산을 각각 식으로 나타내 비교해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
+    ],
+    "choices_template": [
+      "{{fracSub(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c)}}",
+      "{{fracSubOff(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c, 1)}}",
+      "{{fracSubOff(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c, 2)}}",
+      "{{fracSubOff(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c, 3)}}"
     ]
   },
   {
     "id": "tmpl-fracadd-A-10",
     "concept_id": "fracadd-001",
-    "type": "choice",
-    "difficulty": 2,
+    "type": "number",
+    "difficulty": 3,
     "set_id": "A",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-balanced-missing-numerator",
+    "blueprint": {
+      "problemFamily": "fracadd-balanced-missing-numerator",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 7
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 6,
-        "max": 10
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 4,
-        "max": 6
+      "m": {
+        "min": 2,
+        "max": 4
       },
-      "d2": {
-        "min": 7,
-        "max": 11
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 더한 값은?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "{{n}}/{{n + b}} + □/{{n + b + m + c}} = {{fracAdd(n, n + b, m, n + b + m + c)}}입니다. □에 알맞은 수를 구하세요.",
+    "solver_rule": "m",
     "solution_steps_template": [
-      "통분 후 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "합에서 첫 분수를 빼면 빈 분수는 {{reduceFrac(m, n + b + m + c)}}입니다.",
+      "문제에서 빈 분수의 분모를 {{n + b + m + c}}로 정했으므로 분자는 {{m}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모로 통분해요.",
-      "분자를 더해요."
-    ],
-    "choices_template": [
-      "{{fracAdd(n1, d1, n2, d2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 3)}}"
+      "올바른 통분 계산과 잘못된 계산을 각각 식으로 나타내 비교해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
@@ -410,42 +518,53 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-unlike-direct",
+    "blueprint": {
+      "problemFamily": "fracadd-unlike-direct",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
+      "n": {
+        "min": 2,
         "max": 4
       },
-      "d1": {
-        "min": 4,
-        "max": 6
-      },
-      "n2": {
+      "b": {
         "min": 3,
-        "max": 4
+        "max": 5
       },
-      "d2": {
-        "min": 7,
-        "max": 9
+      "m": {
+        "min": 3,
+        "max": 5
+      },
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{n}}/{{n + b}} + {{m}}/{{n + b + m + c}}. 값을 기약분수로 나타내세요.",
+    "solver_rule": "fracAdd(n, n + b, m, n + b + m + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "공통 분모는 {{commonDen(n + b, n + b + m + c)}}입니다.",
+      "두 분수를 통분해 더하고 약분하면 {{fracAdd(n, n + b, m, n + b + m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 통분해요.",
-      "분자끼리 더해요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ],
     "choices_template": [
-      "{{fracAdd(n1, d1, n2, d2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 3)}}"
+      "{{fracAdd(n, n + b, m, n + b + m + c)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 1)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 2)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 3)}}"
     ]
   },
   {
@@ -454,36 +573,46 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-multiple-denominator",
+    "blueprint": {
+      "problemFamily": "fracadd-multiple-denominator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-08",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
+      "n": {
+        "min": 2,
+        "max": 4
+      },
+      "b": {
         "min": 3,
         "max": 5
       },
-      "d1": {
-        "min": 5,
-        "max": 7
-      },
-      "n2": {
+      "m": {
         "min": 3,
-        "max": 4
-      },
-      "d2": {
-        "min": 8,
-        "max": 10
+        "max": 5
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 를 계산하세요. (예: 7/12)",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{n}}/{{n + b}} + {{m}}/{{2 * n + 2 * b}}. 둘째 분모는 첫째 분모의 2배입니다.",
+    "solver_rule": "fracAdd(n, n + b, m, 2 * n + 2 * b)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "둘째 분모 {{2 * n + 2 * b}}에 맞추면 첫째 분자는 {{2 * n}}이 됩니다.",
+      "계산 결과는 {{2 * n + m}}/{{2 * n + 2 * b}}입니다. 약분하면 {{fracAdd(n, n + b, m, 2 * n + 2 * b)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 구해요.",
-      "분자끼리 더해요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
@@ -492,41 +621,45 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-complement-to-whole",
+    "blueprint": {
+      "problemFamily": "fracadd-complement-to-whole",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
+      "n": {
+        "min": 2,
+        "max": 4
+      },
+      "b": {
         "min": 3,
         "max": 5
-      },
-      "d1": {
-        "min": 4,
-        "max": 5
-      },
-      "n2": {
-        "min": 3,
-        "max": 5
-      },
-      "d2": {
-        "min": 6,
-        "max": 8
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "{{n}}/{{n + b}}에 얼마를 더하면 1이 되나요?",
+    "solver_rule": "reduceFrac(b, n + b)",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "{{n1}}/{{d1}} + {{n2}}/{{d2}} = {{fracAdd(n1, d1, n2, d2)}}"
+      "1은 {{n + b}}/{{n + b}}입니다.",
+      "비어 있는 분자는 {{b}}이므로 더할 분수는 {{reduceFrac(b, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 뒤 더해요.",
-      "정답은 기약분수예요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ],
     "choices_template": [
-      "{{fracAdd(n1, d1, n2, d2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, -1)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 4)}}"
+      "{{reduceFrac(b, n + b)}}",
+      "{{reduceFrac(b + 1, n + b)}}",
+      "{{reduceFrac(b + 2, n + b)}}",
+      "{{reduceFrac(b + 3, n + b)}}"
     ]
   },
   {
@@ -535,36 +668,46 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-common-denominator-numerator-sum",
+    "blueprint": {
+      "problemFamily": "fracadd-common-denominator-numerator-sum",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-08",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
+      "n": {
+        "min": 2,
+        "max": 4
+      },
+      "b": {
         "min": 3,
         "max": 5
       },
-      "d1": {
-        "min": 6,
-        "max": 8
-      },
-      "n2": {
+      "m": {
         "min": 3,
         "max": 5
-      },
-      "d2": {
-        "min": 8,
-        "max": 10
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 를 계산하세요.",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "첫째 분수는 {{n}}/{{n + b}}, 둘째 분수는 {{m}}/{{2 * n + 2 * b}}입니다. 공통 분모가 {{2 * n + 2 * b}}일 때 바뀐 두 분자의 합을 구하세요.",
+    "solver_rule": "2 * n + m",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "첫째 분수의 분모를 2배로 만들면 분자는 {{2 * n}}이 되고, 둘째 분자는 {{m}}입니다.",
+      "바뀐 두 분자의 합은 {{2 * n}} + {{m}} = {{2 * n + m}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 찾아요.",
-      "분자끼리 더해요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
@@ -573,42 +716,53 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-context-total",
+    "blueprint": {
+      "problemFamily": "fracadd-context-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 7
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 6,
-        "max": 9
+      "b": {
+        "min": 3,
+        "max": 5
       },
-      "n2": {
-        "min": 5,
-        "max": 7
+      "m": {
+        "min": 3,
+        "max": 5
       },
-      "d2": {
-        "min": 8,
-        "max": 11
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "오전에 걸은 거리는 {{n}}/{{n + b}} km이고 오후에 걸은 거리는 {{m}}/{{n + b + m + c}} km입니다. 모두 몇 km를 걸었나요?",
+    "solver_rule": "fracAdd(n, n + b, m, n + b + m + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "두 양의 단위가 같으므로 분수의 덧셈으로 나타냅니다.",
+      "{{n}}/{{n + b}} + {{m}}/{{n + b + m + c}} = {{fracAdd(n, n + b, m, n + b + m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 구해요.",
-      "분자끼리 더해요."
+      "같은 단위의 양인지 확인하고 상황을 덧셈이나 뺄셈 식으로 나타내요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ],
     "choices_template": [
-      "{{fracAdd(n1, d1, n2, d2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 3)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 5)}}"
+      "{{fracAdd(n, n + b, m, n + b + m + c)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 1)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 2)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 3)}}"
     ]
   },
   {
@@ -617,196 +771,258 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "fracadd-context-total",
-    "blueprint": {"problemFamily":"fracadd-context-total","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "fracadd-context-three-part-total",
+    "blueprint": {
+      "problemFamily": "fracadd-context-three-part-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 7
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 7,
-        "max": 10
+      "b": {
+        "min": 3,
+        "max": 5
       },
-      "n2": {
-        "min": 4,
-        "max": 6
+      "m": {
+        "min": 3,
+        "max": 5
       },
-      "d2": {
-        "min": 9,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "케이크 {{n1}}/{{d1}}과 {{n2}}/{{d2}}를 먹었습니다. 모두 몇 개를 먹었나요?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "화단 세 구역의 길이는 각각 {{n}}/{{n + b}} m, {{m}}/{{n + b}} m, {{c}}/{{n + b}} m입니다. 세 길이의 합을 구하세요.",
+    "solver_rule": "reduceFrac(n + m + c, n + b)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "세 분수의 공통 분모는 {{n + b}}입니다.",
+      "분자를 모두 더하면 {{n + m + c}}입니다. 합을 약분하면 {{reduceFrac(n + m + c, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "같은 크기로 맞춘 뒤 더해요.",
-      "분자끼리 더해요."
+      "같은 단위의 양인지 확인하고 상황을 덧셈이나 뺄셈 식으로 나타내요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
     "id": "tmpl-fracadd-B-07",
     "concept_id": "fracadd-001",
     "type": "choice",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "B",
-    "problem_family": "fracadd-common-denominator-numerator-sum",
-    "blueprint": {"problemFamily":"fracadd-common-denominator-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracadd-missing-addend",
+    "blueprint": {
+      "problemFamily": "fracadd-missing-addend",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 7
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 6,
-        "max": 9
+      "b": {
+        "min": 3,
+        "max": 5
       },
-      "n2": {
-        "min": 4,
-        "max": 6
+      "m": {
+        "min": 3,
+        "max": 5
       },
-      "d2": {
-        "min": 7,
-        "max": 10
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분한 뒤 분자끼리 더한 값은?",
-    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "prompt_template": "{{n}}/{{n + b}}에 어떤 분수를 더했더니 {{fracAdd(n, n + b, m, n + b + m + c)}}이 되었습니다. 더한 분수를 구하세요.",
+    "solver_rule": "reduceFrac(m, n + b + m + c)",
     "solution_steps_template": [
-      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
-      "합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}"
+      "합에서 첫째 분수를 빼면 빠진 덧셈 항을 찾을 수 있습니다.",
+      "빠진 분수는 {{m}}/{{n + b + m + c}}이고 기약분수는 {{reduceFrac(m, n + b + m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자를 각각 구해요.",
-      "두 값을 더해요."
+      "결과와 알고 있는 수의 관계를 반대 연산이나 둘레 식으로 나타내요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ],
     "choices_template": [
-      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
-      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 1}}",
-      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 2}}",
-      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 3}}"
+      "{{reduceFrac(m, n + b + m + c)}}",
+      "{{reduceFrac(m + 1, n + b + m + c)}}",
+      "{{reduceFrac(m + 2, n + b + m + c)}}",
+      "{{reduceFrac(m + 3, n + b + m + c)}}"
     ]
   },
   {
     "id": "tmpl-fracadd-B-08",
     "concept_id": "fracadd-001",
     "type": "number",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "B",
-    "problem_family": "fracadd-common-denominator-numerator-sum",
-    "blueprint": {"problemFamily":"fracadd-common-denominator-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracadd-context-perimeter",
+    "blueprint": {
+      "problemFamily": "fracadd-context-perimeter",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-08",
+      "connectedStandards": [
+        "6수03-13"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 7
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 7,
-        "max": 10
+      "b": {
+        "min": 3,
+        "max": 5
       },
-      "n2": {
-        "min": 5,
-        "max": 7
+      "m": {
+        "min": 3,
+        "max": 5
       },
-      "d2": {
-        "min": 8,
-        "max": 11
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 의 분자를 통분한 뒤 합하면?",
-    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "prompt_template": "직사각형 화단의 가로는 {{n}}/{{n + b}} m, 세로는 {{m}}/{{n + b + m + c}} m입니다. 둘레를 구하세요.",
+    "solver_rule": "reduceFrac(2 * n * n + 2 * n * b + 2 * n * m + 2 * n * c + 2 * m * n + 2 * m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c)",
     "solution_steps_template": [
-      "통분한 분자 합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "직사각형의 둘레는 가로와 세로를 더한 값의 2배입니다.",
+      "2 × ({{n}}/{{n + b}} + {{m}}/{{n + b + m + c}}) = {{reduceFrac(2 * n * n + 2 * n * b + 2 * n * m + 2 * n * c + 2 * m * n + 2 * m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c)}}이므로 둘레를 구할 수 있습니다."
     ],
     "hint_steps_template": [
-      "통분한 분자 합을 먼저 구해요.",
-      "분모는 공통 분모예요."
+      "결과와 알고 있는 수의 관계를 반대 연산이나 둘레 식으로 나타내요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
     "id": "tmpl-fracadd-B-09",
     "concept_id": "fracadd-001",
-    "type": "number",
-    "difficulty": 2,
+    "type": "choice",
+    "difficulty": 3,
     "set_id": "B",
-    "problem_family": "fracadd-adjusted-result",
-    "blueprint": {"problemFamily":"fracadd-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "fracadd-denominator-sum-error",
+    "blueprint": {
+      "problemFamily": "fracadd-denominator-sum-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 9
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 8,
-        "max": 12
+      "b": {
+        "min": 3,
+        "max": 5
       },
-      "n2": {
-        "min": 6,
-        "max": 8
+      "m": {
+        "min": 3,
+        "max": 5
       },
-      "d2": {
-        "min": 9,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분하여 더한 뒤, 분자에 1을 더해 만든 분수는?",
-    "solver_rule": "fracAddOff(n1, d1, n2, d2, 1)",
+    "prompt_template": "서아는 {{n}}/{{n + b}} + {{m}}/{{n + b + m + c}}에서 분자끼리와 분모끼리를 더해 {{n + m}}/{{2 * n + 2 * b + m + c}}라고 했습니다. 서아의 값과 올바른 값의 차이를 구하세요.",
+    "solver_rule": "fracSub(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c)",
     "solution_steps_template": [
-      "통분한 뒤 분자에 1을 더합니다.",
-      "정답: {{fracAddOff(n1, d1, n2, d2, 1)}}"
+      "올바른 합은 {{fracAdd(n, n + b, m, n + b + m + c)}}이고 분모와 분자를 각각 더한 값은 {{reduceFrac(n + m, 2 * n + 2 * b + m + c)}}입니다.",
+      "두 값을 빼면 {{fracSub(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 분자에 1을 더해요.",
-      "기약분수로 써요."
+      "올바른 통분 계산과 잘못된 계산을 각각 식으로 나타내 비교해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
+    ],
+    "choices_template": [
+      "{{fracSub(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c)}}",
+      "{{fracSubOff(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c, 1)}}",
+      "{{fracSubOff(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c, 2)}}",
+      "{{fracSubOff(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c, 3)}}"
     ]
   },
   {
     "id": "tmpl-fracadd-B-10",
     "concept_id": "fracadd-001",
-    "type": "choice",
-    "difficulty": 2,
+    "type": "number",
+    "difficulty": 3,
     "set_id": "B",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-balanced-missing-numerator",
+    "blueprint": {
+      "problemFamily": "fracadd-balanced-missing-numerator",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 9
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 8,
-        "max": 12
+      "b": {
+        "min": 3,
+        "max": 5
       },
-      "n2": {
-        "min": 6,
-        "max": 8
+      "m": {
+        "min": 3,
+        "max": 5
       },
-      "d2": {
-        "min": 9,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 더한 값은?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "{{n}}/{{n + b}} + □/{{n + b + m + c}} = {{fracAdd(n, n + b, m, n + b + m + c)}}일 때 □의 값을 구하세요.",
+    "solver_rule": "m",
     "solution_steps_template": [
-      "통분 후 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "합에서 첫 분수를 빼면 빈 분수는 {{reduceFrac(m, n + b + m + c)}}입니다.",
+      "문제에서 빈 분수의 분모를 {{n + b + m + c}}로 정했으므로 분자는 {{m}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모로 통분해요.",
-      "분자를 더해요."
-    ],
-    "choices_template": [
-      "{{fracAdd(n1, d1, n2, d2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 3)}}"
+      "올바른 통분 계산과 잘못된 계산을 각각 식으로 나타내 비교해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
@@ -815,42 +1031,53 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-unlike-direct",
+    "blueprint": {
+      "problemFamily": "fracadd-unlike-direct",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
+      "n": {
+        "min": 3,
+        "max": 5
+      },
+      "b": {
+        "min": 4,
         "max": 6
       },
-      "d1": {
-        "min": 6,
-        "max": 8
-      },
-      "n2": {
-        "min": 5,
+      "m": {
+        "min": 4,
         "max": 6
       },
-      "d2": {
-        "min": 9,
-        "max": 11
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{n}}/{{n + b}} + {{m}}/{{n + b + m + c}}. 값을 기약분수로 나타내세요.",
+    "solver_rule": "fracAdd(n, n + b, m, n + b + m + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "공통 분모는 {{commonDen(n + b, n + b + m + c)}}입니다.",
+      "두 분수를 통분해 더하고 약분하면 {{fracAdd(n, n + b, m, n + b + m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 통분해요.",
-      "분자끼리 더해요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ],
     "choices_template": [
-      "{{fracAdd(n1, d1, n2, d2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 3)}}"
+      "{{fracAdd(n, n + b, m, n + b + m + c)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 1)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 2)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 3)}}"
     ]
   },
   {
@@ -859,36 +1086,46 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-multiple-denominator",
+    "blueprint": {
+      "problemFamily": "fracadd-multiple-denominator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-08",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 7
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 7,
-        "max": 9
-      },
-      "n2": {
-        "min": 5,
+      "b": {
+        "min": 4,
         "max": 6
       },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "m": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 를 계산하세요. (예: 7/12)",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{n}}/{{n + b}} + {{m}}/{{2 * n + 2 * b}}. 둘째 분모는 첫째 분모의 2배입니다.",
+    "solver_rule": "fracAdd(n, n + b, m, 2 * n + 2 * b)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "둘째 분모 {{2 * n + 2 * b}}에 맞추면 첫째 분자는 {{2 * n}}이 됩니다.",
+      "계산 결과는 {{2 * n + m}}/{{2 * n + 2 * b}}입니다. 약분하면 {{fracAdd(n, n + b, m, 2 * n + 2 * b)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 구해요.",
-      "분자끼리 더해요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
@@ -897,41 +1134,45 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-complement-to-whole",
+    "blueprint": {
+      "problemFamily": "fracadd-complement-to-whole",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 7
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 6,
-        "max": 7
-      },
-      "n2": {
-        "min": 5,
-        "max": 7
-      },
-      "d2": {
-        "min": 8,
-        "max": 10
+      "b": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "{{n}}/{{n + b}}에 얼마를 더하면 1이 되나요?",
+    "solver_rule": "reduceFrac(b, n + b)",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "{{n1}}/{{d1}} + {{n2}}/{{d2}} = {{fracAdd(n1, d1, n2, d2)}}"
+      "1은 {{n + b}}/{{n + b}}입니다.",
+      "비어 있는 분자는 {{b}}이므로 더할 분수는 {{reduceFrac(b, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 뒤 더해요.",
-      "정답은 기약분수예요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ],
     "choices_template": [
-      "{{fracAdd(n1, d1, n2, d2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, -1)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 4)}}"
+      "{{reduceFrac(b, n + b)}}",
+      "{{reduceFrac(b + 1, n + b)}}",
+      "{{reduceFrac(b + 2, n + b)}}",
+      "{{reduceFrac(b + 3, n + b)}}"
     ]
   },
   {
@@ -940,36 +1181,46 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-common-denominator-numerator-sum",
+    "blueprint": {
+      "problemFamily": "fracadd-common-denominator-numerator-sum",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-08",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 7
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 8,
-        "max": 10
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 5,
-        "max": 7
-      },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "m": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 를 계산하세요.",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "첫째 분수는 {{n}}/{{n + b}}, 둘째 분수는 {{m}}/{{2 * n + 2 * b}}입니다. 공통 분모가 {{2 * n + 2 * b}}일 때 바뀐 두 분자의 합을 구하세요.",
+    "solver_rule": "2 * n + m",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "첫째 분수의 분모를 2배로 만들면 분자는 {{2 * n}}이 되고, 둘째 분자는 {{m}}입니다.",
+      "바뀐 두 분자의 합은 {{2 * n}} + {{m}} = {{2 * n + m}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 찾아요.",
-      "분자끼리 더해요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
@@ -978,42 +1229,53 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-context-total",
+    "blueprint": {
+      "problemFamily": "fracadd-context-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 9
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 8,
-        "max": 11
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 7,
-        "max": 9
+      "m": {
+        "min": 4,
+        "max": 6
       },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "프로젝트에 쓴 종이는 첫날 {{n}}/{{n + b}} 묶음, 둘째 날 {{m}}/{{n + b + m + c}} 묶음입니다. 사용한 양은 모두 몇 묶음인가요?",
+    "solver_rule": "fracAdd(n, n + b, m, n + b + m + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "두 양의 단위가 같으므로 분수의 덧셈으로 나타냅니다.",
+      "{{n}}/{{n + b}} + {{m}}/{{n + b + m + c}} = {{fracAdd(n, n + b, m, n + b + m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 구해요.",
-      "분자끼리 더해요."
+      "같은 단위의 양인지 확인하고 상황을 덧셈이나 뺄셈 식으로 나타내요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ],
     "choices_template": [
-      "{{fracAdd(n1, d1, n2, d2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 3)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 5)}}"
+      "{{fracAdd(n, n + b, m, n + b + m + c)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 1)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 2)}}",
+      "{{fracAddOff(n, n + b, m, n + b + m + c, 3)}}"
     ]
   },
   {
@@ -1022,196 +1284,258 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "fracadd-context-total",
-    "blueprint": {"problemFamily":"fracadd-context-total","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "fracadd-context-three-part-total",
+    "blueprint": {
+      "problemFamily": "fracadd-context-three-part-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 9
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 9,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 6,
-        "max": 8
+      "m": {
+        "min": 4,
+        "max": 6
       },
-      "d2": {
-        "min": 11,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "케이크 {{n1}}/{{d1}}과 {{n2}}/{{d2}}를 먹었습니다. 모두 몇 개를 먹었나요?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "모형의 세 부분 길이는 각각 {{n}}/{{n + b}} m, {{m}}/{{n + b}} m, {{c}}/{{n + b}} m입니다. 세 길이의 합을 구하세요.",
+    "solver_rule": "reduceFrac(n + m + c, n + b)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "세 분수의 공통 분모는 {{n + b}}입니다.",
+      "분자를 모두 더하면 {{n + m + c}}입니다. 합을 약분하면 {{reduceFrac(n + m + c, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "같은 크기로 맞춘 뒤 더해요.",
-      "분자끼리 더해요."
+      "같은 단위의 양인지 확인하고 상황을 덧셈이나 뺄셈 식으로 나타내요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
     "id": "tmpl-fracadd-C-07",
     "concept_id": "fracadd-001",
     "type": "choice",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "C",
-    "problem_family": "fracadd-common-denominator-numerator-sum",
-    "blueprint": {"problemFamily":"fracadd-common-denominator-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracadd-missing-addend",
+    "blueprint": {
+      "problemFamily": "fracadd-missing-addend",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 9
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 8,
-        "max": 11
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 6,
-        "max": 8
+      "m": {
+        "min": 4,
+        "max": 6
       },
-      "d2": {
-        "min": 9,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분한 뒤 분자끼리 더한 값은?",
-    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "prompt_template": "첫째 분수는 {{n}}/{{n + b}}이고 두 분수의 합은 {{fracAdd(n, n + b, m, n + b + m + c)}}입니다. 둘째 분수를 구하세요.",
+    "solver_rule": "reduceFrac(m, n + b + m + c)",
     "solution_steps_template": [
-      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
-      "합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}"
+      "합에서 첫째 분수를 빼면 빠진 덧셈 항을 찾을 수 있습니다.",
+      "빠진 분수는 {{m}}/{{n + b + m + c}}이고 기약분수는 {{reduceFrac(m, n + b + m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자를 각각 구해요.",
-      "두 값을 더해요."
+      "결과와 알고 있는 수의 관계를 반대 연산이나 둘레 식으로 나타내요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ],
     "choices_template": [
-      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
-      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 1}}",
-      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 2}}",
-      "{{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2) + 3}}"
+      "{{reduceFrac(m, n + b + m + c)}}",
+      "{{reduceFrac(m + 1, n + b + m + c)}}",
+      "{{reduceFrac(m + 2, n + b + m + c)}}",
+      "{{reduceFrac(m + 3, n + b + m + c)}}"
     ]
   },
   {
     "id": "tmpl-fracadd-C-08",
     "concept_id": "fracadd-001",
     "type": "number",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "C",
-    "problem_family": "fracadd-common-denominator-numerator-sum",
-    "blueprint": {"problemFamily":"fracadd-common-denominator-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracadd-context-perimeter",
+    "blueprint": {
+      "problemFamily": "fracadd-context-perimeter",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-08",
+      "connectedStandards": [
+        "6수03-13"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 9
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 9,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 7,
-        "max": 9
+      "m": {
+        "min": 4,
+        "max": 6
       },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} + {{n2}}/{{d2}} 의 분자를 통분한 뒤 합하면?",
-    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "prompt_template": "직사각형 모형의 가로는 {{n}}/{{n + b}} m, 세로는 {{m}}/{{n + b + m + c}} m입니다. 둘레는 몇 m인가요?",
+    "solver_rule": "reduceFrac(2 * n * n + 2 * n * b + 2 * n * m + 2 * n * c + 2 * m * n + 2 * m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c)",
     "solution_steps_template": [
-      "통분한 분자 합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "직사각형의 둘레는 가로와 세로를 더한 값의 2배입니다.",
+      "2 × ({{n}}/{{n + b}} + {{m}}/{{n + b + m + c}}) = {{reduceFrac(2 * n * n + 2 * n * b + 2 * n * m + 2 * n * c + 2 * m * n + 2 * m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c)}}이므로 둘레를 구할 수 있습니다."
     ],
     "hint_steps_template": [
-      "통분한 분자 합을 먼저 구해요.",
-      "분모는 공통 분모예요."
+      "결과와 알고 있는 수의 관계를 반대 연산이나 둘레 식으로 나타내요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   },
   {
     "id": "tmpl-fracadd-C-09",
     "concept_id": "fracadd-001",
-    "type": "number",
-    "difficulty": 2,
+    "type": "choice",
+    "difficulty": 3,
     "set_id": "C",
-    "problem_family": "fracadd-adjusted-result",
-    "blueprint": {"problemFamily":"fracadd-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "fracadd-denominator-sum-error",
+    "blueprint": {
+      "problemFamily": "fracadd-denominator-sum-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n1": {
-        "min": 9,
-        "max": 11
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 10,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 8,
-        "max": 10
+      "m": {
+        "min": 4,
+        "max": 6
       },
-      "d2": {
-        "min": 11,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분하여 더한 뒤, 분자에 1을 더해 만든 분수는?",
-    "solver_rule": "fracAddOff(n1, d1, n2, d2, 1)",
+    "prompt_template": "계산식은 {{n}}/{{n + b}} + {{m}}/{{n + b + m + c}}입니다. 이를 {{n + m}}/{{2 * n + 2 * b + m + c}}라고 잘못 계산했습니다. 올바른 합이 그 값보다 얼마나 큰지 구하세요.",
+    "solver_rule": "fracSub(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c)",
     "solution_steps_template": [
-      "통분한 뒤 분자에 1을 더합니다.",
-      "정답: {{fracAddOff(n1, d1, n2, d2, 1)}}"
+      "올바른 합은 {{fracAdd(n, n + b, m, n + b + m + c)}}이고 분모와 분자를 각각 더한 값은 {{reduceFrac(n + m, 2 * n + 2 * b + m + c)}}입니다.",
+      "두 값을 빼면 {{fracSub(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 분자에 1을 더해요.",
-      "기약분수로 써요."
+      "올바른 통분 계산과 잘못된 계산을 각각 식으로 나타내 비교해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
+    ],
+    "choices_template": [
+      "{{fracSub(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c)}}",
+      "{{fracSubOff(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c, 1)}}",
+      "{{fracSubOff(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c, 2)}}",
+      "{{fracSubOff(n * n + n * b + n * m + n * c + m * n + m * b, n * n + 2 * n * b + n * m + n * c + b * b + b * m + b * c, n + m, 2 * n + 2 * b + m + c, 3)}}"
     ]
   },
   {
     "id": "tmpl-fracadd-C-10",
     "concept_id": "fracadd-001",
-    "type": "choice",
-    "difficulty": 2,
+    "type": "number",
+    "difficulty": 3,
     "set_id": "C",
-    "problem_family": "fracadd-direct",
-    "blueprint": {"problemFamily":"fracadd-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracadd-balanced-missing-numerator",
+    "blueprint": {
+      "problemFamily": "fracadd-balanced-missing-numerator",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n1": {
-        "min": 9,
-        "max": 11
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 10,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 8,
-        "max": 10
+      "m": {
+        "min": 4,
+        "max": 6
       },
-      "d2": {
-        "min": 11,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 더한 값은?",
-    "solver_rule": "fracAdd(n1, d1, n2, d2)",
+    "prompt_template": "{{n}}/{{n + b}} + □/{{n + b + m + c}}의 값이 {{fracAdd(n, n + b, m, n + b + m + c)}}일 때 빈 분자 □를 구하세요.",
+    "solver_rule": "m",
     "solution_steps_template": [
-      "통분 후 더합니다.",
-      "정답: {{fracAdd(n1, d1, n2, d2)}}"
+      "합에서 첫 분수를 빼면 빈 분수는 {{reduceFrac(m, n + b + m + c)}}입니다.",
+      "문제에서 빈 분수의 분모를 {{n + b + m + c}}로 정했으므로 분자는 {{m}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모로 통분해요.",
-      "분자를 더해요."
-    ],
-    "choices_template": [
-      "{{fracAdd(n1, d1, n2, d2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 1)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 2)}}",
-      "{{fracAddOff(n1, d1, n2, d2, 3)}}"
+      "올바른 통분 계산과 잘못된 계산을 각각 식으로 나타내 비교해요.",
+      "분모를 같게 만든 뒤 분자끼리 더하고 마지막에 약분해요."
     ]
   }
 ]

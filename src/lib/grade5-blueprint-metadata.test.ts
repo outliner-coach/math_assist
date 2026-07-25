@@ -10,6 +10,9 @@ import {
 import { templates as generatedAverageTemplates } from '../../scripts/generate-grade5-average-templates.js'
 import { templates as generatedDecimalMultiplicationTemplates } from '../../scripts/generate-grade5-decimalmul-templates.js'
 import { templates as generatedEstimateTemplates } from '../../scripts/generate-grade5-estimate-templates.js'
+import {
+  banks as generatedFractionAddSubBanks
+} from '../../scripts/generate-grade5-fraction-addsub-templates.js'
 import { templates as generatedFractionMultiplicationTemplates } from '../../scripts/generate-grade5-fracmul-templates.js'
 import { banks as generatedGeometryBanks } from '../../scripts/generate-grade5-geometry-templates.js'
 import { templates as generatedMixedCalculationTemplates } from '../../scripts/generate-grade5-mixedcalc-templates.js'
@@ -93,7 +96,7 @@ describe('Grade 5 reviewed blueprint metadata', () => {
 
     expect(templates).toHaveLength(660)
     expect(BLOCKED_CONTENT_TEMPLATE_IDS.size).toBe(0)
-    expect(families.size).toBe(179)
+    expect(families.size).toBe(191)
     expect(new Set(Object.keys(REVIEWED_FAMILY_BLUEPRINTS))).toEqual(families)
   })
 
@@ -142,6 +145,60 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       generatedFractionMultiplicationTemplates,
       /^\d+(?:\/\d+)?$/
     )).toEqual([])
+  })
+
+  it('keeps the reviewed fraction-addition and subtraction banks reproducible and exhaustive', () => {
+    for (const [name, generated] of Object.entries(generatedFractionAddSubBanks)) {
+      const committed = JSON.parse(
+        fs.readFileSync(
+          path.join(process.cwd(), 'public', 'data', 'templates', `${name}.json`),
+          'utf8'
+        )
+      ) as ProblemTemplate[]
+
+      expect(generated).toEqual(committed)
+      expect(generated).toHaveLength(30)
+      expect(generated.every(template => (
+        JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
+      ))).toBe(true)
+
+      const domainCounts = generated.reduce<Record<string, number>>((counts, template) => {
+        const domain = template.blueprint!.cognitiveDomain
+        counts[domain] = (counts[domain] ?? 0) + 1
+        return counts
+      }, {})
+      expect(domainCounts).toEqual({ knowing: 12, applying: 12, reasoning: 6 })
+      expect(new Set(generated.map(template => template.problem_family))).toHaveLength(10)
+      expect(new Set(
+        generated
+          .filter(template => template.blueprint!.cognitiveDomain === 'reasoning')
+          .map(template => template.problem_family)
+      )).toHaveLength(2)
+
+      expect(collectExhaustiveTemplateIssues(
+        generated,
+        name === 'fracsub'
+          ? /^(?!0(?:\/|$))\d+(?:\/\d+)?$/
+          : /^\d+(?:\/\d+)?$/
+      )).toEqual([])
+
+      for (const setId of ['A', 'B', 'C']) {
+        const direct = generated.find(template => template.id === `tmpl-${name}-${setId}-01`)!
+        if (name === 'fracadd') {
+          expect(direct.solver_rule).toBe(
+            'fracAdd(n, n + b, m, n + b + m + c)'
+          )
+          const complement = generated.find(
+            template => template.id === `tmpl-fracadd-${setId}-03`
+          )!
+          expect(complement.solver_rule).toBe('reduceFrac(b, n + b)')
+        } else {
+          expect(direct.solver_rule).toBe(
+            'fracSub(n + m, n + m + b, n, n + m + b + c)'
+          )
+        }
+      }
+    }
   })
 
   it('keeps the reviewed rounding bank reproducible from its generator', () => {
@@ -234,13 +291,12 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       )
 
       const subtraction = byId[`tmpl-fracsub-${setId}-06`]
-      expect(subtraction.problem_family).toBe('fracsub-context-difference')
-      expect(subtraction.prompt_template).not.toContain('남은 양에서 먹은 양')
-      expect(
-        subtraction.param_schema.n1.min / subtraction.param_schema.d1.max,
-      ).toBeGreaterThanOrEqual(
-        subtraction.param_schema.n2.max / subtraction.param_schema.d2.min,
-      )
+      expect(subtraction.problem_family).toBe('fracsub-context-distance-gap')
+      expect(subtraction.solver_rule).toBe('fracSub(n, n + b, n, n + b + c)')
+      expect(collectExhaustiveTemplateIssues(
+        [subtraction],
+        /^(?!0(?:\/|$))\d+(?:\/\d+)?$/
+      )).toEqual([])
 
       const average = byId[`tmpl-average-${setId}-06`]
       expect(average.problem_family).toBe('average-context-four')
