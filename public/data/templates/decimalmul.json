@@ -6,32 +6,44 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "decimalmul-decimal-by-natural",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-natural","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "decimalmul-decimal-by-natural",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 2,
+        "min": 4,
         "max": 9
       },
       "b": {
-        "min": 2,
-        "max": 9
+        "min": 3,
+        "max": 8
       }
     },
     "prompt_template": "{{dec1(a)}} × {{b}} = ?",
     "solver_rule": "decTimesNat(a, b)",
     "solution_steps_template": [
-      "자연수처럼 곱합니다: {{a}} × {{b}} = {{a * b}}",
-      "소수점 한 자리: {{decTimesNat(a, b)}}"
+      "자연수 곱은 {{a}} × {{b}} = {{a * b}}입니다.",
+      "한 인수가 소수 한 자리 수이므로 곱은 {{decTimesNat(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 {{a}} × {{b}}를 계산해요.",
-      "소수점 한 자리를 찍어요."
+      "먼저 소수점을 제외한 자연수의 곱을 구해요.",
+      "인수들의 소수 자릿수를 합한 만큼 곱의 소수점을 옮겨요."
     ],
     "choices_template": [
       "{{decTimesNat(a, b)}}",
-      "{{decTimesNatOff(a, b, 1)}}",
-      "{{decTimesNatOff(a, b, 2)}}",
-      "{{decTimesNatOff(a, b, 3)}}"
+      "{{(decTimesNat(a, b)) + 1}}",
+      "{{(decTimesNat(a, b)) + 2}}",
+      "{{(decTimesNat(a, b)) + 3}}"
     ]
   },
   {
@@ -40,27 +52,39 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "decimalmul-decimal-by-natural",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-natural","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-decimal-by-decimal",
+    "blueprint": {
+      "problemFamily": "decimalmul-decimal-by-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 2,
+        "min": 4,
         "max": 9
       },
       "b": {
-        "min": 2,
-        "max": 9
+        "min": 3,
+        "max": 8
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}} 를 계산하세요.",
-    "solver_rule": "decTimesNat(a, b)",
+    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
+    "solver_rule": "decTimesDec(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 한 자리: {{decTimesNat(a, b)}}"
+      "자연수 곱은 {{a}} × {{b}} = {{a * b}}입니다.",
+      "두 인수가 모두 소수 한 자리 수이므로 곱은 {{decTimesDec(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 한 자리를 찍어요."
+      "먼저 소수점을 제외한 자연수의 곱을 구해요.",
+      "인수들의 소수 자릿수를 합한 만큼 곱의 소수점을 옮겨요."
     ]
   },
   {
@@ -69,33 +93,45 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-place-value-natural-product",
+    "blueprint": {
+      "problemFamily": "decimalmul-place-value-natural-product",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
-        "min": 2,
+        "min": 4,
         "max": 9
       },
       "b": {
-        "min": 2,
-        "max": 9
+        "min": 3,
+        "max": 8
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
-    "solver_rule": "decTimesDec(a, b)",
+    "prompt_template": "{{a}} × {{b}} = {{a * b}}임을 이용하여 {{dec1(a)}} × {{b}}의 값을 구하세요.",
+    "solver_rule": "decTimesNat(a, b)",
     "solution_steps_template": [
-      "자연수처럼 곱합니다: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "{{dec1(a)}}은 {{a}}의 10분의 1입니다.",
+      "따라서 자연수 곱 {{a * b}}의 10분의 1인 {{decTimesNat(a, b)}}가 답입니다."
     ],
     "hint_steps_template": [
-      "먼저 {{a}} × {{b}}를 계산해요.",
-      "소수점 두 자리를 찍어요."
+      "먼저 소수점을 제외한 자연수의 곱을 구해요.",
+      "인수들의 소수 자릿수를 합한 만큼 곱의 소수점을 옮겨요."
     ],
     "choices_template": [
-      "{{decTimesDec(a, b)}}",
-      "{{decTimesDecOff(a, b, 1)}}",
-      "{{decTimesDecOff(a, b, 2)}}",
-      "{{decTimesDecOff(a, b, 3)}}"
+      "{{decTimesNat(a, b)}}",
+      "{{(decTimesNat(a, b)) + 1}}",
+      "{{(decTimesNat(a, b)) + 2}}",
+      "{{(decTimesNat(a, b)) + 3}}"
     ]
   },
   {
@@ -104,27 +140,39 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-place-value-double-decimal",
+    "blueprint": {
+      "problemFamily": "decimalmul-place-value-double-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
-        "min": 2,
+        "min": 4,
         "max": 9
       },
       "b": {
-        "min": 2,
-        "max": 9
+        "min": 3,
+        "max": 8
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} 를 계산하세요.",
+    "prompt_template": "{{a}} × {{b}} = {{a * b}}임을 이용하여 {{dec1(a)}} × {{dec1(b)}}의 값을 구하세요.",
     "solver_rule": "decTimesDec(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "두 인수가 각각 자연수의 10분의 1입니다.",
+      "따라서 자연수 곱 {{a * b}}의 100분의 1인 {{decTimesDec(a, b)}}가 답입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 두 자리를 찍어요."
+      "먼저 소수점을 제외한 자연수의 곱을 구해요.",
+      "인수들의 소수 자릿수를 합한 만큼 곱의 소수점을 옮겨요."
     ]
   },
   {
@@ -133,33 +181,45 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "decimalmul-decimal-by-natural",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-natural","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-context-repeated-quantity",
+    "blueprint": {
+      "problemFamily": "decimalmul-context-repeated-quantity",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
         "min": 4,
-        "max": 10
+        "max": 9
       },
       "b": {
-        "min": 5,
-        "max": 10
+        "min": 3,
+        "max": 8
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}} = ?",
+    "prompt_template": "리본 한 줄의 길이는 {{dec1(a)}}m입니다. 같은 리본 {{b}}줄의 전체 길이는 몇 m인가요?",
     "solver_rule": "decTimesNat(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 한 자리: {{decTimesNat(a, b)}}"
+      "한 단위의 양 {{dec1(a)}}에 단위 수 {{b}}를 곱합니다.",
+      "전체 양은 {{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 한 자리를 찍어요."
+      "한 단위의 양과 단위 수를 찾아 곱셈식으로 나타내요.",
+      "곱한 뒤 추가한 양은 더하고 사용한 양은 빼요."
     ],
     "choices_template": [
       "{{decTimesNat(a, b)}}",
-      "{{decTimesNatOff(a, b, 2)}}",
-      "{{decTimesNatOff(a, b, 4)}}",
-      "{{decTimesNatOff(a, b, 6)}}"
+      "{{(decTimesNat(a, b)) + 1}}",
+      "{{(decTimesNat(a, b)) + 2}}",
+      "{{(decTimesNat(a, b)) + 3}}"
     ]
   },
   {
@@ -168,27 +228,43 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "decimalmul-decimal-by-natural",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-natural","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-context-combined-total",
+    "blueprint": {
+      "problemFamily": "decimalmul-context-combined-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
         "min": 4,
-        "max": 10
+        "max": 9
       },
       "b": {
-        "min": 5,
-        "max": 10
+        "min": 3,
+        "max": 8
+      },
+      "c": {
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}} 를 계산하세요.",
-    "solver_rule": "decTimesNat(a, b)",
+    "prompt_template": "물통 {{b}}개에 각각 {{dec1(a)}}L씩 물을 담고, 여기에 {{dec1(c)}}L를 더 담았습니다. 물은 모두 몇 L인가요?",
+    "solver_rule": "decTimesNat(a, b) + dec1(c)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 한 자리: {{decTimesNat(a, b)}}"
+      "묶음에 든 양은 {{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}입니다.",
+      "추가한 {{dec1(c)}}만큼을 더하면 전체는 {{decTimesNat(a, b) + dec1(c)}}입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 한 자리를 찍어요."
+      "한 단위의 양과 단위 수를 찾아 곱셈식으로 나타내요.",
+      "곱한 뒤 추가한 양은 더하고 사용한 양은 빼요."
     ]
   },
   {
@@ -197,33 +273,45 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-context-rectangle-area",
+    "blueprint": {
+      "problemFamily": "decimalmul-context-rectangle-area",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
         "min": 4,
-        "max": 10
+        "max": 9
       },
       "b": {
-        "min": 4,
-        "max": 10
+        "min": 3,
+        "max": 8
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
+    "prompt_template": "가로가 {{dec1(a)}}m, 세로가 {{dec1(b)}}m인 직사각형 화단의 넓이는 몇 m²인가요?",
     "solver_rule": "decTimesDec(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "직사각형의 넓이는 가로와 세로의 곱입니다.",
+      "{{dec1(a)}} × {{dec1(b)}} = {{decTimesDec(a, b)}}이므로 넓이는 {{decTimesDec(a, b)}}m²입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 두 자리를 찍어요."
+      "한 단위의 양과 단위 수를 찾아 곱셈식으로 나타내요.",
+      "곱한 뒤 추가한 양은 더하고 사용한 양은 빼요."
     ],
     "choices_template": [
       "{{decTimesDec(a, b)}}",
-      "{{decTimesDecOff(a, b, 1)}}",
-      "{{decTimesDecOff(a, b, 3)}}",
-      "{{decTimesDecOff(a, b, 5)}}"
+      "{{(decTimesDec(a, b)) + 1}}",
+      "{{(decTimesDec(a, b)) + 2}}",
+      "{{(decTimesDec(a, b)) + 3}}"
     ]
   },
   {
@@ -232,91 +320,131 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-context-remaining-quantity",
+    "blueprint": {
+      "problemFamily": "decimalmul-context-remaining-quantity",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
         "min": 4,
-        "max": 10
+        "max": 9
       },
       "b": {
-        "min": 4,
-        "max": 10
+        "min": 3,
+        "max": 8
+      },
+      "c": {
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} 를 계산하세요.",
-    "solver_rule": "decTimesDec(a, b)",
+    "prompt_template": "주스가 {{dec1(a)}}L씩 든 병이 {{b}}개 있습니다. 이 중 {{dec1(c)}}L를 마셨다면 남은 주스는 몇 L인가요?",
+    "solver_rule": "decTimesNat(a, b) - dec1(c)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "처음 전체 양은 {{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}입니다.",
+      "사용한 {{dec1(c)}}만큼을 빼면 {{decTimesNat(a, b) - dec1(c)}}가 남습니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 두 자리를 찍어요."
+      "한 단위의 양과 단위 수를 찾아 곱셈식으로 나타내요.",
+      "곱한 뒤 추가한 양은 더하고 사용한 양은 빼요."
     ]
   },
   {
     "id": "tmpl-decimalmul-A-09",
     "concept_id": "decimalmul-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "decimalmul-product-offset",
-    "blueprint": {"problemFamily":"decimalmul-product-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "decimalmul-missed-decimal-error",
+    "blueprint": {
+      "problemFamily": "decimalmul-missed-decimal-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 11
+        "min": 4,
+        "max": 9
       },
       "b": {
-        "min": 6,
-        "max": 11
+        "min": 3,
+        "max": 8
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}}에서 1을 빼면?",
-    "solver_rule": "decTimesNat(a, b) - 1",
+    "prompt_template": "서윤이의 계산식은 {{dec1(a)}} × {{b}}입니다. 소수점을 빠뜨려 {{a}} × {{b}}로 계산했다면, 잘못 계산한 값은 올바른 값보다 얼마 더 큰가요?",
+    "solver_rule": "a * b - decTimesNat(a, b)",
     "solution_steps_template": [
-      "곱: {{decTimesNat(a, b)}}",
-      "1을 빼면 {{decTimesNat(a, b) - 1}}"
+      "올바른 곱은 {{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}입니다.",
+      "잘못 계산한 값은 {{a * b}}이므로 차이는 {{a * b - decTimesNat(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 곱셈을 해요.",
-      "그 값에서 1을 빼요."
+      "두 계산에서 인수의 소수점 위치가 어떻게 다른지 비교해요.",
+      "올바른 곱과 잘못된 곱을 각각 구한 뒤 차이를 계산해요."
+    ],
+    "choices_template": [
+      "{{a * b - decTimesNat(a, b)}}",
+      "{{(a * b - decTimesNat(a, b)) + 1}}",
+      "{{(a * b - decTimesNat(a, b)) + 2}}",
+      "{{(a * b - decTimesNat(a, b)) + 3}}"
     ]
   },
   {
     "id": "tmpl-decimalmul-A-10",
     "concept_id": "decimalmul-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-factor-scale-gap",
+    "blueprint": {
+      "problemFamily": "decimalmul-factor-scale-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 11
+        "min": 4,
+        "max": 9
       },
       "b": {
-        "min": 6,
-        "max": 11
+        "min": 3,
+        "max": 8
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}}의 값은?",
-    "solver_rule": "decTimesDec(a, b)",
+    "prompt_template": "첫 번째 계산은 {{dec1(a)}} × {{b}}, 두 번째 계산은 {{dec1(a)}} × {{dec1(b)}}입니다. 두 번째 계산에서 한 인수가 첫 번째의 10분의 1로 바뀌었습니다. 두 곱의 차이는 얼마인가요?",
+    "solver_rule": "decTimesNat(a, b) - decTimesDec(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "첫 번째 곱은 {{decTimesNat(a, b)}}, 두 번째 곱은 {{decTimesDec(a, b)}}입니다.",
+      "두 번째 인수가 10분의 1이 되면서 생긴 곱의 차이는 {{decTimesNat(a, b) - decTimesDec(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 두 자리를 찍어요."
-    ],
-    "choices_template": [
-      "{{decTimesDec(a, b)}}",
-      "{{decTimesDecOff(a, b, 2)}}",
-      "{{decTimesDecOff(a, b, 4)}}",
-      "{{decTimesDecOff(a, b, 6)}}"
+      "두 계산에서 인수의 소수점 위치가 어떻게 다른지 비교해요.",
+      "올바른 곱과 잘못된 곱을 각각 구한 뒤 차이를 계산해요."
     ]
   },
   {
@@ -326,32 +454,44 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "decimalmul-decimal-by-natural",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-natural","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "decimalmul-decimal-by-natural",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 4,
-        "max": 11
+        "min": 6,
+        "max": 12
       },
       "b": {
-        "min": 4,
-        "max": 11
+        "min": 5,
+        "max": 10
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}} = ?",
+    "prompt_template": "주어진 수: {{dec1(a)}}. 이 수를 {{b}}번 더한 값과 같은 곱을 구하세요.",
     "solver_rule": "decTimesNat(a, b)",
     "solution_steps_template": [
-      "자연수처럼 곱합니다: {{a}} × {{b}} = {{a * b}}",
-      "소수점 한 자리: {{decTimesNat(a, b)}}"
+      "자연수 곱은 {{a}} × {{b}} = {{a * b}}입니다.",
+      "한 인수가 소수 한 자리 수이므로 곱은 {{decTimesNat(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 {{a}} × {{b}}를 계산해요.",
-      "소수점 한 자리를 찍어요."
+      "먼저 소수점을 제외한 자연수의 곱을 구해요.",
+      "인수들의 소수 자릿수를 합한 만큼 곱의 소수점을 옮겨요."
     ],
     "choices_template": [
       "{{decTimesNat(a, b)}}",
-      "{{decTimesNatOff(a, b, 1)}}",
-      "{{decTimesNatOff(a, b, 2)}}",
-      "{{decTimesNatOff(a, b, 3)}}"
+      "{{(decTimesNat(a, b)) + 1}}",
+      "{{(decTimesNat(a, b)) + 2}}",
+      "{{(decTimesNat(a, b)) + 3}}"
     ]
   },
   {
@@ -360,27 +500,39 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "decimalmul-decimal-by-natural",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-natural","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-decimal-by-decimal",
+    "blueprint": {
+      "problemFamily": "decimalmul-decimal-by-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 4,
-        "max": 11
+        "min": 6,
+        "max": 12
       },
       "b": {
-        "min": 4,
-        "max": 11
+        "min": 5,
+        "max": 10
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}} 를 계산하세요.",
-    "solver_rule": "decTimesNat(a, b)",
+    "prompt_template": "{{dec1(a)}}의 {{dec1(b)}}배를 구하세요.",
+    "solver_rule": "decTimesDec(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 한 자리: {{decTimesNat(a, b)}}"
+      "자연수 곱은 {{a}} × {{b}} = {{a * b}}입니다.",
+      "두 인수가 모두 소수 한 자리 수이므로 곱은 {{decTimesDec(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 한 자리를 찍어요."
+      "먼저 소수점을 제외한 자연수의 곱을 구해요.",
+      "인수들의 소수 자릿수를 합한 만큼 곱의 소수점을 옮겨요."
     ]
   },
   {
@@ -389,33 +541,45 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-place-value-natural-product",
+    "blueprint": {
+      "problemFamily": "decimalmul-place-value-natural-product",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
-        "min": 4,
-        "max": 11
+        "min": 6,
+        "max": 12
       },
       "b": {
-        "min": 4,
-        "max": 11
+        "min": 5,
+        "max": 10
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
-    "solver_rule": "decTimesDec(a, b)",
+    "prompt_template": "자연수 계산 {{a}} × {{b}} = {{a * b}}에서 첫 번째 인수만 10분의 1로 바꾸면 곱은 얼마인가요?",
+    "solver_rule": "decTimesNat(a, b)",
     "solution_steps_template": [
-      "자연수처럼 곱합니다: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "{{dec1(a)}}은 {{a}}의 10분의 1입니다.",
+      "따라서 자연수 곱 {{a * b}}의 10분의 1인 {{decTimesNat(a, b)}}가 답입니다."
     ],
     "hint_steps_template": [
-      "먼저 {{a}} × {{b}}를 계산해요.",
-      "소수점 두 자리를 찍어요."
+      "먼저 소수점을 제외한 자연수의 곱을 구해요.",
+      "인수들의 소수 자릿수를 합한 만큼 곱의 소수점을 옮겨요."
     ],
     "choices_template": [
-      "{{decTimesDec(a, b)}}",
-      "{{decTimesDecOff(a, b, 1)}}",
-      "{{decTimesDecOff(a, b, 2)}}",
-      "{{decTimesDecOff(a, b, 3)}}"
+      "{{decTimesNat(a, b)}}",
+      "{{(decTimesNat(a, b)) + 1}}",
+      "{{(decTimesNat(a, b)) + 2}}",
+      "{{(decTimesNat(a, b)) + 3}}"
     ]
   },
   {
@@ -424,27 +588,39 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-place-value-double-decimal",
+    "blueprint": {
+      "problemFamily": "decimalmul-place-value-double-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
-        "min": 4,
-        "max": 11
+        "min": 6,
+        "max": 12
       },
       "b": {
-        "min": 4,
-        "max": 11
+        "min": 5,
+        "max": 10
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} 를 계산하세요.",
+    "prompt_template": "자연수 계산 {{a}} × {{b}} = {{a * b}}에서 두 인수를 모두 10분의 1로 바꾸면 곱은 얼마인가요?",
     "solver_rule": "decTimesDec(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "두 인수가 각각 자연수의 10분의 1입니다.",
+      "따라서 자연수 곱 {{a * b}}의 100분의 1인 {{decTimesDec(a, b)}}가 답입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 두 자리를 찍어요."
+      "먼저 소수점을 제외한 자연수의 곱을 구해요.",
+      "인수들의 소수 자릿수를 합한 만큼 곱의 소수점을 옮겨요."
     ]
   },
   {
@@ -453,33 +629,45 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "decimalmul-decimal-by-natural",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-natural","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-context-repeated-quantity",
+    "blueprint": {
+      "problemFamily": "decimalmul-context-repeated-quantity",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
         "min": 6,
         "max": 12
       },
       "b": {
-        "min": 7,
-        "max": 12
+        "min": 5,
+        "max": 10
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}} = ?",
+    "prompt_template": "끈 한 가닥의 길이는 {{dec1(a)}}m입니다. 같은 끈 {{b}}가닥의 전체 길이는 몇 m인가요?",
     "solver_rule": "decTimesNat(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 한 자리: {{decTimesNat(a, b)}}"
+      "한 단위의 양 {{dec1(a)}}에 단위 수 {{b}}를 곱합니다.",
+      "전체 양은 {{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 한 자리를 찍어요."
+      "한 단위의 양과 단위 수를 찾아 곱셈식으로 나타내요.",
+      "곱한 뒤 추가한 양은 더하고 사용한 양은 빼요."
     ],
     "choices_template": [
       "{{decTimesNat(a, b)}}",
-      "{{decTimesNatOff(a, b, 2)}}",
-      "{{decTimesNatOff(a, b, 4)}}",
-      "{{decTimesNatOff(a, b, 6)}}"
+      "{{(decTimesNat(a, b)) + 1}}",
+      "{{(decTimesNat(a, b)) + 2}}",
+      "{{(decTimesNat(a, b)) + 3}}"
     ]
   },
   {
@@ -488,27 +676,43 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "decimalmul-decimal-by-natural",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-natural","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-context-combined-total",
+    "blueprint": {
+      "problemFamily": "decimalmul-context-combined-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
         "min": 6,
         "max": 12
       },
       "b": {
-        "min": 7,
-        "max": 12
+        "min": 5,
+        "max": 10
+      },
+      "c": {
+        "min": 3,
+        "max": 7
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}} 를 계산하세요.",
-    "solver_rule": "decTimesNat(a, b)",
+    "prompt_template": "상자 {{b}}개에 각각 {{dec1(a)}}kg씩 물품을 담고, 낱개 물품 {{dec1(c)}}kg을 더했습니다. 전체 무게는 몇 kg인가요?",
+    "solver_rule": "decTimesNat(a, b) + dec1(c)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 한 자리: {{decTimesNat(a, b)}}"
+      "묶음에 든 양은 {{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}입니다.",
+      "추가한 {{dec1(c)}}만큼을 더하면 전체는 {{decTimesNat(a, b) + dec1(c)}}입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 한 자리를 찍어요."
+      "한 단위의 양과 단위 수를 찾아 곱셈식으로 나타내요.",
+      "곱한 뒤 추가한 양은 더하고 사용한 양은 빼요."
     ]
   },
   {
@@ -517,33 +721,45 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-context-rectangle-area",
+    "blueprint": {
+      "problemFamily": "decimalmul-context-rectangle-area",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
         "min": 6,
         "max": 12
       },
       "b": {
-        "min": 6,
-        "max": 12
+        "min": 5,
+        "max": 10
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
+    "prompt_template": "가로가 {{dec1(a)}}m, 세로가 {{dec1(b)}}m인 직사각형 게시판의 넓이는 몇 m²인가요?",
     "solver_rule": "decTimesDec(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "직사각형의 넓이는 가로와 세로의 곱입니다.",
+      "{{dec1(a)}} × {{dec1(b)}} = {{decTimesDec(a, b)}}이므로 넓이는 {{decTimesDec(a, b)}}m²입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 두 자리를 찍어요."
+      "한 단위의 양과 단위 수를 찾아 곱셈식으로 나타내요.",
+      "곱한 뒤 추가한 양은 더하고 사용한 양은 빼요."
     ],
     "choices_template": [
       "{{decTimesDec(a, b)}}",
-      "{{decTimesDecOff(a, b, 1)}}",
-      "{{decTimesDecOff(a, b, 3)}}",
-      "{{decTimesDecOff(a, b, 5)}}"
+      "{{(decTimesDec(a, b)) + 1}}",
+      "{{(decTimesDec(a, b)) + 2}}",
+      "{{(decTimesDec(a, b)) + 3}}"
     ]
   },
   {
@@ -552,91 +768,131 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-context-remaining-quantity",
+    "blueprint": {
+      "problemFamily": "decimalmul-context-remaining-quantity",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
         "min": 6,
         "max": 12
       },
       "b": {
-        "min": 6,
-        "max": 12
+        "min": 5,
+        "max": 10
+      },
+      "c": {
+        "min": 3,
+        "max": 7
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} 를 계산하세요.",
-    "solver_rule": "decTimesDec(a, b)",
+    "prompt_template": "페인트가 {{dec1(a)}}L씩 든 통이 {{b}}개 있습니다. {{dec1(c)}}L를 사용했다면 남은 페인트는 몇 L인가요?",
+    "solver_rule": "decTimesNat(a, b) - dec1(c)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "처음 전체 양은 {{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}입니다.",
+      "사용한 {{dec1(c)}}만큼을 빼면 {{decTimesNat(a, b) - dec1(c)}}가 남습니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 두 자리를 찍어요."
+      "한 단위의 양과 단위 수를 찾아 곱셈식으로 나타내요.",
+      "곱한 뒤 추가한 양은 더하고 사용한 양은 빼요."
     ]
   },
   {
     "id": "tmpl-decimalmul-B-09",
     "concept_id": "decimalmul-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "decimalmul-product-offset",
-    "blueprint": {"problemFamily":"decimalmul-product-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "decimalmul-missed-decimal-error",
+    "blueprint": {
+      "problemFamily": "decimalmul-missed-decimal-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 8,
-        "max": 13
+        "min": 6,
+        "max": 12
       },
       "b": {
-        "min": 8,
-        "max": 13
+        "min": 5,
+        "max": 10
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}}에서 1을 빼면?",
-    "solver_rule": "decTimesNat(a, b) - 1",
+    "prompt_template": "도윤이의 계산식은 {{dec1(a)}} × {{b}}입니다. 소수점을 생각하지 않고 {{a}} × {{b}}의 값을 답으로 썼다면, 두 답의 차이는 얼마인가요?",
+    "solver_rule": "a * b - decTimesNat(a, b)",
     "solution_steps_template": [
-      "곱: {{decTimesNat(a, b)}}",
-      "1을 빼면 {{decTimesNat(a, b) - 1}}"
+      "올바른 곱은 {{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}입니다.",
+      "잘못 계산한 값은 {{a * b}}이므로 차이는 {{a * b - decTimesNat(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 곱셈을 해요.",
-      "그 값에서 1을 빼요."
+      "두 계산에서 인수의 소수점 위치가 어떻게 다른지 비교해요.",
+      "올바른 곱과 잘못된 곱을 각각 구한 뒤 차이를 계산해요."
+    ],
+    "choices_template": [
+      "{{a * b - decTimesNat(a, b)}}",
+      "{{(a * b - decTimesNat(a, b)) + 1}}",
+      "{{(a * b - decTimesNat(a, b)) + 2}}",
+      "{{(a * b - decTimesNat(a, b)) + 3}}"
     ]
   },
   {
     "id": "tmpl-decimalmul-B-10",
     "concept_id": "decimalmul-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-factor-scale-gap",
+    "blueprint": {
+      "problemFamily": "decimalmul-factor-scale-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 8,
-        "max": 13
+        "min": 6,
+        "max": 12
       },
       "b": {
-        "min": 8,
-        "max": 13
+        "min": 5,
+        "max": 10
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}}의 값은?",
-    "solver_rule": "decTimesDec(a, b)",
+    "prompt_template": "계산 A: {{dec1(a)}} × {{b}}. 계산 B: {{dec1(a)}} × {{dec1(b)}}. 계산 B의 두 번째 인수는 계산 A의 10분의 1입니다. 두 곱의 차이는 얼마인가요?",
+    "solver_rule": "decTimesNat(a, b) - decTimesDec(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "첫 번째 곱은 {{decTimesNat(a, b)}}, 두 번째 곱은 {{decTimesDec(a, b)}}입니다.",
+      "두 번째 인수가 10분의 1이 되면서 생긴 곱의 차이는 {{decTimesNat(a, b) - decTimesDec(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 두 자리를 찍어요."
-    ],
-    "choices_template": [
-      "{{decTimesDec(a, b)}}",
-      "{{decTimesDecOff(a, b, 2)}}",
-      "{{decTimesDecOff(a, b, 4)}}",
-      "{{decTimesDecOff(a, b, 6)}}"
+      "두 계산에서 인수의 소수점 위치가 어떻게 다른지 비교해요.",
+      "올바른 곱과 잘못된 곱을 각각 구한 뒤 차이를 계산해요."
     ]
   },
   {
@@ -646,32 +902,44 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "decimalmul-decimal-by-natural",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-natural","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "decimalmul-decimal-by-natural",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 13
+        "min": 8,
+        "max": 15
       },
       "b": {
-        "min": 6,
-        "max": 13
+        "min": 7,
+        "max": 12
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}} = ?",
+    "prompt_template": "먼저 {{a}} × {{b}}를 계산한 뒤 소수점을 왼쪽으로 한 자리 옮기면 얼마인가요?",
     "solver_rule": "decTimesNat(a, b)",
     "solution_steps_template": [
-      "자연수처럼 곱합니다: {{a}} × {{b}} = {{a * b}}",
-      "소수점 한 자리: {{decTimesNat(a, b)}}"
+      "자연수 곱은 {{a}} × {{b}} = {{a * b}}입니다.",
+      "한 인수가 소수 한 자리 수이므로 곱은 {{decTimesNat(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 {{a}} × {{b}}를 계산해요.",
-      "소수점 한 자리를 찍어요."
+      "먼저 소수점을 제외한 자연수의 곱을 구해요.",
+      "인수들의 소수 자릿수를 합한 만큼 곱의 소수점을 옮겨요."
     ],
     "choices_template": [
       "{{decTimesNat(a, b)}}",
-      "{{decTimesNatOff(a, b, 1)}}",
-      "{{decTimesNatOff(a, b, 2)}}",
-      "{{decTimesNatOff(a, b, 3)}}"
+      "{{(decTimesNat(a, b)) + 1}}",
+      "{{(decTimesNat(a, b)) + 2}}",
+      "{{(decTimesNat(a, b)) + 3}}"
     ]
   },
   {
@@ -680,27 +948,39 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "decimalmul-decimal-by-natural",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-natural","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-decimal-by-decimal",
+    "blueprint": {
+      "problemFamily": "decimalmul-decimal-by-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 13
+        "min": 8,
+        "max": 15
       },
       "b": {
-        "min": 6,
-        "max": 13
+        "min": 7,
+        "max": 12
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}} 를 계산하세요.",
-    "solver_rule": "decTimesNat(a, b)",
+    "prompt_template": "먼저 {{a}} × {{b}}를 계산한 뒤 소수점을 왼쪽으로 두 자리 옮기면 얼마인가요?",
+    "solver_rule": "decTimesDec(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 한 자리: {{decTimesNat(a, b)}}"
+      "자연수 곱은 {{a}} × {{b}} = {{a * b}}입니다.",
+      "두 인수가 모두 소수 한 자리 수이므로 곱은 {{decTimesDec(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 한 자리를 찍어요."
+      "먼저 소수점을 제외한 자연수의 곱을 구해요.",
+      "인수들의 소수 자릿수를 합한 만큼 곱의 소수점을 옮겨요."
     ]
   },
   {
@@ -709,33 +989,45 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-place-value-natural-product",
+    "blueprint": {
+      "problemFamily": "decimalmul-place-value-natural-product",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 13
+        "min": 8,
+        "max": 15
       },
       "b": {
-        "min": 6,
-        "max": 13
+        "min": 7,
+        "max": 12
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
-    "solver_rule": "decTimesDec(a, b)",
+    "prompt_template": "{{a * b}}의 10분의 1은 {{dec1(a)}} × {{b}}의 값과 같습니다. 값을 구하세요.",
+    "solver_rule": "decTimesNat(a, b)",
     "solution_steps_template": [
-      "자연수처럼 곱합니다: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "{{dec1(a)}}은 {{a}}의 10분의 1입니다.",
+      "따라서 자연수 곱 {{a * b}}의 10분의 1인 {{decTimesNat(a, b)}}가 답입니다."
     ],
     "hint_steps_template": [
-      "먼저 {{a}} × {{b}}를 계산해요.",
-      "소수점 두 자리를 찍어요."
+      "먼저 소수점을 제외한 자연수의 곱을 구해요.",
+      "인수들의 소수 자릿수를 합한 만큼 곱의 소수점을 옮겨요."
     ],
     "choices_template": [
-      "{{decTimesDec(a, b)}}",
-      "{{decTimesDecOff(a, b, 1)}}",
-      "{{decTimesDecOff(a, b, 2)}}",
-      "{{decTimesDecOff(a, b, 3)}}"
+      "{{decTimesNat(a, b)}}",
+      "{{(decTimesNat(a, b)) + 1}}",
+      "{{(decTimesNat(a, b)) + 2}}",
+      "{{(decTimesNat(a, b)) + 3}}"
     ]
   },
   {
@@ -744,27 +1036,39 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-place-value-double-decimal",
+    "blueprint": {
+      "problemFamily": "decimalmul-place-value-double-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 13
+        "min": 8,
+        "max": 15
       },
       "b": {
-        "min": 6,
-        "max": 13
+        "min": 7,
+        "max": 12
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} 를 계산하세요.",
+    "prompt_template": "{{a * b}}의 100분의 1은 {{dec1(a)}} × {{dec1(b)}}의 값과 같습니다. 값을 구하세요.",
     "solver_rule": "decTimesDec(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "두 인수가 각각 자연수의 10분의 1입니다.",
+      "따라서 자연수 곱 {{a * b}}의 100분의 1인 {{decTimesDec(a, b)}}가 답입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 두 자리를 찍어요."
+      "먼저 소수점을 제외한 자연수의 곱을 구해요.",
+      "인수들의 소수 자릿수를 합한 만큼 곱의 소수점을 옮겨요."
     ]
   },
   {
@@ -773,33 +1077,45 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "decimalmul-decimal-by-natural",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-natural","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-context-repeated-quantity",
+    "blueprint": {
+      "problemFamily": "decimalmul-context-repeated-quantity",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
         "min": 8,
-        "max": 14
+        "max": 15
       },
       "b": {
-        "min": 9,
-        "max": 14
+        "min": 7,
+        "max": 12
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}} = ?",
+    "prompt_template": "달리기 한 바퀴의 거리는 {{dec1(a)}}km입니다. {{b}}바퀴를 달린 거리는 모두 몇 km인가요?",
     "solver_rule": "decTimesNat(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 한 자리: {{decTimesNat(a, b)}}"
+      "한 단위의 양 {{dec1(a)}}에 단위 수 {{b}}를 곱합니다.",
+      "전체 양은 {{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 한 자리를 찍어요."
+      "한 단위의 양과 단위 수를 찾아 곱셈식으로 나타내요.",
+      "곱한 뒤 추가한 양은 더하고 사용한 양은 빼요."
     ],
     "choices_template": [
       "{{decTimesNat(a, b)}}",
-      "{{decTimesNatOff(a, b, 2)}}",
-      "{{decTimesNatOff(a, b, 4)}}",
-      "{{decTimesNatOff(a, b, 6)}}"
+      "{{(decTimesNat(a, b)) + 1}}",
+      "{{(decTimesNat(a, b)) + 2}}",
+      "{{(decTimesNat(a, b)) + 3}}"
     ]
   },
   {
@@ -808,27 +1124,43 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "decimalmul-decimal-by-natural",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-natural","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-context-combined-total",
+    "blueprint": {
+      "problemFamily": "decimalmul-context-combined-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
         "min": 8,
-        "max": 14
+        "max": 15
       },
       "b": {
-        "min": 9,
-        "max": 14
+        "min": 7,
+        "max": 12
+      },
+      "c": {
+        "min": 4,
+        "max": 9
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}} 를 계산하세요.",
-    "solver_rule": "decTimesNat(a, b)",
+    "prompt_template": "급식실에서 우유를 {{dec1(a)}}L씩 {{b}}통 준비하고 {{dec1(c)}}L를 추가했습니다. 준비한 우유는 모두 몇 L인가요?",
+    "solver_rule": "decTimesNat(a, b) + dec1(c)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 한 자리: {{decTimesNat(a, b)}}"
+      "묶음에 든 양은 {{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}입니다.",
+      "추가한 {{dec1(c)}}만큼을 더하면 전체는 {{decTimesNat(a, b) + dec1(c)}}입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 한 자리를 찍어요."
+      "한 단위의 양과 단위 수를 찾아 곱셈식으로 나타내요.",
+      "곱한 뒤 추가한 양은 더하고 사용한 양은 빼요."
     ]
   },
   {
@@ -837,33 +1169,45 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-context-rectangle-area",
+    "blueprint": {
+      "problemFamily": "decimalmul-context-rectangle-area",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
         "min": 8,
-        "max": 14
+        "max": 15
       },
       "b": {
-        "min": 8,
-        "max": 14
+        "min": 7,
+        "max": 12
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} = ?",
+    "prompt_template": "가로가 {{dec1(a)}}m, 세로가 {{dec1(b)}}m인 직사각형 무대의 넓이는 몇 m²인가요?",
     "solver_rule": "decTimesDec(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "직사각형의 넓이는 가로와 세로의 곱입니다.",
+      "{{dec1(a)}} × {{dec1(b)}} = {{decTimesDec(a, b)}}이므로 넓이는 {{decTimesDec(a, b)}}m²입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 두 자리를 찍어요."
+      "한 단위의 양과 단위 수를 찾아 곱셈식으로 나타내요.",
+      "곱한 뒤 추가한 양은 더하고 사용한 양은 빼요."
     ],
     "choices_template": [
       "{{decTimesDec(a, b)}}",
-      "{{decTimesDecOff(a, b, 1)}}",
-      "{{decTimesDecOff(a, b, 3)}}",
-      "{{decTimesDecOff(a, b, 5)}}"
+      "{{(decTimesDec(a, b)) + 1}}",
+      "{{(decTimesDec(a, b)) + 2}}",
+      "{{(decTimesDec(a, b)) + 3}}"
     ]
   },
   {
@@ -872,91 +1216,131 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-context-remaining-quantity",
+    "blueprint": {
+      "problemFamily": "decimalmul-context-remaining-quantity",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
         "min": 8,
-        "max": 14
+        "max": 15
       },
       "b": {
-        "min": 8,
-        "max": 14
+        "min": 7,
+        "max": 12
+      },
+      "c": {
+        "min": 4,
+        "max": 9
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}} 를 계산하세요.",
-    "solver_rule": "decTimesDec(a, b)",
+    "prompt_template": "세정제가 {{dec1(a)}}L씩 든 통이 {{b}}개 있습니다. 청소에 {{dec1(c)}}L를 사용했다면 남은 세정제는 몇 L인가요?",
+    "solver_rule": "decTimesNat(a, b) - dec1(c)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "처음 전체 양은 {{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}입니다.",
+      "사용한 {{dec1(c)}}만큼을 빼면 {{decTimesNat(a, b) - dec1(c)}}가 남습니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 두 자리를 찍어요."
+      "한 단위의 양과 단위 수를 찾아 곱셈식으로 나타내요.",
+      "곱한 뒤 추가한 양은 더하고 사용한 양은 빼요."
     ]
   },
   {
     "id": "tmpl-decimalmul-C-09",
     "concept_id": "decimalmul-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "decimalmul-product-offset",
-    "blueprint": {"problemFamily":"decimalmul-product-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "decimalmul-missed-decimal-error",
+    "blueprint": {
+      "problemFamily": "decimalmul-missed-decimal-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 10,
+        "min": 8,
         "max": 15
       },
       "b": {
-        "min": 10,
-        "max": 15
+        "min": 7,
+        "max": 12
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{b}}에서 1을 빼면?",
-    "solver_rule": "decTimesNat(a, b) - 1",
+    "prompt_template": "하린이는 {{dec1(a)}} × {{b}}를 자연수 곱 {{a}} × {{b}}와 같다고 보았습니다. 이 잘못된 값과 올바른 값의 차이는 얼마인가요?",
+    "solver_rule": "a * b - decTimesNat(a, b)",
     "solution_steps_template": [
-      "곱: {{decTimesNat(a, b)}}",
-      "1을 빼면 {{decTimesNat(a, b) - 1}}"
+      "올바른 곱은 {{dec1(a)}} × {{b}} = {{decTimesNat(a, b)}}입니다.",
+      "잘못 계산한 값은 {{a * b}}이므로 차이는 {{a * b - decTimesNat(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 곱셈을 해요.",
-      "그 값에서 1을 빼요."
+      "두 계산에서 인수의 소수점 위치가 어떻게 다른지 비교해요.",
+      "올바른 곱과 잘못된 곱을 각각 구한 뒤 차이를 계산해요."
+    ],
+    "choices_template": [
+      "{{a * b - decTimesNat(a, b)}}",
+      "{{(a * b - decTimesNat(a, b)) + 1}}",
+      "{{(a * b - decTimesNat(a, b)) + 2}}",
+      "{{(a * b - decTimesNat(a, b)) + 3}}"
     ]
   },
   {
     "id": "tmpl-decimalmul-C-10",
     "concept_id": "decimalmul-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "decimalmul-decimal-by-decimal",
-    "blueprint": {"problemFamily":"decimalmul-decimal-by-decimal","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-13","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "decimalmul-factor-scale-gap",
+    "blueprint": {
+      "problemFamily": "decimalmul-factor-scale-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-13",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 10,
+        "min": 8,
         "max": 15
       },
       "b": {
-        "min": 10,
-        "max": 15
+        "min": 7,
+        "max": 12
       }
     },
-    "prompt_template": "{{dec1(a)}} × {{dec1(b)}}의 값은?",
-    "solver_rule": "decTimesDec(a, b)",
+    "prompt_template": "계산 A는 {{dec1(a)}} × {{b}}, 계산 B는 {{dec1(a)}} × {{dec1(b)}}입니다. B의 두 번째 인수는 A의 10분의 1입니다. 계산 A의 값은 계산 B의 값보다 얼마 더 큰가요?",
+    "solver_rule": "decTimesNat(a, b) - decTimesDec(a, b)",
     "solution_steps_template": [
-      "곱: {{a}} × {{b}} = {{a * b}}",
-      "소수점 두 자리: {{decTimesDec(a, b)}}"
+      "첫 번째 곱은 {{decTimesNat(a, b)}}, 두 번째 곱은 {{decTimesDec(a, b)}}입니다.",
+      "두 번째 인수가 10분의 1이 되면서 생긴 곱의 차이는 {{decTimesNat(a, b) - decTimesDec(a, b)}}입니다."
     ],
     "hint_steps_template": [
-      "자연수처럼 곱해요.",
-      "소수점 두 자리를 찍어요."
-    ],
-    "choices_template": [
-      "{{decTimesDec(a, b)}}",
-      "{{decTimesDecOff(a, b, 2)}}",
-      "{{decTimesDecOff(a, b, 4)}}",
-      "{{decTimesDecOff(a, b, 6)}}"
+      "두 계산에서 인수의 소수점 위치가 어떻게 다른지 비교해요.",
+      "올바른 곱과 잘못된 곱을 각각 구한 뒤 차이를 계산해요."
     ]
   }
 ]

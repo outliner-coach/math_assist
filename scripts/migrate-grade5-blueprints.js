@@ -62,9 +62,9 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
   'mixedcalc-001': [
     'mixedcalc-add-multiply-order', 'mixedcalc-multiply-add-order',
     'mixedcalc-parenthesized-sum-product', 'mixedcalc-multiply-subtract-order',
-    'mixedcalc-three-operation-order', 'mixedcalc-parentheses-then-subtract',
-    'mixedcalc-parenthesized-factor-product', 'mixedcalc-difference-times-factor',
-    'mixedcalc-two-parentheses-product', 'mixedcalc-sum-of-two-products'
+    'mixedcalc-context-stock-after-use', 'mixedcalc-context-combined-groups-after-use',
+    'mixedcalc-context-boxed-assortment', 'mixedcalc-context-team-difference',
+    'mixedcalc-missing-parentheses-error', 'mixedcalc-model-correction-gap'
   ],
   'divisor-001': [
     'divisor-identify', 'divisor-greatest', 'divisor-least', 'divisor-count',
@@ -134,11 +134,11 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
     'fracmul-reduced-component-sum', 'fracmul-adjusted-result', 'fracmul-direct'
   ],
   'decimalmul-001': [
-    'decimalmul-decimal-by-natural', 'decimalmul-decimal-by-natural',
-    'decimalmul-decimal-by-decimal', 'decimalmul-decimal-by-decimal',
-    'decimalmul-decimal-by-natural', 'decimalmul-decimal-by-natural',
-    'decimalmul-decimal-by-decimal', 'decimalmul-decimal-by-decimal',
-    'decimalmul-product-offset', 'decimalmul-decimal-by-decimal'
+    'decimalmul-decimal-by-natural', 'decimalmul-decimal-by-decimal',
+    'decimalmul-place-value-natural-product', 'decimalmul-place-value-double-decimal',
+    'decimalmul-context-repeated-quantity', 'decimalmul-context-combined-total',
+    'decimalmul-context-rectangle-area', 'decimalmul-context-remaining-quantity',
+    'decimalmul-missed-decimal-error', 'decimalmul-factor-scale-gap'
   ],
   'average-001': [
     'average-direct', 'average-direct', 'average-direct', 'average-direct',
@@ -152,17 +152,18 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
 const BLOCKED_CONTENT_TEMPLATE_IDS = new Set()
 
 const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
-  // Natural-number mixed calculation: all current items execute known rules.
+  // Natural-number mixed calculation: direct rules, transferred contexts, and
+  // two genuine comparison/error-analysis families.
   'mixedcalc-add-multiply-order': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-01', estimatedSteps: 2, readingLoad: 'low' }),
   'mixedcalc-multiply-add-order': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-01', estimatedSteps: 2, readingLoad: 'low' }),
   'mixedcalc-parenthesized-sum-product': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-01', estimatedSteps: 2, readingLoad: 'low' }),
   'mixedcalc-multiply-subtract-order': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-01', estimatedSteps: 2, readingLoad: 'low' }),
-  'mixedcalc-three-operation-order': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'multi_step', primaryStandard: '6수01-01', estimatedSteps: 3, readingLoad: 'medium' }),
-  'mixedcalc-parentheses-then-subtract': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'multi_step', primaryStandard: '6수01-01', estimatedSteps: 3, readingLoad: 'medium' }),
-  'mixedcalc-parenthesized-factor-product': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'multi_step', primaryStandard: '6수01-01', estimatedSteps: 2, readingLoad: 'medium' }),
-  'mixedcalc-difference-times-factor': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'multi_step', primaryStandard: '6수01-01', estimatedSteps: 2, readingLoad: 'medium' }),
-  'mixedcalc-two-parentheses-product': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'multi_step', primaryStandard: '6수01-01', estimatedSteps: 3, readingLoad: 'medium' }),
-  'mixedcalc-sum-of-two-products': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'multi_step', primaryStandard: '6수01-01', estimatedSteps: 3, readingLoad: 'medium' }),
+  'mixedcalc-context-stock-after-use': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-01', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
+  'mixedcalc-context-combined-groups-after-use': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-01', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
+  'mixedcalc-context-boxed-assortment': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'representation_shift', primaryStandard: '6수01-01', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'mixedcalc-context-team-difference': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'representation_shift', primaryStandard: '6수01-01', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'mixedcalc-missing-parentheses-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-01', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle' }),
+  'mixedcalc-model-correction-gap': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'model_and_check', primaryStandard: '6수01-01', estimatedSteps: 4, readingLoad: 'high', contextType: 'real_world' }),
 
   // Divisors and multiples
   'divisor-identify': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'constraint', primaryStandard: '6수01-04', estimatedSteps: 1, readingLoad: 'low' }),
@@ -253,7 +254,14 @@ const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'fracmul-adjusted-result': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-09', estimatedSteps: 3, readingLoad: 'high' }),
   'decimalmul-decimal-by-natural': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-13', estimatedSteps: 1, readingLoad: 'low' }),
   'decimalmul-decimal-by-decimal': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-13', estimatedSteps: 1, readingLoad: 'low' }),
-  'decimalmul-product-offset': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-13', estimatedSteps: 2, readingLoad: 'medium' }),
+  'decimalmul-place-value-natural-product': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-13', estimatedSteps: 2, readingLoad: 'medium' }),
+  'decimalmul-place-value-double-decimal': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-13', estimatedSteps: 2, readingLoad: 'medium' }),
+  'decimalmul-context-repeated-quantity': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'representation_shift', primaryStandard: '6수01-13', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'decimalmul-context-combined-total': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-13', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
+  'decimalmul-context-rectangle-area': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-13', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'decimalmul-context-remaining-quantity': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-13', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
+  'decimalmul-missed-decimal-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-13', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
+  'decimalmul-factor-scale-gap': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'compare_methods', primaryStandard: '6수01-13', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
 
   // Average
   'average-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수04-01', estimatedSteps: 2, readingLoad: 'low' }),

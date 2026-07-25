@@ -21,6 +21,30 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-25: Grade 5 decimal-multiplication application reinforcement
+  (primary workstreams 01 and 04) owns the narrow change to
+  `public/data/templates/decimalmul.json`,
+  `scripts/migrate-grade5-blueprints.js`, its deterministic generator, and
+  blueprint regression tests. The bank moves from K27/A3/R0 and three
+  mathematical families to A/B/C K4/A4/R2 and ten families. Applying items
+  cover repeated quantity, combined total, rectangle area, and remaining
+  quantity. Reasoning items analyze a missed decimal point and compare products
+  when one factor becomes one tenth. Re-check decimal string evaluation,
+  positive subtraction ranges, Korean numeric particles, generator parity,
+  choice correctness, and difficulty progression before concurrent changes.
+
+- 2026-07-25: Grade 5 mixed-calculation application reinforcement (primary
+  workstreams 01 and 04) owns the narrow change to
+  `public/data/templates/mixedcalc.json`,
+  `scripts/migrate-grade5-blueprints.js`, its deterministic generator, and
+  blueprint regression tests. A/B/C keep the 4-4-2 difficulty contract while
+  moving from K30/A0/R0 to K12/A12/R6. Applying items translate inventory,
+  combined-group, assortment, and remaining-per-group situations into one
+  mixed expression. Reasoning items compare the correct parenthesized model
+  with a plausible missing-parentheses error. Re-check Korean numeric
+  particles, positive parameter ranges, generator parity, choice correctness,
+  difficulty progression, and the problem audit before concurrent changes.
+
 - 2026-07-25: Grade 5 directed-estimation application reinforcement (primary
   workstreams 01 and 04) owns the narrow change to
   `public/data/templates/estimate.json`,
