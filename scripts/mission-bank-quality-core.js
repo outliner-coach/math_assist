@@ -335,6 +335,7 @@ function auditGrade3() {
 function auditGrade4() {
   const {
     grade4MissionTemplates,
+    grade4Units,
     getGrade4MissionBank,
     validateGrade4MissionBank,
   } = loadGrade4Module()
@@ -348,12 +349,13 @@ function auditGrade4() {
     const template = grade4MissionTemplates.find((item) => item.id === mission.id)
     auditChoiceIntegrity('Grade 4', template, mission, errors)
   }
-  if (grade4MissionTemplates.length !== 10) {
-    errors.push(createIssue('error', 'grade4_release_count', `Grade 4 release candidate expects 10 templates, got ${grade4MissionTemplates.length}`))
+  const expectedTemplateCount = grade4Units.length * 10
+  if (grade4MissionTemplates.length !== expectedTemplateCount) {
+    errors.push(createIssue('error', 'grade4_release_count', `Grade 4 released units expect ${expectedTemplateCount} templates, got ${grade4MissionTemplates.length}`))
   }
 
   return {
-    grade: 'grade4-release-candidate',
+    grade: 'grade4',
     templateCount: grade4MissionTemplates.length,
     errors,
     warnings,

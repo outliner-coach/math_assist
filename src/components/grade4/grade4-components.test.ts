@@ -44,6 +44,23 @@ describe('Grade4MissionVisual', () => {
     expect(html).toContain(Number(mission.visualConfig.right).toLocaleString('ko-KR'))
     expect(html).not.toContain('000000')
   })
+
+  it('keeps division results out of the DOM until the answer is solved', () => {
+    const direct = getGrade4MissionBank(42).find((item) => item.id === 'g4-div-01')!
+    const hidden = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission: direct }))
+    const shown = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission: direct, showAnswer: true }))
+
+    expect(hidden).toContain('grade4-visual-division-model')
+    expect(hidden).not.toContain('data-quotient=')
+    expect(hidden).not.toContain('data-remainder=')
+    expect(shown).toContain(`data-quotient="${direct.correctAnswer}"`)
+
+    const inverse = getGrade4MissionBank(42).find((item) => item.id === 'g4-div-08')!
+    const inverseHidden = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission: inverse }))
+    const inverseShown = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission: inverse, showAnswer: true }))
+    expect(inverseHidden).not.toContain(`data-dividend="${inverse.correctAnswer}"`)
+    expect(inverseShown).toContain(`data-dividend="${inverse.correctAnswer}"`)
+  })
 })
 
 describe('Grade4MissionCard', () => {

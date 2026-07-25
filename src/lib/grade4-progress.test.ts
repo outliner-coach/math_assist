@@ -8,6 +8,7 @@ import {
   recordGrade4Attempt,
   resetGrade4Progress,
   saveGrade4Progress,
+  selectGrade4Unit,
   type Grade4ProgressStorage,
 } from './grade4-progress'
 
@@ -81,5 +82,22 @@ describe('Grade 4 progress', () => {
     expect(next.activityRun).toBe(1)
     expect(next.activeItemIndex).toBe(0)
     expect(next.completedVariantKeys).toEqual(['done'])
+  })
+
+  it('starts a newly selected unit at its first item without deleting history', () => {
+    const current = {
+      ...createInitialGrade4Progress(100),
+      selectedUnitId: 'unit-4-1-large-numbers',
+      activeItemIndex: 2,
+      completedVariantKeys: ['g4-big-01:seed-1'],
+      reviewVariantKeys: ['g4-big-02:seed-1'],
+    }
+
+    const next = selectGrade4Unit(current, 'unit-4-1-multiplication-division', 200)
+
+    expect(next.selectedUnitId).toBe('unit-4-1-multiplication-division')
+    expect(next.activeItemIndex).toBe(0)
+    expect(next.completedVariantKeys).toEqual(['g4-big-01:seed-1'])
+    expect(next.reviewVariantKeys).toEqual(['g4-big-02:seed-1'])
   })
 })

@@ -2,7 +2,12 @@ import { describe, expect, it } from 'vitest'
 
 import { ATTEMPT_RECEIPT_STORAGE_KEY, LocalAttemptReceiptStore, type ReceiptStorage } from './attempt-receipt'
 import { appendGrade4AttemptReceipt, createGrade4AttemptReceipt } from './grade4-attempt-receipt'
-import { GRADE4_CONTENT_RELEASE_ID, getGrade4Activity, SAFE_GRADE4_UNIT_ID } from './grade4-problems'
+import {
+  GRADE4_CONTENT_RELEASE_ID,
+  GRADE4_DIVISION_UNIT_ID,
+  getGrade4Activity,
+  SAFE_GRADE4_UNIT_ID,
+} from './grade4-problems'
 
 class MemoryStorage implements ReceiptStorage {
   readonly values = new Map<string, string>()
@@ -38,5 +43,19 @@ describe('Grade 4 attempt receipt', () => {
     const ledger = JSON.parse(storage.getItem(ATTEMPT_RECEIPT_STORAGE_KEY) ?? 'null')
     expect(ledger.receipts.map((receipt: { attemptOrdinal: number; correct: boolean; usedHint: boolean }) => ({ ordinal: receipt.attemptOrdinal, correct: receipt.correct, usedHint: receipt.usedHint })))
       .toEqual([{ ordinal: 0, correct: false, usedHint: false }, { ordinal: 1, correct: true, usedHint: true }])
+  })
+
+  it('uses a unit-specific content release without changing the legacy unit identity', () => {
+    const divisionMission = getGrade4Activity(GRADE4_DIVISION_UNIT_ID, 20260721, 0)[0]
+    const receipt = createGrade4AttemptReceipt({
+      mission: divisionMission,
+      activityRun: 0,
+      attemptOrdinal: 0,
+      correct: true,
+      usedHint: false,
+    })
+
+    expect(receipt.contentReleaseId).toBe('grade4-bridge-two-digit-division-v1')
+    expect(GRADE4_CONTENT_RELEASE_ID).toBe('grade4-bridge-big-numbers-v1')
   })
 })

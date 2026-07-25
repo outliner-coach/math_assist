@@ -174,7 +174,12 @@ export function recordGrade4Attempt(progress: Grade4Progress, attempt: Grade4Att
 }
 
 export function selectGrade4Unit(progress: Grade4Progress, unitId: string, now = Date.now()): Grade4Progress {
-  return { ...progress, selectedUnitId: unitId, lastPlayedAt: now }
+  return {
+    ...progress,
+    selectedUnitId: unitId,
+    activeItemIndex: progress.selectedUnitId === unitId ? progress.activeItemIndex : 0,
+    lastPlayedAt: now,
+  }
 }
 
 export function setGrade4ActiveItem(progress: Grade4Progress, activeItemIndex: number, now = Date.now()): Grade4Progress {

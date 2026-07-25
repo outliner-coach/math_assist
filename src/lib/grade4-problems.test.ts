@@ -15,21 +15,36 @@ import {
 const ledger = JSON.parse(readFileSync(join(process.cwd(), 'public/data/curriculum-allocations-v1.json'), 'utf8'))
 
 describe('Grade 4 Bridge release bank', () => {
-  it('locks the release slice to one reviewed unit with ten K4/A4/R2 templates', () => {
+  it('keeps every reviewed unit at ten K4/A4/R2 templates', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(1)
-    expect(grade4MissionTemplates).toHaveLength(10)
+    expect(grade4Units).toHaveLength(2)
+    expect(grade4Units.map((unit) => unit.id)).toEqual([
+      'unit-4-1-large-numbers',
+      'unit-4-1-multiplication-division',
+    ])
+    expect(grade4MissionTemplates).toHaveLength(20)
     expect(result.summary).toMatchObject({
-      unitCount: 1,
-      templateCount: 10,
-      knowingCount: 4,
-      applyingCount: 4,
-      reasoningCount: 2,
-      reasoningFamilyCount: 2,
-      representationCount: 4,
+      unitCount: 2,
+      templateCount: 20,
+      knowingCount: 8,
+      applyingCount: 8,
+      reasoningCount: 4,
+      reasoningFamilyCount: 4,
+      representationCount: 5,
     })
+
+    for (const unit of grade4Units) {
+      expect(unit.releaseStatus).toBe('released')
+      const templates = grade4MissionTemplates.filter((item) => item.unitId === unit.id)
+      expect(templates).toHaveLength(10)
+      expect(templates.filter((item) => item.cognitiveDomain === 'knowing')).toHaveLength(4)
+      expect(templates.filter((item) => item.cognitiveDomain === 'applying')).toHaveLength(4)
+      expect(templates.filter((item) => item.cognitiveDomain === 'reasoning')).toHaveLength(2)
+      expect(new Set(templates.map((item) => item.problemFamily)).size).toBe(10)
+      expect(new Set(templates.map((item) => item.representation)).size).toBeGreaterThanOrEqual(2)
+    }
   })
 
   it('builds a deterministic three-item activity with K/A/R coverage', () => {
@@ -73,5 +88,78 @@ describe('Grade 4 Bridge release bank', () => {
       expect(choices.filter((choice) => choice === expected), `variant ${variant}`).toHaveLength(1)
       expect(choices.every((choice) => Number.isInteger(choice) && choice >= 0), `variant ${variant}`).toBe(true)
     }
+  })
+
+  it('keeps every two-digit division variant mathematically consistent', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === 'unit-4-1-multiplication-division')
+        .map((item) => [item.id, item]),
+    )
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-div-01', 'g4-div-02', 'g4-div-03', 'g4-div-04', 'g4-div-05',
+      'g4-div-06', 'g4-div-07', 'g4-div-08', 'g4-div-09', 'g4-div-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        } else {
+          expect(Number.isSafeInteger(Number(mission.correctAnswer)), `${template.id} variant ${variant}`).toBe(true)
+          expect(Number(mission.correctAnswer), `${template.id} variant ${variant}`).toBeGreaterThanOrEqual(0)
+        }
+      }
+
+      const exact = templates.get('g4-div-01')!.build(variant, variant)
+      expect(Number(exact.visualConfig.dividend) % Number(exact.visualConfig.divisor)).toBe(0)
+      expect(Number(exact.correctAnswer)).toBe(
+        Number(exact.visualConfig.dividend) / Number(exact.visualConfig.divisor),
+      )
+
+      for (const id of ['g4-div-02', 'g4-div-03', 'g4-div-07', 'g4-div-10']) {
+        const mission = templates.get(id)!.build(variant, variant)
+        const dividend = Number(mission.visualConfig.dividend)
+        const divisor = Number(mission.visualConfig.divisor)
+        expect(divisor).toBeGreaterThanOrEqual(10)
+        expect(dividend % divisor).toBeGreaterThan(0)
+        expect(dividend % divisor).toBeLessThan(divisor)
+      }
+
+      const capacity = templates.get('g4-div-06')!.build(variant, variant)
+      expect(Number(capacity.correctAnswer)).toBe(
+        Math.ceil(Number(capacity.visualConfig.left) / Number(capacity.visualConfig.right)),
+      )
+
+      const inverse = templates.get('g4-div-08')!.build(variant, variant)
+      expect(Number(inverse.correctAnswer)).toBe(
+        Number(inverse.visualConfig.divisor) * Number(inverse.visualConfig.givenQuotient)
+        + Number(inverse.visualConfig.givenRemainder),
+      )
+
+      const trial = templates.get('g4-div-10')!.build(variant, variant)
+      expect(Number(trial.correctAnswer)).toBe(
+        Number(trial.visualConfig.divisor) * Number(trial.visualConfig.trialQuotient)
+        - Number(trial.visualConfig.dividend),
+      )
+    }
+  })
+
+  it('rejects a Grade 4 unit whose ledger entry is still planned', () => {
+    const plannedLedger = {
+      ...ledger,
+      allocations: ledger.allocations.map((allocation: { standardCode: string }) => (
+        allocation.standardCode === '[4수01-07]'
+          ? { ...allocation, reviewStatus: 'curriculum-reviewed', coverageStatus: 'planned', existingContentRefs: [] }
+          : allocation
+      )),
+    }
+
+    expect(validateGrade4MissionBank(plannedLedger).errors).toContain(
+      'unit-4-1-multiplication-division: ledger release mismatch for [4수01-07]',
+    )
   })
 })

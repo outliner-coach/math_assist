@@ -128,7 +128,7 @@ export default function Grade4BridgeClient({ initialUnitId }: { initialUnitId: s
         {activityComplete ? (
           <section data-testid="grade4-activity-complete" className="rounded-[2rem] border-2 border-[#86efac] bg-white p-7 text-center">
             <p className="text-sm font-black text-[#16a34a]">Chapter complete</p>
-            <h2 className="mt-2 text-3xl font-black text-[#0f172a]">큰 수 다리를 건넜어요!</h2>
+            <h2 className="mt-2 text-3xl font-black text-[#0f172a]">{unit.title} 다리를 건넜어요!</h2>
             <p className="mt-3 font-bold text-[#64748b]">오늘 해결한 문제 {progress.todaySolvedCount}개 · 복습할 문제 {progress.reviewVariantKeys.length}개</p>
             <button type="button" onClick={nextActivity} data-testid="grade4-next-activity" className="mt-6 min-h-[56px] rounded-xl bg-[#4f46e5] px-7 font-black text-white shadow-[0_5px_0_#3730a3]">새 숫자로 한 번 더</button>
           </section>

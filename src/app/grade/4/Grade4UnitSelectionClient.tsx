@@ -48,8 +48,8 @@ export default function Grade4UnitSelectionClient() {
           <div className="mt-5 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-sm font-black uppercase tracking-[0.18em] text-[#6366f1]">Bridge · Released</p>
-              <h1 className="mt-2 text-4xl font-black text-[#0f172a] md:text-5xl">4학년 큰 수 다리</h1>
-              <p className="mt-3 max-w-2xl text-lg font-bold leading-relaxed text-[#64748b]">큰 수를 자리표와 수직선으로 확인하고, 알기·적용·추론 문제를 한 개씩 풀어요.</p>
+              <h1 className="mt-2 text-4xl font-black text-[#0f172a] md:text-5xl">4학년 수학 다리</h1>
+              <p className="mt-3 max-w-2xl text-lg font-bold leading-relaxed text-[#64748b]">검증된 단원에서 알기·적용·추론 문제를 한 개씩 풀며 다음 개념으로 건너가요.</p>
             </div>
             <button type="button" onClick={reset} data-testid="grade4-reset-progress" className="min-h-[50px] rounded-xl bg-[#e0e7ff] px-5 py-3 text-base font-black text-[#4338ca] shadow-[0_5px_0_#c7d2fe]">
               {confirmReset ? '한 번 더 누르면 초기화' : '진행 초기화'}
@@ -61,7 +61,7 @@ export default function Grade4UnitSelectionClient() {
 
         <section className="rounded-[2rem] border-2 border-[#c7d2fe] bg-white p-5 md:p-6">
           <div className="flex flex-wrap items-end justify-between gap-3">
-            <div><p className="text-sm font-black text-[#6366f1]">현재 공개 범위</p><h2 className="mt-1 text-2xl font-black text-[#0f172a]">검증된 단원 1개</h2></div>
+            <div><p className="text-sm font-black text-[#6366f1]">현재 공개 범위</p><h2 className="mt-1 text-2xl font-black text-[#0f172a]">검증된 단원 {grade4Units.length}개</h2></div>
             <p className="text-sm font-black text-[#64748b]">오늘 {progress.todaySolvedCount}개 해결 · 복습 {progress.reviewVariantKeys.length}개</p>
           </div>
           <div className="mt-5 grid gap-4">

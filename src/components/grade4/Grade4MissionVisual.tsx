@@ -107,9 +107,60 @@ function Context({ mission }: { mission: Grade4Mission }) {
   )
 }
 
+function DivisionModel({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
+  const divisor = number(mission.visualConfig.divisor)
+  const dividend = number(mission.visualConfig.dividend)
+  const hideDividend = Boolean(mission.visualConfig.hideDividendUntilReveal)
+  const givenQuotient = mission.visualConfig.givenQuotient === undefined
+    ? null
+    : number(mission.visualConfig.givenQuotient)
+  const givenRemainder = mission.visualConfig.givenRemainder === undefined
+    ? null
+    : number(mission.visualConfig.givenRemainder)
+  const trialQuotient = mission.visualConfig.trialQuotient === undefined
+    ? null
+    : number(mission.visualConfig.trialQuotient)
+  const quotient = divisor > 0 ? Math.floor(dividend / divisor) : 0
+  const remainder = divisor > 0 ? dividend % divisor : 0
+  const revealDividend = !hideDividend || showAnswer
+
+  return (
+    <div data-testid="grade4-visual-division-model" className="rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-5">
+      {givenQuotient !== null && givenRemainder !== null && (
+        <div className="mb-4 grid grid-cols-2 gap-3 text-center">
+          <span className="rounded-2xl bg-white p-3 font-black text-[#4338ca]">주어진 몫 {givenQuotient}</span>
+          <span className="rounded-2xl bg-white p-3 font-black text-[#4338ca]">주어진 나머지 {givenRemainder}</span>
+        </div>
+      )}
+      <div aria-label="두 자리 수 나눗셈 세로 모형" className="mx-auto grid max-w-sm grid-cols-[auto_1fr] items-end gap-x-3">
+        <span className="pb-3 text-2xl font-black text-[#4338ca]">{divisor}</span>
+        <div className="border-b-4 border-l-4 border-[#4f46e5] px-5 py-3 text-center text-3xl font-black text-[#0f172a]">
+          {revealDividend ? (
+            <span data-dividend={dividend}>{dividend.toLocaleString('ko-KR')}</span>
+          ) : (
+            <span aria-label="구할 나누어지는 수">□</span>
+          )}
+        </div>
+      </div>
+      {trialQuotient !== null && (
+        <p className="mt-4 rounded-2xl bg-white p-3 text-center font-black text-[#9a3412]">시험 몫 {trialQuotient}</p>
+      )}
+      {showAnswer ? (
+        <div className="mt-4 grid grid-cols-2 gap-3 text-center">
+          <span data-quotient={quotient} className="rounded-2xl bg-[#dcfce7] p-3 font-black text-[#166534]">몫 {quotient}</span>
+          <span data-remainder={remainder} className="rounded-2xl bg-[#dcfce7] p-3 font-black text-[#166534]">나머지 {remainder}</span>
+        </div>
+      ) : (
+        <p className="mt-4 text-center font-black text-[#64748b]">몫 □ · 나머지 □</p>
+      )}
+    </div>
+  )
+}
+
 export default function Grade4MissionVisual({ mission, showAnswer = false }: { mission: Grade4Mission; showAnswer?: boolean }) {
   if (mission.visualModel === 'place-value-table') return <PlaceValueTable mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'number-cards') return <NumberCards mission={mission} />
   if (mission.visualModel === 'number-line') return <NumberLine mission={mission} showAnswer={showAnswer} />
+  if (mission.visualModel === 'division-model') return <DivisionModel mission={mission} showAnswer={showAnswer} />
   return <Context mission={mission} />
 }

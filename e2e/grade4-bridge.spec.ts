@@ -29,6 +29,47 @@ test('홈에서 4학년을 골라 세 번의 탭 안에 3문제 Bridge 활동에
   expect(taps).toBeLessThanOrEqual(3)
 })
 
+test('두 자리 수 나눗셈 단원은 몫을 숨기고 K/A/R 활동을 끝낸다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(`${BASE_PATH}/grade/4`)
+  await expect(page.getByText('검증된 단원 2개')).toBeVisible()
+  await page.getByTestId('grade4-unit-card-unit-4-1-multiplication-division').click()
+
+  await expect(page).toHaveURL(/unitId=unit-4-1-multiplication-division/)
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-div-02')
+  const division = page.getByTestId('grade4-visual-division-model')
+  await expect(division).toBeVisible()
+  await expect(division.locator('[data-quotient]')).toHaveCount(0)
+  await expect(division.locator('[data-remainder]')).toHaveCount(0)
+
+  await page.getByTestId('grade4-integer-input').fill('17')
+  await page.getByTestId('grade4-integer-submit').click()
+  await expect(division.locator('[data-quotient="17"]')).toBeVisible()
+  await page.getByTestId('grade4-next-mission').click()
+
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-div-07')
+  await page.getByTestId('grade4-integer-input').fill('3')
+  await page.getByTestId('grade4-integer-submit').click()
+  await page.getByTestId('grade4-next-mission').click()
+
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-div-10')
+  await page.getByTestId('grade4-integer-input').fill('24')
+  await page.getByTestId('grade4-integer-submit').click()
+  await page.getByTestId('grade4-next-mission').click()
+
+  await expect(page.getByTestId('grade4-activity-complete')).toContainText('두 자리 수로 나누기 다리를 건넜어요!')
+  const stored = await page.evaluate(({ progressKey, receiptKey }) => ({
+    progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
+    ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
+    overflow: document.documentElement.scrollWidth > window.innerWidth,
+  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  expect(stored.progress.selectedUnitId).toBe('unit-4-1-multiplication-division')
+  expect(stored.ledger.receipts).toHaveLength(3)
+  expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
+    .toEqual(new Set(['grade4-bridge-two-digit-division-v1']))
+  expect(stored.overflow).toBe(false)
+})
+
 test('4학년 진행은 reload와 홈 hydration 뒤 같은 문제로 이어진다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/grade/4/mission?unitId=unit-4-1-large-numbers`)
   await page.getByTestId('grade4-integer-input').fill('283056')

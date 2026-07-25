@@ -38,6 +38,19 @@ function extractGrade3References(source) {
   return new Set(source.match(/\[4수(?:01|02|03|04)-\d{2}\]/g) ?? [])
 }
 
+function extractGrade4References(source) {
+  const references = new Set()
+  for (const match of source.matchAll(/\bcurriculumCode\s*:\s*'(\[4수(?:01|02|03|04)-\d{2}\])'/g)) {
+    references.add(match[1])
+  }
+  for (const match of source.matchAll(/\bcurriculumCodes\s*:\s*\[([\s\S]*?)\]\s*,/g)) {
+    for (const code of match[1].match(/\[4수(?:01|02|03|04)-\d{2}\]/g) ?? []) {
+      references.add(code)
+    }
+  }
+  return references
+}
+
 function extractTemplateReferences(templates, allowedConceptIds) {
   const references = new Set()
   for (const [conceptId, templateList] of Object.entries(templates ?? {})) {
@@ -195,7 +208,7 @@ function validateCurriculumLedger({ ledger, grade3Source = '', grade4Source = ''
 
   const byCode = new Map(allocations.map((allocation) => [normalizeStandardCode(allocation.standardCode), allocation]))
   const grade3References = extractGrade3References(grade3Source)
-  const grade4References = new Set(grade4Source.match(/\[4수(?:01|02|03|04)-\d{2}\]/g) ?? [])
+  const grade4References = extractGrade4References(grade4Source)
   const grade5References = extractTemplateReferences(templates, grade5ConceptIds)
   const grade6References = extractTemplateReferences(templates, grade6ConceptIds)
   let untrackedReferenceCount = 0

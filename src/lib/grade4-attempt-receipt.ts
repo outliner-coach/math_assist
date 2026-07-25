@@ -5,7 +5,7 @@ import {
   type AppendReceiptResult,
   type AttemptReceipt,
 } from './attempt-receipt'
-import { GRADE4_CONTENT_RELEASE_ID, type Grade4Mission } from './grade4-problems'
+import { grade4ContentReleaseIdForUnit, type Grade4Mission } from './grade4-problems'
 
 export interface Grade4AttemptReceiptInput {
   mission: Grade4Mission
@@ -27,7 +27,7 @@ export function createGrade4AttemptReceipt(input: Grade4AttemptReceiptInput): At
     itemId: input.mission.id,
     attemptOrdinal: input.attemptOrdinal,
     variantKey: input.mission.variantKey,
-    contentReleaseId: GRADE4_CONTENT_RELEASE_ID,
+    contentReleaseId: grade4ContentReleaseIdForUnit(input.mission.unitId),
     responseStatus: 'checked',
     correct: input.correct,
     usedHint: input.usedHint,

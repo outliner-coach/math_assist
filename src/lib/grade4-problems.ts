@@ -2,7 +2,7 @@ import type { Grade4AnswerType } from './grade4-answer-normalizers'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
-export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context'
+export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model'
 export type Grade4VisualModel = Grade4Representation
 export type Grade4SupportTool = 'none' | 'grid' | 'ruler' | 'protractor'
 
@@ -15,7 +15,8 @@ export interface Grade4Unit {
   learnerGoal: string
   curriculumCodes: string[]
   prerequisiteCodes: string[]
-  releaseStatus: 'release-candidate'
+  contentReleaseId: string
+  releaseStatus: 'released'
 }
 
 export interface Grade4MissionTemplate {
@@ -70,6 +71,9 @@ interface CurriculumAllocationLike {
   assignedGrade: number
   unitId: string
   semester: string
+  reviewStatus?: string
+  coverageStatus?: string
+  existingContentRefs?: string[]
 }
 
 interface CurriculumLedgerLike {
@@ -79,6 +83,7 @@ interface CurriculumLedgerLike {
 export const GRADE4_CONTENT_RELEASE_ID = 'grade4-bridge-big-numbers-v1'
 export const GRADE4_ACTIVITY_ITEM_COUNT = 3
 export const SAFE_GRADE4_UNIT_ID = 'unit-4-1-large-numbers'
+export const GRADE4_DIVISION_UNIT_ID = 'unit-4-1-multiplication-division'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -90,9 +95,27 @@ export const grade4Units: Grade4Unit[] = [
     learnerGoal: '큰 수의 자릿값을 설명하고 수의 크기를 근거와 함께 비교해요.',
     curriculumCodes: ['[4수01-01]', '[4수01-02]'],
     prerequisiteCodes: [],
-    releaseStatus: 'release-candidate',
+    contentReleaseId: GRADE4_CONTENT_RELEASE_ID,
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_DIVISION_UNIT_ID,
+    semester: '4-1',
+    order: 2,
+    title: '두 자리 수로 나누기',
+    subtitle: '몫과 나머지의 뜻을 연결하고 실제 상황에 맞게 나눗셈을 사용해요.',
+    learnerGoal: '두 자리 수로 나눈 몫과 나머지를 구하고 계산이 맞는지 설명해요.',
+    curriculumCodes: ['[4수01-07]'],
+    prerequisiteCodes: ['[4수01-06]'],
+    contentReleaseId: 'grade4-bridge-two-digit-division-v1',
+    releaseStatus: 'released',
   },
 ]
+
+export function grade4ContentReleaseIdForUnit(unitId: string): string {
+  return grade4Units.find((unit) => unit.id === unitId)?.contentReleaseId
+    ?? grade4Units[0].contentReleaseId
+}
 
 function rotateChoices(values: string[], seed: number): string[] {
   const offset = ((seed % values.length) + values.length) % values.length
@@ -273,6 +296,196 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
       }
     },
   }),
+  template({
+    id: 'g4-div-01', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'knowing',
+    problemFamily: 'exact-two-digit-division', representation: 'division-model', answerType: 'integer', supportTool: 'grid', skillTag: '나눗셈 계산',
+    learnerGoal: '나누어떨어지는 두 자리 수 나눗셈의 몫을 구해요.',
+    promptTemplate: '세 자리 수를 두 자리 수로 나눈 몫을 구하세요.', hintSteps: ['나누는 수의 배수를 차례로 생각해요.', '나누는 수와 몫을 곱해 나누어지는 수가 되는지 확인해요.'],
+    build: (v) => {
+      const divisor = 12 + v
+      const quotient = 20 + v
+      const dividend = divisor * quotient
+      return {
+        prompt: `${formatted(dividend)} ÷ ${divisor}의 몫을 구하세요.`,
+        correctAnswer: String(quotient),
+        solutionSteps: [`${divisor} × ${quotient} = ${formatted(dividend)}입니다.`, `따라서 ${formatted(dividend)} ÷ ${divisor} = ${quotient}입니다.`],
+        visualModel: 'division-model', visualConfig: { dividend, divisor },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-02', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'knowing',
+    problemFamily: 'quotient-with-remainder', representation: 'division-model', answerType: 'integer', supportTool: 'grid', skillTag: '몫',
+    learnerGoal: '나머지가 있는 나눗셈에서 몫을 구해요.',
+    promptTemplate: '세 자리 수를 두 자리 수로 나눈 몫을 구하세요.', hintSteps: ['나누어지는 수보다 크지 않은 배수를 찾아요.', '그 배수에 사용한 횟수가 몫이에요.'],
+    build: (v) => {
+      const divisor = 20 + v
+      const quotient = 10 + v
+      const remainder = v
+      const dividend = divisor * quotient + remainder
+      return {
+        prompt: `${formatted(dividend)} ÷ ${divisor}의 몫을 구하세요.`,
+        correctAnswer: String(quotient),
+        solutionSteps: [`${divisor} × ${quotient} = ${formatted(divisor * quotient)}입니다. 다음 배수는 ${divisor} × ${quotient + 1} = ${formatted(divisor * (quotient + 1))}입니다. 이 값은 ${formatted(dividend)}보다 큽니다.`, `따라서 몫은 ${quotient}이고 나머지는 ${remainder}입니다.`],
+        visualModel: 'division-model', visualConfig: { dividend, divisor },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-03', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'knowing',
+    problemFamily: 'remainder-from-division', representation: 'division-model', answerType: 'integer', supportTool: 'grid', skillTag: '나머지',
+    learnerGoal: '두 자리 수로 나눈 뒤 남는 수를 구해요.',
+    promptTemplate: '세 자리 수를 두 자리 수로 나눈 나머지를 구하세요.', hintSteps: ['나누는 수의 가장 가까운 작은 배수를 찾아요.', '나누어지는 수에서 그 배수를 빼요.'],
+    build: (v) => {
+      const divisor = 15 + v
+      const quotient = 8 + v
+      const remainder = v + 2
+      const dividend = divisor * quotient + remainder
+      return {
+        prompt: `${formatted(dividend)} ÷ ${divisor}의 나머지를 구하세요.`,
+        correctAnswer: String(remainder),
+        solutionSteps: [`${divisor} × ${quotient} = ${formatted(divisor * quotient)}입니다.`, `${formatted(dividend)} - ${formatted(divisor * quotient)} = ${remainder}이므로 나머지는 ${remainder}입니다.`],
+        visualModel: 'division-model', visualConfig: { dividend, divisor },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-04', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'knowing',
+    problemFamily: 'division-check-equation', representation: 'number-cards', answerType: 'choice', supportTool: 'none', skillTag: '나눗셈 검산',
+    learnerGoal: '나눗셈의 몫과 나머지를 곱셈식으로 확인해요.',
+    promptTemplate: '나눗셈을 확인하는 식으로 알맞은 것을 고르세요.', hintSteps: ['나누는 수와 몫을 먼저 곱해요.', '그 곱에 나머지를 더하면 나누어지는 수가 되어야 해요.'],
+    build: (v, seed) => {
+      const divisor = 13 + v
+      const quotient = 6 + v
+      const remainder = v
+      const dividend = divisor * quotient + remainder
+      const answer = `${dividend} = ${divisor} × ${quotient} + ${remainder}`
+      return {
+        prompt: `${dividend} ÷ ${divisor} = ${quotient} … ${remainder}. 이 나눗셈을 확인하는 식을 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices([
+          answer,
+          `${dividend} = ${divisor} × ${quotient}`,
+          `${dividend} = ${divisor} × ${quotient + 1} + ${remainder}`,
+          `${dividend} = ${divisor} × ${quotient} - ${remainder}`,
+        ], seed),
+        solutionSteps: ['나누는 수 × 몫 + 나머지를 계산해요.', `계산 결과는 ${divisor} × ${quotient} + ${remainder} = ${dividend}이므로 이 식이 알맞습니다.`],
+        visualModel: 'number-cards', visualConfig: { card1: dividend, card2: divisor, card3: quotient, card4: remainder },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-05', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'applying',
+    problemFamily: 'equal-pack-count', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '묶음 나누기',
+    learnerGoal: '전체 물건 수와 한 상자 수로 상자 수를 구해요.',
+    promptTemplate: '준비물을 같은 수씩 상자에 담을 때 필요한 상자 수를 구하세요.', hintSteps: ['전체 수를 한 상자에 담는 수로 나누어요.', '곱셈으로 전체 수가 맞는지 확인해요.'],
+    build: (v) => {
+      const divisor = 24 + v
+      const quotient = 5 + v
+      const dividend = divisor * quotient
+      return {
+        prompt: `색연필 ${formatted(dividend)}자루를 한 상자에 ${divisor}자루씩 담습니다. 상자는 몇 개 필요한가요?`,
+        correctAnswer: String(quotient),
+        solutionSteps: [`전체 수를 한 상자 수로 나누어요: ${formatted(dividend)} ÷ ${divisor}.`, `${divisor} × ${quotient} = ${formatted(dividend)}입니다. 두 값이 같으므로 상자는 ${quotient}개 필요합니다.`],
+        visualModel: 'context', visualConfig: { left: dividend, right: divisor, leftLabel: '전체 색연필', rightLabel: '한 상자' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-06', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'applying',
+    problemFamily: 'round-up-capacity', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '올림 나눗셈',
+    learnerGoal: '남는 사람이 있으면 탈것을 한 대 더 준비해요.',
+    promptTemplate: '한 대에 탈 수 있는 수가 정해진 상황에서 필요한 탈것 수를 구하세요.', hintSteps: ['전체 사람 수를 한 대의 정원으로 나누어요.', '나머지가 있으면 모두 타기 위해 한 대가 더 필요해요.'],
+    build: (v) => {
+      const divisor = 20 + v
+      const fullVehicles = 3 + v
+      const remainder = v + 1
+      const dividend = divisor * fullVehicles + remainder
+      return {
+        prompt: `학생 ${formatted(dividend)}명이 한 대에 ${divisor}명씩 탈 수 있는 버스를 탑니다. 모두 타려면 버스는 몇 대 필요한가요?`,
+        correctAnswer: String(fullVehicles + 1),
+        solutionSteps: [`${formatted(dividend)} ÷ ${divisor} = ${fullVehicles} … ${remainder}입니다.`, `${remainder}명도 타야 하므로 버스가 한 대 더 필요해 모두 ${fullVehicles + 1}대입니다.`],
+        visualModel: 'context', visualConfig: { left: dividend, right: divisor, leftLabel: '전체 학생', rightLabel: '한 대 정원' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-07', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'applying',
+    problemFamily: 'leftover-after-packing', representation: 'division-model', answerType: 'integer', supportTool: 'grid', skillTag: '나머지 활용',
+    learnerGoal: '같은 수씩 묶고 남는 물건 수를 구해요.',
+    promptTemplate: '물건을 같은 수씩 포장한 뒤 남는 수를 구하세요.', hintSteps: ['만들 수 있는 완전한 묶음 수를 찾아요.', '전체 수에서 묶음에 사용한 수를 빼요.'],
+    build: (v) => {
+      const divisor = 16 + v
+      const quotient = 7 + v
+      const remainder = v + 1
+      const dividend = divisor * quotient + remainder
+      return {
+        prompt: `구슬 ${formatted(dividend)}개를 한 봉지에 ${divisor}개씩 담으면 몇 개가 남나요?`,
+        correctAnswer: String(remainder),
+        solutionSteps: [`${divisor}개씩 ${quotient}봉지에 담으면 ${formatted(divisor * quotient)}개를 사용합니다.`, `${formatted(dividend)} - ${formatted(divisor * quotient)} = ${remainder}이므로 ${remainder}개가 남습니다.`],
+        visualModel: 'division-model', visualConfig: { dividend, divisor },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-08', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'applying',
+    problemFamily: 'reconstruct-dividend', representation: 'number-cards', answerType: 'integer', supportTool: 'grid', skillTag: '나눗셈 역산',
+    learnerGoal: '나누는 수, 몫, 나머지로 처음 수를 구해요.',
+    promptTemplate: '나누는 수와 몫과 나머지를 이용하여 나누어지는 수를 구하세요.', hintSteps: ['나누는 수와 몫을 곱해요.', '그 곱에 나머지를 더해요.'],
+    build: (v) => {
+      const divisor = 18 + v
+      const quotient = 8 + v
+      const remainder = v + 2
+      const dividend = divisor * quotient + remainder
+      return {
+        prompt: `나누는 수 ${divisor}, 몫 ${quotient}, 나머지 ${remainder}입니다. 나누어지는 수를 구하세요.`,
+        correctAnswer: String(dividend),
+        solutionSteps: [`나누는 수 × 몫 + 나머지를 계산해요.`, `${divisor} × ${quotient} + ${remainder} = ${formatted(dividend)}이므로 어떤 수는 ${formatted(dividend)}입니다.`],
+        visualModel: 'division-model',
+        visualConfig: { dividend, divisor, givenQuotient: quotient, givenRemainder: remainder, hideDividendUntilReveal: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-09', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'reasoning',
+    problemFamily: 'ignored-remainder-capacity-error', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '나머지 판단',
+    learnerGoal: '나머지를 버려도 되는지 상황에 맞게 판단해요.',
+    promptTemplate: '나머지를 무시한 계획이 맞는지 판단하세요.', hintSteps: ['몫만큼 준비했을 때 남는 사람이 있는지 확인해요.', '남은 사람도 모두 탈 수 있어야 해요.'],
+    build: (v, seed) => {
+      const divisor = 25 + v
+      const fullVehicles = 4 + v
+      const remainder = v + 1
+      const dividend = divisor * fullVehicles + remainder
+      const answer = '1대 더 필요해요.'
+      return {
+        prompt: `학생 ${formatted(dividend)}명이 정원 ${divisor}명인 버스를 탑니다. 준호는 ${fullVehicles}대면 충분하다고 했습니다. 준호의 계획을 고치려면 어떻게 해야 하나요?`,
+        correctAnswer: answer,
+        choices: rotateChoices([answer, '그대로 충분해요.', '2대 더 필요해요.', '나머지 학생은 탈 수 없어요.'], seed),
+        solutionSteps: [`${formatted(dividend)} ÷ ${divisor} = ${fullVehicles} … ${remainder}입니다.`, `${remainder}명이 남으므로 버스 1대를 더 준비해야 합니다.`],
+        visualModel: 'context', visualConfig: { left: dividend, right: divisor, leftLabel: '전체 학생', rightLabel: '한 대 정원' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-10', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'reasoning',
+    problemFamily: 'trial-quotient-error', representation: 'division-model', answerType: 'integer', supportTool: 'grid', skillTag: '몫 추론',
+    learnerGoal: '시험한 몫이 너무 클 때 곱과 나누어지는 수의 차이를 설명해요.',
+    promptTemplate: '몫을 하나 크게 잡았을 때 곱이 나누어지는 수보다 얼마나 큰지 구하세요.', hintSteps: ['나누는 수와 시험한 몫을 곱해요.', '그 곱에서 나누어지는 수를 빼요.'],
+    build: (v) => {
+      const divisor = 21 + v
+      const quotient = 6 + v
+      const remainder = Math.floor(v / 2) + 1
+      const dividend = divisor * quotient + remainder
+      const trialQuotient = quotient + 1
+      const difference = divisor * trialQuotient - dividend
+      return {
+        prompt: `${formatted(dividend)} ÷ ${divisor}의 시험 몫: ${trialQuotient}. 다음 두 값의 차를 구하세요: ${divisor} × ${trialQuotient}, ${formatted(dividend)}.`,
+        correctAnswer: String(difference),
+        solutionSteps: [`${divisor} × ${trialQuotient} = ${formatted(divisor * trialQuotient)}입니다.`, `${formatted(divisor * trialQuotient)} - ${formatted(dividend)} = ${difference}이므로 시험한 몫은 너무 큽니다.`],
+        visualModel: 'division-model', visualConfig: { dividend, divisor, trialQuotient },
+      }
+    },
+  }),
 ]
 
 function positiveModulo(value: number, modulus: number): number {
@@ -324,14 +537,28 @@ export function validateGrade4MissionBank(ledger?: CurriculumLedgerLike): Grade4
   const reasoningFamilies = new Set<string>()
   const representations = new Set<Grade4Representation>()
   const allowedCodes = new Set(grade4Units.flatMap((unit) => unit.curriculumCodes))
+  const unitIds = new Set(grade4Units.map((unit) => unit.id))
   const ledgerAllocations = new Map((ledger?.allocations ?? []).map((item) => [item.standardCode, item]))
 
-  if (grade4Units.length !== 1) errors.push(`Grade 4 release slice expects 1 unit, got ${grade4Units.length}`)
+  if (new Set(grade4Units.map((unit) => unit.id)).size !== grade4Units.length) {
+    errors.push('Grade 4 unit IDs must be unique')
+  }
+  if (new Set(grade4MissionTemplates.map((item) => item.id)).size !== grade4MissionTemplates.length) {
+    errors.push('Grade 4 mission IDs must be unique')
+  }
   for (const unit of grade4Units) {
+    if (!unit.contentReleaseId.trim()) errors.push(`${unit.id}: missing content release ID`)
     for (const code of unit.curriculumCodes) {
       const allocation = ledgerAllocations.get(code)
       if (ledger && (!allocation || allocation.assignedGrade !== 4 || allocation.unitId !== unit.id || allocation.semester !== unit.semester)) {
         errors.push(`${unit.id}: ledger allocation mismatch for ${code}`)
+      }
+      if (ledger && allocation && (
+        allocation.reviewStatus !== 'released'
+        || allocation.coverageStatus !== 'existing-reference'
+        || !allocation.existingContentRefs?.length
+      )) {
+        errors.push(`${unit.id}: ledger release mismatch for ${code}`)
       }
     }
   }
@@ -340,18 +567,34 @@ export function validateGrade4MissionBank(ledger?: CurriculumLedgerLike): Grade4
     domains[item.cognitiveDomain] += 1
     representations.add(item.representation)
     if (item.cognitiveDomain === 'reasoning') reasoningFamilies.add(item.problemFamily)
+    if (!unitIds.has(item.unitId)) errors.push(`${item.id}: unknown Grade 4 unit ${item.unitId}`)
     if (!allowedCodes.has(item.curriculumCode)) errors.push(`${item.id}: curriculum code is outside the release unit`)
     if (item.hintSteps.length < 2) errors.push(`${item.id}: needs at least two hints`)
     if (!item.learnerGoal.trim() || !item.promptTemplate.trim()) errors.push(`${item.id}: missing learner copy`)
     if (!['none', 'grid', 'ruler', 'protractor'].includes(item.supportTool)) errors.push(`${item.id}: invalid support tool`)
   }
 
-  if (grade4MissionTemplates.length !== 10) errors.push(`Grade 4 unit expects 10 templates, got ${grade4MissionTemplates.length}`)
-  if (domains.knowing !== 4 || domains.applying !== 4 || domains.reasoning !== 2) {
-    errors.push(`Grade 4 K/A/R must be 4/4/2, got ${domains.knowing}/${domains.applying}/${domains.reasoning}`)
+  for (const unit of grade4Units) {
+    const templates = grade4MissionTemplates.filter((item) => item.unitId === unit.id)
+    const unitDomains = {
+      knowing: templates.filter((item) => item.cognitiveDomain === 'knowing').length,
+      applying: templates.filter((item) => item.cognitiveDomain === 'applying').length,
+      reasoning: templates.filter((item) => item.cognitiveDomain === 'reasoning').length,
+    }
+    const unitReasoningFamilies = new Set(
+      templates.filter((item) => item.cognitiveDomain === 'reasoning').map((item) => item.problemFamily),
+    )
+    const unitRepresentations = new Set(templates.map((item) => item.representation))
+    const unitFamilies = new Set(templates.map((item) => item.problemFamily))
+
+    if (templates.length !== 10) errors.push(`${unit.id}: expects 10 templates, got ${templates.length}`)
+    if (unitDomains.knowing !== 4 || unitDomains.applying !== 4 || unitDomains.reasoning !== 2) {
+      errors.push(`${unit.id}: K/A/R must be 4/4/2, got ${unitDomains.knowing}/${unitDomains.applying}/${unitDomains.reasoning}`)
+    }
+    if (unitReasoningFamilies.size < 2) errors.push(`${unit.id}: reasoning needs at least two problem families`)
+    if (unitRepresentations.size < 2) errors.push(`${unit.id}: needs at least two representations`)
+    if (unitFamilies.size !== 10) errors.push(`${unit.id}: needs ten distinct problem families`)
   }
-  if (reasoningFamilies.size < 2) errors.push('Grade 4 reasoning needs at least two problem families')
-  if (representations.size < 2) errors.push('Grade 4 unit needs at least two representations')
 
   for (const seed of [1, 42, 20260721, 20260729]) {
     const bank = getGrade4MissionBank(seed)
@@ -366,16 +609,25 @@ export function validateGrade4MissionBank(ledger?: CurriculumLedgerLike): Grade4
         if (Object.hasOwn(mission.visualConfig, answerOnlyKey)) errors.push(`${mission.id}: visualConfig leaks ${answerOnlyKey}`)
       }
     }
-    const activity = getGrade4Activity(SAFE_GRADE4_UNIT_ID, seed, 0)
-    if (activity.length !== GRADE4_ACTIVITY_ITEM_COUNT || new Set(activity.map((mission) => mission.cognitiveDomain)).size !== 3) {
-      errors.push(`seed ${seed}: activity must contain one K/A/R item`)
+    for (const unit of grade4Units) {
+      const activity = getGrade4Activity(unit.id, seed, 0)
+      if (activity.length !== GRADE4_ACTIVITY_ITEM_COUNT || new Set(activity.map((mission) => mission.cognitiveDomain)).size !== 3) {
+        errors.push(`${unit.id} seed ${seed}: activity must contain one K/A/R item`)
+      }
     }
   }
 
   const first = getGrade4MissionBank(20260721)
   const later = getGrade4MissionBank(20260729)
-  const changed = first.filter((mission, index) => mission.prompt !== later[index].prompt || mission.correctAnswer !== later[index].correctAnswer)
-  if (changed.length < 7) warnings.push(`Grade 4 long-seed diversity is low: ${changed.length}/10 changed`)
+  for (const unit of grade4Units) {
+    const firstUnit = first.filter((mission) => mission.unitId === unit.id)
+    const laterUnit = later.filter((mission) => mission.unitId === unit.id)
+    const changed = firstUnit.filter((mission, index) => (
+      mission.prompt !== laterUnit[index]?.prompt
+      || mission.correctAnswer !== laterUnit[index]?.correctAnswer
+    ))
+    if (changed.length < 7) warnings.push(`${unit.id}: long-seed diversity is low: ${changed.length}/10 changed`)
+  }
 
   return {
     errors,

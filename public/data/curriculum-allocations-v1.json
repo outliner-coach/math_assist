@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2022-math-allocation-v1",
   "curriculumNotice": "교육부 고시 제2022-33호 별책 8",
-  "reviewedAt": "2026-07-21",
+  "reviewedAt": "2026-07-26",
   "releaseState": {
     "grade4": "released",
     "grade6": "released"
@@ -135,11 +135,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 17,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade4:unit-4-1-multiplication-division:grade4-bridge-two-digit-division-v1"
+      ],
       "allocationRationale": "한 자리 수 나눗셈 뒤 두 자리 수로 확장",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-26"
     },
     {
       "standardCode": "[4수01-08]",

@@ -21,6 +21,18 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 4 two-digit-divisor unit release
+  (primary workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the Grade 4 division visual and focused validator, component, curriculum,
+  and browser tests. The new `unit-4-1-multiplication-division` bank must
+  contain exactly ten deterministic templates with K4/A4/R2, two genuine
+  reasoning families, at least two representations, unique choices, and
+  mathematically valid quotient/remainder models for every allowed variant.
+  The ledger standard `[4수01-07]` moves from planned to released only in
+  the same change that makes the unit selectable and passes Grade 4,
+  curriculum, mission-audit, mobile, storage, and deployment gates.
+
 - 2026-07-26: Grade 5 cuboid and cuboid-net application reinforcement
   (primary workstreams 01, 03, and 04) owns the narrow change to
   `public/data/templates/cuboid.json`,
