@@ -24,6 +24,42 @@ function PlaceValueTable({ mission, showAnswer }: { mission: Grade4Mission; show
       </div>
     )
   }
+  const decimalPlaces = number(mission.visualConfig.decimalPlaces)
+  if (decimalPlaces === 2 || decimalPlaces === 3) {
+    const allPlaces = ['일', '십분의 일', '백분의 일', '천분의 일']
+    const allDigits = [
+      number(mission.visualConfig.ones),
+      number(mission.visualConfig.tenths),
+      number(mission.visualConfig.hundredths),
+      number(mission.visualConfig.thousandths),
+    ]
+    const places = allPlaces.slice(0, decimalPlaces + 1)
+    const digits = allDigits.slice(0, decimalPlaces + 1)
+    const highlightPlace = label(mission.visualConfig.highlightPlace)
+    const hideComposite = Boolean(mission.visualConfig.hideCompositeUntilReveal)
+    const composite = `${digits[0]}.${digits.slice(1).join('')}`
+    return (
+      <div data-testid="grade4-visual-place-value-table" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-4">
+        <div className="grid w-full overflow-hidden rounded-2xl border-2 border-[#a5b4fc] bg-white" style={{ gridTemplateColumns: `repeat(${places.length}, minmax(0, 1fr))` }}>
+          {places.map((place) => (
+            <div key={place} className={`border-r border-[#c7d2fe] p-3 text-center text-xs font-black last:border-r-0 ${highlightPlace === place ? 'bg-[#fef3c7] text-[#92400e]' : 'text-[#4338ca]'}`}>
+              {place}
+            </div>
+          ))}
+          {digits.map((digit, index) => (
+            <div key={`${places[index]}-${digit}`} className={`border-r border-t border-[#c7d2fe] p-4 text-center text-3xl font-black last:border-r-0 ${highlightPlace === places[index] ? 'bg-[#fff7e6] text-[#92400e]' : 'text-[#0f172a]'}`}>
+              {digit}
+            </div>
+          ))}
+        </div>
+        {hideComposite && showAnswer && (
+          <p data-testid="grade4-decimal-composite-result" data-composite={composite} className="mt-3 text-center text-lg font-black text-[#4338ca]">
+            완성된 소수: {composite}
+          </p>
+        )}
+      </div>
+    )
+  }
   const places = ['십만', '만', '천', '백', '십', '일']
   const configuredDigits = [
     mission.visualConfig.hundredThousands,

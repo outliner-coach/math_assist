@@ -4,6 +4,7 @@ import { ATTEMPT_RECEIPT_STORAGE_KEY, LocalAttemptReceiptStore, type ReceiptStor
 import { appendGrade4AttemptReceipt, createGrade4AttemptReceipt } from './grade4-attempt-receipt'
 import {
   GRADE4_CONTENT_RELEASE_ID,
+  GRADE4_DECIMAL_UNIT_ID,
   GRADE4_DIVISION_UNIT_ID,
   GRADE4_ESTIMATION_UNIT_ID,
   getGrade4Activity,
@@ -71,5 +72,18 @@ describe('Grade 4 attempt receipt', () => {
     })
 
     expect(receipt.contentReleaseId).toBe('grade4-bridge-arithmetic-estimation-v1')
+  })
+
+  it('uses the decimal-unit release identity', () => {
+    const decimalMission = getGrade4Activity(GRADE4_DECIMAL_UNIT_ID, 20260721, 0)[0]
+    const receipt = createGrade4AttemptReceipt({
+      mission: decimalMission,
+      activityRun: 0,
+      attemptOrdinal: 0,
+      correct: true,
+      usedHint: false,
+    })
+
+    expect(receipt.contentReleaseId).toBe('grade4-bridge-decimals-v1')
   })
 })

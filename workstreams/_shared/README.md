@@ -21,6 +21,20 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 4 two- and three-place decimal unit release
+  (primary workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the Grade 4 decimal answer normalizer and place-value visual, and focused
+  bank, curriculum, receipt, component, and browser tests. The new
+  `unit-4-2-decimals` bank covers `[4수01-13]` and `[4수01-14]` with exactly
+  ten deterministic templates, K4/A4/R2, ten distinct families, two genuine
+  reasoning families, and at least two representations. Decimal answers use
+  exact digit normalization rather than floating-point comparison; incomplete
+  `.`, `0.`, and `-` input creates no wrong attempt. Composite and missing
+  decimal digits must stay out of answer-only DOM before solve. Both standards
+  move from planned to released only with passing Grade 4, curriculum,
+  mission-audit, mobile, storage, and deployment gates.
+
 - 2026-07-26: Grade 4 arithmetic-estimation unit release
   (primary workstreams 01, 03, and 04) owns the narrow change to
   `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,

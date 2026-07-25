@@ -85,6 +85,7 @@ export const GRADE4_ACTIVITY_ITEM_COUNT = 3
 export const SAFE_GRADE4_UNIT_ID = 'unit-4-1-large-numbers'
 export const GRADE4_DIVISION_UNIT_ID = 'unit-4-1-multiplication-division'
 export const GRADE4_ESTIMATION_UNIT_ID = 'unit-4-1-arithmetic-estimation'
+export const GRADE4_DECIMAL_UNIT_ID = 'unit-4-2-decimals'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -123,6 +124,18 @@ export const grade4Units: Grade4Unit[] = [
     contentReleaseId: 'grade4-bridge-arithmetic-estimation-v1',
     releaseStatus: 'released',
   },
+  {
+    id: GRADE4_DECIMAL_UNIT_ID,
+    semester: '4-2',
+    order: 4,
+    title: '소수',
+    subtitle: '소수 두 자리와 세 자리의 자릿값을 읽고 크기를 근거 있게 비교해요.',
+    learnerGoal: '소수의 각 자리 숫자가 나타내는 값을 설명하고 여러 소수의 크기를 비교해요.',
+    curriculumCodes: ['[4수01-13]', '[4수01-14]'],
+    prerequisiteCodes: ['[4수01-12]'],
+    contentReleaseId: 'grade4-bridge-decimals-v1',
+    releaseStatus: 'released',
+  },
 ]
 
 export function grade4ContentReleaseIdForUnit(unitId: string): string {
@@ -141,6 +154,13 @@ function formatted(value: number): string {
 
 function nearest(value: number, place: number): number {
   return Math.round(value / place) * place
+}
+
+function scaledDecimal(value: number, places: number): string {
+  const scale = 10 ** places
+  const whole = Math.floor(value / scale)
+  const fraction = String(value % scale).padStart(places, '0')
+  return `${whole}.${fraction}`
 }
 
 function template(value: Grade4MissionTemplate): Grade4MissionTemplate {
@@ -700,6 +720,211 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
       }
     },
   }),
+  template({
+    id: 'g4-dec-01', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-13]', cognitiveDomain: 'knowing',
+    problemFamily: 'compose-two-place-decimal', representation: 'place-value-table', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 쓰기',
+    learnerGoal: '일, 십분의 일, 백분의 일의 수를 모아 소수로 써요.',
+    promptTemplate: '자리별 수를 모아 소수 두 자리 수로 쓰세요.', hintSteps: ['소수점 왼쪽에는 일의 자리 숫자를 써요.', '소수점 오른쪽에 십분의 일, 백분의 일 숫자를 차례로 써요.'],
+    build: (v) => {
+      const ones = 1 + (v % 5)
+      const tenths = 2 + (v % 7)
+      const hundredths = 1 + ((v * 2) % 9)
+      const correctAnswer = scaledDecimal(ones * 100 + tenths * 10 + hundredths, 2)
+      return {
+        prompt: `일이 ${ones}, 십분의 일이 ${tenths}, 백분의 일이 ${hundredths}인 수를 소수로 쓰세요.`,
+        correctAnswer,
+        solutionSteps: [`일의 자리에 ${ones}, 소수 첫째 자리에 ${tenths}, 소수 둘째 자리에 ${hundredths}를 놓아요.`, `따라서 소수는 ${correctAnswer}입니다.`],
+        visualModel: 'place-value-table',
+        visualConfig: { ones, tenths, hundredths, thousandths: 0, decimalPlaces: 2, hideCompositeUntilReveal: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-02', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-13]', cognitiveDomain: 'knowing',
+    problemFamily: 'decimal-place-value', representation: 'place-value-table', answerType: 'decimal', supportTool: 'none', skillTag: '소수 자릿값',
+    learnerGoal: '소수 둘째 자리 숫자가 나타내는 값을 소수로 써요.',
+    promptTemplate: '소수에서 백분의 일 자리 숫자가 나타내는 값을 쓰세요.', hintSteps: ['소수점 오른쪽 둘째 자리가 백분의 일 자리예요.', '그 숫자는 100분의 몇인지 소수로 나타내요.'],
+    build: (v) => {
+      const ones = 2 + (v % 5)
+      const tenths = 1 + (v % 8)
+      const hundredths = 2 + ((v * 3) % 8)
+      const numberText = scaledDecimal(ones * 100 + tenths * 10 + hundredths, 2)
+      const correctAnswer = scaledDecimal(hundredths, 2)
+      return {
+        prompt: `${numberText}에서 백분의 일 자리 숫자가 나타내는 값을 소수로 쓰세요.`,
+        correctAnswer,
+        solutionSteps: [`${numberText}의 백분의 일 자리 숫자는 ${hundredths}입니다.`, `${hundredths}개의 백분의 일은 ${correctAnswer}입니다.`],
+        visualModel: 'place-value-table',
+        visualConfig: { ones, tenths, hundredths, thousandths: 0, decimalPlaces: 2, highlightPlace: '백분의 일' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-03', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-13]', cognitiveDomain: 'knowing',
+    problemFamily: 'compose-three-place-decimal', representation: 'place-value-table', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 세 자리',
+    learnerGoal: '천분의 일 자리까지 있는 수를 소수로 써요.',
+    promptTemplate: '자리별 수를 모아 소수 세 자리 수로 쓰세요.', hintSteps: ['소수점 오른쪽 자리는 십분의 일, 백분의 일, 천분의 일 순서예요.', '빈 자리가 있어도 0을 써서 자리를 지켜요.'],
+    build: (v) => {
+      const ones = 1 + (v % 4)
+      const tenths = 1 + (v % 8)
+      const hundredths = (v + 3) % 10
+      const thousandths = 1 + ((v * 4) % 9)
+      const correctAnswer = scaledDecimal(ones * 1_000 + tenths * 100 + hundredths * 10 + thousandths, 3)
+      return {
+        prompt: `일이 ${ones}, 십분의 일이 ${tenths}, 백분의 일이 ${hundredths}, 천분의 일이 ${thousandths}인 수를 소수로 쓰세요.`,
+        correctAnswer,
+        solutionSteps: [`소수점 오른쪽에 ${tenths}, ${hundredths}, ${thousandths}를 차례로 놓아요.`, `따라서 소수는 ${correctAnswer}입니다.`],
+        visualModel: 'place-value-table',
+        visualConfig: { ones, tenths, hundredths, thousandths, decimalPlaces: 3, hideCompositeUntilReveal: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-04', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-14]', cognitiveDomain: 'knowing',
+    problemFamily: 'compare-two-decimals', representation: 'number-line', answerType: 'choice', supportTool: 'none', skillTag: '소수 비교',
+    learnerGoal: '소수의 높은 자리부터 비교해 알맞은 부등호를 골라요.',
+    promptTemplate: '두 소수의 크기를 비교하는 부등호를 고르세요.', hintSteps: ['먼저 일의 자리를 비교해요.', '같으면 소수 첫째, 둘째, 셋째 자리 순서로 비교해요.'],
+    build: (v, seed) => {
+      const leftScaled = 2_300 + v * 17
+      const rightScaled = leftScaled + (v % 2 === 0 ? -1 : 1)
+      const leftText = scaledDecimal(leftScaled, 3)
+      const rightText = scaledDecimal(rightScaled, 3)
+      const answer = leftScaled < rightScaled ? '<' : '>'
+      return {
+        prompt: `${leftText} □ ${rightText}의 □ 안에 알맞은 기호를 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices(['<', '>', '=', '비교할 수 없음'], seed),
+        solutionSteps: ['일의 자리와 소수 첫째·둘째 자리까지 같으므로 소수 셋째 자리를 비교해요.', `${leftText} ${answer} ${rightText}입니다.`],
+        visualModel: 'number-line',
+        visualConfig: { left: Number(leftText), right: Number(rightText), start: Number(leftScaled < rightScaled ? leftText : rightText), end: Number(leftScaled < rightScaled ? rightText : leftText) },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-05', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-13]', cognitiveDomain: 'applying',
+    problemFamily: 'measurement-place-value', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '측정값 자릿값',
+    learnerGoal: '측정값의 소수 둘째 자리 숫자가 나타내는 양을 찾아요.',
+    promptTemplate: '소수로 나타낸 길이에서 백분의 일 자리의 값을 고르세요.', hintSteps: ['소수점 오른쪽 둘째 자리 숫자를 찾아요.', '그 숫자를 100분의 몇 m인지 소수로 나타내요.'],
+    build: (v, seed) => {
+      const ones = 1 + (v % 3)
+      const tenths = 2 + (v % 6)
+      const digit = 2 + ((v * 3) % 8)
+      const measurement = scaledDecimal(ones * 100 + tenths * 10 + digit, 2)
+      const answer = `${scaledDecimal(digit, 2)} m`
+      return {
+        prompt: `리본의 길이는 ${measurement} m입니다. 백분의 일 자리 숫자 ${digit}이 나타내는 길이를 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices([answer, `${scaledDecimal(digit, 1)} m`, `${scaledDecimal(digit, 3)} m`, `${digit} m`], seed),
+        solutionSteps: [`${measurement}의 소수 둘째 자리 숫자는 ${digit}입니다.`, `${digit}개의 백분의 일 m는 ${answer}입니다.`],
+        visualModel: 'context', visualConfig: { left: Number(measurement), right: digit, leftLabel: '리본 길이(m)', rightLabel: '백분의 일 자리' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-06', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-14]', cognitiveDomain: 'applying',
+    problemFamily: 'order-three-decimals', representation: 'number-cards', answerType: 'choice', supportTool: 'none', skillTag: '소수 순서',
+    learnerGoal: '세 소수를 작은 수부터 차례로 놓아요.',
+    promptTemplate: '세 소수를 작은 수부터 차례로 놓은 보기를 고르세요.', hintSteps: ['세 수의 일의 자리부터 비교해요.', '같은 자리에는 0을 붙여 자릿수를 맞추어 비교할 수 있어요.'],
+    build: (v, seed) => {
+      const base = (1 + (v % 3)) * 1_000 + v * 10
+      const values = [base + 7, base + 70, base + 700].map((value) => scaledDecimal(value, 3))
+      const answer = `${values[0]} < ${values[1]} < ${values[2]}`
+      return {
+        prompt: `${values.join(', ')}를 작은 수부터 차례로 놓은 것을 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices([
+          answer,
+          `${values[2]} < ${values[1]} < ${values[0]}`,
+          `${values[0]} < ${values[2]} < ${values[1]}`,
+          `${values[1]} < ${values[0]} < ${values[2]}`,
+        ], seed),
+        solutionSteps: ['세 수를 소수 셋째 자리까지 맞추어 비교해요.', `${values[0]}이 가장 작고 ${values[2]}가 가장 크므로 ${answer}입니다.`],
+        visualModel: 'number-cards', visualConfig: { card1: Number(values[0]), card2: Number(values[1]), card3: Number(values[2]) },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-07', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-14]', cognitiveDomain: 'applying',
+    problemFamily: 'greatest-decimal-from-digits', representation: 'number-cards', answerType: 'decimal', supportTool: 'grid', skillTag: '가장 큰 소수',
+    learnerGoal: '서로 다른 세 숫자를 소수 자리에 배치해 가장 큰 수를 만들어요.',
+    promptTemplate: '세 숫자를 한 번씩 사용하여 1보다 작은 가장 큰 소수를 만드세요.', hintSteps: ['가장 큰 숫자를 소수 첫째 자리에 놓아요.', '남은 숫자도 큰 순서대로 소수 둘째, 셋째 자리에 놓아요.'],
+    build: (v) => {
+      const digits = [1 + (v % 3), 4 + (v % 3), 7 + (v % 3)]
+      const descending = [...digits].sort((a, b) => b - a)
+      const correctAnswer = `0.${descending.join('')}`
+      return {
+        prompt: `숫자 ${digits.join(', ')}을 한 번씩 모두 사용하여 1보다 작은 가장 큰 소수를 만드세요.`,
+        correctAnswer,
+        solutionSteps: [`큰 자리부터 ${descending.join(', ')} 순서로 놓아요.`, `따라서 가장 큰 소수는 ${correctAnswer}입니다.`],
+        visualModel: 'number-cards', visualConfig: { card1: digits[0], card2: digits[1], card3: digits[2] },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-08', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-14]', cognitiveDomain: 'applying',
+    problemFamily: 'locate-decimal-between-tenths', representation: 'number-line', answerType: 'choice', supportTool: 'none', skillTag: '소수 위치',
+    learnerGoal: '소수 세 자리 수가 어느 두 연속한 소수 한 자리 수 사이인지 찾아요.',
+    promptTemplate: '주어진 소수가 어느 두 소수 한 자리 수 사이인지 고르세요.', hintSteps: ['주어진 수의 일의 자리와 소수 첫째 자리를 먼저 읽어요.', '그 값과 다음 소수 한 자리 수 사이에 있는지 확인해요.'],
+    build: (v, seed) => {
+      const whole = 1 + (v % 3)
+      const tenth = 1 + (v % 7)
+      const lowerScaled = whole * 10 + tenth
+      const lower = scaledDecimal(lowerScaled, 1)
+      const upper = scaledDecimal(lowerScaled + 1, 1)
+      const target = scaledDecimal(lowerScaled * 100 + 10 + v, 3)
+      const previous = scaledDecimal(lowerScaled - 1, 1)
+      const next = scaledDecimal(lowerScaled + 2, 1)
+      const answer = `${lower}와 ${upper} 사이`
+      return {
+        prompt: `${target}은 어느 두 소수 한 자리 수 사이에 있나요?`,
+        correctAnswer: answer,
+        choices: rotateChoices([answer, `${previous}와 ${lower} 사이`, `${upper}와 ${next} 사이`, `${lower}와 같음`], seed),
+        solutionSteps: [`${target}의 일의 자리와 소수 첫째 자리까지 읽으면 ${lower}입니다.`, `${lower} < ${target} < ${upper}이므로 ${answer}입니다.`],
+        visualModel: 'number-line',
+        visualConfig: { start: Number(lower), end: Number(upper), targetValue: Number(target) },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-09', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-14]', cognitiveDomain: 'reasoning',
+    problemFamily: 'whole-digit-count-comparison-error', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '소수 비교 오류',
+    learnerGoal: '소수점 아래 숫자 개수만 보고 비교한 오류를 자릿값으로 고쳐요.',
+    promptTemplate: '소수점 아래 숫자 개수로 비교한 친구의 말을 고치세요.', hintSteps: ['소수 끝에 0을 붙여도 수의 크기는 같아요.', '두 수의 소수 자릿수를 맞춘 뒤 높은 자리부터 비교해요.'],
+    build: (v, seed) => {
+      const right = scaledDecimal(750 + v, 3)
+      const answer = `0.8 = 0.800이고 0.800 > ${right}이므로 왼쪽 수가 더 커요.`
+      return {
+        prompt: `지우는 “${right}은 소수점 아래 숫자가 세 개이고 0.8은 한 개이므로 ${right}이 더 커.”라고 말했습니다. 알맞은 판단을 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices([
+          answer,
+          `소수점 아래 숫자가 많으므로 ${right}이 더 커요.`,
+          `0.8과 ${right}은 소수점 아래 숫자 개수가 달라 비교할 수 없어요.`,
+          `두 수의 일의 자리가 0이므로 서로 같아요.`,
+        ], seed),
+        solutionSteps: [`0.8의 끝에 0을 붙이면 0.800이고 크기는 바뀌지 않습니다.`, `0.800과 ${right}을 높은 자리부터 비교하면 소수 첫째 자리에서 8>7이므로 왼쪽 수가 더 큽니다.`],
+        visualModel: 'context', visualConfig: { left: 0.8, right: Number(right), leftLabel: '왼쪽 수', rightLabel: '오른쪽 수', speaker: '지우' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-10', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-14]', cognitiveDomain: 'reasoning',
+    problemFamily: 'missing-tenths-digit-constraint', representation: 'place-value-table', answerType: 'integer', supportTool: 'grid', skillTag: '소수 조건 추론',
+    learnerGoal: '두 소수의 크기 조건을 만족하는 가장 큰 소수 첫째 자리 숫자를 찾아요.',
+    promptTemplate: '소수의 크기 조건을 만족하는 빈칸의 가장 큰 숫자를 구하세요.', hintSteps: ['일의 자리가 같으므로 소수 첫째 자리를 먼저 비교해요.', '소수 첫째 자리가 같으면 소수 둘째 자리까지 비교해야 해요.'],
+    build: (v) => {
+      const thresholdDigit = 4 + (v % 3)
+      const right = Number(`2.${thresholdDigit}5`)
+      const correctAnswer = String(thresholdDigit - 1)
+      return {
+        prompt: `2.□7 < 2.${thresholdDigit}5를 만족하도록 □ 안에 넣을 수 있는 가장 큰 한 자리 수를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`소수 첫째 자리 숫자가 ${thresholdDigit}이면 2.${thresholdDigit}7 > 2.${thresholdDigit}5이므로 조건을 만족하지 않습니다.`, `${thresholdDigit}보다 작은 가장 큰 숫자는 ${correctAnswer}이므로 답은 ${correctAnswer}입니다.`],
+        visualModel: 'place-value-table',
+        visualConfig: { leftPattern: '2.□7', right, thresholdDigit },
+      }
+    },
+  }),
 ]
 
 function positiveModulo(value: number, modulus: number): number {
@@ -708,6 +933,7 @@ function positiveModulo(value: number, modulus: number): number {
 
 function isDeclaredAnswerValid(mission: Grade4Mission): boolean {
   if (mission.answerType === 'choice') return Boolean(mission.correctAnswer.trim())
+  if (mission.answerType === 'decimal') return /^[+-]?\d+(?:\.\d+)?$/.test(mission.correctAnswer)
   return /^[+-]?\d+$/.test(mission.correctAnswer)
 }
 

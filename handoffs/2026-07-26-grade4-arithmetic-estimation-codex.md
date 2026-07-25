@@ -47,4 +47,4 @@ attempt receipt는 새 단원 콘텐츠 버전을 기록하고 원답과 풀이�
   게이트와 curriculum ledger 출시 참조를 함께 유지한다.
 
 다음 4학년 단원은 원장 순서상 `[4수01-13]`
-`unit-4-1-fractions-decimals`다.
+`unit-4-2-decimals`이며 `[4수01-14]`와 같은 단원이다.

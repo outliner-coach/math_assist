@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   GRADE4_ACTIVITY_ITEM_COUNT,
+  GRADE4_DECIMAL_UNIT_ID,
   GRADE4_ESTIMATION_UNIT_ID,
   getGrade4Activity,
   getGrade4MissionBank,
@@ -20,20 +21,21 @@ describe('Grade 4 Bridge release bank', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(3)
+    expect(grade4Units).toHaveLength(4)
     expect(grade4Units.map((unit) => unit.id)).toEqual([
       'unit-4-1-large-numbers',
       'unit-4-1-multiplication-division',
       'unit-4-1-arithmetic-estimation',
+      'unit-4-2-decimals',
     ])
-    expect(grade4MissionTemplates).toHaveLength(30)
+    expect(grade4MissionTemplates).toHaveLength(40)
     expect(result.summary).toMatchObject({
-      unitCount: 3,
-      templateCount: 30,
-      knowingCount: 12,
-      applyingCount: 12,
-      reasoningCount: 6,
-      reasoningFamilyCount: 6,
+      unitCount: 4,
+      templateCount: 40,
+      knowingCount: 16,
+      applyingCount: 16,
+      reasoningCount: 8,
+      reasoningFamilyCount: 8,
       representationCount: 5,
     })
 
@@ -234,6 +236,62 @@ describe('Grade 4 Bridge release bank', () => {
       }
       expect(Number(budget.visualConfig.left) % 1_000, `g4-est-06 left variant ${variant}`).not.toBe(500)
       expect(Number(budget.visualConfig.right) % 1_000, `g4-est-06 right variant ${variant}`).not.toBe(500)
+    }
+  })
+
+  it('keeps every two- and three-place decimal variant exact and unambiguous', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === GRADE4_DECIMAL_UNIT_ID)
+        .map((item) => [item.id, item]),
+    )
+    const fromParts = (config: Record<string, string | number | boolean>) => (
+      Number(config.ones)
+      + Number(config.tenths) / 10
+      + Number(config.hundredths) / 100
+      + Number(config.thousandths) / 1_000
+    )
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-dec-01', 'g4-dec-02', 'g4-dec-03', 'g4-dec-04', 'g4-dec-05',
+      'g4-dec-06', 'g4-dec-07', 'g4-dec-08', 'g4-dec-09', 'g4-dec-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        } else if (template.answerType === 'decimal') {
+          expect(mission.correctAnswer, `${template.id} variant ${variant}`).toMatch(/^\d+\.\d+$/)
+        } else {
+          expect(Number.isSafeInteger(Number(mission.correctAnswer)), `${template.id} variant ${variant}`).toBe(true)
+        }
+      }
+
+      for (const id of ['g4-dec-01', 'g4-dec-03']) {
+        const mission = templates.get(id)!.build(variant, variant)
+        expect(Number(mission.correctAnswer)).toBeCloseTo(fromParts(mission.visualConfig), 10)
+      }
+
+      const placeValue = templates.get('g4-dec-02')!.build(variant, variant)
+      expect(Number(placeValue.correctAnswer)).toBe(Number(placeValue.visualConfig.hundredths) / 100)
+
+      const comparison = templates.get('g4-dec-04')!.build(variant, variant)
+      const expectedSymbol = Number(comparison.visualConfig.left) < Number(comparison.visualConfig.right) ? '<' : '>'
+      expect(comparison.correctAnswer).toBe(expectedSymbol)
+
+      const greatest = templates.get('g4-dec-07')!.build(variant, variant)
+      const digits = [
+        Number(greatest.visualConfig.card1),
+        Number(greatest.visualConfig.card2),
+        Number(greatest.visualConfig.card3),
+      ].sort((a, b) => b - a)
+      expect(greatest.correctAnswer).toBe(`0.${digits.join('')}`)
+
+      const missingDigit = templates.get('g4-dec-10')!.build(variant, variant)
+      expect(Number(missingDigit.correctAnswer)).toBe(Number(missingDigit.visualConfig.thresholdDigit) - 1)
     }
   })
 

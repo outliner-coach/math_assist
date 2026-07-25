@@ -61,6 +61,18 @@ describe('Grade4MissionVisual', () => {
     expect(inverseHidden).not.toContain(`data-dividend="${inverse.correctAnswer}"`)
     expect(inverseShown).toContain(`data-dividend="${inverse.correctAnswer}"`)
   })
+
+  it('keeps a composed decimal out of the DOM until reveal', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-dec-03')!
+    const hidden = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+    const shown = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission, showAnswer: true }))
+
+    expect(hidden).toContain('십분의 일')
+    expect(hidden).toContain('천분의 일')
+    expect(hidden).not.toContain(mission.correctAnswer)
+    expect(hidden).not.toContain('grade4-decimal-composite-result')
+    expect(shown).toContain(`data-composite="${mission.correctAnswer}"`)
+  })
 })
 
 describe('Grade4MissionCard', () => {
@@ -73,5 +85,18 @@ describe('Grade4MissionCard', () => {
     expect(html).toContain('grade4-input-error')
     expect(html).not.toContain('grade4-wrong-feedback')
     expect(html).not.toContain('grade4-solution')
+  })
+
+  it('uses a decimal keypad hint for decimal missions', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-dec-01')!
+    const html = renderToStaticMarkup(createElement(Grade4MissionCard, {
+      mission, selectedAnswer: null, textAnswer: '0.', inputError: '답을 빠짐없는 소수로 써요.', wrongAttemptCount: 0,
+      showHint: false, solved: false, onChoiceAnswer: noop, onTextAnswerChange: noop, onSubmitText: noop, onShowHint: noop,
+    }))
+
+    expect(html).toContain('답을 소수로 써요')
+    expect(html).toContain('inputMode="decimal"')
+    expect(html).toContain('답을 빠짐없는 소수로 써요.')
+    expect(html).not.toContain('grade4-wrong-feedback')
   })
 })
