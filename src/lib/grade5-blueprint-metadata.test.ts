@@ -7,6 +7,7 @@ import {
   REVIEWED_FAMILY_BLUEPRINTS,
   getReviewedBlueprint
 } from '../../scripts/migrate-grade5-blueprints.js'
+import { templates as generatedAverageTemplates } from '../../scripts/generate-grade5-average-templates.js'
 import { templates as generatedDecimalMultiplicationTemplates } from '../../scripts/generate-grade5-decimalmul-templates.js'
 import { templates as generatedEstimateTemplates } from '../../scripts/generate-grade5-estimate-templates.js'
 import { banks as generatedGeometryBanks } from '../../scripts/generate-grade5-geometry-templates.js'
@@ -14,6 +15,7 @@ import { templates as generatedMixedCalculationTemplates } from '../../scripts/g
 import { templates as generatedRoundingTemplates } from '../../scripts/generate-grade5-rounding-templates.js'
 import {
   buildProblemBlueprintCoverage,
+  evaluateTemplate,
   inspectProblemBlueprintMeta
 } from '../../scripts/problem-quality-core.js'
 import type { ProblemTemplate } from './types'
@@ -45,7 +47,7 @@ describe('Grade 5 reviewed blueprint metadata', () => {
 
     expect(templates).toHaveLength(660)
     expect(BLOCKED_CONTENT_TEMPLATE_IDS.size).toBe(0)
-    expect(families.size).toBe(168)
+    expect(families.size).toBe(174)
     expect(new Set(Object.keys(REVIEWED_FAMILY_BLUEPRINTS))).toEqual(families)
   })
 
@@ -56,6 +58,52 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     expect(generated.every(template => (
       JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
     ))).toBe(true)
+  })
+
+  it('keeps the reviewed average bank reproducible from its generator', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'average.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+
+    expect(generatedAverageTemplates).toEqual(committed)
+    expect(generatedAverageTemplates.every(template => (
+      JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
+    ))).toBe(true)
+
+    for (const template of generatedAverageTemplates) {
+      const parameterEntries = Object.entries(template.param_schema)
+      let samples: Record<string, number>[] = [{}]
+
+      for (const [name, range] of parameterEntries) {
+        samples = samples.flatMap(sample => Array.from(
+          { length: range.max - range.min + 1 },
+          (_, offset) => ({ ...sample, [name]: range.min + offset })
+        ))
+      }
+
+      for (const params of samples) {
+        const answer = evaluateTemplate(`{{${template.solver_rule}}}`, params)
+        const renderedTexts = [
+          evaluateTemplate(template.prompt_template, params),
+          ...template.solution_steps_template.map(step => evaluateTemplate(step, params)),
+          ...(template.hint_steps_template ?? []).map(step => evaluateTemplate(step, params))
+        ]
+
+        expect(answer).toMatch(/^\d+$/)
+        expect(renderedTexts.every(text => !text.includes('?]'))).toBe(true)
+
+        if (template.type === 'choice') {
+          const choices = template.choices_template!.map(choice => (
+            evaluateTemplate(choice, params)
+          ))
+          expect(new Set(choices).size).toBe(4)
+          expect(choices.filter(choice => choice === answer)).toHaveLength(1)
+        }
+      }
+    }
   })
 
   it('keeps the reviewed rounding bank reproducible from its generator', () => {
@@ -154,10 +202,10 @@ describe('Grade 5 reviewed blueprint metadata', () => {
         subtraction.param_schema.n2.max / subtraction.param_schema.d2.min,
       )
 
-      const average = byId[`tmpl-average-${setId}-08`]
-      expect(average.problem_family).toBe('average-context-mean')
+      const average = byId[`tmpl-average-${setId}-06`]
+      expect(average.problem_family).toBe('average-context-four')
       expect(average.prompt_template).toContain('평균')
-      expect(average.solver_rule).toBe('avg4(a, b, c, d)')
+      expect(average.solver_rule).toBe('a')
     }
   })
 
@@ -232,9 +280,10 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       contextType: 'puzzle'
     })
     expect(byId['tmpl-average-A-09']).toMatchObject({
-      cognitiveDomain: 'applying',
-      reasoningPattern: 'inverse',
-      primaryStandard: '6수04-01'
+      cognitiveDomain: 'reasoning',
+      reasoningPattern: 'error_analysis',
+      primaryStandard: '6수04-01',
+      contextType: 'real_world'
     })
   })
 
@@ -251,6 +300,41 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     expect(polygonArea?.targetGaps).toEqual(
       expect.arrayContaining(['reasoning_family_minimum', 'cognitive_domain_mix'])
     )
+  })
+
+  it('gives every average set a reviewed K4/A4/R2 application mix', () => {
+    const templates = readMigratedTemplates()
+      .filter(template => template.concept_id === 'average-001')
+    const coverage = buildProblemBlueprintCoverage(templates)
+    const average = coverage.byConcept[0]
+
+    expect(templates).toHaveLength(30)
+    expect(average.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(average.problemFamilyCount).toBe(10)
+    expect(average.reasoningFamilyCount).toBe(2)
+    expect(average.targetGaps).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = templates.filter(template => template.set_id === setId)
+      const cognitiveCounts = setTemplates.reduce(
+        (counts, template) => {
+          counts[template.blueprint!.cognitiveDomain] += 1
+          return counts
+        },
+        { knowing: 0, applying: 0, reasoning: 0 }
+      )
+
+      expect(cognitiveCounts).toEqual({
+        knowing: 4,
+        applying: 4,
+        reasoning: 2
+      })
+      expect(new Set(setTemplates.map(template => template.prompt_template)).size).toBe(10)
+    }
   })
 
   it('gives every rounding set a reviewed K4/A4/R2 application mix', () => {

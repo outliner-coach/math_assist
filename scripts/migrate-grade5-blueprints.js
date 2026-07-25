@@ -141,9 +141,11 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
     'decimalmul-missed-decimal-error', 'decimalmul-factor-scale-gap'
   ],
   'average-001': [
-    'average-direct', 'average-direct', 'average-direct', 'average-direct',
-    'average-direct', 'average-direct', 'average-offset', 'average-context-mean',
-    'average-inverse-total', 'average-inverse-total'
+    'average-balanced-three', 'average-balanced-four',
+    'average-from-total-three', 'average-from-total-four',
+    'average-context-three', 'average-context-four',
+    'average-missing-value', 'average-target-next-value',
+    'average-wrong-divisor-error', 'average-record-correction-error'
   ]
 })
 
@@ -263,11 +265,18 @@ const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'decimalmul-missed-decimal-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-13', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
   'decimalmul-factor-scale-gap': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'compare_methods', primaryStandard: '6수01-13', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
 
-  // Average
-  'average-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수04-01', estimatedSteps: 2, readingLoad: 'low' }),
-  'average-offset': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수04-01', estimatedSteps: 3, readingLoad: 'medium' }),
-  'average-context-mean': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수04-01', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
-  'average-inverse-total': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수04-01', estimatedSteps: 2, readingLoad: 'medium' })
+  // Average: exact balanced values, transferred contexts, inverse targets, and
+  // two genuine error-analysis families.
+  'average-balanced-three': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수04-01', estimatedSteps: 2, readingLoad: 'low' }),
+  'average-balanced-four': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수04-01', estimatedSteps: 2, readingLoad: 'low' }),
+  'average-from-total-three': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수04-01', estimatedSteps: 2, readingLoad: 'low' }),
+  'average-from-total-four': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수04-01', estimatedSteps: 2, readingLoad: 'low' }),
+  'average-context-three': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수04-01', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'average-context-four': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수04-01', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'average-missing-value': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수04-01', estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world' }),
+  'average-target-next-value': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수04-01', estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world' }),
+  'average-wrong-divisor-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수04-01', estimatedSteps: 4, readingLoad: 'high', contextType: 'real_world' }),
+  'average-record-correction-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수04-01', estimatedSteps: 4, readingLoad: 'high', contextType: 'real_world' })
 })
 
 // Each entry was reviewed against its prompt, solver, solution and visual. The

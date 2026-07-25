@@ -2,1129 +2,1357 @@
   {
     "id": "tmpl-average-A-01",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-balanced-three",
+    "blueprint": {
+      "problemFamily": "average-balanced-three",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 2,
-        "max": 8
+        "min": 12,
+        "max": 20
       },
       "b": {
         "min": 2,
-        "max": 8
-      },
-      "c": {
-        "min": 2,
-        "max": 8
+        "max": 5
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
-    "solver_rule": "avg3(a, b, c)",
+    "prompt_template": "세 수 {{a - b}}, {{a}}, {{a + b}}의 평균은 얼마인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{a}} + {{b}} + {{c}} = {{sum3(a, b, c)}}",
-      "평균: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}"
+      "세 수의 합은 {{a * 3}}입니다.",
+      "{{a * 3}} ÷ 3 = {{a}}이므로 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 세 수를 더해요.",
-      "3으로 나눠요."
+      "평균은 자료의 합을 자료 수로 나눈 값이에요.",
+      "기준값에서 같은 만큼 작고 큰 수는 서로 균형을 이뤄요."
+    ],
+    "choices_template": [
+      "{{a}}",
+      "{{(a) + 1}}",
+      "{{(a) + 2}}",
+      "{{(a) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-A-02",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-balanced-four",
+    "blueprint": {
+      "problemFamily": "average-balanced-four",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 2,
-        "max": 8
+        "min": 12,
+        "max": 20
       },
       "b": {
         "min": 2,
-        "max": 8
+        "max": 5
       },
       "c": {
-        "min": 2,
-        "max": 8
+        "min": 1,
+        "max": 3
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
-    "solver_rule": "avg3(a, b, c)",
+    "prompt_template": "네 수 {{a - b}}, {{a - c}}, {{a + c}}, {{a + b}}의 평균은 얼마인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{sum3(a, b, c)}}",
-      "평균: {{avg3(a, b, c)}}"
+      "{{a - b}}와 {{a + b}}, {{a - c}}와 {{a + c}}의 합은 각각 {{a * 2}}입니다.",
+      "네 수의 합 {{a * 4}}를 4로 나누면 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "세 수를 더한 후 3으로 나눠요.",
-      "평균을 찾으세요."
-    ],
-    "choices_template": [
-      "{{avg3(a, b, c)}}",
-      "{{avg3(a, b, c) + 1}}",
-      "{{avg3(a, b, c) + 2}}",
-      "{{avg3(a, b, c) + 3}}"
+      "평균은 자료의 합을 자료 수로 나눈 값이에요.",
+      "기준값에서 같은 만큼 작고 큰 수는 서로 균형을 이뤄요."
     ]
   },
   {
     "id": "tmpl-average-A-03",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-from-total-three",
+    "blueprint": {
+      "problemFamily": "average-from-total-three",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 2,
-        "max": 8
-      },
-      "b": {
-        "min": 2,
-        "max": 8
-      },
-      "c": {
-        "min": 2,
-        "max": 8
-      },
-      "d": {
-        "min": 2,
-        "max": 8
+        "min": 12,
+        "max": 20
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균은?",
-    "solver_rule": "avg4(a, b, c, d)",
+    "prompt_template": "세 수의 합이 {{a * 3}}일 때 평균은 얼마인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{sum4(a, b, c, d)}}",
-      "평균: {{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}"
+      "평균은 자료의 합을 자료 수로 나눈 값입니다.",
+      "{{a * 3}} ÷ 3 = {{a}}입니다."
     ],
     "hint_steps_template": [
-      "네 수의 합을 구해요.",
-      "4로 나눠요."
+      "평균은 자료의 합을 자료 수로 나눈 값이에요.",
+      "기준값에서 같은 만큼 작고 큰 수는 서로 균형을 이뤄요."
+    ],
+    "choices_template": [
+      "{{a}}",
+      "{{(a) + 1}}",
+      "{{(a) + 2}}",
+      "{{(a) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-A-04",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-from-total-four",
+    "blueprint": {
+      "problemFamily": "average-from-total-four",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 2,
-        "max": 8
-      },
-      "b": {
-        "min": 2,
-        "max": 8
-      },
-      "c": {
-        "min": 2,
-        "max": 8
-      },
-      "d": {
-        "min": 2,
-        "max": 8
+        "min": 12,
+        "max": 20
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균은?",
-    "solver_rule": "avg4(a, b, c, d)",
+    "prompt_template": "네 수의 합이 {{a * 4}}일 때 평균은 얼마인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{sum4(a, b, c, d)}}",
-      "평균: {{avg4(a, b, c, d)}}"
+      "자료는 모두 4개입니다.",
+      "{{a * 4}} ÷ 4 = {{a}}이므로 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "네 수를 더한 뒤 4로 나눠요.",
-      "평균을 고르세요."
-    ],
-    "choices_template": [
-      "{{avg4(a, b, c, d)}}",
-      "{{avg4(a, b, c, d) + 1}}",
-      "{{avg4(a, b, c, d) + 2}}",
-      "{{avg4(a, b, c, d) + 3}}"
+      "평균은 자료의 합을 자료 수로 나눈 값이에요.",
+      "기준값에서 같은 만큼 작고 큰 수는 서로 균형을 이뤄요."
     ]
   },
   {
     "id": "tmpl-average-A-05",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-context-three",
+    "blueprint": {
+      "problemFamily": "average-context-three",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
-        "min": 5,
-        "max": 11
+        "min": 12,
+        "max": 20
       },
       "b": {
-        "min": 5,
-        "max": 11
-      },
-      "c": {
-        "min": 5,
-        "max": 11
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}의 합이 {{sum3(a, b, c)}}일 때 평균은?",
-    "solver_rule": "avg3(a, b, c)",
+    "prompt_template": "유나가 사흘 동안 읽은 쪽수는 {{a - b}}쪽, {{a}}쪽, {{a + b}}쪽입니다. 하루 평균은 몇 쪽인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합은 {{sum3(a, b, c)}}입니다.",
-      "평균: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}"
+      "세 기록의 합은 {{a - b}} + {{a}} + {{a + b}} = {{a * 3}}입니다.",
+      "{{a * 3}} ÷ 3 = {{a}}이므로 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "합을 3으로 나누면 돼요.",
-      "평균을 계산해요."
+      "상황에서 모든 기록과 기록의 개수를 먼저 찾아요.",
+      "기록의 합을 정확한 기록 수로 나누어요."
+    ],
+    "choices_template": [
+      "{{a}}",
+      "{{(a) + 1}}",
+      "{{(a) + 2}}",
+      "{{(a) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-A-06",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-context-four",
+    "blueprint": {
+      "problemFamily": "average-context-four",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
-        "min": 5,
-        "max": 11
+        "min": 12,
+        "max": 20
       },
       "b": {
-        "min": 5,
-        "max": 11
+        "min": 2,
+        "max": 5
       },
       "c": {
-        "min": 5,
-        "max": 11
+        "min": 1,
+        "max": 3
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
-    "solver_rule": "avg3(a, b, c)",
+    "prompt_template": "서준이가 네 번 줄넘기한 횟수는 {{a - b}}회, {{a - c}}회, {{a + c}}회, {{a + b}}회입니다. 한 번 평균은 몇 회인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{sum3(a, b, c)}}",
-      "평균: {{avg3(a, b, c)}}"
+      "네 기록의 합은 {{a * 4}}입니다.",
+      "{{a * 4}} ÷ 4 = {{a}}이므로 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "세 수를 더해요.",
-      "3으로 나눠요."
-    ],
-    "choices_template": [
-      "{{avg3(a, b, c)}}",
-      "{{avg3(a, b, c) + 1}}",
-      "{{avg3(a, b, c) + 2}}",
-      "{{avg3(a, b, c) + 3}}"
+      "상황에서 모든 기록과 기록의 개수를 먼저 찾아요.",
+      "기록의 합을 정확한 기록 수로 나누어요."
     ]
   },
   {
     "id": "tmpl-average-A-07",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "average-offset",
-    "blueprint": {"problemFamily":"average-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "average-missing-value",
+    "blueprint": {
+      "problemFamily": "average-missing-value",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 5,
-        "max": 11
+        "min": 12,
+        "max": 20
       },
       "b": {
-        "min": 5,
-        "max": 11
+        "min": 2,
+        "max": 5
       },
       "c": {
-        "min": 5,
-        "max": 11
-      },
-      "d": {
-        "min": 5,
-        "max": 11
+        "min": 1,
+        "max": 3
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균에서 1을 더하면?",
-    "solver_rule": "avg4(a, b, c, d) + 1",
+    "prompt_template": "네 모둠이 모은 병뚜껑 수의 평균은 {{a}}개입니다. 세 모둠이 각각 {{a - b}}개, {{a}}개, {{a + c}}개를 모았다면 마지막 모둠은 몇 개를 모았나요?",
+    "solver_rule": "a + b - c",
     "solution_steps_template": [
-      "평균: {{avg4(a, b, c, d)}}",
-      "1을 더하면 {{avg4(a, b, c, d) + 1}}"
+      "네 자료의 전체 합은 평균 × 자료 수인 {{a}} × 4 = {{a * 4}}입니다.",
+      "알고 있는 세 값의 합 {{a * 3 - b + c}}을 빼면 {{a + b - c}}입니다."
     ],
     "hint_steps_template": [
-      "평균을 먼저 구해요.",
-      "그 값에 1을 더해요."
+      "평균과 자료 수를 곱해 필요한 전체 합을 구해요.",
+      "필요한 전체 합에서 이미 알고 있는 값의 합을 빼요."
+    ],
+    "choices_template": [
+      "{{a + b - c}}",
+      "{{(a + b - c) + 1}}",
+      "{{(a + b - c) + 2}}",
+      "{{(a + b - c) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-A-08",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "average-context-mean",
-    "blueprint": {"problemFamily":"average-context-mean","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "average-target-next-value",
+    "blueprint": {
+      "problemFamily": "average-target-next-value",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 5,
-        "max": 11
+        "min": 12,
+        "max": 20
       },
       "b": {
-        "min": 5,
-        "max": 11
+        "min": 2,
+        "max": 5
       },
       "c": {
-        "min": 5,
-        "max": 11
-      },
-      "d": {
-        "min": 5,
-        "max": 11
+        "min": 1,
+        "max": 3
       }
     },
-    "prompt_template": "네 날 동안 읽은 쪽수가 {{a}}, {{b}}, {{c}}, {{d}}쪽입니다. 하루 평균은 몇 쪽인가요?",
-    "solver_rule": "avg4(a, b, c, d)",
+    "prompt_template": "민서가 세 번 읽은 쪽수는 {{a - b}}쪽, {{a}}쪽, {{a + b}}쪽입니다. 네 번의 평균을 {{a + c}}쪽으로 만들려면 네 번째에는 몇 쪽을 읽어야 하나요?",
+    "solver_rule": "a + c * 4",
     "solution_steps_template": [
-      "네 수의 합은 {{sum4(a, b, c, d)}}입니다.",
-      "{{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}입니다."
+      "목표 전체 합은 {{a + c}} × 4 = {{(a + c) * 4}}입니다.",
+      "앞의 세 값의 합 {{a * 3}}을 빼면 마지막 값은 {{a + c * 4}}입니다."
     ],
     "hint_steps_template": [
-      "네 수를 모두 더해요.",
-      "합을 4로 나눠요."
-    ],
-    "choices_template": [
-      "{{avg4(a, b, c, d)}}",
-      "{{avg4(a, b, c, d) + 1}}",
-      "{{avg4(a, b, c, d) + 2}}",
-      "{{avg4(a, b, c, d) + 3}}"
+      "평균과 자료 수를 곱해 필요한 전체 합을 구해요.",
+      "필요한 전체 합에서 이미 알고 있는 값의 합을 빼요."
     ]
   },
   {
     "id": "tmpl-average-A-09",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "average-inverse-total",
-    "blueprint": {"problemFamily":"average-inverse-total","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "average-wrong-divisor-error",
+    "blueprint": {
+      "problemFamily": "average-wrong-divisor-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "a": {
-        "min": 7,
-        "max": 14
+      "k": {
+        "min": 4,
+        "max": 7
       },
       "b": {
-        "min": 7,
-        "max": 14
+        "min": 2,
+        "max": 5
       },
       "c": {
-        "min": 7,
-        "max": 14
+        "min": 1,
+        "max": 3
       }
     },
-    "prompt_template": "세 수의 평균이 {{avg3(a, b, c)}}일 때 합은?",
-    "solver_rule": "sum3(a, b, c)",
+    "prompt_template": "네 날의 기록은 {{k * 3 - b}}, {{k * 3 - c}}, {{k * 3 + c}}, {{k * 3 + b}}입니다. 도윤이는 합을 기록 수 4가 아니라 3으로 나누었습니다. 도윤이의 값은 올바른 평균보다 얼마 큰가요?",
+    "solver_rule": "k * 12 / 3 - k * 3",
     "solution_steps_template": [
-      "평균 × 개수 = 합",
-      "{{avg3(a, b, c)}} × 3 = {{sum3(a, b, c)}}"
+      "네 값의 합은 {{k * 12}}이고 올바른 평균은 {{k * 12}} ÷ 4 = {{k * 3}}입니다.",
+      "잘못 구한 값은 {{k * 12}} ÷ 3 = {{k * 4}}이므로 {{k}}만큼 큽니다."
     ],
     "hint_steps_template": [
-      "평균 × 개수 = 합",
-      "3을 곱해요."
+      "자료 수를 잘못 적용한 계산과 올바른 계산을 비교해요.",
+      "전체 합의 변화가 평균에는 자료 수로 나뉘어 반영됨을 확인해요."
+    ],
+    "choices_template": [
+      "{{k * 12 / 3 - k * 3}}",
+      "{{(k * 12 / 3 - k * 3) + 1}}",
+      "{{(k * 12 / 3 - k * 3) + 2}}",
+      "{{(k * 12 / 3 - k * 3) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-A-10",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "average-inverse-total",
-    "blueprint": {"problemFamily":"average-inverse-total","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "average-record-correction-error",
+    "blueprint": {
+      "problemFamily": "average-record-correction-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 7,
-        "max": 14
-      },
-      "b": {
-        "min": 7,
-        "max": 14
+        "min": 12,
+        "max": 20
       },
       "c": {
-        "min": 7,
-        "max": 14
+        "min": 1,
+        "max": 3
       }
     },
-    "prompt_template": "세 수의 평균이 {{avg3(a, b, c)}}일 때 합은?",
-    "solver_rule": "sum3(a, b, c)",
+    "prompt_template": "네 경기의 평균 득점은 {{a}}점이었습니다. 첫 경기 기록이 실제보다 {{c * 4}}점 작게 적힌 것을 고쳤습니다. 하린이는 평균도 {{c * 4}}점 오른다고 말했습니다. 하린이가 말한 증가량은 실제 증가량보다 몇 점 큰가요?",
+    "solver_rule": "c * 4 - c * 4 / 4",
     "solution_steps_template": [
-      "평균 × 개수 = 합",
-      "{{avg3(a, b, c)}} × 3 = {{sum3(a, b, c)}}"
+      "전체 합이 {{c * 4}}만큼 늘면 네 자료의 평균은 {{c * 4}} ÷ 4 = {{c}}만큼 오릅니다.",
+      "말한 증가량 {{c * 4}}는 실제 증가량 {{c}}보다 {{c * 3}}만큼 큽니다."
     ],
     "hint_steps_template": [
-      "평균에 3을 곱하면 합이에요.",
-      "정답을 선택해요."
-    ],
-    "choices_template": [
-      "{{sum3(a, b, c)}}",
-      "{{sum3(a, b, c) + 3}}",
-      "{{sum3(a, b, c) + 6}}",
-      "{{sum3(a, b, c) + 9}}"
+      "자료 수를 잘못 적용한 계산과 올바른 계산을 비교해요.",
+      "전체 합의 변화가 평균에는 자료 수로 나뉘어 반영됨을 확인해요."
     ]
   },
   {
     "id": "tmpl-average-B-01",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-balanced-three",
+    "blueprint": {
+      "problemFamily": "average-balanced-three",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 4,
-        "max": 10
+        "min": 20,
+        "max": 30
       },
       "b": {
-        "min": 4,
-        "max": 10
-      },
-      "c": {
-        "min": 4,
-        "max": 10
+        "min": 3,
+        "max": 7
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
-    "solver_rule": "avg3(a, b, c)",
+    "prompt_template": "기준 수 {{a}}에서 {{b}}만큼 작은 수와 큰 수를 함께 놓았습니다. {{a - b}}, {{a}}, {{a + b}}의 평균을 구하세요.",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{a}} + {{b}} + {{c}} = {{sum3(a, b, c)}}",
-      "평균: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}"
+      "세 수의 합은 {{a * 3}}입니다.",
+      "{{a * 3}} ÷ 3 = {{a}}이므로 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 세 수를 더해요.",
-      "3으로 나눠요."
+      "평균은 자료의 합을 자료 수로 나눈 값이에요.",
+      "기준값에서 같은 만큼 작고 큰 수는 서로 균형을 이뤄요."
+    ],
+    "choices_template": [
+      "{{a}}",
+      "{{(a) + 1}}",
+      "{{(a) + 2}}",
+      "{{(a) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-B-02",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-balanced-four",
+    "blueprint": {
+      "problemFamily": "average-balanced-four",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 4,
-        "max": 10
+        "min": 20,
+        "max": 30
       },
       "b": {
-        "min": 4,
-        "max": 10
+        "min": 3,
+        "max": 7
       },
       "c": {
-        "min": 4,
-        "max": 10
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
-    "solver_rule": "avg3(a, b, c)",
+    "prompt_template": "{{a}}를 중심으로 같은 만큼 떨어진 네 수 {{a - b}}, {{a - c}}, {{a + c}}, {{a + b}}의 평균을 구하세요.",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{sum3(a, b, c)}}",
-      "평균: {{avg3(a, b, c)}}"
+      "{{a - b}}와 {{a + b}}, {{a - c}}와 {{a + c}}의 합은 각각 {{a * 2}}입니다.",
+      "네 수의 합 {{a * 4}}를 4로 나누면 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "세 수를 더한 후 3으로 나눠요.",
-      "평균을 찾으세요."
-    ],
-    "choices_template": [
-      "{{avg3(a, b, c)}}",
-      "{{avg3(a, b, c) + 1}}",
-      "{{avg3(a, b, c) + 2}}",
-      "{{avg3(a, b, c) + 3}}"
+      "평균은 자료의 합을 자료 수로 나눈 값이에요.",
+      "기준값에서 같은 만큼 작고 큰 수는 서로 균형을 이뤄요."
     ]
   },
   {
     "id": "tmpl-average-B-03",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-from-total-three",
+    "blueprint": {
+      "problemFamily": "average-from-total-three",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 4,
-        "max": 10
-      },
-      "b": {
-        "min": 4,
-        "max": 10
-      },
-      "c": {
-        "min": 4,
-        "max": 10
-      },
-      "d": {
-        "min": 4,
-        "max": 10
+        "min": 20,
+        "max": 30
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균은?",
-    "solver_rule": "avg4(a, b, c, d)",
+    "prompt_template": "자료 3개의 합계가 {{a * 3}}입니다. 자료 한 개당 평균은 얼마인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{sum4(a, b, c, d)}}",
-      "평균: {{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}"
+      "평균은 자료의 합을 자료 수로 나눈 값입니다.",
+      "{{a * 3}} ÷ 3 = {{a}}입니다."
     ],
     "hint_steps_template": [
-      "네 수의 합을 구해요.",
-      "4로 나눠요."
+      "평균은 자료의 합을 자료 수로 나눈 값이에요.",
+      "기준값에서 같은 만큼 작고 큰 수는 서로 균형을 이뤄요."
+    ],
+    "choices_template": [
+      "{{a}}",
+      "{{(a) + 1}}",
+      "{{(a) + 2}}",
+      "{{(a) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-B-04",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-from-total-four",
+    "blueprint": {
+      "problemFamily": "average-from-total-four",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 4,
-        "max": 10
-      },
-      "b": {
-        "min": 4,
-        "max": 10
-      },
-      "c": {
-        "min": 4,
-        "max": 10
-      },
-      "d": {
-        "min": 4,
-        "max": 10
+        "min": 20,
+        "max": 30
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균은?",
-    "solver_rule": "avg4(a, b, c, d)",
+    "prompt_template": "자료 4개의 합계가 {{a * 4}}입니다. 자료 한 개당 평균은 얼마인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{sum4(a, b, c, d)}}",
-      "평균: {{avg4(a, b, c, d)}}"
+      "자료는 모두 4개입니다.",
+      "{{a * 4}} ÷ 4 = {{a}}이므로 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "네 수를 더한 뒤 4로 나눠요.",
-      "평균을 고르세요."
-    ],
-    "choices_template": [
-      "{{avg4(a, b, c, d)}}",
-      "{{avg4(a, b, c, d) + 1}}",
-      "{{avg4(a, b, c, d) + 2}}",
-      "{{avg4(a, b, c, d) + 3}}"
+      "평균은 자료의 합을 자료 수로 나눈 값이에요.",
+      "기준값에서 같은 만큼 작고 큰 수는 서로 균형을 이뤄요."
     ]
   },
   {
     "id": "tmpl-average-B-05",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-context-three",
+    "blueprint": {
+      "problemFamily": "average-context-three",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
-        "min": 7,
-        "max": 13
+        "min": 20,
+        "max": 30
       },
       "b": {
-        "min": 7,
-        "max": 13
-      },
-      "c": {
-        "min": 7,
-        "max": 13
+        "min": 3,
+        "max": 7
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}의 합이 {{sum3(a, b, c)}}일 때 평균은?",
-    "solver_rule": "avg3(a, b, c)",
+    "prompt_template": "세 학급이 모은 우유갑은 {{a - b}}개, {{a}}개, {{a + b}}개입니다. 학급당 평균은 몇 개인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합은 {{sum3(a, b, c)}}입니다.",
-      "평균: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}"
+      "세 기록의 합은 {{a - b}} + {{a}} + {{a + b}} = {{a * 3}}입니다.",
+      "{{a * 3}} ÷ 3 = {{a}}이므로 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "합을 3으로 나누면 돼요.",
-      "평균을 계산해요."
+      "상황에서 모든 기록과 기록의 개수를 먼저 찾아요.",
+      "기록의 합을 정확한 기록 수로 나누어요."
+    ],
+    "choices_template": [
+      "{{a}}",
+      "{{(a) + 1}}",
+      "{{(a) + 2}}",
+      "{{(a) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-B-06",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-context-four",
+    "blueprint": {
+      "problemFamily": "average-context-four",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
-        "min": 7,
-        "max": 13
+        "min": 20,
+        "max": 30
       },
       "b": {
-        "min": 7,
-        "max": 13
+        "min": 3,
+        "max": 7
       },
       "c": {
-        "min": 7,
-        "max": 13
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
-    "solver_rule": "avg3(a, b, c)",
+    "prompt_template": "네 구간을 걸은 시간은 {{a - b}}분, {{a - c}}분, {{a + c}}분, {{a + b}}분입니다. 한 구간 평균은 몇 분인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{sum3(a, b, c)}}",
-      "평균: {{avg3(a, b, c)}}"
+      "네 기록의 합은 {{a * 4}}입니다.",
+      "{{a * 4}} ÷ 4 = {{a}}이므로 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "세 수를 더해요.",
-      "3으로 나눠요."
-    ],
-    "choices_template": [
-      "{{avg3(a, b, c)}}",
-      "{{avg3(a, b, c) + 1}}",
-      "{{avg3(a, b, c) + 2}}",
-      "{{avg3(a, b, c) + 3}}"
+      "상황에서 모든 기록과 기록의 개수를 먼저 찾아요.",
+      "기록의 합을 정확한 기록 수로 나누어요."
     ]
   },
   {
     "id": "tmpl-average-B-07",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "average-offset",
-    "blueprint": {"problemFamily":"average-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "average-missing-value",
+    "blueprint": {
+      "problemFamily": "average-missing-value",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 7,
-        "max": 13
+        "min": 20,
+        "max": 30
       },
       "b": {
-        "min": 7,
-        "max": 13
+        "min": 3,
+        "max": 7
       },
       "c": {
-        "min": 7,
-        "max": 13
-      },
-      "d": {
-        "min": 7,
-        "max": 13
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균에서 1을 더하면?",
-    "solver_rule": "avg4(a, b, c, d) + 1",
+    "prompt_template": "네 상자의 귤 수는 평균 {{a}}개입니다. 세 상자에 {{a - b}}개, {{a}}개, {{a + c}}개가 들어 있다면 나머지 한 상자에는 몇 개가 들어 있나요?",
+    "solver_rule": "a + b - c",
     "solution_steps_template": [
-      "평균: {{avg4(a, b, c, d)}}",
-      "1을 더하면 {{avg4(a, b, c, d) + 1}}"
+      "네 자료의 전체 합은 평균 × 자료 수인 {{a}} × 4 = {{a * 4}}입니다.",
+      "알고 있는 세 값의 합 {{a * 3 - b + c}}을 빼면 {{a + b - c}}입니다."
     ],
     "hint_steps_template": [
-      "평균을 먼저 구해요.",
-      "그 값에 1을 더해요."
+      "평균과 자료 수를 곱해 필요한 전체 합을 구해요.",
+      "필요한 전체 합에서 이미 알고 있는 값의 합을 빼요."
+    ],
+    "choices_template": [
+      "{{a + b - c}}",
+      "{{(a + b - c) + 1}}",
+      "{{(a + b - c) + 2}}",
+      "{{(a + b - c) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-B-08",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "average-context-mean",
-    "blueprint": {"problemFamily":"average-context-mean","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "average-target-next-value",
+    "blueprint": {
+      "problemFamily": "average-target-next-value",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 7,
-        "max": 13
+        "min": 20,
+        "max": 30
       },
       "b": {
-        "min": 7,
-        "max": 13
+        "min": 3,
+        "max": 7
       },
       "c": {
-        "min": 7,
-        "max": 13
-      },
-      "d": {
-        "min": 7,
-        "max": 13
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "네 번의 줄넘기 횟수가 {{a}}, {{b}}, {{c}}, {{d}}회입니다. 한 번 평균은 몇 회인가요?",
-    "solver_rule": "avg4(a, b, c, d)",
+    "prompt_template": "세 차례 모은 재활용품 수는 {{a - b}}개, {{a}}개, {{a + b}}개입니다. 네 차례 평균을 {{a + c}}개로 만들려면 마지막에 몇 개를 모아야 하나요?",
+    "solver_rule": "a + c * 4",
     "solution_steps_template": [
-      "네 수의 합은 {{sum4(a, b, c, d)}}입니다.",
-      "{{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}입니다."
+      "목표 전체 합은 {{a + c}} × 4 = {{(a + c) * 4}}입니다.",
+      "앞의 세 값의 합 {{a * 3}}을 빼면 마지막 값은 {{a + c * 4}}입니다."
     ],
     "hint_steps_template": [
-      "네 수를 모두 더해요.",
-      "합을 4로 나눠요."
-    ],
-    "choices_template": [
-      "{{avg4(a, b, c, d)}}",
-      "{{avg4(a, b, c, d) + 1}}",
-      "{{avg4(a, b, c, d) + 2}}",
-      "{{avg4(a, b, c, d) + 3}}"
+      "평균과 자료 수를 곱해 필요한 전체 합을 구해요.",
+      "필요한 전체 합에서 이미 알고 있는 값의 합을 빼요."
     ]
   },
   {
     "id": "tmpl-average-B-09",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "average-inverse-total",
-    "blueprint": {"problemFamily":"average-inverse-total","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "average-wrong-divisor-error",
+    "blueprint": {
+      "problemFamily": "average-wrong-divisor-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "a": {
-        "min": 9,
-        "max": 16
+      "k": {
+        "min": 6,
+        "max": 10
       },
       "b": {
-        "min": 9,
-        "max": 16
+        "min": 3,
+        "max": 7
       },
       "c": {
-        "min": 9,
-        "max": 16
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "세 수의 평균이 {{avg3(a, b, c)}}일 때 합은?",
-    "solver_rule": "sum3(a, b, c)",
+    "prompt_template": "네 모둠의 점수는 {{k * 3 - b}}점, {{k * 3 - c}}점, {{k * 3 + c}}점, {{k * 3 + b}}점입니다. 지호는 네 점수의 합을 3으로 나누어 평균을 구했습니다. 잘못 구한 값은 올바른 평균보다 몇 점 큰가요?",
+    "solver_rule": "k * 12 / 3 - k * 3",
     "solution_steps_template": [
-      "평균 × 개수 = 합",
-      "{{avg3(a, b, c)}} × 3 = {{sum3(a, b, c)}}"
+      "네 값의 합은 {{k * 12}}이고 올바른 평균은 {{k * 12}} ÷ 4 = {{k * 3}}입니다.",
+      "잘못 구한 값은 {{k * 12}} ÷ 3 = {{k * 4}}이므로 {{k}}만큼 큽니다."
     ],
     "hint_steps_template": [
-      "평균 × 개수 = 합",
-      "3을 곱해요."
+      "자료 수를 잘못 적용한 계산과 올바른 계산을 비교해요.",
+      "전체 합의 변화가 평균에는 자료 수로 나뉘어 반영됨을 확인해요."
+    ],
+    "choices_template": [
+      "{{k * 12 / 3 - k * 3}}",
+      "{{(k * 12 / 3 - k * 3) + 1}}",
+      "{{(k * 12 / 3 - k * 3) + 2}}",
+      "{{(k * 12 / 3 - k * 3) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-B-10",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "average-inverse-total",
-    "blueprint": {"problemFamily":"average-inverse-total","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "average-record-correction-error",
+    "blueprint": {
+      "problemFamily": "average-record-correction-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 9,
-        "max": 16
-      },
-      "b": {
-        "min": 9,
-        "max": 16
+        "min": 20,
+        "max": 30
       },
       "c": {
-        "min": 9,
-        "max": 16
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "세 수의 평균이 {{avg3(a, b, c)}}일 때 합은?",
-    "solver_rule": "sum3(a, b, c)",
+    "prompt_template": "네 상자의 평균 무게는 {{a}}kg이었습니다. 한 상자의 기록을 실제보다 {{c * 4}}kg 작게 적은 것을 바로잡았습니다. 평균이 {{c * 4}}kg 오른다는 주장은 실제 증가량보다 몇 kg 큰가요?",
+    "solver_rule": "c * 4 - c * 4 / 4",
     "solution_steps_template": [
-      "평균 × 개수 = 합",
-      "{{avg3(a, b, c)}} × 3 = {{sum3(a, b, c)}}"
+      "전체 합이 {{c * 4}}만큼 늘면 네 자료의 평균은 {{c * 4}} ÷ 4 = {{c}}만큼 오릅니다.",
+      "말한 증가량 {{c * 4}}는 실제 증가량 {{c}}보다 {{c * 3}}만큼 큽니다."
     ],
     "hint_steps_template": [
-      "평균에 3을 곱하면 합이에요.",
-      "정답을 선택해요."
-    ],
-    "choices_template": [
-      "{{sum3(a, b, c)}}",
-      "{{sum3(a, b, c) + 3}}",
-      "{{sum3(a, b, c) + 6}}",
-      "{{sum3(a, b, c) + 9}}"
+      "자료 수를 잘못 적용한 계산과 올바른 계산을 비교해요.",
+      "전체 합의 변화가 평균에는 자료 수로 나뉘어 반영됨을 확인해요."
     ]
   },
   {
     "id": "tmpl-average-C-01",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-balanced-three",
+    "blueprint": {
+      "problemFamily": "average-balanced-three",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 12
+        "min": 32,
+        "max": 45
       },
       "b": {
-        "min": 6,
-        "max": 12
-      },
-      "c": {
-        "min": 6,
-        "max": 12
+        "min": 5,
+        "max": 9
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
-    "solver_rule": "avg3(a, b, c)",
+    "prompt_template": "{{a}}를 기준으로 {{b}}만큼 고르게 옮긴 세 값 {{a - b}}, {{a}}, {{a + b}}의 평균을 구하세요.",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{a}} + {{b}} + {{c}} = {{sum3(a, b, c)}}",
-      "평균: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}"
+      "세 수의 합은 {{a * 3}}입니다.",
+      "{{a * 3}} ÷ 3 = {{a}}이므로 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 세 수를 더해요.",
-      "3으로 나눠요."
+      "평균은 자료의 합을 자료 수로 나눈 값이에요.",
+      "기준값에서 같은 만큼 작고 큰 수는 서로 균형을 이뤄요."
+    ],
+    "choices_template": [
+      "{{a}}",
+      "{{(a) + 1}}",
+      "{{(a) + 2}}",
+      "{{(a) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-C-02",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-balanced-four",
+    "blueprint": {
+      "problemFamily": "average-balanced-four",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 12
+        "min": 32,
+        "max": 45
       },
       "b": {
-        "min": 6,
-        "max": 12
+        "min": 5,
+        "max": 9
       },
       "c": {
-        "min": 6,
-        "max": 12
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
-    "solver_rule": "avg3(a, b, c)",
+    "prompt_template": "작은 값과 큰 값을 짝지은 {{a - b}}, {{a - c}}, {{a + c}}, {{a + b}}의 평균을 구하세요.",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{sum3(a, b, c)}}",
-      "평균: {{avg3(a, b, c)}}"
+      "{{a - b}}와 {{a + b}}, {{a - c}}와 {{a + c}}의 합은 각각 {{a * 2}}입니다.",
+      "네 수의 합 {{a * 4}}를 4로 나누면 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "세 수를 더한 후 3으로 나눠요.",
-      "평균을 찾으세요."
-    ],
-    "choices_template": [
-      "{{avg3(a, b, c)}}",
-      "{{avg3(a, b, c) + 1}}",
-      "{{avg3(a, b, c) + 2}}",
-      "{{avg3(a, b, c) + 3}}"
+      "평균은 자료의 합을 자료 수로 나눈 값이에요.",
+      "기준값에서 같은 만큼 작고 큰 수는 서로 균형을 이뤄요."
     ]
   },
   {
     "id": "tmpl-average-C-03",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-from-total-three",
+    "blueprint": {
+      "problemFamily": "average-from-total-three",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 12
-      },
-      "b": {
-        "min": 6,
-        "max": 12
-      },
-      "c": {
-        "min": 6,
-        "max": 12
-      },
-      "d": {
-        "min": 6,
-        "max": 12
+        "min": 32,
+        "max": 45
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균은?",
-    "solver_rule": "avg4(a, b, c, d)",
+    "prompt_template": "평균을 구할 자료가 3개이고 전체 합이 {{a * 3}}입니다. 평균은 얼마인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{sum4(a, b, c, d)}}",
-      "평균: {{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}"
+      "평균은 자료의 합을 자료 수로 나눈 값입니다.",
+      "{{a * 3}} ÷ 3 = {{a}}입니다."
     ],
     "hint_steps_template": [
-      "네 수의 합을 구해요.",
-      "4로 나눠요."
+      "평균은 자료의 합을 자료 수로 나눈 값이에요.",
+      "기준값에서 같은 만큼 작고 큰 수는 서로 균형을 이뤄요."
+    ],
+    "choices_template": [
+      "{{a}}",
+      "{{(a) + 1}}",
+      "{{(a) + 2}}",
+      "{{(a) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-C-04",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-from-total-four",
+    "blueprint": {
+      "problemFamily": "average-from-total-four",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 12
-      },
-      "b": {
-        "min": 6,
-        "max": 12
-      },
-      "c": {
-        "min": 6,
-        "max": 12
-      },
-      "d": {
-        "min": 6,
-        "max": 12
+        "min": 32,
+        "max": 45
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균은?",
-    "solver_rule": "avg4(a, b, c, d)",
+    "prompt_template": "평균을 구할 자료가 4개이고 전체 합이 {{a * 4}}입니다. 평균은 얼마인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{sum4(a, b, c, d)}}",
-      "평균: {{avg4(a, b, c, d)}}"
+      "자료는 모두 4개입니다.",
+      "{{a * 4}} ÷ 4 = {{a}}이므로 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "네 수를 더한 뒤 4로 나눠요.",
-      "평균을 고르세요."
-    ],
-    "choices_template": [
-      "{{avg4(a, b, c, d)}}",
-      "{{avg4(a, b, c, d) + 1}}",
-      "{{avg4(a, b, c, d) + 2}}",
-      "{{avg4(a, b, c, d) + 3}}"
+      "평균은 자료의 합을 자료 수로 나눈 값이에요.",
+      "기준값에서 같은 만큼 작고 큰 수는 서로 균형을 이뤄요."
     ]
   },
   {
     "id": "tmpl-average-C-05",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-context-three",
+    "blueprint": {
+      "problemFamily": "average-context-three",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
-        "min": 9,
-        "max": 15
+        "min": 32,
+        "max": 45
       },
       "b": {
-        "min": 9,
-        "max": 15
-      },
-      "c": {
-        "min": 9,
-        "max": 15
+        "min": 5,
+        "max": 9
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}의 합이 {{sum3(a, b, c)}}일 때 평균은?",
-    "solver_rule": "avg3(a, b, c)",
+    "prompt_template": "세 선수가 연습에서 던진 공의 수는 {{a - b}}개, {{a}}개, {{a + b}}개입니다. 선수 한 명당 평균은 몇 개인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합은 {{sum3(a, b, c)}}입니다.",
-      "평균: {{sum3(a, b, c)}} ÷ 3 = {{avg3(a, b, c)}}"
+      "세 기록의 합은 {{a - b}} + {{a}} + {{a + b}} = {{a * 3}}입니다.",
+      "{{a * 3}} ÷ 3 = {{a}}이므로 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "합을 3으로 나누면 돼요.",
-      "평균을 계산해요."
+      "상황에서 모든 기록과 기록의 개수를 먼저 찾아요.",
+      "기록의 합을 정확한 기록 수로 나누어요."
+    ],
+    "choices_template": [
+      "{{a}}",
+      "{{(a) + 1}}",
+      "{{(a) + 2}}",
+      "{{(a) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-C-06",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "average-direct",
-    "blueprint": {"problemFamily":"average-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "average-context-four",
+    "blueprint": {
+      "problemFamily": "average-context-four",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
       "a": {
-        "min": 9,
-        "max": 15
+        "min": 32,
+        "max": 45
       },
       "b": {
-        "min": 9,
-        "max": 15
+        "min": 5,
+        "max": 9
       },
       "c": {
-        "min": 9,
-        "max": 15
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}의 평균은?",
-    "solver_rule": "avg3(a, b, c)",
+    "prompt_template": "네 화분에서 핀 꽃은 {{a - b}}송이, {{a - c}}송이, {{a + c}}송이, {{a + b}}송이입니다. 화분 한 개당 평균은 몇 송이인가요?",
+    "solver_rule": "a",
     "solution_steps_template": [
-      "합: {{sum3(a, b, c)}}",
-      "평균: {{avg3(a, b, c)}}"
+      "네 기록의 합은 {{a * 4}}입니다.",
+      "{{a * 4}} ÷ 4 = {{a}}이므로 평균은 {{a}}입니다."
     ],
     "hint_steps_template": [
-      "세 수를 더해요.",
-      "3으로 나눠요."
-    ],
-    "choices_template": [
-      "{{avg3(a, b, c)}}",
-      "{{avg3(a, b, c) + 1}}",
-      "{{avg3(a, b, c) + 2}}",
-      "{{avg3(a, b, c) + 3}}"
+      "상황에서 모든 기록과 기록의 개수를 먼저 찾아요.",
+      "기록의 합을 정확한 기록 수로 나누어요."
     ]
   },
   {
     "id": "tmpl-average-C-07",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "average-offset",
-    "blueprint": {"problemFamily":"average-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "average-missing-value",
+    "blueprint": {
+      "problemFamily": "average-missing-value",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 9,
-        "max": 15
+        "min": 32,
+        "max": 45
       },
       "b": {
-        "min": 9,
-        "max": 15
+        "min": 5,
+        "max": 9
       },
       "c": {
-        "min": 9,
-        "max": 15
-      },
-      "d": {
-        "min": 9,
-        "max": 15
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "{{a}}, {{b}}, {{c}}, {{d}}의 평균에서 1을 더하면?",
-    "solver_rule": "avg4(a, b, c, d) + 1",
+    "prompt_template": "네 날 동안 만든 부품 수는 하루 평균 {{a}}개입니다. 첫 세 날에 {{a - b}}개, {{a}}개, {{a + c}}개를 만들었다면 마지막 날에는 몇 개를 만들어야 하나요?",
+    "solver_rule": "a + b - c",
     "solution_steps_template": [
-      "평균: {{avg4(a, b, c, d)}}",
-      "1을 더하면 {{avg4(a, b, c, d) + 1}}"
+      "네 자료의 전체 합은 평균 × 자료 수인 {{a}} × 4 = {{a * 4}}입니다.",
+      "알고 있는 세 값의 합 {{a * 3 - b + c}}을 빼면 {{a + b - c}}입니다."
     ],
     "hint_steps_template": [
-      "평균을 먼저 구해요.",
-      "그 값에 1을 더해요."
+      "평균과 자료 수를 곱해 필요한 전체 합을 구해요.",
+      "필요한 전체 합에서 이미 알고 있는 값의 합을 빼요."
+    ],
+    "choices_template": [
+      "{{a + b - c}}",
+      "{{(a + b - c) + 1}}",
+      "{{(a + b - c) + 2}}",
+      "{{(a + b - c) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-C-08",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "average-context-mean",
-    "blueprint": {"problemFamily":"average-context-mean","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "average-target-next-value",
+    "blueprint": {
+      "problemFamily": "average-target-next-value",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 9,
-        "max": 15
+        "min": 32,
+        "max": 45
       },
       "b": {
-        "min": 9,
-        "max": 15
+        "min": 5,
+        "max": 9
       },
       "c": {
-        "min": 9,
-        "max": 15
-      },
-      "d": {
-        "min": 9,
-        "max": 15
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "네 모둠의 재활용품 수가 {{a}}, {{b}}, {{c}}, {{d}}개입니다. 모둠당 평균은 몇 개인가요?",
-    "solver_rule": "avg4(a, b, c, d)",
+    "prompt_template": "세 경기 득점은 {{a - b}}점, {{a}}점, {{a + b}}점입니다. 네 경기 평균을 {{a + c}}점으로 만들려면 네 번째 경기에서 몇 점을 얻어야 하나요?",
+    "solver_rule": "a + c * 4",
     "solution_steps_template": [
-      "네 수의 합은 {{sum4(a, b, c, d)}}입니다.",
-      "{{sum4(a, b, c, d)}} ÷ 4 = {{avg4(a, b, c, d)}}입니다."
+      "목표 전체 합은 {{a + c}} × 4 = {{(a + c) * 4}}입니다.",
+      "앞의 세 값의 합 {{a * 3}}을 빼면 마지막 값은 {{a + c * 4}}입니다."
     ],
     "hint_steps_template": [
-      "네 수를 모두 더해요.",
-      "합을 4로 나눠요."
-    ],
-    "choices_template": [
-      "{{avg4(a, b, c, d)}}",
-      "{{avg4(a, b, c, d) + 1}}",
-      "{{avg4(a, b, c, d) + 2}}",
-      "{{avg4(a, b, c, d) + 3}}"
+      "평균과 자료 수를 곱해 필요한 전체 합을 구해요.",
+      "필요한 전체 합에서 이미 알고 있는 값의 합을 빼요."
     ]
   },
   {
     "id": "tmpl-average-C-09",
     "concept_id": "average-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "average-inverse-total",
-    "blueprint": {"problemFamily":"average-inverse-total","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "average-wrong-divisor-error",
+    "blueprint": {
+      "problemFamily": "average-wrong-divisor-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "a": {
-        "min": 11,
-        "max": 18
+      "k": {
+        "min": 9,
+        "max": 14
       },
       "b": {
-        "min": 11,
-        "max": 18
+        "min": 5,
+        "max": 9
       },
       "c": {
-        "min": 11,
-        "max": 18
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "세 수의 평균이 {{avg3(a, b, c)}}일 때 합은?",
-    "solver_rule": "sum3(a, b, c)",
+    "prompt_template": "네 실험의 측정값은 {{k * 3 - b}}, {{k * 3 - c}}, {{k * 3 + c}}, {{k * 3 + b}}입니다. 예린이는 합을 자료 수 4 대신 3으로 나누었습니다. 예린이의 결과는 올바른 평균보다 얼마 큰가요?",
+    "solver_rule": "k * 12 / 3 - k * 3",
     "solution_steps_template": [
-      "평균 × 개수 = 합",
-      "{{avg3(a, b, c)}} × 3 = {{sum3(a, b, c)}}"
+      "네 값의 합은 {{k * 12}}이고 올바른 평균은 {{k * 12}} ÷ 4 = {{k * 3}}입니다.",
+      "잘못 구한 값은 {{k * 12}} ÷ 3 = {{k * 4}}이므로 {{k}}만큼 큽니다."
     ],
     "hint_steps_template": [
-      "평균 × 개수 = 합",
-      "3을 곱해요."
+      "자료 수를 잘못 적용한 계산과 올바른 계산을 비교해요.",
+      "전체 합의 변화가 평균에는 자료 수로 나뉘어 반영됨을 확인해요."
+    ],
+    "choices_template": [
+      "{{k * 12 / 3 - k * 3}}",
+      "{{(k * 12 / 3 - k * 3) + 1}}",
+      "{{(k * 12 / 3 - k * 3) + 2}}",
+      "{{(k * 12 / 3 - k * 3) + 3}}"
     ]
   },
   {
     "id": "tmpl-average-C-10",
     "concept_id": "average-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "average-inverse-total",
-    "blueprint": {"problemFamily":"average-inverse-total","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수04-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "average-record-correction-error",
+    "blueprint": {
+      "problemFamily": "average-record-correction-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수04-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 4,
+      "readingLoad": "high"
+    },
     "param_schema": {
       "a": {
-        "min": 11,
-        "max": 18
-      },
-      "b": {
-        "min": 11,
-        "max": 18
+        "min": 32,
+        "max": 45
       },
       "c": {
-        "min": 11,
-        "max": 18
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "세 수의 평균이 {{avg3(a, b, c)}}일 때 합은?",
-    "solver_rule": "sum3(a, b, c)",
+    "prompt_template": "네 차례 평균 생산량은 {{a}}개였습니다. 한 차례 생산량이 실제보다 {{c * 4}}개 작게 기록되어 이를 고쳤습니다. 평균도 {{c * 4}}개 오른다는 설명은 실제 증가량보다 몇 개 큰가요?",
+    "solver_rule": "c * 4 - c * 4 / 4",
     "solution_steps_template": [
-      "평균 × 개수 = 합",
-      "{{avg3(a, b, c)}} × 3 = {{sum3(a, b, c)}}"
+      "전체 합이 {{c * 4}}만큼 늘면 네 자료의 평균은 {{c * 4}} ÷ 4 = {{c}}만큼 오릅니다.",
+      "말한 증가량 {{c * 4}}는 실제 증가량 {{c}}보다 {{c * 3}}만큼 큽니다."
     ],
     "hint_steps_template": [
-      "평균에 3을 곱하면 합이에요.",
-      "정답을 선택해요."
-    ],
-    "choices_template": [
-      "{{sum3(a, b, c)}}",
-      "{{sum3(a, b, c) + 3}}",
-      "{{sum3(a, b, c) + 6}}",
-      "{{sum3(a, b, c) + 9}}"
+      "자료 수를 잘못 적용한 계산과 올바른 계산을 비교해요.",
+      "전체 합의 변화가 평균에는 자료 수로 나뉘어 반영됨을 확인해요."
     ]
   }
 ]

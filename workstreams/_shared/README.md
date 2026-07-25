@@ -21,6 +21,19 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-25: Grade 5 average application reinforcement (primary workstreams
+  01 and 04) owns the narrow change to
+  `public/data/templates/average.json`,
+  `scripts/migrate-grade5-blueprints.js`, its deterministic generator, and
+  blueprint regression tests. The bank must keep A/B/C difficulty 4-4-2 while
+  moving from K18/A12/R0 and four families to K12/A12/R6 and ten reviewed
+  families. Construct values so every displayed mean is exact rather than a
+  rounded repeating decimal. Applying items cover real-world means, a missing
+  value, and a target next value; reasoning items analyze a wrong divisor and
+  the effect of correcting one record. Re-check generator parity, exact
+  divisibility, Korean wording, choice uniqueness, difficulty progression,
+  template validation, and the problem audit before concurrent changes.
+
 - 2026-07-25: Grade 5 decimal-multiplication application reinforcement
   (primary workstreams 01 and 04) owns the narrow change to
   `public/data/templates/decimalmul.json`,
