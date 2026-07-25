@@ -32,7 +32,7 @@ test('홈에서 4학년을 골라 세 번의 탭 안에 3문제 Bridge 활동에
 test('두 자리 수 나눗셈 단원은 몫을 숨기고 K/A/R 활동을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 2개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 3개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-1-multiplication-division').click()
 
   await expect(page).toHaveURL(/unitId=unit-4-1-multiplication-division/)
@@ -67,6 +67,40 @@ test('두 자리 수 나눗셈 단원은 몫을 숨기고 K/A/R 활동을 끝낸
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
     .toEqual(new Set(['grade4-bridge-two-digit-division-v1']))
+  expect(stored.overflow).toBe(false)
+})
+
+test('사칙계산 어림 단원은 네 연산과 방법 비교를 연결해 K/A/R 활동을 끝낸다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(`${BASE_PATH}/grade/4`)
+  await expect(page.getByText('검증된 단원 3개')).toBeVisible()
+  await page.getByTestId('grade4-unit-card-unit-4-1-arithmetic-estimation').click()
+
+  await expect(page).toHaveURL(/unitId=unit-4-1-arithmetic-estimation/)
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-est-02')
+  await page.getByTestId('grade4-integer-input').fill('4700')
+  await page.getByTestId('grade4-integer-submit').click()
+  await page.getByTestId('grade4-next-mission').click()
+
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-est-07')
+  await page.getByTestId('grade4-integer-input').fill('910')
+  await page.getByTestId('grade4-integer-submit').click()
+  await page.getByTestId('grade4-next-mission').click()
+
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-est-10')
+  await page.getByTestId('grade4-choice-십 단위 어림: 1,680').click()
+  await page.getByTestId('grade4-next-mission').click()
+
+  await expect(page.getByTestId('grade4-activity-complete')).toContainText('사칙계산 어림 다리를 건넜어요!')
+  const stored = await page.evaluate(({ progressKey, receiptKey }) => ({
+    progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
+    ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
+    overflow: document.documentElement.scrollWidth > window.innerWidth,
+  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  expect(stored.progress.selectedUnitId).toBe('unit-4-1-arithmetic-estimation')
+  expect(stored.ledger.receipts).toHaveLength(3)
+  expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
+    .toEqual(new Set(['grade4-bridge-arithmetic-estimation-v1']))
   expect(stored.overflow).toBe(false)
 })
 
@@ -165,8 +199,13 @@ test('4학년 활동은 알기·적용·추론 3문제를 끝내고 새 변형�
 
 test('4학년 선택과 활동 화면은 작은 태블릿 폭에서 가로로 넘치지 않는다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  for (const route of ['/home', '/grade/4', '/grade/4/mission?unitId=unit-4-1-large-numbers']) {
+  for (const route of ['/home', '/grade/4', '/grade/4/mission?unitId=unit-4-1-large-numbers', '/grade/4/mission?unitId=unit-4-1-arithmetic-estimation']) {
     await page.goto(`${BASE_PATH}${route}`)
     await expect.poll(async () => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   }
+  const inputBox = await page.getByTestId('grade4-integer-input').boundingBox()
+  const mascotBox = await page.getByTestId('service-mascot').boundingBox()
+  expect(inputBox).not.toBeNull()
+  expect(mascotBox).not.toBeNull()
+  expect(mascotBox!.x).toBeGreaterThanOrEqual(inputBox!.x + inputBox!.width)
 })

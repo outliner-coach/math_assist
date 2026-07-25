@@ -84,6 +84,7 @@ export const GRADE4_CONTENT_RELEASE_ID = 'grade4-bridge-big-numbers-v1'
 export const GRADE4_ACTIVITY_ITEM_COUNT = 3
 export const SAFE_GRADE4_UNIT_ID = 'unit-4-1-large-numbers'
 export const GRADE4_DIVISION_UNIT_ID = 'unit-4-1-multiplication-division'
+export const GRADE4_ESTIMATION_UNIT_ID = 'unit-4-1-arithmetic-estimation'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -110,6 +111,18 @@ export const grade4Units: Grade4Unit[] = [
     contentReleaseId: 'grade4-bridge-two-digit-division-v1',
     releaseStatus: 'released',
   },
+  {
+    id: GRADE4_ESTIMATION_UNIT_ID,
+    semester: '4-1',
+    order: 3,
+    title: '사칙계산 어림',
+    subtitle: '계산하기 전에 알맞은 단위로 수를 바꾸어 결과의 크기를 짐작해요.',
+    learnerGoal: '덧셈·뺄셈·곱셈·나눗셈의 결과를 어림하고 어림 방법이 알맞은지 설명해요.',
+    curriculumCodes: ['[4수01-08]'],
+    prerequisiteCodes: ['[4수01-03]', '[4수01-04]', '[4수01-06]', '[4수01-07]'],
+    contentReleaseId: 'grade4-bridge-arithmetic-estimation-v1',
+    releaseStatus: 'released',
+  },
 ]
 
 export function grade4ContentReleaseIdForUnit(unitId: string): string {
@@ -124,6 +137,10 @@ function rotateChoices(values: string[], seed: number): string[] {
 
 function formatted(value: number): string {
   return value.toLocaleString('ko-KR')
+}
+
+function nearest(value: number, place: number): number {
+  return Math.round(value / place) * place
 }
 
 function template(value: Grade4MissionTemplate): Grade4MissionTemplate {
@@ -483,6 +500,203 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
         correctAnswer: String(difference),
         solutionSteps: [`${divisor} × ${trialQuotient} = ${formatted(divisor * trialQuotient)}입니다.`, `${formatted(divisor * trialQuotient)} - ${formatted(dividend)} = ${difference}이므로 시험한 몫은 너무 큽니다.`],
         visualModel: 'division-model', visualConfig: { dividend, divisor, trialQuotient },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-01', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'knowing',
+    problemFamily: 'nearest-hundred-addition', representation: 'number-cards', answerType: 'integer', supportTool: 'grid', skillTag: '덧셈 어림',
+    learnerGoal: '두 수를 각각 가장 가까운 백 단위 수로 바꾸어 합을 어림해요.',
+    promptTemplate: '두 수를 백 단위에 가장 가까운 수로 바꾸어 합을 어림하세요.', hintSteps: ['각 수에서 십의 자리 숫자를 살펴 가장 가까운 백 단위 수를 찾아요.', '바꾼 두 수를 더해 어림한 합을 구해요.'],
+    build: (v) => {
+      const left = 1_230 + v * 31
+      const right = 2_620 + v * 27
+      const roundedLeft = nearest(left, 100)
+      const roundedRight = nearest(right, 100)
+      const estimate = roundedLeft + roundedRight
+      return {
+        prompt: `${formatted(left)} + ${formatted(right)}를 백 단위에 가장 가까운 수로 바꾸어 어림하세요.`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${formatted(left)}은 ${formatted(roundedLeft)}쯤, ${formatted(right)}은 ${formatted(roundedRight)}쯤입니다.`, `${formatted(roundedLeft)} + ${formatted(roundedRight)} = ${formatted(estimate)}이므로 합은 ${formatted(estimate)}쯤입니다.`],
+        visualModel: 'number-cards', visualConfig: { left, right, roundPlace: 100 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-02', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'knowing',
+    problemFamily: 'nearest-hundred-subtraction', representation: 'number-cards', answerType: 'integer', supportTool: 'grid', skillTag: '뺄셈 어림',
+    learnerGoal: '두 수를 각각 가장 가까운 백 단위 수로 바꾸어 차를 어림해요.',
+    promptTemplate: '두 수를 백 단위에 가장 가까운 수로 바꾸어 차를 어림하세요.', hintSteps: ['두 수를 각각 가장 가까운 백 단위 수로 바꾸어요.', '바꾼 큰 수에서 작은 수를 빼요.'],
+    build: (v) => {
+      const left = 5_840 + v * 43
+      const right = 1_260 + v * 29
+      const roundedLeft = nearest(left, 100)
+      const roundedRight = nearest(right, 100)
+      const estimate = roundedLeft - roundedRight
+      return {
+        prompt: `${formatted(left)} - ${formatted(right)}를 백 단위에 가장 가까운 수로 바꾸어 어림하세요.`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${formatted(left)}은 ${formatted(roundedLeft)}쯤, ${formatted(right)}은 ${formatted(roundedRight)}쯤입니다.`, `${formatted(roundedLeft)} - ${formatted(roundedRight)} = ${formatted(estimate)}이므로 차는 ${formatted(estimate)}쯤입니다.`],
+        visualModel: 'number-cards', visualConfig: { left, right, roundPlace: 100 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-03', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'knowing',
+    problemFamily: 'nearest-ten-multiplication', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '곱셈 어림',
+    learnerGoal: '두 자리 수를 가장 가까운 십 단위 수로 바꾸어 곱을 어림해요.',
+    promptTemplate: '두 자리 수를 십 단위에 가장 가까운 수로 바꾸어 곱을 어림하세요.', hintSteps: ['두 자리 수를 가장 가까운 십 단위 수로 바꾸어요.', '바꾼 수에 한 자리 수를 곱해요.'],
+    build: (v) => {
+      const left = 42 + v * 6
+      const right = 3 + (v % 4)
+      const roundedLeft = nearest(left, 10)
+      const estimate = roundedLeft * right
+      return {
+        prompt: `${left} × ${right}에서 ${left}를 십 단위에 가장 가까운 수로 바꾸어 어림하세요.`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${left}는 ${roundedLeft}에 가장 가깝습니다.`, `${roundedLeft} × ${right} = ${estimate}이므로 곱은 ${estimate}쯤입니다.`],
+        visualModel: 'context', visualConfig: { left, right, leftLabel: '어림할 수', rightLabel: '곱하는 수', roundPlace: 10 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-04', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'knowing',
+    problemFamily: 'compatible-number-division', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '나눗셈 어림',
+    learnerGoal: '나누어지는 수를 가까운 백 단위 수로 바꾸어 몫을 어림해요.',
+    promptTemplate: '나누어지는 수를 백 단위에 가장 가까운 수로 바꾸어 몫을 어림하세요.', hintSteps: ['나누어지는 수와 가까우면서 나누기 쉬운 백 단위 수를 찾아요.', '바꾼 수를 나누는 수로 나누어요.'],
+    build: (v) => {
+      const roundedDividend = (8 + v) * 100
+      const dividend = roundedDividend + (v % 2 === 0 ? -42 : 37)
+      const divisor = 20
+      const estimate = roundedDividend / divisor
+      return {
+        prompt: `${formatted(dividend)} ÷ ${divisor}에서 ${formatted(dividend)}을 백 단위에 가장 가까운 수로 바꾸어 어림하세요.`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${formatted(dividend)}은 ${formatted(roundedDividend)}에 가장 가깝습니다.`, `${formatted(roundedDividend)} ÷ ${divisor} = ${estimate}이므로 몫은 ${estimate}쯤입니다.`],
+        visualModel: 'context', visualConfig: { left: dividend, right: divisor, leftLabel: '나누어지는 수', rightLabel: '나누는 수', roundPlace: 100 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-05', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'applying',
+    problemFamily: 'attendance-total-estimate', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '합계 어림',
+    learnerGoal: '두 행사 인원을 백 명쯤으로 바꾸어 전체 인원을 어림해요.',
+    promptTemplate: '두 행사 인원을 백 명쯤으로 바꾸어 전체 인원을 어림하세요.', hintSteps: ['각 행사 인원을 가장 가까운 백 명쯤으로 바꾸어요.', '바꾼 두 인원을 더해요.'],
+    build: (v) => {
+      const left = 782 + v * 41
+      const right = 634 + v * 33
+      const roundedLeft = nearest(left, 100)
+      const roundedRight = nearest(right, 100)
+      const estimate = roundedLeft + roundedRight
+      return {
+        prompt: `오전 행사에 ${formatted(left)}명, 오후 행사에 ${formatted(right)}명이 왔습니다. 각 인원을 백 명쯤으로 바꾸면 모두 몇 명쯤인가요?`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${formatted(left)}명은 ${formatted(roundedLeft)}명쯤, ${formatted(right)}명은 ${formatted(roundedRight)}명쯤입니다.`, `${formatted(roundedLeft)} + ${formatted(roundedRight)} = ${formatted(estimate)}이므로 모두 ${formatted(estimate)}명쯤입니다.`],
+        visualModel: 'context', visualConfig: { left, right, leftLabel: '오전 인원', rightLabel: '오후 인원', roundPlace: 100 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-06', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'applying',
+    problemFamily: 'budget-remainder-estimate', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '예산 어림',
+    learnerGoal: '예산과 지출을 천 원쯤으로 바꾸어 남을 돈을 어림해요.',
+    promptTemplate: '예산과 지출을 천 원쯤으로 바꾸어 남을 돈을 어림하세요.', hintSteps: ['예산과 지출을 각각 가장 가까운 천 원쯤으로 바꾸어요.', '어림한 예산에서 어림한 지출을 빼요.'],
+    build: (v) => {
+      const left = 14_620 + v * 800
+      const right = 6_330 + v * 370
+      const roundedLeft = nearest(left, 1_000)
+      const roundedRight = nearest(right, 1_000)
+      const estimate = roundedLeft - roundedRight
+      return {
+        prompt: `예산 ${formatted(left)}원에서 준비물 값 ${formatted(right)}원을 씁니다. 두 금액을 천 원쯤으로 바꾸면 얼마쯤 남나요?`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${formatted(left)}원은 ${formatted(roundedLeft)}원쯤, ${formatted(right)}원은 ${formatted(roundedRight)}원쯤입니다.`, `${formatted(roundedLeft)} - ${formatted(roundedRight)} = ${formatted(estimate)}이므로 ${formatted(estimate)}원쯤 남습니다.`],
+        visualModel: 'context', visualConfig: { left, right, leftLabel: '전체 예산', rightLabel: '준비물 값', roundPlace: 1_000 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-07', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'applying',
+    problemFamily: 'class-supplies-product-estimate', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '수량 어림',
+    learnerGoal: '한 반의 준비물 수를 십 개쯤으로 바꾸어 전체 수를 어림해요.',
+    promptTemplate: '한 반의 준비물 수를 십 개쯤으로 바꾸어 전체 수를 어림하세요.', hintSteps: ['한 반에 필요한 수를 가장 가까운 십 개쯤으로 바꾸어요.', '바꾼 수에 반 수를 곱해요.'],
+    build: (v) => {
+      const left = 122 + v * 8
+      const right = 6 + (v % 3)
+      const roundedLeft = nearest(left, 10)
+      const estimate = roundedLeft * right
+      return {
+        prompt: `한 반에 색종이 ${left}장이 필요하고 같은 준비를 ${right}개 반에 합니다. ${left}를 십 장쯤으로 바꾸면 모두 몇 장쯤 필요한가요?`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${left}장은 ${roundedLeft}장쯤입니다.`, `${roundedLeft} × ${right} = ${formatted(estimate)}이므로 모두 ${formatted(estimate)}장쯤 필요합니다.`],
+        visualModel: 'context', visualConfig: { left, right, leftLabel: '한 반 준비물', rightLabel: '반 수', roundPlace: 10 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-08', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'applying',
+    problemFamily: 'packing-quotient-estimate', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '묶음 수 어림',
+    learnerGoal: '전체 물건 수를 가까운 백 개쯤으로 바꾸어 묶음 수를 어림해요.',
+    promptTemplate: '전체 수를 백 개쯤으로 바꾸어 묶음 수를 어림하세요.', hintSteps: ['전체 수와 가까우면서 나누기 쉬운 백 단위 수를 찾아요.', '바꾼 전체 수를 한 상자의 수로 나누어요.'],
+    build: (v) => {
+      const roundedTotal = (10 + v) * 100
+      const left = roundedTotal + (v % 2 === 0 ? 38 : -43)
+      const right = 20
+      const estimate = roundedTotal / right
+      return {
+        prompt: `구슬 ${formatted(left)}개를 한 상자에 ${right}개씩 담습니다. 전체 수를 백 개쯤으로 바꾸면 상자는 몇 개쯤 필요한가요?`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${formatted(left)}개는 ${formatted(roundedTotal)}개쯤입니다.`, `${formatted(roundedTotal)} ÷ ${right} = ${estimate}이므로 상자는 ${estimate}개쯤 필요합니다.`],
+        visualModel: 'context', visualConfig: { left, right, leftLabel: '전체 구슬', rightLabel: '한 상자', roundPlace: 100 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-09', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'reasoning',
+    problemFamily: 'incorrect-addition-estimate', representation: 'number-cards', answerType: 'choice', supportTool: 'none', skillTag: '어림 오류 판단',
+    learnerGoal: '표시된 두 수를 직접 어림해 친구의 잘못된 합을 고쳐요.',
+    promptTemplate: '친구가 말한 어림한 합을 확인하고 알맞게 고치세요.', hintSteps: ['두 수를 각각 가장 가까운 백 단위 수로 바꾸어요.', '바꾼 두 수의 합과 친구가 말한 수를 비교해요.'],
+    build: (v, seed) => {
+      const left = 1_230 + v * 31
+      const right = 2_620 + v * 27
+      const estimate = nearest(left, 100) + nearest(right, 100)
+      const answer = `두 수를 각각 가장 가까운 백 단위로 바꾸면 합은 ${formatted(estimate)}쯤이에요.`
+      return {
+        prompt: `서준이는 ${formatted(left)} + ${formatted(right)}의 합이 ${formatted(estimate - 100)}쯤이라고 했습니다. 알맞은 판단을 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices([
+          answer,
+          `${formatted(estimate - 100)}쯤이 맞으므로 고칠 필요가 없어요.`,
+          `두 수를 더하지 않고 큰 수만 ${formatted(nearest(right, 100))}로 바꾸면 돼요.`,
+          `어림셈은 정확한 계산과 같아야 하므로 ${formatted(left + right)}만 답이에요.`,
+        ], seed),
+        solutionSteps: [`${formatted(left)}은 ${formatted(nearest(left, 100))}쯤, ${formatted(right)}은 ${formatted(nearest(right, 100))}쯤입니다.`, `두 어림값의 합은 ${formatted(estimate)}이므로 서준이의 어림을 ${formatted(estimate)}쯤으로 고쳐야 합니다.`],
+        visualModel: 'number-cards', visualConfig: { left, right, roundPlace: 100, speaker: '서준' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-10', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'reasoning',
+    problemFamily: 'compare-estimation-strategies', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '어림 방법 비교',
+    learnerGoal: '정확한 값에 더 가까운 곱셈 어림 방법을 오차로 비교해요.',
+    promptTemplate: '두 곱셈 어림 방법 중 정확한 값에 더 가까운 방법을 고르세요.', hintSteps: ['두 방법으로 각각 어림한 곱을 구해요.', '정확한 곱과의 차가 더 작은 방법을 찾아요.'],
+    build: (v, seed) => {
+      const left = 212 + v * 4
+      const right = 4 + (v % 4)
+      const tensEstimate = nearest(left, 10) * right
+      const hundredsEstimate = nearest(left, 100) * right
+      const answer = `십 단위 어림: ${formatted(tensEstimate)}`
+      return {
+        prompt: `${left} × ${right}를 어림하려고 합니다. ${left}를 가까운 십 단위로 바꾸는 방법과 가까운 백 단위로 바꾸는 방법 중 정확한 곱에 더 가까운 것을 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices([
+          answer,
+          `백 단위 어림: ${formatted(hundredsEstimate)}`,
+          `정확한 계산만 가능: ${formatted(left * right)}`,
+          '두 어림 방법의 결과는 항상 같아요.',
+        ], seed),
+        solutionSteps: [`정확한 곱은 ${left} × ${right} = ${formatted(left * right)}입니다. 십 단위 어림은 ${formatted(tensEstimate)}, 백 단위 어림은 ${formatted(hundredsEstimate)}입니다.`, `정확한 곱과의 차가 더 작은 ${answer} 방법이 더 가깝습니다.`],
+        visualModel: 'context', visualConfig: { left, right, leftLabel: '한 묶음 수', rightLabel: '묶음 수', roundPlace: 10 },
       }
     },
   }),

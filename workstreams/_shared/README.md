@@ -21,6 +21,21 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 4 arithmetic-estimation unit release
+  (primary workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  `src/components/MascotRouteCompanion.tsx`, and focused Grade 4 bank,
+  curriculum, receipt, and browser tests. The new
+  `unit-4-1-arithmetic-estimation` bank must contain exactly ten deterministic
+  templates with K4/A4/R2, ten distinct families, two genuine reasoning
+  families, and at least two representations. The four operations must all be
+  represented, every estimate must be derived from the displayed operands,
+  and reasoning items must compare a concrete incorrect or less useful
+  estimate. The compact mobile companion must stay fully outside the Grade 4
+  answer control rectangle. The ledger standard `[4수01-08]` moves from planned to released
+  only with passing Grade 4, curriculum, mission-audit, mobile, storage, and
+  deployment gates.
+
 - 2026-07-26: Grade 4 two-digit-divisor unit release
   (primary workstreams 01, 03, and 04) owns the narrow change to
   `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,

@@ -5,6 +5,7 @@ import { appendGrade4AttemptReceipt, createGrade4AttemptReceipt } from './grade4
 import {
   GRADE4_CONTENT_RELEASE_ID,
   GRADE4_DIVISION_UNIT_ID,
+  GRADE4_ESTIMATION_UNIT_ID,
   getGrade4Activity,
   SAFE_GRADE4_UNIT_ID,
 } from './grade4-problems'
@@ -57,5 +58,18 @@ describe('Grade 4 attempt receipt', () => {
 
     expect(receipt.contentReleaseId).toBe('grade4-bridge-two-digit-division-v1')
     expect(GRADE4_CONTENT_RELEASE_ID).toBe('grade4-bridge-big-numbers-v1')
+  })
+
+  it('uses the arithmetic-estimation release identity', () => {
+    const estimationMission = getGrade4Activity(GRADE4_ESTIMATION_UNIT_ID, 20260721, 0)[0]
+    const receipt = createGrade4AttemptReceipt({
+      mission: estimationMission,
+      activityRun: 0,
+      attemptOrdinal: 0,
+      correct: true,
+      usedHint: false,
+    })
+
+    expect(receipt.contentReleaseId).toBe('grade4-bridge-arithmetic-estimation-v1')
   })
 })

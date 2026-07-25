@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   GRADE4_ACTIVITY_ITEM_COUNT,
+  GRADE4_ESTIMATION_UNIT_ID,
   getGrade4Activity,
   getGrade4MissionBank,
   grade4MissionTemplates,
@@ -19,19 +20,20 @@ describe('Grade 4 Bridge release bank', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(2)
+    expect(grade4Units).toHaveLength(3)
     expect(grade4Units.map((unit) => unit.id)).toEqual([
       'unit-4-1-large-numbers',
       'unit-4-1-multiplication-division',
+      'unit-4-1-arithmetic-estimation',
     ])
-    expect(grade4MissionTemplates).toHaveLength(20)
+    expect(grade4MissionTemplates).toHaveLength(30)
     expect(result.summary).toMatchObject({
-      unitCount: 2,
-      templateCount: 20,
-      knowingCount: 8,
-      applyingCount: 8,
-      reasoningCount: 4,
-      reasoningFamilyCount: 4,
+      unitCount: 3,
+      templateCount: 30,
+      knowingCount: 12,
+      applyingCount: 12,
+      reasoningCount: 6,
+      reasoningFamilyCount: 6,
       representationCount: 5,
     })
 
@@ -145,6 +147,93 @@ describe('Grade 4 Bridge release bank', () => {
         Number(trial.visualConfig.divisor) * Number(trial.visualConfig.trialQuotient)
         - Number(trial.visualConfig.dividend),
       )
+    }
+  })
+
+  it('derives every arithmetic estimate from the displayed operands', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === GRADE4_ESTIMATION_UNIT_ID)
+        .map((item) => [item.id, item]),
+    )
+    const nearest = (value: number, place: number) => Math.round(value / place) * place
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-est-01', 'g4-est-02', 'g4-est-03', 'g4-est-04', 'g4-est-05',
+      'g4-est-06', 'g4-est-07', 'g4-est-08', 'g4-est-09', 'g4-est-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        } else {
+          expect(Number.isSafeInteger(Number(mission.correctAnswer)), `${template.id} variant ${variant}`).toBe(true)
+          expect(Number(mission.correctAnswer), `${template.id} variant ${variant}`).toBeGreaterThanOrEqual(0)
+        }
+      }
+
+      for (const id of ['g4-est-01', 'g4-est-05']) {
+        const addition = templates.get(id)!.build(variant, variant)
+        expect(Number(addition.correctAnswer)).toBe(
+          nearest(Number(addition.visualConfig.left), 100) + nearest(Number(addition.visualConfig.right), 100),
+        )
+      }
+
+      const subtraction = templates.get('g4-est-02')!.build(variant, variant)
+      expect(Number(subtraction.correctAnswer)).toBe(
+        nearest(Number(subtraction.visualConfig.left), 100) - nearest(Number(subtraction.visualConfig.right), 100),
+      )
+
+      for (const id of ['g4-est-03', 'g4-est-07']) {
+        const multiplication = templates.get(id)!.build(variant, variant)
+        expect(Number(multiplication.correctAnswer)).toBe(
+          nearest(Number(multiplication.visualConfig.left), 10) * Number(multiplication.visualConfig.right),
+        )
+      }
+
+      for (const id of ['g4-est-04', 'g4-est-08']) {
+        const division = templates.get(id)!.build(variant, variant)
+        expect(Number(division.correctAnswer)).toBe(
+          nearest(Number(division.visualConfig.left), 100) / Number(division.visualConfig.right),
+        )
+      }
+
+      const budget = templates.get('g4-est-06')!.build(variant, variant)
+      expect(Number(budget.correctAnswer)).toBe(
+        nearest(Number(budget.visualConfig.left), 1_000) - nearest(Number(budget.visualConfig.right), 1_000),
+      )
+
+      const strategy = templates.get('g4-est-10')!.build(variant, variant)
+      const factor = Number(strategy.visualConfig.left)
+      const count = Number(strategy.visualConfig.right)
+      const tensError = Math.abs(factor * count - nearest(factor, 10) * count)
+      const hundredsError = Math.abs(factor * count - nearest(factor, 100) * count)
+      expect(tensError).toBeLessThan(hundredsError)
+      expect(strategy.correctAnswer).toContain('십 단위')
+
+      const correction = templates.get('g4-est-09')!.build(variant, variant)
+      const correctedEstimate = nearest(Number(correction.visualConfig.left), 100)
+        + nearest(Number(correction.visualConfig.right), 100)
+      expect(correction.correctAnswer).toContain(correctedEstimate.toLocaleString('ko-KR'))
+
+      for (const id of ['g4-est-01', 'g4-est-02', 'g4-est-05', 'g4-est-09']) {
+        const mission = templates.get(id)!.build(variant, variant)
+        expect(Number(mission.visualConfig.left) % 100, `${id} left variant ${variant}`).not.toBe(50)
+        expect(Number(mission.visualConfig.right) % 100, `${id} right variant ${variant}`).not.toBe(50)
+      }
+      for (const id of ['g4-est-04', 'g4-est-08']) {
+        const mission = templates.get(id)!.build(variant, variant)
+        expect(Number(mission.visualConfig.left) % 100, `${id} variant ${variant}`).not.toBe(50)
+      }
+      for (const id of ['g4-est-03', 'g4-est-07', 'g4-est-10']) {
+        const mission = templates.get(id)!.build(variant, variant)
+        expect(Number(mission.visualConfig.left) % 10, `${id} variant ${variant}`).not.toBe(5)
+      }
+      expect(Number(budget.visualConfig.left) % 1_000, `g4-est-06 left variant ${variant}`).not.toBe(500)
+      expect(Number(budget.visualConfig.right) % 1_000, `g4-est-06 right variant ${variant}`).not.toBe(500)
     }
   })
 

@@ -67,7 +67,7 @@ export default function MascotRouteCompanion() {
   const profile = MASCOT_PROFILES[mascotId]
   return (
     <aside
-      className="pointer-events-none fixed bottom-2 right-2 z-40 flex items-end gap-2 opacity-95 md:bottom-5 md:right-5 md:opacity-100"
+      className="pointer-events-none fixed bottom-2 right-0 z-40 flex items-end gap-2 opacity-95 md:bottom-5 md:right-5 md:opacity-100"
       aria-live="polite"
       data-testid="service-mascot"
       data-mascot-id={mascotId}
