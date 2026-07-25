@@ -21,6 +21,20 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 4 hundredths decimal addition and subtraction release
+  (primary workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the aligned decimal-operation visual, and focused bank, curriculum, receipt,
+  component, and browser tests. The new `unit-4-2-decimal-add-sub` bank covers
+  `[4수01-16]` with exactly ten deterministic templates, K4/A4/R2, ten
+  distinct families, two genuine reasoning families, and at least two
+  representations. All sums, differences, missing addends, carries, and
+  borrows must be calculated as integer hundredths from the displayed
+  operands. The aligned model may derive a result for reveal but must not put
+  that result in visual configuration or the DOM before solve. The standard
+  moves from planned to released only with passing Grade 4, curriculum,
+  mission-audit, mobile, storage, and deployment gates.
+
 - 2026-07-26: Grade 4 like-denominator fraction addition and subtraction
   release (primary workstreams 01, 03, and 04) owns the narrow change to
   `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,

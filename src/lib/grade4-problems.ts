@@ -2,7 +2,7 @@ import type { Grade4AnswerType } from './grade4-answer-normalizers'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
-export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip'
+export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation'
 export type Grade4VisualModel = Grade4Representation
 export type Grade4SupportTool = 'none' | 'grid' | 'ruler' | 'protractor'
 
@@ -87,6 +87,7 @@ export const GRADE4_DIVISION_UNIT_ID = 'unit-4-1-multiplication-division'
 export const GRADE4_ESTIMATION_UNIT_ID = 'unit-4-1-arithmetic-estimation'
 export const GRADE4_DECIMAL_UNIT_ID = 'unit-4-2-decimals'
 export const GRADE4_FRACTION_ADD_SUB_UNIT_ID = 'unit-4-2-fraction-add-sub'
+export const GRADE4_DECIMAL_ADD_SUB_UNIT_ID = 'unit-4-2-decimal-add-sub'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -147,6 +148,18 @@ export const grade4Units: Grade4Unit[] = [
     curriculumCodes: ['[4수01-15]'],
     prerequisiteCodes: ['[4수01-10]', '[4수01-11]'],
     contentReleaseId: 'grade4-bridge-fraction-add-sub-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_DECIMAL_ADD_SUB_UNIT_ID,
+    semester: '4-2',
+    order: 6,
+    title: '소수의 덧셈과 뺄셈',
+    subtitle: '소수점을 맞추어 소수 두 자리 수를 더하고 빼며 계산 원리를 설명해요.',
+    learnerGoal: '소수의 같은 자리끼리 계산하고 받아올림과 받아내림의 까닭을 설명해요.',
+    curriculumCodes: ['[4수01-16]'],
+    prerequisiteCodes: ['[4수01-13]', '[4수01-14]'],
+    contentReleaseId: 'grade4-bridge-decimal-add-sub-v1',
     releaseStatus: 'released',
   },
 ]
@@ -1153,6 +1166,207 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
         solutionSteps: [`앞 수의 자연수 부분에서 1을 빌려 ${denominator}/${denominator}로 바꿉니다.`, `${firstNumerator}/${denominator}-${secondNumerator}/${denominator}=${difference}/${denominator}이므로 ${fractionText(difference, denominator)}입니다.`],
         visualModel: 'fraction-strip',
         visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'subtract', firstLabel: '앞 수', secondLabel: '빼는 수' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-01', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'knowing',
+    problemFamily: 'hundredths-addition-without-regrouping', representation: 'decimal-operation', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 덧셈',
+    learnerGoal: '소수점을 맞추어 받아올림이 없는 소수 두 자리 수의 합을 구해요.',
+    promptTemplate: '받아올림이 없는 소수 두 자리 수의 덧셈을 계산하세요.', hintSteps: ['소수점을 기준으로 같은 자리끼리 세로로 맞춰요.', '백분의 일 자리부터 차례로 더하고 소수점을 그대로 내려 찍어요.'],
+    build: (v) => {
+      const leftScaled = 110 + v
+      const rightScaled = 229 - v
+      const correctAnswer = scaledDecimal(leftScaled + rightScaled, 2)
+      return {
+        prompt: `${scaledDecimal(leftScaled, 2)} + ${scaledDecimal(rightScaled, 2)}를 계산하세요.`,
+        correctAnswer,
+        solutionSteps: ['두 수의 소수점을 맞추면 같은 자리끼리 계산할 수 있습니다.', `${scaledDecimal(leftScaled, 2)}+${scaledDecimal(rightScaled, 2)}=${correctAnswer}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'add' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-02', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'knowing',
+    problemFamily: 'hundredths-addition-with-regrouping', representation: 'decimal-operation', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 받아올림',
+    learnerGoal: '백분의 일이나 십분의 일 자리에서 받아올림이 있는 소수 덧셈을 계산해요.',
+    promptTemplate: '받아올림이 있는 소수 두 자리 수의 덧셈을 계산하세요.', hintSteps: ['백분의 일 자리의 합이 10 이상이면 십분의 일 자리로 1을 올려요.', '십분의 일 자리의 합도 10 이상인지 확인해요.'],
+    build: (v) => {
+      const leftScaled = 145 + v
+      const rightScaled = 176 + v * 2
+      const correctAnswer = scaledDecimal(leftScaled + rightScaled, 2)
+      return {
+        prompt: `${scaledDecimal(leftScaled, 2)} + ${scaledDecimal(rightScaled, 2)}를 계산하세요.`,
+        correctAnswer,
+        solutionSteps: ['소수점을 맞춘 뒤 백분의 일 자리부터 더하고 필요한 자리에 받아올림합니다.', `${scaledDecimal(leftScaled, 2)}+${scaledDecimal(rightScaled, 2)}=${correctAnswer}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'add' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-03', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'knowing',
+    problemFamily: 'hundredths-subtraction-without-regrouping', representation: 'decimal-operation', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 뺄셈',
+    learnerGoal: '소수점을 맞추어 받아내림이 없는 소수 두 자리 수의 차를 구해요.',
+    promptTemplate: '받아내림이 없는 소수 두 자리 수의 뺄셈을 계산하세요.', hintSteps: ['두 수의 소수점을 세로로 맞춰요.', '백분의 일 자리부터 같은 자리끼리 빼요.'],
+    build: (v) => {
+      const leftScaled = 780 + v
+      const rightScaled = 230 + v
+      const correctAnswer = scaledDecimal(leftScaled - rightScaled, 2)
+      return {
+        prompt: `${scaledDecimal(leftScaled, 2)} - ${scaledDecimal(rightScaled, 2)}를 계산하세요.`,
+        correctAnswer,
+        solutionSteps: ['소수점을 맞추면 일, 십분의 일, 백분의 일 자리가 나란히 놓입니다.', `${scaledDecimal(leftScaled, 2)}-${scaledDecimal(rightScaled, 2)}=${correctAnswer}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'subtract' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-04', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'knowing',
+    problemFamily: 'hundredths-subtraction-with-regrouping', representation: 'decimal-operation', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 받아내림',
+    learnerGoal: '아랫자리 수가 더 클 때 윗자리에서 1을 받아 내려 소수 뺄셈을 해요.',
+    promptTemplate: '받아내림이 있는 소수 두 자리 수의 뺄셈을 계산하세요.', hintSteps: ['백분의 일 자리부터 바로 뺄 수 있는지 살펴봐요.', '필요하면 윗자리의 1을 아랫자리의 10으로 바꾸어 받아 내려요.'],
+    build: (v) => {
+      const leftScaled = 502 + (v % 3) * 10 + v
+      const rightScaled = 178 + v
+      const correctAnswer = scaledDecimal(leftScaled - rightScaled, 2)
+      return {
+        prompt: `${scaledDecimal(leftScaled, 2)} - ${scaledDecimal(rightScaled, 2)}를 계산하세요.`,
+        correctAnswer,
+        solutionSteps: ['같은 자리끼리 맞추고 바로 뺄 수 없는 자리에서는 윗자리의 1을 받아 내립니다.', `${scaledDecimal(leftScaled, 2)}-${scaledDecimal(rightScaled, 2)}=${correctAnswer}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'subtract' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-05', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'applying',
+    problemFamily: 'decimal-measurement-sum', representation: 'context', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 양 합하기',
+    learnerGoal: '같은 단위로 나타낸 두 길이를 더해 전체 길이를 구해요.',
+    promptTemplate: '두 소수 길이를 더하여 전체 길이를 구하세요.', hintSteps: ['두 길이의 단위가 같은지 확인해요.', '소수점을 맞추어 두 길이를 더해요.'],
+    build: (v) => {
+      const leftScaled = 235 + v * 3
+      const rightScaled = 148 + v * 2
+      const correctAnswer = scaledDecimal(leftScaled + rightScaled, 2)
+      return {
+        prompt: `파란 리본 ${scaledDecimal(leftScaled, 2)} m와 노란 리본 ${scaledDecimal(rightScaled, 2)} m를 이었습니다. 전체 길이는 몇 m인가요?`,
+        correctAnswer,
+        solutionSteps: ['두 리본의 길이를 모두 구하므로 덧셈식을 세웁니다.', `${scaledDecimal(leftScaled, 2)}+${scaledDecimal(rightScaled, 2)}=${correctAnswer}이므로 전체 길이는 ${correctAnswer} m입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'add', leftLabel: '파란 리본', rightLabel: '노란 리본' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-06', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'applying',
+    problemFamily: 'decimal-remaining-amount', representation: 'context', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 양 빼기',
+    learnerGoal: '처음 양에서 사용한 양을 빼 남은 양을 구해요.',
+    promptTemplate: '처음 있던 소수 양에서 사용한 양을 빼세요.', hintSteps: ['남은 양은 처음 양에서 사용한 양을 빼서 구해요.', '소수점을 맞춘 뒤 받아내림이 필요한지 살펴봐요.'],
+    build: (v) => {
+      const leftScaled = 865 + v * 3
+      const rightScaled = 247 + v * 2
+      const correctAnswer = scaledDecimal(leftScaled - rightScaled, 2)
+      return {
+        prompt: `물 ${scaledDecimal(leftScaled, 2)} L 중 ${scaledDecimal(rightScaled, 2)} L를 사용했습니다. 남은 물은 몇 L인가요?`,
+        correctAnswer,
+        solutionSteps: ['남은 양을 구하므로 처음 양에서 사용한 양을 뺍니다.', `${scaledDecimal(leftScaled, 2)}-${scaledDecimal(rightScaled, 2)}=${correctAnswer}이므로 ${correctAnswer} L가 남습니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'subtract', leftLabel: '처음 물', rightLabel: '사용한 물' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-07', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'applying',
+    problemFamily: 'missing-decimal-addend', representation: 'decimal-operation', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 덧셈 역산',
+    learnerGoal: '합과 한 덧셈 항을 보고 빠진 소수를 뺄셈으로 구해요.',
+    promptTemplate: '소수 덧셈식에서 빠진 덧셈 항을 구하세요.', hintSteps: ['빠진 덧셈 항은 합에서 알고 있는 덧셈 항을 빼면 돼요.', '합과 덧셈 항의 소수점을 맞추어 계산해요.'],
+    build: (v) => {
+      const leftScaled = 215 + v * 2
+      const totalScaled = 650 + v * 4
+      const correctAnswer = scaledDecimal(totalScaled - leftScaled, 2)
+      return {
+        prompt: `${scaledDecimal(leftScaled, 2)} + □ = ${scaledDecimal(totalScaled, 2)}입니다. □에 알맞은 소수를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`빠진 수는 ${scaledDecimal(totalScaled, 2)}-${scaledDecimal(leftScaled, 2)}로 구합니다.`, `계산하면 ${correctAnswer}이므로 □=${correctAnswer}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, totalScaled, operation: 'missing-addend' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-08', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'applying',
+    problemFamily: 'select-decimal-situation-equation', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '소수 식 세우기',
+    learnerGoal: '두 소수 양을 합하는 상황을 올바른 식으로 나타내요.',
+    promptTemplate: '두 소수 양의 합을 나타내는 식을 고르세요.', hintSteps: ['두 양을 모두 합하므로 덧셈식을 세워요.', '소수점 아래 자리 수가 달라도 같은 자리끼리 맞추어 계산해요.'],
+    build: (v, seed) => {
+      const leftScaled = 325 + v
+      const rightScaled = 148 + v * 2
+      const totalScaled = leftScaled + rightScaled
+      const correctAnswer = `${scaledDecimal(leftScaled, 2)} + ${scaledDecimal(rightScaled, 2)} = ${scaledDecimal(totalScaled, 2)}`
+      return {
+        prompt: `화분 두 개에 흙이 각각 ${scaledDecimal(leftScaled, 2)} kg, ${scaledDecimal(rightScaled, 2)} kg 들어 있습니다. 전체 양을 나타내는 식을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `${scaledDecimal(leftScaled, 2)} - ${scaledDecimal(rightScaled, 2)} = ${scaledDecimal(leftScaled - rightScaled, 2)}`,
+          `${scaledDecimal(leftScaled, 2)} + ${scaledDecimal(rightScaled, 2)} = ${scaledDecimal(totalScaled + 100, 2)}`,
+          `${scaledDecimal(leftScaled, 2)} - ${scaledDecimal(rightScaled, 2)} = ${scaledDecimal(totalScaled, 2)}`,
+        ], seed),
+        solutionSteps: ['두 화분의 흙을 모두 구하므로 덧셈식을 세웁니다.', `같은 자리끼리 더하면 ${correctAnswer}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'add', leftLabel: '첫째 화분', rightLabel: '둘째 화분' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-09', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'reasoning',
+    problemFamily: 'decimal-point-alignment-error', representation: 'decimal-operation', answerType: 'choice', supportTool: 'grid', skillTag: '소수점 정렬 오류',
+    learnerGoal: '소수의 끝자리만 맞춘 덧셈 오류를 자릿값으로 설명해요.',
+    promptTemplate: '소수점을 맞추지 않은 소수 덧셈의 오류를 고치세요.', hintSteps: ['소수 계산에서는 숫자의 끝이 아니라 소수점을 맞춰요.', '일은 일끼리, 십분의 일은 십분의 일끼리 더해야 해요.'],
+    build: (v, seed) => {
+      const leftScaled = 320 + v
+      const rightScaled = 45 + v
+      const sum = scaledDecimal(leftScaled + rightScaled, 2)
+      const correctAnswer = `소수점을 맞추면 ${scaledDecimal(leftScaled, 2)}+${scaledDecimal(rightScaled, 2)}=${sum}입니다.`
+      return {
+        prompt: `유나는 ${scaledDecimal(leftScaled, 2)}와 ${scaledDecimal(rightScaled, 2)}의 오른쪽 끝 숫자를 맞추어 더했습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          '오른쪽 끝 숫자만 맞추면 같은 자리끼리 계산되므로 옳습니다.',
+          '소수점은 계산한 뒤 두 수의 소수점 사이에 찍으면 됩니다.',
+          '소수점 아래 숫자는 모두 자연수 부분으로 옮겨 더해야 합니다.',
+        ], seed),
+        solutionSteps: ['숫자의 오른쪽 끝이 아니라 두 수의 소수점을 같은 세로선에 놓습니다.', `같은 자리끼리 더하면 합은 ${sum}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'add' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-10', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'reasoning',
+    problemFamily: 'decimal-regrouping-error', representation: 'decimal-operation', answerType: 'choice', supportTool: 'grid', skillTag: '소수 받아내림 오류',
+    learnerGoal: '소수 뺄셈에서 윗자리의 1이 아랫자리의 10이 되는 까닭을 설명해요.',
+    promptTemplate: '받아내림을 하지 않은 소수 뺄셈의 오류를 고치세요.', hintSteps: ['각 자리에서 위 숫자가 아래 숫자보다 작은지 확인해요.', '십분의 일 1은 백분의 일 10과 같아요.'],
+    build: (v, seed) => {
+      const leftScaled = 503 + v
+      const rightScaled = 178 + v
+      const difference = scaledDecimal(leftScaled - rightScaled, 2)
+      const correctAnswer = `윗자리의 1을 아랫자리의 10으로 바꾸어 받아내림하면 답은 ${difference}입니다.`
+      return {
+        prompt: `도윤이는 ${scaledDecimal(leftScaled, 2)}-${scaledDecimal(rightScaled, 2)}에서 작은 숫자에서 큰 숫자를 뺄 수 없다고 멈췄습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          '각 자리의 큰 숫자에서 작은 숫자를 빼면 되므로 수의 순서는 상관없습니다.',
+          '소수점 아래 부분만 따로 자연수로 만들어 더해야 합니다.',
+          '받아내림 없이 계산할 수 없으므로 두 소수의 차는 구할 수 없습니다.',
+        ], seed),
+        solutionSteps: ['바로 뺄 수 없는 자리에서는 윗자리의 1을 아랫자리의 10으로 바꾸어 받아 내립니다.', `같은 자리끼리 계산하면 ${scaledDecimal(leftScaled, 2)}-${scaledDecimal(rightScaled, 2)}=${difference}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'subtract' },
       }
     },
   }),

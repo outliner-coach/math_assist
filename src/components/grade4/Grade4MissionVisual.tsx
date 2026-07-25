@@ -204,6 +204,96 @@ function FractionStrip({ mission, showAnswer }: { mission: Grade4Mission; showAn
   )
 }
 
+function DecimalDigits({ scaled }: { scaled: number }) {
+  const whole = Math.floor(scaled / 100)
+  const tenths = Math.floor((scaled % 100) / 10)
+  const hundredths = scaled % 10
+  return (
+    <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)_minmax(0,1fr)] text-center text-2xl font-black text-[#0f172a]">
+      <span className="p-2">{whole}</span>
+      <span aria-label="소수점" className="p-2 text-[#f97316]">.</span>
+      <span className="border-l border-[#c7d2fe] p-2">{tenths}</span>
+      <span className="border-l border-[#c7d2fe] p-2">{hundredths}</span>
+    </div>
+  )
+}
+
+function decimalText(scaled: number): string {
+  return `${Math.floor(scaled / 100)}.${String(scaled % 100).padStart(2, '0')}`
+}
+
+function DecimalOperationRow({ scaled, operator = '' }: { scaled: number; operator?: string }) {
+  const whole = Math.floor(scaled / 100)
+  const tenths = Math.floor((scaled % 100) / 10)
+  const hundredths = scaled % 10
+  return (
+    <div className="grid grid-cols-[2rem_minmax(0,1fr)_3.5rem_minmax(0,1fr)_minmax(0,1fr)] items-center text-center text-2xl font-black text-[#0f172a]">
+      <span className={operator ? 'text-[#f97316]' : 'text-[#94a3b8]'}>{operator || '\u00a0'}</span>
+      <span className="p-2">{whole}</span>
+      <span aria-label="소수점" className="p-2 text-[#f97316]">.</span>
+      <span className="border-l border-[#c7d2fe] p-2">{tenths}</span>
+      <span className="border-l border-[#c7d2fe] p-2">{hundredths}</span>
+    </div>
+  )
+}
+
+function DecimalOperation({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
+  const leftScaled = number(mission.visualConfig.leftScaled)
+  const rightValue = mission.visualConfig.rightScaled
+  const rightScaled = rightValue === undefined ? null : number(rightValue)
+  const totalValue = mission.visualConfig.totalScaled
+  const totalScaled = totalValue === undefined ? null : number(totalValue)
+  const operation = label(mission.visualConfig.operation)
+  const isMissingAddend = operation === 'missing-addend'
+  const symbol = operation === 'subtract' ? '−' : '+'
+  const calculatedResult = showAnswer && mission.answerType === 'decimal'
+    ? (isMissingAddend ? (totalScaled ?? 0) - leftScaled : symbol === '−' ? leftScaled - (rightScaled ?? 0) : leftScaled + (rightScaled ?? 0))
+    : null
+
+  if (isMissingAddend && totalScaled !== null) {
+    return (
+      <div data-testid="grade4-visual-decimal-operation" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-4">
+        <p className="mb-3 text-center text-xs font-black text-[#4338ca]">소수점을 맞추어 같은 자리끼리 계산해요</p>
+        <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_minmax(0,1fr)] sm:items-center">
+          <div className="rounded-2xl bg-white p-2 shadow-sm"><DecimalDigits scaled={leftScaled} /></div>
+          <span className="text-center text-2xl font-black text-[#f97316]">+</span>
+          <div aria-label="구할 소수" className="rounded-2xl border-2 border-dashed border-[#a5b4fc] bg-white p-4 text-center text-3xl font-black text-[#64748b]">□</div>
+          <span className="text-center text-2xl font-black text-[#f97316]">=</span>
+          <div className="rounded-2xl bg-white p-2 shadow-sm"><DecimalDigits scaled={totalScaled} /></div>
+        </div>
+        {calculatedResult !== null && (
+          <p data-testid="grade4-decimal-operation-result" data-result={decimalText(calculatedResult)} className="mt-3 rounded-2xl bg-[#dcfce7] p-3 text-center text-lg font-black text-[#166534]">
+            답: {decimalText(calculatedResult)}
+          </p>
+        )}
+      </div>
+    )
+  }
+
+  return (
+    <div data-testid="grade4-visual-decimal-operation" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-4">
+      <div className="mx-auto max-w-md overflow-hidden rounded-2xl border-2 border-[#a5b4fc] bg-white shadow-sm">
+        <div className="grid grid-cols-[2rem_minmax(0,1fr)_3.5rem_minmax(0,1fr)_minmax(0,1fr)] border-b border-[#c7d2fe] bg-[#e0e7ff] text-center text-[11px] font-black text-[#4338ca]">
+          <span aria-hidden="true" className="p-2" />
+          <span className="p-2">일</span>
+          <span className="whitespace-nowrap p-2">소수점</span>
+          <span className="p-2">십분의 일</span>
+          <span className="p-2">백분의 일</span>
+        </div>
+        <div className="border-b border-[#c7d2fe]"><DecimalOperationRow scaled={leftScaled} /></div>
+        {rightScaled === null
+          ? <span className="block p-4 text-center text-3xl font-black text-[#64748b]">□</span>
+          : <DecimalOperationRow scaled={rightScaled} operator={symbol} />}
+      </div>
+      {calculatedResult !== null && (
+        <p data-testid="grade4-decimal-operation-result" data-result={decimalText(calculatedResult)} className="mx-auto mt-3 max-w-md rounded-2xl bg-[#dcfce7] p-3 text-center text-lg font-black text-[#166534]">
+          답: {decimalText(calculatedResult)}
+        </p>
+      )}
+    </div>
+  )
+}
+
 function DivisionModel({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
   const divisor = number(mission.visualConfig.divisor)
   const dividend = number(mission.visualConfig.dividend)
@@ -260,5 +350,6 @@ export default function Grade4MissionVisual({ mission, showAnswer = false }: { m
   if (mission.visualModel === 'number-line') return <NumberLine mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'division-model') return <DivisionModel mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'fraction-strip') return <FractionStrip mission={mission} showAnswer={showAnswer} />
+  if (mission.visualModel === 'decimal-operation') return <DecimalOperation mission={mission} showAnswer={showAnswer} />
   return <Context mission={mission} />
 }

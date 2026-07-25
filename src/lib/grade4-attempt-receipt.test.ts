@@ -5,6 +5,7 @@ import { appendGrade4AttemptReceipt, createGrade4AttemptReceipt } from './grade4
 import {
   GRADE4_CONTENT_RELEASE_ID,
   GRADE4_DECIMAL_UNIT_ID,
+  GRADE4_DECIMAL_ADD_SUB_UNIT_ID,
   GRADE4_DIVISION_UNIT_ID,
   GRADE4_ESTIMATION_UNIT_ID,
   GRADE4_FRACTION_ADD_SUB_UNIT_ID,
@@ -99,5 +100,18 @@ describe('Grade 4 attempt receipt', () => {
     })
 
     expect(receipt.contentReleaseId).toBe('grade4-bridge-fraction-add-sub-v1')
+  })
+
+  it('uses the decimal-add-sub release identity', () => {
+    const decimalOperationMission = getGrade4Activity(GRADE4_DECIMAL_ADD_SUB_UNIT_ID, 20260721, 0)[0]
+    const receipt = createGrade4AttemptReceipt({
+      mission: decimalOperationMission,
+      activityRun: 0,
+      attemptOrdinal: 0,
+      correct: true,
+      usedHint: false,
+    })
+
+    expect(receipt.contentReleaseId).toBe('grade4-bridge-decimal-add-sub-v1')
   })
 })

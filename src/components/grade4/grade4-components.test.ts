@@ -90,6 +90,18 @@ describe('Grade4MissionVisual', () => {
     const missingHidden = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission: missing }))
     expect(missingHidden).not.toContain(missing.correctAnswer)
   })
+
+  it('aligns decimal operands by place and withholds the calculated result until reveal', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-dop-02')!
+    const hidden = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+    const shown = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission, showAnswer: true }))
+
+    expect(hidden).toContain('grade4-visual-decimal-operation')
+    expect(hidden).toContain('소수점')
+    expect(hidden).not.toContain('grade4-decimal-operation-result')
+    expect(hidden).not.toContain(mission.correctAnswer)
+    expect(shown).toContain(`data-result="${mission.correctAnswer}"`)
+  })
 })
 
 describe('Grade4MissionCard', () => {

@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest'
 import {
   GRADE4_ACTIVITY_ITEM_COUNT,
   GRADE4_DECIMAL_UNIT_ID,
+  GRADE4_DECIMAL_ADD_SUB_UNIT_ID,
   GRADE4_ESTIMATION_UNIT_ID,
   GRADE4_FRACTION_ADD_SUB_UNIT_ID,
   getGrade4Activity,
@@ -22,23 +23,24 @@ describe('Grade 4 Bridge release bank', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(5)
+    expect(grade4Units).toHaveLength(6)
     expect(grade4Units.map((unit) => unit.id)).toEqual([
       'unit-4-1-large-numbers',
       'unit-4-1-multiplication-division',
       'unit-4-1-arithmetic-estimation',
       'unit-4-2-decimals',
       'unit-4-2-fraction-add-sub',
+      'unit-4-2-decimal-add-sub',
     ])
-    expect(grade4MissionTemplates).toHaveLength(50)
+    expect(grade4MissionTemplates).toHaveLength(60)
     expect(result.summary).toMatchObject({
-      unitCount: 5,
-      templateCount: 50,
-      knowingCount: 20,
-      applyingCount: 20,
-      reasoningCount: 10,
-      reasoningFamilyCount: 10,
-      representationCount: 6,
+      unitCount: 6,
+      templateCount: 60,
+      knowingCount: 24,
+      applyingCount: 24,
+      reasoningCount: 12,
+      reasoningFamilyCount: 12,
+      representationCount: 7,
     })
 
     for (const unit of grade4Units) {
@@ -353,6 +355,49 @@ describe('Grade 4 Bridge release bank', () => {
         Number(missing.visualConfig.totalNumerator) - Number(missing.visualConfig.firstNumerator),
       )
       expect(missing.visualConfig).not.toHaveProperty('resultNumerator')
+    }
+  })
+
+  it('derives every hundredths decimal operation from aligned integer place values', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === GRADE4_DECIMAL_ADD_SUB_UNIT_ID)
+        .map((item) => [item.id, item]),
+    )
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-dop-01', 'g4-dop-02', 'g4-dop-03', 'g4-dop-04', 'g4-dop-05',
+      'g4-dop-06', 'g4-dop-07', 'g4-dop-08', 'g4-dop-09', 'g4-dop-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        } else {
+          expect(mission.correctAnswer, `${template.id} variant ${variant}`).toMatch(/^\d+\.\d{2}$/)
+        }
+        expect(mission.visualConfig).not.toHaveProperty('resultScaled')
+      }
+
+      for (const id of ['g4-dop-01', 'g4-dop-02', 'g4-dop-05']) {
+        const mission = templates.get(id)!.build(variant, variant)
+        expect(Math.round(Number(mission.correctAnswer) * 100)).toBe(
+          Number(mission.visualConfig.leftScaled) + Number(mission.visualConfig.rightScaled),
+        )
+      }
+      for (const id of ['g4-dop-03', 'g4-dop-04', 'g4-dop-06']) {
+        const mission = templates.get(id)!.build(variant, variant)
+        expect(Math.round(Number(mission.correctAnswer) * 100)).toBe(
+          Number(mission.visualConfig.leftScaled) - Number(mission.visualConfig.rightScaled),
+        )
+      }
+      const missing = templates.get('g4-dop-07')!.build(variant, variant)
+      expect(Math.round(Number(missing.correctAnswer) * 100)).toBe(
+        Number(missing.visualConfig.totalScaled) - Number(missing.visualConfig.leftScaled),
+      )
     }
   })
 

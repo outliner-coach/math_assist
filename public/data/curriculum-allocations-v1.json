@@ -318,11 +318,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 18,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade4:unit-4-2-decimal-add-sub:grade4-bridge-decimal-add-sub-v1"
+      ],
       "allocationRationale": "소수 자릿값과 비교 뒤 덧셈 뺄셈",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-26"
     },
     {
       "standardCode": "[4수02-01]",
