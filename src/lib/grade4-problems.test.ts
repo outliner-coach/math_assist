@@ -12,6 +12,7 @@ import {
   GRADE4_FRACTION_ADD_SUB_UNIT_ID,
   GRADE4_PATTERNS_UNIT_ID,
   GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID,
+  GRADE4_POLYGONS_UNIT_ID,
   GRADE4_QUADRILATERALS_UNIT_ID,
   GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID,
   GRADE4_TRIANGLES_UNIT_ID,
@@ -29,7 +30,7 @@ describe('Grade 4 Bridge release bank', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(12)
+    expect(grade4Units).toHaveLength(13)
     expect(grade4Units.map((unit) => unit.id)).toEqual([
       'unit-4-1-large-numbers',
       'unit-4-1-multiplication-division',
@@ -43,16 +44,17 @@ describe('Grade 4 Bridge release bank', () => {
       'unit-4-1-shape-transformations',
       'unit-4-2-triangles',
       'unit-4-2-quadrilaterals',
+      'unit-4-2-polygons',
     ])
-    expect(grade4MissionTemplates).toHaveLength(120)
+    expect(grade4MissionTemplates).toHaveLength(130)
     expect(result.summary).toMatchObject({
-      unitCount: 12,
-      templateCount: 120,
-      knowingCount: 48,
-      applyingCount: 48,
-      reasoningCount: 24,
-      reasoningFamilyCount: 24,
-      representationCount: 13,
+      unitCount: 13,
+      templateCount: 130,
+      knowingCount: 52,
+      applyingCount: 52,
+      reasoningCount: 26,
+      reasoningFamilyCount: 26,
+      representationCount: 15,
     })
 
     for (const unit of grade4Units) {
@@ -666,6 +668,51 @@ describe('Grade 4 Bridge release bank', () => {
 
       const oneRightAngle = templates.get('g4-quad-08')!.build(variant, variant)
       expect(oneRightAngle.visualConfig).toMatchObject({ shapeType: 'rectangle', rightAngles: 1, parallelPairs: 2 })
+    }
+  })
+
+  it('derives polygon names, diagonals, and filling counts from one geometry model', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === GRADE4_POLYGONS_UNIT_ID)
+        .map((item) => [item.id, item]),
+    )
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-poly-01', 'g4-poly-02', 'g4-poly-03', 'g4-poly-04', 'g4-poly-05',
+      'g4-poly-06', 'g4-poly-07', 'g4-poly-08', 'g4-poly-09', 'g4-poly-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        }
+        expect(mission.visualConfig).not.toHaveProperty('answer')
+        expect(mission.visualConfig).not.toHaveProperty('result')
+        expect(mission.visualConfig).not.toHaveProperty('tileCount')
+      }
+
+      const diagonal = templates.get('g4-poly-04')!.build(variant, variant)
+      expect(diagonal.correctAnswer).toBe(`${Number(diagonal.visualConfig.sideCount) - 3}개`)
+
+      const regularPerimeter = templates.get('g4-poly-05')!.build(variant, variant)
+      expect(Number(regularPerimeter.correctAnswer)).toBe(
+        Number(regularPerimeter.visualConfig.sideCount) * Number(regularPerimeter.visualConfig.sideLength),
+      )
+
+      const squareFill = templates.get('g4-poly-07')!.build(variant, variant)
+      expect(squareFill.correctAnswer).toBe(
+        `${Number(squareFill.visualConfig.rows) * Number(squareFill.visualConfig.columns)}개`,
+      )
+
+      const equalSidesOnly = templates.get('g4-poly-09')!.build(variant, variant)
+      expect(equalSidesOnly.visualConfig).toMatchObject({ sideCount: 4, regular: false, equalSides: true })
+
+      const gap = templates.get('g4-poly-10')!.build(variant, variant)
+      expect(gap.visualConfig).toMatchObject({ tileShape: 'pentagon', columns: 3, hasGap: true })
     }
   })
 

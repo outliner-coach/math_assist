@@ -854,6 +854,176 @@ function QuadrilateralModel({ mission }: { mission: Grade4Mission }) {
   )
 }
 
+function PolygonModel({ mission }: { mission: Grade4Mission }) {
+  const sideCount = Math.max(3, Math.min(8, Math.round(number(mission.visualConfig.sideCount))))
+  const regular = Boolean(mission.visualConfig.regular)
+  const equalSides = Boolean(mission.visualConfig.equalSides)
+  const showDiagonals = Boolean(mission.visualConfig.showDiagonals)
+  const isRhombus = label(mission.visualConfig.shapeType) === 'rhombus' && sideCount === 4
+  const center: Point = { x: 160, y: 108 }
+  const points: Point[] = isRhombus
+    ? [{ x: 160, y: 30 }, { x: 260, y: 108 }, { x: 160, y: 186 }, { x: 60, y: 108 }]
+    : Array.from({ length: sideCount }, (_, index) => {
+      const angle = -Math.PI / 2 + index * Math.PI * 2 / sideCount
+      const radius = regular ? 78 : (index % 2 === 0 ? 78 : 65)
+      return { x: center.x + Math.cos(angle) * radius, y: center.y + Math.sin(angle) * radius }
+    })
+  const pointString = points.map((point) => `${point.x},${point.y}`).join(' ')
+  const diagonals = showDiagonals ? points.slice(2, -1) : []
+  const sideMark = (index: number) => {
+    const first = points[index]
+    const second = points[(index + 1) % points.length]
+    const midpoint = { x: (first.x + second.x) / 2, y: (first.y + second.y) / 2 }
+    const distance = Math.hypot(second.x - first.x, second.y - first.y) || 1
+    const normal = { x: -(second.y - first.y) / distance, y: (second.x - first.x) / distance }
+    return {
+      x1: midpoint.x - normal.x * 6,
+      y1: midpoint.y - normal.y * 6,
+      x2: midpoint.x + normal.x * 6,
+      y2: midpoint.y + normal.y * 6,
+    }
+  }
+
+  return (
+    <div data-testid="grade4-visual-polygon-model" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-3">
+      <svg
+        viewBox="0 0 320 215"
+        role="img"
+        aria-label={`${sideCount}개의 변을 가진 다각형`}
+        data-side-count={sideCount}
+        data-regular={regular ? 'true' : 'false'}
+        className="h-auto w-full"
+      >
+        <rect x="4" y="4" width="312" height="207" rx="22" fill="#ffffff" />
+        <polygon points={pointString} fill="#e0e7ff" stroke="#4f46e5" strokeWidth="5" strokeLinejoin="round" />
+        {(regular || equalSides) && points.map((_, index) => (
+          <line key={`side-mark-${index}`} data-testid="grade4-polygon-equal-side" {...sideMark(index)} stroke="#be123c" strokeWidth="4" strokeLinecap="round" />
+        ))}
+        {regular && points.map((point, index) => (
+          <circle key={`angle-mark-${index}`} data-testid="grade4-polygon-equal-angle" cx={point.x * 0.86 + center.x * 0.14} cy={point.y * 0.86 + center.y * 0.14} r="3.5" fill="#f97316" />
+        ))}
+        {diagonals.map((point, index) => (
+          <line
+            key={`diagonal-${index}`}
+            data-testid="grade4-polygon-diagonal"
+            x1={points[0].x}
+            y1={points[0].y}
+            x2={point.x}
+            y2={point.y}
+            stroke="#0f766e"
+            strokeWidth="3"
+            strokeDasharray="7 5"
+          />
+        ))}
+        {number(mission.visualConfig.sideLength) > 0 && (
+          <text x="160" y="207" textAnchor="middle" fill="#4338ca" fontSize="12" fontWeight="900">
+            한 변 {number(mission.visualConfig.sideLength)} cm
+          </text>
+        )}
+      </svg>
+    </div>
+  )
+}
+
+function TilingModel({ mission }: { mission: Grade4Mission }) {
+  const tileShape = label(mission.visualConfig.tileShape)
+  const arrangement = label(mission.visualConfig.arrangement)
+  const rows = Math.max(1, Math.round(number(mission.visualConfig.rows)))
+  const columns = Math.max(1, Math.round(number(mission.visualConfig.columns)))
+  const hasGap = Boolean(mission.visualConfig.hasGap)
+  const cells: React.ReactNode[] = []
+
+  if (tileShape === 'square') {
+    const cellWidth = 220 / columns
+    const cellHeight = 126 / rows
+    for (let row = 0; row < rows; row += 1) {
+      for (let column = 0; column < columns; column += 1) {
+        cells.push(
+          <rect
+            key={`square-${row}-${column}`}
+            data-testid="grade4-tiling-cell"
+            x={50 + column * cellWidth}
+            y={40 + row * cellHeight}
+            width={cellWidth}
+            height={cellHeight}
+            fill={(row + column) % 2 === 0 ? '#e0e7ff' : '#cffafe'}
+            stroke="#4f46e5"
+            strokeWidth="3"
+          />,
+        )
+      }
+    }
+  } else if (tileShape === 'triangle' && arrangement === 'paired') {
+    cells.push(
+      <polygon key="paired-left" data-testid="grade4-tiling-cell" points="70,45 250,45 70,170" fill="#e0e7ff" stroke="#4f46e5" strokeWidth="4" />,
+      <polygon key="paired-right" data-testid="grade4-tiling-cell" points="250,45 250,170 70,170" fill="#cffafe" stroke="#4f46e5" strokeWidth="4" />,
+    )
+  } else if (tileShape === 'triangle') {
+    const xStep = 220 / (columns + 1)
+    const cellHeight = 120 / rows
+    const xPoints = Array.from({ length: columns + 2 }, (_, index) => 50 + index * xStep)
+    for (let row = 0; row < rows; row += 1) {
+      for (let column = 0; column < columns; column += 1) {
+        const y = 43 + row * cellHeight
+        const points = (row + column) % 2 === 0
+          ? `${xPoints[column]},${y + cellHeight} ${xPoints[column + 1]},${y} ${xPoints[column + 2]},${y + cellHeight}`
+          : `${xPoints[column]},${y} ${xPoints[column + 2]},${y} ${xPoints[column + 1]},${y + cellHeight}`
+        cells.push(
+          <polygon key={`triangle-${row}-${column}`} data-testid="grade4-tiling-cell" points={points} fill={(row + column) % 2 === 0 ? '#e0e7ff' : '#cffafe'} stroke="#4f46e5" strokeWidth="3" />,
+        )
+      }
+    }
+  } else {
+    const shown = 3
+    const origin: Point = { x: 160, y: 108 }
+    const side = 48
+    for (let index = 0; index < shown; index += 1) {
+      const startAngle = (-54 + index * 108) * Math.PI / 180
+      const tilePoints: Point[] = [origin]
+      for (let edgeIndex = 0; edgeIndex < 4; edgeIndex += 1) {
+        const previous = tilePoints[tilePoints.length - 1]
+        const direction = startAngle + edgeIndex * 72 * Math.PI / 180
+        tilePoints.push({
+          x: previous.x + Math.cos(direction) * side,
+          y: previous.y + Math.sin(direction) * side,
+        })
+      }
+      const points = tilePoints.map((point) => `${point.x},${point.y}`).join(' ')
+      cells.push(
+        <polygon key={`pentagon-${index}`} data-testid="grade4-tiling-cell" points={points} fill={index % 2 === 0 ? '#e0e7ff' : '#cffafe'} stroke="#4f46e5" strokeWidth="3" />,
+      )
+    }
+  }
+
+  return (
+    <div data-testid="grade4-visual-tiling-model" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-3">
+      <svg
+        viewBox="0 0 320 215"
+        role="img"
+        aria-label={`${tileShape === 'square' ? '정사각형' : tileShape === 'triangle' ? '삼각형' : '정오각형'} 조각으로 만든 모양`}
+        data-tile-shape={tileShape}
+        data-rows={rows}
+        data-columns={columns}
+        data-has-gap={hasGap ? 'true' : 'false'}
+        className="h-auto w-full"
+      >
+        <rect x="4" y="4" width="312" height="207" rx="22" fill="#ffffff" />
+        {cells}
+        {hasGap && (
+          <path
+            data-testid="grade4-tiling-gap"
+            d="M 160 108 L 160 146 L 190.7 130.3 Z"
+            fill="#ffedd5"
+            stroke="#f97316"
+            strokeWidth="3"
+            strokeDasharray="5 4"
+          />
+        )}
+      </svg>
+    </div>
+  )
+}
+
 function DivisionModel({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
   const divisor = number(mission.visualConfig.divisor)
   const dividend = number(mission.visualConfig.dividend)
@@ -917,5 +1087,7 @@ export default function Grade4MissionVisual({ mission, showAnswer = false }: { m
   if (mission.visualModel === 'shape-transformation') return <ShapeTransformation mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'triangle-model') return <TriangleModel mission={mission} />
   if (mission.visualModel === 'quadrilateral-model') return <QuadrilateralModel mission={mission} />
+  if (mission.visualModel === 'polygon-model') return <PolygonModel mission={mission} />
+  if (mission.visualModel === 'tiling-model') return <TilingModel mission={mission} />
   return <Context mission={mission} />
 }

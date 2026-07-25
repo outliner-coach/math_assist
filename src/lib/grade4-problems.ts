@@ -2,7 +2,7 @@ import type { Grade4AnswerType } from './grade4-answer-normalizers'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
-export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship' | 'shape-transformation' | 'triangle-model' | 'quadrilateral-model'
+export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship' | 'shape-transformation' | 'triangle-model' | 'quadrilateral-model' | 'polygon-model' | 'tiling-model'
 export type Grade4VisualModel = Grade4Representation
 export type Grade4SupportTool = 'none' | 'grid' | 'ruler' | 'protractor'
 
@@ -94,6 +94,7 @@ export const GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID = 'unit-4-1-perpendicular-par
 export const GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID = 'unit-4-1-shape-transformations'
 export const GRADE4_TRIANGLES_UNIT_ID = 'unit-4-2-triangles'
 export const GRADE4_QUADRILATERALS_UNIT_ID = 'unit-4-2-quadrilaterals'
+export const GRADE4_POLYGONS_UNIT_ID = 'unit-4-2-polygons'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -240,6 +241,18 @@ export const grade4Units: Grade4Unit[] = [
     contentReleaseId: 'grade4-bridge-quadrilaterals-v1',
     releaseStatus: 'released',
   },
+  {
+    id: GRADE4_POLYGONS_UNIT_ID,
+    semester: '4-2',
+    order: 13,
+    title: '다각형과 모양 채우기',
+    subtitle: '변과 각의 성질로 다각형을 살피고 여러 도형으로 빈틈없이 모양을 채워요.',
+    learnerGoal: '다각형과 정다각형의 성질을 설명하고 도형을 이어 붙인 결과를 근거 있게 판단해요.',
+    curriculumCodes: ['[4수03-11]', '[4수03-12]'],
+    prerequisiteCodes: ['[4수03-04]', '[4수03-08]', '[4수03-10]'],
+    contentReleaseId: 'grade4-bridge-polygons-v1',
+    releaseStatus: 'released',
+  },
 ]
 
 export function grade4ContentReleaseIdForUnit(unitId: string): string {
@@ -276,6 +289,11 @@ function fractionText(numerator: number, denominator: number): string {
 
 function coordinateText(x: number, y: number): string {
   return `(${x}, ${y})`
+}
+
+function polygonName(sideCount: number): string {
+  return ({ 3: '삼각형', 4: '사각형', 5: '오각형', 6: '육각형', 7: '칠각형', 8: '팔각형' } as Record<number, string>)[sideCount]
+    ?? `${sideCount}각형`
 }
 
 function template(value: Grade4MissionTemplate): Grade4MissionTemplate {
@@ -2557,6 +2575,154 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
         choices: rotateChoices([correctAnswer, '마름모이지만 직사각형의 성질은 없습니다.', '직사각형이지만 마름모의 성질은 없습니다.', '사다리꼴이라고만 해야 합니다.'], seed),
         solutionSteps: ['네 변이 같으므로 마름모의 성질을 가집니다.', '네 각이 직각이므로 직사각형의 성질도 가지며, 두 조건을 모두 만족하는 정사각형입니다.'],
         visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'square', width: side, height: side, rightAngles: 4, parallelPairs: 2, equalSides: 4 } }
+    },
+  }),
+  template({
+    id: 'g4-poly-01', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-11]', cognitiveDomain: 'knowing',
+    problemFamily: 'name-polygon-from-side-count', representation: 'polygon-model', answerType: 'choice', supportTool: 'none', skillTag: '다각형 이름',
+    learnerGoal: '변의 수를 세어 다각형의 이름을 말해요.',
+    promptTemplate: '변의 수에서 다각형의 이름을 고르세요.', hintSteps: ['곧은 선분으로 된 변을 차례로 세어요.', '변의 수와 같은 수의 각을 가진 다각형 이름을 떠올려요.'],
+    build: (v, seed) => {
+      const sideCount = 5 + (v % 4)
+      const correctAnswer = polygonName(sideCount)
+      const choices = ['오각형', '육각형', '칠각형', '팔각형']
+      return { prompt: `그림처럼 ${sideCount}개의 선분으로 둘러싸인 다각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices(choices, seed),
+        solutionSteps: [`도형의 변은 ${sideCount}개입니다.`, `변이 ${sideCount}개인 다각형은 ${correctAnswer}입니다.`],
+        visualModel: 'polygon-model', visualConfig: { sideCount, regular: false, equalSides: false, showDiagonals: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-02', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-11]', cognitiveDomain: 'knowing',
+    problemFamily: 'regular-polygon-definition', representation: 'polygon-model', answerType: 'choice', supportTool: 'ruler', skillTag: '정다각형',
+    learnerGoal: '모든 변과 모든 각이 각각 같은 다각형을 정다각형으로 설명해요.',
+    promptTemplate: '정다각형이 되기 위한 변과 각의 조건을 고르세요.', hintSteps: ['변의 길이 조건을 모두 확인해요.', '각의 크기 조건도 모두 확인해야 해요.'],
+    build: (v, seed) => {
+      const sideCount = 5 + (v % 4)
+      const correctAnswer = '모든 변의 길이와 모든 각의 크기가 각각 같습니다.'
+      return { prompt: `그림은 정${polygonName(sideCount)}입니다. 정다각형의 공통 성질을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '모든 변의 길이만 같으면 되고 각은 달라도 됩니다.', '모든 각의 크기만 같으면 되고 변은 달라도 됩니다.', '마주 보는 변이 한 쌍만 평행하면 됩니다.'], seed),
+        solutionSteps: ['정다각형은 모든 변의 길이가 같습니다.', '모든 각의 크기도 각각 같아야 합니다.'],
+        visualModel: 'polygon-model', visualConfig: { sideCount, regular: true, equalSides: true, showDiagonals: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-03', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-11]', cognitiveDomain: 'knowing',
+    problemFamily: 'name-regular-polygon', representation: 'polygon-model', answerType: 'choice', supportTool: 'ruler', skillTag: '정다각형 이름',
+    learnerGoal: '변과 각이 모두 같은 다각형을 변의 수와 연결해 이름 붙여요.',
+    promptTemplate: '정다각형의 변 수를 보고 정확한 이름을 고르세요.', hintSteps: ['먼저 변의 수에서 다각형 이름을 정해요.', '변과 각이 모두 같으므로 이름 앞에 정을 붙여요.'],
+    build: (v, seed) => {
+      const sideCount = 6 + (v % 3)
+      const correctAnswer = `정${polygonName(sideCount)}`
+      return { prompt: `변이 ${sideCount}개이고 모든 변의 길이와 모든 각의 크기가 각각 같은 도형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, polygonName(sideCount), `정${polygonName(sideCount - 1)}`, `정${polygonName(sideCount + 1)}`], seed),
+        solutionSteps: [`변이 ${sideCount}개이므로 ${polygonName(sideCount)}입니다.`, '변과 각이 모두 각각 같으므로 정다각형입니다.'],
+        visualModel: 'polygon-model', visualConfig: { sideCount, regular: true, equalSides: true, showDiagonals: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-04', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-11]', cognitiveDomain: 'knowing',
+    problemFamily: 'diagonals-from-one-vertex', representation: 'polygon-model', answerType: 'choice', supportTool: 'ruler', skillTag: '대각선',
+    learnerGoal: '한 꼭짓점에서 이웃하지 않은 꼭짓점으로 그을 수 있는 대각선을 세어요.',
+    promptTemplate: '한 꼭짓점에서 그을 수 있는 대각선 수를 구하세요.', hintSteps: ['자기 자신과 양옆의 두 꼭짓점에는 대각선을 긋지 않아요.', '전체 꼭짓점 수에서 이 세 꼭짓점을 빼요.'],
+    build: (v, seed) => {
+      const sideCount = 5 + (v % 4)
+      const count = sideCount - 3
+      const correctAnswer = `${count}개`
+      return { prompt: `${polygonName(sideCount)}의 한 꼭짓점에서 그을 수 있는 대각선은 모두 몇 개일까요?`, correctAnswer,
+        choices: rotateChoices([`${count}개`, `${count + 1}개`, `${count + 2}개`, `${count + 3}개`], seed),
+        solutionSteps: [`꼭짓점은 ${sideCount}개입니다.`, `자기 자신과 이웃한 두 꼭짓점을 빼면 ${sideCount}-3=${count}개입니다.`],
+        visualModel: 'polygon-model', visualConfig: { sideCount, regular: true, equalSides: true, showDiagonals: true } }
+    },
+  }),
+  template({
+    id: 'g4-poly-05', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-11]', cognitiveDomain: 'applying',
+    problemFamily: 'regular-polygon-perimeter', representation: 'polygon-model', answerType: 'integer', supportTool: 'ruler', skillTag: '정다각형 둘레',
+    learnerGoal: '정다각형의 같은 변 길이와 변의 수를 곱해 둘레를 구해요.',
+    promptTemplate: '한 변의 길이와 변의 수로 정다각형의 둘레를 구하세요.', hintSteps: ['정다각형의 모든 변은 길이가 같아요.', '한 변의 길이에 변의 수를 곱해요.'],
+    build: (v) => {
+      const sideCount = 5 + (v % 3)
+      const sideLength = 3 + (v % 5)
+      const perimeter = sideCount * sideLength
+      return { prompt: `한 변이 ${sideLength} cm인 정${polygonName(sideCount)}의 둘레는 몇 cm일까요?`, correctAnswer: String(perimeter),
+        solutionSteps: [`정${polygonName(sideCount)}의 변은 ${sideCount}개이고 모두 ${sideLength} cm입니다.`, `${sideLength}×${sideCount}=${perimeter} cm입니다.`],
+        visualModel: 'polygon-model', visualConfig: { sideCount, sideLength, regular: true, equalSides: true, showDiagonals: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-06', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-12]', cognitiveDomain: 'applying',
+    problemFamily: 'compose-two-triangles', representation: 'tiling-model', answerType: 'choice', supportTool: 'grid', skillTag: '도형 합성',
+    learnerGoal: '같은 삼각형 두 개를 변끼리 붙여 만든 바깥 모양을 알아봐요.',
+    promptTemplate: '같은 삼각형 두 개를 붙여 만든 도형을 고르세요.', hintSteps: ['붙인 변은 바깥 둘레에서 사라져요.', '남은 바깥 선분의 수를 세어요.'],
+    build: (v, seed) => {
+      const edgeLength = 3 + v
+      const correctAnswer = '사각형'
+      return { prompt: `한 변이 ${edgeLength} cm인 같은 삼각형 두 개를 한 변끼리 붙였습니다. 그림의 바깥 모양은 어떤 다각형일까요?`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '삼각형', '오각형', '육각형'], seed),
+        solutionSteps: ['붙인 한 변은 도형의 안쪽 선이 됩니다.', '바깥쪽에 네 선분이 남으므로 사각형입니다.'],
+        visualModel: 'tiling-model', visualConfig: { tileShape: 'triangle', arrangement: 'paired', rows: 1, columns: 2, edgeLength, hasGap: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-07', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-12]', cognitiveDomain: 'applying',
+    problemFamily: 'fill-rectangle-with-squares', representation: 'tiling-model', answerType: 'choice', supportTool: 'grid', skillTag: '정사각형 채우기',
+    learnerGoal: '행과 열로 놓인 정사각형 수를 곱해 빈틈없이 채운 조각 수를 구해요.',
+    promptTemplate: '정사각형 격자의 행과 열에서 조각 수를 구하세요.', hintSteps: ['한 줄에 놓인 정사각형 수를 세어요.', '줄 수와 한 줄의 수를 곱해요.'],
+    build: (v, seed) => {
+      const rows = 3
+      const columns = 4
+      const tileSize = 2 + v
+      const correctAnswer = '12개'
+      return { prompt: `한 변이 ${tileSize} cm인 정사각형을 가로 ${columns}개, 세로 ${rows}개로 빈틈없이 놓았습니다. 모두 몇 개일까요?`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '7개', '14개', '16개'], seed),
+        solutionSteps: [`한 줄에 ${columns}개씩 ${rows}줄입니다.`, `${columns}×${rows}=12개입니다.`],
+        visualModel: 'tiling-model', visualConfig: { tileShape: 'square', arrangement: 'grid', rows, columns, tileSize, hasGap: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-08', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-12]', cognitiveDomain: 'applying',
+    problemFamily: 'fill-parallelogram-with-triangles', representation: 'tiling-model', answerType: 'choice', supportTool: 'grid', skillTag: '삼각형 채우기',
+    learnerGoal: '방향을 번갈아 놓은 삼각형 조각의 행과 열을 이용해 전체 수를 구해요.',
+    promptTemplate: '번갈아 놓인 삼각형 조각 수를 구하세요.', hintSteps: ['각 줄의 삼각형 수를 세어요.', '같은 수의 줄이 몇 줄인지 확인해 곱해요.'],
+    build: (v, seed) => {
+      const rows = 2
+      const columns = 3 + (v % 2)
+      const edgeLength = 3 + v
+      const count = rows * columns
+      const correctAnswer = `${count}개`
+      return { prompt: `한 변이 ${edgeLength} cm인 같은 삼각형을 한 줄에 ${columns}개씩 ${rows}줄로 방향을 번갈아 놓아 빈틈없이 모양을 만들었습니다. 삼각형은 모두 몇 개일까요?`, correctAnswer,
+        choices: rotateChoices([correctAnswer, `${count + 1}개`, `${count + 2}개`, `${count + columns}개`], seed),
+        solutionSteps: [`한 줄에 ${columns}개씩 ${rows}줄입니다.`, `${columns}×${rows}=${count}개입니다.`],
+        visualModel: 'tiling-model', visualConfig: { tileShape: 'triangle', arrangement: 'grid', rows, columns, edgeLength, hasGap: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-09', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-11]', cognitiveDomain: 'reasoning',
+    problemFamily: 'equal-sides-only-regular-error', representation: 'context', answerType: 'choice', supportTool: 'protractor', skillTag: '정다각형 오류',
+    learnerGoal: '변의 길이만 같고 각이 다른 반례로 정다각형 조건을 설명해요.',
+    promptTemplate: '변만 같으면 정다각형이라는 주장의 빠진 조건을 찾으세요.', hintSteps: ['정다각형은 변의 조건과 각의 조건이 모두 필요해요.', '마름모의 네 각이 모두 같은지 확인해요.'],
+    build: (v, seed) => {
+      const sideLength = 5 + v
+      const correctAnswer = '네 변이 같아도 네 각의 크기가 모두 같지 않으면 정다각형이 아닙니다.'
+      return { prompt: `네 변이 모두 ${sideLength} cm인 기울어진 마름모를 보고 민서는 “변이 모두 같으니 정사각형이야.”라고 했습니다. 알맞은 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '모든 변이 같으면 각의 크기와 관계없이 정다각형입니다.', '각이 모두 같기만 하면 반드시 정사각형입니다.', '마름모는 변의 길이가 모두 다릅니다.'], seed),
+        solutionSteps: [`네 변은 모두 ${sideLength} cm로 같지만 각의 크기는 모두 같지 않습니다.`, '정다각형은 모든 변과 모든 각이 각각 같아야 합니다.'],
+        visualModel: 'polygon-model', visualConfig: { sideCount: 4, sideLength, regular: false, equalSides: true, shapeType: 'rhombus', showDiagonals: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-10', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-12]', cognitiveDomain: 'reasoning',
+    problemFamily: 'regular-pentagon-tiling-gap', representation: 'tiling-model', answerType: 'choice', supportTool: 'none', skillTag: '빈틈 추론',
+    learnerGoal: '정오각형을 같은 방식으로 이어 놓았을 때 생기는 빈틈을 근거로 채우기 가능성을 판단해요.',
+    promptTemplate: '정오각형 반복 배열의 빈틈을 보고 바른 설명을 고르세요.', hintSteps: ['한 점 둘레에 모인 도형 사이를 살펴봐요.', '도형이 겹치지 않아도 빈틈이 남는지 확인해요.'],
+    build: (v, seed) => {
+      const shownTiles = 3
+      const edgeLength = 4 + v
+      const correctAnswer = '빈틈이 남아 이 배열만으로는 평면을 가득 채울 수 없습니다.'
+      return { prompt: `한 변이 ${edgeLength} cm인 같은 정오각형 ${shownTiles}개를 한 점 둘레에 변끼리 이어 놓았습니다. 그림에 대한 바른 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '빈틈도 겹침도 없어 평면을 가득 채웁니다.', '정오각형을 하나만 더 놓으면 언제나 정확히 채워집니다.', '정다각형은 종류와 관계없이 모두 빈틈없이 채울 수 있습니다.'], seed),
+        solutionSteps: ['정오각형을 변끼리 이어도 한 점 둘레에 빈 공간이 남습니다.', '같은 배열을 반복하면 그 빈틈도 반복되므로 평면을 가득 채울 수 없습니다.'],
+        visualModel: 'tiling-model', visualConfig: { tileShape: 'pentagon', arrangement: 'radial', rows: 1, columns: shownTiles, edgeLength, hasGap: true } }
     },
   }),
 ]

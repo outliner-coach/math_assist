@@ -174,6 +174,38 @@ describe('Grade4MissionVisual', () => {
 
     expect(html.match(/data-testid="grade4-quadrilateral-right-angle"/g)).toHaveLength(1)
   })
+
+  it('draws every diagonal from one vertex from the polygon side count', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-poly-04')!
+    const html = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+    const expected = Number(mission.visualConfig.sideCount) - 3
+
+    expect(html).toContain('grade4-visual-polygon-model')
+    expect(html.match(/data-testid="grade4-polygon-diagonal"/g)).toHaveLength(expected)
+  })
+
+  it('draws tile cells from rows and columns and preserves an intentional gap', () => {
+    const squareMission = getGrade4MissionBank(42).find((item) => item.id === 'g4-poly-07')!
+    const gapMission = getGrade4MissionBank(42).find((item) => item.id === 'g4-poly-10')!
+    const squareHtml = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission: squareMission }))
+    const gapHtml = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission: gapMission }))
+    const expected = Number(squareMission.visualConfig.rows) * Number(squareMission.visualConfig.columns)
+
+    expect(squareHtml.match(/data-testid="grade4-tiling-cell"/g)).toHaveLength(expected)
+    expect(squareHtml).not.toContain('data-result=')
+    expect(gapHtml.match(/data-testid="grade4-tiling-cell"/g)).toHaveLength(3)
+    expect(gapHtml).toContain('data-testid="grade4-tiling-gap"')
+  })
+
+  it('joins adjacent triangle tiles along one complete shared edge', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-poly-08')!
+    const html = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+    const pointSets = Array.from(html.matchAll(/data-testid="grade4-tiling-cell" points="([^"]+)"/g))
+      .map((match) => match[1].split(' '))
+
+    expect(pointSets.length).toBeGreaterThanOrEqual(2)
+    expect(pointSets[0].filter((point) => pointSets[1].includes(point))).toHaveLength(2)
+  })
 })
 
 describe('Grade4MissionCard', () => {

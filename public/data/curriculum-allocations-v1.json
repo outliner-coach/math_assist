@@ -593,11 +593,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 21,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "삼각형 사각형 뒤 다각형 일반화",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade4:unit-4-2-polygons:grade4-bridge-polygons-v1"
+      ],
+      "allocationRationale": "변 수·정다각형 성질·대각선을 하나의 다각형 모형으로 탐구하는 공개 단원",
+      "reviewedBy": "curriculum-ledger-release-2026-07-26"
     },
     {
       "standardCode": "[4수03-12]",
@@ -612,11 +614,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 21,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "도형 이동과 다각형을 활용한 모양 구성",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade4:unit-4-2-polygons:grade4-bridge-polygons-v1"
+      ],
+      "allocationRationale": "행·열과 타일 위상에서 조각 수와 빈틈을 파생하는 모양 채우기 공개 단원",
+      "reviewedBy": "curriculum-ledger-release-2026-07-26"
     },
     {
       "standardCode": "[4수03-13]",

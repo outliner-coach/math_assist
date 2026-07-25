@@ -12,6 +12,7 @@ import {
   GRADE4_FRACTION_ADD_SUB_UNIT_ID,
   GRADE4_PATTERNS_UNIT_ID,
   GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID,
+  GRADE4_POLYGONS_UNIT_ID,
   GRADE4_QUADRILATERALS_UNIT_ID,
   GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID,
   GRADE4_TRIANGLES_UNIT_ID,
@@ -197,5 +198,18 @@ describe('Grade 4 attempt receipt', () => {
     })
 
     expect(receipt.contentReleaseId).toBe('grade4-bridge-quadrilaterals-v1')
+  })
+
+  it('uses the polygons release identity', () => {
+    const polygonMission = getGrade4Activity(GRADE4_POLYGONS_UNIT_ID, 20260721, 0)[0]
+    const receipt = createGrade4AttemptReceipt({
+      mission: polygonMission,
+      activityRun: 0,
+      attemptOrdinal: 0,
+      correct: true,
+      usedHint: false,
+    })
+
+    expect(receipt.contentReleaseId).toBe('grade4-bridge-polygons-v1')
   })
 })
