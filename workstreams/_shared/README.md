@@ -21,6 +21,17 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 4 quadrilateral-classification release (primary
+  workstreams 01, 03, and 04) owns the narrow change to the curriculum ledger,
+  Grade 4 bank, quantitative quadrilateral SVG, and focused bank, receipt,
+  curriculum, component, and browser tests. `unit-4-2-quadrilaterals` covers
+  `[4수03-10]` with ten deterministic templates, K4/A4/R2, ten families, two
+  reasoning families, and two representations. Vertices, parallel marks,
+  equal-side marks, right-angle marks, and classifications must come from one
+  quadrilateral property model. The unit moves from planned to released only
+  with all Grade 4, curriculum, audit, mobile, storage, and deployment gates
+  passing.
+
 - 2026-07-26: Grade 4 triangle-classification release (primary workstreams
   01, 03, and 04) owns the narrow change to the curriculum ledger, Grade 4
   bank, quantitative triangle SVG, and focused bank, receipt, curriculum,

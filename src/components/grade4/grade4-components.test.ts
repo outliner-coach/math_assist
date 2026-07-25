@@ -156,6 +156,24 @@ describe('Grade4MissionVisual', () => {
     expect(html).toContain('data-side-a=')
     expect(html).toContain('grade4-triangle-right-angle')
   })
+
+  it('draws quadrilateral property marks from the shared shape model', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-quad-02')!
+    const html = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+
+    expect(html).toContain('grade4-visual-quadrilateral-model')
+    expect(html).toContain('data-shape-type="square"')
+    expect(html).toContain('grade4-quadrilateral-right-angle')
+    expect(html).toContain('grade4-quadrilateral-equal-side')
+    expect(html).toContain('grade4-quadrilateral-parallel-mark')
+  })
+
+  it('does not reveal three inferred right-angle marks when only one is given', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-quad-08')!
+    const html = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+
+    expect(html.match(/data-testid="grade4-quadrilateral-right-angle"/g)).toHaveLength(1)
+  })
 })
 
 describe('Grade4MissionCard', () => {

@@ -12,6 +12,7 @@ import {
   GRADE4_FRACTION_ADD_SUB_UNIT_ID,
   GRADE4_PATTERNS_UNIT_ID,
   GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID,
+  GRADE4_QUADRILATERALS_UNIT_ID,
   GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID,
   GRADE4_TRIANGLES_UNIT_ID,
   getGrade4Activity,
@@ -28,7 +29,7 @@ describe('Grade 4 Bridge release bank', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(11)
+    expect(grade4Units).toHaveLength(12)
     expect(grade4Units.map((unit) => unit.id)).toEqual([
       'unit-4-1-large-numbers',
       'unit-4-1-multiplication-division',
@@ -41,16 +42,17 @@ describe('Grade 4 Bridge release bank', () => {
       'unit-4-1-perpendicular-parallel',
       'unit-4-1-shape-transformations',
       'unit-4-2-triangles',
+      'unit-4-2-quadrilaterals',
     ])
-    expect(grade4MissionTemplates).toHaveLength(110)
+    expect(grade4MissionTemplates).toHaveLength(120)
     expect(result.summary).toMatchObject({
-      unitCount: 11,
-      templateCount: 110,
-      knowingCount: 44,
-      applyingCount: 44,
-      reasoningCount: 22,
-      reasoningFamilyCount: 22,
-      representationCount: 12,
+      unitCount: 12,
+      templateCount: 120,
+      knowingCount: 48,
+      applyingCount: 48,
+      reasoningCount: 24,
+      reasoningFamilyCount: 24,
+      representationCount: 13,
     })
 
     for (const unit of grade4Units) {
@@ -621,6 +623,49 @@ describe('Grade 4 Bridge release bank', () => {
       const obtuse = templates.get('g4-tri-04')!.build(variant, variant)
       const obtuseSides = ['sideA', 'sideB', 'sideC'].map((key) => Number(obtuse.visualConfig[key])).sort((a, b) => a - b)
       expect(obtuseSides[0] ** 2 + obtuseSides[1] ** 2).toBeLessThan(obtuseSides[2] ** 2)
+    }
+  })
+
+  it('derives every quadrilateral classification from its displayed properties', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === GRADE4_QUADRILATERALS_UNIT_ID)
+        .map((item) => [item.id, item]),
+    )
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-quad-01', 'g4-quad-02', 'g4-quad-03', 'g4-quad-04', 'g4-quad-05',
+      'g4-quad-06', 'g4-quad-07', 'g4-quad-08', 'g4-quad-09', 'g4-quad-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        }
+      }
+
+      const rectangle = templates.get('g4-quad-01')!.build(variant, variant)
+      expect(rectangle.visualConfig).toMatchObject({ shapeType: 'rectangle', rightAngles: 4, parallelPairs: 2 })
+      expect(Number(rectangle.visualConfig.width)).not.toBe(Number(rectangle.visualConfig.height))
+
+      const square = templates.get('g4-quad-02')!.build(variant, variant)
+      expect(square.visualConfig).toMatchObject({ shapeType: 'square', rightAngles: 4, parallelPairs: 2, equalSides: 4 })
+      expect(Number(square.visualConfig.width)).toBe(Number(square.visualConfig.height))
+
+      const trapezoid = templates.get('g4-quad-03')!.build(variant, variant)
+      expect(trapezoid.visualConfig).toMatchObject({ shapeType: 'trapezoid', parallelPairs: 1 })
+
+      const parallelogram = templates.get('g4-quad-04')!.build(variant, variant)
+      expect(parallelogram.visualConfig).toMatchObject({ shapeType: 'parallelogram', parallelPairs: 2 })
+
+      const rhombus = templates.get('g4-quad-06')!.build(variant, variant)
+      expect(rhombus.visualConfig).toMatchObject({ shapeType: 'rhombus', equalSides: 4, parallelPairs: 2 })
+
+      const oneRightAngle = templates.get('g4-quad-08')!.build(variant, variant)
+      expect(oneRightAngle.visualConfig).toMatchObject({ shapeType: 'rectangle', rightAngles: 1, parallelPairs: 2 })
     }
   })
 

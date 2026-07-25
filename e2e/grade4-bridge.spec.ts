@@ -32,7 +32,7 @@ test('홈에서 4학년을 골라 세 번의 탭 안에 3문제 Bridge 활동에
 test('두 자리 수 나눗셈 단원은 몫을 숨기고 K/A/R 활동을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 11개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 12개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-1-multiplication-division').click()
 
   await expect(page).toHaveURL(/unitId=unit-4-1-multiplication-division/)
@@ -73,7 +73,7 @@ test('두 자리 수 나눗셈 단원은 몫을 숨기고 K/A/R 활동을 끝낸
 test('사칙계산 어림 단원은 네 연산과 방법 비교를 연결해 K/A/R 활동을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 11개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 12개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-1-arithmetic-estimation').click()
 
   await expect(page).toHaveURL(/unitId=unit-4-1-arithmetic-estimation/)
@@ -107,7 +107,7 @@ test('사칙계산 어림 단원은 네 연산과 방법 비교를 연결해 K/A
 test('소수 단원은 미완성 입력을 기록하지 않고 자릿값·배치·비교 추론 활동을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 11개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 12개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-2-decimals').click()
 
   await expect(page).toHaveURL(/unitId=unit-4-2-decimals/)
@@ -151,7 +151,7 @@ test('소수 단원은 미완성 입력을 기록하지 않고 자릿값·배치
 test('분수 덧셈·뺄셈 단원은 미완성 입력을 기록하지 않고 동치 분수와 받아내림 추론을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 11개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 12개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-2-fraction-add-sub').click()
 
   await expect(page).toHaveURL(/unitId=unit-4-2-fraction-add-sub/)
@@ -192,7 +192,7 @@ test('분수 덧셈·뺄셈 단원은 미완성 입력을 기록하지 않고 �
 test('소수 덧셈·뺄셈 단원은 소수점을 맞추고 받아올림·역산·받아내림 추론을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 11개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 12개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-2-decimal-add-sub').click()
 
   await expect(page).toHaveURL(/unitId=unit-4-2-decimal-add-sub/)
@@ -232,7 +232,7 @@ test('소수 덧셈·뺄셈 단원은 소수점을 맞추고 받아올림·역�
 test('규칙 찾기 단원은 대응·먼 계산식·두 변화 오류 분석 활동을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 11개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 12개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-2-patterns').click()
 
   await expect(page).toHaveURL(/unitId=unit-4-2-patterns/)
@@ -270,7 +270,7 @@ test('규칙 찾기 단원은 대응·먼 계산식·두 변화 오류 분석 �
 test('등호 단원은 빠진 양·양쪽 같은 변화·한쪽 변화 오류 분석 활동을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 11개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 12개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-2-equality').click()
 
   await expect(page).toHaveURL(/unitId=unit-4-2-equality/)
@@ -308,7 +308,7 @@ test('등호 단원은 빠진 양·양쪽 같은 변화·한쪽 변화 오류 �
 test('수직과 평행 단원은 방향·평행선 긋기·동시 회전 추론 활동을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 11개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 12개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-1-perpendicular-parallel').click()
 
   await expect(page).toHaveURL(/unitId=unit-4-1-perpendicular-parallel/)
@@ -345,7 +345,7 @@ test('수직과 평행 단원은 방향·평행선 긋기·동시 회전 추론 
 test('도형의 이동 단원은 뒤집기·점 돌리기·두 번 뒤집기 추론 활동을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 11개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 12개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-1-shape-transformations').click()
 
   await expect(page).toHaveURL(/unitId=unit-4-1-shape-transformations/)
@@ -383,7 +383,7 @@ test('도형의 이동 단원은 뒤집기·점 돌리기·두 번 뒤집기 추
 test('여러 가지 삼각형 단원은 변과 각의 두 기준으로 K/A/R 분류 활동을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 11개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 12개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-2-triangles').click()
 
   await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-tri-02')
@@ -412,6 +412,40 @@ test('여러 가지 삼각형 단원은 변과 각의 두 기준으로 K/A/R 분
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
     .toEqual(new Set(['grade4-bridge-triangles-v1']))
+  expect(stored.overflow).toBe(false)
+})
+
+test('여러 가지 사각형 단원은 평행·직각·같은 변의 성질로 K/A/R 활동을 끝낸다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(`${BASE_PATH}/grade/4`)
+  await expect(page.getByText('검증된 단원 12개')).toBeVisible()
+  await page.getByTestId('grade4-unit-card-unit-4-2-quadrilaterals').click()
+
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-quad-02')
+  const square = page.getByTestId('grade4-visual-quadrilateral-model')
+  await expect(square.locator('svg')).toHaveAttribute('data-shape-type', 'square')
+  await expect(square.getByTestId('grade4-quadrilateral-right-angle')).toHaveCount(4)
+  await page.getByRole('button', { name: '정사각형', exact: true }).click()
+  await page.getByTestId('grade4-next-mission').click()
+
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-quad-07')
+  await page.getByRole('button', { name: '정사각형이며 직사각형과 마름모의 성질도 가집니다.' }).click()
+  await page.getByTestId('grade4-next-mission').click()
+
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-quad-10')
+  await page.getByRole('button', { name: '두 조건을 모두 만족하므로 정사각형입니다.' }).click()
+  await page.getByTestId('grade4-next-mission').click()
+
+  await expect(page.getByTestId('grade4-activity-complete')).toContainText('여러 가지 사각형 다리를 건넜어요!')
+  const stored = await page.evaluate(({ progressKey, receiptKey }) => ({
+    progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
+    ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
+    overflow: document.documentElement.scrollWidth > window.innerWidth,
+  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  expect(stored.progress.selectedUnitId).toBe('unit-4-2-quadrilaterals')
+  expect(stored.ledger.receipts).toHaveLength(3)
+  expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
+    .toEqual(new Set(['grade4-bridge-quadrilaterals-v1']))
   expect(stored.overflow).toBe(false)
 })
 
@@ -510,7 +544,7 @@ test('4학년 활동은 알기·적용·추론 3문제를 끝내고 새 변형�
 
 test('4학년 선택과 활동 화면은 작은 태블릿 폭에서 가로로 넘치지 않는다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  for (const route of ['/home', '/grade/4', '/grade/4/mission?unitId=unit-4-1-large-numbers', '/grade/4/mission?unitId=unit-4-1-arithmetic-estimation', '/grade/4/mission?unitId=unit-4-2-decimals', '/grade/4/mission?unitId=unit-4-2-fraction-add-sub', '/grade/4/mission?unitId=unit-4-2-decimal-add-sub', '/grade/4/mission?unitId=unit-4-2-patterns', '/grade/4/mission?unitId=unit-4-2-equality', '/grade/4/mission?unitId=unit-4-1-perpendicular-parallel', '/grade/4/mission?unitId=unit-4-1-shape-transformations', '/grade/4/mission?unitId=unit-4-2-triangles']) {
+  for (const route of ['/home', '/grade/4', '/grade/4/mission?unitId=unit-4-1-large-numbers', '/grade/4/mission?unitId=unit-4-1-arithmetic-estimation', '/grade/4/mission?unitId=unit-4-2-decimals', '/grade/4/mission?unitId=unit-4-2-fraction-add-sub', '/grade/4/mission?unitId=unit-4-2-decimal-add-sub', '/grade/4/mission?unitId=unit-4-2-patterns', '/grade/4/mission?unitId=unit-4-2-equality', '/grade/4/mission?unitId=unit-4-1-perpendicular-parallel', '/grade/4/mission?unitId=unit-4-1-shape-transformations', '/grade/4/mission?unitId=unit-4-2-triangles', '/grade/4/mission?unitId=unit-4-2-quadrilaterals']) {
     await page.goto(`${BASE_PATH}${route}`)
     await expect.poll(async () => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   }

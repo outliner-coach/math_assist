@@ -2,7 +2,7 @@ import type { Grade4AnswerType } from './grade4-answer-normalizers'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
-export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship' | 'shape-transformation' | 'triangle-model'
+export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship' | 'shape-transformation' | 'triangle-model' | 'quadrilateral-model'
 export type Grade4VisualModel = Grade4Representation
 export type Grade4SupportTool = 'none' | 'grid' | 'ruler' | 'protractor'
 
@@ -93,6 +93,7 @@ export const GRADE4_EQUALITY_UNIT_ID = 'unit-4-2-equality'
 export const GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID = 'unit-4-1-perpendicular-parallel'
 export const GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID = 'unit-4-1-shape-transformations'
 export const GRADE4_TRIANGLES_UNIT_ID = 'unit-4-2-triangles'
+export const GRADE4_QUADRILATERALS_UNIT_ID = 'unit-4-2-quadrilaterals'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -225,6 +226,18 @@ export const grade4Units: Grade4Unit[] = [
     curriculumCodes: ['[4수03-08]', '[4수03-09]'],
     prerequisiteCodes: [],
     contentReleaseId: 'grade4-bridge-triangles-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_QUADRILATERALS_UNIT_ID,
+    semester: '4-2',
+    order: 12,
+    title: '여러 가지 사각형',
+    subtitle: '평행한 변, 직각, 같은 길이의 변을 근거로 여러 사각형을 분류해요.',
+    learnerGoal: '사각형의 성질을 표시하고 여러 이름이 겹치는 경우까지 근거 있게 설명해요.',
+    curriculumCodes: ['[4수03-10]'],
+    prerequisiteCodes: ['[4수03-03]', '[4수03-08]'],
+    contentReleaseId: 'grade4-bridge-quadrilaterals-v1',
     releaseStatus: 'released',
   },
 ]
@@ -2395,6 +2408,155 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
         choices: rotateChoices([correctAnswer, '정삼각형이면서 예각삼각형', '이등변삼각형이면서 직각삼각형', '세 변이 모두 다른 둔각삼각형'], seed),
         solutionSteps: [`길이 ${leg} cm인 두 변이 같아 이등변삼각형입니다.`, `가장 큰 각이 90°보다 크므로 둔각삼각형이기도 합니다.`],
         visualModel: 'triangle-model', visualConfig: { sideA: leg, sideB: leg, sideC: base, labelMode: 'properties' } }
+    },
+  }),
+  template({
+    id: 'g4-quad-01', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'knowing',
+    problemFamily: 'rectangle-from-four-right-angles', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'protractor', skillTag: '직사각형',
+    learnerGoal: '네 각이 모두 직각인 사각형을 직사각형으로 분류해요.',
+    promptTemplate: '네 각이 직각인 사각형의 이름을 고르세요.', hintSteps: ['네 꼭짓점의 각 표시를 확인해요.', '네 각이 모두 직각인 사각형의 이름을 떠올려요.'],
+    build: (v, seed) => {
+      const width = 8 + v
+      const height = 3 + (v % 4)
+      const correctAnswer = '직사각형'
+      return { prompt: `가로 ${width} cm, 세로 ${height} cm이고 네 각이 모두 직각인 사각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '마름모', '사다리꼴이라고만 할 수 있습니다.', '평행사변형이 아닙니다.'], seed),
+        solutionSteps: ['네 꼭짓점에 모두 직각 표시가 있습니다.', '네 각이 모두 직각인 사각형은 직사각형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'rectangle', width, height, rightAngles: 4, parallelPairs: 2, equalSides: 0 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-02', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'knowing',
+    problemFamily: 'square-from-equal-sides-right-angles', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'ruler', skillTag: '정사각형',
+    learnerGoal: '네 변이 같고 네 각이 직각인 사각형을 정사각형으로 분류해요.',
+    promptTemplate: '네 변과 네 각의 성질로 정사각형을 알아봐요.', hintSteps: ['네 변의 길이 표시를 비교해요.', '네 각의 직각 표시도 모두 확인해요.'],
+    build: (v, seed) => {
+      const side = 5 + v
+      const correctAnswer = '정사각형'
+      return { prompt: `네 변의 길이가 모두 ${side} cm이고 네 각이 모두 직각인 사각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '직사각형이라고만 할 수 있습니다.', '마름모라고만 할 수 있습니다.', '평행사변형이 아닙니다.'], seed),
+        solutionSteps: [`네 변이 모두 ${side} cm로 같습니다.`, '네 각도 모두 직각이므로 정사각형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'square', width: side, height: side, rightAngles: 4, parallelPairs: 2, equalSides: 4 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-03', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'knowing',
+    problemFamily: 'trapezoid-from-one-parallel-pair', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'ruler', skillTag: '사다리꼴',
+    learnerGoal: '한 쌍의 마주 보는 변이 평행한 사각형을 사다리꼴로 분류해요.',
+    promptTemplate: '한 쌍의 평행한 변을 보고 사각형의 이름을 고르세요.', hintSteps: ['같은 화살표가 있는 두 변을 찾아요.', '한 쌍의 변이 평행한 사각형의 이름을 떠올려요.'],
+    build: (v, seed) => {
+      const topWidth = 5 + v
+      const bottomWidth = topWidth + 4
+      const height = 3 + (v % 4)
+      const correctAnswer = '사다리꼴'
+      return { prompt: `윗변 ${topWidth} cm와 아랫변 ${bottomWidth} cm가 서로 평행하고 나머지 두 변은 평행하지 않은 사각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '직사각형', '정사각형', '마름모'], seed),
+        solutionSteps: ['윗변과 아랫변 한 쌍이 서로 평행합니다.', '한 쌍의 변이 평행하므로 사다리꼴입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'trapezoid', width: bottomWidth, topWidth, height, rightAngles: 0, parallelPairs: 1, equalSides: 0 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-04', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'knowing',
+    problemFamily: 'parallelogram-from-two-parallel-pairs', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'ruler', skillTag: '평행사변형',
+    learnerGoal: '마주 보는 두 쌍의 변이 각각 평행한 사각형을 평행사변형으로 분류해요.',
+    promptTemplate: '두 쌍의 평행한 변을 보고 사각형의 이름을 고르세요.', hintSteps: ['마주 보는 변끼리 화살표 표시를 비교해요.', '두 쌍이 모두 평행한 사각형의 이름을 떠올려요.'],
+    build: (v, seed) => {
+      const width = 7 + v
+      const height = 4 + (v % 3)
+      const slant = 2 + (v % 2)
+      const correctAnswer = '평행사변형'
+      return { prompt: `밑변 ${width} cm이고 마주 보는 두 쌍의 변이 각각 평행한 사각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '직사각형', '정사각형', '평행한 변이 없는 사각형'], seed),
+        solutionSteps: ['위·아래 변이 평행하고 왼쪽·오른쪽 변도 평행합니다.', '마주 보는 두 쌍의 변이 평행하므로 평행사변형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'parallelogram', width, height, slant, rightAngles: 0, parallelPairs: 2, equalSides: 0 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-05', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'applying',
+    problemFamily: 'rectangular-frame-properties', representation: 'context', answerType: 'choice', supportTool: 'ruler', skillTag: '생활 속 직사각형',
+    learnerGoal: '생활 속 틀에서 직각과 마주 보는 변의 성질을 찾아 직사각형을 알아봐요.',
+    promptTemplate: '액자 틀의 각과 변을 보고 알맞은 분류를 고르세요.', hintSteps: ['네 모서리가 모두 직각인지 확인해요.', '가로와 세로가 서로 다른 것은 직사각형의 조건에 어긋나지 않아요.'],
+    build: (v, seed) => {
+      const width = 18 + v
+      const height = 10 + (v % 4)
+      const correctAnswer = '네 각이 모두 직각이므로 직사각형입니다.'
+      return { prompt: `가로 ${width} cm, 세로 ${height} cm인 액자 틀의 네 모서리가 모두 직각입니다. 바른 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '가로와 세로가 다르므로 직사각형이 아닙니다.', '네 변이 모두 같아야만 직사각형입니다.', '평행한 변이 한 쌍도 없습니다.'], seed),
+        solutionSteps: ['액자의 네 모서리는 모두 직각입니다.', '가로와 세로의 길이가 달라도 네 각이 직각이면 직사각형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'rectangle', width, height, rightAngles: 4, parallelPairs: 2, equalSides: 0, contextLabel: '액자 틀' } }
+    },
+  }),
+  template({
+    id: 'g4-quad-06', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'applying',
+    problemFamily: 'rhombus-from-four-equal-sides', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'ruler', skillTag: '마름모',
+    learnerGoal: '네 변의 길이가 모두 같은 사각형을 마름모로 분류해요.',
+    promptTemplate: '네 변의 길이 표시를 보고 마름모를 알아봐요.', hintSteps: ['네 변에 같은 길이 표시가 있는지 확인해요.', '각이 직각이라는 조건은 주어지지 않았어요.'],
+    build: (v, seed) => {
+      const side = 6 + v
+      const slant = 2 + (v % 3)
+      const correctAnswer = '마름모'
+      return { prompt: `네 변의 길이가 모두 ${side} cm이고 네 각이 직각은 아닌 사각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '정사각형', '직사각형', '평행한 변이 없는 사각형'], seed),
+        solutionSteps: [`네 변이 모두 ${side} cm로 같습니다.`, '네 변의 길이가 모두 같은 사각형은 마름모입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'rhombus', width: side, height: side, slant, rightAngles: 0, parallelPairs: 2, equalSides: 4 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-07', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'applying',
+    problemFamily: 'square-overlapping-classifications', representation: 'context', answerType: 'choice', supportTool: 'ruler', skillTag: '포함 관계',
+    learnerGoal: '정사각형이 직사각형과 마름모의 성질도 함께 가짐을 설명해요.',
+    promptTemplate: '정사각형에 겹쳐 적용되는 사각형의 성질을 고르세요.', hintSteps: ['정사각형의 네 각을 직사각형의 조건과 비교해요.', '정사각형의 네 변을 마름모의 조건과 비교해요.'],
+    build: (v, seed) => {
+      const side = 7 + v
+      const correctAnswer = '정사각형이며 직사각형과 마름모의 성질도 가집니다.'
+      return { prompt: `네 변이 모두 ${side} cm이고 네 각이 모두 직각인 도형에 대한 가장 알맞은 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '정사각형은 직사각형의 성질을 가지지 않습니다.', '정사각형은 마름모의 성질을 가지지 않습니다.', '평행사변형의 성질은 전혀 없습니다.'], seed),
+        solutionSteps: ['네 각이 직각이므로 직사각형의 성질을 가집니다.', '네 변이 같으므로 마름모의 성질도 가지며, 정확한 이름은 정사각형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'square', width: side, height: side, rightAngles: 4, parallelPairs: 2, equalSides: 4 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-08', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'applying',
+    problemFamily: 'parallelogram-one-right-angle', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'protractor', skillTag: '직사각형 성질 적용',
+    learnerGoal: '평행사변형의 한 각이 직각이면 나머지 각도 직각임을 적용해 직사각형을 알아봐요.',
+    promptTemplate: '평행사변형의 한 직각에서 전체 모양을 추론하세요.', hintSteps: ['평행사변형에서 이웃한 각의 크기 관계를 떠올려요.', '한 각이 직각이면 이웃한 각과 마주 보는 각도 확인해요.'],
+    build: (v, seed) => {
+      const width = 9 + v
+      const height = 4 + (v % 4)
+      const correctAnswer = '네 각이 모두 직각인 직사각형입니다.'
+      return { prompt: `가로 ${width} cm인 평행사변형의 한 각이 90°입니다. 이 사각형에 대한 바른 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '한 각만 직각인 사다리꼴입니다.', '네 변이 모두 같으므로 마름모입니다.', '나머지 세 각의 크기는 전혀 알 수 없습니다.'], seed),
+        solutionSteps: ['평행사변형에서 이웃한 두 각의 합은 180°입니다.', '한 각이 90°이면 네 각이 모두 90°가 되어 직사각형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'rectangle', width, height, rightAngles: 1, parallelPairs: 2, equalSides: 0 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-09', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'reasoning',
+    problemFamily: 'opposite-sides-equal-rectangle-error', representation: 'context', answerType: 'choice', supportTool: 'protractor', skillTag: '직사각형 오류',
+    learnerGoal: '마주 보는 변이 같은 것만으로 직사각형이라고 할 수 없음을 반례로 설명해요.',
+    promptTemplate: '마주 보는 변이 같으면 직사각형이라는 주장을 고치세요.', hintSteps: ['직사각형을 결정하는 각의 조건을 확인해요.', '기울어진 평행사변형도 마주 보는 변은 같다는 점을 떠올려요.'],
+    build: (v, seed) => {
+      const width = 8 + v
+      const height = 4 + (v % 3)
+      const correctAnswer = '마주 보는 변이 각각 같아도 네 각이 직각이 아니면 직사각형이라고 할 수 없습니다.'
+      return { prompt: `마주 보는 변의 길이가 각각 ${width} cm와 ${height} cm인 기울어진 평행사변형을 보고 지우는 “마주 보는 변이 같으니 직사각형이야.”라고 했습니다. 알맞은 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '마주 보는 변이 같으면 언제나 직사각형입니다.', '평행사변형에는 같은 길이의 변이 있을 수 없습니다.', '사각형의 이름은 변의 개수만으로 모두 정해집니다.'], seed),
+        solutionSteps: ['마주 보는 변이 각각 같은 것은 평행사변형도 만족합니다.', '직사각형이 되려면 네 각이 모두 직각이라는 조건이 더 필요합니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'parallelogram', width, height, slant: 3, rightAngles: 0, parallelPairs: 2, equalSides: 0, contextLabel: '지우의 도형' } }
+    },
+  }),
+  template({
+    id: 'g4-quad-10', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'reasoning',
+    problemFamily: 'combine-rhombus-rectangle-conditions', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'ruler', skillTag: '성질 결합 추론',
+    learnerGoal: '마름모와 직사각형의 조건을 결합해 정사각형임을 추론해요.',
+    promptTemplate: '네 변이 같고 네 각이 직각인 두 조건을 결합하세요.', hintSteps: ['네 변이 같은 조건이 만드는 사각형을 떠올려요.', '네 각이 직각인 조건까지 동시에 적용해요.'],
+    build: (v, seed) => {
+      const side = 8 + v
+      const correctAnswer = '두 조건을 모두 만족하므로 정사각형입니다.'
+      return { prompt: `한 사각형은 네 변이 모두 ${side} cm이고 네 각이 모두 90°입니다. 이 도형에 대한 가장 정확한 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '마름모이지만 직사각형의 성질은 없습니다.', '직사각형이지만 마름모의 성질은 없습니다.', '사다리꼴이라고만 해야 합니다.'], seed),
+        solutionSteps: ['네 변이 같으므로 마름모의 성질을 가집니다.', '네 각이 직각이므로 직사각형의 성질도 가지며, 두 조건을 모두 만족하는 정사각형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'square', width: side, height: side, rightAngles: 4, parallelPairs: 2, equalSides: 4 } }
     },
   }),
 ]

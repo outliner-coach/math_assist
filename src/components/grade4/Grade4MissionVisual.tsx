@@ -747,6 +747,113 @@ function TriangleModel({ mission }: { mission: Grade4Mission }) {
   )
 }
 
+function QuadrilateralModel({ mission }: { mission: Grade4Mission }) {
+  const shapeType = label(mission.visualConfig.shapeType)
+  const width = Math.max(1, number(mission.visualConfig.width))
+  const height = Math.max(1, number(mission.visualConfig.height))
+  const topWidth = Math.max(1, number(mission.visualConfig.topWidth) || width * 0.6)
+  const slant = Math.max(1, number(mission.visualConfig.slant) || width * 0.25)
+  const rightAngles = number(mission.visualConfig.rightAngles)
+  const parallelPairs = number(mission.visualConfig.parallelPairs)
+  const equalSides = number(mission.visualConfig.equalSides)
+  const rawPoints: Point[] = shapeType === 'trapezoid'
+    ? [{ x: (width - topWidth) / 2, y: 0 }, { x: (width + topWidth) / 2, y: 0 }, { x: width, y: height }, { x: 0, y: height }]
+    : shapeType === 'parallelogram'
+      ? [{ x: slant, y: 0 }, { x: width + slant, y: 0 }, { x: width, y: height }, { x: 0, y: height }]
+      : shapeType === 'rhombus'
+        ? [{ x: width / 2, y: 0 }, { x: width, y: height / 2 }, { x: width / 2, y: height }, { x: 0, y: height / 2 }]
+        : [{ x: 0, y: 0 }, { x: width, y: 0 }, { x: width, y: height }, { x: 0, y: height }]
+  const minX = Math.min(...rawPoints.map((point) => point.x))
+  const maxX = Math.max(...rawPoints.map((point) => point.x))
+  const minY = Math.min(...rawPoints.map((point) => point.y))
+  const maxY = Math.max(...rawPoints.map((point) => point.y))
+  const scale = Math.min(220 / Math.max(1, maxX - minX), 125 / Math.max(1, maxY - minY))
+  const offsetX = (320 - (maxX - minX) * scale) / 2 - minX * scale
+  const offsetY = 42 - minY * scale
+  const points = rawPoints.map((point) => ({ x: offsetX + point.x * scale, y: offsetY + point.y * scale }))
+  const pointString = points.map((point) => `${point.x},${point.y}`).join(' ')
+  const midpoint = (first: Point, second: Point) => ({ x: (first.x + second.x) / 2, y: (first.y + second.y) / 2 })
+  const unit = (from: Point, to: Point) => {
+    const distance = Math.hypot(to.x - from.x, to.y - from.y) || 1
+    return { x: (to.x - from.x) / distance, y: (to.y - from.y) / distance }
+  }
+  const parallelMark = (first: Point, second: Point, count: number) => {
+    const middle = midpoint(first, second)
+    const direction = unit(first, second)
+    const normal = { x: -direction.y, y: direction.x }
+    return Array.from({ length: count }, (_, index) => {
+      const shift = (index - (count - 1) / 2) * 10
+      const center = { x: middle.x + direction.x * shift, y: middle.y + direction.y * shift }
+      return `${center.x - direction.x * 6 - normal.x * 4},${center.y - direction.y * 6 - normal.y * 4} ${center.x},${center.y} ${center.x - direction.x * 6 + normal.x * 4},${center.y - direction.y * 6 + normal.y * 4}`
+    })
+  }
+  const rightAnglePath = (index: number) => {
+    const vertex = points[index]
+    const previous = points[(index + 3) % 4]
+    const next = points[(index + 1) % 4]
+    const towardPrevious = unit(vertex, previous)
+    const towardNext = unit(vertex, next)
+    const size = 14
+    const first = { x: vertex.x + towardPrevious.x * size, y: vertex.y + towardPrevious.y * size }
+    const corner = { x: first.x + towardNext.x * size, y: first.y + towardNext.y * size }
+    const last = { x: vertex.x + towardNext.x * size, y: vertex.y + towardNext.y * size }
+    return `M ${first.x} ${first.y} L ${corner.x} ${corner.y} L ${last.x} ${last.y}`
+  }
+  const equalMark = (index: number) => {
+    const first = points[index]
+    const second = points[(index + 1) % 4]
+    const middle = midpoint(first, second)
+    const direction = unit(first, second)
+    const normal = { x: -direction.y, y: direction.x }
+    return {
+      x1: middle.x - normal.x * 7,
+      y1: middle.y - normal.y * 7,
+      x2: middle.x + normal.x * 7,
+      y2: middle.y + normal.y * 7,
+    }
+  }
+
+  return (
+    <div data-testid="grade4-visual-quadrilateral-model" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-3">
+      <svg
+        viewBox="0 0 320 205"
+        role="img"
+        aria-label="평행한 변과 직각과 같은 변을 표시한 사각형"
+        data-shape-type={shapeType}
+        data-right-angles={rightAngles}
+        data-parallel-pairs={parallelPairs}
+        data-equal-sides={equalSides}
+        className="h-auto w-full"
+      >
+        <rect x="4" y="4" width="312" height="197" rx="22" fill="#ffffff" />
+        {label(mission.visualConfig.contextLabel) && (
+          <text x="160" y="25" textAnchor="middle" fill="#4338ca" fontSize="12" fontWeight="900">
+            {label(mission.visualConfig.contextLabel)}
+          </text>
+        )}
+        <polygon points={pointString} fill="#e0e7ff" stroke="#4f46e5" strokeWidth="5" strokeLinejoin="round" />
+        {points.slice(0, Math.max(0, Math.min(4, rightAngles))).map((_, index) => (
+          <path key={`right-${index}`} data-testid="grade4-quadrilateral-right-angle" d={rightAnglePath(index)} fill="none" stroke="#f97316" strokeWidth="3" />
+        ))}
+        {parallelPairs >= 1 && [0, 2].flatMap((sideIndex) => (
+          parallelMark(points[sideIndex], points[(sideIndex + 1) % 4], 1).map((mark, index) => (
+            <polyline key={`parallel-one-${sideIndex}-${index}`} data-testid="grade4-quadrilateral-parallel-mark" points={mark} fill="none" stroke="#0f766e" strokeWidth="3" />
+          ))
+        ))}
+        {parallelPairs >= 2 && [1, 3].flatMap((sideIndex) => (
+          parallelMark(points[sideIndex], points[(sideIndex + 1) % 4], 2).map((mark, index) => (
+            <polyline key={`parallel-two-${sideIndex}-${index}`} data-testid="grade4-quadrilateral-parallel-mark" points={mark} fill="none" stroke="#0f766e" strokeWidth="3" />
+          ))
+        ))}
+        {equalSides === 4 && points.map((_, index) => {
+          const mark = equalMark(index)
+          return <line key={`equal-${index}`} data-testid="grade4-quadrilateral-equal-side" {...mark} stroke="#be123c" strokeWidth="4" strokeLinecap="round" />
+        })}
+      </svg>
+    </div>
+  )
+}
+
 function DivisionModel({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
   const divisor = number(mission.visualConfig.divisor)
   const dividend = number(mission.visualConfig.dividend)
@@ -809,5 +916,6 @@ export default function Grade4MissionVisual({ mission, showAnswer = false }: { m
   if (mission.visualModel === 'line-relationship') return <LineRelationship mission={mission} />
   if (mission.visualModel === 'shape-transformation') return <ShapeTransformation mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'triangle-model') return <TriangleModel mission={mission} />
+  if (mission.visualModel === 'quadrilateral-model') return <QuadrilateralModel mission={mission} />
   return <Context mission={mission} />
 }
