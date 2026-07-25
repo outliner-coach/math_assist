@@ -443,7 +443,10 @@ export default function PracticeClient() {
       </div>
 
       {/* 네비게이션 */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">
+      <div
+        className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white p-4 pr-12 md:pr-80"
+        data-testid="practice-navigation-actions"
+      >
         <div className="max-w-4xl mx-auto flex gap-3">
           <Button
             variant="secondary"

@@ -182,5 +182,20 @@ test('390px와 1024px에서 가로 넘침 없이 48px 뒤로가기와 하단 행
       }, 0)
     })
     expect(overlap).toBe(0)
+
+    await page.goto(`${BASE_PATH}/practice/g6fractiondiv-001?set=A&count=5`)
+    await expect(page.getByTestId('practice-session')).toBeVisible()
+    const practiceOverlap = await page.evaluate(() => {
+      const mascot = document.querySelector('[data-testid="service-mascot"]')?.getBoundingClientRect()
+      const actionButtons = [...document.querySelectorAll('[data-testid="practice-navigation-actions"] button')]
+      if (!mascot) return 0
+      return actionButtons.reduce((area, button) => {
+        const rect = button.getBoundingClientRect()
+        const width = Math.max(0, Math.min(rect.right, mascot.right) - Math.max(rect.left, mascot.left))
+        const height = Math.max(0, Math.min(rect.bottom, mascot.bottom) - Math.max(rect.top, mascot.top))
+        return area + width * height
+      }, 0)
+    })
+    expect(practiceOverlap).toBe(0)
   }
 })
