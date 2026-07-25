@@ -198,7 +198,10 @@ export default function ConceptClient() {
       </section>
 
       {/* 연습 세트 선택 */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">
+      <div
+        className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white p-4 pr-12 md:pr-80"
+        data-testid="concept-practice-actions"
+      >
         <div className="max-w-4xl mx-auto space-y-3">
           <p className="text-sm text-gray-600 text-center">
             {progress?.needsReview
@@ -237,7 +240,7 @@ export default function ConceptClient() {
       </div>
 
       {/* 하단 여백 */}
-      <div className="h-32" />
+      <div className={unit?.grade === 6 ? 'h-64' : 'h-32'} />
     </div>
   )
 }

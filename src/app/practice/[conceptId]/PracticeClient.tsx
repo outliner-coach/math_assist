@@ -15,6 +15,7 @@ import { resolveExperiencePreset } from '@/lib/experience-preset'
 import { isCurriculumGradeReleased } from '@/lib/grade-release'
 import { persistCompletedPractice } from '@/lib/practice-completion'
 import { dispatchMascotReaction, mascotReactionForAnswer } from '@/lib/mascot'
+import { resolveContentReleaseId } from '@/lib/content-release'
 import {
   saveSession,
   loadSession,
@@ -35,11 +36,6 @@ import { AnswerFeedback, Button, GradeReleaseBlocked, ProblemCard, ProgressIndic
 function isAnswered(answer: string | null): boolean {
   return typeof answer === 'string' && answer.trim() !== ''
 }
-
-const CONTENT_RELEASE_IDS = {
-  5: 'grade5-static-v1',
-  6: 'grade6-ratio-v1',
-} as const
 
 function problemVariantKey(problem: PracticeSession['problems'][number]): string {
   const params = Object.entries(problem.params)
@@ -237,7 +233,7 @@ export default function PracticeClient() {
       itemId: `${problem.index}:${problem.templateId}`,
       attemptOrdinal: 0,
       variantKey: problemVariantKey(problem),
-      contentReleaseId: CONTENT_RELEASE_IDS[practiceGrade],
+      contentReleaseId: resolveContentReleaseId(practiceGrade, conceptId),
       responseStatus: 'checked',
       correct: result.correct,
       usedHint: hintLevel > 0,
@@ -258,7 +254,7 @@ export default function PracticeClient() {
         console.error('Failed to append attempt receipt; legacy progress remains unchanged', error)
       })
     }
-  }, [hintLevel, practiceGrade, session])
+  }, [conceptId, hintLevel, practiceGrade, session])
 
   // 문제 이동
   const handleNavigate = useCallback((index: number) => {

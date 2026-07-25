@@ -64,6 +64,19 @@ describe('problem quality audit helpers', () => {
     )
   })
 
+  it('allows natural-number division prompts whose quotient is represented as a fraction', () => {
+    const warnings = analyzeRenderedPromptQuality(
+      {
+        concept_id: 'g6fractiondiv-001',
+        solver_rule: 'reduceFrac(a, b)',
+        blueprint: { primaryStandard: '[6수01-10]' }
+      },
+      '빵 3개를 5명이 똑같이 나누면 한 명이 받는 양은 빵 몇 개인가요?'
+    )
+
+    expect(warnings).toEqual([])
+  })
+
   it('does not treat ordinal wording as an operand reference', () => {
     const warnings = analyzeRenderedPromptQuality(
       {

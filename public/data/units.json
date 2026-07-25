@@ -96,6 +96,14 @@
     "description": "평균의 의미를 이해하고 평균을 구합니다."
   },
   {
+    "id": "unit-6-1-fraction-division",
+    "grade": 6,
+    "semester": "6-1",
+    "order": 1,
+    "title": "분수의 나눗셈",
+    "description": "자연수의 나눗셈 몫을 분수로 나타내고, 분수 나눗셈의 원리와 응용을 연습합니다."
+  },
+  {
     "id": "unit-6-1-ratio",
     "grade": 6,
     "semester": "6-1",

@@ -1112,11 +1112,13 @@
       "prerequisiteCodes": [],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 25,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "자연수 나눗셈 몫을 분수로 연결",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6fractiondiv-001"
+      ],
+      "allocationRationale": "6학년 분수의 나눗셈 문제은행에서 자연수 나눗셈 몫을 분수로 연결",
+      "reviewedBy": "grade6-fraction-division-release-2026-07-26"
     },
     {
       "standardCode": "[6수01-11]",
@@ -1131,11 +1133,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 25,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "분수 곱셈과 몫의 분수 표현 뒤 나눗셈",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6fractiondiv-001"
+      ],
+      "allocationRationale": "6학년 분수의 나눗셈 문제은행에서 계산 원리, 역연산, 오류 분석과 응용을 제공",
+      "reviewedBy": "grade6-fraction-division-release-2026-07-26"
     },
     {
       "standardCode": "[6수01-12]",

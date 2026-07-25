@@ -21,6 +21,19 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 6 fraction-division Study release (primary workstreams
+  01, 02, 03, and 04) owns the narrow change to the curriculum ledger,
+  Grade 6 unit/concept/template data, multi-concept Grade 6 validation,
+  per-concept receipt release identity, and focused generator, curriculum,
+  route, storage, and browser tests. `unit-6-1-fraction-division` covers
+  `[6수01-10]` and `[6수01-11]` through `g6fractiondiv-001` with 30
+  deterministic templates, A/B/C ten each, K4/A4/R2 per set, disjoint
+  families, at least two representations, and genuine application and
+  reasoning work. Natural-number and fraction quotients, reciprocal steps,
+  inverse checks, prompts, answers, and solutions must come from the same
+  parameters. Both standards move from planned to released only with Grade 6,
+  curriculum, audit, 5/10-item, mobile, storage, and deployment gates passing.
+
 - 2026-07-26: Grade 4 line-graph release (primary workstreams 01, 03, and
   04) owns the narrow change to the curriculum ledger, Grade 4 bank,
   quantitative line-graph and source-table renderers, and focused bank,

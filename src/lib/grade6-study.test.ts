@@ -11,40 +11,72 @@ import { generateProblems } from './problem-generator'
 import { createSessionId } from './session'
 import type { ProblemTemplate } from './types'
 
-const templates = JSON.parse(readFileSync(
+const ratioTemplates = JSON.parse(readFileSync(
   join(process.cwd(), 'public/data/templates/g6ratio.json'),
   'utf8',
 )) as ProblemTemplate[]
+const fractionDivisionTemplates = JSON.parse(readFileSync(
+  join(process.cwd(), 'public/data/templates/g6fractiondiv.json'),
+  'utf8',
+)) as ProblemTemplate[]
+const releasedConceptTemplates = [
+  ['g6ratio-001', ratioTemplates],
+  ['g6fractiondiv-001', fractionDivisionTemplates],
+] as const
 
 describe('Grade 6 Study release slice', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
   })
 
-  it.each(['A', 'B', 'C'] as const)('keeps set %s at 10 templates with 4/4/2 difficulty and K/A/R', (setId) => {
-    const setTemplates = templates.filter((template) => template.set_id === setId)
-    const byDifficulty = [1, 2, 3].map((difficulty) => setTemplates.filter((template) => template.difficulty === difficulty).length)
-    const byDomain = ['knowing', 'applying', 'reasoning'].map((domain) => (
-      setTemplates.filter((template) => template.blueprint?.cognitiveDomain === domain).length
-    ))
+  it.each(releasedConceptTemplates)(
+    'keeps %s at 30 templates with A/B/C difficulty and K/A/R 4/4/2',
+    (conceptId, templates) => {
+      expect(templates).toHaveLength(30)
+      expect(templates.every((template) => template.concept_id === conceptId)).toBe(true)
+      for (const setId of ['A', 'B', 'C'] as const) {
+        const setTemplates = templates.filter((template) => template.set_id === setId)
+        const byDifficulty = [1, 2, 3].map((difficulty) => (
+          setTemplates.filter((template) => template.difficulty === difficulty).length
+        ))
+        const byDomain = ['knowing', 'applying', 'reasoning'].map((domain) => (
+          setTemplates.filter((template) => template.blueprint?.cognitiveDomain === domain).length
+        ))
 
-    expect(setTemplates).toHaveLength(10)
-    expect(byDifficulty).toEqual([4, 4, 2])
-    expect(byDomain).toEqual([4, 4, 2])
-  })
+        expect(setTemplates).toHaveLength(10)
+        expect(byDifficulty).toEqual([4, 4, 2])
+        expect(byDomain).toEqual([4, 4, 2])
+      }
+    },
+  )
 
   it('uses materially different A/B/C families and keeps proportion-only standards out of 6-1', () => {
     const familySets = (['A', 'B', 'C'] as const).map((setId) => new Set(
-      templates.filter((template) => template.set_id === setId).map((template) => template.problem_family),
+      ratioTemplates.filter((template) => template.set_id === setId).map((template) => template.problem_family),
     ))
 
-    expect(new Set(templates.map((template) => template.problem_family))).toHaveLength(30)
+    expect(new Set(ratioTemplates.map((template) => template.problem_family))).toHaveLength(30)
     expect([...familySets[0]].filter((family) => familySets[1].has(family))).toEqual([])
     expect([...familySets[0]].filter((family) => familySets[2].has(family))).toEqual([])
     expect([...familySets[1]].filter((family) => familySets[2].has(family))).toEqual([])
-    expect(templates.every((template) => template.blueprint?.primaryStandard !== '[6수02-04]')).toBe(true)
-    expect(templates.some((template) => template.problem_family?.includes('equivalent-ratio'))).toBe(false)
-    expect(templates.some((template) => template.problem_family?.includes('missing-ratio-term'))).toBe(false)
+    expect(ratioTemplates.every((template) => template.blueprint?.primaryStandard !== '[6수02-04]')).toBe(true)
+    expect(ratioTemplates.some((template) => template.problem_family?.includes('equivalent-ratio'))).toBe(false)
+    expect(ratioTemplates.some((template) => template.problem_family?.includes('missing-ratio-term'))).toBe(false)
+  })
+
+  it('maps fraction division to both released standards with disjoint set families', () => {
+    const primaryStandards = new Set(fractionDivisionTemplates.map((template) => template.blueprint?.primaryStandard))
+    const familySets = (['A', 'B', 'C'] as const).map((setId) => new Set(
+      fractionDivisionTemplates
+        .filter((template) => template.set_id === setId)
+        .map((template) => template.problem_family),
+    ))
+
+    expect(primaryStandards).toEqual(new Set(['[6수01-10]', '[6수01-11]']))
+    expect(new Set(fractionDivisionTemplates.map((template) => template.problem_family))).toHaveLength(30)
+    expect([...familySets[0]].filter((family) => familySets[1].has(family))).toEqual([])
+    expect([...familySets[0]].filter((family) => familySets[2].has(family))).toEqual([])
+    expect([...familySets[1]].filter((family) => familySets[2].has(family))).toEqual([])
   })
 
   it.each([
@@ -55,7 +87,7 @@ describe('Grade 6 Study release slice', () => {
     ['C', 5, { 1: 2, 2: 2, 3: 1 }],
     ['C', 10, { 1: 4, 2: 4, 3: 2 }],
   ] as const)('generates and deterministically grades set %s with %i items', (setId, count, difficultyMix) => {
-    const problems = generateProblems(templates, { count, setId, difficultyMix, seed: 6200 + count })
+    const problems = generateProblems(ratioTemplates, { count, setId, difficultyMix, seed: 6200 + count })
     const results = gradeSession(problems, problems.map((problem) => problem.correctAnswer))
 
     expect(problems).toHaveLength(count)
@@ -63,9 +95,27 @@ describe('Grade 6 Study release slice', () => {
     expect(results.every((result) => result.correct)).toBe(true)
   })
 
+  it.each(['A', 'B', 'C'] as const)(
+    'generates and grades every fraction-division problem in set %s',
+    (setId) => {
+      const problems = generateProblems(fractionDivisionTemplates, {
+        count: 10,
+        setId,
+        difficultyMix: { 1: 4, 2: 4, 3: 2 },
+        seed: 6610 + setId.charCodeAt(0),
+      })
+      const results = gradeSession(problems, problems.map((problem) => problem.correctAnswer))
+
+      expect(problems).toHaveLength(10)
+      expect(new Set(problems.map((problem) => problem.prompt))).toHaveLength(10)
+      expect(problems.every((problem) => /^-?\d+(?:\/\d+)?$/.test(problem.correctAnswer))).toBe(true)
+      expect(results.every((result) => result.correct)).toBe(true)
+    },
+  )
+
   it('does not expose an answer-only value in the unchecked Grade 6 problem DOM', () => {
     vi.stubGlobal('React', React)
-    const problems = generateProblems(templates, {
+    const problems = generateProblems(ratioTemplates, {
       count: 10,
       setId: 'A',
       difficultyMix: { 1: 4, 2: 4, 3: 2 },
@@ -88,7 +138,7 @@ describe('Grade 6 Study release slice', () => {
 
   it.each(['A', 'B', 'C'] as const)('renders every unchecked set %s problem without answer metadata', (setId) => {
     vi.stubGlobal('React', React)
-    const problems = generateProblems(templates, {
+    const problems = generateProblems(ratioTemplates, {
       count: 10,
       setId,
       difficultyMix: { 1: 4, 2: 4, 3: 2 },
@@ -110,7 +160,7 @@ describe('Grade 6 Study release slice', () => {
 
   it('generates a real quantitative ratio table for each reasoning comparison set', () => {
     for (const setId of ['A', 'B', 'C'] as const) {
-      const problems = generateProblems(templates, {
+      const problems = generateProblems(ratioTemplates, {
         count: 10,
         setId,
         difficultyMix: { 1: 4, 2: 4, 3: 2 },

@@ -803,9 +803,10 @@ function analyzeRenderedPromptQuality(template, prompt) {
   const fractionVisible = /\\frac|\d+\s*\/\s*\d+/.test(prompt)
   const isFractionConcept = /^(simplify|commonden|fracadd|fracsub|fracmul)-/.test(template.concept_id)
   const usesFractionMath = /(reduceFrac|convertNum|commonDen|fracAdd|fracSub|fracMul)/.test(template.solver_rule)
+  const naturalDivisionQuotient = template.blueprint?.primaryStandard === '[6수01-10]'
   const referencesOrderedOperands = /(첫 번째|두 번째)/.test(prompt) && /(분자|분수|항)/.test(prompt)
 
-  if ((isFractionConcept || usesFractionMath) && !fractionVisible) {
+  if ((isFractionConcept || usesFractionMath) && !fractionVisible && !naturalDivisionQuotient) {
     warnings.push({
       code: 'fraction_operands_hidden',
       message: '분수 관련 문제인데 prompt에 실제 분수가 드러나지 않습니다.'

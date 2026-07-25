@@ -1,0 +1,1184 @@
+[
+  {
+    "id": "tmpl-g6fractiondiv-A-01",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-natural-quotient-proper",
+    "blueprint": {
+      "problemFamily": "a-natural-quotient-proper",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-10]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "빵 {{p}}개를 {{p + 2}}명이 똑같이 나누면 한 명이 받는 양은 빵 몇 개인가요?",
+    "solver_rule": "reduceFrac(p, p + 2)",
+    "solution_steps_template": [
+      "한 명의 몫은 {{p}}÷{{p + 2}}입니다.",
+      "몫을 분수로 나타내면 {{reduceFrac(p, p + 2)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누어지는 자연수를 분자, 나누는 자연수를 분모로 놓아 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-A-02",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-natural-quotient-improper",
+    "blueprint": {
+      "problemFamily": "a-natural-quotient-improper",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-10]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "물 {{p + 3}}L를 {{p + 1}}개의 통에 똑같이 나누면 한 통에 몇 L씩 담나요?",
+    "solver_rule": "reduceFrac(p + 3, p + 1)",
+    "solution_steps_template": [
+      "한 통의 양은 {{p + 3}}÷{{p + 1}}입니다.",
+      "몫은 {{reduceFrac(p + 3, p + 1)}}L입니다."
+    ],
+    "hint_steps_template": [
+      "나누어지는 자연수를 분자, 나누는 자연수를 분모로 놓아 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-A-03",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-unit-fraction-divided-by-two",
+    "blueprint": {
+      "problemFamily": "a-unit-fraction-divided-by-two",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "1/{{p + 1}}을 2로 나눈 몫을 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(1, 2 * p + 2)",
+    "solution_steps_template": [
+      "분수를 자연수로 나눌 때 분모에 자연수를 곱할 수 있습니다.",
+      "1/{{p + 1}}÷2={{reduceFrac(1, 2 * p + 2)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-A-04",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-proper-fraction-divided-by-two",
+    "blueprint": {
+      "problemFamily": "a-proper-fraction-divided-by-two",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p}}/{{p + 1}}을 2로 나눈 몫을 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(p, 2 * p + 2)",
+    "solution_steps_template": [
+      "{{p}}/{{p + 1}}÷2={{p}}/{{2 * p + 2}}입니다.",
+      "약분하면 {{reduceFrac(p, 2 * p + 2)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-A-05",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-ribbon-equal-shares",
+    "blueprint": {
+      "problemFamily": "a-ribbon-equal-shares",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "리본 {{p}}/{{p + 1}}m를 {{p}}명이 똑같이 나눕니다. 한 명이 받는 리본은 몇 m인가요?",
+    "solver_rule": "reduceFrac(p, p * p + p)",
+    "solution_steps_template": [
+      "{{p}}/{{p + 1}}÷{{p}}를 계산합니다.",
+      "한 명의 몫은 {{reduceFrac(p, p * p + p)}}m입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-A-06",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-juice-two-bottles",
+    "blueprint": {
+      "problemFamily": "a-juice-two-bottles",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "주스 {{2 * p}}/{{2 * p + 1}}L를 두 병에 똑같이 나누어 담습니다. 한 병에 몇 L씩 담나요?",
+    "solver_rule": "reduceFrac(2 * p, 4 * p + 2)",
+    "solution_steps_template": [
+      "전체 양을 2로 나눕니다.",
+      "{{2 * p}}/{{2 * p + 1}}÷2={{reduceFrac(2 * p, 4 * p + 2)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-A-07",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-count-unit-fraction-scoops",
+    "blueprint": {
+      "problemFamily": "a-count-unit-fraction-scoops",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p}}/{{p + 1}}L를 한 번에 1/{{p + 1}}L씩 옮기려면 모두 몇 번 옮겨야 하나요?",
+    "solver_rule": "reduceFrac(p * 2, 2)",
+    "solution_steps_template": [
+      "전체 양÷한 번의 양을 계산합니다.",
+      "{{p}}/{{p + 1}}÷1/{{p + 1}}={{p}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-A-08",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-count-double-unit-portions",
+    "blueprint": {
+      "problemFamily": "a-count-double-unit-portions",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p + 1}}/{{p + 2}}kg의 반죽을 한 개분에 2/{{p + 2}}kg씩 쓰면 빵 몇 개분인가요?",
+    "solver_rule": "reduceFrac(p + 1, 2)",
+    "solution_steps_template": [
+      "반죽의 전체 양을 한 개분에 쓰는 양으로 나눕니다.",
+      "{{p + 1}}/{{p + 2}}÷2/{{p + 2}}={{reduceFrac(p + 1, 2)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-A-09",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "a-reciprocal-error-gap",
+    "blueprint": {
+      "problemFamily": "a-reciprocal-error-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p}}/{{p + 1}}÷1/2에서 나누는 수를 뒤집지 않고 곱해 {{reduceFrac(p, 2 * p + 2)}}라고 했습니다. 올바른 몫과 잘못된 몫의 차는 얼마인가요?",
+    "solver_rule": "reduceFrac(3 * p, 2 * p + 2)",
+    "solution_steps_template": [
+      "올바른 몫은 {{p}}/{{p + 1}}×2={{reduceFrac(2 * p, p + 1)}}입니다.",
+      "{{reduceFrac(2 * p, p + 1)}}-{{reduceFrac(p, 2 * p + 2)}}={{reduceFrac(3 * p, 2 * p + 2)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "서로 다른 계산의 뜻과 결과를 같은 기약분수 기준으로 비교해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-A-10",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "a-remaining-unit-portions",
+    "blueprint": {
+      "problemFamily": "a-remaining-unit-portions",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p + 2}}/{{p + 3}}m의 끈에서 1/{{p + 3}}m를 썼습니다. 남은 끈을 1/{{p + 3}}m씩 자르면 몇 도막이 되나요?",
+    "solver_rule": "reduceFrac(p * p + 4 * p + 3, p + 3)",
+    "solution_steps_template": [
+      "남은 끈은 {{p + 1}}/{{p + 3}}m입니다.",
+      "{{p + 1}}/{{p + 3}}÷1/{{p + 3}}={{p + 1}}이므로 {{p + 1}}도막입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "서로 다른 계산의 뜻과 결과를 같은 기약분수 기준으로 비교해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-B-01",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-natural-sharing-proper",
+    "blueprint": {
+      "problemFamily": "b-natural-sharing-proper",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-10]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "우유 {{p}}L를 {{p + 1}}개의 통에 똑같이 나누면 한 통에 몇 L씩 담나요?",
+    "solver_rule": "reduceFrac(p, p + 1)",
+    "solution_steps_template": [
+      "한 통의 양은 {{p}}÷{{p + 1}}입니다.",
+      "몫은 {{reduceFrac(p, p + 1)}}L입니다."
+    ],
+    "hint_steps_template": [
+      "나누어지는 자연수를 분자, 나누는 자연수를 분모로 놓아 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-B-02",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-natural-sharing-improper",
+    "blueprint": {
+      "problemFamily": "b-natural-sharing-improper",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-10]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "밀가루 {{p + 4}}kg을 {{p + 1}}묶음으로 똑같이 나누면 한 묶음은 몇 kg인가요?",
+    "solver_rule": "reduceFrac(p + 4, p + 1)",
+    "solution_steps_template": [
+      "{{p + 4}}÷{{p + 1}}을 분수로 나타냅니다.",
+      "한 묶음은 {{reduceFrac(p + 4, p + 1)}}kg입니다."
+    ],
+    "hint_steps_template": [
+      "나누어지는 자연수를 분자, 나누는 자연수를 분모로 놓아 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-B-03",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-two-parts-divided-by-three",
+    "blueprint": {
+      "problemFamily": "b-two-parts-divided-by-three",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "2/{{p + 1}}를 3으로 나눈 몫을 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(2, 3 * p + 3)",
+    "solution_steps_template": [
+      "분모에 3을 곱해 2/{{3 * p + 3}}로 나타냅니다.",
+      "약분하면 {{reduceFrac(2, 3 * p + 3)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-B-04",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-cancel-dividend-and-divisor",
+    "blueprint": {
+      "problemFamily": "b-cancel-dividend-and-divisor",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{p}}/{{p + 2}}를 {{p}}로 나눈 몫을 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(p, p * p + 2 * p)",
+    "solution_steps_template": [
+      "{{p}}/{{p + 2}}÷{{p}}={{p}}/{{p * p + 2 * p}}입니다.",
+      "약분하면 {{reduceFrac(p, p * p + 2 * p)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-B-05",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-cloth-three-shares",
+    "blueprint": {
+      "problemFamily": "b-cloth-three-shares",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "천 {{p + 1}}/{{p + 2}}m를 3조각으로 똑같이 자릅니다. 한 조각은 몇 m인가요?",
+    "solver_rule": "reduceFrac(p + 1, 3 * p + 6)",
+    "solution_steps_template": [
+      "전체 길이를 3으로 나눕니다.",
+      "{{p + 1}}/{{p + 2}}÷3={{reduceFrac(p + 1, 3 * p + 6)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-B-06",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-unit-strip-count",
+    "blueprint": {
+      "problemFamily": "b-unit-strip-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{p + 2}}/{{p + 3}}m의 색 테이프를 1/{{p + 3}}m씩 자르면 몇 조각이 되나요?",
+    "solver_rule": "reduceFrac(p + 2, 1)",
+    "solution_steps_template": [
+      "전체 길이÷한 조각의 길이를 계산합니다.",
+      "{{p + 2}}/{{p + 3}}÷1/{{p + 3}}={{p + 2}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-B-07",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-double-unit-serving-count",
+    "blueprint": {
+      "problemFamily": "b-double-unit-serving-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{2 * p}}/{{2 * p + 1}}L의 수프를 한 그릇에 2/{{2 * p + 1}}L씩 담으면 몇 그릇이 되나요?",
+    "solver_rule": "reduceFrac(p * 2, 2)",
+    "solution_steps_template": [
+      "전체 양을 한 그릇의 양으로 나눕니다.",
+      "{{2 * p}}/{{2 * p + 1}}÷2/{{2 * p + 1}}={{p}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-B-08",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-recover-dividend-from-quotient",
+    "blueprint": {
+      "problemFamily": "b-recover-dividend-from-quotient",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "어떤 분수를 2로 나눈 몫이 {{p}}/{{2 * p + 2}}입니다. 어떤 분수를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(p, p + 1)",
+    "solution_steps_template": [
+      "나누기 전 수는 몫에 2를 곱해 구합니다.",
+      "{{p}}/{{2 * p + 2}}×2={{reduceFrac(p, p + 1)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-B-09",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "b-divide-by-half-comparison",
+    "blueprint": {
+      "problemFamily": "b-divide-by-half-comparison",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{p}}/{{p + 1}}을 1/2로 나눈 몫은 2로 나눈 몫보다 얼마만큼 큰가요?",
+    "solver_rule": "reduceFrac(3 * p, 2 * p + 2)",
+    "solution_steps_template": [
+      "1/2로 나눈 몫은 {{reduceFrac(2 * p, p + 1)}}, 2로 나눈 몫은 {{reduceFrac(p, 2 * p + 2)}}입니다.",
+      "두 몫의 차는 {{reduceFrac(3 * p, 2 * p + 2)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "서로 다른 계산의 뜻과 결과를 같은 기약분수 기준으로 비교해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-B-10",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "b-denominator-cancellation-error",
+    "blueprint": {
+      "problemFamily": "b-denominator-cancellation-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{p + 1}}/{{p + 2}}÷1/{{p + 2}}를 분모끼리 나누어 1이라고 계산했습니다. 올바른 몫과 1의 차는 얼마인가요?",
+    "solver_rule": "reduceFrac(p * p + 2 * p, p + 2)",
+    "solution_steps_template": [
+      "나누는 분수의 역수를 곱하면 올바른 몫은 {{p + 1}}입니다.",
+      "{{p + 1}}-1={{p}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "서로 다른 계산의 뜻과 결과를 같은 기약분수 기준으로 비교해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-C-01",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-natural-cake-sharing",
+    "blueprint": {
+      "problemFamily": "c-natural-cake-sharing",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-10]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "케이크 {{p + 1}}개를 {{p + 3}}명이 똑같이 나누면 한 명은 케이크 몇 개를 받나요?",
+    "solver_rule": "reduceFrac(p + 1, p + 3)",
+    "solution_steps_template": [
+      "한 명의 몫은 {{p + 1}}÷{{p + 3}}입니다.",
+      "분수로 나타내면 {{reduceFrac(p + 1, p + 3)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누어지는 자연수를 분자, 나누는 자연수를 분모로 놓아 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-C-02",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-natural-rope-sharing",
+    "blueprint": {
+      "problemFamily": "c-natural-rope-sharing",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-10]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "줄 {{p + 5}}m를 {{p + 2}}도막으로 똑같이 자르면 한 도막은 몇 m인가요?",
+    "solver_rule": "reduceFrac(p + 5, p + 2)",
+    "solution_steps_template": [
+      "한 도막의 길이는 {{p + 5}}÷{{p + 2}}입니다.",
+      "몫은 {{reduceFrac(p + 5, p + 2)}}m입니다."
+    ],
+    "hint_steps_template": [
+      "나누어지는 자연수를 분자, 나누는 자연수를 분모로 놓아 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-C-03",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-fraction-divided-by-four",
+    "blueprint": {
+      "problemFamily": "c-fraction-divided-by-four",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{p + 1}}/{{p + 2}}를 4로 나눈 몫을 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(p + 1, 4 * p + 8)",
+    "solution_steps_template": [
+      "분모에 4를 곱합니다.",
+      "{{p + 1}}/{{p + 2}}÷4={{reduceFrac(p + 1, 4 * p + 8)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-C-04",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-three-parts-divided-by-two",
+    "blueprint": {
+      "problemFamily": "c-three-parts-divided-by-two",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "3/{{p + 3}}을 2로 나눈 몫을 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(3, 2 * p + 6)",
+    "solution_steps_template": [
+      "3/{{p + 3}}÷2=3/{{2 * p + 6}}입니다.",
+      "약분하면 {{reduceFrac(3, 2 * p + 6)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-C-05",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-lap-time",
+    "blueprint": {
+      "problemFamily": "c-lap-time",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{p + 1}}/{{p + 2}}시간 동안 운동장을 {{p + 1}}바퀴 돌았습니다. 한 바퀴에 걸린 시간은 몇 시간인가요?",
+    "solver_rule": "reduceFrac(p + 1, p * p + 3 * p + 2)",
+    "solution_steps_template": [
+      "전체 시간을 바퀴 수로 나눕니다.",
+      "{{p + 1}}/{{p + 2}}÷{{p + 1}}={{reduceFrac(p + 1, p * p + 3 * p + 2)}}시간입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-C-06",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-two-unit-cookie-count",
+    "blueprint": {
+      "problemFamily": "c-two-unit-cookie-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "반죽 {{p + 3}}/{{p + 4}}kg을 한 판 분량에 2/{{p + 4}}kg씩 쓰면 쿠키 몇 판 분량인가요?",
+    "solver_rule": "reduceFrac(p + 3, 2)",
+    "solution_steps_template": [
+      "전체 반죽을 한 판 분량에 쓰는 양으로 나눕니다.",
+      "{{p + 3}}/{{p + 4}}÷2/{{p + 4}}={{reduceFrac(p + 3, 2)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-C-07",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-use-then-share",
+    "blueprint": {
+      "problemFamily": "c-use-then-share",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{p + 2}}/{{p + 3}}L의 물에서 1/{{p + 3}}L를 썼습니다. 남은 물을 두 통에 똑같이 나누면 한 통에 몇 L씩 담나요?",
+    "solver_rule": "reduceFrac(p + 1, 2 * p + 6)",
+    "solution_steps_template": [
+      "남은 물은 {{p + 1}}/{{p + 3}}L입니다.",
+      "{{p + 1}}/{{p + 3}}÷2={{reduceFrac(p + 1, 2 * p + 6)}}L입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-C-08",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-find-missing-divisor",
+    "blueprint": {
+      "problemFamily": "c-find-missing-divisor",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{p + 1}}/{{p + 2}}를 어떤 분수로 나누면 {{p + 1}}이 됩니다. 어떤 분수를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(1, p + 2)",
+    "solution_steps_template": [
+      "나누는 수는 나누어지는 수÷몫으로 구합니다.",
+      "{{p + 1}}/{{p + 2}}÷{{p + 1}}={{reduceFrac(1, p + 2)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "계산한 뒤 약분하고, 몫의 크기가 상황에 알맞은지 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-C-09",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "c-method-numerator-check",
+    "blueprint": {
+      "problemFamily": "c-method-numerator-check",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{p}}/{{p + 2}}÷2/{{p + 2}}를 계산했습니다. 분모가 같을 때 분자끼리 나눌 수 있다는 설명을 역수를 곱하는 방법으로 확인하고, 몫을 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(p * p + 2 * p, 2 * p + 4)",
+    "solution_steps_template": [
+      "나누는 분수의 역수를 곱하면 {{p}}/{{p + 2}}×{{p + 2}}/2입니다.",
+      "약분한 몫은 {{reduceFrac(p, 2)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "서로 다른 계산의 뜻과 결과를 같은 기약분수 기준으로 비교해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondiv-C-10",
+    "concept_id": "g6fractiondiv-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "c-method-denominator-check",
+    "blueprint": {
+      "problemFamily": "c-method-denominator-check",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "[6수01-11]",
+      "connectedStandards": [
+        "[6수01-10]"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{p}}/{{p + 1}}÷2/{{p + 1}}을 분수 막대의 묶음 수와 역수 곱셈으로 각각 확인했습니다. 두 방법의 공통된 몫을 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(p * p + p, 2 * p + 2)",
+    "solution_steps_template": [
+      "{{p}}/{{p + 1}}×{{p + 1}}/2로 바꿉니다.",
+      "약분한 몫은 {{reduceFrac(p, 2)}}입니다."
+    ],
+    "hint_steps_template": [
+      "나누는 분수를 뒤집어 곱셈으로 바꾸어 보세요.",
+      "서로 다른 계산의 뜻과 결과를 같은 기약분수 기준으로 비교해요."
+    ]
+  }
+]
