@@ -20,7 +20,10 @@ import {
   banks as generatedDivisorMultipleBanks
 } from '../../scripts/generate-grade5-divisor-multiple-templates.js'
 import { templates as generatedFractionMultiplicationTemplates } from '../../scripts/generate-grade5-fracmul-templates.js'
-import { banks as generatedGeometryBanks } from '../../scripts/generate-grade5-geometry-templates.js'
+import {
+  banks as generatedGeometryBanks,
+  serializeTemplates as serializeGeometryTemplates
+} from '../../scripts/generate-grade5-geometry-templates.js'
 import { templates as generatedMixedCalculationTemplates } from '../../scripts/generate-grade5-mixedcalc-templates.js'
 import { templates as generatedPatternTemplates } from '../../scripts/generate-grade5-pattern-templates.js'
 import { templates as generatedRoundingTemplates } from '../../scripts/generate-grade5-rounding-templates.js'
@@ -47,6 +50,15 @@ function readMigratedTemplates(): ProblemTemplate[] {
   ) as ProblemTemplate[])
 }
 
+function collectVisualTemplateStrings(value: unknown): string[] {
+  if (typeof value === 'string') return [value]
+  if (Array.isArray(value)) return value.flatMap(collectVisualTemplateStrings)
+  if (value && typeof value === 'object') {
+    return Object.values(value).flatMap(collectVisualTemplateStrings)
+  }
+  return []
+}
+
 function collectExhaustiveTemplateIssues(
   templates: ProblemTemplate[],
   answerPattern: RegExp
@@ -69,7 +81,9 @@ function collectExhaustiveTemplateIssues(
       const renderedTexts = [
         evaluateTemplate(template.prompt_template, params),
         ...template.solution_steps_template.map(step => evaluateTemplate(step, params)),
-        ...(template.hint_steps_template ?? []).map(step => evaluateTemplate(step, params))
+        ...(template.hint_steps_template ?? []).map(step => evaluateTemplate(step, params)),
+        ...collectVisualTemplateStrings(template.visual_template)
+          .map(value => evaluateTemplate(value, params))
       ]
 
       if (!answerPattern.test(answer)) issues.push(`${sampleKey}: invalid answer ${answer}`)
@@ -114,6 +128,20 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     expect(generated.every(template => (
       JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
     ))).toBe(true)
+
+    for (const [filename, templates] of Object.entries(generatedGeometryBanks)) {
+      expect(serializeGeometryTemplates(templates)).toBe(fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', filename),
+        'utf8'
+      ))
+    }
+
+    for (const filename of ['perimeter.json', 'polygonarea.json']) {
+      expect(collectExhaustiveTemplateIssues(
+        generatedGeometryBanks[filename] as ProblemTemplate[],
+        /^\d+$/
+      )).toEqual([])
+    }
   })
 
   it('keeps the reviewed average bank reproducible from its generator', () => {
@@ -460,19 +488,44 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     })
   })
 
-  it('does not relabel familiar inverse procedures as reasoning to satisfy a quota', () => {
+  it('gives perimeter and polygon-area banks genuine K4/A4/R2 reasoning mixes', () => {
     const coverage = buildProblemBlueprintCoverage(readMigratedTemplates())
     const perimeter = coverage.byConcept.find(entry => entry.conceptId === 'perimeter-001')
     const polygonArea = coverage.byConcept.find(entry => entry.conceptId === 'polygonarea-001')
 
-    expect(perimeter?.cognitiveCounts).toEqual({ knowing: 18, applying: 12, reasoning: 0 })
-    expect(polygonArea?.cognitiveCounts).toEqual({ knowing: 12, applying: 18, reasoning: 0 })
-    expect(perimeter?.targetGaps).toEqual(
-      expect.arrayContaining(['reasoning_family_minimum', 'cognitive_domain_mix'])
-    )
-    expect(polygonArea?.targetGaps).toEqual(
-      expect.arrayContaining(['reasoning_family_minimum', 'cognitive_domain_mix'])
-    )
+    expect(perimeter?.cognitiveCounts).toEqual({ knowing: 12, applying: 12, reasoning: 6 })
+    expect(polygonArea?.cognitiveCounts).toEqual({ knowing: 12, applying: 12, reasoning: 6 })
+    expect(perimeter?.reasoningFamilyCount).toBe(2)
+    expect(polygonArea?.reasoningFamilyCount).toBe(2)
+    expect(perimeter?.targetGaps).toEqual([])
+    expect(polygonArea?.targetGaps).toEqual([])
+
+    const templates = readMigratedTemplates().filter(template => (
+      template.concept_id === 'perimeter-001' ||
+      template.concept_id === 'polygonarea-001'
+    ))
+    for (const conceptId of ['perimeter-001', 'polygonarea-001']) {
+      for (const setId of ['A', 'B', 'C']) {
+        const setTemplates = templates.filter(template => (
+          template.concept_id === conceptId && template.set_id === setId
+        ))
+        expect(setTemplates.reduce<Record<string, number>>((counts, template) => {
+          const domain = template.blueprint!.cognitiveDomain
+          counts[domain] = (counts[domain] ?? 0) + 1
+          return counts
+        }, {})).toEqual({ knowing: 4, applying: 4, reasoning: 2 })
+      }
+    }
+
+    expect(templates.find(template => (
+      template.id === 'tmpl-polygonarea-A-08'
+    ))?.problem_family).toBe('polygonarea-congruent-triangle-total')
+    expect(templates.find(template => (
+      template.id === 'tmpl-polygonarea-A-09'
+    ))?.problem_family).toBe('polygonarea-triangle-double-error')
+    expect(templates.find(template => (
+      template.id === 'tmpl-polygonarea-A-10'
+    ))?.problem_family).toBe('polygonarea-trapezoid-base-omission-error')
   })
 
   it('gives every average set a reviewed K4/A4/R2 application mix', () => {

@@ -357,12 +357,12 @@ const REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'perimeter-square-perimeter': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-11', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
   'perimeter-rectangle-perimeter-choice': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-11', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
   'perimeter-triangle-perimeter': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-11', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
-  'perimeter-rectangle-area': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-13', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
-  'perimeter-square-area-choice': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-13', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
+  'perimeter-rectangle-area-context': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수03-13', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'perimeter-square-area-context': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수03-13', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
   'perimeter-rectangle-width-from-area': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수03-13', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
   'perimeter-rectangle-height-from-area': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수03-13', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
-  'perimeter-rectangle-side-from-perimeter': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수03-11', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
-  'perimeter-fence-with-gate': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-11', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'perimeter-half-perimeter-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-11', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
+  'perimeter-addition-instead-multiplication-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-11', connectedStandards: ['6수01-01'], estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
 
   // Polygon area
   'polygonarea-parallelogram-area': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-14', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
@@ -372,9 +372,9 @@ const REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'polygonarea-parallelogram-height': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수03-14', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
   'polygonarea-triangle-height': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수03-14', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
   'polygonarea-trapezoid-bottom': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수03-14', estimatedSteps: 3, readingLoad: 'high', visualSemantics: 'quantitative' }),
-  'polygonarea-two-shape-area-sum': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-14', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
-  'polygonarea-rectangle-minus-triangle': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-14', connectedStandards: ['6수03-13'], estimatedSteps: 3, readingLoad: 'high', visualSemantics: 'quantitative' }),
-  'polygonarea-rhombus-missing-diagonal': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수03-14', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
+  'polygonarea-congruent-triangle-total': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-14', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'polygonarea-triangle-double-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-14', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
+  'polygonarea-trapezoid-base-omission-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-14', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
 
   // Congruence
   'congruence-corresponding-vertex': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수03-01', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'schematic' }),

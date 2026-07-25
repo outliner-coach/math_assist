@@ -295,6 +295,13 @@ When you change a high-conflict file, add a short dated note below:
   Preserve deterministic integer rules while expanding the bank to distinct
   input-output, inverse, context, comparison, and error-analysis families.
 
+- 2026-07-26: Grade 5 perimeter and polygon-area quality upgrade (primary
+  workstreams 01 and 04) owns the two matching template JSON files,
+  `scripts/generate-grade5-geometry-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, and focused quantitative-visual
+  checks. Every prompt, solver, and polygon visual must describe the same
+  single mathematical model; `area.json` remains an unchanged regression bank.
+
 - 2026-07-21: quantitative three-shape overlap repair (primary workstream 03,
   dependencies on workstreams 01 and 04)
   `src/lib/types.ts`, `src/lib/problem-generator.ts`, and

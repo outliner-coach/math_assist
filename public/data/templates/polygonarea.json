@@ -15,10 +15,6 @@
       "height": {
         "min": 2,
         "max": 6
-      },
-      "side": {
-        "min": 3,
-        "max": 7
       }
     },
     "prompt_template": "평행사변형의 넓이는 몇 cm²인가요?",
@@ -36,7 +32,6 @@
       "shape": "parallelogram",
       "unit": "cm",
       "a": "{{base}}",
-      "b": "{{side}}",
       "height": "{{height}}"
     }
   },
@@ -49,9 +44,9 @@
     "problem_family": "polygonarea-triangle-area",
     "blueprint": {"problemFamily":"polygonarea-triangle-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
-      "base": {
-        "min": 4,
-        "max": 8
+      "b": {
+        "min": 2,
+        "max": 4
       },
       "height": {
         "min": 3,
@@ -59,10 +54,10 @@
       }
     },
     "prompt_template": "삼각형의 넓이는 몇 cm²인가요?",
-    "solver_rule": "base * height / 2",
+    "solver_rule": "b * height",
     "solution_steps_template": [
       "삼각형의 넓이는 밑변 × 높이 ÷ 2입니다.",
-      "{{base}} × {{height}} ÷ 2 = {{base * height / 2}}cm²입니다."
+      "{{b * 2}} × {{height}} ÷ 2 = {{b * height}}cm²입니다."
     ],
     "hint_steps_template": [
       "같은 밑변과 높이의 평행사변형 절반이에요.",
@@ -72,7 +67,7 @@
       "type": "polygon",
       "shape": "triangle",
       "unit": "cm",
-      "a": "{{base}}",
+      "a": "{{b * 2}}",
       "height": "{{height}}"
     }
   },
@@ -93,20 +88,16 @@
         "min": 8,
         "max": 12
       },
-      "height": {
-        "min": 4,
-        "max": 8
-      },
-      "side": {
-        "min": 4,
-        "max": 7
+      "h": {
+        "min": 2,
+        "max": 4
       }
     },
     "prompt_template": "사다리꼴의 넓이는 몇 cm²인가요?",
-    "solver_rule": "(top + bottom) * height / 2",
+    "solver_rule": "(top + bottom) * h",
     "solution_steps_template": [
       "윗변과 아랫변의 합은 {{top + bottom}}cm입니다.",
-      "({{top}} + {{bottom}}) × {{height}} ÷ 2 = {{(top + bottom) * height / 2}}cm²입니다."
+      "({{top}} + {{bottom}}) × {{h * 2}} ÷ 2 = {{(top + bottom) * h}}cm²입니다."
     ],
     "hint_steps_template": [
       "평행한 두 변의 길이를 먼저 더해요.",
@@ -118,8 +109,7 @@
       "unit": "cm",
       "a": "{{top}}",
       "b": "{{bottom}}",
-      "c": "{{side}}",
-      "height": "{{height}}"
+      "height": "{{h * 2}}"
     }
   },
   {
@@ -131,9 +121,9 @@
     "problem_family": "polygonarea-rhombus-area",
     "blueprint": {"problemFamily":"polygonarea-rhombus-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
-      "d1": {
-        "min": 4,
-        "max": 8
+      "d": {
+        "min": 2,
+        "max": 4
       },
       "d2": {
         "min": 5,
@@ -141,10 +131,10 @@
       }
     },
     "prompt_template": "두 대각선의 길이가 표시된 마름모의 넓이는 몇 cm²인가요?",
-    "solver_rule": "d1 * d2 / 2",
+    "solver_rule": "d * d2",
     "solution_steps_template": [
       "마름모의 넓이는 두 대각선의 곱 ÷ 2입니다.",
-      "{{d1}} × {{d2}} ÷ 2 = {{d1 * d2 / 2}}cm²입니다."
+      "{{d * 2}} × {{d2}} ÷ 2 = {{d * d2}}cm²입니다."
     ],
     "hint_steps_template": [
       "두 대각선이 만드는 직사각형을 생각해요.",
@@ -154,7 +144,7 @@
       "type": "polygon",
       "shape": "rhombus",
       "unit": "cm",
-      "a": "{{d1}}",
+      "a": "{{d * 2}}",
       "b": "{{d2}}"
     }
   },
@@ -174,10 +164,6 @@
       "height": {
         "min": 3,
         "max": 7
-      },
-      "side": {
-        "min": 4,
-        "max": 8
       }
     },
     "prompt_template": "넓이가 {{base * height}}cm²이고 밑변이 {{base}}cm인 평행사변형의 높이는 몇 cm인가요?",
@@ -195,7 +181,6 @@
       "shape": "parallelogram",
       "unit": "cm",
       "a": "{{base}}",
-      "b": "{{side}}",
       "height": "{{height}}",
       "unknownMeasurement": "height"
     }
@@ -209,20 +194,20 @@
     "problem_family": "polygonarea-triangle-height",
     "blueprint": {"problemFamily":"polygonarea-triangle-height","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
-      "base": {
-        "min": 4,
-        "max": 8
+      "b": {
+        "min": 2,
+        "max": 4
       },
       "height": {
         "min": 3,
         "max": 8
       }
     },
-    "prompt_template": "넓이가 {{base * height / 2}}cm²이고 밑변이 {{base}}cm인 삼각형의 높이는 몇 cm인가요?",
+    "prompt_template": "넓이가 {{b * height}}cm²이고 밑변이 {{b * 2}}cm인 삼각형의 높이는 몇 cm인가요?",
     "solver_rule": "height",
     "solution_steps_template": [
-      "넓이에 2를 곱하면 {{base * height}}입니다.",
-      "{{base * height}} ÷ {{base}} = {{height}}cm입니다."
+      "넓이 {{b * height}}cm²를 2배 하면 {{b * 2 * height}}입니다.",
+      "{{b * 2 * height}} ÷ {{b * 2}} = {{height}}cm입니다."
     ],
     "hint_steps_template": [
       "먼저 넓이를 2배 해요.",
@@ -232,7 +217,7 @@
       "type": "polygon",
       "shape": "triangle",
       "unit": "cm",
-      "a": "{{base}}",
+      "a": "{{b * 2}}",
       "height": "{{height}}",
       "unknownMeasurement": "height"
     }
@@ -254,19 +239,15 @@
         "min": 8,
         "max": 13
       },
-      "height": {
-        "min": 4,
-        "max": 8
-      },
-      "side": {
-        "min": 4,
-        "max": 8
+      "h": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "넓이가 {{(top + bottom) * height / 2}}cm²이고 윗변이 {{top}}cm, 높이가 {{height}}cm인 사다리꼴의 아랫변은 몇 cm인가요?",
+    "prompt_template": "넓이가 {{(top + bottom) * h}}cm²이고 윗변이 {{top}}cm, 높이가 {{h * 2}}cm인 사다리꼴의 아랫변은 몇 cm인가요?",
     "solver_rule": "bottom",
     "solution_steps_template": [
-      "넓이 × 2 ÷ 높이로 윗변과 아랫변의 합 {{top + bottom}}cm를 구합니다.",
+      "넓이 {{(top + bottom) * h}}cm²를 {{h * 2}}cm 높이에 맞게 역산하면 두 평행한 변의 합은 {{top + bottom}}cm입니다.",
       "{{top + bottom}} - {{top}} = {{bottom}}cm입니다."
     ],
     "hint_steps_template": [
@@ -279,8 +260,7 @@
       "unit": "cm",
       "a": "{{top}}",
       "b": "{{bottom}}",
-      "c": "{{side}}",
-      "height": "{{height}}",
+      "height": "{{h * 2}}",
       "unknownMeasurement": "b"
     }
   },
@@ -290,41 +270,33 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "polygonarea-two-shape-area-sum",
-    "blueprint": {"problemFamily":"polygonarea-two-shape-area-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "problem_family": "polygonarea-congruent-triangle-total",
+    "blueprint": {"problemFamily":"polygonarea-congruent-triangle-total","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
-      "base": {
-        "min": 4,
-        "max": 8
+      "b": {
+        "min": 2,
+        "max": 4
       },
       "height": {
         "min": 3,
         "max": 7
-      },
-      "pbase": {
-        "min": 5,
-        "max": 10
-      },
-      "pheight": {
-        "min": 2,
-        "max": 6
       }
     },
-    "prompt_template": "밑변 {{base}}cm, 높이 {{height}}cm인 삼각형과 밑변 {{pbase}}cm, 높이 {{pheight}}cm인 평행사변형의 넓이 합은 몇 cm²인가요?",
-    "solver_rule": "base * height / 2 + pbase * pheight",
+    "prompt_template": "그림과 같은 밑변 {{b * 2}}cm, 높이 {{height}}cm인 삼각형 깃발을 2장 만들었습니다. 두 깃발의 넓이 합은 몇 cm²인가요?",
+    "solver_rule": "2 * b * height",
     "solution_steps_template": [
-      "삼각형의 넓이는 {{base * height / 2}}cm²입니다.",
-      "평행사변형의 넓이 {{pbase * pheight}}cm²를 더하면 {{base * height / 2 + pbase * pheight}}cm²입니다."
+      "삼각형 한 개의 넓이는 {{b * 2}} × {{height}} ÷ 2 = {{b * height}}cm²입니다.",
+      "같은 삼각형이 2개이므로 넓이 합은 {{2 * b * height}}cm²입니다."
     ],
     "hint_steps_template": [
-      "두 도형의 넓이를 따로 구해요.",
-      "삼각형에서는 ÷2를 빠뜨리지 않아요."
+      "먼저 삼각형 한 개의 넓이를 구해요.",
+      "같은 넓이가 2개임을 반영해요."
     ],
     "visual_template": {
       "type": "polygon",
       "shape": "triangle",
       "unit": "cm",
-      "a": "{{base}}",
+      "a": "{{b * 2}}",
       "height": "{{height}}"
     }
   },
@@ -334,42 +306,34 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "polygonarea-rectangle-minus-triangle",
-    "blueprint": {"problemFamily":"polygonarea-rectangle-minus-triangle","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
+    "problem_family": "polygonarea-triangle-double-error",
+    "blueprint": {"problemFamily":"polygonarea-triangle-double-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
-      "w": {
-        "min": 8,
-        "max": 14
-      },
-      "h": {
-        "min": 6,
-        "max": 10
-      },
-      "base": {
-        "min": 4,
-        "max": 8
-      },
-      "triHeight": {
+      "b": {
         "min": 2,
         "max": 5
+      },
+      "height": {
+        "min": 4,
+        "max": 8
       }
     },
-    "prompt_template": "가로 {{w}}cm, 세로 {{h}}cm인 직사각형에서 밑변 {{base}}cm, 높이 {{triHeight}}cm인 삼각형을 잘라냈습니다. 남은 넓이는 몇 cm²인가요?",
-    "solver_rule": "w * h - base * triHeight / 2",
+    "prompt_template": "삼각형의 넓이를 구하면서 ÷2를 빠뜨려 {{b * 2 * height}}cm²라고 했습니다. 이 값은 올바른 넓이보다 몇 cm² 큰가요?",
+    "solver_rule": "b * height",
     "solution_steps_template": [
-      "직사각형의 넓이는 {{w * h}}cm²입니다.",
-      "삼각형의 넓이 {{base * triHeight / 2}}cm²를 빼면 {{w * h - base * triHeight / 2}}cm²입니다."
+      "올바른 삼각형 넓이는 {{b * 2}} × {{height}} ÷ 2 = {{b * height}}cm²입니다.",
+      "÷2를 빠뜨린 값 {{b * 2 * height}}cm²는 올바른 값보다 {{b * height}}cm² 큽니다."
     ],
     "hint_steps_template": [
-      "전체 직사각형 넓이를 먼저 구해요.",
-      "잘라낸 삼각형 넓이를 빼요."
+      "삼각형 넓이 식의 ÷2가 무엇을 뜻하는지 확인해요.",
+      "잘못 구한 값에서 올바른 값을 빼요."
     ],
     "visual_template": {
       "type": "polygon",
-      "shape": "rectangle",
+      "shape": "triangle",
       "unit": "cm",
-      "a": "{{w}}",
-      "b": "{{h}}"
+      "a": "{{b * 2}}",
+      "height": "{{height}}"
     }
   },
   {
@@ -378,35 +342,39 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "polygonarea-rhombus-missing-diagonal",
-    "blueprint": {"problemFamily":"polygonarea-rhombus-missing-diagonal","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "problem_family": "polygonarea-trapezoid-base-omission-error",
+    "blueprint": {"problemFamily":"polygonarea-trapezoid-base-omission-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
-      "d1": {
-        "min": 4,
-        "max": 8
+      "top": {
+        "min": 3,
+        "max": 7
       },
-      "d2": {
-        "min": 6,
-        "max": 12
+      "bottom": {
+        "min": 8,
+        "max": 13
+      },
+      "h": {
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "넓이가 {{d1 * d2 / 2}}cm²이고 한 대각선이 {{d1}}cm인 마름모의 다른 대각선은 몇 cm인가요?",
-    "solver_rule": "d2",
+    "prompt_template": "사다리꼴 넓이를 구하면서 윗변을 빠뜨리고 아랫변 {{bottom}}cm만 사용했습니다. 높이가 {{h * 2}}cm일 때 잘못 구한 넓이는 올바른 넓이보다 몇 cm² 작은가요?",
+    "solver_rule": "top * h",
     "solution_steps_template": [
-      "넓이에 2를 곱하면 두 대각선의 곱 {{d1 * d2}}를 얻습니다.",
-      "{{d1 * d2}} ÷ {{d1}} = {{d2}}cm입니다."
+      "올바른 넓이는 ({{top}} + {{bottom}}) × {{h * 2}} ÷ 2 = {{(top + bottom) * h}}cm²입니다.",
+      "아랫변만 사용한 값 {{bottom * h}}cm²와의 차이는 {{top * h}}cm²입니다."
     ],
     "hint_steps_template": [
-      "넓이를 먼저 2배 해요.",
-      "그 값을 알고 있는 대각선 길이로 나눠요."
+      "사다리꼴 넓이에는 윗변과 아랫변이 모두 필요해요.",
+      "빠진 윗변이 넓이에 주는 부분을 계산해요."
     ],
     "visual_template": {
       "type": "polygon",
-      "shape": "rhombus",
+      "shape": "trapezoid",
       "unit": "cm",
-      "a": "{{d1}}",
-      "b": "{{d2}}",
-      "unknownMeasurement": "b"
+      "a": "{{top}}",
+      "b": "{{bottom}}",
+      "height": "{{h * 2}}"
     }
   },
   {
@@ -425,13 +393,9 @@
       "height": {
         "min": 4,
         "max": 8
-      },
-      "side": {
-        "min": 5,
-        "max": 9
       }
     },
-    "prompt_template": "평행사변형의 넓이는 몇 cm²인가요?",
+    "prompt_template": "평행사변형 모양 천의 밑변과 높이를 이용해 넓이를 구하세요.",
     "solver_rule": "base * height",
     "solution_steps_template": [
       "평행사변형의 넓이는 밑변 × 높이입니다.",
@@ -446,7 +410,6 @@
       "shape": "parallelogram",
       "unit": "cm",
       "a": "{{base}}",
-      "b": "{{side}}",
       "height": "{{height}}"
     }
   },
@@ -459,20 +422,20 @@
     "problem_family": "polygonarea-triangle-area",
     "blueprint": {"problemFamily":"polygonarea-triangle-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
-      "base": {
-        "min": 8,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 6
       },
       "height": {
         "min": 5,
         "max": 9
       }
     },
-    "prompt_template": "삼각형의 넓이는 몇 cm²인가요?",
-    "solver_rule": "base * height / 2",
+    "prompt_template": "삼각형 표지판의 밑변과 높이가 표시되어 있습니다. 넓이는 몇 cm²인가요?",
+    "solver_rule": "b * height",
     "solution_steps_template": [
       "삼각형의 넓이는 밑변 × 높이 ÷ 2입니다.",
-      "{{base}} × {{height}} ÷ 2 = {{base * height / 2}}cm²입니다."
+      "{{b * 2}} × {{height}} ÷ 2 = {{b * height}}cm²입니다."
     ],
     "hint_steps_template": [
       "같은 밑변과 높이의 평행사변형 절반이에요.",
@@ -482,7 +445,7 @@
       "type": "polygon",
       "shape": "triangle",
       "unit": "cm",
-      "a": "{{base}}",
+      "a": "{{b * 2}}",
       "height": "{{height}}"
     }
   },
@@ -503,20 +466,16 @@
         "min": 10,
         "max": 14
       },
-      "height": {
-        "min": 8,
-        "max": 12
-      },
-      "side": {
-        "min": 6,
-        "max": 9
+      "h": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "사다리꼴의 넓이는 몇 cm²인가요?",
-    "solver_rule": "(top + bottom) * height / 2",
+    "prompt_template": "평행한 두 변과 높이가 표시된 사다리꼴의 넓이를 구하세요.",
+    "solver_rule": "(top + bottom) * h",
     "solution_steps_template": [
       "윗변과 아랫변의 합은 {{top + bottom}}cm입니다.",
-      "({{top}} + {{bottom}}) × {{height}} ÷ 2 = {{(top + bottom) * height / 2}}cm²입니다."
+      "({{top}} + {{bottom}}) × {{h * 2}} ÷ 2 = {{(top + bottom) * h}}cm²입니다."
     ],
     "hint_steps_template": [
       "평행한 두 변의 길이를 먼저 더해요.",
@@ -528,8 +487,7 @@
       "unit": "cm",
       "a": "{{top}}",
       "b": "{{bottom}}",
-      "c": "{{side}}",
-      "height": "{{height}}"
+      "height": "{{h * 2}}"
     }
   },
   {
@@ -541,20 +499,20 @@
     "problem_family": "polygonarea-rhombus-area",
     "blueprint": {"problemFamily":"polygonarea-rhombus-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
-      "d1": {
-        "min": 8,
-        "max": 12
+      "d": {
+        "min": 4,
+        "max": 6
       },
       "d2": {
         "min": 7,
         "max": 13
       }
     },
-    "prompt_template": "두 대각선의 길이가 표시된 마름모의 넓이는 몇 cm²인가요?",
-    "solver_rule": "d1 * d2 / 2",
+    "prompt_template": "두 대각선이 서로 가로지르는 마름모의 넓이는 몇 cm²인가요?",
+    "solver_rule": "d * d2",
     "solution_steps_template": [
       "마름모의 넓이는 두 대각선의 곱 ÷ 2입니다.",
-      "{{d1}} × {{d2}} ÷ 2 = {{d1 * d2 / 2}}cm²입니다."
+      "{{d * 2}} × {{d2}} ÷ 2 = {{d * d2}}cm²입니다."
     ],
     "hint_steps_template": [
       "두 대각선이 만드는 직사각형을 생각해요.",
@@ -564,7 +522,7 @@
       "type": "polygon",
       "shape": "rhombus",
       "unit": "cm",
-      "a": "{{d1}}",
+      "a": "{{d * 2}}",
       "b": "{{d2}}"
     }
   },
@@ -584,13 +542,9 @@
       "height": {
         "min": 5,
         "max": 9
-      },
-      "side": {
-        "min": 6,
-        "max": 10
       }
     },
-    "prompt_template": "넓이가 {{base * height}}cm²이고 밑변이 {{base}}cm인 평행사변형의 높이는 몇 cm인가요?",
+    "prompt_template": "평행사변형 화단의 넓이는 {{base * height}}cm²이고 밑변은 {{base}}cm입니다. 높이는 몇 cm인가요?",
     "solver_rule": "height",
     "solution_steps_template": [
       "밑변 × 높이 = {{base * height}}입니다.",
@@ -605,7 +559,6 @@
       "shape": "parallelogram",
       "unit": "cm",
       "a": "{{base}}",
-      "b": "{{side}}",
       "height": "{{height}}",
       "unknownMeasurement": "height"
     }
@@ -619,20 +572,20 @@
     "problem_family": "polygonarea-triangle-height",
     "blueprint": {"problemFamily":"polygonarea-triangle-height","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
-      "base": {
-        "min": 8,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 6
       },
       "height": {
         "min": 5,
         "max": 10
       }
     },
-    "prompt_template": "넓이가 {{base * height / 2}}cm²이고 밑변이 {{base}}cm인 삼각형의 높이는 몇 cm인가요?",
+    "prompt_template": "삼각형 천의 넓이는 {{b * height}}cm²이고 밑변은 {{b * 2}}cm입니다. 높이는 몇 cm인가요?",
     "solver_rule": "height",
     "solution_steps_template": [
-      "넓이에 2를 곱하면 {{base * height}}입니다.",
-      "{{base * height}} ÷ {{base}} = {{height}}cm입니다."
+      "넓이 {{b * height}}cm²를 2배 하면 {{b * 2 * height}}입니다.",
+      "{{b * 2 * height}} ÷ {{b * 2}} = {{height}}cm입니다."
     ],
     "hint_steps_template": [
       "먼저 넓이를 2배 해요.",
@@ -642,7 +595,7 @@
       "type": "polygon",
       "shape": "triangle",
       "unit": "cm",
-      "a": "{{base}}",
+      "a": "{{b * 2}}",
       "height": "{{height}}",
       "unknownMeasurement": "height"
     }
@@ -664,19 +617,15 @@
         "min": 10,
         "max": 15
       },
-      "height": {
-        "min": 8,
-        "max": 12
-      },
-      "side": {
-        "min": 6,
-        "max": 10
+      "h": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "넓이가 {{(top + bottom) * height / 2}}cm²이고 윗변이 {{top}}cm, 높이가 {{height}}cm인 사다리꼴의 아랫변은 몇 cm인가요?",
+    "prompt_template": "사다리꼴 판의 넓이는 {{(top + bottom) * h}}cm², 윗변은 {{top}}cm, 높이는 {{h * 2}}cm입니다. 아랫변은 몇 cm인가요?",
     "solver_rule": "bottom",
     "solution_steps_template": [
-      "넓이 × 2 ÷ 높이로 윗변과 아랫변의 합 {{top + bottom}}cm를 구합니다.",
+      "넓이 {{(top + bottom) * h}}cm²를 {{h * 2}}cm 높이에 맞게 역산하면 두 평행한 변의 합은 {{top + bottom}}cm입니다.",
       "{{top + bottom}} - {{top}} = {{bottom}}cm입니다."
     ],
     "hint_steps_template": [
@@ -689,8 +638,7 @@
       "unit": "cm",
       "a": "{{top}}",
       "b": "{{bottom}}",
-      "c": "{{side}}",
-      "height": "{{height}}",
+      "height": "{{h * 2}}",
       "unknownMeasurement": "b"
     }
   },
@@ -700,41 +648,33 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "polygonarea-two-shape-area-sum",
-    "blueprint": {"problemFamily":"polygonarea-two-shape-area-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "problem_family": "polygonarea-congruent-triangle-total",
+    "blueprint": {"problemFamily":"polygonarea-congruent-triangle-total","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
-      "base": {
-        "min": 8,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 6
       },
       "height": {
         "min": 5,
         "max": 9
-      },
-      "pbase": {
-        "min": 7,
-        "max": 12
-      },
-      "pheight": {
-        "min": 4,
-        "max": 8
       }
     },
-    "prompt_template": "밑변 {{base}}cm, 높이 {{height}}cm인 삼각형과 밑변 {{pbase}}cm, 높이 {{pheight}}cm인 평행사변형의 넓이 합은 몇 cm²인가요?",
-    "solver_rule": "base * height / 2 + pbase * pheight",
+    "prompt_template": "밑변 {{b * 2}}cm, 높이 {{height}}cm인 같은 삼각형 조각 2개의 넓이를 모두 구하세요.",
+    "solver_rule": "2 * b * height",
     "solution_steps_template": [
-      "삼각형의 넓이는 {{base * height / 2}}cm²입니다.",
-      "평행사변형의 넓이 {{pbase * pheight}}cm²를 더하면 {{base * height / 2 + pbase * pheight}}cm²입니다."
+      "삼각형 한 개의 넓이는 {{b * 2}} × {{height}} ÷ 2 = {{b * height}}cm²입니다.",
+      "같은 삼각형이 2개이므로 넓이 합은 {{2 * b * height}}cm²입니다."
     ],
     "hint_steps_template": [
-      "두 도형의 넓이를 따로 구해요.",
-      "삼각형에서는 ÷2를 빠뜨리지 않아요."
+      "먼저 삼각형 한 개의 넓이를 구해요.",
+      "같은 넓이가 2개임을 반영해요."
     ],
     "visual_template": {
       "type": "polygon",
       "shape": "triangle",
       "unit": "cm",
-      "a": "{{base}}",
+      "a": "{{b * 2}}",
       "height": "{{height}}"
     }
   },
@@ -744,42 +684,34 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "polygonarea-rectangle-minus-triangle",
-    "blueprint": {"problemFamily":"polygonarea-rectangle-minus-triangle","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
+    "problem_family": "polygonarea-triangle-double-error",
+    "blueprint": {"problemFamily":"polygonarea-triangle-double-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
-      "w": {
-        "min": 10,
-        "max": 16
-      },
-      "h": {
-        "min": 8,
-        "max": 12
-      },
-      "base": {
-        "min": 8,
-        "max": 12
-      },
-      "triHeight": {
+      "b": {
         "min": 4,
         "max": 7
+      },
+      "height": {
+        "min": 6,
+        "max": 10
       }
     },
-    "prompt_template": "가로 {{w}}cm, 세로 {{h}}cm인 직사각형에서 밑변 {{base}}cm, 높이 {{triHeight}}cm인 삼각형을 잘라냈습니다. 남은 넓이는 몇 cm²인가요?",
-    "solver_rule": "w * h - base * triHeight / 2",
+    "prompt_template": "밑변 {{b * 2}}cm, 높이 {{height}}cm인 삼각형을 밑변 × 높이로만 계산했습니다. 잘못 구한 넓이와 실제 넓이의 차이는 몇 cm²인가요?",
+    "solver_rule": "b * height",
     "solution_steps_template": [
-      "직사각형의 넓이는 {{w * h}}cm²입니다.",
-      "삼각형의 넓이 {{base * triHeight / 2}}cm²를 빼면 {{w * h - base * triHeight / 2}}cm²입니다."
+      "올바른 삼각형 넓이는 {{b * 2}} × {{height}} ÷ 2 = {{b * height}}cm²입니다.",
+      "÷2를 빠뜨린 값 {{b * 2 * height}}cm²는 올바른 값보다 {{b * height}}cm² 큽니다."
     ],
     "hint_steps_template": [
-      "전체 직사각형 넓이를 먼저 구해요.",
-      "잘라낸 삼각형 넓이를 빼요."
+      "삼각형 넓이 식의 ÷2가 무엇을 뜻하는지 확인해요.",
+      "잘못 구한 값에서 올바른 값을 빼요."
     ],
     "visual_template": {
       "type": "polygon",
-      "shape": "rectangle",
+      "shape": "triangle",
       "unit": "cm",
-      "a": "{{w}}",
-      "b": "{{h}}"
+      "a": "{{b * 2}}",
+      "height": "{{height}}"
     }
   },
   {
@@ -788,35 +720,39 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "polygonarea-rhombus-missing-diagonal",
-    "blueprint": {"problemFamily":"polygonarea-rhombus-missing-diagonal","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "problem_family": "polygonarea-trapezoid-base-omission-error",
+    "blueprint": {"problemFamily":"polygonarea-trapezoid-base-omission-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
-      "d1": {
-        "min": 8,
-        "max": 12
+      "top": {
+        "min": 5,
+        "max": 9
       },
-      "d2": {
-        "min": 8,
-        "max": 14
+      "bottom": {
+        "min": 10,
+        "max": 15
+      },
+      "h": {
+        "min": 4,
+        "max": 7
       }
     },
-    "prompt_template": "넓이가 {{d1 * d2 / 2}}cm²이고 한 대각선이 {{d1}}cm인 마름모의 다른 대각선은 몇 cm인가요?",
-    "solver_rule": "d2",
+    "prompt_template": "윗변 {{top}}cm, 아랫변 {{bottom}}cm, 높이 {{h * 2}}cm인 사다리꼴에서 아랫변만 넓이 식에 넣었습니다. 빠진 윗변 때문에 생긴 넓이의 차이는 몇 cm²인가요?",
+    "solver_rule": "top * h",
     "solution_steps_template": [
-      "넓이에 2를 곱하면 두 대각선의 곱 {{d1 * d2}}를 얻습니다.",
-      "{{d1 * d2}} ÷ {{d1}} = {{d2}}cm입니다."
+      "올바른 넓이는 ({{top}} + {{bottom}}) × {{h * 2}} ÷ 2 = {{(top + bottom) * h}}cm²입니다.",
+      "아랫변만 사용한 값 {{bottom * h}}cm²와의 차이는 {{top * h}}cm²입니다."
     ],
     "hint_steps_template": [
-      "넓이를 먼저 2배 해요.",
-      "그 값을 알고 있는 대각선 길이로 나눠요."
+      "사다리꼴 넓이에는 윗변과 아랫변이 모두 필요해요.",
+      "빠진 윗변이 넓이에 주는 부분을 계산해요."
     ],
     "visual_template": {
       "type": "polygon",
-      "shape": "rhombus",
+      "shape": "trapezoid",
       "unit": "cm",
-      "a": "{{d1}}",
-      "b": "{{d2}}",
-      "unknownMeasurement": "b"
+      "a": "{{top}}",
+      "b": "{{bottom}}",
+      "height": "{{h * 2}}"
     }
   },
   {
@@ -835,13 +771,9 @@
       "height": {
         "min": 6,
         "max": 10
-      },
-      "side": {
-        "min": 7,
-        "max": 11
       }
     },
-    "prompt_template": "평행사변형의 넓이는 몇 cm²인가요?",
+    "prompt_template": "밑변 × 높이로 나타내는 평행사변형의 넓이를 구하세요.",
     "solver_rule": "base * height",
     "solution_steps_template": [
       "평행사변형의 넓이는 밑변 × 높이입니다.",
@@ -856,7 +788,6 @@
       "shape": "parallelogram",
       "unit": "cm",
       "a": "{{base}}",
-      "b": "{{side}}",
       "height": "{{height}}"
     }
   },
@@ -869,20 +800,20 @@
     "problem_family": "polygonarea-triangle-area",
     "blueprint": {"problemFamily":"polygonarea-triangle-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
-      "base": {
-        "min": 12,
-        "max": 16
+      "b": {
+        "min": 6,
+        "max": 8
       },
       "height": {
         "min": 7,
         "max": 11
       }
     },
-    "prompt_template": "삼각형의 넓이는 몇 cm²인가요?",
-    "solver_rule": "base * height / 2",
+    "prompt_template": "밑변 × 높이 ÷ 2로 나타내는 삼각형의 넓이를 구하세요.",
+    "solver_rule": "b * height",
     "solution_steps_template": [
       "삼각형의 넓이는 밑변 × 높이 ÷ 2입니다.",
-      "{{base}} × {{height}} ÷ 2 = {{base * height / 2}}cm²입니다."
+      "{{b * 2}} × {{height}} ÷ 2 = {{b * height}}cm²입니다."
     ],
     "hint_steps_template": [
       "같은 밑변과 높이의 평행사변형 절반이에요.",
@@ -892,7 +823,7 @@
       "type": "polygon",
       "shape": "triangle",
       "unit": "cm",
-      "a": "{{base}}",
+      "a": "{{b * 2}}",
       "height": "{{height}}"
     }
   },
@@ -913,20 +844,16 @@
         "min": 12,
         "max": 16
       },
-      "height": {
-        "min": 12,
-        "max": 16
-      },
-      "side": {
-        "min": 8,
-        "max": 11
+      "h": {
+        "min": 6,
+        "max": 8
       }
     },
-    "prompt_template": "사다리꼴의 넓이는 몇 cm²인가요?",
-    "solver_rule": "(top + bottom) * height / 2",
+    "prompt_template": "(윗변 + 아랫변) × 높이 ÷ 2로 나타내는 사다리꼴의 넓이를 구하세요.",
+    "solver_rule": "(top + bottom) * h",
     "solution_steps_template": [
       "윗변과 아랫변의 합은 {{top + bottom}}cm입니다.",
-      "({{top}} + {{bottom}}) × {{height}} ÷ 2 = {{(top + bottom) * height / 2}}cm²입니다."
+      "({{top}} + {{bottom}}) × {{h * 2}} ÷ 2 = {{(top + bottom) * h}}cm²입니다."
     ],
     "hint_steps_template": [
       "평행한 두 변의 길이를 먼저 더해요.",
@@ -938,8 +865,7 @@
       "unit": "cm",
       "a": "{{top}}",
       "b": "{{bottom}}",
-      "c": "{{side}}",
-      "height": "{{height}}"
+      "height": "{{h * 2}}"
     }
   },
   {
@@ -951,20 +877,20 @@
     "problem_family": "polygonarea-rhombus-area",
     "blueprint": {"problemFamily":"polygonarea-rhombus-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
     "param_schema": {
-      "d1": {
-        "min": 12,
-        "max": 16
+      "d": {
+        "min": 6,
+        "max": 8
       },
       "d2": {
         "min": 9,
         "max": 15
       }
     },
-    "prompt_template": "두 대각선의 길이가 표시된 마름모의 넓이는 몇 cm²인가요?",
-    "solver_rule": "d1 * d2 / 2",
+    "prompt_template": "대각선의 곱 ÷ 2로 나타내는 마름모의 넓이를 구하세요.",
+    "solver_rule": "d * d2",
     "solution_steps_template": [
       "마름모의 넓이는 두 대각선의 곱 ÷ 2입니다.",
-      "{{d1}} × {{d2}} ÷ 2 = {{d1 * d2 / 2}}cm²입니다."
+      "{{d * 2}} × {{d2}} ÷ 2 = {{d * d2}}cm²입니다."
     ],
     "hint_steps_template": [
       "두 대각선이 만드는 직사각형을 생각해요.",
@@ -974,7 +900,7 @@
       "type": "polygon",
       "shape": "rhombus",
       "unit": "cm",
-      "a": "{{d1}}",
+      "a": "{{d * 2}}",
       "b": "{{d2}}"
     }
   },
@@ -994,13 +920,9 @@
       "height": {
         "min": 7,
         "max": 11
-      },
-      "side": {
-        "min": 8,
-        "max": 12
       }
     },
-    "prompt_template": "넓이가 {{base * height}}cm²이고 밑변이 {{base}}cm인 평행사변형의 높이는 몇 cm인가요?",
+    "prompt_template": "평행사변형의 넓이 {{base * height}}cm²를 밑변 {{base}}cm로 나누어 높이를 구하세요.",
     "solver_rule": "height",
     "solution_steps_template": [
       "밑변 × 높이 = {{base * height}}입니다.",
@@ -1015,7 +937,6 @@
       "shape": "parallelogram",
       "unit": "cm",
       "a": "{{base}}",
-      "b": "{{side}}",
       "height": "{{height}}",
       "unknownMeasurement": "height"
     }
@@ -1029,20 +950,20 @@
     "problem_family": "polygonarea-triangle-height",
     "blueprint": {"problemFamily":"polygonarea-triangle-height","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
-      "base": {
-        "min": 12,
-        "max": 16
+      "b": {
+        "min": 6,
+        "max": 8
       },
       "height": {
         "min": 7,
         "max": 12
       }
     },
-    "prompt_template": "넓이가 {{base * height / 2}}cm²이고 밑변이 {{base}}cm인 삼각형의 높이는 몇 cm인가요?",
+    "prompt_template": "삼각형의 넓이 {{b * height}}cm²를 2배 한 뒤 밑변 {{b * 2}}cm로 나누어 높이를 구하세요.",
     "solver_rule": "height",
     "solution_steps_template": [
-      "넓이에 2를 곱하면 {{base * height}}입니다.",
-      "{{base * height}} ÷ {{base}} = {{height}}cm입니다."
+      "넓이 {{b * height}}cm²를 2배 하면 {{b * 2 * height}}입니다.",
+      "{{b * 2 * height}} ÷ {{b * 2}} = {{height}}cm입니다."
     ],
     "hint_steps_template": [
       "먼저 넓이를 2배 해요.",
@@ -1052,7 +973,7 @@
       "type": "polygon",
       "shape": "triangle",
       "unit": "cm",
-      "a": "{{base}}",
+      "a": "{{b * 2}}",
       "height": "{{height}}",
       "unknownMeasurement": "height"
     }
@@ -1074,19 +995,15 @@
         "min": 12,
         "max": 17
       },
-      "height": {
-        "min": 12,
-        "max": 16
-      },
-      "side": {
-        "min": 8,
-        "max": 12
+      "h": {
+        "min": 6,
+        "max": 8
       }
     },
-    "prompt_template": "넓이가 {{(top + bottom) * height / 2}}cm²이고 윗변이 {{top}}cm, 높이가 {{height}}cm인 사다리꼴의 아랫변은 몇 cm인가요?",
+    "prompt_template": "사다리꼴의 넓이 {{(top + bottom) * h}}cm², 윗변 {{top}}cm, 높이 {{h * 2}}cm를 이용해 아랫변을 구하세요.",
     "solver_rule": "bottom",
     "solution_steps_template": [
-      "넓이 × 2 ÷ 높이로 윗변과 아랫변의 합 {{top + bottom}}cm를 구합니다.",
+      "넓이 {{(top + bottom) * h}}cm²를 {{h * 2}}cm 높이에 맞게 역산하면 두 평행한 변의 합은 {{top + bottom}}cm입니다.",
       "{{top + bottom}} - {{top}} = {{bottom}}cm입니다."
     ],
     "hint_steps_template": [
@@ -1099,8 +1016,7 @@
       "unit": "cm",
       "a": "{{top}}",
       "b": "{{bottom}}",
-      "c": "{{side}}",
-      "height": "{{height}}",
+      "height": "{{h * 2}}",
       "unknownMeasurement": "b"
     }
   },
@@ -1110,41 +1026,33 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "polygonarea-two-shape-area-sum",
-    "blueprint": {"problemFamily":"polygonarea-two-shape-area-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "problem_family": "polygonarea-congruent-triangle-total",
+    "blueprint": {"problemFamily":"polygonarea-congruent-triangle-total","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
-      "base": {
-        "min": 12,
-        "max": 16
+      "b": {
+        "min": 6,
+        "max": 8
       },
       "height": {
         "min": 7,
         "max": 11
-      },
-      "pbase": {
-        "min": 9,
-        "max": 14
-      },
-      "pheight": {
-        "min": 6,
-        "max": 10
       }
     },
-    "prompt_template": "밑변 {{base}}cm, 높이 {{height}}cm인 삼각형과 밑변 {{pbase}}cm, 높이 {{pheight}}cm인 평행사변형의 넓이 합은 몇 cm²인가요?",
-    "solver_rule": "base * height / 2 + pbase * pheight",
+    "prompt_template": "그림과 같은 삼각형 2개의 전체 넓이를 구하세요. 한 삼각형의 밑변은 {{b * 2}}cm, 높이는 {{height}}cm입니다.",
+    "solver_rule": "2 * b * height",
     "solution_steps_template": [
-      "삼각형의 넓이는 {{base * height / 2}}cm²입니다.",
-      "평행사변형의 넓이 {{pbase * pheight}}cm²를 더하면 {{base * height / 2 + pbase * pheight}}cm²입니다."
+      "삼각형 한 개의 넓이는 {{b * 2}} × {{height}} ÷ 2 = {{b * height}}cm²입니다.",
+      "같은 삼각형이 2개이므로 넓이 합은 {{2 * b * height}}cm²입니다."
     ],
     "hint_steps_template": [
-      "두 도형의 넓이를 따로 구해요.",
-      "삼각형에서는 ÷2를 빠뜨리지 않아요."
+      "먼저 삼각형 한 개의 넓이를 구해요.",
+      "같은 넓이가 2개임을 반영해요."
     ],
     "visual_template": {
       "type": "polygon",
       "shape": "triangle",
       "unit": "cm",
-      "a": "{{base}}",
+      "a": "{{b * 2}}",
       "height": "{{height}}"
     }
   },
@@ -1154,42 +1062,34 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "polygonarea-rectangle-minus-triangle",
-    "blueprint": {"problemFamily":"polygonarea-rectangle-minus-triangle","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-14","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
+    "problem_family": "polygonarea-triangle-double-error",
+    "blueprint": {"problemFamily":"polygonarea-triangle-double-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
-      "w": {
-        "min": 12,
-        "max": 18
-      },
-      "h": {
-        "min": 10,
-        "max": 14
-      },
-      "base": {
-        "min": 12,
-        "max": 16
-      },
-      "triHeight": {
+      "b": {
         "min": 6,
         "max": 9
+      },
+      "height": {
+        "min": 8,
+        "max": 12
       }
     },
-    "prompt_template": "가로 {{w}}cm, 세로 {{h}}cm인 직사각형에서 밑변 {{base}}cm, 높이 {{triHeight}}cm인 삼각형을 잘라냈습니다. 남은 넓이는 몇 cm²인가요?",
-    "solver_rule": "w * h - base * triHeight / 2",
+    "prompt_template": "삼각형 넓이 식에서 ÷2를 하지 않은 결과 {{b * 2 * height}}cm²와 올바른 넓이의 차이는 몇 cm²인가요?",
+    "solver_rule": "b * height",
     "solution_steps_template": [
-      "직사각형의 넓이는 {{w * h}}cm²입니다.",
-      "삼각형의 넓이 {{base * triHeight / 2}}cm²를 빼면 {{w * h - base * triHeight / 2}}cm²입니다."
+      "올바른 삼각형 넓이는 {{b * 2}} × {{height}} ÷ 2 = {{b * height}}cm²입니다.",
+      "÷2를 빠뜨린 값 {{b * 2 * height}}cm²는 올바른 값보다 {{b * height}}cm² 큽니다."
     ],
     "hint_steps_template": [
-      "전체 직사각형 넓이를 먼저 구해요.",
-      "잘라낸 삼각형 넓이를 빼요."
+      "삼각형 넓이 식의 ÷2가 무엇을 뜻하는지 확인해요.",
+      "잘못 구한 값에서 올바른 값을 빼요."
     ],
     "visual_template": {
       "type": "polygon",
-      "shape": "rectangle",
+      "shape": "triangle",
       "unit": "cm",
-      "a": "{{w}}",
-      "b": "{{h}}"
+      "a": "{{b * 2}}",
+      "height": "{{height}}"
     }
   },
   {
@@ -1198,35 +1098,39 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "polygonarea-rhombus-missing-diagonal",
-    "blueprint": {"problemFamily":"polygonarea-rhombus-missing-diagonal","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "problem_family": "polygonarea-trapezoid-base-omission-error",
+    "blueprint": {"problemFamily":"polygonarea-trapezoid-base-omission-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-14","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
-      "d1": {
-        "min": 12,
-        "max": 16
+      "top": {
+        "min": 7,
+        "max": 11
       },
-      "d2": {
-        "min": 10,
-        "max": 16
+      "bottom": {
+        "min": 12,
+        "max": 17
+      },
+      "h": {
+        "min": 6,
+        "max": 9
       }
     },
-    "prompt_template": "넓이가 {{d1 * d2 / 2}}cm²이고 한 대각선이 {{d1}}cm인 마름모의 다른 대각선은 몇 cm인가요?",
-    "solver_rule": "d2",
+    "prompt_template": "사다리꼴 넓이 식에서 윗변 {{top}}cm를 빼고 계산했습니다. 높이가 {{h * 2}}cm일 때 두 계산 결과의 차이는 몇 cm²인가요?",
+    "solver_rule": "top * h",
     "solution_steps_template": [
-      "넓이에 2를 곱하면 두 대각선의 곱 {{d1 * d2}}를 얻습니다.",
-      "{{d1 * d2}} ÷ {{d1}} = {{d2}}cm입니다."
+      "올바른 넓이는 ({{top}} + {{bottom}}) × {{h * 2}} ÷ 2 = {{(top + bottom) * h}}cm²입니다.",
+      "아랫변만 사용한 값 {{bottom * h}}cm²와의 차이는 {{top * h}}cm²입니다."
     ],
     "hint_steps_template": [
-      "넓이를 먼저 2배 해요.",
-      "그 값을 알고 있는 대각선 길이로 나눠요."
+      "사다리꼴 넓이에는 윗변과 아랫변이 모두 필요해요.",
+      "빠진 윗변이 넓이에 주는 부분을 계산해요."
     ],
     "visual_template": {
       "type": "polygon",
-      "shape": "rhombus",
+      "shape": "trapezoid",
       "unit": "cm",
-      "a": "{{d1}}",
-      "b": "{{d2}}",
-      "unknownMeasurement": "b"
+      "a": "{{top}}",
+      "b": "{{bottom}}",
+      "height": "{{h * 2}}"
     }
   }
 ]

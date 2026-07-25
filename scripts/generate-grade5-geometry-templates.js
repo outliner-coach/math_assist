@@ -46,10 +46,48 @@ function polygonVisual(shape, fields) {
 
 function perimeterTemplates(set) {
   const s = set.shift
+  const prompts = {
+    A: [
+      '그림의 직사각형 둘레는 몇 cm인가요?',
+      '한 변의 길이가 표시된 정사각형의 둘레는 몇 cm인가요?',
+      '직사각형의 둘레로 알맞은 값을 고르세요.',
+      '세 변의 길이가 표시된 삼각형의 둘레는 몇 cm인가요?',
+      '가로 {{w}}cm, 세로 {{h}}cm인 직사각형 색종이의 넓이는 몇 cm²인가요?',
+      '한 변이 {{side}}cm인 정사각형 타일의 넓이로 알맞은 값을 고르세요.',
+      '넓이가 {{w * h}}cm²이고 세로가 {{h}}cm인 직사각형의 가로는 몇 cm인가요?',
+      '넓이가 {{w * h}}cm²이고 가로가 {{w}}cm인 직사각형의 세로는 몇 cm인가요?',
+      '가로 {{w}}cm, 세로 {{h}}cm인 직사각형의 둘레를 구하면서 가로와 세로를 한 번씩만 더했습니다. 이 값은 올바른 둘레보다 몇 cm 작은가요?',
+      '한 변이 {{side}}cm인 정사각형의 둘레를 구하면서 {{side}} × 4 대신 {{side}} + 4를 계산했습니다. 올바른 둘레는 잘못 구한 값보다 몇 cm 큰가요?',
+    ],
+    B: [
+      '가로와 세로가 표시된 직사각형 액자의 테두리 길이는 몇 cm인가요?',
+      '정사각형 상자의 네 변을 리본으로 두를 때 필요한 길이는 몇 cm인가요?',
+      '그림에 표시된 직사각형 표지판의 둘레를 고르세요.',
+      '삼각형 깃발의 세 변을 따라 잰 전체 길이는 몇 cm인가요?',
+      '가로 {{w}}cm, 세로 {{h}}cm인 직사각형 메모판이 차지하는 넓이는 몇 cm²인가요?',
+      '한 변이 {{side}}cm인 정사각형 화단의 넓이로 알맞은 값을 고르세요.',
+      '직사각형 돗자리의 넓이는 {{w * h}}cm²이고 세로는 {{h}}cm입니다. 가로는 몇 cm인가요?',
+      '직사각형 전시판의 넓이는 {{w * h}}cm²이고 가로는 {{w}}cm입니다. 세로는 몇 cm인가요?',
+      '직사각형 액자의 둘레를 구하며 가로 {{w}}cm와 세로 {{h}}cm만 한 번씩 더했습니다. 빠뜨린 길이는 모두 몇 cm인가요?',
+      '한 변이 {{side}}cm인 정사각형의 테두리 길이를 구하면서 한 변의 길이에 4를 더했습니다. 올바른 값과 잘못 구한 값의 차이는 몇 cm인가요?',
+    ],
+    C: [
+      '직사각형에서 가로 두 변과 세로 두 변의 길이 합을 구하세요.',
+      '네 변의 길이가 모두 같은 정사각형의 둘레는 몇 cm인가요?',
+      '가로와 세로가 주어진 직사각형의 전체 변 길이를 고르세요.',
+      '서로 다른 세 변이 표시된 삼각형의 둘레를 구하세요.',
+      '가로 {{w}}cm와 세로 {{h}}cm가 대응하는 직사각형의 넓이를 구하세요.',
+      '한 변의 길이가 {{side}}cm인 정사각형의 넓이를 고르세요.',
+      '직사각형의 넓이 {{w * h}}cm²를 세로 {{h}}cm로 나누어 찾는 가로는 몇 cm인가요?',
+      '직사각형의 넓이 {{w * h}}cm²를 가로 {{w}}cm로 나누어 찾는 세로는 몇 cm인가요?',
+      '직사각형의 둘레를 (가로 + 세로)만 계산해 {{w + h}}cm라고 했습니다. 실제 둘레와의 차이는 몇 cm인가요?',
+      '한 변이 {{side}}cm인 정사각형의 둘레를 {{side}} + 4로 잘못 계산했습니다. {{side}} × 4로 계산한 값과의 차이는 몇 cm인가요?',
+    ],
+  }[set.id]
   return [
     template(set, 'perimeter-001', 1, 'rectangle-perimeter', 1, 'number', {
       param_schema: { w: range(4, 9, s), h: range(2, 6, s) },
-      prompt_template: '그림의 직사각형 둘레는 몇 cm인가요?',
+      prompt_template: prompts[0],
       solver_rule: '2 * (w + h)',
       solution_steps_template: ['가로와 세로를 한 번씩 더하면 {{w + h}}cm입니다.', '둘레는 {{w + h}} × 2 = {{2 * (w + h)}}cm입니다.'],
       hint_steps_template: ['가로 2개와 세로 2개의 길이를 모두 더해요.', '(가로 + 세로) × 2를 계산해요.'],
@@ -57,7 +95,7 @@ function perimeterTemplates(set) {
     }),
     template(set, 'perimeter-001', 2, 'square-perimeter', 1, 'number', {
       param_schema: { side: range(3, 8, s) },
-      prompt_template: '한 변의 길이가 표시된 정사각형의 둘레는 몇 cm인가요?',
+      prompt_template: prompts[1],
       solver_rule: '4 * side',
       solution_steps_template: ['정사각형은 네 변의 길이가 같습니다.', '{{side}} × 4 = {{4 * side}}cm입니다.'],
       hint_steps_template: ['같은 길이의 변이 4개예요.', '한 변의 길이에 4를 곱해요.'],
@@ -65,7 +103,7 @@ function perimeterTemplates(set) {
     }),
     template(set, 'perimeter-001', 3, 'rectangle-perimeter-choice', 1, 'choice', {
       param_schema: { w: range(5, 10, s), h: range(2, 5, s) },
-      prompt_template: '직사각형의 둘레로 알맞은 값을 고르세요.',
+      prompt_template: prompts[2],
       solver_rule: '2 * (w + h)',
       choices_template: safeOffsetChoices('2 * (w + h)', 2),
       solution_steps_template: ['(가로 + 세로) × 2를 이용합니다.', '({{w}} + {{h}}) × 2 = {{2 * (w + h)}}cm입니다.'],
@@ -73,24 +111,24 @@ function perimeterTemplates(set) {
       visual_template: polygonVisual('rectangle', { a: '{{w}}', b: '{{h}}' }),
     }),
     template(set, 'perimeter-001', 4, 'triangle-perimeter', 1, 'number', {
-      param_schema: { a: range(4, 8, s), b: range(5, 9, s), c: range(6, 10, s) },
-      prompt_template: '세 변의 길이가 표시된 삼각형의 둘레는 몇 cm인가요?',
-      solver_rule: 'a + b + c',
-      solution_steps_template: ['세 변의 길이를 모두 더합니다.', '{{a}} + {{b}} + {{c}} = {{a + b + c}}cm입니다.'],
+      param_schema: { a: range(4, 8, s), b: range(5, 9, s) },
+      prompt_template: prompts[3],
+      solver_rule: '2 * (a + b) - 2',
+      solution_steps_template: ['세 번째 변은 {{a + b - 2}}cm이므로 세 변의 길이를 모두 더합니다.', '{{a}} + {{b}} + {{a + b - 2}} = {{2 * (a + b) - 2}}cm입니다.'],
       hint_steps_template: ['둘레는 도형의 가장자리 길이의 합이에요.', '세 변을 빠짐없이 더해요.'],
-      visual_template: polygonVisual('triangle', { a: '{{a}}', b: '{{b}}', c: '{{c}}', measurementMode: 'sides' }),
+      visual_template: polygonVisual('triangle', { a: '{{a}}', b: '{{b}}', c: '{{a + b - 2}}', measurementMode: 'sides' }),
     }),
-    template(set, 'perimeter-001', 5, 'rectangle-area', 2, 'number', {
+    template(set, 'perimeter-001', 5, 'rectangle-area-context', 2, 'number', {
       param_schema: { w: range(4, 9, s), h: range(3, 7, s) },
-      prompt_template: '직사각형의 넓이는 몇 cm²인가요?',
+      prompt_template: prompts[4],
       solver_rule: 'w * h',
       solution_steps_template: ['직사각형의 넓이는 가로 × 세로입니다.', '{{w}} × {{h}} = {{w * h}}cm²입니다.'],
       hint_steps_template: ['1cm² 정사각형이 몇 개인지 생각해요.', '가로와 세로를 곱해요.'],
       visual_template: polygonVisual('rectangle', { a: '{{w}}', b: '{{h}}' }),
     }),
-    template(set, 'perimeter-001', 6, 'square-area-choice', 2, 'choice', {
+    template(set, 'perimeter-001', 6, 'square-area-context', 2, 'choice', {
       param_schema: { side: range(3, 8, s) },
-      prompt_template: '정사각형의 넓이로 알맞은 값을 고르세요.',
+      prompt_template: prompts[5],
       solver_rule: 'side * side',
       choices_template: safeOffsetChoices('side * side', 1),
       solution_steps_template: ['정사각형의 넓이는 한 변 × 한 변입니다.', '{{side}} × {{side}} = {{side * side}}cm²입니다.'],
@@ -99,7 +137,7 @@ function perimeterTemplates(set) {
     }),
     template(set, 'perimeter-001', 7, 'rectangle-width-from-area', 2, 'number', {
       param_schema: { w: range(4, 9, s), h: range(2, 6, s) },
-      prompt_template: '넓이가 {{w * h}}cm²이고 세로가 {{h}}cm인 직사각형의 가로는 몇 cm인가요?',
+      prompt_template: prompts[6],
       solver_rule: 'w',
       solution_steps_template: ['가로 × {{h}} = {{w * h}}입니다.', '{{w * h}} ÷ {{h}} = {{w}}cm입니다.'],
       hint_steps_template: ['넓이를 알고 있으므로 나눗셈을 이용해요.', '넓이 ÷ 세로를 계산해요.'],
@@ -107,113 +145,151 @@ function perimeterTemplates(set) {
     }),
     template(set, 'perimeter-001', 8, 'rectangle-height-from-area', 2, 'number', {
       param_schema: { w: range(5, 10, s), h: range(3, 7, s) },
-      prompt_template: '넓이가 {{w * h}}cm²이고 가로가 {{w}}cm인 직사각형의 세로는 몇 cm인가요?',
+      prompt_template: prompts[7],
       solver_rule: 'h',
       solution_steps_template: ['{{w}} × 세로 = {{w * h}}입니다.', '{{w * h}} ÷ {{w}} = {{h}}cm입니다.'],
       hint_steps_template: ['넓이 ÷ 가로를 계산해요.', '구한 세로를 다시 곱해 확인해요.'],
       visual_template: polygonVisual('rectangle', { a: '{{w}}', b: '{{h}}', unknownMeasurement: 'b' }),
     }),
-    template(set, 'perimeter-001', 9, 'rectangle-side-from-perimeter', 3, 'number', {
+    template(set, 'perimeter-001', 9, 'half-perimeter-error', 3, 'number', {
       param_schema: { w: range(6, 12, s), h: range(3, 8, s) },
-      prompt_template: '둘레가 {{2 * (w + h)}}cm이고 가로가 {{w}}cm인 직사각형의 세로는 몇 cm인가요?',
-      solver_rule: 'h',
-      solution_steps_template: ['둘레의 절반은 가로 + 세로이므로 {{w + h}}cm입니다.', '{{w + h}} - {{w}} = {{h}}cm입니다.'],
-      hint_steps_template: ['둘레를 2로 나누어 가로와 세로의 합을 구해요.', '그 합에서 가로를 빼요.'],
-      visual_template: polygonVisual('rectangle', { a: '{{w}}', b: '{{h}}', unknownMeasurement: 'b' }),
+      prompt_template: prompts[8],
+      solver_rule: 'w + h',
+      solution_steps_template: ['올바른 둘레는 ({{w}} + {{h}}) × 2 = {{2 * (w + h)}}cm입니다.', '한 번씩만 더한 값은 {{w + h}}cm이므로 차이는 {{w + h}}cm입니다.'],
+      hint_steps_template: ['직사각형에는 같은 길이의 가로와 세로가 각각 2개씩 있어요.', '올바른 둘레와 한 번씩만 더한 값을 비교해요.'],
+      visual_template: polygonVisual('rectangle', { a: '{{w}}', b: '{{h}}' }),
     }),
-    template(set, 'perimeter-001', 10, 'fence-with-gate', 3, 'number', {
-      param_schema: { w: range(8, 14, s), h: range(5, 10, s), gate: range(1, 3) },
-      prompt_template: '가로 {{w}}m, 세로 {{h}}m인 직사각형 꽃밭 둘레에 울타리를 두르되, {{gate}}m인 출입구에는 울타리를 놓지 않습니다. 필요한 울타리는 몇 m인가요?',
-      solver_rule: '2 * (w + h) - gate',
-      solution_steps_template: ['꽃밭 전체 둘레는 ({{w}} + {{h}}) × 2 = {{2 * (w + h)}}m입니다.', '출입구 {{gate}}m를 빼면 {{2 * (w + h) - gate}}m입니다.'],
-      hint_steps_template: ['먼저 꽃밭의 전체 둘레를 구해요.', '울타리를 놓지 않는 출입구 길이를 빼요.'],
-      visual_template: { type: 'polygon', shape: 'rectangle', a: '{{w}}', b: '{{h}}', unit: 'm' },
+    template(set, 'perimeter-001', 10, 'addition-instead-multiplication-error', 3, 'number', {
+      param_schema: { side: range(5, 9, s) },
+      prompt_template: prompts[9],
+      solver_rule: '4 * side - (side + 4)',
+      solution_steps_template: ['올바른 둘레는 {{side}} × 4 = {{4 * side}}cm이고, 잘못 구한 값은 {{side}} + 4 = {{side + 4}}cm입니다.', '두 값의 차이는 {{4 * side}} - {{side + 4}} = {{4 * side - (side + 4)}}cm입니다.'],
+      hint_steps_template: ['정사각형에는 같은 길이의 변이 4개 있어요.', '곱한 값과 더한 값을 각각 구해 비교해요.'],
+      visual_template: polygonVisual('square', { a: '{{side}}' }),
     }),
   ]
 }
 
 function polygonAreaTemplates(set) {
   const s = set.shift
+  const prompts = {
+    A: [
+      '평행사변형의 넓이는 몇 cm²인가요?',
+      '삼각형의 넓이는 몇 cm²인가요?',
+      '사다리꼴의 넓이는 몇 cm²인가요?',
+      '두 대각선의 길이가 표시된 마름모의 넓이는 몇 cm²인가요?',
+      '넓이가 {{base * height}}cm²이고 밑변이 {{base}}cm인 평행사변형의 높이는 몇 cm인가요?',
+      '넓이가 {{b * height}}cm²이고 밑변이 {{b * 2}}cm인 삼각형의 높이는 몇 cm인가요?',
+      '넓이가 {{(top + bottom) * h}}cm²이고 윗변이 {{top}}cm, 높이가 {{h * 2}}cm인 사다리꼴의 아랫변은 몇 cm인가요?',
+      '그림과 같은 밑변 {{b * 2}}cm, 높이 {{height}}cm인 삼각형 깃발을 2장 만들었습니다. 두 깃발의 넓이 합은 몇 cm²인가요?',
+      '삼각형의 넓이를 구하면서 ÷2를 빠뜨려 {{b * 2 * height}}cm²라고 했습니다. 이 값은 올바른 넓이보다 몇 cm² 큰가요?',
+      '사다리꼴 넓이를 구하면서 윗변을 빠뜨리고 아랫변 {{bottom}}cm만 사용했습니다. 높이가 {{h * 2}}cm일 때 잘못 구한 넓이는 올바른 넓이보다 몇 cm² 작은가요?',
+    ],
+    B: [
+      '평행사변형 모양 천의 밑변과 높이를 이용해 넓이를 구하세요.',
+      '삼각형 표지판의 밑변과 높이가 표시되어 있습니다. 넓이는 몇 cm²인가요?',
+      '평행한 두 변과 높이가 표시된 사다리꼴의 넓이를 구하세요.',
+      '두 대각선이 서로 가로지르는 마름모의 넓이는 몇 cm²인가요?',
+      '평행사변형 화단의 넓이는 {{base * height}}cm²이고 밑변은 {{base}}cm입니다. 높이는 몇 cm인가요?',
+      '삼각형 천의 넓이는 {{b * height}}cm²이고 밑변은 {{b * 2}}cm입니다. 높이는 몇 cm인가요?',
+      '사다리꼴 판의 넓이는 {{(top + bottom) * h}}cm², 윗변은 {{top}}cm, 높이는 {{h * 2}}cm입니다. 아랫변은 몇 cm인가요?',
+      '밑변 {{b * 2}}cm, 높이 {{height}}cm인 같은 삼각형 조각 2개의 넓이를 모두 구하세요.',
+      '밑변 {{b * 2}}cm, 높이 {{height}}cm인 삼각형을 밑변 × 높이로만 계산했습니다. 잘못 구한 넓이와 실제 넓이의 차이는 몇 cm²인가요?',
+      '윗변 {{top}}cm, 아랫변 {{bottom}}cm, 높이 {{h * 2}}cm인 사다리꼴에서 아랫변만 넓이 식에 넣었습니다. 빠진 윗변 때문에 생긴 넓이의 차이는 몇 cm²인가요?',
+    ],
+    C: [
+      '밑변 × 높이로 나타내는 평행사변형의 넓이를 구하세요.',
+      '밑변 × 높이 ÷ 2로 나타내는 삼각형의 넓이를 구하세요.',
+      '(윗변 + 아랫변) × 높이 ÷ 2로 나타내는 사다리꼴의 넓이를 구하세요.',
+      '대각선의 곱 ÷ 2로 나타내는 마름모의 넓이를 구하세요.',
+      '평행사변형의 넓이 {{base * height}}cm²를 밑변 {{base}}cm로 나누어 높이를 구하세요.',
+      '삼각형의 넓이 {{b * height}}cm²를 2배 한 뒤 밑변 {{b * 2}}cm로 나누어 높이를 구하세요.',
+      '사다리꼴의 넓이 {{(top + bottom) * h}}cm², 윗변 {{top}}cm, 높이 {{h * 2}}cm를 이용해 아랫변을 구하세요.',
+      '그림과 같은 삼각형 2개의 전체 넓이를 구하세요. 한 삼각형의 밑변은 {{b * 2}}cm, 높이는 {{height}}cm입니다.',
+      '삼각형 넓이 식에서 ÷2를 하지 않은 결과 {{b * 2 * height}}cm²와 올바른 넓이의 차이는 몇 cm²인가요?',
+      '사다리꼴 넓이 식에서 윗변 {{top}}cm를 빼고 계산했습니다. 높이가 {{h * 2}}cm일 때 두 계산 결과의 차이는 몇 cm²인가요?',
+    ],
+  }[set.id]
   return [
     template(set, 'polygonarea-001', 1, 'parallelogram-area', 1, 'number', {
-      param_schema: { base: range(4, 9, s), height: range(2, 6, s), side: range(3, 7, s) },
-      prompt_template: '평행사변형의 넓이는 몇 cm²인가요?',
+      param_schema: { base: range(4, 9, s), height: range(2, 6, s) },
+      prompt_template: prompts[0],
       solver_rule: 'base * height',
       solution_steps_template: ['평행사변형의 넓이는 밑변 × 높이입니다.', '{{base}} × {{height}} = {{base * height}}cm²입니다.'],
       hint_steps_template: ['기울어진 변의 길이 대신 높이를 사용해요.', '밑변과 높이를 곱해요.'],
-      visual_template: polygonVisual('parallelogram', { a: '{{base}}', b: '{{side}}', height: '{{height}}' }),
+      visual_template: polygonVisual('parallelogram', { a: '{{base}}', height: '{{height}}' }),
     }),
     template(set, 'polygonarea-001', 2, 'triangle-area', 1, 'number', {
-      param_schema: { base: range(4, 8, s * 2), height: range(3, 7, s) },
-      prompt_template: '삼각형의 넓이는 몇 cm²인가요?',
-      solver_rule: 'base * height / 2',
-      solution_steps_template: ['삼각형의 넓이는 밑변 × 높이 ÷ 2입니다.', '{{base}} × {{height}} ÷ 2 = {{base * height / 2}}cm²입니다.'],
+      param_schema: { b: range(2, 4, s), height: range(3, 7, s) },
+      prompt_template: prompts[1],
+      solver_rule: 'b * height',
+      solution_steps_template: ['삼각형의 넓이는 밑변 × 높이 ÷ 2입니다.', '{{b * 2}} × {{height}} ÷ 2 = {{b * height}}cm²입니다.'],
       hint_steps_template: ['같은 밑변과 높이의 평행사변형 절반이에요.', '밑변과 높이를 곱한 뒤 2로 나눠요.'],
-      visual_template: polygonVisual('triangle', { a: '{{base}}', height: '{{height}}' }),
+      visual_template: polygonVisual('triangle', { a: '{{b * 2}}', height: '{{height}}' }),
     }),
     template(set, 'polygonarea-001', 3, 'trapezoid-area', 1, 'number', {
-      param_schema: { top: range(3, 7, s), bottom: range(8, 12, s), height: range(4, 8, s * 2), side: range(4, 7, s) },
-      prompt_template: '사다리꼴의 넓이는 몇 cm²인가요?',
-      solver_rule: '(top + bottom) * height / 2',
-      solution_steps_template: ['윗변과 아랫변의 합은 {{top + bottom}}cm입니다.', '({{top}} + {{bottom}}) × {{height}} ÷ 2 = {{(top + bottom) * height / 2}}cm²입니다.'],
+      param_schema: { top: range(3, 7, s), bottom: range(8, 12, s), h: range(2, 4, s) },
+      prompt_template: prompts[2],
+      solver_rule: '(top + bottom) * h',
+      solution_steps_template: ['윗변과 아랫변의 합은 {{top + bottom}}cm입니다.', '({{top}} + {{bottom}}) × {{h * 2}} ÷ 2 = {{(top + bottom) * h}}cm²입니다.'],
       hint_steps_template: ['평행한 두 변의 길이를 먼저 더해요.', '그 합에 높이를 곱하고 2로 나눠요.'],
-      visual_template: polygonVisual('trapezoid', { a: '{{top}}', b: '{{bottom}}', c: '{{side}}', height: '{{height}}' }),
+      visual_template: polygonVisual('trapezoid', { a: '{{top}}', b: '{{bottom}}', height: '{{h * 2}}' }),
     }),
     template(set, 'polygonarea-001', 4, 'rhombus-area', 1, 'number', {
-      param_schema: { d1: range(4, 8, s * 2), d2: range(5, 11, s) },
-      prompt_template: '두 대각선의 길이가 표시된 마름모의 넓이는 몇 cm²인가요?',
-      solver_rule: 'd1 * d2 / 2',
-      solution_steps_template: ['마름모의 넓이는 두 대각선의 곱 ÷ 2입니다.', '{{d1}} × {{d2}} ÷ 2 = {{d1 * d2 / 2}}cm²입니다.'],
+      param_schema: { d: range(2, 4, s), d2: range(5, 11, s) },
+      prompt_template: prompts[3],
+      solver_rule: 'd * d2',
+      solution_steps_template: ['마름모의 넓이는 두 대각선의 곱 ÷ 2입니다.', '{{d * 2}} × {{d2}} ÷ 2 = {{d * d2}}cm²입니다.'],
       hint_steps_template: ['두 대각선이 만드는 직사각형을 생각해요.', '두 대각선을 곱하고 2로 나눠요.'],
-      visual_template: polygonVisual('rhombus', { a: '{{d1}}', b: '{{d2}}' }),
+      visual_template: polygonVisual('rhombus', { a: '{{d * 2}}', b: '{{d2}}' }),
     }),
     template(set, 'polygonarea-001', 5, 'parallelogram-height', 2, 'number', {
-      param_schema: { base: range(5, 10, s), height: range(3, 7, s), side: range(4, 8, s) },
-      prompt_template: '넓이가 {{base * height}}cm²이고 밑변이 {{base}}cm인 평행사변형의 높이는 몇 cm인가요?',
+      param_schema: { base: range(5, 10, s), height: range(3, 7, s) },
+      prompt_template: prompts[4],
       solver_rule: 'height',
       solution_steps_template: ['밑변 × 높이 = {{base * height}}입니다.', '{{base * height}} ÷ {{base}} = {{height}}cm입니다.'],
       hint_steps_template: ['넓이를 밑변으로 나눠요.', '기울어진 변의 길이와 높이를 구별해요.'],
-      visual_template: polygonVisual('parallelogram', { a: '{{base}}', b: '{{side}}', height: '{{height}}', unknownMeasurement: 'height' }),
+      visual_template: polygonVisual('parallelogram', { a: '{{base}}', height: '{{height}}', unknownMeasurement: 'height' }),
     }),
     template(set, 'polygonarea-001', 6, 'triangle-height', 2, 'number', {
-      param_schema: { base: range(4, 8, s * 2), height: range(3, 8, s) },
-      prompt_template: '넓이가 {{base * height / 2}}cm²이고 밑변이 {{base}}cm인 삼각형의 높이는 몇 cm인가요?',
+      param_schema: { b: range(2, 4, s), height: range(3, 8, s) },
+      prompt_template: prompts[5],
       solver_rule: 'height',
-      solution_steps_template: ['넓이에 2를 곱하면 {{base * height}}입니다.', '{{base * height}} ÷ {{base}} = {{height}}cm입니다.'],
+      solution_steps_template: ['넓이 {{b * height}}cm²를 2배 하면 {{b * 2 * height}}입니다.', '{{b * 2 * height}} ÷ {{b * 2}} = {{height}}cm입니다.'],
       hint_steps_template: ['먼저 넓이를 2배 해요.', '그 값을 밑변으로 나눠요.'],
-      visual_template: polygonVisual('triangle', { a: '{{base}}', height: '{{height}}', unknownMeasurement: 'height' }),
+      visual_template: polygonVisual('triangle', { a: '{{b * 2}}', height: '{{height}}', unknownMeasurement: 'height' }),
     }),
     template(set, 'polygonarea-001', 7, 'trapezoid-bottom', 2, 'number', {
-      param_schema: { top: range(3, 7, s), bottom: range(8, 13, s), height: range(4, 8, s * 2), side: range(4, 8, s) },
-      prompt_template: '넓이가 {{(top + bottom) * height / 2}}cm²이고 윗변이 {{top}}cm, 높이가 {{height}}cm인 사다리꼴의 아랫변은 몇 cm인가요?',
+      param_schema: { top: range(3, 7, s), bottom: range(8, 13, s), h: range(2, 4, s) },
+      prompt_template: prompts[6],
       solver_rule: 'bottom',
-      solution_steps_template: ['넓이 × 2 ÷ 높이로 윗변과 아랫변의 합 {{top + bottom}}cm를 구합니다.', '{{top + bottom}} - {{top}} = {{bottom}}cm입니다.'],
+      solution_steps_template: ['넓이 {{(top + bottom) * h}}cm²를 {{h * 2}}cm 높이에 맞게 역산하면 두 평행한 변의 합은 {{top + bottom}}cm입니다.', '{{top + bottom}} - {{top}} = {{bottom}}cm입니다.'],
       hint_steps_template: ['평행한 두 변의 합을 먼저 역산해요.', '그 합에서 윗변을 빼요.'],
-      visual_template: polygonVisual('trapezoid', { a: '{{top}}', b: '{{bottom}}', c: '{{side}}', height: '{{height}}', unknownMeasurement: 'b' }),
+      visual_template: polygonVisual('trapezoid', { a: '{{top}}', b: '{{bottom}}', height: '{{h * 2}}', unknownMeasurement: 'b' }),
     }),
-    template(set, 'polygonarea-001', 8, 'two-shape-area-sum', 2, 'number', {
-      param_schema: { base: range(4, 8, s * 2), height: range(3, 7, s), pbase: range(5, 10, s), pheight: range(2, 6, s) },
-      prompt_template: '밑변 {{base}}cm, 높이 {{height}}cm인 삼각형과 밑변 {{pbase}}cm, 높이 {{pheight}}cm인 평행사변형의 넓이 합은 몇 cm²인가요?',
-      solver_rule: 'base * height / 2 + pbase * pheight',
-      solution_steps_template: ['삼각형의 넓이는 {{base * height / 2}}cm²입니다.', '평행사변형의 넓이 {{pbase * pheight}}cm²를 더하면 {{base * height / 2 + pbase * pheight}}cm²입니다.'],
-      hint_steps_template: ['두 도형의 넓이를 따로 구해요.', '삼각형에서는 ÷2를 빠뜨리지 않아요.'],
-      visual_template: polygonVisual('triangle', { a: '{{base}}', height: '{{height}}' }),
+    template(set, 'polygonarea-001', 8, 'congruent-triangle-total', 2, 'number', {
+      param_schema: { b: range(2, 4, s), height: range(3, 7, s) },
+      prompt_template: prompts[7],
+      solver_rule: '2 * b * height',
+      solution_steps_template: ['삼각형 한 개의 넓이는 {{b * 2}} × {{height}} ÷ 2 = {{b * height}}cm²입니다.', '같은 삼각형이 2개이므로 넓이 합은 {{2 * b * height}}cm²입니다.'],
+      hint_steps_template: ['먼저 삼각형 한 개의 넓이를 구해요.', '같은 넓이가 2개임을 반영해요.'],
+      visual_template: polygonVisual('triangle', { a: '{{b * 2}}', height: '{{height}}' }),
     }),
-    template(set, 'polygonarea-001', 9, 'rectangle-minus-triangle', 3, 'number', {
-      param_schema: { w: range(8, 14, s), h: range(6, 10, s), base: range(4, 8, s * 2), triHeight: range(2, 5, s) },
-      prompt_template: '가로 {{w}}cm, 세로 {{h}}cm인 직사각형에서 밑변 {{base}}cm, 높이 {{triHeight}}cm인 삼각형을 잘라냈습니다. 남은 넓이는 몇 cm²인가요?',
-      solver_rule: 'w * h - base * triHeight / 2',
-      solution_steps_template: ['직사각형의 넓이는 {{w * h}}cm²입니다.', '삼각형의 넓이 {{base * triHeight / 2}}cm²를 빼면 {{w * h - base * triHeight / 2}}cm²입니다.'],
-      hint_steps_template: ['전체 직사각형 넓이를 먼저 구해요.', '잘라낸 삼각형 넓이를 빼요.'],
-      visual_template: polygonVisual('rectangle', { a: '{{w}}', b: '{{h}}' }),
+    template(set, 'polygonarea-001', 9, 'triangle-double-error', 3, 'number', {
+      param_schema: { b: range(2, 5, s), height: range(4, 8, s) },
+      prompt_template: prompts[8],
+      solver_rule: 'b * height',
+      solution_steps_template: ['올바른 삼각형 넓이는 {{b * 2}} × {{height}} ÷ 2 = {{b * height}}cm²입니다.', '÷2를 빠뜨린 값 {{b * 2 * height}}cm²는 올바른 값보다 {{b * height}}cm² 큽니다.'],
+      hint_steps_template: ['삼각형 넓이 식의 ÷2가 무엇을 뜻하는지 확인해요.', '잘못 구한 값에서 올바른 값을 빼요.'],
+      visual_template: polygonVisual('triangle', { a: '{{b * 2}}', height: '{{height}}' }),
     }),
-    template(set, 'polygonarea-001', 10, 'rhombus-missing-diagonal', 3, 'number', {
-      param_schema: { d1: range(4, 8, s * 2), d2: range(6, 12, s) },
-      prompt_template: '넓이가 {{d1 * d2 / 2}}cm²이고 한 대각선이 {{d1}}cm인 마름모의 다른 대각선은 몇 cm인가요?',
-      solver_rule: 'd2',
-      solution_steps_template: ['넓이에 2를 곱하면 두 대각선의 곱 {{d1 * d2}}를 얻습니다.', '{{d1 * d2}} ÷ {{d1}} = {{d2}}cm입니다.'],
-      hint_steps_template: ['넓이를 먼저 2배 해요.', '그 값을 알고 있는 대각선 길이로 나눠요.'],
-      visual_template: polygonVisual('rhombus', { a: '{{d1}}', b: '{{d2}}', unknownMeasurement: 'b' }),
+    template(set, 'polygonarea-001', 10, 'trapezoid-base-omission-error', 3, 'number', {
+      param_schema: { top: range(3, 7, s), bottom: range(8, 13, s), h: range(2, 5, s) },
+      prompt_template: prompts[9],
+      solver_rule: 'top * h',
+      solution_steps_template: ['올바른 넓이는 ({{top}} + {{bottom}}) × {{h * 2}} ÷ 2 = {{(top + bottom) * h}}cm²입니다.', '아랫변만 사용한 값 {{bottom * h}}cm²와의 차이는 {{top * h}}cm²입니다.'],
+      hint_steps_template: ['사다리꼴 넓이에는 윗변과 아랫변이 모두 필요해요.', '빠진 윗변이 넓이에 주는 부분을 계산해요.'],
+      visual_template: polygonVisual('trapezoid', { a: '{{top}}', b: '{{bottom}}', height: '{{h * 2}}' }),
     }),
   ]
 }
@@ -510,12 +586,27 @@ const banks = {
   'cuboidnet.json': SETS.flatMap(cuboidNetTemplates),
 }
 
+function serializeTemplates(templates) {
+  let serialized = JSON.stringify(templates, null, 2)
+
+  for (const template of templates) {
+    const prettyBlueprint = JSON.stringify(template.blueprint, null, 2)
+      .replace(/\n/g, '\n    ')
+    serialized = serialized.replace(
+      `"blueprint": ${prettyBlueprint}`,
+      `"blueprint": ${JSON.stringify(template.blueprint)}`
+    )
+  }
+
+  return `${serialized}\n`
+}
+
 if (require.main === module) {
   fs.mkdirSync(OUT_DIR, { recursive: true })
   for (const [filename, templates] of Object.entries(banks)) {
-    fs.writeFileSync(path.join(OUT_DIR, filename), `${JSON.stringify(templates, null, 2)}\n`)
+    fs.writeFileSync(path.join(OUT_DIR, filename), serializeTemplates(templates))
     console.log(`${filename}: ${templates.length} templates`)
   }
 }
 
-module.exports = { banks }
+module.exports = { banks, serializeTemplates }

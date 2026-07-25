@@ -2,7 +2,7 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
-import GeometryProblemVisual from './GeometryProblemVisual'
+import GeometryProblemVisual, { buildPolygonLayout } from './GeometryProblemVisual'
 
 describe('GeometryProblemVisual', () => {
   it('renders polygon measurements without adding an answer value', () => {
@@ -14,6 +14,51 @@ describe('GeometryProblemVisual', () => {
     expect(html).toContain('8cm')
     expect(html).toContain('5cm')
     expect(html).not.toContain('26cm')
+  })
+
+  it('derives polygon proportions from the same quantitative model', () => {
+    const wide = buildPolygonLayout({
+      type: 'polygon',
+      shape: 'rectangle',
+      a: 12,
+      b: 3,
+    })
+    const compact = buildPolygonLayout({
+      type: 'polygon',
+      shape: 'rectangle',
+      a: 6,
+      b: 5,
+    })
+
+    expect(wide.width / wide.height).toBeCloseTo(4, 5)
+    expect(compact.width / compact.height).toBeCloseTo(1.2, 5)
+    expect(wide.width / wide.height).toBeGreaterThan(compact.width / compact.height)
+
+    for (const layout of [wide, compact]) {
+      expect(Math.min(...layout.points.map(point => point.x))).toBeGreaterThanOrEqual(40)
+      expect(Math.max(...layout.points.map(point => point.x))).toBeLessThanOrEqual(260)
+      expect(Math.min(...layout.points.map(point => point.y))).toBeGreaterThanOrEqual(25)
+      expect(Math.max(...layout.points.map(point => point.y))).toBeLessThanOrEqual(150)
+    }
+  })
+
+  it('preserves all three side ratios for perimeter triangles', () => {
+    const layout = buildPolygonLayout({
+      type: 'polygon',
+      shape: 'triangle',
+      a: 6,
+      b: 7,
+      c: 9,
+      measurementMode: 'sides',
+    })
+    const distance = (left: { x: number; y: number }, right: { x: number; y: number }) => (
+      Math.hypot(left.x - right.x, left.y - right.y)
+    )
+    const [left, right, apex] = layout.points
+    const scale = distance(left, right) / 6
+
+    expect(distance(left, apex) / scale).toBeCloseTo(7, 5)
+    expect(distance(right, apex) / scale).toBeCloseTo(9, 5)
   })
 
   it('hides reverse-problem measurements until the solution is shown', () => {
@@ -31,6 +76,14 @@ describe('GeometryProblemVisual', () => {
     expect(hiddenPolygon).toContain('?cm')
     expect(hiddenPolygon).not.toContain('5cm')
     expect(revealedPolygon).toContain('5cm')
+
+    const maskedLayout = buildPolygonLayout(polygon, false)
+    const revealedLayout = buildPolygonLayout(polygon, true)
+    expect(maskedLayout.width / maskedLayout.height).not.toBeCloseTo(
+      revealedLayout.width / revealedLayout.height,
+      5
+    )
+    expect(revealedLayout.width / revealedLayout.height).toBeCloseTo(2, 5)
 
     const cuboid = {
       type: 'cuboid' as const,

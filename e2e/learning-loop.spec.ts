@@ -324,6 +324,59 @@ test('5학년 도형 연습은 SVG 정답을 제출 전 숨기고 결과에서 �
   await expect(page.getByTestId('wrong-results')).toContainText('정답:')
 })
 
+test('5학년 다각형 그림은 실제 치수 비율을 따르고 미지 길이를 좌표에서도 가린다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(`${BASE_PATH}/practice/perimeter-001?set=A`)
+
+  const session = await readSession(page)
+  const quantitativeIndex = session.problems.findIndex(problem => (
+    problem.visual?.type === 'polygon' &&
+    problem.visual.shape === 'rectangle' &&
+    !problem.visual.unknownMeasurement
+  ))
+  expect(quantitativeIndex).toBeGreaterThanOrEqual(0)
+
+  const quantitativeVisual = session.problems[quantitativeIndex].visual
+  if (!quantitativeVisual || quantitativeVisual.type !== 'polygon' || quantitativeVisual.b === undefined) {
+    throw new Error('quantitative rectangle visual was not generated')
+  }
+  if (session.currentIndex !== quantitativeIndex) {
+    await page.getByRole('button', { name: `문제 ${quantitativeIndex + 1}`, exact: true }).click()
+  }
+
+  const diagram = page.getByTestId('geometry-visual-polygon')
+  await expect(diagram).toBeVisible()
+  const renderedRatio = await diagram.locator('svg polygon').evaluate(element => {
+    const box = (element as SVGGraphicsElement).getBBox()
+    return box.width / box.height
+  })
+  expect(renderedRatio).toBeCloseTo(quantitativeVisual.a / quantitativeVisual.b, 1)
+  await expect(diagram).toContainText(`${quantitativeVisual.a}cm`)
+  await expect(diagram).toContainText(`${quantitativeVisual.b}cm`)
+
+  const unknownIndex = session.problems.findIndex(problem => {
+    if (problem.visual?.type !== 'polygon' || !problem.visual.unknownMeasurement) return false
+    const hiddenValue = problem.visual[problem.visual.unknownMeasurement]
+    const visibleValues = ['a', 'b', 'c', 'height']
+      .filter(key => key !== problem.visual?.unknownMeasurement)
+      .map(key => problem.visual?.type === 'polygon'
+        ? problem.visual[key as 'a' | 'b' | 'c' | 'height']
+        : undefined)
+    return typeof hiddenValue === 'number' && !visibleValues.includes(hiddenValue)
+  })
+  expect(unknownIndex).toBeGreaterThanOrEqual(0)
+  await page.getByRole('button', { name: `문제 ${unknownIndex + 1}`, exact: true }).click()
+
+  const unknownVisual = session.problems[unknownIndex].visual
+  if (!unknownVisual || unknownVisual.type !== 'polygon' || !unknownVisual.unknownMeasurement) {
+    throw new Error('reverse polygon visual was not generated')
+  }
+  const hiddenValue = unknownVisual[unknownVisual.unknownMeasurement]
+  await expect(diagram).toContainText('?cm')
+  await expect(diagram).not.toContainText(`${hiddenValue}cm`)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+})
+
 test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세션도 복구한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/practice/area-001?set=A`)
   const session = await readSession(page)

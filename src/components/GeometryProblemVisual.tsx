@@ -24,11 +24,142 @@ function MeasurementLabel({ x, y, value, unit = 'cm', hidden = false, showAnswer
   return <text x={x} y={y} textAnchor="middle" fontSize="13" fill="#334155">{displayValue}{unit}</text>
 }
 
+type PolygonVisualValue = Extract<GeometryVisual, { type: 'polygon' }>
+type Point = { x: number; y: number }
+
+export interface PolygonLayout {
+  points: Point[]
+  width: number
+  height: number
+}
+
+function positive(value: number | undefined, fallback = 1): number {
+  return typeof value === 'number' && Number.isFinite(value) && value > 0
+    ? value
+    : fallback
+}
+
+function maskUnknownMeasurement(
+  visual: PolygonVisualValue,
+  showAnswer: boolean
+): PolygonVisualValue {
+  if (showAnswer || !visual.unknownMeasurement) return visual
+
+  const masked = { ...visual }
+  const knownA = positive(visual.a)
+  const knownB = positive(visual.b)
+
+  if (visual.unknownMeasurement === 'a') {
+    masked.a = visual.shape === 'rhombus'
+      ? knownB
+      : positive(visual.height, knownB) * 1.5
+  }
+  if (visual.unknownMeasurement === 'b') {
+    masked.b = visual.shape === 'trapezoid'
+      ? knownA * 1.5
+      : knownA * 0.65
+  }
+  if (visual.unknownMeasurement === 'c') {
+    masked.c = Math.max(knownA, knownB)
+  }
+  if (visual.unknownMeasurement === 'height') {
+    masked.height = knownA * 0.6
+  }
+
+  return masked
+}
+
+function fitPolygonPoints(rawPoints: Point[]): PolygonLayout {
+  const xs = rawPoints.map(point => point.x)
+  const ys = rawPoints.map(point => point.y)
+  const minX = Math.min(...xs)
+  const maxX = Math.max(...xs)
+  const minY = Math.min(...ys)
+  const maxY = Math.max(...ys)
+  const modelWidth = Math.max(maxX - minX, 0.01)
+  const modelHeight = Math.max(maxY - minY, 0.01)
+  const scale = Math.min(190 / modelWidth, 110 / modelHeight)
+  const centerX = (minX + maxX) / 2
+  const centerY = (minY + maxY) / 2
+  const points = rawPoints.map(point => ({
+    x: 150 + (point.x - centerX) * scale,
+    y: 88 - (point.y - centerY) * scale,
+  }))
+
+  return {
+    points,
+    width: modelWidth * scale,
+    height: modelHeight * scale,
+  }
+}
+
+export function buildPolygonLayout(
+  source: PolygonVisualValue,
+  showAnswer = true
+): PolygonLayout {
+  const visual = maskUnknownMeasurement(source, showAnswer)
+  const a = positive(visual.a)
+  const b = positive(visual.b, a)
+  const height = positive(visual.height, b)
+  let rawPoints: Point[]
+
+  if (visual.shape === 'rectangle') {
+    rawPoints = [{ x: 0, y: 0 }, { x: a, y: 0 }, { x: a, y: b }, { x: 0, y: b }]
+  } else if (visual.shape === 'square') {
+    rawPoints = [{ x: 0, y: 0 }, { x: a, y: 0 }, { x: a, y: a }, { x: 0, y: a }]
+  } else if (visual.shape === 'parallelogram') {
+    const offset = height * 0.3
+    rawPoints = [
+      { x: 0, y: 0 },
+      { x: a, y: 0 },
+      { x: a + offset, y: height },
+      { x: offset, y: height },
+    ]
+  } else if (visual.shape === 'triangle' && visual.measurementMode === 'sides') {
+    const c = positive(visual.c, a)
+    const apexX = Math.max(0, Math.min(a, (a * a + b * b - c * c) / (2 * a)))
+    const apexY = Math.sqrt(Math.max(b * b - apexX * apexX, 0.01))
+    rawPoints = [{ x: 0, y: 0 }, { x: a, y: 0 }, { x: apexX, y: apexY }]
+  } else if (visual.shape === 'triangle') {
+    rawPoints = [{ x: 0, y: 0 }, { x: a, y: 0 }, { x: a * 0.58, y: height }]
+  } else if (visual.shape === 'trapezoid') {
+    const inset = (b - a) / 2
+    rawPoints = [
+      { x: 0, y: 0 },
+      { x: b, y: 0 },
+      { x: b - inset, y: height },
+      { x: inset, y: height },
+    ]
+  } else {
+    rawPoints = [
+      { x: 0, y: a / 2 },
+      { x: b / 2, y: 0 },
+      { x: 0, y: -a / 2 },
+      { x: -b / 2, y: 0 },
+    ]
+  }
+
+  return fitPolygonPoints(rawPoints)
+}
+
+function pointString(points: Point[]): string {
+  return points.map(point => `${point.x.toFixed(2)},${point.y.toFixed(2)}`).join(' ')
+}
+
 function PolygonVisual({ visual, showAnswer }: {
-  visual: Extract<GeometryVisual, { type: 'polygon' }>
+  visual: PolygonVisualValue
   showAnswer: boolean
 }) {
   const { shape, a, b, c, height, unit = 'cm' } = visual
+  const layout = buildPolygonLayout(visual, showAnswer)
+  const xs = layout.points.map(point => point.x)
+  const ys = layout.points.map(point => point.y)
+  const minX = Math.min(...xs)
+  const maxX = Math.max(...xs)
+  const minY = Math.min(...ys)
+  const maxY = Math.max(...ys)
+  const middleX = (minX + maxX) / 2
+  const middleY = (minY + maxY) / 2
   const common = { fill: '#dbeafe', stroke: '#2563eb', strokeWidth: 3 }
   const shapeNames: Record<PolygonShape, string> = {
     rectangle: '직사각형',
@@ -41,46 +172,40 @@ function PolygonVisual({ visual, showAnswer }: {
 
   return (
     <svg viewBox="0 0 300 190" className="mx-auto w-full max-w-sm" role="img" aria-label={`${shapeNames[shape]} 도형`}>
-      {shape === 'rectangle' && <rect x="55" y="40" width="190" height="105" rx="3" {...common} />}
-      {shape === 'square' && <rect x="85" y="30" width="130" height="130" rx="3" {...common} />}
-      {shape === 'parallelogram' && <polygon points="80,145 235,145 210,45 55,45" {...common} />}
-      {shape === 'triangle' && <polygon points="45,145 255,145 175,35" {...common} />}
-      {shape === 'trapezoid' && <polygon points="50,145 250,145 210,45 90,45" {...common} />}
-      {shape === 'rhombus' && <polygon points="150,25 245,95 150,165 55,95" {...common} />}
+      <polygon points={pointString(layout.points)} {...common} />
 
-      {shape === 'rectangle' && <>
-        <MeasurementLabel x={150} y={172} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
-        <MeasurementLabel x={266} y={98} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />
+      {(shape === 'rectangle' || shape === 'square') && <>
+        <MeasurementLabel x={middleX} y={maxY + 20} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
+        {shape === 'rectangle' && <MeasurementLabel x={maxX + 18} y={middleY} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />}
       </>}
-      {shape === 'square' && <MeasurementLabel x={150} y={180} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />}
       {shape === 'parallelogram' && <>
-        <MeasurementLabel x={158} y={172} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
-        <MeasurementLabel x={47} y={100} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />
-        <line x1="210" y1="45" x2="210" y2="145" stroke="#64748b" strokeDasharray="5 4" />
-        <MeasurementLabel x={230} y={100} value={height} unit={unit} hidden={visual.unknownMeasurement === 'height'} showAnswer={showAnswer} />
+        <MeasurementLabel x={middleX} y={maxY + 20} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
+        {b !== undefined && <MeasurementLabel x={minX - 14} y={middleY} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />}
+        <line x1={layout.points[2].x} y1={minY} x2={layout.points[2].x} y2={maxY} stroke="#64748b" strokeDasharray="5 4" />
+        <MeasurementLabel x={layout.points[2].x + 20} y={middleY} value={height} unit={unit} hidden={visual.unknownMeasurement === 'height'} showAnswer={showAnswer} />
       </>}
       {shape === 'triangle' && visual.measurementMode === 'sides' && <>
-        <MeasurementLabel x={150} y={172} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
-        <MeasurementLabel x={90} y={88} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />
-        <MeasurementLabel x={225} y={92} value={c} unit={unit} hidden={visual.unknownMeasurement === 'c'} showAnswer={showAnswer} />
+        <MeasurementLabel x={middleX} y={maxY + 20} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
+        <MeasurementLabel x={(layout.points[0].x + layout.points[2].x) / 2 - 12} y={(layout.points[0].y + layout.points[2].y) / 2} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />
+        <MeasurementLabel x={(layout.points[1].x + layout.points[2].x) / 2 + 12} y={(layout.points[1].y + layout.points[2].y) / 2} value={c} unit={unit} hidden={visual.unknownMeasurement === 'c'} showAnswer={showAnswer} />
       </>}
       {shape === 'triangle' && visual.measurementMode !== 'sides' && <>
-        <MeasurementLabel x={150} y={172} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
-        <line x1="175" y1="35" x2="175" y2="145" stroke="#64748b" strokeDasharray="5 4" />
-        <MeasurementLabel x={196} y={95} value={height} unit={unit} hidden={visual.unknownMeasurement === 'height'} showAnswer={showAnswer} />
+        <MeasurementLabel x={middleX} y={maxY + 20} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
+        <line x1={layout.points[2].x} y1={minY} x2={layout.points[2].x} y2={maxY} stroke="#64748b" strokeDasharray="5 4" />
+        <MeasurementLabel x={layout.points[2].x + 20} y={middleY} value={height} unit={unit} hidden={visual.unknownMeasurement === 'height'} showAnswer={showAnswer} />
       </>}
       {shape === 'trapezoid' && <>
-        <MeasurementLabel x={150} y={36} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
-        <MeasurementLabel x={150} y={172} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />
-        <line x1="210" y1="45" x2="210" y2="145" stroke="#64748b" strokeDasharray="5 4" />
-        <MeasurementLabel x={230} y={100} value={height} unit={unit} hidden={visual.unknownMeasurement === 'height'} showAnswer={showAnswer} />
-        <MeasurementLabel x={62} y={100} value={c} unit={unit} hidden={visual.unknownMeasurement === 'c'} showAnswer={showAnswer} />
+        <MeasurementLabel x={(layout.points[2].x + layout.points[3].x) / 2} y={minY - 8} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
+        <MeasurementLabel x={(layout.points[0].x + layout.points[1].x) / 2} y={maxY + 20} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />
+        <line x1={layout.points[2].x} y1={minY} x2={layout.points[2].x} y2={maxY} stroke="#64748b" strokeDasharray="5 4" />
+        <MeasurementLabel x={layout.points[2].x + 20} y={middleY} value={height} unit={unit} hidden={visual.unknownMeasurement === 'height'} showAnswer={showAnswer} />
+        {c !== undefined && <MeasurementLabel x={minX - 14} y={middleY} value={c} unit={unit} hidden={visual.unknownMeasurement === 'c'} showAnswer={showAnswer} />}
       </>}
       {shape === 'rhombus' && <>
-        <line x1="150" y1="25" x2="150" y2="165" stroke="#64748b" strokeDasharray="5 4" />
-        <line x1="55" y1="95" x2="245" y2="95" stroke="#64748b" strokeDasharray="5 4" />
-        <MeasurementLabel x={170} y={90} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
-        <MeasurementLabel x={150} y={187} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />
+        <line x1={middleX} y1={minY} x2={middleX} y2={maxY} stroke="#64748b" strokeDasharray="5 4" />
+        <line x1={minX} y1={middleY} x2={maxX} y2={middleY} stroke="#64748b" strokeDasharray="5 4" />
+        <MeasurementLabel x={middleX + 20} y={middleY - 20} value={a} unit={unit} hidden={visual.unknownMeasurement === 'a'} showAnswer={showAnswer} />
+        <MeasurementLabel x={middleX} y={maxY + 20} value={b} unit={unit} hidden={visual.unknownMeasurement === 'b'} showAnswer={showAnswer} />
       </>}
     </svg>
   )

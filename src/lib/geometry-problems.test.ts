@@ -98,11 +98,9 @@ describe('grade 5 geometry problem core', () => {
     const expectedUnknownMeasurements = {
       'perimeter-rectangle-width-from-area': 'a',
       'perimeter-rectangle-height-from-area': 'b',
-      'perimeter-rectangle-side-from-perimeter': 'b',
       'polygonarea-parallelogram-height': 'height',
       'polygonarea-triangle-height': 'height',
       'polygonarea-trapezoid-bottom': 'b',
-      'polygonarea-rhombus-missing-diagonal': 'b',
       'cuboid-missing-width-from-edges': 'width',
       'cuboid-missing-depth-from-edges': 'depth',
     } as const
