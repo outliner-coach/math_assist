@@ -5,6 +5,7 @@ const GRADE6_CONTENT_RELEASE_IDS: Readonly<Record<string, string>> = {
   'g6fractiondiv-001': 'grade6-fraction-division-v1',
   'g6fractiondecimal-001': 'grade6-fraction-decimal-v1',
   'g6decimaldiv-001': 'grade6-decimal-division-v1',
+  'g6proportion-001': 'grade6-proportion-v1',
 }
 
 export function resolveContentReleaseId(grade: PracticeGrade, conceptId: string): string {

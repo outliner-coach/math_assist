@@ -1287,11 +1287,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 27,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "비율 이해 뒤 비례식",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6proportion-001"
+      ],
+      "allocationRationale": "6학년 비례식 문제은행에서 배수 관계, 외항·내항의 곱, 빠진 항과 실제 축척 응용을 제공",
+      "reviewedBy": "grade6-proportion-release-2026-07-26"
     },
     {
       "standardCode": "[6수02-05]",
@@ -1305,11 +1307,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 27,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "비례식 성질 뒤 비례배분",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6proportion-001"
+      ],
+      "allocationRationale": "6학년 비례식 문제은행에서 전체를 비에 따라 나누고 합으로 검산하는 응용과 오류 분석을 제공",
+      "reviewedBy": "grade6-proportion-release-2026-07-26"
     },
     {
       "standardCode": "[6수03-01]",

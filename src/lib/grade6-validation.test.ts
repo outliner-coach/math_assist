@@ -14,6 +14,7 @@ const templatesByConcept = {
   'g6fractiondiv-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6fractiondiv.json'), 'utf8')),
   'g6fractiondecimal-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6fractiondecimal.json'), 'utf8')),
   'g6decimaldiv-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6decimaldiv.json'), 'utf8')),
+  'g6proportion-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6proportion.json'), 'utf8')),
 }
 
 describe('Grade 6 release validation', () => {
@@ -22,9 +23,9 @@ describe('Grade 6 release validation', () => {
 
     expect(result.errors).toEqual([])
     expect(result.summary).toMatchObject({
-      unitCount: 4,
-      conceptCount: 4,
-      templateCount: 120,
+      unitCount: 5,
+      conceptCount: 5,
+      templateCount: 150,
     })
   })
 

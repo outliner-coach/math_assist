@@ -134,6 +134,12 @@ for (const releasedConcept of [
     conceptId: 'g6decimaldiv-001',
     releaseId: 'grade6-decimal-division-v1',
   },
+  {
+    unitId: 'unit-6-2-proportion',
+    title: '비례식과 비례배분',
+    conceptId: 'g6proportion-001',
+    releaseId: 'grade6-proportion-v1',
+  },
 ] as const) {
   test(`${releasedConcept.title} 단원을 찾아 5문제를 완주하고 단원별 콘텐츠 버전을 기록한다`, async ({ page }) => {
     await page.goto(`${BASE_PATH}/grade/6`)

@@ -18,6 +18,10 @@ import {
   serializeTemplates as serializeDecimalDivisionTemplates,
   templates as generatedDecimalDivisionTemplates,
 } from '../../scripts/generate-grade6-decimal-division-templates.js'
+import {
+  serializeTemplates as serializeProportionTemplates,
+  templates as generatedProportionTemplates,
+} from '../../scripts/generate-grade6-proportion-templates.js'
 import { evaluateTemplate } from '../../scripts/problem-quality-core.js'
 
 const ratioTemplates = JSON.parse(readFileSync(
@@ -36,11 +40,16 @@ const decimalDivisionTemplates = JSON.parse(readFileSync(
   join(process.cwd(), 'public/data/templates/g6decimaldiv.json'),
   'utf8',
 )) as ProblemTemplate[]
+const proportionTemplates = JSON.parse(readFileSync(
+  join(process.cwd(), 'public/data/templates/g6proportion.json'),
+  'utf8',
+)) as ProblemTemplate[]
 const releasedConceptTemplates = [
   ['g6ratio-001', ratioTemplates],
   ['g6fractiondiv-001', fractionDivisionTemplates],
   ['g6fractiondecimal-001', fractionDecimalTemplates],
   ['g6decimaldiv-001', decimalDivisionTemplates],
+  ['g6proportion-001', proportionTemplates],
 ] as const
 
 describe('Grade 6 Study release slice', () => {
@@ -179,6 +188,47 @@ describe('Grade 6 Study release slice', () => {
     }
   })
 
+  it('maps proportion and proportional distribution to both released standards', () => {
+    const primaryStandards = new Set(proportionTemplates.map(
+      (template) => template.blueprint?.primaryStandard,
+    ))
+    const familySets = (['A', 'B', 'C'] as const).map((setId) => new Set(
+      proportionTemplates
+        .filter((template) => template.set_id === setId)
+        .map((template) => template.problem_family),
+    ))
+
+    expect(primaryStandards).toEqual(new Set(['[6수02-04]', '[6수02-05]']))
+    expect(new Set(proportionTemplates.map((template) => template.problem_family))).toHaveLength(30)
+    expect([...familySets[0]].filter((family) => familySets[1].has(family))).toEqual([])
+    expect([...familySets[0]].filter((family) => familySets[2].has(family))).toEqual([])
+    expect([...familySets[1]].filter((family) => familySets[2].has(family))).toEqual([])
+  })
+
+  it('reproduces the committed proportion bank and resolves every parameter value', () => {
+    expect(serializeProportionTemplates()).toBe(readFileSync(
+      join(process.cwd(), 'public/data/templates/g6proportion.json'),
+      'utf8',
+    ))
+    expect(generatedProportionTemplates).toEqual(proportionTemplates)
+
+    for (const template of proportionTemplates) {
+      const { min, max } = template.param_schema.p
+      for (let p = min; p <= max; p += 1) {
+        const params = { p }
+        const rendered = [
+          evaluateTemplate(template.prompt_template, params),
+          ...template.solution_steps_template.map((step) => evaluateTemplate(step, params)),
+          ...(template.hint_steps_template ?? []).map((step) => evaluateTemplate(step, params)),
+        ]
+        const answer = evaluateTemplate(`{{${template.solver_rule}}}`, params)
+
+        expect(answer, `${template.id} p=${p}`).toMatch(/^\d+$/)
+        expect(rendered.some((text) => text.includes('?]')), `${template.id} p=${p}`).toBe(false)
+      }
+    }
+  })
+
   it.each([
     ['A', 5, { 1: 2, 2: 2, 3: 1 }],
     ['A', 10, { 1: 4, 2: 4, 3: 2 }],
@@ -245,6 +295,24 @@ describe('Grade 6 Study release slice', () => {
       expect(problems).toHaveLength(10)
       expect(new Set(problems.map((problem) => problem.prompt))).toHaveLength(10)
       expect(problems.every((problem) => /^-?\d+(?:\.\d+)?$/.test(problem.correctAnswer))).toBe(true)
+      expect(results.every((result) => result.correct)).toBe(true)
+    },
+  )
+
+  it.each(['A', 'B', 'C'] as const)(
+    'generates and grades every proportion problem in set %s',
+    (setId) => {
+      const problems = generateProblems(proportionTemplates, {
+        count: 10,
+        setId,
+        difficultyMix: { 1: 4, 2: 4, 3: 2 },
+        seed: 6910 + setId.charCodeAt(0),
+      })
+      const results = gradeSession(problems, problems.map((problem) => problem.correctAnswer))
+
+      expect(problems).toHaveLength(10)
+      expect(new Set(problems.map((problem) => problem.prompt))).toHaveLength(10)
+      expect(problems.every((problem) => /^\d+$/.test(problem.correctAnswer))).toBe(true)
       expect(results.every((result) => result.correct)).toBe(true)
     },
   )

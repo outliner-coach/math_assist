@@ -21,6 +21,18 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 6 proportion and proportional-distribution Study release
+  (primary workstreams 01, 02, 03, and 04) owns the narrow change to the
+  curriculum ledger, Grade 6 unit/concept/template data, concept release
+  identity, and focused generator, equation, allocation, route, storage, and
+  browser tests. `unit-6-2-proportion` covers `[6수02-04]` and `[6수02-05]`
+  through `g6proportion-001` with 30 deterministic templates, A/B/C ten each,
+  K4/A4/R2 per set, disjoint families, cross-product reasoning, real-world
+  scaling, inverse proportion terms, proportional distribution, applications,
+  and error analysis. Every missing term and distributed share must be
+  derived from the exact ratio and total shown in the prompt and solution;
+  shares must be nonnegative integers whose sum equals the displayed total.
+
 - 2026-07-26: Grade 6 decimal-division Study release (primary workstreams
   01, 02, 03, and 04) owns the narrow change to the curriculum ledger,
   Grade 6 unit/concept/template data, concept release identity, and focused
