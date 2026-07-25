@@ -21,6 +21,17 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 6 prism, pyramid, and prism-net Study release (primary
+  workstreams 01, 02, 03, and 04) owns the narrow addition of quantitative
+  `poly-solid` and `prism-net` visual payloads in `src/lib/types.ts`, their
+  shared renderer, Grade 6 unit/concept/template data, concept release
+  identity, generator, curriculum rows, and focused renderer, generation,
+  allocation, route, storage, and browser tests. `g6prismpyramid-001` must
+  derive every face, edge, vertex, lateral-face, missing-piece, and extra-piece
+  count from the same base-side parameter used by its prompt and solution.
+  Visual payloads may contain only the given solid/net structure; they must not
+  add a derived answer value to the unchecked DOM or accessibility name.
+
 - 2026-07-26: Grade 6 proportion and proportional-distribution Study release
   (primary workstreams 01, 02, 03, and 04) owns the narrow change to the
   curriculum ledger, Grade 6 unit/concept/template data, concept release

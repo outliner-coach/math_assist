@@ -128,6 +128,14 @@
     "description": "두 양의 관계를 비로 나타내고 비율을 분수, 소수, 백분율로 표현합니다."
   },
   {
+    "id": "unit-6-1-prisms-pyramids",
+    "grade": 6,
+    "semester": "6-1",
+    "order": 5,
+    "title": "각기둥과 각뿔",
+    "description": "각기둥과 각뿔의 구성 요소를 체계적으로 세고 각기둥의 전개도를 완성합니다."
+  },
+  {
     "id": "unit-6-2-proportion",
     "grade": 6,
     "semester": "6-2",

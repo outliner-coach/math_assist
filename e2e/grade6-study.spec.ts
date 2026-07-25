@@ -73,6 +73,51 @@ test('10문제 세트의 실제 비율 표를 렌더링하고 답 전용 metadat
   await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
 })
 
+test('각기둥 모형과 전개도를 밑면 변 수에서 정량 렌더링한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/practice/g6prismpyramid-001?set=A&count=10`)
+  await expect(page.getByTestId('practice-session')).toBeVisible()
+  const visualIndexes = await page.evaluate((key) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return {
+      prism: session.problems.findIndex((problem: {
+        visual?: { type?: string; kind?: string }
+      }) => problem.visual?.type === 'poly-solid' && problem.visual.kind === 'prism'),
+      net: session.problems.findIndex((problem: {
+        visual?: { type?: string; baseSides?: number; lateralFaces?: number; baseCount?: number }
+      }) => (
+        problem.visual?.type === 'prism-net' &&
+        problem.visual.lateralFaces === problem.visual.baseSides &&
+        problem.visual.baseCount === 2
+      )),
+    }
+  }, GRADE6_KEYS[0])
+  expect(visualIndexes.prism).toBeGreaterThanOrEqual(0)
+  expect(visualIndexes.net).toBeGreaterThanOrEqual(0)
+
+  await page.getByTestId(`progress-step-${visualIndexes.prism + 1}`).click()
+  const prism = page.getByTestId('geometry-visual-poly-solid')
+  await expect(prism).toBeVisible()
+  const prismModel = await page.evaluate(({ key, itemIndex }) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return session.problems[itemIndex].visual
+  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.prism })
+  await expect(prism.locator('[data-solid-base]')).toHaveCount(2)
+  await expect(prism.locator('[data-solid-lateral-edge]')).toHaveCount(prismModel.baseSides)
+  await expect(prism.locator('[data-solid-vertex]')).toHaveCount(prismModel.baseSides * 2)
+
+  await page.getByTestId(`progress-step-${visualIndexes.net + 1}`).click()
+  const net = page.getByTestId('geometry-visual-prism-net')
+  await expect(net).toBeVisible()
+  const netModel = await page.evaluate(({ key, itemIndex }) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return session.problems[itemIndex].visual
+  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.net })
+  await expect(net.locator('[data-net-base]')).toHaveCount(2)
+  await expect(net.locator('[data-net-lateral-face]')).toHaveCount(netModel.baseSides)
+  await expect(page.locator('[data-answer]')).toHaveCount(0)
+  await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
+})
+
 test('손상된 6학년 세션은 원문을 보존하고 명시적 초기화 뒤에만 새로 저장한다', async ({ page }) => {
   await page.evaluate(({ grade5Key, grade6Key }) => {
     localStorage.setItem(grade5Key, '{"keep":"grade5"}')
@@ -139,6 +184,12 @@ for (const releasedConcept of [
     title: '비례식과 비례배분',
     conceptId: 'g6proportion-001',
     releaseId: 'grade6-proportion-v1',
+  },
+  {
+    unitId: 'unit-6-1-prisms-pyramids',
+    title: '각기둥·각뿔과 전개도',
+    conceptId: 'g6prismpyramid-001',
+    releaseId: 'grade6-prism-pyramid-v1',
   },
 ] as const) {
   test(`${releasedConcept.title} 단원을 찾아 5문제를 완주하고 단원별 콘텐츠 버전을 기록한다`, async ({ page }) => {

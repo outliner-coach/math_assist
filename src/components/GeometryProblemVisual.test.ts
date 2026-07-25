@@ -7,6 +7,8 @@ import GeometryProblemVisual, {
   buildCuboidNetOptions,
   buildCongruencePairLayout,
   buildPolygonLayout,
+  buildPolySolidLayout,
+  buildPrismNetLayout,
   isValidCubeNet,
 } from './GeometryProblemVisual'
 
@@ -314,6 +316,103 @@ describe('GeometryProblemVisual', () => {
 
     expect(html).toContain('5cm')
     expect(html).not.toContain('50cm')
+  })
+
+  it('derives prism and pyramid topology from one base polygon', () => {
+    for (let baseSides = 3; baseSides <= 8; baseSides += 1) {
+      const prism = buildPolySolidLayout('prism', baseSides)
+      const pyramid = buildPolySolidLayout('pyramid', baseSides)
+
+      expect(prism.basePolygons).toHaveLength(2)
+      expect(prism.lateralEdges).toHaveLength(baseSides)
+      expect(prism.vertices).toHaveLength(baseSides * 2)
+      expect(pyramid.basePolygons).toHaveLength(1)
+      expect(pyramid.lateralEdges).toHaveLength(baseSides)
+      expect(pyramid.vertices).toHaveLength(baseSides + 1)
+
+      for (const point of [
+        ...prism.basePolygons.flat(),
+        ...pyramid.basePolygons.flat(),
+        ...prism.vertices,
+        ...pyramid.vertices,
+      ]) {
+        expect(point.x).toBeGreaterThanOrEqual(25)
+        expect(point.x).toBeLessThanOrEqual(275)
+        expect(point.y).toBeGreaterThanOrEqual(20)
+        expect(point.y).toBeLessThanOrEqual(170)
+      }
+    }
+  })
+
+  it('renders countable polyhedra without spelling out a derived answer', () => {
+    const prism = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'poly-solid',
+        semantics: 'quantitative',
+        kind: 'prism',
+        baseSides: 5,
+      },
+    }))
+    const pyramid = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'poly-solid',
+        semantics: 'quantitative',
+        kind: 'pyramid',
+        baseSides: 6,
+      },
+    }))
+
+    expect(prism.match(/data-solid-base=/g)).toHaveLength(2)
+    expect(prism.match(/data-solid-lateral-edge=/g)).toHaveLength(5)
+    expect(prism.match(/data-solid-vertex=/g)).toHaveLength(10)
+    expect(prism).toContain('오각기둥 모형')
+    expect(prism).not.toContain('15개')
+    expect(pyramid.match(/data-solid-base=/g)).toHaveLength(1)
+    expect(pyramid.match(/data-solid-lateral-edge=/g)).toHaveLength(6)
+    expect(pyramid.match(/data-solid-vertex=/g)).toHaveLength(7)
+    expect(pyramid).toContain('육각뿔 모형')
+    expect(pyramid).not.toContain('12개')
+  })
+
+  it('derives complete, missing, and extra prism nets from the requested pieces', () => {
+    for (let baseSides = 3; baseSides <= 8; baseSides += 1) {
+      const complete = buildPrismNetLayout(baseSides, baseSides, 2)
+      const missingLateral = buildPrismNetLayout(baseSides, baseSides - 1, 2)
+      const extraLateral = buildPrismNetLayout(baseSides, baseSides + 1, 2)
+      const missingBase = buildPrismNetLayout(baseSides, baseSides, 1)
+
+      expect(complete.lateralFaces).toHaveLength(baseSides)
+      expect(complete.basePolygons).toHaveLength(2)
+      expect(missingLateral.lateralFaces).toHaveLength(baseSides - 1)
+      expect(extraLateral.lateralFaces).toHaveLength(baseSides + 1)
+      expect(missingBase.basePolygons).toHaveLength(1)
+      for (const point of [
+        ...complete.basePolygons.flat(),
+        ...complete.lateralFaces.flatMap((face) => [
+          { x: face.x, y: face.y },
+          { x: face.x + face.width, y: face.y + face.height },
+        ]),
+      ]) {
+        expect(point.x).toBeGreaterThanOrEqual(8)
+        expect(point.x).toBeLessThanOrEqual(312)
+        expect(point.y).toBeGreaterThanOrEqual(8)
+        expect(point.y).toBeLessThanOrEqual(202)
+      }
+    }
+
+    const html = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'prism-net',
+        semantics: 'quantitative',
+        baseSides: 6,
+        lateralFaces: 5,
+        baseCount: 2,
+      },
+    }))
+    expect(html.match(/data-net-lateral-face=/g)).toHaveLength(5)
+    expect(html.match(/data-net-base=/g)).toHaveLength(2)
+    expect(html).toContain('육각기둥 전개도')
+    expect(html).not.toContain('1개 부족')
   })
 
   it('keeps the reflected point hidden until the solution is shown', () => {

@@ -10,6 +10,7 @@ describe('content release IDs', () => {
     expect(resolveContentReleaseId(6, 'g6fractiondecimal-001')).toBe('grade6-fraction-decimal-v1')
     expect(resolveContentReleaseId(6, 'g6decimaldiv-001')).toBe('grade6-decimal-division-v1')
     expect(resolveContentReleaseId(6, 'g6proportion-001')).toBe('grade6-proportion-v1')
+    expect(resolveContentReleaseId(6, 'g6prismpyramid-001')).toBe('grade6-prism-pyramid-v1')
   })
 
   it('fails closed for an unknown Grade 6 concept', () => {

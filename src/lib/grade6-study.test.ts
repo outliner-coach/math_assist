@@ -22,6 +22,10 @@ import {
   serializeTemplates as serializeProportionTemplates,
   templates as generatedProportionTemplates,
 } from '../../scripts/generate-grade6-proportion-templates.js'
+import {
+  serializeTemplates as serializePrismPyramidTemplates,
+  templates as generatedPrismPyramidTemplates,
+} from '../../scripts/generate-grade6-prism-pyramid-templates.js'
 import { evaluateTemplate } from '../../scripts/problem-quality-core.js'
 
 const ratioTemplates = JSON.parse(readFileSync(
@@ -44,12 +48,17 @@ const proportionTemplates = JSON.parse(readFileSync(
   join(process.cwd(), 'public/data/templates/g6proportion.json'),
   'utf8',
 )) as ProblemTemplate[]
+const prismPyramidTemplates = JSON.parse(readFileSync(
+  join(process.cwd(), 'public/data/templates/g6prismpyramid.json'),
+  'utf8',
+)) as ProblemTemplate[]
 const releasedConceptTemplates = [
   ['g6ratio-001', ratioTemplates],
   ['g6fractiondiv-001', fractionDivisionTemplates],
   ['g6fractiondecimal-001', fractionDecimalTemplates],
   ['g6decimaldiv-001', decimalDivisionTemplates],
   ['g6proportion-001', proportionTemplates],
+  ['g6prismpyramid-001', prismPyramidTemplates],
 ] as const
 
 describe('Grade 6 Study release slice', () => {
@@ -229,6 +238,57 @@ describe('Grade 6 Study release slice', () => {
     }
   })
 
+  it('maps prisms, pyramids, and prism nets to both released standards', () => {
+    const primaryStandards = new Set(prismPyramidTemplates.map(
+      (template) => template.blueprint?.primaryStandard,
+    ))
+    const familySets = (['A', 'B', 'C'] as const).map((setId) => new Set(
+      prismPyramidTemplates
+        .filter((template) => template.set_id === setId)
+        .map((template) => template.problem_family),
+    ))
+
+    expect(primaryStandards).toEqual(new Set(['[6수03-05]', '[6수03-06]']))
+    expect(new Set(prismPyramidTemplates.map((template) => template.problem_family))).toHaveLength(30)
+    expect([...familySets[0]].filter((family) => familySets[1].has(family))).toEqual([])
+    expect([...familySets[0]].filter((family) => familySets[2].has(family))).toEqual([])
+    expect([...familySets[1]].filter((family) => familySets[2].has(family))).toEqual([])
+  })
+
+  it('reproduces the prism-pyramid bank and keeps every visual tied to base sides', () => {
+    expect(serializePrismPyramidTemplates()).toBe(readFileSync(
+      join(process.cwd(), 'public/data/templates/g6prismpyramid.json'),
+      'utf8',
+    ))
+    expect(generatedPrismPyramidTemplates).toEqual(prismPyramidTemplates)
+
+    for (const template of prismPyramidTemplates) {
+      const { min, max } = template.param_schema.p
+      for (let p = min; p <= max; p += 1) {
+        const params = { p }
+        const rendered = [
+          evaluateTemplate(template.prompt_template, params),
+          ...template.solution_steps_template.map((step) => evaluateTemplate(step, params)),
+          ...(template.hint_steps_template ?? []).map((step) => evaluateTemplate(step, params)),
+        ]
+        const answer = evaluateTemplate(`{{${template.solver_rule}}}`, params)
+
+        expect(answer, `${template.id} p=${p}`).toMatch(/^\d+$/)
+        expect(rendered.some((text) => text.includes('?]')), `${template.id} p=${p}`).toBe(false)
+      }
+
+      if (template.visual_template) {
+        expect(template.visual_template.semantics).toBe('quantitative')
+        expect(template.visual_template.baseSides).toBe('{{p}}')
+        expect(['poly-solid', 'prism-net']).toContain(template.visual_template.type)
+        expect(template.blueprint).toMatchObject({
+          visualSemantics: 'quantitative',
+        })
+        expect(template.blueprint?.representations).toContain('diagram')
+      }
+    }
+  })
+
   it.each([
     ['A', 5, { 1: 2, 2: 2, 3: 1 }],
     ['A', 10, { 1: 4, 2: 4, 3: 2 }],
@@ -314,6 +374,39 @@ describe('Grade 6 Study release slice', () => {
       expect(new Set(problems.map((problem) => problem.prompt))).toHaveLength(10)
       expect(problems.every((problem) => /^\d+$/.test(problem.correctAnswer))).toBe(true)
       expect(results.every((result) => result.correct)).toBe(true)
+    },
+  )
+
+  it.each(['A', 'B', 'C'] as const)(
+    'generates, renders, and grades every prism-pyramid problem in set %s',
+    (setId) => {
+      vi.stubGlobal('React', React)
+      const problems = generateProblems(prismPyramidTemplates, {
+        count: 10,
+        setId,
+        difficultyMix: { 1: 4, 2: 4, 3: 2 },
+        seed: 7010 + setId.charCodeAt(0),
+      })
+      const results = gradeSession(problems, problems.map((problem) => problem.correctAnswer))
+
+      expect(problems).toHaveLength(10)
+      expect(new Set(problems.map((problem) => problem.prompt))).toHaveLength(10)
+      expect(problems.every((problem) => /^\d+$/.test(problem.correctAnswer))).toBe(true)
+      expect(results.every((result) => result.correct)).toBe(true)
+      for (const problem of problems) {
+        if (problem.visual?.type === 'poly-solid' || problem.visual?.type === 'prism-net') {
+          expect(problem.visual.baseSides).toBe(problem.params.p)
+        }
+        const html = renderToStaticMarkup(createElement(ProblemCard, {
+          problem,
+          answer: null,
+          checked: false,
+          onAnswer: () => undefined,
+        }))
+        expect(html).not.toContain('data-answer')
+        expect(html).not.toContain('correctAnswer')
+        expect(html).not.toContain('정답:')
+      }
     },
   )
 

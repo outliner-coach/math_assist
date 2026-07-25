@@ -1,6 +1,8 @@
 'use client'
 
+import React from 'react'
 import type { VisualAid as VisualAidType } from '@/lib/types'
+import GeometryProblemVisual from './GeometryProblemVisual'
 
 interface VisualAidProps {
   aid: VisualAidType
@@ -121,6 +123,9 @@ export default function VisualAid({ aid }: VisualAidProps) {
         </div>
       )
     }
+    case 'poly-solid':
+    case 'prism-net':
+      return <GeometryProblemVisual visual={aid} />
     default:
       return null
   }

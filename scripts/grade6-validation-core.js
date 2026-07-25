@@ -3,6 +3,15 @@ const {
   loadProblemGenerator,
 } = require('./problem-quality-core')
 
+function visualContainsAnswerOnlyKey(value) {
+  if (!value || typeof value !== 'object') return false
+  if (Array.isArray(value)) return value.some(visualContainsAnswerOnlyKey)
+  return Object.entries(value).some(([key, item]) => (
+    /^(answer|correct|result|target|product)$/i.test(key) ||
+    visualContainsAnswerOnlyKey(item)
+  ))
+}
+
 function validateGrade6Release({ units, concepts, ledger, templatesByConcept }) {
   const errors = []
   const fail = (message) => errors.push(message)
@@ -58,6 +67,43 @@ function validateGrade6Release({ units, concepts, ledger, templatesByConcept }) 
         /equivalent-ratio|missing-ratio-term/.test(template.problem_family ?? '')
       ) {
         fail(`${template.id}: proportion problem family belongs to a later release`)
+      }
+      if (concept.id === 'g6prismpyramid-001') {
+        const visual = template.visual_template
+        if (visualContainsAnswerOnlyKey(visual)) {
+          fail(`${template.id}: prism visual contains an answer-only key`)
+        }
+        if (visual) {
+          if (visual.baseSides !== '{{p}}') {
+            fail(`${template.id}: prism visual baseSides must be {{p}}`)
+          }
+          if (
+            visual.semantics !== 'quantitative' ||
+            !['poly-solid', 'prism-net'].includes(visual.type)
+          ) {
+            fail(`${template.id}: prism visual must be quantitative poly-solid or prism-net`)
+          }
+          if (
+            visual.type === 'poly-solid' &&
+            !['prism', 'pyramid'].includes(visual.kind)
+          ) {
+            fail(`${template.id}: poly-solid visual requires prism or pyramid kind`)
+          }
+          if (visual.type === 'prism-net') {
+            if (!['{{p}}', '{{p - 1}}', '{{p + 1}}'].includes(visual.lateralFaces)) {
+              fail(`${template.id}: prism-net lateralFaces must derive from p`)
+            }
+            if (![1, 2].includes(visual.baseCount)) {
+              fail(`${template.id}: prism-net baseCount must be 1 or 2`)
+            }
+          }
+        }
+        if (
+          template.blueprint?.primaryStandard === '[6수03-06]' &&
+          visual?.type !== 'prism-net'
+        ) {
+          fail(`${template.id}: prism-net standard requires a prism-net visual`)
+        }
       }
 
       const primaryStandard = template.blueprint?.primaryStandard

@@ -207,6 +207,20 @@ export type GeometryVisual =
       focusFace?: number
       side?: number
     }
+  | {
+      type: 'poly-solid'
+      semantics: 'quantitative'
+      kind: 'prism' | 'pyramid'
+      baseSides: number
+      focus?: 'structure' | 'faces' | 'edges' | 'vertices'
+    }
+  | {
+      type: 'prism-net'
+      semantics: 'quantitative'
+      baseSides: number
+      lateralFaces?: number
+      baseCount?: number
+    }
 
 export type VisualTemplateValue =
   | string
@@ -338,3 +352,4 @@ export type VisualAid =
       type: 'factor_tree'
       props: { value: number; factors: number[] }
     }
+  | Extract<GeometryVisual, { type: 'poly-solid' | 'prism-net' }>

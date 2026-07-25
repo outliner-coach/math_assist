@@ -1403,11 +1403,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 28,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "직육면체 뒤 각기둥과 각뿔로 확장",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6prismpyramid-001"
+      ],
+      "allocationRationale": "6학년 각기둥·각뿔 문제은행에서 밑면 변 수로 면·모서리·꼭짓점을 직접 계수하고 역산·복합 적용·오류 분석을 제공",
+      "reviewedBy": "grade6-prism-pyramid-release-2026-07-26"
     },
     {
       "standardCode": "[6수03-06]",
@@ -1421,11 +1423,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 28,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "각기둥 성질 뒤 전개도",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6prismpyramid-001"
+      ],
+      "allocationRationale": "6학년 각기둥 전개도 문제은행에서 밑면 변과 직사각형 옆면의 일대일 대응, 완전한 전개도, 빠진·남는 조각 분석을 제공",
+      "reviewedBy": "grade6-prism-pyramid-release-2026-07-26"
     },
     {
       "standardCode": "[6수03-07]",

@@ -648,6 +648,219 @@ function CuboidNetVisual({ visual, showAnswer }: { visual: Extract<GeometryVisua
   )
 }
 
+type PolySolidKind = Extract<GeometryVisual, { type: 'poly-solid' }>['kind']
+
+export interface PolySolidLayout {
+  basePolygons: Point[][]
+  lateralEdges: Array<[Point, Point]>
+  vertices: Point[]
+}
+
+function boundedSideCount(value: number): number {
+  if (!Number.isFinite(value)) return 3
+  return Math.max(3, Math.min(8, Math.round(value)))
+}
+
+function regularPolygonPoints(
+  sides: number,
+  centerX: number,
+  centerY: number,
+  radiusX: number,
+  radiusY: number,
+  rotation = -Math.PI / 2
+): Point[] {
+  return Array.from({ length: sides }, (_, index) => {
+    const angle = rotation + (index * Math.PI * 2) / sides
+    return {
+      x: centerX + Math.cos(angle) * radiusX,
+      y: centerY + Math.sin(angle) * radiusY,
+    }
+  })
+}
+
+export function buildPolySolidLayout(
+  kind: PolySolidKind,
+  sourceBaseSides: number
+): PolySolidLayout {
+  const baseSides = boundedSideCount(sourceBaseSides)
+  if (kind === 'prism') {
+    const front = regularPolygonPoints(baseSides, 126, 112, 68, 42)
+    const back = regularPolygonPoints(baseSides, 174, 70, 68, 42)
+    return {
+      basePolygons: [back, front],
+      lateralEdges: front.map((point, index) => [point, back[index]]),
+      vertices: [...back, ...front],
+    }
+  }
+
+  const base = regularPolygonPoints(baseSides, 150, 122, 78, 43)
+  const apex = { x: 150, y: 24 }
+  return {
+    basePolygons: [base],
+    lateralEdges: base.map((point) => [point, apex]),
+    vertices: [...base, apex],
+  }
+}
+
+const polygonPrefixes: Record<number, string> = {
+  3: '삼',
+  4: '사',
+  5: '오',
+  6: '육',
+  7: '칠',
+  8: '팔',
+}
+
+function PolySolidVisual({ visual }: {
+  visual: Extract<GeometryVisual, { type: 'poly-solid' }>
+}) {
+  const baseSides = boundedSideCount(visual.baseSides)
+  const layout = buildPolySolidLayout(visual.kind, baseSides)
+  const solidName = `${polygonPrefixes[baseSides]}각${visual.kind === 'prism' ? '기둥' : '뿔'}`
+
+  return (
+    <svg
+      viewBox="0 0 300 190"
+      className="mx-auto w-full max-w-sm"
+      role="img"
+      aria-label={`${solidName} 모형`}
+    >
+      {layout.basePolygons.map((polygon, index) => (
+        <polygon
+          key={`base-${index}`}
+          data-solid-base={index}
+          points={pointString(polygon)}
+          fill={index === 0 ? '#dbeafe' : '#bfdbfe'}
+          fillOpacity={index === 0 ? 0.58 : 0.78}
+          stroke="#2563eb"
+          strokeWidth="3"
+          strokeLinejoin="round"
+        />
+      ))}
+      {layout.lateralEdges.map(([start, end], index) => (
+        <line
+          key={`lateral-${index}`}
+          data-solid-lateral-edge={index}
+          x1={start.x}
+          y1={start.y}
+          x2={end.x}
+          y2={end.y}
+          stroke="#1d4ed8"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+      ))}
+      {layout.vertices.map((point, index) => (
+        <circle
+          key={`vertex-${index}`}
+          data-solid-vertex={index}
+          cx={point.x}
+          cy={point.y}
+          r="3.5"
+          fill="#1e3a8a"
+        />
+      ))}
+    </svg>
+  )
+}
+
+export interface PrismNetFace {
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
+export interface PrismNetLayout {
+  lateralFaces: PrismNetFace[]
+  basePolygons: Point[][]
+}
+
+export function buildPrismNetLayout(
+  sourceBaseSides: number,
+  sourceLateralFaces = sourceBaseSides,
+  sourceBaseCount = 2
+): PrismNetLayout {
+  const baseSides = boundedSideCount(sourceBaseSides)
+  const lateralFaceCount = Math.max(1, Math.min(9, Math.round(sourceLateralFaces)))
+  const baseCount = Math.max(0, Math.min(2, Math.round(sourceBaseCount)))
+  const faceWidth = Math.min(38, 288 / lateralFaceCount)
+  const faceHeight = 60
+  const stripWidth = faceWidth * lateralFaceCount
+  const stripX = (320 - stripWidth) / 2
+  const stripY = 75
+  const lateralFaces = Array.from({ length: lateralFaceCount }, (_, index) => ({
+    x: stripX + index * faceWidth,
+    y: stripY,
+    width: faceWidth,
+    height: faceHeight,
+  }))
+  const radiusX = Math.min(30, Math.max(18, faceWidth * 0.78))
+  const radiusY = Math.min(26, Math.max(16, faceWidth * 0.62))
+  const attachmentIndexes = [
+    Math.min(1, lateralFaceCount - 1),
+    Math.max(0, lateralFaceCount - 2),
+  ]
+  const basePolygons = Array.from({ length: baseCount }, (_, index) => {
+    const face = lateralFaces[attachmentIndexes[index]]
+    return regularPolygonPoints(
+      baseSides,
+      face.x + face.width / 2,
+      index === 0 ? 47 : 163,
+      radiusX,
+      radiusY
+    )
+  })
+
+  return { lateralFaces, basePolygons }
+}
+
+function PrismNetVisual({ visual }: {
+  visual: Extract<GeometryVisual, { type: 'prism-net' }>
+}) {
+  const baseSides = boundedSideCount(visual.baseSides)
+  const layout = buildPrismNetLayout(
+    baseSides,
+    visual.lateralFaces ?? baseSides,
+    visual.baseCount ?? 2
+  )
+  const solidName = `${polygonPrefixes[baseSides]}각기둥`
+
+  return (
+    <svg
+      viewBox="0 0 320 210"
+      className="mx-auto w-full max-w-md"
+      role="img"
+      aria-label={`${solidName} 전개도`}
+    >
+      {layout.lateralFaces.map((face, index) => (
+        <rect
+          key={`face-${index}`}
+          data-net-lateral-face={index}
+          x={face.x}
+          y={face.y}
+          width={face.width}
+          height={face.height}
+          fill="#e0f2fe"
+          stroke="#0284c7"
+          strokeWidth="2.5"
+        />
+      ))}
+      {layout.basePolygons.map((polygon, index) => (
+        <polygon
+          key={`base-${index}`}
+          data-net-base={index}
+          points={pointString(polygon)}
+          fill="#dcfce7"
+          stroke="#16a34a"
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+        />
+      ))}
+    </svg>
+  )
+}
+
 export default function GeometryProblemVisual({ visual, showAnswer = false }: GeometryProblemVisualProps) {
   return (
     <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-3" data-testid={`geometry-visual-${visual.type}`}>
@@ -656,6 +869,8 @@ export default function GeometryProblemVisual({ visual, showAnswer = false }: Ge
       {visual.type === 'symmetry' && <SymmetryVisual visual={visual} showAnswer={showAnswer} />}
       {visual.type === 'cuboid' && <CuboidVisual visual={visual} showAnswer={showAnswer} />}
       {visual.type === 'cuboid-net' && <CuboidNetVisual visual={visual} showAnswer={showAnswer} />}
+      {visual.type === 'poly-solid' && <PolySolidVisual visual={visual} />}
+      {visual.type === 'prism-net' && <PrismNetVisual visual={visual} />}
     </div>
   )
 }

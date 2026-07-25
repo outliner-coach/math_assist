@@ -15,6 +15,7 @@ const templatesByConcept = {
   'g6fractiondecimal-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6fractiondecimal.json'), 'utf8')),
   'g6decimaldiv-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6decimaldiv.json'), 'utf8')),
   'g6proportion-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6proportion.json'), 'utf8')),
+  'g6prismpyramid-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6prismpyramid.json'), 'utf8')),
 }
 
 describe('Grade 6 release validation', () => {
@@ -23,9 +24,9 @@ describe('Grade 6 release validation', () => {
 
     expect(result.errors).toEqual([])
     expect(result.summary).toMatchObject({
-      unitCount: 5,
-      conceptCount: 5,
-      templateCount: 150,
+      unitCount: 6,
+      conceptCount: 6,
+      templateCount: 180,
     })
   })
 
@@ -38,5 +39,25 @@ describe('Grade 6 release validation', () => {
     })
 
     expect(result.errors).toContain('g6fractiondiv-001: missing template bank')
+  })
+
+  it('rejects prism visuals that decouple the drawing or include an answer field', () => {
+    const invalidTemplates = structuredClone(templatesByConcept)
+    invalidTemplates['g6prismpyramid-001'][0].visual_template.baseSides = 5
+    invalidTemplates['g6prismpyramid-001'][1].visual_template.result = '{{3 * p}}'
+
+    const result = validateGrade6Release({
+      units,
+      concepts,
+      ledger,
+      templatesByConcept: invalidTemplates,
+    })
+
+    expect(result.errors).toContain(
+      'tmpl-g6prismpyramid-A-01: prism visual baseSides must be {{p}}',
+    )
+    expect(result.errors).toContain(
+      'tmpl-g6prismpyramid-A-02: prism visual contains an answer-only key',
+    )
   })
 })
