@@ -21,6 +21,21 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 4 shape-transformation release (primary workstreams 01,
+  03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the shape-transformation SVG, and focused bank, curriculum, receipt,
+  component, and browser tests. The new
+  `unit-4-1-shape-transformations` bank covers `[4수03-04]` and
+  `[4수03-05]` with exactly ten deterministic templates, K4/A4/R2, ten
+  distinct families, two genuine reasoning families, and at least two
+  representations. Slides, flips, rotations, point coordinates, movement
+  arrows, and revealed target shapes must come from one transformation model.
+  Answer-only target coordinates stay out of visual configuration and the DOM
+  before solve. Both standards move from planned to released only together
+  with passing Grade 4, curriculum, mission-audit, mobile, storage, and
+  deployment gates.
+
 - 2026-07-26: Grade 4 perpendicular and parallel lines release (primary
   workstreams 01, 03, and 04) owns the narrow change to
   `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,

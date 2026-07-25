@@ -12,6 +12,7 @@ import {
   GRADE4_FRACTION_ADD_SUB_UNIT_ID,
   GRADE4_PATTERNS_UNIT_ID,
   GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID,
+  GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID,
   getGrade4Activity,
   getGrade4MissionBank,
   grade4MissionTemplates,
@@ -26,7 +27,7 @@ describe('Grade 4 Bridge release bank', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(9)
+    expect(grade4Units).toHaveLength(10)
     expect(grade4Units.map((unit) => unit.id)).toEqual([
       'unit-4-1-large-numbers',
       'unit-4-1-multiplication-division',
@@ -37,16 +38,17 @@ describe('Grade 4 Bridge release bank', () => {
       'unit-4-2-patterns',
       'unit-4-2-equality',
       'unit-4-1-perpendicular-parallel',
+      'unit-4-1-shape-transformations',
     ])
-    expect(grade4MissionTemplates).toHaveLength(90)
+    expect(grade4MissionTemplates).toHaveLength(100)
     expect(result.summary).toMatchObject({
-      unitCount: 9,
-      templateCount: 90,
-      knowingCount: 36,
-      applyingCount: 36,
-      reasoningCount: 18,
-      reasoningFamilyCount: 18,
-      representationCount: 10,
+      unitCount: 10,
+      templateCount: 100,
+      knowingCount: 40,
+      applyingCount: 40,
+      reasoningCount: 20,
+      reasoningFamilyCount: 20,
+      representationCount: 11,
     })
 
     for (const unit of grade4Units) {
@@ -535,6 +537,49 @@ describe('Grade 4 Bridge release bank', () => {
         const difference = Math.abs(Number(mission.visualConfig.angleA) - Number(mission.visualConfig.angleB)) % 180
         expect(difference).toBe(0)
       }
+    }
+  })
+
+  it('derives every moved point and shape from one transformation model', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID)
+        .map((item) => [item.id, item]),
+    )
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-move-01', 'g4-move-02', 'g4-move-03', 'g4-move-04', 'g4-move-05',
+      'g4-move-06', 'g4-move-07', 'g4-move-08', 'g4-move-09', 'g4-move-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        }
+        expect(mission.visualConfig).not.toHaveProperty('answer')
+        expect(mission.visualConfig).not.toHaveProperty('endX')
+        expect(mission.visualConfig).not.toHaveProperty('endY')
+      }
+
+      const slide = templates.get('g4-move-05')!.build(variant, variant)
+      expect(slide.correctAnswer).toBe(
+        `(${Number(slide.visualConfig.startX) + Number(slide.visualConfig.deltaX)}, ${Number(slide.visualConfig.startY) + Number(slide.visualConfig.deltaY)})`,
+      )
+
+      const flip = templates.get('g4-move-06')!.build(variant, variant)
+      expect(flip.correctAnswer).toBe(
+        `(${2 * Number(flip.visualConfig.axisX) - Number(flip.visualConfig.startX)}, ${Number(flip.visualConfig.startY)})`,
+      )
+
+      const rotation = templates.get('g4-move-07')!.build(variant, variant)
+      const dx = Number(rotation.visualConfig.startX) - Number(rotation.visualConfig.centerX)
+      const dy = Number(rotation.visualConfig.startY) - Number(rotation.visualConfig.centerY)
+      expect(rotation.correctAnswer).toBe(
+        `(${Number(rotation.visualConfig.centerX) + dy}, ${Number(rotation.visualConfig.centerY) - dx})`,
+      )
     }
   })
 

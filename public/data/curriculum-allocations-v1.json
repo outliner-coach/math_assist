@@ -452,11 +452,13 @@
       "prerequisiteCodes": [],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 20,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "구체 조작으로 평면도형 이동 도입",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade4:unit-4-1-shape-transformations:grade4-bridge-shape-transformations-v1"
+      ],
+      "allocationRationale": "밀기·뒤집기·돌리기를 같은 변환 모델에서 파생하는 10문제 K4/A4/R2 공개 단원",
+      "reviewedBy": "curriculum-ledger-release-2026-07-26"
     },
     {
       "standardCode": "[4수03-05]",
@@ -470,11 +472,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 20,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "도형 이동 뒤 격자 점 이동 설명",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade4:unit-4-1-shape-transformations:grade4-bridge-shape-transformations-v1"
+      ],
+      "allocationRationale": "점의 좌표·방향·이동량을 같은 변환 모델에서 파생하는 공개 단원",
+      "reviewedBy": "curriculum-ledger-release-2026-07-26"
     },
     {
       "standardCode": "[4수03-06]",

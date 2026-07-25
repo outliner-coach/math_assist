@@ -136,6 +136,17 @@ describe('Grade4MissionVisual', () => {
     expect(html).toContain('data-angle-b=')
     expect(html).toContain('grade4-right-angle-mark')
   })
+
+  it('reveals a transformed point only after solving from the movement model', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-move-05')!
+    const hidden = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+    const shown = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission, showAnswer: true }))
+
+    expect(hidden).toContain('grade4-visual-shape-transformation')
+    expect(hidden).toContain('grade4-movement-arrow')
+    expect(hidden).not.toContain('grade4-transformation-result')
+    expect(shown).toContain('grade4-transformation-result')
+  })
 })
 
 describe('Grade4MissionCard', () => {

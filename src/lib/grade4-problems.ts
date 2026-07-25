@@ -2,7 +2,7 @@ import type { Grade4AnswerType } from './grade4-answer-normalizers'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
-export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship'
+export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship' | 'shape-transformation'
 export type Grade4VisualModel = Grade4Representation
 export type Grade4SupportTool = 'none' | 'grid' | 'ruler' | 'protractor'
 
@@ -91,6 +91,7 @@ export const GRADE4_DECIMAL_ADD_SUB_UNIT_ID = 'unit-4-2-decimal-add-sub'
 export const GRADE4_PATTERNS_UNIT_ID = 'unit-4-2-patterns'
 export const GRADE4_EQUALITY_UNIT_ID = 'unit-4-2-equality'
 export const GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID = 'unit-4-1-perpendicular-parallel'
+export const GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID = 'unit-4-1-shape-transformations'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -201,6 +202,18 @@ export const grade4Units: Grade4Unit[] = [
     contentReleaseId: 'grade4-bridge-perpendicular-parallel-v1',
     releaseStatus: 'released',
   },
+  {
+    id: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID,
+    semester: '4-1',
+    order: 10,
+    title: '도형의 이동',
+    subtitle: '도형을 밀고 뒤집고 돌리며 점의 위치와 방향 변화를 설명해요.',
+    learnerGoal: '평면도형과 점의 이동을 위치·방향·이동량으로 나타내고 여러 이동을 추론해요.',
+    curriculumCodes: ['[4수03-04]', '[4수03-05]'],
+    prerequisiteCodes: [],
+    contentReleaseId: 'grade4-bridge-shape-transformations-v1',
+    releaseStatus: 'released',
+  },
 ]
 
 export function grade4ContentReleaseIdForUnit(unitId: string): string {
@@ -233,6 +246,10 @@ function fractionText(numerator: number, denominator: number): string {
   const remainder = numerator % denominator
   if (whole > 0 && remainder > 0) return `${whole} ${remainder}/${denominator}`
   return `${numerator}/${denominator}`
+}
+
+function coordinateText(x: number, y: number): string {
+  return `(${x}, ${y})`
 }
 
 function template(value: Grade4MissionTemplate): Grade4MissionTemplate {
@@ -2000,6 +2017,223 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
         solutionSteps: [`두 직선의 방향에 똑같이 ${rotation}°를 더해도 두 방향의 차는 변하지 않습니다.`, '방향 차가 90°로 유지되므로 두 직선은 여전히 수직입니다.'],
         visualModel: 'line-relationship',
         visualConfig: { mode: 'intersecting', angleA, angleB, rotation, labelA: '돌린 직선 가', labelB: '돌린 직선 나', showRightAngle: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-01', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-04]', cognitiveDomain: 'knowing',
+    problemFamily: 'identify-slide-from-position-change', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '밀기',
+    learnerGoal: '모양과 방향은 그대로이고 위치만 바뀐 이동을 알아봐요.',
+    promptTemplate: '두 도형의 모양과 방향을 비교해 밀기를 찾으세요.', hintSteps: ['두 도형의 뾰족한 부분이 같은 방향인지 봐요.', '방향이 그대로이고 위치만 바뀌면 밀기예요.'],
+    build: (v, seed) => {
+      const startX = 2 + (v % 2)
+      const startY = 2 + (v % 3)
+      const deltaX = 3
+      const deltaY = 1 + (v % 2)
+      const correctAnswer = '밀기'
+      return {
+        prompt: `격자의 ${coordinateText(startX, startY)}에 있던 도형이 오른쪽으로 ${deltaX}칸, 위로 ${deltaY}칸 옮겨졌고 향한 방향은 그대로입니다. 어떤 이동인가요?`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '뒤집기', '시계 방향으로 90° 돌리기', '반 바퀴 돌리기'], seed),
+        solutionSteps: ['처음 도형과 옮긴 도형의 모양과 방향이 같습니다.', `오른쪽 ${deltaX}칸, 위 ${deltaY}칸으로 위치만 바뀌었으므로 밀기입니다.`],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'slide', startX, startY, deltaX, deltaY, showTargetBeforeAnswer: true, startLabel: '처음', targetLabel: '옮긴 뒤' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-02', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-04]', cognitiveDomain: 'knowing',
+    problemFamily: 'identify-vertical-flip', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '뒤집기',
+    learnerGoal: '기준선을 사이에 둔 거울 모양을 보고 뒤집기를 알아봐요.',
+    promptTemplate: '기준선 양쪽의 거울 모양을 보고 이동을 고르세요.', hintSteps: ['기준선에서 두 도형까지의 거리를 비교해요.', '왼쪽과 오른쪽 방향이 서로 바뀌었는지 봐요.'],
+    build: (v, seed) => {
+      const axisX = 5
+      const startX = 2 + (v % 2)
+      const startY = 1 + v
+      const correctAnswer = '세로 기준선을 따라 뒤집기'
+      return {
+        prompt: `${coordinateText(startX, startY)}에 있던 도형을 x=${axisX}인 세로 기준선을 따라 거울처럼 옮겼습니다. 어떤 이동인가요?`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '오른쪽으로 밀기', '시계 방향으로 90° 돌리기', '위쪽으로 밀기'], seed),
+        solutionSteps: ['두 도형은 기준선에서 같은 거리에 있습니다.', '뾰족한 방향이 좌우로 바뀌었으므로 세로 기준선을 따른 뒤집기입니다.'],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'flip-vertical', startX, startY, axisX, showTargetBeforeAnswer: true, startLabel: '처음', targetLabel: '뒤집은 뒤' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-03', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-04]', cognitiveDomain: 'knowing',
+    problemFamily: 'identify-quarter-turn', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '돌리기',
+    learnerGoal: '중심을 기준으로 방향이 90° 바뀐 이동을 알아봐요.',
+    promptTemplate: '회전 중심과 도형 방향의 변화를 보고 돌리기를 고르세요.', hintSteps: ['처음 점과 옮긴 점이 중심에서 같은 거리인지 봐요.', '오른쪽을 향하던 도형이 아래쪽을 향하면 시계 방향으로 90° 돌린 거예요.'],
+    build: (v, seed) => {
+      const centerX = 5
+      const centerY = 5
+      const startX = 2 + (v % 3)
+      const startY = 7
+      const correctAnswer = '중심을 기준으로 시계 방향으로 90° 돌리기'
+      return {
+        prompt: `${coordinateText(startX, startY)}에 있던 도형을 점 O(${centerX}, ${centerY})를 중심으로 돌렸더니 오른쪽을 향하던 모양이 아래쪽을 향했습니다. 어떤 이동인가요?`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '오른쪽으로 밀기', '세로선에 따라 뒤집기', '중심을 기준으로 반 바퀴 돌리기'], seed),
+        solutionSteps: ['도형의 각 점은 중심에서 같은 거리를 유지합니다.', '오른쪽 방향이 아래쪽 방향으로 바뀌었으므로 시계 방향 90° 돌리기입니다.'],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'rotate-clockwise', startX, startY, centerX, centerY, quarterTurns: 1, showTargetBeforeAnswer: true, startLabel: '처음', targetLabel: '돌린 뒤' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-04', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-04]', cognitiveDomain: 'knowing',
+    problemFamily: 'compare-orientation-change-by-transformation', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '이동 성질',
+    learnerGoal: '밀기·뒤집기·돌리기에서 위치와 방향이 어떻게 달라지는지 구별해요.',
+    promptTemplate: '도형의 방향을 좌우로 바꾸는 이동을 고르세요.', hintSteps: ['밀기는 방향을 그대로 유지해요.', '거울에 비춘 것처럼 좌우가 바뀌는 이동을 찾아요.'],
+    build: (v, seed) => {
+      const axisX = 5
+      const startX = 1 + (v % 4)
+      const startY = 1 + v
+      const correctAnswer = '세로 기준선을 따라 뒤집으면 도형의 좌우 방향이 바뀝니다.'
+      return {
+        prompt: `${coordinateText(startX, startY)}에서 오른쪽을 향하는 화살표 모양의 방향을 왼쪽으로 바꾸는 이동에 대한 바른 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '어느 쪽으로 밀어도 도형의 방향이 반대로 바뀝니다.', '한 바퀴 돌리면 도형의 방향이 반대로 바뀝니다.', '위로 밀면 도형의 좌우가 서로 바뀝니다.'], seed),
+        solutionSteps: ['밀기는 모양과 방향을 바꾸지 않습니다.', '세로 기준선에 따라 뒤집으면 오른쪽과 왼쪽이 서로 바뀝니다.'],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'flip-vertical', startX, startY, axisX, showTargetBeforeAnswer: true, startLabel: '오른쪽 방향', targetLabel: '왼쪽 방향' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-05', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'applying',
+    problemFamily: 'translate-point-by-vector', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '점 밀기',
+    learnerGoal: '점의 좌표에 가로·세로 이동량을 더해 옮긴 위치를 구해요.',
+    promptTemplate: '점을 오른쪽과 위쪽으로 민 뒤 좌표를 구하세요.', hintSteps: ['오른쪽으로 간 칸 수를 x좌표에 더해요.', '위로 간 칸 수를 y좌표에 더해요.'],
+    build: (v, seed) => {
+      const startX = 1 + (v % 3)
+      const startY = 2 + (v % 3)
+      const deltaX = 2 + (v % 2)
+      const deltaY = 1 + (v % 2)
+      const targetX = startX + deltaX
+      const targetY = startY + deltaY
+      const correctAnswer = coordinateText(targetX, targetY)
+      return {
+        prompt: `점 P${coordinateText(startX, startY)}를 오른쪽으로 ${deltaX}칸, 위로 ${deltaY}칸 밀었습니다. 옮긴 점의 좌표를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, coordinateText(targetX - 1, targetY), coordinateText(targetX, targetY - 1), coordinateText(startX + deltaY, startY + deltaX)], seed),
+        solutionSteps: [`x좌표는 ${startX}+${deltaX}=${targetX}입니다.`, `y좌표는 ${startY}+${deltaY}=${targetY}이므로 옮긴 점은 ${correctAnswer}입니다.`],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'slide', startX, startY, deltaX, deltaY, showTargetBeforeAnswer: false, startLabel: 'P', targetLabel: "P'" },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-06', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'applying',
+    problemFamily: 'reflect-point-across-vertical-line', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '점 뒤집기',
+    learnerGoal: '세로 기준선에서 같은 거리에 있는 뒤집힌 점의 좌표를 구해요.',
+    promptTemplate: '점을 세로 기준선에 따라 뒤집은 좌표를 구하세요.', hintSteps: ['점에서 기준선까지 가로 거리를 구해요.', '기준선 반대쪽의 같은 거리에 점을 찍고 y좌표는 그대로 둬요.'],
+    build: (v, seed) => {
+      const axisX = 5
+      const startX = 1 + (v % 3)
+      const startY = 2 + (v % 5)
+      const targetX = 2 * axisX - startX
+      const correctAnswer = coordinateText(targetX, startY)
+      return {
+        prompt: `점 P${coordinateText(startX, startY)}를 x=${axisX}인 세로선에 따라 뒤집었습니다. 옮긴 점의 좌표를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, coordinateText(axisX - startX, startY), coordinateText(targetX, startY + 1), coordinateText(startX, 2 * axisX - startY)], seed),
+        solutionSteps: [`점 P는 기준선에서 ${axisX - startX}칸 왼쪽에 있습니다.`, `같은 높이에서 기준선 오른쪽 ${axisX - startX}칸인 ${correctAnswer}로 옮겨집니다.`],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'flip-vertical', startX, startY, axisX, showTargetBeforeAnswer: false, startLabel: 'P', targetLabel: "P'" },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-07', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'applying',
+    problemFamily: 'rotate-point-clockwise-quarter-turn', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '점 돌리기',
+    learnerGoal: '중심에서의 가로·세로 위치를 바꾸어 90° 돌린 점을 구해요.',
+    promptTemplate: '점을 중심 둘레로 시계 방향 90° 돌린 좌표를 구하세요.', hintSteps: ['중심에서 점까지 가로와 세로로 몇 칸인지 봐요.', '시계 방향 90° 돌리면 위쪽 거리는 오른쪽 거리로, 왼쪽 거리는 위쪽 거리로 바뀌어요.'],
+    build: (v, seed) => {
+      const centerX = 5
+      const centerY = 5
+      const startX = 3 + (v % 2)
+      const startY = 2 + (v % 2)
+      const dx = startX - centerX
+      const dy = startY - centerY
+      const targetX = centerX + dy
+      const targetY = centerY - dx
+      const correctAnswer = coordinateText(targetX, targetY)
+      return {
+        prompt: `점 P${coordinateText(startX, startY)}를 점 O${coordinateText(centerX, centerY)}를 중심으로 시계 방향 90° 돌렸습니다. 옮긴 점의 좌표를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, coordinateText(centerX - dy, centerY + dx), coordinateText(targetX + 1, targetY), coordinateText(targetX, targetY - 1)], seed),
+        solutionSteps: [`중심에서 P까지는 왼쪽으로 ${-dx}칸, 아래로 ${-dy}칸입니다.`, `시계 방향 90° 돌리면 왼쪽으로 ${-dy}칸, 위로 ${-dx}칸이므로 ${correctAnswer}입니다.`],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'rotate-clockwise', startX, startY, centerX, centerY, quarterTurns: 1, showTargetBeforeAnswer: false, startLabel: 'P', targetLabel: "P'" },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-08', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'applying',
+    problemFamily: 'compose-slide-then-reflection', representation: 'context', answerType: 'choice', supportTool: 'grid', skillTag: '점의 연속 이동',
+    learnerGoal: '점을 차례로 밀고 뒤집어 마지막 위치를 구해요.',
+    promptTemplate: '첫 이동 결과를 구한 뒤 두 번째 이동을 이어서 적용하세요.', hintSteps: ['먼저 오른쪽·위쪽 이동량을 좌표에 더해요.', '그 점을 기준선 반대쪽의 같은 거리로 뒤집어요.'],
+    build: (v, seed) => {
+      const startX = 1 + (v % 2)
+      const startY = 2 + (v % 2)
+      const deltaX = 2
+      const deltaY = 1
+      const axisX = 5
+      const afterSlideX = startX + deltaX
+      const afterSlideY = startY + deltaY
+      const targetX = 2 * axisX - afterSlideX
+      const correctAnswer = coordinateText(targetX, afterSlideY)
+      return {
+        prompt: `점 P${coordinateText(startX, startY)}를 오른쪽 ${deltaX}칸, 위 ${deltaY}칸 민 뒤 x=${axisX}인 세로선에 따라 뒤집었습니다. 마지막 좌표를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, coordinateText(afterSlideX, afterSlideY), coordinateText(targetX, startY), coordinateText(2 * axisX - startX, startY + deltaY)], seed),
+        solutionSteps: [`먼저 점은 ${coordinateText(afterSlideX, afterSlideY)}로 이동합니다.`, `이 점을 x=${axisX}에 따라 뒤집으면 ${correctAnswer}입니다.`],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'slide-then-flip', startX, startY, deltaX, deltaY, axisX, showTargetBeforeAnswer: false, startLabel: 'P', targetLabel: "P''" },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-09', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-04]', cognitiveDomain: 'reasoning',
+    problemFamily: 'slide-orientation-error-analysis', representation: 'context', answerType: 'choice', supportTool: 'grid', skillTag: '밀기 오류 분석',
+    learnerGoal: '밀기에서 도형의 방향이 바뀐다는 오개념을 그림으로 반박해요.',
+    promptTemplate: '밀기 뒤 방향이 달라진다는 친구의 설명을 고치세요.', hintSteps: ['처음 도형과 옮긴 도형의 대응하는 꼭짓점을 이어 봐요.', '모든 점이 같은 방향으로 같은 거리만큼 움직였는지 확인해요.'],
+    build: (v, seed) => {
+      const startX = 2 + (v % 2)
+      const startY = 2 + (v % 3)
+      const deltaX = 2 + (v % 3)
+      const deltaY = 1 + (v % 2)
+      const correctAnswer = `모든 점을 오른쪽 ${deltaX}칸, 위 ${deltaY}칸씩 밀면 도형의 방향은 바뀌지 않습니다.`
+      return {
+        prompt: `서윤이는 “도형을 오른쪽 ${deltaX}칸, 위 ${deltaY}칸 밀면 뾰족한 방향도 반대로 바뀌어.”라고 말했습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '밀기는 도형을 세로선에 따라 뒤집는 이동이므로 방향이 바뀝니다.', '가로와 세로로 함께 밀면 도형의 크기가 두 배가 됩니다.', '도형을 밀면 꼭짓점마다 서로 다른 거리를 움직입니다.'], seed),
+        solutionSteps: ['밀기에서는 모든 점이 같은 방향으로 같은 거리만큼 움직입니다.', '모양·크기·방향은 그대로이고 위치만 바뀌므로 친구의 설명은 틀렸습니다.'],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'slide', startX, startY, deltaX, deltaY, showTargetBeforeAnswer: true, startLabel: '처음', targetLabel: '민 뒤', speaker: '서윤' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-10', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'reasoning',
+    problemFamily: 'double-reflection-inverse-reasoning', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '이동 되돌리기',
+    learnerGoal: '같은 기준선에 두 번 뒤집으면 처음 위치와 방향으로 돌아옴을 설명해요.',
+    promptTemplate: '같은 뒤집기를 두 번 했을 때 마지막 위치를 추론하세요.', hintSteps: ['첫 번째 뒤집기에서 기준선 반대쪽 같은 거리로 가요.', '그 점을 같은 기준선으로 다시 뒤집으면 어디로 돌아오는지 생각해요.'],
+    build: (v, seed) => {
+      const axisX = 5
+      const startX = 1 + (v % 3)
+      const startY = 2 + (v % 5)
+      const correctAnswer = `처음 점 ${coordinateText(startX, startY)}로 돌아오고 도형의 방향도 처음과 같습니다.`
+      return {
+        prompt: `점 P${coordinateText(startX, startY)}와 그 도형을 x=${axisX}인 세로선에 따라 뒤집은 뒤, 같은 선에 따라 한 번 더 뒤집었습니다. 마지막 상태를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, `첫 번째 뒤집기 위치 ${coordinateText(2 * axisX - startX, startY)}에 그대로 있습니다.`, '기준선 위로 이동하고 도형의 크기가 작아집니다.', '처음 점으로 돌아오지만 도형의 방향은 반대입니다.'], seed),
+        solutionSteps: [`첫 번째 뒤집기에서 점은 ${coordinateText(2 * axisX - startX, startY)}로 갑니다.`, '같은 기준선에 다시 뒤집으면 모든 점이 처음 자리로 돌아오고 방향도 복원됩니다.'],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'double-flip', startX, startY, axisX, showTargetBeforeAnswer: true, startLabel: '처음과 마지막', targetLabel: '한 번 뒤집은 위치' },
       }
     },
   }),

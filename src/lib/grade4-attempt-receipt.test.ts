@@ -12,6 +12,7 @@ import {
   GRADE4_FRACTION_ADD_SUB_UNIT_ID,
   GRADE4_PATTERNS_UNIT_ID,
   GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID,
+  GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID,
   getGrade4Activity,
   SAFE_GRADE4_UNIT_ID,
 } from './grade4-problems'
@@ -155,5 +156,18 @@ describe('Grade 4 attempt receipt', () => {
     })
 
     expect(receipt.contentReleaseId).toBe('grade4-bridge-perpendicular-parallel-v1')
+  })
+
+  it('uses the shape-transformations release identity', () => {
+    const movementMission = getGrade4Activity(GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, 20260721, 0)[0]
+    const receipt = createGrade4AttemptReceipt({
+      mission: movementMission,
+      activityRun: 0,
+      attemptOrdinal: 0,
+      correct: true,
+      usedHint: false,
+    })
+
+    expect(receipt.contentReleaseId).toBe('grade4-bridge-shape-transformations-v1')
   })
 })

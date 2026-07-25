@@ -516,6 +516,148 @@ function LineRelationship({ mission }: { mission: Grade4Mission }) {
   )
 }
 
+function transformedPoint(mission: Grade4Mission): Point {
+  const mode = label(mission.visualConfig.mode)
+  const startX = number(mission.visualConfig.startX)
+  const startY = number(mission.visualConfig.startY)
+  if (mode === 'slide') {
+    return {
+      x: startX + number(mission.visualConfig.deltaX),
+      y: startY + number(mission.visualConfig.deltaY),
+    }
+  }
+  if (mode === 'flip-vertical') {
+    return { x: 2 * number(mission.visualConfig.axisX) - startX, y: startY }
+  }
+  if (mode === 'rotate-clockwise') {
+    const centerX = number(mission.visualConfig.centerX)
+    const centerY = number(mission.visualConfig.centerY)
+    let point = { x: startX, y: startY }
+    const turns = Math.max(1, number(mission.visualConfig.quarterTurns))
+    for (let index = 0; index < turns; index += 1) {
+      point = {
+        x: centerX + (point.y - centerY),
+        y: centerY - (point.x - centerX),
+      }
+    }
+    return point
+  }
+  if (mode === 'slide-then-flip') {
+    const afterSlideX = startX + number(mission.visualConfig.deltaX)
+    return {
+      x: 2 * number(mission.visualConfig.axisX) - afterSlideX,
+      y: startY + number(mission.visualConfig.deltaY),
+    }
+  }
+  return { x: startX, y: startY }
+}
+
+function transformationPolygon(anchor: Point, operation: string): string {
+  const source = [
+    { x: -0.65, y: -0.42 }, { x: 0.15, y: -0.42 }, { x: 0.15, y: -0.78 },
+    { x: 0.78, y: 0 }, { x: 0.15, y: 0.78 }, { x: 0.15, y: 0.42 },
+    { x: -0.65, y: 0.42 },
+  ]
+  const transformed = source.map((point) => {
+    if (operation === 'flip-vertical' || operation === 'slide-then-flip') {
+      return { x: -point.x, y: point.y }
+    }
+    if (operation === 'rotate-clockwise') {
+      return { x: point.y, y: -point.x }
+    }
+    return point
+  })
+  const mapX = (value: number) => 30 + value * 25
+  const mapY = (value: number) => 180 - value * 15
+  return transformed
+    .map((point) => `${mapX(anchor.x) + point.x * 13},${mapY(anchor.y) - point.y * 13}`)
+    .join(' ')
+}
+
+function ShapeTransformation({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
+  const mode = label(mission.visualConfig.mode)
+  const start = { x: number(mission.visualConfig.startX), y: number(mission.visualConfig.startY) }
+  const target = transformedPoint(mission)
+  const showTarget = Boolean(mission.visualConfig.showTargetBeforeAnswer) || Boolean(showAnswer)
+  const axisX = number(mission.visualConfig.axisX)
+  const center = { x: number(mission.visualConfig.centerX), y: number(mission.visualConfig.centerY) }
+  const mapX = (value: number) => 30 + value * 25
+  const mapY = (value: number) => 180 - value * 15
+  const targetVector = { x: mapX(target.x) - mapX(start.x), y: mapY(target.y) - mapY(start.y) }
+  const targetDistance = Math.hypot(targetVector.x, targetVector.y) || 1
+  const indicatorLength = showTarget ? targetDistance : Math.min(32, targetDistance)
+  const arrowEnd = {
+    x: mapX(start.x) + targetVector.x / targetDistance * indicatorLength,
+    y: mapY(start.y) + targetVector.y / targetDistance * indicatorLength,
+  }
+  const intermediate = mode === 'double-flip'
+    ? { x: 2 * axisX - start.x, y: start.y }
+    : null
+
+  return (
+    <div data-testid="grade4-visual-shape-transformation" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-3">
+      <svg viewBox="0 0 320 210" role="img" aria-label="격자에서 도형과 점의 이동" className="h-auto w-full">
+        <rect x="4" y="4" width="312" height="202" rx="22" fill="#ffffff" />
+        {Array.from({ length: 11 }, (_, index) => (
+          <React.Fragment key={`grid-${index}`}>
+            <line x1={mapX(index)} y1={mapY(0)} x2={mapX(index)} y2={mapY(10)} stroke="#e0e7ff" strokeWidth="1" />
+            <line x1={mapX(0)} y1={mapY(index)} x2={mapX(10)} y2={mapY(index)} stroke="#e0e7ff" strokeWidth="1" />
+          </React.Fragment>
+        ))}
+        <line x1={mapX(0)} y1={mapY(0)} x2={mapX(10)} y2={mapY(0)} stroke="#64748b" strokeWidth="2" />
+        <line x1={mapX(0)} y1={mapY(0)} x2={mapX(0)} y2={mapY(10)} stroke="#64748b" strokeWidth="2" />
+        {[0, 5, 10].map((value) => (
+          <React.Fragment key={`axis-label-${value}`}>
+            <text x={mapX(value)} y="198" textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="700">{value}</text>
+            {value > 0 && <text x="18" y={mapY(value) + 4} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="700">{value}</text>}
+          </React.Fragment>
+        ))}
+        {(mode === 'flip-vertical' || mode === 'slide-then-flip' || mode === 'double-flip') && (
+          <line x1={mapX(axisX)} y1={mapY(0)} x2={mapX(axisX)} y2={mapY(10)} stroke="#0f172a" strokeWidth="2" strokeDasharray="6 4" />
+        )}
+        {mode === 'rotate-clockwise' && (
+          <>
+            <circle cx={mapX(center.x)} cy={mapY(center.y)} r="5" fill="#0f172a" />
+            <text x={mapX(center.x) + 9} y={mapY(center.y) - 8} fill="#0f172a" fontSize="11" fontWeight="900">O</text>
+          </>
+        )}
+        <polygon points={transformationPolygon(start, 'start')} fill="#818cf8" stroke="#3730a3" strokeWidth="2" />
+        <circle cx={mapX(start.x)} cy={mapY(start.y)} r="4" fill="#312e81" />
+        <text x={mapX(start.x) - 8} y={mapY(start.y) - 15} textAnchor="end" fill="#3730a3" fontSize="11" fontWeight="900">
+          {label(mission.visualConfig.startLabel) || '처음'}
+        </text>
+        <line
+          data-testid="grade4-movement-arrow"
+          x1={mapX(start.x)}
+          y1={mapY(start.y)}
+          x2={arrowEnd.x}
+          y2={arrowEnd.y}
+          stroke="#f97316"
+          strokeWidth="3"
+          strokeDasharray={showTarget ? undefined : '5 4'}
+        />
+        <circle cx={arrowEnd.x} cy={arrowEnd.y} r="3" fill="#f97316" />
+        {intermediate && (
+          <polygon points={transformationPolygon(intermediate, 'flip-vertical')} fill="none" stroke="#f97316" strokeWidth="2" strokeDasharray="5 4" />
+        )}
+        {showTarget && (
+          <g
+            data-testid="grade4-transformation-result"
+            data-result-x={target.x}
+            data-result-y={target.y}
+          >
+            <polygon points={transformationPolygon(target, mode)} fill="#fed7aa" stroke="#c2410c" strokeWidth="2" />
+            <circle cx={mapX(target.x)} cy={mapY(target.y)} r="4" fill="#c2410c" />
+            <text x={mapX(target.x) + 8} y={mapY(target.y) - 15} fill="#9a3412" fontSize="11" fontWeight="900">
+              {label(mission.visualConfig.targetLabel) || '옮긴 뒤'}
+            </text>
+          </g>
+        )}
+      </svg>
+    </div>
+  )
+}
+
 function DivisionModel({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
   const divisor = number(mission.visualConfig.divisor)
   const dividend = number(mission.visualConfig.dividend)
@@ -576,5 +718,6 @@ export default function Grade4MissionVisual({ mission, showAnswer = false }: { m
   if (mission.visualModel === 'pattern-table') return <PatternTable mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'equation-balance') return <EquationBalance mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'line-relationship') return <LineRelationship mission={mission} />
+  if (mission.visualModel === 'shape-transformation') return <ShapeTransformation mission={mission} showAnswer={showAnswer} />
   return <Context mission={mission} />
 }
