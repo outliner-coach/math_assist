@@ -324,6 +324,66 @@ test('5학년 도형 연습은 SVG 정답을 제출 전 숨기고 결과에서 �
   await expect(page.getByTestId('wrong-results')).toContainText('정답:')
 })
 
+test('5학년 합동 그림은 실제 길이 비율을 보존한 도형을 회전해 그린다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(`${BASE_PATH}/practice/congruence-001?set=A`)
+
+  const session = await readSession(page)
+  type CongruenceVisual = {
+    type: 'congruence'
+    shape?: 'quadrilateral' | 'rectangle'
+    a?: number
+    b?: number
+    c?: number
+  }
+  const quantitativeIndex = session.problems.findIndex(problem => {
+    const visual = problem.visual as unknown as CongruenceVisual | undefined
+    return visual?.type === 'congruence' &&
+      typeof visual.a === 'number' &&
+      typeof visual.b === 'number' &&
+      typeof visual.c === 'number' &&
+      visual.shape !== 'rectangle'
+  })
+  expect(quantitativeIndex).toBeGreaterThanOrEqual(0)
+
+  const visual = session.problems[quantitativeIndex].visual as unknown as CongruenceVisual
+  await page.getByRole('button', { name: `문제 ${quantitativeIndex + 1}`, exact: true }).click()
+
+  const diagram = page.getByTestId('geometry-visual-congruence')
+  await expect(diagram).toBeVisible()
+  const polygons = await diagram.locator('svg polygon').evaluateAll(elements => elements.map(element => {
+    const points = (element as SVGPolygonElement).points
+    return Array.from({ length: points.numberOfItems }, (_, index) => {
+      const point = points.getItem(index)
+      return { x: point.x, y: point.y }
+    })
+  }))
+  expect(polygons).toHaveLength(2)
+
+  const distance = (
+    left: { x: number; y: number },
+    right: { x: number; y: number },
+  ) => Math.hypot(left.x - right.x, left.y - right.y)
+  for (let first = 0; first < 4; first += 1) {
+    for (let second = first + 1; second < 4; second += 1) {
+      expect(distance(polygons[0][first], polygons[0][second])).toBeCloseTo(
+        distance(polygons[1][first], polygons[1][second]),
+        1,
+      )
+    }
+  }
+
+  const leftEdges = polygons[0].map((point, index) => (
+    distance(point, polygons[0][(index + 1) % polygons[0].length])
+  ))
+  expect(leftEdges[0] / leftEdges[1]).toBeCloseTo(visual.a! / visual.b!, 1)
+  expect(leftEdges[2] / leftEdges[1]).toBeCloseTo(visual.c! / visual.b!, 1)
+  await expect(diagram).toContainText(`${visual.a}cm`)
+  await expect(diagram).toContainText(`${visual.b}cm`)
+  await expect(diagram).toContainText(`${visual.c}cm`)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+})
+
 test('5학년 다각형 그림은 실제 치수 비율을 따르고 미지 길이를 좌표에서도 가린다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/practice/perimeter-001?set=A`)

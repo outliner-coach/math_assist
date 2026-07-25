@@ -296,6 +296,44 @@ function polygonAreaTemplates(set) {
 
 function congruenceTemplates(set) {
   const s = set.shift
+  const prompts = {
+    A: [
+      '합동인 두 도형에서 꼭짓점 ㄱ에 대응하는 도형 2의 꼭짓점을 고르세요.',
+      '각 ㄱ과 크기가 같은 대응각의 꼭짓점을 고르세요.',
+      '도형 1과 도형 2의 대응 순서를 바르게 나타낼 때, ㄱ과 짝지어야 할 글자를 고르세요.',
+      '도형을 옮기거나 돌려 겹쳤을 때 ㄱ과 포개지는 꼭짓점을 고르세요.',
+      '합동인 두 장식판을 서로 다른 방향으로 놓았습니다. 도형 1의 ㄱㄴ이 {{a}}cm일 때 도형 2에서 이에 대응하는 변은 몇 cm인가요?',
+      '합동인 두 타일에서 도형 1의 {{b}}cm인 표시 변과 대응하는 도형 2의 변 길이는 몇 cm인가요?',
+      '합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 둘레는 몇 cm인가요?',
+      '합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 넓이는 몇 cm²인가요?',
+      '도형 1의 ㄱㄴ은 {{a}}cm, ㄴㄷ은 {{a + d}}cm입니다. 도형 2에서 ㄱㄴ의 대응변을 찾으면서 ㄴㄷ의 대응변을 골라 {{a + d}}cm라고 했습니다. 이 답은 올바른 길이보다 몇 cm 큰가요?',
+      '두 합동 도형 중 하나를 돌려 놓자 둘레가 {{d}}cm 늘었다고 주장했습니다. 이 주장과 실제 둘레 변화량의 차이는 몇 cm인가요?',
+    ],
+    B: [
+      '합동인 두 퍼즐 조각에서 도형 1의 ㄱ과 같은 자리에 포개지는 도형 2의 꼭짓점을 고르세요.',
+      '합동인 두 판을 돌려 겹칠 때 각 ㄱ과 포개지는 각의 꼭짓점을 고르세요.',
+      '두 합동 사각형의 꼭짓점을 대응 순서대로 적을 때 ㄱ 다음에 짝지을 도형 2의 글자를 고르세요.',
+      '방향이 다른 두 합동 도형을 포개면 ㄱ과 만나는 꼭짓점은 어느 것인가요?',
+      '같은 틀로 만든 두 표지판의 방향이 다릅니다. 도형 1의 ㄱㄴ이 {{a}}cm이면 도형 2의 대응변 길이는 몇 cm인가요?',
+      '서로 합동인 두 조각을 맞추려고 합니다. 도형 1에서 {{b}}cm로 표시된 변과 맞닿을 도형 2의 변은 몇 cm인가요?',
+      '가로 {{a}}cm, 세로 {{b}}cm인 직사각형 액자와 합동인 액자의 테두리 길이는 몇 cm인가요?',
+      '가로 {{a}}cm, 세로 {{b}}cm인 직사각형 카드와 합동인 카드의 넓이는 몇 cm²인가요?',
+      'ㄱㄴ이 {{a}}cm이고 이웃한 ㄴㄷ이 {{a + d}}cm인 합동 도형입니다. 도형 2에서 ㄱㄴ의 대응변 대신 긴 이웃 변을 골랐다면 답이 몇 cm 커지나요?',
+      '합동인 판을 옮기고 돌렸더니 둘레가 {{d}}cm 커졌다고 말했습니다. 합동의 성질로 판단한 실제 변화량과 말한 값의 차이는 몇 cm인가요?',
+    ],
+    C: [
+      '연결된 변의 순서를 비교하여 도형 1의 ㄱ에 대응하는 도형 2의 꼭짓점을 고르세요.',
+      '도형의 방향과 관계없이 각 ㄱ에 대응하여 크기가 같은 각의 꼭짓점을 고르세요.',
+      '합동을 나타낼 때 대응 꼭짓점을 같은 순서에 놓습니다. ㄱ과 같은 순서에 올 글자를 고르세요.',
+      '한 도형을 90° 돌려 다른 도형에 포갤 때 ㄱ과 일치하는 꼭짓점을 고르세요.',
+      '합동인 두 부품에서 도형 1의 ㄱㄴ 길이 {{a}}cm를 도형 2의 대응변에 옮겨 표시하려고 합니다. 표시할 길이는 몇 cm인가요?',
+      '도형 1과 합동인 도형 2를 다른 방향으로 놓았습니다. 도형 1의 표시 변 {{b}}cm에 대응하는 변의 길이를 구하세요.',
+      '가로 {{a}}cm와 세로 {{b}}cm가 대응하는 두 합동 직사각형에서 도형 2의 둘레를 구하세요.',
+      '가로 {{a}}cm와 세로 {{b}}cm가 대응하는 두 합동 직사각형에서 도형 2의 넓이를 구하세요.',
+      'ㄱㄴ={{a}}cm, ㄴㄷ={{a + d}}cm인 도형과 합동인 도형에서 ㄱㄴ의 대응변 대신 ㄴㄷ의 대응변을 선택했습니다. 잘못 고른 길이와 올바른 길이의 차이는 몇 cm인가요?',
+      '합동인 도형은 위치와 방향만 바뀌었습니다. 둘레가 {{d}}cm 변했다는 값과 실제 변화량의 차이를 구하세요.',
+    ],
+  }[set.id]
   const choiceFields = (variant) => ({
     solver_rule: `geometryOption(1, ${variant}, 0)`,
     choices_template: [0, 1, 2, 3].map(offset => `{{geometryOption(1, ${variant}, ${offset})}}`),
@@ -303,7 +341,7 @@ function congruenceTemplates(set) {
   return [
     template(set, 'congruence-001', 1, 'corresponding-vertex', 1, 'choice', {
       param_schema: { variant: range(1, 4) },
-      prompt_template: '합동인 두 도형에서 꼭짓점 ㄱ에 대응하는 도형 2의 꼭짓점을 고르세요.',
+      prompt_template: prompts[0],
       ...choiceFields('variant'),
       solution_steps_template: ['도형을 돌리거나 뒤집어 같은 위치의 꼭짓점을 찾습니다.', 'ㄱ에 대응하는 꼭짓점은 {{geometryOption(1, variant, 0)}}입니다.'],
       hint_steps_template: ['ㄱ에서 만나는 두 변의 방향을 살펴봐요.', '도형의 위치가 아니라 연결 관계를 비교해요.'],
@@ -311,7 +349,7 @@ function congruenceTemplates(set) {
     }),
     template(set, 'congruence-001', 2, 'corresponding-angle', 1, 'choice', {
       param_schema: { variant: range(1, 4) },
-      prompt_template: '각 ㄱ과 크기가 같은 대응각의 꼭짓점을 고르세요.',
+      prompt_template: prompts[1],
       ...choiceFields('variant'),
       solution_steps_template: ['합동인 도형의 대응각 크기는 같습니다.', '각 ㄱ의 대응각은 {{geometryOption(1, variant, 0)}}입니다.'],
       hint_steps_template: ['합동인 도형에서 같은 모양의 모서리를 찾아요.', 'ㄱ에 연결된 변의 순서를 따라가요.'],
@@ -319,7 +357,7 @@ function congruenceTemplates(set) {
     }),
     template(set, 'congruence-001', 3, 'congruence-statement-order', 1, 'choice', {
       param_schema: { variant: range(1, 4) },
-      prompt_template: '도형 1과 도형 2의 대응 순서를 바르게 나타낼 때, ㄱ과 짝지어야 할 글자를 고르세요.',
+      prompt_template: prompts[2],
       ...choiceFields('variant'),
       solution_steps_template: ['합동 기호를 쓸 때 대응하는 꼭짓점은 같은 순서에 둡니다.', 'ㄱ과 짝지어야 할 글자는 {{geometryOption(1, variant, 0)}}입니다.'],
       hint_steps_template: ['각 꼭짓점 주변의 변을 비교해요.', '대응하는 순서가 바뀌지 않게 해요.'],
@@ -327,7 +365,7 @@ function congruenceTemplates(set) {
     }),
     template(set, 'congruence-001', 4, 'same-correspondence', 1, 'choice', {
       param_schema: { variant: range(1, 4) },
-      prompt_template: '도형을 옮기거나 돌려 겹쳤을 때 ㄱ과 포개지는 꼭짓점을 고르세요.',
+      prompt_template: prompts[3],
       ...choiceFields('variant'),
       solution_steps_template: ['옮기기와 돌리기는 도형의 크기와 모양을 바꾸지 않습니다.', '포개지는 꼭짓점은 {{geometryOption(1, variant, 0)}}입니다.'],
       hint_steps_template: ['도형을 머릿속으로 돌려 봐요.', '변의 연결 순서를 기준으로 판단해요.'],
@@ -335,7 +373,7 @@ function congruenceTemplates(set) {
     }),
     template(set, 'congruence-001', 5, 'corresponding-side-length', 2, 'number', {
       param_schema: { variant: range(1, 4), a: range(4, 9, s), b: range(5, 10, s), c: range(6, 11, s) },
-      prompt_template: '합동인 두 도형에서 ㄱㄴ의 길이가 {{a}}cm입니다. 대응하는 변의 길이는 몇 cm인가요?',
+      prompt_template: prompts[4],
       solver_rule: 'a',
       solution_steps_template: ['합동인 도형의 대응변 길이는 같습니다.', 'ㄱㄴ의 대응변도 {{a}}cm입니다.'],
       hint_steps_template: ['합동인 도형의 대응변 성질을 떠올려요.', '모양을 돌려도 길이는 변하지 않아요.'],
@@ -343,42 +381,42 @@ function congruenceTemplates(set) {
     }),
     template(set, 'congruence-001', 6, 'missing-corresponding-side', 2, 'number', {
       param_schema: { variant: range(1, 4), a: range(5, 10, s), b: range(6, 11, s), c: range(7, 12, s) },
-      prompt_template: '합동인 두 사각형에서 한 변과 그 대응변의 길이가 같습니다. 도형 1의 표시된 변이 {{b}}cm라면 도형 2의 대응변은 몇 cm인가요?',
+      prompt_template: prompts[5],
       solver_rule: 'b',
       solution_steps_template: ['서로 대응하는 변을 확인합니다.', '합동인 도형이므로 대응변은 {{b}}cm입니다.'],
       hint_steps_template: ['대응하는 위치의 변을 찾아요.', '합동이면 대응변의 길이는 같아요.'],
       visual_template: { type: 'congruence', mode: 'pair', variant: '{{variant}}', a: '{{a}}', b: '{{b}}', c: '{{c}}', unit: 'cm' },
     }),
     template(set, 'congruence-001', 7, 'congruent-perimeter', 2, 'number', {
-      param_schema: { variant: range(1, 4), a: range(4, 8, s), b: range(5, 9, s), c: range(6, 10, s) },
-      prompt_template: '합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 둘레는 몇 cm인가요?',
+      param_schema: { variant: range(1, 4), a: range(4, 8, s), b: range(5, 9, s) },
+      prompt_template: prompts[6],
       solver_rule: '2 * (a + b)',
       solution_steps_template: ['합동인 두 직사각형의 가로와 세로 길이는 각각 같습니다.', '도형 2의 둘레는 ({{a}} + {{b}}) × 2 = {{2 * (a + b)}}cm입니다.'],
       hint_steps_template: ['도형 1과 도형 2의 대응변은 같아요.', '직사각형 둘레 공식을 적용해요.'],
-      visual_template: { type: 'congruence', mode: 'pair', variant: '{{variant}}', a: '{{a}}', b: '{{b}}', c: '{{c}}', unit: 'cm' },
+      visual_template: { type: 'congruence', mode: 'pair', shape: 'rectangle', variant: '{{variant}}', a: '{{a}}', b: '{{b}}', unit: 'cm' },
     }),
     template(set, 'congruence-001', 8, 'congruent-area', 2, 'number', {
-      param_schema: { variant: range(1, 4), a: range(4, 9, s), b: range(3, 7, s), c: range(6, 10, s) },
-      prompt_template: '합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 넓이는 몇 cm²인가요?',
+      param_schema: { variant: range(1, 4), a: range(4, 9, s), b: range(3, 7, s) },
+      prompt_template: prompts[7],
       solver_rule: 'a * b',
       solution_steps_template: ['합동인 도형은 크기와 모양이 같으므로 넓이도 같습니다.', '{{a}} × {{b}} = {{a * b}}cm²입니다.'],
       hint_steps_template: ['합동인 도형의 대응변 길이를 옮겨 생각해요.', '가로와 세로를 곱해요.'],
-      visual_template: { type: 'congruence', mode: 'pair', variant: '{{variant}}', a: '{{a}}', b: '{{b}}', c: '{{c}}', unit: 'cm' },
+      visual_template: { type: 'congruence', mode: 'pair', shape: 'rectangle', variant: '{{variant}}', a: '{{a}}', b: '{{b}}', unit: 'cm' },
     }),
-    template(set, 'congruence-001', 9, 'two-missing-sides', 3, 'number', {
-      param_schema: { variant: range(1, 4), a: range(5, 10, s), b: range(6, 11, s), c: range(7, 12, s) },
-      prompt_template: '합동인 두 도형에서 도형 2의 표시되지 않은 두 대응변은 각각 {{a}}cm와 {{c}}cm입니다. 두 길이의 합은 몇 cm인가요?',
-      solver_rule: 'a + c',
-      solution_steps_template: ['도형 1의 대응변에서 두 길이 {{a}}cm와 {{c}}cm를 찾습니다.', '{{a}} + {{c}} = {{a + c}}cm입니다.'],
-      hint_steps_template: ['두 변에 각각 대응하는 변을 찾아요.', '찾은 두 길이를 더해요.'],
-      visual_template: { type: 'congruence', mode: 'pair', variant: '{{variant}}', a: '{{a}}', b: '{{b}}', c: '{{c}}', unit: 'cm' },
+    template(set, 'congruence-001', 9, 'wrong-corresponding-side-error', 3, 'number', {
+      param_schema: { variant: range(1, 4), a: range(5, 9, s), d: range(2, 5, s), c: range(7, 11, s) },
+      prompt_template: prompts[8],
+      solver_rule: 'd',
+      solution_steps_template: ['ㄱㄴ의 올바른 대응변 길이는 합동의 성질에 따라 {{a}}cm입니다.', '잘못 고른 이웃 변은 {{a + d}}cm이므로 {{a + d}} - {{a}} = {{d}}cm 큽니다.'],
+      hint_steps_template: ['꼭짓점의 대응 순서를 먼저 확인해요.', '잘못 고른 길이에서 올바른 대응변 길이를 빼요.'],
+      visual_template: { type: 'congruence', mode: 'pair', variant: '{{variant}}', a: '{{a}}', b: '{{a + d}}', c: '{{c}}', unit: 'cm' },
     }),
-    template(set, 'congruence-001', 10, 'perimeter-difference', 3, 'number', {
-      param_schema: { variant: range(1, 4), a: range(5, 10, s), b: range(6, 11, s), c: range(7, 12, s) },
-      prompt_template: '합동인 두 도형의 둘레 차이는 몇 cm인가요? 도형의 위치와 방향은 서로 다릅니다.',
-      solver_rule: '0',
-      solution_steps_template: ['합동인 도형은 모든 대응변의 길이가 같습니다.', '따라서 두 도형의 둘레가 같으므로 차이는 0cm입니다.'],
-      hint_steps_template: ['방향이 달라도 합동의 성질은 변하지 않아요.', '같은 두 수의 차를 생각해요.'],
+    template(set, 'congruence-001', 10, 'perimeter-invariance', 3, 'number', {
+      param_schema: { variant: range(1, 4), a: range(5, 10, s), b: range(6, 11, s), c: range(7, 12, s), d: range(2, 6, s) },
+      prompt_template: prompts[9],
+      solver_rule: 'd',
+      solution_steps_template: ['합동인 도형은 모든 대응변의 길이가 같으므로 위치와 방향이 바뀌어도 실제 둘레 변화량은 0cm입니다.', '주장한 {{d}}cm와 실제 변화량 0cm의 차이는 {{d}}cm입니다.'],
+      hint_steps_template: ['옮기기와 돌리기가 변의 길이를 바꾸는지 판단해요.', '주장한 변화량과 실제 변화량을 비교해요.'],
       visual_template: { type: 'congruence', mode: 'pair', variant: '{{variant}}', a: '{{a}}', b: '{{b}}', c: '{{c}}', unit: 'cm' },
     }),
   ]
@@ -386,6 +424,37 @@ function congruenceTemplates(set) {
 
 function symmetryTemplates(set) {
   const s = set.shift
+  const axisPrompts = {
+    A: ['정사각형의 대칭축은 몇 개인가요?', '직사각형의 대칭축은 몇 개인가요?', '정삼각형의 대칭축은 몇 개인가요?', '마름모의 대칭축은 몇 개인가요?'],
+    B: ['정사각형 종이를 완전히 포개어 접을 수 있는 대칭축은 몇 개인가요?', '직사각형 카드를 완전히 포개는 대칭축은 몇 개인가요?', '정삼각형 조각을 완전히 포개는 대칭축은 몇 개인가요?', '마름모 장식을 완전히 포개는 대칭축은 몇 개인가요?'],
+    C: ['가로·세로·대각선 방향을 모두 살펴 정사각형의 대칭축 수를 구하세요.', '두 중점을 지나는 방향을 살펴 직사각형의 대칭축 수를 구하세요.', '각 꼭짓점과 맞은편 변의 중점을 잇는 정삼각형의 대칭축 수를 구하세요.', '두 대각선을 기준으로 살펴 마름모의 대칭축 수를 구하세요.'],
+  }[set.id]
+  const prompts = {
+    A: [
+      '점 P({{x}}, {{y}})를 직선 x={{axis}}에 대하여 선대칭 이동한 점의 x좌표는?',
+      '점 P와 직선 x={{axis}}에 대한 대칭점 사이의 가로 거리는 몇 칸인가요?',
+      '점 P({{x}}, {{y}})를 중심 ({{cx}}, {{cy}})에 대하여 점대칭 이동한 점의 x좌표는?',
+      '점 P({{x}}, {{y}})를 중심 ({{cx}}, {{cy}})에 대하여 점대칭 이동한 점의 y좌표는?',
+      '점 P({{x}}, {{y}})를 직선 x={{axis}}에 선대칭 이동하며 축까지의 거리를 {{axis - x}}로 구한 뒤, 그 수를 대칭점의 x좌표라고 했습니다. 이 값과 올바른 x좌표의 차이는 얼마인가요?',
+      '점 P({{x}}, {{y}})를 중심 ({{cx}}, {{cy}})에 점대칭 이동하면서 x좌표만 {{2 * cx - x}}로 바꾸고 y좌표는 {{y}}로 두었습니다. 잘못 둔 y좌표와 올바른 y좌표의 차이는 얼마인가요?',
+    ],
+    B: [
+      '모눈에서 P({{x}}, {{y}})를 대칭축 x={{axis}} 반대편 같은 거리에 찍을 때 새 점의 x좌표를 구하세요.',
+      'P({{x}}, {{y}})와 직선 x={{axis}}에 대한 선대칭점 사이의 가로 칸 수를 구하세요.',
+      '중심 ({{cx}}, {{cy}})이 두 점의 중점이 되도록 P({{x}}, {{y}})의 점대칭점 x좌표를 구하세요.',
+      'P({{x}}, {{y}})를 중심 ({{cx}}, {{cy}}) 반대편에 같은 거리로 옮긴 점의 y좌표를 구하세요.',
+      '선대칭점의 x좌표를 구해야 하는데 P에서 x={{axis}}까지의 거리 {{axis - x}}만 답으로 썼습니다. 올바른 x좌표와 이 답의 차이는 얼마인가요?',
+      '중심 ({{cx}}, {{cy}})에 대한 점대칭에서 x좌표만 바꾸고 y좌표를 {{y}}로 그대로 적었습니다. 올바른 y좌표와 잘못 적은 y좌표는 얼마만큼 차이 나나요?',
+    ],
+    C: [
+      '직선 x={{axis}}를 P({{x}}, {{y}})와 대칭점의 가운데에 두었을 때 대칭점의 x좌표를 구하세요.',
+      '선대칭축 x={{axis}}에서 P까지의 거리와 반대편 거리를 이용해 두 점 사이의 가로 거리를 구하세요.',
+      '({{cx}}, {{cy}})가 P({{x}}, {{y}})와 점대칭점의 중점일 때 점대칭점의 x좌표를 구하세요.',
+      '({{cx}}, {{cy}})가 P({{x}}, {{y}})와 점대칭점의 중점일 때 점대칭점의 y좌표를 구하세요.',
+      'P의 선대칭점 x좌표 답을 {{axis - x}}로 적었습니다. 축까지 거리와 좌표를 혼동한 이 답은 올바른 값과 얼마만큼 차이 나나요?',
+      'P의 점대칭점 좌표를 ({{2 * cx - x}}, {{y}})로 적었습니다. 중심이 두 점의 중점이라는 조건을 만족시키려면 y좌표를 얼마만큼 고쳐야 하나요?',
+    ],
+  }[set.id]
   return [
     [1, 'square-axes', 1, 1, '정사각형'],
     [2, 'rectangle-axes', 1, 2, '직사각형'],
@@ -393,7 +462,7 @@ function symmetryTemplates(set) {
     [4, 'rhombus-axes', 1, 5, '마름모'],
   ].map(([index, family, difficulty, shape, name]) => template(set, 'symmetry-001', index, family, difficulty, 'number', {
     param_schema: { shape: { min: shape, max: shape } },
-    prompt_template: `${name}의 대칭축은 몇 개인가요?`,
+    prompt_template: axisPrompts[index - 1],
     solver_rule: 'symmetryAxisCount(shape)',
     solution_steps_template: [`${name}을 접었을 때 완전히 겹치는 선을 모두 찾습니다.`, `대칭축은 {{symmetryAxisCount(shape)}}개입니다.`],
     hint_steps_template: ['가로, 세로, 대각선 방향으로 접어 보세요.', '완전히 겹치는 경우만 세어요.'],
@@ -401,7 +470,7 @@ function symmetryTemplates(set) {
   })).concat([
     template(set, 'symmetry-001', 5, 'vertical-reflection-x', 2, 'number', {
       param_schema: { x: range(1, 3), y: range(2, 6), axis: range(4, 5) },
-      prompt_template: '점 P({{x}}, {{y}})를 직선 x={{axis}}에 대하여 선대칭 이동한 점의 x좌표는?',
+      prompt_template: prompts[0],
       solver_rule: '2 * axis - x',
       solution_steps_template: ['P에서 대칭축까지의 가로 거리는 {{axis - x}}칸입니다.', '축의 반대쪽으로 같은 거리만큼 가면 x좌표는 {{2 * axis - x}}입니다.'],
       hint_steps_template: ['점과 대칭축 사이의 칸 수를 세어요.', '축 반대편에 같은 거리로 표시해요.'],
@@ -409,7 +478,7 @@ function symmetryTemplates(set) {
     }),
     template(set, 'symmetry-001', 6, 'vertical-reflection-distance', 2, 'number', {
       param_schema: { x: range(1, 3), y: range(1, 6), axis: range(4, 5) },
-      prompt_template: '점 P와 직선 x={{axis}}에 대한 대칭점 사이의 가로 거리는 몇 칸인가요?',
+      prompt_template: prompts[1],
       solver_rule: '2 * (axis - x)',
       solution_steps_template: ['P에서 대칭축까지는 {{axis - x}}칸입니다.', '양쪽 거리를 합하면 {{2 * (axis - x)}}칸입니다.'],
       hint_steps_template: ['대칭축까지 거리를 먼저 구해요.', '같은 거리가 축 반대쪽에도 있어요.'],
@@ -417,7 +486,7 @@ function symmetryTemplates(set) {
     }),
     template(set, 'symmetry-001', 7, 'point-reflection-x', 2, 'number', {
       param_schema: { x: range(1, 3), y: range(1, 3), cx: range(4, 5), cy: range(4, 5) },
-      prompt_template: '점 P({{x}}, {{y}})를 중심 ({{cx}}, {{cy}})에 대하여 점대칭 이동한 점의 x좌표는?',
+      prompt_template: prompts[2],
       solver_rule: '2 * cx - x',
       solution_steps_template: ['중심은 두 점을 이은 선분의 중점입니다.', 'x좌표는 {{2 * cx}} - {{x}} = {{2 * cx - x}}입니다.'],
       hint_steps_template: ['중심에서 P까지의 가로 거리를 구해요.', '중심 반대쪽으로 같은 거리만큼 이동해요.'],
@@ -425,27 +494,27 @@ function symmetryTemplates(set) {
     }),
     template(set, 'symmetry-001', 8, 'point-reflection-y', 2, 'number', {
       param_schema: { x: range(1, 3), y: range(1, 3), cx: range(4, 5), cy: range(4, 5) },
-      prompt_template: '점 P({{x}}, {{y}})를 중심 ({{cx}}, {{cy}})에 대하여 점대칭 이동한 점의 y좌표는?',
+      prompt_template: prompts[3],
       solver_rule: '2 * cy - y',
       solution_steps_template: ['중심에서 위아래 거리가 같아야 합니다.', 'y좌표는 {{2 * cy}} - {{y}} = {{2 * cy - y}}입니다.'],
       hint_steps_template: ['중심에서 P까지의 세로 거리를 구해요.', '반대쪽으로 같은 거리만큼 이동해요.'],
       visual_template: { type: 'symmetry', mode: 'point-coordinate', variant: 1, x: '{{x}}', y: '{{y}}', centerX: '{{cx}}', centerY: '{{cy}}' },
     }),
-    template(set, 'symmetry-001', 9, 'point-reflection-coordinate-sum', 3, 'number', {
-      param_schema: { x: range(1, 3), y: range(1, 3), cx: range(4, 5), cy: range(4, 5) },
-      prompt_template: '점 P({{x}}, {{y}})를 중심 ({{cx}}, {{cy}})에 대하여 점대칭 이동한 점의 x좌표와 y좌표의 합은?',
-      solver_rule: '2 * cx - x + 2 * cy - y',
-      solution_steps_template: ['대칭점은 ({{2 * cx - x}}, {{2 * cy - y}})입니다.', '두 좌표의 합은 {{2 * cx - x}} + {{2 * cy - y}} = {{2 * cx - x + 2 * cy - y}}입니다.'],
-      hint_steps_template: ['대칭점의 x좌표와 y좌표를 각각 구해요.', '마지막에 두 좌표를 더해요.'],
-      visual_template: { type: 'symmetry', mode: 'point-coordinate', variant: 1, x: '{{x}}', y: '{{y}}', centerX: '{{cx}}', centerY: '{{cy}}' },
-    }),
-    template(set, 'symmetry-001', 10, 'two-reflections', 3, 'number', {
-      param_schema: { x: range(1, 3), y: range(1, 4), axis: range(4, 5), cx: range(4, 5) },
-      prompt_template: '점 P({{x}}, {{y}})를 먼저 직선 x={{axis}}에 선대칭 이동했습니다. 이동한 점의 x좌표에서 원래 x좌표를 뺀 값은?',
-      solver_rule: '2 * axis - 2 * x',
-      solution_steps_template: ['선대칭 이동한 점의 x좌표는 {{2 * axis - x}}입니다.', '{{2 * axis - x}} - {{x}} = {{2 * axis - 2 * x}}입니다.'],
-      hint_steps_template: ['먼저 대칭점의 x좌표를 구해요.', '구한 좌표에서 원래 x좌표를 빼요.'],
+    template(set, 'symmetry-001', 9, 'line-reflection-distance-error', 3, 'number', {
+      param_schema: { x: range(1, 3), y: range(2, 6), axis: range(4, 5) },
+      prompt_template: prompts[4],
+      solver_rule: 'axis',
+      solution_steps_template: ['축까지의 거리는 {{axis - x}}이고, 이 값은 좌표가 아니라 P가 이동해야 할 거리의 절반입니다. 올바른 대칭점의 x좌표는 {{2 * axis - x}}입니다.', '{{2 * axis - x}} - {{axis - x}}를 계산하면 {{axis}}입니다. 따라서 두 답의 차이는 {{axis}}입니다.'],
+      hint_steps_template: ['축까지의 거리와 대칭점의 x좌표를 구분해요.', '올바른 좌표에서 잘못 쓴 값을 빼요.'],
       visual_template: { type: 'symmetry', mode: 'line-coordinate', variant: 1, x: '{{x}}', y: '{{y}}', axis: '{{axis}}' },
+    }),
+    template(set, 'symmetry-001', 10, 'point-reflection-one-coordinate-error', 3, 'number', {
+      param_schema: { x: range(1, 3), y: range(1, 3), cx: range(4, 5), cy: range(4, 5) },
+      prompt_template: prompts[5],
+      solver_rule: '2 * (cy - y)',
+      solution_steps_template: ['점대칭에서는 x좌표와 y좌표를 모두 중심 반대편 같은 거리로 옮겨야 합니다. 올바른 y좌표는 {{2 * cy - y}}입니다.', '잘못 적은 y좌표 {{y}}, 올바른 y좌표 {{2 * cy - y}}의 차이는 {{2 * cy - 2 * y}}입니다.'],
+      hint_steps_template: ['중심에서 P까지의 세로 거리를 확인해요.', '중심 반대편 y좌표와 그대로 둔 y좌표를 비교해요.'],
+      visual_template: { type: 'symmetry', mode: 'point-coordinate', variant: 1, x: '{{x}}', y: '{{y}}', centerX: '{{cx}}', centerY: '{{cy}}' },
     }),
   ])
 }

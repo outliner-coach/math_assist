@@ -211,28 +211,125 @@ function PolygonVisual({ visual, showAnswer }: {
   )
 }
 
+export interface CongruencePairLayout {
+  left: Point[]
+  right: Point[]
+}
+
+export function buildCongruencePairLayout(
+  shape: 'quadrilateral' | 'rectangle' = 'quadrilateral',
+  measurements: { a?: number; b?: number; c?: number } = {}
+): CongruencePairLayout {
+  const a = positive(measurements.a, 8)
+  const b = positive(measurements.b, 6)
+  const c = positive(measurements.c, 7)
+  const rawPoints = shape === 'rectangle'
+    ? [{ x: 0, y: 0 }, { x: a, y: 0 }, { x: a, y: b }, { x: 0, y: b }]
+    : [{ x: 0, y: 0 }, { x: a, y: 0 }, { x: a, y: b }, { x: a - c, y: b }]
+  const xs = rawPoints.map(point => point.x)
+  const ys = rawPoints.map(point => point.y)
+  const modelCenter = {
+    x: (Math.min(...xs) + Math.max(...xs)) / 2,
+    y: (Math.min(...ys) + Math.max(...ys)) / 2,
+  }
+  const scale = Math.min(
+    80 / Math.max(Math.max(...xs) - Math.min(...xs), 1),
+    70 / Math.max(Math.max(...ys) - Math.min(...ys), 1)
+  )
+  const left = rawPoints.map(point => ({
+    x: 73 + (point.x - modelCenter.x) * scale,
+    y: 90 + (point.y - modelCenter.y) * scale,
+  }))
+  const leftXs = left.map(point => point.x)
+  const leftYs = left.map(point => point.y)
+  const sourceCenter = {
+    x: (Math.min(...leftXs) + Math.max(...leftXs)) / 2,
+    y: (Math.min(...leftYs) + Math.max(...leftYs)) / 2,
+  }
+  const targetCenter = { x: 220, y: 90 }
+  const right = left.map(point => {
+    const dx = point.x - sourceCenter.x
+    const dy = point.y - sourceCenter.y
+    return {
+      x: targetCenter.x - dy,
+      y: targetCenter.y + dx,
+    }
+  })
+
+  return { left, right }
+}
+
+function labelOutsidePolygon(point: Point, center: Point, distance = 13): Point {
+  const dx = point.x - center.x
+  const dy = point.y - center.y
+  const length = Math.max(Math.hypot(dx, dy), 1)
+  return {
+    x: point.x + (dx / length) * distance,
+    y: point.y + (dy / length) * distance + 5,
+  }
+}
+
+function edgeLabelPosition(points: Point[], index: number, distance = 12): Point {
+  const next = (index + 1) % points.length
+  const midpoint = {
+    x: (points[index].x + points[next].x) / 2,
+    y: (points[index].y + points[next].y) / 2,
+  }
+  const center = points.reduce(
+    (value, point) => ({
+      x: value.x + point.x / points.length,
+      y: value.y + point.y / points.length,
+    }),
+    { x: 0, y: 0 }
+  )
+  return labelOutsidePolygon(midpoint, center, distance)
+}
+
 function CongruenceVisual({ visual, showAnswer }: { visual: Extract<GeometryVisual, { type: 'congruence' }>; showAnswer: boolean }) {
   const answer = geometryOptionIndex(1, visual.variant)
-  const left = '55,35 120,55 105,135 35,120'
-  const right = '195,35 265,65 245,140 175,115'
-  const candidatePositions = [[205,28], [273,63], [250,158], [163,119]]
+  const shape = visual.shape ?? 'quadrilateral'
+  const layout = buildCongruencePairLayout(shape, visual)
+  const leftCenter = layout.left.reduce(
+    (center, point) => ({
+      x: center.x + point.x / layout.left.length,
+      y: center.y + point.y / layout.left.length,
+    }),
+    { x: 0, y: 0 }
+  )
+  const rightCenter = layout.right.reduce(
+    (center, point) => ({
+      x: center.x + point.x / layout.right.length,
+      y: center.y + point.y / layout.right.length,
+    }),
+    { x: 0, y: 0 }
+  )
+  const leftLabelPositions = layout.left.map(point => (
+    labelOutsidePolygon(point, leftCenter)
+  ))
+  const candidatePositions = layout.right.map(point => (
+    labelOutsidePolygon(point, rightCenter)
+  ))
   const orderedLabels = candidatePositions.map((_, index) => optionLabels[(index + answer - 1) % 4])
+  const measurementPositions = [0, 1, 2].map(index => (
+    edgeLabelPosition(layout.left, index)
+  ))
+  const shapeName = shape === 'rectangle' ? '직사각형' : '사각형'
 
   return (
-    <svg viewBox="0 0 300 180" className="mx-auto w-full max-w-md" role="img" aria-label="합동인 두 사각형과 대응점">
-      <polygon points={left} fill="#dbeafe" stroke="#2563eb" strokeWidth="3" />
-      <polygon points={right} fill="#dcfce7" stroke="#16a34a" strokeWidth="3" />
+    <svg viewBox="0 0 300 180" className="mx-auto w-full max-w-md" role="img" aria-label={`합동인 두 ${shapeName}과 대응점`}>
+      <polygon points={pointString(layout.left)} fill="#dbeafe" stroke="#2563eb" strokeWidth="3" />
+      <polygon points={pointString(layout.right)} fill="#dcfce7" stroke="#16a34a" strokeWidth="3" />
       {['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ'].map((label, index) => {
-        const positions = [[45,28], [126,53], [112,153], [23,124]]
-        return <text key={label} x={positions[index][0]} y={positions[index][1]} fontSize="14" fontWeight="700">{label}</text>
+        const position = leftLabelPositions[index]
+        return <text key={label} x={position.x} y={position.y} textAnchor="middle" fontSize="14" fontWeight="700">{label}</text>
       })}
       {orderedLabels.map((label, index) => (
-        <text key={`${label}-${index}`} x={candidatePositions[index][0]} y={candidatePositions[index][1]} fontSize="14" fontWeight="700">{label}</text>
+        <text key={`${label}-${index}`} x={candidatePositions[index].x} y={candidatePositions[index].y} textAnchor="middle" fontSize="14" fontWeight="700">{label}</text>
       ))}
-      <MeasurementLabel x={86} y={37} value={visual.a} unit={visual.unit} />
-      <MeasurementLabel x={124} y={101} value={visual.b} unit={visual.unit} />
-      <MeasurementLabel x={69} y={145} value={visual.c} unit={visual.unit} />
-      <text x="82" y="174" textAnchor="middle" fontSize="12" fill="#475569">도형 1</text>
+      <MeasurementLabel x={measurementPositions[0].x} y={measurementPositions[0].y} value={visual.a} unit={visual.unit} />
+      <MeasurementLabel x={measurementPositions[1].x} y={measurementPositions[1].y} value={visual.b} unit={visual.unit} />
+      {shape !== 'rectangle' && <MeasurementLabel x={measurementPositions[2].x} y={measurementPositions[2].y} value={visual.c} unit={visual.unit} />}
+      <text x="73" y="174" textAnchor="middle" fontSize="12" fill="#475569">도형 1</text>
       <text x="220" y="174" textAnchor="middle" fontSize="12" fill="#475569">도형 2</text>
       {showAnswer && <text x="150" y="18" textAnchor="middle" fontSize="13" fontWeight="700" fill="#15803d">정답: {optionLabels[answer - 1]}</text>}
     </svg>

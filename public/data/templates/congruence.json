@@ -150,7 +150,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "congruence-corresponding-side-length",
-    "blueprint": {"problemFamily":"congruence-corresponding-side-length","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"congruence-corresponding-side-length","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -169,7 +169,7 @@
         "max": 11
       }
     },
-    "prompt_template": "합동인 두 도형에서 ㄱㄴ의 길이가 {{a}}cm입니다. 대응하는 변의 길이는 몇 cm인가요?",
+    "prompt_template": "합동인 두 장식판을 서로 다른 방향으로 놓았습니다. 도형 1의 ㄱㄴ이 {{a}}cm일 때 도형 2에서 이에 대응하는 변은 몇 cm인가요?",
     "solver_rule": "a",
     "solution_steps_template": [
       "합동인 도형의 대응변 길이는 같습니다.",
@@ -196,7 +196,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "congruence-missing-corresponding-side",
-    "blueprint": {"problemFamily":"congruence-missing-corresponding-side","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"congruence-missing-corresponding-side","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -215,7 +215,7 @@
         "max": 12
       }
     },
-    "prompt_template": "합동인 두 사각형에서 한 변과 그 대응변의 길이가 같습니다. 도형 1의 표시된 변이 {{b}}cm라면 도형 2의 대응변은 몇 cm인가요?",
+    "prompt_template": "합동인 두 타일에서 도형 1의 {{b}}cm인 표시 변과 대응하는 도형 2의 변 길이는 몇 cm인가요?",
     "solver_rule": "b",
     "solution_steps_template": [
       "서로 대응하는 변을 확인합니다.",
@@ -255,10 +255,6 @@
       "b": {
         "min": 5,
         "max": 9
-      },
-      "c": {
-        "min": 6,
-        "max": 10
       }
     },
     "prompt_template": "합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 둘레는 몇 cm인가요?",
@@ -274,10 +270,10 @@
     "visual_template": {
       "type": "congruence",
       "mode": "pair",
+      "shape": "rectangle",
       "variant": "{{variant}}",
       "a": "{{a}}",
       "b": "{{b}}",
-      "c": "{{c}}",
       "unit": "cm"
     }
   },
@@ -301,10 +297,6 @@
       "b": {
         "min": 3,
         "max": 7
-      },
-      "c": {
-        "min": 6,
-        "max": 10
       }
     },
     "prompt_template": "합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 넓이는 몇 cm²인가요?",
@@ -320,10 +312,10 @@
     "visual_template": {
       "type": "congruence",
       "mode": "pair",
+      "shape": "rectangle",
       "variant": "{{variant}}",
       "a": "{{a}}",
       "b": "{{b}}",
-      "c": "{{c}}",
       "unit": "cm"
     }
   },
@@ -333,8 +325,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "congruence-two-missing-sides",
-    "blueprint": {"problemFamily":"congruence-two-missing-sides","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
+    "problem_family": "congruence-wrong-corresponding-side-error",
+    "blueprint": {"problemFamily":"congruence-wrong-corresponding-side-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -342,33 +334,33 @@
       },
       "a": {
         "min": 5,
-        "max": 10
+        "max": 9
       },
-      "b": {
-        "min": 6,
-        "max": 11
+      "d": {
+        "min": 2,
+        "max": 5
       },
       "c": {
         "min": 7,
-        "max": 12
+        "max": 11
       }
     },
-    "prompt_template": "합동인 두 도형에서 도형 2의 표시되지 않은 두 대응변은 각각 {{a}}cm와 {{c}}cm입니다. 두 길이의 합은 몇 cm인가요?",
-    "solver_rule": "a + c",
+    "prompt_template": "도형 1의 ㄱㄴ은 {{a}}cm, ㄴㄷ은 {{a + d}}cm입니다. 도형 2에서 ㄱㄴ의 대응변을 찾으면서 ㄴㄷ의 대응변을 골라 {{a + d}}cm라고 했습니다. 이 답은 올바른 길이보다 몇 cm 큰가요?",
+    "solver_rule": "d",
     "solution_steps_template": [
-      "도형 1의 대응변에서 두 길이 {{a}}cm와 {{c}}cm를 찾습니다.",
-      "{{a}} + {{c}} = {{a + c}}cm입니다."
+      "ㄱㄴ의 올바른 대응변 길이는 합동의 성질에 따라 {{a}}cm입니다.",
+      "잘못 고른 이웃 변은 {{a + d}}cm이므로 {{a + d}} - {{a}} = {{d}}cm 큽니다."
     ],
     "hint_steps_template": [
-      "두 변에 각각 대응하는 변을 찾아요.",
-      "찾은 두 길이를 더해요."
+      "꼭짓점의 대응 순서를 먼저 확인해요.",
+      "잘못 고른 길이에서 올바른 대응변 길이를 빼요."
     ],
     "visual_template": {
       "type": "congruence",
       "mode": "pair",
       "variant": "{{variant}}",
       "a": "{{a}}",
-      "b": "{{b}}",
+      "b": "{{a + d}}",
       "c": "{{c}}",
       "unit": "cm"
     }
@@ -379,8 +371,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "congruence-perimeter-difference",
-    "blueprint": {"problemFamily":"congruence-perimeter-difference","cognitiveDomain":"reasoning","reasoningPattern":"model_and_check","primaryStandard":"6수03-01","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
+    "problem_family": "congruence-perimeter-invariance",
+    "blueprint": {"problemFamily":"congruence-perimeter-invariance","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-01","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -397,17 +389,21 @@
       "c": {
         "min": 7,
         "max": 12
+      },
+      "d": {
+        "min": 2,
+        "max": 6
       }
     },
-    "prompt_template": "합동인 두 도형의 둘레 차이는 몇 cm인가요? 도형의 위치와 방향은 서로 다릅니다.",
-    "solver_rule": "0",
+    "prompt_template": "두 합동 도형 중 하나를 돌려 놓자 둘레가 {{d}}cm 늘었다고 주장했습니다. 이 주장과 실제 둘레 변화량의 차이는 몇 cm인가요?",
+    "solver_rule": "d",
     "solution_steps_template": [
-      "합동인 도형은 모든 대응변의 길이가 같습니다.",
-      "따라서 두 도형의 둘레가 같으므로 차이는 0cm입니다."
+      "합동인 도형은 모든 대응변의 길이가 같으므로 위치와 방향이 바뀌어도 실제 둘레 변화량은 0cm입니다.",
+      "주장한 {{d}}cm와 실제 변화량 0cm의 차이는 {{d}}cm입니다."
     ],
     "hint_steps_template": [
-      "방향이 달라도 합동의 성질은 변하지 않아요.",
-      "같은 두 수의 차를 생각해요."
+      "옮기기와 돌리기가 변의 길이를 바꾸는지 판단해요.",
+      "주장한 변화량과 실제 변화량을 비교해요."
     ],
     "visual_template": {
       "type": "congruence",
@@ -433,7 +429,7 @@
         "max": 4
       }
     },
-    "prompt_template": "합동인 두 도형에서 꼭짓점 ㄱ에 대응하는 도형 2의 꼭짓점을 고르세요.",
+    "prompt_template": "합동인 두 퍼즐 조각에서 도형 1의 ㄱ과 같은 자리에 포개지는 도형 2의 꼭짓점을 고르세요.",
     "solver_rule": "geometryOption(1, variant, 0)",
     "choices_template": [
       "{{geometryOption(1, variant, 0)}}",
@@ -469,7 +465,7 @@
         "max": 4
       }
     },
-    "prompt_template": "각 ㄱ과 크기가 같은 대응각의 꼭짓점을 고르세요.",
+    "prompt_template": "합동인 두 판을 돌려 겹칠 때 각 ㄱ과 포개지는 각의 꼭짓점을 고르세요.",
     "solver_rule": "geometryOption(1, variant, 0)",
     "choices_template": [
       "{{geometryOption(1, variant, 0)}}",
@@ -505,7 +501,7 @@
         "max": 4
       }
     },
-    "prompt_template": "도형 1과 도형 2의 대응 순서를 바르게 나타낼 때, ㄱ과 짝지어야 할 글자를 고르세요.",
+    "prompt_template": "두 합동 사각형의 꼭짓점을 대응 순서대로 적을 때 ㄱ 다음에 짝지을 도형 2의 글자를 고르세요.",
     "solver_rule": "geometryOption(1, variant, 0)",
     "choices_template": [
       "{{geometryOption(1, variant, 0)}}",
@@ -541,7 +537,7 @@
         "max": 4
       }
     },
-    "prompt_template": "도형을 옮기거나 돌려 겹쳤을 때 ㄱ과 포개지는 꼭짓점을 고르세요.",
+    "prompt_template": "방향이 다른 두 합동 도형을 포개면 ㄱ과 만나는 꼭짓점은 어느 것인가요?",
     "solver_rule": "geometryOption(1, variant, 0)",
     "choices_template": [
       "{{geometryOption(1, variant, 0)}}",
@@ -570,7 +566,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "congruence-corresponding-side-length",
-    "blueprint": {"problemFamily":"congruence-corresponding-side-length","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"congruence-corresponding-side-length","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -589,7 +585,7 @@
         "max": 13
       }
     },
-    "prompt_template": "합동인 두 도형에서 ㄱㄴ의 길이가 {{a}}cm입니다. 대응하는 변의 길이는 몇 cm인가요?",
+    "prompt_template": "같은 틀로 만든 두 표지판의 방향이 다릅니다. 도형 1의 ㄱㄴ이 {{a}}cm이면 도형 2의 대응변 길이는 몇 cm인가요?",
     "solver_rule": "a",
     "solution_steps_template": [
       "합동인 도형의 대응변 길이는 같습니다.",
@@ -616,7 +612,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "congruence-missing-corresponding-side",
-    "blueprint": {"problemFamily":"congruence-missing-corresponding-side","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"congruence-missing-corresponding-side","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -635,7 +631,7 @@
         "max": 14
       }
     },
-    "prompt_template": "합동인 두 사각형에서 한 변과 그 대응변의 길이가 같습니다. 도형 1의 표시된 변이 {{b}}cm라면 도형 2의 대응변은 몇 cm인가요?",
+    "prompt_template": "서로 합동인 두 조각을 맞추려고 합니다. 도형 1에서 {{b}}cm로 표시된 변과 맞닿을 도형 2의 변은 몇 cm인가요?",
     "solver_rule": "b",
     "solution_steps_template": [
       "서로 대응하는 변을 확인합니다.",
@@ -675,13 +671,9 @@
       "b": {
         "min": 7,
         "max": 11
-      },
-      "c": {
-        "min": 8,
-        "max": 12
       }
     },
-    "prompt_template": "합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 둘레는 몇 cm인가요?",
+    "prompt_template": "가로 {{a}}cm, 세로 {{b}}cm인 직사각형 액자와 합동인 액자의 테두리 길이는 몇 cm인가요?",
     "solver_rule": "2 * (a + b)",
     "solution_steps_template": [
       "합동인 두 직사각형의 가로와 세로 길이는 각각 같습니다.",
@@ -694,10 +686,10 @@
     "visual_template": {
       "type": "congruence",
       "mode": "pair",
+      "shape": "rectangle",
       "variant": "{{variant}}",
       "a": "{{a}}",
       "b": "{{b}}",
-      "c": "{{c}}",
       "unit": "cm"
     }
   },
@@ -721,13 +713,9 @@
       "b": {
         "min": 5,
         "max": 9
-      },
-      "c": {
-        "min": 8,
-        "max": 12
       }
     },
-    "prompt_template": "합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 넓이는 몇 cm²인가요?",
+    "prompt_template": "가로 {{a}}cm, 세로 {{b}}cm인 직사각형 카드와 합동인 카드의 넓이는 몇 cm²인가요?",
     "solver_rule": "a * b",
     "solution_steps_template": [
       "합동인 도형은 크기와 모양이 같으므로 넓이도 같습니다.",
@@ -740,10 +728,10 @@
     "visual_template": {
       "type": "congruence",
       "mode": "pair",
+      "shape": "rectangle",
       "variant": "{{variant}}",
       "a": "{{a}}",
       "b": "{{b}}",
-      "c": "{{c}}",
       "unit": "cm"
     }
   },
@@ -753,8 +741,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "congruence-two-missing-sides",
-    "blueprint": {"problemFamily":"congruence-two-missing-sides","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
+    "problem_family": "congruence-wrong-corresponding-side-error",
+    "blueprint": {"problemFamily":"congruence-wrong-corresponding-side-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -762,33 +750,33 @@
       },
       "a": {
         "min": 7,
-        "max": 12
+        "max": 11
       },
-      "b": {
-        "min": 8,
-        "max": 13
+      "d": {
+        "min": 4,
+        "max": 7
       },
       "c": {
         "min": 9,
-        "max": 14
+        "max": 13
       }
     },
-    "prompt_template": "합동인 두 도형에서 도형 2의 표시되지 않은 두 대응변은 각각 {{a}}cm와 {{c}}cm입니다. 두 길이의 합은 몇 cm인가요?",
-    "solver_rule": "a + c",
+    "prompt_template": "ㄱㄴ이 {{a}}cm이고 이웃한 ㄴㄷ이 {{a + d}}cm인 합동 도형입니다. 도형 2에서 ㄱㄴ의 대응변 대신 긴 이웃 변을 골랐다면 답이 몇 cm 커지나요?",
+    "solver_rule": "d",
     "solution_steps_template": [
-      "도형 1의 대응변에서 두 길이 {{a}}cm와 {{c}}cm를 찾습니다.",
-      "{{a}} + {{c}} = {{a + c}}cm입니다."
+      "ㄱㄴ의 올바른 대응변 길이는 합동의 성질에 따라 {{a}}cm입니다.",
+      "잘못 고른 이웃 변은 {{a + d}}cm이므로 {{a + d}} - {{a}} = {{d}}cm 큽니다."
     ],
     "hint_steps_template": [
-      "두 변에 각각 대응하는 변을 찾아요.",
-      "찾은 두 길이를 더해요."
+      "꼭짓점의 대응 순서를 먼저 확인해요.",
+      "잘못 고른 길이에서 올바른 대응변 길이를 빼요."
     ],
     "visual_template": {
       "type": "congruence",
       "mode": "pair",
       "variant": "{{variant}}",
       "a": "{{a}}",
-      "b": "{{b}}",
+      "b": "{{a + d}}",
       "c": "{{c}}",
       "unit": "cm"
     }
@@ -799,8 +787,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "congruence-perimeter-difference",
-    "blueprint": {"problemFamily":"congruence-perimeter-difference","cognitiveDomain":"reasoning","reasoningPattern":"model_and_check","primaryStandard":"6수03-01","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
+    "problem_family": "congruence-perimeter-invariance",
+    "blueprint": {"problemFamily":"congruence-perimeter-invariance","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-01","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -817,17 +805,21 @@
       "c": {
         "min": 9,
         "max": 14
+      },
+      "d": {
+        "min": 4,
+        "max": 8
       }
     },
-    "prompt_template": "합동인 두 도형의 둘레 차이는 몇 cm인가요? 도형의 위치와 방향은 서로 다릅니다.",
-    "solver_rule": "0",
+    "prompt_template": "합동인 판을 옮기고 돌렸더니 둘레가 {{d}}cm 커졌다고 말했습니다. 합동의 성질로 판단한 실제 변화량과 말한 값의 차이는 몇 cm인가요?",
+    "solver_rule": "d",
     "solution_steps_template": [
-      "합동인 도형은 모든 대응변의 길이가 같습니다.",
-      "따라서 두 도형의 둘레가 같으므로 차이는 0cm입니다."
+      "합동인 도형은 모든 대응변의 길이가 같으므로 위치와 방향이 바뀌어도 실제 둘레 변화량은 0cm입니다.",
+      "주장한 {{d}}cm와 실제 변화량 0cm의 차이는 {{d}}cm입니다."
     ],
     "hint_steps_template": [
-      "방향이 달라도 합동의 성질은 변하지 않아요.",
-      "같은 두 수의 차를 생각해요."
+      "옮기기와 돌리기가 변의 길이를 바꾸는지 판단해요.",
+      "주장한 변화량과 실제 변화량을 비교해요."
     ],
     "visual_template": {
       "type": "congruence",
@@ -853,7 +845,7 @@
         "max": 4
       }
     },
-    "prompt_template": "합동인 두 도형에서 꼭짓점 ㄱ에 대응하는 도형 2의 꼭짓점을 고르세요.",
+    "prompt_template": "연결된 변의 순서를 비교하여 도형 1의 ㄱ에 대응하는 도형 2의 꼭짓점을 고르세요.",
     "solver_rule": "geometryOption(1, variant, 0)",
     "choices_template": [
       "{{geometryOption(1, variant, 0)}}",
@@ -889,7 +881,7 @@
         "max": 4
       }
     },
-    "prompt_template": "각 ㄱ과 크기가 같은 대응각의 꼭짓점을 고르세요.",
+    "prompt_template": "도형의 방향과 관계없이 각 ㄱ에 대응하여 크기가 같은 각의 꼭짓점을 고르세요.",
     "solver_rule": "geometryOption(1, variant, 0)",
     "choices_template": [
       "{{geometryOption(1, variant, 0)}}",
@@ -925,7 +917,7 @@
         "max": 4
       }
     },
-    "prompt_template": "도형 1과 도형 2의 대응 순서를 바르게 나타낼 때, ㄱ과 짝지어야 할 글자를 고르세요.",
+    "prompt_template": "합동을 나타낼 때 대응 꼭짓점을 같은 순서에 놓습니다. ㄱ과 같은 순서에 올 글자를 고르세요.",
     "solver_rule": "geometryOption(1, variant, 0)",
     "choices_template": [
       "{{geometryOption(1, variant, 0)}}",
@@ -961,7 +953,7 @@
         "max": 4
       }
     },
-    "prompt_template": "도형을 옮기거나 돌려 겹쳤을 때 ㄱ과 포개지는 꼭짓점을 고르세요.",
+    "prompt_template": "한 도형을 90° 돌려 다른 도형에 포갤 때 ㄱ과 일치하는 꼭짓점을 고르세요.",
     "solver_rule": "geometryOption(1, variant, 0)",
     "choices_template": [
       "{{geometryOption(1, variant, 0)}}",
@@ -990,7 +982,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "congruence-corresponding-side-length",
-    "blueprint": {"problemFamily":"congruence-corresponding-side-length","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"congruence-corresponding-side-length","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -1009,7 +1001,7 @@
         "max": 15
       }
     },
-    "prompt_template": "합동인 두 도형에서 ㄱㄴ의 길이가 {{a}}cm입니다. 대응하는 변의 길이는 몇 cm인가요?",
+    "prompt_template": "합동인 두 부품에서 도형 1의 ㄱㄴ 길이 {{a}}cm를 도형 2의 대응변에 옮겨 표시하려고 합니다. 표시할 길이는 몇 cm인가요?",
     "solver_rule": "a",
     "solution_steps_template": [
       "합동인 도형의 대응변 길이는 같습니다.",
@@ -1036,7 +1028,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "congruence-missing-corresponding-side",
-    "blueprint": {"problemFamily":"congruence-missing-corresponding-side","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"congruence-missing-corresponding-side","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -1055,7 +1047,7 @@
         "max": 16
       }
     },
-    "prompt_template": "합동인 두 사각형에서 한 변과 그 대응변의 길이가 같습니다. 도형 1의 표시된 변이 {{b}}cm라면 도형 2의 대응변은 몇 cm인가요?",
+    "prompt_template": "도형 1과 합동인 도형 2를 다른 방향으로 놓았습니다. 도형 1의 표시 변 {{b}}cm에 대응하는 변의 길이를 구하세요.",
     "solver_rule": "b",
     "solution_steps_template": [
       "서로 대응하는 변을 확인합니다.",
@@ -1095,13 +1087,9 @@
       "b": {
         "min": 9,
         "max": 13
-      },
-      "c": {
-        "min": 10,
-        "max": 14
       }
     },
-    "prompt_template": "합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 둘레는 몇 cm인가요?",
+    "prompt_template": "가로 {{a}}cm와 세로 {{b}}cm가 대응하는 두 합동 직사각형에서 도형 2의 둘레를 구하세요.",
     "solver_rule": "2 * (a + b)",
     "solution_steps_template": [
       "합동인 두 직사각형의 가로와 세로 길이는 각각 같습니다.",
@@ -1114,10 +1102,10 @@
     "visual_template": {
       "type": "congruence",
       "mode": "pair",
+      "shape": "rectangle",
       "variant": "{{variant}}",
       "a": "{{a}}",
       "b": "{{b}}",
-      "c": "{{c}}",
       "unit": "cm"
     }
   },
@@ -1141,13 +1129,9 @@
       "b": {
         "min": 7,
         "max": 11
-      },
-      "c": {
-        "min": 10,
-        "max": 14
       }
     },
-    "prompt_template": "합동인 두 직사각형 중 도형 1의 가로가 {{a}}cm, 세로가 {{b}}cm입니다. 도형 2의 넓이는 몇 cm²인가요?",
+    "prompt_template": "가로 {{a}}cm와 세로 {{b}}cm가 대응하는 두 합동 직사각형에서 도형 2의 넓이를 구하세요.",
     "solver_rule": "a * b",
     "solution_steps_template": [
       "합동인 도형은 크기와 모양이 같으므로 넓이도 같습니다.",
@@ -1160,10 +1144,10 @@
     "visual_template": {
       "type": "congruence",
       "mode": "pair",
+      "shape": "rectangle",
       "variant": "{{variant}}",
       "a": "{{a}}",
       "b": "{{b}}",
-      "c": "{{c}}",
       "unit": "cm"
     }
   },
@@ -1173,8 +1157,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "congruence-two-missing-sides",
-    "blueprint": {"problemFamily":"congruence-two-missing-sides","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
+    "problem_family": "congruence-wrong-corresponding-side-error",
+    "blueprint": {"problemFamily":"congruence-wrong-corresponding-side-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-01","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -1182,33 +1166,33 @@
       },
       "a": {
         "min": 9,
-        "max": 14
+        "max": 13
       },
-      "b": {
-        "min": 10,
-        "max": 15
+      "d": {
+        "min": 6,
+        "max": 9
       },
       "c": {
         "min": 11,
-        "max": 16
+        "max": 15
       }
     },
-    "prompt_template": "합동인 두 도형에서 도형 2의 표시되지 않은 두 대응변은 각각 {{a}}cm와 {{c}}cm입니다. 두 길이의 합은 몇 cm인가요?",
-    "solver_rule": "a + c",
+    "prompt_template": "ㄱㄴ={{a}}cm, ㄴㄷ={{a + d}}cm인 도형과 합동인 도형에서 ㄱㄴ의 대응변 대신 ㄴㄷ의 대응변을 선택했습니다. 잘못 고른 길이와 올바른 길이의 차이는 몇 cm인가요?",
+    "solver_rule": "d",
     "solution_steps_template": [
-      "도형 1의 대응변에서 두 길이 {{a}}cm와 {{c}}cm를 찾습니다.",
-      "{{a}} + {{c}} = {{a + c}}cm입니다."
+      "ㄱㄴ의 올바른 대응변 길이는 합동의 성질에 따라 {{a}}cm입니다.",
+      "잘못 고른 이웃 변은 {{a + d}}cm이므로 {{a + d}} - {{a}} = {{d}}cm 큽니다."
     ],
     "hint_steps_template": [
-      "두 변에 각각 대응하는 변을 찾아요.",
-      "찾은 두 길이를 더해요."
+      "꼭짓점의 대응 순서를 먼저 확인해요.",
+      "잘못 고른 길이에서 올바른 대응변 길이를 빼요."
     ],
     "visual_template": {
       "type": "congruence",
       "mode": "pair",
       "variant": "{{variant}}",
       "a": "{{a}}",
-      "b": "{{b}}",
+      "b": "{{a + d}}",
       "c": "{{c}}",
       "unit": "cm"
     }
@@ -1219,8 +1203,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "congruence-perimeter-difference",
-    "blueprint": {"problemFamily":"congruence-perimeter-difference","cognitiveDomain":"reasoning","reasoningPattern":"model_and_check","primaryStandard":"6수03-01","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium","visualSemantics":"schematic"},
+    "problem_family": "congruence-perimeter-invariance",
+    "blueprint": {"problemFamily":"congruence-perimeter-invariance","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-01","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "variant": {
         "min": 1,
@@ -1237,17 +1221,21 @@
       "c": {
         "min": 11,
         "max": 16
+      },
+      "d": {
+        "min": 6,
+        "max": 10
       }
     },
-    "prompt_template": "합동인 두 도형의 둘레 차이는 몇 cm인가요? 도형의 위치와 방향은 서로 다릅니다.",
-    "solver_rule": "0",
+    "prompt_template": "합동인 도형은 위치와 방향만 바뀌었습니다. 둘레가 {{d}}cm 변했다는 값과 실제 변화량의 차이를 구하세요.",
+    "solver_rule": "d",
     "solution_steps_template": [
-      "합동인 도형은 모든 대응변의 길이가 같습니다.",
-      "따라서 두 도형의 둘레가 같으므로 차이는 0cm입니다."
+      "합동인 도형은 모든 대응변의 길이가 같으므로 위치와 방향이 바뀌어도 실제 둘레 변화량은 0cm입니다.",
+      "주장한 {{d}}cm와 실제 변화량 0cm의 차이는 {{d}}cm입니다."
     ],
     "hint_steps_template": [
-      "방향이 달라도 합동의 성질은 변하지 않아요.",
-      "같은 두 수의 차를 생각해요."
+      "옮기기와 돌리기가 변의 길이를 바꾸는지 판단해요.",
+      "주장한 변화량과 실제 변화량을 비교해요."
     ],
     "visual_template": {
       "type": "congruence",

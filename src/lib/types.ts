@@ -175,6 +175,7 @@ export type GeometryVisual =
       type: 'congruence'
       mode: 'pair' | 'options'
       variant: number
+      shape?: 'quadrilateral' | 'rectangle'
       a?: number
       b?: number
       c?: number

@@ -136,10 +136,17 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       ))
     }
 
-    for (const filename of ['perimeter.json', 'polygonarea.json']) {
+    for (const filename of [
+      'perimeter.json',
+      'polygonarea.json',
+      'congruence.json',
+      'symmetry.json',
+    ]) {
       expect(collectExhaustiveTemplateIssues(
         generatedGeometryBanks[filename] as ProblemTemplate[],
-        /^\d+$/
+        filename === 'congruence.json'
+          ? /^(?:\d+|[가나다라])$/
+          : /^\d+$/
       )).toEqual([])
     }
   })
@@ -515,6 +522,19 @@ describe('Grade 5 reviewed blueprint metadata', () => {
           return counts
         }, {})).toEqual({ knowing: 4, applying: 4, reasoning: 2 })
       }
+
+      const conceptTemplates = templates.filter(template => (
+        template.concept_id === conceptId
+      ))
+      for (const family of new Set(
+        conceptTemplates.map(template => template.problem_family)
+      )) {
+        expect(new Set(
+          conceptTemplates
+            .filter(template => template.problem_family === family)
+            .map(template => template.prompt_template)
+        )).toHaveLength(3)
+      }
     }
 
     expect(templates.find(template => (
@@ -526,6 +546,62 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     expect(templates.find(template => (
       template.id === 'tmpl-polygonarea-A-10'
     ))?.problem_family).toBe('polygonarea-trapezoid-base-omission-error')
+  })
+
+  it('gives congruence and symmetry banks genuine K4/A4/R2 reasoning mixes', () => {
+    const templates = readMigratedTemplates().filter(template => (
+      template.concept_id === 'congruence-001' ||
+      template.concept_id === 'symmetry-001'
+    ))
+    const coverage = buildProblemBlueprintCoverage(templates)
+
+    expect(templates).toHaveLength(60)
+    for (const conceptId of ['congruence-001', 'symmetry-001']) {
+      const concept = coverage.byConcept.find(entry => entry.conceptId === conceptId)
+      expect(concept?.cognitiveCounts).toEqual({
+        knowing: 12,
+        applying: 12,
+        reasoning: 6,
+      })
+      expect(concept?.problemFamilyCount).toBe(10)
+      expect(concept?.reasoningFamilyCount).toBe(2)
+      expect(concept?.targetGaps).toEqual([])
+
+      for (const setId of ['A', 'B', 'C']) {
+        const setTemplates = templates.filter(template => (
+          template.concept_id === conceptId && template.set_id === setId
+        ))
+        expect(setTemplates.reduce<Record<string, number>>((counts, template) => {
+          const domain = template.blueprint!.cognitiveDomain
+          counts[domain] = (counts[domain] ?? 0) + 1
+          return counts
+        }, {})).toEqual({ knowing: 4, applying: 4, reasoning: 2 })
+      }
+    }
+
+    expect(templates.find(template => (
+      template.id === 'tmpl-congruence-A-09'
+    ))?.problem_family).toBe('congruence-wrong-corresponding-side-error')
+    expect(templates.find(template => (
+      template.id === 'tmpl-congruence-A-10'
+    ))?.problem_family).toBe('congruence-perimeter-invariance')
+    expect(templates.find(template => (
+      template.id === 'tmpl-symmetry-A-09'
+    ))?.problem_family).toBe('symmetry-line-reflection-distance-error')
+    expect(templates.find(template => (
+      template.id === 'tmpl-symmetry-A-10'
+    ))?.problem_family).toBe('symmetry-point-reflection-one-coordinate-error')
+
+    for (const setId of ['A', 'B', 'C']) {
+      for (const index of ['07', '08']) {
+        expect(templates.find(template => (
+          template.id === `tmpl-congruence-${setId}-${index}`
+        ))?.visual_template).toMatchObject({
+          type: 'congruence',
+          shape: 'rectangle',
+        })
+      }
+    }
   })
 
   it('gives every average set a reviewed K4/A4/R2 application mix', () => {

@@ -2,7 +2,10 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
-import GeometryProblemVisual, { buildPolygonLayout } from './GeometryProblemVisual'
+import GeometryProblemVisual, {
+  buildCongruencePairLayout,
+  buildPolygonLayout,
+} from './GeometryProblemVisual'
 
 describe('GeometryProblemVisual', () => {
   it('renders polygon measurements without adding an answer value', () => {
@@ -115,6 +118,91 @@ describe('GeometryProblemVisual', () => {
 
     expect(hiddenNet).not.toContain('정답 전개도')
     expect(revealedNet).toContain('정답 전개도')
+  })
+
+  it('derives every displayed congruent pair from one rigidly transformed polygon', () => {
+    const distance = (left: { x: number; y: number }, right: { x: number; y: number }) => (
+      Math.hypot(left.x - right.x, left.y - right.y)
+    )
+
+    for (const shape of ['quadrilateral', 'rectangle'] as const) {
+      const layout = buildCongruencePairLayout(shape, { a: 8, b: 5, c: 7 })
+
+      expect(layout.left).toHaveLength(4)
+      expect(layout.right).toHaveLength(4)
+      for (let leftIndex = 0; leftIndex < 4; leftIndex += 1) {
+        for (let rightIndex = leftIndex + 1; rightIndex < 4; rightIndex += 1) {
+          expect(distance(layout.left[leftIndex], layout.left[rightIndex])).toBeCloseTo(
+            distance(layout.right[leftIndex], layout.right[rightIndex]),
+            8
+          )
+        }
+      }
+
+      const edgeLengths = layout.left.map((point, index) => (
+        distance(point, layout.left[(index + 1) % layout.left.length])
+      ))
+      expect(edgeLengths[0] / edgeLengths[1]).toBeCloseTo(8 / 5, 8)
+      if (shape === 'quadrilateral') {
+        expect(edgeLengths[2] / edgeLengths[1]).toBeCloseTo(7 / 5, 8)
+      } else {
+        expect(edgeLengths[2]).toBeCloseTo(edgeLengths[0], 8)
+        expect(edgeLengths[3]).toBeCloseTo(edgeLengths[1], 8)
+      }
+    }
+  })
+
+  it('keeps every generated congruence measurement combination quantitative and in bounds', () => {
+    const distance = (left: { x: number; y: number }, right: { x: number; y: number }) => (
+      Math.hypot(left.x - right.x, left.y - right.y)
+    )
+
+    for (let a = 4; a <= 14; a += 1) {
+      for (let b = 3; b <= 13; b += 1) {
+        for (let c = 6; c <= 16; c += 1) {
+          const { left, right } = buildCongruencePairLayout(
+            'quadrilateral',
+            { a, b, c }
+          )
+          const leftEdges = left.map((point, index) => (
+            distance(point, left[(index + 1) % left.length])
+          ))
+          const rightEdges = right.map((point, index) => (
+            distance(point, right[(index + 1) % right.length])
+          ))
+
+          expect(leftEdges[0] / leftEdges[1]).toBeCloseTo(a / b, 8)
+          expect(leftEdges[2] / leftEdges[1]).toBeCloseTo(c / b, 8)
+          for (let index = 0; index < leftEdges.length; index += 1) {
+            expect(rightEdges[index]).toBeCloseTo(leftEdges[index], 8)
+          }
+          for (const point of [...left, ...right]) {
+            expect(point.x).toBeGreaterThanOrEqual(20)
+            expect(point.x).toBeLessThanOrEqual(270)
+            expect(point.y).toBeGreaterThanOrEqual(40)
+            expect(point.y).toBeLessThanOrEqual(140)
+          }
+        }
+      }
+    }
+  })
+
+  it('renders rectangle application contexts as actual rectangles', () => {
+    const html = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'congruence',
+        mode: 'pair',
+        variant: 1,
+        shape: 'rectangle',
+        a: 8,
+        b: 5,
+        unit: 'cm',
+      },
+    }))
+
+    expect(html).toContain('합동인 두 직사각형')
+    expect(html).toContain('8cm')
+    expect(html).toContain('5cm')
   })
 
   it('keeps the reflected point hidden until the solution is shown', () => {

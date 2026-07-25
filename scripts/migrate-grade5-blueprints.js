@@ -381,12 +381,12 @@ const REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'congruence-corresponding-angle': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수03-01', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'schematic' }),
   'congruence-congruence-statement-order': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수03-01', estimatedSteps: 1, readingLoad: 'medium', visualSemantics: 'schematic' }),
   'congruence-same-correspondence': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수03-01', estimatedSteps: 1, readingLoad: 'medium', visualSemantics: 'schematic' }),
-  'congruence-corresponding-side-length': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-01', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'schematic' }),
-  'congruence-missing-corresponding-side': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-01', estimatedSteps: 1, readingLoad: 'medium', visualSemantics: 'schematic' }),
+  'congruence-corresponding-side-length': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'representation_shift', primaryStandard: '6수03-01', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'congruence-missing-corresponding-side': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'representation_shift', primaryStandard: '6수03-01', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
   'congruence-congruent-perimeter': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-01', connectedStandards: ['6수03-11'], estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
   'congruence-congruent-area': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-01', connectedStandards: ['6수03-13'], estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
-  'congruence-two-missing-sides': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-01', estimatedSteps: 2, readingLoad: 'high', visualSemantics: 'quantitative' }),
-  'congruence-perimeter-difference': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'model_and_check', primaryStandard: '6수03-01', connectedStandards: ['6수03-11'], estimatedSteps: 1, readingLoad: 'medium', visualSemantics: 'schematic' }),
+  'congruence-wrong-corresponding-side-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-01', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
+  'congruence-perimeter-invariance': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-01', connectedStandards: ['6수03-11'], estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
 
   // Line and point symmetry
   'symmetry-square-axes': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-02', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'schematic' }),
@@ -397,8 +397,8 @@ const REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'symmetry-vertical-reflection-distance': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-02', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
   'symmetry-point-reflection-x': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'representation_shift', primaryStandard: '6수03-02', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
   'symmetry-point-reflection-y': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'representation_shift', primaryStandard: '6수03-02', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
-  'symmetry-point-reflection-coordinate-sum': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-02', estimatedSteps: 3, readingLoad: 'high', visualSemantics: 'quantitative' }),
-  'symmetry-two-reflections': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-02', estimatedSteps: 3, readingLoad: 'high', visualSemantics: 'quantitative' }),
+  'symmetry-line-reflection-distance-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-02', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
+  'symmetry-point-reflection-one-coordinate-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-02', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
 
   // Cuboid properties
   'cuboid-face-count': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-03', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'schematic' }),

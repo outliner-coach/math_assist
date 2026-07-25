@@ -21,6 +21,23 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 5 congruence and symmetry application reinforcement
+  (primary workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/templates/congruence.json`,
+  `public/data/templates/symmetry.json`,
+  `scripts/generate-grade5-geometry-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, `src/lib/types.ts`,
+  `src/components/GeometryProblemVisual.tsx`, and their focused blueprint,
+  renderer, and browser tests. Both banks keep A/B/C difficulty 4-4-2 while
+  moving to K12/A12/R6, ten reviewed families, and two genuine reasoning
+  families. Every displayed congruent pair must be derived by a rigid
+  transformation of one source polygon; rectangle contexts must render actual
+  rectangles. Symmetry reasoning must analyze a concrete line- or
+  point-reflection error. Re-check exact side-length preservation, answer-safe
+  labels, generator parity, all allowed parameter combinations, difficulty
+  progression, mobile rendering, template validation, and the problem audit
+  before concurrent changes.
+
 - 2026-07-25: Grade 5 fraction-multiplication application reinforcement
   (primary workstreams 01 and 04) owns the narrow change to
   `public/data/templates/fracmul.json`,
