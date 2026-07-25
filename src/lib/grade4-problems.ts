@@ -2,7 +2,7 @@ import type { Grade4AnswerType } from './grade4-answer-normalizers'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
-export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation'
+export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table'
 export type Grade4VisualModel = Grade4Representation
 export type Grade4SupportTool = 'none' | 'grid' | 'ruler' | 'protractor'
 
@@ -88,6 +88,7 @@ export const GRADE4_ESTIMATION_UNIT_ID = 'unit-4-1-arithmetic-estimation'
 export const GRADE4_DECIMAL_UNIT_ID = 'unit-4-2-decimals'
 export const GRADE4_FRACTION_ADD_SUB_UNIT_ID = 'unit-4-2-fraction-add-sub'
 export const GRADE4_DECIMAL_ADD_SUB_UNIT_ID = 'unit-4-2-decimal-add-sub'
+export const GRADE4_PATTERNS_UNIT_ID = 'unit-4-2-patterns'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -160,6 +161,18 @@ export const grade4Units: Grade4Unit[] = [
     curriculumCodes: ['[4수01-16]'],
     prerequisiteCodes: ['[4수01-13]', '[4수01-14]'],
     contentReleaseId: 'grade4-bridge-decimal-add-sub-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_PATTERNS_UNIT_ID,
+    semester: '4-2',
+    order: 7,
+    title: '규칙 찾기',
+    subtitle: '수와 계산식의 배열에서 변하는 규칙을 찾아 식으로 설명하고 다음 결과를 예상해요.',
+    learnerGoal: '변화 규칙을 수·식·표로 나타내고 멀리 있는 값도 근거 있게 구해요.',
+    curriculumCodes: ['[4수02-01]', '[4수02-02]'],
+    prerequisiteCodes: [],
+    contentReleaseId: 'grade4-bridge-patterns-v1',
     releaseStatus: 'released',
   },
 ]
@@ -1367,6 +1380,237 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
         solutionSteps: ['바로 뺄 수 없는 자리에서는 윗자리의 1을 아랫자리의 10으로 바꾸어 받아 내립니다.', `같은 자리끼리 계산하면 ${scaledDecimal(leftScaled, 2)}-${scaledDecimal(rightScaled, 2)}=${difference}입니다.`],
         visualModel: 'decimal-operation',
         visualConfig: { leftScaled, rightScaled, operation: 'subtract' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-01', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-01]', cognitiveDomain: 'knowing',
+    problemFamily: 'additive-sequence-next-term', representation: 'pattern-table', answerType: 'integer', supportTool: 'grid', skillTag: '수의 변화 규칙',
+    learnerGoal: '일정하게 커지는 수 배열에서 다음 수를 구해요.',
+    promptTemplate: '일정하게 커지는 수 배열의 다음 수를 구하세요.', hintSteps: ['이웃한 두 수의 차를 차례로 구해요.', '같은 수만큼 커진다면 마지막 수에도 그 수를 더해요.'],
+    build: (v) => {
+      const value1 = 10 + v
+      const step = 2 + (v % 4)
+      const value2 = value1 + step
+      const value3 = value2 + step
+      const value4 = value3 + step
+      const correctAnswer = String(value4 + step)
+      return {
+        prompt: `${value1}, ${value2}, ${value3}, ${value4}, □의 규칙을 찾아 □에 알맞은 수를 쓰세요.`,
+        correctAnswer,
+        solutionSteps: [`이웃한 수의 차는 모두 ${step}입니다.`, `${value4}+${step}=${correctAnswer}이므로 다음 수는 ${correctAnswer}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'sequence', value1, value2, value3, value4, requestedPosition: 5 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-02', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-01]', cognitiveDomain: 'knowing',
+    problemFamily: 'input-output-next-value', representation: 'pattern-table', answerType: 'integer', supportTool: 'grid', skillTag: '대응 규칙',
+    learnerGoal: '위 수와 아래 수의 대응 규칙을 찾아 다음 값을 구해요.',
+    promptTemplate: '대응표에서 위 수와 아래 수의 규칙을 찾아 빈칸을 구하세요.', hintSteps: ['각 열에서 위 수가 1 커질 때 아래 수가 얼마나 커지는지 봐요.', '찾은 규칙을 다음 위 수에도 적용해요.'],
+    build: (v) => {
+      const multiplier = 2 + (v % 4)
+      const offset = v
+      const input1 = 1
+      const input2 = 2
+      const input3 = 3
+      const output1 = input1 * multiplier + offset
+      const output2 = input2 * multiplier + offset
+      const output3 = input3 * multiplier + offset
+      const correctAnswer = String(4 * multiplier + offset)
+      return {
+        prompt: `위 수가 1, 2, 3일 때 아래 수가 ${output1}, ${output2}, ${output3}입니다. 위 수가 4일 때 아래 수를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`위 수가 1 커질 때 아래 수는 ${multiplier}씩 커집니다.`, `${output3}+${multiplier}=${correctAnswer}이므로 알맞은 수는 ${correctAnswer}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'correspondence', input1, input2, input3, output1, output2, output3, requestedPosition: 4 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-03', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-02]', cognitiveDomain: 'knowing',
+    problemFamily: 'multiplication-array-next-result', representation: 'pattern-table', answerType: 'integer', supportTool: 'grid', skillTag: '계산식 배열',
+    learnerGoal: '곱하는 수가 일정하게 변하는 계산식 배열의 다음 결과를 구해요.',
+    promptTemplate: '곱셈식 배열의 규칙을 찾아 다음 계산 결과를 구하세요.', hintSteps: ['곱해지는 수가 같고 곱하는 수가 어떻게 변하는지 봐요.', '결과가 일정하게 커지는 값도 확인해요.'],
+    build: (v) => {
+      const factor = 10 + v
+      const correctAnswer = String(factor * 5)
+      return {
+        prompt: `${factor}×2=${factor * 2}, ${factor}×3=${factor * 3}, ${factor}×4=${factor * 4}입니다. 규칙을 이용해 ${factor}×5를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`곱하는 수가 1씩 커질 때 결과는 ${factor}씩 커집니다.`, `${factor * 4}+${factor}=${correctAnswer}이므로 ${factor}×5=${correctAnswer}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'multiplication', factor, input1: 2, input2: 3, input3: 4, output1: factor * 2, output2: factor * 3, output3: factor * 4, requestedPosition: 5 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-04', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-02]', cognitiveDomain: 'knowing',
+    problemFamily: 'addition-array-next-result', representation: 'pattern-table', answerType: 'integer', supportTool: 'grid', skillTag: '계산식 배열',
+    learnerGoal: '두 수가 함께 변하는 덧셈식 배열에서 다음 결과를 구해요.',
+    promptTemplate: '두 덧셈 항이 함께 변하는 배열의 다음 계산 결과를 구하세요.', hintSteps: ['첫째 수와 둘째 수가 각각 얼마나 커지는지 봐요.', '두 수의 증가량을 합하면 결과의 증가량을 알 수 있어요.'],
+    build: (v) => {
+      const left1 = 20 + v
+      const right1 = 5 + v
+      const leftStep = 3
+      const rightStep = 2
+      const left2 = left1 + leftStep
+      const left3 = left2 + leftStep
+      const right2 = right1 + rightStep
+      const right3 = right2 + rightStep
+      const requestedLeft = left3 + leftStep
+      const requestedRight = right3 + rightStep
+      const correctAnswer = String(requestedLeft + requestedRight)
+      return {
+        prompt: `${left1}+${right1}=${left1 + right1}, ${left2}+${right2}=${left2 + right2}, ${left3}+${right3}=${left3 + right3}입니다. 다음 식 ${requestedLeft}+${requestedRight}의 결과를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`첫째 수는 ${leftStep}씩, 둘째 수는 ${rightStep}씩 커져 결과는 ${leftStep + rightStep}씩 커집니다.`, `${left3 + right3}+${leftStep + rightStep}=${correctAnswer}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'addition', left1, left2, left3, right1, right2, right3, output1: left1 + right1, output2: left2 + right2, output3: left3 + right3, requestedLeft, requestedRight },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-05', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-01]', cognitiveDomain: 'applying',
+    problemFamily: 'growing-stage-far-term', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '단계 규칙',
+    learnerGoal: '처음 몇 단계의 변화량을 이용해 멀리 있는 단계의 개수를 구해요.',
+    promptTemplate: '단계마다 일정하게 늘어나는 모형의 먼 단계 개수를 구하세요.', hintSteps: ['1단계에서 시작해 한 단계마다 몇 개씩 늘어나는지 구해요.', '1단계에서 목표 단계까지 증가가 몇 번 일어나는지 세어요.'],
+    build: (v) => {
+      const value1 = 4 + v
+      const step = 3 + (v % 3)
+      const value2 = value1 + step
+      const value3 = value2 + step
+      const requestedPosition = 6 + (v % 3)
+      const correctAnswer = String(value1 + (requestedPosition - 1) * step)
+      return {
+        prompt: `정사각형 타일이 1단계 ${value1}개, 2단계 ${value2}개, 3단계 ${value3}개로 늘어납니다. 같은 규칙일 때 ${requestedPosition}단계에는 몇 개가 필요할까요?`,
+        correctAnswer,
+        solutionSteps: [`한 단계마다 타일이 ${step}개씩 늘어납니다.`, `1단계 뒤로 ${requestedPosition - 1}번 늘어나므로 ${value1}+${step}×${requestedPosition - 1}=${correctAnswer}개입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'stages', value1, value2, value3, requestedPosition, itemLabel: '타일 수' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-06', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-01]', cognitiveDomain: 'applying',
+    problemFamily: 'price-correspondence-far-value', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '생활 속 대응',
+    learnerGoal: '물건 수와 전체 금액의 대응 규칙을 이용해 필요한 금액을 구해요.',
+    promptTemplate: '물건 수와 전체 금액의 표에서 목표 개수의 금액을 구하세요.', hintSteps: ['한 개의 값이 일정한지 표의 각 열로 확인해요.', '한 개의 값에 필요한 개수를 곱해요.'],
+    build: (v) => {
+      const unitPrice = 120 + v * 10
+      const requestedPosition = 5 + (v % 4)
+      const correctAnswer = String(unitPrice * requestedPosition)
+      return {
+        prompt: `연필 1자루는 ${unitPrice}원, 2자루는 ${unitPrice * 2}원, 3자루는 ${unitPrice * 3}원입니다. ${requestedPosition}자루의 값은 얼마인가요?`,
+        correctAnswer,
+        solutionSteps: [`연필 수가 1 늘 때 전체 금액은 ${unitPrice}원씩 늘어납니다.`, `${unitPrice}×${requestedPosition}=${correctAnswer}원이 필요합니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'correspondence', input1: 1, input2: 2, input3: 3, output1: unitPrice, output2: unitPrice * 2, output3: unitPrice * 3, requestedPosition, inputLabel: '연필 수', outputLabel: '금액(원)' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-07', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-02]', cognitiveDomain: 'applying',
+    problemFamily: 'multiplication-array-far-row', representation: 'pattern-table', answerType: 'integer', supportTool: 'grid', skillTag: '계산 결과 예측',
+    learnerGoal: '가까운 계산식의 규칙을 이용해 배열의 멀리 있는 결과를 예측해요.',
+    promptTemplate: '곱셈식 배열에서 여러 칸 뒤 계산 결과를 규칙으로 구하세요.', hintSteps: ['곱하는 수가 1 늘 때 결과가 얼마나 늘어나는지 봐요.', '목표까지 몇 번 늘어나는지 세거나 곱셈식을 바로 계산해요.'],
+    build: (v) => {
+      const factor = 100 + v
+      const requestedPosition = 7 + v
+      const correctAnswer = String(factor * requestedPosition)
+      return {
+        prompt: `${factor}×2=${factor * 2}, ${factor}×3=${factor * 3}, ${factor}×4=${factor * 4}입니다. 같은 배열에서 ${factor}×${requestedPosition}의 결과를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`곱하는 수가 1씩 늘 때 결과는 ${factor}씩 늘어납니다.`, `규칙을 이어 가거나 곱하면 ${factor}×${requestedPosition}=${correctAnswer}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'multiplication', factor, input1: 2, input2: 3, input3: 4, output1: factor * 2, output2: factor * 3, output3: factor * 4, requestedPosition },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-08', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-02]', cognitiveDomain: 'applying',
+    problemFamily: 'select-next-calculation-row', representation: 'pattern-table', answerType: 'choice', supportTool: 'none', skillTag: '계산식 배열 완성',
+    learnerGoal: '두 수와 결과가 함께 변하는 계산식 배열의 다음 줄을 골라요.',
+    promptTemplate: '계산식 배열의 규칙을 모두 지키는 다음 식을 고르세요.', hintSteps: ['첫째 수, 둘째 수, 결과가 각각 어떻게 변하는지 따로 봐요.', '식 자체의 계산도 맞는지 확인해요.'],
+    build: (v, seed) => {
+      const left1 = 30 + v
+      const right1 = 4 + v
+      const left2 = left1 + 4
+      const left3 = left2 + 4
+      const right2 = right1 + 2
+      const right3 = right2 + 2
+      const requestedLeft = left3 + 4
+      const requestedRight = right3 + 2
+      const requestedResult = requestedLeft - requestedRight
+      const correctAnswer = `${requestedLeft}-${requestedRight}=${requestedResult}`
+      return {
+        prompt: `${left1}-${right1}=${left1 - right1}, ${left2}-${right2}=${left2 - right2}, ${left3}-${right3}=${left3 - right3} 다음에 올 식을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `${requestedLeft}-${right3}=${requestedLeft - right3}`,
+          `${left3}-${requestedRight}=${left3 - requestedRight}`,
+          `${requestedLeft}-${requestedRight}=${requestedResult + 2}`,
+        ], seed),
+        solutionSteps: ['첫째 수는 4씩, 둘째 수는 2씩 커지므로 결과는 2씩 커집니다.', `세 변화와 계산이 모두 맞는 다음 식은 ${correctAnswer}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'subtraction', left1, left2, left3, right1, right2, right3, output1: left1 - right1, output2: left2 - right2, output3: left3 - right3, requestedLeft, requestedRight },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-09', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-01]', cognitiveDomain: 'reasoning',
+    problemFamily: 'correspondence-rule-claim-evaluation', representation: 'context', answerType: 'choice', supportTool: 'grid', skillTag: '대응 규칙 설명',
+    learnerGoal: '표의 일부만 보고 세운 규칙이 모든 대응쌍에 맞는지 판단해요.',
+    promptTemplate: '대응표에 대한 친구의 규칙 설명을 모든 열로 확인하세요.', hintSteps: ['한 열에만 맞는 규칙은 전체 규칙이라고 할 수 없어요.', '각 위 수에 같은 계산을 적용해 아래 수가 되는지 확인해요.'],
+    build: (v, seed) => {
+      const multiplier = 3 + (v % 3)
+      const offset = 2 + v
+      const output1 = multiplier + offset
+      const output2 = multiplier * 2 + offset
+      const output3 = multiplier * 3 + offset
+      const next = multiplier * 4 + offset
+      const correctAnswer = `위 수에 ${multiplier}을 곱하고 ${offset}를 더하는 규칙이며, 위 수 4에 대응하는 수는 ${next}입니다.`
+      return {
+        prompt: `대응표의 위 수 1, 2, 3에 아래 수 ${output1}, ${output2}, ${output3}이 대응합니다. 지민이는 “항상 ${multiplier}만 더하면 돼.”라고 말했습니다. 알맞은 판단을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `위 수에 ${multiplier}만 더하는 규칙이므로 다음 수는 ${4 + multiplier}입니다.`,
+          `아래 수끼리 ${offset}만큼 차이 나므로 다음 수는 ${output3 + offset}입니다.`,
+          '대응하는 수가 세 개뿐이므로 어떤 규칙도 설명할 수 없습니다.',
+        ], seed),
+        solutionSteps: [`각 열에서 위 수에 ${multiplier}을 곱한 뒤 ${offset}를 더하면 아래 수가 됩니다.`, `4×${multiplier}+${offset}=${next}이므로 친구의 설명은 전체 표에 맞지 않습니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'correspondence', input1: 1, input2: 2, input3: 3, output1, output2, output3, requestedPosition: 4, speaker: '지민' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-10', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-02]', cognitiveDomain: 'reasoning',
+    problemFamily: 'two-part-calculation-pattern-error', representation: 'pattern-table', answerType: 'choice', supportTool: 'grid', skillTag: '계산식 규칙 오류',
+    learnerGoal: '계산식 배열에서 두 곳이 함께 변하는 규칙을 빠뜨린 오류를 고쳐요.',
+    promptTemplate: '곱하는 수와 더하는 수가 함께 변하는 계산식 배열의 잘못된 다음 식을 고치세요.', hintSteps: ['각 식에서 곱하는 수와 더하는 수를 따로 표시해요.', '다음 줄에서는 두 수가 모두 같은 규칙으로 변해야 해요.'],
+    build: (v, seed) => {
+      const factor = 8 + (v % 2)
+      const first = factor * 1 + 1
+      const second = factor * 2 + 2
+      const third = factor * 3 + 3
+      const fourth = factor * 4 + 4
+      const correctAnswer = `곱하는 수와 더하는 수를 모두 4로 바꾸어 ${factor}×4+4=${fourth}로 써야 합니다.`
+      return {
+        prompt: `${factor}×1+1=${first}, ${factor}×2+2=${second}, ${factor}×3+3=${third} 다음에 현우는 ${factor}×4+3=${factor * 4 + 3}이라고 썼습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `곱하는 수만 4로 바뀌므로 ${factor}×4+3=${factor * 4 + 3}이 맞습니다.`,
+          `더하는 수만 4로 바꾸어 ${factor}×3+4=${factor * 3 + 4}로 써야 합니다.`,
+          `결과에 4만 더해 ${third + 4}로 쓰면 됩니다.`,
+        ], seed),
+        solutionSteps: ['곱하는 수와 더하는 수가 1, 2, 3으로 함께 1씩 커집니다.', `다음 줄에서는 둘 다 4이므로 ${factor}×4+4=${fourth}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'multiply-add', factor, input1: 1, input2: 2, input3: 3, output1: first, output2: second, output3: third, requestedPosition: 4, speaker: '현우' },
       }
     },
   }),

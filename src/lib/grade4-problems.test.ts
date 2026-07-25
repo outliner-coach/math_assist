@@ -9,6 +9,7 @@ import {
   GRADE4_DECIMAL_ADD_SUB_UNIT_ID,
   GRADE4_ESTIMATION_UNIT_ID,
   GRADE4_FRACTION_ADD_SUB_UNIT_ID,
+  GRADE4_PATTERNS_UNIT_ID,
   getGrade4Activity,
   getGrade4MissionBank,
   grade4MissionTemplates,
@@ -23,7 +24,7 @@ describe('Grade 4 Bridge release bank', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(6)
+    expect(grade4Units).toHaveLength(7)
     expect(grade4Units.map((unit) => unit.id)).toEqual([
       'unit-4-1-large-numbers',
       'unit-4-1-multiplication-division',
@@ -31,16 +32,17 @@ describe('Grade 4 Bridge release bank', () => {
       'unit-4-2-decimals',
       'unit-4-2-fraction-add-sub',
       'unit-4-2-decimal-add-sub',
+      'unit-4-2-patterns',
     ])
-    expect(grade4MissionTemplates).toHaveLength(60)
+    expect(grade4MissionTemplates).toHaveLength(70)
     expect(result.summary).toMatchObject({
-      unitCount: 6,
-      templateCount: 60,
-      knowingCount: 24,
-      applyingCount: 24,
-      reasoningCount: 12,
-      reasoningFamilyCount: 12,
-      representationCount: 7,
+      unitCount: 7,
+      templateCount: 70,
+      knowingCount: 28,
+      applyingCount: 28,
+      reasoningCount: 14,
+      reasoningFamilyCount: 14,
+      representationCount: 8,
     })
 
     for (const unit of grade4Units) {
@@ -397,6 +399,59 @@ describe('Grade 4 Bridge release bank', () => {
       const missing = templates.get('g4-dop-07')!.build(variant, variant)
       expect(Math.round(Number(missing.correctAnswer) * 100)).toBe(
         Number(missing.visualConfig.totalScaled) - Number(missing.visualConfig.leftScaled),
+      )
+    }
+  })
+
+  it('derives every missing pattern value from the visible sequence, table, or calculation rows', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === GRADE4_PATTERNS_UNIT_ID)
+        .map((item) => [item.id, item]),
+    )
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-pat-01', 'g4-pat-02', 'g4-pat-03', 'g4-pat-04', 'g4-pat-05',
+      'g4-pat-06', 'g4-pat-07', 'g4-pat-08', 'g4-pat-09', 'g4-pat-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        } else {
+          expect(mission.correctAnswer, `${template.id} variant ${variant}`).toMatch(/^\d+$/)
+        }
+        expect(mission.visualConfig).not.toHaveProperty('answer')
+        expect(mission.visualConfig).not.toHaveProperty('result')
+        expect(mission.visualConfig).not.toHaveProperty('targetValue')
+      }
+
+      const sequence = templates.get('g4-pat-01')!.build(variant, variant)
+      expect(Number(sequence.correctAnswer)).toBe(
+        Number(sequence.visualConfig.value4)
+        + (Number(sequence.visualConfig.value2) - Number(sequence.visualConfig.value1)),
+      )
+
+      const correspondence = templates.get('g4-pat-02')!.build(variant, variant)
+      const inputStep = Number(correspondence.visualConfig.input2) - Number(correspondence.visualConfig.input1)
+      const outputStep = Number(correspondence.visualConfig.output2) - Number(correspondence.visualConfig.output1)
+      expect(Number(correspondence.correctAnswer)).toBe(
+        Number(correspondence.visualConfig.output3) + outputStep / inputStep,
+      )
+
+      const stage = templates.get('g4-pat-05')!.build(variant, variant)
+      const stageStep = Number(stage.visualConfig.value2) - Number(stage.visualConfig.value1)
+      expect(Number(stage.correctAnswer)).toBe(
+        Number(stage.visualConfig.value1)
+        + (Number(stage.visualConfig.requestedPosition) - 1) * stageStep,
+      )
+
+      const calculation = templates.get('g4-pat-07')!.build(variant, variant)
+      expect(Number(calculation.correctAnswer)).toBe(
+        Number(calculation.visualConfig.factor) * Number(calculation.visualConfig.requestedPosition),
       )
     }
   })

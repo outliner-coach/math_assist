@@ -294,6 +294,84 @@ function DecimalOperation({ mission, showAnswer }: { mission: Grade4Mission; sho
   )
 }
 
+function PatternTable({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
+  const mode = label(mission.visualConfig.mode)
+  const requestedPosition = number(mission.visualConfig.requestedPosition)
+  const revealResult = showAnswer && mission.answerType === 'integer'
+  const result = revealResult ? mission.correctAnswer : null
+
+  if (mode === 'sequence' || mode === 'stages') {
+    const values = [1, 2, 3, 4]
+      .map((index) => mission.visualConfig[`value${index}`])
+      .filter((value) => value !== undefined)
+      .map(number)
+    const positions = values.map((_, index) => index + 1)
+    const itemLabel = label(mission.visualConfig.itemLabel) || '수'
+    return (
+      <div data-testid="grade4-visual-pattern-table" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-4">
+        <div className="overflow-x-auto rounded-2xl border-2 border-[#a5b4fc] bg-white">
+          <div className="grid min-w-[300px]" style={{ gridTemplateColumns: `repeat(${positions.length + 1}, minmax(0, 1fr))` }}>
+            {[...positions, requestedPosition].map((position, index) => (
+              <span key={`position-${position}-${index}`} className="border-r border-[#c7d2fe] bg-[#e0e7ff] p-2 text-center text-xs font-black text-[#4338ca] last:border-r-0">
+                {position}단계
+              </span>
+            ))}
+            {[...values, null].map((value, index) => (
+              <span key={`value-${index}`} className="border-r border-t border-[#c7d2fe] p-3 text-center text-2xl font-black text-[#0f172a] last:border-r-0">
+                {value ?? '□'}
+              </span>
+            ))}
+          </div>
+        </div>
+        <p className="mt-2 text-center text-xs font-black text-[#64748b]">{itemLabel}의 변화</p>
+        {result !== null && <p data-testid="grade4-pattern-result" data-result={result} className="mt-3 rounded-2xl bg-[#dcfce7] p-3 text-center text-lg font-black text-[#166534]">답: {result}</p>}
+      </div>
+    )
+  }
+
+  if (mode === 'addition' || mode === 'subtraction') {
+    const symbol = mode === 'addition' ? '+' : '−'
+    const rows = [1, 2, 3].map((index) => ({
+      left: number(mission.visualConfig[`left${index}`]),
+      right: number(mission.visualConfig[`right${index}`]),
+      output: number(mission.visualConfig[`output${index}`]),
+    }))
+    const requestedLeft = number(mission.visualConfig.requestedLeft)
+    const requestedRight = number(mission.visualConfig.requestedRight)
+    return (
+      <div data-testid="grade4-visual-pattern-table" className="rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-4">
+        <div className="grid gap-2">
+          {rows.map((row, index) => <p key={index} className="rounded-xl bg-white p-3 text-center text-lg font-black text-[#0f172a]">{row.left} {symbol} {row.right} = {row.output}</p>)}
+          <p className="rounded-xl border-2 border-dashed border-[#a5b4fc] bg-white p-3 text-center text-lg font-black text-[#0f172a]">{requestedLeft} {symbol} {requestedRight} = □</p>
+        </div>
+        {result !== null && <p data-testid="grade4-pattern-result" data-result={result} className="mt-3 rounded-2xl bg-[#dcfce7] p-3 text-center text-lg font-black text-[#166534]">답: {result}</p>}
+      </div>
+    )
+  }
+
+  const inputLabel = label(mission.visualConfig.inputLabel) || (mode === 'multiplication' || mode === 'multiply-add' ? '곱하는 수' : '위 수')
+  const outputLabel = label(mission.visualConfig.outputLabel) || '아래 수'
+  const inputs = [1, 2, 3].map((index) => number(mission.visualConfig[`input${index}`]))
+  const outputs = [1, 2, 3].map((index) => number(mission.visualConfig[`output${index}`]))
+  const factor = number(mission.visualConfig.factor)
+  return (
+    <div data-testid="grade4-visual-pattern-table" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-4">
+      <div className="grid grid-cols-[5rem_repeat(4,minmax(0,1fr))] overflow-hidden rounded-2xl border-2 border-[#a5b4fc] bg-white text-center">
+        <span className="bg-[#e0e7ff] p-2 text-xs font-black text-[#4338ca]">{inputLabel}</span>
+        {[...inputs, requestedPosition].map((value, index) => <span key={`input-${index}`} className="border-l border-[#c7d2fe] bg-[#e0e7ff] p-2 font-black text-[#0f172a]">{value}</span>)}
+        <span className="border-t border-[#c7d2fe] p-2 text-xs font-black text-[#4338ca]">{outputLabel}</span>
+        {[...outputs, null].map((value, index) => <span key={`output-${index}`} className="border-l border-t border-[#c7d2fe] p-2 text-lg font-black text-[#0f172a]">{value ?? '□'}</span>)}
+      </div>
+      {(mode === 'multiplication' || mode === 'multiply-add') && (
+        <p className="mt-2 text-center text-xs font-black text-[#64748b]">
+          {mode === 'multiply-add' ? `${factor}×(곱하는 수)+(곱하는 수)` : `${factor}×(곱하는 수)`}
+        </p>
+      )}
+      {result !== null && <p data-testid="grade4-pattern-result" data-result={result} className="mt-3 rounded-2xl bg-[#dcfce7] p-3 text-center text-lg font-black text-[#166534]">답: {result}</p>}
+    </div>
+  )
+}
+
 function DivisionModel({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
   const divisor = number(mission.visualConfig.divisor)
   const dividend = number(mission.visualConfig.dividend)
@@ -351,5 +429,6 @@ export default function Grade4MissionVisual({ mission, showAnswer = false }: { m
   if (mission.visualModel === 'division-model') return <DivisionModel mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'fraction-strip') return <FractionStrip mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'decimal-operation') return <DecimalOperation mission={mission} showAnswer={showAnswer} />
+  if (mission.visualModel === 'pattern-table') return <PatternTable mission={mission} showAnswer={showAnswer} />
   return <Context mission={mission} />
 }

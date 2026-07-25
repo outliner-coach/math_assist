@@ -21,6 +21,19 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 4 change and calculation-pattern release (primary
+  workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the pattern-table visual, and focused bank, curriculum, receipt, component,
+  and browser tests. The new `unit-4-2-patterns` bank covers `[4수02-01]` and
+  `[4수02-02]` with exactly ten deterministic templates, K4/A4/R2, ten
+  distinct families, two genuine reasoning families, and at least two
+  representations. Missing sequence terms, correspondence outputs, and
+  calculation-array results must be derived from the displayed rows; result
+  values must stay out of visual configuration and the DOM before solve. The
+  two standards move from planned to released only together with passing
+  Grade 4, curriculum, mission-audit, mobile, storage, and deployment gates.
+
 - 2026-07-26: Grade 4 hundredths decimal addition and subtraction release
   (primary workstreams 01, 03, and 04) owns the narrow change to
   `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,

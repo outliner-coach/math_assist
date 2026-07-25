@@ -102,6 +102,18 @@ describe('Grade4MissionVisual', () => {
     expect(hidden).not.toContain(mission.correctAnswer)
     expect(shown).toContain(`data-result="${mission.correctAnswer}"`)
   })
+
+  it('shows the given pattern rows without creating the requested value before reveal', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-pat-05')!
+    const hidden = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+    const shown = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission, showAnswer: true }))
+
+    expect(hidden).toContain('grade4-visual-pattern-table')
+    expect(hidden).toContain('단계')
+    expect(hidden).not.toContain('grade4-pattern-result')
+    expect(hidden).not.toContain(`>${mission.correctAnswer}<`)
+    expect(shown).toContain(`data-result="${mission.correctAnswer}"`)
+  })
 })
 
 describe('Grade4MissionCard', () => {

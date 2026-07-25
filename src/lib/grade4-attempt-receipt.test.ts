@@ -9,6 +9,7 @@ import {
   GRADE4_DIVISION_UNIT_ID,
   GRADE4_ESTIMATION_UNIT_ID,
   GRADE4_FRACTION_ADD_SUB_UNIT_ID,
+  GRADE4_PATTERNS_UNIT_ID,
   getGrade4Activity,
   SAFE_GRADE4_UNIT_ID,
 } from './grade4-problems'
@@ -113,5 +114,18 @@ describe('Grade 4 attempt receipt', () => {
     })
 
     expect(receipt.contentReleaseId).toBe('grade4-bridge-decimal-add-sub-v1')
+  })
+
+  it('uses the patterns release identity', () => {
+    const patternMission = getGrade4Activity(GRADE4_PATTERNS_UNIT_ID, 20260721, 0)[0]
+    const receipt = createGrade4AttemptReceipt({
+      mission: patternMission,
+      activityRun: 0,
+      attemptOrdinal: 0,
+      correct: true,
+      usedHint: false,
+    })
+
+    expect(receipt.contentReleaseId).toBe('grade4-bridge-patterns-v1')
   })
 })
