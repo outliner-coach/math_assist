@@ -2,7 +2,7 @@ import type { Grade4AnswerType } from './grade4-answer-normalizers'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
-export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship' | 'shape-transformation' | 'triangle-model' | 'quadrilateral-model' | 'polygon-model' | 'tiling-model' | 'angle-model' | 'angle-sum-model'
+export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship' | 'shape-transformation' | 'triangle-model' | 'quadrilateral-model' | 'polygon-model' | 'tiling-model' | 'angle-model' | 'angle-sum-model' | 'line-graph-model' | 'data-table-model'
 export type Grade4VisualModel = Grade4Representation
 export type Grade4SupportTool = 'none' | 'grid' | 'ruler' | 'protractor'
 
@@ -96,6 +96,7 @@ export const GRADE4_TRIANGLES_UNIT_ID = 'unit-4-2-triangles'
 export const GRADE4_QUADRILATERALS_UNIT_ID = 'unit-4-2-quadrilaterals'
 export const GRADE4_POLYGONS_UNIT_ID = 'unit-4-2-polygons'
 export const GRADE4_ANGLE_MEASUREMENT_UNIT_ID = 'unit-4-1-angle-measurement'
+export const GRADE4_LINE_GRAPHS_UNIT_ID = 'unit-4-2-line-graphs'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -264,6 +265,18 @@ export const grade4Units: Grade4Unit[] = [
     curriculumCodes: ['[4수03-24]', '[4수03-25]'],
     prerequisiteCodes: ['[4수03-02]'],
     contentReleaseId: 'grade4-bridge-angle-measurement-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_LINE_GRAPHS_UNIT_ID,
+    semester: '4-2',
+    order: 15,
+    title: '꺾은선그래프',
+    subtitle: '시간에 따라 변하는 자료를 점과 선분으로 나타내고 변화의 크기와 경향을 읽어요.',
+    learnerGoal: '표와 꺾은선그래프를 연결하고 눈금과 선분을 근거로 자료의 변화를 설명해요.',
+    curriculumCodes: ['[4수04-02]'],
+    prerequisiteCodes: ['[4수04-01]'],
+    contentReleaseId: 'grade4-bridge-line-graphs-v1',
     releaseStatus: 'released',
   },
 ]
@@ -2880,6 +2893,208 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
         choices: rotateChoices([correctAnswer, '삼각형 한 개의 각의 합이므로 180°입니다.', '직각이 네 개일 때만 360°입니다.', '대각선을 그으면 원래 각의 합이 달라집니다.'], seed),
         solutionSteps: ['대각선 한 개로 삼각형 두 개가 생깁니다.', '180°+180°=360°이므로 사각형의 네 각의 합은 360°입니다.'],
         visualModel: 'angle-sum-model', visualConfig: { shapeType: 'parallelogram', angleA, angleB, angleC, hideIndex: 'none', showDiagonal: true } }
+    },
+  }),
+  template({
+    id: 'g4-graph-01', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'knowing',
+    problemFamily: 'read-line-graph-point', representation: 'line-graph-model', answerType: 'integer', supportTool: 'grid', skillTag: '점의 값 읽기',
+    learnerGoal: '가로축의 시점에서 위로 올라가 점이 놓인 세로축 눈금을 읽어요.',
+    promptTemplate: '꺾은선그래프에서 한 시점의 값을 읽으세요.', hintSteps: ['가로축에서 물어본 요일을 찾아요.', '그 점과 같은 높이의 세로축 눈금을 읽어요.'],
+    build: (v) => {
+      const labels = ['월요일', '화요일', '수요일', '목요일', '금요일']
+      const base = 10 + v * 5
+      const values = [base, base + 5, base, base + 15, base + 10]
+      const focusIndex = v % labels.length
+      return {
+        prompt: `교실의 낮 기온을 나타낸 그래프입니다. ${labels[focusIndex]}의 기온은 몇 도인가요?`,
+        correctAnswer: String(values[focusIndex]),
+        solutionSteps: [`가로축에서 ${labels[focusIndex]}을 찾습니다.`, `점은 세로축 ${values[focusIndex]} 눈금에 있으므로 ${values[focusIndex]}도입니다.`],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '교실의 낮 기온', unitLabel: '도', yMin: 0, yMax: 80, yStep: 20, yMinorStep: 5, focusIndex },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-02', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'knowing',
+    problemFamily: 'largest-consecutive-change', representation: 'line-graph-model', answerType: 'choice', supportTool: 'grid', skillTag: '변화가 큰 구간',
+    learnerGoal: '이웃한 두 점의 높이 차를 비교해 변화가 가장 큰 구간을 찾아요.',
+    promptTemplate: '연속한 두 시점 사이에서 변화가 가장 큰 구간을 고르세요.', hintSteps: ['이웃한 점을 잇는 선분의 기울기를 비교해요.', '두 값의 차가 가장 큰 구간을 찾아요.'],
+    build: (v, seed) => {
+      const labels = ['월요일', '화요일', '수요일', '목요일', '금요일']
+      const base = v * 5
+      const values = [base + 10, base + 15, base + 20, base + 35, base + 25]
+      const changes = values.slice(1).map((value, index) => Math.abs(value - values[index]))
+      const largestIndex = changes.indexOf(Math.max(...changes))
+      const interval = (index: number) => `${labels[index]}과 ${labels[index + 1]} 사이`
+      const correctAnswer = interval(largestIndex)
+      const distractors = [0, 1, 2, 3].filter((index) => index !== largestIndex).map(interval)
+      return {
+        prompt: `월요일 ${values[0]}명에서 시작한 도서관 방문자 그래프입니다. 방문자 수가 가장 크게 변한 구간을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, ...distractors], seed),
+        solutionSteps: [`연속한 두 날의 차는 차례로 ${changes.join('명, ')}명입니다.`, `차가 가장 큰 구간은 ${correctAnswer}입니다.`],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '도서관 방문자 수', unitLabel: '명', yMin: 0, yMax: 90, yStep: 10, yMinorStep: 5 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-03', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'knowing',
+    problemFamily: 'identify-decreasing-segment', representation: 'line-graph-model', answerType: 'choice', supportTool: 'grid', skillTag: '증가와 감소',
+    learnerGoal: '오른쪽으로 갈수록 내려가는 선분을 보고 값이 감소한 구간을 찾아요.',
+    promptTemplate: '꺾은선그래프에서 값이 감소한 구간을 고르세요.', hintSteps: ['왼쪽 점과 오른쪽 점의 높이를 비교해요.', '오른쪽 점이 더 낮은 선분을 찾아요.'],
+    build: (v, seed) => {
+      const labels = ['1일', '2일', '3일', '4일', '5일']
+      const base = v * 5
+      const values = [base + 10, base + 15, base + 20, base + 15, base + 25]
+      const interval = (index: number) => `${labels[index]}과 ${labels[index + 1]} 사이`
+      const correctAnswer = interval(2)
+      return {
+        prompt: `첫날 ${values[0]} cm에서 시작한 화분 높이 기록입니다. 높이가 줄어든 구간을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, interval(0), interval(1), interval(3)], seed),
+        solutionSteps: [`${labels[2]}의 ${values[2]} cm에서 ${labels[3]}의 ${values[3]} cm로 줄었습니다.`, `따라서 감소한 구간은 ${correctAnswer}입니다.`],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '화분의 높이', unitLabel: 'cm', yMin: 0, yMax: 80, yStep: 10, yMinorStep: 5 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-04', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'knowing',
+    problemFamily: 'choose-line-graph-axes', representation: 'data-table-model', answerType: 'choice', supportTool: 'grid', skillTag: '그래프 구성 요소',
+    learnerGoal: '시간에 따른 자료를 나타낼 때 가로축과 세로축에 놓을 내용을 구별해요.',
+    promptTemplate: '자료 표를 꺾은선그래프로 옮길 때 축을 바르게 설명하세요.', hintSteps: ['시간의 순서는 가로로 놓아요.', '측정한 값과 단위는 세로축에 놓아요.'],
+    build: (v, seed) => {
+      const labels = ['1회', '2회', '3회', '4회']
+      const values = [12 + v, 15 + v, 19 + v, 18 + v]
+      const correctAnswer = '가로축에는 조사 시점, 세로축에는 자료의 수를 씁니다.'
+      return {
+        prompt: '표의 줄넘기 횟수를 꺾은선그래프로 나타내려고 합니다. 축에 대한 바른 설명을 고르세요.',
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '가로축과 세로축에 모두 조사 시점만 씁니다.', '가로축에는 자료의 수, 세로축에는 조사 시점을 씁니다.', '축에는 제목만 쓰고 눈금과 단위는 쓰지 않습니다.'], seed),
+        solutionSteps: ['시간이나 조사 순서는 가로축에 놓습니다.', '줄넘기 횟수와 눈금은 세로축에 놓습니다.'],
+        visualModel: 'data-table-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '줄넘기 연습', unitLabel: '회' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-05', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'applying',
+    problemFamily: 'plot-table-value', representation: 'data-table-model', answerType: 'integer', supportTool: 'grid', skillTag: '자료를 점으로 나타내기',
+    learnerGoal: '표의 자료를 세로축 눈금에 맞춰 꺾은선그래프의 점으로 옮겨요.',
+    promptTemplate: '자료 표의 한 값을 그래프의 몇 눈금에 찍어야 하는지 구하세요.', hintSteps: ['표에서 물어본 시점의 값을 찾아요.', '세로축에서 그 값과 같은 눈금에 점을 찍어요.'],
+    build: (v) => {
+      const labels = ['월요일', '화요일', '수요일', '목요일', '금요일']
+      const values = [20 + v, 24 + v, 23 + v, 29 + v, 27 + v]
+      const focusIndex = 3
+      return {
+        prompt: `표를 꺾은선그래프로 옮길 때 ${labels[focusIndex]}의 점은 세로축 몇 L 눈금에 찍어야 하나요?`,
+        correctAnswer: String(values[focusIndex]),
+        solutionSteps: [`표에서 ${labels[focusIndex]}의 양은 ${values[focusIndex]} L입니다.`, `세로축 ${values[focusIndex]} L 눈금에 점을 찍습니다.`],
+        visualModel: 'data-table-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '물 사용량', unitLabel: 'L', focusIndex },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-06', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'applying',
+    problemFamily: 'line-graph-range', representation: 'line-graph-model', answerType: 'integer', supportTool: 'grid', skillTag: '최댓값과 최솟값의 차',
+    learnerGoal: '그래프의 가장 높은 값과 가장 낮은 값을 읽어 차를 구해요.',
+    promptTemplate: '꺾은선그래프의 최댓값과 최솟값의 차를 구하세요.', hintSteps: ['가장 높은 점과 가장 낮은 점의 값을 읽어요.', '큰 값에서 작은 값을 빼요.'],
+    build: (v) => {
+      const labels = ['1주', '2주', '3주', '4주', '5주']
+      const base = v * 5
+      const values = [base + 30, base + 40, base + 35, base + 55, base + 45]
+      const range = Math.max(...values) - Math.min(...values)
+      return {
+        prompt: `첫 주 ${values[0]} kg에서 시작한 재활용품 수거량 그래프입니다. 가장 많은 주와 가장 적은 주의 차는 몇 kg인가요?`,
+        correctAnswer: String(range),
+        solutionSteps: [`가장 많은 양은 ${Math.max(...values)} kg, 가장 적은 양은 ${Math.min(...values)} kg입니다.`, `${Math.max(...values)}-${Math.min(...values)}=${range} kg입니다.`],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '재활용품 수거량', unitLabel: 'kg', yMin: 0, yMax: 110, yStep: 10, yMinorStep: 5 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-07', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'applying',
+    problemFamily: 'describe-overall-trend', representation: 'line-graph-model', answerType: 'choice', supportTool: 'grid', skillTag: '변화 경향 설명',
+    learnerGoal: '여러 선분의 방향을 이어 살펴 전체 변화 경향을 말해요.',
+    promptTemplate: '꺾은선그래프의 전체 변화 경향을 바르게 설명하세요.', hintSteps: ['처음부터 가장 높은 점까지 선분 방향을 살펴요.', '가장 높은 점 뒤의 선분 방향도 이어서 살펴요.'],
+    build: (v, seed) => {
+      const labels = ['월요일', '화요일', '수요일', '목요일', '금요일']
+      const base = v * 5
+      const values = [base + 10, base + 15, base + 25, base + 20, base + 15]
+      const correctAnswer = '수요일까지 오르다가 그 뒤로 내려갑니다.'
+      return {
+        prompt: `월요일 ${values[0]}°에서 시작한 한 주 낮 기온 그래프입니다. 변화 경향을 바르게 설명한 것을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '한 주 내내 계속 오릅니다.', '한 주 내내 계속 내려갑니다.', '월요일부터 금요일까지 값이 같습니다.'], seed),
+        solutionSteps: ['월요일부터 수요일까지 점이 차례로 높아집니다.', '수요일 뒤에는 점이 낮아지므로 오르다가 내려가는 경향입니다.'],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '한 주 낮 기온', unitLabel: '도', yMin: 0, yMax: 80, yStep: 10, yMinorStep: 5 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-08', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'applying',
+    problemFamily: 'complete-table-from-line-graph', representation: 'line-graph-model', answerType: 'integer', supportTool: 'grid', skillTag: '그래프를 표로 옮기기',
+    learnerGoal: '꺾은선그래프의 점을 읽어 자료 표의 빈칸을 채워요.',
+    promptTemplate: '그래프를 보고 표의 빠진 값을 구하세요.', hintSteps: ['표에서 빈칸인 시점을 확인해요.', '그래프에서 같은 시점의 점과 세로축 눈금을 읽어요.'],
+    build: (v) => {
+      const labels = ['9시', '10시', '11시', '12시', '13시']
+      const base = v * 5
+      const values = [base + 10, base + 20, base + 30, base + 25, base + 15]
+      const hiddenIndex = v % labels.length
+      return {
+        prompt: `꺾은선그래프를 보고 표의 ${labels[hiddenIndex]} 빈칸에 들어갈 값을 쓰세요.`,
+        correctAnswer: String(values[hiddenIndex]),
+        solutionSteps: [`가로축에서 ${labels[hiddenIndex]}를 찾습니다.`, `그 점은 ${values[hiddenIndex]}명 눈금에 있으므로 빈칸은 ${values[hiddenIndex]}입니다.`],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '시간별 놀이터 인원', unitLabel: '명', yMin: 0, yMax: 80, yStep: 10, yMinorStep: 5, showTable: true, hiddenIndex },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-09', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'reasoning',
+    problemFamily: 'find-misplotted-point', representation: 'line-graph-model', answerType: 'choice', supportTool: 'grid', skillTag: '그래프 오류 분석',
+    learnerGoal: '자료 표와 그래프의 점을 하나씩 대조해 잘못 옮긴 시점을 찾아요.',
+    promptTemplate: '자료 표와 꺾은선그래프를 비교해 잘못 찍은 점을 찾으세요.', hintSteps: ['표와 그래프의 값을 같은 시점끼리 맞춰요.', '서로 다른 값이 하나뿐인 시점을 찾아요.'],
+    build: (v, seed) => {
+      const labels = ['월요일', '화요일', '수요일', '목요일', '금요일']
+      const base = v * 5
+      const sourceValues = [base + 20, base + 25, base + 20, base + 30, base + 25]
+      const errorIndex = 1 + (v % 3)
+      const plottedValues = sourceValues.map((value, index) => index === errorIndex ? value + 5 : value)
+      const correctAnswer = labels[errorIndex]
+      const otherIndex = errorIndex === 1 ? 2 : 1
+      return {
+        prompt: '표의 자료를 꺾은선그래프로 옮겼지만 점 하나를 잘못 찍었습니다. 잘못 찍은 요일을 고르세요.',
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, labels[0], labels[4], labels[otherIndex]], seed),
+        solutionSteps: ['표와 그래프의 점을 요일별로 비교합니다.', `${correctAnswer}만 표의 ${sourceValues[errorIndex]}와 그래프의 ${plottedValues[errorIndex]}가 다릅니다.`],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: plottedValues.join(','), tableValuesCsv: sourceValues.join(','), title: '식물의 높이', unitLabel: 'cm', yMin: 0, yMax: 90, yStep: 10, yMinorStep: 5, showTable: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-10', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'reasoning',
+    problemFamily: 'compare-line-graph-scales', representation: 'line-graph-model', answerType: 'choice', supportTool: 'grid', skillTag: '눈금 범위 해석',
+    learnerGoal: '같은 자료도 세로축 눈금 범위에 따라 변화가 커 보이거나 작아 보일 수 있음을 설명해요.',
+    promptTemplate: '같은 자료를 서로 다른 눈금 범위로 나타낸 두 그래프를 비교하세요.', hintSteps: ['두 그래프의 자료 값이 같은지 먼저 확인해요.', '세로축에서 같은 값 차이가 차지하는 높이를 비교해요.'],
+    build: (v, seed) => {
+      const labels = ['1분', '2분', '3분', '4분']
+      const base = 40 + v
+      const values = [base, base + 2, base + 5, base + 3]
+      const correctAnswer = '눈금 범위가 좁은 그래프가 같은 변화를 더 크게 보이게 합니다.'
+      return {
+        prompt: `처음 온도가 ${base}°인 같은 자료를 서로 다른 세로축 눈금으로 나타냈습니다. 바른 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '눈금 범위가 넓은 그래프에 더 큰 자료가 들어 있습니다.', '두 그래프의 점 값은 서로 다릅니다.', '세로축 눈금은 변화가 보이는 크기에 영향을 주지 않습니다.'], seed),
+        solutionSteps: ['두 그래프의 네 자료 값은 모두 같습니다.', '좁은 눈금 범위에서는 같은 값 차이가 더 큰 높이 차이로 보입니다.'],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '물의 온도', unitLabel: '도', yMin: 0, yMax: 60, yStep: 20, compareScale: true, compareYMin: base - 2, compareYMax: base + 6, compareYStep: 2 },
+      }
     },
   }),
 ]

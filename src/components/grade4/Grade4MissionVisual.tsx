@@ -1158,6 +1158,219 @@ function AngleSumModel({ mission }: { mission: Grade4Mission }) {
   )
 }
 
+function csvLabels(value: unknown): string[] {
+  return label(value).split(',').map((item) => item.trim()).filter(Boolean)
+}
+
+function csvNumbers(value: unknown): number[] {
+  return label(value).split(',').map(Number).filter(Number.isFinite)
+}
+
+function GraphDataTable({
+  labels,
+  values,
+  unitLabel,
+  hiddenIndex = -1,
+  testId,
+}: {
+  labels: string[]
+  values: number[]
+  unitLabel: string
+  hiddenIndex?: number
+  testId: string
+}) {
+  return (
+    <div data-testid={testId} className="overflow-hidden rounded-2xl border-2 border-[#a5b4fc] bg-white">
+      <div className="grid" style={{ gridTemplateColumns: `repeat(${labels.length}, minmax(0, 1fr))` }}>
+        {labels.map((item) => (
+          <span key={`label-${item}`} className="border-r border-[#c7d2fe] p-2 text-center text-[11px] font-black text-[#4338ca] last:border-r-0">
+            {item}
+          </span>
+        ))}
+        {values.map((value, index) => (
+          <span
+            key={`value-${labels[index]}`}
+            data-testid={`grade4-data-table-value-${index}`}
+            className="border-r border-t border-[#c7d2fe] p-2 text-center text-sm font-black text-[#0f172a] last:border-r-0"
+          >
+            {hiddenIndex === index ? '□' : `${value}${unitLabel}`}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function DataTableModel({ mission }: { mission: Grade4Mission }) {
+  const labels = csvLabels(mission.visualConfig.labelsCsv)
+  const values = csvNumbers(mission.visualConfig.valuesCsv)
+  return (
+    <div data-testid="grade4-visual-data-table-model" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-4">
+      <p className="mb-3 text-center text-sm font-black text-[#4338ca]">{label(mission.visualConfig.title)}</p>
+      <GraphDataTable
+        labels={labels}
+        values={values}
+        unitLabel={label(mission.visualConfig.unitLabel)}
+        testId="grade4-data-table"
+      />
+    </div>
+  )
+}
+
+function LineChartSvg({
+  labels,
+  values,
+  title,
+  unitLabel,
+  yMin,
+  yMax,
+  yStep,
+  yMinorStep = 0,
+  focusIndex = -1,
+  compact = false,
+}: {
+  labels: string[]
+  values: number[]
+  title: string
+  unitLabel: string
+  yMin: number
+  yMax: number
+  yStep: number
+  yMinorStep?: number
+  focusIndex?: number
+  compact?: boolean
+}) {
+  const width = 320
+  const height = compact ? 210 : 235
+  const left = 52
+  const right = 298
+  const top = 38
+  const bottom = compact ? 170 : 192
+  const safeRange = Math.max(1, yMax - yMin)
+  const xFor = (index: number) => labels.length <= 1
+    ? (left + right) / 2
+    : left + (right - left) * index / (labels.length - 1)
+  const yFor = (value: number) => bottom - (value - yMin) / safeRange * (bottom - top)
+  const tickStep = yStep > 0 ? yStep : Math.max(1, Math.ceil(safeRange / 5))
+  const ticks: number[] = []
+  for (let tick = yMin; tick <= yMax + Number.EPSILON; tick += tickStep) ticks.push(tick)
+  const minorTicks: number[] = []
+  if (yMinorStep > 0) {
+    for (let tick = yMin; tick <= yMax + Number.EPSILON; tick += yMinorStep) {
+      if (!ticks.some((major) => Math.abs(major - tick) < Number.EPSILON)) minorTicks.push(tick)
+    }
+  }
+
+  return (
+    <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`${title} 꺾은선그래프`} className="h-auto w-full">
+      <rect x="3" y="3" width={width - 6} height={height - 6} rx="20" fill="#ffffff" />
+      <text x={width / 2} y="23" textAnchor="middle" fill="#3730a3" fontSize="13" fontWeight="900">{title}</text>
+      {minorTicks.map((tick) => (
+        <line key={`minor-${tick}`} data-testid="grade4-line-minor-grid" x1={left} y1={yFor(tick)} x2={right} y2={yFor(tick)} stroke="#eef2ff" strokeWidth="1" />
+      ))}
+      {ticks.map((tick) => {
+        const y = yFor(tick)
+        return (
+          <g key={tick}>
+            <line x1={left} y1={y} x2={right} y2={y} stroke="#e0e7ff" strokeWidth="1.5" />
+            <text x={left - 7} y={y + 4} textAnchor="end" fill="#475569" fontSize="10" fontWeight="800">{tick}</text>
+          </g>
+        )
+      })}
+      <text x="12" y={top - 6} fill="#475569" fontSize="9" fontWeight="800">{unitLabel}</text>
+      <line x1={left} y1={top} x2={left} y2={bottom} stroke="#64748b" strokeWidth="2" />
+      <line x1={left} y1={bottom} x2={right} y2={bottom} stroke="#64748b" strokeWidth="2" />
+      {values.slice(1).map((value, index) => (
+        <line
+          key={`segment-${index}`}
+          data-testid="grade4-line-segment"
+          x1={xFor(index)}
+          y1={yFor(values[index])}
+          x2={xFor(index + 1)}
+          y2={yFor(value)}
+          stroke="#4f46e5"
+          strokeWidth="4"
+          strokeLinecap="round"
+        />
+      ))}
+      {values.map((value, index) => (
+        <circle
+          key={`point-${labels[index]}`}
+          data-testid="grade4-line-point"
+          data-value={value}
+          cx={xFor(index)}
+          cy={yFor(value)}
+          r={focusIndex === index ? 7 : 5}
+          fill={focusIndex === index ? '#f97316' : '#4338ca'}
+          stroke="#ffffff"
+          strokeWidth="2"
+        />
+      ))}
+      {labels.map((item, index) => (
+        <text
+          key={`axis-${item}`}
+          data-testid="grade4-line-label"
+          x={xFor(index)}
+          y={bottom + 18}
+          textAnchor="middle"
+          fill="#0f172a"
+          fontSize={labels.length > 4 ? '9' : '10'}
+          fontWeight="800"
+        >
+          {item.replace('요일', '')}
+        </text>
+      ))}
+    </svg>
+  )
+}
+
+function LineGraphModel({ mission }: { mission: Grade4Mission }) {
+  const labels = csvLabels(mission.visualConfig.labelsCsv)
+  const values = csvNumbers(mission.visualConfig.valuesCsv)
+  const sourceValues = csvNumbers(mission.visualConfig.tableValuesCsv)
+  const unitLabel = label(mission.visualConfig.unitLabel)
+  const title = label(mission.visualConfig.title)
+  const yMin = number(mission.visualConfig.yMin)
+  const yMax = number(mission.visualConfig.yMax)
+  const yStep = number(mission.visualConfig.yStep)
+  const yMinorStep = number(mission.visualConfig.yMinorStep)
+  const focusIndex = mission.visualConfig.focusIndex === undefined ? -1 : number(mission.visualConfig.focusIndex)
+  const hiddenIndex = mission.visualConfig.hiddenIndex === undefined ? -1 : number(mission.visualConfig.hiddenIndex)
+  const showTable = Boolean(mission.visualConfig.showTable)
+  const compareScale = Boolean(mission.visualConfig.compareScale)
+
+  return (
+    <div data-testid="grade4-visual-line-graph-model" className="space-y-3 overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-3">
+      {showTable && (
+        <GraphDataTable
+          labels={labels}
+          values={sourceValues.length === values.length ? sourceValues : values}
+          unitLabel={unitLabel}
+          hiddenIndex={hiddenIndex}
+          testId="grade4-line-source-table"
+        />
+      )}
+      {compareScale ? (
+        <div data-testid="grade4-line-scale-comparison" className="grid gap-3">
+          <LineChartSvg labels={labels} values={values} title={`${title} · 넓은 눈금`} unitLabel={unitLabel} yMin={yMin} yMax={yMax} yStep={yStep} yMinorStep={yMinorStep} compact />
+          <LineChartSvg
+            labels={labels}
+            values={values}
+            title={`${title} · 좁은 눈금`}
+            unitLabel={unitLabel}
+            yMin={number(mission.visualConfig.compareYMin)}
+            yMax={number(mission.visualConfig.compareYMax)}
+            yStep={number(mission.visualConfig.compareYStep)}
+            compact
+          />
+        </div>
+      ) : (
+        <LineChartSvg labels={labels} values={values} title={title} unitLabel={unitLabel} yMin={yMin} yMax={yMax} yStep={yStep} yMinorStep={yMinorStep} focusIndex={focusIndex} />
+      )}
+    </div>
+  )
+}
+
 function DivisionModel({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
   const divisor = number(mission.visualConfig.divisor)
   const dividend = number(mission.visualConfig.dividend)
@@ -1225,5 +1438,7 @@ export default function Grade4MissionVisual({ mission, showAnswer = false }: { m
   if (mission.visualModel === 'tiling-model') return <TilingModel mission={mission} />
   if (mission.visualModel === 'angle-model') return <AngleModel mission={mission} />
   if (mission.visualModel === 'angle-sum-model') return <AngleSumModel mission={mission} />
+  if (mission.visualModel === 'line-graph-model') return <LineGraphModel mission={mission} />
+  if (mission.visualModel === 'data-table-model') return <DataTableModel mission={mission} />
   return <Context mission={mission} />
 }

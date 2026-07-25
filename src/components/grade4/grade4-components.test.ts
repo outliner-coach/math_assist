@@ -230,6 +230,38 @@ describe('Grade4MissionVisual', () => {
     expect(quadrilateralHtml).toContain('data-shape-type="parallelogram"')
     expect(quadrilateralHtml).toMatch(/data-testid="grade4-angle-unknown"[^>]*>□<\/text>/)
   })
+
+  it('plots every line-graph value at a derived point with matching labels and scale', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-graph-02')!
+    const html = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+    const labels = String(mission.visualConfig.labelsCsv).split(',')
+    const values = String(mission.visualConfig.valuesCsv).split(',').map(Number)
+    const points = Array.from(html.matchAll(/data-testid="grade4-line-point"[^>]*data-value="([^"]+)"[^>]*cx="([^"]+)"[^>]*cy="([^"]+)"/g))
+
+    expect(html).toContain('grade4-visual-line-graph-model')
+    expect(html.match(/data-testid="grade4-line-label"/g)).toHaveLength(labels.length)
+    expect(html.match(/data-testid="grade4-line-segment"/g)).toHaveLength(values.length - 1)
+    expect(html.match(/data-testid="grade4-line-minor-grid"/g)?.length).toBeGreaterThan(0)
+    expect(points.map((point) => Number(point[1]))).toEqual(values)
+    expect(points.map((point) => Number(point[2]))).toEqual([...points.map((point) => Number(point[2]))].sort((a, b) => a - b))
+    for (let index = 1; index < points.length; index += 1) {
+      if (values[index] > values[index - 1]) expect(Number(points[index][3])).toBeLessThan(Number(points[index - 1][3]))
+      if (values[index] < values[index - 1]) expect(Number(points[index][3])).toBeGreaterThan(Number(points[index - 1][3]))
+    }
+  })
+
+  it('renders source tables and hides only the requested graph-derived cell', () => {
+    const source = getGrade4MissionBank(42).find((item) => item.id === 'g4-graph-05')!
+    const missing = getGrade4MissionBank(42).find((item) => item.id === 'g4-graph-08')!
+    const sourceHtml = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission: source }))
+    const missingHtml = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission: missing }))
+    const hiddenIndex = Number(missing.visualConfig.hiddenIndex)
+
+    expect(sourceHtml).toContain('grade4-visual-data-table-model')
+    expect(sourceHtml.match(/data-testid="grade4-data-table-value-/g)).toHaveLength(String(source.visualConfig.valuesCsv).split(',').length)
+    expect(missingHtml).toContain('grade4-line-source-table')
+    expect(missingHtml).toMatch(new RegExp(`data-testid="grade4-data-table-value-${hiddenIndex}"[^>]*>□<`))
+  })
 })
 
 describe('Grade4MissionCard', () => {

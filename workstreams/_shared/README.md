@@ -21,6 +21,19 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 4 line-graph release (primary workstreams 01, 03, and
+  04) owns the narrow change to the curriculum ledger, Grade 4 bank,
+  quantitative line-graph and source-table renderers, and focused bank,
+  receipt, curriculum, component, and browser tests.
+  `unit-4-2-line-graphs` covers `[4수04-02]` with ten deterministic templates,
+  K4/A4/R2, ten families, two reasoning families, and at least two
+  representations. Time labels, source values, plotted points, segments,
+  scales, missing table cells, and deliberate plotting errors must come from
+  the same data model as prompts and solutions. Answer-only derived values
+  stay out of labels and accessibility text unless reading that plotted value
+  is the task. The standard moves from planned to released only with all
+  Grade 4, curriculum, audit, mobile, storage, and deployment gates passing.
+
 - 2026-07-26: Grade 4 angle-measurement and interior-angle release (primary
   workstreams 01, 03, and 04) owns the narrow change to the curriculum ledger,
   Grade 4 bank, quantitative protractor and angle-sum SVGs, and focused bank,

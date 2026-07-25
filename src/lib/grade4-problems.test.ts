@@ -11,6 +11,7 @@ import {
   GRADE4_ESTIMATION_UNIT_ID,
   GRADE4_EQUALITY_UNIT_ID,
   GRADE4_FRACTION_ADD_SUB_UNIT_ID,
+  GRADE4_LINE_GRAPHS_UNIT_ID,
   GRADE4_PATTERNS_UNIT_ID,
   GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID,
   GRADE4_POLYGONS_UNIT_ID,
@@ -31,7 +32,7 @@ describe('Grade 4 Bridge release bank', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(14)
+    expect(grade4Units).toHaveLength(15)
     expect(grade4Units.map((unit) => unit.id)).toEqual([
       'unit-4-1-large-numbers',
       'unit-4-1-multiplication-division',
@@ -47,16 +48,17 @@ describe('Grade 4 Bridge release bank', () => {
       'unit-4-2-quadrilaterals',
       'unit-4-2-polygons',
       'unit-4-1-angle-measurement',
+      'unit-4-2-line-graphs',
     ])
-    expect(grade4MissionTemplates).toHaveLength(140)
+    expect(grade4MissionTemplates).toHaveLength(150)
     expect(result.summary).toMatchObject({
-      unitCount: 14,
-      templateCount: 140,
-      knowingCount: 56,
-      applyingCount: 56,
-      reasoningCount: 28,
-      reasoningFamilyCount: 28,
-      representationCount: 17,
+      unitCount: 15,
+      templateCount: 150,
+      knowingCount: 60,
+      applyingCount: 60,
+      reasoningCount: 30,
+      reasoningFamilyCount: 30,
+      representationCount: 19,
     })
 
     for (const unit of grade4Units) {
@@ -760,6 +762,68 @@ describe('Grade 4 Bridge release bank', () => {
       const reversedScale = templates.get('g4-ang-09')!.build(variant, variant)
       expect(Number(reversedScale.visualConfig.wrongReading)).toBe(180 - Number(reversedScale.visualConfig.angle))
       expect(reversedScale.visualConfig).not.toHaveProperty('correctReading')
+    }
+  })
+
+  it('derives line-graph answers, scales, and deliberate errors from one data model', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === GRADE4_LINE_GRAPHS_UNIT_ID)
+        .map((item) => [item.id, item]),
+    )
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-graph-01', 'g4-graph-02', 'g4-graph-03', 'g4-graph-04', 'g4-graph-05',
+      'g4-graph-06', 'g4-graph-07', 'g4-graph-08', 'g4-graph-09', 'g4-graph-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        }
+        expect(mission.visualConfig).not.toHaveProperty('answer')
+        expect(mission.visualConfig).not.toHaveProperty('result')
+        expect(mission.visualConfig).not.toHaveProperty('target')
+        if (mission.visualModel === 'line-graph-model') {
+          const values = String(mission.visualConfig.valuesCsv).split(',').map(Number)
+          const yMin = Number(mission.visualConfig.yMin)
+          const yMax = Number(mission.visualConfig.yMax)
+          expect(values.every((value) => value >= yMin && value <= yMax), `${template.id} variant ${variant}`).toBe(true)
+          if (mission.visualConfig.yMinorStep !== undefined) {
+            const minorStep = Number(mission.visualConfig.yMinorStep)
+            expect(values.every((value) => (value - yMin) % minorStep === 0), `${template.id} variant ${variant}`).toBe(true)
+          }
+        }
+      }
+
+      const readPoint = templates.get('g4-graph-01')!.build(variant, variant)
+      const readValues = String(readPoint.visualConfig.valuesCsv).split(',').map(Number)
+      expect(Number(readPoint.correctAnswer)).toBe(readValues[Number(readPoint.visualConfig.focusIndex)])
+
+      const largestChange = templates.get('g4-graph-02')!.build(variant, variant)
+      const changeLabels = String(largestChange.visualConfig.labelsCsv).split(',')
+      const changeValues = String(largestChange.visualConfig.valuesCsv).split(',').map(Number)
+      const differences = changeValues.slice(1).map((value, index) => Math.abs(value - changeValues[index]))
+      const largestIndex = differences.indexOf(Math.max(...differences))
+      expect(largestChange.correctAnswer).toBe(`${changeLabels[largestIndex]}과 ${changeLabels[largestIndex + 1]} 사이`)
+
+      const range = templates.get('g4-graph-06')!.build(variant, variant)
+      const rangeValues = String(range.visualConfig.valuesCsv).split(',').map(Number)
+      expect(Number(range.correctAnswer)).toBe(Math.max(...rangeValues) - Math.min(...rangeValues))
+
+      const missingTable = templates.get('g4-graph-08')!.build(variant, variant)
+      const tableValues = String(missingTable.visualConfig.valuesCsv).split(',').map(Number)
+      expect(Number(missingTable.correctAnswer)).toBe(tableValues[Number(missingTable.visualConfig.hiddenIndex)])
+
+      const plottedError = templates.get('g4-graph-09')!.build(variant, variant)
+      const sourceValues = String(plottedError.visualConfig.tableValuesCsv).split(',').map(Number)
+      const plottedValues = String(plottedError.visualConfig.valuesCsv).split(',').map(Number)
+      const mismatchIndices = sourceValues.flatMap((value, index) => value === plottedValues[index] ? [] : [index])
+      expect(mismatchIndices).toHaveLength(1)
+      expect(plottedError.correctAnswer).toBe(String(plottedError.visualConfig.labelsCsv).split(',')[mismatchIndices[0]])
     }
   })
 

@@ -29,7 +29,7 @@
 ## 현재 기준선
 
 - **실제 배포 경계**: GitHub Pages 정적 사이트이고 공개 서버 API·계정·원격 저장이 없다. 커밋 `14a0904`, Pages 실행 `29792892987`과 새 브라우저 hydration으로 이번 변경의 실제 배포를 확인했다.
-- **작업트리 공개 대상**: 1·2·3·4·5·6학년이다. 4학년은 큰 수 Bridge, 6학년은 비와 비율 Study만 `released`이고 나머지 배정 기준은 `planned`다.
+- **작업트리 공개 대상**: 1·2·3·4·5·6학년이다. 4학년은 원장 배정 범위 15개 Bridge 단원이 모두 `released`이고, 6학년은 비와 비율 Study만 `released`이며 나머지 배정 기준은 `planned`다.
 - **공통 저장 경계**: 학년별 기존 형식을 read-only projection으로 모으고 새 유효 확인만 append-only `AttemptReceipt`에 추가한다. 기존 학년별 진도는 계속 권위 있는 원장이다.
 - **풀이장**: normalized vector command, 문제별 local repository, 펜·지우개·clear·undo·redo와 `play / bridge / study` 프리셋이 1·2·3·4·5·6학년에 연결되어 있다.
 - **원격 기반**: merge·rollback backup·mock transport·auth·one-time recovery·동의 provisioning 코드가 있으나 production flag는 `false`이고 provider·공개 route·UI가 없다.
