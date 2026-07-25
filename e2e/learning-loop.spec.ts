@@ -347,7 +347,12 @@ test('5학년 합동 그림은 실제 길이 비율을 보존한 도형을 회�
   expect(quantitativeIndex).toBeGreaterThanOrEqual(0)
 
   const visual = session.problems[quantitativeIndex].visual as unknown as CongruenceVisual
-  await page.getByRole('button', { name: `문제 ${quantitativeIndex + 1}`, exact: true }).click()
+  if (session.currentIndex !== quantitativeIndex) {
+    await page.getByRole('button', {
+      name: `문제 ${quantitativeIndex + 1}`,
+      exact: true,
+    }).click()
+  }
 
   const diagram = page.getByTestId('geometry-visual-congruence')
   await expect(diagram).toBeVisible()

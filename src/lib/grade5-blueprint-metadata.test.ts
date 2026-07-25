@@ -602,6 +602,13 @@ describe('Grade 5 reviewed blueprint metadata', () => {
         })
       }
     }
+
+    const unstableNumericParticle = /\}\}\s*(?:은|는|이|가|을|를|과|와|로|으로)(?=[\s,.!?])/u
+    expect(templates.flatMap(template => [
+      template.prompt_template,
+      ...template.solution_steps_template,
+      ...(template.hint_steps_template ?? []),
+    ]).filter(text => unstableNumericParticle.test(text))).toEqual([])
   })
 
   it('gives every average set a reviewed K4/A4/R2 application mix', () => {
