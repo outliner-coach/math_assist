@@ -271,6 +271,16 @@ When you change a high-conflict file, add a short dated note below:
   K18/A12/R0 banks with ten-family K12/A12/R6 banks. Subtraction parameter
   structures must prove a positive result for every allowed combination.
 
+- 2026-07-25: Grade 5 fraction simplification/common-denominator quality
+  upgrade (primary workstreams 01 and 04) owns
+  `public/data/templates/simplify.json`,
+  `public/data/templates/commonden.json`,
+  `scripts/generate-grade5-fraction-simplify-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, and the focused exhaustive checks.
+  Consecutive reduced numerator/denominator pairs must keep simplification
+  exact; consecutive source denominators must keep the least common denominator
+  equal to their product for every allowed parameter combination.
+
 - 2026-07-21: quantitative three-shape overlap repair (primary workstream 03,
   dependencies on workstreams 01 and 04)
   `src/lib/types.ts`, `src/lib/problem-generator.ts`, and

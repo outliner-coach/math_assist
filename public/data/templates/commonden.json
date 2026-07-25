@@ -5,41 +5,41 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "commonden-find-denominator",
-    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "commonden-consecutive-denominators",
+    "blueprint": {
+      "problemFamily": "commonden-consecutive-denominators",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
-        "min": 1,
-        "max": 3
-      },
-      "d1": {
-        "min": 2,
+      "d": {
+        "min": 3,
         "max": 5
-      },
-      "n2": {
-        "min": 1,
-        "max": 3
-      },
-      "d2": {
-        "min": 4,
-        "max": 7
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분할 때 공통 분모는?",
-    "solver_rule": "commonDen(d1, d2)",
+    "prompt_template": "두 분수의 값은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분할 때 최소 공통 분모를 구하세요.",
+    "solver_rule": "commonDen(d, d + 1)",
     "solution_steps_template": [
-      "공통 분모는 분모의 최소공배수입니다.",
-      "최소공배수: {{commonDen(d1, d2)}}"
+      "연속한 두 분모 {{d}}, {{d + 1}}은 서로소입니다.",
+      "최소 공통 분모는 {{d * (d + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "분모들의 최소공배수를 찾아요.",
-      "그 값이 공통 분모예요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ],
     "choices_template": [
-      "{{commonDen(d1, d2)}}",
-      "{{commonDen(d1, d2) + 2}}",
-      "{{commonDen(d1, d2) + 4}}",
-      "{{commonDen(d1, d2) + 6}}"
+      "{{commonDen(d,d+1)}}",
+      "{{commonDen(d,d+1)+1}}",
+      "{{commonDen(d,d+1)+2}}",
+      "{{commonDen(d,d+1)+3}}"
     ]
   },
   {
@@ -48,68 +48,78 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "commonden-find-denominator",
-    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "commonden-first-converted-numerator",
+    "blueprint": {
+      "problemFamily": "commonden-first-converted-numerator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
-        "min": 1,
-        "max": 3
-      },
-      "d1": {
-        "min": 2,
+      "d": {
+        "min": 3,
         "max": 5
-      },
-      "n2": {
-        "min": 1,
-        "max": 3
-      },
-      "d2": {
-        "min": 4,
-        "max": 7
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$의 공통 분모는 얼마인가요?",
-    "solver_rule": "commonDen(d1, d2)",
+    "prompt_template": "두 분수의 값은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분하면 첫째 분자의 새 값은 얼마인가요?",
+    "solver_rule": "(d - 1) * (d + 1)",
     "solution_steps_template": [
-      "공통 분모는 분모의 최소공배수입니다.",
-      "공통 분모: {{commonDen(d1, d2)}}"
+      "첫째 분모에 {{d + 1}}을 곱합니다.",
+      "첫째 분자도 같은 수를 곱하므로 {{(d - 1) * (d + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "최소공배수를 구해요.",
-      "그 값이 정답이에요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
     "id": "tmpl-commonden-A-03",
     "concept_id": "commonden-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "commonden-convert-numerator",
-    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-second-converted-numerator",
+    "blueprint": {
+      "problemFamily": "commonden-second-converted-numerator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
-        "min": 1,
-        "max": 4
-      },
-      "d1": {
-        "min": 2,
-        "max": 6
-      },
-      "d2": {
+      "d": {
         "min": 3,
-        "max": 7
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$를 분모 {{commonDen(d1, d2)}}로 통분했을 때 분자는?",
-    "solver_rule": "convertNum1(n1, d1, d2)",
+    "prompt_template": "두 분수의 값은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분하면 둘째 분자의 새 값은 얼마인가요?",
+    "solver_rule": "d",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "새 분자: {{convertNum1(n1, d1, d2)}}"
+      "둘째 분모에 {{d}}를 곱합니다.",
+      "둘째 분자 1에도 같은 수를 곱하므로 {{d}}입니다."
     ],
     "hint_steps_template": [
-      "분모를 키운 만큼 분자도 키워요.",
-      "새 분자를 계산해요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
+    ],
+    "choices_template": [
+      "{{d}}",
+      "{{d+1}}",
+      "{{d+2}}",
+      "{{d+3}}"
     ]
   },
   {
@@ -118,31 +128,35 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "commonden-convert-numerator",
-    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-first-scale-factor",
+    "blueprint": {
+      "problemFamily": "commonden-first-scale-factor",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n2": {
-        "min": 1,
-        "max": 4
-      },
-      "d1": {
-        "min": 2,
-        "max": 6
-      },
-      "d2": {
+      "d": {
         "min": 3,
-        "max": 7
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n2}} }{ {{d2}} }$를 분모 {{commonDen(d1, d2)}}로 통분했을 때 분자는?",
-    "solver_rule": "convertNum2(n2, d1, d2)",
+    "prompt_template": "두 분수의 값은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분할 때 첫째 분수의 분자와 분모에 곱하는 수를 구하세요.",
+    "solver_rule": "d + 1",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "새 분자: {{convertNum2(n2, d1, d2)}}"
+      "공통 분모는 {{d * (d + 1)}}입니다.",
+      "공통 분모를 첫째 분모로 나누면 {{d + 1}}입니다."
     ],
     "hint_steps_template": [
-      "분모를 맞추면서 분자도 바꿔요.",
-      "새 분자를 계산해요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
@@ -151,113 +165,121 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "commonden-convert-numerator",
-    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-compare-first-numerator",
+    "blueprint": {
+      "problemFamily": "commonden-compare-first-numerator",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
+      "d": {
         "min": 3,
-        "max": 6
-      },
-      "d1": {
-        "min": 4,
-        "max": 8
-      },
-      "d2": {
-        "min": 5,
-        "max": 9
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$를 분모가 {{d2}}인 분수와 통분하여 분모를 {{commonDen(d1, d2)}}로 맞추면 분자는?",
-    "solver_rule": "convertNum1(n1, d1, d2)",
+    "prompt_template": "두 분수의 값은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분하여 비교하려고 합니다. 첫째 분자의 새 값을 구하세요.",
+    "solver_rule": "(d - 1) * (d + 1)",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "새 분자: {{convertNum1(n1, d1, d2)}}"
+      "공통 분모는 {{d * (d + 1)}}입니다.",
+      "첫째 분자는 {{d + 1}}배 한 {{(d - 1) * (d + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 먼저 구해요.",
-      "분모를 키운 만큼 분자도 키워요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ],
     "choices_template": [
-      "{{convertNum1(n1, d1, d2)}}",
-      "{{convertNum1(n1, d1, d2) + 2}}",
-      "{{convertNum1(n1, d1, d2) + 4}}",
-      "{{convertNum1(n1, d1, d2) + 6}}"
+      "{{(d-1)*(d+1)}}",
+      "{{(d-1)*(d+1)+1}}",
+      "{{(d-1)*(d+1)+2}}",
+      "{{(d-1)*(d+1)+3}}"
     ]
   },
   {
     "id": "tmpl-commonden-A-06",
     "concept_id": "commonden-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "commonden-convert-numerator",
-    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-converted-numerator-sum",
+    "blueprint": {
+      "problemFamily": "commonden-converted-numerator-sum",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n2": {
+      "d": {
         "min": 3,
-        "max": 6
-      },
-      "d1": {
-        "min": 4,
-        "max": 8
-      },
-      "d2": {
-        "min": 5,
-        "max": 9
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n2}} }{ {{d2}} }$를 분모가 {{d1}}인 분수와 통분하여 분모를 {{commonDen(d1, d2)}}로 맞추면 분자는?",
-    "solver_rule": "convertNum2(n2, d1, d2)",
+    "prompt_template": "두 분수의 값은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분한 뒤 새 분자 두 개의 합을 구하세요.",
+    "solver_rule": "(d - 1) * (d + 1) + d",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "새 분자: {{convertNum2(n2, d1, d2)}}"
+      "새 분자는 {{(d - 1) * (d + 1)}}과 {{d}}입니다.",
+      "두 수의 합은 {{(d - 1) * (d + 1) + d}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 구해요.",
-      "분모를 맞추며 분자도 바꿔요."
-    ],
-    "choices_template": [
-      "{{convertNum2(n2, d1, d2)}}",
-      "{{convertNum2(n2, d1, d2) + 2}}",
-      "{{convertNum2(n2, d1, d2) + 4}}",
-      "{{convertNum2(n2, d1, d2) + 6}}"
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
     "id": "tmpl-commonden-A-07",
     "concept_id": "commonden-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "commonden-denominator-offset",
-    "blueprint": {"problemFamily":"commonden-denominator-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-inverse-original-numerator",
+    "blueprint": {
+      "problemFamily": "commonden-inverse-original-numerator",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
+      "d": {
         "min": 3,
-        "max": 6
-      },
-      "d1": {
-        "min": 4,
-        "max": 8
-      },
-      "n2": {
-        "min": 3,
-        "max": 6
-      },
-      "d2": {
-        "min": 5,
-        "max": 9
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$의 공통 분모에 1을 더한 값은?",
-    "solver_rule": "commonDen(d1, d2) + 1",
+    "prompt_template": "둘째 분수는 $\\frac{ 1 }{ {{d + 1}} }$입니다. 두 분수를 통분했더니 첫째 분수가 {{(d - 1) * (d + 1)}}/{{d * (d + 1)}}이 되었습니다. 첫째 분수의 원래 분자를 구하세요.",
+    "solver_rule": "d - 1",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "1을 더하면 {{commonDen(d1, d2) + 1}}"
+      "첫째 분모는 {{d}}에서 {{d * (d + 1)}}로 {{d + 1}}배가 되었습니다.",
+      "새 분자를 {{d + 1}}로 나누면 원래 분자 {{d - 1}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 구해요.",
-      "그 값에 1을 더해요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
+    ],
+    "choices_template": [
+      "{{d-1}}",
+      "{{d}}",
+      "{{d+1}}",
+      "{{d+2}}"
     ]
   },
   {
@@ -266,115 +288,115 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "commonden-converted-numerator-sum",
-    "blueprint": {"problemFamily":"commonden-converted-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "commonden-converted-numerator-gap",
+    "blueprint": {
+      "problemFamily": "commonden-converted-numerator-gap",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
+      "d": {
         "min": 3,
-        "max": 6
-      },
-      "d1": {
-        "min": 4,
-        "max": 8
-      },
-      "n2": {
-        "min": 3,
-        "max": 6
-      },
-      "d2": {
-        "min": 5,
-        "max": 9
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분한 뒤, 두 분자의 합은?",
-    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "prompt_template": "두 분수의 값은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분했습니다. 새 첫째 분자에서 새 둘째 분자를 뺀 값을 구하세요.",
+    "solver_rule": "(d - 1) * (d + 1) - d",
     "solution_steps_template": [
-      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
-      "합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}"
+      "새 분자는 각각 {{(d - 1) * (d + 1)}}, {{d}}입니다.",
+      "두 새 분자의 차는 {{(d - 1) * (d + 1) - d}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자를 각각 구해요.",
-      "두 값을 더해요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
     "id": "tmpl-commonden-A-09",
     "concept_id": "commonden-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "commonden-converted-numerator-difference",
-    "blueprint": {"problemFamily":"commonden-converted-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "commonden-denominator-sum-error",
+    "blueprint": {
+      "problemFamily": "commonden-denominator-sum-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 8
-      },
-      "d1": {
-        "min": 6,
-        "max": 10
-      },
-      "n2": {
-        "min": 5,
-        "max": 8
-      },
-      "d2": {
-        "min": 7,
-        "max": 11
+      "d": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분한 뒤, 첫 번째 분자에서 두 번째 분자를 빼면?",
-    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "prompt_template": "두 분수의 값은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 공통 분모를 두 분모의 합 {{2 * d + 1}}이라고 잘못 정했습니다. 최소 공통 분모는 이 값보다 얼마 큰가요?",
+    "solver_rule": "d * (d + 1) - (2 * d + 1)",
     "solution_steps_template": [
-      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
-      "차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}"
+      "최소 공통 분모는 연속한 두 분모의 곱 {{d * (d + 1)}}입니다.",
+      "잘못 정한 {{2 * d + 1}}과의 차는 {{d * (d + 1) - (2 * d + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자를 구해요.",
-      "앞에서 뒤를 빼요."
+      "올바른 방법과 잘못된 방법을 각각 계산해 차이를 비교해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
+    ],
+    "choices_template": [
+      "{{d*(d+1)-(2*d+1)}}",
+      "{{d*(d+1)-(2*d+1)+1}}",
+      "{{d*(d+1)-(2*d+1)+2}}",
+      "{{d*(d+1)-(2*d+1)+3}}"
     ]
   },
   {
     "id": "tmpl-commonden-A-10",
     "concept_id": "commonden-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "commonden-find-denominator",
-    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "commonden-scale-factor-error",
+    "blueprint": {
+      "problemFamily": "commonden-scale-factor-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 8
-      },
-      "d1": {
-        "min": 6,
-        "max": 10
-      },
-      "n2": {
-        "min": 5,
-        "max": 8
-      },
-      "d2": {
-        "min": 7,
-        "max": 11
+      "d": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분할 때 공통 분모는?",
-    "solver_rule": "commonDen(d1, d2)",
+    "prompt_template": "첫째 분수는 $\\frac{ {{d - 1}} }{ {{d}} }$이고 목표 공통 분모는 {{d * (d + 1)}}입니다. 잘못 계산한 새 분자는 {{(d - 1) * d}}입니다. 올바른 새 분자는 이 값보다 얼마 큰가요?",
+    "solver_rule": "(d - 1) * (d + 1) - (d - 1) * d",
     "solution_steps_template": [
-      "공통 분모는 최소공배수입니다.",
-      "최소공배수: {{commonDen(d1, d2)}}"
+      "올바른 새 분자는 {{(d - 1) * (d + 1)}}, 잘못된 새 분자는 {{(d - 1) * d}}입니다.",
+      "두 값의 차는 {{(d - 1) * (d + 1) - (d - 1) * d}}입니다."
     ],
     "hint_steps_template": [
-      "분모의 최소공배수를 찾아요.",
-      "그 값이 공통 분모예요."
-    ],
-    "choices_template": [
-      "{{commonDen(d1, d2)}}",
-      "{{commonDen(d1, d2) + 3}}",
-      "{{commonDen(d1, d2) + 6}}",
-      "{{commonDen(d1, d2) + 9}}"
+      "올바른 방법과 잘못된 방법을 각각 계산해 차이를 비교해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
@@ -383,41 +405,41 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "commonden-find-denominator",
-    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "commonden-consecutive-denominators",
+    "blueprint": {
+      "problemFamily": "commonden-consecutive-denominators",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
-        "max": 5
-      },
-      "d1": {
-        "min": 4,
+      "d": {
+        "min": 5,
         "max": 7
-      },
-      "n2": {
-        "min": 3,
-        "max": 5
-      },
-      "d2": {
-        "min": 6,
-        "max": 9
       }
     },
-    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모는?",
-    "solver_rule": "commonDen(d1, d2)",
+    "prompt_template": "두 리본의 사용 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분할 때 최소 공통 분모를 구하세요.",
+    "solver_rule": "commonDen(d, d + 1)",
     "solution_steps_template": [
-      "공통 분모는 분모의 최소공배수입니다.",
-      "최소공배수: {{commonDen(d1, d2)}}"
+      "연속한 두 분모 {{d}}, {{d + 1}}은 서로소입니다.",
+      "최소 공통 분모는 {{d * (d + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "분모들의 최소공배수를 찾아요.",
-      "그 값이 공통 분모예요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ],
     "choices_template": [
-      "{{commonDen(d1, d2)}}",
-      "{{commonDen(d1, d2) + 2}}",
-      "{{commonDen(d1, d2) + 4}}",
-      "{{commonDen(d1, d2) + 6}}"
+      "{{commonDen(d,d+1)}}",
+      "{{commonDen(d,d+1)+1}}",
+      "{{commonDen(d,d+1)+2}}",
+      "{{commonDen(d,d+1)+3}}"
     ]
   },
   {
@@ -426,68 +448,78 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "commonden-find-denominator",
-    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "commonden-first-converted-numerator",
+    "blueprint": {
+      "problemFamily": "commonden-first-converted-numerator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
-        "max": 5
-      },
-      "d1": {
-        "min": 4,
+      "d": {
+        "min": 5,
         "max": 7
-      },
-      "n2": {
-        "min": 3,
-        "max": 5
-      },
-      "d2": {
-        "min": 6,
-        "max": 9
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$의 공통 분모는 얼마인가요?",
-    "solver_rule": "commonDen(d1, d2)",
+    "prompt_template": "두 리본의 사용 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분하면 첫째 분자의 새 값은 얼마인가요?",
+    "solver_rule": "(d - 1) * (d + 1)",
     "solution_steps_template": [
-      "공통 분모는 분모의 최소공배수입니다.",
-      "공통 분모: {{commonDen(d1, d2)}}"
+      "첫째 분모에 {{d + 1}}을 곱합니다.",
+      "첫째 분자도 같은 수를 곱하므로 {{(d - 1) * (d + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "최소공배수를 구해요.",
-      "그 값이 정답이에요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
     "id": "tmpl-commonden-B-03",
     "concept_id": "commonden-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "commonden-convert-numerator",
-    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-second-converted-numerator",
+    "blueprint": {
+      "problemFamily": "commonden-second-converted-numerator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
-        "max": 6
-      },
-      "d1": {
-        "min": 4,
-        "max": 8
-      },
-      "d2": {
+      "d": {
         "min": 5,
-        "max": 9
+        "max": 7
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$를 분모 {{commonDen(d1, d2)}}로 통분했을 때 분자는?",
-    "solver_rule": "convertNum1(n1, d1, d2)",
+    "prompt_template": "두 리본의 사용 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분하면 둘째 분자의 새 값은 얼마인가요?",
+    "solver_rule": "d",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "새 분자: {{convertNum1(n1, d1, d2)}}"
+      "둘째 분모에 {{d}}를 곱합니다.",
+      "둘째 분자 1에도 같은 수를 곱하므로 {{d}}입니다."
     ],
     "hint_steps_template": [
-      "분모를 키운 만큼 분자도 키워요.",
-      "새 분자를 계산해요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
+    ],
+    "choices_template": [
+      "{{d}}",
+      "{{d+1}}",
+      "{{d+2}}",
+      "{{d+3}}"
     ]
   },
   {
@@ -496,31 +528,35 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "commonden-convert-numerator",
-    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-first-scale-factor",
+    "blueprint": {
+      "problemFamily": "commonden-first-scale-factor",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n2": {
-        "min": 3,
-        "max": 6
-      },
-      "d1": {
-        "min": 4,
-        "max": 8
-      },
-      "d2": {
+      "d": {
         "min": 5,
-        "max": 9
+        "max": 7
       }
     },
-    "prompt_template": "$\\frac{ {{n2}} }{ {{d2}} }$를 분모 {{commonDen(d1, d2)}}로 통분했을 때 분자는?",
-    "solver_rule": "convertNum2(n2, d1, d2)",
+    "prompt_template": "두 리본의 사용 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분할 때 첫째 분수의 분자와 분모에 곱하는 수를 구하세요.",
+    "solver_rule": "d + 1",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "새 분자: {{convertNum2(n2, d1, d2)}}"
+      "공통 분모는 {{d * (d + 1)}}입니다.",
+      "공통 분모를 첫째 분모로 나누면 {{d + 1}}입니다."
     ],
     "hint_steps_template": [
-      "분모를 맞추면서 분자도 바꿔요.",
-      "새 분자를 계산해요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
@@ -529,113 +565,121 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "commonden-convert-numerator",
-    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-compare-first-numerator",
+    "blueprint": {
+      "problemFamily": "commonden-compare-first-numerator",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
+      "d": {
         "min": 5,
-        "max": 8
-      },
-      "d1": {
-        "min": 6,
-        "max": 10
-      },
-      "d2": {
-        "min": 7,
-        "max": 11
+        "max": 7
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$를 분모가 {{d2}}인 분수와 통분하여 분모를 {{commonDen(d1, d2)}}로 맞추면 분자는?",
-    "solver_rule": "convertNum1(n1, d1, d2)",
+    "prompt_template": "두 리본의 사용 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분하여 비교하려고 합니다. 첫째 분자의 새 값을 구하세요.",
+    "solver_rule": "(d - 1) * (d + 1)",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "새 분자: {{convertNum1(n1, d1, d2)}}"
+      "공통 분모는 {{d * (d + 1)}}입니다.",
+      "첫째 분자는 {{d + 1}}배 한 {{(d - 1) * (d + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 먼저 구해요.",
-      "분모를 키운 만큼 분자도 키워요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ],
     "choices_template": [
-      "{{convertNum1(n1, d1, d2)}}",
-      "{{convertNum1(n1, d1, d2) + 2}}",
-      "{{convertNum1(n1, d1, d2) + 4}}",
-      "{{convertNum1(n1, d1, d2) + 6}}"
+      "{{(d-1)*(d+1)}}",
+      "{{(d-1)*(d+1)+1}}",
+      "{{(d-1)*(d+1)+2}}",
+      "{{(d-1)*(d+1)+3}}"
     ]
   },
   {
     "id": "tmpl-commonden-B-06",
     "concept_id": "commonden-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "commonden-convert-numerator",
-    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-converted-numerator-sum",
+    "blueprint": {
+      "problemFamily": "commonden-converted-numerator-sum",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n2": {
+      "d": {
         "min": 5,
-        "max": 8
-      },
-      "d1": {
-        "min": 6,
-        "max": 10
-      },
-      "d2": {
-        "min": 7,
-        "max": 11
+        "max": 7
       }
     },
-    "prompt_template": "$\\frac{ {{n2}} }{ {{d2}} }$를 분모가 {{d1}}인 분수와 통분하여 분모를 {{commonDen(d1, d2)}}로 맞추면 분자는?",
-    "solver_rule": "convertNum2(n2, d1, d2)",
+    "prompt_template": "두 리본의 사용 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분한 뒤 새 분자 두 개의 합을 구하세요.",
+    "solver_rule": "(d - 1) * (d + 1) + d",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "새 분자: {{convertNum2(n2, d1, d2)}}"
+      "새 분자는 {{(d - 1) * (d + 1)}}과 {{d}}입니다.",
+      "두 수의 합은 {{(d - 1) * (d + 1) + d}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 구해요.",
-      "분모를 맞추며 분자도 바꿔요."
-    ],
-    "choices_template": [
-      "{{convertNum2(n2, d1, d2)}}",
-      "{{convertNum2(n2, d1, d2) + 2}}",
-      "{{convertNum2(n2, d1, d2) + 4}}",
-      "{{convertNum2(n2, d1, d2) + 6}}"
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
     "id": "tmpl-commonden-B-07",
     "concept_id": "commonden-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "commonden-denominator-offset",
-    "blueprint": {"problemFamily":"commonden-denominator-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-inverse-original-numerator",
+    "blueprint": {
+      "problemFamily": "commonden-inverse-original-numerator",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
+      "d": {
         "min": 5,
-        "max": 8
-      },
-      "d1": {
-        "min": 6,
-        "max": 10
-      },
-      "n2": {
-        "min": 5,
-        "max": 8
-      },
-      "d2": {
-        "min": 7,
-        "max": 11
+        "max": 7
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$의 공통 분모에 1을 더한 값은?",
-    "solver_rule": "commonDen(d1, d2) + 1",
+    "prompt_template": "둘째 분수는 $\\frac{ 1 }{ {{d + 1}} }$입니다. 두 분수를 통분했더니 첫째 분수가 {{(d - 1) * (d + 1)}}/{{d * (d + 1)}}이 되었습니다. 첫째 분수의 원래 분자를 구하세요.",
+    "solver_rule": "d - 1",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "1을 더하면 {{commonDen(d1, d2) + 1}}"
+      "첫째 분모는 {{d}}에서 {{d * (d + 1)}}로 {{d + 1}}배가 되었습니다.",
+      "새 분자를 {{d + 1}}로 나누면 원래 분자 {{d - 1}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 구해요.",
-      "그 값에 1을 더해요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
+    ],
+    "choices_template": [
+      "{{d-1}}",
+      "{{d}}",
+      "{{d+1}}",
+      "{{d+2}}"
     ]
   },
   {
@@ -644,115 +688,115 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "commonden-converted-numerator-sum",
-    "blueprint": {"problemFamily":"commonden-converted-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "commonden-converted-numerator-gap",
+    "blueprint": {
+      "problemFamily": "commonden-converted-numerator-gap",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
+      "d": {
         "min": 5,
-        "max": 8
-      },
-      "d1": {
-        "min": 6,
-        "max": 10
-      },
-      "n2": {
-        "min": 5,
-        "max": 8
-      },
-      "d2": {
-        "min": 7,
-        "max": 11
+        "max": 7
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분한 뒤, 두 분자의 합은?",
-    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "prompt_template": "두 리본의 사용 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분했습니다. 새 첫째 분자에서 새 둘째 분자를 뺀 값을 구하세요.",
+    "solver_rule": "(d - 1) * (d + 1) - d",
     "solution_steps_template": [
-      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
-      "합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}"
+      "새 분자는 각각 {{(d - 1) * (d + 1)}}, {{d}}입니다.",
+      "두 새 분자의 차는 {{(d - 1) * (d + 1) - d}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자를 각각 구해요.",
-      "두 값을 더해요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
     "id": "tmpl-commonden-B-09",
     "concept_id": "commonden-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "commonden-converted-numerator-difference",
-    "blueprint": {"problemFamily":"commonden-converted-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "commonden-denominator-sum-error",
+    "blueprint": {
+      "problemFamily": "commonden-denominator-sum-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 10
-      },
-      "d1": {
-        "min": 8,
-        "max": 12
-      },
-      "n2": {
-        "min": 7,
-        "max": 10
-      },
-      "d2": {
-        "min": 9,
-        "max": 12
+      "d": {
+        "min": 5,
+        "max": 7
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분한 뒤, 첫 번째 분자에서 두 번째 분자를 빼면?",
-    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "prompt_template": "두 리본의 사용 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 공통 분모를 두 분모의 합 {{2 * d + 1}}이라고 잘못 정했습니다. 최소 공통 분모는 이 값보다 얼마 큰가요?",
+    "solver_rule": "d * (d + 1) - (2 * d + 1)",
     "solution_steps_template": [
-      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
-      "차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}"
+      "최소 공통 분모는 연속한 두 분모의 곱 {{d * (d + 1)}}입니다.",
+      "잘못 정한 {{2 * d + 1}}과의 차는 {{d * (d + 1) - (2 * d + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자를 구해요.",
-      "앞에서 뒤를 빼요."
+      "올바른 방법과 잘못된 방법을 각각 계산해 차이를 비교해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
+    ],
+    "choices_template": [
+      "{{d*(d+1)-(2*d+1)}}",
+      "{{d*(d+1)-(2*d+1)+1}}",
+      "{{d*(d+1)-(2*d+1)+2}}",
+      "{{d*(d+1)-(2*d+1)+3}}"
     ]
   },
   {
     "id": "tmpl-commonden-B-10",
     "concept_id": "commonden-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "commonden-find-denominator",
-    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "commonden-scale-factor-error",
+    "blueprint": {
+      "problemFamily": "commonden-scale-factor-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 10
-      },
-      "d1": {
-        "min": 8,
-        "max": 12
-      },
-      "n2": {
-        "min": 7,
-        "max": 10
-      },
-      "d2": {
-        "min": 9,
-        "max": 12
+      "d": {
+        "min": 5,
+        "max": 7
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분할 때 공통 분모는?",
-    "solver_rule": "commonDen(d1, d2)",
+    "prompt_template": "첫째 분수는 $\\frac{ {{d - 1}} }{ {{d}} }$이고 목표 공통 분모는 {{d * (d + 1)}}입니다. 잘못 계산한 새 분자는 {{(d - 1) * d}}입니다. 올바른 새 분자는 이 값보다 얼마 큰가요?",
+    "solver_rule": "(d - 1) * (d + 1) - (d - 1) * d",
     "solution_steps_template": [
-      "공통 분모는 최소공배수입니다.",
-      "최소공배수: {{commonDen(d1, d2)}}"
+      "올바른 새 분자는 {{(d - 1) * (d + 1)}}, 잘못된 새 분자는 {{(d - 1) * d}}입니다.",
+      "두 값의 차는 {{(d - 1) * (d + 1) - (d - 1) * d}}입니다."
     ],
     "hint_steps_template": [
-      "분모의 최소공배수를 찾아요.",
-      "그 값이 공통 분모예요."
-    ],
-    "choices_template": [
-      "{{commonDen(d1, d2)}}",
-      "{{commonDen(d1, d2) + 3}}",
-      "{{commonDen(d1, d2) + 6}}",
-      "{{commonDen(d1, d2) + 9}}"
+      "올바른 방법과 잘못된 방법을 각각 계산해 차이를 비교해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
@@ -761,41 +805,41 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "commonden-find-denominator",
-    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "commonden-consecutive-denominators",
+    "blueprint": {
+      "problemFamily": "commonden-consecutive-denominators",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 7
-      },
-      "d1": {
-        "min": 6,
+      "d": {
+        "min": 7,
         "max": 9
-      },
-      "n2": {
-        "min": 5,
-        "max": 7
-      },
-      "d2": {
-        "min": 8,
-        "max": 11
       }
     },
-    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모는?",
-    "solver_rule": "commonDen(d1, d2)",
+    "prompt_template": "두 작업 구간의 완료 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분할 때 최소 공통 분모를 구하세요.",
+    "solver_rule": "commonDen(d, d + 1)",
     "solution_steps_template": [
-      "공통 분모는 분모의 최소공배수입니다.",
-      "최소공배수: {{commonDen(d1, d2)}}"
+      "연속한 두 분모 {{d}}, {{d + 1}}은 서로소입니다.",
+      "최소 공통 분모는 {{d * (d + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "분모들의 최소공배수를 찾아요.",
-      "그 값이 공통 분모예요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ],
     "choices_template": [
-      "{{commonDen(d1, d2)}}",
-      "{{commonDen(d1, d2) + 2}}",
-      "{{commonDen(d1, d2) + 4}}",
-      "{{commonDen(d1, d2) + 6}}"
+      "{{commonDen(d,d+1)}}",
+      "{{commonDen(d,d+1)+1}}",
+      "{{commonDen(d,d+1)+2}}",
+      "{{commonDen(d,d+1)+3}}"
     ]
   },
   {
@@ -804,68 +848,78 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "commonden-find-denominator",
-    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "commonden-first-converted-numerator",
+    "blueprint": {
+      "problemFamily": "commonden-first-converted-numerator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 7
-      },
-      "d1": {
-        "min": 6,
+      "d": {
+        "min": 7,
         "max": 9
-      },
-      "n2": {
-        "min": 5,
-        "max": 7
-      },
-      "d2": {
-        "min": 8,
-        "max": 11
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$의 공통 분모는 얼마인가요?",
-    "solver_rule": "commonDen(d1, d2)",
+    "prompt_template": "두 작업 구간의 완료 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분하면 첫째 분자의 새 값은 얼마인가요?",
+    "solver_rule": "(d - 1) * (d + 1)",
     "solution_steps_template": [
-      "공통 분모는 분모의 최소공배수입니다.",
-      "공통 분모: {{commonDen(d1, d2)}}"
+      "첫째 분모에 {{d + 1}}을 곱합니다.",
+      "첫째 분자도 같은 수를 곱하므로 {{(d - 1) * (d + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "최소공배수를 구해요.",
-      "그 값이 정답이에요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
     "id": "tmpl-commonden-C-03",
     "concept_id": "commonden-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "commonden-convert-numerator",
-    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-second-converted-numerator",
+    "blueprint": {
+      "problemFamily": "commonden-second-converted-numerator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 8
-      },
-      "d1": {
-        "min": 6,
-        "max": 10
-      },
-      "d2": {
+      "d": {
         "min": 7,
-        "max": 11
+        "max": 9
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$를 분모 {{commonDen(d1, d2)}}로 통분했을 때 분자는?",
-    "solver_rule": "convertNum1(n1, d1, d2)",
+    "prompt_template": "두 작업 구간의 완료 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분하면 둘째 분자의 새 값은 얼마인가요?",
+    "solver_rule": "d",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "새 분자: {{convertNum1(n1, d1, d2)}}"
+      "둘째 분모에 {{d}}를 곱합니다.",
+      "둘째 분자 1에도 같은 수를 곱하므로 {{d}}입니다."
     ],
     "hint_steps_template": [
-      "분모를 키운 만큼 분자도 키워요.",
-      "새 분자를 계산해요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
+    ],
+    "choices_template": [
+      "{{d}}",
+      "{{d+1}}",
+      "{{d+2}}",
+      "{{d+3}}"
     ]
   },
   {
@@ -874,31 +928,35 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "commonden-convert-numerator",
-    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-first-scale-factor",
+    "blueprint": {
+      "problemFamily": "commonden-first-scale-factor",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n2": {
-        "min": 5,
-        "max": 8
-      },
-      "d1": {
-        "min": 6,
-        "max": 10
-      },
-      "d2": {
+      "d": {
         "min": 7,
-        "max": 11
+        "max": 9
       }
     },
-    "prompt_template": "$\\frac{ {{n2}} }{ {{d2}} }$를 분모 {{commonDen(d1, d2)}}로 통분했을 때 분자는?",
-    "solver_rule": "convertNum2(n2, d1, d2)",
+    "prompt_template": "두 작업 구간의 완료 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분할 때 첫째 분수의 분자와 분모에 곱하는 수를 구하세요.",
+    "solver_rule": "d + 1",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "새 분자: {{convertNum2(n2, d1, d2)}}"
+      "공통 분모는 {{d * (d + 1)}}입니다.",
+      "공통 분모를 첫째 분모로 나누면 {{d + 1}}입니다."
     ],
     "hint_steps_template": [
-      "분모를 맞추면서 분자도 바꿔요.",
-      "새 분자를 계산해요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
@@ -907,113 +965,121 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "commonden-convert-numerator",
-    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-compare-first-numerator",
+    "blueprint": {
+      "problemFamily": "commonden-compare-first-numerator",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
+      "d": {
         "min": 7,
-        "max": 10
-      },
-      "d1": {
-        "min": 8,
-        "max": 12
-      },
-      "d2": {
-        "min": 9,
-        "max": 12
+        "max": 9
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$를 분모가 {{d2}}인 분수와 통분하여 분모를 {{commonDen(d1, d2)}}로 맞추면 분자는?",
-    "solver_rule": "convertNum1(n1, d1, d2)",
+    "prompt_template": "두 작업 구간의 완료 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분하여 비교하려고 합니다. 첫째 분자의 새 값을 구하세요.",
+    "solver_rule": "(d - 1) * (d + 1)",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "새 분자: {{convertNum1(n1, d1, d2)}}"
+      "공통 분모는 {{d * (d + 1)}}입니다.",
+      "첫째 분자는 {{d + 1}}배 한 {{(d - 1) * (d + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 먼저 구해요.",
-      "분모를 키운 만큼 분자도 키워요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ],
     "choices_template": [
-      "{{convertNum1(n1, d1, d2)}}",
-      "{{convertNum1(n1, d1, d2) + 2}}",
-      "{{convertNum1(n1, d1, d2) + 4}}",
-      "{{convertNum1(n1, d1, d2) + 6}}"
+      "{{(d-1)*(d+1)}}",
+      "{{(d-1)*(d+1)+1}}",
+      "{{(d-1)*(d+1)+2}}",
+      "{{(d-1)*(d+1)+3}}"
     ]
   },
   {
     "id": "tmpl-commonden-C-06",
     "concept_id": "commonden-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "commonden-convert-numerator",
-    "blueprint": {"problemFamily":"commonden-convert-numerator","cognitiveDomain":"applying","reasoningPattern":"representation_shift","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-converted-numerator-sum",
+    "blueprint": {
+      "problemFamily": "commonden-converted-numerator-sum",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n2": {
+      "d": {
         "min": 7,
-        "max": 10
-      },
-      "d1": {
-        "min": 8,
-        "max": 12
-      },
-      "d2": {
-        "min": 9,
-        "max": 12
+        "max": 9
       }
     },
-    "prompt_template": "$\\frac{ {{n2}} }{ {{d2}} }$를 분모가 {{d1}}인 분수와 통분하여 분모를 {{commonDen(d1, d2)}}로 맞추면 분자는?",
-    "solver_rule": "convertNum2(n2, d1, d2)",
+    "prompt_template": "두 작업 구간의 완료 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분한 뒤 새 분자 두 개의 합을 구하세요.",
+    "solver_rule": "(d - 1) * (d + 1) + d",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "새 분자: {{convertNum2(n2, d1, d2)}}"
+      "새 분자는 {{(d - 1) * (d + 1)}}과 {{d}}입니다.",
+      "두 수의 합은 {{(d - 1) * (d + 1) + d}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 구해요.",
-      "분모를 맞추며 분자도 바꿔요."
-    ],
-    "choices_template": [
-      "{{convertNum2(n2, d1, d2)}}",
-      "{{convertNum2(n2, d1, d2) + 2}}",
-      "{{convertNum2(n2, d1, d2) + 4}}",
-      "{{convertNum2(n2, d1, d2) + 6}}"
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
     "id": "tmpl-commonden-C-07",
     "concept_id": "commonden-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "commonden-denominator-offset",
-    "blueprint": {"problemFamily":"commonden-denominator-offset","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "commonden-inverse-original-numerator",
+    "blueprint": {
+      "problemFamily": "commonden-inverse-original-numerator",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
+      "d": {
         "min": 7,
-        "max": 10
-      },
-      "d1": {
-        "min": 8,
-        "max": 12
-      },
-      "n2": {
-        "min": 7,
-        "max": 10
-      },
-      "d2": {
-        "min": 9,
-        "max": 12
+        "max": 9
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$의 공통 분모에 1을 더한 값은?",
-    "solver_rule": "commonDen(d1, d2) + 1",
+    "prompt_template": "둘째 분수는 $\\frac{ 1 }{ {{d + 1}} }$입니다. 두 분수를 통분했더니 첫째 분수가 {{(d - 1) * (d + 1)}}/{{d * (d + 1)}}이 되었습니다. 첫째 분수의 원래 분자를 구하세요.",
+    "solver_rule": "d - 1",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "1을 더하면 {{commonDen(d1, d2) + 1}}"
+      "첫째 분모는 {{d}}에서 {{d * (d + 1)}}로 {{d + 1}}배가 되었습니다.",
+      "새 분자를 {{d + 1}}로 나누면 원래 분자 {{d - 1}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 구해요.",
-      "그 값에 1을 더해요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
+    ],
+    "choices_template": [
+      "{{d-1}}",
+      "{{d}}",
+      "{{d+1}}",
+      "{{d+2}}"
     ]
   },
   {
@@ -1022,115 +1088,115 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "commonden-converted-numerator-sum",
-    "blueprint": {"problemFamily":"commonden-converted-numerator-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "commonden-converted-numerator-gap",
+    "blueprint": {
+      "problemFamily": "commonden-converted-numerator-gap",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n1": {
+      "d": {
         "min": 7,
-        "max": 10
-      },
-      "d1": {
-        "min": 8,
-        "max": 12
-      },
-      "n2": {
-        "min": 7,
-        "max": 10
-      },
-      "d2": {
-        "min": 9,
-        "max": 12
+        "max": 9
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분한 뒤, 두 분자의 합은?",
-    "solver_rule": "convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)",
+    "prompt_template": "두 작업 구간의 완료 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 통분했습니다. 새 첫째 분자에서 새 둘째 분자를 뺀 값을 구하세요.",
+    "solver_rule": "(d - 1) * (d + 1) - d",
     "solution_steps_template": [
-      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
-      "합: {{convertNum1(n1, d1, d2) + convertNum2(n2, d1, d2)}}"
+      "새 분자는 각각 {{(d - 1) * (d + 1)}}, {{d}}입니다.",
+      "두 새 분자의 차는 {{(d - 1) * (d + 1) - d}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자를 각각 구해요.",
-      "두 값을 더해요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   },
   {
     "id": "tmpl-commonden-C-09",
     "concept_id": "commonden-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "commonden-converted-numerator-difference",
-    "blueprint": {"problemFamily":"commonden-converted-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "commonden-denominator-sum-error",
+    "blueprint": {
+      "problemFamily": "commonden-denominator-sum-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n1": {
-        "min": 9,
-        "max": 12
-      },
-      "d1": {
-        "min": 10,
-        "max": 12
-      },
-      "n2": {
-        "min": 9,
-        "max": 12
-      },
-      "d2": {
-        "min": 11,
-        "max": 12
+      "d": {
+        "min": 7,
+        "max": 9
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분한 뒤, 첫 번째 분자에서 두 번째 분자를 빼면?",
-    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "prompt_template": "두 작업 구간의 완료 비율은 각각 $\\frac{ {{d - 1}} }{ {{d}} }$, $\\frac{ 1 }{ {{d + 1}} }$입니다. 공통 분모를 두 분모의 합 {{2 * d + 1}}이라고 잘못 정했습니다. 최소 공통 분모는 이 값보다 얼마 큰가요?",
+    "solver_rule": "d * (d + 1) - (2 * d + 1)",
     "solution_steps_template": [
-      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
-      "차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}"
+      "최소 공통 분모는 연속한 두 분모의 곱 {{d * (d + 1)}}입니다.",
+      "잘못 정한 {{2 * d + 1}}과의 차는 {{d * (d + 1) - (2 * d + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자를 구해요.",
-      "앞에서 뒤를 빼요."
+      "올바른 방법과 잘못된 방법을 각각 계산해 차이를 비교해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
+    ],
+    "choices_template": [
+      "{{d*(d+1)-(2*d+1)}}",
+      "{{d*(d+1)-(2*d+1)+1}}",
+      "{{d*(d+1)-(2*d+1)+2}}",
+      "{{d*(d+1)-(2*d+1)+3}}"
     ]
   },
   {
     "id": "tmpl-commonden-C-10",
     "concept_id": "commonden-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "commonden-find-denominator",
-    "blueprint": {"problemFamily":"commonden-find-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "commonden-scale-factor-error",
+    "blueprint": {
+      "problemFamily": "commonden-scale-factor-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n1": {
-        "min": 9,
-        "max": 12
-      },
-      "d1": {
-        "min": 10,
-        "max": 12
-      },
-      "n2": {
-        "min": 9,
-        "max": 12
-      },
-      "d2": {
-        "min": 11,
-        "max": 12
+      "d": {
+        "min": 7,
+        "max": 9
       }
     },
-    "prompt_template": "{{n1}}/{{d1}}와 {{n2}}/{{d2}}의 공통 분모는?",
-    "solver_rule": "commonDen(d1, d2)",
+    "prompt_template": "첫째 분수는 $\\frac{ {{d - 1}} }{ {{d}} }$이고 목표 공통 분모는 {{d * (d + 1)}}입니다. 잘못 계산한 새 분자는 {{(d - 1) * d}}입니다. 올바른 새 분자는 이 값보다 얼마 큰가요?",
+    "solver_rule": "(d - 1) * (d + 1) - (d - 1) * d",
     "solution_steps_template": [
-      "공통 분모는 최소공배수입니다.",
-      "최소공배수: {{commonDen(d1, d2)}}"
+      "올바른 새 분자는 {{(d - 1) * (d + 1)}}, 잘못된 새 분자는 {{(d - 1) * d}}입니다.",
+      "두 값의 차는 {{(d - 1) * (d + 1) - (d - 1) * d}}입니다."
     ],
     "hint_steps_template": [
-      "분모의 최소공배수를 찾아요.",
-      "그 값이 공통 분모예요."
-    ],
-    "choices_template": [
-      "{{commonDen(d1, d2)}}",
-      "{{commonDen(d1, d2) + 3}}",
-      "{{commonDen(d1, d2) + 6}}",
-      "{{commonDen(d1, d2) + 9}}"
+      "올바른 방법과 잘못된 방법을 각각 계산해 차이를 비교해요.",
+      "공통 분모는 두 분모의 공배수여야 해요."
     ]
   }
 ]

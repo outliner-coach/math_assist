@@ -93,17 +93,18 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
     'pattern-shift-then-scale'
   ],
   'simplify-001': [
-    'simplify-reduce-fraction', 'simplify-reduced-numerator', 'simplify-reduced-denominator',
-    'simplify-reduce-fraction', 'simplify-component-sum', 'simplify-reduced-numerator',
-    'simplify-reduced-denominator', 'simplify-reduced-denominator',
-    'simplify-component-difference', 'simplify-component-sum'
+    'simplify-reduce-scaled-fraction', 'simplify-identify-numerator',
+    'simplify-identify-denominator', 'simplify-greatest-common-factor',
+    'simplify-equivalent-numerator', 'simplify-context-part',
+    'simplify-missing-scale-factor', 'simplify-component-sum',
+    'simplify-one-sided-division-error', 'simplify-additive-change-error'
   ],
   'commonden-001': [
-    'commonden-find-denominator', 'commonden-find-denominator',
-    'commonden-convert-numerator', 'commonden-convert-numerator',
-    'commonden-convert-numerator', 'commonden-convert-numerator',
-    'commonden-denominator-offset', 'commonden-converted-numerator-sum',
-    'commonden-converted-numerator-difference', 'commonden-find-denominator'
+    'commonden-consecutive-denominators', 'commonden-first-converted-numerator',
+    'commonden-second-converted-numerator', 'commonden-first-scale-factor',
+    'commonden-compare-first-numerator', 'commonden-converted-numerator-sum',
+    'commonden-inverse-original-numerator', 'commonden-converted-numerator-gap',
+    'commonden-denominator-sum-error', 'commonden-scale-factor-error'
   ],
   'fracadd-001': [
     'fracadd-unlike-direct', 'fracadd-multiple-denominator',
@@ -211,16 +212,26 @@ const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'pattern-shift-then-scale': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수02-01', estimatedSteps: 2, readingLoad: 'medium' }),
 
   // Fraction equivalence and common denominators
-  'simplify-reduce-fraction': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-06', estimatedSteps: 1, readingLoad: 'low' }),
-  'simplify-reduced-numerator': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-06', estimatedSteps: 1, readingLoad: 'low' }),
-  'simplify-reduced-denominator': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-06', estimatedSteps: 1, readingLoad: 'low' }),
+  'simplify-reduce-scaled-fraction': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-06', estimatedSteps: 1, readingLoad: 'low' }),
+  'simplify-identify-numerator': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-06', estimatedSteps: 2, readingLoad: 'low' }),
+  'simplify-identify-denominator': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-06', estimatedSteps: 2, readingLoad: 'low' }),
+  'simplify-greatest-common-factor': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-06', connectedStandards: ['6수01-04'], estimatedSteps: 2, readingLoad: 'medium' }),
+  'simplify-equivalent-numerator': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'representation_shift', primaryStandard: '6수01-06', estimatedSteps: 2, readingLoad: 'medium' }),
+  'simplify-context-part': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-06', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'simplify-missing-scale-factor': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'medium', contextType: 'puzzle' }),
   'simplify-component-sum': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-06', estimatedSteps: 2, readingLoad: 'medium' }),
-  'simplify-component-difference': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-06', estimatedSteps: 2, readingLoad: 'medium' }),
-  'commonden-find-denominator': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-06', estimatedSteps: 1, readingLoad: 'low' }),
-  'commonden-convert-numerator': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'representation_shift', primaryStandard: '6수01-06', estimatedSteps: 2, readingLoad: 'medium' }),
-  'commonden-denominator-offset': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-06', estimatedSteps: 2, readingLoad: 'medium' }),
+  'simplify-one-sided-division-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
+  'simplify-additive-change-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
+  'commonden-consecutive-denominators': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-06', estimatedSteps: 2, readingLoad: 'low' }),
+  'commonden-first-converted-numerator': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-06', estimatedSteps: 2, readingLoad: 'low' }),
+  'commonden-second-converted-numerator': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-06', estimatedSteps: 2, readingLoad: 'low' }),
+  'commonden-first-scale-factor': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'inverse', primaryStandard: '6수01-06', estimatedSteps: 2, readingLoad: 'medium' }),
+  'commonden-compare-first-numerator': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'representation_shift', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'medium' }),
   'commonden-converted-numerator-sum': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'medium' }),
-  'commonden-converted-numerator-difference': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'medium' }),
+  'commonden-inverse-original-numerator': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'medium', contextType: 'puzzle' }),
+  'commonden-converted-numerator-gap': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'medium' }),
+  'commonden-denominator-sum-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
+  'commonden-scale-factor-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
 
   // Fraction addition and subtraction
   'fracadd-unlike-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-08', estimatedSteps: 2, readingLoad: 'low' }),
