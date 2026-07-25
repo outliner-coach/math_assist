@@ -281,6 +281,13 @@ When you change a high-conflict file, add a short dated note below:
   exact; consecutive source denominators must keep the least common denominator
   equal to their product for every allowed parameter combination.
 
+- 2026-07-26: Grade 5 divisor/multiple/GCD/LCM quality upgrade (primary
+  workstreams 01 and 04) owns the four matching template JSON files,
+  `scripts/generate-grade5-divisor-multiple-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, and focused exhaustive tests.
+  Construct GCD/LCM operands from a shared factor and consecutive cofactors so
+  the declared greatest/least common value is exact for every parameter tuple.
+
 - 2026-07-21: quantitative three-shape overlap repair (primary workstream 03,
   dependencies on workstreams 01 and 04)
   `src/lib/types.ts`, `src/lib/problem-generator.ts`, and

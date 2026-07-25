@@ -16,6 +16,9 @@ import {
 import {
   banks as generatedFractionSimplifyBanks
 } from '../../scripts/generate-grade5-fraction-simplify-templates.js'
+import {
+  banks as generatedDivisorMultipleBanks
+} from '../../scripts/generate-grade5-divisor-multiple-templates.js'
 import { templates as generatedFractionMultiplicationTemplates } from '../../scripts/generate-grade5-fracmul-templates.js'
 import { banks as generatedGeometryBanks } from '../../scripts/generate-grade5-geometry-templates.js'
 import { templates as generatedMixedCalculationTemplates } from '../../scripts/generate-grade5-mixedcalc-templates.js'
@@ -99,7 +102,7 @@ describe('Grade 5 reviewed blueprint metadata', () => {
 
     expect(templates).toHaveLength(660)
     expect(BLOCKED_CONTENT_TEMPLATE_IDS.size).toBe(0)
-    expect(families.size).toBe(201)
+    expect(families.size).toBe(217)
     expect(new Set(Object.keys(REVIEWED_FAMILY_BLUEPRINTS))).toEqual(families)
   })
 
@@ -219,6 +222,24 @@ describe('Grade 5 reviewed blueprint metadata', () => {
         return counts
       }, {})).toEqual({ knowing: 12, applying: 12, reasoning: 6 })
       expect(collectExhaustiveTemplateIssues(generated, /^\d+(?:\/\d+)?$/)).toEqual([])
+    }
+  })
+
+  it('keeps divisor and multiple unit banks reproducible and exhaustive', () => {
+    for (const [name, generated] of Object.entries(generatedDivisorMultipleBanks)) {
+      const committed = JSON.parse(fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', `${name}.json`),
+        'utf8'
+      )) as ProblemTemplate[]
+      expect(generated).toEqual(committed)
+      expect(generated).toHaveLength(30)
+      expect(new Set(generated.map(template => template.problem_family))).toHaveLength(10)
+      expect(generated.reduce<Record<string, number>>((counts, template) => {
+        const domain = template.blueprint!.cognitiveDomain
+        counts[domain] = (counts[domain] ?? 0) + 1
+        return counts
+      }, {})).toEqual({ knowing: 12, applying: 12, reasoning: 6 })
+      expect(collectExhaustiveTemplateIssues(generated, /^\d+$/)).toEqual([])
     }
   })
 

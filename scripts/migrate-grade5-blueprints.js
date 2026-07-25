@@ -67,24 +67,27 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
     'mixedcalc-missing-parentheses-error', 'mixedcalc-model-correction-gap'
   ],
   'divisor-001': [
-    'divisor-identify', 'divisor-greatest', 'divisor-least', 'divisor-count',
-    'divisor-smallest-nonunit', 'divisor-largest-two-gap', 'divisor-largest-proper',
-    'divisor-identify', 'divisor-second-largest', 'divisor-second-largest'
+    'divisor-missing-factor', 'divisor-greatest', 'divisor-least', 'divisor-count',
+    'divisor-context-rectangle', 'divisor-largest-proper', 'divisor-smallest-nonunit',
+    'divisor-factor-pair-sum', 'divisor-remainder-counterexample', 'divisor-nondivisor-count'
   ],
   'multiple-001': [
-    'multiple-identify', 'multiple-nth', 'multiple-identify-nonmultiple', 'multiple-nth',
-    'multiple-sum-two-terms', 'multiple-scale-term', 'multiple-difference-two-terms',
-    'multiple-identify', 'multiple-difference-two-terms', 'multiple-nth'
+    'multiple-second', 'multiple-nth', 'multiple-order-from-value', 'multiple-next',
+    'multiple-context-packages', 'multiple-context-repeated-distance',
+    'multiple-next-after-known', 'multiple-missing-multiplier',
+    'multiple-addition-error-gap', 'multiple-between-consecutive'
   ],
   'gcd-001': [
-    'gcd-direct', 'gcd-direct', 'gcd-identify-common-divisor', 'gcd-direct',
-    'gcd-equal-group-maximum', 'gcd-equal-group-maximum', 'gcd-double', 'gcd-double',
-    'gcd-quotient-sum', 'gcd-quotient-sum'
+    'gcd-structured-direct', 'gcd-common-divisor', 'gcd-first-quotient', 'gcd-second-quotient',
+    'gcd-context-equal-groups', 'gcd-context-items-per-group',
+    'gcd-context-square-tile', 'gcd-quotient-sum',
+    'gcd-too-large-candidate', 'gcd-product-confusion'
   ],
   'lcm-001': [
-    'lcm-direct', 'lcm-direct', 'lcm-identify-non-common-multiple', 'lcm-direct',
-    'lcm-simultaneous-cycle', 'lcm-double', 'lcm-offset', 'lcm-offset',
-    'lcm-simultaneous-cycle', 'lcm-offset'
+    'lcm-structured-direct', 'lcm-common-multiple', 'lcm-first-multiplier', 'lcm-second-common',
+    'lcm-context-simultaneous-cycle', 'lcm-context-package-total',
+    'lcm-context-second-meeting', 'lcm-missing-cycle-count',
+    'lcm-product-error-gap', 'lcm-sum-error-gap'
   ],
   'pattern-001': [
     'pattern-infer-multiplicative', 'pattern-infer-additive', 'pattern-infer-affine',
@@ -175,32 +178,48 @@ const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'mixedcalc-model-correction-gap': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'model_and_check', primaryStandard: '6수01-01', estimatedSteps: 4, readingLoad: 'high', contextType: 'real_world' }),
 
   // Divisors and multiples
-  'divisor-identify': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'constraint', primaryStandard: '6수01-04', estimatedSteps: 1, readingLoad: 'low' }),
+  'divisor-missing-factor': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'inverse', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'low' }),
   'divisor-greatest': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-04', estimatedSteps: 1, readingLoad: 'low' }),
   'divisor-least': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-04', estimatedSteps: 1, readingLoad: 'low' }),
-  'divisor-count': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'systematic_counting', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'medium' }),
-  'divisor-smallest-nonunit': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'systematic_counting', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'medium' }),
-  'divisor-largest-two-gap': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'medium' }),
+  'divisor-count': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'systematic_counting', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'medium' }),
+  'divisor-context-rectangle': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
   'divisor-largest-proper': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'systematic_counting', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'medium' }),
-  'divisor-second-largest': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'systematic_counting', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'medium' }),
-  'multiple-identify': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'constraint', primaryStandard: '6수01-05', estimatedSteps: 1, readingLoad: 'low' }),
+  'divisor-smallest-nonunit': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'systematic_counting', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'medium' }),
+  'divisor-factor-pair-sum': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'medium' }),
+  'divisor-remainder-counterexample': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-04', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
+  'divisor-nondivisor-count': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'systematic_counting', primaryStandard: '6수01-04', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
+  'multiple-second': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-05', estimatedSteps: 1, readingLoad: 'low' }),
   'multiple-nth': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-05', estimatedSteps: 1, readingLoad: 'low' }),
-  'multiple-identify-nonmultiple': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'constraint', primaryStandard: '6수01-05', estimatedSteps: 1, readingLoad: 'low' }),
-  'multiple-sum-two-terms': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium' }),
-  'multiple-scale-term': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium' }),
-  'multiple-difference-two-terms': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium' }),
+  'multiple-order-from-value': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'inverse', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'low' }),
+  'multiple-next': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium' }),
+  'multiple-context-packages': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'multiple-context-repeated-distance': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'multiple-next-after-known': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium' }),
+  'multiple-missing-multiplier': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium', contextType: 'puzzle' }),
+  'multiple-addition-error-gap': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-05', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
+  'multiple-between-consecutive': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'constraint', primaryStandard: '6수01-05', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
 
   // GCD and LCM
-  'gcd-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-04', estimatedSteps: 1, readingLoad: 'low' }),
-  'gcd-identify-common-divisor': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'constraint', primaryStandard: '6수01-04', estimatedSteps: 1, readingLoad: 'low' }),
-  'gcd-equal-group-maximum': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'medium' }),
-  'gcd-double': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'medium' }),
+  'gcd-structured-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'low' }),
+  'gcd-common-divisor': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'constraint', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'low' }),
+  'gcd-first-quotient': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'inverse', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'low' }),
+  'gcd-second-quotient': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'inverse', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'medium' }),
+  'gcd-context-equal-groups': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-04', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'gcd-context-items-per-group': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-04', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
+  'gcd-context-square-tile': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-04', connectedStandards: ['6수03-14'], estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
   'gcd-quotient-sum': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-04', estimatedSteps: 3, readingLoad: 'medium' }),
-  'lcm-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-05', estimatedSteps: 1, readingLoad: 'low' }),
-  'lcm-identify-non-common-multiple': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'constraint', primaryStandard: '6수01-05', estimatedSteps: 1, readingLoad: 'medium' }),
-  'lcm-simultaneous-cycle': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
-  'lcm-double': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium' }),
-  'lcm-offset': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium' }),
+  'gcd-too-large-candidate': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-04', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
+  'gcd-product-confusion': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-04', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
+  'lcm-structured-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'low' }),
+  'lcm-common-multiple': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'low' }),
+  'lcm-first-multiplier': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'inverse', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'low' }),
+  'lcm-second-common': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium' }),
+  'lcm-context-simultaneous-cycle': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'lcm-context-package-total': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-05', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'lcm-context-second-meeting': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-05', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
+  'lcm-missing-cycle-count': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수01-05', estimatedSteps: 3, readingLoad: 'medium', contextType: 'puzzle' }),
+  'lcm-product-error-gap': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-05', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
+  'lcm-sum-error-gap': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-05', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
 
   // Correspondence patterns
   'pattern-infer-multiplicative': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'pattern_generalization', primaryStandard: '6수02-01', estimatedSteps: 2, readingLoad: 'medium' }),

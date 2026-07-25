@@ -24,6 +24,7 @@
     "generate:grade5-fraction-addsub": "node scripts/generate-grade5-fraction-addsub-templates.js",
     "generate:grade5-fraction-simplify": "node scripts/generate-grade5-fraction-simplify-templates.js",
     "generate:grade5-decimalmul": "node scripts/generate-grade5-decimalmul-templates.js",
+    "generate:grade5-divisor-multiple": "node scripts/generate-grade5-divisor-multiple-templates.js",
     "generate:grade5-fracmul": "node scripts/generate-grade5-fracmul-templates.js",
     "generate:grade5-mixedcalc": "node scripts/generate-grade5-mixedcalc-templates.js",
     "generate:grade5-rounding": "node scripts/generate-grade5-rounding-templates.js",
