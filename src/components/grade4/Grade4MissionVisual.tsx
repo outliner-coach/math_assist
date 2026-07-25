@@ -407,6 +407,115 @@ function EquationBalance({ mission, showAnswer }: { mission: Grade4Mission; show
   )
 }
 
+interface Point {
+  x: number
+  y: number
+}
+
+function direction(angle: number): Point {
+  const radians = angle * Math.PI / 180
+  return { x: Math.cos(radians), y: -Math.sin(radians) }
+}
+
+function lineEndpoints(center: Point, angle: number, halfLength: number): [Point, Point] {
+  const unit = direction(angle)
+  return [
+    { x: center.x - unit.x * halfLength, y: center.y - unit.y * halfLength },
+    { x: center.x + unit.x * halfLength, y: center.y + unit.y * halfLength },
+  ]
+}
+
+function LineRelationship({ mission }: { mission: Grade4Mission }) {
+  const angleA = number(mission.visualConfig.angleA)
+  const angleB = number(mission.visualConfig.angleB)
+  const mode = label(mission.visualConfig.mode)
+  const offset = Math.max(42, number(mission.visualConfig.offset) || 54)
+  const isParallel = mode === 'parallel' || mode === 'parallel-through-point'
+  const isSeparate = mode === 'separate-nonparallel'
+  const normal = direction(angleA + 90)
+  const center: Point = { x: 160, y: 95 }
+  const centerA = isParallel
+    ? { x: center.x - normal.x * offset / 2, y: center.y - normal.y * offset / 2 }
+    : isSeparate ? { x: 120, y: 70 } : center
+  const centerB = isParallel
+    ? { x: center.x + normal.x * offset / 2, y: center.y + normal.y * offset / 2 }
+    : isSeparate ? { x: 200, y: 120 } : center
+  const halfLength = isSeparate ? 62 : 125
+  const [a1, a2] = lineEndpoints(centerA, angleA, halfLength)
+  const [b1, b2] = lineEndpoints(centerB, angleB, halfLength)
+  const rightAngleSize = 17
+  const unitA = direction(angleA)
+  const unitB = direction(angleB)
+  const rightStart = {
+    x: center.x + unitA.x * rightAngleSize,
+    y: center.y + unitA.y * rightAngleSize,
+  }
+  const rightCorner = {
+    x: rightStart.x + unitB.x * rightAngleSize,
+    y: rightStart.y + unitB.y * rightAngleSize,
+  }
+  const rightEnd = {
+    x: center.x + unitB.x * rightAngleSize,
+    y: center.y + unitB.y * rightAngleSize,
+  }
+  const showRightAngle = Boolean(mission.visualConfig.showRightAngle)
+  const pointLabel = label(mission.visualConfig.pointLabel)
+  const distanceLabel = label(mission.visualConfig.distanceLabel)
+
+  return (
+    <div data-testid="grade4-visual-line-relationship" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-3">
+      <svg
+        viewBox="0 0 320 190"
+        role="img"
+        aria-label={`${label(mission.visualConfig.labelA) || '직선 가'}와 ${label(mission.visualConfig.labelB) || '직선 나'}의 방향 관계`}
+        data-angle-a={angleA}
+        data-angle-b={angleB}
+        className="h-auto w-full"
+      >
+        <rect x="4" y="4" width="312" height="182" rx="22" fill="#ffffff" />
+        <line x1={a1.x} y1={a1.y} x2={a2.x} y2={a2.y} stroke="#4f46e5" strokeWidth="6" strokeLinecap="round" />
+        <line x1={b1.x} y1={b1.y} x2={b2.x} y2={b2.y} stroke="#f97316" strokeWidth="6" strokeLinecap="round" />
+        <text x={a1.x + 4} y={a1.y - 9} fill="#3730a3" fontSize="12" fontWeight="800">
+          {label(mission.visualConfig.labelA) || '직선 가'}
+        </text>
+        <text x={b2.x - 4} y={b2.y - 9} fill="#9a3412" fontSize="12" fontWeight="800" textAnchor="end">
+          {label(mission.visualConfig.labelB) || '직선 나'}
+        </text>
+        {showRightAngle && (
+          <path
+            data-testid="grade4-right-angle-mark"
+            d={`M ${rightStart.x} ${rightStart.y} L ${rightCorner.x} ${rightCorner.y} L ${rightEnd.x} ${rightEnd.y}`}
+            fill="none"
+            stroke="#0f172a"
+            strokeWidth="3"
+            strokeLinejoin="round"
+          />
+        )}
+        {pointLabel && (
+          <>
+            <circle cx={centerB.x} cy={centerB.y} r="5" fill="#0f172a" />
+            <text x={centerB.x + 10} y={centerB.y - 10} fill="#0f172a" fontSize="13" fontWeight="900">{pointLabel}</text>
+          </>
+        )}
+        {distanceLabel && isParallel && (
+          <>
+            <line
+              x1={centerA.x}
+              y1={centerA.y}
+              x2={centerB.x}
+              y2={centerB.y}
+              stroke="#0f172a"
+              strokeWidth="2"
+              strokeDasharray="5 4"
+            />
+            <text x={center.x + 8} y={center.y - 6} fill="#0f172a" fontSize="12" fontWeight="900">{distanceLabel}</text>
+          </>
+        )}
+      </svg>
+    </div>
+  )
+}
+
 function DivisionModel({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
   const divisor = number(mission.visualConfig.divisor)
   const dividend = number(mission.visualConfig.dividend)
@@ -466,5 +575,6 @@ export default function Grade4MissionVisual({ mission, showAnswer = false }: { m
   if (mission.visualModel === 'decimal-operation') return <DecimalOperation mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'pattern-table') return <PatternTable mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'equation-balance') return <EquationBalance mission={mission} showAnswer={showAnswer} />
+  if (mission.visualModel === 'line-relationship') return <LineRelationship mission={mission} />
   return <Context mission={mission} />
 }

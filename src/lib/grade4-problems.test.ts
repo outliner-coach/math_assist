@@ -11,6 +11,7 @@ import {
   GRADE4_EQUALITY_UNIT_ID,
   GRADE4_FRACTION_ADD_SUB_UNIT_ID,
   GRADE4_PATTERNS_UNIT_ID,
+  GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID,
   getGrade4Activity,
   getGrade4MissionBank,
   grade4MissionTemplates,
@@ -25,7 +26,7 @@ describe('Grade 4 Bridge release bank', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(8)
+    expect(grade4Units).toHaveLength(9)
     expect(grade4Units.map((unit) => unit.id)).toEqual([
       'unit-4-1-large-numbers',
       'unit-4-1-multiplication-division',
@@ -35,16 +36,17 @@ describe('Grade 4 Bridge release bank', () => {
       'unit-4-2-decimal-add-sub',
       'unit-4-2-patterns',
       'unit-4-2-equality',
+      'unit-4-1-perpendicular-parallel',
     ])
-    expect(grade4MissionTemplates).toHaveLength(80)
+    expect(grade4MissionTemplates).toHaveLength(90)
     expect(result.summary).toMatchObject({
-      unitCount: 8,
-      templateCount: 80,
-      knowingCount: 32,
-      applyingCount: 32,
-      reasoningCount: 16,
-      reasoningFamilyCount: 16,
-      representationCount: 9,
+      unitCount: 9,
+      templateCount: 90,
+      knowingCount: 36,
+      applyingCount: 36,
+      reasoningCount: 18,
+      reasoningFamilyCount: 18,
+      representationCount: 10,
     })
 
     for (const unit of grade4Units) {
@@ -497,6 +499,42 @@ describe('Grade 4 Bridge release bank', () => {
       expect(Number(balancedBags.correctAnswer)).toBe(
         Number(balancedBags.visualConfig.leftTotal) - Number(balancedBags.visualConfig.rightKnown),
       )
+    }
+  })
+
+  it('keeps every line relationship consistent with its shared angle model', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID)
+        .map((item) => [item.id, item]),
+    )
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-line-01', 'g4-line-02', 'g4-line-03', 'g4-line-04', 'g4-line-05',
+      'g4-line-06', 'g4-line-07', 'g4-line-08', 'g4-line-09', 'g4-line-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        }
+        expect(mission.visualConfig).not.toHaveProperty('answer')
+        expect(mission.visualConfig).not.toHaveProperty('correctPair')
+      }
+
+      for (const id of ['g4-line-01', 'g4-line-05', 'g4-line-08']) {
+        const mission = templates.get(id)!.build(variant, variant)
+        const difference = Math.abs(Number(mission.visualConfig.angleA) - Number(mission.visualConfig.angleB)) % 180
+        expect(difference).toBe(90)
+      }
+      for (const id of ['g4-line-02', 'g4-line-06', 'g4-line-07']) {
+        const mission = templates.get(id)!.build(variant, variant)
+        const difference = Math.abs(Number(mission.visualConfig.angleA) - Number(mission.visualConfig.angleB)) % 180
+        expect(difference).toBe(0)
+      }
     }
   })
 

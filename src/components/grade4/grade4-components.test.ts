@@ -126,6 +126,16 @@ describe('Grade4MissionVisual', () => {
     expect(hidden).not.toContain(`>${mission.correctAnswer}<`)
     expect(shown).toContain(`data-result="${mission.correctAnswer}"`)
   })
+
+  it('draws line directions and right-angle marks from the mission geometry', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-line-05')!
+    const html = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+
+    expect(html).toContain('grade4-visual-line-relationship')
+    expect(html).toContain('data-angle-a=')
+    expect(html).toContain('data-angle-b=')
+    expect(html).toContain('grade4-right-angle-mark')
+  })
 })
 
 describe('Grade4MissionCard', () => {

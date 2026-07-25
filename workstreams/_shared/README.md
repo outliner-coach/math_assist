@@ -21,6 +21,18 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 4 perpendicular and parallel lines release (primary
+  workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the line-relationship SVG, and focused bank, curriculum, receipt, component,
+  and browser tests. The new `unit-4-1-perpendicular-parallel` bank covers
+  `[4수03-03]` with exactly ten deterministic templates, K4/A4/R2, ten
+  distinct families, two genuine reasoning families, and at least two
+  representations. Line directions, intersections, right-angle marks, and
+  parallel spacing must come from the same geometry model as the problem.
+  The standard moves from planned to released only with passing Grade 4,
+  curriculum, mission-audit, mobile, storage, and deployment gates.
+
 - 2026-07-26: Grade 4 equality-relationship release (primary workstreams 01,
   03, and 04) owns the narrow change to
   `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,

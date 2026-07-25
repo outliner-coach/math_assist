@@ -434,11 +434,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 20,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "직선 이해 뒤 수직과 평행",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade4:unit-4-1-perpendicular-parallel:grade4-bridge-perpendicular-parallel-v1"
+      ],
+      "allocationRationale": "직선의 방향과 직각을 같은 기하 모델에서 파생하는 10문제 K4/A4/R2 공개 단원",
+      "reviewedBy": "curriculum-ledger-release-2026-07-26"
     },
     {
       "standardCode": "[4수03-04]",

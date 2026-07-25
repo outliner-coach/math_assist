@@ -2,7 +2,7 @@ import type { Grade4AnswerType } from './grade4-answer-normalizers'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
-export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance'
+export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship'
 export type Grade4VisualModel = Grade4Representation
 export type Grade4SupportTool = 'none' | 'grid' | 'ruler' | 'protractor'
 
@@ -90,6 +90,7 @@ export const GRADE4_FRACTION_ADD_SUB_UNIT_ID = 'unit-4-2-fraction-add-sub'
 export const GRADE4_DECIMAL_ADD_SUB_UNIT_ID = 'unit-4-2-decimal-add-sub'
 export const GRADE4_PATTERNS_UNIT_ID = 'unit-4-2-patterns'
 export const GRADE4_EQUALITY_UNIT_ID = 'unit-4-2-equality'
+export const GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID = 'unit-4-1-perpendicular-parallel'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -186,6 +187,18 @@ export const grade4Units: Grade4Unit[] = [
     curriculumCodes: ['[4수02-03]'],
     prerequisiteCodes: ['[4수01-03]'],
     contentReleaseId: 'grade4-bridge-equality-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID,
+    semester: '4-1',
+    order: 9,
+    title: '수직과 평행',
+    subtitle: '두 직선이 이루는 각과 방향을 살펴 수직과 평행 관계를 구별해요.',
+    learnerGoal: '직선의 방향과 직각을 근거로 수직과 평행을 판단하고 생활 속 문제에 적용해요.',
+    curriculumCodes: ['[4수03-03]'],
+    prerequisiteCodes: ['[4수03-01]'],
+    contentReleaseId: 'grade4-bridge-perpendicular-parallel-v1',
     releaseStatus: 'released',
   },
 ]
@@ -1796,6 +1809,197 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
         choices: rotateChoices([correctAnswer, '등호 왼쪽은 계산식이므로 어떤 수를 더해도 등호가 유지됩니다.', `오른쪽에서 ${added}를 빼면 균형이 맞습니다.`, '처음 등식이 맞으면 한쪽을 바꿔도 항상 맞습니다.'], seed),
         solutionSteps: [`처음 양쪽은 모두 ${total}입니다.`, `한쪽에만 ${added}를 더하면 값이 달라지므로 양쪽에 같은 수를 더해야 합니다.`],
         visualModel: 'equation-balance', visualConfig: { leftText: `${a} + ${b} + ${added}`, rightText: String(total), speaker: '도현' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-01', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'identify-perpendicular-by-right-angle', representation: 'line-relationship', answerType: 'choice', supportTool: 'protractor', skillTag: '수직 관계',
+    learnerGoal: '두 직선이 이루는 각이 직각인지 확인해 수직 관계를 알아봐요.',
+    promptTemplate: '두 직선의 방향 차이를 보고 관계를 고르세요.', hintSteps: ['두 직선이 만나는 곳의 작은 각을 살펴봐요.', '두 방향의 차가 90°이면 서로 수직이에요.'],
+    build: (v, seed) => {
+      const angleA = 8 + v * 4
+      const angleB = angleA + 90
+      const correctAnswer = '두 직선은 서로 수직입니다.'
+      return {
+        prompt: `직선 가의 방향은 ${angleA}°, 직선 나는 ${angleB}°입니다. 두 직선의 관계를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '두 직선은 서로 평행입니다.', '두 직선은 같은 직선입니다.', '두 직선은 수직도 평행도 아닙니다.'], seed),
+        solutionSteps: [`두 방향의 차는 ${angleB}-${angleA}=90°입니다.`, '두 직선이 직각으로 만나므로 서로 수직입니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'intersecting', angleA, angleB, labelA: '직선 가', labelB: '직선 나', showRightAngle: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-02', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'identify-parallel-by-direction', representation: 'line-relationship', answerType: 'choice', supportTool: 'ruler', skillTag: '평행 관계',
+    learnerGoal: '두 직선의 방향이 같은지 확인해 평행 관계를 알아봐요.',
+    promptTemplate: '같은 방향으로 놓인 두 직선의 관계를 고르세요.', hintSteps: ['두 직선이 같은 쪽으로 기울어져 있는지 봐요.', '방향이 같고 서로 다른 두 직선은 아무리 늘여도 만나지 않아요.'],
+    build: (v, seed) => {
+      const angleA = 10 + (v % 6) * 5
+      const angleB = angleA
+      const correctAnswer = '두 직선은 서로 평행입니다.'
+      return {
+        prompt: `서로 다른 직선 가와 나의 방향이 모두 ${angleA}°입니다. 두 직선의 관계를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '두 직선은 서로 수직입니다.', '두 직선은 한 점에서 만납니다.', '두 직선은 직각을 네 개 만듭니다.'], seed),
+        solutionSteps: [`두 직선의 방향이 모두 ${angleA}°로 같습니다.`, '방향이 같은 서로 다른 두 직선은 평행합니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'parallel', angleA, angleB, offset: 54, labelA: '직선 가', labelB: '직선 나', showRightAngle: false },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-03', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'count-right-angles-at-perpendicular-intersection', representation: 'line-relationship', answerType: 'integer', supportTool: 'none', skillTag: '수직과 직각',
+    learnerGoal: '서로 수직인 두 직선이 만드는 직각의 수를 알아봐요.',
+    promptTemplate: '서로 수직인 두 직선이 만드는 직각의 수를 구하세요.', hintSteps: ['두 직선은 만나는 점을 중심으로 네 부분을 만들어요.', '한 부분이 직각이면 마주 보거나 이웃한 각도 모두 직각이에요.'],
+    build: (v) => {
+      const angleA = 5 + v * 4
+      const angleB = angleA + 90
+      return {
+        prompt: `방향이 ${angleA}°와 ${angleB}°인 서로 수직인 두 직선이 한 점에서 만납니다. 생기는 직각은 모두 몇 개인가요?`,
+        correctAnswer: '4',
+        solutionSteps: ['두 직선은 만나는 점 둘레를 네 부분으로 나눕니다.', '수직인 두 직선이 만드는 네 각은 모두 직각이므로 4개입니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'intersecting', angleA, angleB, labelA: '직선 가', labelB: '직선 나', showRightAngle: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-04', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'parallel-distance-property', representation: 'context', answerType: 'choice', supportTool: 'ruler', skillTag: '평행선 사이 거리',
+    learnerGoal: '평행한 두 직선 사이의 거리가 어느 곳에서나 같음을 설명해요.',
+    promptTemplate: '평행한 두 직선 사이의 거리에 대한 바른 설명을 고르세요.', hintSteps: ['두 직선에 수직인 짧은 선분으로 간격을 재요.', '평행선 사이의 수직 거리는 어느 곳에서 재도 같아요.'],
+    build: (v, seed) => {
+      const angleA = 10 + v * 4
+      const angleB = angleA
+      const distance = 2 + v
+      const correctAnswer = `다른 곳에서도 두 직선 사이의 수직 거리는 ${distance} cm입니다.`
+      return {
+        prompt: `평행한 두 직선 가와 나 사이의 수직 거리를 한 곳에서 재니 ${distance} cm였습니다. 다른 곳에서 수직으로 잰 거리를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, `다른 곳에서는 ${distance + 1} cm로 늘어납니다.`, `다른 곳에서는 ${distance - 1} cm로 줄어듭니다.`, '어디에서 재는지에 따라 정할 수 없습니다.'], seed),
+        solutionSteps: ['평행한 두 직선은 같은 방향으로 나아가며 간격이 달라지지 않습니다.', `따라서 어느 곳에서 수직으로 재도 ${distance} cm입니다.`],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'parallel', angleA, angleB, offset: 58, distanceLabel: `${distance} cm`, labelA: '직선 가', labelB: '직선 나', showRightAngle: false },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-05', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'applying',
+    problemFamily: 'map-streets-perpendicular-route', representation: 'context', answerType: 'choice', supportTool: 'protractor', skillTag: '생활 속 수직',
+    learnerGoal: '지도에서 직각으로 만나는 두 길의 수직 관계를 판단해요.',
+    promptTemplate: '지도에서 두 길의 방향 차이를 이용해 관계를 고르세요.', hintSteps: ['두 길의 방향을 각각 확인해요.', '방향의 차가 90°인지 계산해요.'],
+    build: (v, seed) => {
+      const angleA = 5 + (v % 6) * 5
+      const angleB = angleA + 90
+      const correctAnswer = '두 길은 서로 수직이므로 교차로에서 직각으로 만납니다.'
+      return {
+        prompt: `지도에서 해오름길은 ${angleA}° 방향, 솔바람길은 ${angleB}° 방향으로 뻗어 있습니다. 교차로에서 두 길의 관계를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '두 길은 서로 평행하므로 만나지 않습니다.', '두 길의 방향 차가 45°이므로 예각으로 만납니다.', '두 길은 같은 방향의 한 직선입니다.'], seed),
+        solutionSteps: [`두 길의 방향 차는 ${angleB}-${angleA}=90°입니다.`, '90°인 직각으로 만나므로 두 길은 서로 수직입니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'intersecting', angleA, angleB, labelA: '해오름길', labelB: '솔바람길', showRightAngle: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-06', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'applying',
+    problemFamily: 'railway-tracks-parallel-safety', representation: 'context', answerType: 'choice', supportTool: 'ruler', skillTag: '생활 속 평행',
+    learnerGoal: '같은 방향과 일정한 간격을 근거로 철길의 평행 관계를 설명해요.',
+    promptTemplate: '철길 두 선의 방향과 간격을 보고 관계를 고르세요.', hintSteps: ['두 선의 기울어진 방향을 비교해요.', '같은 방향으로 일정한 간격을 유지하면 평행해요.'],
+    build: (v, seed) => {
+      const angleA = 10 + (v % 5) * 5
+      const angleB = angleA
+      const offset = 48 + v
+      const correctAnswer = '두 선은 방향이 같고 간격이 일정하므로 서로 평행입니다.'
+      return {
+        prompt: `철길의 두 선은 모두 ${angleA}° 방향이며 사이 간격이 일정합니다. 두 선의 관계를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '두 선은 곧 직각으로 만나므로 서로 수직입니다.', '간격이 있으므로 두 선의 관계를 정할 수 없습니다.', '같은 방향이면 반드시 같은 하나의 직선입니다.'], seed),
+        solutionSteps: [`두 선의 방향은 ${angleA}°로 같습니다.`, '서로 다른 두 선이 같은 방향과 일정한 간격을 유지하므로 평행합니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'parallel', angleA, angleB, offset, labelA: '왼쪽 선로', labelB: '오른쪽 선로', showRightAngle: false },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-07', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'applying',
+    problemFamily: 'construct-parallel-through-point', representation: 'line-relationship', answerType: 'choice', supportTool: 'ruler', skillTag: '평행선 긋기',
+    learnerGoal: '주어진 직선과 같은 방향으로 지나가는 평행선을 찾아요.',
+    promptTemplate: '한 점을 지나며 주어진 직선과 평행한 직선의 방향을 고르세요.', hintSteps: ['평행한 직선은 기울어진 방향이 같아요.', '점을 지나는지와 방향이 같은지를 모두 확인해요.'],
+    build: (v, seed) => {
+      const angleA = 10 + (v % 6) * 5
+      const angleB = angleA
+      const correctAnswer = `${angleB}°`
+      return {
+        prompt: `직선 가의 방향은 ${angleA}°입니다. 직선 가 밖의 점 P를 지나며 직선 가와 평행한 직선의 방향을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, `${angleA + 10}°`, `${angleA + 45}°`, `${angleA + 90}°`], seed),
+        solutionSteps: ['평행한 두 직선은 방향이 같습니다.', `따라서 점 P를 지나는 직선의 방향도 ${angleA}°여야 합니다.`],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'parallel-through-point', angleA, angleB, offset: 56, labelA: '직선 가', labelB: '점 P를 지나는 직선', pointLabel: 'P', showRightAngle: false },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-08', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'applying',
+    problemFamily: 'construct-perpendicular-through-point', representation: 'line-relationship', answerType: 'choice', supportTool: 'protractor', skillTag: '수선 긋기',
+    learnerGoal: '주어진 직선과 90° 방향 차이가 나는 수선을 찾아요.',
+    promptTemplate: '한 점을 지나며 주어진 직선과 수직인 직선의 방향을 고르세요.', hintSteps: ['수직인 두 직선의 방향 차는 90°예요.', '주어진 방향에 90°를 더해요.'],
+    build: (v, seed) => {
+      const angleA = 5 + (v % 6) * 5
+      const angleB = angleA + 90
+      const correctAnswer = `${angleB}°`
+      return {
+        prompt: `직선 가의 방향은 ${angleA}°입니다. 점 P를 지나며 직선 가와 수직인 직선의 방향을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, `${angleA}°`, `${angleA + 45}°`, `${angleA + 80}°`], seed),
+        solutionSteps: [`수직인 방향은 ${angleA}+90=${angleB}°입니다.`, `따라서 ${angleB}° 방향의 직선이 점 P를 지나도록 그으면 됩니다.`],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'perpendicular-through-point', angleA, angleB, labelA: '직선 가', labelB: '점 P를 지나는 수선', pointLabel: 'P', showRightAngle: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-09', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'reasoning',
+    problemFamily: 'finite-segments-parallel-error', representation: 'context', answerType: 'choice', supportTool: 'ruler', skillTag: '평행 판단 오류',
+    learnerGoal: '짧은 선분이 당장 만나지 않는다는 사실만으로 평행을 판단한 오류를 고쳐요.',
+    promptTemplate: '두 선분을 직선으로 늘여 생각해 평행 판단의 오류를 고치세요.', hintSteps: ['보이는 선분만이 아니라 양쪽으로 계속 늘인 직선을 생각해요.', '두 직선의 방향이 같은지 비교해요.'],
+    build: (v, seed) => {
+      const angleA = 8 + v * 4
+      const angleB = angleA + 18 + v
+      const correctAnswer = `두 선분의 방향이 ${angleA}°와 ${angleB}°로 달라서 늘이면 만나므로 평행이 아닙니다.`
+      return {
+        prompt: `유나는 ${angleA}° 방향의 짧은 선분과 ${angleB}° 방향의 짧은 선분이 그림 안에서 만나지 않으므로 평행이라고 했습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '그림 안에서 만나지 않는 모든 선분은 반드시 평행입니다.', '두 선분의 길이가 다르면 언제나 서로 수직입니다.', '두 선분을 늘이면 방향이 저절로 같아져 평행이 됩니다.'], seed),
+        solutionSteps: [`두 선분의 방향 차는 ${angleB}-${angleA}=${angleB - angleA}°로 0°가 아닙니다.`, '직선으로 계속 늘이면 만나므로 평행이 아닙니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'separate-nonparallel', angleA, angleB, offset: 58, labelA: '선분 가', labelB: '선분 나', speaker: '유나', showRightAngle: false },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-10', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'reasoning',
+    problemFamily: 'shared-rotation-preserves-relation', representation: 'line-relationship', answerType: 'choice', supportTool: 'protractor', skillTag: '관계 보존 추론',
+    learnerGoal: '두 직선을 같은 각도만큼 돌려도 두 방향의 차이는 유지됨을 설명해요.',
+    promptTemplate: '서로 수직인 두 직선을 함께 돌린 뒤의 관계를 추론하세요.', hintSteps: ['두 방향에 같은 각을 더하면 방향의 차가 바뀌는지 생각해요.', '수직 관계는 두 방향의 차가 90°인 관계예요.'],
+    build: (v, seed) => {
+      const rotation = 8 + v * 4
+      const angleA = rotation
+      const angleB = rotation + 90
+      const correctAnswer = `두 직선의 방향 차는 여전히 90°이므로 서로 수직입니다.`
+      return {
+        prompt: `서로 수직인 두 직선을 함께 ${rotation}°만큼 돌렸습니다. 돌린 뒤 두 직선의 관계를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '두 직선의 방향이 같아져 서로 평행입니다.', `방향 차가 ${rotation}°가 되어 수직도 평행도 아닙니다.`, '두 직선을 돌리면 직선의 관계를 판단할 수 없습니다.'], seed),
+        solutionSteps: [`두 직선의 방향에 똑같이 ${rotation}°를 더해도 두 방향의 차는 변하지 않습니다.`, '방향 차가 90°로 유지되므로 두 직선은 여전히 수직입니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'intersecting', angleA, angleB, rotation, labelA: '돌린 직선 가', labelB: '돌린 직선 나', showRightAngle: true },
       }
     },
   }),
