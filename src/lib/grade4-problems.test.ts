@@ -13,6 +13,7 @@ import {
   GRADE4_PATTERNS_UNIT_ID,
   GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID,
   GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID,
+  GRADE4_TRIANGLES_UNIT_ID,
   getGrade4Activity,
   getGrade4MissionBank,
   grade4MissionTemplates,
@@ -27,7 +28,7 @@ describe('Grade 4 Bridge release bank', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(10)
+    expect(grade4Units).toHaveLength(11)
     expect(grade4Units.map((unit) => unit.id)).toEqual([
       'unit-4-1-large-numbers',
       'unit-4-1-multiplication-division',
@@ -39,16 +40,17 @@ describe('Grade 4 Bridge release bank', () => {
       'unit-4-2-equality',
       'unit-4-1-perpendicular-parallel',
       'unit-4-1-shape-transformations',
+      'unit-4-2-triangles',
     ])
-    expect(grade4MissionTemplates).toHaveLength(100)
+    expect(grade4MissionTemplates).toHaveLength(110)
     expect(result.summary).toMatchObject({
-      unitCount: 10,
-      templateCount: 100,
-      knowingCount: 40,
-      applyingCount: 40,
-      reasoningCount: 20,
-      reasoningFamilyCount: 20,
-      representationCount: 11,
+      unitCount: 11,
+      templateCount: 110,
+      knowingCount: 44,
+      applyingCount: 44,
+      reasoningCount: 22,
+      reasoningFamilyCount: 22,
+      representationCount: 12,
     })
 
     for (const unit of grade4Units) {
@@ -580,6 +582,45 @@ describe('Grade 4 Bridge release bank', () => {
       expect(rotation.correctAnswer).toBe(
         `(${Number(rotation.visualConfig.centerX) + dy}, ${Number(rotation.visualConfig.centerY) - dx})`,
       )
+    }
+  })
+
+  it('keeps every triangle classification consistent with its three side lengths', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === GRADE4_TRIANGLES_UNIT_ID)
+        .map((item) => [item.id, item]),
+    )
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-tri-01', 'g4-tri-02', 'g4-tri-03', 'g4-tri-04', 'g4-tri-05',
+      'g4-tri-06', 'g4-tri-07', 'g4-tri-08', 'g4-tri-09', 'g4-tri-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        const sides = ['sideA', 'sideB', 'sideC'].map((key) => Number(mission.visualConfig[key])).sort((a, b) => a - b)
+        expect(sides[0] + sides[1], `${template.id} variant ${variant}`).toBeGreaterThan(sides[2])
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        }
+      }
+
+      const equilateral = templates.get('g4-tri-01')!.build(variant, variant)
+      expect(new Set(['sideA', 'sideB', 'sideC'].map((key) => equilateral.visualConfig[key])).size).toBe(1)
+
+      const isosceles = templates.get('g4-tri-02')!.build(variant, variant)
+      expect(Number(isosceles.visualConfig.sideA)).toBe(Number(isosceles.visualConfig.sideB))
+
+      const right = templates.get('g4-tri-03')!.build(variant, variant)
+      const rightSides = ['sideA', 'sideB', 'sideC'].map((key) => Number(right.visualConfig[key])).sort((a, b) => a - b)
+      expect(rightSides[0] ** 2 + rightSides[1] ** 2).toBeCloseTo(rightSides[2] ** 2)
+
+      const obtuse = templates.get('g4-tri-04')!.build(variant, variant)
+      const obtuseSides = ['sideA', 'sideB', 'sideC'].map((key) => Number(obtuse.visualConfig[key])).sort((a, b) => a - b)
+      expect(obtuseSides[0] ** 2 + obtuseSides[1] ** 2).toBeLessThan(obtuseSides[2] ** 2)
     }
   })
 

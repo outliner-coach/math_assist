@@ -2,7 +2,7 @@ import type { Grade4AnswerType } from './grade4-answer-normalizers'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
-export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship' | 'shape-transformation'
+export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship' | 'shape-transformation' | 'triangle-model'
 export type Grade4VisualModel = Grade4Representation
 export type Grade4SupportTool = 'none' | 'grid' | 'ruler' | 'protractor'
 
@@ -92,6 +92,7 @@ export const GRADE4_PATTERNS_UNIT_ID = 'unit-4-2-patterns'
 export const GRADE4_EQUALITY_UNIT_ID = 'unit-4-2-equality'
 export const GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID = 'unit-4-1-perpendicular-parallel'
 export const GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID = 'unit-4-1-shape-transformations'
+export const GRADE4_TRIANGLES_UNIT_ID = 'unit-4-2-triangles'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -212,6 +213,18 @@ export const grade4Units: Grade4Unit[] = [
     curriculumCodes: ['[4수03-04]', '[4수03-05]'],
     prerequisiteCodes: [],
     contentReleaseId: 'grade4-bridge-shape-transformations-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_TRIANGLES_UNIT_ID,
+    semester: '4-2',
+    order: 11,
+    title: '여러 가지 삼각형',
+    subtitle: '변의 길이와 각의 크기를 근거로 여러 삼각형을 분류해요.',
+    learnerGoal: '삼각형을 변과 각의 성질로 분류하고 두 분류가 겹치는 경우도 설명해요.',
+    curriculumCodes: ['[4수03-08]', '[4수03-09]'],
+    prerequisiteCodes: [],
+    contentReleaseId: 'grade4-bridge-triangles-v1',
     releaseStatus: 'released',
   },
 ]
@@ -2235,6 +2248,153 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
         visualModel: 'shape-transformation',
         visualConfig: { mode: 'double-flip', startX, startY, axisX, showTargetBeforeAnswer: true, startLabel: '처음과 마지막', targetLabel: '한 번 뒤집은 위치' },
       }
+    },
+  }),
+  template({
+    id: 'g4-tri-01', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-08]', cognitiveDomain: 'knowing',
+    problemFamily: 'equilateral-from-three-equal-sides', representation: 'triangle-model', answerType: 'choice', supportTool: 'ruler', skillTag: '정삼각형',
+    learnerGoal: '세 변의 길이가 모두 같은 삼각형을 정삼각형으로 분류해요.',
+    promptTemplate: '세 변의 길이를 비교해 삼각형의 이름을 고르세요.', hintSteps: ['세 변의 길이를 하나씩 비교해요.', '세 변이 모두 같으면 정삼각형이에요.'],
+    build: (v, seed) => {
+      const side = 4 + v
+      const correctAnswer = '정삼각형'
+      return { prompt: `세 변의 길이가 모두 ${side} cm인 삼각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '직각삼각형', '둔각삼각형', '세 변의 길이가 모두 다른 삼각형'], seed),
+        solutionSteps: [`세 변이 모두 ${side} cm로 같습니다.`, '세 변의 길이가 모두 같은 삼각형은 정삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: side, sideB: side, sideC: side, labelMode: 'sides' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-02', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-08]', cognitiveDomain: 'knowing',
+    problemFamily: 'isosceles-from-two-equal-sides', representation: 'triangle-model', answerType: 'choice', supportTool: 'ruler', skillTag: '이등변삼각형',
+    learnerGoal: '두 변의 길이가 같은 삼각형을 이등변삼각형으로 분류해요.',
+    promptTemplate: '같은 두 변을 찾아 삼각형의 이름을 고르세요.', hintSteps: ['길이가 같은 변이 있는지 찾아요.', '두 변이 같으면 이등변삼각형이에요.'],
+    build: (v, seed) => {
+      const leg = 7 + v
+      const base = 5 + (v % 3)
+      const correctAnswer = '이등변삼각형'
+      return { prompt: `세 변의 길이가 ${leg} cm, ${leg} cm, ${base} cm인 삼각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '정삼각형', '세 변의 길이가 모두 다른 삼각형', '직각삼각형이라고만 할 수 있습니다.'], seed),
+        solutionSteps: [`길이가 ${leg} cm인 두 변이 같습니다.`, '두 변의 길이가 같은 삼각형은 이등변삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: leg, sideB: leg, sideC: base, labelMode: 'sides' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-03', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-09]', cognitiveDomain: 'knowing',
+    problemFamily: 'right-triangle-from-pythagorean-sides', representation: 'triangle-model', answerType: 'choice', supportTool: 'protractor', skillTag: '직각삼각형',
+    learnerGoal: '한 각이 직각인 삼각형을 직각삼각형으로 분류해요.',
+    promptTemplate: '직각 표식과 세 변의 관계를 보고 삼각형을 분류하세요.', hintSteps: ['가장 긴 변을 찾아요.', '짧은 두 변이 만나는 각이 직각인지 확인해요.'],
+    build: (v, seed) => {
+      const scale = 1 + (v % 3)
+      const a = 3 * scale; const b = 4 * scale; const c = 5 * scale
+      const correctAnswer = '직각삼각형'
+      return { prompt: `세 변의 길이가 ${a} cm, ${b} cm, ${c} cm이고 한 각이 직각인 삼각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '예각삼각형', '둔각삼각형', '정삼각형'], seed),
+        solutionSteps: [`${a}²+${b}²=${c}²이므로 짧은 두 변 사이의 각이 직각입니다.`, '한 각이 직각인 삼각형은 직각삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: a, sideB: b, sideC: c, labelMode: 'sides' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-04', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-09]', cognitiveDomain: 'knowing',
+    problemFamily: 'obtuse-triangle-from-longest-side', representation: 'triangle-model', answerType: 'choice', supportTool: 'protractor', skillTag: '둔각삼각형',
+    learnerGoal: '한 각이 둔각인 삼각형을 둔각삼각형으로 분류해요.',
+    promptTemplate: '가장 큰 각을 살펴 예각·직각·둔각삼각형을 구별하세요.', hintSteps: ['가장 긴 변의 맞은편 각이 가장 커요.', '그 각이 90°보다 큰지 살펴봐요.'],
+    build: (v, seed) => {
+      const scale = 1 + (v % 3)
+      const a = 5 * scale; const b = 6 * scale; const c = 8 * scale
+      const correctAnswer = '둔각삼각형'
+      return { prompt: `세 변의 길이가 ${a} cm, ${b} cm, ${c} cm인 삼각형에서 가장 큰 각은 90°보다 큽니다. 알맞은 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '예각삼각형', '직각삼각형', '정삼각형'], seed),
+        solutionSteps: [`가장 긴 ${c} cm 변의 맞은편 각이 가장 큽니다.`, '그 각이 90°보다 크므로 둔각삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: a, sideB: b, sideC: c, labelMode: 'sides' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-05', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-09]', cognitiveDomain: 'applying',
+    problemFamily: 'acute-triangle-park-sign', representation: 'context', answerType: 'choice', supportTool: 'protractor', skillTag: '생활 속 예각삼각형',
+    learnerGoal: '세 각이 모두 예각인 생활 속 삼각형을 분류해요.',
+    promptTemplate: '표지판의 세 각을 살펴 삼각형을 분류하세요.', hintSteps: ['세 각을 각각 90°와 비교해요.', '세 각이 모두 90°보다 작으면 예각삼각형이에요.'],
+    build: (v, seed) => {
+      const a = 6 + v; const b = 7 + v; const c = 8 + v
+      const correctAnswer = '예각삼각형'
+      return { prompt: `공원 표지판의 세 변이 ${a} cm, ${b} cm, ${c} cm이고 세 각이 모두 90°보다 작습니다. 알맞은 분류를 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '직각삼각형', '둔각삼각형', '정삼각형'], seed),
+        solutionSteps: ['세 각을 90°와 비교하면 모두 작습니다.', '세 각이 모두 예각인 삼각형은 예각삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: a, sideB: b, sideC: c, labelMode: 'sides', contextLabel: '공원 표지판' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-06', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-08]', cognitiveDomain: 'applying',
+    problemFamily: 'classify-isosceles-right-triangle', representation: 'triangle-model', answerType: 'choice', supportTool: 'protractor', skillTag: '겹치는 분류',
+    learnerGoal: '한 삼각형을 변과 각의 두 기준으로 함께 분류해요.',
+    promptTemplate: '같은 두 변과 직각을 모두 이용해 두 가지 이름을 고르세요.', hintSteps: ['같은 길이인 변의 수를 봐요.', '직각이 있는지도 따로 확인해요.'],
+    build: (v, seed) => {
+      const leg = 5 + v
+      const hypotenuse = leg * Math.SQRT2
+      const correctAnswer = '이등변삼각형이면서 직각삼각형'
+      return { prompt: `두 변의 길이가 모두 ${leg} cm이고 그 두 변 사이의 각이 직각인 삼각형입니다. 가장 알맞은 분류를 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '정삼각형이면서 예각삼각형', '이등변삼각형이면서 둔각삼각형', '세 변이 모두 다른 직각삼각형'], seed),
+        solutionSteps: [`길이가 ${leg} cm인 두 변이 같아 이등변삼각형입니다.`, '그 두 변 사이가 직각이므로 직각삼각형이기도 합니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: leg, sideB: leg, sideC: hypotenuse, labelMode: 'properties' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-07', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-08]', cognitiveDomain: 'applying',
+    problemFamily: 'isosceles-roof-frame', representation: 'context', answerType: 'choice', supportTool: 'ruler', skillTag: '생활 속 이등변삼각형',
+    learnerGoal: '생활 속 구조물에서 같은 두 변을 찾아 이등변삼각형을 알아봐요.',
+    promptTemplate: '지붕 골조의 두 빗변 길이를 비교해 분류하세요.', hintSteps: ['지붕 꼭대기에서 양쪽 끝으로 간 길이를 비교해요.', '같은 두 변이 있으면 이등변삼각형이에요.'],
+    build: (v, seed) => {
+      const leg = 8 + v
+      const base = 6 + v
+      const correctAnswer = '이등변삼각형'
+      return { prompt: `지붕 골조의 두 빗변은 각각 ${leg} m이고 밑변은 ${base} m입니다. 골조의 삼각형을 변의 길이로 분류하세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '정삼각형', '세 변의 길이가 모두 다른 삼각형', '직각삼각형이라고만 할 수 있습니다.'], seed),
+        solutionSteps: [`두 빗변이 모두 ${leg} m로 같습니다.`, '두 변이 같으므로 이등변삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: leg, sideB: leg, sideC: base, labelMode: 'sides', contextLabel: '지붕 골조' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-08', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-08]', cognitiveDomain: 'applying',
+    problemFamily: 'construct-equilateral-with-equal-radius', representation: 'triangle-model', answerType: 'choice', supportTool: 'ruler', skillTag: '정삼각형 만들기',
+    learnerGoal: '같은 길이를 세 번 사용해 정삼각형을 만드는 방법을 설명해요.',
+    promptTemplate: '세 변을 같은 길이로 만드는 정삼각형 작도 방법을 고르세요.', hintSteps: ['정삼각형의 세 변은 모두 같아요.', '두 끝점에서 같은 길이만큼 떨어진 점을 찾아요.'],
+    build: (v, seed) => {
+      const side = 5 + v
+      const correctAnswer = `세 변을 모두 ${side} cm로 만들면 정삼각형이 됩니다.`
+      return { prompt: `길이 ${side} cm인 선분의 두 끝점에서 각각 ${side} cm 떨어진 점을 찾아 연결했습니다. 만들어진 삼각형에 대한 바른 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '두 변만 같으므로 세 번째 변의 길이는 알 수 없습니다.', `밑변만 ${side} cm이고 나머지 두 변은 서로 다릅니다.`, '세 각 중 하나가 반드시 둔각입니다.'], seed),
+        solutionSteps: [`세 선분의 길이가 모두 ${side} cm입니다.`, '세 변의 길이가 모두 같으므로 정삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: side, sideB: side, sideC: side, labelMode: 'sides' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-09', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-08]', cognitiveDomain: 'reasoning',
+    problemFamily: 'isosceles-all-angles-equal-error', representation: 'context', answerType: 'choice', supportTool: 'protractor', skillTag: '이등변삼각형 오류',
+    learnerGoal: '이등변삼각형에서 같은 변의 맞은편 두 각만 같음을 설명해요.',
+    promptTemplate: '두 변이 같으면 세 각도 모두 같다는 오류를 고치세요.', hintSteps: ['같은 변의 맞은편 각을 찾아요.', '세 번째 각까지 같은지는 따로 확인해요.'],
+    build: (v, seed) => {
+      const leg = 8 + v
+      const base = 5 + (v % 3)
+      const correctAnswer = '같은 두 변의 맞은편 두 각은 같지만, 세 각이 모두 같다고 할 수는 없습니다.'
+      return { prompt: `두 변이 ${leg} cm이고 밑변이 ${base} cm인 삼각형을 보고 민준이는 “이등변삼각형이니 세 각이 모두 같아.”라고 했습니다. 알맞은 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '이등변삼각형의 세 각은 언제나 모두 같습니다.', '같은 두 변 사이의 꼭지각만 두 개가 됩니다.', '변의 길이와 각의 크기는 아무 관계가 없습니다.'], seed),
+        solutionSteps: [`길이 ${leg} cm인 두 변의 맞은편 각 두 개가 같습니다.`, `밑변 ${base} cm는 다른 길이이므로 세 각이 모두 같다는 결론은 틀렸습니다.`],
+        visualModel: 'triangle-model', visualConfig: { sideA: leg, sideB: leg, sideC: base, labelMode: 'sides', speaker: '민준' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-10', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-09]', cognitiveDomain: 'reasoning',
+    problemFamily: 'classify-isosceles-obtuse-triangle', representation: 'triangle-model', answerType: 'choice', supportTool: 'protractor', skillTag: '두 기준 추론',
+    learnerGoal: '변과 각의 기준을 각각 적용해 이등변·둔각삼각형을 함께 분류해요.',
+    promptTemplate: '같은 두 변과 가장 큰 각을 모두 근거로 두 가지 이름을 고르세요.', hintSteps: ['먼저 같은 길이의 변을 찾아요.', '가장 긴 변의 맞은편 각이 90°보다 큰지도 확인해요.'],
+    build: (v, seed) => {
+      const leg = 5 + (v % 3)
+      const base = 2 * leg - 2
+      const correctAnswer = '이등변삼각형이면서 둔각삼각형'
+      return { prompt: `세 변이 ${leg} cm, ${leg} cm, ${base} cm인 삼각형에서 가장 큰 각은 90°보다 큽니다. 가장 알맞은 분류를 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '정삼각형이면서 예각삼각형', '이등변삼각형이면서 직각삼각형', '세 변이 모두 다른 둔각삼각형'], seed),
+        solutionSteps: [`길이 ${leg} cm인 두 변이 같아 이등변삼각형입니다.`, `가장 큰 각이 90°보다 크므로 둔각삼각형이기도 합니다.`],
+        visualModel: 'triangle-model', visualConfig: { sideA: leg, sideB: leg, sideC: base, labelMode: 'properties' } }
     },
   }),
 ]

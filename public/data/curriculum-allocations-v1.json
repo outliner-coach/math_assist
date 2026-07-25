@@ -530,11 +530,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 20,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "각 분류 뒤 삼각형 성질 탐구",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade4:unit-4-2-triangles:grade4-bridge-triangles-v1"
+      ],
+      "allocationRationale": "세 변에서 정량 그림과 이등변·정삼각형 분류를 함께 파생하는 공개 단원",
+      "reviewedBy": "curriculum-ledger-release-2026-07-26"
     },
     {
       "standardCode": "[4수03-09]",
@@ -548,11 +550,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 20,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "예각 직각 둔각 뒤 삼각형 분류",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade4:unit-4-2-triangles:grade4-bridge-triangles-v1"
+      ],
+      "allocationRationale": "세 변에서 정량 그림과 예각·직각·둔각 분류를 함께 파생하는 공개 단원",
+      "reviewedBy": "curriculum-ledger-release-2026-07-26"
     },
     {
       "standardCode": "[4수03-10]",

@@ -147,6 +147,15 @@ describe('Grade4MissionVisual', () => {
     expect(hidden).not.toContain('grade4-transformation-result')
     expect(shown).toContain('grade4-transformation-result')
   })
+
+  it('draws a right triangle and its right-angle mark from the side model', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-tri-03')!
+    const html = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+
+    expect(html).toContain('grade4-visual-triangle-model')
+    expect(html).toContain('data-side-a=')
+    expect(html).toContain('grade4-triangle-right-angle')
+  })
 })
 
 describe('Grade4MissionCard', () => {

@@ -658,6 +658,95 @@ function ShapeTransformation({ mission, showAnswer }: { mission: Grade4Mission; 
   )
 }
 
+function TriangleModel({ mission }: { mission: Grade4Mission }) {
+  const sideA = Math.max(0.1, number(mission.visualConfig.sideA))
+  const sideB = Math.max(0.1, number(mission.visualConfig.sideB))
+  const sideC = Math.max(0.1, number(mission.visualConfig.sideC))
+  const rawX = (sideB ** 2 + sideC ** 2 - sideA ** 2) / (2 * sideC)
+  const rawY = Math.sqrt(Math.max(0.01, sideB ** 2 - rawX ** 2))
+  const scale = Math.min(220 / sideC, 125 / rawY)
+  const horizontalOffset = (320 - sideC * scale) / 2
+  const a: Point = { x: horizontalOffset, y: 170 }
+  const b: Point = { x: horizontalOffset + sideC * scale, y: 170 }
+  const c: Point = { x: horizontalOffset + rawX * scale, y: 170 - rawY * scale }
+  const tolerance = 1e-6
+  const squared = { a: sideA ** 2, b: sideB ** 2, c: sideC ** 2 }
+  const rightVertex = Math.abs(squared.a + squared.b - squared.c) < tolerance ? c
+    : Math.abs(squared.a + squared.c - squared.b) < tolerance ? b
+      : Math.abs(squared.b + squared.c - squared.a) < tolerance ? a
+        : null
+  const rightNeighbors = rightVertex === c ? [a, b] : rightVertex === b ? [a, c] : [b, c]
+  const unitFrom = (origin: Point, target: Point) => {
+    const distance = Math.hypot(target.x - origin.x, target.y - origin.y) || 1
+    return { x: (target.x - origin.x) / distance, y: (target.y - origin.y) / distance }
+  }
+  const firstUnit = rightVertex ? unitFrom(rightVertex, rightNeighbors[0]) : { x: 0, y: 0 }
+  const secondUnit = rightVertex ? unitFrom(rightVertex, rightNeighbors[1]) : { x: 0, y: 0 }
+  const markSize = 15
+  const markStart = rightVertex ? { x: rightVertex.x + firstUnit.x * markSize, y: rightVertex.y + firstUnit.y * markSize } : null
+  const markCorner = markStart ? { x: markStart.x + secondUnit.x * markSize, y: markStart.y + secondUnit.y * markSize } : null
+  const markEnd = rightVertex ? { x: rightVertex.x + secondUnit.x * markSize, y: rightVertex.y + secondUnit.y * markSize } : null
+  const formatSide = (value: number) => Number.isInteger(value) ? String(value) : value.toFixed(1)
+  const centroid = { x: (a.x + b.x + c.x) / 3, y: (a.y + b.y + c.y) / 3 }
+  const sideLabel = (first: Point, second: Point, value: number) => {
+    const midpoint = { x: (first.x + second.x) / 2, y: (first.y + second.y) / 2 }
+    const dx = second.x - first.x
+    const dy = second.y - first.y
+    const distance = Math.hypot(dx, dy) || 1
+    const normal = { x: -dy / distance, y: dx / distance }
+    const candidates = [
+      { x: midpoint.x + normal.x * 17, y: midpoint.y + normal.y * 17 },
+      { x: midpoint.x - normal.x * 17, y: midpoint.y - normal.y * 17 },
+    ]
+    const outside = candidates.sort((left, right) => (
+      Math.hypot(right.x - centroid.x, right.y - centroid.y)
+      - Math.hypot(left.x - centroid.x, left.y - centroid.y)
+    ))[0]
+    return { ...outside, value }
+  }
+  const labels = [
+    sideLabel(b, c, sideA),
+    sideLabel(a, c, sideB),
+    sideLabel(a, b, sideC),
+  ]
+
+  return (
+    <div data-testid="grade4-visual-triangle-model" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-3">
+      <svg
+        viewBox="0 0 320 210"
+        role="img"
+        aria-label="세 변의 길이에서 그린 삼각형"
+        data-side-a={sideA}
+        data-side-b={sideB}
+        data-side-c={sideC}
+        className="h-auto w-full"
+      >
+        <rect x="4" y="4" width="312" height="202" rx="22" fill="#ffffff" />
+        {label(mission.visualConfig.contextLabel) && (
+          <text x="160" y="24" textAnchor="middle" fill="#4338ca" fontSize="12" fontWeight="900">
+            {label(mission.visualConfig.contextLabel)}
+          </text>
+        )}
+        <polygon points={`${a.x},${a.y} ${b.x},${b.y} ${c.x},${c.y}`} fill="#e0e7ff" stroke="#4f46e5" strokeWidth="5" strokeLinejoin="round" />
+        {labels.map((item, index) => (
+          <text key={index} x={item.x} y={item.y} textAnchor="middle" fill="#0f172a" fontSize="13" fontWeight="900">
+            {formatSide(item.value)} cm
+          </text>
+        ))}
+        {rightVertex && markStart && markCorner && markEnd && (
+          <path
+            data-testid="grade4-triangle-right-angle"
+            d={`M ${markStart.x} ${markStart.y} L ${markCorner.x} ${markCorner.y} L ${markEnd.x} ${markEnd.y}`}
+            fill="none"
+            stroke="#f97316"
+            strokeWidth="3"
+          />
+        )}
+      </svg>
+    </div>
+  )
+}
+
 function DivisionModel({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
   const divisor = number(mission.visualConfig.divisor)
   const dividend = number(mission.visualConfig.dividend)
@@ -719,5 +808,6 @@ export default function Grade4MissionVisual({ mission, showAnswer = false }: { m
   if (mission.visualModel === 'equation-balance') return <EquationBalance mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'line-relationship') return <LineRelationship mission={mission} />
   if (mission.visualModel === 'shape-transformation') return <ShapeTransformation mission={mission} showAnswer={showAnswer} />
+  if (mission.visualModel === 'triangle-model') return <TriangleModel mission={mission} />
   return <Context mission={mission} />
 }

@@ -21,6 +21,16 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 4 triangle-classification release (primary workstreams
+  01, 03, and 04) owns the narrow change to the curriculum ledger, Grade 4
+  bank, quantitative triangle SVG, and focused bank, receipt, curriculum,
+  component, and browser tests. `unit-4-2-triangles` covers `[4수03-08]` and
+  `[4수03-09]` with ten deterministic templates, K4/A4/R2, ten families, two
+  reasoning families, and two representations. Side lengths must satisfy the
+  triangle inequality and drive both the classification and rendered
+  coordinates. Both standards move from planned to released only with all
+  Grade 4, curriculum, audit, mobile, storage, and deployment gates passing.
+
 - 2026-07-26: Grade 4 shape-transformation release (primary workstreams 01,
   03, and 04) owns the narrow change to
   `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
