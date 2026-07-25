@@ -29,6 +29,7 @@
     "generate:grade5-mixedcalc": "node scripts/generate-grade5-mixedcalc-templates.js",
     "generate:grade5-pattern": "node scripts/generate-grade5-pattern-templates.js",
     "generate:grade6-fraction-division": "node scripts/generate-grade6-fraction-division-templates.js",
+    "generate:grade6-fraction-decimal": "node scripts/generate-grade6-fraction-decimal-templates.js",
     "generate:grade5-rounding": "node scripts/generate-grade5-rounding-templates.js",
     "migrate:grade5-blueprints": "node scripts/migrate-grade5-blueprints.js",
     "validate:templates": "node scripts/validate-templates.js",

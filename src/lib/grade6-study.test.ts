@@ -10,6 +10,11 @@ import { gradeSession } from './grader'
 import { generateProblems } from './problem-generator'
 import { createSessionId } from './session'
 import type { ProblemTemplate } from './types'
+import {
+  serializeTemplates as serializeFractionDecimalTemplates,
+  templates as generatedFractionDecimalTemplates,
+} from '../../scripts/generate-grade6-fraction-decimal-templates.js'
+import { evaluateTemplate } from '../../scripts/problem-quality-core.js'
 
 const ratioTemplates = JSON.parse(readFileSync(
   join(process.cwd(), 'public/data/templates/g6ratio.json'),
@@ -19,9 +24,14 @@ const fractionDivisionTemplates = JSON.parse(readFileSync(
   join(process.cwd(), 'public/data/templates/g6fractiondiv.json'),
   'utf8',
 )) as ProblemTemplate[]
+const fractionDecimalTemplates = JSON.parse(readFileSync(
+  join(process.cwd(), 'public/data/templates/g6fractiondecimal.json'),
+  'utf8',
+)) as ProblemTemplate[]
 const releasedConceptTemplates = [
   ['g6ratio-001', ratioTemplates],
   ['g6fractiondiv-001', fractionDivisionTemplates],
+  ['g6fractiondecimal-001', fractionDecimalTemplates],
 ] as const
 
 describe('Grade 6 Study release slice', () => {
@@ -79,6 +89,46 @@ describe('Grade 6 Study release slice', () => {
     expect([...familySets[1]].filter((family) => familySets[2].has(family))).toEqual([])
   })
 
+  it('maps fraction-decimal relations to its released standard with disjoint set families', () => {
+    const familySets = (['A', 'B', 'C'] as const).map((setId) => new Set(
+      fractionDecimalTemplates
+        .filter((template) => template.set_id === setId)
+        .map((template) => template.problem_family),
+    ))
+
+    expect(fractionDecimalTemplates.every(
+      (template) => template.blueprint?.primaryStandard === '[6수01-12]',
+    )).toBe(true)
+    expect(new Set(fractionDecimalTemplates.map((template) => template.problem_family))).toHaveLength(30)
+    expect([...familySets[0]].filter((family) => familySets[1].has(family))).toEqual([])
+    expect([...familySets[0]].filter((family) => familySets[2].has(family))).toEqual([])
+    expect([...familySets[1]].filter((family) => familySets[2].has(family))).toEqual([])
+  })
+
+  it('reproduces the committed fraction-decimal bank and resolves every parameter value', () => {
+    expect(serializeFractionDecimalTemplates()).toBe(readFileSync(
+      join(process.cwd(), 'public/data/templates/g6fractiondecimal.json'),
+      'utf8',
+    ))
+    expect(generatedFractionDecimalTemplates).toEqual(fractionDecimalTemplates)
+
+    for (const template of fractionDecimalTemplates) {
+      const { min, max } = template.param_schema.p
+      for (let p = min; p <= max; p += 1) {
+        const params = { p }
+        const rendered = [
+          evaluateTemplate(template.prompt_template, params),
+          ...template.solution_steps_template.map((step) => evaluateTemplate(step, params)),
+          ...(template.hint_steps_template ?? []).map((step) => evaluateTemplate(step, params)),
+        ]
+        const answer = evaluateTemplate(`{{${template.solver_rule}}}`, params)
+
+        expect(answer, `${template.id} p=${p}`).toMatch(/^-?\d+(?:\.\d+|\/\d+)?$/)
+        expect(rendered, `${template.id} p=${p}`).not.toContain(expect.stringContaining('?]'))
+      }
+    }
+  })
+
   it.each([
     ['A', 5, { 1: 2, 2: 2, 3: 1 }],
     ['A', 10, { 1: 4, 2: 4, 3: 2 }],
@@ -109,6 +159,24 @@ describe('Grade 6 Study release slice', () => {
       expect(problems).toHaveLength(10)
       expect(new Set(problems.map((problem) => problem.prompt))).toHaveLength(10)
       expect(problems.every((problem) => /^-?\d+(?:\/\d+)?$/.test(problem.correctAnswer))).toBe(true)
+      expect(results.every((result) => result.correct)).toBe(true)
+    },
+  )
+
+  it.each(['A', 'B', 'C'] as const)(
+    'generates and grades every fraction-decimal problem in set %s',
+    (setId) => {
+      const problems = generateProblems(fractionDecimalTemplates, {
+        count: 10,
+        setId,
+        difficultyMix: { 1: 4, 2: 4, 3: 2 },
+        seed: 6710 + setId.charCodeAt(0),
+      })
+      const results = gradeSession(problems, problems.map((problem) => problem.correctAnswer))
+
+      expect(problems).toHaveLength(10)
+      expect(new Set(problems.map((problem) => problem.prompt))).toHaveLength(10)
+      expect(problems.every((problem) => /^-?\d+(?:\.\d+|\/\d+)?$/.test(problem.correctAnswer))).toBe(true)
       expect(results.every((result) => result.correct)).toBe(true)
     },
   )

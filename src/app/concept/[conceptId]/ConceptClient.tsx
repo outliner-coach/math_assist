@@ -215,10 +215,18 @@ export default function ConceptClient() {
               <Button
                 key={set}
                 onClick={() => router.push(`/practice/${conceptId}?set=${set}${unit?.grade === 6 ? '&count=5' : ''}`)}
-                className="w-full"
+                className={unit?.grade === 6 ? 'w-full px-2 py-3 text-base' : 'w-full'}
                 size="lg"
+                aria-label={unit?.grade === 6 ? `세트 ${set} · 5문제` : undefined}
               >
-                세트 {set}{unit?.grade === 6 ? ' · 5문제' : ''}
+                {unit?.grade === 6 ? (
+                  <span className="flex flex-col items-center gap-0.5 leading-tight">
+                    <span className="whitespace-nowrap" data-grade6-action-label-line>세트 {set}</span>
+                    <span className="whitespace-nowrap" data-grade6-action-label-line>5문제</span>
+                  </span>
+                ) : (
+                  <>세트 {set}</>
+                )}
               </Button>
             ))}
           </div>
@@ -229,9 +237,13 @@ export default function ConceptClient() {
                   key={set}
                   variant="outline"
                   onClick={() => router.push(`/practice/${conceptId}?set=${set}&count=10`)}
-                  className="w-full"
+                  className="w-full px-2 py-2 text-sm"
+                  aria-label={`${set} · 10문제`}
                 >
-                  {set} · 10문제
+                  <span className="flex flex-col items-center gap-0.5 leading-tight">
+                    <span className="whitespace-nowrap" data-grade6-action-label-line>세트 {set}</span>
+                    <span className="whitespace-nowrap" data-grade6-action-label-line>10문제</span>
+                  </span>
                 </Button>
               ))}
             </div>

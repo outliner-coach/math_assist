@@ -21,6 +21,18 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 6 fraction-decimal relations Study release (primary
+  workstreams 01, 02, 03, and 04) owns the narrow change to the curriculum
+  ledger, Grade 6 unit/concept/template data, concept release identity, and
+  focused generator, comparison, route, storage, and browser tests.
+  `unit-6-1-fraction-decimal-relations` covers `[6수01-12]` through
+  `g6fractiondecimal-001` with 30 deterministic templates, A/B/C ten each,
+  K4/A4/R2 per set, disjoint families, and fraction-to-decimal,
+  decimal-to-fraction, exact size comparison, inverse conversion, application,
+  and error-analysis work. All comparison differences must stay nonnegative
+  for every allowed parameter and every decimal or fraction answer must be
+  derived from the same exact integer ratio used in its prompt and solution.
+
 - 2026-07-26: Grade 6 fraction-division Study release (primary workstreams
   01, 02, 03, and 04) owns the narrow change to the curriculum ledger,
   Grade 6 unit/concept/template data, multi-concept Grade 6 validation,

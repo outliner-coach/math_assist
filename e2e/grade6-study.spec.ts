@@ -115,44 +115,63 @@ test('5문제를 모두 확인하면 6학년 결과와 진도만 격리 저장�
   expect(await readKeys(page, GRADE5_KEYS)).toEqual([null, null, null])
 })
 
-test('분수의 나눗셈 단원을 찾아 5문제를 완주하고 단원별 콘텐츠 버전을 기록한다', async ({ page }) => {
-  await page.goto(`${BASE_PATH}/grade/6`)
-  await expect(page.getByRole('heading', { name: '6학년 수학을 단원별로 연습해요' })).toBeVisible()
-  await page.getByTestId('grade6-unit-unit-6-1-fraction-division').click()
-  await expect(page.getByRole('heading', { name: '분수의 나눗셈' })).toBeVisible()
-  await page.getByRole('link', { name: /학습하기/ }).click()
-  await page.getByRole('button', { name: '세트 A · 5문제' }).click()
-  await expect(page.getByTestId('practice-session')).toBeVisible()
+for (const releasedConcept of [
+  {
+    unitId: 'unit-6-1-fraction-division',
+    title: '분수의 나눗셈',
+    conceptId: 'g6fractiondiv-001',
+    releaseId: 'grade6-fraction-division-v1',
+  },
+  {
+    unitId: 'unit-6-1-fraction-decimal-relations',
+    title: '분수와 소수의 관계',
+    conceptId: 'g6fractiondecimal-001',
+    releaseId: 'grade6-fraction-decimal-v1',
+  },
+] as const) {
+  test(`${releasedConcept.title} 단원을 찾아 5문제를 완주하고 단원별 콘텐츠 버전을 기록한다`, async ({ page }) => {
+    await page.goto(`${BASE_PATH}/grade/6`)
+    await expect(page.getByRole('heading', { name: '6학년 수학을 단원별로 연습해요' })).toBeVisible()
+    await page.getByTestId(`grade6-unit-${releasedConcept.unitId}`).click()
+    await expect(page.getByRole('heading', { name: releasedConcept.title })).toBeVisible()
+    await page.getByRole('link', { name: /학습하기/ }).click()
+    await page.getByRole('button', { name: '세트 A · 5문제' }).click()
+    await expect(page.getByTestId('practice-session')).toBeVisible()
 
-  const session = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), GRADE6_KEYS[0])
-  expect(session).toMatchObject({ grade: 6, itemCount: 5, conceptId: 'g6fractiondiv-001', setId: 'A' })
-  expect(session.problems.some((problem: { correctAnswer: string }) => problem.correctAnswer.includes('/'))).toBe(true)
+    const session = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), GRADE6_KEYS[0])
+    expect(session).toMatchObject({
+      grade: 6,
+      itemCount: 5,
+      conceptId: releasedConcept.conceptId,
+      setId: 'A',
+    })
 
-  for (let index = 0; index < 5; index += 1) {
-    const answer = await page.evaluate(({ key, itemIndex }) => {
-      const currentSession = JSON.parse(localStorage.getItem(key) ?? 'null')
-      return String(currentSession.problems[itemIndex].correctAnswer)
-    }, { key: GRADE6_KEYS[0], itemIndex: index })
-    await enterKeypadAnswer(page, answer)
-    await page.getByTestId('check-answer-button').click()
-    if (index < 4) await page.getByTestId('next-button').click()
-  }
+    for (let index = 0; index < 5; index += 1) {
+      const answer = await page.evaluate(({ key, itemIndex }) => {
+        const currentSession = JSON.parse(localStorage.getItem(key) ?? 'null')
+        return String(currentSession.problems[itemIndex].correctAnswer)
+      }, { key: GRADE6_KEYS[0], itemIndex: index })
+      await enterKeypadAnswer(page, answer)
+      await page.getByTestId('check-answer-button').click()
+      if (index < 4) await page.getByTestId('next-button').click()
+    }
 
-  await page.getByTestId('submit-button').click()
-  await expect(page).toHaveURL(new RegExp(`${BASE_PATH}/result/\\?grade=6$`))
-  await expect(page.getByTestId('score')).toContainText('5')
-  const progress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), GRADE6_KEYS[2])
-  const receipts = await page.evaluate((key) => (
-    JSON.parse(localStorage.getItem(key) ?? 'null')?.receipts ?? []
-  ), ATTEMPT_RECEIPT_KEY)
+    await page.getByTestId('submit-button').click()
+    await expect(page).toHaveURL(new RegExp(`${BASE_PATH}/result/\\?grade=6$`))
+    await expect(page.getByTestId('score')).toContainText('5')
+    const progress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), GRADE6_KEYS[2])
+    const receipts = await page.evaluate((key) => (
+      JSON.parse(localStorage.getItem(key) ?? 'null')?.receipts ?? []
+    ), ATTEMPT_RECEIPT_KEY)
 
-  expect(progress['g6fractiondiv-001']).toMatchObject({ latestScore: 100, needsReview: false })
-  expect(receipts).toHaveLength(5)
-  expect(receipts.every((receipt: { contentReleaseId: string }) => (
-    receipt.contentReleaseId === 'grade6-fraction-division-v1'
-  ))).toBe(true)
-  expect(await readKeys(page, GRADE5_KEYS)).toEqual([null, null, null])
-})
+    expect(progress[releasedConcept.conceptId]).toMatchObject({ latestScore: 100, needsReview: false })
+    expect(receipts).toHaveLength(5)
+    expect(receipts.every((receipt: { contentReleaseId: string }) => (
+      receipt.contentReleaseId === releasedConcept.releaseId
+    ))).toBe(true)
+    expect(await readKeys(page, GRADE5_KEYS)).toEqual([null, null, null])
+  })
+}
 
 test('390px와 1024px에서 가로 넘침 없이 48px 뒤로가기와 하단 행동을 유지한다', async ({ page }) => {
   for (const viewport of [
@@ -168,6 +187,17 @@ test('390px와 1024px에서 가로 넘침 없이 48px 뒤로가기와 하단 행
 
     const action = page.getByRole('button', { name: '세트 A · 5문제' })
     expect((await action.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(48)
+    const labelLinesFit = await page.locator('[data-grade6-action-label-line]').evaluateAll((lines) => (
+      lines.length === 12 && lines.every((line) => {
+        const element = line as HTMLElement
+        const button = element.closest('button')
+        return (
+          getComputedStyle(element).whiteSpace === 'nowrap' &&
+          element.scrollWidth <= (button?.clientWidth ?? 0)
+        )
+      })
+    ))
+    expect(labelLinesFit).toBe(true)
 
     await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight))
     const overlap = await page.evaluate(() => {

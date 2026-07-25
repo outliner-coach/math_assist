@@ -77,6 +77,19 @@ describe('problem quality audit helpers', () => {
     expect(warnings).toEqual([])
   })
 
+  it('allows decimal-to-fraction prompts before the converted fraction exists', () => {
+    const warnings = analyzeRenderedPromptQuality(
+      {
+        concept_id: 'g6fractiondecimal-001',
+        solver_rule: 'reduceFrac(p, 10)',
+        blueprint: { primaryStandard: '[6수01-12]' }
+      },
+      '0.4를 기약분수로 나타내세요.'
+    )
+
+    expect(warnings).toEqual([])
+  })
+
   it('does not treat ordinal wording as an operand reference', () => {
     const warnings = analyzeRenderedPromptQuality(
       {

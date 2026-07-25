@@ -1153,11 +1153,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 25,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "분수와 소수 표현을 연결하고 비교",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6fractiondecimal-001"
+      ],
+      "allocationRationale": "6학년 분수와 소수 문제은행에서 표현 변환, 동치 확인, 크기 비교와 오류 분석을 제공",
+      "reviewedBy": "grade6-fraction-decimal-release-2026-07-26"
     },
     {
       "standardCode": "[6수01-13]",

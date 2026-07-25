@@ -104,6 +104,14 @@
     "description": "자연수의 나눗셈 몫을 분수로 나타내고, 분수 나눗셈의 원리와 응용을 연습합니다."
   },
   {
+    "id": "unit-6-1-fraction-decimal-relations",
+    "grade": 6,
+    "semester": "6-1",
+    "order": 2,
+    "title": "분수와 소수의 관계",
+    "description": "분수와 소수를 서로 바꾸고 정확한 크기를 비교하며 그 방법을 설명합니다."
+  },
+  {
     "id": "unit-6-1-ratio",
     "grade": 6,
     "semester": "6-1",

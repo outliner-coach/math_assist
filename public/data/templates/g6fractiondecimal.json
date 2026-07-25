@@ -1,0 +1,1112 @@
+[
+  {
+    "id": "tmpl-g6fractiondecimal-A-01",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-tenths-fraction-to-decimal",
+    "blueprint": {
+      "problemFamily": "a-tenths-fraction-to-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p}}/10을 소수로 나타내세요.",
+    "solver_rule": "dec1(p)",
+    "solution_steps_template": [
+      "분모가 10인 분수는 소수 첫째 자리까지 나타낼 수 있습니다.",
+      "{{p}}/10={{dec1(p)}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-A-02",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-fifths-fraction-to-decimal",
+    "blueprint": {
+      "problemFamily": "a-fifths-fraction-to-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p}}/5를 소수로 나타내세요.",
+    "solver_rule": "dec1(2 * p)",
+    "solution_steps_template": [
+      "분모와 분자에 2를 곱해 분모를 10으로 만듭니다.",
+      "{{p}}/5={{2 * p}}/10={{dec1(2 * p)}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-A-03",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-tenths-decimal-to-fraction",
+    "blueprint": {
+      "problemFamily": "a-tenths-decimal-to-fraction",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{dec1(p)}}를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(p, 10)",
+    "solution_steps_template": [
+      "소수 첫째 자리 수이므로 분모를 10으로 놓습니다.",
+      "{{dec1(p)}}={{p}}/10={{reduceFrac(p, 10)}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-A-04",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-quarters-fraction-to-decimal",
+    "blueprint": {
+      "problemFamily": "a-quarters-fraction-to-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p}}/4를 소수로 나타내세요.",
+    "solver_rule": "p / 4",
+    "solution_steps_template": [
+      "분자를 분모로 나누어 소수로 나타냅니다.",
+      "{{p}}÷4={{p / 4}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-A-05",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-milk-sum-fraction-decimal",
+    "blueprint": {
+      "problemFamily": "a-milk-sum-fraction-decimal",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "우유 {{p}}/10L와 0.3L를 한 병에 담았습니다. 모두 몇 L인지 소수로 나타내세요.",
+    "solver_rule": "dec1(p + 3)",
+    "solution_steps_template": [
+      "0.3=3/10이므로 같은 단위의 수로 바꿉니다.",
+      "{{p}}/10+3/10={{p + 3}}/10={{dec1(p + 3)}}L입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-A-06",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-compare-fifths-and-tenths",
+    "blueprint": {
+      "problemFamily": "a-compare-fifths-and-tenths",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p}}/5는 {{p}}/10보다 얼마만큼 큰지 소수로 나타내세요.",
+    "solver_rule": "dec1(p)",
+    "solution_steps_template": [
+      "{{p}}/5={{2 * p}}/10으로 바꿉니다.",
+      "{{2 * p}}/10-{{p}}/10={{p}}/10={{dec1(p)}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-A-07",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-twentieths-as-hundredths",
+    "blueprint": {
+      "problemFamily": "a-twentieths-as-hundredths",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "산책로 전체의 {{p}}/20을 걸었습니다. 걸은 부분을 분모가 100인 분수로 나타낼 때 분자는 얼마인가요?",
+    "solver_rule": "p * 5",
+    "solution_steps_template": [
+      "20×5=100이므로 분자와 분모에 5를 곱합니다.",
+      "{{p}}/20={{p * 5}}/100이므로 분자는 {{p * 5}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-A-08",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-remaining-from-one",
+    "blueprint": {
+      "problemFamily": "a-remaining-from-one",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "색종이 한 장의 {{p}}/10을 썼습니다. 남은 부분을 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(10 - p, 10)",
+    "solution_steps_template": [
+      "한 장 전체는 10/10입니다.",
+      "10/10-{{p}}/10={{reduceFrac(10 - p, 10)}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-A-09",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "a-fifths-tenths-equivalence-error",
+    "blueprint": {
+      "problemFamily": "a-fifths-tenths-equivalence-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p}}/5와 {{p}}/10이 분자가 같아서 같은 수라고 했습니다. 두 수의 실제 차를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(p, 10)",
+    "solution_steps_template": [
+      "{{p}}/5={{2 * p}}/10이므로 두 수는 같지 않습니다.",
+      "{{2 * p}}/10-{{p}}/10={{reduceFrac(p, 10)}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "두 표현을 같은 분모 또는 같은 소수 자리로 바꾼 뒤 설명과 계산을 함께 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-A-10",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "a-midpoint-between-tenths",
+    "blueprint": {
+      "problemFamily": "a-midpoint-between-tenths",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 7
+      }
+    },
+    "prompt_template": "수직선에서 {{p}}/10과 {{p + 2}}/10의 한가운데에 있는 수를 소수로 나타내세요.",
+    "solver_rule": "dec1(p + 1)",
+    "solution_steps_template": [
+      "두 수의 분자 {{p}}와 {{p + 2}}의 중간은 {{p + 1}}입니다.",
+      "{{p + 1}}/10={{dec1(p + 1)}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "두 표현을 같은 분모 또는 같은 소수 자리로 바꾼 뒤 설명과 계산을 함께 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-B-01",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-twentieths-fraction-to-decimal",
+    "blueprint": {
+      "problemFamily": "b-twentieths-fraction-to-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{p}}/20을 소수로 나타내세요.",
+    "solver_rule": "p / 20",
+    "solution_steps_template": [
+      "분자를 분모로 나누어 소수로 나타냅니다.",
+      "{{p}}÷20={{p / 20}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-B-02",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-twenty-fifths-fraction-to-decimal",
+    "blueprint": {
+      "problemFamily": "b-twenty-fifths-fraction-to-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{p}}/25를 소수로 나타내세요.",
+    "solver_rule": "p / 25",
+    "solution_steps_template": [
+      "분모와 분자에 4를 곱해 분모를 100으로 만듭니다.",
+      "{{p}}/25={{4 * p}}/100={{p / 25}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-B-03",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-decimal-to-reduced-tenths",
+    "blueprint": {
+      "problemFamily": "b-decimal-to-reduced-tenths",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{dec1(p)}}를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(p, 10)",
+    "solution_steps_template": [
+      "{{dec1(p)}}={{p}}/10으로 나타냅니다.",
+      "약분하면 {{reduceFrac(p, 10)}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-B-04",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-equivalent-numerator-over-twenty",
+    "blueprint": {
+      "problemFamily": "b-equivalent-numerator-over-twenty",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{dec1(p)}}와 같은 분모가 20인 분수의 분자는 얼마인가요?",
+    "solver_rule": "2 * p",
+    "solution_steps_template": [
+      "{{dec1(p)}}={{p}}/10입니다.",
+      "분모와 분자에 2를 곱하면 {{2 * p}}/20이므로 분자는 {{2 * p}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-B-05",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-ribbon-sum-fifth-and-decimal",
+    "blueprint": {
+      "problemFamily": "b-ribbon-sum-fifth-and-decimal",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "리본 {{p}}/5m와 0.2m를 이었습니다. 전체 길이를 소수로 나타내세요.",
+    "solver_rule": "dec1(2 * p + 2)",
+    "solution_steps_template": [
+      "{{p}}/5={{2 * p}}/10이고 0.2=2/10입니다.",
+      "전체는 {{2 * p + 2}}/10={{dec1(2 * p + 2)}}m입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-B-06",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-trip-remaining-from-three",
+    "blueprint": {
+      "problemFamily": "b-trip-remaining-from-three",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "3km 중 {{p}}/4km를 걸었습니다. 남은 거리를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(12 - p, 4)",
+    "solution_steps_template": [
+      "3=12/4로 바꿉니다.",
+      "12/4-{{p}}/4={{reduceFrac(12 - p, 4)}}km입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-B-07",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-difference-counted-in-tenths",
+    "blueprint": {
+      "problemFamily": "b-difference-counted-in-tenths",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{p}}/5와 {{p}}/10의 차는 1/10이 몇 개인 크기인가요?",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "{{p}}/5={{2 * p}}/10으로 바꿉니다.",
+      "차는 {{p}}/10이므로 1/10이 {{p}}개입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-B-08",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-missing-numerator-over-twenty",
+    "blueprint": {
+      "problemFamily": "b-missing-numerator-over-twenty",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{p}}/10과 크기가 같은 □/20에서 □에 알맞은 수를 구하세요.",
+    "solver_rule": "2 * p",
+    "solution_steps_template": [
+      "분모 10에 2를 곱하면 20입니다.",
+      "분자에도 2를 곱하므로 □={{2 * p}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-B-09",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "b-denominator-size-comparison-error",
+    "blueprint": {
+      "problemFamily": "b-denominator-size-comparison-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{p}}/4가 {{p}}/10보다 분모가 커서 더 작다고 했습니다. 두 수의 실제 차를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(3 * p, 20)",
+    "solution_steps_template": [
+      "공통 분모 20으로 바꾸면 {{p}}/4={{5 * p}}/20, {{p}}/10={{2 * p}}/20입니다.",
+      "차는 {{3 * p}}/20={{reduceFrac(3 * p, 20)}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "두 표현을 같은 분모 또는 같은 소수 자리로 바꾼 뒤 설명과 계산을 함께 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-B-10",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "b-hundredths-gap-between-representations",
+    "blueprint": {
+      "problemFamily": "b-hundredths-gap-between-representations",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 8
+      }
+    },
+    "prompt_template": "{{p}}/20에 1/100을 몇 개 더하면 {{p}}/10이 되나요?",
+    "solver_rule": "5 * p",
+    "solution_steps_template": [
+      "{{p}}/20={{5 * p}}/100이고 {{p}}/10={{10 * p}}/100입니다.",
+      "차는 {{5 * p}}/100이므로 1/100이 {{5 * p}}개입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "두 표현을 같은 분모 또는 같은 소수 자리로 바꾼 뒤 설명과 계산을 함께 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-C-01",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-fiftieths-fraction-to-decimal",
+    "blueprint": {
+      "problemFamily": "c-fiftieths-fraction-to-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{p}}/50을 소수로 나타내세요.",
+    "solver_rule": "p / 50",
+    "solution_steps_template": [
+      "분모와 분자에 2를 곱해 분모를 100으로 만듭니다.",
+      "{{p}}/50={{2 * p}}/100={{p / 50}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-C-02",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-hundredths-fraction-to-decimal",
+    "blueprint": {
+      "problemFamily": "c-hundredths-fraction-to-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{p}}/100을 소수로 나타내세요.",
+    "solver_rule": "p / 100",
+    "solution_steps_template": [
+      "분모가 100인 분수는 소수 둘째 자리까지 나타냅니다.",
+      "{{p}}/100={{p / 100}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-C-03",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-decimal-to-reduced-fraction",
+    "blueprint": {
+      "problemFamily": "c-decimal-to-reduced-fraction",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{dec1(p)}}를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(p, 10)",
+    "solution_steps_template": [
+      "소수 첫째 자리 수를 분모가 10인 분수로 나타냅니다.",
+      "{{dec1(p)}}={{p}}/10={{reduceFrac(p, 10)}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-C-04",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-halves-fraction-to-decimal",
+    "blueprint": {
+      "problemFamily": "c-halves-fraction-to-decimal",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{p}}/2를 소수로 나타내세요.",
+    "solver_rule": "p / 2",
+    "solution_steps_template": [
+      "분자를 2로 나누어 소수로 나타냅니다.",
+      "{{p}}÷2={{p / 2}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-C-05",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-recipe-quarter-plus-half",
+    "blueprint": {
+      "problemFamily": "c-recipe-quarter-plus-half",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "반죽에 밀가루 {{p}}/4컵과 0.5컵을 넣었습니다. 전체 양을 소수로 나타내세요.",
+    "solver_rule": "p / 4 + 0.5",
+    "solution_steps_template": [
+      "0.5=2/4이므로 전체는 {{p + 2}}/4컵입니다.",
+      "{{p + 2}}÷4={{p / 4 + 0.5}}컵입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-C-06",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-nearby-fifth-and-tenth",
+    "blueprint": {
+      "problemFamily": "c-nearby-fifth-and-tenth",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{p}}/5와 {{2 * p + 1}}/10 중 큰 수는 작은 수보다 얼마만큼 큰가요? 소수로 나타내세요.",
+    "solver_rule": "0.1",
+    "solution_steps_template": [
+      "{{p}}/5={{2 * p}}/10으로 바꿉니다.",
+      "{{2 * p + 1}}/10-{{2 * p}}/10=1/10=0.1입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-C-07",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-target-half-after-tenths",
+    "blueprint": {
+      "problemFamily": "c-target-half-after-tenths",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "목표량 {{p}}/2L 중 {{p}}/10L를 채웠습니다. 더 채워야 할 양을 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(2 * p, 5)",
+    "solution_steps_template": [
+      "{{p}}/2={{5 * p}}/10으로 바꿉니다.",
+      "{{5 * p}}/10-{{p}}/10={{4 * p}}/10={{reduceFrac(2 * p, 5)}}L입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-C-08",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-equivalent-numerator-over-hundred",
+    "blueprint": {
+      "problemFamily": "c-equivalent-numerator-over-hundred",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{dec1(p)}}와 같은 분모가 100인 분수의 분자는 얼마인가요?",
+    "solver_rule": "10 * p",
+    "solution_steps_template": [
+      "{{dec1(p)}}={{p}}/10입니다.",
+      "분모와 분자에 10을 곱하면 {{10 * p}}/100이므로 분자는 {{10 * p}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "분모가 10이나 100이 되도록 바꾸거나 분자를 분모로 정확히 나누어 보세요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-C-09",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "c-same-numerator-denominator-fallacy",
+    "blueprint": {
+      "problemFamily": "c-same-numerator-denominator-fallacy",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{p}}/10과 {{p}}/5는 분자가 같아서 같은 수라고 했습니다. 두 수의 차를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(p, 10)",
+    "solution_steps_template": [
+      "{{p}}/5={{2 * p}}/10으로 나타냅니다.",
+      "{{2 * p}}/10-{{p}}/10={{reduceFrac(p, 10)}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "두 표현을 같은 분모 또는 같은 소수 자리로 바꾼 뒤 설명과 계산을 함께 확인해요."
+    ]
+  },
+  {
+    "id": "tmpl-g6fractiondecimal-C-10",
+    "concept_id": "g6fractiondecimal-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "c-quarter-fifth-comparison-gap",
+    "blueprint": {
+      "problemFamily": "c-quarter-fifth-comparison-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "[6수01-12]",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium"
+    },
+    "param_schema": {
+      "p": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "{{p}}/4와 {{p + 1}}/5 중 큰 수는 작은 수보다 얼마만큼 큰가요? 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(p - 4, 20)",
+    "solution_steps_template": [
+      "공통 분모 20으로 바꾸면 {{p}}/4={{5 * p}}/20, {{p + 1}}/5={{4 * p + 4}}/20입니다.",
+      "차는 {{p - 4}}/20={{reduceFrac(p - 4, 20)}}입니다."
+    ],
+    "hint_steps_template": [
+      "분수와 소수 중 계산하기 쉬운 한 가지 표현으로 통일해 보세요.",
+      "두 표현을 같은 분모 또는 같은 소수 자리로 바꾼 뒤 설명과 계산을 함께 확인해요."
+    ]
+  }
+]

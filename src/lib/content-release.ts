@@ -3,6 +3,7 @@ import type { PracticeGrade } from './types'
 const GRADE6_CONTENT_RELEASE_IDS: Readonly<Record<string, string>> = {
   'g6ratio-001': 'grade6-ratio-v1',
   'g6fractiondiv-001': 'grade6-fraction-division-v1',
+  'g6fractiondecimal-001': 'grade6-fraction-decimal-v1',
 }
 
 export function resolveContentReleaseId(grade: PracticeGrade, conceptId: string): string {
