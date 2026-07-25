@@ -10,6 +10,7 @@ import {
 import { templates as generatedAverageTemplates } from '../../scripts/generate-grade5-average-templates.js'
 import { templates as generatedDecimalMultiplicationTemplates } from '../../scripts/generate-grade5-decimalmul-templates.js'
 import { templates as generatedEstimateTemplates } from '../../scripts/generate-grade5-estimate-templates.js'
+import { templates as generatedFractionMultiplicationTemplates } from '../../scripts/generate-grade5-fracmul-templates.js'
 import { banks as generatedGeometryBanks } from '../../scripts/generate-grade5-geometry-templates.js'
 import { templates as generatedMixedCalculationTemplates } from '../../scripts/generate-grade5-mixedcalc-templates.js'
 import { templates as generatedRoundingTemplates } from '../../scripts/generate-grade5-rounding-templates.js'
@@ -36,6 +37,51 @@ function readMigratedTemplates(): ProblemTemplate[] {
   ) as ProblemTemplate[])
 }
 
+function collectExhaustiveTemplateIssues(
+  templates: ProblemTemplate[],
+  answerPattern: RegExp
+): string[] {
+  const issues: string[] = []
+
+  for (const template of templates) {
+    let samples: Record<string, number>[] = [{}]
+
+    for (const [name, range] of Object.entries(template.param_schema)) {
+      samples = samples.flatMap(sample => Array.from(
+        { length: range.max - range.min + 1 },
+        (_, offset) => ({ ...sample, [name]: range.min + offset })
+      ))
+    }
+
+    for (const params of samples) {
+      const sampleKey = `${template.id} ${JSON.stringify(params)}`
+      const answer = evaluateTemplate(`{{${template.solver_rule}}}`, params)
+      const renderedTexts = [
+        evaluateTemplate(template.prompt_template, params),
+        ...template.solution_steps_template.map(step => evaluateTemplate(step, params)),
+        ...(template.hint_steps_template ?? []).map(step => evaluateTemplate(step, params))
+      ]
+
+      if (!answerPattern.test(answer)) issues.push(`${sampleKey}: invalid answer ${answer}`)
+      if (renderedTexts.some(text => text.includes('?]'))) {
+        issues.push(`${sampleKey}: unresolved expression`)
+      }
+
+      if (template.type === 'choice') {
+        const choices = template.choices_template!.map(choice => (
+          evaluateTemplate(choice, params)
+        ))
+        if (new Set(choices).size !== 4) issues.push(`${sampleKey}: duplicate choices`)
+        if (choices.filter(choice => choice === answer).length !== 1) {
+          issues.push(`${sampleKey}: answer choice mismatch`)
+        }
+      }
+    }
+  }
+
+  return issues
+}
+
 describe('Grade 5 reviewed blueprint metadata', () => {
   it('defines one explicit reviewed mapping for every structured problem family', () => {
     const templates = readMigratedTemplates()
@@ -47,7 +93,7 @@ describe('Grade 5 reviewed blueprint metadata', () => {
 
     expect(templates).toHaveLength(660)
     expect(BLOCKED_CONTENT_TEMPLATE_IDS.size).toBe(0)
-    expect(families.size).toBe(174)
+    expect(families.size).toBe(179)
     expect(new Set(Object.keys(REVIEWED_FAMILY_BLUEPRINTS))).toEqual(families)
   })
 
@@ -73,37 +119,29 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
     ))).toBe(true)
 
-    for (const template of generatedAverageTemplates) {
-      const parameterEntries = Object.entries(template.param_schema)
-      let samples: Record<string, number>[] = [{}]
+    expect(collectExhaustiveTemplateIssues(
+      generatedAverageTemplates,
+      /^\d+$/
+    )).toEqual([])
+  })
 
-      for (const [name, range] of parameterEntries) {
-        samples = samples.flatMap(sample => Array.from(
-          { length: range.max - range.min + 1 },
-          (_, offset) => ({ ...sample, [name]: range.min + offset })
-        ))
-      }
+  it('keeps the reviewed fraction-multiplication bank reproducible from its generator', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'fracmul.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
 
-      for (const params of samples) {
-        const answer = evaluateTemplate(`{{${template.solver_rule}}}`, params)
-        const renderedTexts = [
-          evaluateTemplate(template.prompt_template, params),
-          ...template.solution_steps_template.map(step => evaluateTemplate(step, params)),
-          ...(template.hint_steps_template ?? []).map(step => evaluateTemplate(step, params))
-        ]
+    expect(generatedFractionMultiplicationTemplates).toEqual(committed)
+    expect(generatedFractionMultiplicationTemplates.every(template => (
+      JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
+    ))).toBe(true)
 
-        expect(answer).toMatch(/^\d+$/)
-        expect(renderedTexts.every(text => !text.includes('?]'))).toBe(true)
-
-        if (template.type === 'choice') {
-          const choices = template.choices_template!.map(choice => (
-            evaluateTemplate(choice, params)
-          ))
-          expect(new Set(choices).size).toBe(4)
-          expect(choices.filter(choice => choice === answer)).toHaveLength(1)
-        }
-      }
-    }
+    expect(collectExhaustiveTemplateIssues(
+      generatedFractionMultiplicationTemplates,
+      /^\d+(?:\/\d+)?$/
+    )).toEqual([])
   })
 
   it('keeps the reviewed rounding bank reproducible from its generator', () => {
@@ -189,9 +227,11 @@ describe('Grade 5 reviewed blueprint metadata', () => {
 
     for (const setId of ['A', 'B', 'C']) {
       const multiplication = byId[`tmpl-fracmul-${setId}-06`]
-      expect(multiplication.problem_family).toBe('fracmul-context-product')
+      expect(multiplication.problem_family).toBe('fracmul-context-part-of-part')
       expect(multiplication.prompt_template).toContain('그중')
-      expect(multiplication.solver_rule).toBe('fracMul(n1, d1, n2, d2)')
+      expect(multiplication.solver_rule).toBe(
+        'reduceFrac(n * m, n * m + n * c + b * m + b * c)'
+      )
 
       const subtraction = byId[`tmpl-fracsub-${setId}-06`]
       expect(subtraction.problem_family).toBe('fracsub-context-difference')
@@ -279,6 +319,12 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       primaryStandard: '6수01-13',
       contextType: 'puzzle'
     })
+    expect(byId['tmpl-fracmul-A-09']).toMatchObject({
+      cognitiveDomain: 'reasoning',
+      reasoningPattern: 'error_analysis',
+      primaryStandard: '6수01-09',
+      contextType: 'puzzle'
+    })
     expect(byId['tmpl-average-A-09']).toMatchObject({
       cognitiveDomain: 'reasoning',
       reasoningPattern: 'error_analysis',
@@ -317,6 +363,41 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     expect(average.problemFamilyCount).toBe(10)
     expect(average.reasoningFamilyCount).toBe(2)
     expect(average.targetGaps).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = templates.filter(template => template.set_id === setId)
+      const cognitiveCounts = setTemplates.reduce(
+        (counts, template) => {
+          counts[template.blueprint!.cognitiveDomain] += 1
+          return counts
+        },
+        { knowing: 0, applying: 0, reasoning: 0 }
+      )
+
+      expect(cognitiveCounts).toEqual({
+        knowing: 4,
+        applying: 4,
+        reasoning: 2
+      })
+      expect(new Set(setTemplates.map(template => template.prompt_template)).size).toBe(10)
+    }
+  })
+
+  it('gives every fraction-multiplication set a reviewed K4/A4/R2 application mix', () => {
+    const templates = readMigratedTemplates()
+      .filter(template => template.concept_id === 'fracmul-001')
+    const coverage = buildProblemBlueprintCoverage(templates)
+    const fractionMultiplication = coverage.byConcept[0]
+
+    expect(templates).toHaveLength(30)
+    expect(fractionMultiplication.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(fractionMultiplication.problemFamilyCount).toBe(10)
+    expect(fractionMultiplication.reasoningFamilyCount).toBe(2)
+    expect(fractionMultiplication.targetGaps).toEqual([])
 
     for (const setId of ['A', 'B', 'C']) {
       const setTemplates = templates.filter(template => template.set_id === setId)

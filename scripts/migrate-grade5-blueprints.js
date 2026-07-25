@@ -129,9 +129,11 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
     'estimate-wrong-bound-shortage', 'estimate-bound-sum'
   ],
   'fracmul-001': [
-    'fracmul-direct', 'fracmul-direct', 'fracmul-direct', 'fracmul-direct',
-    'fracmul-direct', 'fracmul-context-product', 'fracmul-numerator-product',
-    'fracmul-reduced-component-sum', 'fracmul-adjusted-result', 'fracmul-direct'
+    'fracmul-fraction-natural', 'fracmul-natural-fraction',
+    'fracmul-fraction-fraction', 'fracmul-cancel-before-product',
+    'fracmul-context-part-of-quantity', 'fracmul-context-part-of-part',
+    'fracmul-missing-factor', 'fracmul-context-fractional-area',
+    'fracmul-denominator-omission-error', 'fracmul-product-size-gap'
   ],
   'decimalmul-001': [
     'decimalmul-decimal-by-natural', 'decimalmul-decimal-by-decimal',
@@ -249,11 +251,16 @@ const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'estimate-bound-sum': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'compare_methods', primaryStandard: '6수01-03', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
 
   // Fraction and decimal multiplication
-  'fracmul-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-09', estimatedSteps: 2, readingLoad: 'low' }),
-  'fracmul-context-product': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-09', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
-  'fracmul-numerator-product': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-09', estimatedSteps: 1, readingLoad: 'medium' }),
-  'fracmul-reduced-component-sum': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-09', connectedStandards: ['6수01-06'], estimatedSteps: 3, readingLoad: 'high' }),
-  'fracmul-adjusted-result': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-09', estimatedSteps: 3, readingLoad: 'high' }),
+  'fracmul-fraction-natural': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-09', estimatedSteps: 2, readingLoad: 'low' }),
+  'fracmul-natural-fraction': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-09', estimatedSteps: 2, readingLoad: 'low' }),
+  'fracmul-fraction-fraction': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-09', estimatedSteps: 2, readingLoad: 'low' }),
+  'fracmul-cancel-before-product': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-09', connectedStandards: ['6수01-06'], estimatedSteps: 3, readingLoad: 'medium' }),
+  'fracmul-context-part-of-quantity': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'representation_shift', primaryStandard: '6수01-09', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
+  'fracmul-context-part-of-part': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-09', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world' }),
+  'fracmul-missing-factor': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수01-09', connectedStandards: ['6수01-06'], estimatedSteps: 3, readingLoad: 'high' }),
+  'fracmul-context-fractional-area': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-09', connectedStandards: ['6수03-13'], estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world' }),
+  'fracmul-denominator-omission-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-09', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle' }),
+  'fracmul-product-size-gap': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'compare_methods', primaryStandard: '6수01-09', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle' }),
   'decimalmul-decimal-by-natural': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-13', estimatedSteps: 1, readingLoad: 'low' }),
   'decimalmul-decimal-by-decimal': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-13', estimatedSteps: 1, readingLoad: 'low' }),
   'decimalmul-place-value-natural-product': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-13', estimatedSteps: 2, readingLoad: 'medium' }),

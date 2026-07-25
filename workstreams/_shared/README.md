@@ -21,6 +21,19 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-25: Grade 5 fraction-multiplication application reinforcement
+  (primary workstreams 01 and 04) owns the narrow change to
+  `public/data/templates/fracmul.json`,
+  `scripts/migrate-grade5-blueprints.js`, its deterministic generator, and
+  blueprint regression tests. The `unit-5-2-fraction-mul` bank must keep
+  A/B/C difficulty 4-4-2 while moving from K21/A9/R0 and five families to
+  K12/A12/R6 and ten reviewed families. Include fraction-by-natural,
+  fraction-by-fraction, cancellation, real-world part-of-whole, inverse
+  factor, fractional area, denominator-error, and product-size reasoning.
+  Re-check proper positive parameter construction, reduced answers, choice
+  uniqueness across every allowed combination, generator parity, difficulty
+  progression, template validation, and the problem audit.
+
 - 2026-07-25: Grade 5 average application reinforcement (primary workstreams
   01 and 04) owns the narrow change to
   `public/data/templates/average.json`,
