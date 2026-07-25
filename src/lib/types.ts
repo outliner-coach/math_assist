@@ -205,6 +205,7 @@ export type GeometryVisual =
       mode: 'single' | 'options'
       variant: number
       focusFace?: number
+      side?: number
     }
 
 export type VisualTemplateValue =

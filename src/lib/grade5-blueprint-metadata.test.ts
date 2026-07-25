@@ -141,10 +141,12 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       'polygonarea.json',
       'congruence.json',
       'symmetry.json',
+      'cuboid.json',
+      'cuboidnet.json',
     ]) {
       expect(collectExhaustiveTemplateIssues(
         generatedGeometryBanks[filename] as ProblemTemplate[],
-        filename === 'congruence.json'
+        filename === 'congruence.json' || filename === 'cuboidnet.json'
           ? /^(?:\d+|[가나다라])$/
           : /^\d+$/
       )).toEqual([])
@@ -609,6 +611,60 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       ...template.solution_steps_template,
       ...(template.hint_steps_template ?? []),
     ]).filter(text => unstableNumericParticle.test(text))).toEqual([])
+  })
+
+  it('gives cuboid and cuboid-net banks genuine K4/A4/R2 reasoning mixes', () => {
+    const templates = readMigratedTemplates().filter(template => (
+      template.concept_id === 'cuboid-001' ||
+      template.concept_id === 'cuboidnet-001'
+    ))
+    const coverage = buildProblemBlueprintCoverage(templates)
+
+    expect(templates).toHaveLength(60)
+    for (const conceptId of ['cuboid-001', 'cuboidnet-001']) {
+      const concept = coverage.byConcept.find(entry => entry.conceptId === conceptId)
+      expect(concept?.cognitiveCounts).toEqual({
+        knowing: 12,
+        applying: 12,
+        reasoning: 6,
+      })
+      expect(concept?.problemFamilyCount).toBe(10)
+      expect(concept?.reasoningFamilyCount).toBe(2)
+      expect(concept?.targetGaps).toEqual([])
+
+      const conceptTemplates = templates.filter(template => (
+        template.concept_id === conceptId
+      ))
+      for (const setId of ['A', 'B', 'C']) {
+        const setTemplates = conceptTemplates.filter(template => (
+          template.set_id === setId
+        ))
+        expect(setTemplates.reduce<Record<string, number>>((counts, template) => {
+          const domain = template.blueprint!.cognitiveDomain
+          counts[domain] = (counts[domain] ?? 0) + 1
+          return counts
+        }, {})).toEqual({ knowing: 4, applying: 4, reasoning: 2 })
+      }
+      for (const family of new Set(
+        conceptTemplates.map(template => template.problem_family)
+      )) {
+        expect(new Set(
+          conceptTemplates
+            .filter(template => template.problem_family === family)
+            .map(template => template.prompt_template)
+        )).toHaveLength(3)
+      }
+    }
+
+    expect(templates.find(template => (
+      template.id === 'tmpl-cuboid-A-09'
+    ))?.problem_family).toBe('cuboid-half-edge-count-error')
+    expect(templates.find(template => (
+      template.id === 'tmpl-cuboid-A-10'
+    ))?.problem_family).toBe('cuboid-one-of-each-face-area-error')
+    expect(templates.find(template => (
+      template.id === 'tmpl-cuboidnet-A-10'
+    ))?.problem_family).toBe('cuboidnet-shared-edge-perimeter-error')
   })
 
   it('gives every average set a reviewed K4/A4/R2 application mix', () => {

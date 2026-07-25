@@ -21,6 +21,22 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 5 cuboid and cuboid-net application reinforcement
+  (primary workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/templates/cuboid.json`,
+  `public/data/templates/cuboidnet.json`,
+  `scripts/generate-grade5-geometry-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, the shared geometry visual type and
+  renderer, and focused blueprint, topology, quantitative-layout, and browser
+  tests. Both banks keep A/B/C difficulty 4-4-2 while moving to K12/A12/R6,
+  ten reviewed families, and two genuine reasoning families. Cuboid dimensions
+  must drive one oblique projection model, with answer dimensions masked from
+  reverse-problem coordinates. Every four-option net visual must contain four
+  distinct layouts and exactly one topologically foldable cube net at the
+  deterministic answer index. Re-check all allowed parameters, shared-edge
+  perimeter reasoning, answer-safe dimensions, mobile rendering, generator
+  parity, template validation, and the problem audit before concurrent changes.
+
 - 2026-07-26: Grade 5 congruence and symmetry application reinforcement
   (primary workstreams 01, 03, and 04) owns the narrow change to
   `public/data/templates/congruence.json`,

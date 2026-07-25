@@ -102,7 +102,6 @@ describe('grade 5 geometry problem core', () => {
       'polygonarea-triangle-height': 'height',
       'polygonarea-trapezoid-bottom': 'b',
       'cuboid-missing-width-from-edges': 'width',
-      'cuboid-missing-depth-from-edges': 'depth',
     } as const
 
     const geometryTemplates = banks.flatMap(([name]) => readBank(name))
@@ -135,6 +134,17 @@ describe('grade 5 geometry problem core', () => {
             expect(JSON.stringify(problem.visual)).not.toMatch(/"(answer|correct|result|target|product)"/i)
           }
         }
+      }
+    }
+  })
+
+  it('generates every cuboid-net set across a broad seed range', () => {
+    const templates = readBank('cuboidnet')
+
+    for (const setId of ['A', 'B', 'C'] as const) {
+      for (let seed = 0; seed < 200; seed += 1) {
+        const problems = generateProblems(templates, { count: 10, setId, seed })
+        expect(new Set(problems.map(problem => problem.prompt)).size).toBe(10)
       }
     }
   })

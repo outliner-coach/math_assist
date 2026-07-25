@@ -181,7 +181,7 @@
         "max": 6
       }
     },
-    "prompt_template": "가로 {{w}}cm, 세로 {{d}}cm, 높이 {{h}}cm인 직육면체의 모든 모서리 길이의 합은 몇 cm인가요?",
+    "prompt_template": "가로 {{w}}cm, 세로 {{d}}cm, 높이 {{h}}cm인 직육면체 철사 틀을 만들 때 필요한 철사의 전체 길이는 몇 cm인가요?",
     "solver_rule": "4 * (w + h + d)",
     "solution_steps_template": [
       "가로, 세로, 높이 길이의 모서리는 각각 4개씩입니다.",
@@ -247,7 +247,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-front-face-area",
-    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -262,7 +262,7 @@
         "max": 6
       }
     },
-    "prompt_template": "그림에서 가로 {{w}}cm, 높이 {{h}}cm인 앞면의 넓이는 몇 cm²인가요?",
+    "prompt_template": "가로 {{w}}cm, 높이 {{h}}cm인 직육면체 상자의 앞면에 종이를 붙입니다. 필요한 종이의 넓이는 몇 cm²인가요?",
     "solver_rule": "w * h",
     "solution_steps_template": [
       "앞면은 가로 {{w}}cm, 세로 {{h}}cm인 직사각형입니다.",
@@ -287,7 +287,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-front-face-perimeter",
-    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -302,7 +302,7 @@
         "max": 6
       }
     },
-    "prompt_template": "그림에서 앞면의 둘레는 몇 cm인가요?",
+    "prompt_template": "직육면체 상자의 앞면 가장자리에 띠를 두릅니다. 앞면의 가로가 {{w}}cm, 높이가 {{h}}cm일 때 띠의 길이는 몇 cm인가요?",
     "solver_rule": "2 * (w + h)",
     "solution_steps_template": [
       "앞면의 가로는 {{w}}cm, 세로는 {{h}}cm입니다.",
@@ -326,8 +326,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "cuboid-missing-depth-from-edges",
-    "blueprint": {"problemFamily":"cuboid-missing-depth-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
+    "problem_family": "cuboid-half-edge-count-error",
+    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 6,
@@ -342,23 +342,22 @@
         "max": 7
       }
     },
-    "prompt_template": "모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 가로가 {{w}}cm, 높이가 {{h}}cm인 직육면체의 세로는 몇 cm인가요?",
-    "solver_rule": "d",
+    "prompt_template": "직육면체의 모든 모서리 길이를 구하면서 가로·세로·높이 길이를 각각 2번씩만 더했습니다. 올바른 값보다 몇 cm 부족한가요?",
+    "solver_rule": "2 * (w + h + d)",
     "solution_steps_template": [
-      "전체를 4로 나누면 {{w + h + d}}cm입니다.",
-      "{{w + h + d}} - {{w}} - {{h}} = {{d}}cm입니다."
+      "올바른 전체 길이는 4 × ({{w}} + {{h}} + {{d}}) = {{4 * (w + h + d)}}cm입니다.",
+      "2번씩만 센 값은 {{2 * (w + h + d)}}cm이므로 부족한 길이는 {{2 * (w + h + d)}}cm입니다."
     ],
     "hint_steps_template": [
-      "같은 길이의 모서리가 각각 4개씩 있어요.",
-      "가로 + 세로 + 높이를 역산해요."
+      "각 길이의 모서리가 실제로 몇 개인지 비교해요.",
+      "올바른 전체 길이에서 잘못 센 길이를 빼요."
     ],
     "visual_template": {
       "type": "cuboid",
       "width": "{{w}}",
       "height": "{{h}}",
       "depth": "{{d}}",
-      "unit": "cm",
-      "unknownMeasurement": "depth"
+      "unit": "cm"
     }
   },
   {
@@ -367,8 +366,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "cuboid-three-face-area-sum",
-    "blueprint": {"problemFamily":"cuboid-three-face-area-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "problem_family": "cuboid-one-of-each-face-area-error",
+    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 5,
@@ -383,15 +382,15 @@
         "max": 6
       }
     },
-    "prompt_template": "서로 다른 크기의 세 면을 한 장씩 골랐습니다. 세 면의 넓이 합은 몇 cm²인가요?",
+    "prompt_template": "직육면체의 겉넓이를 구하면서 서로 다른 크기의 면을 한 장씩만 골라 넓이를 더했습니다. 올바른 겉넓이보다 몇 cm² 부족한가요?",
     "solver_rule": "w * h + w * d + h * d",
     "solution_steps_template": [
-      "세 면의 넓이는 각각 {{w * h}}cm², {{w * d}}cm², {{h * d}}cm²입니다.",
-      "합은 {{w * h + w * d + h * d}}cm²입니다."
+      "서로 다른 세 면의 넓이 합은 {{w * h}} + {{w * d}} + {{h * d}} = {{w * h + w * d + h * d}}cm²입니다.",
+      "각 면과 합동인 맞은편 면을 한 장씩 빠뜨렸으므로 이 합만큼 부족합니다."
     ],
     "hint_steps_template": [
-      "가로×높이, 가로×세로, 높이×세로를 각각 구해요.",
-      "서로 다른 세 넓이를 더해요."
+      "서로 마주 보는 면은 크기와 모양이 같아요.",
+      "빠뜨린 앞·옆·윗면 한 장씩의 넓이를 더해요."
     ],
     "visual_template": {
       "type": "cuboid",
@@ -423,7 +422,7 @@
         "max": 7
       }
     },
-    "prompt_template": "직육면체의 면은 모두 몇 개인가요?",
+    "prompt_template": "직육면체 상자를 이루는 직사각형 면의 수를 구하세요.",
     "solver_rule": "6",
     "solution_steps_template": [
       "서로 마주 보는 면이 3쌍입니다.",
@@ -463,7 +462,7 @@
         "max": 7
       }
     },
-    "prompt_template": "직육면체의 모서리는 모두 몇 개인가요?",
+    "prompt_template": "직육면체 철사 틀의 모서리 수를 구하세요.",
     "solver_rule": "12",
     "solution_steps_template": [
       "윗면과 아랫면에 모서리가 각각 4개씩 있습니다.",
@@ -503,7 +502,7 @@
         "max": 7
       }
     },
-    "prompt_template": "직육면체의 꼭짓점은 모두 몇 개인가요?",
+    "prompt_template": "직육면체에서 세 모서리의 끝이 만나는 꼭짓점 수를 구하세요.",
     "solver_rule": "8",
     "solution_steps_template": [
       "윗면과 아랫면에 꼭짓점이 각각 4개씩 있습니다.",
@@ -543,7 +542,7 @@
         "max": 7
       }
     },
-    "prompt_template": "직육면체의 한 꼭짓점에서 만나는 모서리는 몇 개인가요?",
+    "prompt_template": "직육면체의 한 꼭짓점에서 서로 다른 방향으로 뻗는 모서리는 몇 개인가요?",
     "solver_rule": "3",
     "solution_steps_template": [
       "한 꼭짓점에서는 가로, 세로, 높이 방향의 모서리가 만납니다.",
@@ -583,7 +582,7 @@
         "max": 8
       }
     },
-    "prompt_template": "가로 {{w}}cm, 세로 {{d}}cm, 높이 {{h}}cm인 직육면체의 모든 모서리 길이의 합은 몇 cm인가요?",
+    "prompt_template": "가로 {{w}}cm, 세로 {{d}}cm, 높이 {{h}}cm인 직육면체 모형의 12개 모서리를 철사로 만들려고 합니다. 철사는 모두 몇 cm 필요한가요?",
     "solver_rule": "4 * (w + h + d)",
     "solution_steps_template": [
       "가로, 세로, 높이 길이의 모서리는 각각 4개씩입니다.",
@@ -623,7 +622,7 @@
         "max": 8
       }
     },
-    "prompt_template": "모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 세로가 {{d}}cm, 높이가 {{h}}cm인 직육면체의 가로는 몇 cm인가요?",
+    "prompt_template": "직육면체 철사 틀의 전체 길이는 {{4 * (w + h + d)}}cm입니다. 세로 {{d}}cm와 높이 {{h}}cm를 이용해 가로를 구하세요.",
     "solver_rule": "w",
     "solution_steps_template": [
       "전체 모서리 길이를 4로 나누면 가로 + 세로 + 높이인 {{w + h + d}}cm입니다.",
@@ -649,7 +648,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-front-face-area",
-    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -664,7 +663,7 @@
         "max": 8
       }
     },
-    "prompt_template": "그림에서 가로 {{w}}cm, 높이 {{h}}cm인 앞면의 넓이는 몇 cm²인가요?",
+    "prompt_template": "가로 {{w}}cm, 높이 {{h}}cm인 직육면체 수납함의 앞면을 색종이로 덮을 때 색종이 넓이는 몇 cm²인가요?",
     "solver_rule": "w * h",
     "solution_steps_template": [
       "앞면은 가로 {{w}}cm, 세로 {{h}}cm인 직사각형입니다.",
@@ -689,7 +688,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-front-face-perimeter",
-    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -704,7 +703,7 @@
         "max": 8
       }
     },
-    "prompt_template": "그림에서 앞면의 둘레는 몇 cm인가요?",
+    "prompt_template": "가로 {{w}}cm, 높이 {{h}}cm인 직육면체 액자의 앞면 테두리 길이는 몇 cm인가요?",
     "solver_rule": "2 * (w + h)",
     "solution_steps_template": [
       "앞면의 가로는 {{w}}cm, 세로는 {{h}}cm입니다.",
@@ -728,8 +727,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "cuboid-missing-depth-from-edges",
-    "blueprint": {"problemFamily":"cuboid-missing-depth-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
+    "problem_family": "cuboid-half-edge-count-error",
+    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 8,
@@ -744,23 +743,22 @@
         "max": 9
       }
     },
-    "prompt_template": "모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 가로가 {{w}}cm, 높이가 {{h}}cm인 직육면체의 세로는 몇 cm인가요?",
-    "solver_rule": "d",
+    "prompt_template": "모서리 전체 길이를 계산하며 가로·세로·높이가 각각 2개씩만 있다고 생각했습니다. 실제로는 각각 4개일 때 계산 결과의 부족분은 몇 cm인가요?",
+    "solver_rule": "2 * (w + h + d)",
     "solution_steps_template": [
-      "전체를 4로 나누면 {{w + h + d}}cm입니다.",
-      "{{w + h + d}} - {{w}} - {{h}} = {{d}}cm입니다."
+      "올바른 전체 길이는 4 × ({{w}} + {{h}} + {{d}}) = {{4 * (w + h + d)}}cm입니다.",
+      "2번씩만 센 값은 {{2 * (w + h + d)}}cm이므로 부족한 길이는 {{2 * (w + h + d)}}cm입니다."
     ],
     "hint_steps_template": [
-      "같은 길이의 모서리가 각각 4개씩 있어요.",
-      "가로 + 세로 + 높이를 역산해요."
+      "각 길이의 모서리가 실제로 몇 개인지 비교해요.",
+      "올바른 전체 길이에서 잘못 센 길이를 빼요."
     ],
     "visual_template": {
       "type": "cuboid",
       "width": "{{w}}",
       "height": "{{h}}",
       "depth": "{{d}}",
-      "unit": "cm",
-      "unknownMeasurement": "depth"
+      "unit": "cm"
     }
   },
   {
@@ -769,8 +767,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "cuboid-three-face-area-sum",
-    "blueprint": {"problemFamily":"cuboid-three-face-area-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "problem_family": "cuboid-one-of-each-face-area-error",
+    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 7,
@@ -785,15 +783,15 @@
         "max": 8
       }
     },
-    "prompt_template": "서로 다른 크기의 세 면을 한 장씩 골랐습니다. 세 면의 넓이 합은 몇 cm²인가요?",
+    "prompt_template": "직육면체의 겉넓이를 앞·옆·윗면의 넓이만 더해 구했습니다. 마주 보는 세 면을 빠뜨린 값은 실제 겉넓이보다 몇 cm² 작은가요?",
     "solver_rule": "w * h + w * d + h * d",
     "solution_steps_template": [
-      "세 면의 넓이는 각각 {{w * h}}cm², {{w * d}}cm², {{h * d}}cm²입니다.",
-      "합은 {{w * h + w * d + h * d}}cm²입니다."
+      "서로 다른 세 면의 넓이 합은 {{w * h}} + {{w * d}} + {{h * d}} = {{w * h + w * d + h * d}}cm²입니다.",
+      "각 면과 합동인 맞은편 면을 한 장씩 빠뜨렸으므로 이 합만큼 부족합니다."
     ],
     "hint_steps_template": [
-      "가로×높이, 가로×세로, 높이×세로를 각각 구해요.",
-      "서로 다른 세 넓이를 더해요."
+      "서로 마주 보는 면은 크기와 모양이 같아요.",
+      "빠뜨린 앞·옆·윗면 한 장씩의 넓이를 더해요."
     ],
     "visual_template": {
       "type": "cuboid",
@@ -825,7 +823,7 @@
         "max": 9
       }
     },
-    "prompt_template": "직육면체의 면은 모두 몇 개인가요?",
+    "prompt_template": "서로 마주 보는 면 3쌍으로 이루어진 직육면체의 전체 면 수를 구하세요.",
     "solver_rule": "6",
     "solution_steps_template": [
       "서로 마주 보는 면이 3쌍입니다.",
@@ -865,7 +863,7 @@
         "max": 9
       }
     },
-    "prompt_template": "직육면체의 모서리는 모두 몇 개인가요?",
+    "prompt_template": "가로·세로·높이 방향 모서리가 각각 4개인 직육면체의 전체 모서리 수를 구하세요.",
     "solver_rule": "12",
     "solution_steps_template": [
       "윗면과 아랫면에 모서리가 각각 4개씩 있습니다.",
@@ -905,7 +903,7 @@
         "max": 9
       }
     },
-    "prompt_template": "직육면체의 꼭짓점은 모두 몇 개인가요?",
+    "prompt_template": "윗면과 아랫면의 꼭짓점을 모두 세어 직육면체의 꼭짓점 수를 구하세요.",
     "solver_rule": "8",
     "solution_steps_template": [
       "윗면과 아랫면에 꼭짓점이 각각 4개씩 있습니다.",
@@ -945,7 +943,7 @@
         "max": 9
       }
     },
-    "prompt_template": "직육면체의 한 꼭짓점에서 만나는 모서리는 몇 개인가요?",
+    "prompt_template": "한 꼭짓점에서 가로·세로·높이 방향으로 만나는 모서리 수를 구하세요.",
     "solver_rule": "3",
     "solution_steps_template": [
       "한 꼭짓점에서는 가로, 세로, 높이 방향의 모서리가 만납니다.",
@@ -985,7 +983,7 @@
         "max": 10
       }
     },
-    "prompt_template": "가로 {{w}}cm, 세로 {{d}}cm, 높이 {{h}}cm인 직육면체의 모든 모서리 길이의 합은 몇 cm인가요?",
+    "prompt_template": "길이가 {{w}}cm, {{d}}cm, {{h}}cm인 세 종류의 모서리가 각각 4개 있습니다. 모든 모서리 길이의 합을 구하세요.",
     "solver_rule": "4 * (w + h + d)",
     "solution_steps_template": [
       "가로, 세로, 높이 길이의 모서리는 각각 4개씩입니다.",
@@ -1025,7 +1023,7 @@
         "max": 10
       }
     },
-    "prompt_template": "모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 세로가 {{d}}cm, 높이가 {{h}}cm인 직육면체의 가로는 몇 cm인가요?",
+    "prompt_template": "모든 모서리 길이의 합 {{4 * (w + h + d)}}cm를 4로 나눈 뒤 세로 {{d}}cm와 높이 {{h}}cm를 빼서 가로를 구하세요.",
     "solver_rule": "w",
     "solution_steps_template": [
       "전체 모서리 길이를 4로 나누면 가로 + 세로 + 높이인 {{w + h + d}}cm입니다.",
@@ -1051,7 +1049,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-front-face-area",
-    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 9,
@@ -1066,7 +1064,7 @@
         "max": 10
       }
     },
-    "prompt_template": "그림에서 가로 {{w}}cm, 높이 {{h}}cm인 앞면의 넓이는 몇 cm²인가요?",
+    "prompt_template": "직육면체 앞면의 두 변 {{w}}cm와 {{h}}cm를 이용해 앞면 넓이를 구하세요.",
     "solver_rule": "w * h",
     "solution_steps_template": [
       "앞면은 가로 {{w}}cm, 세로 {{h}}cm인 직사각형입니다.",
@@ -1091,7 +1089,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-front-face-perimeter",
-    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 9,
@@ -1106,7 +1104,7 @@
         "max": 10
       }
     },
-    "prompt_template": "그림에서 앞면의 둘레는 몇 cm인가요?",
+    "prompt_template": "직육면체 앞면의 가로 {{w}}cm와 높이 {{h}}cm를 이용해 앞면 둘레를 구하세요.",
     "solver_rule": "2 * (w + h)",
     "solution_steps_template": [
       "앞면의 가로는 {{w}}cm, 세로는 {{h}}cm입니다.",
@@ -1130,8 +1128,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "cuboid-missing-depth-from-edges",
-    "blueprint": {"problemFamily":"cuboid-missing-depth-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
+    "problem_family": "cuboid-half-edge-count-error",
+    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 10,
@@ -1146,23 +1144,22 @@
         "max": 11
       }
     },
-    "prompt_template": "모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 가로가 {{w}}cm, 높이가 {{h}}cm인 직육면체의 세로는 몇 cm인가요?",
-    "solver_rule": "d",
+    "prompt_template": "모서리 길이의 합을 2 × (가로 + 세로 + 높이)로 잘못 계산했습니다. 4 × (가로 + 세로 + 높이)로 계산한 값과의 차이는 몇 cm인가요?",
+    "solver_rule": "2 * (w + h + d)",
     "solution_steps_template": [
-      "전체를 4로 나누면 {{w + h + d}}cm입니다.",
-      "{{w + h + d}} - {{w}} - {{h}} = {{d}}cm입니다."
+      "올바른 전체 길이는 4 × ({{w}} + {{h}} + {{d}}) = {{4 * (w + h + d)}}cm입니다.",
+      "2번씩만 센 값은 {{2 * (w + h + d)}}cm이므로 부족한 길이는 {{2 * (w + h + d)}}cm입니다."
     ],
     "hint_steps_template": [
-      "같은 길이의 모서리가 각각 4개씩 있어요.",
-      "가로 + 세로 + 높이를 역산해요."
+      "각 길이의 모서리가 실제로 몇 개인지 비교해요.",
+      "올바른 전체 길이에서 잘못 센 길이를 빼요."
     ],
     "visual_template": {
       "type": "cuboid",
       "width": "{{w}}",
       "height": "{{h}}",
       "depth": "{{d}}",
-      "unit": "cm",
-      "unknownMeasurement": "depth"
+      "unit": "cm"
     }
   },
   {
@@ -1171,8 +1168,8 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "cuboid-three-face-area-sum",
-    "blueprint": {"problemFamily":"cuboid-three-face-area-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "problem_family": "cuboid-one-of-each-face-area-error",
+    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
     "param_schema": {
       "w": {
         "min": 9,
@@ -1187,15 +1184,15 @@
         "max": 10
       }
     },
-    "prompt_template": "서로 다른 크기의 세 면을 한 장씩 골랐습니다. 세 면의 넓이 합은 몇 cm²인가요?",
+    "prompt_template": "겉넓이를 가로×높이 + 가로×세로 + 높이×세로로만 계산했습니다. 마주 보는 면까지 포함한 겉넓이와의 차이는 몇 cm²인가요?",
     "solver_rule": "w * h + w * d + h * d",
     "solution_steps_template": [
-      "세 면의 넓이는 각각 {{w * h}}cm², {{w * d}}cm², {{h * d}}cm²입니다.",
-      "합은 {{w * h + w * d + h * d}}cm²입니다."
+      "서로 다른 세 면의 넓이 합은 {{w * h}} + {{w * d}} + {{h * d}} = {{w * h + w * d + h * d}}cm²입니다.",
+      "각 면과 합동인 맞은편 면을 한 장씩 빠뜨렸으므로 이 합만큼 부족합니다."
     ],
     "hint_steps_template": [
-      "가로×높이, 가로×세로, 높이×세로를 각각 구해요.",
-      "서로 다른 세 넓이를 더해요."
+      "서로 마주 보는 면은 크기와 모양이 같아요.",
+      "빠뜨린 앞·옆·윗면 한 장씩의 넓이를 더해요."
     ],
     "visual_template": {
       "type": "cuboid",

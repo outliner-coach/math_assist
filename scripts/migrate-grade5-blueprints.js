@@ -407,10 +407,10 @@ const REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'cuboid-edges-at-vertex': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-03', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'schematic' }),
   'cuboid-total-edge-length': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-03', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
   'cuboid-missing-width-from-edges': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수03-03', estimatedSteps: 2, readingLoad: 'high', visualSemantics: 'quantitative' }),
-  'cuboid-front-face-area': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-03', connectedStandards: ['6수03-13'], estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
-  'cuboid-front-face-perimeter': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-03', connectedStandards: ['6수03-11'], estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
-  'cuboid-missing-depth-from-edges': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수03-03', estimatedSteps: 2, readingLoad: 'high', visualSemantics: 'quantitative' }),
-  'cuboid-three-face-area-sum': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-03', connectedStandards: ['6수03-13'], estimatedSteps: 3, readingLoad: 'medium', visualSemantics: 'quantitative' }),
+  'cuboid-front-face-area': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수03-03', connectedStandards: ['6수03-13'], estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'cuboid-front-face-perimeter': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수03-03', connectedStandards: ['6수03-11'], estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'cuboid-half-edge-count-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-03', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
+  'cuboid-one-of-each-face-area-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-03', connectedStandards: ['6수03-13'], estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
 
   // Cuboid nets
   'cuboidnet-net-face-count': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-04', connectedStandards: ['6수03-03'], estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'schematic' }),
@@ -420,9 +420,9 @@ const REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'cuboidnet-opposite-face-input': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'representation_shift', primaryStandard: '6수03-04', connectedStandards: ['6수03-03'], estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'schematic' }),
   'cuboidnet-opposite-pair-count': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-03', connectedStandards: ['6수03-04'], estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'schematic' }),
   'cuboidnet-top-bottom-pair': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'representation_shift', primaryStandard: '6수03-04', connectedStandards: ['6수03-03'], estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'schematic' }),
-  'cuboidnet-net-square-perimeter': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-04', connectedStandards: ['6수03-11'], estimatedSteps: 1, readingLoad: 'medium', visualSemantics: 'quantitative' }),
+  'cuboidnet-net-square-perimeter': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수03-04', connectedStandards: ['6수03-11'], estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
   'cuboidnet-opposite-label-sum': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-04', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'schematic' }),
-  'cuboidnet-all-opposite-pair-sums': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'systematic_counting', primaryStandard: '6수03-04', estimatedSteps: 3, readingLoad: 'medium', visualSemantics: 'schematic' }),
+  'cuboidnet-shared-edge-perimeter-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-04', connectedStandards: ['6수03-11'], estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
 })
 
 const REAL_WORLD_TEMPLATE_IDS = new Set([

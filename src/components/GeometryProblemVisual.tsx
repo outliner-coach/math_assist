@@ -408,22 +408,96 @@ function SymmetryVisual({ visual, showAnswer }: { visual: Extract<GeometryVisual
   )
 }
 
+type CuboidVisualValue = Extract<GeometryVisual, { type: 'cuboid' }>
+
+export interface CuboidLayout {
+  front: Point[]
+  back: Point[]
+}
+
+function maskUnknownCuboidMeasurement(
+  visual: CuboidVisualValue,
+  showAnswer: boolean
+): CuboidVisualValue {
+  if (showAnswer || !visual.unknownMeasurement) return visual
+
+  const width = positive(visual.width)
+  const height = positive(visual.height)
+  const depth = positive(visual.depth)
+  const masked = { ...visual }
+
+  if (visual.unknownMeasurement === 'width') {
+    masked.width = Math.max(height, depth) * 1.35
+  }
+  if (visual.unknownMeasurement === 'height') {
+    masked.height = Math.max(width, depth) * 0.75
+  }
+  if (visual.unknownMeasurement === 'depth') {
+    masked.depth = Math.min(width, height) * 0.7
+  }
+  return masked
+}
+
+export function buildCuboidLayout(
+  source: CuboidVisualValue,
+  showAnswer = true
+): CuboidLayout {
+  const visual = maskUnknownCuboidMeasurement(source, showAnswer)
+  const width = positive(visual.width)
+  const height = positive(visual.height)
+  const depth = positive(visual.depth)
+  const depthVector = { x: depth * 0.65, y: -depth * 0.45 }
+  const rawFront = [
+    { x: 0, y: 0 },
+    { x: width, y: 0 },
+    { x: width, y: height },
+    { x: 0, y: height },
+  ]
+  const rawBack = rawFront.map(point => ({
+    x: point.x + depthVector.x,
+    y: point.y + depthVector.y,
+  }))
+  const allPoints = [...rawFront, ...rawBack]
+  const xs = allPoints.map(point => point.x)
+  const ys = allPoints.map(point => point.y)
+  const modelCenter = {
+    x: (Math.min(...xs) + Math.max(...xs)) / 2,
+    y: (Math.min(...ys) + Math.max(...ys)) / 2,
+  }
+  const scale = Math.min(
+    210 / Math.max(Math.max(...xs) - Math.min(...xs), 1),
+    110 / Math.max(Math.max(...ys) - Math.min(...ys), 1)
+  )
+  const project = (point: Point): Point => ({
+    x: 155 + (point.x - modelCenter.x) * scale,
+    y: 85 + (point.y - modelCenter.y) * scale,
+  })
+
+  return {
+    front: rawFront.map(project),
+    back: rawBack.map(project),
+  }
+}
+
 function CuboidVisual({ visual, showAnswer }: {
-  visual: Extract<GeometryVisual, { type: 'cuboid' }>
+  visual: CuboidVisualValue
   showAnswer: boolean
 }) {
   const { width, height, depth, unit = 'cm' } = visual
+  const layout = buildCuboidLayout(visual, showAnswer)
+  const [frontTopLeft, frontTopRight, frontBottomRight, frontBottomLeft] = layout.front
+  const [backTopLeft, backTopRight, backBottomRight, backBottomLeft] = layout.back
   return (
     <svg viewBox="0 0 310 190" className="mx-auto w-full max-w-sm" role="img" aria-label="직육면체의 가로 세로 높이">
-      <rect x="55" y="60" width="165" height="95" fill="#dbeafe" fillOpacity="0.65" stroke="#2563eb" strokeWidth="3" />
-      <polygon points="55,60 100,30 265,30 220,60" fill="#eff6ff" stroke="#2563eb" strokeWidth="3" />
-      <polygon points="220,60 265,30 265,125 220,155" fill="#bfdbfe" fillOpacity="0.8" stroke="#2563eb" strokeWidth="3" />
-      <line x1="55" y1="155" x2="100" y2="125" stroke="#64748b" strokeDasharray="5 4" />
-      <line x1="100" y1="125" x2="265" y2="125" stroke="#64748b" strokeDasharray="5 4" />
-      <line x1="100" y1="30" x2="100" y2="125" stroke="#64748b" strokeDasharray="5 4" />
-      <MeasurementLabel x={138} y={181} value={width} unit={unit} hidden={visual.unknownMeasurement === 'width'} showAnswer={showAnswer} />
-      <MeasurementLabel x={34} y={111} value={height} unit={unit} hidden={visual.unknownMeasurement === 'height'} showAnswer={showAnswer} />
-      <MeasurementLabel x={258} y={159} value={depth} unit={unit} hidden={visual.unknownMeasurement === 'depth'} showAnswer={showAnswer} />
+      <polygon points={pointString([frontTopLeft, backTopLeft, backTopRight, frontTopRight])} fill="#eff6ff" stroke="#2563eb" strokeWidth="3" />
+      <polygon points={pointString([frontTopRight, backTopRight, backBottomRight, frontBottomRight])} fill="#bfdbfe" fillOpacity="0.8" stroke="#2563eb" strokeWidth="3" />
+      <polygon points={pointString(layout.front)} fill="#dbeafe" fillOpacity="0.65" stroke="#2563eb" strokeWidth="3" />
+      <line x1={frontBottomLeft.x} y1={frontBottomLeft.y} x2={backBottomLeft.x} y2={backBottomLeft.y} stroke="#64748b" strokeDasharray="5 4" />
+      <line x1={backBottomLeft.x} y1={backBottomLeft.y} x2={backBottomRight.x} y2={backBottomRight.y} stroke="#64748b" strokeDasharray="5 4" />
+      <line x1={backTopLeft.x} y1={backTopLeft.y} x2={backBottomLeft.x} y2={backBottomLeft.y} stroke="#64748b" strokeDasharray="5 4" />
+      <MeasurementLabel x={(frontBottomLeft.x + frontBottomRight.x) / 2} y={frontBottomLeft.y + 22} value={width} unit={unit} hidden={visual.unknownMeasurement === 'width'} showAnswer={showAnswer} />
+      <MeasurementLabel x={frontTopLeft.x - 22} y={(frontTopLeft.y + frontBottomLeft.y) / 2} value={height} unit={unit} hidden={visual.unknownMeasurement === 'height'} showAnswer={showAnswer} />
+      <MeasurementLabel x={(frontTopRight.x + backTopRight.x) / 2 + 12} y={(frontTopRight.y + backTopRight.y) / 2 - 8} value={depth} unit={unit} hidden={visual.unknownMeasurement === 'depth'} showAnswer={showAnswer} />
     </svg>
   )
 }
@@ -434,6 +508,109 @@ const invalidNets = [
   [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0]],
   [[0, 0], [1, 0], [0, 1], [1, 1], [2, 1], [2, 2]],
 ]
+
+type Vector3 = [number, number, number]
+type FaceOrientation = { normal: Vector3; right: Vector3; down: Vector3 }
+
+function negateVector(vector: Vector3): Vector3 {
+  return [-vector[0], -vector[1], -vector[2]]
+}
+
+function sameVector(left: Vector3, right: Vector3): boolean {
+  return left.every((value, index) => value === right[index])
+}
+
+function foldOrientation(
+  orientation: FaceOrientation,
+  dx: number,
+  dy: number
+): FaceOrientation {
+  if (dx === 1) {
+    return {
+      normal: orientation.right,
+      right: negateVector(orientation.normal),
+      down: orientation.down,
+    }
+  }
+  if (dx === -1) {
+    return {
+      normal: negateVector(orientation.right),
+      right: orientation.normal,
+      down: orientation.down,
+    }
+  }
+  if (dy === 1) {
+    return {
+      normal: orientation.down,
+      right: orientation.right,
+      down: negateVector(orientation.normal),
+    }
+  }
+  return {
+    normal: negateVector(orientation.down),
+    right: orientation.right,
+    down: orientation.normal,
+  }
+}
+
+function sameOrientation(left: FaceOrientation, right: FaceOrientation): boolean {
+  return sameVector(left.normal, right.normal) &&
+    sameVector(left.right, right.right) &&
+    sameVector(left.down, right.down)
+}
+
+export function isValidCubeNet(cells: number[][]): boolean {
+  if (cells.length !== 6) return false
+  const keys = cells.map(([x, y]) => `${x},${y}`)
+  if (new Set(keys).size !== 6) return false
+
+  const cellsByKey = new Set(keys)
+  const orientations = new Map<string, FaceOrientation>()
+  const startOrientation: FaceOrientation = {
+    normal: [0, 0, 1],
+    right: [1, 0, 0],
+    down: [0, 1, 0],
+  }
+  orientations.set(keys[0], startOrientation)
+  const queue = [cells[0]]
+  const directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+
+  while (queue.length > 0) {
+    const [x, y] = queue.shift()!
+    const orientation = orientations.get(`${x},${y}`)!
+    for (const [dx, dy] of directions) {
+      const neighborKey = `${x + dx},${y + dy}`
+      if (!cellsByKey.has(neighborKey)) continue
+      const folded = foldOrientation(orientation, dx, dy)
+      const existing = orientations.get(neighborKey)
+      if (existing && !sameOrientation(existing, folded)) return false
+      if (!existing) {
+        orientations.set(neighborKey, folded)
+        queue.push([x + dx, y + dy])
+      }
+    }
+  }
+
+  if (orientations.size !== 6) return false
+  return new Set(
+    Array.from(orientations.values(), ({ normal }) => normal.join(','))
+  ).size === 6
+}
+
+export function buildCuboidNetOptions(variant: number): {
+  answerIndex: number
+  layouts: number[][][]
+} {
+  const answerIndex = geometryOptionIndex(2, variant) - 1
+  let invalidIndex = 0
+  const layouts = optionLabels.map((_, index) => {
+    if (index === answerIndex) return validNet
+    const layout = invalidNets[invalidIndex]
+    invalidIndex += 1
+    return layout
+  })
+  return { answerIndex, layouts }
+}
 
 function NetCells({ cells, x, y, size, labels }: { cells: number[][]; x: number; y: number; size: number; labels?: boolean }) {
   return <>{cells.map(([cx, cy], index) => <g key={`${cx}-${cy}-${index}`}>
@@ -447,22 +624,23 @@ function CuboidNetVisual({ visual, showAnswer }: { visual: Extract<GeometryVisua
     return (
       <svg viewBox="0 0 260 205" className="mx-auto w-full max-w-xs" role="img" aria-label="직육면체 전개도">
         <NetCells cells={validNet} x={70} y={10} size={42} labels />
+        <MeasurementLabel x={91} y={110} value={visual.side} unit="cm" />
         {visual.focusFace && <text x="15" y="195" fontSize="12" fill="#475569">기준 면: {visual.focusFace}</text>}
       </svg>
     )
   }
 
-  const answer = geometryOptionIndex(2, visual.variant)
+  const { answerIndex, layouts } = buildCuboidNetOptions(visual.variant)
   return (
     <svg viewBox="0 0 360 230" className="mx-auto w-full max-w-lg" role="img" aria-label="직육면체 전개도 보기 네 개">
       {optionLabels.map((label, index) => {
         const col = index % 2
         const row = Math.floor(index / 2)
-        const cells = index + 1 === answer ? validNet : invalidNets[index % invalidNets.length]
-        return <g key={label}>
+        const cells = layouts[index]
+        return <g key={label} data-net-option={index}>
           <text x={15 + col * 180} y={20 + row * 110} fontWeight="700">{label}</text>
           <NetCells cells={cells} x={35 + col * 180} y={25 + row * 110} size={22} />
-          {showAnswer && index + 1 === answer && <rect x={8 + col * 180} y={3 + row * 110} width="165" height="103" rx="8" fill="none" stroke="#16a34a" strokeWidth="3" />}
+          {showAnswer && index === answerIndex && <rect x={8 + col * 180} y={3 + row * 110} width="165" height="103" rx="8" fill="none" stroke="#16a34a" strokeWidth="3" />}
         </g>
       })}
       {showAnswer && <text x="180" y="225" textAnchor="middle" fill="#15803d" fontWeight="700">정답 전개도를 초록색으로 표시했어요.</text>}

@@ -389,6 +389,94 @@ test('5학년 합동 그림은 실제 길이 비율을 보존한 도형을 회�
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 })
 
+test('5학년 직육면체와 전개도 그림은 치수와 접기 구조를 그대로 반영한다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(`${BASE_PATH}/practice/cuboid-001?set=A`)
+
+  type CuboidVisual = {
+    type: 'cuboid'
+    width: number
+    height: number
+    depth: number
+    unknownMeasurement?: 'width' | 'height' | 'depth'
+  }
+  const session = await readSession(page)
+  const quantitativeIndex = session.problems.findIndex(problem => {
+    const visual = problem.visual as unknown as CuboidVisual | undefined
+    return visual?.type === 'cuboid' && !visual.unknownMeasurement
+  })
+  expect(quantitativeIndex).toBeGreaterThanOrEqual(0)
+  const visual = session.problems[quantitativeIndex].visual as unknown as CuboidVisual
+  if (session.currentIndex !== quantitativeIndex) {
+    await page.getByRole('button', {
+      name: `문제 ${quantitativeIndex + 1}`,
+      exact: true,
+    }).click()
+  }
+
+  const cuboid = page.getByTestId('geometry-visual-cuboid')
+  await expect(cuboid).toBeVisible()
+  const polygons = await cuboid.locator('svg polygon').evaluateAll(elements => elements.map(element => {
+    const points = (element as SVGPolygonElement).points
+    return Array.from({ length: points.numberOfItems }, (_, index) => {
+      const point = points.getItem(index)
+      return { x: point.x, y: point.y }
+    })
+  }))
+  expect(polygons).toHaveLength(3)
+
+  const distance = (
+    left: { x: number; y: number },
+    right: { x: number; y: number },
+  ) => Math.hypot(left.x - right.x, left.y - right.y)
+  const front = polygons[2]
+  const frontWidth = distance(front[0], front[1])
+  const frontHeight = distance(front[0], front[3])
+  const projectedDepth = distance(polygons[0][0], polygons[0][1])
+  expect(frontWidth / frontHeight).toBeCloseTo(visual.width / visual.height, 1)
+  expect(projectedDepth / frontWidth).toBeCloseTo(
+    (visual.depth / visual.width) * Math.hypot(0.65, 0.45),
+    1,
+  )
+
+  await page.evaluate((key) => localStorage.removeItem(key), SESSION_KEY)
+  await page.goto(`${BASE_PATH}/practice/cuboidnet-001?set=A`)
+  const netSession = await readSession(page)
+  type NetVisual = { type: 'cuboid-net'; mode: 'single' | 'options' }
+  const optionIndex = netSession.problems.findIndex(problem => {
+    const netVisual = problem.visual as unknown as NetVisual | undefined
+    return netVisual?.type === 'cuboid-net' && netVisual.mode === 'options'
+  })
+  expect(optionIndex).toBeGreaterThanOrEqual(0)
+  if (netSession.currentIndex !== optionIndex) {
+    await page.getByRole('button', {
+      name: `문제 ${optionIndex + 1}`,
+      exact: true,
+    }).click()
+  }
+
+  const netDiagram = page.getByTestId('geometry-visual-cuboid-net')
+  await expect(netDiagram).toBeVisible()
+  const layouts = await netDiagram.locator('[data-net-option]').evaluateAll(options => (
+    options.map(option => {
+      const cells = Array.from(option.querySelectorAll('rect')).map(rect => ({
+        x: Number(rect.getAttribute('x')),
+        y: Number(rect.getAttribute('y')),
+      }))
+      const minX = Math.min(...cells.map(cell => cell.x))
+      const minY = Math.min(...cells.map(cell => cell.y))
+      return cells
+        .map(cell => `${cell.x - minX},${cell.y - minY}`)
+        .sort()
+    })
+  ))
+  expect(layouts).toHaveLength(4)
+  expect(layouts.every(layout => layout.length === 6)).toBe(true)
+  expect(new Set(layouts.map(layout => JSON.stringify(layout))).size).toBe(4)
+  await expect(netDiagram.locator('rect[stroke="#16a34a"]')).toHaveCount(0)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+})
+
 test('5학년 다각형 그림은 실제 치수 비율을 따르고 미지 길이를 좌표에서도 가린다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/practice/perimeter-001?set=A`)

@@ -522,126 +522,202 @@ function symmetryTemplates(set) {
 function cuboidTemplates(set) {
   const s = set.shift
   const visual = { type: 'cuboid', width: '{{w}}', height: '{{h}}', depth: '{{d}}', unit: 'cm' }
+  const prompts = {
+    A: [
+      '직육면체의 면은 모두 몇 개인가요?',
+      '직육면체의 모서리는 모두 몇 개인가요?',
+      '직육면체의 꼭짓점은 모두 몇 개인가요?',
+      '직육면체의 한 꼭짓점에서 만나는 모서리는 몇 개인가요?',
+      '가로 {{w}}cm, 세로 {{d}}cm, 높이 {{h}}cm인 직육면체 철사 틀을 만들 때 필요한 철사의 전체 길이는 몇 cm인가요?',
+      '모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 세로가 {{d}}cm, 높이가 {{h}}cm인 직육면체의 가로는 몇 cm인가요?',
+      '가로 {{w}}cm, 높이 {{h}}cm인 직육면체 상자의 앞면에 종이를 붙입니다. 필요한 종이의 넓이는 몇 cm²인가요?',
+      '직육면체 상자의 앞면 가장자리에 띠를 두릅니다. 앞면의 가로가 {{w}}cm, 높이가 {{h}}cm일 때 띠의 길이는 몇 cm인가요?',
+      '직육면체의 모든 모서리 길이를 구하면서 가로·세로·높이 길이를 각각 2번씩만 더했습니다. 올바른 값보다 몇 cm 부족한가요?',
+      '직육면체의 겉넓이를 구하면서 서로 다른 크기의 면을 한 장씩만 골라 넓이를 더했습니다. 올바른 겉넓이보다 몇 cm² 부족한가요?',
+    ],
+    B: [
+      '직육면체 상자를 이루는 직사각형 면의 수를 구하세요.',
+      '직육면체 철사 틀의 모서리 수를 구하세요.',
+      '직육면체에서 세 모서리의 끝이 만나는 꼭짓점 수를 구하세요.',
+      '직육면체의 한 꼭짓점에서 서로 다른 방향으로 뻗는 모서리는 몇 개인가요?',
+      '가로 {{w}}cm, 세로 {{d}}cm, 높이 {{h}}cm인 직육면체 모형의 12개 모서리를 철사로 만들려고 합니다. 철사는 모두 몇 cm 필요한가요?',
+      '직육면체 철사 틀의 전체 길이는 {{4 * (w + h + d)}}cm입니다. 세로 {{d}}cm와 높이 {{h}}cm를 이용해 가로를 구하세요.',
+      '가로 {{w}}cm, 높이 {{h}}cm인 직육면체 수납함의 앞면을 색종이로 덮을 때 색종이 넓이는 몇 cm²인가요?',
+      '가로 {{w}}cm, 높이 {{h}}cm인 직육면체 액자의 앞면 테두리 길이는 몇 cm인가요?',
+      '모서리 전체 길이를 계산하며 가로·세로·높이가 각각 2개씩만 있다고 생각했습니다. 실제로는 각각 4개일 때 계산 결과의 부족분은 몇 cm인가요?',
+      '직육면체의 겉넓이를 앞·옆·윗면의 넓이만 더해 구했습니다. 마주 보는 세 면을 빠뜨린 값은 실제 겉넓이보다 몇 cm² 작은가요?',
+    ],
+    C: [
+      '서로 마주 보는 면 3쌍으로 이루어진 직육면체의 전체 면 수를 구하세요.',
+      '가로·세로·높이 방향 모서리가 각각 4개인 직육면체의 전체 모서리 수를 구하세요.',
+      '윗면과 아랫면의 꼭짓점을 모두 세어 직육면체의 꼭짓점 수를 구하세요.',
+      '한 꼭짓점에서 가로·세로·높이 방향으로 만나는 모서리 수를 구하세요.',
+      '길이가 {{w}}cm, {{d}}cm, {{h}}cm인 세 종류의 모서리가 각각 4개 있습니다. 모든 모서리 길이의 합을 구하세요.',
+      '모든 모서리 길이의 합 {{4 * (w + h + d)}}cm를 4로 나눈 뒤 세로 {{d}}cm와 높이 {{h}}cm를 빼서 가로를 구하세요.',
+      '직육면체 앞면의 두 변 {{w}}cm와 {{h}}cm를 이용해 앞면 넓이를 구하세요.',
+      '직육면체 앞면의 가로 {{w}}cm와 높이 {{h}}cm를 이용해 앞면 둘레를 구하세요.',
+      '모서리 길이의 합을 2 × (가로 + 세로 + 높이)로 잘못 계산했습니다. 4 × (가로 + 세로 + 높이)로 계산한 값과의 차이는 몇 cm인가요?',
+      '겉넓이를 가로×높이 + 가로×세로 + 높이×세로로만 계산했습니다. 마주 보는 면까지 포함한 겉넓이와의 차이는 몇 cm²인가요?',
+    ],
+  }[set.id]
   return [
     template(set, 'cuboid-001', 1, 'face-count', 1, 'number', {
       param_schema: { w: range(5, 8, s), h: range(3, 6, s), d: range(2, 5, s) },
-      prompt_template: '직육면체의 면은 모두 몇 개인가요?', solver_rule: '6',
+      prompt_template: prompts[0], solver_rule: '6',
       solution_steps_template: ['서로 마주 보는 면이 3쌍입니다.', '3쌍은 모두 6개입니다.'],
       hint_steps_template: ['앞뒤, 위아래, 양옆을 세어 봐요.', '마주 보는 면을 한 쌍씩 세어요.'], visual_template: visual,
     }),
     template(set, 'cuboid-001', 2, 'edge-count', 1, 'number', {
       param_schema: { w: range(5, 8, s), h: range(3, 6, s), d: range(2, 5, s) },
-      prompt_template: '직육면체의 모서리는 모두 몇 개인가요?', solver_rule: '12',
+      prompt_template: prompts[1], solver_rule: '12',
       solution_steps_template: ['윗면과 아랫면에 모서리가 각각 4개씩 있습니다.', '두 면을 잇는 모서리 4개를 더하면 12개입니다.'],
       hint_steps_template: ['보이는 모서리와 숨은 모서리를 함께 세어요.', '4 + 4 + 4로 묶어 볼 수 있어요.'], visual_template: visual,
     }),
     template(set, 'cuboid-001', 3, 'vertex-count', 1, 'number', {
       param_schema: { w: range(5, 8, s), h: range(3, 6, s), d: range(2, 5, s) },
-      prompt_template: '직육면체의 꼭짓점은 모두 몇 개인가요?', solver_rule: '8',
+      prompt_template: prompts[2], solver_rule: '8',
       solution_steps_template: ['윗면과 아랫면에 꼭짓점이 각각 4개씩 있습니다.', '4 + 4 = 8개입니다.'],
       hint_steps_template: ['위쪽 네 모서리 끝과 아래쪽 네 모서리 끝을 세어요.', '숨은 꼭짓점도 빠뜨리지 않아요.'], visual_template: visual,
     }),
     template(set, 'cuboid-001', 4, 'edges-at-vertex', 1, 'number', {
       param_schema: { w: range(5, 8, s), h: range(3, 6, s), d: range(2, 5, s) },
-      prompt_template: '직육면체의 한 꼭짓점에서 만나는 모서리는 몇 개인가요?', solver_rule: '3',
+      prompt_template: prompts[3], solver_rule: '3',
       solution_steps_template: ['한 꼭짓점에서는 가로, 세로, 높이 방향의 모서리가 만납니다.', '따라서 3개입니다.'],
       hint_steps_template: ['한 꼭짓점에서 뻗어 나가는 선을 찾아요.', '서로 다른 세 방향을 확인해요.'], visual_template: visual,
     }),
     template(set, 'cuboid-001', 5, 'total-edge-length', 2, 'number', {
       param_schema: { w: range(5, 9, s), h: range(3, 7, s), d: range(2, 6, s) },
-      prompt_template: '가로 {{w}}cm, 세로 {{d}}cm, 높이 {{h}}cm인 직육면체의 모든 모서리 길이의 합은 몇 cm인가요?',
+      prompt_template: prompts[4],
       solver_rule: '4 * (w + h + d)',
       solution_steps_template: ['가로, 세로, 높이 길이의 모서리는 각각 4개씩입니다.', '({{w}} + {{h}} + {{d}}) × 4 = {{4 * (w + h + d)}}cm입니다.'],
       hint_steps_template: ['같은 길이의 모서리를 4개씩 묶어요.', '가로 + 세로 + 높이를 먼저 계산해요.'], visual_template: visual,
     }),
     template(set, 'cuboid-001', 6, 'missing-width-from-edges', 2, 'number', {
       param_schema: { w: range(5, 9, s), h: range(3, 7, s), d: range(2, 6, s) },
-      prompt_template: '모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 세로가 {{d}}cm, 높이가 {{h}}cm인 직육면체의 가로는 몇 cm인가요?',
+      prompt_template: prompts[5],
       solver_rule: 'w',
       solution_steps_template: ['전체 모서리 길이를 4로 나누면 가로 + 세로 + 높이인 {{w + h + d}}cm입니다.', '{{w + h + d}} - {{d}} - {{h}} = {{w}}cm입니다.'],
       hint_steps_template: ['전체 길이를 먼저 4로 나눠요.', '세로와 높이를 차례로 빼요.'], visual_template: { ...visual, unknownMeasurement: 'width' },
     }),
     template(set, 'cuboid-001', 7, 'front-face-area', 2, 'number', {
       param_schema: { w: range(5, 9, s), h: range(3, 7, s), d: range(2, 6, s) },
-      prompt_template: '그림에서 가로 {{w}}cm, 높이 {{h}}cm인 앞면의 넓이는 몇 cm²인가요?', solver_rule: 'w * h',
+      prompt_template: prompts[6], solver_rule: 'w * h',
       solution_steps_template: ['앞면은 가로 {{w}}cm, 세로 {{h}}cm인 직사각형입니다.', '{{w}} × {{h}} = {{w * h}}cm²입니다.'],
       hint_steps_template: ['앞면만 떼어 평면으로 생각해요.', '직사각형 넓이를 구해요.'], visual_template: visual,
     }),
     template(set, 'cuboid-001', 8, 'front-face-perimeter', 2, 'number', {
       param_schema: { w: range(5, 9, s), h: range(3, 7, s), d: range(2, 6, s) },
-      prompt_template: '그림에서 앞면의 둘레는 몇 cm인가요?', solver_rule: '2 * (w + h)',
+      prompt_template: prompts[7], solver_rule: '2 * (w + h)',
       solution_steps_template: ['앞면의 가로는 {{w}}cm, 세로는 {{h}}cm입니다.', '({{w}} + {{h}}) × 2 = {{2 * (w + h)}}cm입니다.'],
       hint_steps_template: ['앞면은 직사각형이에요.', '가로와 높이를 이용해 둘레를 구해요.'], visual_template: visual,
     }),
-    template(set, 'cuboid-001', 9, 'missing-depth-from-edges', 3, 'number', {
+    template(set, 'cuboid-001', 9, 'half-edge-count-error', 3, 'number', {
       param_schema: { w: range(6, 10, s), h: range(4, 8, s), d: range(3, 7, s) },
-      prompt_template: '모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 가로가 {{w}}cm, 높이가 {{h}}cm인 직육면체의 세로는 몇 cm인가요?',
-      solver_rule: 'd',
-      solution_steps_template: ['전체를 4로 나누면 {{w + h + d}}cm입니다.', '{{w + h + d}} - {{w}} - {{h}} = {{d}}cm입니다.'],
-      hint_steps_template: ['같은 길이의 모서리가 각각 4개씩 있어요.', '가로 + 세로 + 높이를 역산해요.'], visual_template: { ...visual, unknownMeasurement: 'depth' },
+      prompt_template: prompts[8],
+      solver_rule: '2 * (w + h + d)',
+      solution_steps_template: ['올바른 전체 길이는 4 × ({{w}} + {{h}} + {{d}}) = {{4 * (w + h + d)}}cm입니다.', '2번씩만 센 값은 {{2 * (w + h + d)}}cm이므로 부족한 길이는 {{2 * (w + h + d)}}cm입니다.'],
+      hint_steps_template: ['각 길이의 모서리가 실제로 몇 개인지 비교해요.', '올바른 전체 길이에서 잘못 센 길이를 빼요.'], visual_template: visual,
     }),
-    template(set, 'cuboid-001', 10, 'three-face-area-sum', 3, 'number', {
+    template(set, 'cuboid-001', 10, 'one-of-each-face-area-error', 3, 'number', {
       param_schema: { w: range(5, 9, s), h: range(3, 7, s), d: range(2, 6, s) },
-      prompt_template: '서로 다른 크기의 세 면을 한 장씩 골랐습니다. 세 면의 넓이 합은 몇 cm²인가요?',
+      prompt_template: prompts[9],
       solver_rule: 'w * h + w * d + h * d',
-      solution_steps_template: ['세 면의 넓이는 각각 {{w * h}}cm², {{w * d}}cm², {{h * d}}cm²입니다.', '합은 {{w * h + w * d + h * d}}cm²입니다.'],
-      hint_steps_template: ['가로×높이, 가로×세로, 높이×세로를 각각 구해요.', '서로 다른 세 넓이를 더해요.'], visual_template: visual,
+      solution_steps_template: ['서로 다른 세 면의 넓이 합은 {{w * h}} + {{w * d}} + {{h * d}} = {{w * h + w * d + h * d}}cm²입니다.', '각 면과 합동인 맞은편 면을 한 장씩 빠뜨렸으므로 이 합만큼 부족합니다.'],
+      hint_steps_template: ['서로 마주 보는 면은 크기와 모양이 같아요.', '빠뜨린 앞·옆·윗면 한 장씩의 넓이를 더해요.'], visual_template: visual,
     }),
   ]
 }
 
 function cuboidNetTemplates(set) {
   const optionChoices = [0, 1, 2, 3].map(offset => `{{geometryOption(2, variant, ${offset})}}`)
+  const prompts = {
+    A: [
+      '직육면체 전개도는 직사각형 몇 개로 이루어져 있나요?',
+      '전개도를 접었을 때 1번 면과 마주 보는 면은 몇 번인가요?',
+      '전개도를 접었을 때 2번 면과 마주 보는 면은 몇 번인가요?',
+      '직육면체로 접을 수 있는 전개도를 고르세요.',
+      '전개도에서 {{face}}번 면에 동그라미를 쳤습니다. 접으면 이 면과 마주 보는 면은 몇 번인가요?',
+      '직육면체에서 서로 마주 보는 면의 쌍은 모두 몇 쌍인가요?',
+      '전개도에서 4번 면과 마주 보는 면의 번호는 무엇인가요?',
+      '전개도의 각 면이 한 변 {{side}}cm인 정사각형입니다. 한 면의 가장자리에 띠를 두를 때 필요한 길이는 몇 cm인가요?',
+      '{{face}}번 면과 그 면의 맞은편 면에 적힌 두 수의 합은 얼마인가요?',
+      '한 변이 {{side}}cm인 정사각형 6개로 만든 전개도의 둘레를 구하면서 여섯 정사각형의 둘레를 모두 더했습니다. 이 값은 실제 전개도 둘레보다 몇 cm 큰가요?',
+    ],
+    B: [
+      '직육면체 상자를 펼쳤을 때 나타나는 면의 수를 구하세요.',
+      '1번 면을 바닥으로 두고 접을 때 천장이 되는 면의 번호를 구하세요.',
+      '2번 면과 서로 평행하며 만나지 않는 면의 번호를 구하세요.',
+      '네 보기 중 면이 겹치지 않고 직육면체가 되는 전개도를 고르세요.',
+      '{{face}}번 면을 기준으로 전개도를 접을 때 반대쪽에 놓이는 면 번호를 구하세요.',
+      '앞뒤·좌우·위아래로 짝지은 직육면체의 맞은편 면은 모두 몇 쌍인가요?',
+      '4번 면을 접어 올릴 때 그 면과 마주 보게 되는 면 번호를 구하세요.',
+      '한 변 {{side}}cm인 정사각형 면 하나의 테두리에 끈을 붙입니다. 필요한 끈의 길이는 몇 cm인가요?',
+      '{{face}}번 면과 접은 뒤 맞은편에 놓이는 면의 번호를 더한 값은 얼마인가요?',
+      '정사각형 6개의 둘레 합으로 전개도 바깥 둘레를 구해 {{24 * side}}cm라고 했습니다. 서로 붙은 변을 빼면 실제 값과 몇 cm 차이 나나요?',
+    ],
+    C: [
+      '접기 전 전개도에 있는 여섯 면을 세어 전체 면 수를 구하세요.',
+      '중심인 1번 면과 접었을 때 마주 보는 끝 면의 번호를 구하세요.',
+      '중심 면의 왼쪽과 오른쪽에서 접어 올라가는 2번 면의 맞은편 번호를 구하세요.',
+      '각 면의 접힌 방향을 추적하여 직육면체가 되는 전개도를 고르세요.',
+      '{{face}}번 면과 변을 공유하지 않고 접은 뒤 반대쪽에 놓이는 면의 번호를 구하세요.',
+      '면 6개를 서로 마주 보는 두 면씩 묶었을 때 생기는 쌍의 수를 구하세요.',
+      '중심 면의 위와 아래에서 접히는 4번 면의 맞은편 번호를 구하세요.',
+      '정사각형 한 면의 네 변이 각각 {{side}}cm일 때 그 면의 둘레를 구하세요.',
+      '{{face}}번 면과 그 맞은편 면 번호의 합을 구하세요.',
+      '전개도의 정사각형 6개에는 변이 24개 있지만, 서로 붙은 5개 변은 안쪽에서 두 번씩 셌습니다. 한 변이 {{side}}cm일 때 잘못 더한 길이와 바깥 둘레의 차이는 몇 cm인가요?',
+    ],
+  }[set.id]
   return [
     template(set, 'cuboidnet-001', 1, 'net-face-count', 1, 'number', {
-      param_schema: { variant: range(1, 4) }, prompt_template: '직육면체 전개도는 직사각형 몇 개로 이루어져 있나요?', solver_rule: '6',
+      param_schema: { variant: range(1, 4) }, prompt_template: prompts[0], solver_rule: '6',
       solution_steps_template: ['직육면체의 면은 6개입니다.', '전개도에도 면 6개가 빠짐없이 나타납니다.'],
       hint_steps_template: ['전개도의 칸을 하나씩 세어요.', '겹치거나 빠진 칸이 없는지 확인해요.'], visual_template: { type: 'cuboid-net', mode: 'single', variant: '{{variant}}' },
     }),
     template(set, 'cuboidnet-001', 2, 'opposite-face-one', 1, 'number', {
-      param_schema: { variant: range(1, 4) }, prompt_template: '전개도를 접었을 때 1번 면과 마주 보는 면은 몇 번인가요?', solver_rule: 'cuboidOppositeFace(1)',
+      param_schema: { variant: range(1, 4) }, prompt_template: prompts[1], solver_rule: 'cuboidOppositeFace(1)',
       solution_steps_template: ['1번 면 주변의 네 면을 먼저 접어 올립니다.', '마지막에 덮이는 6번 면이 1번 면과 마주 봅니다.'],
       hint_steps_template: ['1번 면과 변을 공유하는 면은 마주 보는 면이 아니에요.', '가장 멀리 이어진 면을 접어 봐요.'], visual_template: { type: 'cuboid-net', mode: 'single', variant: '{{variant}}', focusFace: 1 },
     }),
     template(set, 'cuboidnet-001', 3, 'opposite-face-two', 1, 'number', {
-      param_schema: { variant: range(1, 4) }, prompt_template: '전개도를 접었을 때 2번 면과 마주 보는 면은 몇 번인가요?', solver_rule: 'cuboidOppositeFace(2)',
+      param_schema: { variant: range(1, 4) }, prompt_template: prompts[2], solver_rule: 'cuboidOppositeFace(2)',
       solution_steps_template: ['2번 면과 3번 면은 중심 면의 양쪽에 있습니다.', '접으면 서로 마주 보므로 정답은 3번입니다.'],
       hint_steps_template: ['중심 면의 왼쪽과 오른쪽 면을 찾아요.', '두 면을 접어 올린 모습을 생각해요.'], visual_template: { type: 'cuboid-net', mode: 'single', variant: '{{variant}}', focusFace: 2 },
     }),
     template(set, 'cuboidnet-001', 4, 'valid-net-choice', 1, 'choice', {
-      param_schema: { variant: range(1, 4) }, prompt_template: '직육면체로 접을 수 있는 전개도를 고르세요.', solver_rule: 'geometryOption(2, variant, 0)', choices_template: optionChoices,
+      param_schema: { variant: range(1, 4) }, prompt_template: prompts[3], solver_rule: 'geometryOption(2, variant, 0)', choices_template: optionChoices,
       solution_steps_template: ['각 전개도를 접을 때 면이 겹치는지 확인합니다.', '{{geometryOption(2, variant, 0)}} 전개도는 여섯 면이 겹치지 않고 직육면체가 됩니다.'],
       hint_steps_template: ['한 면을 바닥으로 두고 주변 면을 접어 봐요.', '같은 자리를 차지하는 면이 생기면 안 돼요.'], visual_template: { type: 'cuboid-net', mode: 'options', variant: '{{variant}}' },
     }),
     template(set, 'cuboidnet-001', 5, 'opposite-face-input', 2, 'number', {
-      param_schema: { variant: range(1, 4), face: range(1, 6) }, prompt_template: '전개도를 접었을 때 {{face}}번 면과 마주 보는 면은 몇 번인가요?', solver_rule: 'cuboidOppositeFace(face)',
+      param_schema: { variant: range(1, 4), face: range(1, 6) }, prompt_template: prompts[4], solver_rule: 'cuboidOppositeFace(face)',
       solution_steps_template: ['전개도에서 {{face}}번 면을 기준으로 접습니다.', '마주 보는 면은 {{cuboidOppositeFace(face)}}번입니다.'],
       hint_steps_template: ['변을 직접 공유하는 면은 이웃한 면이에요.', '접었을 때 반대쪽에 놓이는 면을 찾아요.'], visual_template: { type: 'cuboid-net', mode: 'single', variant: '{{variant}}', focusFace: '{{face}}' },
     }),
     template(set, 'cuboidnet-001', 6, 'opposite-pair-count', 2, 'number', {
-      param_schema: { variant: range(1, 4) }, prompt_template: '직육면체에서 서로 마주 보는 면의 쌍은 모두 몇 쌍인가요?', solver_rule: '3',
+      param_schema: { variant: range(1, 4) }, prompt_template: prompts[5], solver_rule: '3',
       solution_steps_template: ['앞뒤, 좌우, 위아래 면이 각각 한 쌍입니다.', '따라서 모두 3쌍입니다.'],
       hint_steps_template: ['면 6개를 두 개씩 짝지어요.', '서로 평행하면서 만나지 않는 면을 찾아요.'], visual_template: { type: 'cuboid-net', mode: 'single', variant: '{{variant}}' },
     }),
     template(set, 'cuboidnet-001', 7, 'top-bottom-pair', 2, 'number', {
-      param_schema: { variant: range(1, 4) }, prompt_template: '전개도에서 4번 면과 마주 보는 면의 번호는?', solver_rule: 'cuboidOppositeFace(4)',
+      param_schema: { variant: range(1, 4) }, prompt_template: prompts[6], solver_rule: 'cuboidOppositeFace(4)',
       solution_steps_template: ['4번과 5번 면은 중심 면의 위와 아래에 있습니다.', '접으면 서로 마주 보므로 5번입니다.'],
       hint_steps_template: ['중심 면의 위쪽과 아래쪽을 살펴봐요.', '접어 올렸을 때의 위치를 생각해요.'], visual_template: { type: 'cuboid-net', mode: 'single', variant: '{{variant}}', focusFace: 4 },
     }),
     template(set, 'cuboidnet-001', 8, 'net-square-perimeter', 2, 'number', {
-      param_schema: { variant: range(1, 4), side: range(2, 6, set.shift) }, prompt_template: '전개도의 각 면이 한 변 {{side}}cm인 정사각형입니다. 한 면의 둘레는 몇 cm인가요?', solver_rule: '4 * side',
+      param_schema: { variant: range(1, 4), side: range(2, 6, set.shift) }, prompt_template: prompts[7], solver_rule: '4 * side',
       solution_steps_template: ['한 면은 네 변의 길이가 같은 정사각형입니다.', '{{side}} × 4 = {{4 * side}}cm입니다.'],
-      hint_steps_template: ['한 면만 떼어 생각해요.', '한 변의 길이를 4번 더해요.'], visual_template: { type: 'cuboid-net', mode: 'single', variant: '{{variant}}' },
+      hint_steps_template: ['한 면만 떼어 생각해요.', '한 변의 길이를 4번 더해요.'], visual_template: { type: 'cuboid-net', mode: 'single', variant: '{{variant}}', side: '{{side}}' },
     }),
     template(set, 'cuboidnet-001', 9, 'opposite-label-sum', 3, 'number', {
-      param_schema: { variant: range(1, 4), face: range(1, 6) }, prompt_template: '{{face}}번 면과 그 면의 맞은편 면에 적힌 두 수의 합은?', solver_rule: 'face + cuboidOppositeFace(face)',
+      param_schema: { variant: range(1, 4), face: range(1, 6) }, prompt_template: prompts[8], solver_rule: 'face + cuboidOppositeFace(face)',
       solution_steps_template: ['{{face}}번 면의 맞은편은 {{cuboidOppositeFace(face)}}번입니다.', '{{face}} + {{cuboidOppositeFace(face)}} = {{face + cuboidOppositeFace(face)}}입니다.'],
       hint_steps_template: ['먼저 마주 보는 면의 번호를 찾아요.', '두 면의 번호를 더해요.'], visual_template: { type: 'cuboid-net', mode: 'single', variant: '{{variant}}', focusFace: '{{face}}' },
     }),
-    template(set, 'cuboidnet-001', 10, 'all-opposite-pair-sums', 3, 'number', {
-      param_schema: { variant: range(1, 4) }, prompt_template: '전개도의 세 맞은편 면 쌍에서 각 쌍의 두 번호를 모두 더한 값은?', solver_rule: '1 + 6 + 2 + 3 + 4 + 5',
-      solution_steps_template: ['맞은편 면 쌍은 (1,6), (2,3), (4,5)입니다.', '모든 번호를 더하면 1 + 6 + 2 + 3 + 4 + 5 = 21입니다.'],
-      hint_steps_template: ['마주 보는 면을 세 쌍으로 묶어요.', '1번부터 6번까지 한 번씩 더해요.'], visual_template: { type: 'cuboid-net', mode: 'single', variant: '{{variant}}' },
+    template(set, 'cuboidnet-001', 10, 'shared-edge-perimeter-error', 3, 'number', {
+      param_schema: { variant: range(1, 4), side: range(2, 6, set.shift) }, prompt_template: prompts[9], solver_rule: '10 * side',
+      solution_steps_template: ['정사각형 6개의 변은 모두 24개이지만 전개도 안에서 서로 붙은 변 5개는 양쪽 정사각형에서 두 번씩 셌습니다.', '겹쳐 센 길이는 {{side}} × 5 × 2 = {{10 * side}}cm이므로 이만큼 크게 계산했습니다.'],
+      hint_steps_template: ['전개도 안쪽의 공유 변을 찾아요.', '공유 변 하나마다 같은 길이를 두 번 빼야 해요.'], visual_template: { type: 'cuboid-net', mode: 'single', variant: '{{variant}}', side: '{{side}}' },
     }),
   ]
 }

@@ -3,8 +3,11 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
 import GeometryProblemVisual, {
+  buildCuboidLayout,
+  buildCuboidNetOptions,
   buildCongruencePairLayout,
   buildPolygonLayout,
+  isValidCubeNet,
 } from './GeometryProblemVisual'
 
 describe('GeometryProblemVisual', () => {
@@ -203,6 +206,114 @@ describe('GeometryProblemVisual', () => {
     expect(html).toContain('합동인 두 직사각형')
     expect(html).toContain('8cm')
     expect(html).toContain('5cm')
+  })
+
+  it('derives the cuboid projection from all three dimensions and masks inverse dimensions', () => {
+    const visual = {
+      type: 'cuboid' as const,
+      width: 8,
+      height: 4,
+      depth: 3,
+    }
+    const distance = (left: { x: number; y: number }, right: { x: number; y: number }) => (
+      Math.hypot(left.x - right.x, left.y - right.y)
+    )
+    const layout = buildCuboidLayout(visual)
+    const frontWidth = distance(layout.front[0], layout.front[1])
+    const frontHeight = distance(layout.front[0], layout.front[3])
+    const projectedDepth = distance(layout.front[0], layout.back[0])
+
+    expect(frontWidth / frontHeight).toBeCloseTo(2, 8)
+    expect(projectedDepth / frontWidth).toBeCloseTo(
+      (3 / 8) * Math.hypot(0.65, 0.45),
+      8
+    )
+
+    const inverse = { ...visual, unknownMeasurement: 'width' as const }
+    const hidden = buildCuboidLayout(inverse, false)
+    const revealed = buildCuboidLayout(inverse, true)
+    const hiddenRatio = distance(hidden.front[0], hidden.front[1]) /
+      distance(hidden.front[0], hidden.front[3])
+    const revealedRatio = distance(revealed.front[0], revealed.front[1]) /
+      distance(revealed.front[0], revealed.front[3])
+
+    expect(hiddenRatio).not.toBeCloseTo(revealedRatio, 8)
+    expect(revealedRatio).toBeCloseTo(2, 8)
+  })
+
+  it('keeps every generated cuboid dimension combination quantitative and in bounds', () => {
+    const distance = (left: { x: number; y: number }, right: { x: number; y: number }) => (
+      Math.hypot(left.x - right.x, left.y - right.y)
+    )
+
+    for (let width = 5; width <= 14; width += 1) {
+      for (let height = 3; height <= 12; height += 1) {
+        for (let depth = 2; depth <= 11; depth += 1) {
+          const layout = buildCuboidLayout({
+            type: 'cuboid',
+            width,
+            height,
+            depth,
+          })
+          const frontWidth = distance(layout.front[0], layout.front[1])
+          const frontHeight = distance(layout.front[0], layout.front[3])
+          const projectedDepth = distance(layout.front[0], layout.back[0])
+
+          expect(frontWidth / frontHeight).toBeCloseTo(width / height, 8)
+          expect(projectedDepth / frontWidth).toBeCloseTo(
+            (depth / width) * Math.hypot(0.65, 0.45),
+            8
+          )
+          for (const point of [...layout.front, ...layout.back]) {
+            expect(point.x).toBeGreaterThanOrEqual(45)
+            expect(point.x).toBeLessThanOrEqual(265)
+            expect(point.y).toBeGreaterThanOrEqual(25)
+            expect(point.y).toBeLessThanOrEqual(145)
+          }
+        }
+      }
+    }
+
+    const hiddenNarrow = buildCuboidLayout({
+      type: 'cuboid',
+      width: 5,
+      height: 6,
+      depth: 4,
+      unknownMeasurement: 'width',
+    }, false)
+    const hiddenWide = buildCuboidLayout({
+      type: 'cuboid',
+      width: 14,
+      height: 6,
+      depth: 4,
+      unknownMeasurement: 'width',
+    }, false)
+    expect(hiddenNarrow).toEqual(hiddenWide)
+  })
+
+  it('keeps four distinct net options with exactly one foldable cube net', () => {
+    for (let variant = 1; variant <= 4; variant += 1) {
+      const { answerIndex, layouts } = buildCuboidNetOptions(variant)
+
+      expect(layouts).toHaveLength(4)
+      expect(new Set(layouts.map(layout => JSON.stringify(layout))).size).toBe(4)
+      expect(layouts.map(isValidCubeNet).filter(Boolean)).toHaveLength(1)
+      expect(isValidCubeNet(layouts[answerIndex])).toBe(true)
+    }
+  })
+
+  it('shows a given square-face side length without exposing a derived net answer', () => {
+    const html = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cuboid-net',
+        mode: 'single',
+        variant: 1,
+        side: 5,
+      },
+    }))
+
+    expect(html).toContain('5cm')
+    expect(html).not.toContain('50cm')
   })
 
   it('keeps the reflected point hidden until the solution is shown', () => {
