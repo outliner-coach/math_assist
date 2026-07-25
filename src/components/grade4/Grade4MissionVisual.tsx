@@ -372,6 +372,41 @@ function PatternTable({ mission, showAnswer }: { mission: Grade4Mission; showAns
   )
 }
 
+function EquationBalance({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
+  const leftText = label(mission.visualConfig.leftText)
+  const rightText = label(mission.visualConfig.rightText)
+  const leftLabel = label(mission.visualConfig.leftLabel) || '왼쪽 양'
+  const rightLabel = label(mission.visualConfig.rightLabel) || '오른쪽 양'
+  const revealResult = showAnswer && mission.answerType === 'integer'
+
+  return (
+    <div data-testid="grade4-visual-equation-balance" className="rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-4">
+      <p className="mb-3 text-center text-sm font-black text-[#4338ca]">등호로 연결한 두 양이 같아요</p>
+      <div className="grid grid-cols-[minmax(0,1fr)_3rem_minmax(0,1fr)] items-end gap-2">
+        <div className="min-w-0">
+          <p className="mb-2 text-center text-xs font-black text-[#6366f1]">{leftLabel}</p>
+          <div className="rounded-2xl border-2 border-[#a5b4fc] bg-white p-4 text-center text-xl font-black text-[#0f172a] shadow-sm">{leftText}</div>
+        </div>
+        <div aria-hidden="true" className="flex flex-col items-center">
+          <span className="text-3xl font-black text-[#f97316]">=</span>
+          <span className="h-2 w-full rounded-full bg-[#4f46e5]" />
+          <span className="h-8 w-1 bg-[#4f46e5]" />
+          <span className="h-2 w-10 rounded-full bg-[#4f46e5]" />
+        </div>
+        <div className="min-w-0">
+          <p className="mb-2 text-center text-xs font-black text-[#6366f1]">{rightLabel}</p>
+          <div className="rounded-2xl border-2 border-[#a5b4fc] bg-white p-4 text-center text-xl font-black text-[#0f172a] shadow-sm">{rightText}</div>
+        </div>
+      </div>
+      {revealResult && (
+        <p data-testid="grade4-equality-result" data-result={mission.correctAnswer} className="mt-3 rounded-2xl bg-[#dcfce7] p-3 text-center text-lg font-black text-[#166534]">
+          답: {mission.correctAnswer}
+        </p>
+      )}
+    </div>
+  )
+}
+
 function DivisionModel({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
   const divisor = number(mission.visualConfig.divisor)
   const dividend = number(mission.visualConfig.dividend)
@@ -430,5 +465,6 @@ export default function Grade4MissionVisual({ mission, showAnswer = false }: { m
   if (mission.visualModel === 'fraction-strip') return <FractionStrip mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'decimal-operation') return <DecimalOperation mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'pattern-table') return <PatternTable mission={mission} showAnswer={showAnswer} />
+  if (mission.visualModel === 'equation-balance') return <EquationBalance mission={mission} showAnswer={showAnswer} />
   return <Context mission={mission} />
 }

@@ -8,6 +8,7 @@ import {
   GRADE4_DECIMAL_UNIT_ID,
   GRADE4_DECIMAL_ADD_SUB_UNIT_ID,
   GRADE4_ESTIMATION_UNIT_ID,
+  GRADE4_EQUALITY_UNIT_ID,
   GRADE4_FRACTION_ADD_SUB_UNIT_ID,
   GRADE4_PATTERNS_UNIT_ID,
   getGrade4Activity,
@@ -24,7 +25,7 @@ describe('Grade 4 Bridge release bank', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(7)
+    expect(grade4Units).toHaveLength(8)
     expect(grade4Units.map((unit) => unit.id)).toEqual([
       'unit-4-1-large-numbers',
       'unit-4-1-multiplication-division',
@@ -33,16 +34,17 @@ describe('Grade 4 Bridge release bank', () => {
       'unit-4-2-fraction-add-sub',
       'unit-4-2-decimal-add-sub',
       'unit-4-2-patterns',
+      'unit-4-2-equality',
     ])
-    expect(grade4MissionTemplates).toHaveLength(70)
+    expect(grade4MissionTemplates).toHaveLength(80)
     expect(result.summary).toMatchObject({
-      unitCount: 7,
-      templateCount: 70,
-      knowingCount: 28,
-      applyingCount: 28,
-      reasoningCount: 14,
-      reasoningFamilyCount: 14,
-      representationCount: 8,
+      unitCount: 8,
+      templateCount: 80,
+      knowingCount: 32,
+      applyingCount: 32,
+      reasoningCount: 16,
+      reasoningFamilyCount: 16,
+      representationCount: 9,
     })
 
     for (const unit of grade4Units) {
@@ -452,6 +454,48 @@ describe('Grade 4 Bridge release bank', () => {
       const calculation = templates.get('g4-pat-07')!.build(variant, variant)
       expect(Number(calculation.correctAnswer)).toBe(
         Number(calculation.visualConfig.factor) * Number(calculation.visualConfig.requestedPosition),
+      )
+    }
+  })
+
+  it('derives every missing equality quantity from the two displayed sides', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === GRADE4_EQUALITY_UNIT_ID)
+        .map((item) => [item.id, item]),
+    )
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-eq-01', 'g4-eq-02', 'g4-eq-03', 'g4-eq-04', 'g4-eq-05',
+      'g4-eq-06', 'g4-eq-07', 'g4-eq-08', 'g4-eq-09', 'g4-eq-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        } else {
+          expect(mission.correctAnswer, `${template.id} variant ${variant}`).toMatch(/^\d+$/)
+        }
+        expect(mission.visualConfig).not.toHaveProperty('missingValue')
+        expect(mission.visualConfig).not.toHaveProperty('result')
+      }
+
+      const missingAddend = templates.get('g4-eq-01')!.build(variant, variant)
+      expect(Number(missingAddend.correctAnswer)).toBe(
+        Number(missingAddend.visualConfig.rightTotal) - Number(missingAddend.visualConfig.leftKnown),
+      )
+
+      const missingMinuend = templates.get('g4-eq-02')!.build(variant, variant)
+      expect(Number(missingMinuend.correctAnswer)).toBe(
+        Number(missingMinuend.visualConfig.rightTotal) + Number(missingMinuend.visualConfig.leftKnown),
+      )
+
+      const balancedBags = templates.get('g4-eq-05')!.build(variant, variant)
+      expect(Number(balancedBags.correctAnswer)).toBe(
+        Number(balancedBags.visualConfig.leftTotal) - Number(balancedBags.visualConfig.rightKnown),
       )
     }
   })

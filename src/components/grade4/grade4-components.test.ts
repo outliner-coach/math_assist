@@ -114,6 +114,18 @@ describe('Grade4MissionVisual', () => {
     expect(hidden).not.toContain(`>${mission.correctAnswer}<`)
     expect(shown).toContain(`data-result="${mission.correctAnswer}"`)
   })
+
+  it('shows equal sides without creating the missing quantity before reveal', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-eq-05')!
+    const hidden = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+    const shown = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission, showAnswer: true }))
+
+    expect(hidden).toContain('grade4-visual-equation-balance')
+    expect(hidden).toContain('두 양이 같아요')
+    expect(hidden).not.toContain('grade4-equality-result')
+    expect(hidden).not.toContain(`>${mission.correctAnswer}<`)
+    expect(shown).toContain(`data-result="${mission.correctAnswer}"`)
+  })
 })
 
 describe('Grade4MissionCard', () => {

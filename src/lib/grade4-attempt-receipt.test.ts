@@ -8,6 +8,7 @@ import {
   GRADE4_DECIMAL_ADD_SUB_UNIT_ID,
   GRADE4_DIVISION_UNIT_ID,
   GRADE4_ESTIMATION_UNIT_ID,
+  GRADE4_EQUALITY_UNIT_ID,
   GRADE4_FRACTION_ADD_SUB_UNIT_ID,
   GRADE4_PATTERNS_UNIT_ID,
   getGrade4Activity,
@@ -127,5 +128,18 @@ describe('Grade 4 attempt receipt', () => {
     })
 
     expect(receipt.contentReleaseId).toBe('grade4-bridge-patterns-v1')
+  })
+
+  it('uses the equality release identity', () => {
+    const equalityMission = getGrade4Activity(GRADE4_EQUALITY_UNIT_ID, 20260721, 0)[0]
+    const receipt = createGrade4AttemptReceipt({
+      mission: equalityMission,
+      activityRun: 0,
+      attemptOrdinal: 0,
+      correct: true,
+      usedHint: false,
+    })
+
+    expect(receipt.contentReleaseId).toBe('grade4-bridge-equality-v1')
   })
 })

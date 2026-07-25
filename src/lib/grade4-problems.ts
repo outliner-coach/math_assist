@@ -2,7 +2,7 @@ import type { Grade4AnswerType } from './grade4-answer-normalizers'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
-export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table'
+export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance'
 export type Grade4VisualModel = Grade4Representation
 export type Grade4SupportTool = 'none' | 'grid' | 'ruler' | 'protractor'
 
@@ -89,6 +89,7 @@ export const GRADE4_DECIMAL_UNIT_ID = 'unit-4-2-decimals'
 export const GRADE4_FRACTION_ADD_SUB_UNIT_ID = 'unit-4-2-fraction-add-sub'
 export const GRADE4_DECIMAL_ADD_SUB_UNIT_ID = 'unit-4-2-decimal-add-sub'
 export const GRADE4_PATTERNS_UNIT_ID = 'unit-4-2-patterns'
+export const GRADE4_EQUALITY_UNIT_ID = 'unit-4-2-equality'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -173,6 +174,18 @@ export const grade4Units: Grade4Unit[] = [
     curriculumCodes: ['[4수02-01]', '[4수02-02]'],
     prerequisiteCodes: [],
     contentReleaseId: 'grade4-bridge-patterns-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_EQUALITY_UNIT_ID,
+    semester: '4-2',
+    order: 8,
+    title: '등호와 양의 관계',
+    subtitle: '등호 양쪽의 크기가 같다는 뜻을 이해하고 빈 양과 상황을 식으로 나타내요.',
+    learnerGoal: '같은 두 양을 등호로 연결하고 양쪽의 관계를 근거 있게 설명해요.',
+    curriculumCodes: ['[4수02-03]'],
+    prerequisiteCodes: ['[4수01-03]'],
+    contentReleaseId: 'grade4-bridge-equality-v1',
     releaseStatus: 'released',
   },
 ]
@@ -1611,6 +1624,178 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
         solutionSteps: ['곱하는 수와 더하는 수가 1, 2, 3으로 함께 1씩 커집니다.', `다음 줄에서는 둘 다 4이므로 ${factor}×4+4=${fourth}입니다.`],
         visualModel: 'pattern-table',
         visualConfig: { mode: 'multiply-add', factor, input1: 1, input2: 2, input3: 3, output1: first, output2: second, output3: third, requestedPosition: 4, speaker: '현우' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-01', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'missing-addend-equality', representation: 'equation-balance', answerType: 'integer', supportTool: 'grid', skillTag: '등식의 빈칸',
+    learnerGoal: '등호 양쪽의 합이 같도록 빠진 덧셈 항을 구해요.',
+    promptTemplate: '덧셈 등식의 빈칸을 구하세요.', hintSteps: ['등호는 양쪽의 크기가 같다는 뜻이에요.', '오른쪽 전체에서 왼쪽의 아는 수를 빼요.'],
+    build: (v) => {
+      const leftKnown = 12 + v
+      const missing = 7 + v
+      const rightTotal = leftKnown + missing
+      return {
+        prompt: `${leftKnown} + □ = ${rightTotal}에서 □에 알맞은 수를 구하세요.`, correctAnswer: String(missing),
+        solutionSteps: [`등호 양쪽은 모두 ${rightTotal}이어야 합니다.`, `${rightTotal}-${leftKnown}=${missing}이므로 □=${missing}입니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${leftKnown} + □`, rightText: String(rightTotal), leftKnown, rightTotal },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-02', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'missing-minuend-equality', representation: 'equation-balance', answerType: 'integer', supportTool: 'grid', skillTag: '등식의 빈칸',
+    learnerGoal: '뺄셈 등식에서 처음 수를 역산해 구해요.',
+    promptTemplate: '뺄셈 등식의 처음 빈 수를 구하세요.', hintSteps: ['빈 수에서 뺀 결과가 오른쪽 수와 같아요.', '뺀 수와 차를 더하면 처음 수를 구할 수 있어요.'],
+    build: (v) => {
+      const leftKnown = 8 + v
+      const rightTotal = 14 + v
+      const missing = rightTotal + leftKnown
+      return {
+        prompt: `□ - ${leftKnown} = ${rightTotal}에서 □에 알맞은 수를 구하세요.`, correctAnswer: String(missing),
+        solutionSteps: [`빈 수에서 ${leftKnown}을 빼면 ${rightTotal}입니다.`, `${rightTotal}+${leftKnown}=${missing}이므로 □=${missing}입니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `□ - ${leftKnown}`, rightText: String(rightTotal), leftKnown, rightTotal },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-03', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'select-equal-expression', representation: 'equation-balance', answerType: 'choice', supportTool: 'none', skillTag: '같은 값의 식',
+    learnerGoal: '두 식을 계산해 등호 양쪽의 값이 같은 식을 찾아요.',
+    promptTemplate: '등호 양쪽의 값이 같은 식을 고르세요.', hintSteps: ['등호 왼쪽과 오른쪽을 각각 계산해요.', '두 결과가 같은 식만 고르면 돼요.'],
+    build: (v, seed) => {
+      const total = 30 + v
+      const a = 10 + v
+      const correctAnswer = `${a}+${total - a}=${total - 5}+5`
+      return {
+        prompt: '등호를 바르게 사용한 식을 고르세요.', correctAnswer,
+        choices: rotateChoices([correctAnswer, `${a}+${total - a}=${total + 1}`, `${a}+${total - a + 1}=${total}`, `${a}+${total - a}=${total - 2}`], seed),
+        solutionSteps: [`왼쪽 ${a}+${total - a}=${total}입니다.`, `오른쪽 ${total - 5}+5=${total}이므로 두 양이 같습니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${a} + ${total - a}`, rightText: `${total - 5} + 5` },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-04', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'commutative-equality-meaning', representation: 'equation-balance', answerType: 'choice', supportTool: 'none', skillTag: '등호의 뜻',
+    learnerGoal: '덧셈 순서를 바꾸어도 양쪽 값이 같음을 설명해요.',
+    promptTemplate: '두 덧셈식이 등호로 연결되는 까닭을 고르세요.', hintSteps: ['두 식을 각각 계산해요.', '등호는 계산 순서가 아니라 같은 값을 연결해요.'],
+    build: (v, seed) => {
+      const a = 15 + v
+      const b = 6 + v
+      const correctAnswer = '더하는 순서를 바꾸어도 합이 같아서 등호로 연결할 수 있습니다.'
+      return {
+        prompt: `${a}+${b}=${b}+${a}인 까닭을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '등호 오른쪽은 언제나 정답이므로 계산하지 않아도 됩니다.', '등호는 왼쪽 식을 오른쪽 식으로 바꾸라는 표시입니다.', '두 식에 같은 숫자가 하나라도 있으면 값도 항상 같습니다.'], seed),
+        solutionSteps: [`두 식의 합은 모두 ${a + b}입니다.`, '등호는 양쪽의 값이 같음을 나타냅니다.'],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${a} + ${b}`, rightText: `${b} + ${a}` },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-05', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'applying',
+    problemFamily: 'balanced-bags-missing-quantity', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '균형 상황',
+    learnerGoal: '양팔저울의 같은 양을 식으로 나타내 빠진 개수를 구해요.',
+    promptTemplate: '균형을 이룬 두 쪽에서 빠진 양을 구하세요.', hintSteps: ['균형이므로 왼쪽 전체와 오른쪽 전체가 같아요.', '왼쪽 전체에서 오른쪽의 아는 양을 빼요.'],
+    build: (v) => {
+      const leftTotal = 30 + v * 2
+      const rightKnown = 10 + v
+      const missing = leftTotal - rightKnown
+      return {
+        prompt: `저울 왼쪽에 구슬 ${leftTotal}개, 오른쪽에 구슬 ${rightKnown}개와 한 봉지가 있어 균형입니다. 봉지에는 몇 개가 있을까요?`, correctAnswer: String(missing),
+        solutionSteps: [`균형이므로 ${leftTotal}=${rightKnown}+□입니다.`, `${leftTotal}-${rightKnown}=${missing}이므로 봉지에는 ${missing}개가 있습니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${leftTotal}개`, rightText: `${rightKnown}개 + □`, leftTotal, rightKnown, leftLabel: '왼쪽', rightLabel: '오른쪽' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-06', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'applying',
+    problemFamily: 'equal-purchase-missing-price', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '같은 금액',
+    learnerGoal: '두 구매 금액이 같은 상황을 등식으로 나타내 빠진 금액을 구해요.',
+    promptTemplate: '두 사람이 같은 금액을 냈을 때 빠진 금액을 구하세요.', hintSteps: ['두 사람이 낸 전체 금액을 등호로 연결해요.', '한쪽 전체에서 이미 아는 금액을 빼요.'],
+    build: (v) => {
+      const price = 200 + v * 20
+      const leftTotal = price * 3
+      const rightKnown = price
+      const missing = leftTotal - rightKnown
+      return {
+        prompt: `민지는 ${price}원짜리 공책 3권을 샀고, 서준이는 ${price}원짜리 공책 1권과 연필 묶음을 사서 같은 금액을 냈습니다. 연필 묶음은 얼마인가요?`, correctAnswer: String(missing),
+        solutionSteps: [`두 금액이 같으므로 ${leftTotal}=${rightKnown}+□입니다.`, `${leftTotal}-${rightKnown}=${missing}원이므로 연필 묶음은 ${missing}원입니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${price} × 3`, rightText: `${price} + □`, leftTotal, rightKnown },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-07', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'applying',
+    problemFamily: 'same-change-both-sides', representation: 'equation-balance', answerType: 'integer', supportTool: 'grid', skillTag: '등식의 성질',
+    learnerGoal: '등식 양쪽에 같은 수를 더해도 관계가 유지됨을 적용해요.',
+    promptTemplate: '같은 두 양에 같은 수를 더한 등식의 빈칸을 구하세요.', hintSteps: ['처음 등식의 양쪽 값이 같은지 확인해요.', '한쪽에 더한 수와 같은 수를 다른 쪽에도 더해야 해요.'],
+    build: (v) => {
+      const a = 12 + v
+      const b = 8 + v
+      const total = a + b
+      const added = 5 + v
+      return {
+        prompt: `${a}+${b}=${total}입니다. ${a}+${b}+${added}=${total}+□가 되도록 □를 구하세요.`, correctAnswer: String(added),
+        solutionSteps: [`처음 양쪽은 모두 ${total}입니다.`, `왼쪽에 ${added}를 더했으므로 오른쪽에도 ${added}를 더해야 합니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${a} + ${b} + ${added}`, rightText: `${total} + □`, leftKnown: total, rightTotal: total + added },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-08', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'applying',
+    problemFamily: 'select-equality-from-story', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '상황을 등식으로',
+    learnerGoal: '같은 전체 양을 만든 두 방법을 하나의 등식으로 나타내요.',
+    promptTemplate: '두 모둠의 같은 전체 양을 나타내는 등식을 고르세요.', hintSteps: ['첫째 모둠과 둘째 모둠의 전체를 각각 식으로 나타내요.', '두 전체가 같으므로 두 식 사이에 등호를 써요.'],
+    build: (v, seed) => {
+      const a = 10 + v
+      const b = 6 + v
+      const c = 8 + v
+      const d = a + b - c
+      const correctAnswer = `${a}+${b}=${c}+${d}`
+      return {
+        prompt: `가 모둠은 구슬 ${a}개와 ${b}개, 나 모둠은 ${c}개와 ${d}개를 모아 전체가 같습니다. 알맞은 식을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, `${a}+${b}>${c}+${d}`, `${a}+${c}=${b}+${d}`, `${a}-${b}=${c}-${d}`], seed),
+        solutionSteps: [`가 모둠은 ${a}+${b}=${a + b}개입니다.`, `나 모둠도 ${c}+${d}=${a + b}개이므로 ${correctAnswer}입니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${a} + ${b}`, rightText: `${c} + ${d}`, leftLabel: '가 모둠', rightLabel: '나 모둠' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-09', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'reasoning',
+    problemFamily: 'equal-sign-answer-marker-error', representation: 'equation-balance', answerType: 'choice', supportTool: 'none', skillTag: '등호 의미 오류',
+    learnerGoal: '등호를 정답 앞에만 쓰는 표시로 생각한 오류를 고쳐요.',
+    promptTemplate: '등호의 뜻을 잘못 설명한 친구의 말을 고치세요.', hintSteps: ['등호 왼쪽과 오른쪽의 값을 각각 계산해요.', '어느 쪽이 식이고 어느 쪽이 답인지는 중요하지 않아요.'],
+    build: (v, seed) => {
+      const a = 14 + v
+      const b = 9 + v
+      const total = a + b
+      const correctAnswer = `등호는 양쪽 값이 같다는 뜻이므로 ${total}=${a}+${b}도 바른 식입니다.`
+      return {
+        prompt: `하윤이는 “등호 뒤에는 정답만 와야 하므로 ${total}=${a}+${b}는 틀려.”라고 말했습니다. 알맞은 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '등호는 계산을 시작하라는 표시이므로 하윤이의 말이 맞습니다.', '등호 왼쪽에는 언제나 식, 오른쪽에는 언제나 한 수가 와야 합니다.', '두 수의 순서를 바꾸면 값이 달라지므로 판단할 수 없습니다.'], seed),
+        solutionSteps: [`왼쪽은 ${total}, 오른쪽 ${a}+${b}도 ${total}입니다.`, '등호는 방향과 관계없이 같은 두 양을 연결합니다.'],
+        visualModel: 'equation-balance', visualConfig: { leftText: String(total), rightText: `${a} + ${b}`, speaker: '하윤' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-10', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'reasoning',
+    problemFamily: 'one-side-change-equality-error', representation: 'equation-balance', answerType: 'choice', supportTool: 'grid', skillTag: '등식 유지 오류',
+    learnerGoal: '등식의 한쪽만 바꾸면 두 양이 달라지는 까닭을 설명해요.',
+    promptTemplate: '등식 한쪽에만 수를 더한 오류를 고치세요.', hintSteps: ['바꾸기 전 양쪽 값을 확인해요.', '한쪽만 커지면 균형이 유지되는지 생각해요.'],
+    build: (v, seed) => {
+      const a = 18 + v
+      const b = 7 + v
+      const total = a + b
+      const added = 4 + v
+      const correctAnswer = `왼쪽에 ${added}만큼 더했으므로 오른쪽에도 ${added}만큼 더한 ${a}+${b}+${added}=${total}+${added}로 써야 합니다.`
+      return {
+        prompt: `도현이는 ${a}+${b}=${total}에서 왼쪽에만 ${added}만큼 더해도 등호가 유지된다고 했습니다. 알맞은 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '등호 왼쪽은 계산식이므로 어떤 수를 더해도 등호가 유지됩니다.', `오른쪽에서 ${added}를 빼면 균형이 맞습니다.`, '처음 등식이 맞으면 한쪽을 바꿔도 항상 맞습니다.'], seed),
+        solutionSteps: [`처음 양쪽은 모두 ${total}입니다.`, `한쪽에만 ${added}를 더하면 값이 달라지므로 양쪽에 같은 수를 더해야 합니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${a} + ${b} + ${added}`, rightText: String(total), speaker: '도현' },
       }
     },
   }),
