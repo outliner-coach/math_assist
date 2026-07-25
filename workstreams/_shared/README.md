@@ -21,6 +21,19 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 6 decimal-division Study release (primary workstreams
+  01, 02, 03, and 04) owns the narrow change to the curriculum ledger,
+  Grade 6 unit/concept/template data, concept release identity, and focused
+  generator, exact-quotient, route, storage, and browser tests.
+  `unit-6-1-decimal-division` covers `[6수01-14]` and `[6수01-15]` through
+  `g6decimaldiv-001` with 30 deterministic templates, A/B/C ten each,
+  K4/A4/R2 per set, disjoint families, natural-number quotients as decimals,
+  decimal-by-natural and decimal-by-decimal calculation, inverse problems,
+  applications, method comparison, and error analysis. Every quotient and
+  comparison gap must be derived from the same exact integer tenths or
+  hundredths model used in its prompt and solution; no repeating decimal or
+  floating-point artifact may enter an accepted answer.
+
 - 2026-07-26: Grade 6 fraction-decimal relations Study release (primary
   workstreams 01, 02, 03, and 04) owns the narrow change to the curriculum
   ledger, Grade 6 unit/concept/template data, concept release identity, and

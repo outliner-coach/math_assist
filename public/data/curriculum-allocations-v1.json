@@ -1189,11 +1189,13 @@
       "prerequisiteCodes": [],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 25,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "자연수 나눗셈 몫을 소수로 연결",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6decimaldiv-001"
+      ],
+      "allocationRationale": "6학년 소수의 나눗셈 문제은행에서 자연수 나눗셈 몫을 유한소수로 연결",
+      "reviewedBy": "grade6-decimal-division-release-2026-07-26"
     },
     {
       "standardCode": "[6수01-15]",
@@ -1208,11 +1210,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 25,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "소수 곱셈과 몫의 소수 표현 뒤 나눗셈",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6decimaldiv-001"
+      ],
+      "allocationRationale": "6학년 소수의 나눗셈 문제은행에서 자리 이동 원리, 역산, 응용과 오류 분석을 제공",
+      "reviewedBy": "grade6-decimal-division-release-2026-07-26"
     },
     {
       "standardCode": "[6수02-01]",

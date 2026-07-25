@@ -128,6 +128,12 @@ for (const releasedConcept of [
     conceptId: 'g6fractiondecimal-001',
     releaseId: 'grade6-fraction-decimal-v1',
   },
+  {
+    unitId: 'unit-6-1-decimal-division',
+    title: '소수의 나눗셈',
+    conceptId: 'g6decimaldiv-001',
+    releaseId: 'grade6-decimal-division-v1',
+  },
 ] as const) {
   test(`${releasedConcept.title} 단원을 찾아 5문제를 완주하고 단원별 콘텐츠 버전을 기록한다`, async ({ page }) => {
     await page.goto(`${BASE_PATH}/grade/6`)
