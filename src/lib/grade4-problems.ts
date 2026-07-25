@@ -2,7 +2,7 @@ import type { Grade4AnswerType } from './grade4-answer-normalizers'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
-export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship' | 'shape-transformation' | 'triangle-model' | 'quadrilateral-model' | 'polygon-model' | 'tiling-model'
+export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship' | 'shape-transformation' | 'triangle-model' | 'quadrilateral-model' | 'polygon-model' | 'tiling-model' | 'angle-model' | 'angle-sum-model'
 export type Grade4VisualModel = Grade4Representation
 export type Grade4SupportTool = 'none' | 'grid' | 'ruler' | 'protractor'
 
@@ -95,6 +95,7 @@ export const GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID = 'unit-4-1-shape-transformati
 export const GRADE4_TRIANGLES_UNIT_ID = 'unit-4-2-triangles'
 export const GRADE4_QUADRILATERALS_UNIT_ID = 'unit-4-2-quadrilaterals'
 export const GRADE4_POLYGONS_UNIT_ID = 'unit-4-2-polygons'
+export const GRADE4_ANGLE_MEASUREMENT_UNIT_ID = 'unit-4-1-angle-measurement'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -251,6 +252,18 @@ export const grade4Units: Grade4Unit[] = [
     curriculumCodes: ['[4수03-11]', '[4수03-12]'],
     prerequisiteCodes: ['[4수03-04]', '[4수03-08]', '[4수03-10]'],
     contentReleaseId: 'grade4-bridge-polygons-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_ANGLE_MEASUREMENT_UNIT_ID,
+    semester: '4-1',
+    order: 14,
+    title: '각도와 내각의 합',
+    subtitle: '각도기로 각을 재고 어림하며 삼각형과 사각형의 내각의 합을 설명해요.',
+    learnerGoal: '각의 크기를 도 단위로 측정하고 도형의 내각의 합에서 빠진 각을 추론해요.',
+    curriculumCodes: ['[4수03-24]', '[4수03-25]'],
+    prerequisiteCodes: ['[4수03-02]'],
+    contentReleaseId: 'grade4-bridge-angle-measurement-v1',
     releaseStatus: 'released',
   },
 ]
@@ -2723,6 +2736,150 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
         choices: rotateChoices([correctAnswer, '빈틈도 겹침도 없어 평면을 가득 채웁니다.', '정오각형을 하나만 더 놓으면 언제나 정확히 채워집니다.', '정다각형은 종류와 관계없이 모두 빈틈없이 채울 수 있습니다.'], seed),
         solutionSteps: ['정오각형을 변끼리 이어도 한 점 둘레에 빈 공간이 남습니다.', '같은 배열을 반복하면 그 빈틈도 반복되므로 평면을 가득 채울 수 없습니다.'],
         visualModel: 'tiling-model', visualConfig: { tileShape: 'pentagon', arrangement: 'radial', rows: 1, columns: shownTiles, edgeLength, hasGap: true } }
+    },
+  }),
+  template({
+    id: 'g4-ang-01', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'knowing',
+    problemFamily: 'measure-angle-on-protractor', representation: 'angle-model', answerType: 'choice', supportTool: 'protractor', skillTag: '각도 측정',
+    learnerGoal: '한 변을 0°선에 맞춘 뒤 다른 변이 가리키는 눈금을 읽어요.',
+    promptTemplate: '각도기의 광선이 가리키는 각도를 읽으세요.', hintSteps: ['오른쪽으로 향한 변이 0°에서 시작해요.', '다른 변까지 같은 방향의 눈금을 따라 읽어요.'],
+    build: (v, seed) => {
+      const angle = 20 + 10 * v
+      const correctAnswer = `${angle}°`
+      return { prompt: '각도기의 중심과 0°선에 한 변을 맞추었습니다. 다른 변이 가리키는 각도를 고르세요.', correctAnswer,
+        choices: rotateChoices([correctAnswer, `${angle + 10}°`, `${angle + 20}°`, `${Math.max(10, angle - 10)}°`], seed),
+        solutionSteps: ['오른쪽 0°선에서 눈금을 시작합니다.', `다른 변이 가리키는 눈금은 ${angle}°입니다.`],
+        visualModel: 'angle-model', visualConfig: { angle, showProtractor: true, contextLabel: '각도기로 재기' } }
+    },
+  }),
+  template({
+    id: 'g4-ang-02', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'knowing',
+    problemFamily: 'classify-obtuse-by-measure', representation: 'angle-model', answerType: 'choice', supportTool: 'protractor', skillTag: '각의 분류',
+    learnerGoal: '90°보다 크고 180°보다 작은 각을 둔각으로 분류해요.',
+    promptTemplate: '측정값이 90°와 180° 사이인 각을 분류하세요.', hintSteps: ['직각 90°와 비교해요.', '90°보다 크고 180°보다 작은 각의 이름을 떠올려요.'],
+    build: (v, seed) => {
+      const angle = 100 + 5 * v
+      const correctAnswer = '둔각'
+      return { prompt: `각도기로 재어 보니 ${angle}°였습니다. 이 각의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '예각', '직각', '평각'], seed),
+        solutionSteps: [`${angle}°는 90°보다 큽니다.`, '180°보다 작으므로 둔각입니다.'],
+        visualModel: 'angle-model', visualConfig: { angle, showProtractor: true, contextLabel: `${angle}°로 측정됨` } }
+    },
+  }),
+  template({
+    id: 'g4-ang-03', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'knowing',
+    problemFamily: 'estimate-angle-near-benchmark', representation: 'angle-model', answerType: 'choice', supportTool: 'protractor', skillTag: '각도 어림',
+    learnerGoal: '직각과 60°를 기준으로 각의 크기를 어림해요.',
+    promptTemplate: '기준 각과 비교해 가장 가까운 어림값을 고르세요.', hintSteps: ['직각 90°보다 얼마나 작은지 살펴요.', '30°와 60° 중 어느 쪽에 더 가까운지 비교해요.'],
+    build: (v, seed) => {
+      const angle = 54 + (v % 3) * 2
+      const correctAnswer = '약 60°'
+      return { prompt: '그림의 각을 각도기로 재기 전에 어림하려고 합니다. 가장 가까운 값을 고르세요.', correctAnswer,
+        choices: rotateChoices([correctAnswer, '약 30°', '약 90°', '약 120°'], seed),
+        solutionSteps: [`그림의 각은 실제로 약 ${angle}°입니다.`, '60°와 가장 가까우므로 약 60°로 어림합니다.'],
+        visualModel: 'angle-model', visualConfig: { angle, showProtractor: false, contextLabel: '먼저 어림하기' } }
+    },
+  }),
+  template({
+    id: 'g4-ang-04', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'knowing',
+    problemFamily: 'align-protractor-before-measuring', representation: 'context', answerType: 'choice', supportTool: 'protractor', skillTag: '각도기 사용',
+    learnerGoal: '각도기의 중심과 0°선을 각의 꼭짓점과 한 변에 정확히 맞춰요.',
+    promptTemplate: '각도기를 바르게 놓는 방법을 고르세요.', hintSteps: ['각도기의 중심은 각의 꼭짓점에 놓아요.', '0°선은 각의 한 변과 겹쳐야 해요.'],
+    build: (v, seed) => {
+      const angle = 30 + 10 * v
+      const correctAnswer = '각도기의 중심을 꼭짓점에 맞추고 한 변을 0°선에 맞춥니다.'
+      return { prompt: `${angle}°쯤으로 보이는 각을 정확히 재려고 합니다. 각도기를 놓는 바른 방법을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '각도기의 바깥쪽 끝을 꼭짓점에 맞춥니다.', '90° 눈금을 한 변에 맞추고 중심은 아무 데나 둡니다.', '두 변 사이에 각도기를 기울여 놓기만 합니다.'], seed),
+        solutionSteps: ['각도기의 중심 표시를 각의 꼭짓점에 맞춥니다.', '한 변을 0°선과 겹친 뒤 다른 변의 눈금을 읽습니다.'],
+        visualModel: 'angle-model', visualConfig: { angle, showProtractor: true, contextLabel: '중심과 0°선 맞추기' } }
+    },
+  }),
+  template({
+    id: 'g4-ang-05', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-25]', cognitiveDomain: 'applying',
+    problemFamily: 'triangle-missing-interior-angle', representation: 'angle-sum-model', answerType: 'integer', supportTool: 'protractor', skillTag: '삼각형 내각',
+    learnerGoal: '삼각형의 세 각의 합 180°에서 주어진 두 각을 빼요.',
+    promptTemplate: '삼각형의 두 각에서 나머지 한 각을 구하세요.', hintSteps: ['삼각형의 세 각의 합은 180°예요.', '180°에서 주어진 두 각을 차례로 빼요.'],
+    build: (v) => {
+      const angleA = 40 + 5 * (v % 3)
+      const angleB = 60 + 5 * (v % 2)
+      const missing = 180 - angleA - angleB
+      return { prompt: `삼각형의 두 각이 ${angleA}°와 ${angleB}°입니다. 나머지 한 각은 몇 도일까요?`, correctAnswer: String(missing),
+        solutionSteps: ['삼각형의 세 각의 합은 180°입니다.', `180-${angleA}-${angleB}=${missing}°입니다.`],
+        visualModel: 'angle-sum-model', visualConfig: { shapeType: 'triangle', angleA, angleB, hideIndex: 'C', showDiagonal: false } }
+    },
+  }),
+  template({
+    id: 'g4-ang-06', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-25]', cognitiveDomain: 'applying',
+    problemFamily: 'parallelogram-missing-interior-angle', representation: 'angle-sum-model', answerType: 'integer', supportTool: 'protractor', skillTag: '사각형 내각',
+    learnerGoal: '사각형의 네 각의 합 360°에서 주어진 세 각을 빼요.',
+    promptTemplate: '평행사변형의 세 각에서 나머지 한 각을 구하세요.', hintSteps: ['사각형의 네 각의 합은 360°예요.', '360°에서 주어진 세 각의 합을 빼요.'],
+    build: (v) => {
+      const angleA = 50 + 5 * v
+      const angleB = 180 - angleA
+      const angleC = angleA
+      const missing = 360 - angleA - angleB - angleC
+      return { prompt: `평행사변형의 세 각이 ${angleA}°, ${angleB}°, ${angleC}°입니다. 나머지 한 각은 몇 도일까요?`, correctAnswer: String(missing),
+        solutionSteps: ['사각형의 네 각의 합은 360°입니다.', `360-${angleA}-${angleB}-${angleC}=${missing}°입니다.`],
+        visualModel: 'angle-sum-model', visualConfig: { shapeType: 'parallelogram', angleA, angleB, angleC, hideIndex: 'D', showDiagonal: false } }
+    },
+  }),
+  template({
+    id: 'g4-ang-07', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'applying',
+    problemFamily: 'navigation-turn-angle', representation: 'context', answerType: 'choice', supportTool: 'protractor', skillTag: '회전 각도',
+    learnerGoal: '생활 속 방향 바꾸기를 시작 방향과 회전 각도로 나타내요.',
+    promptTemplate: '이동 경로의 오른쪽 회전을 각도로 나타내세요.', hintSteps: ['처음 방향을 각의 한 변으로 생각해요.', '오른쪽으로 돈 방향까지의 각도를 읽어요.'],
+    build: (v, seed) => {
+      const angle = 30 + 10 * v
+      const correctAnswer = `오른쪽으로 ${angle}° 돕니다.`
+      const nearbyAngle = angle + 10 <= 170 ? angle + 10 : angle - 10
+      return { prompt: `로봇이 길을 따라 오른쪽으로 ${angle}° 방향을 바꾸었습니다. 움직임을 바르게 설명한 것을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, `왼쪽으로 ${angle}° 돕니다.`, `오른쪽으로 ${nearbyAngle}° 돕니다.`, '방향을 바꾸지 않습니다.'], seed),
+        solutionSteps: ['회전 방향은 오른쪽입니다.', `처음 방향과 새 방향 사이의 각은 ${angle}°입니다.`],
+        visualModel: 'angle-model', visualConfig: { angle, showProtractor: false, turnDirection: 'right', contextLabel: '로봇의 방향 바꾸기' } }
+    },
+  }),
+  template({
+    id: 'g4-ang-08', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'applying',
+    problemFamily: 'complete-straight-angle-turn', representation: 'angle-model', answerType: 'integer', supportTool: 'protractor', skillTag: '평각 완성',
+    learnerGoal: '두 이웃한 각의 합이 180°가 되도록 남은 회전각을 구해요.',
+    promptTemplate: '평각을 완성하는 남은 각도를 구하세요.', hintSteps: ['일직선이 만드는 각은 180°예요.', '180°에서 이미 돈 각도를 빼요.'],
+    build: (v) => {
+      const angle = 40 + 10 * v
+      const remaining = 180 - angle
+      return { prompt: `화살표가 ${angle}°만큼 돌았습니다. 일직선 방향인 180°까지 몇 도를 더 돌아야 할까요?`, correctAnswer: String(remaining),
+        solutionSteps: ['일직선 방향까지의 전체 회전은 180°입니다.', `180-${angle}=${remaining}°를 더 돌아야 합니다.`],
+        visualModel: 'angle-model', visualConfig: { angle, showProtractor: true, contextLabel: '180°까지 남은 회전' } }
+    },
+  }),
+  template({
+    id: 'g4-ang-09', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'reasoning',
+    problemFamily: 'wrong-protractor-scale', representation: 'context', answerType: 'choice', supportTool: 'protractor', skillTag: '각도기 눈금 오류',
+    learnerGoal: '0°가 시작되는 방향과 반대 눈금을 읽은 오류를 설명해요.',
+    promptTemplate: '각도기의 반대 눈금을 읽은 오류를 고치세요.', hintSteps: ['각의 한 변이 만나는 0° 눈금을 먼저 찾아요.', '같은 방향으로 증가하는 눈금을 따라가요.'],
+    build: (v, seed) => {
+      const angle = 30 + 5 * v
+      const wrongReading = 180 - angle
+      const correctAnswer = '0°가 시작되는 쪽의 눈금을 따라 읽어야 합니다.'
+      return { prompt: `한 변이 오른쪽 0°선에 놓인 ${angle}° 각을 보고 준호는 반대 눈금인 ${wrongReading}°라고 읽었습니다. 바른 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '항상 더 큰 눈금을 읽어야 합니다.', '두 눈금을 더한 값을 각도로 읽어야 합니다.', '각도기는 90°인 각에만 사용할 수 있습니다.'], seed),
+        solutionSteps: ['한 변이 오른쪽 0°선에 있으므로 오른쪽에서 시작하는 눈금을 읽습니다.', `${wrongReading}°는 반대 방향에서 시작한 눈금입니다.`],
+        visualModel: 'angle-model', visualConfig: { angle, wrongReading, showProtractor: true, contextLabel: '준호의 눈금 읽기' } }
+    },
+  }),
+  template({
+    id: 'g4-ang-10', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-25]', cognitiveDomain: 'reasoning',
+    problemFamily: 'quadrilateral-split-two-triangles', representation: 'angle-sum-model', answerType: 'choice', supportTool: 'ruler', skillTag: '사각형 내각 합 추론',
+    learnerGoal: '사각형을 대각선으로 나눈 두 삼각형에서 내각의 합 360°를 설명해요.',
+    promptTemplate: '대각선으로 나눈 두 삼각형에서 사각형 내각의 합을 설명하세요.', hintSteps: ['대각선이 만든 삼각형 수를 세어요.', '삼각형 하나의 내각 합 180°를 두 번 더해요.'],
+    build: (v, seed) => {
+      const angleA = 50 + 5 * v
+      const angleB = 180 - angleA
+      const angleC = angleA
+      const correctAnswer = '삼각형 두 개의 각의 합이므로 360°입니다.'
+      return { prompt: '사각형에 대각선 한 개를 그어 삼각형 두 개로 나누었습니다. 사각형의 네 각의 합에 대한 바른 설명을 고르세요.', correctAnswer,
+        choices: rotateChoices([correctAnswer, '삼각형 한 개의 각의 합이므로 180°입니다.', '직각이 네 개일 때만 360°입니다.', '대각선을 그으면 원래 각의 합이 달라집니다.'], seed),
+        solutionSteps: ['대각선 한 개로 삼각형 두 개가 생깁니다.', '180°+180°=360°이므로 사각형의 네 각의 합은 360°입니다.'],
+        visualModel: 'angle-sum-model', visualConfig: { shapeType: 'parallelogram', angleA, angleB, angleC, hideIndex: 'none', showDiagonal: true } }
     },
   }),
 ]

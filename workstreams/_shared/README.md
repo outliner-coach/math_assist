@@ -21,6 +21,19 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 4 angle-measurement and interior-angle release (primary
+  workstreams 01, 03, and 04) owns the narrow change to the curriculum ledger,
+  Grade 4 bank, quantitative protractor and angle-sum SVGs, and focused bank,
+  receipt, curriculum, component, and browser tests.
+  `unit-4-1-angle-measurement` covers `[4수03-24]` and `[4수03-25]` with
+  ten deterministic templates, K4/A4/R2, ten families, two reasoning
+  families, and at least two representations. Ray endpoints, tick positions,
+  triangle vertices, parallelogram vertices, and displayed angle labels must
+  come from the same angle data as prompts and solutions. Unknown angles stay
+  out of labels and accessibility text before solve. Both standards move from
+  planned to released only with all Grade 4, curriculum, audit, mobile,
+  storage, and deployment gates passing.
+
 - 2026-07-26: Grade 4 polygon and shape-filling release (primary workstreams
   01, 03, and 04) owns the narrow change to the curriculum ledger, Grade 4
   bank, polygon and tiling SVGs, and focused bank, receipt, curriculum,

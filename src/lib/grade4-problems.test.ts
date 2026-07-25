@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   GRADE4_ACTIVITY_ITEM_COUNT,
+  GRADE4_ANGLE_MEASUREMENT_UNIT_ID,
   GRADE4_DECIMAL_UNIT_ID,
   GRADE4_DECIMAL_ADD_SUB_UNIT_ID,
   GRADE4_ESTIMATION_UNIT_ID,
@@ -30,7 +31,7 @@ describe('Grade 4 Bridge release bank', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(13)
+    expect(grade4Units).toHaveLength(14)
     expect(grade4Units.map((unit) => unit.id)).toEqual([
       'unit-4-1-large-numbers',
       'unit-4-1-multiplication-division',
@@ -45,16 +46,17 @@ describe('Grade 4 Bridge release bank', () => {
       'unit-4-2-triangles',
       'unit-4-2-quadrilaterals',
       'unit-4-2-polygons',
+      'unit-4-1-angle-measurement',
     ])
-    expect(grade4MissionTemplates).toHaveLength(130)
+    expect(grade4MissionTemplates).toHaveLength(140)
     expect(result.summary).toMatchObject({
-      unitCount: 13,
-      templateCount: 130,
-      knowingCount: 52,
-      applyingCount: 52,
-      reasoningCount: 26,
-      reasoningFamilyCount: 26,
-      representationCount: 15,
+      unitCount: 14,
+      templateCount: 140,
+      knowingCount: 56,
+      applyingCount: 56,
+      reasoningCount: 28,
+      reasoningFamilyCount: 28,
+      representationCount: 17,
     })
 
     for (const unit of grade4Units) {
@@ -713,6 +715,51 @@ describe('Grade 4 Bridge release bank', () => {
 
       const gap = templates.get('g4-poly-10')!.build(variant, variant)
       expect(gap.visualConfig).toMatchObject({ tileShape: 'pentagon', columns: 3, hasGap: true })
+    }
+  })
+
+  it('derives angle measures and polygon vertices from the same angle data', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === GRADE4_ANGLE_MEASUREMENT_UNIT_ID)
+        .map((item) => [item.id, item]),
+    )
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-ang-01', 'g4-ang-02', 'g4-ang-03', 'g4-ang-04', 'g4-ang-05',
+      'g4-ang-06', 'g4-ang-07', 'g4-ang-08', 'g4-ang-09', 'g4-ang-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        }
+        expect(mission.visualConfig).not.toHaveProperty('answer')
+        expect(mission.visualConfig).not.toHaveProperty('missingAngle')
+      }
+
+      const measured = templates.get('g4-ang-01')!.build(variant, variant)
+      expect(measured.correctAnswer).toBe(`${measured.visualConfig.angle}°`)
+
+      const triangle = templates.get('g4-ang-05')!.build(variant, variant)
+      expect(Number(triangle.correctAnswer)).toBe(
+        180 - Number(triangle.visualConfig.angleA) - Number(triangle.visualConfig.angleB),
+      )
+
+      const quadrilateral = templates.get('g4-ang-06')!.build(variant, variant)
+      expect(Number(quadrilateral.correctAnswer)).toBe(
+        360
+          - Number(quadrilateral.visualConfig.angleA)
+          - Number(quadrilateral.visualConfig.angleB)
+          - Number(quadrilateral.visualConfig.angleC),
+      )
+
+      const reversedScale = templates.get('g4-ang-09')!.build(variant, variant)
+      expect(Number(reversedScale.visualConfig.wrongReading)).toBe(180 - Number(reversedScale.visualConfig.angle))
+      expect(reversedScale.visualConfig).not.toHaveProperty('correctReading')
     }
   })
 

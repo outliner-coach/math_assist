@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { ATTEMPT_RECEIPT_STORAGE_KEY, LocalAttemptReceiptStore, type ReceiptStorage } from './attempt-receipt'
 import { appendGrade4AttemptReceipt, createGrade4AttemptReceipt } from './grade4-attempt-receipt'
 import {
+  GRADE4_ANGLE_MEASUREMENT_UNIT_ID,
   GRADE4_CONTENT_RELEASE_ID,
   GRADE4_DECIMAL_UNIT_ID,
   GRADE4_DECIMAL_ADD_SUB_UNIT_ID,
@@ -211,5 +212,18 @@ describe('Grade 4 attempt receipt', () => {
     })
 
     expect(receipt.contentReleaseId).toBe('grade4-bridge-polygons-v1')
+  })
+
+  it('uses the angle-measurement release identity', () => {
+    const angleMission = getGrade4Activity(GRADE4_ANGLE_MEASUREMENT_UNIT_ID, 20260721, 0)[0]
+    const receipt = createGrade4AttemptReceipt({
+      mission: angleMission,
+      activityRun: 0,
+      attemptOrdinal: 0,
+      correct: true,
+      usedHint: false,
+    })
+
+    expect(receipt.contentReleaseId).toBe('grade4-bridge-angle-measurement-v1')
   })
 })

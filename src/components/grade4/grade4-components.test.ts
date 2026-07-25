@@ -206,6 +206,30 @@ describe('Grade4MissionVisual', () => {
     expect(pointSets.length).toBeGreaterThanOrEqual(2)
     expect(pointSets[0].filter((point) => pointSets[1].includes(point))).toHaveLength(2)
   })
+
+  it('places the angle ray on the matching protractor tick without a degree answer label', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-ang-01')!
+    const html = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+    const ray = html.match(/data-testid="grade4-angle-ray" x1="([^"]+)" y1="([^"]+)" x2="([^"]+)" y2="([^"]+)"/)
+
+    expect(html).toContain('grade4-visual-angle-model')
+    expect(ray).not.toBeNull()
+    const renderedAngle = Math.round(Math.atan2(Number(ray![2]) - Number(ray![4]), Number(ray![3]) - Number(ray![1])) * 180 / Math.PI)
+    expect(renderedAngle).toBe(Number(mission.visualConfig.angle))
+    expect(html).not.toContain(`${mission.correctAnswer}</text>`)
+  })
+
+  it('hides the unknown angle label while deriving triangle and parallelogram vertices', () => {
+    const triangle = getGrade4MissionBank(42).find((item) => item.id === 'g4-ang-05')!
+    const quadrilateral = getGrade4MissionBank(42).find((item) => item.id === 'g4-ang-06')!
+    const triangleHtml = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission: triangle }))
+    const quadrilateralHtml = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission: quadrilateral }))
+
+    expect(triangleHtml).toContain('data-shape-type="triangle"')
+    expect(triangleHtml).toMatch(/data-testid="grade4-angle-unknown"[^>]*>□<\/text>/)
+    expect(quadrilateralHtml).toContain('data-shape-type="parallelogram"')
+    expect(quadrilateralHtml).toMatch(/data-testid="grade4-angle-unknown"[^>]*>□<\/text>/)
+  })
 })
 
 describe('Grade4MissionCard', () => {

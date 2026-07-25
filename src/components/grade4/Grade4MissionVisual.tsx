@@ -1024,6 +1024,140 @@ function TilingModel({ mission }: { mission: Grade4Mission }) {
   )
 }
 
+function AngleModel({ mission }: { mission: Grade4Mission }) {
+  const angle = Math.max(1, Math.min(179, number(mission.visualConfig.angle)))
+  const showProtractor = Boolean(mission.visualConfig.showProtractor)
+  const center: Point = { x: 160, y: 170 }
+  const radius = 112
+  const radians = angle * Math.PI / 180
+  const rayEnd = { x: center.x + Math.cos(radians) * radius, y: center.y - Math.sin(radians) * radius }
+  const arcRadius = 42
+  const arcEnd = { x: center.x + Math.cos(radians) * arcRadius, y: center.y - Math.sin(radians) * arcRadius }
+  const ticks = Array.from({ length: 19 }, (_, index) => {
+    const tickAngle = index * 10 * Math.PI / 180
+    const outer = { x: center.x + Math.cos(tickAngle) * radius, y: center.y - Math.sin(tickAngle) * radius }
+    const tickLength = index % 3 === 0 ? 13 : 7
+    const inner = { x: center.x + Math.cos(tickAngle) * (radius - tickLength), y: center.y - Math.sin(tickAngle) * (radius - tickLength) }
+    return { index, outer, inner }
+  })
+
+  return (
+    <div data-testid="grade4-visual-angle-model" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-3">
+      <svg viewBox="0 0 320 215" role="img" aria-label="각도기의 눈금과 두 광선" className="h-auto w-full">
+        <rect x="4" y="4" width="312" height="207" rx="22" fill="#ffffff" />
+        {label(mission.visualConfig.contextLabel) && (
+          <text x="160" y="24" textAnchor="middle" fill="#4338ca" fontSize="12" fontWeight="900">
+            {label(mission.visualConfig.contextLabel)}
+          </text>
+        )}
+        {showProtractor && (
+          <g>
+            <path d={`M ${center.x - radius} ${center.y} A ${radius} ${radius} 0 0 1 ${center.x + radius} ${center.y}`} fill="#eef2ff" fillOpacity="0.7" stroke="#a5b4fc" strokeWidth="3" />
+            {ticks.map((tick) => (
+              <g key={tick.index}>
+                <line x1={tick.outer.x} y1={tick.outer.y} x2={tick.inner.x} y2={tick.inner.y} stroke="#64748b" strokeWidth={tick.index % 3 === 0 ? 2.5 : 1.5} />
+                {tick.index % 3 === 0 && (
+                  <text
+                    x={center.x + Math.cos(tick.index * 10 * Math.PI / 180) * (radius - 25)}
+                    y={center.y - Math.sin(tick.index * 10 * Math.PI / 180) * (radius - 25) + 4}
+                    textAnchor="middle"
+                    fill="#475569"
+                    fontSize="10"
+                    fontWeight="800"
+                  >
+                    {tick.index * 10}
+                  </text>
+                )}
+              </g>
+            ))}
+          </g>
+        )}
+        <line x1={center.x} y1={center.y} x2={center.x + radius} y2={center.y} stroke="#4f46e5" strokeWidth="5" strokeLinecap="round" />
+        <line data-testid="grade4-angle-ray" x1={center.x} y1={center.y} x2={rayEnd.x} y2={rayEnd.y} stroke="#f97316" strokeWidth="5" strokeLinecap="round" />
+        <path d={`M ${center.x + arcRadius} ${center.y} A ${arcRadius} ${arcRadius} 0 ${angle > 180 ? 1 : 0} 0 ${arcEnd.x} ${arcEnd.y}`} fill="none" stroke="#0f766e" strokeWidth="4" />
+        <circle cx={center.x} cy={center.y} r="5" fill="#0f172a" />
+      </svg>
+    </div>
+  )
+}
+
+function AngleSumModel({ mission }: { mission: Grade4Mission }) {
+  const shapeType = label(mission.visualConfig.shapeType)
+  const angleA = number(mission.visualConfig.angleA)
+  const angleB = number(mission.visualConfig.angleB)
+  const angleC = shapeType === 'triangle'
+    ? 180 - angleA - angleB
+    : number(mission.visualConfig.angleC)
+  const angleD = shapeType === 'triangle' ? 0 : 360 - angleA - angleB - angleC
+  const hideIndex = label(mission.visualConfig.hideIndex)
+  const showDiagonal = Boolean(mission.visualConfig.showDiagonal)
+  const points: Point[] = shapeType === 'triangle'
+    ? (() => {
+        const left: Point = { x: 52, y: 172 }
+        const right: Point = { x: 268, y: 172 }
+        const sideFromLeft = (right.x - left.x) * Math.sin(angleB * Math.PI / 180) / Math.sin(angleC * Math.PI / 180)
+        return [
+          left,
+          right,
+          {
+            x: left.x + Math.cos(angleA * Math.PI / 180) * sideFromLeft,
+            y: left.y - Math.sin(angleA * Math.PI / 180) * sideFromLeft,
+          },
+        ]
+      })()
+    : (() => {
+        const left: Point = { x: 62, y: 172 }
+        const right: Point = { x: 250, y: 172 }
+        const side = 78
+        const shift = { x: Math.cos(angleA * Math.PI / 180) * side, y: -Math.sin(angleA * Math.PI / 180) * side }
+        return [left, right, { x: right.x + shift.x, y: right.y + shift.y }, { x: left.x + shift.x, y: left.y + shift.y }]
+      })()
+  const labels = shapeType === 'triangle'
+    ? [
+        { key: 'A', value: angleA, x: points[0].x + 28, y: points[0].y - 12 },
+        { key: 'B', value: angleB, x: points[1].x - 28, y: points[1].y - 12 },
+        { key: 'C', value: angleC, x: points[2].x, y: points[2].y + 28 },
+      ]
+    : [
+        { key: 'A', value: angleA, x: points[0].x + 27, y: points[0].y - 12 },
+        { key: 'B', value: angleB, x: points[1].x - 27, y: points[1].y - 12 },
+        { key: 'C', value: angleC, x: points[2].x - 25, y: points[2].y + 28 },
+        { key: 'D', value: angleD, x: points[3].x + 25, y: points[3].y + 28 },
+      ]
+
+  return (
+    <div data-testid="grade4-visual-angle-sum-model" className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-3">
+      <svg
+        viewBox="0 0 320 215"
+        role="img"
+        aria-label={`${shapeType === 'triangle' ? '삼각형' : '평행사변형'}의 주어진 내각`}
+        data-shape-type={shapeType}
+        className="h-auto w-full"
+      >
+        <rect x="4" y="4" width="312" height="207" rx="22" fill="#ffffff" />
+        <polygon points={points.map((point) => `${point.x},${point.y}`).join(' ')} fill="#e0e7ff" stroke="#4f46e5" strokeWidth="5" strokeLinejoin="round" />
+        {showDiagonal && shapeType !== 'triangle' && (
+          <line data-testid="grade4-angle-sum-diagonal" x1={points[0].x} y1={points[0].y} x2={points[2].x} y2={points[2].y} stroke="#0f766e" strokeWidth="3" strokeDasharray="7 5" />
+        )}
+        {labels.map((item) => (
+          <text
+            key={item.key}
+            data-testid={hideIndex === item.key ? 'grade4-angle-unknown' : undefined}
+            x={item.x}
+            y={item.y}
+            textAnchor="middle"
+            fill={hideIndex === item.key ? '#c2410c' : '#0f172a'}
+            fontSize="14"
+            fontWeight="900"
+          >
+            {hideIndex === item.key ? '□' : `${item.value}°`}
+          </text>
+        ))}
+      </svg>
+    </div>
+  )
+}
+
 function DivisionModel({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
   const divisor = number(mission.visualConfig.divisor)
   const dividend = number(mission.visualConfig.dividend)
@@ -1089,5 +1223,7 @@ export default function Grade4MissionVisual({ mission, showAnswer = false }: { m
   if (mission.visualModel === 'quadrilateral-model') return <QuadrilateralModel mission={mission} />
   if (mission.visualModel === 'polygon-model') return <PolygonModel mission={mission} />
   if (mission.visualModel === 'tiling-model') return <TilingModel mission={mission} />
+  if (mission.visualModel === 'angle-model') return <AngleModel mission={mission} />
+  if (mission.visualModel === 'angle-sum-model') return <AngleSumModel mission={mission} />
   return <Context mission={mission} />
 }
