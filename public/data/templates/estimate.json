@@ -5,54 +5,72 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "estimate-round-up-at-place",
-    "blueprint": {"problemFamily":"estimate-round-up-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-ceil-direct-tens",
+    "blueprint": {
+      "problemFamily": "estimate-ceil-direct-tens",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
         "min": 120,
         "max": 980
       }
     },
-    "prompt_template": "{{n}}을(를) 십의 자리까지 올림하면?",
+    "prompt_template": "물병은 {{n}}개 있습니다. 수를 십의 자리까지 올림하면 몇 개인가요?",
     "solver_rule": "ceilTo(n, 10)",
     "solution_steps_template": [
-      "올림은 아래 자리가 있으면 무조건 올립니다.",
-      "{{n}} → {{ceilTo(n, 10)}}"
+      "십의 자리 아래에 남는 수가 있으면 십의 자리 숫자를 1 올립니다.",
+      "{{n}}을 십의 자리까지 올림하면 {{ceilTo(n, 10)}}입니다."
     ],
     "hint_steps_template": [
-      "올림은 무조건 올려요.",
-      "십의 자리로 맞춰요."
+      "올림인지 버림인지 먼저 확인하고, 남기는 자리 아래를 살펴봐요.",
+      "올림은 남는 수가 있으면 1 올리고, 버림은 아래 자리를 모두 버려요."
     ]
   },
   {
     "id": "tmpl-estimate-A-02",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "estimate-round-down-at-place",
-    "blueprint": {"problemFamily":"estimate-round-down-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-floor-direct-tens",
+    "blueprint": {
+      "problemFamily": "estimate-floor-direct-tens",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
         "min": 120,
         "max": 980
       }
     },
-    "prompt_template": "{{n}}을(를) 십의 자리까지 버림한 값은?",
+    "prompt_template": "물병은 {{n}}개 있습니다. 수를 십의 자리까지 버림하면 몇 개인가요?",
     "solver_rule": "floorTo(n, 10)",
     "solution_steps_template": [
-      "버림은 아래 자리를 모두 버립니다.",
-      "{{n}} → {{floorTo(n, 10)}}"
+      "십의 자리 아래 숫자를 모두 0으로 만듭니다.",
+      "{{n}}을 십의 자리까지 버림하면 {{floorTo(n, 10)}}입니다."
     ],
     "hint_steps_template": [
-      "버림은 무조건 버려요.",
-      "십의 자리로 맞춰요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 10)}}",
-      "{{floorTo(n, 10) + 10}}",
-      "{{floorTo(n, 10) - 10}}",
-      "{{floorTo(n, 10) + 20}}"
+      "올림인지 버림인지 먼저 확인하고, 남기는 자리 아래를 살펴봐요.",
+      "올림은 남는 수가 있으면 1 올리고, 버림은 아래 자리를 모두 버려요."
     ]
   },
   {
@@ -61,54 +79,72 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "estimate-round-up-at-place",
-    "blueprint": {"problemFamily":"estimate-round-up-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-ceil-direct-hundreds",
+    "blueprint": {
+      "problemFamily": "estimate-ceil-direct-hundreds",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
         "min": 1200,
         "max": 9800
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 올림하면?",
+    "prompt_template": "모은 종이는 {{n}}장 있습니다. 수를 백의 자리까지 올림하면 몇 장인가요?",
     "solver_rule": "ceilTo(n, 100)",
     "solution_steps_template": [
-      "올림: 백의 자리까지 올립니다.",
-      "{{n}} → {{ceilTo(n, 100)}}"
+      "백의 자리 아래에 남는 수가 있으면 백의 자리 숫자를 1 올립니다.",
+      "{{n}}을 백의 자리까지 올림하면 {{ceilTo(n, 100)}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리로 올려요.",
-      "아래 자리가 있으면 올림이에요."
+      "올림인지 버림인지 먼저 확인하고, 남기는 자리 아래를 살펴봐요.",
+      "올림은 남는 수가 있으면 1 올리고, 버림은 아래 자리를 모두 버려요."
     ]
   },
   {
     "id": "tmpl-estimate-A-04",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "estimate-round-down-at-place",
-    "blueprint": {"problemFamily":"estimate-round-down-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-floor-direct-hundreds",
+    "blueprint": {
+      "problemFamily": "estimate-floor-direct-hundreds",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
         "min": 1200,
         "max": 9800
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 버림한 값은?",
+    "prompt_template": "모은 종이는 {{n}}장 있습니다. 수를 백의 자리까지 버림하면 몇 장인가요?",
     "solver_rule": "floorTo(n, 100)",
     "solution_steps_template": [
-      "버림: 백의 자리까지 버립니다.",
-      "{{n}} → {{floorTo(n, 100)}}"
+      "백의 자리 아래 숫자를 모두 0으로 만듭니다.",
+      "{{n}}을 백의 자리까지 버림하면 {{floorTo(n, 100)}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리로 버려요.",
-      "아래 자리는 0이 돼요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 100)}}",
-      "{{floorTo(n, 100) + 100}}",
-      "{{floorTo(n, 100) - 100}}",
-      "{{floorTo(n, 100) + 200}}"
+      "올림인지 버림인지 먼저 확인하고, 남기는 자리 아래를 살펴봐요.",
+      "올림은 남는 수가 있으면 1 올리고, 버림은 아래 자리를 모두 버려요."
     ]
   },
   {
@@ -117,54 +153,72 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "estimate-round-up-at-place",
-    "blueprint": {"problemFamily":"estimate-round-up-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-safe-capacity-ceil",
+    "blueprint": {
+      "problemFamily": "estimate-safe-capacity-ceil",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1501,
-        "max": 9951
+      "h": {
+        "min": 12,
+        "max": 48
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 올림하면?",
-    "solver_rule": "ceilTo(n, 100)",
+    "prompt_template": "강당 행사에 {{h * 100 + 30}}명이 참여합니다. 부족하지 않도록 백의 자리 수로 좌석을 계획하면 최소 몇 개를 준비해야 하나요?",
+    "solver_rule": "ceilTo(h * 100 + 30, 100)",
     "solution_steps_template": [
-      "올림: 백의 자리까지 올립니다.",
-      "{{n}} → {{ceilTo(n, 100)}}"
+      "참여자 수 {{h * 100 + 30}}명보다 좌석이 적으면 부족합니다.",
+      "백의 자리까지 올림하여 좌석 {{ceilTo(h * 100 + 30, 100)}}개를 준비합니다."
     ],
     "hint_steps_template": [
-      "아래 자리가 있으면 올림이에요.",
-      "백의 자리로 맞춰요."
+      "부족하면 안 되는지, 완성된 묶음만 셀지 상황을 먼저 판단해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
     "id": "tmpl-estimate-A-06",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "estimate-round-down-at-place",
-    "blueprint": {"problemFamily":"estimate-round-down-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-complete-groups-floor",
+    "blueprint": {
+      "problemFamily": "estimate-complete-groups-floor",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1501,
-        "max": 9951
+      "h": {
+        "min": 12,
+        "max": 48
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 버림한 값은?",
-    "solver_rule": "floorTo(n, 100)",
+    "prompt_template": "전단은 {{h * 100 + 30}}장 있습니다. 100장씩 한 묶음으로 완성된 것만 보낼 때 최대 몇 장을 보낼 수 있나요?",
+    "solver_rule": "floorTo(h * 100 + 30, 100)",
     "solution_steps_template": [
-      "버림: 백의 자리까지 버립니다.",
-      "{{n}} → {{floorTo(n, 100)}}"
+      "100씩 완성되지 않은 나머지는 이번에 보낼 수 없습니다.",
+      "백의 자리까지 버린 {{floorTo(h * 100 + 30, 100)}}장을 보낼 수 있습니다."
     ],
     "hint_steps_template": [
-      "백의 자리로 버려요.",
-      "아래 자리는 0이 돼요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 100)}}",
-      "{{floorTo(n, 100) + 100}}",
-      "{{floorTo(n, 100) - 100}}",
-      "{{floorTo(n, 100) + 200}}"
+      "부족하면 안 되는지, 완성된 묶음만 셀지 상황을 먼저 판단해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
@@ -173,54 +227,72 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "estimate-round-up-at-place",
-    "blueprint": {"problemFamily":"estimate-round-up-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-ceil-extra",
+    "blueprint": {
+      "problemFamily": "estimate-ceil-extra",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 12001,
-        "max": 98001
+      "h": {
+        "min": 12,
+        "max": 48
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 올림하면?",
-    "solver_rule": "ceilTo(n, 1000)",
+    "prompt_template": "인쇄용지가 {{h * 1000 + 240}}장 필요하고 1000장 묶음으로만 살 수 있습니다. 필요한 만큼 산 뒤 남는 것은 몇 장인가요?",
+    "solver_rule": "ceilTo(h * 1000 + 240, 1000) - (h * 1000 + 240)",
     "solution_steps_template": [
-      "올림: 천의 자리까지 올립니다.",
-      "{{n}} → {{ceilTo(n, 1000)}}"
+      "부족하지 않게 사려면 {{ceilTo(h * 1000 + 240, 1000)}}장을 사야 합니다.",
+      "남는 양은 {{ceilTo(h * 1000 + 240, 1000) - (h * 1000 + 240)}}장입니다."
     ],
     "hint_steps_template": [
-      "천의 자리로 올려요.",
-      "아래 자리가 있으면 올림이에요."
+      "올림하거나 버린 값과 실제 값의 차이를 구해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
     "id": "tmpl-estimate-A-08",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "estimate-round-down-at-place",
-    "blueprint": {"problemFamily":"estimate-round-down-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-floor-remainder",
+    "blueprint": {
+      "problemFamily": "estimate-floor-remainder",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 12001,
-        "max": 98001
+      "h": {
+        "min": 12,
+        "max": 48
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 버림한 값은?",
-    "solver_rule": "floorTo(n, 1000)",
+    "prompt_template": "재활용품은 {{h * 1000 + 240}}개 있습니다. 1000개씩 한 묶음으로 만든 뒤 남는 것은 몇 개인가요?",
+    "solver_rule": "(h * 1000 + 240) - floorTo(h * 1000 + 240, 1000)",
     "solution_steps_template": [
-      "버림: 천의 자리까지 버립니다.",
-      "{{n}} → {{floorTo(n, 1000)}}"
+      "완성된 묶음에 쓰는 양은 {{floorTo(h * 1000 + 240, 1000)}}개입니다.",
+      "남는 양은 {{(h * 1000 + 240) - floorTo(h * 1000 + 240, 1000)}}개입니다."
     ],
     "hint_steps_template": [
-      "천의 자리로 버려요.",
-      "아래 자리는 0이 돼요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 1000)}}",
-      "{{floorTo(n, 1000) + 1000}}",
-      "{{floorTo(n, 1000) - 1000}}",
-      "{{floorTo(n, 1000) + 2000}}"
+      "올림하거나 버린 값과 실제 값의 차이를 구해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
@@ -229,54 +301,72 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "estimate-context-round-up",
-    "blueprint": {"problemFamily":"estimate-context-round-up","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"medium"},
+    "problem_family": "estimate-wrong-bound-shortage",
+    "blueprint": {
+      "problemFamily": "estimate-wrong-bound-shortage",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n": {
-        "min": 20002,
-        "max": 99002
+      "h": {
+        "min": 12,
+        "max": 48
       }
     },
-    "prompt_template": "운동장에 {{n}}명이 모였습니다. 천의 자리까지 올림하면?",
-    "solver_rule": "ceilTo(n, 1000)",
+    "prompt_template": "현장학습에 {{h * 1000 + 240}}명이 참여합니다. 한 학생이 천의 자리까지 버림한 수만큼 좌석을 준비해도 된다고 했습니다. 그 계획은 좌석이 몇 개 부족한가요?",
+    "solver_rule": "(h * 1000 + 240) - floorTo(h * 1000 + 240, 1000)",
     "solution_steps_template": [
-      "올림: 천의 자리까지 올립니다.",
-      "{{n}} → {{ceilTo(n, 1000)}}"
+      "버림한 계획은 좌석 {{floorTo(h * 1000 + 240, 1000)}}개입니다.",
+      "실제 필요량보다 좌석이 {{(h * 1000 + 240) - floorTo(h * 1000 + 240, 1000)}}개 부족합니다."
     ],
     "hint_steps_template": [
-      "천의 자리로 올려요.",
-      "아래 자리가 있으면 올림이에요."
+      "선택한 어림 방법이 실제 조건에 어떤 부족이나 범위를 만드는지 확인해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
     "id": "tmpl-estimate-A-10",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "estimate-context-round-down",
-    "blueprint": {"problemFamily":"estimate-context-round-down","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"medium"},
+    "problem_family": "estimate-bound-sum",
+    "blueprint": {
+      "problemFamily": "estimate-bound-sum",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n": {
-        "min": 20002,
-        "max": 99002
+      "h": {
+        "min": 12,
+        "max": 48
       }
     },
-    "prompt_template": "운동장에 {{n}}명이 모였습니다. 천의 자리까지 버림하면?",
-    "solver_rule": "floorTo(n, 1000)",
+    "prompt_template": "{{h * 1000 + 240}}을 천의 자리까지 버린 값과 올림한 값은 실제 수의 아래·위 경계입니다. 두 경계값의 합은 얼마인가요?",
+    "solver_rule": "floorTo(h * 1000 + 240, 1000) + ceilTo(h * 1000 + 240, 1000)",
     "solution_steps_template": [
-      "버림: 천의 자리까지 버립니다.",
-      "{{n}} → {{floorTo(n, 1000)}}"
+      "아래 경계는 {{floorTo(h * 1000 + 240, 1000)}}, 위 경계는 {{ceilTo(h * 1000 + 240, 1000)}}입니다.",
+      "두 값을 더하면 {{floorTo(h * 1000 + 240, 1000) + ceilTo(h * 1000 + 240, 1000)}}입니다."
     ],
     "hint_steps_template": [
-      "천의 자리로 버려요.",
-      "아래 자리는 0이 돼요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 1000)}}",
-      "{{floorTo(n, 1000) + 1000}}",
-      "{{floorTo(n, 1000) - 1000}}",
-      "{{floorTo(n, 1000) + 2000}}"
+      "선택한 어림 방법이 실제 조건에 어떤 부족이나 범위를 만드는지 확인해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
@@ -285,54 +375,72 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "estimate-round-up-at-place",
-    "blueprint": {"problemFamily":"estimate-round-up-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-ceil-direct-tens",
+    "blueprint": {
+      "problemFamily": "estimate-ceil-direct-tens",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 122,
-        "max": 982
+        "min": 120,
+        "max": 980
       }
     },
-    "prompt_template": "{{n}}을(를) 십의 자리까지 올림하면?",
+    "prompt_template": "학습 카드는 {{n}}장 있습니다. 수를 십의 자리까지 올림하면 몇 장인가요?",
     "solver_rule": "ceilTo(n, 10)",
     "solution_steps_template": [
-      "올림은 아래 자리가 있으면 무조건 올립니다.",
-      "{{n}} → {{ceilTo(n, 10)}}"
+      "십의 자리 아래에 남는 수가 있으면 십의 자리 숫자를 1 올립니다.",
+      "{{n}}을 십의 자리까지 올림하면 {{ceilTo(n, 10)}}입니다."
     ],
     "hint_steps_template": [
-      "올림은 무조건 올려요.",
-      "십의 자리로 맞춰요."
+      "올림인지 버림인지 먼저 확인하고, 남기는 자리 아래를 살펴봐요.",
+      "올림은 남는 수가 있으면 1 올리고, 버림은 아래 자리를 모두 버려요."
     ]
   },
   {
     "id": "tmpl-estimate-B-02",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "estimate-round-down-at-place",
-    "blueprint": {"problemFamily":"estimate-round-down-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-floor-direct-tens",
+    "blueprint": {
+      "problemFamily": "estimate-floor-direct-tens",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 122,
-        "max": 982
+        "min": 120,
+        "max": 980
       }
     },
-    "prompt_template": "{{n}}을(를) 십의 자리까지 버림한 값은?",
+    "prompt_template": "학습 카드는 {{n}}장 있습니다. 수를 십의 자리까지 버림하면 몇 장인가요?",
     "solver_rule": "floorTo(n, 10)",
     "solution_steps_template": [
-      "버림은 아래 자리를 모두 버립니다.",
-      "{{n}} → {{floorTo(n, 10)}}"
+      "십의 자리 아래 숫자를 모두 0으로 만듭니다.",
+      "{{n}}을 십의 자리까지 버림하면 {{floorTo(n, 10)}}입니다."
     ],
     "hint_steps_template": [
-      "버림은 무조건 버려요.",
-      "십의 자리로 맞춰요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 10)}}",
-      "{{floorTo(n, 10) + 10}}",
-      "{{floorTo(n, 10) - 10}}",
-      "{{floorTo(n, 10) + 20}}"
+      "올림인지 버림인지 먼저 확인하고, 남기는 자리 아래를 살펴봐요.",
+      "올림은 남는 수가 있으면 1 올리고, 버림은 아래 자리를 모두 버려요."
     ]
   },
   {
@@ -341,54 +449,72 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "estimate-round-up-at-place",
-    "blueprint": {"problemFamily":"estimate-round-up-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-ceil-direct-hundreds",
+    "blueprint": {
+      "problemFamily": "estimate-ceil-direct-hundreds",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 1202,
-        "max": 9802
+        "min": 1200,
+        "max": 9800
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 올림하면?",
+    "prompt_template": "모은 병뚜껑은 {{n}}개 있습니다. 수를 백의 자리까지 올림하면 몇 개인가요?",
     "solver_rule": "ceilTo(n, 100)",
     "solution_steps_template": [
-      "올림: 백의 자리까지 올립니다.",
-      "{{n}} → {{ceilTo(n, 100)}}"
+      "백의 자리 아래에 남는 수가 있으면 백의 자리 숫자를 1 올립니다.",
+      "{{n}}을 백의 자리까지 올림하면 {{ceilTo(n, 100)}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리로 올려요.",
-      "아래 자리가 있으면 올림이에요."
+      "올림인지 버림인지 먼저 확인하고, 남기는 자리 아래를 살펴봐요.",
+      "올림은 남는 수가 있으면 1 올리고, 버림은 아래 자리를 모두 버려요."
     ]
   },
   {
     "id": "tmpl-estimate-B-04",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "estimate-round-down-at-place",
-    "blueprint": {"problemFamily":"estimate-round-down-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-floor-direct-hundreds",
+    "blueprint": {
+      "problemFamily": "estimate-floor-direct-hundreds",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 1202,
-        "max": 9802
+        "min": 1200,
+        "max": 9800
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 버림한 값은?",
+    "prompt_template": "모은 병뚜껑은 {{n}}개 있습니다. 수를 백의 자리까지 버림하면 몇 개인가요?",
     "solver_rule": "floorTo(n, 100)",
     "solution_steps_template": [
-      "버림: 백의 자리까지 버립니다.",
-      "{{n}} → {{floorTo(n, 100)}}"
+      "백의 자리 아래 숫자를 모두 0으로 만듭니다.",
+      "{{n}}을 백의 자리까지 버림하면 {{floorTo(n, 100)}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리로 버려요.",
-      "아래 자리는 0이 돼요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 100)}}",
-      "{{floorTo(n, 100) + 100}}",
-      "{{floorTo(n, 100) - 100}}",
-      "{{floorTo(n, 100) + 200}}"
+      "올림인지 버림인지 먼저 확인하고, 남기는 자리 아래를 살펴봐요.",
+      "올림은 남는 수가 있으면 1 올리고, 버림은 아래 자리를 모두 버려요."
     ]
   },
   {
@@ -397,54 +523,72 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "estimate-round-up-at-place",
-    "blueprint": {"problemFamily":"estimate-round-up-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-safe-capacity-ceil",
+    "blueprint": {
+      "problemFamily": "estimate-safe-capacity-ceil",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1503,
-        "max": 9953
+      "h": {
+        "min": 20,
+        "max": 60
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 올림하면?",
-    "solver_rule": "ceilTo(n, 100)",
+    "prompt_template": "공연에 {{h * 100 + 60}}명이 참여합니다. 부족하지 않도록 백의 자리 수로 좌석을 계획하면 최소 몇 개를 준비해야 하나요?",
+    "solver_rule": "ceilTo(h * 100 + 60, 100)",
     "solution_steps_template": [
-      "올림: 백의 자리까지 올립니다.",
-      "{{n}} → {{ceilTo(n, 100)}}"
+      "참여자 수 {{h * 100 + 60}}명보다 좌석이 적으면 부족합니다.",
+      "백의 자리까지 올림하여 좌석 {{ceilTo(h * 100 + 60, 100)}}개를 준비합니다."
     ],
     "hint_steps_template": [
-      "아래 자리가 있으면 올림이에요.",
-      "백의 자리로 맞춰요."
+      "부족하면 안 되는지, 완성된 묶음만 셀지 상황을 먼저 판단해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
     "id": "tmpl-estimate-B-06",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "estimate-round-down-at-place",
-    "blueprint": {"problemFamily":"estimate-round-down-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-complete-groups-floor",
+    "blueprint": {
+      "problemFamily": "estimate-complete-groups-floor",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1503,
-        "max": 9953
+      "h": {
+        "min": 20,
+        "max": 60
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 버림한 값은?",
-    "solver_rule": "floorTo(n, 100)",
+    "prompt_template": "택배로 보낼 제품은 {{h * 100 + 60}}개 있습니다. 100개씩 한 묶음으로 완성된 것만 보낼 때 최대 몇 개을 보낼 수 있나요?",
+    "solver_rule": "floorTo(h * 100 + 60, 100)",
     "solution_steps_template": [
-      "버림: 백의 자리까지 버립니다.",
-      "{{n}} → {{floorTo(n, 100)}}"
+      "100씩 완성되지 않은 나머지는 이번에 보낼 수 없습니다.",
+      "백의 자리까지 버린 {{floorTo(h * 100 + 60, 100)}}개을 보낼 수 있습니다."
     ],
     "hint_steps_template": [
-      "백의 자리로 버려요.",
-      "아래 자리는 0이 돼요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 100)}}",
-      "{{floorTo(n, 100) + 100}}",
-      "{{floorTo(n, 100) - 100}}",
-      "{{floorTo(n, 100) + 200}}"
+      "부족하면 안 되는지, 완성된 묶음만 셀지 상황을 먼저 판단해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
@@ -453,54 +597,72 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "estimate-round-up-at-place",
-    "blueprint": {"problemFamily":"estimate-round-up-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-ceil-extra",
+    "blueprint": {
+      "problemFamily": "estimate-ceil-extra",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 12003,
-        "max": 98003
+      "h": {
+        "min": 20,
+        "max": 60
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 올림하면?",
-    "solver_rule": "ceilTo(n, 1000)",
+    "prompt_template": "행사 안내문이 {{h * 1000 + 530}}장 필요하고 1000장 묶음으로만 살 수 있습니다. 필요한 만큼 산 뒤 남는 것은 몇 장인가요?",
+    "solver_rule": "ceilTo(h * 1000 + 530, 1000) - (h * 1000 + 530)",
     "solution_steps_template": [
-      "올림: 천의 자리까지 올립니다.",
-      "{{n}} → {{ceilTo(n, 1000)}}"
+      "부족하지 않게 사려면 {{ceilTo(h * 1000 + 530, 1000)}}장을 사야 합니다.",
+      "남는 양은 {{ceilTo(h * 1000 + 530, 1000) - (h * 1000 + 530)}}장입니다."
     ],
     "hint_steps_template": [
-      "천의 자리로 올려요.",
-      "아래 자리가 있으면 올림이에요."
+      "올림하거나 버린 값과 실제 값의 차이를 구해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
     "id": "tmpl-estimate-B-08",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "estimate-round-down-at-place",
-    "blueprint": {"problemFamily":"estimate-round-down-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-floor-remainder",
+    "blueprint": {
+      "problemFamily": "estimate-floor-remainder",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 12003,
-        "max": 98003
+      "h": {
+        "min": 20,
+        "max": 60
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 버림한 값은?",
-    "solver_rule": "floorTo(n, 1000)",
+    "prompt_template": "창고 부품은 {{h * 1000 + 530}}개 있습니다. 1000개씩 한 묶음으로 만든 뒤 남는 것은 몇 개인가요?",
+    "solver_rule": "(h * 1000 + 530) - floorTo(h * 1000 + 530, 1000)",
     "solution_steps_template": [
-      "버림: 천의 자리까지 버립니다.",
-      "{{n}} → {{floorTo(n, 1000)}}"
+      "완성된 묶음에 쓰는 양은 {{floorTo(h * 1000 + 530, 1000)}}개입니다.",
+      "남는 양은 {{(h * 1000 + 530) - floorTo(h * 1000 + 530, 1000)}}개입니다."
     ],
     "hint_steps_template": [
-      "천의 자리로 버려요.",
-      "아래 자리는 0이 돼요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 1000)}}",
-      "{{floorTo(n, 1000) + 1000}}",
-      "{{floorTo(n, 1000) - 1000}}",
-      "{{floorTo(n, 1000) + 2000}}"
+      "올림하거나 버린 값과 실제 값의 차이를 구해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
@@ -509,54 +671,72 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "estimate-context-round-up",
-    "blueprint": {"problemFamily":"estimate-context-round-up","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"medium"},
+    "problem_family": "estimate-wrong-bound-shortage",
+    "blueprint": {
+      "problemFamily": "estimate-wrong-bound-shortage",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n": {
-        "min": 20004,
-        "max": 99004
+      "h": {
+        "min": 20,
+        "max": 60
       }
     },
-    "prompt_template": "운동장에 {{n}}명이 모였습니다. 천의 자리까지 올림하면?",
-    "solver_rule": "ceilTo(n, 1000)",
+    "prompt_template": "대피 훈련에 {{h * 1000 + 530}}명이 참여합니다. 한 학생이 천의 자리까지 버림한 수만큼 좌석을 준비해도 된다고 했습니다. 그 계획은 좌석이 몇 개 부족한가요?",
+    "solver_rule": "(h * 1000 + 530) - floorTo(h * 1000 + 530, 1000)",
     "solution_steps_template": [
-      "올림: 천의 자리까지 올립니다.",
-      "{{n}} → {{ceilTo(n, 1000)}}"
+      "버림한 계획은 좌석 {{floorTo(h * 1000 + 530, 1000)}}개입니다.",
+      "실제 필요량보다 좌석이 {{(h * 1000 + 530) - floorTo(h * 1000 + 530, 1000)}}개 부족합니다."
     ],
     "hint_steps_template": [
-      "천의 자리로 올려요.",
-      "아래 자리가 있으면 올림이에요."
+      "선택한 어림 방법이 실제 조건에 어떤 부족이나 범위를 만드는지 확인해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
     "id": "tmpl-estimate-B-10",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "estimate-context-round-down",
-    "blueprint": {"problemFamily":"estimate-context-round-down","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"medium"},
+    "problem_family": "estimate-bound-sum",
+    "blueprint": {
+      "problemFamily": "estimate-bound-sum",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n": {
-        "min": 20004,
-        "max": 99004
+      "h": {
+        "min": 20,
+        "max": 60
       }
     },
-    "prompt_template": "운동장에 {{n}}명이 모였습니다. 천의 자리까지 버림하면?",
-    "solver_rule": "floorTo(n, 1000)",
+    "prompt_template": "{{h * 1000 + 530}}을 천의 자리까지 버린 값과 올림한 값은 실제 수의 아래·위 경계입니다. 두 경계값의 합은 얼마인가요?",
+    "solver_rule": "floorTo(h * 1000 + 530, 1000) + ceilTo(h * 1000 + 530, 1000)",
     "solution_steps_template": [
-      "버림: 천의 자리까지 버립니다.",
-      "{{n}} → {{floorTo(n, 1000)}}"
+      "아래 경계는 {{floorTo(h * 1000 + 530, 1000)}}, 위 경계는 {{ceilTo(h * 1000 + 530, 1000)}}입니다.",
+      "두 값을 더하면 {{floorTo(h * 1000 + 530, 1000) + ceilTo(h * 1000 + 530, 1000)}}입니다."
     ],
     "hint_steps_template": [
-      "천의 자리로 버려요.",
-      "아래 자리는 0이 돼요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 1000)}}",
-      "{{floorTo(n, 1000) + 1000}}",
-      "{{floorTo(n, 1000) - 1000}}",
-      "{{floorTo(n, 1000) + 2000}}"
+      "선택한 어림 방법이 실제 조건에 어떤 부족이나 범위를 만드는지 확인해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
@@ -565,54 +745,72 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "estimate-round-up-at-place",
-    "blueprint": {"problemFamily":"estimate-round-up-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-ceil-direct-tens",
+    "blueprint": {
+      "problemFamily": "estimate-ceil-direct-tens",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 124,
-        "max": 984
+        "min": 120,
+        "max": 980
       }
     },
-    "prompt_template": "{{n}}을(를) 십의 자리까지 올림하면?",
+    "prompt_template": "연필은 {{n}}자루 있습니다. 수를 십의 자리까지 올림하면 몇 자루인가요?",
     "solver_rule": "ceilTo(n, 10)",
     "solution_steps_template": [
-      "올림은 아래 자리가 있으면 무조건 올립니다.",
-      "{{n}} → {{ceilTo(n, 10)}}"
+      "십의 자리 아래에 남는 수가 있으면 십의 자리 숫자를 1 올립니다.",
+      "{{n}}을 십의 자리까지 올림하면 {{ceilTo(n, 10)}}입니다."
     ],
     "hint_steps_template": [
-      "올림은 무조건 올려요.",
-      "십의 자리로 맞춰요."
+      "올림인지 버림인지 먼저 확인하고, 남기는 자리 아래를 살펴봐요.",
+      "올림은 남는 수가 있으면 1 올리고, 버림은 아래 자리를 모두 버려요."
     ]
   },
   {
     "id": "tmpl-estimate-C-02",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "estimate-round-down-at-place",
-    "blueprint": {"problemFamily":"estimate-round-down-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-floor-direct-tens",
+    "blueprint": {
+      "problemFamily": "estimate-floor-direct-tens",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 124,
-        "max": 984
+        "min": 120,
+        "max": 980
       }
     },
-    "prompt_template": "{{n}}을(를) 십의 자리까지 버림한 값은?",
+    "prompt_template": "연필은 {{n}}자루 있습니다. 수를 십의 자리까지 버림하면 몇 자루인가요?",
     "solver_rule": "floorTo(n, 10)",
     "solution_steps_template": [
-      "버림은 아래 자리를 모두 버립니다.",
-      "{{n}} → {{floorTo(n, 10)}}"
+      "십의 자리 아래 숫자를 모두 0으로 만듭니다.",
+      "{{n}}을 십의 자리까지 버림하면 {{floorTo(n, 10)}}입니다."
     ],
     "hint_steps_template": [
-      "버림은 무조건 버려요.",
-      "십의 자리로 맞춰요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 10)}}",
-      "{{floorTo(n, 10) + 10}}",
-      "{{floorTo(n, 10) - 10}}",
-      "{{floorTo(n, 10) + 20}}"
+      "올림인지 버림인지 먼저 확인하고, 남기는 자리 아래를 살펴봐요.",
+      "올림은 남는 수가 있으면 1 올리고, 버림은 아래 자리를 모두 버려요."
     ]
   },
   {
@@ -621,54 +819,72 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "estimate-round-up-at-place",
-    "blueprint": {"problemFamily":"estimate-round-up-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-ceil-direct-hundreds",
+    "blueprint": {
+      "problemFamily": "estimate-ceil-direct-hundreds",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 1204,
-        "max": 9804
+        "min": 1200,
+        "max": 9800
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 올림하면?",
+    "prompt_template": "도서관 책은 {{n}}권 있습니다. 수를 백의 자리까지 올림하면 몇 권인가요?",
     "solver_rule": "ceilTo(n, 100)",
     "solution_steps_template": [
-      "올림: 백의 자리까지 올립니다.",
-      "{{n}} → {{ceilTo(n, 100)}}"
+      "백의 자리 아래에 남는 수가 있으면 백의 자리 숫자를 1 올립니다.",
+      "{{n}}을 백의 자리까지 올림하면 {{ceilTo(n, 100)}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리로 올려요.",
-      "아래 자리가 있으면 올림이에요."
+      "올림인지 버림인지 먼저 확인하고, 남기는 자리 아래를 살펴봐요.",
+      "올림은 남는 수가 있으면 1 올리고, 버림은 아래 자리를 모두 버려요."
     ]
   },
   {
     "id": "tmpl-estimate-C-04",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "estimate-round-down-at-place",
-    "blueprint": {"problemFamily":"estimate-round-down-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-floor-direct-hundreds",
+    "blueprint": {
+      "problemFamily": "estimate-floor-direct-hundreds",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 1204,
-        "max": 9804
+        "min": 1200,
+        "max": 9800
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 버림한 값은?",
+    "prompt_template": "도서관 책은 {{n}}권 있습니다. 수를 백의 자리까지 버림하면 몇 권인가요?",
     "solver_rule": "floorTo(n, 100)",
     "solution_steps_template": [
-      "버림: 백의 자리까지 버립니다.",
-      "{{n}} → {{floorTo(n, 100)}}"
+      "백의 자리 아래 숫자를 모두 0으로 만듭니다.",
+      "{{n}}을 백의 자리까지 버림하면 {{floorTo(n, 100)}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리로 버려요.",
-      "아래 자리는 0이 돼요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 100)}}",
-      "{{floorTo(n, 100) + 100}}",
-      "{{floorTo(n, 100) - 100}}",
-      "{{floorTo(n, 100) + 200}}"
+      "올림인지 버림인지 먼저 확인하고, 남기는 자리 아래를 살펴봐요.",
+      "올림은 남는 수가 있으면 1 올리고, 버림은 아래 자리를 모두 버려요."
     ]
   },
   {
@@ -677,54 +893,72 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "estimate-round-up-at-place",
-    "blueprint": {"problemFamily":"estimate-round-up-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-safe-capacity-ceil",
+    "blueprint": {
+      "problemFamily": "estimate-safe-capacity-ceil",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1505,
-        "max": 9955
+      "h": {
+        "min": 30,
+        "max": 75
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 올림하면?",
-    "solver_rule": "ceilTo(n, 100)",
+    "prompt_template": "체육관 행사에 {{h * 100 + 80}}명이 참여합니다. 부족하지 않도록 백의 자리 수로 좌석을 계획하면 최소 몇 개를 준비해야 하나요?",
+    "solver_rule": "ceilTo(h * 100 + 80, 100)",
     "solution_steps_template": [
-      "올림: 백의 자리까지 올립니다.",
-      "{{n}} → {{ceilTo(n, 100)}}"
+      "참여자 수 {{h * 100 + 80}}명보다 좌석이 적으면 부족합니다.",
+      "백의 자리까지 올림하여 좌석 {{ceilTo(h * 100 + 80, 100)}}개를 준비합니다."
     ],
     "hint_steps_template": [
-      "아래 자리가 있으면 올림이에요.",
-      "백의 자리로 맞춰요."
+      "부족하면 안 되는지, 완성된 묶음만 셀지 상황을 먼저 판단해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
     "id": "tmpl-estimate-C-06",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "estimate-round-down-at-place",
-    "blueprint": {"problemFamily":"estimate-round-down-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-complete-groups-floor",
+    "blueprint": {
+      "problemFamily": "estimate-complete-groups-floor",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1505,
-        "max": 9955
+      "h": {
+        "min": 30,
+        "max": 75
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 버림한 값은?",
-    "solver_rule": "floorTo(n, 100)",
+    "prompt_template": "보낼 책은 {{h * 100 + 80}}권 있습니다. 100권씩 한 묶음으로 완성된 것만 보낼 때 최대 몇 권을 보낼 수 있나요?",
+    "solver_rule": "floorTo(h * 100 + 80, 100)",
     "solution_steps_template": [
-      "버림: 백의 자리까지 버립니다.",
-      "{{n}} → {{floorTo(n, 100)}}"
+      "100씩 완성되지 않은 나머지는 이번에 보낼 수 없습니다.",
+      "백의 자리까지 버린 {{floorTo(h * 100 + 80, 100)}}권을 보낼 수 있습니다."
     ],
     "hint_steps_template": [
-      "백의 자리로 버려요.",
-      "아래 자리는 0이 돼요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 100)}}",
-      "{{floorTo(n, 100) + 100}}",
-      "{{floorTo(n, 100) - 100}}",
-      "{{floorTo(n, 100) + 200}}"
+      "부족하면 안 되는지, 완성된 묶음만 셀지 상황을 먼저 판단해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
@@ -733,54 +967,72 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "estimate-round-up-at-place",
-    "blueprint": {"problemFamily":"estimate-round-up-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-ceil-extra",
+    "blueprint": {
+      "problemFamily": "estimate-ceil-extra",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 12005,
-        "max": 98005
+      "h": {
+        "min": 30,
+        "max": 75
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 올림하면?",
-    "solver_rule": "ceilTo(n, 1000)",
+    "prompt_template": "전시용 스티커가 {{h * 1000 + 760}}장 필요하고 1000장 묶음으로만 살 수 있습니다. 필요한 만큼 산 뒤 남는 것은 몇 장인가요?",
+    "solver_rule": "ceilTo(h * 1000 + 760, 1000) - (h * 1000 + 760)",
     "solution_steps_template": [
-      "올림: 천의 자리까지 올립니다.",
-      "{{n}} → {{ceilTo(n, 1000)}}"
+      "부족하지 않게 사려면 {{ceilTo(h * 1000 + 760, 1000)}}장을 사야 합니다.",
+      "남는 양은 {{ceilTo(h * 1000 + 760, 1000) - (h * 1000 + 760)}}장입니다."
     ],
     "hint_steps_template": [
-      "천의 자리로 올려요.",
-      "아래 자리가 있으면 올림이에요."
+      "올림하거나 버린 값과 실제 값의 차이를 구해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
     "id": "tmpl-estimate-C-08",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "estimate-round-down-at-place",
-    "blueprint": {"problemFamily":"estimate-round-down-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "estimate-floor-remainder",
+    "blueprint": {
+      "problemFamily": "estimate-floor-remainder",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 12005,
-        "max": 98005
+      "h": {
+        "min": 30,
+        "max": 75
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 버림한 값은?",
-    "solver_rule": "floorTo(n, 1000)",
+    "prompt_template": "기부 물품은 {{h * 1000 + 760}}개 있습니다. 1000개씩 한 묶음으로 만든 뒤 남는 것은 몇 개인가요?",
+    "solver_rule": "(h * 1000 + 760) - floorTo(h * 1000 + 760, 1000)",
     "solution_steps_template": [
-      "버림: 천의 자리까지 버립니다.",
-      "{{n}} → {{floorTo(n, 1000)}}"
+      "완성된 묶음에 쓰는 양은 {{floorTo(h * 1000 + 760, 1000)}}개입니다.",
+      "남는 양은 {{(h * 1000 + 760) - floorTo(h * 1000 + 760, 1000)}}개입니다."
     ],
     "hint_steps_template": [
-      "천의 자리로 버려요.",
-      "아래 자리는 0이 돼요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 1000)}}",
-      "{{floorTo(n, 1000) + 1000}}",
-      "{{floorTo(n, 1000) - 1000}}",
-      "{{floorTo(n, 1000) + 2000}}"
+      "올림하거나 버린 값과 실제 값의 차이를 구해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
@@ -789,54 +1041,72 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "estimate-context-round-up",
-    "blueprint": {"problemFamily":"estimate-context-round-up","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"medium"},
+    "problem_family": "estimate-wrong-bound-shortage",
+    "blueprint": {
+      "problemFamily": "estimate-wrong-bound-shortage",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n": {
-        "min": 20006,
-        "max": 99006
+      "h": {
+        "min": 30,
+        "max": 75
       }
     },
-    "prompt_template": "운동장에 {{n}}명이 모였습니다. 천의 자리까지 올림하면?",
-    "solver_rule": "ceilTo(n, 1000)",
+    "prompt_template": "학교 축제에 {{h * 1000 + 760}}명이 참여합니다. 한 학생이 천의 자리까지 버림한 수만큼 좌석을 준비해도 된다고 했습니다. 그 계획은 좌석이 몇 개 부족한가요?",
+    "solver_rule": "(h * 1000 + 760) - floorTo(h * 1000 + 760, 1000)",
     "solution_steps_template": [
-      "올림: 천의 자리까지 올립니다.",
-      "{{n}} → {{ceilTo(n, 1000)}}"
+      "버림한 계획은 좌석 {{floorTo(h * 1000 + 760, 1000)}}개입니다.",
+      "실제 필요량보다 좌석이 {{(h * 1000 + 760) - floorTo(h * 1000 + 760, 1000)}}개 부족합니다."
     ],
     "hint_steps_template": [
-      "천의 자리로 올려요.",
-      "아래 자리가 있으면 올림이에요."
+      "선택한 어림 방법이 실제 조건에 어떤 부족이나 범위를 만드는지 확인해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   },
   {
     "id": "tmpl-estimate-C-10",
     "concept_id": "estimate-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "estimate-context-round-down",
-    "blueprint": {"problemFamily":"estimate-context-round-down","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"medium"},
+    "problem_family": "estimate-bound-sum",
+    "blueprint": {
+      "problemFamily": "estimate-bound-sum",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n": {
-        "min": 20006,
-        "max": 99006
+      "h": {
+        "min": 30,
+        "max": 75
       }
     },
-    "prompt_template": "운동장에 {{n}}명이 모였습니다. 천의 자리까지 버림하면?",
-    "solver_rule": "floorTo(n, 1000)",
+    "prompt_template": "{{h * 1000 + 760}}을 천의 자리까지 버린 값과 올림한 값은 실제 수의 아래·위 경계입니다. 두 경계값의 합은 얼마인가요?",
+    "solver_rule": "floorTo(h * 1000 + 760, 1000) + ceilTo(h * 1000 + 760, 1000)",
     "solution_steps_template": [
-      "버림: 천의 자리까지 버립니다.",
-      "{{n}} → {{floorTo(n, 1000)}}"
+      "아래 경계는 {{floorTo(h * 1000 + 760, 1000)}}, 위 경계는 {{ceilTo(h * 1000 + 760, 1000)}}입니다.",
+      "두 값을 더하면 {{floorTo(h * 1000 + 760, 1000) + ceilTo(h * 1000 + 760, 1000)}}입니다."
     ],
     "hint_steps_template": [
-      "천의 자리로 버려요.",
-      "아래 자리는 0이 돼요."
-    ],
-    "choices_template": [
-      "{{floorTo(n, 1000)}}",
-      "{{floorTo(n, 1000) + 1000}}",
-      "{{floorTo(n, 1000) - 1000}}",
-      "{{floorTo(n, 1000) + 2000}}"
+      "선택한 어림 방법이 실제 조건에 어떤 부족이나 범위를 만드는지 확인해요.",
+      "계산한 값이 안전한 위 경계인지 가능한 아래 경계인지 다시 확인해요."
     ]
   }
 ]

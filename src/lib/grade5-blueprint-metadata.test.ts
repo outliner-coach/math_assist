@@ -7,7 +7,9 @@ import {
   REVIEWED_FAMILY_BLUEPRINTS,
   getReviewedBlueprint
 } from '../../scripts/migrate-grade5-blueprints.js'
+import { templates as generatedEstimateTemplates } from '../../scripts/generate-grade5-estimate-templates.js'
 import { banks as generatedGeometryBanks } from '../../scripts/generate-grade5-geometry-templates.js'
+import { templates as generatedRoundingTemplates } from '../../scripts/generate-grade5-rounding-templates.js'
 import {
   buildProblemBlueprintCoverage,
   inspectProblemBlueprintMeta
@@ -41,7 +43,7 @@ describe('Grade 5 reviewed blueprint metadata', () => {
 
     expect(templates).toHaveLength(660)
     expect(BLOCKED_CONTENT_TEMPLATE_IDS.size).toBe(0)
-    expect(families.size).toBe(147)
+    expect(families.size).toBe(161)
     expect(new Set(Object.keys(REVIEWED_FAMILY_BLUEPRINTS))).toEqual(families)
   })
 
@@ -50,6 +52,34 @@ describe('Grade 5 reviewed blueprint metadata', () => {
 
     expect(generated).toHaveLength(180)
     expect(generated.every(template => (
+      JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
+    ))).toBe(true)
+  })
+
+  it('keeps the reviewed rounding bank reproducible from its generator', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'rounding.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+
+    expect(generatedRoundingTemplates).toEqual(committed)
+    expect(generatedRoundingTemplates.every(template => (
+      JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
+    ))).toBe(true)
+  })
+
+  it('keeps the reviewed directed-estimation bank reproducible from its generator', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'estimate.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+
+    expect(generatedEstimateTemplates).toEqual(committed)
+    expect(generatedEstimateTemplates.every(template => (
       JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
     ))).toBe(true)
   })
@@ -154,7 +184,14 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       contextType: 'real_world'
     })
     expect(byId['tmpl-rounding-A-09']).toMatchObject({
-      cognitiveDomain: 'knowing',
+      cognitiveDomain: 'reasoning',
+      reasoningPattern: 'systematic_counting',
+      primaryStandard: '6수01-03',
+      contextType: 'puzzle'
+    })
+    expect(byId['tmpl-estimate-A-09']).toMatchObject({
+      cognitiveDomain: 'reasoning',
+      reasoningPattern: 'error_analysis',
       primaryStandard: '6수01-03',
       contextType: 'real_world'
     })
@@ -178,5 +215,75 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     expect(polygonArea?.targetGaps).toEqual(
       expect.arrayContaining(['reasoning_family_minimum', 'cognitive_domain_mix'])
     )
+  })
+
+  it('gives every rounding set a reviewed K4/A4/R2 application mix', () => {
+    const templates = readMigratedTemplates()
+      .filter(template => template.concept_id === 'rounding-001')
+    const coverage = buildProblemBlueprintCoverage(templates)
+    const rounding = coverage.byConcept[0]
+
+    expect(templates).toHaveLength(30)
+    expect(rounding.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(rounding.problemFamilyCount).toBe(10)
+    expect(rounding.reasoningFamilyCount).toBe(2)
+    expect(rounding.targetGaps).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = templates.filter(template => template.set_id === setId)
+      const cognitiveCounts = setTemplates.reduce(
+        (counts, template) => {
+          counts[template.blueprint!.cognitiveDomain] += 1
+          return counts
+        },
+        { knowing: 0, applying: 0, reasoning: 0 }
+      )
+
+      expect(cognitiveCounts).toEqual({
+        knowing: 4,
+        applying: 4,
+        reasoning: 2
+      })
+      expect(new Set(setTemplates.map(template => template.prompt_template)).size).toBe(10)
+    }
+  })
+
+  it('gives every directed-estimation set a reviewed K4/A4/R2 application mix', () => {
+    const templates = readMigratedTemplates()
+      .filter(template => template.concept_id === 'estimate-001')
+    const coverage = buildProblemBlueprintCoverage(templates)
+    const estimate = coverage.byConcept[0]
+
+    expect(templates).toHaveLength(30)
+    expect(estimate.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(estimate.problemFamilyCount).toBe(10)
+    expect(estimate.reasoningFamilyCount).toBe(2)
+    expect(estimate.targetGaps).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = templates.filter(template => template.set_id === setId)
+      const cognitiveCounts = setTemplates.reduce(
+        (counts, template) => {
+          counts[template.blueprint!.cognitiveDomain] += 1
+          return counts
+        },
+        { knowing: 0, applying: 0, reasoning: 0 }
+      )
+
+      expect(cognitiveCounts).toEqual({
+        knowing: 4,
+        applying: 4,
+        reasoning: 2
+      })
+      expect(new Set(setTemplates.map(template => template.prompt_template)).size).toBe(10)
+    }
   })
 })

@@ -21,6 +21,28 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-25: Grade 5 directed-estimation application reinforcement (primary
+  workstreams 01 and 04) owns the narrow change to
+  `public/data/templates/estimate.json`,
+  `scripts/migrate-grade5-blueprints.js`, and its deterministic generator and
+  blueprint regression tests. The bank keeps A/B/C 4-4-2 while moving from
+  K30/A0/R0 to K12/A12/R6. Applying items must use upward estimates for safe
+  capacity and downward estimates for complete groups; reasoning items must
+  expose the consequence of choosing the wrong bound or compare both bounds.
+  Re-check non-multiple parameter construction, remainder/shortage arithmetic,
+  generator parity, validation, and problem audit before concurrent changes.
+
+- 2026-07-25: Grade 5 rounding application-problem reinforcement (primary
+  workstreams 01 and 04) owns the narrow change to
+  `public/data/templates/rounding.json`,
+  `scripts/migrate-grade5-blueprints.js`, and the corresponding Grade 5
+  blueprint regression tests. The 30 slots keep the A/B/C 4-4-2 difficulty
+  contract while moving from K30/A0/R0 to K12/A12/R6 through ten reviewed
+  mathematical families. Re-check deterministic generation, reviewed
+  blueprint equality, direct/inverse boundary behavior, method-comparison
+  arithmetic, template validation, and the problem-quality audit before
+  changing these files concurrently.
+
 - 2026-07-21: approved Grade 5 semantic corrections and Grade 6 public
   promotion (primary workstreams 01, 02, 03, and 04) close the nine blocked
   Grade 5 blueprint slots, redesign `g6ratio-001` so A/B/C use materially

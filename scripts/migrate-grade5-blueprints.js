@@ -116,17 +116,17 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
     'fracsub-common-denominator-numerator-difference', 'fracsub-adjusted-result', 'fracsub-direct'
   ],
   'rounding-001': [
-    'rounding-direct-at-place', 'rounding-direct-at-place', 'rounding-direct-at-place',
-    'rounding-direct-at-place', 'rounding-direct-at-place', 'rounding-direct-at-place',
-    'rounding-direct-at-place', 'rounding-direct-at-place', 'rounding-context-estimate',
-    'rounding-direct-at-place'
+    'rounding-direct-tens', 'rounding-direct-hundreds', 'rounding-direct-thousands',
+    'rounding-boundary-value', 'rounding-context-total', 'rounding-context-difference',
+    'rounding-inverse-lower-bound', 'rounding-inverse-upper-bound',
+    'rounding-interval-boundary-sum', 'rounding-method-gap'
   ],
   'estimate-001': [
-    'estimate-round-up-at-place', 'estimate-round-down-at-place',
-    'estimate-round-up-at-place', 'estimate-round-down-at-place',
-    'estimate-round-up-at-place', 'estimate-round-down-at-place',
-    'estimate-round-up-at-place', 'estimate-round-down-at-place',
-    'estimate-context-round-up', 'estimate-context-round-down'
+    'estimate-ceil-direct-tens', 'estimate-floor-direct-tens',
+    'estimate-ceil-direct-hundreds', 'estimate-floor-direct-hundreds',
+    'estimate-safe-capacity-ceil', 'estimate-complete-groups-floor',
+    'estimate-ceil-extra', 'estimate-floor-remainder',
+    'estimate-wrong-bound-shortage', 'estimate-bound-sum'
   ],
   'fracmul-001': [
     'fracmul-direct', 'fracmul-direct', 'fracmul-direct', 'fracmul-direct',
@@ -224,12 +224,26 @@ const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'fracsub-adjusted-result': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-08', estimatedSteps: 3, readingLoad: 'high' }),
 
   // Rounding and directed estimation
-  'rounding-direct-at-place': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'low' }),
-  'rounding-context-estimate': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'medium', contextType: 'real_world' }),
-  'estimate-round-up-at-place': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'low' }),
-  'estimate-round-down-at-place': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'low' }),
-  'estimate-context-round-up': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'medium', contextType: 'real_world' }),
-  'estimate-context-round-down': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'medium', contextType: 'real_world' }),
+  'rounding-direct-tens': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'low', contextType: 'real_world' }),
+  'rounding-direct-hundreds': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'low', contextType: 'real_world' }),
+  'rounding-direct-thousands': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'low', contextType: 'real_world' }),
+  'rounding-boundary-value': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'constraint', primaryStandard: '6수01-03', estimatedSteps: 2, readingLoad: 'medium', contextType: 'puzzle' }),
+  'rounding-context-total': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-03', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'rounding-context-difference': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-03', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'rounding-inverse-lower-bound': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수01-03', estimatedSteps: 2, readingLoad: 'medium', contextType: 'puzzle' }),
+  'rounding-inverse-upper-bound': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수01-03', estimatedSteps: 2, readingLoad: 'medium', contextType: 'puzzle' }),
+  'rounding-interval-boundary-sum': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'systematic_counting', primaryStandard: '6수01-03', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
+  'rounding-method-gap': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'compare_methods', primaryStandard: '6수01-03', estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world' }),
+  'estimate-ceil-direct-tens': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'low', contextType: 'real_world' }),
+  'estimate-floor-direct-tens': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'low', contextType: 'real_world' }),
+  'estimate-ceil-direct-hundreds': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'low', contextType: 'real_world' }),
+  'estimate-floor-direct-hundreds': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-03', estimatedSteps: 1, readingLoad: 'low', contextType: 'real_world' }),
+  'estimate-safe-capacity-ceil': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'constraint', primaryStandard: '6수01-03', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'estimate-complete-groups-floor': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'constraint', primaryStandard: '6수01-03', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'estimate-ceil-extra': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-03', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'estimate-floor-remainder': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-03', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world' }),
+  'estimate-wrong-bound-shortage': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-03', estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world' }),
+  'estimate-bound-sum': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'compare_methods', primaryStandard: '6수01-03', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
 
   // Fraction and decimal multiplication
   'fracmul-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-09', estimatedSteps: 2, readingLoad: 'low' }),

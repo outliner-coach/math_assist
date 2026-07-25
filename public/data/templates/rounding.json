@@ -5,53 +5,72 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-direct-tens",
+    "blueprint": {
+      "problemFamily": "rounding-direct-tens",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
         "min": 120,
         "max": 980
       }
     },
-    "prompt_template": "{{n}}을(를) 십의 자리까지 반올림하면?",
+    "prompt_template": "마을 걷기 행사에 {{n}}명이 참가했습니다. 참가자 수를 십의 자리까지 반올림하면 몇 명인가요?",
     "solver_rule": "roundTo(n, 10)",
     "solution_steps_template": [
-      "십의 자리 반올림: 일의 자리를 봅니다.",
-      "{{n}} → {{roundTo(n, 10)}}"
+      "일의 자리 숫자를 확인합니다.",
+      "{{n}}명을 십의 자리까지 반올림하면 {{roundTo(n, 10)}}명입니다."
     ],
     "hint_steps_template": [
-      "일의 자리 숫자를 확인해요.",
-      "5 이상이면 올려요."
+      "반올림할 자리의 바로 아래 자리 숫자를 확인해요.",
+      "0~4이면 그대로 두고 5~9이면 한 자리 올려요."
     ]
   },
   {
     "id": "tmpl-rounding-A-02",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-direct-hundreds",
+    "blueprint": {
+      "problemFamily": "rounding-direct-hundreds",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 120,
-        "max": 980
+        "min": 1200,
+        "max": 9800
       }
     },
-    "prompt_template": "{{n}}을(를) 십의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 10)",
+    "prompt_template": "도서관에 책이 {{n}}권 있습니다. 책 수를 백의 자리까지 반올림하면 몇 권인가요?",
+    "solver_rule": "roundTo(n, 100)",
     "solution_steps_template": [
-      "십의 자리 반올림: {{roundTo(n, 10)}}"
+      "십의 자리 숫자를 확인합니다.",
+      "{{n}}권을 백의 자리까지 반올림하면 {{roundTo(n, 100)}}권입니다."
     ],
     "hint_steps_template": [
-      "일의 자리를 봐요.",
-      "반올림 규칙을 적용해요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 10)}}",
-      "{{roundTo(n, 10) + 10}}",
-      "{{roundTo(n, 10) - 10}}",
-      "{{roundTo(n, 10) + 20}}"
+      "반올림할 자리의 바로 아래 자리 숫자를 확인해요.",
+      "0~4이면 그대로 두고 5~9이면 한 자리 올려요."
     ]
   },
   {
@@ -60,53 +79,72 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-direct-thousands",
+    "blueprint": {
+      "problemFamily": "rounding-direct-thousands",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 1200,
-        "max": 9800
+        "min": 1201,
+        "max": 9801
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림하면?",
-    "solver_rule": "roundTo(n, 100)",
+    "prompt_template": "박물관의 한 해 관람객은 {{n}}명입니다. 천의 자리까지 반올림하면 몇 명인가요?",
+    "solver_rule": "roundTo(n, 1000)",
     "solution_steps_template": [
-      "백의 자리 반올림: 십의 자리를 봅니다.",
-      "{{n}} → {{roundTo(n, 100)}}"
+      "백의 자리 숫자를 확인합니다.",
+      "{{n}}명을 천의 자리까지 반올림하면 {{roundTo(n, 1000)}}명입니다."
     ],
     "hint_steps_template": [
-      "십의 자리 숫자를 확인해요.",
-      "5 이상이면 올림이에요."
+      "반올림할 자리의 바로 아래 자리 숫자를 확인해요.",
+      "0~4이면 그대로 두고 5~9이면 한 자리 올려요."
     ]
   },
   {
     "id": "tmpl-rounding-A-04",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-boundary-value",
+    "blueprint": {
+      "problemFamily": "rounding-boundary-value",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1200,
-        "max": 9800
+      "h": {
+        "min": 12,
+        "max": 98
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 100)",
+    "prompt_template": "{{h * 100 + 49}}를 백의 자리까지 반올림한 수를 구하세요.",
+    "solver_rule": "roundTo(h * 100 + 49, 100)",
     "solution_steps_template": [
-      "백의 자리 반올림: {{roundTo(n, 100)}}"
+      "십의 자리까지의 수 49는 50보다 작습니다.",
+      "{{h * 100 + 49}}는 {{h * 100}}으로 반올림됩니다."
     ],
     "hint_steps_template": [
-      "십의 자리 숫자를 봐요.",
-      "반올림해서 백의 자리로 맞춰요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 100)}}",
-      "{{roundTo(n, 100) + 100}}",
-      "{{roundTo(n, 100) - 100}}",
-      "{{roundTo(n, 100) + 200}}"
+      "반올림할 자리의 바로 아래 자리 숫자를 확인해요.",
+      "0~4이면 그대로 두고 5~9이면 한 자리 올려요."
     ]
   },
   {
@@ -115,53 +153,80 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-context-total",
+    "blueprint": {
+      "problemFamily": "rounding-context-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1501,
-        "max": 9951
+      "a": {
+        "min": 12,
+        "max": 30
+      },
+      "b": {
+        "min": 8,
+        "max": 20
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림하면?",
-    "solver_rule": "roundTo(n, 100)",
+    "prompt_template": "학교 축제 첫날에는 {{a * 100 + 30}}명, 둘째 날에는 {{b * 100 + 20}}명이 왔습니다. 이틀 방문객의 합을 백의 자리까지 반올림하면 몇 명인가요?",
+    "solver_rule": "roundTo(a * 100 + 30 + b * 100 + 20, 100)",
     "solution_steps_template": [
-      "백의 자리 반올림: 십의 자리를 봅니다.",
-      "{{n}} → {{roundTo(n, 100)}}"
+      "두 날의 방문객을 더하면 {{a * 100 + 30 + b * 100 + 20}}명입니다.",
+      "합을 백의 자리까지 반올림하면 {{roundTo(a * 100 + 30 + b * 100 + 20, 100)}}명입니다."
     ],
     "hint_steps_template": [
-      "십의 자리 숫자를 확인해요.",
-      "5 이상이면 올려요."
+      "먼저 상황에 필요한 합이나 차를 정확하게 구해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
     "id": "tmpl-rounding-A-06",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-context-difference",
+    "blueprint": {
+      "problemFamily": "rounding-context-difference",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1501,
-        "max": 9951
+      "a": {
+        "min": 40,
+        "max": 70
+      },
+      "b": {
+        "min": 10,
+        "max": 25
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 100)",
+    "prompt_template": "창고에 상자가 {{a * 100 + 80}}개 있었고 {{b * 100 + 20}}개를 보냈습니다. 남은 상자 수를 백의 자리까지 반올림하면 몇 개인가요?",
+    "solver_rule": "roundTo(a * 100 + 80 - b * 100 - 20, 100)",
     "solution_steps_template": [
-      "백의 자리 반올림: {{roundTo(n, 100)}}"
+      "남은 상자는 {{a * 100 + 80 - b * 100 - 20}}개입니다.",
+      "백의 자리까지 반올림하면 {{roundTo(a * 100 + 80 - b * 100 - 20, 100)}}개입니다."
     ],
     "hint_steps_template": [
-      "십의 자리 숫자를 봐요.",
-      "반올림 규칙을 적용해요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 100)}}",
-      "{{roundTo(n, 100) + 100}}",
-      "{{roundTo(n, 100) - 100}}",
-      "{{roundTo(n, 100) + 200}}"
+      "먼저 상황에 필요한 합이나 차를 정확하게 구해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
@@ -170,53 +235,72 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-inverse-lower-bound",
+    "blueprint": {
+      "problemFamily": "rounding-inverse-lower-bound",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 12001,
-        "max": 98001
+      "t": {
+        "min": 20,
+        "max": 90
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림하면?",
-    "solver_rule": "roundTo(n, 1000)",
+    "prompt_template": "백의 자리까지 반올림했을 때 {{t * 100}}이 되는 자연수 중 가장 작은 수는 무엇인가요?",
+    "solver_rule": "t * 100 - 50",
     "solution_steps_template": [
-      "천의 자리 반올림: 백의 자리를 봅니다.",
-      "{{n}} → {{roundTo(n, 1000)}}"
+      "{{t * 100}}보다 50 작은 수부터 {{t * 100}}으로 반올림됩니다.",
+      "가장 작은 수는 {{t * 100 - 50}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리 숫자를 확인해요.",
-      "5 이상이면 올려요."
+      "반올림 결과를 만드는 수의 범위를 거꾸로 생각해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
     "id": "tmpl-rounding-A-08",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-inverse-upper-bound",
+    "blueprint": {
+      "problemFamily": "rounding-inverse-upper-bound",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 12001,
-        "max": 98001
+      "t": {
+        "min": 20,
+        "max": 90
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 1000)",
+    "prompt_template": "백의 자리까지 반올림했을 때 {{t * 100}}이 되는 자연수 중 가장 큰 수는 무엇인가요?",
+    "solver_rule": "t * 100 + 49",
     "solution_steps_template": [
-      "천의 자리 반올림: {{roundTo(n, 1000)}}"
+      "{{t * 100}}보다 50 큰 수는 다음 백의 자리 수로 반올림됩니다.",
+      "따라서 가장 큰 수는 {{t * 100 + 49}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리 숫자를 봐요.",
-      "반올림해서 천의 자리로 맞춰요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 1000)}}",
-      "{{roundTo(n, 1000) + 1000}}",
-      "{{roundTo(n, 1000) - 1000}}",
-      "{{roundTo(n, 1000) + 2000}}"
+      "반올림 결과를 만드는 수의 범위를 거꾸로 생각해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
@@ -225,53 +309,76 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "rounding-context-estimate",
-    "blueprint": {"problemFamily":"rounding-context-estimate","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"medium"},
+    "problem_family": "rounding-interval-boundary-sum",
+    "blueprint": {
+      "problemFamily": "rounding-interval-boundary-sum",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n": {
-        "min": 20002,
-        "max": 99002
+      "t": {
+        "min": 20,
+        "max": 90
       }
     },
-    "prompt_template": "도서관에는 {{n}}권의 책이 있습니다. 천의 자리까지 반올림하면 몇 권인가요?",
-    "solver_rule": "roundTo(n, 1000)",
+    "prompt_template": "백의 자리까지 반올림했을 때 {{t * 100}}이 되는 자연수의 범위를 빠짐없이 따졌습니다. 가장 작은 수와 가장 큰 수의 합은 얼마인가요?",
+    "solver_rule": "t * 100 - 50 + t * 100 + 49",
     "solution_steps_template": [
-      "천의 자리 반올림: 백의 자리를 확인합니다.",
-      "결과: {{roundTo(n, 1000)}}"
+      "가장 작은 수는 {{t * 100 - 50}}, 가장 큰 수는 {{t * 100 + 49}}입니다.",
+      "두 끝 수를 더하면 {{t * 100 - 50 + t * 100 + 49}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리 숫자를 확인해요.",
-      "반올림 규칙을 적용해요."
+      "가장 작은 수와 가장 큰 수, 또는 두 방법의 계산 순서를 비교해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
     "id": "tmpl-rounding-A-10",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-method-gap",
+    "blueprint": {
+      "problemFamily": "rounding-method-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n": {
-        "min": 20002,
-        "max": 99002
+      "a": {
+        "min": 12,
+        "max": 30
+      },
+      "b": {
+        "min": 8,
+        "max": 20
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 1000)",
+    "prompt_template": "두 물품의 무게는 {{a * 100 + 40}}g과 {{b * 100 + 40}}g입니다. 각각 백의 자리까지 반올림해 더한 값과, 정확한 합을 먼저 구해 백의 자리까지 반올림한 값의 차이는 몇 g인가요?",
+    "solver_rule": "roundTo(a * 100 + 40 + b * 100 + 40, 100) - a * 100 - b * 100",
     "solution_steps_template": [
-      "천의 자리 반올림: {{roundTo(n, 1000)}}"
+      "각각 반올림해 더하면 {{a * 100 + b * 100}}g입니다.",
+      "정확한 합 {{a * 100 + b * 100 + 80}}g을 반올림하면 {{a * 100 + b * 100 + 100}}g이므로 차이는 100g입니다."
     ],
     "hint_steps_template": [
-      "백의 자리를 보고 올림/버림을 결정해요.",
-      "천의 자리로 맞춰요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 1000)}}",
-      "{{roundTo(n, 1000) + 1000}}",
-      "{{roundTo(n, 1000) - 1000}}",
-      "{{roundTo(n, 1000) + 2000}}"
+      "가장 작은 수와 가장 큰 수, 또는 두 방법의 계산 순서를 비교해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
@@ -280,53 +387,72 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-direct-tens",
+    "blueprint": {
+      "problemFamily": "rounding-direct-tens",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 122,
-        "max": 982
+        "min": 230,
+        "max": 990
       }
     },
-    "prompt_template": "{{n}}을(를) 십의 자리까지 반올림하면?",
+    "prompt_template": "공연 입장권이 {{n}}장 팔렸습니다. 판매량을 십의 자리까지 반올림하면 몇 장인가요?",
     "solver_rule": "roundTo(n, 10)",
     "solution_steps_template": [
-      "십의 자리 반올림: 일의 자리를 봅니다.",
-      "{{n}} → {{roundTo(n, 10)}}"
+      "일의 자리 숫자로 올릴지 그대로 둘지 판단합니다.",
+      "{{n}}장을 십의 자리까지 반올림하면 {{roundTo(n, 10)}}장입니다."
     ],
     "hint_steps_template": [
-      "일의 자리 숫자를 확인해요.",
-      "5 이상이면 올려요."
+      "반올림할 자리의 바로 아래 자리 숫자를 확인해요.",
+      "0~4이면 그대로 두고 5~9이면 한 자리 올려요."
     ]
   },
   {
     "id": "tmpl-rounding-B-02",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-direct-hundreds",
+    "blueprint": {
+      "problemFamily": "rounding-direct-hundreds",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 122,
-        "max": 982
+        "min": 2100,
+        "max": 9900
       }
     },
-    "prompt_template": "{{n}}을(를) 십의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 10)",
+    "prompt_template": "재활용품을 {{n}}개 모았습니다. 개수를 백의 자리까지 반올림하면 몇 개인가요?",
+    "solver_rule": "roundTo(n, 100)",
     "solution_steps_template": [
-      "십의 자리 반올림: {{roundTo(n, 10)}}"
+      "십의 자리 숫자를 확인합니다.",
+      "{{n}}개를 백의 자리까지 반올림하면 {{roundTo(n, 100)}}개입니다."
     ],
     "hint_steps_template": [
-      "일의 자리를 봐요.",
-      "반올림 규칙을 적용해요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 10)}}",
-      "{{roundTo(n, 10) + 10}}",
-      "{{roundTo(n, 10) - 10}}",
-      "{{roundTo(n, 10) + 20}}"
+      "반올림할 자리의 바로 아래 자리 숫자를 확인해요.",
+      "0~4이면 그대로 두고 5~9이면 한 자리 올려요."
     ]
   },
   {
@@ -335,53 +461,72 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-direct-thousands",
+    "blueprint": {
+      "problemFamily": "rounding-direct-thousands",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 1202,
-        "max": 9802
+        "min": 1501,
+        "max": 9501
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림하면?",
-    "solver_rule": "roundTo(n, 100)",
+    "prompt_template": "지역 마라톤 누적 참가자는 {{n}}명입니다. 천의 자리까지 반올림하면 몇 명인가요?",
+    "solver_rule": "roundTo(n, 1000)",
     "solution_steps_template": [
-      "백의 자리 반올림: 십의 자리를 봅니다.",
-      "{{n}} → {{roundTo(n, 100)}}"
+      "백의 자리 숫자를 확인합니다.",
+      "{{n}}명을 천의 자리까지 반올림하면 {{roundTo(n, 1000)}}명입니다."
     ],
     "hint_steps_template": [
-      "십의 자리 숫자를 확인해요.",
-      "5 이상이면 올림이에요."
+      "반올림할 자리의 바로 아래 자리 숫자를 확인해요.",
+      "0~4이면 그대로 두고 5~9이면 한 자리 올려요."
     ]
   },
   {
     "id": "tmpl-rounding-B-04",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-boundary-value",
+    "blueprint": {
+      "problemFamily": "rounding-boundary-value",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1202,
-        "max": 9802
+      "h": {
+        "min": 12,
+        "max": 98
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 100)",
+    "prompt_template": "{{h * 100 + 50}}를 백의 자리까지 반올림한 수를 구하세요.",
+    "solver_rule": "roundTo(h * 100 + 50, 100)",
     "solution_steps_template": [
-      "백의 자리 반올림: {{roundTo(n, 100)}}"
+      "십의 자리까지의 수가 50이므로 백의 자리 숫자를 1 올립니다.",
+      "결과는 {{h * 100 + 100}}입니다."
     ],
     "hint_steps_template": [
-      "십의 자리 숫자를 봐요.",
-      "반올림해서 백의 자리로 맞춰요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 100)}}",
-      "{{roundTo(n, 100) + 100}}",
-      "{{roundTo(n, 100) - 100}}",
-      "{{roundTo(n, 100) + 200}}"
+      "반올림할 자리의 바로 아래 자리 숫자를 확인해요.",
+      "0~4이면 그대로 두고 5~9이면 한 자리 올려요."
     ]
   },
   {
@@ -390,53 +535,80 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-context-total",
+    "blueprint": {
+      "problemFamily": "rounding-context-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1503,
-        "max": 9953
+      "a": {
+        "min": 15,
+        "max": 32
+      },
+      "b": {
+        "min": 9,
+        "max": 21
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림하면?",
-    "solver_rule": "roundTo(n, 100)",
+    "prompt_template": "과학관 오전 관람객은 {{a * 100 + 40}}명, 오후 관람객은 {{b * 100 + 30}}명입니다. 하루 관람객의 합을 백의 자리까지 반올림하면 몇 명인가요?",
+    "solver_rule": "roundTo(a * 100 + 40 + b * 100 + 30, 100)",
     "solution_steps_template": [
-      "백의 자리 반올림: 십의 자리를 봅니다.",
-      "{{n}} → {{roundTo(n, 100)}}"
+      "오전과 오후 관람객을 더하면 {{a * 100 + 40 + b * 100 + 30}}명입니다.",
+      "합을 백의 자리까지 반올림하면 {{roundTo(a * 100 + 40 + b * 100 + 30, 100)}}명입니다."
     ],
     "hint_steps_template": [
-      "십의 자리 숫자를 확인해요.",
-      "5 이상이면 올려요."
+      "먼저 상황에 필요한 합이나 차를 정확하게 구해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
     "id": "tmpl-rounding-B-06",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-context-difference",
+    "blueprint": {
+      "problemFamily": "rounding-context-difference",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1503,
-        "max": 9953
+      "a": {
+        "min": 45,
+        "max": 75
+      },
+      "b": {
+        "min": 12,
+        "max": 28
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 100)",
+    "prompt_template": "행사장 수용 가능 인원은 {{a * 100 + 20}}명이고 현재 {{b * 100 + 70}}명이 입장했습니다. 더 입장할 수 있는 인원을 백의 자리까지 반올림하면 몇 명인가요?",
+    "solver_rule": "roundTo(a * 100 + 20 - b * 100 - 70, 100)",
     "solution_steps_template": [
-      "백의 자리 반올림: {{roundTo(n, 100)}}"
+      "더 입장할 수 있는 인원은 {{a * 100 + 20 - b * 100 - 70}}명입니다.",
+      "이를 백의 자리까지 반올림하면 {{roundTo(a * 100 + 20 - b * 100 - 70, 100)}}명입니다."
     ],
     "hint_steps_template": [
-      "십의 자리 숫자를 봐요.",
-      "반올림 규칙을 적용해요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 100)}}",
-      "{{roundTo(n, 100) + 100}}",
-      "{{roundTo(n, 100) - 100}}",
-      "{{roundTo(n, 100) + 200}}"
+      "먼저 상황에 필요한 합이나 차를 정확하게 구해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
@@ -445,53 +617,72 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-inverse-lower-bound",
+    "blueprint": {
+      "problemFamily": "rounding-inverse-lower-bound",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 12003,
-        "max": 98003
+      "t": {
+        "min": 12,
+        "max": 90
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림하면?",
-    "solver_rule": "roundTo(n, 1000)",
+    "prompt_template": "천의 자리까지 반올림했을 때 {{t * 1000}}이 되는 자연수 중 가장 작은 수는 무엇인가요?",
+    "solver_rule": "t * 1000 - 500",
     "solution_steps_template": [
-      "천의 자리 반올림: 백의 자리를 봅니다.",
-      "{{n}} → {{roundTo(n, 1000)}}"
+      "{{t * 1000}}보다 500 작은 수부터 목표값으로 반올림됩니다.",
+      "가장 작은 수는 {{t * 1000 - 500}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리 숫자를 확인해요.",
-      "5 이상이면 올려요."
+      "반올림 결과를 만드는 수의 범위를 거꾸로 생각해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
     "id": "tmpl-rounding-B-08",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-inverse-upper-bound",
+    "blueprint": {
+      "problemFamily": "rounding-inverse-upper-bound",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 12003,
-        "max": 98003
+      "t": {
+        "min": 12,
+        "max": 90
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 1000)",
+    "prompt_template": "천의 자리까지 반올림했을 때 {{t * 1000}}이 되는 자연수 중 가장 큰 수는 무엇인가요?",
+    "solver_rule": "t * 1000 + 499",
     "solution_steps_template": [
-      "천의 자리 반올림: {{roundTo(n, 1000)}}"
+      "{{t * 1000 + 500}}부터는 다음 천의 자리 수가 됩니다.",
+      "따라서 가장 큰 수는 {{t * 1000 + 499}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리 숫자를 봐요.",
-      "반올림해서 천의 자리로 맞춰요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 1000)}}",
-      "{{roundTo(n, 1000) + 1000}}",
-      "{{roundTo(n, 1000) - 1000}}",
-      "{{roundTo(n, 1000) + 2000}}"
+      "반올림 결과를 만드는 수의 범위를 거꾸로 생각해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
@@ -500,53 +691,76 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "rounding-context-estimate",
-    "blueprint": {"problemFamily":"rounding-context-estimate","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"medium"},
+    "problem_family": "rounding-interval-boundary-sum",
+    "blueprint": {
+      "problemFamily": "rounding-interval-boundary-sum",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n": {
-        "min": 20004,
-        "max": 99004
+      "t": {
+        "min": 12,
+        "max": 90
       }
     },
-    "prompt_template": "도서관에는 {{n}}권의 책이 있습니다. 천의 자리까지 반올림하면 몇 권인가요?",
-    "solver_rule": "roundTo(n, 1000)",
+    "prompt_template": "천의 자리까지 반올림했을 때 {{t * 1000}}이 되는 자연수의 범위를 빠짐없이 따졌습니다. 가장 작은 수와 가장 큰 수의 합은 얼마인가요?",
+    "solver_rule": "t * 1000 - 500 + t * 1000 + 499",
     "solution_steps_template": [
-      "천의 자리 반올림: 백의 자리를 확인합니다.",
-      "결과: {{roundTo(n, 1000)}}"
+      "범위의 두 끝은 {{t * 1000 - 500}}과 {{t * 1000 + 499}}입니다.",
+      "두 끝 수를 더하면 {{t * 1000 - 500 + t * 1000 + 499}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리 숫자를 확인해요.",
-      "반올림 규칙을 적용해요."
+      "가장 작은 수와 가장 큰 수, 또는 두 방법의 계산 순서를 비교해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
     "id": "tmpl-rounding-B-10",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-method-gap",
+    "blueprint": {
+      "problemFamily": "rounding-method-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n": {
-        "min": 20004,
-        "max": 99004
+      "a": {
+        "min": 14,
+        "max": 32
+      },
+      "b": {
+        "min": 10,
+        "max": 24
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 1000)",
+    "prompt_template": "두 상자의 질량은 {{a * 100 + 60}}g과 {{b * 100 + 60}}g입니다. 각각 백의 자리까지 반올림해 더한 값과, 정확한 합을 먼저 구해 반올림한 값의 차이는 몇 g인가요?",
+    "solver_rule": "a * 100 + b * 100 + 200 - roundTo(a * 100 + 60 + b * 100 + 60, 100)",
     "solution_steps_template": [
-      "천의 자리 반올림: {{roundTo(n, 1000)}}"
+      "각각 반올림해 더하면 {{a * 100 + b * 100 + 200}}g입니다.",
+      "정확한 합 {{a * 100 + b * 100 + 120}}g을 반올림하면 {{a * 100 + b * 100 + 100}}g이므로 차이는 100g입니다."
     ],
     "hint_steps_template": [
-      "백의 자리를 보고 올림/버림을 결정해요.",
-      "천의 자리로 맞춰요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 1000)}}",
-      "{{roundTo(n, 1000) + 1000}}",
-      "{{roundTo(n, 1000) - 1000}}",
-      "{{roundTo(n, 1000) + 2000}}"
+      "가장 작은 수와 가장 큰 수, 또는 두 방법의 계산 순서를 비교해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
@@ -555,53 +769,72 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-direct-tens",
+    "blueprint": {
+      "problemFamily": "rounding-direct-tens",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 124,
-        "max": 984
+        "min": 140,
+        "max": 970
       }
     },
-    "prompt_template": "{{n}}을(를) 십의 자리까지 반올림하면?",
+    "prompt_template": "자전거 길의 길이는 {{n}}m입니다. 길이를 십의 자리까지 반올림하면 몇 m인가요?",
     "solver_rule": "roundTo(n, 10)",
     "solution_steps_template": [
-      "십의 자리 반올림: 일의 자리를 봅니다.",
-      "{{n}} → {{roundTo(n, 10)}}"
+      "일의 자리 숫자를 확인합니다.",
+      "{{n}}m를 십의 자리까지 반올림하면 {{roundTo(n, 10)}}m입니다."
     ],
     "hint_steps_template": [
-      "일의 자리 숫자를 확인해요.",
-      "5 이상이면 올려요."
+      "반올림할 자리의 바로 아래 자리 숫자를 확인해요.",
+      "0~4이면 그대로 두고 5~9이면 한 자리 올려요."
     ]
   },
   {
     "id": "tmpl-rounding-C-02",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-direct-hundreds",
+    "blueprint": {
+      "problemFamily": "rounding-direct-hundreds",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 124,
-        "max": 984
+        "min": 1600,
+        "max": 9700
       }
     },
-    "prompt_template": "{{n}}을(를) 십의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 10)",
+    "prompt_template": "공장에서 하루에 제품을 {{n}}개 만들었습니다. 백의 자리까지 반올림하면 몇 개인가요?",
+    "solver_rule": "roundTo(n, 100)",
     "solution_steps_template": [
-      "십의 자리 반올림: {{roundTo(n, 10)}}"
+      "십의 자리 숫자를 확인합니다.",
+      "{{n}}개를 백의 자리까지 반올림하면 {{roundTo(n, 100)}}개입니다."
     ],
     "hint_steps_template": [
-      "일의 자리를 봐요.",
-      "반올림 규칙을 적용해요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 10)}}",
-      "{{roundTo(n, 10) + 10}}",
-      "{{roundTo(n, 10) - 10}}",
-      "{{roundTo(n, 10) + 20}}"
+      "반올림할 자리의 바로 아래 자리 숫자를 확인해요.",
+      "0~4이면 그대로 두고 5~9이면 한 자리 올려요."
     ]
   },
   {
@@ -610,53 +843,72 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-direct-thousands",
+    "blueprint": {
+      "problemFamily": "rounding-direct-thousands",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 1,
+      "readingLoad": "low"
+    },
     "param_schema": {
       "n": {
-        "min": 1204,
-        "max": 9804
+        "min": 1301,
+        "max": 9701
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림하면?",
-    "solver_rule": "roundTo(n, 100)",
+    "prompt_template": "환경 캠페인 누적 참여자는 {{n}}명입니다. 천의 자리까지 반올림하면 몇 명인가요?",
+    "solver_rule": "roundTo(n, 1000)",
     "solution_steps_template": [
-      "백의 자리 반올림: 십의 자리를 봅니다.",
-      "{{n}} → {{roundTo(n, 100)}}"
+      "백의 자리 숫자를 확인합니다.",
+      "{{n}}명을 천의 자리까지 반올림하면 {{roundTo(n, 1000)}}명입니다."
     ],
     "hint_steps_template": [
-      "십의 자리 숫자를 확인해요.",
-      "5 이상이면 올림이에요."
+      "반올림할 자리의 바로 아래 자리 숫자를 확인해요.",
+      "0~4이면 그대로 두고 5~9이면 한 자리 올려요."
     ]
   },
   {
     "id": "tmpl-rounding-C-04",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-boundary-value",
+    "blueprint": {
+      "problemFamily": "rounding-boundary-value",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1204,
-        "max": 9804
+      "h": {
+        "min": 12,
+        "max": 98
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 100)",
+    "prompt_template": "이미 백의 자리 수인 {{h * 100}}을 백의 자리까지 반올림하면 얼마인가요?",
+    "solver_rule": "roundTo(h * 100, 100)",
     "solution_steps_template": [
-      "백의 자리 반올림: {{roundTo(n, 100)}}"
+      "버릴 아래 자리가 모두 0입니다.",
+      "{{h * 100}}은 그대로 {{h * 100}}입니다."
     ],
     "hint_steps_template": [
-      "십의 자리 숫자를 봐요.",
-      "반올림해서 백의 자리로 맞춰요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 100)}}",
-      "{{roundTo(n, 100) + 100}}",
-      "{{roundTo(n, 100) - 100}}",
-      "{{roundTo(n, 100) + 200}}"
+      "반올림할 자리의 바로 아래 자리 숫자를 확인해요.",
+      "0~4이면 그대로 두고 5~9이면 한 자리 올려요."
     ]
   },
   {
@@ -665,53 +917,80 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-context-total",
+    "blueprint": {
+      "problemFamily": "rounding-context-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1505,
-        "max": 9955
+      "a": {
+        "min": 16,
+        "max": 34
+      },
+      "b": {
+        "min": 10,
+        "max": 22
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림하면?",
-    "solver_rule": "roundTo(n, 100)",
+    "prompt_template": "두 학급이 모은 병뚜껑은 {{a * 100 + 20}}개와 {{b * 100 + 20}}개입니다. 전체를 백의 자리까지 반올림하면 몇 개인가요?",
+    "solver_rule": "roundTo(a * 100 + 20 + b * 100 + 20, 100)",
     "solution_steps_template": [
-      "백의 자리 반올림: 십의 자리를 봅니다.",
-      "{{n}} → {{roundTo(n, 100)}}"
+      "두 학급의 수를 더하면 {{a * 100 + 20 + b * 100 + 20}}개입니다.",
+      "합을 백의 자리까지 반올림하면 {{roundTo(a * 100 + 20 + b * 100 + 20, 100)}}개입니다."
     ],
     "hint_steps_template": [
-      "십의 자리 숫자를 확인해요.",
-      "5 이상이면 올려요."
+      "먼저 상황에 필요한 합이나 차를 정확하게 구해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
     "id": "tmpl-rounding-C-06",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-context-difference",
+    "blueprint": {
+      "problemFamily": "rounding-context-difference",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 1505,
-        "max": 9955
+      "a": {
+        "min": 50,
+        "max": 80
+      },
+      "b": {
+        "min": 15,
+        "max": 30
       }
     },
-    "prompt_template": "{{n}}을(를) 백의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 100)",
+    "prompt_template": "지난달 방문객은 {{a * 100 + 70}}명, 이번 달 방문객은 {{b * 100 + 10}}명입니다. 두 달 방문객 수의 차이를 백의 자리까지 반올림하면 몇 명인가요?",
+    "solver_rule": "roundTo(a * 100 + 70 - b * 100 - 10, 100)",
     "solution_steps_template": [
-      "백의 자리 반올림: {{roundTo(n, 100)}}"
+      "두 달 방문객 수의 차이는 {{a * 100 + 70 - b * 100 - 10}}명입니다.",
+      "차이를 백의 자리까지 반올림하면 {{roundTo(a * 100 + 70 - b * 100 - 10, 100)}}명입니다."
     ],
     "hint_steps_template": [
-      "십의 자리 숫자를 봐요.",
-      "반올림 규칙을 적용해요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 100)}}",
-      "{{roundTo(n, 100) + 100}}",
-      "{{roundTo(n, 100) - 100}}",
-      "{{roundTo(n, 100) + 200}}"
+      "먼저 상황에 필요한 합이나 차를 정확하게 구해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
@@ -720,53 +999,72 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-inverse-lower-bound",
+    "blueprint": {
+      "problemFamily": "rounding-inverse-lower-bound",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 12005,
-        "max": 98005
+      "t": {
+        "min": 120,
+        "max": 980
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림하면?",
-    "solver_rule": "roundTo(n, 1000)",
+    "prompt_template": "십의 자리까지 반올림했을 때 {{t * 10}}이 되는 자연수 중 가장 작은 수는 무엇인가요?",
+    "solver_rule": "t * 10 - 5",
     "solution_steps_template": [
-      "천의 자리 반올림: 백의 자리를 봅니다.",
-      "{{n}} → {{roundTo(n, 1000)}}"
+      "{{t * 10}}보다 5 작은 수부터 목표값으로 반올림됩니다.",
+      "가장 작은 수는 {{t * 10 - 5}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리 숫자를 확인해요.",
-      "5 이상이면 올려요."
+      "반올림 결과를 만드는 수의 범위를 거꾸로 생각해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
     "id": "tmpl-rounding-C-08",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-inverse-upper-bound",
+    "blueprint": {
+      "problemFamily": "rounding-inverse-upper-bound",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 2,
+      "readingLoad": "medium"
+    },
     "param_schema": {
-      "n": {
-        "min": 12005,
-        "max": 98005
+      "t": {
+        "min": 120,
+        "max": 980
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 1000)",
+    "prompt_template": "십의 자리까지 반올림했을 때 {{t * 10}}이 되는 자연수 중 가장 큰 수는 무엇인가요?",
+    "solver_rule": "t * 10 + 4",
     "solution_steps_template": [
-      "천의 자리 반올림: {{roundTo(n, 1000)}}"
+      "{{t * 10 + 5}}부터는 다음 십의 자리 수가 됩니다.",
+      "따라서 가장 큰 수는 {{t * 10 + 4}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리 숫자를 봐요.",
-      "반올림해서 천의 자리로 맞춰요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 1000)}}",
-      "{{roundTo(n, 1000) + 1000}}",
-      "{{roundTo(n, 1000) - 1000}}",
-      "{{roundTo(n, 1000) + 2000}}"
+      "반올림 결과를 만드는 수의 범위를 거꾸로 생각해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
@@ -775,53 +1073,76 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "rounding-context-estimate",
-    "blueprint": {"problemFamily":"rounding-context-estimate","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"real_world","estimatedSteps":1,"readingLoad":"medium"},
+    "problem_family": "rounding-interval-boundary-sum",
+    "blueprint": {
+      "problemFamily": "rounding-interval-boundary-sum",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n": {
-        "min": 20006,
-        "max": 99006
+      "t": {
+        "min": 120,
+        "max": 980
       }
     },
-    "prompt_template": "도서관에는 {{n}}권의 책이 있습니다. 천의 자리까지 반올림하면 몇 권인가요?",
-    "solver_rule": "roundTo(n, 1000)",
+    "prompt_template": "십의 자리까지 반올림했을 때 {{t * 10}}이 되는 자연수의 범위를 빠짐없이 따졌습니다. 가장 작은 수와 가장 큰 수의 합은 얼마인가요?",
+    "solver_rule": "t * 10 - 5 + t * 10 + 4",
     "solution_steps_template": [
-      "천의 자리 반올림: 백의 자리를 확인합니다.",
-      "결과: {{roundTo(n, 1000)}}"
+      "범위의 두 끝은 {{t * 10 - 5}}와 {{t * 10 + 4}}입니다.",
+      "두 끝 수를 더하면 {{t * 10 - 5 + t * 10 + 4}}입니다."
     ],
     "hint_steps_template": [
-      "백의 자리 숫자를 확인해요.",
-      "반올림 규칙을 적용해요."
+      "가장 작은 수와 가장 큰 수, 또는 두 방법의 계산 순서를 비교해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   },
   {
     "id": "tmpl-rounding-C-10",
     "concept_id": "rounding-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "rounding-direct-at-place",
-    "blueprint": {"problemFamily":"rounding-direct-at-place","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-03","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "rounding-method-gap",
+    "blueprint": {
+      "problemFamily": "rounding-method-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-03",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high"
+    },
     "param_schema": {
-      "n": {
-        "min": 20006,
-        "max": 99006
+      "a": {
+        "min": 16,
+        "max": 34
+      },
+      "b": {
+        "min": 12,
+        "max": 26
       }
     },
-    "prompt_template": "{{n}}을(를) 천의 자리까지 반올림한 값은?",
-    "solver_rule": "roundTo(n, 1000)",
+    "prompt_template": "두 꾸러미의 질량은 {{a * 100 + 40}}g과 {{b * 100 + 60}}g입니다. 각각 백의 자리까지 반올림해 더한 값과, 정확한 합을 먼저 구해 반올림한 값의 차이는 몇 g인가요?",
+    "solver_rule": "roundTo(a * 100 + 40 + b * 100 + 60, 100) - a * 100 - b * 100 - 100",
     "solution_steps_template": [
-      "천의 자리 반올림: {{roundTo(n, 1000)}}"
+      "각각 반올림해 더하면 {{a * 100 + b * 100 + 100}}g입니다.",
+      "정확한 합도 {{a * 100 + b * 100 + 100}}g이고 이미 백의 자리 수이므로 차이는 0g입니다."
     ],
     "hint_steps_template": [
-      "백의 자리를 보고 올림/버림을 결정해요.",
-      "천의 자리로 맞춰요."
-    ],
-    "choices_template": [
-      "{{roundTo(n, 1000)}}",
-      "{{roundTo(n, 1000) + 1000}}",
-      "{{roundTo(n, 1000) - 1000}}",
-      "{{roundTo(n, 1000) + 2000}}"
+      "가장 작은 수와 가장 큰 수, 또는 두 방법의 계산 순서를 비교해요.",
+      "계산 결과와 반올림한 자릿값이 문제의 조건에 맞는지 확인해요."
     ]
   }
 ]

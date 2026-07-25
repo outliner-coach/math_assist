@@ -19,6 +19,8 @@
     "validate:curriculum": "node scripts/validate-curriculum.js",
     "audit:missions": "node scripts/mission-bank-quality-report.js",
     "generate:grade5-geometry": "node scripts/generate-grade5-geometry-templates.js",
+    "generate:grade5-estimate": "node scripts/generate-grade5-estimate-templates.js",
+    "generate:grade5-rounding": "node scripts/generate-grade5-rounding-templates.js",
     "migrate:grade5-blueprints": "node scripts/migrate-grade5-blueprints.js",
     "validate:templates": "node scripts/validate-templates.js",
     "audit:problems": "node scripts/problem-quality-report.js",
