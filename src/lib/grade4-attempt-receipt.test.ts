@@ -7,6 +7,7 @@ import {
   GRADE4_DECIMAL_UNIT_ID,
   GRADE4_DIVISION_UNIT_ID,
   GRADE4_ESTIMATION_UNIT_ID,
+  GRADE4_FRACTION_ADD_SUB_UNIT_ID,
   getGrade4Activity,
   SAFE_GRADE4_UNIT_ID,
 } from './grade4-problems'
@@ -85,5 +86,18 @@ describe('Grade 4 attempt receipt', () => {
     })
 
     expect(receipt.contentReleaseId).toBe('grade4-bridge-decimals-v1')
+  })
+
+  it('uses the fraction-add-sub release identity', () => {
+    const fractionMission = getGrade4Activity(GRADE4_FRACTION_ADD_SUB_UNIT_ID, 20260721, 0)[0]
+    const receipt = createGrade4AttemptReceipt({
+      mission: fractionMission,
+      activityRun: 0,
+      attemptOrdinal: 0,
+      correct: true,
+      usedHint: false,
+    })
+
+    expect(receipt.contentReleaseId).toBe('grade4-bridge-fraction-add-sub-v1')
   })
 })

@@ -2,7 +2,7 @@ import type { Grade4AnswerType } from './grade4-answer-normalizers'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
-export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model'
+export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip'
 export type Grade4VisualModel = Grade4Representation
 export type Grade4SupportTool = 'none' | 'grid' | 'ruler' | 'protractor'
 
@@ -86,6 +86,7 @@ export const SAFE_GRADE4_UNIT_ID = 'unit-4-1-large-numbers'
 export const GRADE4_DIVISION_UNIT_ID = 'unit-4-1-multiplication-division'
 export const GRADE4_ESTIMATION_UNIT_ID = 'unit-4-1-arithmetic-estimation'
 export const GRADE4_DECIMAL_UNIT_ID = 'unit-4-2-decimals'
+export const GRADE4_FRACTION_ADD_SUB_UNIT_ID = 'unit-4-2-fraction-add-sub'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -136,6 +137,18 @@ export const grade4Units: Grade4Unit[] = [
     contentReleaseId: 'grade4-bridge-decimals-v1',
     releaseStatus: 'released',
   },
+  {
+    id: GRADE4_FRACTION_ADD_SUB_UNIT_ID,
+    semester: '4-2',
+    order: 5,
+    title: '분수의 덧셈과 뺄셈',
+    subtitle: '분모가 같은 분수와 대분수를 더하고 빼는 원리를 그림과 식으로 연결해요.',
+    learnerGoal: '분모가 같은 분수의 분자끼리 계산하고 받아내림이 필요한 까닭을 설명해요.',
+    curriculumCodes: ['[4수01-15]'],
+    prerequisiteCodes: ['[4수01-10]', '[4수01-11]'],
+    contentReleaseId: 'grade4-bridge-fraction-add-sub-v1',
+    releaseStatus: 'released',
+  },
 ]
 
 export function grade4ContentReleaseIdForUnit(unitId: string): string {
@@ -161,6 +174,13 @@ function scaledDecimal(value: number, places: number): string {
   const whole = Math.floor(value / scale)
   const fraction = String(value % scale).padStart(places, '0')
   return `${whole}.${fraction}`
+}
+
+function fractionText(numerator: number, denominator: number): string {
+  const whole = Math.floor(numerator / denominator)
+  const remainder = numerator % denominator
+  if (whole > 0 && remainder > 0) return `${whole} ${remainder}/${denominator}`
+  return `${numerator}/${denominator}`
 }
 
 function template(value: Grade4MissionTemplate): Grade4MissionTemplate {
@@ -925,6 +945,217 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
       }
     },
   }),
+  template({
+    id: 'g4-frac-01', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'knowing',
+    problemFamily: 'proper-fraction-addition', representation: 'fraction-strip', answerType: 'fraction', supportTool: 'grid', skillTag: '동분모 분수 덧셈',
+    learnerGoal: '분모가 같은 진분수는 분자끼리 더해요.',
+    promptTemplate: '분수 띠를 보고 분모가 같은 두 진분수의 합을 구하세요.', hintSteps: ['같은 크기의 조각끼리 더하므로 분모는 그대로예요.', '색칠한 조각 수인 분자끼리 더해요.'],
+    build: (v) => {
+      const denominator = 6 + (v % 3)
+      const firstNumerator = 1 + (v % 2)
+      const secondNumerator = 2 + (v % 3)
+      const correctAnswer = fractionText(firstNumerator + secondNumerator, denominator)
+      return {
+        prompt: `${firstNumerator}/${denominator} + ${secondNumerator}/${denominator}을 계산하세요.`,
+        correctAnswer,
+        solutionSteps: [`분모가 ${denominator}로 같으므로 분모는 그대로 둡니다.`, `분자끼리 더하면 ${firstNumerator}+${secondNumerator}=${firstNumerator + secondNumerator}이므로 ${correctAnswer}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'add' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-02', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'knowing',
+    problemFamily: 'proper-fraction-subtraction', representation: 'fraction-strip', answerType: 'fraction', supportTool: 'grid', skillTag: '동분모 분수 뺄셈',
+    learnerGoal: '분모가 같은 진분수는 분자끼리 빼요.',
+    promptTemplate: '분수 띠를 보고 분모가 같은 두 진분수의 차를 구하세요.', hintSteps: ['같은 크기의 조각을 덜어 내므로 분모는 그대로예요.', '처음 색칠한 조각 수에서 덜어 낸 조각 수를 빼요.'],
+    build: (v) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = denominator - 1
+      const secondNumerator = 1 + (v % 3)
+      const correctAnswer = fractionText(firstNumerator - secondNumerator, denominator)
+      return {
+        prompt: `${firstNumerator}/${denominator} - ${secondNumerator}/${denominator}을 계산하세요.`,
+        correctAnswer,
+        solutionSteps: [`분모가 ${denominator}로 같아 분모는 그대로 둡니다.`, `${firstNumerator}-${secondNumerator}=${firstNumerator - secondNumerator}이므로 ${correctAnswer}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'subtract' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-03', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'knowing',
+    problemFamily: 'mixed-number-addition', representation: 'fraction-strip', answerType: 'fraction', supportTool: 'grid', skillTag: '대분수 덧셈',
+    learnerGoal: '대분수를 분자 수로 보아 같은 분모끼리 더해요.',
+    promptTemplate: '분모가 같은 두 대분수의 합을 구하세요.', hintSteps: ['자연수 부분과 분수 부분을 각각 더할 수 있어요.', '분수 부분이 1보다 크면 자연수로 바꾸어 묶어요.'],
+    build: (v) => {
+      const denominator = 6 + (v % 4)
+      const firstNumerator = denominator + 1 + (v % 2)
+      const secondNumerator = denominator + 2
+      const correctAnswer = fractionText(firstNumerator + secondNumerator, denominator)
+      return {
+        prompt: `${fractionText(firstNumerator, denominator)} + ${fractionText(secondNumerator, denominator)}을 계산하세요.`,
+        correctAnswer,
+        solutionSteps: [`두 수를 ${firstNumerator}/${denominator}, ${secondNumerator}/${denominator}로 보면 분자 합은 ${firstNumerator + secondNumerator}입니다.`, `${firstNumerator + secondNumerator}/${denominator}을 대분수로 나타내면 ${correctAnswer}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'add' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-04', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'knowing',
+    problemFamily: 'mixed-number-subtraction-regrouping', representation: 'fraction-strip', answerType: 'fraction', supportTool: 'grid', skillTag: '대분수 받아내림',
+    learnerGoal: '분수 부분이 작을 때 자연수 1을 같은 분모의 분수로 바꾸어 빼요.',
+    promptTemplate: '받아내림이 필요한 대분수의 뺄셈을 계산하세요.', hintSteps: ['앞 수의 분수 부분만으로 뺄 수 있는지 먼저 살펴봐요.', '자연수 1을 분모와 같은 분수로 바꾸어 분수 부분에 더해요.'],
+    build: (v) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = 3 * denominator + 1 + (v % 2)
+      const secondNumerator = denominator + 3
+      const correctAnswer = fractionText(firstNumerator - secondNumerator, denominator)
+      return {
+        prompt: `${fractionText(firstNumerator, denominator)} - ${fractionText(secondNumerator, denominator)}을 계산하세요.`,
+        correctAnswer,
+        solutionSteps: [`앞 수에서 자연수 1을 ${denominator}/${denominator}로 바꾸어 분수 부분에 받아내림합니다.`, `${firstNumerator}/${denominator}-${secondNumerator}/${denominator}=${firstNumerator - secondNumerator}/${denominator}이므로 ${correctAnswer}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'subtract' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-05', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'applying',
+    problemFamily: 'recipe-fraction-sum', representation: 'context', answerType: 'fraction', supportTool: 'grid', skillTag: '분수 양 합하기',
+    learnerGoal: '같은 단위로 나타낸 두 양을 동분모 분수의 덧셈으로 구해요.',
+    promptTemplate: '두 재료의 양을 합하여 필요한 전체 양을 구하세요.', hintSteps: ['두 양의 분모와 단위가 같은지 확인해요.', '분자는 더하고 분모와 단위는 그대로 둬요.'],
+    build: (v) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = denominator - 3
+      const secondNumerator = 5
+      const correctAnswer = fractionText(firstNumerator + secondNumerator, denominator)
+      return {
+        prompt: `과일차 한 병에 물 ${firstNumerator}/${denominator} L와 과일즙 ${secondNumerator}/${denominator} L를 넣었습니다. 두 재료는 모두 몇 L인가요?`,
+        correctAnswer,
+        solutionSteps: [`단위와 분모가 같으므로 ${firstNumerator}+${secondNumerator}를 계산합니다.`, `두 재료의 양은 ${correctAnswer} L입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'add', firstLabel: '물', secondLabel: '과일즙' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-06', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'applying',
+    problemFamily: 'remaining-distance-fraction', representation: 'context', answerType: 'fraction', supportTool: 'grid', skillTag: '분수 양 빼기',
+    learnerGoal: '전체 거리에서 간 거리를 빼 남은 거리를 구해요.',
+    promptTemplate: '전체 거리와 이동한 거리를 동분모 대분수로 나타내어 남은 거리를 구하세요.', hintSteps: ['전체 거리에서 이미 간 거리를 빼요.', '분수 부분이 작으면 자연수 1을 분수로 바꾸어 받아내림해요.'],
+    build: (v) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = 2 * denominator + 2 + (v % 2)
+      const secondNumerator = denominator + 4
+      const correctAnswer = fractionText(firstNumerator - secondNumerator, denominator)
+      return {
+        prompt: `산책길 ${fractionText(firstNumerator, denominator)} km 중 ${fractionText(secondNumerator, denominator)} km를 걸었습니다. 남은 거리는 몇 km인가요?`,
+        correctAnswer,
+        solutionSteps: [`전체에서 걸은 거리를 빼는 식은 ${fractionText(firstNumerator, denominator)}-${fractionText(secondNumerator, denominator)}입니다.`, `${firstNumerator - secondNumerator}/${denominator}이므로 남은 거리는 ${correctAnswer} km입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'subtract', firstLabel: '전체', secondLabel: '걸은 거리' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-07', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'applying',
+    problemFamily: 'missing-fraction-addend', representation: 'fraction-strip', answerType: 'fraction', supportTool: 'grid', skillTag: '분수 덧셈 역산',
+    learnerGoal: '합과 한 덧셈 항을 보고 빠진 분수를 구해요.',
+    promptTemplate: '분수 덧셈식에서 빠진 덧셈 항을 구하세요.', hintSteps: ['빠진 덧셈 항은 합에서 알고 있는 덧셈 항을 빼면 돼요.', '세 분수의 분모가 같으므로 분자끼리 계산해요.'],
+    build: (v) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = 2 + (v % 3)
+      const totalNumerator = denominator + 1
+      const correctAnswer = fractionText(totalNumerator - firstNumerator, denominator)
+      return {
+        prompt: `${firstNumerator}/${denominator} + □ = ${fractionText(totalNumerator, denominator)}입니다. □에 알맞은 분수를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`빠진 수는 ${totalNumerator}/${denominator}-${firstNumerator}/${denominator}로 구합니다.`, `분자끼리 빼면 ${totalNumerator}-${firstNumerator}=${totalNumerator - firstNumerator}이므로 ${correctAnswer}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, totalNumerator, operation: 'missing-addend' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-08', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'applying',
+    problemFamily: 'select-fraction-situation-equation', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '분수 식 세우기',
+    learnerGoal: '남은 양을 구하는 상황을 알맞은 분수 뺄셈식으로 나타내요.',
+    promptTemplate: '사용하고 남은 양을 나타내는 올바른 동분모 분수 식을 고르세요.', hintSteps: ['남은 양은 처음 양에서 사용한 양을 빼요.', '같은 크기의 조각이므로 분모는 바꾸지 않아요.'],
+    build: (v, seed) => {
+      const denominator = 6 + (v % 3)
+      const firstNumerator = denominator + 3
+      const secondNumerator = 2 + (v % 2)
+      const difference = firstNumerator - secondNumerator
+      const correctAnswer = `${fractionText(firstNumerator, denominator)} - ${secondNumerator}/${denominator} = ${fractionText(difference, denominator)}`
+      return {
+        prompt: `색종이 ${fractionText(firstNumerator, denominator)}장 중 ${secondNumerator}/${denominator}장을 썼습니다. 남은 양을 나타내는 식을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `${fractionText(firstNumerator, denominator)} + ${secondNumerator}/${denominator} = ${fractionText(firstNumerator + secondNumerator, denominator)}`,
+          `${firstNumerator}/${denominator} - ${secondNumerator}/${denominator} = ${difference}/${denominator * 2}`,
+          `${firstNumerator}/${denominator} - ${secondNumerator}/${denominator} = ${difference}/${denominator - secondNumerator}`,
+        ], seed),
+        solutionSteps: ['남은 양이므로 처음 양에서 쓴 양을 뺍니다.', `분모는 그대로 두고 분자를 빼면 ${correctAnswer}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'subtract', firstLabel: '처음', secondLabel: '사용' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-09', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'reasoning',
+    problemFamily: 'denominator-addition-error', representation: 'fraction-strip', answerType: 'choice', supportTool: 'none', skillTag: '분수 덧셈 오류',
+    learnerGoal: '동분모 분수 덧셈에서 분모를 더하면 안 되는 까닭을 설명해요.',
+    promptTemplate: '분자와 분모를 모두 더한 계산의 오류를 분수 단위로 설명하세요.', hintSteps: ['분모는 한 조각의 크기를 나타내요.', '같은 크기의 조각을 합쳐도 한 조각의 크기는 바뀌지 않아요.'],
+    build: (v, seed) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = 2 + (v % 2)
+      const secondNumerator = 3
+      const sum = firstNumerator + secondNumerator
+      const correctAnswer = `조각의 크기는 ${denominator}분의 1로 같으므로 분모는 ${denominator}, 분자는 ${sum}이 됩니다.`
+      return {
+        prompt: `민호는 ${firstNumerator}/${denominator}+${secondNumerator}/${denominator}=${sum}/${denominator * 2}라고 계산했습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `분자와 분모를 모두 더한 ${sum}/${denominator * 2}이 맞습니다.`,
+          `분모만 더해 ${firstNumerator + secondNumerator}/${denominator * 2}이 아니라 ${firstNumerator}/${denominator * 2}이 됩니다.`,
+          '분수는 덧셈할 수 없으므로 두 수를 그대로 둬야 합니다.',
+        ], seed),
+        solutionSteps: [`두 분수는 모두 ${denominator}등분한 조각을 나타냅니다.`, `조각 수만 ${firstNumerator}+${secondNumerator}=${sum}으로 늘어나므로 ${sum}/${denominator}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'add' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-10', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'reasoning',
+    problemFamily: 'mixed-subtraction-regrouping-error', representation: 'context', answerType: 'choice', supportTool: 'grid', skillTag: '대분수 받아내림 오류',
+    learnerGoal: '대분수 뺄셈에서 자연수 1을 분수로 바꾸는 받아내림을 설명해요.',
+    promptTemplate: '분수 부분이 더 작은 대분수 뺄셈의 잘못된 풀이를 고치세요.', hintSteps: ['앞 수의 분수 부분에서 뒤 수의 분수 부분을 바로 뺄 수 있는지 봐요.', '자연수 1은 분모와 같은 수를 분자로 한 분수와 같아요.'],
+    build: (v, seed) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = 2 * denominator + 1
+      const secondNumerator = denominator + 3
+      const difference = firstNumerator - secondNumerator
+      const correctAnswer = `자연수 1을 ${denominator}/${denominator}로 바꾸어 받아내림하면 답은 ${fractionText(difference, denominator)}입니다.`
+      return {
+        prompt: `서준이는 ${fractionText(firstNumerator, denominator)}-${fractionText(secondNumerator, denominator)}에서 분수 부분 ${1}/${denominator}-${3}/${denominator}을 바로 계산할 수 없다고 멈췄습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `분수 부분을 바꾸지 않고 자연수끼리만 빼면 ${1}/${denominator}입니다.`,
+          `분수 부분의 순서를 바꾸어 ${3 - 1}/${denominator}로 계산하면 됩니다.`,
+          `분모에서 분자를 빼 ${denominator - 2}/${denominator}를 두 수에서 각각 만들면 됩니다.`,
+        ], seed),
+        solutionSteps: [`앞 수의 자연수 부분에서 1을 빌려 ${denominator}/${denominator}로 바꿉니다.`, `${firstNumerator}/${denominator}-${secondNumerator}/${denominator}=${difference}/${denominator}이므로 ${fractionText(difference, denominator)}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'subtract', firstLabel: '앞 수', secondLabel: '빼는 수' },
+      }
+    },
+  }),
 ]
 
 function positiveModulo(value: number, modulus: number): number {
@@ -934,6 +1165,10 @@ function positiveModulo(value: number, modulus: number): number {
 function isDeclaredAnswerValid(mission: Grade4Mission): boolean {
   if (mission.answerType === 'choice') return Boolean(mission.correctAnswer.trim())
   if (mission.answerType === 'decimal') return /^[+-]?\d+(?:\.\d+)?$/.test(mission.correctAnswer)
+  if (mission.answerType === 'fraction') {
+    const match = mission.correctAnswer.match(/^[+-]?(?:(\d+)\s+)?(\d+)\/(\d+)$/)
+    return Boolean(match && Number(match[3]) > 0)
+  }
   return /^[+-]?\d+$/.test(mission.correctAnswer)
 }
 

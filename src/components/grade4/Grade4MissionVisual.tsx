@@ -143,6 +143,67 @@ function Context({ mission }: { mission: Grade4Mission }) {
   )
 }
 
+function fractionDisplay(numerator: number, denominator: number): string {
+  const whole = Math.floor(numerator / denominator)
+  const remainder = numerator % denominator
+  return whole > 0 && remainder > 0 ? `${whole} ${remainder}/${denominator}` : `${numerator}/${denominator}`
+}
+
+function FractionBars({ numerator, denominator, labelText }: { numerator: number; denominator: number; labelText: string }) {
+  const barCount = Math.max(1, Math.ceil(numerator / denominator))
+  return (
+    <div className="min-w-0 rounded-2xl bg-white p-3 shadow-sm">
+      <p className="text-center text-xs font-black text-[#6366f1]">{labelText}</p>
+      <p className="mt-1 text-center text-xl font-black text-[#0f172a]">{fractionDisplay(numerator, denominator)}</p>
+      <div className="mt-3 grid gap-2">
+        {Array.from({ length: barCount }, (_, barIndex) => (
+          <div key={barIndex} className="grid overflow-hidden rounded-lg border-2 border-[#a5b4fc]" style={{ gridTemplateColumns: `repeat(${denominator}, minmax(0, 1fr))` }}>
+            {Array.from({ length: denominator }, (_, cellIndex) => {
+              const filled = barIndex * denominator + cellIndex < numerator
+              return <span key={cellIndex} aria-hidden="true" className={`h-7 border-r border-[#a5b4fc] last:border-r-0 ${filled ? 'bg-[#818cf8]' : 'bg-white'}`} />
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function FractionStrip({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
+  const denominator = Math.max(1, number(mission.visualConfig.denominator))
+  const firstNumerator = Math.max(0, number(mission.visualConfig.firstNumerator))
+  const secondValue = mission.visualConfig.secondNumerator
+  const secondNumerator = secondValue === undefined ? null : Math.max(0, number(secondValue))
+  const totalValue = mission.visualConfig.totalNumerator
+  const totalNumerator = totalValue === undefined ? null : Math.max(0, number(totalValue))
+  const operation = label(mission.visualConfig.operation)
+  const symbol = operation === 'subtract' ? '−' : '+'
+
+  return (
+    <div data-testid="grade4-visual-fraction-strip" data-denominator={denominator} className="overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-4">
+      <div className="grid min-w-0 gap-3 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] sm:items-center">
+        <FractionBars numerator={firstNumerator} denominator={denominator} labelText={label(mission.visualConfig.firstLabel) || '첫 번째 분수'} />
+        <span className="text-center text-3xl font-black text-[#f97316]">{symbol}</span>
+        {secondNumerator === null ? (
+          <div className="rounded-2xl border-2 border-dashed border-[#a5b4fc] bg-white p-6 text-center text-3xl font-black text-[#64748b]" aria-label="구할 분수">□</div>
+        ) : (
+          <FractionBars numerator={secondNumerator} denominator={denominator} labelText={label(mission.visualConfig.secondLabel) || '두 번째 분수'} />
+        )}
+      </div>
+      {totalNumerator !== null && (
+        <p className="mt-3 rounded-2xl bg-white p-3 text-center font-black text-[#4338ca]">
+          합은 {fractionDisplay(totalNumerator, denominator)}
+        </p>
+      )}
+      {showAnswer && mission.answerType === 'fraction' && (
+        <p data-testid="grade4-fraction-result" data-result={mission.correctAnswer} className="mt-3 rounded-2xl bg-[#dcfce7] p-3 text-center text-lg font-black text-[#166534]">
+          답: {mission.correctAnswer}
+        </p>
+      )}
+    </div>
+  )
+}
+
 function DivisionModel({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
   const divisor = number(mission.visualConfig.divisor)
   const dividend = number(mission.visualConfig.dividend)
@@ -198,5 +259,6 @@ export default function Grade4MissionVisual({ mission, showAnswer = false }: { m
   if (mission.visualModel === 'number-cards') return <NumberCards mission={mission} />
   if (mission.visualModel === 'number-line') return <NumberLine mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'division-model') return <DivisionModel mission={mission} showAnswer={showAnswer} />
+  if (mission.visualModel === 'fraction-strip') return <FractionStrip mission={mission} showAnswer={showAnswer} />
   return <Context mission={mission} />
 }

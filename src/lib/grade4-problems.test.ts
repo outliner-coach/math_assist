@@ -7,6 +7,7 @@ import {
   GRADE4_ACTIVITY_ITEM_COUNT,
   GRADE4_DECIMAL_UNIT_ID,
   GRADE4_ESTIMATION_UNIT_ID,
+  GRADE4_FRACTION_ADD_SUB_UNIT_ID,
   getGrade4Activity,
   getGrade4MissionBank,
   grade4MissionTemplates,
@@ -21,22 +22,23 @@ describe('Grade 4 Bridge release bank', () => {
     const result = validateGrade4MissionBank(ledger)
 
     expect(result.errors).toEqual([])
-    expect(grade4Units).toHaveLength(4)
+    expect(grade4Units).toHaveLength(5)
     expect(grade4Units.map((unit) => unit.id)).toEqual([
       'unit-4-1-large-numbers',
       'unit-4-1-multiplication-division',
       'unit-4-1-arithmetic-estimation',
       'unit-4-2-decimals',
+      'unit-4-2-fraction-add-sub',
     ])
-    expect(grade4MissionTemplates).toHaveLength(40)
+    expect(grade4MissionTemplates).toHaveLength(50)
     expect(result.summary).toMatchObject({
-      unitCount: 4,
-      templateCount: 40,
-      knowingCount: 16,
-      applyingCount: 16,
-      reasoningCount: 8,
-      reasoningFamilyCount: 8,
-      representationCount: 5,
+      unitCount: 5,
+      templateCount: 50,
+      knowingCount: 20,
+      applyingCount: 20,
+      reasoningCount: 10,
+      reasoningFamilyCount: 10,
+      representationCount: 6,
     })
 
     for (const unit of grade4Units) {
@@ -292,6 +294,65 @@ describe('Grade 4 Bridge release bank', () => {
 
       const missingDigit = templates.get('g4-dec-10')!.build(variant, variant)
       expect(Number(missingDigit.correctAnswer)).toBe(Number(missingDigit.visualConfig.thresholdDigit) - 1)
+    }
+  })
+
+  it('keeps every like-denominator fraction operation exact and answer-safe', () => {
+    const templates = new Map(
+      grade4MissionTemplates
+        .filter((item) => item.unitId === GRADE4_FRACTION_ADD_SUB_UNIT_ID)
+        .map((item) => [item.id, item]),
+    )
+    const parse = (value: string) => {
+      const match = value.match(/^(?:(\d+) )?(\d+)\/(\d+)$/)
+      if (!match) throw new Error(`invalid test fraction ${value}`)
+      return {
+        numerator: Number(match[1] ?? 0) * Number(match[3]) + Number(match[2]),
+        denominator: Number(match[3]),
+      }
+    }
+
+    expect(Array.from(templates.keys())).toEqual([
+      'g4-frac-01', 'g4-frac-02', 'g4-frac-03', 'g4-frac-04', 'g4-frac-05',
+      'g4-frac-06', 'g4-frac-07', 'g4-frac-08', 'g4-frac-09', 'g4-frac-10',
+    ])
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      for (const template of templates.values()) {
+        const mission = template.build(variant, variant)
+        if (mission.choices) {
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant}`).toBe(4)
+          expect(mission.choices.filter((choice) => choice === mission.correctAnswer), `${template.id} variant ${variant}`).toHaveLength(1)
+        } else {
+          const parsed = parse(mission.correctAnswer)
+          expect(parsed.denominator, `${template.id} variant ${variant}`).toBeGreaterThan(0)
+          expect(parsed.numerator, `${template.id} variant ${variant}`).toBeGreaterThan(0)
+        }
+      }
+
+      for (const id of ['g4-frac-01', 'g4-frac-03', 'g4-frac-05']) {
+        const mission = templates.get(id)!.build(variant, variant)
+        const answer = parse(mission.correctAnswer)
+        expect(answer.denominator).toBe(Number(mission.visualConfig.denominator))
+        expect(answer.numerator).toBe(
+          Number(mission.visualConfig.firstNumerator) + Number(mission.visualConfig.secondNumerator),
+        )
+      }
+
+      for (const id of ['g4-frac-02', 'g4-frac-04', 'g4-frac-06']) {
+        const mission = templates.get(id)!.build(variant, variant)
+        const answer = parse(mission.correctAnswer)
+        expect(answer.denominator).toBe(Number(mission.visualConfig.denominator))
+        expect(answer.numerator).toBe(
+          Number(mission.visualConfig.firstNumerator) - Number(mission.visualConfig.secondNumerator),
+        )
+      }
+
+      const missing = templates.get('g4-frac-07')!.build(variant, variant)
+      expect(parse(missing.correctAnswer).numerator).toBe(
+        Number(missing.visualConfig.totalNumerator) - Number(missing.visualConfig.firstNumerator),
+      )
+      expect(missing.visualConfig).not.toHaveProperty('resultNumerator')
     }
   })
 

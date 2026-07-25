@@ -45,5 +45,5 @@ DOM에 만든다. attempt receipt에는 `grade4-bridge-decimals-v1`만
 - 390×844 실화면에서 소수 둘째·셋째 자리표의 내부·페이지 가로
   넘침 없음, 제출 전 합성 답 부재, 소수 키패드, 콘솔 오류 0 확인
 
-다음 4학년 단원은 원장 순서상 `[4수01-15]`
-`unit-4-2-fraction-add-sub`다.
+다음 4학년 단원은 원장 순서상 `[4수01-16]`
+`unit-4-2-decimal-add-sub`다.

@@ -32,7 +32,7 @@ test('홈에서 4학년을 골라 세 번의 탭 안에 3문제 Bridge 활동에
 test('두 자리 수 나눗셈 단원은 몫을 숨기고 K/A/R 활동을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 4개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 5개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-1-multiplication-division').click()
 
   await expect(page).toHaveURL(/unitId=unit-4-1-multiplication-division/)
@@ -73,7 +73,7 @@ test('두 자리 수 나눗셈 단원은 몫을 숨기고 K/A/R 활동을 끝낸
 test('사칙계산 어림 단원은 네 연산과 방법 비교를 연결해 K/A/R 활동을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 4개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 5개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-1-arithmetic-estimation').click()
 
   await expect(page).toHaveURL(/unitId=unit-4-1-arithmetic-estimation/)
@@ -107,7 +107,7 @@ test('사칙계산 어림 단원은 네 연산과 방법 비교를 연결해 K/A
 test('소수 단원은 미완성 입력을 기록하지 않고 자릿값·배치·비교 추론 활동을 끝낸다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/4`)
-  await expect(page.getByText('검증된 단원 4개')).toBeVisible()
+  await expect(page.getByText('검증된 단원 5개')).toBeVisible()
   await page.getByTestId('grade4-unit-card-unit-4-2-decimals').click()
 
   await expect(page).toHaveURL(/unitId=unit-4-2-decimals/)
@@ -145,6 +145,47 @@ test('소수 단원은 미완성 입력을 기록하지 않고 자릿값·배치
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
     .toEqual(new Set(['grade4-bridge-decimals-v1']))
+  expect(stored.overflow).toBe(false)
+})
+
+test('분수 덧셈·뺄셈 단원은 미완성 입력을 기록하지 않고 동치 분수와 받아내림 추론을 끝낸다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(`${BASE_PATH}/grade/4`)
+  await expect(page.getByText('검증된 단원 5개')).toBeVisible()
+  await page.getByTestId('grade4-unit-card-unit-4-2-fraction-add-sub').click()
+
+  await expect(page).toHaveURL(/unitId=unit-4-2-fraction-add-sub/)
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-frac-02')
+  await expect(page.getByTestId('grade4-visual-fraction-strip')).not.toContainText('답:')
+  await expect(page.getByTestId('grade4-integer-input')).toHaveAttribute('inputmode', 'text')
+  await page.getByTestId('grade4-integer-input').fill('1/')
+  await page.getByTestId('grade4-integer-submit').click()
+  await expect(page.getByTestId('grade4-input-error')).toBeVisible()
+  expect(await page.evaluate((key) => localStorage.getItem(key), RECEIPT_KEY)).toBeNull()
+
+  await page.getByTestId('grade4-integer-input').fill('5/8')
+  await page.getByTestId('grade4-integer-submit').click()
+  await page.getByTestId('grade4-next-mission').click()
+
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-frac-07')
+  await page.getByTestId('grade4-integer-input').fill('2/3')
+  await page.getByTestId('grade4-integer-submit').click()
+  await page.getByTestId('grade4-next-mission').click()
+
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-frac-10')
+  await page.getByRole('button', { name: '자연수 1을 9/9로 바꾸어 받아내림하면 답은 7/9입니다.' }).click()
+  await page.getByTestId('grade4-next-mission').click()
+
+  await expect(page.getByTestId('grade4-activity-complete')).toContainText('분수의 덧셈과 뺄셈 다리를 건넜어요!')
+  const stored = await page.evaluate(({ progressKey, receiptKey }) => ({
+    progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
+    ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
+    overflow: document.documentElement.scrollWidth > window.innerWidth,
+  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  expect(stored.progress.selectedUnitId).toBe('unit-4-2-fraction-add-sub')
+  expect(stored.ledger.receipts).toHaveLength(3)
+  expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
+    .toEqual(new Set(['grade4-bridge-fraction-add-sub-v1']))
   expect(stored.overflow).toBe(false)
 })
 
@@ -243,7 +284,7 @@ test('4학년 활동은 알기·적용·추론 3문제를 끝내고 새 변형�
 
 test('4학년 선택과 활동 화면은 작은 태블릿 폭에서 가로로 넘치지 않는다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  for (const route of ['/home', '/grade/4', '/grade/4/mission?unitId=unit-4-1-large-numbers', '/grade/4/mission?unitId=unit-4-1-arithmetic-estimation', '/grade/4/mission?unitId=unit-4-2-decimals']) {
+  for (const route of ['/home', '/grade/4', '/grade/4/mission?unitId=unit-4-1-large-numbers', '/grade/4/mission?unitId=unit-4-1-arithmetic-estimation', '/grade/4/mission?unitId=unit-4-2-decimals', '/grade/4/mission?unitId=unit-4-2-fraction-add-sub']) {
     await page.goto(`${BASE_PATH}${route}`)
     await expect.poll(async () => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   }

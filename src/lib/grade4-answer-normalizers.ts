@@ -1,4 +1,4 @@
-export type Grade4AnswerType = 'choice' | 'integer' | 'decimal'
+export type Grade4AnswerType = 'choice' | 'integer' | 'decimal' | 'fraction'
 
 export type Grade4AnswerResult =
   | { ok: true; correct: boolean }
@@ -6,6 +6,7 @@ export type Grade4AnswerResult =
 
 const INTEGER_PATTERN = /^[+-]?\d+$/
 const DECIMAL_PATTERN = /^[+-]?\d+(?:\.\d+)?$/
+const FRACTION_PATTERN = /^([+-])?(?:(\d+)\s+)?(\d+)\/(\d+)$/
 
 function normalizedDecimal(value: string): string {
   const negative = value.startsWith('-')
@@ -15,6 +16,20 @@ function normalizedDecimal(value: string): string {
   const fraction = fractionPart.replace(/0+$/, '')
   const magnitude = fraction ? `${whole}.${fraction}` : whole
   return negative && magnitude !== '0' ? `-${magnitude}` : magnitude
+}
+
+function parseFraction(value: string): { numerator: bigint; denominator: bigint } | null {
+  const match = value.match(FRACTION_PATTERN)
+  if (!match) return null
+  const denominator = BigInt(match[4])
+  if (denominator === BigInt(0)) return null
+  const whole = BigInt(match[2] ?? '0')
+  const part = BigInt(match[3])
+  const sign = match[1] === '-' ? BigInt(-1) : BigInt(1)
+  return {
+    numerator: sign * (whole * denominator + part),
+    denominator,
+  }
 }
 
 export function checkGrade4Answer(
@@ -36,6 +51,17 @@ export function checkGrade4Answer(
       throw new Error(`Invalid Grade 4 decimal answer: ${correctAnswer}`)
     }
     return { ok: true, correct: normalizedDecimal(answer) === normalizedDecimal(correctAnswer) }
+  }
+
+  if (answerType === 'fraction') {
+    const parsed = parseFraction(answer)
+    if (!parsed) return { ok: false, error: '분자/분모를 빠짐없이 쓰고 분모는 0이 아니어야 해요.' }
+    const correct = parseFraction(correctAnswer)
+    if (!correct) throw new Error(`Invalid Grade 4 fraction answer: ${correctAnswer}`)
+    return {
+      ok: true,
+      correct: parsed.numerator * correct.denominator === correct.numerator * parsed.denominator,
+    }
   }
 
   if (!INTEGER_PATTERN.test(answer)) {

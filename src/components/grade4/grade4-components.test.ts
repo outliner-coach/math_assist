@@ -73,6 +73,23 @@ describe('Grade4MissionVisual', () => {
     expect(hidden).not.toContain('grade4-decimal-composite-result')
     expect(shown).toContain(`data-composite="${mission.correctAnswer}"`)
   })
+
+  it('renders fraction operands from their model and withholds the result until reveal', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-frac-05')!
+    const hidden = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+    const shown = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission, showAnswer: true }))
+
+    expect(hidden).toContain('grade4-visual-fraction-strip')
+    expect(hidden).toContain(`data-denominator="${mission.visualConfig.denominator}"`)
+    expect(hidden).not.toContain('grade4-fraction-result')
+    expect(hidden).not.toContain(`data-result="${mission.correctAnswer}"`)
+    expect(hidden).not.toContain(mission.correctAnswer)
+    expect(shown).toContain(`data-result="${mission.correctAnswer}"`)
+
+    const missing = getGrade4MissionBank(20260721).find((item) => item.id === 'g4-frac-07')!
+    const missingHidden = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission: missing }))
+    expect(missingHidden).not.toContain(missing.correctAnswer)
+  })
 })
 
 describe('Grade4MissionCard', () => {
@@ -97,6 +114,18 @@ describe('Grade4MissionCard', () => {
     expect(html).toContain('답을 소수로 써요')
     expect(html).toContain('inputMode="decimal"')
     expect(html).toContain('답을 빠짐없는 소수로 써요.')
+    expect(html).not.toContain('grade4-wrong-feedback')
+  })
+
+  it('uses a fraction text input without turning incomplete syntax into feedback', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-frac-01')!
+    const html = renderToStaticMarkup(createElement(Grade4MissionCard, {
+      mission, selectedAnswer: null, textAnswer: '1/', inputError: '분자/분모를 빠짐없이 써요.', wrongAttemptCount: 0,
+      showHint: false, solved: false, onChoiceAnswer: noop, onTextAnswerChange: noop, onSubmitText: noop, onShowHint: noop,
+    }))
+
+    expect(html).toContain('답을 분수로 써요')
+    expect(html).toContain('inputMode="text"')
     expect(html).not.toContain('grade4-wrong-feedback')
   })
 })
