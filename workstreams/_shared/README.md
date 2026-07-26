@@ -21,6 +21,16 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Problem editorial review catalog foundation (primary workstream
+  04) owns the new shared review-item contract, canonical content hash,
+  Grade 1-6 adapter registry, renderer-review version registry, deterministic
+  catalog generator, and editorial-ledger validator. Other workstreams should
+  preserve `reviewId=grade:sourceKind:sourceId`, supply explicit curriculum,
+  task-action, evidence, and visual-semantics metadata without inference, and
+  treat any hash input or renderer-review version change as making prior
+  editorial review stale. T2 does not own grade source data, public renderers,
+  or the final `docs/tracking/problem-editorial-review-v1.json` ledger.
+
 - 2026-07-26: Grade 5 number-range completion (primary workstreams 01, 03,
   and 04) owns `numberrange-001`, its deterministic A/B/C template bank,
   generator, `[6수01-02]` release reference, and the narrow addition of a
