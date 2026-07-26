@@ -464,7 +464,12 @@ function SingleClock({ hour, minute }: { hour: number; minute: number }) {
   const hourAngle = ((hour % 12) + minute / 60) * 30
 
   return (
-    <svg viewBox="0 0 220 220" role="img" aria-label={`${hour}시 ${minute}분 시계`} className="h-56 w-56 max-w-full">
+    <svg
+      viewBox="0 0 220 220"
+      role="img"
+      aria-label="숫자 눈금과 짧은 시침, 긴 분침이 있는 아날로그 시계"
+      className="h-56 w-56 max-w-full"
+    >
       <circle cx="110" cy="110" r="96" fill="#ffffff" stroke="#2563eb" strokeWidth="8" />
       {Array.from({ length: 12 }, (_, index) => {
         const angle = (index + 1) * 30 - 90

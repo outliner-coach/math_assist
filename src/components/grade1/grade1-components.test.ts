@@ -72,6 +72,17 @@ describe('grade 1 game components', () => {
     expect(hiddenComparison).not.toContain('border-[#58cc02]')
   })
 
+  it('uses the source-owned 10-column structure for the two 20-slot counting missions', () => {
+    for (const missionId of ['count-cove-04', 'count-cove-09']) {
+      const mission = getGrade1MissionById(missionId, 42)
+      const html = renderToStaticMarkup(createElement(Grade1MissionVisual, { mission }))
+
+      expect(mission.visualConfig.columns).toBe(10)
+      expect(html).toContain('grid-template-columns:repeat(10, minmax(0, 1fr))')
+      expect(html.match(/data-testid="grade1-counting-slot"/g)).toHaveLength(20)
+    }
+  })
+
   it('keeps the reward reveal hidden until the mission is solved', () => {
     const mission = getSafeGrade1Mission(42)
 

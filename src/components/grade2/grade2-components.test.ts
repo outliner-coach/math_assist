@@ -140,6 +140,30 @@ describe('grade 2 components', () => {
     expect(html).not.toContain('calc(1rem')
   })
 
+  it('describes every clock without exposing its exact time in the accessibility name', () => {
+    const clockMissionIds = [
+      'g2-2-time-01',
+      'g2-2-time-02',
+      'g2-2-time-04',
+      'g2-2-time-05',
+    ]
+
+    for (const missionId of clockMissionIds) {
+      const mission = getGrade2MissionById(missionId, 42)
+      const html = renderToStaticMarkup(createElement(Grade2MissionVisual, { mission }))
+      const hour = Number(mission.visualConfig.hour)
+      const minute = Number(mission.visualConfig.minute)
+      const endHour = mission.visualConfig.endHour
+      const endMinute = mission.visualConfig.endMinute
+
+      expect(html).toContain('aria-label="숫자 눈금과 짧은 시침, 긴 분침이 있는 아날로그 시계"')
+      expect(html).not.toContain(`aria-label="${hour}시 ${minute}분 시계"`)
+      if (endHour !== undefined && endMinute !== undefined) {
+        expect(html).not.toContain(`aria-label="${endHour}시 ${endMinute}분 시계"`)
+      }
+    }
+  })
+
   it('masks answer-only visual values until the answer is revealed', () => {
     const placeValueMission = getGrade2MissionById('g2-1-place-value-01', 42)
     const hiddenPlaceValueHtml = renderToStaticMarkup(

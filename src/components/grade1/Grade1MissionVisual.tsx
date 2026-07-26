@@ -73,7 +73,9 @@ function ObjectToken({
 function CountingGrid({ mission, emphasize }: Grade1MissionVisualProps) {
   const count = asNumber(mission.visualConfig.count)
   const slots = asNumber(mission.visualConfig.slots, 10)
+  const columns = Math.max(1, asNumber(mission.visualConfig.columns, 5))
   const asset = objectAssets[asString(mission.visualConfig.object, 'apple')] ?? grade1Objects.apple
+  const compact = columns > 5
 
   return (
     <div
@@ -83,18 +85,24 @@ function CountingGrid({ mission, emphasize }: Grade1MissionVisualProps) {
       aria-label={`${asset.alt} ${count}개가 놓여 있습니다`}
       data-testid="grade1-visual-counting-grid"
     >
-      <div className="grid grid-cols-5 gap-3">
+      <div
+        className={`grid ${compact ? 'gap-1 sm:gap-2' : 'gap-3'}`}
+        style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+      >
         {Array.from({ length: slots }, (_, index) => (
           <div
             key={index}
-            className={`flex aspect-square min-h-[44px] items-center justify-center rounded-2xl border-2 ${
+            data-testid="grade1-counting-slot"
+            className={`flex aspect-square items-center justify-center border-2 ${
+              compact ? 'min-h-[28px] rounded-lg sm:min-h-[40px] sm:rounded-xl' : 'min-h-[44px] rounded-2xl'
+            } ${
               index < count
                 ? 'border-[#ffc700] bg-[#fff8d9]'
                 : 'border-dashed border-[#e5e5e5] bg-white'
             }`}
           >
             {index < count ? (
-              <span className="block h-10 w-10">
+              <span className={compact ? 'block h-6 w-6 sm:h-9 sm:w-9' : 'block h-10 w-10'}>
                 <Grade1AssetImage
                   asset={{ ...asset, decorative: true, alt: '' }}
                   className="h-full w-full object-contain"

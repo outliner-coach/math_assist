@@ -115,6 +115,73 @@ describe('Grade3MissionVisual', () => {
     expect(html).toContain('aria-label="직각과 비교할 두 반직선"')
     expect(html).not.toMatch(/120\s*도|각도기|각도:/)
   })
+
+  it('renders every multiplication array cell in mobile-readable groups without exposing the product', () => {
+    const arrayMissionIds = [
+      'g3-1-multiply-01',
+      'g3-1-multiply-02',
+      'g3-1-multiply-03',
+      'g3-2-multiply-01',
+      'g3-2-multiply-02',
+      'g3-2-multiply-03',
+    ]
+
+    for (const missionId of arrayMissionIds) {
+      const mission = getGrade3MissionById(missionId, 42)
+      const rows = Number(mission.visualConfig.rows)
+      const columns = Number(mission.visualConfig.cols)
+      const html = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+
+      expect(html.match(/data-testid="grade3-array-cell"/g)).toHaveLength(rows * columns)
+      expect(html.match(/data-testid="grade3-array-group"/g)).toHaveLength(Math.ceil(columns / 10))
+      expect(html).not.toContain(`>${mission.correctAnswer}<`)
+    }
+  })
+
+  it('renders a measurable 0–6cm ruler and a model-derived object endpoint without answer text', () => {
+    const mission = getGrade3MissionById('g3-1-length-time-01', 42)
+    const html = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+
+    expect(html.match(/data-testid="grade3-ruler-tick"/g)).toHaveLength(61)
+    expect(html.match(/data-testid="grade3-ruler-label"/g)).toHaveLength(7)
+    expect(html).toContain('data-testid="grade3-ruler-object"')
+    expect(html).toContain('x2="468.67"')
+    expect(html).not.toContain('4cm 7mm')
+    expect(html).not.toContain('4cm7mm')
+    expect(html).not.toMatch(/aria-label="[^"]*47/)
+  })
+
+  it('provides graph axes, ticks, grid, and unit without a direct pre-answer bar label', () => {
+    const mission = getGrade3MissionById('g3-2-graph-01', 42)
+    const html = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+
+    expect(html).toContain('data-testid="grade3-graph-y-axis"')
+    expect(html).toContain('data-testid="grade3-graph-x-axis"')
+    expect(html.match(/data-testid="grade3-graph-gridline"/g)).toHaveLength(7)
+    expect(html.match(/data-testid="grade3-graph-y-tick"/g)).toHaveLength(7)
+    expect(html).toContain('눈금 한 칸 = 1개')
+    expect(html).toMatch(/data-testid="grade3-graph-count-0"[^>]*>□<\/span>/)
+    expect(html).not.toContain('aria-label="사과 6개"')
+  })
+
+  it('shows only the relevant center evidence for the center-name problem', () => {
+    const centerMission = getGrade3MissionById('g3-2-circle-01', 42)
+    const centerHtml = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission: centerMission }))
+
+    expect(centerHtml).toContain('data-testid="grade3-circle-center-point"')
+    expect(centerHtml).not.toContain('data-testid="grade3-circle-radius"')
+    expect(centerHtml).not.toContain('data-testid="grade3-circle-diameter"')
+    expect(centerHtml).not.toContain('반지름 5cm')
+    expect(centerHtml).not.toContain('지름 10cm')
+
+    for (const missionId of ['g3-2-circle-02', 'g3-2-circle-03']) {
+      const mission = getGrade3MissionById(missionId, 42)
+      const html = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+
+      expect(html).toContain('data-testid="grade3-circle-radius"')
+      expect(html).toContain('data-testid="grade3-circle-diameter"')
+    }
+  })
 })
 
 describe('Grade3MissionCard', () => {

@@ -67,6 +67,18 @@ describe('grade3 mission bank', () => {
     expect(result.errors).toEqual([])
   })
 
+  it('aligns editorial actions and semantics with the actual learner task', () => {
+    const circleCenter = grade3MissionTemplates.find((mission) => mission.id === 'g3-2-circle-01')
+    const circleCompass = grade3MissionTemplates.find((mission) => mission.id === 'g3-2-circle-03')
+    const capacityReader = grade3MissionTemplates.find((mission) => mission.id === 'g3-2-capacity-weight-01')
+    const weightReader = grade3MissionTemplates.find((mission) => mission.id === 'g3-2-capacity-weight-02')
+
+    expect(circleCenter?.visualSemantics).toBe('schematic')
+    expect(circleCompass?.taskActions).toEqual(['calculate'])
+    expect(capacityReader?.taskActions).toEqual(['interpret'])
+    expect(weightReader?.taskActions).toEqual(['interpret'])
+  })
+
   it('keeps choice answers unique and exact', () => {
     const missions = getGrade3Missions(42)
     for (const mission of missions.filter((item) => item.answerType === 'choice' || item.answerType === 'label')) {

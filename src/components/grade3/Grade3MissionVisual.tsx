@@ -136,14 +136,42 @@ function DivisionGroups({ mission, showAnswer }: { mission: Grade3Mission; showA
 }
 
 function ArrayArea({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
-  const rows = Math.min(asNumber(mission.visualConfig.rows, 1), 12)
-  const cols = Math.min(asNumber(mission.visualConfig.cols, 1), 24)
+  const rows = Math.max(1, Math.floor(asNumber(mission.visualConfig.rows, 1)))
+  const cols = Math.max(1, Math.floor(asNumber(mission.visualConfig.cols, 1)))
   const product = asNumber(mission.visualConfig.product)
+  const columnGroups: number[] = []
+  for (let remaining = cols; remaining > 0; remaining -= 10) {
+    columnGroups.push(Math.min(remaining, 10))
+  }
+
   return (
     <div data-testid="grade3-visual-array-area" className="rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
-      <div className="grid gap-1 overflow-hidden rounded-2xl bg-white p-4" style={{ gridTemplateColumns: `repeat(${cols}, minmax(8px, 1fr))` }}>
-        {Array.from({ length: rows * cols }).map((_, index) => (
-          <span key={index} className="aspect-square rounded-sm bg-[#60a5fa]" />
+      <div
+        className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
+        role="img"
+        aria-label={`${rows}줄, ${cols}칸을 10칸씩 나누어 나타낸 점 배열`}
+      >
+        {columnGroups.map((groupColumns, groupIndex) => (
+          <div
+            key={groupIndex}
+            data-testid="grade3-array-group"
+            className="rounded-2xl border-2 border-[#bfdbfe] bg-white p-3 shadow-sm"
+          >
+            <div
+              className="grid gap-1"
+              style={{ gridTemplateColumns: `repeat(${groupColumns}, minmax(0, 1fr))` }}
+              aria-hidden="true"
+            >
+              {Array.from({ length: rows * groupColumns }).map((_, index) => (
+                <span
+                  key={index}
+                  data-testid="grade3-array-cell"
+                  className="aspect-square min-h-2 rounded-sm bg-[#60a5fa]"
+                />
+              ))}
+            </div>
+            <p className="mt-2 text-center text-xs font-black text-[#64748b]">{groupColumns}칸 묶음</p>
+          </div>
         ))}
       </div>
       <p className="mt-4 text-center text-base font-black text-[#0f172a]">
@@ -156,15 +184,67 @@ function ArrayArea({ mission, showAnswer }: { mission: Grade3Mission; showAnswer
 function RulerMm({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
   const centimeters = asNumber(mission.visualConfig.centimeters)
   const millimeters = asNumber(mission.visualConfig.millimeters)
+  const maxMm = Math.max(10, Math.floor(asNumber(mission.visualConfig.maxMm, 60)))
+  const objectLengthMm = centimeters * 10 + millimeters
+  const rulerStartX = 30
+  const rulerWidth = 560
+  const rulerX = (millimeter: number) =>
+    Number((rulerStartX + (millimeter / maxMm) * rulerWidth).toFixed(2))
+  const objectEndX = rulerX(objectLengthMm)
+
   return (
     <div data-testid="grade3-visual-ruler-mm" className="rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
-      <div className="rounded-2xl bg-[#fef3c7] p-4">
-        <div className="flex h-20 items-end gap-1">
-          {Array.from({ length: 61 }).map((_, index) => (
-            <span key={index} className={`w-1 rounded-t bg-[#92400e] ${index % 10 === 0 ? 'h-16' : 'h-8'}`} />
-          ))}
-        </div>
-      </div>
+      <svg
+        viewBox="0 0 620 190"
+        role="img"
+        aria-label="0부터 6센티미터까지 센티미터와 밀리미터 눈금, 물체의 시작점과 끝점이 표시된 자"
+        className="h-auto w-full rounded-2xl bg-[#fef3c7]"
+      >
+        <line x1={rulerStartX} y1="130" x2={rulerStartX + rulerWidth} y2="130" stroke="#92400e" strokeWidth="5" />
+        {Array.from({ length: maxMm + 1 }).map((_, millimeter) => {
+          const isCentimeter = millimeter % 10 === 0
+          const isHalfCentimeter = millimeter % 5 === 0
+          const tickTop = isCentimeter ? 56 : isHalfCentimeter ? 76 : 92
+          return (
+            <g key={millimeter}>
+              <line
+                data-testid="grade3-ruler-tick"
+                x1={rulerX(millimeter)}
+                y1={tickTop}
+                x2={rulerX(millimeter)}
+                y2="130"
+                stroke="#92400e"
+                strokeWidth={isCentimeter ? 4 : 2}
+              />
+              {isCentimeter && (
+                <text
+                  data-testid="grade3-ruler-label"
+                  x={rulerX(millimeter)}
+                  y="42"
+                  textAnchor="middle"
+                  className="fill-[#78350f] text-2xl font-black"
+                >
+                  {millimeter / 10}
+                </text>
+              )}
+            </g>
+          )
+        })}
+        <text x="596" y="42" textAnchor="end" className="fill-[#78350f] text-lg font-black">cm</text>
+        <line
+          data-testid="grade3-ruler-object"
+          x1={rulerStartX}
+          y1="158"
+          x2={objectEndX}
+          y2="158"
+          stroke="#2563eb"
+          strokeWidth="12"
+          strokeLinecap="round"
+          aria-hidden="true"
+        />
+        <circle cx={rulerStartX} cy="158" r="8" fill="#1d4ed8" aria-hidden="true" />
+        <circle cx={objectEndX} cy="158" r="10" fill="#f97316" aria-hidden="true" />
+      </svg>
       <p className="mt-4 text-center text-base font-black text-[#0f172a]">
         길이 <MaskedValue value={`${centimeters}cm ${millimeters}mm`} showAnswer={showAnswer} testId="grade3-ruler-result" />
       </p>
@@ -249,6 +329,25 @@ function DecimalGrid({ mission, showAnswer }: { mission: Grade3Mission; showAnsw
 function CircleParts({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
   const radius = asNumber(mission.visualConfig.radius)
   const diameter = asNumber(mission.visualConfig.diameter)
+  const centerOnly = asString(mission.visualConfig.target) === '원의 중심'
+
+  if (centerOnly) {
+    return (
+      <div data-testid="grade3-visual-circle-parts" className="grid place-items-center rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
+        <div
+          role="img"
+          aria-label="테두리와 가운데 점이 표시된 원"
+          className="relative h-56 w-56 rounded-full border-8 border-[#2563eb] bg-white"
+        >
+          <span
+            data-testid="grade3-circle-center-point"
+            className="absolute left-1/2 top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#f97316]"
+          />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div data-testid="grade3-visual-circle-parts" className="grid place-items-center rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
       <div className="relative h-56 w-56 rounded-full border-8 border-[#2563eb] bg-white">
@@ -354,20 +453,107 @@ function TonneScale({ mission, showAnswer }: { mission: Grade3Mission; showAnswe
 function BarGraph({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
   const categories = asString(mission.visualConfig.categories).split(',')
   const counts = asString(mission.visualConfig.counts).split(',').map(Number)
-  const max = Math.max(...counts, 1)
+  const unitScale = Math.max(1, asNumber(mission.visualConfig.unitScale, 1))
+  const unitLabel = asString(mission.visualConfig.unitLabel, '개')
+  const max = Math.max(...counts, unitScale)
+  const topTick = Math.ceil(max / unitScale) * unitScale
+  const ticks = Array.from({ length: topTick / unitScale + 1 }, (_, index) => index * unitScale)
+  const chartLeft = 46
+  const chartRight = 348
+  const chartTop = 18
+  const chartBottom = 214
+  const chartHeight = chartBottom - chartTop
+  const slotWidth = (chartRight - chartLeft) / categories.length
+  const barWidth = Math.min(52, slotWidth * 0.48)
+  const yForValue = (value: number) =>
+    Number((chartBottom - (value / topTick) * chartHeight).toFixed(2))
+
   return (
     <div data-testid="grade3-visual-bar-graph" className="rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
-      <p className="mb-3 text-sm font-black text-[#2563eb]">눈금 한 칸 = {asNumber(mission.visualConfig.unitScale, 1)}</p>
-      <div className="grid grid-cols-3 items-end gap-3 rounded-2xl bg-white p-4">
-        {categories.map((category, index) => (
-          <div key={category} className="grid gap-2 text-center">
-            <div className="flex h-40 items-end justify-center">
-              <div className="w-12 rounded-t-xl bg-[#2563eb]" style={{ height: `${Math.max(12, (counts[index] / max) * 100)}%` }} />
+      <p className="mb-3 text-sm font-black text-[#2563eb]">눈금 한 칸 = {unitScale}{unitLabel}</p>
+      <div className="rounded-2xl bg-white p-2 sm:p-4">
+        <svg
+          viewBox="0 0 360 260"
+          role="img"
+          aria-label="세로축 눈금, 가로축 항목, 격자와 막대가 있는 막대그래프"
+          className="h-auto w-full"
+        >
+          {ticks.map((tick) => {
+            const y = yForValue(tick)
+            return (
+              <g key={tick}>
+                <line
+                  data-testid="grade3-graph-gridline"
+                  x1={chartLeft}
+                  y1={y}
+                  x2={chartRight}
+                  y2={y}
+                  stroke="#cbd5e1"
+                  strokeWidth="1.5"
+                />
+                <text
+                  data-testid="grade3-graph-y-tick"
+                  x={chartLeft - 10}
+                  y={y + 5}
+                  textAnchor="end"
+                  className="fill-[#475569] text-sm font-black"
+                >
+                  {tick}
+                </text>
+              </g>
+            )
+          })}
+          <line
+            data-testid="grade3-graph-y-axis"
+            x1={chartLeft}
+            y1={chartTop}
+            x2={chartLeft}
+            y2={chartBottom}
+            stroke="#0f172a"
+            strokeWidth="3"
+          />
+          <line
+            data-testid="grade3-graph-x-axis"
+            x1={chartLeft}
+            y1={chartBottom}
+            x2={chartRight}
+            y2={chartBottom}
+            stroke="#0f172a"
+            strokeWidth="3"
+          />
+          {categories.map((category, index) => {
+            const centerX = chartLeft + slotWidth * (index + 0.5)
+            const barTop = yForValue(counts[index])
+            return (
+              <g key={category}>
+                <rect
+                  data-testid={`grade3-graph-bar-${index}`}
+                  x={Number((centerX - barWidth / 2).toFixed(2))}
+                  y={barTop}
+                  width={Number(barWidth.toFixed(2))}
+                  height={Number((chartBottom - barTop).toFixed(2))}
+                  rx="8"
+                  fill="#2563eb"
+                />
+                <text
+                  x={Number(centerX.toFixed(2))}
+                  y="242"
+                  textAnchor="middle"
+                  className="fill-[#0f172a] text-sm font-black"
+                >
+                  {category}
+                </text>
+              </g>
+            )
+          })}
+        </svg>
+        <div className="mt-1 grid gap-2" style={{ gridTemplateColumns: `repeat(${categories.length}, minmax(0, 1fr))` }}>
+          {categories.map((category, index) => (
+            <div key={category} className="text-center">
+              <MaskedValue value={counts[index]} showAnswer={showAnswer} testId={`grade3-graph-count-${index}`} />
             </div>
-            <span className="text-sm font-black text-[#0f172a]">{category}</span>
-            <MaskedValue value={counts[index]} showAnswer={showAnswer} testId={`grade3-graph-count-${index}`} />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   )
