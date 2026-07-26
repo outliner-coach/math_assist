@@ -329,7 +329,85 @@ function DecimalGrid({ mission, showAnswer }: { mission: Grade3Mission; showAnsw
 function CircleParts({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
   const radius = asNumber(mission.visualConfig.radius)
   const diameter = asNumber(mission.visualConfig.diameter)
+  const mode = asString(mission.visualConfig.mode)
+  const centerLabel = asString(mission.visualConfig.centerLabel, 'O')
   const centerOnly = asString(mission.visualConfig.target) === '원의 중심'
+
+  if (mode === 'construction') {
+    const displayRadius = Math.min(72, Math.max(54, radius * 10))
+    const centerX = 70
+    const centerY = 135
+    const pencilX = centerX + displayRadius
+    const hingeX = (centerX + pencilX) / 2
+
+    return (
+      <div data-testid="grade3-visual-circle-parts" className="grid place-items-center rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
+        <svg
+          viewBox="0 0 210 215"
+          role="img"
+          aria-label="중심점 O, 컴퍼스 바늘 다리와 연필 다리, 한 바퀴 그리기 방향이 표시된 원 구성 안내"
+          className="h-auto w-full max-w-72 rounded-2xl bg-white"
+        >
+          <circle
+            data-testid="grade3-compass-construction-circle"
+            cx={centerX}
+            cy={centerY}
+            r={displayRadius}
+            fill="none"
+            stroke="#60a5fa"
+            strokeWidth="4"
+            strokeDasharray="8 7"
+          />
+          <line
+            data-testid="grade3-compass-needle-leg"
+            x1={hingeX}
+            y1="30"
+            x2={centerX}
+            y2={centerY}
+            stroke="#0f172a"
+            strokeWidth="9"
+            strokeLinecap="round"
+          />
+          <line
+            data-testid="grade3-compass-pencil-leg"
+            x1={hingeX}
+            y1="30"
+            x2={pencilX}
+            y2={centerY}
+            stroke="#f97316"
+            strokeWidth="9"
+            strokeLinecap="round"
+          />
+          <circle cx={hingeX} cy="30" r="10" fill="#facc15" stroke="#0f172a" strokeWidth="3" />
+          <circle
+            data-testid={`grade3-compass-center-${centerLabel}`}
+            cx={centerX}
+            cy={centerY}
+            r="7"
+            fill="#2563eb"
+          />
+          <text x={centerX - 15} y={centerY + 24} className="fill-[#0f172a] text-lg font-black">
+            {centerLabel}
+          </text>
+          <path
+            d={`M ${centerX + displayRadius * 0.65} ${centerY - displayRadius * 0.72} A ${displayRadius} ${displayRadius} 0 0 1 ${centerX + displayRadius * 0.98} ${centerY + displayRadius * 0.18}`}
+            fill="none"
+            stroke="#16a34a"
+            strokeWidth="4"
+            strokeLinecap="round"
+          />
+        </svg>
+        <p className="mt-4 text-center text-base font-black text-[#0f172a]">
+          유지한 컴퍼스 폭{' '}
+          <MaskedValue
+            value={`${radius}cm`}
+            showAnswer={showAnswer}
+            testId="grade3-compass-radius-result"
+          />
+        </p>
+      </div>
+    )
+  }
 
   if (centerOnly) {
     return (
@@ -372,6 +450,159 @@ function formatMixedMeasure(total: number, majorSize: number, majorUnit: string,
   return `${major}${majorUnit} ${minor}${minorUnit}`
 }
 
+function CapacityScaleRead({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
+  const totalMl = asNumber(mission.visualConfig.totalMl)
+  const maxTotal = Math.max(1, asNumber(mission.visualConfig.maxTotal, 2000))
+  const tickStep = Math.max(1, asNumber(mission.visualConfig.tickStep, 250))
+  const labelStep = Math.max(tickStep, asNumber(mission.visualConfig.labelStep, 500))
+  const chartTop = 22
+  const chartBottom = 266
+  const chartHeight = chartBottom - chartTop
+  const yFor = (value: number) =>
+    Number((chartBottom - (value / maxTotal) * chartHeight).toFixed(2))
+  const ticks = Array.from(
+    { length: Math.floor(maxTotal / tickStep) + 1 },
+    (_, index) => index * tickStep
+  )
+
+  return (
+    <div data-testid="grade3-visual-capacity-beaker" className="grid place-items-center rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
+      <svg
+        viewBox="0 0 300 300"
+        role="img"
+        aria-label={`0부터 ${maxTotal / 1000}리터까지 ${tickStep}밀리리터 간격 눈금과 물 높이가 있는 용기`}
+        className="h-auto w-full max-w-80 rounded-2xl bg-white"
+      >
+        <path d="M 76 22 L 76 266 Q 76 282 92 282 L 174 282 Q 190 282 190 266 L 190 22" fill="none" stroke="#0284c7" strokeWidth="7" />
+        <rect
+          data-testid="grade3-capacity-water-level"
+          x="81"
+          y={yFor(totalMl)}
+          width="104"
+          height={Number((chartBottom - yFor(totalMl)).toFixed(2))}
+          fill="#7dd3fc"
+          opacity="0.85"
+        />
+        {ticks.map((tick) => {
+          const y = yFor(tick)
+          const isLabel = tick % labelStep === 0
+          return (
+            <g key={tick}>
+              <line
+                data-testid="grade3-capacity-scale-tick"
+                x1="190"
+                y1={y}
+                x2={isLabel ? 216 : 205}
+                y2={y}
+                stroke="#0f172a"
+                strokeWidth={isLabel ? 4 : 2}
+              />
+              {isLabel && (
+                <text x="222" y={y + 5} className="fill-[#0f172a] text-sm font-black">
+                  {formatMixedMeasure(tick, 1000, 'L', 'mL')}
+                </text>
+              )}
+            </g>
+          )
+        })}
+      </svg>
+      <p className="mt-3 text-sm font-black text-[#0369a1]">작은 눈금 한 칸 = {tickStep}mL</p>
+      <p className="mt-3 text-center text-base font-black text-[#0f172a]">
+        측정한 들이{' '}
+        <MaskedValue
+          value={formatMixedMeasure(totalMl, 1000, 'L', 'mL')}
+          showAnswer={showAnswer}
+          testId="grade3-unit-result"
+        />
+      </p>
+    </div>
+  )
+}
+
+function WeightScaleRead({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
+  const totalG = asNumber(mission.visualConfig.totalG)
+  const maxTotal = Math.max(1, asNumber(mission.visualConfig.maxTotal, 3000))
+  const tickStep = Math.max(1, asNumber(mission.visualConfig.tickStep, 100))
+  const labelStep = Math.max(tickStep, asNumber(mission.visualConfig.labelStep, 500))
+  const ticks = Array.from(
+    { length: Math.floor(maxTotal / tickStep) + 1 },
+    (_, index) => index * tickStep
+  )
+  const angleFor = (value: number) => -120 + (value / maxTotal) * 240
+  const polar = (angle: number, radius: number) => {
+    const radians = ((angle - 90) * Math.PI) / 180
+    return {
+      x: Number((150 + Math.cos(radians) * radius).toFixed(2)),
+      y: Number((146 + Math.sin(radians) * radius).toFixed(2)),
+    }
+  }
+
+  return (
+    <div data-testid="grade3-visual-weight-scale" className="grid place-items-center rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
+      <svg
+        viewBox="0 0 300 285"
+        role="img"
+        aria-label={`0부터 ${maxTotal / 1000}킬로그램까지 ${tickStep}그램 간격 눈금과 바늘이 있는 저울`}
+        className="h-auto w-full max-w-80 rounded-2xl bg-white"
+      >
+        <circle cx="150" cy="146" r="126" fill="#f8fafc" stroke="#64748b" strokeWidth="7" />
+        {ticks.map((tick) => {
+          const angle = angleFor(tick)
+          const outer = polar(angle, 112)
+          const isLabel = tick % labelStep === 0
+          const inner = polar(angle, isLabel ? 88 : 98)
+          const label = polar(angle, 70)
+          return (
+            <g key={tick}>
+              <line
+                data-testid="grade3-weight-scale-tick"
+                x1={inner.x}
+                y1={inner.y}
+                x2={outer.x}
+                y2={outer.y}
+                stroke="#0f172a"
+                strokeWidth={isLabel ? 4 : 2}
+              />
+              {isLabel && (
+                <text
+                  x={label.x}
+                  y={label.y + 5}
+                  textAnchor="middle"
+                  className="fill-[#0f172a] text-xs font-black"
+                >
+                  {formatMixedMeasure(tick, 1000, 'kg', 'g')}
+                </text>
+              )}
+            </g>
+          )
+        })}
+        <line
+          data-testid="grade3-weight-scale-pointer"
+          x1="150"
+          y1="146"
+          x2="150"
+          y2="68"
+          stroke="#f97316"
+          strokeWidth="8"
+          strokeLinecap="round"
+          transform={`rotate(${angleFor(totalG)} 150 146)`}
+        />
+        <circle cx="150" cy="146" r="12" fill="#facc15" stroke="#0f172a" strokeWidth="4" />
+        <path d="M 76 238 Q 150 268 224 238" fill="none" stroke="#64748b" strokeWidth="12" strokeLinecap="round" />
+      </svg>
+      <p className="mt-3 text-sm font-black text-[#475569]">작은 눈금 한 칸 = {tickStep}g</p>
+      <p className="mt-3 text-center text-base font-black text-[#0f172a]">
+        측정한 무게{' '}
+        <MaskedValue
+          value={formatMixedMeasure(totalG, 1000, 'kg', 'g')}
+          showAnswer={showAnswer}
+          testId="grade3-unit-result"
+        />
+      </p>
+    </div>
+  )
+}
+
 function UnitVisual({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
   const isWeight = mission.visualModel === 'weight-scale'
   const mode = asString(mission.visualConfig.mode, 'measure')
@@ -383,6 +614,12 @@ function UnitVisual({ mission, showAnswer }: { mission: Grade3Mission; showAnswe
   const rightTotal = asNumber(isWeight ? mission.visualConfig.rightG : mission.visualConfig.rightMl)
   const operator = asString(mission.visualConfig.operator, '+')
   const label = `${majorValue}${majorUnit} ${minorValue}${minorUnit}`
+
+  if (mode === 'scale-read') {
+    return isWeight
+      ? <WeightScaleRead mission={mission} showAnswer={showAnswer} />
+      : <CapacityScaleRead mission={mission} showAnswer={showAnswer} />
+  }
 
   if (mode === 'operation') {
     return (

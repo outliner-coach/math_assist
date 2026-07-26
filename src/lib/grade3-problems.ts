@@ -280,12 +280,12 @@ const grade3QualityMetadataBySourceId: Record<string, Grade3QualityMetadata> = {
   'g3-2-division-03': quality('model', 'quantitative'),
   'g3-2-circle-01': quality('recognize', 'schematic'),
   'g3-2-circle-02': quality('calculate', 'quantitative'),
-  'g3-2-circle-03': quality('calculate', 'quantitative'),
+  'g3-2-circle-03': quality('construct', 'quantitative'),
   'g3-2-fraction-01': quality('compare', 'quantitative'),
   'g3-2-fraction-02': quality('classify', 'quantitative'),
   'g3-2-fraction-03': quality('compare', 'quantitative'),
-  'g3-2-capacity-weight-01': quality('interpret', 'quantitative'),
-  'g3-2-capacity-weight-02': quality('interpret', 'quantitative'),
+  'g3-2-capacity-weight-01': quality('measure', 'quantitative'),
+  'g3-2-capacity-weight-02': quality('measure', 'quantitative'),
   'g3-2-capacity-weight-03': quality('calculate', 'quantitative'),
   'g3-2-capacity-weight-04': quality('model', 'quantitative'),
   'g3-2-capacity-weight-05': quality('model', 'quantitative'),
@@ -873,17 +873,17 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     skill: 'circle',
     difficultyStep: 'applied',
     curriculumCode: '[4수03-07]',
-    learnerGoal: '컴퍼스로 그릴 원의 반지름을 정해요.',
+    learnerGoal: '중심과 반지름을 정해 컴퍼스로 원을 구성해요.',
     parentSummaryTag: '원 그리기',
-    prompt: '컴퍼스로 지름 14cm 원을 그리려면 몇 cm 벌릴까요?',
+    prompt: '① 풀이장에 중심 O를 찍고 컴퍼스를 자로 6cm 벌리세요. ② O에 바늘을 놓고 원을 그린 뒤, 유지한 폭을 쓰세요.',
     answerType: 'integer',
     answerConfig: integerAnswerConfig,
-    correctAnswer: '7',
-    hintSteps: ['컴퍼스는 반지름만큼 벌려요.', '지름의 반이 반지름이에요.'],
-    solutionSteps: ['14의 반은 7이에요.', '컴퍼스는 7cm 벌려요.'],
+    correctAnswer: '6',
+    hintSteps: ['먼저 중심 O를 표시하고 컴퍼스 바늘을 놓아요.', '자로 두 다리 사이를 6cm로 맞춘 뒤 폭을 바꾸지 않고 한 바퀴 돌려요.'],
+    solutionSteps: ['자로 컴퍼스 두 다리 사이를 6cm로 맞춰요.', '바늘을 중심 O에 고정하고 연필 다리를 한 바퀴 돌려 원을 그려요.', '원을 그리는 동안 유지한 컴퍼스 폭은 6cm예요.'],
     visualModel: 'circle-parts',
-    visualConfig: { radius: 7, diameter: 14, hideRadiusUntilReveal: true },
-    scaffoldConfig: { kind: 'circle-finder', prompt: '컴퍼스가 나타내는 것은?', options: ['반지름', '지름'] },
+    visualConfig: { mode: 'construction', centerLabel: 'O', radius: 6, hideRadiusUntilReveal: true },
+    scaffoldConfig: { kind: 'circle-finder', prompt: '원의 중심에 고정할 컴퍼스 부분을 확인해요.', options: ['바늘 다리', '연필 다리'] },
     rewardId: 'circleCompass',
   }),
   mission({
@@ -960,17 +960,17 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     skill: 'capacity-weight',
     difficultyStep: 'easy',
     curriculumCode: '[4수03-17]',
-    learnerGoal: 'L와 mL를 함께 읽어요.',
-    parentSummaryTag: '들이 읽기',
-    prompt: '물병에 1L 250mL가 들어 있어요. 들이를 써 보세요.',
+    learnerGoal: '용기 눈금으로 들이를 측정해 읽어요.',
+    parentSummaryTag: '들이 측정',
+    prompt: '눈금 있는 용기의 물 높이를 읽어 들이를 몇 L 몇 mL로 써 보세요.',
     answerType: 'capacity',
     answerConfig: capacityAnswerConfig,
     correctAnswer: '1L250mL',
-    hintSteps: commonHints.unit,
-    solutionSteps: ['L 칸에 1, mL 칸에 250을 써요.', '들이는 1L 250mL예요.'],
+    hintSteps: ['굵은 눈금은 500mL 간격이고 작은 눈금 한 칸은 250mL예요.', '물 높이는 1L 눈금에서 작은 눈금 한 칸 위에 있어요.'],
+    solutionSteps: ['1L 눈금 위의 작은 눈금 한 칸은 250mL를 더한 위치예요.', '들이는 1L 250mL예요.'],
     visualModel: 'capacity-beaker',
-    visualConfig: { mode: 'measure', liters: 1, milliliters: 250, totalMl: 1250 },
-    scaffoldConfig: { kind: 'unit-reader', prompt: '큰 단위와 작은 단위를 나누어 봐요.', options: ['L', 'mL'] },
+    visualConfig: { mode: 'scale-read', totalMl: 1250, maxTotal: 2000, tickStep: 250, labelStep: 500 },
+    scaffoldConfig: { kind: 'unit-reader', prompt: '물 높이 바로 아래의 굵은 눈금과 작은 눈금을 함께 읽어요.', options: ['굵은 눈금', '작은 눈금'] },
     rewardId: 'unitBottle',
   }),
   mission({
@@ -981,17 +981,17 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     skill: 'capacity-weight',
     difficultyStep: 'easy',
     curriculumCode: '[4수03-20]',
-    learnerGoal: 'kg와 g를 함께 읽어요.',
-    parentSummaryTag: '무게 읽기',
-    prompt: '가방의 무게는 2kg 300g입니다. 무게를 써 보세요.',
+    learnerGoal: '저울 눈금으로 무게를 측정해 읽어요.',
+    parentSummaryTag: '무게 측정',
+    prompt: '저울 바늘이 가리키는 무게를 몇 kg 몇 g으로 써 보세요.',
     answerType: 'weight',
     answerConfig: weightAnswerConfig,
     correctAnswer: '2kg300g',
-    hintSteps: commonHints.unit,
-    solutionSteps: ['kg 칸에 2, g 칸에 300을 써요.', '무게는 2kg 300g이에요.'],
+    hintSteps: ['숫자가 적힌 큰 눈금은 500g 간격이고 작은 눈금 한 칸은 100g이에요.', '바늘은 2kg 눈금에서 작은 눈금 세 칸 지난 곳을 가리켜요.'],
+    solutionSteps: ['2kg에서 작은 눈금 세 칸은 300g을 더한 위치예요.', '무게는 2kg 300g이에요.'],
     visualModel: 'weight-scale',
-    visualConfig: { mode: 'measure', kilograms: 2, grams: 300, totalG: 2300 },
-    scaffoldConfig: { kind: 'unit-reader', prompt: '저울의 큰 단위와 작은 단위를 봐요.', options: ['kg', 'g'] },
+    visualConfig: { mode: 'scale-read', totalG: 2300, maxTotal: 3000, tickStep: 100, labelStep: 500 },
+    scaffoldConfig: { kind: 'unit-reader', prompt: '바늘 바로 전의 큰 눈금과 지난 작은 눈금을 함께 읽어요.', options: ['큰 눈금', '작은 눈금'] },
     rewardId: 'unitBottle',
   }),
   mission({
@@ -1268,6 +1268,77 @@ function validateVisualSafety(template: Grade3MissionTemplate, errors: string[])
   }
 }
 
+function formatCapacityAnswer(totalMl: number): string {
+  const liters = Math.floor(totalMl / 1000)
+  const milliliters = totalMl % 1000
+  return liters > 0 ? `${liters}L${milliliters}mL` : `${milliliters}mL`
+}
+
+function formatWeightAnswer(totalG: number): string {
+  const kilograms = Math.floor(totalG / 1000)
+  const grams = totalG % 1000
+  return kilograms > 0 ? `${kilograms}kg${grams}g` : `${grams}g`
+}
+
+function validateRequiredActivityContract(template: Grade3MissionTemplate, errors: string[]) {
+  if (template.id === 'g3-2-circle-03') {
+    if (
+      template.curriculumCode !== '[4수03-07]'
+      || template.taskActions.length !== 1
+      || template.taskActions[0] !== 'construct'
+      || template.visualSemantics !== 'quantitative'
+      || template.visualConfig.mode !== 'construction'
+      || template.visualConfig.hideRadiusUntilReveal !== true
+      || !/①.*컴퍼스.*②.*원.*그(?:리|린|려)/.test(template.prompt)
+    ) {
+      errors.push(`${template.id}: [4수03-07] requires a two-stage compass construction activity`)
+    }
+    if (String(template.visualConfig.radius) !== template.correctAnswer) {
+      errors.push(`${template.id}: construction model radius must match the rule-based answer`)
+    }
+  }
+
+  if (template.id === 'g3-2-capacity-weight-01') {
+    const totalMl = Number(template.visualConfig.totalMl)
+    if (
+      template.taskActions.length !== 1
+      || template.taskActions[0] !== 'measure'
+      || template.visualSemantics !== 'quantitative'
+      || template.visualConfig.mode !== 'scale-read'
+      || !Number.isFinite(totalMl)
+      || !Number.isFinite(Number(template.visualConfig.tickStep))
+    ) {
+      errors.push(`${template.id}: capacity reading requires a quantitative measure activity`)
+    }
+    if (formatCapacityAnswer(totalMl) !== template.correctAnswer) {
+      errors.push(`${template.id}: capacity scale model must match the rule-based answer`)
+    }
+    if (template.prompt.replace(/\s/g, '').includes(template.correctAnswer.replace(/\s/g, ''))) {
+      errors.push(`${template.id}: prompt must not copy the capacity answer`)
+    }
+  }
+
+  if (template.id === 'g3-2-capacity-weight-02') {
+    const totalG = Number(template.visualConfig.totalG)
+    if (
+      template.taskActions.length !== 1
+      || template.taskActions[0] !== 'measure'
+      || template.visualSemantics !== 'quantitative'
+      || template.visualConfig.mode !== 'scale-read'
+      || !Number.isFinite(totalG)
+      || !Number.isFinite(Number(template.visualConfig.tickStep))
+    ) {
+      errors.push(`${template.id}: weight reading requires a quantitative measure activity`)
+    }
+    if (formatWeightAnswer(totalG) !== template.correctAnswer) {
+      errors.push(`${template.id}: weight scale model must match the rule-based answer`)
+    }
+    if (template.prompt.replace(/\s/g, '').includes(template.correctAnswer.replace(/\s/g, ''))) {
+      errors.push(`${template.id}: prompt must not copy the weight answer`)
+    }
+  }
+}
+
 export interface Grade3VariantAuditResult {
   sourceCount: number
   variantCount: number
@@ -1421,6 +1492,7 @@ export function validateGrade3MissionBank(
     validateFractionVisual(template, errors)
     validateGraphVisual(template, errors)
     validateVisualSafety(template, errors)
+    validateRequiredActivityContract(template, errors)
 
     const bucket = byUnit.get(template.unitId) ?? { total: 0, steps: { easy: 0, medium: 0, applied: 0 } }
     bucket.total += 1

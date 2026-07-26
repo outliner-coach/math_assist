@@ -174,13 +174,57 @@ describe('Grade3MissionVisual', () => {
     expect(centerHtml).not.toContain('반지름 5cm')
     expect(centerHtml).not.toContain('지름 10cm')
 
-    for (const missionId of ['g3-2-circle-02', 'g3-2-circle-03']) {
-      const mission = getGrade3MissionById(missionId, 42)
-      const html = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+    const radiusDiameterMission = getGrade3MissionById('g3-2-circle-02', 42)
+    const radiusDiameterHtml = renderToStaticMarkup(
+      createElement(Grade3MissionVisual, { mission: radiusDiameterMission })
+    )
 
-      expect(html).toContain('data-testid="grade3-circle-radius"')
-      expect(html).toContain('data-testid="grade3-circle-diameter"')
-    }
+    expect(radiusDiameterHtml).toContain('data-testid="grade3-circle-radius"')
+    expect(radiusDiameterHtml).toContain('data-testid="grade3-circle-diameter"')
+  })
+
+  it('supports the two-stage compass construction without visual answer exposure', () => {
+    const mission = getGrade3MissionById('g3-2-circle-03', 42)
+    const hidden = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+    const revealed = renderToStaticMarkup(
+      createElement(Grade3MissionVisual, { mission, showAnswer: true })
+    )
+
+    expect(hidden).toContain('data-testid="grade3-compass-construction-circle"')
+    expect(hidden).toContain('data-testid="grade3-compass-needle-leg"')
+    expect(hidden).toContain('data-testid="grade3-compass-pencil-leg"')
+    expect(hidden).toContain('data-testid="grade3-compass-center-O"')
+    expect(hidden).not.toContain('6cm')
+    expect(hidden).not.toMatch(/aria-label="[^"]*6/)
+    expect(revealed).toContain('6cm')
+  })
+
+  it('renders quantitative capacity and weight scales without pre-answer numeric labels', () => {
+    const capacity = getGrade3MissionById('g3-2-capacity-weight-01', 42)
+    const hiddenCapacity = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission: capacity }))
+    const revealedCapacity = renderToStaticMarkup(
+      createElement(Grade3MissionVisual, { mission: capacity, showAnswer: true })
+    )
+
+    expect(hiddenCapacity).toContain('data-testid="grade3-capacity-water-level"')
+    expect(hiddenCapacity.match(/data-testid="grade3-capacity-scale-tick"/g)).toHaveLength(9)
+    expect(hiddenCapacity).toContain('작은 눈금 한 칸 = 250mL')
+    expect(hiddenCapacity).not.toContain('1L 250mL')
+    expect(hiddenCapacity).not.toMatch(/aria-label="[^"]*1250/)
+    expect(revealedCapacity).toContain('1L 250mL')
+
+    const weight = getGrade3MissionById('g3-2-capacity-weight-02', 42)
+    const hiddenWeight = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission: weight }))
+    const revealedWeight = renderToStaticMarkup(
+      createElement(Grade3MissionVisual, { mission: weight, showAnswer: true })
+    )
+
+    expect(hiddenWeight).toContain('data-testid="grade3-weight-scale-pointer"')
+    expect(hiddenWeight.match(/data-testid="grade3-weight-scale-tick"/g)).toHaveLength(31)
+    expect(hiddenWeight).toContain('작은 눈금 한 칸 = 100g')
+    expect(hiddenWeight).not.toContain('2kg 300g')
+    expect(hiddenWeight).not.toMatch(/aria-label="[^"]*2300/)
+    expect(revealedWeight).toContain('2kg 300g')
   })
 })
 

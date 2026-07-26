@@ -74,9 +74,64 @@ describe('grade3 mission bank', () => {
     const weightReader = grade3MissionTemplates.find((mission) => mission.id === 'g3-2-capacity-weight-02')
 
     expect(circleCenter?.visualSemantics).toBe('schematic')
-    expect(circleCompass?.taskActions).toEqual(['calculate'])
-    expect(capacityReader?.taskActions).toEqual(['interpret'])
-    expect(weightReader?.taskActions).toEqual(['interpret'])
+    expect(circleCompass?.taskActions).toEqual(['construct'])
+    expect(circleCompass?.prompt).toContain('①')
+    expect(circleCompass?.prompt).toContain('②')
+    expect(circleCompass?.prompt).toContain('컴퍼스')
+    expect(circleCompass?.prompt).toContain('원을 그린')
+    expect(circleCompass?.correctAnswer).toBe('6')
+    expect(circleCompass?.visualConfig).toMatchObject({
+      mode: 'construction',
+      centerLabel: 'O',
+      radius: 6,
+      hideRadiusUntilReveal: true,
+    })
+
+    expect(capacityReader?.taskActions).toEqual(['measure'])
+    expect(capacityReader?.prompt).not.toContain('1L 250mL')
+    expect(capacityReader?.visualConfig).toMatchObject({
+      mode: 'scale-read',
+      totalMl: 1250,
+      maxTotal: 2000,
+      tickStep: 250,
+    })
+
+    expect(weightReader?.taskActions).toEqual(['measure'])
+    expect(weightReader?.prompt).not.toContain('2kg 300g')
+    expect(weightReader?.visualConfig).toMatchObject({
+      mode: 'scale-read',
+      totalG: 2300,
+      maxTotal: 3000,
+      tickStep: 100,
+    })
+  })
+
+  it('rejects curriculum-action drift and answer-copying regressions', () => {
+    const calculationCircle = grade3MissionTemplates.map((template) =>
+      template.id === 'g3-2-circle-03'
+        ? { ...template, taskActions: ['calculate'] as typeof template.taskActions, prompt: '14 ÷ 2는 얼마일까요?' }
+        : template
+    )
+    const answerCopyingCapacity = grade3MissionTemplates.map((template) =>
+      template.id === 'g3-2-capacity-weight-01'
+        ? { ...template, prompt: '1L 250mL 물의 들이를 읽어 보세요.' }
+        : template
+    )
+    const mismatchedWeightModel = grade3MissionTemplates.map((template) =>
+      template.id === 'g3-2-capacity-weight-02'
+        ? { ...template, visualConfig: { ...template.visualConfig, totalG: 2200 } }
+        : template
+    )
+
+    expect(validateGrade3MissionBank(calculationCircle).errors).toContain(
+      'g3-2-circle-03: [4수03-07] requires a two-stage compass construction activity'
+    )
+    expect(validateGrade3MissionBank(answerCopyingCapacity).errors).toContain(
+      'g3-2-capacity-weight-01: prompt must not copy the capacity answer'
+    )
+    expect(validateGrade3MissionBank(mismatchedWeightModel).errors).toContain(
+      'g3-2-capacity-weight-02: weight scale model must match the rule-based answer'
+    )
   })
 
   it('keeps choice answers unique and exact', () => {
