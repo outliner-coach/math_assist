@@ -69,18 +69,37 @@ export type ReviewVisualSemantics = typeof VISUAL_SEMANTICS[number]
 export type EditorialFindingCategory = typeof EDITORIAL_FINDING_CATEGORIES[number]
 export type RendererReviewVersionRegistry = Record<string, string>
 
+export type ProblemReviewJsonValue =
+  | string
+  | number
+  | boolean
+  | null
+  | ProblemReviewJsonValue[]
+  | { [key: string]: ProblemReviewJsonValue }
+
+export interface ProblemReviewGeneratedVariant {
+  key: string
+  prompt: string
+  choices: string[]
+  correctAnswer: string
+  solution: string[]
+  visualKind: string | null
+  visualConfig: ProblemReviewJsonValue
+}
+
 export interface ProblemReviewContent {
   prompt: string
   choices: string[]
-  answerRule: unknown
+  answerRule: ProblemReviewJsonValue
   hints: string[]
   solution: string[]
-  scaffold: unknown | null
-  tool: unknown | null
+  scaffold: ProblemReviewJsonValue
+  tool: ProblemReviewJsonValue
   visual: {
     kind: string
-    config: unknown
+    config: ProblemReviewJsonValue
   } | null
+  reviewVariants?: ProblemReviewGeneratedVariant[]
 }
 
 export interface ProblemReviewSource {
@@ -253,8 +272,8 @@ export function validateProblemReviewSource(source: ProblemReviewSource) {
     errors.push(`${reviewId}: sourceId must be non-empty and cannot contain ":"`)
   }
   if (source.grade === 1) {
-    if (source.semester !== null && !nonEmptyString(source.semester)) {
-      errors.push(`${reviewId}: semester must preserve the source value or be null`)
+    if (source.semester !== null) {
+      errors.push(`${reviewId}: semester must be null for Grade 1`)
     }
   } else if (!nonEmptyString(source.semester)) {
     errors.push(`${reviewId}: semester must preserve the non-empty source value`)
@@ -354,6 +373,12 @@ export function validateProblemReviewSource(source: ProblemReviewSource) {
     if (source.content.answerRule === undefined) errors.push(`${reviewId}: content.answerRule is required`)
     validateStringArray(source.content.hints, 'content.hints', reviewId, errors)
     validateStringArray(source.content.solution, 'content.solution', reviewId, errors)
+    if (
+      source.content.reviewVariants !== undefined
+      && !Array.isArray(source.content.reviewVariants)
+    ) {
+      errors.push(`${reviewId}: content.reviewVariants must be an array when present`)
+    }
   }
 
   return errors

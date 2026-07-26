@@ -164,6 +164,15 @@ describe('problem review catalog contract', () => {
     ).toThrow(/unregistered-renderer.*renderer review version/i)
   })
 
+  it('allows only null semester for Grade 1 sources', () => {
+    expect(() =>
+      createProblemReviewItem(
+        { ...sourceForGrade(1), semester: '1-1' },
+        rendererVersions
+      )
+    ).toThrow(/1:mission:source-1.*semester.*null/i)
+  })
+
   it.each([
     ['prompt', (source: ProblemReviewSource) => ({ ...source.content, prompt: 'Changed prompt' })],
     ['choices', (source: ProblemReviewSource) => ({ ...source.content, choices: ['4', '3', '2', '1'] })],

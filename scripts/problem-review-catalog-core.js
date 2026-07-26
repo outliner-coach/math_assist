@@ -14,6 +14,13 @@ const RENDERER_REVIEW_VERSION_REGISTRY = Object.freeze({
   'practice-problem-visual': 'practice-problem-visual-review-v1',
 })
 
+// Grade 4 builders accept variants 1..9. Catalog review always renders both
+// boundaries with fixed choice seeds so helper-driven output is reproducible.
+const GRADE4_REVIEW_BUILD_CASES = Object.freeze([
+  Object.freeze({ key: 'variant-min', variant: 1, choiceSeed: 2026072601 }),
+  Object.freeze({ key: 'variant-max', variant: 9, choiceSeed: 2026072609 }),
+])
+
 let contractModule
 
 function compileTsModule(sourcePath, moduleName) {
@@ -188,12 +195,36 @@ function adaptGrade3(rootDir) {
   })
 }
 
-function adaptGrade4(rootDir) {
-  const { grade4MissionTemplates, grade4Units } = loadGradeModule(rootDir, 4)
+function adaptGrade4Templates(grade4MissionTemplates, grade4Units) {
   const unitById = new Map(grade4Units.map(unit => [unit.id, unit]))
   return grade4MissionTemplates.map(template => {
+    const reviewVariants = GRADE4_REVIEW_BUILD_CASES.map(reviewCase => {
+      const built = template.build(reviewCase.variant, reviewCase.choiceSeed)
+      if (!built || typeof built.visualModel !== 'string') {
+        throw new Error(`${template.id}: Grade 4 review build ${reviewCase.key} is missing visualModel`)
+      }
+      return {
+        key: reviewCase.key,
+        prompt: built.prompt,
+        choices: built.choices ?? [],
+        correctAnswer: built.correctAnswer,
+        solution: built.solutionSteps,
+        visualKind: built.visualModel,
+        visualConfig: built.visualConfig,
+      }
+    })
+    const visualKinds = new Set(reviewVariants.map(variant => variant.visualKind))
+    if (visualKinds.size !== 1) {
+      throw new Error(`${template.id}: Grade 4 boundary review builds disagree on visualModel`)
+    }
+    const visualKind = reviewVariants[0].visualKind
     const buildSource = template.build.toString()
-    const visual = sourceVisual(template.representation, { buildSource })
+    const visual = sourceVisual(visualKind, {
+      reviewCases: reviewVariants.map(variant => ({
+        key: variant.key,
+        visualConfig: variant.visualConfig,
+      })),
+    })
     const tool = template.supportTool === 'none' ? null : { kind: template.supportTool }
     return {
       grade: 4,
@@ -207,7 +238,7 @@ function adaptGrade4(rootDir) {
       answerKind: template.answerType,
       taskActions: template.taskActions ?? [],
       requiredEvidence: actualEvidence({ visual, tool, scaffold: null }),
-      visualKind: template.representation ?? null,
+      visualKind,
       visualSemantics: visual === null ? 'none' : template.visualSemantics,
       rendererReviewKey: rendererKey(4, visual),
       isPublic: unitById.get(template.unitId)?.releaseStatus === 'released',
@@ -220,17 +251,21 @@ function adaptGrade4(rootDir) {
         scaffold: null,
         tool,
         visual,
+        reviewVariants,
       },
     }
   })
+}
+
+function adaptGrade4(rootDir) {
+  const { grade4MissionTemplates, grade4Units } = loadGradeModule(rootDir, 4)
+  return adaptGrade4Templates(grade4MissionTemplates, grade4Units)
 }
 
 function readPracticeData(rootDir) {
   const dataDir = path.join(rootDir, 'public', 'data')
   const units = JSON.parse(fs.readFileSync(path.join(dataDir, 'units.json'), 'utf8'))
   const concepts = JSON.parse(fs.readFileSync(path.join(dataDir, 'concepts.json'), 'utf8'))
-  const unitById = new Map(units.map(unit => [unit.id, unit]))
-  const conceptById = new Map(concepts.map(concept => [concept.id, concept]))
   const templateDir = path.join(dataDir, 'templates')
   const templates = fs.readdirSync(templateDir)
     .filter(fileName => fileName.endsWith('.json'))
@@ -240,14 +275,27 @@ function readPracticeData(rootDir) {
       if (!Array.isArray(value)) throw new Error(`${fileName}: template file must contain an array`)
       return value
     })
-  return { unitById, conceptById, templates }
+  return { units, concepts, templates }
 }
 
-function adaptPracticeGrade(rootDir, grade) {
-  const { unitById, conceptById, templates } = readPracticeData(rootDir)
+function adaptPracticeTemplates(grade, templates, concepts, units) {
+  const unitById = new Map(units.map(unit => [unit.id, unit]))
+  const conceptById = new Map(concepts.map(concept => [concept.id, concept]))
   return templates.flatMap(template => {
+    const sourceId = typeof template.id === 'string' && template.id
+      ? template.id
+      : '(missing template id)'
+    if (typeof template.concept_id !== 'string' || !template.concept_id) {
+      throw new Error(`${sourceId}: concept_id is required`)
+    }
     const concept = conceptById.get(template.concept_id)
-    const unit = concept ? unitById.get(concept.unit_id) : undefined
+    if (!concept) {
+      throw new Error(`${sourceId}: concept lookup failed for ${template.concept_id}`)
+    }
+    const unit = unitById.get(concept.unit_id)
+    if (!unit) {
+      throw new Error(`${sourceId}: unit lookup failed for ${concept.unit_id}`)
+    }
     if (unit?.grade !== grade) return []
 
     const visualKind = typeof template.visual_template?.type === 'string'
@@ -260,6 +308,8 @@ function adaptPracticeGrade(rootDir, grade) {
       template.blueprint?.primaryStandard,
       ...(template.blueprint?.connectedStandards ?? []),
     ].filter(Boolean)
+    const scaffold = template.scaffold ?? null
+    const tool = template.tool ?? null
     return [{
       grade,
       sourceKind: 'template',
@@ -271,7 +321,7 @@ function adaptPracticeGrade(rootDir, grade) {
       curriculumCodes: template.curriculumCodes ?? explicitCodes,
       answerKind: template.answerKind ?? template.type,
       taskActions: template.taskActions ?? template.blueprint?.taskActions ?? [],
-      requiredEvidence: actualEvidence({ visual, tool: null, scaffold: null }),
+      requiredEvidence: actualEvidence({ visual, tool, scaffold }),
       visualKind,
       visualSemantics: visual === null ? 'none' : template.visualSemantics ?? template.blueprint?.visualSemantics,
       rendererReviewKey: rendererKey(grade, visual),
@@ -282,12 +332,17 @@ function adaptPracticeGrade(rootDir, grade) {
         answerRule: template.solver_rule,
         hints: template.hint_steps_template ?? [],
         solution: template.solution_steps_template ?? [],
-        scaffold: template.scaffold ?? null,
-        tool: template.tool ?? null,
+        scaffold,
+        tool,
         visual,
       },
     }]
   })
+}
+
+function adaptPracticeGrade(rootDir, grade) {
+  const { units, concepts, templates } = readPracticeData(rootDir)
+  return adaptPracticeTemplates(grade, templates, concepts, units)
 }
 
 const GRADE_ADAPTER_REGISTRY = Object.freeze({
@@ -326,9 +381,12 @@ function readSourceFixture(sourcePath) {
 }
 
 module.exports = {
+  GRADE4_REVIEW_BUILD_CASES,
   GRADE_ADAPTER_REGISTRY,
   RENDERER_REVIEW_VERSION_REGISTRY,
   ROOT_DIR,
+  adaptGrade4Templates,
+  adaptPracticeTemplates,
   buildCatalog,
   catalogBytes,
   loadActualSources,
