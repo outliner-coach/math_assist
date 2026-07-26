@@ -19,6 +19,7 @@ const templatesByConcept = {
   'g6roundsolid-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6roundsolid.json'), 'utf8')),
   'g6spatial-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6spatial.json'), 'utf8')),
   'g6circle-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6circle.json'), 'utf8')),
+  'g6volume-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6volume.json'), 'utf8')),
 }
 
 describe('Grade 6 release validation', () => {
@@ -27,9 +28,9 @@ describe('Grade 6 release validation', () => {
 
     expect(result.errors).toEqual([])
     expect(result.summary).toMatchObject({
-      unitCount: 9,
-      conceptCount: 9,
-      templateCount: 270,
+      unitCount: 10,
+      conceptCount: 10,
+      templateCount: 300,
     })
   })
 
@@ -129,6 +130,30 @@ describe('Grade 6 release validation', () => {
     )
     expect(result.errors).toContain(
       'tmpl-g6circle-A-03: circle pi must be 3.14',
+    )
+  })
+
+  it('rejects volume visuals with invalid dimensions or answer fields', () => {
+    const invalidTemplates = structuredClone(templatesByConcept)
+    invalidTemplates['g6volume-001'][0].visual_template.width = '{{2 * p}}'
+    invalidTemplates['g6volume-001'][1].visual_template.result = '{{6 * p * p}}'
+    invalidTemplates['g6volume-001'][2].visual_template.fillFraction = 0.3
+
+    const result = validateGrade6Release({
+      units,
+      concepts,
+      ledger,
+      templatesByConcept: invalidTemplates,
+    })
+
+    expect(result.errors).toContain(
+      'tmpl-g6volume-A-01: cuboid dimensions must be positive and derive from p',
+    )
+    expect(result.errors).toContain(
+      'tmpl-g6volume-A-02: cuboid-measurement visual contains an answer-only key',
+    )
+    expect(result.errors).toContain(
+      'tmpl-g6volume-A-03: cuboid fillFraction must be 0.5, 0.8, or 1',
     )
   })
 })

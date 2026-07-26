@@ -221,6 +221,39 @@ function validateGrade6Release({ units, concepts, ledger, templatesByConcept }) 
           }
         }
       }
+      if (concept.id === 'g6volume-001') {
+        const visual = template.visual_template
+        if (visualContainsAnswerOnlyKey(visual)) {
+          fail(`${template.id}: cuboid-measurement visual contains an answer-only key`)
+        }
+        if (
+          !visual ||
+          visual.type !== 'cuboid' ||
+          visual.semantics !== 'quantitative'
+        ) {
+          fail(`${template.id}: surface-area/volume problem requires a quantitative cuboid visual`)
+        } else {
+          const validDimension = (value) => (
+            (Number.isInteger(value) && value >= 1 && value <= 100) ||
+            ['{{p}}', '{{p + 1}}', '{{p + 2}}'].includes(value)
+          )
+          if (![visual.width, visual.height, visual.depth].every(validDimension)) {
+            fail(`${template.id}: cuboid dimensions must be positive and derive from p`)
+          }
+          if (!['structure', 'faces'].includes(visual.focus)) {
+            fail(`${template.id}: cuboid focus must be structure or faces`)
+          }
+          if (![undefined, 0.5, 0.8, 1].includes(visual.fillFraction)) {
+            fail(`${template.id}: cuboid fillFraction must be 0.5, 0.8, or 1`)
+          }
+          if (
+            visual.unknownMeasurement !== undefined &&
+            !['width', 'height', 'depth'].includes(visual.unknownMeasurement)
+          ) {
+            fail(`${template.id}: unsupported cuboid unknown measurement`)
+          }
+        }
+      }
 
       const primaryStandard = template.blueprint?.primaryStandard
       const primaryRow = releasedRowsByStandard.get(primaryStandard)

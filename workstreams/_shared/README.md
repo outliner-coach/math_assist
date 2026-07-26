@@ -21,6 +21,15 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 6 surface-area and volume Study release (primary
+  workstreams 01, 02, 03, and 04) owns `unit-6-2-surface-area-volume`,
+  `g6volume-001`, its deterministic template bank/generator, three curriculum
+  rows, release identity, and the narrow quantitative extension of the shared
+  `cuboid` visual for open-top and partially filled models. Width, height, and
+  depth must drive every face, unit conversion, surface-area/volume expression,
+  and SVG proportion. Unknown dimensions remain masked before checking, and
+  derived surface area or volume must not enter the unchecked DOM.
+
 - 2026-07-26: Grade 6 circle-measurement Study release (primary workstreams
   01, 02, 03, and 04) owns the narrow addition of a quantitative
   `circle-measurement` visual payload in `src/lib/types.ts`, its shared

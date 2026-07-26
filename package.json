@@ -36,6 +36,7 @@
     "generate:grade6-round-solid": "node scripts/generate-grade6-round-solid-templates.js",
     "generate:grade6-spatial": "node scripts/generate-grade6-spatial-templates.js",
     "generate:grade6-circle": "node scripts/generate-grade6-circle-templates.js",
+    "generate:grade6-volume": "node scripts/generate-grade6-volume-templates.js",
     "generate:grade5-rounding": "node scripts/generate-grade5-rounding-templates.js",
     "migrate:grade5-blueprints": "node scripts/migrate-grade5-blueprints.js",
     "validate:templates": "node scripts/validate-templates.js",

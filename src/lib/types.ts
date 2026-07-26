@@ -193,12 +193,15 @@ export type GeometryVisual =
     }
   | {
       type: 'cuboid'
+      semantics?: 'quantitative'
       width: number
       height: number
       depth: number
       focus?: 'structure' | 'edges' | 'faces'
       unit?: string
       unknownMeasurement?: 'width' | 'height' | 'depth'
+      openTop?: boolean
+      fillFraction?: number
     }
   | {
       type: 'cuboid-net'
@@ -384,5 +387,5 @@ export type VisualAid =
     }
   | Extract<GeometryVisual, {
       type: 'poly-solid' | 'prism-net' | 'round-solid' | 'cylinder-net'
-        | 'cube-stack' | 'circle-measurement'
+        | 'cube-stack' | 'circle-measurement' | 'cuboid'
     }>

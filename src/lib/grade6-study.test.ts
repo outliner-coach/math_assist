@@ -38,6 +38,10 @@ import {
   serializeTemplates as serializeCircleTemplates,
   templates as generatedCircleTemplates,
 } from '../../scripts/generate-grade6-circle-templates.js'
+import {
+  serializeTemplates as serializeVolumeTemplates,
+  templates as generatedVolumeTemplates,
+} from '../../scripts/generate-grade6-volume-templates.js'
 import { evaluateTemplate } from '../../scripts/problem-quality-core.js'
 
 const ratioTemplates = JSON.parse(readFileSync(
@@ -76,6 +80,10 @@ const circleTemplates = JSON.parse(readFileSync(
   join(process.cwd(), 'public/data/templates/g6circle.json'),
   'utf8',
 )) as ProblemTemplate[]
+const volumeTemplates = JSON.parse(readFileSync(
+  join(process.cwd(), 'public/data/templates/g6volume.json'),
+  'utf8',
+)) as ProblemTemplate[]
 const releasedConceptTemplates = [
   ['g6ratio-001', ratioTemplates],
   ['g6fractiondiv-001', fractionDivisionTemplates],
@@ -86,6 +94,7 @@ const releasedConceptTemplates = [
   ['g6roundsolid-001', roundSolidTemplates],
   ['g6spatial-001', spatialTemplates],
   ['g6circle-001', circleTemplates],
+  ['g6volume-001', volumeTemplates],
 ] as const
 
 describe('Grade 6 Study release slice', () => {
@@ -471,6 +480,56 @@ describe('Grade 6 Study release slice', () => {
     }
   })
 
+  it('maps surface area, volume units, and volume to all three released standards', () => {
+    const primaryStandards = new Set(volumeTemplates.map(
+      (template) => template.blueprint?.primaryStandard,
+    ))
+    const familySets = (['A', 'B', 'C'] as const).map((setId) => new Set(
+      volumeTemplates
+        .filter((template) => template.set_id === setId)
+        .map((template) => template.problem_family),
+    ))
+
+    expect(primaryStandards).toEqual(new Set(['[6수03-17]', '[6수03-18]', '[6수03-19]']))
+    expect(new Set(volumeTemplates.map((template) => template.problem_family))).toHaveLength(30)
+    expect([...familySets[0]].filter((family) => familySets[1].has(family))).toEqual([])
+    expect([...familySets[0]].filter((family) => familySets[2].has(family))).toEqual([])
+    expect([...familySets[1]].filter((family) => familySets[2].has(family))).toEqual([])
+  })
+
+  it('reproduces the volume bank and resolves dimensions, units, and integer answers', () => {
+    expect(serializeVolumeTemplates()).toBe(readFileSync(
+      join(process.cwd(), 'public/data/templates/g6volume.json'),
+      'utf8',
+    ))
+    expect(generatedVolumeTemplates).toEqual(volumeTemplates)
+
+    for (const template of volumeTemplates) {
+      const { min, max } = template.param_schema.p
+      for (let p = min; p <= max; p += 1) {
+        const params = { p }
+        const rendered = [
+          evaluateTemplate(template.prompt_template, params),
+          ...template.solution_steps_template.map((step) => evaluateTemplate(step, params)),
+          ...(template.hint_steps_template ?? []).map((step) => evaluateTemplate(step, params)),
+        ]
+        const answer = evaluateTemplate(`{{${template.solver_rule}}}`, params)
+
+        expect(answer, `${template.id} p=${p}`).toMatch(/^\d+$/)
+        expect(rendered.some((text) => text.includes('?]')), `${template.id} p=${p}`).toBe(false)
+      }
+
+      expect(template.visual_template).toMatchObject({
+        type: 'cuboid',
+        semantics: 'quantitative',
+      })
+      expect(template.blueprint).toMatchObject({
+        visualSemantics: 'quantitative',
+      })
+      expect(template.blueprint?.representations).toContain('diagram')
+    }
+  })
+
   it.each([
     ['A', 5, { 1: 2, 2: 2, 3: 1 }],
     ['A', 10, { 1: 4, 2: 4, 3: 2 }],
@@ -683,6 +742,42 @@ describe('Grade 6 Study release slice', () => {
           expect(problem.visual.pi).toBe(3.14)
           expect(problem.visual.radius).toBeGreaterThan(0)
           expect(problem.visual.copies ?? 1).toBeGreaterThanOrEqual(1)
+        }
+        const html = renderToStaticMarkup(createElement(ProblemCard, {
+          problem,
+          answer: null,
+          checked: false,
+          onAnswer: () => undefined,
+        }))
+        expect(html).not.toContain('data-answer')
+        expect(html).not.toContain('correctAnswer')
+        expect(html).not.toContain('정답:')
+      }
+    },
+  )
+
+  it.each(['A', 'B', 'C'] as const)(
+    'generates, renders, and grades every surface-area and volume problem in set %s',
+    (setId) => {
+      vi.stubGlobal('React', React)
+      const problems = generateProblems(volumeTemplates, {
+        count: 10,
+        setId,
+        difficultyMix: { 1: 4, 2: 4, 3: 2 },
+        seed: 7410 + setId.charCodeAt(0),
+      })
+      const results = gradeSession(problems, problems.map((problem) => problem.correctAnswer))
+
+      expect(problems).toHaveLength(10)
+      expect(new Set(problems.map((problem) => problem.prompt))).toHaveLength(10)
+      expect(problems.every((problem) => /^\d+$/.test(problem.correctAnswer))).toBe(true)
+      expect(results.every((result) => result.correct)).toBe(true)
+      for (const problem of problems) {
+        expect(problem.visual?.type).toBe('cuboid')
+        if (problem.visual?.type === 'cuboid') {
+          expect(problem.visual.width).toBeGreaterThan(0)
+          expect(problem.visual.height).toBeGreaterThan(0)
+          expect(problem.visual.depth).toBeGreaterThan(0)
         }
         const html = renderToStaticMarkup(createElement(ProblemCard, {
           problem,

@@ -298,6 +298,36 @@ describe('GeometryProblemVisual', () => {
     expect(hiddenNarrow).toEqual(hiddenWide)
   })
 
+  it('renders open-top and partial-fill cuboids without derived area or volume labels', () => {
+    const openTop = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cuboid',
+        semantics: 'quantitative',
+        width: 6,
+        height: 3,
+        depth: 4,
+        focus: 'faces',
+        openTop: true,
+      },
+    }))
+    const halfFull = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cuboid',
+        semantics: 'quantitative',
+        width: 6,
+        height: 5,
+        depth: 4,
+        focus: 'structure',
+        fillFraction: 0.5,
+      },
+    }))
+
+    expect(openTop).toContain('data-cuboid-open-top')
+    expect(openTop).not.toContain('108cm²')
+    expect(halfFull).toContain('data-cuboid-fill-plane')
+    expect(halfFull).not.toContain('60cm³')
+  })
+
   it('keeps four distinct net options with exactly one foldable cube net', () => {
     for (let variant = 1; variant <= 4; variant += 1) {
       const { answerIndex, layouts } = buildCuboidNetOptions(variant)

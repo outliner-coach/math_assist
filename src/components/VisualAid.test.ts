@@ -89,4 +89,24 @@ describe('VisualAid', () => {
     expect(html).toContain('반지름 4cm')
     expect(html).not.toContain('50.24cm²')
   })
+
+  it('renders a quantitative cuboid through the shared geometry model', () => {
+    const html = renderToStaticMarkup(createElement(VisualAid, {
+      aid: {
+        type: 'cuboid',
+        semantics: 'quantitative',
+        width: 6,
+        height: 3,
+        depth: 4,
+        focus: 'faces',
+      },
+    }))
+
+    expect(html).toContain('geometry-visual-cuboid')
+    expect(html.match(/data-cuboid-face=/g)).toHaveLength(3)
+    expect(html).toContain('6cm')
+    expect(html).toContain('3cm')
+    expect(html).toContain('4cm')
+    expect(html).not.toContain('108cm²')
+  })
 })

@@ -487,11 +487,44 @@ function CuboidVisual({ visual, showAnswer }: {
   const layout = buildCuboidLayout(visual, showAnswer)
   const [frontTopLeft, frontTopRight, frontBottomRight, frontBottomLeft] = layout.front
   const [backTopLeft, backTopRight, backBottomRight, backBottomLeft] = layout.back
+  const fillFraction = typeof visual.fillFraction === 'number'
+    ? Math.max(0, Math.min(1, visual.fillFraction))
+    : 0
+  const interpolate = (bottom: Point, top: Point): Point => ({
+    x: bottom.x + (top.x - bottom.x) * fillFraction,
+    y: bottom.y + (top.y - bottom.y) * fillFraction,
+  })
+  const fillPlane = fillFraction > 0
+    ? [
+        interpolate(frontBottomLeft, frontTopLeft),
+        interpolate(backBottomLeft, backTopLeft),
+        interpolate(backBottomRight, backTopRight),
+        interpolate(frontBottomRight, frontTopRight),
+      ]
+    : []
   return (
     <svg viewBox="0 0 310 190" className="mx-auto w-full max-w-sm" role="img" aria-label="직육면체의 가로 세로 높이">
-      <polygon points={pointString([frontTopLeft, backTopLeft, backTopRight, frontTopRight])} fill="#eff6ff" stroke="#2563eb" strokeWidth="3" />
-      <polygon points={pointString([frontTopRight, backTopRight, backBottomRight, frontBottomRight])} fill="#bfdbfe" fillOpacity="0.8" stroke="#2563eb" strokeWidth="3" />
-      <polygon points={pointString(layout.front)} fill="#dbeafe" fillOpacity="0.65" stroke="#2563eb" strokeWidth="3" />
+      <polygon
+        points={pointString([frontTopLeft, backTopLeft, backTopRight, frontTopRight])}
+        fill={visual.openTop ? "none" : "#eff6ff"}
+        stroke="#2563eb"
+        strokeWidth="3"
+        strokeDasharray={visual.openTop ? "7 5" : undefined}
+        data-cuboid-face="top"
+        {...(visual.openTop ? { 'data-cuboid-open-top': '' } : {})}
+      />
+      <polygon points={pointString([frontTopRight, backTopRight, backBottomRight, frontBottomRight])} fill="#bfdbfe" fillOpacity="0.8" stroke="#2563eb" strokeWidth="3" data-cuboid-face="side" />
+      <polygon points={pointString(layout.front)} fill="#dbeafe" fillOpacity="0.65" stroke="#2563eb" strokeWidth="3" data-cuboid-face="front" />
+      {fillPlane.length > 0 && (
+        <polygon
+          points={pointString(fillPlane)}
+          fill="#38bdf8"
+          fillOpacity="0.45"
+          stroke="#0284c7"
+          strokeWidth="2"
+          data-cuboid-fill-plane=""
+        />
+      )}
       <line x1={frontBottomLeft.x} y1={frontBottomLeft.y} x2={backBottomLeft.x} y2={backBottomLeft.y} stroke="#64748b" strokeDasharray="5 4" />
       <line x1={backBottomLeft.x} y1={backBottomLeft.y} x2={backBottomRight.x} y2={backBottomRight.y} stroke="#64748b" strokeDasharray="5 4" />
       <line x1={backTopLeft.x} y1={backTopLeft.y} x2={backBottomLeft.x} y2={backBottomLeft.y} stroke="#64748b" strokeDasharray="5 4" />

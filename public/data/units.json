@@ -166,5 +166,13 @@
     "order": 3,
     "title": "원주율과 원의 넓이",
     "description": "측정으로 원주율을 이해하고 원주와 원의 넓이를 구해 생활 문제에 적용합니다."
+  },
+  {
+    "id": "unit-6-2-surface-area-volume",
+    "grade": 6,
+    "semester": "6-2",
+    "order": 4,
+    "title": "겉넓이와 부피",
+    "description": "직육면체와 정육면체의 겉넓이·부피를 구하고 부피 단위와 생활 문제에 적용합니다."
   }
 ]

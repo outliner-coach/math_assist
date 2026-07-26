@@ -264,6 +264,43 @@ test('반지름에서 원주·넓이·측정 원주를 같은 원 모델로 렌�
   await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
 })
 
+test('직육면체의 면·부분 채움·미지 높이를 같은 세 길이 모델로 렌더링한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/practice/g6volume-001?set=A&count=10`)
+  await expect(page.getByTestId('practice-session')).toBeVisible()
+  const visualIndexes = await page.evaluate((key) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return {
+      openTop: session.problems.findIndex((problem: {
+        visual?: { type?: string; openTop?: boolean }
+      }) => problem.visual?.type === 'cuboid' && problem.visual.openTop === true),
+      filled: session.problems.findIndex((problem: {
+        visual?: { type?: string; fillFraction?: number }
+      }) => problem.visual?.type === 'cuboid' && (problem.visual.fillFraction ?? 0) > 0),
+      unknown: session.problems.findIndex((problem: {
+        visual?: { type?: string; unknownMeasurement?: string }
+      }) => problem.visual?.type === 'cuboid' && problem.visual.unknownMeasurement === 'height'),
+    }
+  }, GRADE6_KEYS[0])
+  expect(visualIndexes.openTop).toBeGreaterThanOrEqual(0)
+  expect(visualIndexes.filled).toBeGreaterThanOrEqual(0)
+  expect(visualIndexes.unknown).toBeGreaterThanOrEqual(0)
+
+  await page.getByTestId(`progress-step-${visualIndexes.openTop + 1}`).click()
+  const openTop = page.getByTestId('geometry-visual-cuboid')
+  await expect(openTop.locator('[data-cuboid-face]')).toHaveCount(3)
+  await expect(openTop.locator('[data-cuboid-open-top]')).toHaveCount(1)
+
+  await page.getByTestId(`progress-step-${visualIndexes.filled + 1}`).click()
+  const filled = page.getByTestId('geometry-visual-cuboid')
+  await expect(filled.locator('[data-cuboid-fill-plane]')).toHaveCount(1)
+
+  await page.getByTestId(`progress-step-${visualIndexes.unknown + 1}`).click()
+  const unknown = page.getByTestId('geometry-visual-cuboid')
+  await expect(unknown.getByText('?cm')).toBeVisible()
+  await expect(page.locator('[data-answer]')).toHaveCount(0)
+  await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
+})
+
 test('손상된 6학년 세션은 원문을 보존하고 명시적 초기화 뒤에만 새로 저장한다', async ({ page }) => {
   await page.evaluate(({ grade5Key, grade6Key }) => {
     localStorage.setItem(grade5Key, '{"keep":"grade5"}')
@@ -354,6 +391,12 @@ for (const releasedConcept of [
     title: '원주율과 원의 둘레·넓이',
     conceptId: 'g6circle-001',
     releaseId: 'grade6-circle-measurement-v1',
+  },
+  {
+    unitId: 'unit-6-2-surface-area-volume',
+    title: '직육면체의 겉넓이와 부피',
+    conceptId: 'g6volume-001',
+    releaseId: 'grade6-surface-area-volume-v1',
   },
 ] as const) {
   test(`${releasedConcept.title} 단원을 찾아 5문제를 완주하고 단원별 콘텐츠 버전을 기록한다`, async ({ page }) => {

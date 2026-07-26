@@ -1641,11 +1641,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 29,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "직육면체와 전개도 뒤 겉넓이",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6volume-001"
+      ],
+      "allocationRationale": "6학년 겉넓이·부피 문제은행에서 세 쌍의 면, 정육면체 여섯 면, 열린 상자와 포장·공식 오류 분석을 정량 직육면체로 제공합니다.",
+      "reviewedBy": "grade6-surface-area-volume-release-2026-07-26"
     },
     {
       "standardCode": "[6수03-18]",
@@ -1659,11 +1661,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 29,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "넓이 단위 뒤 부피 단위",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6volume-001"
+      ],
+      "allocationRationale": "6학년 겉넓이·부피 문제은행에서 1cm³ 단위 쌓기, 1m³=1000000cm³의 세 방향 변환과 자릿값 오류 분석을 제공합니다.",
+      "reviewedBy": "grade6-surface-area-volume-release-2026-07-26"
     },
     {
       "standardCode": "[6수03-19]",
@@ -1678,11 +1682,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 29,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "겉넓이와 부피 단위 뒤 부피 계산",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6volume-001"
+      ],
+      "allocationRationale": "6학년 겉넓이·부피 문제은행에서 직육면체·정육면체 부피, 부분 채움, 층 제거, 높이 역산과 공식 오류 분석을 제공합니다.",
+      "reviewedBy": "grade6-surface-area-volume-release-2026-07-26"
     },
     {
       "standardCode": "[6수04-01]",

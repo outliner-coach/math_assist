@@ -129,6 +129,7 @@ export default function VisualAid({ aid }: VisualAidProps) {
     case 'cylinder-net':
     case 'cube-stack':
     case 'circle-measurement':
+    case 'cuboid':
       return <GeometryProblemVisual visual={aid} />
     default:
       return null
