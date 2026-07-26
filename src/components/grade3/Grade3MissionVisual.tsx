@@ -38,10 +38,13 @@ function VerticalOperation({ mission, showAnswer }: { mission: Grade3Mission; sh
   )
 }
 
-function LineAngleCards({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
-  const cards = asString(mission.visualConfig.cards, '예각,직각,둔각').split(',')
-  const angle = asNumber(mission.visualConfig.angle, 90)
-  const answerVisible = showAnswer || !mission.visualConfig.hideAngleUntilReveal
+function LineAngleCards({ mission }: { mission: Grade3Mission; showAnswer?: boolean }) {
+  const cards = mission.choices?.length
+    ? mission.choices
+    : asString(mission.visualConfig.cards).split(',').filter(Boolean)
+  const rayEndX = Number(mission.visualConfig.rayEndX)
+  const rayEndY = Number(mission.visualConfig.rayEndY)
+  const hasAngleRays = Number.isFinite(rayEndX) && Number.isFinite(rayEndY)
   return (
     <div data-testid="grade3-visual-line-angle-cards" className="rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
       <div className="grid gap-3 sm:grid-cols-3">
@@ -51,18 +54,55 @@ function LineAngleCards({ mission, showAnswer }: { mission: Grade3Mission; showA
           </div>
         ))}
       </div>
-      <div className="mt-5 grid place-items-center rounded-2xl bg-white p-5">
-        <div className="relative h-28 w-36">
-          <div className="absolute bottom-4 left-6 h-2 w-28 origin-left rounded bg-[#0f172a]" />
-          <div
-            className="absolute bottom-4 left-6 h-2 w-28 origin-left rounded bg-[#f97316]"
-            style={{ transform: `rotate(${-Math.min(angle, 160)}deg)` }}
-          />
+      {hasAngleRays && (
+        <div className="mt-5 grid place-items-center rounded-2xl bg-white p-5">
+          <svg
+            viewBox="0 0 180 130"
+            role="img"
+            aria-label="직각과 비교할 두 반직선"
+            className="h-36 w-full max-w-64"
+          >
+            <defs>
+              <marker id="grade3-ray-arrow-dark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f172a" />
+              </marker>
+              <marker id="grade3-ray-arrow-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#f97316" />
+              </marker>
+            </defs>
+            {mission.visualConfig.showRightAngleGuide && (
+              <g data-testid="grade3-right-angle-guide" aria-hidden="true">
+                <line x1="76" y1="100" x2="76" y2="24" stroke="#94a3b8" strokeWidth="3" strokeDasharray="7 6" />
+                <path d="M 76 82 L 94 82 L 94 100" fill="none" stroke="#94a3b8" strokeWidth="3" />
+              </g>
+            )}
+            <line
+              data-testid="grade3-angle-ray-base"
+              x1="76"
+              y1="100"
+              x2="154"
+              y2="100"
+              stroke="#0f172a"
+              strokeWidth="7"
+              strokeLinecap="round"
+              markerEnd="url(#grade3-ray-arrow-dark)"
+            />
+            <line
+              data-testid="grade3-angle-ray-compare"
+              x1="76"
+              y1="100"
+              x2={rayEndX}
+              y2={rayEndY}
+              stroke="#f97316"
+              strokeWidth="7"
+              strokeLinecap="round"
+              markerEnd="url(#grade3-ray-arrow-orange)"
+            />
+            <circle cx="76" cy="100" r="6" fill="#2563eb" />
+          </svg>
+          <p className="text-sm font-black text-[#64748b]">점선 직각과 표시한 각을 비교해 보세요.</p>
         </div>
-        <p className="text-sm font-black text-[#64748b]">
-          각도: <MaskedValue value={`${angle}도`} showAnswer={answerVisible} testId="grade3-angle-value" />
-        </p>
-      </div>
+      )}
     </div>
   )
 }

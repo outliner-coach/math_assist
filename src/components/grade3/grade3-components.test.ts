@@ -104,6 +104,17 @@ describe('Grade3MissionVisual', () => {
     expect(hiddenWeight).not.toContain('2kg450g')
     expect(shownWeight).toContain('2kg450g')
   })
+
+  it('renders the Grade 3 angle classification from two rays without numeric measurement', () => {
+    const mission = getGrade3MissionById('g3-1-lines-03', 42)
+    const html = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+
+    expect(html).toContain('data-testid="grade3-angle-ray-base"')
+    expect(html).toContain('data-testid="grade3-angle-ray-compare"')
+    expect(html).toContain('data-testid="grade3-right-angle-guide"')
+    expect(html).toContain('aria-label="직각과 비교할 두 반직선"')
+    expect(html).not.toMatch(/120\s*도|각도기|각도:/)
+  })
 })
 
 describe('Grade3MissionCard', () => {
@@ -122,7 +133,8 @@ describe('Grade3MissionCard', () => {
     expect(renderCard('g3-1-length-time-02')).toContain('grade3-time-seconds')
     expect(renderCard('g3-2-capacity-weight-01')).toContain('grade3-capacity-milliliters')
     expect(renderCard('g3-2-capacity-weight-02')).toContain('grade3-weight-grams')
-    expect(renderCard('g3-1-lines-03')).toContain('grade3-angle-input')
+    expect(renderCard('g3-1-lines-03')).toContain('grade3-choice-둔각')
+    expect(renderCard('g3-1-lines-03')).not.toContain('grade3-angle-input')
   })
 
   it('shows input errors without solution reveal', () => {

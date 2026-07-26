@@ -56,6 +56,50 @@ describe('grade3 mission bank', () => {
     }
   })
 
+  it('keeps g3-1-lines-03 as a right-angle comparison classification activity', () => {
+    const mission = getGrade3MissionById('g3-1-lines-03', 42)
+    const learningCopy = [
+      mission.learnerGoal,
+      mission.parentSummaryTag,
+      mission.prompt,
+      ...mission.hintSteps,
+      ...mission.solutionSteps,
+      mission.scaffoldConfig.prompt,
+    ].join(' ')
+
+    expect(mission.id).toBe('g3-1-lines-03')
+    expect(mission.curriculumCode).toBe('[4수03-02]')
+    expect(mission.answerType).toBe('label')
+    expect(mission.answerConfig).toEqual({ kind: 'label' })
+    expect(mission.correctAnswer).toBe('둔각')
+    expect(mission.choices).toEqual(['예각', '직각', '둔각'])
+    expect(mission.scaffoldConfig.options).toEqual(['직각보다 작다', '직각과 같다', '직각보다 크다'])
+    expect(learningCopy).toContain('직각')
+    expect(learningCopy).toContain('둔각')
+    expect(learningCopy).not.toMatch(/각도기|\d+\s*도|몇 도|눈금/)
+    expect(mission.visualConfig).toEqual({
+      rayEndX: 34,
+      rayEndY: 34,
+      showRightAngleGuide: true,
+    })
+    expect(Number(mission.visualConfig.rayEndX)).toBeLessThan(76)
+    expect(Number(mission.visualConfig.rayEndY)).toBeLessThan(100)
+
+    const comparisonActivities = grade3MissionTemplates.filter(
+      (template) => template.curriculumCode === '[4수03-02]'
+    )
+    const comparisonCopy = comparisonActivities
+      .flatMap((template) => [
+        template.learnerGoal,
+        template.prompt,
+        ...template.hintSteps,
+        ...template.solutionSteps,
+        template.scaffoldConfig.prompt,
+      ])
+      .join(' ')
+    expect(comparisonCopy).not.toMatch(/각도기|\d+\s*도|몇 도|눈금/)
+  })
+
   it('falls back to the safe mission for unknown ids', () => {
     expect(getGrade3MissionById('missing-id', 42).id).toBe('g3-1-add-sub-01')
   })

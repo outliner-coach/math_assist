@@ -240,7 +240,6 @@ const timeAnswerConfig: Grade3AnswerConfig = { kind: 'time-of-day', unit: 'time-
 const durationAnswerConfig: Grade3AnswerConfig = { kind: 'duration', unit: 'duration-hms', inputLabel: '걸린 시간을 써요' }
 const capacityAnswerConfig: Grade3AnswerConfig = { kind: 'capacity', unit: 'l-ml', inputLabel: '들이를 써요' }
 const weightAnswerConfig: Grade3AnswerConfig = { kind: 'weight', unit: 'kg-g', inputLabel: '무게를 써요' }
-const angleAnswerConfig: Grade3AnswerConfig = { kind: 'angle', unit: 'degree', inputLabel: '각도를 써요' }
 
 export const grade3MissionTemplates: Grade3MissionTemplate[] = [
   mission({
@@ -336,18 +335,18 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     skill: 'line-angle',
     difficultyStep: 'medium',
     curriculumCode: '[4수03-02]',
-    learnerGoal: '각의 크기를 보고 예각을 찾아요.',
+    learnerGoal: '직각과 비교해 예각을 찾아요.',
     parentSummaryTag: '각의 종류',
     prompt: '직각보다 작은 각은 무엇일까요?',
     answerType: 'label',
     answerConfig: labelAnswerConfig,
     correctAnswer: '예각',
     choices: ['예각', '직각', '둔각'],
-    hintSteps: ['직각은 90도예요.', '90도보다 작으면 예각이에요.'],
+    hintSteps: ['표시한 각을 직각과 나란히 놓아 보세요.', '직각보다 작은 각은 예각이에요.'],
     solutionSteps: ['직각보다 작은 각을 예각이라고 해요.'],
     visualModel: 'line-angle-cards',
-    visualConfig: { angle: 45, target: '예각' },
-    scaffoldConfig: { kind: 'angle-classifier', prompt: '90도와 비교해요.', options: ['작다', '같다', '크다'] },
+    visualConfig: { rayEndX: 138, rayEndY: 42, showRightAngleGuide: true },
+    scaffoldConfig: { kind: 'angle-classifier', prompt: '직각과 비교해요.', options: ['직각보다 작다', '직각과 같다', '직각보다 크다'] },
     rewardId: 'shapeLens',
   }),
   mission({
@@ -358,17 +357,18 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     skill: 'line-angle',
     difficultyStep: 'applied',
     curriculumCode: '[4수03-02]',
-    learnerGoal: '각도기 그림에서 각의 크기를 읽어요.',
-    parentSummaryTag: '각도 읽기',
-    prompt: '도형 그림에서 표시한 각은 몇 도일까요?',
-    answerType: 'angle',
-    answerConfig: angleAnswerConfig,
-    correctAnswer: '120도',
-    hintSteps: ['0도 선에서 시작해 눈금을 읽어요.', '90도보다 크니 둔각이에요.'],
-    solutionSteps: ['눈금이 120을 가리키므로 120도예요.'],
+    learnerGoal: '직각과 비교해 표시한 각을 분류해요.',
+    parentSummaryTag: '각의 종류',
+    prompt: '그림에 표시한 각은 직각과 비교할 때 어떤 각일까요?',
+    answerType: 'label',
+    answerConfig: labelAnswerConfig,
+    correctAnswer: '둔각',
+    choices: ['예각', '직각', '둔각'],
+    hintSteps: ['두 반직선 사이가 직각보다 더 벌어졌는지 살펴봐요.', '직각보다 큰 각은 둔각이에요.'],
+    solutionSteps: ['표시한 두 반직선 사이의 각은 직각보다 커요.', '따라서 둔각이에요.'],
     visualModel: 'line-angle-cards',
-    visualConfig: { angle: 120, target: '120', hideAngleUntilReveal: true },
-    scaffoldConfig: { kind: 'angle-classifier', prompt: '각의 종류를 먼저 골라요.', options: ['예각', '직각', '둔각'] },
+    visualConfig: { rayEndX: 34, rayEndY: 34, showRightAngleGuide: true },
+    scaffoldConfig: { kind: 'angle-classifier', prompt: '표시한 각을 직각과 비교해요.', options: ['직각보다 작다', '직각과 같다', '직각보다 크다'] },
     rewardId: 'shapeLens',
   }),
   mission({
