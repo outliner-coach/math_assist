@@ -20,6 +20,7 @@ const templatesByConcept = {
   'g6spatial-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6spatial.json'), 'utf8')),
   'g6circle-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6circle.json'), 'utf8')),
   'g6volume-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6volume.json'), 'utf8')),
+  'g6ratiograph-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6ratiograph.json'), 'utf8')),
 }
 
 describe('Grade 6 release validation', () => {
@@ -28,9 +29,9 @@ describe('Grade 6 release validation', () => {
 
     expect(result.errors).toEqual([])
     expect(result.summary).toMatchObject({
-      unitCount: 10,
-      conceptCount: 10,
-      templateCount: 300,
+      unitCount: 11,
+      conceptCount: 11,
+      templateCount: 330,
     })
   })
 
@@ -154,6 +155,30 @@ describe('Grade 6 release validation', () => {
     )
     expect(result.errors).toContain(
       'tmpl-g6volume-A-03: cuboid fillFraction must be 0.5, 0.8, or 1',
+    )
+  })
+
+  it('rejects ratio graphs with invalid totals, kinds, or answer fields', () => {
+    const invalidTemplates = structuredClone(templatesByConcept)
+    invalidTemplates['g6ratiograph-001'][0].visual_template.props.segments[0].percent = 15
+    invalidTemplates['g6ratiograph-001'][1].visual_template.props.kind = 'pie'
+    invalidTemplates['g6ratiograph-001'][2].visual_template.answer = '40'
+
+    const result = validateGrade6Release({
+      units,
+      concepts,
+      ledger,
+      templatesByConcept: invalidTemplates,
+    })
+
+    expect(result.errors).toContain(
+      'tmpl-g6ratiograph-A-01: ratio graph segments must stay positive and sum to 100 for p=2',
+    )
+    expect(result.errors).toContain(
+      'tmpl-g6ratiograph-A-02: ratio graph kind must be band or circle',
+    )
+    expect(result.errors).toContain(
+      'tmpl-g6ratiograph-A-03: ratio-graph visual contains an answer-only key',
     )
   })
 })

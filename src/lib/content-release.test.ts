@@ -15,6 +15,7 @@ describe('content release IDs', () => {
     expect(resolveContentReleaseId(6, 'g6spatial-001')).toBe('grade6-spatial-reasoning-v1')
     expect(resolveContentReleaseId(6, 'g6circle-001')).toBe('grade6-circle-measurement-v1')
     expect(resolveContentReleaseId(6, 'g6volume-001')).toBe('grade6-surface-area-volume-v1')
+    expect(resolveContentReleaseId(6, 'g6ratiograph-001')).toBe('grade6-ratio-graphs-v1')
   })
 
   it('fails closed for an unknown Grade 6 concept', () => {

@@ -157,6 +157,19 @@ export type ProblemVisual =
         }>
       }
     }
+  | {
+      type: 'ratio_graph'
+      semantics: 'quantitative'
+      props: {
+        caption: string
+        kind: 'band' | 'circle'
+        segments: Array<{
+          label: string
+          percent: number
+        }>
+        maskedValueIndex?: number
+      }
+    }
 
 export type GeometryVisual =
   | ProblemVisual
@@ -389,3 +402,4 @@ export type VisualAid =
       type: 'poly-solid' | 'prism-net' | 'round-solid' | 'cylinder-net'
         | 'cube-stack' | 'circle-measurement' | 'cuboid'
     }>
+  | Extract<ProblemVisual, { type: 'ratio_graph' }>

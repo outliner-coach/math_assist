@@ -301,6 +301,53 @@ test('직육면체의 면·부분 채움·미지 높이를 같은 세 길이 모
   await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
 })
 
+test('띠그래프와 원그래프를 같은 100% 자료 모델에서 정량 렌더링한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/practice/g6ratiograph-001?set=A&count=10`)
+  await expect(page.getByTestId('practice-session')).toBeVisible()
+  const visualIndexes = await page.evaluate((key) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return {
+      band: session.problems.findIndex((problem: {
+        visual?: { type?: string; props?: { kind?: string } }
+      }) => problem.visual?.type === 'ratio_graph' && problem.visual.props?.kind === 'band'),
+      circle: session.problems.findIndex((problem: {
+        visual?: { type?: string; props?: { kind?: string } }
+      }) => problem.visual?.type === 'ratio_graph' && problem.visual.props?.kind === 'circle'),
+      masked: session.problems.findIndex((problem: {
+        visual?: { type?: string; props?: { maskedValueIndex?: number } }
+      }) => (
+        problem.visual?.type === 'ratio_graph' &&
+        problem.visual.props?.maskedValueIndex !== undefined
+      )),
+    }
+  }, GRADE6_KEYS[0])
+  expect(visualIndexes.band).toBeGreaterThanOrEqual(0)
+  expect(visualIndexes.circle).toBeGreaterThanOrEqual(0)
+  expect(visualIndexes.masked).toBeGreaterThanOrEqual(0)
+
+  await page.getByTestId(`progress-step-${visualIndexes.band + 1}`).click()
+  const band = page.getByTestId('problem-diagram-ratio-graph')
+  await expect(band.locator('[data-ratio-band-segment]')).toHaveCount(3)
+
+  await page.getByTestId(`progress-step-${visualIndexes.circle + 1}`).click()
+  const circle = page.getByTestId('problem-diagram-ratio-graph')
+  await expect(circle.locator('[data-ratio-circle-segment]')).toHaveCount(3)
+
+  await page.getByTestId(`progress-step-${visualIndexes.masked + 1}`).click()
+  const masked = page.getByTestId('problem-diagram-ratio-graph')
+  await expect(masked.getByText('?')).toBeVisible()
+  const percentTotal = await page.evaluate(({ key, itemIndex }) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return session.problems[itemIndex].visual.props.segments.reduce(
+      (sum: number, segment: { percent: number }) => sum + segment.percent,
+      0,
+    )
+  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.masked })
+  expect(percentTotal).toBe(100)
+  await expect(page.locator('[data-answer]')).toHaveCount(0)
+  await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
+})
+
 test('손상된 6학년 세션은 원문을 보존하고 명시적 초기화 뒤에만 새로 저장한다', async ({ page }) => {
   await page.evaluate(({ grade5Key, grade6Key }) => {
     localStorage.setItem(grade5Key, '{"keep":"grade5"}')
@@ -397,6 +444,12 @@ for (const releasedConcept of [
     title: '직육면체의 겉넓이와 부피',
     conceptId: 'g6volume-001',
     releaseId: 'grade6-surface-area-volume-v1',
+  },
+  {
+    unitId: 'unit-6-1-ratio-graphs',
+    title: '띠그래프와 원그래프로 자료 탐구하기',
+    conceptId: 'g6ratiograph-001',
+    releaseId: 'grade6-ratio-graphs-v1',
   },
 ] as const) {
   test(`${releasedConcept.title} 단원을 찾아 5문제를 완주하고 단원별 콘텐츠 버전을 기록한다`, async ({ page }) => {

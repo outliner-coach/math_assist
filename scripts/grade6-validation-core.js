@@ -1,4 +1,5 @@
 const {
+  evaluateTemplate,
   inspectProblemBlueprintMeta,
   loadProblemGenerator,
 } = require('./problem-quality-core')
@@ -251,6 +252,57 @@ function validateGrade6Release({ units, concepts, ledger, templatesByConcept }) 
             !['width', 'height', 'depth'].includes(visual.unknownMeasurement)
           ) {
             fail(`${template.id}: unsupported cuboid unknown measurement`)
+          }
+        }
+      }
+      if (concept.id === 'g6ratiograph-001') {
+        const visual = template.visual_template
+        if (visualContainsAnswerOnlyKey(visual)) {
+          fail(`${template.id}: ratio-graph visual contains an answer-only key`)
+        }
+        if (
+          !visual ||
+          visual.type !== 'ratio_graph' ||
+          visual.semantics !== 'quantitative'
+        ) {
+          fail(`${template.id}: ratio-graph problem requires a quantitative ratio_graph visual`)
+        } else {
+          if (!['band', 'circle'].includes(visual.props?.kind)) {
+            fail(`${template.id}: ratio graph kind must be band or circle`)
+          }
+          if (
+            typeof visual.props?.caption !== 'string' ||
+            visual.props.caption.trim().length === 0
+          ) {
+            fail(`${template.id}: ratio graph requires a caption`)
+          }
+          if (!Array.isArray(visual.props?.segments) || visual.props.segments.length !== 3) {
+            fail(`${template.id}: ratio graph requires exactly three segments`)
+          } else {
+            for (const p of [2, 3, 4]) {
+              const percents = visual.props.segments.map((segment) => (
+                typeof segment.percent === 'number'
+                  ? segment.percent
+                  : Number(evaluateTemplate(segment.percent, { p }))
+              ))
+              if (
+                percents.some((percent) => !Number.isFinite(percent) || percent <= 0) ||
+                percents.reduce((sum, percent) => sum + percent, 0) !== 100
+              ) {
+                fail(`${template.id}: ratio graph segments must stay positive and sum to 100 for p=${p}`)
+              }
+            }
+            if (visual.props.segments.some(
+              (segment) => typeof segment.label !== 'string' || segment.label.trim().length === 0,
+            )) {
+              fail(`${template.id}: ratio graph segments require labels`)
+            }
+          }
+          if (
+            visual.props?.maskedValueIndex !== undefined &&
+            ![0, 1, 2].includes(visual.props.maskedValueIndex)
+          ) {
+            fail(`${template.id}: ratio graph maskedValueIndex must be 0, 1, or 2`)
           }
         }
       }

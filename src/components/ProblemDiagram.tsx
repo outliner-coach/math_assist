@@ -18,7 +18,8 @@ const problemVisualTypes = new Set<ProblemVisual['type']>([
   'overlap_rectangles',
   'rectangle_square',
   'three_shape_overlap',
-  'ratio_table'
+  'ratio_table',
+  'ratio_graph'
 ])
 
 export function isProblemVisual(visual: GeometryVisual): visual is ProblemVisual {
@@ -34,6 +35,78 @@ function DimensionLabel({ x, y, children }: { x: number; y: number; children: Re
 }
 
 type OverlapRegionKey = keyof ReturnType<typeof buildThreeShapeOverlapModel>['regions']
+
+type RatioGraphProps = Extract<ProblemVisual, { type: 'ratio_graph' }>['props']
+
+export interface RatioGraphSegmentModel {
+  label: string
+  percent: number
+  startPercent: number
+  endPercent: number
+  color: string
+}
+
+export interface RatioGraphModel {
+  kind: RatioGraphProps['kind']
+  caption: string
+  maskedValueIndex?: number
+  segments: RatioGraphSegmentModel[]
+}
+
+const ratioGraphColors = ['#38bdf8', '#34d399', '#fbbf24', '#a78bfa', '#fb7185']
+
+export function buildRatioGraphModel(props: RatioGraphProps): RatioGraphModel {
+  const safeValues = props.segments.map((segment) => (
+    Number.isFinite(segment.percent) && segment.percent > 0 ? segment.percent : 0
+  ))
+  const total = safeValues.reduce((sum, value) => sum + value, 0) || 1
+  let cursor = 0
+  const segments = props.segments.map((segment, index) => {
+    const percent = safeValues[index] * 100 / total
+    const startPercent = cursor
+    cursor += percent
+    return {
+      label: segment.label,
+      percent,
+      startPercent,
+      endPercent: cursor,
+      color: ratioGraphColors[index % ratioGraphColors.length],
+    }
+  })
+
+  return {
+    kind: props.kind,
+    caption: props.caption,
+    maskedValueIndex: props.maskedValueIndex,
+    segments,
+  }
+}
+
+function ratioGraphPoint(cx: number, cy: number, radius: number, percent: number) {
+  const angle = (percent * 3.6 - 90) * Math.PI / 180
+  return {
+    x: cx + radius * Math.cos(angle),
+    y: cy + radius * Math.sin(angle),
+  }
+}
+
+function ratioGraphSectorPath(
+  cx: number,
+  cy: number,
+  radius: number,
+  startPercent: number,
+  endPercent: number,
+) {
+  const start = ratioGraphPoint(cx, cy, radius, startPercent)
+  const end = ratioGraphPoint(cx, cy, radius, endPercent)
+  const largeArc = endPercent - startPercent > 50 ? 1 : 0
+  return [
+    `M ${cx} ${cy}`,
+    `L ${start.x} ${start.y}`,
+    `A ${radius} ${radius} 0 ${largeArc} 1 ${end.x} ${end.y}`,
+    'Z',
+  ].join(' ')
+}
 
 const overlapRegionLayout: Array<{
   key: OverlapRegionKey
@@ -275,6 +348,102 @@ export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
             ))}
           </tbody>
         </table>
+      </figure>
+    )
+  }
+
+  if (visual.type === 'ratio_graph') {
+    const model = buildRatioGraphModel(visual.props)
+    const displayValue = (segment: RatioGraphSegmentModel, index: number) => (
+      model.maskedValueIndex === index ? '?' : `${Math.round(segment.percent)}%`
+    )
+
+    return (
+      <figure
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
+        data-testid="problem-diagram-ratio-graph"
+      >
+        <figcaption className="pb-2 text-center text-base font-extrabold text-slate-800">
+          {model.caption}
+        </figcaption>
+        {model.kind === 'band' ? (
+          <svg
+            viewBox="0 0 360 150"
+            role="img"
+            aria-label={`${model.caption} 띠그래프`}
+            className="mx-auto w-full max-w-md"
+          >
+            {model.segments.map((segment, index) => {
+              const x = 20 + segment.startPercent * 3.2
+              const width = (segment.endPercent - segment.startPercent) * 3.2
+              const middle = x + width / 2
+              return (
+                <g key={`${segment.label}-${index}`}>
+                  <rect
+                    x={x}
+                    y="28"
+                    width={width}
+                    height="70"
+                    fill={segment.color}
+                    stroke="#ffffff"
+                    strokeWidth="2"
+                    data-ratio-band-segment={index}
+                  />
+                  <text x={middle} y="58" textAnchor="middle" fontSize="12" fontWeight="700" fill="#0f172a">
+                    {segment.label}
+                  </text>
+                  <text x={middle} y="80" textAnchor="middle" fontSize="13" fontWeight="800" fill="#0f172a">
+                    {displayValue(segment, index)}
+                  </text>
+                </g>
+              )
+            })}
+            {[0, 25, 50, 75, 100].map((tick) => (
+              <g key={tick}>
+                <line x1={20 + tick * 3.2} y1="101" x2={20 + tick * 3.2} y2="108" stroke="#475569" />
+                <text x={20 + tick * 3.2} y="126" textAnchor="middle" fontSize="11" fill="#475569">
+                  {tick}
+                </text>
+              </g>
+            ))}
+          </svg>
+        ) : (
+          <svg
+            viewBox="0 0 360 220"
+            role="img"
+            aria-label={`${model.caption} 원그래프`}
+            className="mx-auto w-full max-w-md"
+          >
+            {model.segments.map((segment, index) => {
+              const middlePercent = (segment.startPercent + segment.endPercent) / 2
+              const labelPoint = ratioGraphPoint(180, 103, 48, middlePercent)
+              return (
+                <g key={`${segment.label}-${index}`}>
+                  <path
+                    d={ratioGraphSectorPath(180, 103, 82, segment.startPercent, segment.endPercent)}
+                    fill={segment.color}
+                    stroke="#ffffff"
+                    strokeWidth="3"
+                    data-ratio-circle-segment={index}
+                  />
+                  <text
+                    x={labelPoint.x}
+                    y={labelPoint.y - 4}
+                    textAnchor="middle"
+                    fontSize="11"
+                    fontWeight="700"
+                    fill="#0f172a"
+                  >
+                    <tspan x={labelPoint.x}>{segment.label}</tspan>
+                    <tspan x={labelPoint.x} dy="16" fontWeight="800">
+                      {displayValue(segment, index)}
+                    </tspan>
+                  </text>
+                </g>
+              )
+            })}
+          </svg>
+        )}
       </figure>
     )
   }

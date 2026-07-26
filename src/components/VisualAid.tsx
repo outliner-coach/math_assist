@@ -3,6 +3,7 @@
 import React from 'react'
 import type { VisualAid as VisualAidType } from '@/lib/types'
 import GeometryProblemVisual from './GeometryProblemVisual'
+import ProblemDiagram from './ProblemDiagram'
 
 interface VisualAidProps {
   aid: VisualAidType
@@ -131,6 +132,8 @@ export default function VisualAid({ aid }: VisualAidProps) {
     case 'circle-measurement':
     case 'cuboid':
       return <GeometryProblemVisual visual={aid} />
+    case 'ratio_graph':
+      return <ProblemDiagram visual={aid} />
     default:
       return null
   }

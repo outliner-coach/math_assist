@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
 import type { ProblemVisual } from '@/lib/types'
-import ProblemDiagram from './ProblemDiagram'
+import ProblemDiagram, { buildRatioGraphModel } from './ProblemDiagram'
 
 describe('ProblemDiagram', () => {
   it('renders all Grade 5 geometry models without an answer field', () => {
@@ -56,6 +56,48 @@ describe('ProblemDiagram', () => {
     expect(html).toContain('자유투 성공 기록')
     expect(html).not.toContain('data-answer')
     expect(html).not.toContain('정답')
+  })
+
+  it('derives band widths and circle sectors from one 100-percent model', () => {
+    const props = {
+      caption: '좋아하는 계절',
+      kind: 'band' as const,
+      segments: [
+        { label: '봄', percent: 20 },
+        { label: '여름', percent: 30 },
+        { label: '가을·겨울', percent: 50 },
+      ],
+      maskedValueIndex: 1,
+    }
+    const model = buildRatioGraphModel(props)
+
+    expect(model.segments.map((segment) => [segment.startPercent, segment.endPercent]))
+      .toEqual([[0, 20], [20, 50], [50, 100]])
+
+    const band = renderToStaticMarkup(createElement(ProblemDiagram, {
+      visual: {
+        type: 'ratio_graph',
+        semantics: 'quantitative',
+        props,
+      } as ProblemVisual,
+    }))
+    const circle = renderToStaticMarkup(createElement(ProblemDiagram, {
+      visual: {
+        type: 'ratio_graph',
+        semantics: 'quantitative',
+        props: { ...props, kind: 'circle' },
+      } as ProblemVisual,
+    }))
+
+    expect(band).toContain('problem-diagram-ratio-graph')
+    expect(band.match(/data-ratio-band-segment=/g)).toHaveLength(3)
+    expect(band).toContain('20%')
+    expect(band).toContain('?')
+    expect(band).not.toContain('30%')
+    expect(circle.match(/data-ratio-circle-segment=/g)).toHaveLength(3)
+    expect(circle.match(/<path/g)).toHaveLength(3)
+    expect(circle).not.toContain('data-answer')
+    expect(circle).not.toContain('정답:')
   })
 
   it('labels the given square side without an ambiguous question mark', () => {

@@ -109,4 +109,27 @@ describe('VisualAid', () => {
     expect(html).toContain('4cm')
     expect(html).not.toContain('108cm²')
   })
+
+  it('renders a ratio graph concept aid through the shared percentage model', () => {
+    const html = renderToStaticMarkup(createElement(VisualAid, {
+      aid: {
+        type: 'ratio_graph',
+        semantics: 'quantitative',
+        props: {
+          caption: '희망 체험 활동',
+          kind: 'circle',
+          segments: [
+            { label: '과학', percent: 40 },
+            { label: '미술', percent: 30 },
+            { label: '체육', percent: 30 },
+          ],
+        },
+      },
+    }))
+
+    expect(html).toContain('problem-diagram-ratio-graph')
+    expect(html.match(/data-ratio-circle-segment=/g)).toHaveLength(3)
+    expect(html).toContain('40%')
+    expect(html).not.toContain('data-answer')
+  })
 })

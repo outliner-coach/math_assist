@@ -21,6 +21,15 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 6 ratio-graphs Study release (primary workstreams 01, 02,
+  03, and 04) owns `unit-6-1-ratio-graphs`, `g6ratiograph-001`, its
+  deterministic template bank/generator, two curriculum rows, release
+  identity, and the narrow addition of a shared quantitative `ratio_graph`
+  payload and renderer. One percentage model must drive every band width,
+  circle sector, visible label, prompt, and solution. Segment percentages
+  must sum to 100; a masked value remains textually hidden before checking,
+  and no derived count or answer-only field may enter the unchecked DOM.
+
 - 2026-07-26: Grade 6 surface-area and volume Study release (primary
   workstreams 01, 02, 03, and 04) owns `unit-6-2-surface-area-volume`,
   `g6volume-001`, its deterministic template bank/generator, three curriculum

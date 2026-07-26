@@ -11,6 +11,7 @@ const GRADE6_CONTENT_RELEASE_IDS: Readonly<Record<string, string>> = {
   'g6spatial-001': 'grade6-spatial-reasoning-v1',
   'g6circle-001': 'grade6-circle-measurement-v1',
   'g6volume-001': 'grade6-surface-area-volume-v1',
+  'g6ratiograph-001': 'grade6-ratio-graphs-v1',
 }
 
 export function resolveContentReleaseId(grade: PracticeGrade, conceptId: string): string {

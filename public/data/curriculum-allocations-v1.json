@@ -1718,11 +1718,13 @@
       "prerequisiteCodes": [],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 31,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "전체와 부분 비율을 띠 원그래프로 표현",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6ratiograph-001"
+      ],
+      "allocationRationale": "6학년 띠·원그래프 문제은행에서 전체 100%와 부문 비율을 같은 정량 그래프로 나타내고 읽기·합성·역산을 제공합니다.",
+      "reviewedBy": "grade6-ratio-graphs-release-2026-07-26"
     },
     {
       "standardCode": "[6수04-03]",
@@ -1736,11 +1738,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 31,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "그래프 표현 뒤 통계적 탐구 전 과정",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6ratiograph-001"
+      ],
+      "allocationRationale": "6학년 띠·원그래프 문제은행에서 조사 자료를 비율로 정리하고 인원·부문 차이·누적 오류를 해석하는 탐구 활동을 제공합니다.",
+      "reviewedBy": "grade6-ratio-graphs-release-2026-07-26"
     },
     {
       "standardCode": "[6수04-04]",

@@ -42,6 +42,10 @@ import {
   serializeTemplates as serializeVolumeTemplates,
   templates as generatedVolumeTemplates,
 } from '../../scripts/generate-grade6-volume-templates.js'
+import {
+  serializeTemplates as serializeRatioGraphTemplates,
+  templates as generatedRatioGraphTemplates,
+} from '../../scripts/generate-grade6-ratio-graph-templates.js'
 import { evaluateTemplate } from '../../scripts/problem-quality-core.js'
 
 const ratioTemplates = JSON.parse(readFileSync(
@@ -84,6 +88,10 @@ const volumeTemplates = JSON.parse(readFileSync(
   join(process.cwd(), 'public/data/templates/g6volume.json'),
   'utf8',
 )) as ProblemTemplate[]
+const ratioGraphTemplates = JSON.parse(readFileSync(
+  join(process.cwd(), 'public/data/templates/g6ratiograph.json'),
+  'utf8',
+)) as ProblemTemplate[]
 const releasedConceptTemplates = [
   ['g6ratio-001', ratioTemplates],
   ['g6fractiondiv-001', fractionDivisionTemplates],
@@ -95,6 +103,7 @@ const releasedConceptTemplates = [
   ['g6spatial-001', spatialTemplates],
   ['g6circle-001', circleTemplates],
   ['g6volume-001', volumeTemplates],
+  ['g6ratiograph-001', ratioGraphTemplates],
 ] as const
 
 describe('Grade 6 Study release slice', () => {
@@ -530,6 +539,66 @@ describe('Grade 6 Study release slice', () => {
     }
   })
 
+  it('maps ratio graphs and data inquiry to both released standards with disjoint families', () => {
+    const primaryStandards = new Set(ratioGraphTemplates.map(
+      (template) => template.blueprint?.primaryStandard,
+    ))
+    const familySets = (['A', 'B', 'C'] as const).map((setId) => new Set(
+      ratioGraphTemplates
+        .filter((template) => template.set_id === setId)
+        .map((template) => template.problem_family),
+    ))
+
+    expect(primaryStandards).toEqual(new Set(['[6수04-02]', '[6수04-03]']))
+    expect(new Set(ratioGraphTemplates.map((template) => template.problem_family))).toHaveLength(30)
+    expect([...familySets[0]].filter((family) => familySets[1].has(family))).toEqual([])
+    expect([...familySets[0]].filter((family) => familySets[2].has(family))).toEqual([])
+    expect([...familySets[1]].filter((family) => familySets[2].has(family))).toEqual([])
+  })
+
+  it('reproduces the ratio-graph bank and keeps every graph positive and at 100 percent', () => {
+    expect(serializeRatioGraphTemplates()).toBe(readFileSync(
+      join(process.cwd(), 'public/data/templates/g6ratiograph.json'),
+      'utf8',
+    ))
+    expect(generatedRatioGraphTemplates).toEqual(ratioGraphTemplates)
+
+    for (const template of ratioGraphTemplates) {
+      const { min, max } = template.param_schema.p
+      for (let p = min; p <= max; p += 1) {
+        const params = { p }
+        const rendered = [
+          evaluateTemplate(template.prompt_template, params),
+          ...template.solution_steps_template.map((step) => evaluateTemplate(step, params)),
+          ...(template.hint_steps_template ?? []).map((step) => evaluateTemplate(step, params)),
+        ]
+        const answer = evaluateTemplate(`{{${template.solver_rule}}}`, params)
+        const percentages = template.visual_template.props.segments.map(
+          (item: { percent: string | number }) => (
+            typeof item.percent === 'number'
+              ? item.percent
+              : Number(evaluateTemplate(item.percent, params))
+          ),
+        )
+
+        expect(answer, `${template.id} p=${p}`).toMatch(/^\d+$/)
+        expect(percentages.every((percent: number) => percent > 0)).toBe(true)
+        expect(percentages.reduce((sum: number, percent: number) => sum + percent, 0)).toBe(100)
+        expect(rendered.some((text) => text.includes('?]')), `${template.id} p=${p}`).toBe(false)
+      }
+
+      expect(template.visual_template).toMatchObject({
+        type: 'ratio_graph',
+        semantics: 'quantitative',
+      })
+      expect(['band', 'circle']).toContain(template.visual_template.props.kind)
+      expect(template.blueprint).toMatchObject({
+        visualSemantics: 'quantitative',
+      })
+      expect(template.blueprint?.representations).toContain('graph')
+    }
+  })
+
   it.each([
     ['A', 5, { 1: 2, 2: 2, 3: 1 }],
     ['A', 10, { 1: 4, 2: 4, 3: 2 }],
@@ -785,6 +854,45 @@ describe('Grade 6 Study release slice', () => {
           checked: false,
           onAnswer: () => undefined,
         }))
+        expect(html).not.toContain('data-answer')
+        expect(html).not.toContain('correctAnswer')
+        expect(html).not.toContain('정답:')
+      }
+    },
+  )
+
+  it.each(['A', 'B', 'C'] as const)(
+    'generates, renders, and grades every ratio-graph problem in set %s',
+    (setId) => {
+      vi.stubGlobal('React', React)
+      const problems = generateProblems(ratioGraphTemplates, {
+        count: 10,
+        setId,
+        difficultyMix: { 1: 4, 2: 4, 3: 2 },
+        seed: 7510 + setId.charCodeAt(0),
+      })
+      const results = gradeSession(problems, problems.map((problem) => problem.correctAnswer))
+
+      expect(problems).toHaveLength(10)
+      expect(new Set(problems.map((problem) => problem.prompt))).toHaveLength(10)
+      expect(problems.every((problem) => /^\d+$/.test(problem.correctAnswer))).toBe(true)
+      expect(results.every((result) => result.correct)).toBe(true)
+      for (const problem of problems) {
+        expect(problem.visual?.type).toBe('ratio_graph')
+        if (problem.visual?.type === 'ratio_graph') {
+          expect(problem.visual.props.segments).toHaveLength(3)
+          expect(problem.visual.props.segments.reduce(
+            (sum, item) => sum + item.percent,
+            0,
+          )).toBe(100)
+        }
+        const html = renderToStaticMarkup(createElement(ProblemCard, {
+          problem,
+          answer: null,
+          checked: false,
+          onAnswer: () => undefined,
+        }))
+        expect(html).toContain('problem-diagram-ratio-graph')
         expect(html).not.toContain('data-answer')
         expect(html).not.toContain('correctAnswer')
         expect(html).not.toContain('정답:')
