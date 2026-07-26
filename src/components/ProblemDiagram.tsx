@@ -112,102 +112,173 @@ function ratioGraphSectorPath(
   ].join(' ')
 }
 
-const overlapRegionLayout: Array<{
+type OverlapRegionDefinition = {
   key: OverlapRegionKey
-  centerX: number
-  centerY: number
-  calloutX: number
-  calloutY: number
-  calloutSide: 'left' | 'right' | 'top' | 'bottom'
+  tier: number
+  column: number
   label: string
   symbol: string
   fill: string
   given: boolean
-}> = [
+}
+
+type OverlapRegionLayout = OverlapRegionDefinition & {
+  area: number
+  columns: number
+  rows: number
+  centerX: number
+  calloutY: number
+  cellsY: number
+}
+
+type ThreeShapeOverlapLayout = {
+  width: number
+  height: number
+  cellSize: number
+  pitch: number
+  calloutWidth: number
+  calloutHeight: number
+  labelFontSize: number
+  noteFontSize: number
+  noteY: number
+  regions: OverlapRegionLayout[]
+}
+
+const overlapRegionDefinitions: OverlapRegionDefinition[] = [
   {
-    key: 'aOnly', centerX: 150, centerY: 165, calloutX: 8, calloutY: 148,
-    calloutSide: 'left', label: 'A만', symbol: '●', fill: '#93c5fd', given: true,
+    key: 'aOnly', tier: 0, column: 0,
+    label: 'A만', symbol: '●', fill: '#93c5fd', given: true,
   },
   {
-    key: 'abOnly', centerX: 250, centerY: 165, calloutX: 195, calloutY: 92,
-    calloutSide: 'top', label: 'A∩B만', symbol: '●▲', fill: '#67e8f9', given: false,
+    key: 'abOnly', tier: 0, column: 1,
+    label: 'A∩B만', symbol: '●▲', fill: '#67e8f9', given: false,
   },
   {
-    key: 'bOnly', centerX: 350, centerY: 165, calloutX: 387, calloutY: 148,
-    calloutSide: 'right', label: 'B만', symbol: '▲', fill: '#86efac', given: true,
+    key: 'bOnly', tier: 0, column: 2,
+    label: 'B만', symbol: '▲', fill: '#86efac', given: true,
   },
   {
-    key: 'acOnly', centerX: 195, centerY: 250, calloutX: 8, calloutY: 233,
-    calloutSide: 'left', label: 'A∩C만', symbol: '●■', fill: '#c4b5fd', given: false,
+    key: 'acOnly', tier: 1, column: 0,
+    label: 'A∩C만', symbol: '●■', fill: '#c4b5fd', given: false,
   },
   {
-    key: 'abc', centerX: 250, centerY: 250, calloutX: 195, calloutY: 287,
-    calloutSide: 'bottom', label: 'A∩B∩C', symbol: '●▲■', fill: '#fcd34d', given: true,
+    key: 'abc', tier: 1, column: 1,
+    label: 'A∩B∩C', symbol: '●▲■', fill: '#fcd34d', given: true,
   },
   {
-    key: 'bcOnly', centerX: 305, centerY: 250, calloutX: 387, calloutY: 233,
-    calloutSide: 'right', label: 'B∩C만', symbol: '▲■', fill: '#fdba74', given: false,
+    key: 'bcOnly', tier: 1, column: 2,
+    label: 'B∩C만', symbol: '▲■', fill: '#fdba74', given: false,
   },
   {
-    key: 'cOnly', centerX: 250, centerY: 350, calloutX: 195, calloutY: 402,
-    calloutSide: 'bottom', label: 'C만', symbol: '■', fill: '#fca5a5', given: true,
+    key: 'cOnly', tier: 2, column: 1,
+    label: 'C만', symbol: '■', fill: '#fca5a5', given: true,
   },
 ]
 
+export function buildThreeShapeOverlapLayout(
+  regions: Record<OverlapRegionKey, number>,
+): ThreeShapeOverlapLayout {
+  const width = 360
+  const horizontalPadding = 12
+  const columnsPerTier = 3
+  const slotWidth = (width - horizontalPadding * 2) / columnsPerTier
+  const cellSize = 11
+  const pitch = 12
+  const calloutWidth = 102
+  const calloutHeight = 52
+  const labelFontSize = 17
+  const noteFontSize = 16
+  const connectorGap = 12
+  const tierGap = 22
+  const contentStartY = 72
+  const tierStarts: number[] = []
+  let nextTierY = contentStartY
+
+  for (let tier = 0; tier < 3; tier += 1) {
+    tierStarts[tier] = nextTierY
+    const tierDefinitions = overlapRegionDefinitions.filter(definition => definition.tier === tier)
+    const maximumRows = Math.max(
+      1,
+      ...tierDefinitions.map(definition => {
+        const area = regions[definition.key]
+        if (area === 0) return 0
+        const columns = Math.min(5, Math.max(1, Math.ceil(Math.sqrt(area))))
+        return Math.ceil(area / columns)
+      }),
+    )
+    const maximumBlockHeight = maximumRows * pitch - (pitch - cellSize)
+    nextTierY += calloutHeight + connectorGap + maximumBlockHeight + tierGap
+  }
+
+  const noteY = nextTierY - tierGap + 26
+  const height = noteY + 42
+  const layouts = overlapRegionDefinitions.map(definition => {
+    const area = regions[definition.key]
+    const columns = area === 0
+      ? 0
+      : Math.min(5, Math.max(1, Math.ceil(Math.sqrt(area))))
+    const rows = columns === 0 ? 0 : Math.ceil(area / columns)
+    return {
+      ...definition,
+      area,
+      columns,
+      rows,
+      centerX: horizontalPadding + slotWidth * (definition.column + 0.5),
+      calloutY: tierStarts[definition.tier],
+      cellsY: tierStarts[definition.tier] + calloutHeight + connectorGap,
+    }
+  })
+
+  return {
+    width,
+    height,
+    cellSize,
+    pitch,
+    calloutWidth,
+    calloutHeight,
+    labelFontSize,
+    noteFontSize,
+    noteY,
+    regions: layouts,
+  }
+}
+
 function OverlapRegionCells({
-  regionKey,
-  area,
-  centerX,
-  centerY,
-  calloutX,
-  calloutY,
-  calloutSide,
-  label,
-  symbol,
-  fill,
-  given,
+  region,
+  layout,
   unit,
 }: {
-  regionKey: OverlapRegionKey
-  area: number
-  centerX: number
-  centerY: number
-  calloutX: number
-  calloutY: number
-  calloutSide: 'left' | 'right' | 'top' | 'bottom'
-  label: string
-  symbol: string
-  fill: string
-  given: boolean
+  region: OverlapRegionLayout
+  layout: ThreeShapeOverlapLayout
   unit: string
 }) {
+  const {
+    key: regionKey,
+    area,
+    columns,
+    centerX,
+    calloutY,
+    cellsY,
+    label,
+    symbol,
+    fill,
+    given,
+  } = region
   if (area === 0) return null
 
-  const pitch = 10
-  const cellSize = 9
-  const columns = Math.min(7, area)
-  const rows = Math.ceil(area / columns)
-  const blockWidth = columns * pitch - 1
-  const blockHeight = rows * pitch - 1
+  const {
+    pitch,
+    cellSize,
+    calloutWidth,
+    calloutHeight,
+    labelFontSize,
+  } = layout
+  const blockWidth = columns * pitch - (pitch - cellSize)
   const startX = centerX - blockWidth / 2
-  const startY = centerY - blockHeight / 2
-  const calloutWidth = 105
-  const calloutHeight = 34
-  const lineStart = calloutSide === 'left'
-    ? { x: calloutX + calloutWidth, y: calloutY + calloutHeight / 2 }
-    : calloutSide === 'right'
-      ? { x: calloutX, y: calloutY + calloutHeight / 2 }
-      : calloutSide === 'top'
-        ? { x: calloutX + calloutWidth / 2, y: calloutY + calloutHeight }
-        : { x: calloutX + calloutWidth / 2, y: calloutY }
-  const lineEnd = calloutSide === 'left'
-    ? { x: startX - 3, y: centerY }
-    : calloutSide === 'right'
-      ? { x: startX + blockWidth + 3, y: centerY }
-      : calloutSide === 'top'
-        ? { x: centerX, y: startY - 3 }
-        : { x: centerX, y: startY + blockHeight + 3 }
-  const labelText = `${label} ${symbol}${given ? ` · ${area} ${unit}²` : ''}`
+  const startY = cellsY
+  const calloutX = centerX - calloutWidth / 2
+  const lineStart = { x: centerX, y: calloutY + calloutHeight }
+  const lineEnd = { x: centerX, y: startY - 3 }
 
   return (
     <>
@@ -220,10 +291,10 @@ function OverlapRegionCells({
             y={startY + Math.floor(index / columns) * pitch}
             width={cellSize}
             height={cellSize}
-            rx="1"
+            rx="1.5"
             fill={fill}
             stroke="#475569"
-            strokeWidth="0.8"
+            strokeWidth="1"
           />
         ))}
       </g>
@@ -239,10 +310,10 @@ function OverlapRegionCells({
           x2={lineEnd.x}
           y2={lineEnd.y}
           stroke="#475569"
-          strokeWidth="1.5"
+          strokeWidth="2"
           data-callout-link={regionKey}
         />
-        <circle cx={lineEnd.x} cy={lineEnd.y} r="2.5" fill="#475569" />
+        <circle cx={lineEnd.x} cy={lineEnd.y} r="3" fill="#475569" />
         <rect
           x={calloutX}
           y={calloutY}
@@ -251,17 +322,21 @@ function OverlapRegionCells({
           rx="10"
           fill="white"
           stroke={fill}
-          strokeWidth="3"
+          strokeWidth="2.5"
         />
         <text
           x={calloutX + calloutWidth / 2}
-          y={calloutY + 22}
+          y={calloutY + 19}
           textAnchor="middle"
-          fontSize="12"
+          fontSize={labelFontSize}
           fontWeight="800"
           fill="#0f172a"
+          data-overlap-label={regionKey}
         >
-          {labelText}
+          <tspan x={centerX}>{label}</tspan>
+          <tspan x={centerX} dy="21" fontWeight="800">
+            {symbol}{given ? ` · ${area} ${unit}²` : ''}
+          </tspan>
         </text>
       </g>
     </>
@@ -773,6 +848,7 @@ export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
 
   const { shapeArea, exclusiveAreas, tripleOverlap, unit } = visual.props
   const model = visual.model ?? buildThreeShapeOverlapModel(visual.props)
+  const layout = buildThreeShapeOverlapLayout(model.regions)
   return (
     <figure
       className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
@@ -790,36 +866,37 @@ export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
         </div>
       </figcaption>
       <svg
-        viewBox="0 0 500 445"
+        viewBox={`0 0 ${layout.width} ${layout.height}`}
         role="img"
         aria-label={`영역 분해도. A는 파랑 원 기호, B는 초록 세모 기호, C는 분홍 네모 기호입니다. A, B, C의 넓이는 각각 ${shapeArea} ${unit}²입니다. A만 ${exclusiveAreas[0]} ${unit}², B만 ${exclusiveAreas[1]} ${unit}², C만 ${exclusiveAreas[2]} ${unit}², 세 도형 공통부분 ${tripleOverlap} ${unit}²입니다.`}
         className="mx-auto w-full max-w-md"
+        data-overlap-layout-width={layout.width}
+        data-overlap-layout-height={layout.height}
       >
-        <text x="250" y="30" textAnchor="middle" className="fill-slate-800 text-[14px] font-bold">
+        <text x={layout.width / 2} y="24" textAnchor="middle" className="fill-slate-800 text-[18px] font-bold">
           A · B · C의 넓이: 각각 {shapeArea} {unit}²
         </text>
-        <text x="250" y="52" textAnchor="middle" className="fill-slate-600 text-[12px] font-semibold">
+        <text x={layout.width / 2} y="50" textAnchor="middle" className="fill-slate-600 text-[16px] font-semibold">
           한 칸 = 1 {unit}²
         </text>
-        {overlapRegionLayout.map(region => (
+        {layout.regions.map(region => (
           <OverlapRegionCells
             key={region.key}
-            regionKey={region.key}
-            area={model.regions[region.key]}
-            centerX={region.centerX}
-            centerY={region.centerY}
-            calloutX={region.calloutX}
-            calloutY={region.calloutY}
-            calloutSide={region.calloutSide}
-            label={region.label}
-            symbol={region.symbol}
-            fill={region.fill}
-            given={region.given}
+            region={region}
+            layout={layout}
             unit={unit}
           />
         ))}
-        <text x="250" y="442" textAnchor="middle" className="fill-slate-500 text-[11px] font-semibold">
-          A∩B만 · A∩C만 · B∩C만의 수치는 풀이 전 따로 적지 않아요.
+        <text
+          x={layout.width / 2}
+          y={layout.noteY}
+          textAnchor="middle"
+          data-overlap-note="pairwise-values-hidden"
+          fontSize={layout.noteFontSize}
+          className="fill-slate-500 font-semibold"
+        >
+          <tspan x={layout.width / 2}>A∩B만 · A∩C만 · B∩C만은</tspan>
+          <tspan x={layout.width / 2} dy="19">풀이 전 수치를 따로 적지 않아요.</tspan>
         </text>
       </svg>
     </figure>

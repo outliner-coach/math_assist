@@ -669,6 +669,7 @@ test('5학년 다각형 그림은 실제 치수 비율을 따르고 미지 길�
 })
 
 test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세션도 복구한다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/practice/area-001?set=A`)
   const session = await readSession(page)
   const overlapProblemIndex = session.problems.findIndex(
@@ -696,6 +697,28 @@ test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세�
   await expect(diagram.locator('[data-given-value]')).toHaveCount(4)
   await expect(diagram).not.toContainText('AB만 4')
   await expect(diagram).not.toContainText('AC만 2')
+  const readability = await diagram.evaluate(element => {
+    const svg = element.querySelector('svg')
+    const cells = Array.from(element.querySelectorAll<SVGRectElement>('[data-cell-region]'))
+    const labels = Array.from(element.querySelectorAll<SVGTextElement>('[data-overlap-label]'))
+    const note = element.querySelector<SVGTextElement>('[data-overlap-note]')
+    if (!svg || cells.length === 0 || labels.length === 0 || !note) {
+      throw new Error('overlap readability elements are missing')
+    }
+    const scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width
+    return {
+      smallestCell: Math.min(...cells.map(cell => cell.width.baseVal.value * scale)),
+      smallestLabelFont: Math.min(
+        ...labels.map(label => Number(label.getAttribute('font-size')) * scale)
+      ),
+      noteFont: Number.parseFloat(getComputedStyle(note).fontSize) * scale,
+      fitsViewport: document.documentElement.scrollWidth <= window.innerWidth,
+    }
+  })
+  expect(readability.smallestCell).toBeGreaterThanOrEqual(8)
+  expect(readability.smallestLabelFont).toBeGreaterThanOrEqual(13)
+  expect(readability.noteFont).toBeGreaterThanOrEqual(12)
+  expect(readability.fitsViewport).toBe(true)
 
   await page.evaluate((key) => {
     const session = JSON.parse(localStorage.getItem(key) || 'null')
