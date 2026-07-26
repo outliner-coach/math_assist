@@ -511,15 +511,22 @@ test('5학년 직육면체와 전개도 그림은 치수와 접기 구조를 그
 
   type CuboidVisual = {
     type: 'cuboid'
-    width: number
-    height: number
-    depth: number
+    width?: number
+    height?: number
+    depth?: number
+    focus?: string
     unknownMeasurement?: 'width' | 'height' | 'depth'
   }
   const session = await readSession(page)
   const quantitativeIndex = session.problems.findIndex(problem => {
     const visual = problem.visual as unknown as CuboidVisual | undefined
-    return visual?.type === 'cuboid' && !visual.unknownMeasurement
+    return (
+      visual?.type === 'cuboid' &&
+      typeof visual.width === 'number' &&
+      typeof visual.height === 'number' &&
+      typeof visual.depth === 'number' &&
+      !visual.unknownMeasurement
+    )
   })
   expect(quantitativeIndex).toBeGreaterThanOrEqual(0)
   const visual = session.problems[quantitativeIndex].visual as unknown as CuboidVisual
@@ -549,11 +556,26 @@ test('5학년 직육면체와 전개도 그림은 치수와 접기 구조를 그
   const frontWidth = distance(front[0], front[1])
   const frontHeight = distance(front[0], front[3])
   const projectedDepth = distance(polygons[0][0], polygons[0][1])
-  expect(frontWidth / frontHeight).toBeCloseTo(visual.width / visual.height, 1)
+  expect(frontWidth / frontHeight).toBeCloseTo(visual.width! / visual.height!, 1)
   expect(projectedDepth / frontWidth).toBeCloseTo(
-    (visual.depth / visual.width) * Math.hypot(0.65, 0.45),
+    (visual.depth! / visual.width!) * Math.hypot(0.65, 0.45),
     1,
   )
+  await expect(cuboid).toContainText(`가로 ${visual.width} cm`)
+  await expect(cuboid).toContainText(`세로 ${visual.depth} cm`)
+  await expect(cuboid).toContainText(`높이 ${visual.height} cm`)
+
+  const propertyIndex = session.problems.findIndex(problem => {
+    const propertyVisual = problem.visual as unknown as CuboidVisual | undefined
+    return propertyVisual?.type === 'cuboid' && propertyVisual.focus === 'face'
+  })
+  expect(propertyIndex).toBeGreaterThanOrEqual(0)
+  await page.getByRole('button', {
+    name: `문제 ${propertyIndex + 1}`,
+    exact: true,
+  }).click()
+  await expect(cuboid.locator('[data-cuboid-measurement]')).toHaveCount(0)
+  await expect(cuboid.locator('svg')).toHaveAttribute('aria-label', /직육면체 면/)
 
   await page.evaluate((key) => localStorage.removeItem(key), SESSION_KEY)
   await page.goto(`${BASE_PATH}/practice/cuboidnet-001?set=A`)
@@ -647,6 +669,7 @@ test('5학년 다각형 그림은 실제 치수 비율을 따르고 미지 길�
 })
 
 test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세션도 복구한다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/practice/area-001?set=A`)
   const session = await readSession(page)
   const overlapProblemIndex = session.problems.findIndex(
@@ -668,8 +691,34 @@ test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세�
   await expect(diagram.locator('[data-cell-region="abOnly"]')).toHaveCount(4)
   await expect(diagram.locator('[data-cell-region="acOnly"]')).toHaveCount(2)
   await expect(diagram.locator('[data-cell-region="bcOnly"]')).toHaveCount(0)
+  await expect(diagram).toContainText('영역 분해도')
+  await expect(diagram).toContainText('A = 파랑 ●')
+  await expect(diagram.locator('[data-region-callout]')).toHaveCount(6)
+  await expect(diagram.locator('[data-given-value]')).toHaveCount(4)
   await expect(diagram).not.toContainText('AB만 4')
   await expect(diagram).not.toContainText('AC만 2')
+  const readability = await diagram.evaluate(element => {
+    const svg = element.querySelector('svg')
+    const cells = Array.from(element.querySelectorAll<SVGRectElement>('[data-cell-region]'))
+    const labels = Array.from(element.querySelectorAll<SVGTextElement>('[data-overlap-label]'))
+    const note = element.querySelector<SVGTextElement>('[data-overlap-note]')
+    if (!svg || cells.length === 0 || labels.length === 0 || !note) {
+      throw new Error('overlap readability elements are missing')
+    }
+    const scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width
+    return {
+      smallestCell: Math.min(...cells.map(cell => cell.width.baseVal.value * scale)),
+      smallestLabelFont: Math.min(
+        ...labels.map(label => Number(label.getAttribute('font-size')) * scale)
+      ),
+      noteFont: Number.parseFloat(getComputedStyle(note).fontSize) * scale,
+      fitsViewport: document.documentElement.scrollWidth <= window.innerWidth,
+    }
+  })
+  expect(readability.smallestCell).toBeGreaterThanOrEqual(8)
+  expect(readability.smallestLabelFont).toBeGreaterThanOrEqual(13)
+  expect(readability.noteFont).toBeGreaterThanOrEqual(12)
+  expect(readability.fitsViewport).toBe(true)
 
   await page.evaluate((key) => {
     const session = JSON.parse(localStorage.getItem(key) || 'null')

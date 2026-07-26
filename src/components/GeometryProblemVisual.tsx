@@ -408,7 +408,27 @@ function SymmetryVisual({ visual, showAnswer }: { visual: Extract<GeometryVisual
   )
 }
 
-type CuboidVisualValue = Extract<GeometryVisual, { type: 'cuboid' }>
+type CuboidFocus =
+  | 'structure'
+  | 'edges'
+  | 'faces'
+  | 'face'
+  | 'edge'
+  | 'vertex'
+  | 'edges-at-vertex'
+  | 'front-face'
+  | 'total-edge-length'
+  | 'surface-area'
+
+type CuboidVisualValue = Omit<
+  Extract<GeometryVisual, { type: 'cuboid' }>,
+  'depth' | 'focus' | 'height' | 'width'
+> & {
+  depth?: number
+  focus?: CuboidFocus
+  height?: number
+  width?: number
+}
 
 export interface CuboidLayout {
   front: Point[]
@@ -443,9 +463,9 @@ export function buildCuboidLayout(
   showAnswer = true
 ): CuboidLayout {
   const visual = maskUnknownCuboidMeasurement(source, showAnswer)
-  const width = positive(visual.width)
-  const height = positive(visual.height)
-  const depth = positive(visual.depth)
+  const width = positive(visual.width, 4)
+  const height = positive(visual.height, 3)
+  const depth = positive(visual.depth, 2)
   const depthVector = { x: depth * 0.65, y: -depth * 0.45 }
   const rawFront = [
     { x: 0, y: 0 },
@@ -479,11 +499,74 @@ export function buildCuboidLayout(
   }
 }
 
+const cuboidFocusLabels: Record<CuboidFocus, string> = {
+  structure: '구조를',
+  edges: '모서리를',
+  faces: '면을',
+  face: '면을',
+  edge: '모서리를',
+  vertex: '꼭짓점을',
+  'edges-at-vertex': '한 꼭짓점에서 만나는 모서리를',
+  'front-face': '앞면을',
+  'total-edge-length': '모든 모서리 길이를',
+  'surface-area': '겉면을',
+}
+
+function normalizeCuboidFocus(focus: CuboidVisualValue['focus']): CuboidFocus {
+  return focus ?? 'structure'
+}
+
+function cuboidMeasurementText(
+  meaning: '가로' | '세로' | '높이',
+  value: number | undefined,
+  unit: string,
+  hidden: boolean,
+  showAnswer: boolean,
+) {
+  if (value === undefined) return null
+  return `${meaning} ${hidden && !showAnswer ? '미지수' : `${value} ${unit}`}`
+}
+
+function CuboidMeasurementLabel({
+  x,
+  y,
+  meaning,
+  value,
+  unit,
+  hidden,
+  showAnswer,
+}: {
+  x: number
+  y: number
+  meaning: '가로' | '세로' | '높이'
+  value?: number
+  unit: string
+  hidden: boolean
+  showAnswer: boolean
+}) {
+  if (value === undefined) return null
+  const displayValue = hidden && !showAnswer ? '?' : value
+  return (
+    <text
+      x={x}
+      y={y}
+      textAnchor="middle"
+      fontSize="13"
+      fontWeight="700"
+      fill="#334155"
+      data-cuboid-measurement={meaning}
+    >
+      {meaning} {displayValue} {unit}
+    </text>
+  )
+}
+
 function CuboidVisual({ visual, showAnswer }: {
   visual: CuboidVisualValue
   showAnswer: boolean
 }) {
   const { width, height, depth, unit = 'cm' } = visual
+  const focus = normalizeCuboidFocus(visual.focus)
   const layout = buildCuboidLayout(visual, showAnswer)
   const [frontTopLeft, frontTopRight, frontBottomRight, frontBottomLeft] = layout.front
   const [backTopLeft, backTopRight, backBottomRight, backBottomLeft] = layout.back
@@ -502,19 +585,101 @@ function CuboidVisual({ visual, showAnswer }: {
         interpolate(frontBottomRight, frontTopRight),
       ]
     : []
+  const measurements = [
+    cuboidMeasurementText(
+      '가로',
+      width,
+      unit,
+      visual.unknownMeasurement === 'width',
+      showAnswer,
+    ),
+    cuboidMeasurementText(
+      '세로',
+      depth,
+      unit,
+      visual.unknownMeasurement === 'depth',
+      showAnswer,
+    ),
+    cuboidMeasurementText(
+      '높이',
+      height,
+      unit,
+      visual.unknownMeasurement === 'height',
+      showAnswer,
+    ),
+  ].filter((value): value is string => Boolean(value))
+  const accessibleName = [
+    `직육면체 ${cuboidFocusLabels[focus]} 살펴보는 그림`,
+    ...measurements,
+  ].join(', ')
+  const emphasizeFaces = focus === 'face' || focus === 'faces' || focus === 'surface-area'
+  const emphasizeFront = focus === 'front-face'
+  const emphasizeEdges = (
+    focus === 'edge' ||
+    focus === 'edges' ||
+    focus === 'total-edge-length'
+  )
+  const edgeColor = focus === 'total-edge-length' ? '#7c3aed' : '#0f766e'
+  const edges: Array<{
+    key: string
+    start: Point
+    end: Point
+    hidden?: boolean
+    atFocusVertex?: boolean
+  }> = [
+    { key: 'front-top', start: frontTopLeft, end: frontTopRight, atFocusVertex: true },
+    { key: 'front-right', start: frontTopRight, end: frontBottomRight },
+    { key: 'front-bottom', start: frontBottomRight, end: frontBottomLeft },
+    { key: 'front-left', start: frontBottomLeft, end: frontTopLeft, atFocusVertex: true },
+    { key: 'back-top', start: backTopLeft, end: backTopRight },
+    { key: 'back-right', start: backTopRight, end: backBottomRight },
+    { key: 'back-bottom', start: backBottomRight, end: backBottomLeft, hidden: true },
+    { key: 'back-left', start: backBottomLeft, end: backTopLeft, hidden: true },
+    { key: 'depth-top-left', start: frontTopLeft, end: backTopLeft, atFocusVertex: true },
+    { key: 'depth-top-right', start: frontTopRight, end: backTopRight },
+    { key: 'depth-bottom-right', start: frontBottomRight, end: backBottomRight },
+    { key: 'depth-bottom-left', start: frontBottomLeft, end: backBottomLeft, hidden: true },
+  ]
+  const vertices = [
+    ...layout.front.map((point, index) => ({ key: `front-${index}`, point })),
+    ...layout.back.map((point, index) => ({ key: `back-${index}`, point })),
+  ]
   return (
-    <svg viewBox="0 0 310 190" className="mx-auto w-full max-w-sm" role="img" aria-label="직육면체의 가로 세로 높이">
+    <svg
+      viewBox="0 0 310 190"
+      className="mx-auto w-full max-w-sm"
+      role="img"
+      aria-label={accessibleName}
+      data-cuboid-focus={focus}
+    >
       <polygon
         points={pointString([frontTopLeft, backTopLeft, backTopRight, frontTopRight])}
-        fill={visual.openTop ? "none" : "#eff6ff"}
-        stroke="#2563eb"
-        strokeWidth="3"
+        fill={visual.openTop ? "none" : emphasizeFaces ? '#bfdbfe' : '#eff6ff'}
+        stroke={emphasizeFaces ? '#1d4ed8' : '#64748b'}
+        strokeWidth={emphasizeFaces ? 4 : 2}
         strokeDasharray={visual.openTop ? "7 5" : undefined}
         data-cuboid-face="top"
+        data-cuboid-highlighted={emphasizeFaces ? 'true' : undefined}
         {...(visual.openTop ? { 'data-cuboid-open-top': '' } : {})}
       />
-      <polygon points={pointString([frontTopRight, backTopRight, backBottomRight, frontBottomRight])} fill="#bfdbfe" fillOpacity="0.8" stroke="#2563eb" strokeWidth="3" data-cuboid-face="side" />
-      <polygon points={pointString(layout.front)} fill="#dbeafe" fillOpacity="0.65" stroke="#2563eb" strokeWidth="3" data-cuboid-face="front" />
+      <polygon
+        points={pointString([frontTopRight, backTopRight, backBottomRight, frontBottomRight])}
+        fill={emphasizeFaces ? '#93c5fd' : '#dbeafe'}
+        fillOpacity="0.82"
+        stroke={emphasizeFaces ? '#1d4ed8' : '#64748b'}
+        strokeWidth={emphasizeFaces ? 4 : 2}
+        data-cuboid-face="side"
+        data-cuboid-highlighted={emphasizeFaces ? 'true' : undefined}
+      />
+      <polygon
+        points={pointString(layout.front)}
+        fill={emphasizeFront ? '#fde68a' : emphasizeFaces ? '#60a5fa' : '#eff6ff'}
+        fillOpacity="0.82"
+        stroke={emphasizeFront ? '#b45309' : emphasizeFaces ? '#1d4ed8' : '#64748b'}
+        strokeWidth={emphasizeFront || emphasizeFaces ? 4 : 2}
+        data-cuboid-face="front"
+        data-cuboid-highlighted={emphasizeFront || emphasizeFaces ? 'true' : undefined}
+      />
       {fillPlane.length > 0 && (
         <polygon
           points={pointString(fillPlane)}
@@ -525,12 +690,68 @@ function CuboidVisual({ visual, showAnswer }: {
           data-cuboid-fill-plane=""
         />
       )}
-      <line x1={frontBottomLeft.x} y1={frontBottomLeft.y} x2={backBottomLeft.x} y2={backBottomLeft.y} stroke="#64748b" strokeDasharray="5 4" />
-      <line x1={backBottomLeft.x} y1={backBottomLeft.y} x2={backBottomRight.x} y2={backBottomRight.y} stroke="#64748b" strokeDasharray="5 4" />
-      <line x1={backTopLeft.x} y1={backTopLeft.y} x2={backBottomLeft.x} y2={backBottomLeft.y} stroke="#64748b" strokeDasharray="5 4" />
-      <MeasurementLabel x={(frontBottomLeft.x + frontBottomRight.x) / 2} y={frontBottomLeft.y + 22} value={width} unit={unit} hidden={visual.unknownMeasurement === 'width'} showAnswer={showAnswer} />
-      <MeasurementLabel x={frontTopLeft.x - 22} y={(frontTopLeft.y + frontBottomLeft.y) / 2} value={height} unit={unit} hidden={visual.unknownMeasurement === 'height'} showAnswer={showAnswer} />
-      <MeasurementLabel x={(frontTopRight.x + backTopRight.x) / 2 + 12} y={(frontTopRight.y + backTopRight.y) / 2 - 8} value={depth} unit={unit} hidden={visual.unknownMeasurement === 'depth'} showAnswer={showAnswer} />
+      {edges.map(edge => {
+        const emphasizeAtVertex = focus === 'edges-at-vertex' && edge.atFocusVertex
+        const highlighted = emphasizeEdges || emphasizeAtVertex
+        return (
+          <line
+            key={edge.key}
+            x1={edge.start.x}
+            y1={edge.start.y}
+            x2={edge.end.x}
+            y2={edge.end.y}
+            stroke={highlighted ? (emphasizeAtVertex ? '#ea580c' : edgeColor) : '#64748b'}
+            strokeWidth={highlighted ? 4 : 1.7}
+            strokeDasharray={edge.hidden ? '5 4' : undefined}
+            data-cuboid-edge={edge.key}
+            data-cuboid-highlighted={highlighted ? 'true' : undefined}
+          />
+        )
+      })}
+      {(focus === 'vertex' || focus === 'edges-at-vertex') && vertices.map(({ key, point }, index) => {
+        const highlighted = focus === 'vertex' || index === 0
+        if (!highlighted) return null
+        return (
+          <circle
+            key={key}
+            cx={point.x}
+            cy={point.y}
+            r={focus === 'edges-at-vertex' ? 6 : 4.5}
+            fill={focus === 'edges-at-vertex' ? '#f97316' : '#7c3aed'}
+            stroke="white"
+            strokeWidth="1.5"
+            data-cuboid-vertex={key}
+            data-cuboid-highlighted="true"
+          />
+        )
+      })}
+      <CuboidMeasurementLabel
+        x={(frontBottomLeft.x + frontBottomRight.x) / 2}
+        y={frontBottomLeft.y + 22}
+        meaning="가로"
+        value={width}
+        unit={unit}
+        hidden={visual.unknownMeasurement === 'width'}
+        showAnswer={showAnswer}
+      />
+      <CuboidMeasurementLabel
+        x={frontTopLeft.x - 30}
+        y={(frontTopLeft.y + frontBottomLeft.y) / 2}
+        meaning="높이"
+        value={height}
+        unit={unit}
+        hidden={visual.unknownMeasurement === 'height'}
+        showAnswer={showAnswer}
+      />
+      <CuboidMeasurementLabel
+        x={(frontTopRight.x + backTopRight.x) / 2 + 24}
+        y={(frontTopRight.y + backTopRight.y) / 2 - 10}
+        meaning="세로"
+        value={depth}
+        unit={unit}
+        hidden={visual.unknownMeasurement === 'depth'}
+        showAnswer={showAnswer}
+      />
     </svg>
   )
 }

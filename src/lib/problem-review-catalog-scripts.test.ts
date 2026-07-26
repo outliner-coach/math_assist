@@ -229,6 +229,41 @@ describe('problem review catalog scripts', () => {
     expect(source.content.tool).toEqual(template.tool)
   })
 
+  it('uses typed review versions for cuboid and three-shape overlap renderers only', () => {
+    const concept = { id: 'visual-001', unit_id: 'unit-5-visual' }
+    const unit = { id: 'unit-5-visual', grade: 5, semester: '5-2' }
+    const makeTemplate = (id: string, type: string) => ({
+      id,
+      concept_id: concept.id,
+      type: 'number',
+      problem_family: `${type}-family`,
+      prompt_template: `${type} prompt`,
+      solver_rule: '1',
+      solution_steps_template: ['1'],
+      visual_template: { type },
+    })
+    const sources = reviewCore.adaptPracticeTemplates(
+      5,
+      [
+        makeTemplate('tmpl-cuboid', 'cuboid'),
+        makeTemplate('tmpl-overlap', 'three_shape_overlap'),
+        makeTemplate('tmpl-fallback', 'ratio_table'),
+      ],
+      [concept],
+      [unit]
+    )
+
+    expect(sources.map((source: ProblemReviewSource) => source.rendererReviewKey)).toEqual([
+      'practice-problem-visual:cuboid',
+      'practice-problem-visual:three_shape_overlap',
+      'practice-problem-visual',
+    ])
+    expect(reviewCore.RENDERER_REVIEW_VERSION_REGISTRY).toMatchObject({
+      'practice-problem-visual:cuboid': 'practice-problem-cuboid-review-v2',
+      'practice-problem-visual:three_shape_overlap': 'practice-problem-three-shape-overlap-review-v2',
+    })
+  })
+
   it('writes a byte-identical catalog twice from a complete Grade 1-6 fixture', () => {
     const sourcesPath = writeSources(
       'complete-sources.json',
