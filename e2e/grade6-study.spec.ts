@@ -118,6 +118,67 @@ test('각기둥 모형과 전개도를 밑면 변 수에서 정량 렌더링한�
   await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
 })
 
+test('곡면 입체와 원기둥 전개도를 실제 반복 수와 조각 수로 렌더링한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/practice/g6roundsolid-001?set=A&count=10`)
+  await expect(page.getByTestId('practice-session')).toBeVisible()
+  const visualIndexes = await page.evaluate((key) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return {
+      cylinder: session.problems.findIndex((problem: {
+        visual?: { type?: string; kind?: string; copies?: number }
+      }) => (
+        problem.visual?.type === 'round-solid' &&
+        problem.visual.kind === 'cylinder' &&
+        (problem.visual.copies ?? 1) > 1
+      )),
+      incompleteNet: session.problems.findIndex((problem: {
+        visual?: {
+          type?: string
+          copies?: number
+          circleCount?: number
+          rectangleCount?: number
+        }
+      }) => (
+        problem.visual?.type === 'cylinder-net' &&
+        (problem.visual.copies ?? 1) > 1 &&
+        problem.visual.circleCount === 1 &&
+        problem.visual.rectangleCount === 1
+      )),
+    }
+  }, GRADE6_KEYS[0])
+  expect(visualIndexes.cylinder).toBeGreaterThanOrEqual(0)
+  expect(visualIndexes.incompleteNet).toBeGreaterThanOrEqual(0)
+
+  await page.getByTestId(`progress-step-${visualIndexes.cylinder + 1}`).click()
+  const cylinder = page.getByTestId('geometry-visual-round-solid')
+  await expect(cylinder).toBeVisible()
+  const cylinderModel = await page.evaluate(({ key, itemIndex }) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return session.problems[itemIndex].visual
+  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.cylinder })
+  await expect(cylinder.locator('[data-round-copy]')).toHaveCount(cylinderModel.copies)
+  await expect(cylinder.locator('[data-round-base]')).toHaveCount(cylinderModel.copies * 2)
+  await expect(cylinder.locator('[data-round-curved-surface]')).toHaveCount(cylinderModel.copies)
+  await expect(cylinder.locator('[data-round-vertex]')).toHaveCount(0)
+
+  await page.getByTestId(`progress-step-${visualIndexes.incompleteNet + 1}`).click()
+  const net = page.getByTestId('geometry-visual-cylinder-net')
+  await expect(net).toBeVisible()
+  const netModel = await page.evaluate(({ key, itemIndex }) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return session.problems[itemIndex].visual
+  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.incompleteNet })
+  await expect(net.locator('[data-cylinder-net-copy]')).toHaveCount(netModel.copies)
+  await expect(net.locator('[data-cylinder-net-circle]')).toHaveCount(
+    netModel.copies * netModel.circleCount,
+  )
+  await expect(net.locator('[data-cylinder-net-rectangle]')).toHaveCount(
+    netModel.copies * netModel.rectangleCount,
+  )
+  await expect(page.locator('[data-answer]')).toHaveCount(0)
+  await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
+})
+
 test('손상된 6학년 세션은 원문을 보존하고 명시적 초기화 뒤에만 새로 저장한다', async ({ page }) => {
   await page.evaluate(({ grade5Key, grade6Key }) => {
     localStorage.setItem(grade5Key, '{"keep":"grade5"}')
@@ -190,6 +251,12 @@ for (const releasedConcept of [
     title: '각기둥·각뿔과 전개도',
     conceptId: 'g6prismpyramid-001',
     releaseId: 'grade6-prism-pyramid-v1',
+  },
+  {
+    unitId: 'unit-6-2-round-solids',
+    title: '원기둥·원뿔·구와 전개도',
+    conceptId: 'g6roundsolid-001',
+    releaseId: 'grade6-round-solid-v1',
   },
 ] as const) {
   test(`${releasedConcept.title} 단원을 찾아 5문제를 완주하고 단원별 콘텐츠 버전을 기록한다`, async ({ page }) => {

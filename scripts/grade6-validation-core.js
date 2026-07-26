@@ -105,6 +105,43 @@ function validateGrade6Release({ units, concepts, ledger, templatesByConcept }) 
           fail(`${template.id}: prism-net standard requires a prism-net visual`)
         }
       }
+      if (concept.id === 'g6roundsolid-001') {
+        const visual = template.visual_template
+        if (visualContainsAnswerOnlyKey(visual)) {
+          fail(`${template.id}: round-solid visual contains an answer-only key`)
+        }
+        if (visual) {
+          if (![1, '{{p}}'].includes(visual.copies)) {
+            fail(`${template.id}: round-solid copies must be 1 or {{p}}`)
+          }
+          if (
+            visual.semantics !== 'quantitative' ||
+            !['round-solid', 'cylinder-net'].includes(visual.type)
+          ) {
+            fail(`${template.id}: round-solid visual must be quantitative round-solid or cylinder-net`)
+          }
+          if (
+            visual.type === 'round-solid' &&
+            !['cylinder', 'cone', 'sphere'].includes(visual.kind)
+          ) {
+            fail(`${template.id}: round-solid visual requires cylinder, cone, or sphere kind`)
+          }
+          if (visual.type === 'cylinder-net') {
+            if (![0, 1, 2, 3].includes(visual.circleCount)) {
+              fail(`${template.id}: cylinder-net circleCount must be 0 through 3`)
+            }
+            if (![0, 1, 2].includes(visual.rectangleCount)) {
+              fail(`${template.id}: cylinder-net rectangleCount must be 0 through 2`)
+            }
+          }
+        }
+        if (
+          template.blueprint?.primaryStandard === '[6수03-08]' &&
+          visual?.type !== 'cylinder-net'
+        ) {
+          fail(`${template.id}: cylinder-net standard requires a cylinder-net visual`)
+        }
+      }
 
       const primaryStandard = template.blueprint?.primaryStandard
       const primaryRow = releasedRowsByStandard.get(primaryStandard)

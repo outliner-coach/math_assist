@@ -125,6 +125,8 @@ export default function VisualAid({ aid }: VisualAidProps) {
     }
     case 'poly-solid':
     case 'prism-net':
+    case 'round-solid':
+    case 'cylinder-net':
       return <GeometryProblemVisual visual={aid} />
     default:
       return null

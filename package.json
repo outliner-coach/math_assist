@@ -33,6 +33,7 @@
     "generate:grade6-decimal-division": "node scripts/generate-grade6-decimal-division-templates.js",
     "generate:grade6-proportion": "node scripts/generate-grade6-proportion-templates.js",
     "generate:grade6-prism-pyramid": "node scripts/generate-grade6-prism-pyramid-templates.js",
+    "generate:grade6-round-solid": "node scripts/generate-grade6-round-solid-templates.js",
     "generate:grade5-rounding": "node scripts/generate-grade5-rounding-templates.js",
     "migrate:grade5-blueprints": "node scripts/migrate-grade5-blueprints.js",
     "validate:templates": "node scripts/validate-templates.js",

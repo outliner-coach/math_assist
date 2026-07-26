@@ -26,6 +26,10 @@ import {
   serializeTemplates as serializePrismPyramidTemplates,
   templates as generatedPrismPyramidTemplates,
 } from '../../scripts/generate-grade6-prism-pyramid-templates.js'
+import {
+  serializeTemplates as serializeRoundSolidTemplates,
+  templates as generatedRoundSolidTemplates,
+} from '../../scripts/generate-grade6-round-solid-templates.js'
 import { evaluateTemplate } from '../../scripts/problem-quality-core.js'
 
 const ratioTemplates = JSON.parse(readFileSync(
@@ -52,6 +56,10 @@ const prismPyramidTemplates = JSON.parse(readFileSync(
   join(process.cwd(), 'public/data/templates/g6prismpyramid.json'),
   'utf8',
 )) as ProblemTemplate[]
+const roundSolidTemplates = JSON.parse(readFileSync(
+  join(process.cwd(), 'public/data/templates/g6roundsolid.json'),
+  'utf8',
+)) as ProblemTemplate[]
 const releasedConceptTemplates = [
   ['g6ratio-001', ratioTemplates],
   ['g6fractiondiv-001', fractionDivisionTemplates],
@@ -59,6 +67,7 @@ const releasedConceptTemplates = [
   ['g6decimaldiv-001', decimalDivisionTemplates],
   ['g6proportion-001', proportionTemplates],
   ['g6prismpyramid-001', prismPyramidTemplates],
+  ['g6roundsolid-001', roundSolidTemplates],
 ] as const
 
 describe('Grade 6 Study release slice', () => {
@@ -289,6 +298,57 @@ describe('Grade 6 Study release slice', () => {
     }
   })
 
+  it('maps round solids and cylinder nets to both released standards', () => {
+    const primaryStandards = new Set(roundSolidTemplates.map(
+      (template) => template.blueprint?.primaryStandard,
+    ))
+    const familySets = (['A', 'B', 'C'] as const).map((setId) => new Set(
+      roundSolidTemplates
+        .filter((template) => template.set_id === setId)
+        .map((template) => template.problem_family),
+    ))
+
+    expect(primaryStandards).toEqual(new Set(['[6수03-07]', '[6수03-08]']))
+    expect(new Set(roundSolidTemplates.map((template) => template.problem_family))).toHaveLength(30)
+    expect([...familySets[0]].filter((family) => familySets[1].has(family))).toEqual([])
+    expect([...familySets[0]].filter((family) => familySets[2].has(family))).toEqual([])
+    expect([...familySets[1]].filter((family) => familySets[2].has(family))).toEqual([])
+  })
+
+  it('reproduces the round-solid bank and keeps every visual structural', () => {
+    expect(serializeRoundSolidTemplates()).toBe(readFileSync(
+      join(process.cwd(), 'public/data/templates/g6roundsolid.json'),
+      'utf8',
+    ))
+    expect(generatedRoundSolidTemplates).toEqual(roundSolidTemplates)
+
+    for (const template of roundSolidTemplates) {
+      const { min, max } = template.param_schema.p
+      for (let p = min; p <= max; p += 1) {
+        const params = { p }
+        const rendered = [
+          evaluateTemplate(template.prompt_template, params),
+          ...template.solution_steps_template.map((step) => evaluateTemplate(step, params)),
+          ...(template.hint_steps_template ?? []).map((step) => evaluateTemplate(step, params)),
+        ]
+        const answer = evaluateTemplate(`{{${template.solver_rule}}}`, params)
+
+        expect(answer, `${template.id} p=${p}`).toMatch(/^\d+$/)
+        expect(rendered.some((text) => text.includes('?]')), `${template.id} p=${p}`).toBe(false)
+      }
+
+      if (template.visual_template) {
+        expect(template.visual_template.semantics).toBe('quantitative')
+        expect(['round-solid', 'cylinder-net']).toContain(template.visual_template.type)
+        expect([1, '{{p}}']).toContain(template.visual_template.copies)
+        expect(template.blueprint).toMatchObject({
+          visualSemantics: 'quantitative',
+        })
+        expect(template.blueprint?.representations).toContain('diagram')
+      }
+    }
+  })
+
   it.each([
     ['A', 5, { 1: 2, 2: 2, 3: 1 }],
     ['A', 10, { 1: 4, 2: 4, 3: 2 }],
@@ -396,6 +456,39 @@ describe('Grade 6 Study release slice', () => {
       for (const problem of problems) {
         if (problem.visual?.type === 'poly-solid' || problem.visual?.type === 'prism-net') {
           expect(problem.visual.baseSides).toBe(problem.params.p)
+        }
+        const html = renderToStaticMarkup(createElement(ProblemCard, {
+          problem,
+          answer: null,
+          checked: false,
+          onAnswer: () => undefined,
+        }))
+        expect(html).not.toContain('data-answer')
+        expect(html).not.toContain('correctAnswer')
+        expect(html).not.toContain('정답:')
+      }
+    },
+  )
+
+  it.each(['A', 'B', 'C'] as const)(
+    'generates, renders, and grades every round-solid problem in set %s',
+    (setId) => {
+      vi.stubGlobal('React', React)
+      const problems = generateProblems(roundSolidTemplates, {
+        count: 10,
+        setId,
+        difficultyMix: { 1: 4, 2: 4, 3: 2 },
+        seed: 7110 + setId.charCodeAt(0),
+      })
+      const results = gradeSession(problems, problems.map((problem) => problem.correctAnswer))
+
+      expect(problems).toHaveLength(10)
+      expect(new Set(problems.map((problem) => problem.prompt))).toHaveLength(10)
+      expect(problems.every((problem) => /^\d+$/.test(problem.correctAnswer))).toBe(true)
+      expect(results.every((result) => result.correct)).toBe(true)
+      for (const problem of problems) {
+        if (problem.visual?.type === 'round-solid' || problem.visual?.type === 'cylinder-net') {
+          expect([1, problem.params.p]).toContain(problem.visual.copies)
         }
         const html = renderToStaticMarkup(createElement(ProblemCard, {
           problem,

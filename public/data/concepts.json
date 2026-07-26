@@ -1181,5 +1181,72 @@
       "전개도에서 밑면 하나나 직사각형 옆면 하나를 빠뜨리는 실수"
     ],
     "order": 1
+  },
+  {
+    "id": "g6roundsolid-001",
+    "unit_id": "unit-6-2-round-solids",
+    "concept_title": "원기둥·원뿔·구와 전개도",
+    "base_explanation": "원기둥은 합동이고 평행한 원 모양 밑면 2개와 굽은 면 1개, 원뿔은 원 모양 밑면 1개와 굽은 면 1개와 꼭짓점 1개, 구는 굽은 면 1개로 이루어집니다. 원기둥의 전개도에는 원 2개와 굽은 면을 펼친 직사각형 1개가 필요합니다.",
+    "friendly_explanation": "평평한 원 모양 밑면, 둥글게 이어진 굽은 면, 뾰족한 꼭짓점을 따로 보면 세 입체도형을 쉽게 비교할 수 있어요. 원기둥을 펼치면 위아래 원 두 개와 옆을 감싸던 직사각형 하나가 나와요.",
+    "key_points": [
+      "원기둥: 원 모양 밑면 2개, 굽은 면 1개, 꼭짓점 0개",
+      "원뿔: 원 모양 밑면 1개, 굽은 면 1개, 꼭짓점 1개",
+      "구: 굽은 면 1개, 밑면과 꼭짓점 0개",
+      "원기둥 전개도: 원 2개와 직사각형 1개"
+    ],
+    "steps": [
+      "평평한 원 모양 밑면이 있는지 확인하기",
+      "굽은 면이 끊어지지 않고 몇 개 이어지는지 보기",
+      "모서리가 만나는 꼭짓점이 있는지 확인하기",
+      "원기둥 전개도의 두 원과 직사각형을 원래 면에 대응하기"
+    ],
+    "visual_aids": [
+      {
+        "type": "round-solid",
+        "semantics": "quantitative",
+        "kind": "cylinder",
+        "copies": 1
+      },
+      {
+        "type": "round-solid",
+        "semantics": "quantitative",
+        "kind": "cone",
+        "copies": 1
+      },
+      {
+        "type": "round-solid",
+        "semantics": "quantitative",
+        "kind": "sphere",
+        "copies": 1
+      },
+      {
+        "type": "cylinder-net",
+        "semantics": "quantitative",
+        "copies": 1,
+        "circleCount": 2,
+        "rectangleCount": 1
+      }
+    ],
+    "mini_checks": [
+      {
+        "question": "원기둥의 원 모양 밑면은 몇 개인가요?",
+        "answer": "2"
+      },
+      {
+        "question": "원뿔의 꼭짓점은 몇 개인가요?",
+        "answer": "1"
+      }
+    ],
+    "examples": [
+      "원기둥 3개의 원 모양 밑면은 2×3=6개입니다.",
+      "원뿔에는 원 모양 밑면과 굽은 면이 하나씩 있습니다.",
+      "원기둥 전개도에는 원 2개와 직사각형 1개가 필요합니다."
+    ],
+    "pitfalls": [
+      "원기둥의 원 가운데를 꼭짓점으로 세는 실수",
+      "구가 바닥에 닿는 부분을 평평한 밑면으로 생각하는 실수",
+      "원기둥 전개도에서 원 하나나 직사각형을 빠뜨리는 실수"
+    ],
+    "order": 1
   }
 ]

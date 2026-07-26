@@ -1443,11 +1443,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 28,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "각기둥 각뿔 뒤 곡면 입체로 확장",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6roundsolid-001"
+      ],
+      "allocationRationale": "6학년 곡면 입체 문제은행에서 원기둥·원뿔·구의 밑면·굽은 면·꼭짓점을 직접 계수하고 여러 도형 적용과 오류 분석을 제공",
+      "reviewedBy": "grade6-round-solid-release-2026-07-26"
     },
     {
       "standardCode": "[6수03-08]",
@@ -1461,11 +1463,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 28,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "원기둥 성질 뒤 전개도",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6roundsolid-001"
+      ],
+      "allocationRationale": "6학년 원기둥 전개도 문제은행에서 원 두 개와 직사각형 하나의 대응, 반복 전개도, 빠진·남는 조각 분석을 제공",
+      "reviewedBy": "grade6-round-solid-release-2026-07-26"
     },
     {
       "standardCode": "[6수03-09]",

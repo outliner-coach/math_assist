@@ -21,6 +21,18 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 6 round-solids Study release (primary workstreams 01,
+  02, 03, and 04) owns the narrow addition of quantitative `round-solid`
+  and `cylinder-net` visual payloads in `src/lib/types.ts`, their shared
+  problem/concept renderer, Grade 6 unit/concept/template data, concept
+  release identity, generator, curriculum rows, and focused renderer,
+  generation, allocation, route, storage, and browser tests.
+  `g6roundsolid-001` must derive every circular-base, curved-surface,
+  vertex, net-circle, missing-piece, extra-piece, and repeated-solid count
+  from the exact kind and copy count used by its prompt and solution.
+  Visual payloads may contain only given structure and must not add a
+  derived answer value to the unchecked DOM or accessibility name.
+
 - 2026-07-26: Grade 6 prism, pyramid, and prism-net Study release (primary
   workstreams 01, 02, 03, and 04) owns the narrow addition of quantitative
   `poly-solid` and `prism-net` visual payloads in `src/lib/types.ts`, their

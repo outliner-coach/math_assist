@@ -221,6 +221,19 @@ export type GeometryVisual =
       lateralFaces?: number
       baseCount?: number
     }
+  | {
+      type: 'round-solid'
+      semantics: 'quantitative'
+      kind: 'cylinder' | 'cone' | 'sphere'
+      copies?: number
+    }
+  | {
+      type: 'cylinder-net'
+      semantics: 'quantitative'
+      copies?: number
+      circleCount?: number
+      rectangleCount?: number
+    }
 
 export type VisualTemplateValue =
   | string
@@ -352,4 +365,6 @@ export type VisualAid =
       type: 'factor_tree'
       props: { value: number; factors: number[] }
     }
-  | Extract<GeometryVisual, { type: 'poly-solid' | 'prism-net' }>
+  | Extract<GeometryVisual, {
+      type: 'poly-solid' | 'prism-net' | 'round-solid' | 'cylinder-net'
+    }>

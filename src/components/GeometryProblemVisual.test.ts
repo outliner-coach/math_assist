@@ -9,6 +9,8 @@ import GeometryProblemVisual, {
   buildPolygonLayout,
   buildPolySolidLayout,
   buildPrismNetLayout,
+  buildRoundSolidLayout,
+  buildCylinderNetLayout,
   isValidCubeNet,
 } from './GeometryProblemVisual'
 
@@ -413,6 +415,107 @@ describe('GeometryProblemVisual', () => {
     expect(html.match(/data-net-base=/g)).toHaveLength(2)
     expect(html).toContain('육각기둥 전개도')
     expect(html).not.toContain('1개 부족')
+  })
+
+  it('derives round-solid structure for every displayed copy', () => {
+    expect(buildRoundSolidLayout('cylinder', 1).copies[0].width).toBeGreaterThanOrEqual(140)
+
+    for (let copies = 1; copies <= 6; copies += 1) {
+      for (const kind of ['cylinder', 'cone', 'sphere'] as const) {
+        const layout = buildRoundSolidLayout(kind, copies)
+        expect(layout.copies).toHaveLength(copies)
+        for (const copy of layout.copies) {
+          expect(copy.x).toBeGreaterThanOrEqual(8)
+          expect(copy.x + copy.width).toBeLessThanOrEqual(312)
+          expect(copy.y).toBeGreaterThanOrEqual(8)
+          expect(copy.y + copy.height).toBeLessThanOrEqual(192)
+        }
+      }
+    }
+
+    const cylinder = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'round-solid',
+        semantics: 'quantitative',
+        kind: 'cylinder',
+        copies: 3,
+      },
+    }))
+    const cone = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'round-solid',
+        semantics: 'quantitative',
+        kind: 'cone',
+        copies: 2,
+      },
+    }))
+    const sphere = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'round-solid',
+        semantics: 'quantitative',
+        kind: 'sphere',
+        copies: 4,
+      },
+    }))
+
+    expect(cylinder.match(/data-round-copy=/g)).toHaveLength(3)
+    expect(cylinder.match(/data-round-base=/g)).toHaveLength(6)
+    expect(cylinder.match(/data-round-curved-surface=/g)).toHaveLength(3)
+    expect(cylinder.match(/data-round-vertex=/g) ?? []).toHaveLength(0)
+    expect(cone.match(/data-round-base=/g)).toHaveLength(2)
+    expect(cone.match(/data-round-curved-surface=/g)).toHaveLength(2)
+    expect(cone.match(/data-round-vertex=/g)).toHaveLength(2)
+    expect(sphere.match(/data-round-base=/g) ?? []).toHaveLength(0)
+    expect(sphere.match(/data-round-curved-surface=/g)).toHaveLength(4)
+    expect(sphere.match(/data-round-vertex=/g) ?? []).toHaveLength(0)
+    expect(cylinder).toContain('원기둥 3개 모형')
+    expect(cylinder).not.toContain('면은 9개')
+  })
+
+  it('derives complete, missing, and extra cylinder nets from actual pieces', () => {
+    for (let copies = 1; copies <= 6; copies += 1) {
+      const layout = buildCylinderNetLayout(copies, 2, 1)
+      expect(layout.copies).toHaveLength(copies)
+      expect(layout.circles).toHaveLength(copies * 2)
+      expect(layout.rectangles).toHaveLength(copies)
+      for (const rectangle of layout.rectangles) {
+        expect(rectangle.x).toBeGreaterThanOrEqual(8)
+        expect(rectangle.x + rectangle.width).toBeLessThanOrEqual(312)
+        expect(rectangle.y).toBeGreaterThanOrEqual(8)
+        expect(rectangle.y + rectangle.height).toBeLessThanOrEqual(192)
+      }
+      for (const circle of layout.circles) {
+        expect(circle.cx - circle.r).toBeGreaterThanOrEqual(8)
+        expect(circle.cx + circle.r).toBeLessThanOrEqual(312)
+        expect(circle.cy - circle.r).toBeGreaterThanOrEqual(8)
+        expect(circle.cy + circle.r).toBeLessThanOrEqual(192)
+      }
+    }
+
+    const missing = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cylinder-net',
+        semantics: 'quantitative',
+        copies: 1,
+        circleCount: 1,
+        rectangleCount: 1,
+      },
+    }))
+    const extra = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cylinder-net',
+        semantics: 'quantitative',
+        copies: 1,
+        circleCount: 3,
+        rectangleCount: 1,
+      },
+    }))
+
+    expect(missing.match(/data-cylinder-net-circle=/g)).toHaveLength(1)
+    expect(missing.match(/data-cylinder-net-rectangle=/g)).toHaveLength(1)
+    expect(extra.match(/data-cylinder-net-circle=/g)).toHaveLength(3)
+    expect(extra).toContain('원기둥 전개도')
+    expect(extra).not.toContain('1개 남음')
   })
 
   it('keeps the reflected point hidden until the solution is shown', () => {

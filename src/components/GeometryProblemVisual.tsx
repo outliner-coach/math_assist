@@ -861,6 +861,341 @@ function PrismNetVisual({ visual }: {
   )
 }
 
+type RoundSolidKind = Extract<GeometryVisual, { type: 'round-solid' }>['kind']
+
+export interface RoundSolidCopyLayout {
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
+export interface RoundSolidLayout {
+  kind: RoundSolidKind
+  copies: RoundSolidCopyLayout[]
+}
+
+function boundedCopyCount(value: number | undefined): number {
+  if (!Number.isFinite(value)) return 1
+  return Math.max(1, Math.min(6, Math.round(value!)))
+}
+
+function buildCopyBoxes(sourceCopies: number | undefined): RoundSolidCopyLayout[] {
+  const copies = boundedCopyCount(sourceCopies)
+  if (copies === 1) {
+    return [{ x: 80, y: 20, width: 160, height: 160 }]
+  }
+  if (copies === 2) {
+    return [
+      { x: 35, y: 45, width: 110, height: 110 },
+      { x: 175, y: 45, width: 110, height: 110 },
+    ]
+  }
+  if (copies === 3) {
+    return Array.from({ length: 3 }, (_, index) => ({
+      x: 12 + index * 107,
+      y: 55,
+      width: 82,
+      height: 90,
+    }))
+  }
+  const columns = Math.min(3, copies)
+  const rows = Math.ceil(copies / columns)
+  const cellWidth = 96
+  const cellHeight = 86
+  const totalWidth = columns * cellWidth
+  const totalHeight = rows * cellHeight
+  const startX = (320 - totalWidth) / 2
+  const startY = (200 - totalHeight) / 2
+
+  return Array.from({ length: copies }, (_, index) => ({
+    x: startX + (index % columns) * cellWidth + 14,
+    y: startY + Math.floor(index / columns) * cellHeight + 8,
+    width: 68,
+    height: 70,
+  }))
+}
+
+export function buildRoundSolidLayout(
+  kind: RoundSolidKind,
+  copies = 1
+): RoundSolidLayout {
+  return {
+    kind,
+    copies: buildCopyBoxes(copies),
+  }
+}
+
+const roundSolidNames: Record<RoundSolidKind, string> = {
+  cylinder: '원기둥',
+  cone: '원뿔',
+  sphere: '구',
+}
+
+function RoundSolidGlyph({
+  kind,
+  copy,
+  index,
+}: {
+  kind: RoundSolidKind
+  copy: RoundSolidCopyLayout
+  index: number
+}) {
+  const { x, y, width, height } = copy
+  const centerX = x + width / 2
+
+  if (kind === 'cylinder') {
+    return (
+      <g data-round-copy={index}>
+        <rect
+          data-round-curved-surface={index}
+          x={x + 8}
+          y={y + 13}
+          width={width - 16}
+          height={height - 26}
+          fill="#bae6fd"
+          stroke="#0284c7"
+          strokeWidth="2.5"
+        />
+        <ellipse
+          data-round-base={`${index}-top`}
+          cx={centerX}
+          cy={y + 13}
+          rx={(width - 16) / 2}
+          ry="9"
+          fill="#e0f2fe"
+          stroke="#0284c7"
+          strokeWidth="2.5"
+        />
+        <ellipse
+          data-round-base={`${index}-bottom`}
+          cx={centerX}
+          cy={y + height - 13}
+          rx={(width - 16) / 2}
+          ry="9"
+          fill="#7dd3fc"
+          stroke="#0284c7"
+          strokeWidth="2.5"
+        />
+      </g>
+    )
+  }
+
+  if (kind === 'cone') {
+    const apexY = y + 5
+    const baseY = y + height - 13
+    const radius = (width - 14) / 2
+    return (
+      <g data-round-copy={index}>
+        <path
+          data-round-curved-surface={index}
+          d={`M ${centerX} ${apexY} L ${centerX - radius} ${baseY} A ${radius} 9 0 0 0 ${centerX + radius} ${baseY} Z`}
+          fill="#fed7aa"
+          stroke="#ea580c"
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+        />
+        <ellipse
+          data-round-base={index}
+          cx={centerX}
+          cy={baseY}
+          rx={radius}
+          ry="9"
+          fill="#ffedd5"
+          stroke="#ea580c"
+          strokeWidth="2.5"
+        />
+        <circle
+          data-round-vertex={index}
+          cx={centerX}
+          cy={apexY}
+          r="3.5"
+          fill="#9a3412"
+        />
+      </g>
+    )
+  }
+
+  const radius = Math.min(width, height) / 2 - 5
+  const centerY = y + height / 2
+  return (
+    <g data-round-copy={index}>
+      <circle
+        data-round-curved-surface={index}
+        cx={centerX}
+        cy={centerY}
+        r={radius}
+        fill="#ddd6fe"
+        stroke="#7c3aed"
+        strokeWidth="2.5"
+      />
+      <ellipse
+        cx={centerX}
+        cy={centerY}
+        rx={radius}
+        ry={radius * 0.34}
+        fill="none"
+        stroke="#8b5cf6"
+        strokeWidth="1.8"
+        strokeDasharray="4 3"
+      />
+      <path
+        d={`M ${centerX - radius * 0.72} ${centerY - radius * 0.72} A ${radius} ${radius} 0 0 0 ${centerX + radius * 0.72} ${centerY + radius * 0.72}`}
+        fill="none"
+        stroke="#ede9fe"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+    </g>
+  )
+}
+
+function RoundSolidVisual({ visual }: {
+  visual: Extract<GeometryVisual, { type: 'round-solid' }>
+}) {
+  const layout = buildRoundSolidLayout(visual.kind, visual.copies)
+  const countLabel = layout.copies.length === 1 ? '' : ` ${layout.copies.length}개`
+
+  return (
+    <svg
+      viewBox="0 0 320 200"
+      className="mx-auto w-full max-w-md"
+      role="img"
+      aria-label={`${roundSolidNames[visual.kind]}${countLabel} 모형`}
+    >
+      {layout.copies.map((copy, index) => (
+        <RoundSolidGlyph
+          key={`${visual.kind}-${index}`}
+          kind={visual.kind}
+          copy={copy}
+          index={index}
+        />
+      ))}
+    </svg>
+  )
+}
+
+export interface CylinderNetCircle {
+  cx: number
+  cy: number
+  r: number
+  copyIndex: number
+}
+
+export interface CylinderNetRectangle {
+  x: number
+  y: number
+  width: number
+  height: number
+  copyIndex: number
+}
+
+export interface CylinderNetLayout {
+  copies: RoundSolidCopyLayout[]
+  circles: CylinderNetCircle[]
+  rectangles: CylinderNetRectangle[]
+}
+
+export function buildCylinderNetLayout(
+  sourceCopies = 1,
+  sourceCircleCount = 2,
+  sourceRectangleCount = 1
+): CylinderNetLayout {
+  const copies = buildCopyBoxes(sourceCopies)
+  const circleCount = Math.max(0, Math.min(3, Math.round(sourceCircleCount)))
+  const rectangleCount = Math.max(0, Math.min(2, Math.round(sourceRectangleCount)))
+  const circles: CylinderNetCircle[] = []
+  const rectangles: CylinderNetRectangle[] = []
+
+  copies.forEach((copy, copyIndex) => {
+    const centerX = copy.x + copy.width / 2
+    const centerY = copy.y + copy.height / 2
+    const totalRectangleWidth = Math.min(110, copy.width * 0.72)
+    const rectangleWidth = totalRectangleWidth / Math.max(rectangleCount, 1)
+    const rectangleHeight = Math.min(55, copy.height * 0.34)
+    const rectangleX = centerX - totalRectangleWidth / 2
+    const rectangleY = centerY - rectangleHeight / 2
+    for (let index = 0; index < rectangleCount; index += 1) {
+      rectangles.push({
+        x: rectangleX + index * rectangleWidth,
+        y: rectangleY,
+        width: rectangleWidth,
+        height: rectangleHeight,
+        copyIndex,
+      })
+    }
+    const circleRadius = Math.min(18, copy.width * 0.12, copy.height * 0.12)
+    const circlePositions = [
+      { cx: centerX - totalRectangleWidth * 0.24, cy: rectangleY - circleRadius - 3 },
+      { cx: centerX + totalRectangleWidth * 0.24, cy: rectangleY + rectangleHeight + circleRadius + 3 },
+      { cx: centerX + totalRectangleWidth * 0.46, cy: rectangleY - circleRadius - 3 },
+    ]
+    for (let index = 0; index < circleCount; index += 1) {
+      circles.push({
+        ...circlePositions[index],
+        r: circleRadius,
+        copyIndex,
+      })
+    }
+  })
+
+  return { copies, circles, rectangles }
+}
+
+function CylinderNetVisual({ visual }: {
+  visual: Extract<GeometryVisual, { type: 'cylinder-net' }>
+}) {
+  const layout = buildCylinderNetLayout(
+    visual.copies,
+    visual.circleCount ?? 2,
+    visual.rectangleCount ?? 1
+  )
+  const countLabel = layout.copies.length === 1 ? '' : ` ${layout.copies.length}개`
+
+  return (
+    <svg
+      viewBox="0 0 320 200"
+      className="mx-auto w-full max-w-md"
+      role="img"
+      aria-label={`원기둥 전개도${countLabel}`}
+    >
+      {layout.copies.map((copy, index) => (
+        <g key={`copy-${index}`} data-cylinder-net-copy={index}>
+          {layout.rectangles
+            .filter((rectangle) => rectangle.copyIndex === index)
+            .map((rectangle, rectangleIndex) => (
+              <rect
+                key={`rectangle-${rectangleIndex}`}
+                data-cylinder-net-rectangle={`${index}-${rectangleIndex}`}
+                x={rectangle.x}
+                y={rectangle.y}
+                width={rectangle.width}
+                height={rectangle.height}
+                fill="#e0f2fe"
+                stroke="#0284c7"
+                strokeWidth="2"
+              />
+            ))}
+          {layout.circles
+            .filter((circle) => circle.copyIndex === index)
+            .map((circle, circleIndex) => (
+              <circle
+                key={`circle-${circleIndex}`}
+                data-cylinder-net-circle={`${index}-${circleIndex}`}
+                cx={circle.cx}
+                cy={circle.cy}
+                r={circle.r}
+                fill="#dcfce7"
+                stroke="#16a34a"
+                strokeWidth="2"
+              />
+            ))}
+        </g>
+      ))}
+    </svg>
+  )
+}
+
 export default function GeometryProblemVisual({ visual, showAnswer = false }: GeometryProblemVisualProps) {
   return (
     <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-3" data-testid={`geometry-visual-${visual.type}`}>
@@ -871,6 +1206,8 @@ export default function GeometryProblemVisual({ visual, showAnswer = false }: Ge
       {visual.type === 'cuboid-net' && <CuboidNetVisual visual={visual} showAnswer={showAnswer} />}
       {visual.type === 'poly-solid' && <PolySolidVisual visual={visual} />}
       {visual.type === 'prism-net' && <PrismNetVisual visual={visual} />}
+      {visual.type === 'round-solid' && <RoundSolidVisual visual={visual} />}
+      {visual.type === 'cylinder-net' && <CylinderNetVisual visual={visual} />}
     </div>
   )
 }

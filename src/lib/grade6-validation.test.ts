@@ -16,6 +16,7 @@ const templatesByConcept = {
   'g6decimaldiv-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6decimaldiv.json'), 'utf8')),
   'g6proportion-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6proportion.json'), 'utf8')),
   'g6prismpyramid-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6prismpyramid.json'), 'utf8')),
+  'g6roundsolid-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6roundsolid.json'), 'utf8')),
 }
 
 describe('Grade 6 release validation', () => {
@@ -24,9 +25,9 @@ describe('Grade 6 release validation', () => {
 
     expect(result.errors).toEqual([])
     expect(result.summary).toMatchObject({
-      unitCount: 6,
-      conceptCount: 6,
-      templateCount: 180,
+      unitCount: 7,
+      conceptCount: 7,
+      templateCount: 210,
     })
   })
 
@@ -58,6 +59,26 @@ describe('Grade 6 release validation', () => {
     )
     expect(result.errors).toContain(
       'tmpl-g6prismpyramid-A-02: prism visual contains an answer-only key',
+    )
+  })
+
+  it('rejects round-solid visuals with unsupported copies or answer fields', () => {
+    const invalidTemplates = structuredClone(templatesByConcept)
+    invalidTemplates['g6roundsolid-001'][0].visual_template.copies = 7
+    invalidTemplates['g6roundsolid-001'][1].visual_template.answer = '1'
+
+    const result = validateGrade6Release({
+      units,
+      concepts,
+      ledger,
+      templatesByConcept: invalidTemplates,
+    })
+
+    expect(result.errors).toContain(
+      'tmpl-g6roundsolid-A-01: round-solid copies must be 1 or {{p}}',
+    )
+    expect(result.errors).toContain(
+      'tmpl-g6roundsolid-A-02: round-solid visual contains an answer-only key',
     )
   })
 })
