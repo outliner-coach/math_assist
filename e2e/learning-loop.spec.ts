@@ -145,6 +145,35 @@ test('각 문제를 푼 직후 정답과 풀이를 확인한다', async ({ page 
   expect(session.checkedAnswers[0]).toBe(false)
 })
 
+test('5학년 수의 범위는 열린·닫힌 경계를 그리고 10문제를 완주한다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(`${BASE_PATH}/unit/unit-5-2-rounding`)
+  await expect(page.getByText('개념 선택 (3개)')).toBeVisible()
+  await expect(page.getByRole('link', { name: /이상·이하·초과·미만/ })).toBeVisible()
+
+  await page.goto(`${BASE_PATH}/concept/numberrange-001`)
+  const conceptVisual = page.getByTestId('problem-diagram-number-range')
+  await expect(conceptVisual).toBeVisible()
+  await expect(conceptVisual.locator('[data-range-lower-inclusive="true"]')).toHaveCount(1)
+  await expect(conceptVisual.locator('[data-range-upper-inclusive="false"]')).toHaveCount(1)
+
+  await page.goto(`${BASE_PATH}/practice/numberrange-001?set=A`)
+  const session = await readSession(page)
+  expect(session.problems).toHaveLength(10)
+  expect(session.problems.every((problem) => problem.visual?.type === 'number_range')).toBe(true)
+
+  const practiceVisual = page.getByTestId('problem-diagram-number-range')
+  await expect(practiceVisual).toBeVisible()
+  await expect(page.locator('[data-answer]')).toHaveCount(0)
+  await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
+
+  await completeSession(page)
+  const result = await readResult(page)
+  expect(result.score).toBe(10)
+  expect(result.total).toBe(10)
+})
+
 test('5학년 풀이장은 문제별로 자동 저장하고 이동·새로고침 뒤 복구한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/practice/divisor-001?set=A`)
   await drawScratchStroke(page)

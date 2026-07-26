@@ -25,6 +25,7 @@ import {
   serializeTemplates as serializeGeometryTemplates
 } from '../../scripts/generate-grade5-geometry-templates.js'
 import { templates as generatedMixedCalculationTemplates } from '../../scripts/generate-grade5-mixedcalc-templates.js'
+import { templates as generatedNumberRangeTemplates } from '../../scripts/generate-grade5-number-range-templates.js'
 import { templates as generatedPatternTemplates } from '../../scripts/generate-grade5-pattern-templates.js'
 import { templates as generatedRoundingTemplates } from '../../scripts/generate-grade5-rounding-templates.js'
 import {
@@ -37,7 +38,7 @@ import type { ProblemTemplate } from './types'
 const migratedBanks = [
   'area', 'average', 'commonden', 'congruence', 'cuboid', 'cuboidnet',
   'decimalmul', 'divisor', 'estimate', 'fracadd', 'fracmul', 'fracsub',
-  'gcd', 'lcm', 'mixedcalc', 'multiple', 'pattern', 'perimeter',
+  'gcd', 'lcm', 'mixedcalc', 'multiple', 'numberrange', 'pattern', 'perimeter',
   'polygonarea', 'rounding', 'simplify', 'symmetry'
 ]
 
@@ -115,9 +116,9 @@ describe('Grade 5 reviewed blueprint metadata', () => {
         .map(template => template.problem_family)
     )
 
-    expect(templates).toHaveLength(660)
+    expect(templates).toHaveLength(690)
     expect(BLOCKED_CONTENT_TEMPLATE_IDS.size).toBe(0)
-    expect(families.size).toBe(220)
+    expect(families.size).toBe(230)
     expect(new Set(Object.keys(REVIEWED_FAMILY_BLUEPRINTS))).toEqual(families)
   })
 
@@ -364,18 +365,18 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     ))).toBe(true)
   })
 
-  it('migrates all 660 semantically reviewed Grade 5 templates', () => {
+  it('migrates all 690 semantically reviewed Grade 5 templates', () => {
     const templates = readMigratedTemplates()
     const coverage = buildProblemBlueprintCoverage(templates)
 
     expect(coverage.summary).toEqual({
-      templateCount: 660,
-      completeCount: 660,
+      templateCount: 690,
+      completeCount: 690,
       missingCount: 0,
       invalidCount: 0,
       coveragePercent: 100
     })
-    expect(coverage.byConcept).toHaveLength(22)
+    expect(coverage.byConcept).toHaveLength(23)
     expect(coverage.byConcept.every(concept => (
       concept.completeCount === 30 && concept.missingCount === 0
     ))).toBe(true)
@@ -769,6 +770,39 @@ describe('Grade 5 reviewed blueprint metadata', () => {
         reasoning: 2
       })
       expect(new Set(setTemplates.map(template => template.prompt_template)).size).toBe(10)
+    }
+  })
+
+  it('keeps the number-range bank reproducible, exhaustive, and balanced', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'numberrange.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+    const coverage = buildProblemBlueprintCoverage(generatedNumberRangeTemplates)
+    const numberRange = coverage.byConcept[0]
+
+    expect(generatedNumberRangeTemplates).toEqual(committed)
+    expect(generatedNumberRangeTemplates).toHaveLength(30)
+    expect(numberRange.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(numberRange.problemFamilyCount).toBe(10)
+    expect(numberRange.reasoningFamilyCount).toBe(2)
+    expect(numberRange.representationCount).toBeGreaterThanOrEqual(2)
+    expect(numberRange.targetGaps).toEqual([])
+    expect(collectExhaustiveTemplateIssues(
+      generatedNumberRangeTemplates,
+      /^\d+$/
+    )).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = generatedNumberRangeTemplates.filter(template => template.set_id === setId)
+      expect(setTemplates).toHaveLength(10)
+      expect(setTemplates.map(template => template.difficulty)).toEqual([1, 1, 1, 1, 2, 2, 2, 2, 3, 3])
     }
   })
 

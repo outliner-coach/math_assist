@@ -166,3 +166,39 @@ Original prompt: /goal 제안한 계획대로 브라우저 테스트까지 마�
   masking/reveal, overflow, and the automation text-state contract.
 - Next: full E2E regression, documentation/handoff, commit/push, Pages
   deployment, and public live verification.
+- Grade 3 capacity/weight completion shipped as commit `fcbd9fd` on `main`.
+  GitHub Pages run `30183280884` completed its build and deploy jobs
+  successfully.
+- A fresh-cache public browser opened the deployed 390x844 route and solved
+  all seven missions again. The page exposed seven nodes, four quantitative
+  tonne blocks, masked every result before checking, revealed all seven
+  expected answers after checking, had no horizontal overflow, and emitted no
+  console/page errors.
+- Next implementation scope is now only the six planned Grade 5 standards:
+  number ranges, unlike-denominator fraction comparison, area-unit relations,
+  and the three possibility/probability standards.
+- Started the Grade 5 `unit-5-2-rounding` completion with a new
+  `numberrange-001` concept and 30 deterministic A/B/C templates. Each set is
+  K4/A4/R2 and difficulty 4/4/2; the bank covers inclusive/exclusive lower and
+  upper bounds, bounded counts, real-world qualification, repeated endpoint
+  errors, and comparison of two range rules.
+- Added a shared quantitative `number_range` visual with one-sided arrows,
+  bounded segments, and distinct closed/open endpoint circles. The visual
+  carries only given boundaries and never the derived count or boundary
+  answer.
+- Focused generator/blueprint/renderer/curriculum tests pass. Template
+  validation reports 1020/1020 complete. The first quality audit exposed that
+  two-sided range constraints were missing from the difficulty heuristic;
+  recognizing that genuine compound constraint restored ordered signals
+  5.61 < 6.36 < 7.33 and the problem audit is now 0 errors/0 warnings.
+- Next: browser routes and 10-item live solving, full release gates,
+  documentation, unit commit/push, Pages, and public verification.
+- The 390x844 concept and practice routes were inspected in a real browser.
+  Closed and open endpoints, one-sided arrows, and bounded segments matched
+  the prompt; all ten Set A questions graded correctly with no answer-only DOM
+  values, horizontal overflow, console errors, or page errors.
+- Full release gates pass: Vitest 65 files and 560/560 tests, lint, TDD guard,
+  1020/1020 template validation, both audits at 0 errors/0 warnings, static
+  build 107/107, focused E2E 1/1, and full E2E 71/71.
+- Next: commit and push the Grade 5 number-range unit, verify Pages and the
+  fresh-cache public route, then implement `[6수01-07]` fraction comparison.

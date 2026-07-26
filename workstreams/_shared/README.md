@@ -21,6 +21,15 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 5 number-range completion (primary workstreams 01, 03,
+  and 04) owns `numberrange-001`, its deterministic A/B/C template bank,
+  generator, `[6수01-02]` release reference, and the narrow addition of a
+  shared quantitative `number_range` visual. Lower/upper boundaries,
+  inclusivity, shaded interval, arrows, prompt, solver, and solution must come
+  from the same range model. Open and closed endpoints must remain visually
+  distinct, and the derived count or boundary answer must not enter the
+  unchecked DOM or accessibility name.
+
 - 2026-07-26: Grade 3 capacity-and-weight completion (primary workstreams 01,
   03, and 04) owns the narrow expansion of `g3-2-capacity-weight` from three
   to seven stable-ID missions, its seven curriculum references, and the

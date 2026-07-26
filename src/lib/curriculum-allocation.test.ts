@@ -49,7 +49,7 @@ describe('curriculum allocation ledger', () => {
       grade56Total: 45,
       missingCount: 0,
       duplicateCount: 0,
-      existingReferenceCount: 86,
+      existingReferenceCount: 87,
       unreleasedGradeCount: 0,
     })
   })
@@ -59,7 +59,7 @@ describe('curriculum allocation ledger', () => {
 
     expect(result.summary.grade3ReferenceCount).toBe(25)
     expect(result.summary.grade4ReferenceCount).toBe(22)
-    expect(result.summary.grade5ReferenceCount).toBe(17)
+    expect(result.summary.grade5ReferenceCount).toBe(18)
     expect(result.summary.grade6ReferenceCount).toBe(22)
     expect(result.summary.untrackedReferenceCount).toBe(0)
   })

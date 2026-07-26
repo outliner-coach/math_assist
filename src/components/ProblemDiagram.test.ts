@@ -100,6 +100,30 @@ describe('ProblemDiagram', () => {
     expect(circle).not.toContain('정답:')
   })
 
+  it('renders inclusive and exclusive number-range endpoints without a derived answer label', () => {
+    const html = renderToStaticMarkup(createElement(ProblemDiagram, {
+      visual: {
+        type: 'number_range',
+        semantics: 'quantitative',
+        props: {
+          caption: '12 이상 18 미만',
+          start: 10,
+          end: 20,
+          lower: 12,
+          lowerInclusive: true,
+          upper: 18,
+          upperInclusive: false,
+        },
+      } as ProblemVisual,
+    }))
+
+    expect(html).toContain('problem-diagram-number-range')
+    expect(html).toContain('data-range-lower-inclusive="true"')
+    expect(html).toContain('data-range-upper-inclusive="false"')
+    expect(html).toContain('12 이상 18 미만')
+    expect(html).not.toContain('6개')
+  })
+
   it('labels the given square side without an ambiguous question mark', () => {
     const html = renderToStaticMarkup(createElement(ProblemDiagram, {
       visual: {

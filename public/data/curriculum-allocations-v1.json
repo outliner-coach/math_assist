@@ -961,11 +961,13 @@
       "prerequisiteCodes": [],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 25,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "5학년 수의 범위와 어림 단원 선행 개념",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade5:numberrange-001"
+      ],
+      "allocationRationale": "열린·닫힌 경계를 정량 수직선으로 나타내고 생활 범위의 끝값·개수를 구하는 공개 개념",
+      "reviewedBy": "curriculum-ledger-release-2026-07-26"
     },
     {
       "standardCode": "[6수01-03]",

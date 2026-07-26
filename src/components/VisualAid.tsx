@@ -133,6 +133,7 @@ export default function VisualAid({ aid }: VisualAidProps) {
     case 'cuboid':
       return <GeometryProblemVisual visual={aid} />
     case 'ratio_graph':
+    case 'number_range':
       return <ProblemDiagram visual={aid} />
     default:
       return null

@@ -27,6 +27,7 @@
     "generate:grade5-divisor-multiple": "node scripts/generate-grade5-divisor-multiple-templates.js",
     "generate:grade5-fracmul": "node scripts/generate-grade5-fracmul-templates.js",
     "generate:grade5-mixedcalc": "node scripts/generate-grade5-mixedcalc-templates.js",
+    "generate:grade5-number-range": "node scripts/generate-grade5-number-range-templates.js",
     "generate:grade5-pattern": "node scripts/generate-grade5-pattern-templates.js",
     "generate:grade6-fraction-division": "node scripts/generate-grade6-fraction-division-templates.js",
     "generate:grade6-fraction-decimal": "node scripts/generate-grade6-fraction-decimal-templates.js",

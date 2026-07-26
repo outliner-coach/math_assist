@@ -20,6 +20,7 @@ const MIGRATED_BANKS = [
   'lcm.json',
   'mixedcalc.json',
   'multiple.json',
+  'numberrange.json',
   'pattern.json',
   'perimeter.json',
   'polygonarea.json',
@@ -137,6 +138,13 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
     'estimate-ceil-extra', 'estimate-floor-remainder',
     'estimate-wrong-bound-shortage', 'estimate-bound-sum'
   ],
+  'numberrange-001': [
+    'numberrange-lower-inclusive-first', 'numberrange-lower-exclusive-first',
+    'numberrange-upper-inclusive-last', 'numberrange-upper-exclusive-last',
+    'numberrange-inclusive-count', 'numberrange-exclusive-count',
+    'numberrange-mixed-bound-count', 'numberrange-context-qualified-count',
+    'numberrange-endpoint-confusion-gap', 'numberrange-two-rule-gap'
+  ],
   'fracmul-001': [
     'fracmul-fraction-natural', 'fracmul-natural-fraction',
     'fracmul-fraction-fraction', 'fracmul-cancel-before-product',
@@ -165,6 +173,17 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
 const BLOCKED_CONTENT_TEMPLATE_IDS = new Set()
 
 const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
+  'numberrange-lower-inclusive-first': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-02', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
+  'numberrange-lower-exclusive-first': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-02', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
+  'numberrange-upper-inclusive-last': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-02', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
+  'numberrange-upper-exclusive-last': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-02', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
+  'numberrange-inclusive-count': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'systematic_counting', primaryStandard: '6수01-02', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
+  'numberrange-exclusive-count': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'systematic_counting', primaryStandard: '6수01-02', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
+  'numberrange-mixed-bound-count': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-02', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
+  'numberrange-context-qualified-count': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-02', estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'numberrange-endpoint-confusion-gap': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-02', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
+  'numberrange-two-rule-gap': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'compare_methods', primaryStandard: '6수01-02', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
+
   // Natural-number mixed calculation: direct rules, transferred contexts, and
   // two genuine comparison/error-analysis families.
   'mixedcalc-add-multiply-order': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-01', estimatedSteps: 2, readingLoad: 'low' }),

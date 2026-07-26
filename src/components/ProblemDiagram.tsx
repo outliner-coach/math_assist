@@ -19,7 +19,8 @@ const problemVisualTypes = new Set<ProblemVisual['type']>([
   'rectangle_square',
   'three_shape_overlap',
   'ratio_table',
-  'ratio_graph'
+  'ratio_graph',
+  'number_range'
 ])
 
 export function isProblemVisual(visual: GeometryVisual): visual is ProblemVisual {
@@ -188,6 +189,84 @@ function OverlapRegionCells({
 }
 
 export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
+  if (visual.type === 'number_range') {
+    const { caption, start, end, lower, upper, unit = '' } = visual.props
+    const range = Math.max(1, end - start)
+    const xFor = (value: number) => 30 + ((value - start) / range) * 300
+    const tickValues = range <= 12
+      ? Array.from({ length: range + 1 }, (_, index) => start + index)
+      : Array.from({ length: 6 }, (_, index) => Math.round(start + range * index / 5))
+    const lowerX = lower === undefined ? 30 : xFor(lower)
+    const upperX = upper === undefined ? 330 : xFor(upper)
+
+    return (
+      <figure
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
+        data-testid="problem-diagram-number-range"
+      >
+        <figcaption className="pb-2 text-center text-base font-extrabold text-slate-800">
+          {caption}
+        </figcaption>
+        <svg
+          viewBox="0 0 360 145"
+          role="img"
+          aria-label={`${caption} 수직선`}
+          className="mx-auto w-full max-w-md"
+        >
+          <line x1="24" y1="62" x2="336" y2="62" stroke="#64748b" strokeWidth="3" />
+          <line
+            x1={lowerX}
+            y1="62"
+            x2={upperX}
+            y2="62"
+            stroke={accent}
+            strokeWidth="9"
+            strokeLinecap="round"
+            data-range-segment="true"
+          />
+          {lower === undefined && <path d="M 24 62 L 38 53 L 38 71 Z" fill={accent} data-range-left-arrow="true" />}
+          {upper === undefined && <path d="M 336 62 L 322 53 L 322 71 Z" fill={accent} data-range-right-arrow="true" />}
+          {tickValues.map((value) => {
+            const x = xFor(value)
+            return (
+              <g key={value}>
+                <line x1={x} y1="52" x2={x} y2="72" stroke="#475569" strokeWidth="2" />
+                <text x={x} y="98" textAnchor="middle" fontSize="12" fontWeight="700" fill="#475569">
+                  {value}{unit}
+                </text>
+              </g>
+            )
+          })}
+          {lower !== undefined && (
+            <circle
+              cx={lowerX}
+              cy="62"
+              r="8"
+              fill={visual.props.lowerInclusive ? accent : 'white'}
+              stroke={accent}
+              strokeWidth="4"
+              data-range-lower-inclusive={String(Boolean(visual.props.lowerInclusive))}
+            />
+          )}
+          {upper !== undefined && (
+            <circle
+              cx={upperX}
+              cy="62"
+              r="8"
+              fill={visual.props.upperInclusive ? accent : 'white'}
+              stroke={accent}
+              strokeWidth="4"
+              data-range-upper-inclusive={String(Boolean(visual.props.upperInclusive))}
+            />
+          )}
+          <text x="180" y="127" textAnchor="middle" fontSize="12" fontWeight="700" fill="#0f766e">
+            ● 포함 · ○ 포함하지 않음
+          </text>
+        </svg>
+      </figure>
+    )
+  }
+
   if (visual.type === 'basic_shape') {
     const { shape, width, height, unit } = visual.props
     const scale = Math.min(220 / width, 130 / height)

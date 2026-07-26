@@ -170,6 +170,20 @@ export type ProblemVisual =
         maskedValueIndex?: number
       }
     }
+  | {
+      type: 'number_range'
+      semantics: 'quantitative'
+      props: {
+        caption: string
+        start: number
+        end: number
+        lower?: number
+        lowerInclusive?: boolean
+        upper?: number
+        upperInclusive?: boolean
+        unit?: string
+      }
+    }
 
 export type GeometryVisual =
   | ProblemVisual
@@ -403,3 +417,4 @@ export type VisualAid =
         | 'cube-stack' | 'circle-measurement' | 'cuboid'
     }>
   | Extract<ProblemVisual, { type: 'ratio_graph' }>
+  | Extract<ProblemVisual, { type: 'number_range' }>

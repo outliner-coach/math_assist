@@ -778,6 +778,7 @@ function calculateDifficultySignal(template, answerSamples) {
     : 0
   const hasStoryContext = /몇 명|나누어 주려면|묶음|버스|초마다|깜빡|케이크|남은 양|색칠한 부분/.test(prompt)
   const hasReverseGeometry = /넓이가|둘레가|높이는|가로는|세로는|아랫변|표시되지 않은|두 길이|차이는|출입구|잘라냈|맞은편 면 쌍/.test(prompt)
+  const hasTwoSidedRange = /(?:이상|초과).*(?:이하|미만)/.test(prompt)
 
   return round(
     functionCount * 1.2 +
@@ -794,6 +795,7 @@ function calculateDifficultySignal(template, answerSamples) {
     (/최대공약수|최소공배수|공약수|공배수/.test(prompt) ? 0.7 : 0) +
     (/둘레|넓이|합동|대칭|직육면체|전개도|대응/.test(prompt) ? 0.8 : 0) +
     (hasReverseGeometry ? 2.1 : 0) +
+    (hasTwoSidedRange ? 1.3 : 0) +
     (hasStoryContext ? 0.65 : 0)
   )
 }
