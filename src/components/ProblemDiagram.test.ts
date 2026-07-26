@@ -124,6 +124,29 @@ describe('ProblemDiagram', () => {
     expect(html).not.toContain('6개')
   })
 
+  it('derives equal-length fraction bars from only the two given fractions', () => {
+    const html = renderToStaticMarkup(createElement(ProblemDiagram, {
+      visual: {
+        type: 'fraction_comparison',
+        semantics: 'quantitative',
+        props: {
+          caption: '2/3와 3/5 비교',
+          left: { label: '가', numerator: 2, denominator: 3 },
+          right: { label: '나', numerator: 3, denominator: 5 },
+        },
+      } as ProblemVisual,
+    }))
+
+    expect(html).toContain('problem-diagram-fraction-comparison')
+    expect(html.match(/data-fraction-part="left"/g)).toHaveLength(3)
+    expect(html.match(/data-fraction-part="right"/g)).toHaveLength(5)
+    expect(html.match(/data-fraction-filled="true"/g)).toHaveLength(5)
+    expect(html).toContain('2/3')
+    expect(html).toContain('3/5')
+    expect(html).not.toContain('data-answer')
+    expect(html).not.toContain('더 큰 쪽')
+  })
+
   it('labels the given square side without an ambiguous question mark', () => {
     const html = renderToStaticMarkup(createElement(ProblemDiagram, {
       visual: {

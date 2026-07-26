@@ -29,7 +29,7 @@
     "semester": "5-1",
     "order": 4,
     "title": "약분과 통분",
-    "description": "분수를 약분하여 기약분수로 만들고, 분모가 다른 분수를 통분합니다."
+    "description": "분수를 약분하고 통분하며, 분모가 다른 분수의 크기를 정확히 비교합니다."
   },
   {
     "id": "unit-5-1-fraction-addsub",

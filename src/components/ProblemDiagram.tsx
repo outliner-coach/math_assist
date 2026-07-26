@@ -20,7 +20,8 @@ const problemVisualTypes = new Set<ProblemVisual['type']>([
   'three_shape_overlap',
   'ratio_table',
   'ratio_graph',
-  'number_range'
+  'number_range',
+  'fraction_comparison'
 ])
 
 export function isProblemVisual(visual: GeometryVisual): visual is ProblemVisual {
@@ -189,6 +190,65 @@ function OverlapRegionCells({
 }
 
 export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
+  if (visual.type === 'fraction_comparison') {
+    const { caption, left, right } = visual.props
+    const rows = [left, right]
+
+    return (
+      <figure
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
+        data-testid="problem-diagram-fraction-comparison"
+      >
+        <figcaption className="pb-2 text-center text-base font-extrabold text-slate-800">
+          {caption}
+        </figcaption>
+        <svg
+          viewBox="0 0 360 180"
+          role="img"
+          aria-label={`${caption}: ${left.label} ${left.numerator}/${left.denominator}, ${right.label} ${right.numerator}/${right.denominator}`}
+          className="mx-auto w-full max-w-md"
+        >
+          {rows.map((fraction, rowIndex) => {
+            const x = 58
+            const y = 34 + rowIndex * 76
+            const width = 270
+            const height = 40
+            const partWidth = width / fraction.denominator
+            return (
+              <g
+                key={fraction.label}
+                data-fraction-side={rowIndex === 0 ? 'left' : 'right'}
+                data-fraction-numerator={fraction.numerator}
+                data-fraction-denominator={fraction.denominator}
+              >
+                <text x="26" y={y + 25} textAnchor="middle" fontSize="15" fontWeight="800" fill="#334155">
+                  {fraction.label}
+                </text>
+                {Array.from({ length: fraction.denominator }, (_, index) => (
+                  <rect
+                    key={index}
+                    x={x + index * partWidth}
+                    y={y}
+                    width={partWidth}
+                    height={height}
+                    fill={index < fraction.numerator ? '#60a5fa' : '#ffffff'}
+                    stroke="#475569"
+                    strokeWidth="1.5"
+                    data-fraction-part={rowIndex === 0 ? 'left' : 'right'}
+                    data-fraction-filled={String(index < fraction.numerator)}
+                  />
+                ))}
+                <text x="193" y={y + 59} textAnchor="middle" fontSize="13" fontWeight="700" fill="#475569">
+                  {fraction.numerator}/{fraction.denominator}
+                </text>
+              </g>
+            )
+          })}
+        </svg>
+      </figure>
+    )
+  }
+
   if (visual.type === 'number_range') {
     const { caption, start, end, lower, upper, unit = '' } = visual.props
     const range = Math.max(1, end - start)

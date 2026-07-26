@@ -174,6 +174,35 @@ test('5학년 수의 범위는 열린·닫힌 경계를 그리고 10문제를 �
   expect(result.total).toBe(10)
 })
 
+test('5학년 이분모 분수 비교는 같은 길이 막대를 그리고 10문제를 완주한다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(`${BASE_PATH}/unit/unit-5-1-fraction-simplify`)
+  await expect(page.getByText('개념 선택 (3개)')).toBeVisible()
+  await expect(page.getByRole('link', { name: /분모가 다른 분수의 크기 비교/ })).toBeVisible()
+
+  await page.goto(`${BASE_PATH}/concept/fraccompare-001`)
+  const conceptVisual = page.getByTestId('problem-diagram-fraction-comparison')
+  await expect(conceptVisual).toBeVisible()
+  await expect(conceptVisual.locator('[data-fraction-part="left"]')).toHaveCount(3)
+  await expect(conceptVisual.locator('[data-fraction-part="right"]')).toHaveCount(5)
+
+  await page.goto(`${BASE_PATH}/practice/fraccompare-001?set=A`)
+  const session = await readSession(page)
+  expect(session.problems).toHaveLength(10)
+  expect(session.problems.every((problem) => problem.visual?.type === 'fraction_comparison')).toBe(true)
+
+  const practiceVisual = page.getByTestId('problem-diagram-fraction-comparison')
+  await expect(practiceVisual).toBeVisible()
+  await expect(page.locator('[data-answer]')).toHaveCount(0)
+  await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
+
+  await completeSession(page)
+  const result = await readResult(page)
+  expect(result.score).toBe(10)
+  expect(result.total).toBe(10)
+})
+
 test('5학년 풀이장은 문제별로 자동 저장하고 이동·새로고침 뒤 복구한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/practice/divisor-001?set=A`)
   await drawScratchStroke(page)

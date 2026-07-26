@@ -17,6 +17,9 @@ import {
   banks as generatedFractionSimplifyBanks
 } from '../../scripts/generate-grade5-fraction-simplify-templates.js'
 import {
+  templates as generatedFractionComparisonTemplates
+} from '../../scripts/generate-grade5-fraction-compare-templates.js'
+import {
   banks as generatedDivisorMultipleBanks
 } from '../../scripts/generate-grade5-divisor-multiple-templates.js'
 import { templates as generatedFractionMultiplicationTemplates } from '../../scripts/generate-grade5-fracmul-templates.js'
@@ -37,7 +40,7 @@ import type { ProblemTemplate } from './types'
 
 const migratedBanks = [
   'area', 'average', 'commonden', 'congruence', 'cuboid', 'cuboidnet',
-  'decimalmul', 'divisor', 'estimate', 'fracadd', 'fracmul', 'fracsub',
+  'decimalmul', 'divisor', 'estimate', 'fracadd', 'fraccompare', 'fracmul', 'fracsub',
   'gcd', 'lcm', 'mixedcalc', 'multiple', 'numberrange', 'pattern', 'perimeter',
   'polygonarea', 'rounding', 'simplify', 'symmetry'
 ]
@@ -116,9 +119,9 @@ describe('Grade 5 reviewed blueprint metadata', () => {
         .map(template => template.problem_family)
     )
 
-    expect(templates).toHaveLength(690)
+    expect(templates).toHaveLength(720)
     expect(BLOCKED_CONTENT_TEMPLATE_IDS.size).toBe(0)
-    expect(families.size).toBe(230)
+    expect(families.size).toBe(240)
     expect(new Set(Object.keys(REVIEWED_FAMILY_BLUEPRINTS))).toEqual(families)
   })
 
@@ -365,18 +368,18 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     ))).toBe(true)
   })
 
-  it('migrates all 690 semantically reviewed Grade 5 templates', () => {
+  it('migrates all 720 semantically reviewed Grade 5 templates', () => {
     const templates = readMigratedTemplates()
     const coverage = buildProblemBlueprintCoverage(templates)
 
     expect(coverage.summary).toEqual({
-      templateCount: 690,
-      completeCount: 690,
+      templateCount: 720,
+      completeCount: 720,
       missingCount: 0,
       invalidCount: 0,
       coveragePercent: 100
     })
-    expect(coverage.byConcept).toHaveLength(23)
+    expect(coverage.byConcept).toHaveLength(24)
     expect(coverage.byConcept.every(concept => (
       concept.completeCount === 30 && concept.missingCount === 0
     ))).toBe(true)
@@ -803,6 +806,47 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       const setTemplates = generatedNumberRangeTemplates.filter(template => template.set_id === setId)
       expect(setTemplates).toHaveLength(10)
       expect(setTemplates.map(template => template.difficulty)).toEqual([1, 1, 1, 1, 2, 2, 2, 2, 3, 3])
+    }
+  })
+
+  it('keeps the fraction-comparison bank reproducible, exhaustive, and balanced', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'fraccompare.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+    const coverage = buildProblemBlueprintCoverage(generatedFractionComparisonTemplates)
+    const fractionComparison = coverage.byConcept[0]
+
+    expect(generatedFractionComparisonTemplates).toEqual(committed)
+    expect(generatedFractionComparisonTemplates).toHaveLength(30)
+    expect(fractionComparison.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(fractionComparison.problemFamilyCount).toBe(10)
+    expect(fractionComparison.reasoningFamilyCount).toBe(2)
+    expect(fractionComparison.representationCount).toBeGreaterThanOrEqual(2)
+    expect(fractionComparison.targetGaps).toEqual([])
+    expect(collectExhaustiveTemplateIssues(
+      generatedFractionComparisonTemplates,
+      /^(?:\d+|\d+\/\d+)$/
+    )).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = generatedFractionComparisonTemplates.filter(
+        template => template.set_id === setId
+      )
+      expect(setTemplates).toHaveLength(10)
+      expect(setTemplates.map(template => template.difficulty)).toEqual([
+        1, 1, 1, 1, 2, 2, 2, 2, 3, 3
+      ])
+      expect(setTemplates.every(template => (
+        template.visual_template?.type === 'fraction_comparison' &&
+        template.visual_template?.semantics === 'quantitative'
+      ))).toBe(true)
     }
   })
 

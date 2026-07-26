@@ -30,6 +30,16 @@ When you change a high-conflict file, add a short dated note below:
   distinct, and the derived count or boundary answer must not enter the
   unchecked DOM or accessibility name.
 
+- 2026-07-26: Grade 5 unlike-denominator fraction comparison (primary
+  workstreams 01, 03, and 04) owns `fraccompare-001`, its deterministic A/B/C
+  template bank, generator, `[6수01-07]` release reference, and the narrow
+  addition of a shared quantitative `fraction_comparison` visual. The renderer
+  receives only the two given numerators and denominators and derives two
+  equal-length partition bars. A comparison result, larger-side marker,
+  difference, cross product, or other answer-only value must not enter the
+  unchecked DOM or accessibility name. Preserve the existing `simplify-001`
+  and `commonden-001` IDs and saved Grade 5 progress.
+
 - 2026-07-26: Grade 3 capacity-and-weight completion (primary workstreams 01,
   03, and 04) owns the narrow expansion of `g3-2-capacity-weight` from three
   to seven stable-ID missions, its seven curriculum references, and the

@@ -184,6 +184,23 @@ export type ProblemVisual =
         unit?: string
       }
     }
+  | {
+      type: 'fraction_comparison'
+      semantics: 'quantitative'
+      props: {
+        caption: string
+        left: {
+          label: string
+          numerator: number
+          denominator: number
+        }
+        right: {
+          label: string
+          numerator: number
+          denominator: number
+        }
+      }
+    }
 
 export type GeometryVisual =
   | ProblemVisual
@@ -418,3 +435,4 @@ export type VisualAid =
     }>
   | Extract<ProblemVisual, { type: 'ratio_graph' }>
   | Extract<ProblemVisual, { type: 'number_range' }>
+  | Extract<ProblemVisual, { type: 'fraction_comparison' }>

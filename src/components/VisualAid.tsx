@@ -134,6 +134,7 @@ export default function VisualAid({ aid }: VisualAidProps) {
       return <GeometryProblemVisual visual={aid} />
     case 'ratio_graph':
     case 'number_range':
+    case 'fraction_comparison':
       return <ProblemDiagram visual={aid} />
     default:
       return null

@@ -22,6 +22,7 @@
     "generate:grade5-average": "node scripts/generate-grade5-average-templates.js",
     "generate:grade5-estimate": "node scripts/generate-grade5-estimate-templates.js",
     "generate:grade5-fraction-addsub": "node scripts/generate-grade5-fraction-addsub-templates.js",
+    "generate:grade5-fraction-compare": "node scripts/generate-grade5-fraction-compare-templates.js",
     "generate:grade5-fraction-simplify": "node scripts/generate-grade5-fraction-simplify-templates.js",
     "generate:grade5-decimalmul": "node scripts/generate-grade5-decimalmul-templates.js",
     "generate:grade5-divisor-multiple": "node scripts/generate-grade5-divisor-multiple-templates.js",

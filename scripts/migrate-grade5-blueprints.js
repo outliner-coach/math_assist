@@ -14,6 +14,7 @@ const MIGRATED_BANKS = [
   'divisor.json',
   'estimate.json',
   'fracadd.json',
+  'fraccompare.json',
   'fracmul.json',
   'fracsub.json',
   'gcd.json',
@@ -110,6 +111,13 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
     'commonden-compare-first-numerator', 'commonden-converted-numerator-sum',
     'commonden-inverse-original-numerator', 'commonden-converted-numerator-gap',
     'commonden-denominator-sum-error', 'commonden-scale-factor-error'
+  ],
+  'fraccompare-001': [
+    'fraccompare-same-numerator-larger', 'fraccompare-unit-fraction-smaller',
+    'fraccompare-near-half-larger', 'fraccompare-common-denominator-gap',
+    'fraccompare-context-larger-share', 'fraccompare-context-share-gap',
+    'fraccompare-context-nearer-whole', 'fraccompare-half-threshold-gap',
+    'fraccompare-denominator-only-error', 'fraccompare-cross-product-direction-error'
   ],
   'fracadd-001': [
     'fracadd-unlike-direct', 'fracadd-multiple-denominator',
@@ -274,6 +282,18 @@ const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'commonden-converted-numerator-gap': reviewedText({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'medium' }),
   'commonden-denominator-sum-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
   'commonden-scale-factor-error': reviewedText({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-06', estimatedSteps: 3, readingLoad: 'high', contextType: 'puzzle' }),
+
+  // Unlike-denominator fraction comparison
+  'fraccompare-same-numerator-larger': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-07', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
+  'fraccompare-unit-fraction-smaller': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-07', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
+  'fraccompare-near-half-larger': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-07', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
+  'fraccompare-common-denominator-gap': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수01-07', connectedStandards: ['6수01-06'], estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
+  'fraccompare-context-larger-share': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수01-07', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'fraccompare-context-share-gap': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-07', estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'fraccompare-context-nearer-whole': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'compare_methods', primaryStandard: '6수01-07', estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'fraccompare-half-threshold-gap': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'constraint', primaryStandard: '6수01-07', estimatedSteps: 3, readingLoad: 'high', visualSemantics: 'quantitative' }),
+  'fraccompare-denominator-only-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-07', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
+  'fraccompare-cross-product-direction-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-07', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
 
   // Fraction addition and subtraction
   'fracadd-unlike-direct': reviewedText({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수01-08', estimatedSteps: 2, readingLoad: 'low' }),

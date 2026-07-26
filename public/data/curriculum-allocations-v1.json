@@ -1062,11 +1062,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 25,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "통분 뒤 이분모 분수 크기 비교",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade5:fraccompare-001"
+      ],
+      "allocationRationale": "통분·교차곱·정량 분수 막대를 이용한 이분모 분수 크기 비교",
+      "reviewedBy": "grade5-fraction-comparison-release-2026-07-26"
     },
     {
       "standardCode": "[6수01-08]",

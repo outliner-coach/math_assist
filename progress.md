@@ -202,3 +202,30 @@ Original prompt: /goal 제안한 계획대로 브라우저 테스트까지 마�
   build 107/107, focused E2E 1/1, and full E2E 71/71.
 - Next: commit and push the Grade 5 number-range unit, verify Pages and the
   fresh-cache public route, then implement `[6수01-07]` fraction comparison.
+- Grade 5 number range shipped as commit `4832b87` on `main`; GitHub Pages run
+  `30183741837` completed build and deployment successfully.
+- A fresh-cache public 390x844 browser found all three concepts, rendered the
+  closed lower and open upper endpoints, generated ten `number_range`
+  problems, exposed no pre-check answer nodes/text, and completed Set A 10/10
+  with no overflow or console/page errors.
+- Next implementation target: `[6수01-07]` unlike-denominator fraction
+  comparison as a separate Grade 5 unit commit.
+- Added `fraccompare-001` to the existing fraction-simplify unit without
+  changing the two existing concept IDs. Its deterministic A/B/C bank has
+  K12/A12/R6, ten families, and difficulty 4/4/2 per set.
+- All 30 questions render equal-length `fraction_comparison` bars partitioned
+  and filled from the two given numerator/denominator pairs. No comparison
+  result, difference, cross product, or larger-side marker enters the visual.
+- The first audit found that the two reasoning families were easier than the
+  application families. They now require validating a wrong numerator- or
+  denominator-only judgment and computing its repeated cumulative error;
+  difficulty signals are 4.48 < 5.36 < 9.57 and both audits are 0/0.
+- Full release gates pass: Vitest 65 files and 563/563 tests, lint, TDD guard,
+  template metadata 1050/1050, curriculum 88 current references, static build
+  109/109, focused E2E 1/1, and full E2E 72/72.
+- A 390x844 real browser inspected the concept bars and all ten Set A
+  questions. Partition and fill counts matched every given fraction, the set
+  completed 10/10, and answer exposure, overflow, console errors, and page
+  errors were all zero.
+- Next: document, commit, push, deploy, and publicly verify fraction
+  comparison, then implement `[6수03-12]` area-unit relations.
