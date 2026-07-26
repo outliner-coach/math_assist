@@ -59,6 +59,20 @@ function completeCatalog(): ProblemReviewCatalog {
   )
 }
 
+function catalogWithoutVisual(): ProblemReviewCatalog {
+  const source = sourceForGrade(2)
+  return buildProblemReviewCatalog([{
+    ...source,
+    requiredEvidence: ['text'],
+    visualKind: null,
+    visualSemantics: 'none',
+    content: {
+      ...source.content,
+      visual: null,
+    },
+  }], rendererVersions)
+}
+
 function completeLedger(catalog: ProblemReviewCatalog) {
   return {
     schemaVersion: 1,
@@ -71,12 +85,14 @@ function completeLedger(catalog: ProblemReviewCatalog) {
       evidence: {
         editorialRead: true,
         variantAudit: true,
-        preAnswer: true,
-        hint: true,
-        revealed: true,
-        mobile: true,
-        tablet: true,
-        artifacts: [`out/quality/${item.reviewId}.png`],
+        preAnswer: item.content.visual === null ? null : true,
+        hint: item.content.visual === null ? null : true,
+        revealed: item.content.visual === null ? null : true,
+        mobile: item.content.visual === null ? null : true,
+        tablet: item.content.visual === null ? null : true,
+        artifacts: item.content.visual === null
+          ? []
+          : [`out/quality/${item.reviewId}.png`],
       },
     })),
   }
@@ -230,6 +246,81 @@ describe('editorial ledger validation', () => {
       ...ledger,
       items: [...ledger.items, ledger.items[0]],
     }).join('\n')).toMatch(/duplicate.*1:mission:source-1/i)
+  })
+
+  it('accepts null visual evidence and empty artifacts only for catalog items without visuals', () => {
+    const catalog = catalogWithoutVisual()
+    const ledger = completeLedger(catalog)
+    const [item] = ledger.items
+
+    expect(validateEditorialLedger(catalog, ledger)).toEqual([])
+
+    for (const key of ['preAnswer', 'hint', 'revealed', 'mobile', 'tablet'] as const) {
+      expect(validateEditorialLedger(catalog, {
+        ...ledger,
+        items: [{
+          ...item,
+          evidence: { ...item.evidence, [key]: true },
+        }],
+      }).join('\n')).toMatch(new RegExp(`evidence\\.${key}.*null`, 'i'))
+    }
+
+    for (const key of ['editorialRead', 'variantAudit'] as const) {
+      expect(validateEditorialLedger(catalog, {
+        ...ledger,
+        items: [{
+          ...item,
+          evidence: { ...item.evidence, [key]: null },
+        }],
+      }).join('\n')).toMatch(new RegExp(`evidence\\.${key}.*true`, 'i'))
+    }
+  })
+
+  it('requires pass evidence for visual catalog items while allowing incomplete blocked evidence', () => {
+    const catalog = completeCatalog()
+    const ledger = completeLedger(catalog)
+    const [first, ...rest] = ledger.items
+
+    expect(validateEditorialLedger(catalog, ledger)).toEqual([])
+
+    for (const key of ['preAnswer', 'hint', 'revealed', 'mobile', 'tablet'] as const) {
+      for (const value of [false, null]) {
+        expect(validateEditorialLedger(catalog, {
+          ...ledger,
+          items: [{
+            ...first,
+            evidence: { ...first.evidence, [key]: value },
+          }, ...rest],
+        }).join('\n')).toMatch(new RegExp(`evidence\\.${key}.*true`, 'i'))
+      }
+    }
+
+    expect(validateEditorialLedger(catalog, {
+      ...ledger,
+      items: [{
+        ...first,
+        evidence: { ...first.evidence, artifacts: [] },
+      }, ...rest],
+    }).join('\n')).toMatch(/evidence\.artifacts.*at least one/i)
+
+    const blockedErrors = validateEditorialLedger(catalog, {
+      ...ledger,
+      items: [{
+        ...first,
+        status: 'blocked',
+        findingCategories: ['visual_readability'],
+        evidence: {
+          ...first.evidence,
+          preAnswer: false,
+          hint: false,
+          revealed: false,
+          mobile: false,
+          tablet: false,
+          artifacts: [],
+        },
+      }, ...rest],
+    })
+    expect(blockedErrors).toEqual([`blocked editorial status: ${first.reviewId}`])
   })
 
   it('rejects stale hashes, blocked items, and invalid or incomplete evidence', () => {

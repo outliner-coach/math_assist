@@ -299,12 +299,12 @@ describe('problem review catalog scripts', () => {
         evidence: {
           editorialRead: true,
           variantAudit: true,
-          preAnswer: true,
-          hint: true,
-          revealed: true,
-          mobile: true,
-          tablet: true,
-          artifacts: [`out/quality/${item.reviewId}.png`],
+          preAnswer: null,
+          hint: null,
+          revealed: null,
+          mobile: null,
+          tablet: null,
+          artifacts: [],
         },
       })),
     }
