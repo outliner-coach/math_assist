@@ -58,7 +58,7 @@ function writeSources(name: string, sources: ProblemReviewSource[]) {
 }
 
 describe('problem review catalog scripts', () => {
-  it('uses fixed Grade 4 boundary builds and their actual visual outputs', () => {
+  it('uses fixed Grade 4 builds for every allowed variant and their actual visual outputs', () => {
     const calls: Array<[number, number]> = []
     const templates = [{
       id: 'g4-fixture-01',
@@ -93,14 +93,15 @@ describe('problem review catalog scripts', () => {
     const [source] = reviewCore.adaptGrade4Templates(templates, units)
 
     expect(calls).toEqual(
-      reviewCore.GRADE4_REVIEW_BUILD_CASES.map(
-        ({ variant, choiceSeed }: { variant: number; choiceSeed: number }) =>
-          [variant, choiceSeed]
-      )
+      Array.from({ length: 9 }, (_, index) => {
+        const variant = index + 1
+        return [variant, 2026072600 + variant]
+      })
     )
+    expect(calls.map(([variant]) => variant)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9])
     expect(source.visualKind).toBe('actual-grade4-visual')
     expect(source.content.visual.kind).toBe('actual-grade4-visual')
-    expect(source.content.reviewVariants).toHaveLength(2)
+    expect(source.content.reviewVariants).toHaveLength(9)
     expect(source.content.reviewVariants[0]).toMatchObject({
       prompt: 'Built prompt 1',
       correctAnswer: '1',
@@ -108,8 +109,8 @@ describe('problem review catalog scripts', () => {
     })
   })
 
-  it('changes the Grade 4 hash when an external helper changes generated review content', () => {
-    let helperPrompt = 'Helper output before'
+  it('changes the Grade 4 hash when only variant 5 external helper output changes', () => {
+    let variantFiveHelper = 'Variant 5 before'
     const template = {
       id: 'g4-helper-01',
       unitId: 'g4-unit',
@@ -123,13 +124,14 @@ describe('problem review catalog scripts', () => {
       taskActions: ['reason'],
       visualSemantics: 'schematic',
       build(variant: number) {
+        const helperOutput = variant === 5 ? variantFiveHelper : 'Stable helper output'
         return {
-          prompt: `${helperPrompt} ${variant}`,
+          prompt: `${helperOutput} ${variant}`,
           choices: ['A', 'B'],
           correctAnswer: 'A',
-          solutionSteps: [`${helperPrompt} solution`],
+          solutionSteps: [`${helperOutput} solution`],
           visualModel: 'helper-visual',
-          visualConfig: { label: helperPrompt },
+          visualConfig: { label: helperOutput },
         }
       },
     }
@@ -137,12 +139,46 @@ describe('problem review catalog scripts', () => {
     const beforeSource = reviewCore.adaptGrade4Templates([template], units)[0]
     const before = reviewCore.buildCatalog([beforeSource])
 
-    helperPrompt = 'Helper output after'
+    variantFiveHelper = 'Variant 5 after'
     const afterSource = reviewCore.adaptGrade4Templates([template], units)[0]
     const after = reviewCore.buildCatalog([afterSource])
 
-    expect(template.build.toString()).not.toContain('Helper output before')
+    expect(template.build.toString()).not.toContain('Variant 5 before')
+    expect(beforeSource.content.reviewVariants[4].prompt).toContain('Variant 5 before')
+    expect(afterSource.content.reviewVariants[4].prompt).toContain('Variant 5 after')
     expect(after.items[0].contentHash).not.toBe(before.items[0].contentHash)
+  })
+
+  it('rejects a visualModel that differs only at Grade 4 variant 5 with variant details', () => {
+    const template = {
+      id: 'g4-visual-mismatch-01',
+      unitId: 'g4-unit',
+      curriculumCode: '[4수01-01]',
+      problemFamily: 'g4-visual-family',
+      representation: 'context',
+      answerType: 'integer',
+      supportTool: 'none',
+      hintSteps: ['Hint'],
+      promptTemplate: 'Raw prompt',
+      taskActions: ['interpret'],
+      visualSemantics: 'schematic',
+      build(variant: number) {
+        return {
+          prompt: `Prompt ${variant}`,
+          correctAnswer: `${variant}`,
+          solutionSteps: [`Solution ${variant}`],
+          visualModel: variant === 5 ? 'variant-five-visual' : 'shared-visual',
+          visualConfig: { variant },
+        }
+      },
+    }
+    const units = [{ id: 'g4-unit', semester: '4-1', releaseStatus: 'released' }]
+
+    expect(() =>
+      reviewCore.adaptGrade4Templates([template], units)
+    ).toThrow(
+      /g4-visual-mismatch-01.*variant-1=shared-visual.*variant-5=variant-five-visual.*variant-9=shared-visual/i
+    )
   })
 
   it.each([

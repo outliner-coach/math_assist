@@ -14,12 +14,19 @@ const RENDERER_REVIEW_VERSION_REGISTRY = Object.freeze({
   'practice-problem-visual': 'practice-problem-visual-review-v1',
 })
 
-// Grade 4 builders accept variants 1..9. Catalog review always renders both
-// boundaries with fixed choice seeds so helper-driven output is reproducible.
-const GRADE4_REVIEW_BUILD_CASES = Object.freeze([
-  Object.freeze({ key: 'variant-min', variant: 1, choiceSeed: 2026072601 }),
-  Object.freeze({ key: 'variant-max', variant: 9, choiceSeed: 2026072609 }),
-])
+// Grade 4 generation uses positiveModulo(..., 9) + 1, so the review catalog
+// exhausts variants 1..9. Each variant has the fixed seed 2026072600 + variant.
+const GRADE4_REVIEW_CHOICE_SEED_BASE = 2026072600
+const GRADE4_REVIEW_BUILD_CASES = Object.freeze(
+  Array.from({ length: 9 }, (_, index) => {
+    const variant = index + 1
+    return Object.freeze({
+      key: `variant-${variant}`,
+      variant,
+      choiceSeed: GRADE4_REVIEW_CHOICE_SEED_BASE + variant,
+    })
+  })
+)
 
 let contractModule
 
@@ -215,7 +222,12 @@ function adaptGrade4Templates(grade4MissionTemplates, grade4Units) {
     })
     const visualKinds = new Set(reviewVariants.map(variant => variant.visualKind))
     if (visualKinds.size !== 1) {
-      throw new Error(`${template.id}: Grade 4 boundary review builds disagree on visualModel`)
+      const variantKinds = reviewVariants
+        .map(variant => `${variant.key}=${variant.visualKind}`)
+        .join(', ')
+      throw new Error(
+        `${template.id}: Grade 4 review variants disagree on visualModel: ${variantKinds}`
+      )
     }
     const visualKind = reviewVariants[0].visualKind
     const buildSource = template.build.toString()
