@@ -27,6 +27,7 @@ export type Grade3VisualModel =
   | 'circle-parts'
   | 'capacity-beaker'
   | 'weight-scale'
+  | 'tonne-scale'
   | 'bar-graph'
 
 export type Grade3ScaffoldKind =
@@ -196,8 +197,16 @@ export const grade3Units: Grade3Unit[] = [
     id: 'g3-2-capacity-weight',
     semester: '3-2',
     title: '들이와 무게',
-    subtitle: 'L, mL, kg, g를 구조화해서 읽어요.',
-    curriculumCodes: ['[4수03-17]', '[4수03-18]', '[4수03-20]', '[4수03-21]'],
+    subtitle: 'L, mL, kg, g, t의 관계를 읽고 실생활 계산에 적용해요.',
+    curriculumCodes: [
+      '[4수03-17]',
+      '[4수03-18]',
+      '[4수03-19]',
+      '[4수03-20]',
+      '[4수03-21]',
+      '[4수03-22]',
+      '[4수03-23]',
+    ],
     rewardId: 'unitBottle',
   },
   {
@@ -887,7 +896,7 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     hintSteps: commonHints.unit,
     solutionSteps: ['L 칸에 1, mL 칸에 250을 써요.'],
     visualModel: 'capacity-beaker',
-    visualConfig: { liters: 1, milliliters: 250, totalMl: 1250 },
+    visualConfig: { mode: 'measure', liters: 1, milliliters: 250, totalMl: 1250 },
     scaffoldConfig: { kind: 'unit-reader', prompt: '큰 단위와 작은 단위를 나누어 봐요.', options: ['L', 'mL'] },
     rewardId: 'unitBottle',
   }),
@@ -897,7 +906,7 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     semester: '3-2',
     stageOrder: 32,
     skill: 'capacity-weight',
-    difficultyStep: 'medium',
+    difficultyStep: 'easy',
     curriculumCode: '[4수03-20]',
     learnerGoal: 'kg와 g를 함께 읽어요.',
     parentSummaryTag: '무게 읽기',
@@ -908,7 +917,7 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     hintSteps: commonHints.unit,
     solutionSteps: ['kg 칸에 2, g 칸에 300을 써요.'],
     visualModel: 'weight-scale',
-    visualConfig: { kilograms: 2, grams: 300, totalG: 2300 },
+    visualConfig: { mode: 'measure', kilograms: 2, grams: 300, totalG: 2300 },
     scaffoldConfig: { kind: 'unit-reader', prompt: '저울의 큰 단위와 작은 단위를 봐요.', options: ['kg', 'g'] },
     rewardId: 'unitBottle',
   }),
@@ -918,26 +927,110 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     semester: '3-2',
     stageOrder: 33,
     skill: 'capacity-weight',
-    difficultyStep: 'applied',
-    curriculumCode: '[4수03-18]',
-    learnerGoal: '들이를 더해 L와 mL로 나타내요.',
+    difficultyStep: 'medium',
+    curriculumCode: '[4수03-19]',
+    learnerGoal: '받아올림이 있는 들이의 덧셈을 해요.',
     parentSummaryTag: '들이 계산',
-    prompt: '주스 1L 400mL와 500mL를 합하면 얼마일까요?',
+    prompt: '물통에 2L 750mL가 있고 650mL를 더 부었어요. 모두 얼마일까요?',
     answerType: 'capacity',
     answerConfig: capacityAnswerConfig,
-    correctAnswer: '1L900mL',
-    hintSteps: ['mL끼리 먼저 더해요.', '400mL + 500mL = 900mL예요.'],
-    solutionSteps: ['1L는 그대로 두고 900mL를 더해요.', '합은 1L 900mL예요.'],
+    correctAnswer: '3L400mL',
+    hintSteps: ['mL끼리 먼저 더해요.', '1400mL는 1L 400mL로 바꿔요.'],
+    solutionSteps: ['750mL + 650mL = 1400mL예요.', '2L + 1L 400mL = 3L 400mL예요.'],
     visualModel: 'capacity-beaker',
-    visualConfig: { leftMl: 1400, rightMl: 500, totalMl: 1900 },
+    visualConfig: { mode: 'operation', leftMl: 2750, rightMl: 650, operator: '+', totalMl: 3400 },
     scaffoldConfig: { kind: 'unit-reader', prompt: '먼저 더할 작은 단위를 골라요.', options: ['L', 'mL'] },
+    rewardId: 'unitBottle',
+  }),
+  mission({
+    id: 'g3-2-capacity-weight-04',
+    unitId: 'g3-2-capacity-weight',
+    semester: '3-2',
+    stageOrder: 34,
+    skill: 'capacity-weight',
+    difficultyStep: 'medium',
+    curriculumCode: '[4수03-18]',
+    learnerGoal: '몇 L 몇 mL를 몇 mL로 바꾸어요.',
+    parentSummaryTag: '들이 단위 관계',
+    prompt: '3L 250mL는 모두 몇 mL일까요?',
+    answerType: 'integer',
+    answerConfig: integerAnswerConfig,
+    correctAnswer: '3250',
+    hintSteps: ['1L는 1000mL예요.', '3L는 3000mL이고 250mL를 더해요.'],
+    solutionSteps: ['3L = 3000mL예요.', '3000mL + 250mL = 3250mL예요.'],
+    visualModel: 'capacity-beaker',
+    visualConfig: { mode: 'conversion', liters: 3, milliliters: 250, totalMl: 3250 },
+    scaffoldConfig: { kind: 'unit-reader', prompt: '먼저 L를 mL로 바꾸어요.', options: ['1000배', '100배'] },
+    rewardId: 'unitBottle',
+  }),
+  mission({
+    id: 'g3-2-capacity-weight-05',
+    unitId: 'g3-2-capacity-weight',
+    semester: '3-2',
+    stageOrder: 35,
+    skill: 'capacity-weight',
+    difficultyStep: 'medium',
+    curriculumCode: '[4수03-21]',
+    learnerGoal: '몇 kg 몇 g을 몇 g으로 바꾸어요.',
+    parentSummaryTag: '무게 단위 관계',
+    prompt: '2kg 300g은 모두 몇 g일까요?',
+    answerType: 'integer',
+    answerConfig: integerAnswerConfig,
+    correctAnswer: '2300',
+    hintSteps: ['1kg은 1000g이에요.', '2kg은 2000g이고 300g을 더해요.'],
+    solutionSteps: ['2kg = 2000g이에요.', '2000g + 300g = 2300g이에요.'],
+    visualModel: 'weight-scale',
+    visualConfig: { mode: 'conversion', kilograms: 2, grams: 300, totalG: 2300 },
+    scaffoldConfig: { kind: 'unit-reader', prompt: '먼저 kg을 g으로 바꾸어요.', options: ['1000배', '100배'] },
+    rewardId: 'unitBottle',
+  }),
+  mission({
+    id: 'g3-2-capacity-weight-06',
+    unitId: 'g3-2-capacity-weight',
+    semester: '3-2',
+    stageOrder: 36,
+    skill: 'capacity-weight',
+    difficultyStep: 'applied',
+    curriculumCode: '[4수03-22]',
+    learnerGoal: 't와 kg의 관계를 실생활 무게에 적용해요.',
+    parentSummaryTag: '톤 단위 관계',
+    prompt: '한 대에 1t인 화물차 4대의 무게는 모두 몇 kg일까요?',
+    answerType: 'integer',
+    answerConfig: integerAnswerConfig,
+    correctAnswer: '4000',
+    hintSteps: ['1t는 1000kg이에요.', '1000kg이 4번 있어요.'],
+    solutionSteps: ['1t = 1000kg이에요.', '1000 × 4 = 4000이므로 4000kg이에요.'],
+    visualModel: 'tonne-scale',
+    visualConfig: { tonnes: 4, kilogramsPerTonne: 1000 },
+    scaffoldConfig: { kind: 'unit-reader', prompt: '1t이 몇 번 있는지 세어 보세요.', options: ['3번', '4번', '5번'] },
+    rewardId: 'unitBottle',
+  }),
+  mission({
+    id: 'g3-2-capacity-weight-07',
+    unitId: 'g3-2-capacity-weight',
+    semester: '3-2',
+    stageOrder: 37,
+    skill: 'capacity-weight',
+    difficultyStep: 'applied',
+    curriculumCode: '[4수03-23]',
+    learnerGoal: '받아내림이 있는 무게의 뺄셈을 해요.',
+    parentSummaryTag: '무게 계산',
+    prompt: '4kg 200g 밀가루에서 1kg 750g을 썼어요. 남은 무게는 얼마일까요?',
+    answerType: 'weight',
+    answerConfig: weightAnswerConfig,
+    correctAnswer: '2kg450g',
+    hintSteps: ['200g에서 750g을 바로 뺄 수 없어요.', '1kg을 1000g으로 바꾸어 받아내림해요.'],
+    solutionSteps: ['4kg 200g은 3kg 1200g으로 바꿀 수 있어요.', '3kg 1200g - 1kg 750g = 2kg 450g이에요.'],
+    visualModel: 'weight-scale',
+    visualConfig: { mode: 'operation', leftG: 4200, rightG: 1750, operator: '-', totalG: 2450 },
+    scaffoldConfig: { kind: 'unit-reader', prompt: '받아내릴 단위를 골라요.', options: ['kg', 'g'] },
     rewardId: 'unitBottle',
   }),
   mission({
     id: 'g3-2-graph-01',
     unitId: 'g3-2-graph',
     semester: '3-2',
-    stageOrder: 34,
+    stageOrder: 38,
     skill: 'graph',
     difficultyStep: 'easy',
     curriculumCode: '[4수04-01]',
@@ -958,7 +1051,7 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     id: 'g3-2-graph-02',
     unitId: 'g3-2-graph',
     semester: '3-2',
-    stageOrder: 35,
+    stageOrder: 39,
     skill: 'graph',
     difficultyStep: 'medium',
     curriculumCode: '[4수04-01]',
@@ -980,7 +1073,7 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     id: 'g3-2-graph-03',
     unitId: 'g3-2-graph',
     semester: '3-2',
-    stageOrder: 36,
+    stageOrder: 40,
     skill: 'graph',
     difficultyStep: 'applied',
     curriculumCode: '[4수04-03]',
@@ -1162,17 +1255,24 @@ export function validateGrade3MissionBank(
 
   for (const unit of grade3Units) {
     const bucket = byUnit.get(unit.id)
+    const expanded = unit.id === 'g3-2-capacity-weight'
+    const expectedTotal = expanded ? 7 : 3
+    const expectedSteps: Record<Grade3DifficultyStep, number> = expanded
+      ? { easy: 2, medium: 3, applied: 2 }
+      : { easy: 1, medium: 1, applied: 1 }
     if (!bucket) {
-      errors.push(`${unit.id}: Alpha expects 3 missions, got 0`)
+      errors.push(`${unit.id}: expects ${expectedTotal} missions, got 0`)
       continue
     }
-    if (bucket.total !== 3) errors.push(`${unit.id}: Alpha expects 3 missions, got ${bucket.total}`)
+    if (bucket.total !== expectedTotal) errors.push(`${unit.id}: expects ${expectedTotal} missions, got ${bucket.total}`)
     for (const step of ['easy', 'medium', 'applied'] as const) {
-      if (bucket.steps[step] !== 1) errors.push(`${unit.id}: Alpha expects one ${step} mission, got ${bucket.steps[step]}`)
+      if (bucket.steps[step] !== expectedSteps[step]) {
+        errors.push(`${unit.id}: expects ${expectedSteps[step]} ${step} mission(s), got ${bucket.steps[step]}`)
+      }
     }
   }
 
-  if (templates.length !== 36) errors.push(`Alpha expects 36 missions, got ${templates.length}`)
+  if (templates.length !== 40) errors.push(`Grade 3 expects 40 missions, got ${templates.length}`)
   if (!ids.has(SAFE_GRADE3_MISSION_ID)) errors.push(`Safe mission id is missing: ${SAFE_GRADE3_MISSION_ID}`)
 
   return { errors, warnings }

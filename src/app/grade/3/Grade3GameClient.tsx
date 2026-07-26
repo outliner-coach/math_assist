@@ -226,6 +226,29 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
     setSelectedMissionId(restoredMission.id)
   }, [initialUnit.id, missions])
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const gameWindow = window as unknown as {
+      render_game_to_text?: () => string
+      advanceTime?: (milliseconds: number) => Promise<void>
+    }
+    gameWindow.render_game_to_text = () =>
+      JSON.stringify({
+        selectedUnitId,
+        selectedMissionId,
+        selectedPrompt: selectedMission.prompt,
+        curriculumCode: selectedMission.curriculumCode,
+        visualModel: selectedMission.visualModel,
+        solved,
+        wrongAttemptCount,
+        todaySolvedCount: progress.todaySolvedCount,
+        completedCount: progress.completedMissionIds.length,
+        reviewCount: progress.reviewMissionIds.length,
+        missionSeed: MISSION_SEED,
+      })
+    gameWindow.advanceTime ??= async () => undefined
+  }, [progress.completedMissionIds.length, progress.reviewMissionIds.length, progress.todaySolvedCount, selectedMission.curriculumCode, selectedMission.prompt, selectedMission.visualModel, selectedMissionId, selectedUnitId, solved, wrongAttemptCount])
+
   const persistProgress = (nextProgress: Grade3Progress) => {
     setProgress(nextProgress)
     setStorageAvailable(saveGrade3Progress(nextProgress))

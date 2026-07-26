@@ -306,20 +306,27 @@ function auditGrade3() {
     warnings.push(createIssue('warning', 'duplicate_prompt', `Grade 3 ${first.unitId}: repeated prompt "${first.prompt}"`, { missionId: second.id }))
   }
 
-  if (grade3MissionTemplates.length !== 36) {
-    errors.push(createIssue('error', 'grade3_alpha_count', `Grade 3 Alpha expects 36 missions, got ${grade3MissionTemplates.length}`))
+  if (grade3MissionTemplates.length !== 40) {
+    errors.push(createIssue('error', 'grade3_mission_count', `Grade 3 expects 40 missions, got ${grade3MissionTemplates.length}`))
   }
 
   for (const unit of grade3Units) {
     const bucket = byUnit.get(unit.id)
+    const expanded = unit.id === 'g3-2-capacity-weight'
+    const expectedTotal = expanded ? 7 : 3
+    const expectedSteps = expanded
+      ? { easy: 2, medium: 3, applied: 2 }
+      : { easy: 1, medium: 1, applied: 1 }
     if (!bucket) {
       errors.push(createIssue('error', 'grade3_unit_coverage', `Grade 3 ${unit.id}: missing missions`))
       continue
     }
-    if (bucket.total !== 3) errors.push(createIssue('error', 'grade3_unit_count', `Grade 3 ${unit.id}: Alpha expects 3 missions, got ${bucket.total}`))
+    if (bucket.total !== expectedTotal) {
+      errors.push(createIssue('error', 'grade3_unit_count', `Grade 3 ${unit.id}: expects ${expectedTotal} missions, got ${bucket.total}`))
+    }
     for (const step of ['easy', 'medium', 'applied']) {
-      if (bucket.steps[step] !== 1) {
-        errors.push(createIssue('error', 'grade3_difficulty_balance', `Grade 3 ${unit.id}: expected one ${step} mission, got ${bucket.steps[step]}`))
+      if (bucket.steps[step] !== expectedSteps[step]) {
+        errors.push(createIssue('error', 'grade3_difficulty_balance', `Grade 3 ${unit.id}: expected ${expectedSteps[step]} ${step} mission(s), got ${bucket.steps[step]}`))
       }
     }
   }

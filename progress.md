@@ -118,3 +118,51 @@ Original prompt: /goal 제안한 계획대로 브라우저 테스트까지 마�
   the 12-mission unit and reward collection, and neither run emitted an error
   artifact. Final TODO: preserve content-based variant keys and raise the 500/340
   signature floors when genuinely new generators are added.
+
+## 2026-07-26 - Full curriculum completion
+
+- Current goal: complete every remaining Grade 1-6 unit with challenging
+  application problems, committing and pushing after each unit.
+- Completed and publicly verified all 11 Grade 6 Study units. The last release,
+  `g6ratiograph-001`, added 30 disjoint K/A/R ratio-graph problem families,
+  shared quantitative band/circle rendering, 100% model validation, full
+  browser regression, commit `7f52317`, and successful GitHub Pages run
+  `30182787657`.
+- A ledger audit found nine remaining planned standards: Grade 3
+  `[4수03-19]`, `[4수03-22]`, `[4수03-23]`; Grade 5 `[6수01-02]`,
+  `[6수01-07]`, `[6수03-12]`, and `[6수04-04]`~`[6수04-06]`.
+- Next implementation target: extend the existing Grade 3
+  `g3-2-capacity-weight` adventure unit with capacity/weight addition and
+  subtraction plus tonne conversion, then run the required game-client,
+  screenshot, text-state, console, full regression, commit, push, Pages, and
+  live-browser gates.
+- Expanded `g3-2-capacity-weight` from three to seven stable-ID missions after
+  the RED contract exposed that released `[4수03-21]` had no actual kg-to-g
+  conversion mission. The unit now assigns one mission to every
+  `[4수03-17]`~`[4수03-23]` standard, including carry/borrow applications,
+  L/mL and kg/g conversion, and a four-tonne application.
+- Added quantitative capacity-operation, weight-operation, and tonne-block
+  renderers. Given operands and the `1t = 1000kg` relation stay visible while
+  calculated results remain masked until a correct answer.
+- Added Grade 3 browser automation text/time hooks and promoted the three
+  formerly planned ledger rows to released. Focused Grade 3/component/ledger
+  tests pass (17), curriculum validation reports 86 current references, and
+  the mission-bank audit reports 0 errors and 0 warnings.
+- Next: run Grade 3 validation, lint/TDD/build/E2E, the required game-client
+  screenshot/text/error inspection, then document, commit, push, deploy, and
+  live-verify this unit.
+- Full Vitest now passes 557 tests and the production build emits 105 static
+  pages. Grade 3 validation, lint, TDD guard, mission audit, and curriculum
+  validation are clean.
+- The required web-game client ran against all five changed/new missions and
+  wrote screenshots plus `render_game_to_text` state with no error artifacts.
+  Because its canvas-first capture selected the ScratchPad canvas, the actual
+  mission UI was additionally reviewed at 390x844 in a controlled browser.
+  All seven missions were solved correctly; every result was `□` before
+  checking, all answer reveals matched, no horizontal overflow occurred, and
+  no browser console/page errors appeared.
+- Added and passed a focused mobile E2E scenario that solves all seven
+  capacity/weight missions, checks the quantitative tonne blocks, answer
+  masking/reveal, overflow, and the automation text-state contract.
+- Next: full E2E regression, documentation/handoff, commit/push, Pages
+  deployment, and public live verification.

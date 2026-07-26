@@ -225,9 +225,56 @@ function CircleParts({ mission, showAnswer }: { mission: Grade3Mission; showAnsw
   )
 }
 
+function formatMixedMeasure(total: number, majorSize: number, majorUnit: string, minorUnit: string): string {
+  const major = Math.floor(total / majorSize)
+  const minor = total % majorSize
+  if (major === 0) return `${minor}${minorUnit}`
+  if (minor === 0) return `${major}${majorUnit}`
+  return `${major}${majorUnit} ${minor}${minorUnit}`
+}
+
 function UnitVisual({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
   const isWeight = mission.visualModel === 'weight-scale'
-  const label = isWeight ? `${asNumber(mission.visualConfig.kilograms)}kg ${asNumber(mission.visualConfig.grams)}g` : `${asNumber(mission.visualConfig.liters)}L ${asNumber(mission.visualConfig.milliliters)}mL`
+  const mode = asString(mission.visualConfig.mode, 'measure')
+  const majorUnit = isWeight ? 'kg' : 'L'
+  const minorUnit = isWeight ? 'g' : 'mL'
+  const majorValue = asNumber(isWeight ? mission.visualConfig.kilograms : mission.visualConfig.liters)
+  const minorValue = asNumber(isWeight ? mission.visualConfig.grams : mission.visualConfig.milliliters)
+  const leftTotal = asNumber(isWeight ? mission.visualConfig.leftG : mission.visualConfig.leftMl)
+  const rightTotal = asNumber(isWeight ? mission.visualConfig.rightG : mission.visualConfig.rightMl)
+  const operator = asString(mission.visualConfig.operator, '+')
+  const label = `${majorValue}${majorUnit} ${minorValue}${minorUnit}`
+
+  if (mode === 'operation') {
+    return (
+      <div data-testid={`grade3-visual-${mission.visualModel}`} className="rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+          <div className="rounded-2xl bg-white p-4 text-center text-xl font-black text-[#0f172a] shadow-sm">
+            {formatMixedMeasure(leftTotal, 1000, majorUnit, minorUnit)}
+          </div>
+          <span className="text-3xl font-black text-[#0f766e]">{operator}</span>
+          <div className="rounded-2xl bg-white p-4 text-center text-xl font-black text-[#0f172a] shadow-sm">
+            {formatMixedMeasure(rightTotal, 1000, majorUnit, minorUnit)}
+          </div>
+        </div>
+        <p className="mt-4 text-center text-base font-black text-[#0f172a]">
+          계산 결과 <MaskedValue value={mission.correctAnswer} showAnswer={showAnswer} testId="grade3-unit-result" />
+        </p>
+      </div>
+    )
+  }
+
+  if (mode === 'conversion') {
+    return (
+      <div data-testid={`grade3-visual-${mission.visualModel}`} className="rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
+        <p className="rounded-2xl bg-white p-5 text-center text-2xl font-black text-[#0f172a] shadow-sm">{label}</p>
+        <p className="mt-4 text-center text-base font-black text-[#0f172a]">
+          {minorUnit}로 <MaskedValue value={`${mission.correctAnswer}${minorUnit}`} showAnswer={showAnswer} testId="grade3-unit-result" />
+        </p>
+      </div>
+    )
+  }
+
   return (
     <div data-testid={`grade3-visual-${mission.visualModel}`} className="grid place-items-center rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
       <div className={`grid h-48 w-40 place-items-center rounded-b-3xl rounded-t-lg border-4 ${isWeight ? 'border-[#64748b]' : 'border-[#38bdf8]'} bg-white`}>
@@ -235,6 +282,30 @@ function UnitVisual({ mission, showAnswer }: { mission: Grade3Mission; showAnswe
       </div>
       <p className="mt-4 text-base font-black text-[#0f172a]">
         값 <MaskedValue value={label} showAnswer={showAnswer} testId="grade3-unit-result" />
+      </p>
+    </div>
+  )
+}
+
+function TonneScale({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
+  const tonnes = Math.max(1, Math.floor(asNumber(mission.visualConfig.tonnes, 1)))
+  const kilogramsPerTonne = asNumber(mission.visualConfig.kilogramsPerTonne, 1000)
+  return (
+    <div data-testid="grade3-visual-tonne-scale" className="rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
+      <p className="text-center text-base font-black text-[#0f766e]">1t = {kilogramsPerTonne}kg</p>
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {Array.from({ length: tonnes }).map((_, index) => (
+          <div
+            key={index}
+            data-tonne-block="true"
+            className="grid min-h-24 place-items-center rounded-2xl border-4 border-[#64748b] bg-white text-2xl font-black text-[#0f172a] shadow-sm"
+          >
+            1t
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 text-center text-base font-black text-[#0f172a]">
+        모두 <MaskedValue value={`${mission.correctAnswer}kg`} showAnswer={showAnswer} testId="grade3-tonne-result" />
       </p>
     </div>
   )
@@ -285,6 +356,8 @@ function renderVisual(mission: Grade3Mission, showAnswer?: boolean) {
     case 'capacity-beaker':
     case 'weight-scale':
       return <UnitVisual mission={mission} showAnswer={showAnswer} />
+    case 'tonne-scale':
+      return <TonneScale mission={mission} showAnswer={showAnswer} />
     case 'bar-graph':
       return <BarGraph mission={mission} showAnswer={showAnswer} />
     default:

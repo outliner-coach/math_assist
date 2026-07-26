@@ -75,6 +75,35 @@ describe('Grade3MissionVisual', () => {
     expect(hiddenFraction).not.toContain('2/5')
     expect(shownFraction).toContain('2/5')
   })
+
+  it('derives capacity, tonne, and weight visuals from the given quantities without exposing results', () => {
+    const capacityMission = getGrade3MissionById('g3-2-capacity-weight-03', 42)
+    const hiddenCapacity = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission: capacityMission }))
+    const shownCapacity = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission: capacityMission, showAnswer: true }))
+
+    expect(hiddenCapacity).toContain('2L 750mL')
+    expect(hiddenCapacity).toContain('650mL')
+    expect(hiddenCapacity).not.toContain('3L400mL')
+    expect(shownCapacity).toContain('3L400mL')
+
+    const tonneMission = getGrade3MissionById('g3-2-capacity-weight-06', 42)
+    const hiddenTonne = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission: tonneMission }))
+    const shownTonne = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission: tonneMission, showAnswer: true }))
+
+    expect(hiddenTonne.match(/data-tonne-block="true"/g)).toHaveLength(4)
+    expect(hiddenTonne).toContain('1t = 1000kg')
+    expect(hiddenTonne).not.toContain('4000kg')
+    expect(shownTonne).toContain('4000kg')
+
+    const weightMission = getGrade3MissionById('g3-2-capacity-weight-07', 42)
+    const hiddenWeight = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission: weightMission }))
+    const shownWeight = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission: weightMission, showAnswer: true }))
+
+    expect(hiddenWeight).toContain('4kg 200g')
+    expect(hiddenWeight).toContain('1kg 750g')
+    expect(hiddenWeight).not.toContain('2kg450g')
+    expect(shownWeight).toContain('2kg450g')
+  })
 })
 
 describe('Grade3MissionCard', () => {

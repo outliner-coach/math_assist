@@ -21,6 +21,16 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 3 capacity-and-weight completion (primary workstreams 01,
+  03, and 04) owns the narrow expansion of `g3-2-capacity-weight` from three
+  to seven stable-ID missions, its seven curriculum references, and the
+  quantitative capacity-operation, weight-operation, and tonne renderers.
+  Given liters/milliliters, kilograms/grams, operators, and tonne blocks must
+  drive the prompt, visible operands, solution, and revealed result from one
+  model. Calculated results must stay out of the unchecked DOM and
+  accessibility text. Existing mission IDs remain stable so device-local
+  completion and review records survive the release.
+
 - 2026-07-26: Grade 6 ratio-graphs Study release (primary workstreams 01, 02,
   03, and 04) owns `unit-6-1-ratio-graphs`, `g6ratiograph-001`, its
   deterministic template bank/generator, two curriculum rows, release

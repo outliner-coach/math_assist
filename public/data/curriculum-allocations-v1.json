@@ -748,11 +748,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 21,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "3학년 들이 단원 내 후속 계산 범위",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade3:g3-2-capacity-weight"
+      ],
+      "allocationRationale": "받아올림이 있는 들이 덧셈 미션과 동일한 양 모델에서 파생한 연산 그림",
+      "reviewedBy": "curriculum-ledger-release-2026-07-26"
     },
     {
       "standardCode": "[4수03-20]",
@@ -804,11 +806,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 21,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "3학년 무게 단원 내 t 단위 확장",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade3:g3-2-capacity-weight"
+      ],
+      "allocationRationale": "1t 블록 수와 1t=1000kg 관계에서 전체 kg을 구하는 실생활 미션",
+      "reviewedBy": "curriculum-ledger-release-2026-07-26"
     },
     {
       "standardCode": "[4수03-23]",
@@ -823,11 +827,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 21,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "3학년 무게 단원 내 후속 계산 범위",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade3:g3-2-capacity-weight"
+      ],
+      "allocationRationale": "받아내림이 있는 실생활 무게 뺄셈 미션과 동일한 양 모델에서 파생한 연산 그림",
+      "reviewedBy": "curriculum-ledger-release-2026-07-26"
     },
     {
       "standardCode": "[4수03-24]",
