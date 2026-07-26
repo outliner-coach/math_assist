@@ -29,6 +29,10 @@ Use this folder for short async notes between parallel agents.
   or architecture sequencing, start with
   `2026-07-21-shared-production-upgrade-codex.md` and
   `../docs/math-assist-production-proposal.html`.
+- For the in-progress 1–6 problem-workbook quality audit, integrated work,
+  unmerged Grade 1–4 branches, the Grade 3 receipt blocker, and the remaining
+  execution order, start with
+  `2026-07-27-problem-quality-production-checkpoint-codex.md`.
 
 ## Example
 
