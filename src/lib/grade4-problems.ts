@@ -337,22 +337,68 @@ function polygonName(sideCount: number): string {
     ?? `${sideCount}각형`
 }
 
-type KoreanNumericParticle = '은' | '는' | '이' | '가' | '을' | '를' | '과' | '와'
+type KoreanNumericParticle = '은' | '는' | '이' | '가' | '을' | '를' | '과' | '와' | '으로' | '로'
 
-function numericTextHasBatchim(value: string): boolean {
-  const lastDigit = value.replaceAll(',', '').at(-1)
-  return lastDigit !== undefined && ['0', '1', '3', '6', '7', '8'].includes(lastDigit)
+const grade4NumericUnitPronunciations: Record<string, string> = {
+  mm: '밀리미터',
+  cm: '센티미터',
+  km: '킬로미터',
+  mL: '밀리리터',
+  kg: '킬로그램',
+  mg: '밀리그램',
+  L: '리터',
+  m: '미터',
+  g: '그램',
+  '%': '퍼센트',
+  '°': '도',
 }
 
-function correctNumericParticles(text: string): string {
+const grade4NumericUnits = [
+  ...Object.keys(grade4NumericUnitPronunciations),
+  '개월', '시간', '자루', '마리', '봉지', '상자', '묶음',
+  '원', '명', '개', '장', '대', '도', '번', '칸', '초', '분',
+  '일', '주', '년', '쪽', '권', '줄', '점', '배',
+].sort((left, right) => right.length - left.length)
+
+const grade4NumericParticlePattern = new RegExp(
+  `(?<![/\\d])(\\d[\\d,]*(?:\\.\\d+)?(?:\\s*(?:${grade4NumericUnits.join('|')}))?)(으로|로|은|는|이|가|을|를|과|와)(?=$|[\\s.,!?…;:)\\]}'"”’])`,
+  'g',
+)
+
+function finalSound(value: string): { hasBatchim: boolean; hasRieulBatchim: boolean } {
+  const trimmed = value.trim()
+  const unit = grade4NumericUnits.find((candidate) => trimmed.endsWith(candidate))
+  const spokenEnding = unit === undefined
+    ? trimmed.replaceAll(',', '').at(-1)
+    : (grade4NumericUnitPronunciations[unit] ?? unit).at(-1)
+
+  if (spokenEnding === undefined) return { hasBatchim: false, hasRieulBatchim: false }
+
+  const hangulOffset = spokenEnding.charCodeAt(0) - 0xac00
+  if (hangulOffset >= 0 && hangulOffset <= 0xd7a3 - 0xac00) {
+    const finalConsonant = hangulOffset % 28
+    return {
+      hasBatchim: finalConsonant !== 0,
+      hasRieulBatchim: finalConsonant === 8,
+    }
+  }
+
+  return {
+    hasBatchim: ['0', '1', '3', '6', '7', '8'].includes(spokenEnding),
+    hasRieulBatchim: ['1', '7', '8'].includes(spokenEnding),
+  }
+}
+
+export function correctGrade4NumericParticles(text: string): string {
   return text.replace(
-    /(?<![/\d])(\d[\d,]*(?:\.\d+)?)(은|는|이|가|을|를|과|와)/g,
+    grade4NumericParticlePattern,
     (_, value: string, particle: KoreanNumericParticle) => {
-      const hasBatchim = numericTextHasBatchim(value)
+      const { hasBatchim, hasRieulBatchim } = finalSound(value)
       if (particle === '은' || particle === '는') return `${value}${hasBatchim ? '은' : '는'}`
       if (particle === '이' || particle === '가') return `${value}${hasBatchim ? '이' : '가'}`
       if (particle === '을' || particle === '를') return `${value}${hasBatchim ? '을' : '를'}`
-      return `${value}${hasBatchim ? '과' : '와'}`
+      if (particle === '과' || particle === '와') return `${value}${hasBatchim ? '과' : '와'}`
+      return `${value}${hasBatchim && !hasRieulBatchim ? '으로' : '로'}`
     },
   )
 }
@@ -361,16 +407,16 @@ function template(value: Grade4MissionTemplate): Grade4MissionTemplate {
   const build = value.build
   return {
     ...value,
-    promptTemplate: correctNumericParticles(value.promptTemplate),
-    hintSteps: value.hintSteps.map(correctNumericParticles),
+    promptTemplate: correctGrade4NumericParticles(value.promptTemplate),
+    hintSteps: value.hintSteps.map(correctGrade4NumericParticles),
     build: (variant, choiceSeed) => {
       const built = build(variant, choiceSeed)
       return {
         ...built,
-        prompt: correctNumericParticles(built.prompt),
-        correctAnswer: correctNumericParticles(built.correctAnswer),
-        choices: built.choices?.map(correctNumericParticles),
-        solutionSteps: built.solutionSteps.map(correctNumericParticles),
+        prompt: correctGrade4NumericParticles(built.prompt),
+        correctAnswer: correctGrade4NumericParticles(built.correctAnswer),
+        choices: built.choices?.map(correctGrade4NumericParticles),
+        solutionSteps: built.solutionSteps.map(correctGrade4NumericParticles),
       }
     },
   }

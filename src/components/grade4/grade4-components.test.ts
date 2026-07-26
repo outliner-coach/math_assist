@@ -2,7 +2,7 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it, vi } from 'vitest'
 
-import { getGrade4MissionBank } from '@/lib/grade4-problems'
+import { getGrade4MissionBank, grade4MissionTemplates } from '@/lib/grade4-problems'
 
 import Grade4MissionCard from './Grade4MissionCard'
 import Grade4MissionVisual from './Grade4MissionVisual'
@@ -233,7 +233,7 @@ describe('Grade4MissionVisual', () => {
 
   it('plots every line-graph value at a derived point with matching labels and scale', () => {
     const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-graph-02')!
-    const html = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+    const html = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission, showAnswer: true }))
     const labels = String(mission.visualConfig.labelsCsv).split(',')
     const values = String(mission.visualConfig.valuesCsv).split(',').map(Number)
     const points = Array.from(html.matchAll(/data-testid="grade4-line-point"[^>]*data-value="([^"]+)"[^>]*cx="([^"]+)"[^>]*cy="([^"]+)"/g))
@@ -259,6 +259,38 @@ describe('Grade4MissionVisual', () => {
     expect(html).toContain('data-testid="grade4-line-focus-axis-tick"')
     expect(html).not.toContain(`>${mission.correctAnswer}<`)
     expect(html).not.toMatch(new RegExp(`aria-label="[^"]*${mission.correctAnswer}`))
+  })
+
+  it('keeps every graph-01 answer out of pre-answer DOM data and accessibility attributes', () => {
+    const template = grade4MissionTemplates.find((item) => item.id === 'g4-graph-01')!
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      const mission = template.build(variant, 2_026_072_600 + variant)
+      const hidden = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+      const revealed = renderToStaticMarkup(
+        createElement(Grade4MissionVisual, { mission, showAnswer: true }),
+      )
+      const answer = mission.correctAnswer
+      const dataAttributes = Array.from(hidden.matchAll(/\s(data-[\w-]+)="([^"]*)"/g))
+      const accessibilityAttributes = Array.from(hidden.matchAll(/\s(aria-[\w-]+)="([^"]*)"/g))
+
+      expect(hidden, `variant ${variant} hidden point values`).not.toContain('data-value=')
+      expect(
+        dataAttributes.filter(([, , value]) => value === answer),
+        `variant ${variant} data attributes`,
+      ).toEqual([])
+      expect(
+        accessibilityAttributes.filter(([, , value]) => new RegExp(`(^|\\D)${answer}(\\D|$)`).test(value)),
+        `variant ${variant} accessibility attributes`,
+      ).toEqual([])
+      expect(hidden, `variant ${variant} title`).not.toMatch(
+        new RegExp(`<(?:title|desc)>[^<]*${answer}[^<]*</(?:title|desc)>`),
+      )
+      if (Number(answer) % 5 !== 0) {
+        expect(hidden, `variant ${variant} answer-only text`).not.toContain(`>${answer}</text>`)
+      }
+      expect(revealed, `variant ${variant} revealed point value`).toContain(`data-value="${answer}"`)
+    }
   })
 
   it('renders source tables and hides only the requested graph-derived cell', () => {

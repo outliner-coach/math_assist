@@ -18,6 +18,7 @@ import {
   GRADE4_QUADRILATERALS_UNIT_ID,
   GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID,
   GRADE4_TRIANGLES_UNIT_ID,
+  correctGrade4NumericParticles,
   getGrade4Activity,
   getGrade4MissionBank,
   grade4MissionTemplates,
@@ -27,35 +28,17 @@ import {
 
 const ledger = JSON.parse(readFileSync(join(process.cwd(), 'public/data/curriculum-allocations-v1.json'), 'utf8'))
 const reviewCore = require('../../scripts/problem-review-catalog-core.js')
-
-function numberHasBatchim(value: string): boolean {
-  const normalized = value.replaceAll(',', '')
-  const lastDigit = normalized.at(-1)
-  return lastDigit !== undefined && ['0', '1', '3', '6', '7', '8'].includes(lastDigit)
-}
-
-function numericParticleErrors(text: string): string[] {
-  const expectedByPair = {
-    '은/는': (hasBatchim: boolean) => hasBatchim ? '은' : '는',
-    '이/가': (hasBatchim: boolean) => hasBatchim ? '이' : '가',
-    '을/를': (hasBatchim: boolean) => hasBatchim ? '을' : '를',
-    '과/와': (hasBatchim: boolean) => hasBatchim ? '과' : '와',
-  } as const
-  const pairFor = (particle: string) => (
-    particle === '은' || particle === '는' ? '은/는'
-      : particle === '이' || particle === '가' ? '이/가'
-        : particle === '을' || particle === '를' ? '을/를'
-          : '과/와'
-  ) as keyof typeof expectedByPair
-  const errors: string[] = []
-
-  for (const match of text.matchAll(/(?<![/\d])(\d[\d,]*(?:\.\d+)?)(은|는|이|가|을|를|과|와)/g)) {
-    const [, value, particle] = match
-    const expected = expectedByPair[pairFor(particle)](numberHasBatchim(value))
-    if (particle !== expected) errors.push(`${match[0]}→${value}${expected}`)
-  }
-  return errors
-}
+const numericConnectiveRegressionTemplateIds = new Set([
+  'g4-big-10',
+  'g4-div-03', 'g4-div-04', 'g4-div-07', 'g4-div-08', 'g4-div-10',
+  'g4-est-04', 'g4-est-08',
+  'g4-dec-08', 'g4-dec-09', 'g4-dec-10',
+  'g4-frac-01', 'g4-frac-02',
+  'g4-dop-07',
+  'g4-pat-01', 'g4-pat-02', 'g4-pat-03', 'g4-pat-09', 'g4-pat-10',
+  'g4-eq-01', 'g4-eq-02', 'g4-eq-03', 'g4-eq-05',
+  'g4-move-05',
+])
 
 describe('Grade 4 Bridge release bank', () => {
   it('requires source-owned editorial actions and visual semantics for every template', () => {
@@ -196,9 +179,40 @@ describe('Grade 4 Bridge release bank', () => {
     expect(protractorReading.build(1, 1).visualConfig.showProtractor).toBe(true)
   })
 
-  it('uses correct Korean particles in every generated text surface for variants 1..9', () => {
-    const errors: string[] = []
+  it('corrects complete numeric particles from an independent Korean corpus', () => {
+    const cases = [
+      ['1는 첫 번째 수입니다.', '1은 첫 번째 수입니다.'],
+      ['2은 두 번째 수입니다.', '2는 두 번째 수입니다.'],
+      ['3가 남습니다.', '3이 남습니다.'],
+      ['4이 남습니다.', '4가 남습니다.'],
+      ['6를 더합니다.', '6을 더합니다.'],
+      ['9을 더합니다.', '9를 더합니다.'],
+      ['7와 9를 비교합니다.', '7과 9를 비교합니다.'],
+      ['5과 2를 비교합니다.', '5와 2를 비교합니다.'],
+      ['분모가 6로 같습니다.', '분모가 6으로 같습니다.'],
+      ['5으로 늘어나므로 답을 구합니다.', '5로 늘어나므로 답을 구합니다.'],
+      ['1으로 이동합니다.', '1로 이동합니다.'],
+      ['7으로 이동합니다.', '7로 이동합니다.'],
+      ['8으로 이동합니다.', '8로 이동합니다.'],
+      ['2.710가 가장 큽니다.', '2.710이 가장 큽니다.'],
+      ['6.19 L이 남았습니다.', '6.19 L가 남았습니다.'],
+      ['3 kg로 나타냅니다.', '3 kg으로 나타냅니다.'],
+      ['5 cm으로 옮깁니다.', '5 cm로 옮깁니다.'],
+      ['5이므로 다음 단계로 갑니다.', '5이므로 다음 단계로 갑니다.'],
+      ['5이면 조건을 만족합니다.', '5이면 조건을 만족합니다.'],
+      ['5이다.', '5이다.'],
+      ['5이라서 계산합니다.', '5이라서 계산합니다.'],
+    ] as const
 
+    for (const [input, expected] of cases) {
+      expect(correctGrade4NumericParticles(input), input).toBe(expected)
+    }
+  })
+
+  it('preserves connective endings and normalizes every generated surface for variants 1..9', () => {
+    const connectiveTemplateIds = new Set<string>()
+    let connectiveSurfaceCount = 0
+    let auditedSurfaceCount = 0
     for (const template of grade4MissionTemplates) {
       for (let variant = 1; variant <= 9; variant += 1) {
         const mission = template.build(variant, 2_026_072_600 + variant)
@@ -209,17 +223,26 @@ describe('Grade 4 Bridge release bank', () => {
           ...mission.choices?.map((text, index) => [`choice${index + 1}`, text]) ?? [],
         ]
         for (const [surface, text] of surfaces) {
-          for (const error of numericParticleErrors(text)) {
-            errors.push(`${template.id} v${variant} ${surface}: ${error}`)
+          auditedSurfaceCount += 1
+          expect(
+            correctGrade4NumericParticles(text),
+            `${template.id} v${variant} ${surface}`,
+          ).toBe(text)
+          if (
+            numericConnectiveRegressionTemplateIds.has(template.id)
+            && /[2459](?:이므로|이면)/.test(text)
+          ) {
+            connectiveTemplateIds.add(template.id)
+            connectiveSurfaceCount += 1
           }
-          if (/\d(?:\.\d+)?\s+L가(?![가-힣])/.test(text)) {
-            errors.push(`${template.id} v${variant} ${surface}: rephrase awkward L가 sentence`)
-          }
+          expect(text, `${template.id} v${variant} ${surface}`).not.toMatch(/\d(?:가므로|가면)/)
         }
       }
     }
 
-    expect(errors).toEqual([])
+    expect(auditedSurfaceCount).toBeGreaterThan(5_000)
+    expect(connectiveTemplateIds).toEqual(numericConnectiveRegressionTemplateIds)
+    expect(connectiveSurfaceCount).toBe(127)
   })
 
   it('gives graph-01 a readable focused scale without exposing its answer as text', () => {
@@ -321,6 +344,7 @@ describe('Grade 4 Bridge release bank', () => {
       expect(item.note, item.reviewId).toContain('taskActions=')
       expect(item.note, item.reviewId).toContain('supportTool=')
       expect(item.note, item.reviewId).toContain('Browser evidence remains separate and blocked')
+      expect(item.note, item.reviewId).not.toContain('Korean-particle checks passed')
       expect(item.evidence, item.reviewId).toMatchObject({
         editorialRead: true,
         variantAudit: true,
@@ -332,6 +356,17 @@ describe('Grade 4 Bridge release bank', () => {
         artifacts: [],
       })
     }
+    for (const templateId of numericConnectiveRegressionTemplateIds) {
+      const reviewed = receipt.items.find(
+        (item: { reviewId: string }) => item.reviewId === `4:mission:${templateId}`,
+      )
+      expect(reviewed?.note, templateId).toContain('24-template/127-surface regression')
+    }
+    expect(
+      receipt.items.find(
+        (item: { reviewId: string }) => item.reviewId === '4:mission:g4-graph-01',
+      )?.note,
+    ).toContain('pre-answer DOM')
 
     const errors = reviewCore.loadContractModule().validateEditorialLedger(catalog, receipt)
     expect(errors.filter((error: string) => !error.startsWith('blocked editorial status: '))).toEqual([])
