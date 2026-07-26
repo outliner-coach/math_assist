@@ -147,6 +147,27 @@ describe('ProblemDiagram', () => {
     expect(html).not.toContain('더 큰 쪽')
   })
 
+  it('shows both length directions without exposing the squared conversion result', () => {
+    const html = renderToStaticMarkup(createElement(ProblemDiagram, {
+      visual: {
+        type: 'area_unit_square',
+        semantics: 'quantitative',
+        props: {
+          caption: '1m²의 두 방향 변환',
+          largerLengthUnit: 'm',
+          smallerLengthUnit: 'cm',
+        },
+      } as ProblemVisual,
+    }))
+
+    expect(html).toContain('problem-diagram-area-unit-square')
+    expect(html).toContain('data-area-side-scale="100"')
+    expect(html.match(/1m = 100cm/g)).toHaveLength(3)
+    expect(html).toContain('100cm × 100cm')
+    expect(html).not.toContain('10000')
+    expect(html).not.toContain('data-answer')
+  })
+
   it('labels the given square side without an ambiguous question mark', () => {
     const html = renderToStaticMarkup(createElement(ProblemDiagram, {
       visual: {

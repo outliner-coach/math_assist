@@ -5,6 +5,7 @@ const ROOT = path.join(__dirname, '..')
 const TEMPLATE_DIR = path.join(ROOT, 'public', 'data', 'templates')
 const MIGRATED_BANKS = [
   'area.json',
+  'areaunit.json',
   'average.json',
   'commonden.json',
   'congruence.json',
@@ -61,6 +62,13 @@ function reviewedText(fields) {
 // Every slot is assigned by reviewed prompt/solver meaning. Repeated names are
 // intentional: answer mode or larger numbers do not create a new problem family.
 const REVIEWED_SLOT_FAMILIES = Object.freeze({
+  'areaunit-001': [
+    'areaunit-one-square-meter', 'areaunit-one-square-kilometer',
+    'areaunit-square-meters-forward', 'areaunit-square-kilometers-forward',
+    'areaunit-square-centimeters-reverse', 'areaunit-square-meters-reverse',
+    'areaunit-rectangle-to-square-centimeters', 'areaunit-mixed-land-total',
+    'areaunit-one-direction-error', 'areaunit-rectangle-one-side-error'
+  ],
   'mixedcalc-001': [
     'mixedcalc-add-multiply-order', 'mixedcalc-multiply-add-order',
     'mixedcalc-parenthesized-sum-product', 'mixedcalc-multiply-subtract-order',
@@ -191,6 +199,18 @@ const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'numberrange-context-qualified-count': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수01-02', estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world', visualSemantics: 'quantitative' }),
   'numberrange-endpoint-confusion-gap': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수01-02', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
   'numberrange-two-rule-gap': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'compare_methods', primaryStandard: '6수01-02', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
+
+  // Area-unit relations
+  'areaunit-one-square-meter': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수03-12', estimatedSteps: 2, readingLoad: 'low', visualSemantics: 'quantitative' }),
+  'areaunit-one-square-kilometer': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수03-12', estimatedSteps: 2, readingLoad: 'low', visualSemantics: 'quantitative' }),
+  'areaunit-square-meters-forward': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-12', estimatedSteps: 2, readingLoad: 'low', visualSemantics: 'quantitative' }),
+  'areaunit-square-kilometers-forward': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수03-12', estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
+  'areaunit-square-centimeters-reverse': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수03-12', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'areaunit-square-meters-reverse': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'inverse', primaryStandard: '6수03-12', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'areaunit-rectangle-to-square-centimeters': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-12', connectedStandards: ['6수03-13'], estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'areaunit-mixed-land-total': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-12', estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'areaunit-one-direction-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-12', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
+  'areaunit-rectangle-one-side-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-12', connectedStandards: ['6수03-13'], estimatedSteps: 5, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
 
   // Natural-number mixed calculation: direct rules, transferred contexts, and
   // two genuine comparison/error-analysis families.

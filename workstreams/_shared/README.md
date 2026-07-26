@@ -40,6 +40,14 @@ When you change a high-conflict file, add a short dated note below:
   unchecked DOM or accessibility name. Preserve the existing `simplify-001`
   and `commonden-001` IDs and saved Grade 5 progress.
 
+- 2026-07-26: Grade 5 area-unit relations (primary workstreams 01, 03, and
+  04) owns `areaunit-001`, its deterministic A/B/C template bank, generator,
+  `[6수03-12]` release reference, and a shared quantitative
+  `area_unit_square` visual. The visual derives a square from the given
+  length-unit relation `1m=100cm` or `1km=1000m` and must not carry the
+  squared conversion result. Preserve `perimeter-001`, `polygonarea-001`, and
+  `area-001` IDs and their Grade 5 progress.
+
 - 2026-07-26: Grade 3 capacity-and-weight completion (primary workstreams 01,
   03, and 04) owns the narrow expansion of `g3-2-capacity-weight` from three
   to seven stable-ID missions, its seven curriculum references, and the

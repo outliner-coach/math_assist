@@ -229,3 +229,26 @@ Original prompt: /goal 제안한 계획대로 브라우저 테스트까지 마�
   errors were all zero.
 - Next: document, commit, push, deploy, and publicly verify fraction
   comparison, then implement `[6수03-12]` area-unit relations.
+- Grade 5 fraction comparison shipped as commit `fc97181` on `main`; GitHub
+  Pages run `30184211796` completed build and deployment successfully.
+- A fresh-cache public 390x844 browser found all three unit concepts, rendered
+  the concept's 3-part and 5-part bars with five total filled cells, generated
+  ten `fraction_comparison` problems, exposed no answer nodes/text, and
+  completed Set A 10/10 with no overflow or console/page errors.
+- Next implementation target: `[6수03-12]` square-centimeter, square-meter,
+  and square-kilometer area-unit relations.
+- Added `areaunit-001` to the existing perimeter/area unit without changing
+  its three concept IDs. The deterministic A/B/C bank has K12/A12/R6, ten
+  families, difficulty 4/4/2 per set, and ordered signals
+  8.40 < 9.38 < 10.81.
+- `area_unit_square` shows the same length conversion on both sides of a
+  square (`1m=100cm` or `1km=1000m`) and the unevaluated side product, but
+  never stores or renders the squared conversion result before checking.
+- Full release gates pass: Vitest 65 files and 566/566 tests, lint, TDD guard,
+  template metadata 1080/1080, curriculum 89 current references, both audits
+  0/0, static build 111/111, focused E2E 1/1, and full E2E 73/73.
+- A 390x844 real browser inspected both concept squares and all ten Set A
+  questions. The set completed 10/10 with no answer exposure, overflow,
+  console errors, or page errors.
+- Next: document, commit, push, deploy, and publicly verify the area-unit
+  relation, then complete the three possibility standards.

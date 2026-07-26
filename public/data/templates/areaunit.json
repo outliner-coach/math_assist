@@ -1,0 +1,1517 @@
+[
+  {
+    "id": "tmpl-areaunit-A-01",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "areaunit-one-square-meter",
+    "blueprint": {
+      "problemFamily": "areaunit-one-square-meter",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {},
+    "prompt_template": "한 변이 1m인 정사각형의 넓이는 몇 cm²인가요?",
+    "solver_rule": "10000",
+    "solution_steps_template": [
+      "1m=100cm이므로 가로와 세로가 각각 100cm입니다.",
+      "100×100=10000이므로 1m²=10000cm²입니다."
+    ],
+    "hint_steps_template": [
+      "넓이는 가로와 세로 두 방향의 단위를 함께 바꿔요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "1m²의 두 방향 변환",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{10000}}",
+      "{{100}}",
+      "{{1000}}",
+      "{{100000}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-A-02",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "areaunit-one-square-kilometer",
+    "blueprint": {
+      "problemFamily": "areaunit-one-square-kilometer",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {},
+    "prompt_template": "한 변이 1km인 정사각형의 넓이는 몇 m²인가요?",
+    "solver_rule": "1000000",
+    "solution_steps_template": [
+      "1km=1000m이므로 가로와 세로가 각각 1000m입니다.",
+      "1000×1000=1000000이므로 1km²=1000000m²입니다."
+    ],
+    "hint_steps_template": [
+      "넓이는 가로와 세로 두 방향의 단위를 함께 바꿔요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "1km²의 두 방향 변환",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-A-03",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "areaunit-square-meters-forward",
+    "blueprint": {
+      "problemFamily": "areaunit-square-meters-forward",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "{{p}}m²는 몇 cm²인가요?",
+    "solver_rule": "p * 10000",
+    "solution_steps_template": [
+      "1m²=10000cm²입니다.",
+      "{{p}}×10000={{p * 10000}}이므로 {{p}}m²={{p * 10000}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "넓이는 가로와 세로 두 방향의 단위를 함께 바꿔요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "m²를 cm²로 바꾸기",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{p * 10000}}",
+      "{{p * 100}}",
+      "{{p * 1000}}",
+      "{{p * 100000}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-A-04",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "areaunit-square-kilometers-forward",
+    "blueprint": {
+      "problemFamily": "areaunit-square-kilometers-forward",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "{{p}}km²는 몇 m²인가요?",
+    "solver_rule": "p * 1000000",
+    "solution_steps_template": [
+      "1km²=1000000m²입니다.",
+      "{{p}}×1000000={{p * 1000000}}이므로 {{p}}km²={{p * 1000000}}m²입니다."
+    ],
+    "hint_steps_template": [
+      "넓이는 가로와 세로 두 방향의 단위를 함께 바꿔요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "km²를 m²로 바꾸기",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-A-05",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "areaunit-square-centimeters-reverse",
+    "blueprint": {
+      "problemFamily": "areaunit-square-centimeters-reverse",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "교실 바닥의 넓이가 {{p * 10000}}cm²입니다. 이를 m²로 나타내세요.",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "10000cm²가 1m²입니다.",
+      "{{p * 10000}}÷10000={{p}}이므로 넓이는 {{p}}m²입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 같은 넓이 단위로 맞춘 뒤 상황에 필요한 계산을 해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "cm²에서 m²로 묶기",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{p}}",
+      "{{p + 1}}",
+      "{{p + 2}}",
+      "{{p + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-A-06",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "areaunit-square-meters-reverse",
+    "blueprint": {
+      "problemFamily": "areaunit-square-meters-reverse",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "생태 공원의 넓이가 {{p * 1000000}}m²입니다. 이를 km²로 나타내세요.",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "1000000m²가 1km²입니다.",
+      "{{p * 1000000}}÷1000000={{p}}이므로 넓이는 {{p}}km²입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 같은 넓이 단위로 맞춘 뒤 상황에 필요한 계산을 해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "m²에서 km²로 묶기",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-A-07",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "areaunit-rectangle-to-square-centimeters",
+    "blueprint": {
+      "problemFamily": "areaunit-rectangle-to-square-centimeters",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수03-12",
+      "connectedStandards": [
+        "6수03-13"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "w": {
+        "min": 3,
+        "max": 6
+      },
+      "h": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "가로 {{w}}m, 세로 {{h}}m인 교실 바닥의 넓이는 몇 cm²인가요?",
+    "solver_rule": "w * h * 10000",
+    "solution_steps_template": [
+      "먼저 넓이는 {{w}}×{{h}}={{w * h}}m²입니다.",
+      "1m²=10000cm²이므로 {{w * h}}×10000={{w * h * 10000}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 같은 넓이 단위로 맞춘 뒤 상황에 필요한 계산을 해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "직사각형 넓이의 단위 변환",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{w * h * 10000}}",
+      "{{w * h * 100}}",
+      "{{w * h * 1000}}",
+      "{{w * h * 100000}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-A-08",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "areaunit-mixed-land-total",
+    "blueprint": {
+      "problemFamily": "areaunit-mixed-land-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      },
+      "q": {
+        "min": 200,
+        "max": 800
+      }
+    },
+    "prompt_template": "생태 공원은 {{p}}km²인 구역과 {{q}}m²인 구역으로 이루어져 있습니다. 전체 넓이는 몇 m²인가요?",
+    "solver_rule": "p * 1000000 + q",
+    "solution_steps_template": [
+      "{{p}}km²={{p * 1000000}}m²입니다.",
+      "{{p * 1000000}}+{{q}}={{p * 1000000 + q}}이므로 전체는 {{p * 1000000 + q}}m²입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 같은 넓이 단위로 맞춘 뒤 상황에 필요한 계산을 해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "서로 다른 넓이 단위 합치기",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-A-09",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "areaunit-one-direction-error",
+    "blueprint": {
+      "problemFamily": "areaunit-one-direction-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "민지는 {{p}}m²를 cm²로 바꾸며 한 방향만 100배 하여 {{p * 100}}cm²라고 했습니다. 가로와 세로를 모두 바꾼 올바른 값은 잘못된 값보다 몇 cm² 큰가요?",
+    "solver_rule": "p * 9900",
+    "solution_steps_template": [
+      "올바른 값은 {{p}}×100×100={{p * 10000}}cm²입니다.",
+      "잘못된 값 {{p * 100}}cm²와의 차는 {{p * 10000}}-{{p * 100}}={{p * 9900}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "한 방향만 바꾼 계산과 두 방향을 모두 바꾼 계산을 비교해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "한 방향만 바꾼 오류",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{p * 9900}}",
+      "{{p * 99}}",
+      "{{p * 900}}",
+      "{{p * 9990}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-A-10",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "areaunit-rectangle-one-side-error",
+    "blueprint": {
+      "problemFamily": "areaunit-rectangle-one-side-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수03-12",
+      "connectedStandards": [
+        "6수03-13"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 5,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "가로 {{p}}km, 세로 {{p + 1}}km인 조사 구역을 m²로 바꾸며 세로만 m로 바꾸지 않았습니다. 가로와 세로를 모두 m로 바꾼 올바른 넓이는 잘못된 넓이보다 몇 m² 큰가요?",
+    "solver_rule": "p * (p + 1) * 999000",
+    "solution_steps_template": [
+      "올바른 넓이는 {{p * 1000}}×{{(p + 1) * 1000}}={{p * (p + 1) * 1000000}}m²입니다.",
+      "잘못된 넓이는 {{p * 1000}}×{{p + 1}}={{p * (p + 1) * 1000}}m²입니다.",
+      "두 값의 차는 {{p * (p + 1) * 999000}}m²입니다."
+    ],
+    "hint_steps_template": [
+      "한 방향만 바꾼 계산과 두 방향을 모두 바꾼 계산을 비교해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "한 변의 단위를 빠뜨린 오류",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-B-01",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "areaunit-one-square-meter",
+    "blueprint": {
+      "problemFamily": "areaunit-one-square-meter",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {},
+    "prompt_template": "한 변이 1m인 정사각형의 넓이는 몇 cm²인가요?",
+    "solver_rule": "10000",
+    "solution_steps_template": [
+      "1m=100cm이므로 가로와 세로가 각각 100cm입니다.",
+      "100×100=10000이므로 1m²=10000cm²입니다."
+    ],
+    "hint_steps_template": [
+      "넓이는 가로와 세로 두 방향의 단위를 함께 바꿔요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "1m²의 두 방향 변환",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{10000}}",
+      "{{100}}",
+      "{{1000}}",
+      "{{100000}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-B-02",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "areaunit-one-square-kilometer",
+    "blueprint": {
+      "problemFamily": "areaunit-one-square-kilometer",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {},
+    "prompt_template": "한 변이 1km인 정사각형의 넓이는 몇 m²인가요?",
+    "solver_rule": "1000000",
+    "solution_steps_template": [
+      "1km=1000m이므로 가로와 세로가 각각 1000m입니다.",
+      "1000×1000=1000000이므로 1km²=1000000m²입니다."
+    ],
+    "hint_steps_template": [
+      "넓이는 가로와 세로 두 방향의 단위를 함께 바꿔요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "1km²의 두 방향 변환",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-B-03",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "areaunit-square-meters-forward",
+    "blueprint": {
+      "problemFamily": "areaunit-square-meters-forward",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 5,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p}}m²는 몇 cm²인가요?",
+    "solver_rule": "p * 10000",
+    "solution_steps_template": [
+      "1m²=10000cm²입니다.",
+      "{{p}}×10000={{p * 10000}}이므로 {{p}}m²={{p * 10000}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "넓이는 가로와 세로 두 방향의 단위를 함께 바꿔요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "m²를 cm²로 바꾸기",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{p * 10000}}",
+      "{{p * 100}}",
+      "{{p * 1000}}",
+      "{{p * 100000}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-B-04",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "areaunit-square-kilometers-forward",
+    "blueprint": {
+      "problemFamily": "areaunit-square-kilometers-forward",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 5,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p}}km²는 몇 m²인가요?",
+    "solver_rule": "p * 1000000",
+    "solution_steps_template": [
+      "1km²=1000000m²입니다.",
+      "{{p}}×1000000={{p * 1000000}}이므로 {{p}}km²={{p * 1000000}}m²입니다."
+    ],
+    "hint_steps_template": [
+      "넓이는 가로와 세로 두 방향의 단위를 함께 바꿔요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "km²를 m²로 바꾸기",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-B-05",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "areaunit-square-centimeters-reverse",
+    "blueprint": {
+      "problemFamily": "areaunit-square-centimeters-reverse",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 5,
+        "max": 7
+      }
+    },
+    "prompt_template": "전시관 바닥의 넓이가 {{p * 10000}}cm²입니다. 이를 m²로 나타내세요.",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "10000cm²가 1m²입니다.",
+      "{{p * 10000}}÷10000={{p}}이므로 넓이는 {{p}}m²입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 같은 넓이 단위로 맞춘 뒤 상황에 필요한 계산을 해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "cm²에서 m²로 묶기",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{p}}",
+      "{{p + 1}}",
+      "{{p + 2}}",
+      "{{p + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-B-06",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "areaunit-square-meters-reverse",
+    "blueprint": {
+      "problemFamily": "areaunit-square-meters-reverse",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 5,
+        "max": 7
+      }
+    },
+    "prompt_template": "산림 보호 구역의 넓이가 {{p * 1000000}}m²입니다. 이를 km²로 나타내세요.",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "1000000m²가 1km²입니다.",
+      "{{p * 1000000}}÷1000000={{p}}이므로 넓이는 {{p}}km²입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 같은 넓이 단위로 맞춘 뒤 상황에 필요한 계산을 해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "m²에서 km²로 묶기",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-B-07",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "areaunit-rectangle-to-square-centimeters",
+    "blueprint": {
+      "problemFamily": "areaunit-rectangle-to-square-centimeters",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수03-12",
+      "connectedStandards": [
+        "6수03-13"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "w": {
+        "min": 6,
+        "max": 9
+      },
+      "h": {
+        "min": 4,
+        "max": 7
+      }
+    },
+    "prompt_template": "가로 {{w}}m, 세로 {{h}}m인 전시관 바닥의 넓이는 몇 cm²인가요?",
+    "solver_rule": "w * h * 10000",
+    "solution_steps_template": [
+      "먼저 넓이는 {{w}}×{{h}}={{w * h}}m²입니다.",
+      "1m²=10000cm²이므로 {{w * h}}×10000={{w * h * 10000}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 같은 넓이 단위로 맞춘 뒤 상황에 필요한 계산을 해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "직사각형 넓이의 단위 변환",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{w * h * 10000}}",
+      "{{w * h * 100}}",
+      "{{w * h * 1000}}",
+      "{{w * h * 100000}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-B-08",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "areaunit-mixed-land-total",
+    "blueprint": {
+      "problemFamily": "areaunit-mixed-land-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 5,
+        "max": 7
+      },
+      "q": {
+        "min": 900,
+        "max": 1800
+      }
+    },
+    "prompt_template": "산림 보호 구역은 {{p}}km²인 구역과 {{q}}m²인 구역으로 이루어져 있습니다. 전체 넓이는 몇 m²인가요?",
+    "solver_rule": "p * 1000000 + q",
+    "solution_steps_template": [
+      "{{p}}km²={{p * 1000000}}m²입니다.",
+      "{{p * 1000000}}+{{q}}={{p * 1000000 + q}}이므로 전체는 {{p * 1000000 + q}}m²입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 같은 넓이 단위로 맞춘 뒤 상황에 필요한 계산을 해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "서로 다른 넓이 단위 합치기",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-B-09",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "areaunit-one-direction-error",
+    "blueprint": {
+      "problemFamily": "areaunit-one-direction-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 5,
+        "max": 7
+      }
+    },
+    "prompt_template": "민지는 {{p}}m²를 cm²로 바꾸며 한 방향만 100배 하여 {{p * 100}}cm²라고 했습니다. 가로와 세로를 모두 바꾼 올바른 값은 잘못된 값보다 몇 cm² 큰가요?",
+    "solver_rule": "p * 9900",
+    "solution_steps_template": [
+      "올바른 값은 {{p}}×100×100={{p * 10000}}cm²입니다.",
+      "잘못된 값 {{p * 100}}cm²와의 차는 {{p * 10000}}-{{p * 100}}={{p * 9900}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "한 방향만 바꾼 계산과 두 방향을 모두 바꾼 계산을 비교해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "한 방향만 바꾼 오류",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{p * 9900}}",
+      "{{p * 99}}",
+      "{{p * 900}}",
+      "{{p * 9990}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-B-10",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "areaunit-rectangle-one-side-error",
+    "blueprint": {
+      "problemFamily": "areaunit-rectangle-one-side-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수03-12",
+      "connectedStandards": [
+        "6수03-13"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 5,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 5,
+        "max": 7
+      }
+    },
+    "prompt_template": "가로 {{p}}km, 세로 {{p + 1}}km인 조사 구역을 m²로 바꾸며 세로만 m로 바꾸지 않았습니다. 가로와 세로를 모두 m로 바꾼 올바른 넓이는 잘못된 넓이보다 몇 m² 큰가요?",
+    "solver_rule": "p * (p + 1) * 999000",
+    "solution_steps_template": [
+      "올바른 넓이는 {{p * 1000}}×{{(p + 1) * 1000}}={{p * (p + 1) * 1000000}}m²입니다.",
+      "잘못된 넓이는 {{p * 1000}}×{{p + 1}}={{p * (p + 1) * 1000}}m²입니다.",
+      "두 값의 차는 {{p * (p + 1) * 999000}}m²입니다."
+    ],
+    "hint_steps_template": [
+      "한 방향만 바꾼 계산과 두 방향을 모두 바꾼 계산을 비교해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "한 변의 단위를 빠뜨린 오류",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-C-01",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "areaunit-one-square-meter",
+    "blueprint": {
+      "problemFamily": "areaunit-one-square-meter",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {},
+    "prompt_template": "한 변이 1m인 정사각형의 넓이는 몇 cm²인가요?",
+    "solver_rule": "10000",
+    "solution_steps_template": [
+      "1m=100cm이므로 가로와 세로가 각각 100cm입니다.",
+      "100×100=10000이므로 1m²=10000cm²입니다."
+    ],
+    "hint_steps_template": [
+      "넓이는 가로와 세로 두 방향의 단위를 함께 바꿔요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "1m²의 두 방향 변환",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{10000}}",
+      "{{100}}",
+      "{{1000}}",
+      "{{100000}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-C-02",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "areaunit-one-square-kilometer",
+    "blueprint": {
+      "problemFamily": "areaunit-one-square-kilometer",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {},
+    "prompt_template": "한 변이 1km인 정사각형의 넓이는 몇 m²인가요?",
+    "solver_rule": "1000000",
+    "solution_steps_template": [
+      "1km=1000m이므로 가로와 세로가 각각 1000m입니다.",
+      "1000×1000=1000000이므로 1km²=1000000m²입니다."
+    ],
+    "hint_steps_template": [
+      "넓이는 가로와 세로 두 방향의 단위를 함께 바꿔요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "1km²의 두 방향 변환",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-C-03",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "areaunit-square-meters-forward",
+    "blueprint": {
+      "problemFamily": "areaunit-square-meters-forward",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 8,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{p}}m²는 몇 cm²인가요?",
+    "solver_rule": "p * 10000",
+    "solution_steps_template": [
+      "1m²=10000cm²입니다.",
+      "{{p}}×10000={{p * 10000}}이므로 {{p}}m²={{p * 10000}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "넓이는 가로와 세로 두 방향의 단위를 함께 바꿔요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "m²를 cm²로 바꾸기",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{p * 10000}}",
+      "{{p * 100}}",
+      "{{p * 1000}}",
+      "{{p * 100000}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-C-04",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "areaunit-square-kilometers-forward",
+    "blueprint": {
+      "problemFamily": "areaunit-square-kilometers-forward",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 8,
+        "max": 10
+      }
+    },
+    "prompt_template": "{{p}}km²는 몇 m²인가요?",
+    "solver_rule": "p * 1000000",
+    "solution_steps_template": [
+      "1km²=1000000m²입니다.",
+      "{{p}}×1000000={{p * 1000000}}이므로 {{p}}km²={{p * 1000000}}m²입니다."
+    ],
+    "hint_steps_template": [
+      "넓이는 가로와 세로 두 방향의 단위를 함께 바꿔요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "km²를 m²로 바꾸기",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-C-05",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "areaunit-square-centimeters-reverse",
+    "blueprint": {
+      "problemFamily": "areaunit-square-centimeters-reverse",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 8,
+        "max": 10
+      }
+    },
+    "prompt_template": "체육관 안전 구역의 넓이가 {{p * 10000}}cm²입니다. 이를 m²로 나타내세요.",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "10000cm²가 1m²입니다.",
+      "{{p * 10000}}÷10000={{p}}이므로 넓이는 {{p}}m²입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 같은 넓이 단위로 맞춘 뒤 상황에 필요한 계산을 해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "cm²에서 m²로 묶기",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{p}}",
+      "{{p + 1}}",
+      "{{p + 2}}",
+      "{{p + 3}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-C-06",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "areaunit-square-meters-reverse",
+    "blueprint": {
+      "problemFamily": "areaunit-square-meters-reverse",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 8,
+        "max": 10
+      }
+    },
+    "prompt_template": "해양 조사 구역의 넓이가 {{p * 1000000}}m²입니다. 이를 km²로 나타내세요.",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "1000000m²가 1km²입니다.",
+      "{{p * 1000000}}÷1000000={{p}}이므로 넓이는 {{p}}km²입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 같은 넓이 단위로 맞춘 뒤 상황에 필요한 계산을 해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "m²에서 km²로 묶기",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-C-07",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "areaunit-rectangle-to-square-centimeters",
+    "blueprint": {
+      "problemFamily": "areaunit-rectangle-to-square-centimeters",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수03-12",
+      "connectedStandards": [
+        "6수03-13"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "w": {
+        "min": 8,
+        "max": 12
+      },
+      "h": {
+        "min": 6,
+        "max": 9
+      }
+    },
+    "prompt_template": "가로 {{w}}m, 세로 {{h}}m인 체육관 안전 구역의 넓이는 몇 cm²인가요?",
+    "solver_rule": "w * h * 10000",
+    "solution_steps_template": [
+      "먼저 넓이는 {{w}}×{{h}}={{w * h}}m²입니다.",
+      "1m²=10000cm²이므로 {{w * h}}×10000={{w * h * 10000}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 같은 넓이 단위로 맞춘 뒤 상황에 필요한 계산을 해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "직사각형 넓이의 단위 변환",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{w * h * 10000}}",
+      "{{w * h * 100}}",
+      "{{w * h * 1000}}",
+      "{{w * h * 100000}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-C-08",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "areaunit-mixed-land-total",
+    "blueprint": {
+      "problemFamily": "areaunit-mixed-land-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 8,
+        "max": 10
+      },
+      "q": {
+        "min": 1900,
+        "max": 3500
+      }
+    },
+    "prompt_template": "해양 조사 구역은 {{p}}km²인 구역과 {{q}}m²인 구역으로 이루어져 있습니다. 전체 넓이는 몇 m²인가요?",
+    "solver_rule": "p * 1000000 + q",
+    "solution_steps_template": [
+      "{{p}}km²={{p * 1000000}}m²입니다.",
+      "{{p * 1000000}}+{{q}}={{p * 1000000 + q}}이므로 전체는 {{p * 1000000 + q}}m²입니다."
+    ],
+    "hint_steps_template": [
+      "먼저 같은 넓이 단위로 맞춘 뒤 상황에 필요한 계산을 해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "서로 다른 넓이 단위 합치기",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  },
+  {
+    "id": "tmpl-areaunit-C-09",
+    "concept_id": "areaunit-001",
+    "type": "choice",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "areaunit-one-direction-error",
+    "blueprint": {
+      "problemFamily": "areaunit-one-direction-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수03-12",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 8,
+        "max": 10
+      }
+    },
+    "prompt_template": "민지는 {{p}}m²를 cm²로 바꾸며 한 방향만 100배 하여 {{p * 100}}cm²라고 했습니다. 가로와 세로를 모두 바꾼 올바른 값은 잘못된 값보다 몇 cm² 큰가요?",
+    "solver_rule": "p * 9900",
+    "solution_steps_template": [
+      "올바른 값은 {{p}}×100×100={{p * 10000}}cm²입니다.",
+      "잘못된 값 {{p * 100}}cm²와의 차는 {{p * 10000}}-{{p * 100}}={{p * 9900}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "한 방향만 바꾼 계산과 두 방향을 모두 바꾼 계산을 비교해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "한 방향만 바꾼 오류",
+        "largerLengthUnit": "m",
+        "smallerLengthUnit": "cm"
+      }
+    },
+    "choices_template": [
+      "{{p * 9900}}",
+      "{{p * 99}}",
+      "{{p * 900}}",
+      "{{p * 9990}}"
+    ]
+  },
+  {
+    "id": "tmpl-areaunit-C-10",
+    "concept_id": "areaunit-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "areaunit-rectangle-one-side-error",
+    "blueprint": {
+      "problemFamily": "areaunit-rectangle-one-side-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수03-12",
+      "connectedStandards": [
+        "6수03-13"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 5,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 8,
+        "max": 10
+      }
+    },
+    "prompt_template": "가로 {{p}}km, 세로 {{p + 1}}km인 조사 구역을 m²로 바꾸며 세로만 m로 바꾸지 않았습니다. 가로와 세로를 모두 m로 바꾼 올바른 넓이는 잘못된 넓이보다 몇 m² 큰가요?",
+    "solver_rule": "p * (p + 1) * 999000",
+    "solution_steps_template": [
+      "올바른 넓이는 {{p * 1000}}×{{(p + 1) * 1000}}={{p * (p + 1) * 1000000}}m²입니다.",
+      "잘못된 넓이는 {{p * 1000}}×{{p + 1}}={{p * (p + 1) * 1000}}m²입니다.",
+      "두 값의 차는 {{p * (p + 1) * 999000}}m²입니다."
+    ],
+    "hint_steps_template": [
+      "한 방향만 바꾼 계산과 두 방향을 모두 바꾼 계산을 비교해요.",
+      "그림에서 정사각형의 가로와 세로에 같은 길이 변환이 적용되는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "area_unit_square",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "한 변의 단위를 빠뜨린 오류",
+        "largerLengthUnit": "km",
+        "smallerLengthUnit": "m"
+      }
+    }
+  }
+]

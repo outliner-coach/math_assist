@@ -203,6 +203,35 @@ test('5학년 이분모 분수 비교는 같은 길이 막대를 그리고 10문
   expect(result.total).toBe(10)
 })
 
+test('5학년 넓이 단위는 두 방향 변환을 그리고 10문제를 완주한다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(`${BASE_PATH}/unit/unit-5-1-perimeter-area`)
+  await expect(page.getByText('개념 선택 (4개)')).toBeVisible()
+  await expect(page.getByRole('link', { name: /넓이 단위의 관계/ })).toBeVisible()
+
+  await page.goto(`${BASE_PATH}/concept/areaunit-001`)
+  const conceptVisuals = page.getByTestId('problem-diagram-area-unit-square')
+  await expect(conceptVisuals).toHaveCount(2)
+  await expect(conceptVisuals.nth(0)).toContainText('100cm × 100cm')
+  await expect(conceptVisuals.nth(1)).toContainText('1000m × 1000m')
+
+  await page.goto(`${BASE_PATH}/practice/areaunit-001?set=A`)
+  const session = await readSession(page)
+  expect(session.problems).toHaveLength(10)
+  expect(session.problems.every((problem) => problem.visual?.type === 'area_unit_square')).toBe(true)
+
+  const practiceVisual = page.getByTestId('problem-diagram-area-unit-square')
+  await expect(practiceVisual).toBeVisible()
+  await expect(page.locator('[data-answer]')).toHaveCount(0)
+  await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
+
+  await completeSession(page)
+  const result = await readResult(page)
+  expect(result.score).toBe(10)
+  expect(result.total).toBe(10)
+})
+
 test('5학년 풀이장은 문제별로 자동 저장하고 이동·새로고침 뒤 복구한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/practice/divisor-001?set=A`)
   await drawScratchStroke(page)

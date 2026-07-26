@@ -1551,11 +1551,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 29,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "둘레 뒤 넓이 단위 관계",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade5:areaunit-001"
+      ],
+      "allocationRationale": "cm²·m²·km²의 두 방향 변환과 실제 넓이 적용 문제",
+      "reviewedBy": "grade5-area-unit-release-2026-07-26"
     },
     {
       "standardCode": "[6수03-13]",

@@ -993,6 +993,64 @@
     ]
   },
   {
+    "id": "areaunit-001",
+    "unit_id": "unit-5-1-perimeter-area",
+    "concept_title": "넓이 단위의 관계",
+    "base_explanation": "넓이 단위는 가로와 세로 두 방향을 함께 바꿉니다. 1m=100cm이므로 1m²=100×100=10000cm²이고, 1km=1000m이므로 1km²=1000×1000=1000000m²입니다.",
+    "friendly_explanation": "길이 단위를 바꿀 때 곱하는 수를 넓이에서는 두 번 곱해야 해요. 정사각형의 가로와 세로가 모두 바뀌기 때문이에요.",
+    "key_points": [
+      "1m² = 10000cm²",
+      "1km² = 1000000m²",
+      "넓이 단위 변환은 가로와 세로 두 방향의 변환을 함께 계산"
+    ],
+    "steps": [
+      "큰 단위 한 변이 작은 단위로 몇 개인지 확인하기",
+      "가로와 세로에 같은 변환 수를 각각 곱하기",
+      "주어진 넓이의 개수를 곱하거나 나누고 단위를 확인하기"
+    ],
+    "visual_aids": [
+      {
+        "type": "area_unit_square",
+        "semantics": "quantitative",
+        "props": {
+          "caption": "1m²와 cm²의 관계",
+          "largerLengthUnit": "m",
+          "smallerLengthUnit": "cm"
+        }
+      },
+      {
+        "type": "area_unit_square",
+        "semantics": "quantitative",
+        "props": {
+          "caption": "1km²와 m²의 관계",
+          "largerLengthUnit": "km",
+          "smallerLengthUnit": "m"
+        }
+      }
+    ],
+    "examples": [
+      "3m² = 3×10000 = 30000cm²",
+      "2km² = 2×1000000 = 2000000m²",
+      "50000cm² = 50000÷10000 = 5m²"
+    ],
+    "pitfalls": [
+      "1m²를 100cm²로 바꾸어 한 방향만 계산하는 실수",
+      "1km²를 1000m²로 바꾸어 제곱 관계를 빠뜨리는 실수",
+      "큰 단위에서 작은 단위로 갈 때 나누는 실수"
+    ],
+    "order": 4,
+    "mini_checks": [
+      {
+        "question": "2m²는 몇 cm²인가요?",
+        "answer": "20000"
+      },
+      {
+        "question": "3000000m²는 몇 km²인가요?",
+        "answer": "3"
+      }
+    ]
+  },
+  {
     "id": "g6ratio-001",
     "unit_id": "unit-6-1-ratio",
     "concept_title": "비와 비율",

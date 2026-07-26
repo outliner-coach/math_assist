@@ -201,6 +201,15 @@ export type ProblemVisual =
         }
       }
     }
+  | {
+      type: 'area_unit_square'
+      semantics: 'quantitative'
+      props: {
+        caption: string
+        largerLengthUnit: 'm' | 'km'
+        smallerLengthUnit: 'cm' | 'm'
+      }
+    }
 
 export type GeometryVisual =
   | ProblemVisual
@@ -436,3 +445,4 @@ export type VisualAid =
   | Extract<ProblemVisual, { type: 'ratio_graph' }>
   | Extract<ProblemVisual, { type: 'number_range' }>
   | Extract<ProblemVisual, { type: 'fraction_comparison' }>
+  | Extract<ProblemVisual, { type: 'area_unit_square' }>

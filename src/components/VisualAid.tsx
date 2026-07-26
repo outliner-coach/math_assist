@@ -135,6 +135,7 @@ export default function VisualAid({ aid }: VisualAidProps) {
     case 'ratio_graph':
     case 'number_range':
     case 'fraction_comparison':
+    case 'area_unit_square':
       return <ProblemDiagram visual={aid} />
     default:
       return null

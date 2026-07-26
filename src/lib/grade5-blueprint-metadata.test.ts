@@ -8,6 +8,7 @@ import {
   getReviewedBlueprint
 } from '../../scripts/migrate-grade5-blueprints.js'
 import { templates as generatedAverageTemplates } from '../../scripts/generate-grade5-average-templates.js'
+import { templates as generatedAreaUnitTemplates } from '../../scripts/generate-grade5-area-unit-templates.js'
 import { templates as generatedDecimalMultiplicationTemplates } from '../../scripts/generate-grade5-decimalmul-templates.js'
 import { templates as generatedEstimateTemplates } from '../../scripts/generate-grade5-estimate-templates.js'
 import {
@@ -39,7 +40,7 @@ import {
 import type { ProblemTemplate } from './types'
 
 const migratedBanks = [
-  'area', 'average', 'commonden', 'congruence', 'cuboid', 'cuboidnet',
+  'area', 'areaunit', 'average', 'commonden', 'congruence', 'cuboid', 'cuboidnet',
   'decimalmul', 'divisor', 'estimate', 'fracadd', 'fraccompare', 'fracmul', 'fracsub',
   'gcd', 'lcm', 'mixedcalc', 'multiple', 'numberrange', 'pattern', 'perimeter',
   'polygonarea', 'rounding', 'simplify', 'symmetry'
@@ -119,9 +120,9 @@ describe('Grade 5 reviewed blueprint metadata', () => {
         .map(template => template.problem_family)
     )
 
-    expect(templates).toHaveLength(720)
+    expect(templates).toHaveLength(750)
     expect(BLOCKED_CONTENT_TEMPLATE_IDS.size).toBe(0)
-    expect(families.size).toBe(240)
+    expect(families.size).toBe(250)
     expect(new Set(Object.keys(REVIEWED_FAMILY_BLUEPRINTS))).toEqual(families)
   })
 
@@ -368,18 +369,18 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     ))).toBe(true)
   })
 
-  it('migrates all 720 semantically reviewed Grade 5 templates', () => {
+  it('migrates all 750 semantically reviewed Grade 5 templates', () => {
     const templates = readMigratedTemplates()
     const coverage = buildProblemBlueprintCoverage(templates)
 
     expect(coverage.summary).toEqual({
-      templateCount: 720,
-      completeCount: 720,
+      templateCount: 750,
+      completeCount: 750,
       missingCount: 0,
       invalidCount: 0,
       coveragePercent: 100
     })
-    expect(coverage.byConcept).toHaveLength(24)
+    expect(coverage.byConcept).toHaveLength(25)
     expect(coverage.byConcept.every(concept => (
       concept.completeCount === 30 && concept.missingCount === 0
     ))).toBe(true)
@@ -845,6 +846,47 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       ])
       expect(setTemplates.every(template => (
         template.visual_template?.type === 'fraction_comparison' &&
+        template.visual_template?.semantics === 'quantitative'
+      ))).toBe(true)
+    }
+  })
+
+  it('keeps the area-unit bank reproducible, exhaustive, and balanced', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'areaunit.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+    const coverage = buildProblemBlueprintCoverage(generatedAreaUnitTemplates)
+    const areaUnit = coverage.byConcept[0]
+
+    expect(generatedAreaUnitTemplates).toEqual(committed)
+    expect(generatedAreaUnitTemplates).toHaveLength(30)
+    expect(areaUnit.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(areaUnit.problemFamilyCount).toBe(10)
+    expect(areaUnit.reasoningFamilyCount).toBe(2)
+    expect(areaUnit.representationCount).toBeGreaterThanOrEqual(2)
+    expect(areaUnit.targetGaps).toEqual([])
+    expect(collectExhaustiveTemplateIssues(
+      generatedAreaUnitTemplates,
+      /^\d+$/
+    )).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = generatedAreaUnitTemplates.filter(
+        template => template.set_id === setId
+      )
+      expect(setTemplates).toHaveLength(10)
+      expect(setTemplates.map(template => template.difficulty)).toEqual([
+        1, 1, 1, 1, 2, 2, 2, 2, 3, 3
+      ])
+      expect(setTemplates.every(template => (
+        template.visual_template?.type === 'area_unit_square' &&
         template.visual_template?.semantics === 'quantitative'
       ))).toBe(true)
     }

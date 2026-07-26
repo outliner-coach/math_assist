@@ -21,7 +21,8 @@ const problemVisualTypes = new Set<ProblemVisual['type']>([
   'ratio_table',
   'ratio_graph',
   'number_range',
-  'fraction_comparison'
+  'fraction_comparison',
+  'area_unit_square'
 ])
 
 export function isProblemVisual(visual: GeometryVisual): visual is ProblemVisual {
@@ -190,6 +191,54 @@ function OverlapRegionCells({
 }
 
 export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
+  if (visual.type === 'area_unit_square') {
+    const { caption, largerLengthUnit, smallerLengthUnit } = visual.props
+    const sideScale = largerLengthUnit === 'm' && smallerLengthUnit === 'cm'
+      ? 100
+      : 1000
+    const sideRelation = `1${largerLengthUnit} = ${sideScale}${smallerLengthUnit}`
+
+    return (
+      <figure
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
+        data-testid="problem-diagram-area-unit-square"
+        data-area-side-scale={sideScale}
+      >
+        <figcaption className="pb-2 text-center text-base font-extrabold text-slate-800">
+          {caption}
+        </figcaption>
+        <svg
+          viewBox="0 0 360 245"
+          role="img"
+          aria-label={`한 변이 1${largerLengthUnit}인 정사각형, 가로와 세로 각각 ${sideRelation}`}
+          className="mx-auto w-full max-w-md"
+        >
+          <defs>
+            <pattern id={`area-unit-grid-${sideScale}`} width="18" height="18" patternUnits="userSpaceOnUse">
+              <path d="M 18 0 L 0 0 0 18" fill="none" stroke="#bfdbfe" strokeWidth="1" />
+            </pattern>
+          </defs>
+          <rect x="82" y="24" width="196" height="196" rx="4" fill="#eff6ff" stroke={stroke} strokeWidth="3" />
+          <rect x="82" y="24" width="196" height="196" rx="4" fill={`url(#area-unit-grid-${sideScale})`} aria-hidden="true" />
+          <line x1="82" y1="230" x2="278" y2="230" stroke={accent} strokeWidth="2" />
+          <line x1="68" y1="24" x2="68" y2="220" stroke={accent} strokeWidth="2" />
+          <text x="180" y="242" textAnchor="middle" fontSize="13" fontWeight="800" fill="#1e3a8a">
+            {sideRelation}
+          </text>
+          <text x="48" y="122" textAnchor="middle" fontSize="13" fontWeight="800" fill="#1e3a8a" transform="rotate(-90 48 122)">
+            {sideRelation}
+          </text>
+          <text x="180" y="112" textAnchor="middle" fontSize="18" fontWeight="900" fill="#1e40af">
+            1{largerLengthUnit}²
+          </text>
+          <text x="180" y="140" textAnchor="middle" fontSize="13" fontWeight="700" fill="#475569">
+            {sideScale}{smallerLengthUnit} × {sideScale}{smallerLengthUnit}
+          </text>
+        </svg>
+      </figure>
+    )
+  }
+
   if (visual.type === 'fraction_comparison') {
     const { caption, left, right } = visual.props
     const rows = [left, right]
