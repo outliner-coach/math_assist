@@ -7,6 +7,7 @@ const {
   buildCatalog,
   catalogBytes,
   loadActualSources,
+  loadContractModule,
 } = require('./problem-review-catalog-core')
 
 const outputPath = path.join(
@@ -17,69 +18,177 @@ const outputPath = path.join(
   'grade6.json',
 )
 
-const templateFileByConcept = Object.freeze({
-  'g6circle-001': 'public/data/templates/g6circle.json',
-  'g6decimaldiv-001': 'public/data/templates/g6decimaldiv.json',
-  'g6fractiondecimal-001': 'public/data/templates/g6fractiondecimal.json',
-  'g6fractiondiv-001': 'public/data/templates/g6fractiondiv.json',
-  'g6prismpyramid-001': 'public/data/templates/g6prismpyramid.json',
-  'g6proportion-001': 'public/data/templates/g6proportion.json',
-  'g6ratio-001': 'public/data/templates/g6ratio.json',
-  'g6ratiograph-001': 'public/data/templates/g6ratiograph.json',
-  'g6roundsolid-001': 'public/data/templates/g6roundsolid.json',
-  'g6spatial-001': 'public/data/templates/g6spatial.json',
-  'g6volume-001': 'public/data/templates/g6volume.json',
-})
+const decisionsPath = path.join(
+  ROOT_DIR,
+  'docs',
+  'tracking',
+  'problem-editorial-review-work',
+  'grade6-decisions.json',
+)
 
-function templateById() {
-  return new Map(
-    Object.values(templateFileByConcept).flatMap((relativePath) => (
-      JSON.parse(fs.readFileSync(path.join(ROOT_DIR, relativePath), 'utf8'))
-        .map((template) => [template.id, template])
-    )),
-  )
+const DECISION_ITEM_KEYS = [
+  'reviewId',
+  'status',
+  'editorialRead',
+  'variantAudit',
+  'findings',
+  'note',
+  'evidence',
+]
+const FINDING_KEYS = ['category', 'resolved', 'note']
+const EVIDENCE_KEYS = [
+  'preAnswer',
+  'hint',
+  'revealed',
+  'mobile',
+  'tablet',
+  'artifacts',
+]
+
+function isRecord(value) {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
-function createReceipt() {
+function exactKeys(value, expected) {
+  if (!isRecord(value)) return false
+  const actual = Object.keys(value).sort()
+  const normalizedExpected = [...expected].sort()
+  return actual.length === normalizedExpected.length
+    && actual.every((key, index) => key === normalizedExpected[index])
+}
+
+function nonEmptyString(value) {
+  return typeof value === 'string' && value.trim().length > 0
+}
+
+function loadDecisions(filePath = decisionsPath) {
+  return JSON.parse(fs.readFileSync(filePath, 'utf8'))
+}
+
+function validateDecision(decision, catalogItem) {
+  const reviewId = decision?.reviewId ?? catalogItem.reviewId
+  if (decision.status !== 'pass' && decision.status !== 'blocked') {
+    throw new Error(`${reviewId}: review decision requires an explicit status; there is no default pass`)
+  }
+  if (!exactKeys(decision, DECISION_ITEM_KEYS)) {
+    throw new Error(`${reviewId}: review decision has missing or unexpected fields`)
+  }
+  if (decision.editorialRead !== true || decision.variantAudit !== true) {
+    throw new Error(`${reviewId}: editorialRead and variantAudit must be explicit true decisions`)
+  }
+  if (!nonEmptyString(decision.note)) {
+    throw new Error(`${reviewId}: review decision note is required`)
+  }
+  if (!Array.isArray(decision.findings)) {
+    throw new Error(`${reviewId}: review decision findings must be an array`)
+  }
+
+  const allowedCategories = new Set(
+    loadContractModule().EDITORIAL_FINDING_CATEGORIES,
+  )
+  const openFindings = []
+  for (const finding of decision.findings) {
+    if (!exactKeys(finding, FINDING_KEYS)) {
+      throw new Error(`${reviewId}: finding has missing or unexpected fields`)
+    }
+    if (!allowedCategories.has(finding.category)) {
+      throw new Error(`${reviewId}: unsupported finding category ${finding.category}`)
+    }
+    if (typeof finding.resolved !== 'boolean' || !nonEmptyString(finding.note)) {
+      throw new Error(`${reviewId}: finding requires explicit resolved and note values`)
+    }
+    if (!finding.resolved) openFindings.push(finding)
+  }
+  if (openFindings.length > 0 && decision.status !== 'blocked') {
+    throw new Error(`${reviewId}: open finding requires explicit blocked status`)
+  }
+
+  if (!exactKeys(decision.evidence, EVIDENCE_KEYS)) {
+    throw new Error(`${reviewId}: review decision evidence has missing or unexpected fields`)
+  }
+  const hasVisual = catalogItem.content.visual !== null
+  for (const key of ['preAnswer', 'hint', 'revealed', 'mobile', 'tablet']) {
+    const value = decision.evidence[key]
+    if (!hasVisual && value !== null) {
+      throw new Error(`${reviewId}: non-visual evidence.${key} must be null`)
+    }
+    if (hasVisual && typeof value !== 'boolean') {
+      throw new Error(`${reviewId}: visual evidence.${key} must be an explicit boolean`)
+    }
+    if (hasVisual && decision.status === 'pass' && value !== true) {
+      throw new Error(`${reviewId}: visual pass requires evidence.${key}=true`)
+    }
+  }
+  if (!Array.isArray(decision.evidence.artifacts)) {
+    throw new Error(`${reviewId}: evidence.artifacts must be an explicit array`)
+  }
+}
+
+function createReceipt(decisions = loadDecisions()) {
+  if (
+    !isRecord(decisions)
+    || decisions.schemaVersion !== 1
+    || !Array.isArray(decisions.items)
+  ) {
+    throw new Error('Grade 6 review decisions require schemaVersion 1 and an items array')
+  }
   const catalog = buildCatalog(
     loadActualSources(ROOT_DIR).filter((source) => source.grade === 6),
     RENDERER_REVIEW_VERSION_REGISTRY,
   )
-  const templates = templateById()
+  const catalogById = new Map(catalog.items.map((item) => [item.reviewId, item]))
+  const decisionById = new Map()
+  for (const decision of decisions.items) {
+    if (!isRecord(decision) || !nonEmptyString(decision.reviewId)) {
+      throw new Error('Grade 6 review decision reviewId is required')
+    }
+    if (!catalogById.has(decision.reviewId)) {
+      throw new Error(`unknown explicit review decision: ${decision.reviewId}`)
+    }
+    if (decisionById.has(decision.reviewId)) {
+      throw new Error(`duplicate explicit review decision: ${decision.reviewId}`)
+    }
+    decisionById.set(decision.reviewId, decision)
+  }
 
-  return {
+  const receipt = {
     schemaVersion: 1,
     items: catalog.items.map((item) => {
-      const template = templates.get(item.sourceId)
-      if (!template) throw new Error(`${item.reviewId}: source template is missing`)
-      const hasVisual = item.content.visual !== null
-      const { min, max } = template.param_schema.p
-      const variantCount = max - min + 1
+      const decision = decisionById.get(item.reviewId)
+      if (!decision) {
+        throw new Error(`missing explicit review decision: ${item.reviewId}`)
+      }
+      validateDecision(decision, item)
 
       return {
         reviewId: item.reviewId,
         contentHash: item.contentHash,
-        status: hasVisual ? 'blocked' : 'pass',
-        findingCategories: [],
-        note: hasVisual
-          ? `원본 문장·답·힌트·풀이와 허용 p=${min}..${max} (${variantCount}개)를 검토했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 최종 통과는 차단했습니다.`
-          : `원본 문장·답·힌트·풀이와 허용 p=${min}..${max} (${variantCount}개)를 검토했습니다. 시각 자료가 없는 원본의 텍스트·수학·변형 검토를 통과했습니다.`,
+        status: decision.status,
+        findingCategories: Array.from(new Set(
+          decision.findings.map((finding) => finding.category),
+        )),
+        note: decision.note,
         evidence: {
-          editorialRead: true,
-          variantAudit: true,
-          preAnswer: hasVisual ? false : null,
-          hint: hasVisual ? false : null,
-          revealed: hasVisual ? false : null,
-          mobile: hasVisual ? false : null,
-          tablet: hasVisual ? false : null,
-          artifacts: [
-            templateFileByConcept[item.conceptId],
-            'src/lib/grade6-study.test.ts',
-          ],
+          editorialRead: decision.editorialRead,
+          variantAudit: decision.variantAudit,
+          ...decision.evidence,
         },
       }
     }),
   }
+
+  const expectedBlockedErrors = new Set(
+    receipt.items
+      .filter((item) => item.status === 'blocked')
+      .map((item) => `blocked editorial status: ${item.reviewId}`),
+  )
+  const unexpectedErrors = loadContractModule()
+    .validateEditorialLedger(catalog, receipt)
+    .filter((error) => !expectedBlockedErrors.has(error))
+  if (unexpectedErrors.length > 0) {
+    throw new Error(unexpectedErrors.join('\n'))
+  }
+  return receipt
 }
 
 function serializeReceipt(receipt = createReceipt()) {
@@ -94,5 +203,6 @@ if (require.main === module) {
 
 module.exports = {
   createReceipt,
+  loadDecisions,
   serializeReceipt,
 }

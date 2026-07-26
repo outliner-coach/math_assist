@@ -23,7 +23,7 @@ const setDefinitions = {
     {
       family: 'a-band-missing-experience-percent',
       domain: 'knowing',
-      pattern: 'representation_shift',
+      pattern: 'representation_shift', taskActions: ['interpret', 'calculate'],
       standard: '[6수04-02]',
       prompt: '띠그래프에서 현장 체험의 비율만 가려져 있습니다. 현장 체험을 고른 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)',
       solver: 'p * 10',
@@ -37,7 +37,7 @@ const setDefinitions = {
     {
       family: 'a-circle-missing-art-percent',
       domain: 'knowing',
-      pattern: 'representation_shift',
+      pattern: 'representation_shift', taskActions: ['interpret', 'calculate'],
       standard: '[6수04-02]',
       prompt: '원그래프에서 미술의 비율만 가려져 있습니다. 미술을 고른 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)',
       solver: 'p * 10',
@@ -51,7 +51,7 @@ const setDefinitions = {
     {
       family: 'a-band-missing-transport-percent',
       domain: 'knowing',
-      pattern: 'inverse',
+      pattern: 'inverse', taskActions: ['reason', 'calculate'],
       standard: '[6수04-02]',
       prompt: '띠그래프에서 대중교통의 비율만 가려져 있습니다. 대중교통을 이용한 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)',
       solver: '80 - p * 10',
@@ -65,7 +65,7 @@ const setDefinitions = {
     {
       family: 'a-circle-combined-leisure-percent',
       domain: 'knowing',
-      pattern: 'systematic_counting',
+      pattern: 'systematic_counting', taskActions: ['model', 'calculate'],
       standard: '[6수04-02]',
       prompt: '원그래프에서 책 읽기와 운동을 고른 비율의 합은 몇 %인가요? (단위 %는 쓰지 않아요.)',
       solver: 'p * 10 + 30',
@@ -79,7 +79,7 @@ const setDefinitions = {
     {
       family: 'a-band-library-count',
       domain: 'applying',
-      pattern: 'multi_step',
+      pattern: 'multi_step', taskActions: ['model', 'calculate'],
       standard: '[6수04-03]',
       prompt: '학생 {{p * 10}}명의 독서 분야를 조사해 띠그래프로 나타냈습니다. 문학을 고른 학생은 몇 명인가요?',
       solver: '4 * p',
@@ -93,7 +93,7 @@ const setDefinitions = {
     {
       family: 'a-circle-pet-count-gap',
       domain: 'applying',
-      pattern: 'compare_methods',
+      pattern: 'compare_methods', taskActions: ['compare', 'calculate'],
       standard: '[6수04-03]',
       prompt: '학생 {{p * 10}}명의 희망 반려동물을 조사했습니다. 강아지를 고른 학생은 새를 고른 학생보다 몇 명 더 많은가요?',
       solver: '3 * p',
@@ -107,7 +107,7 @@ const setDefinitions = {
     {
       family: 'a-band-two-program-count',
       domain: 'applying',
-      pattern: 'multi_step',
+      pattern: 'multi_step', taskActions: ['model', 'calculate'],
       standard: '[6수04-03]',
       prompt: '학생 {{p * 20}}명의 체험 프로그램 희망을 조사했습니다. 로봇과 요리를 고른 학생은 모두 몇 명인가요?',
       solver: '12 * p',
@@ -121,7 +121,7 @@ const setDefinitions = {
     {
       family: 'a-circle-survey-remaining-count',
       domain: 'applying',
-      pattern: 'inverse',
+      pattern: 'inverse', taskActions: ['reason', 'calculate'],
       standard: '[6수04-03]',
       prompt: '학생 {{p * 5}}명의 급식 선호를 조사해 원그래프로 나타냈습니다. 한식과 양식을 제외한 학생은 몇 명인가요?',
       solver: '2 * p',
@@ -135,7 +135,7 @@ const setDefinitions = {
     {
       family: 'a-band-repeated-label-error',
       domain: 'reasoning',
-      pattern: 'error_analysis',
+      pattern: 'error_analysis', taskActions: ['analyze_error', 'calculate'],
       standard: '[6수04-03]',
       prompt: '각각 {{p * 10}}명인 {{p}}개 학급의 같은 띠그래프에서 현장 학습 30%를 40%로 잘못 읽었습니다. 모든 학급을 합치면 학생 수를 몇 명 더 많게 계산하나요?',
       solver: 'p * p',
@@ -149,7 +149,7 @@ const setDefinitions = {
     {
       family: 'a-circle-repeated-sector-error',
       domain: 'reasoning',
-      pattern: 'error_analysis',
+      pattern: 'error_analysis', taskActions: ['analyze_error', 'calculate'],
       standard: '[6수04-03]',
       prompt: '각각 {{p * 20}}명인 {{p}}개 동아리의 원그래프에서 공연 30%를 봉사 50%와 같다고 잘못 계산했습니다. 모든 동아리를 합친 학생 수의 오차는 몇 명인가요?',
       solver: '4 * p * p',
@@ -165,7 +165,7 @@ const setDefinitions = {
     {
       family: 'b-circle-missing-fiction-percent',
       domain: 'knowing',
-      pattern: 'representation_shift',
+      pattern: 'representation_shift', taskActions: ['interpret', 'calculate'],
       standard: '[6수04-02]',
       prompt: '원그래프에서 소설의 비율만 가려져 있습니다. 소설의 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)',
       solver: 'p * 10',
@@ -179,7 +179,7 @@ const setDefinitions = {
     {
       family: 'b-band-missing-bus-percent',
       domain: 'knowing',
-      pattern: 'inverse',
+      pattern: 'inverse', taskActions: ['reason', 'calculate'],
       standard: '[6수04-02]',
       prompt: '띠그래프에서 버스의 비율만 가려져 있습니다. 버스로 등교한 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)',
       solver: 'p * 10',
@@ -193,7 +193,7 @@ const setDefinitions = {
     {
       family: 'b-circle-missing-outdoor-percent',
       domain: 'knowing',
-      pattern: 'inverse',
+      pattern: 'inverse', taskActions: ['reason', 'calculate'],
       standard: '[6수04-02]',
       prompt: '원그래프에서 야외 활동의 비율만 가려져 있습니다. 야외 활동의 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)',
       solver: '70 - p * 10',
@@ -207,7 +207,7 @@ const setDefinitions = {
     {
       family: 'b-band-two-commute-percent',
       domain: 'knowing',
-      pattern: 'systematic_counting',
+      pattern: 'systematic_counting', taskActions: ['model', 'calculate'],
       standard: '[6수04-02]',
       prompt: '띠그래프에서 걷기와 자전거를 합한 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)',
       solver: 'p * 10 + 20',
@@ -221,7 +221,7 @@ const setDefinitions = {
     {
       family: 'b-circle-science-count',
       domain: 'applying',
-      pattern: 'multi_step',
+      pattern: 'multi_step', taskActions: ['model', 'calculate'],
       standard: '[6수04-03]',
       prompt: '학생 {{p * 10}}명의 선호 과목을 조사했습니다. 과학을 고른 학생은 몇 명인가요?',
       solver: '3 * p',
@@ -235,7 +235,7 @@ const setDefinitions = {
     {
       family: 'b-band-game-reading-gap',
       domain: 'applying',
-      pattern: 'compare_methods',
+      pattern: 'compare_methods', taskActions: ['compare', 'calculate'],
       standard: '[6수04-03]',
       prompt: '학생 {{p * 10}}명의 쉬는 시간 활동을 조사했습니다. 놀이를 고른 학생은 독서를 고른 학생보다 몇 명 더 많은가요?',
       solver: '3 * p',
@@ -249,7 +249,7 @@ const setDefinitions = {
     {
       family: 'b-circle-find-survey-total',
       domain: 'applying',
-      pattern: 'inverse',
+      pattern: 'inverse', taskActions: ['reason', 'calculate'],
       standard: '[6수04-03]',
       prompt: '원그래프에서 만들기 25%에 해당하는 학생이 {{p * 5}}명입니다. 조사한 학생은 모두 몇 명인가요?',
       solver: '20 * p',
@@ -263,7 +263,7 @@ const setDefinitions = {
     {
       family: 'b-band-multiple-groups-combined-count',
       domain: 'applying',
-      pattern: 'multi_step',
+      pattern: 'multi_step', taskActions: ['model', 'calculate'],
       standard: '[6수04-03]',
       prompt: '각각 {{p * 5}}명인 {{p}}개 모둠에서 실험과 토론의 비율이 모두 같은 띠그래프와 같습니다. 모든 모둠의 실험·토론 희망자는 몇 명인가요?',
       solver: '3 * p * p',
@@ -277,7 +277,7 @@ const setDefinitions = {
     {
       family: 'b-circle-repeated-underread-error',
       domain: 'reasoning',
-      pattern: 'error_analysis',
+      pattern: 'error_analysis', taskActions: ['analyze_error', 'calculate'],
       standard: '[6수04-03]',
       prompt: '각각 {{p * 10}}명인 {{p}}개 반의 원그래프에서 축구 40%를 30%로 잘못 읽었습니다. 전체 학생 수 계산의 오차는 몇 명인가요?',
       solver: 'p * p',
@@ -291,7 +291,7 @@ const setDefinitions = {
     {
       family: 'b-band-merged-category-error',
       domain: 'reasoning',
-      pattern: 'error_analysis',
+      pattern: 'error_analysis', taskActions: ['analyze_error', 'calculate'],
       standard: '[6수04-03]',
       prompt: '각각 {{p * 20}}명인 {{p}}개 학급에서 독서 20%와 운동 30%를 합해 40%라고 잘못 정리했습니다. 모든 학급을 합친 학생 수의 오차는 몇 명인가요?',
       solver: '2 * p * p',
@@ -307,7 +307,7 @@ const setDefinitions = {
     {
       family: 'c-band-missing-fruit-percent',
       domain: 'knowing',
-      pattern: 'representation_shift',
+      pattern: 'representation_shift', taskActions: ['interpret', 'calculate'],
       standard: '[6수04-02]',
       prompt: '띠그래프에서 과일의 비율만 가려져 있습니다. 과일을 고른 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)',
       solver: 'p * 10',
@@ -321,7 +321,7 @@ const setDefinitions = {
     {
       family: 'c-circle-missing-walk-percent',
       domain: 'knowing',
-      pattern: 'inverse',
+      pattern: 'inverse', taskActions: ['reason', 'calculate'],
       standard: '[6수04-02]',
       prompt: '원그래프에서 걷기의 비율만 가려져 있습니다. 걷기의 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)',
       solver: 'p * 10',
@@ -335,7 +335,7 @@ const setDefinitions = {
     {
       family: 'c-band-missing-paper-percent',
       domain: 'knowing',
-      pattern: 'inverse',
+      pattern: 'inverse', taskActions: ['reason', 'calculate'],
       standard: '[6수04-02]',
       prompt: '띠그래프에서 종이의 비율만 가려져 있습니다. 종이의 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)',
       solver: '50 - p * 10',
@@ -349,7 +349,7 @@ const setDefinitions = {
     {
       family: 'c-circle-nonfirst-combined-percent',
       domain: 'knowing',
-      pattern: 'systematic_counting',
+      pattern: 'systematic_counting', taskActions: ['model', 'calculate'],
       standard: '[6수04-02]',
       prompt: '원그래프에서 두 번째와 세 번째 부문의 비율을 합하면 몇 %인가요? (단위 %는 쓰지 않아요.)',
       solver: '100 - p * 10',
@@ -363,7 +363,7 @@ const setDefinitions = {
     {
       family: 'c-band-remaining-data-count',
       domain: 'applying',
-      pattern: 'multi_step',
+      pattern: 'multi_step', taskActions: ['model', 'calculate'],
       standard: '[6수04-03]',
       prompt: '학생 {{p * 10}}명의 주말 운동 자료를 띠그래프로 나타냈습니다. 달리기와 수영을 제외한 학생은 몇 명인가요?',
       solver: '3 * p',
@@ -377,7 +377,7 @@ const setDefinitions = {
     {
       family: 'c-circle-largest-smallest-gap',
       domain: 'applying',
-      pattern: 'compare_methods',
+      pattern: 'compare_methods', taskActions: ['compare', 'calculate'],
       standard: '[6수04-03]',
       prompt: '학생 {{p * 20}}명의 진로 체험 자료입니다. 가장 큰 부문과 가장 작은 부문의 학생 수 차는 몇 명인가요?',
       solver: '5 * p',
@@ -391,7 +391,7 @@ const setDefinitions = {
     {
       family: 'c-band-first-third-combined-count',
       domain: 'applying',
-      pattern: 'multi_step',
+      pattern: 'multi_step', taskActions: ['model', 'calculate'],
       standard: '[6수04-03]',
       prompt: '학생 {{p * 10}}명의 환경 실천 자료입니다. 절전과 재사용을 실천한 학생은 모두 몇 명인가요?',
       solver: '7 * p',
@@ -405,7 +405,7 @@ const setDefinitions = {
     {
       family: 'c-circle-find-total-from-category',
       domain: 'applying',
-      pattern: 'inverse',
+      pattern: 'inverse', taskActions: ['reason', 'calculate'],
       standard: '[6수04-03]',
       prompt: '원그래프에서 텃밭 40%에 해당하는 학생이 {{p * 4}}명입니다. 조사한 학생은 모두 몇 명인가요?',
       solver: '10 * p',
@@ -419,7 +419,7 @@ const setDefinitions = {
     {
       family: 'c-band-overlap-double-count-error',
       domain: 'reasoning',
-      pattern: 'error_analysis',
+      pattern: 'error_analysis', taskActions: ['analyze_error', 'calculate'],
       standard: '[6수04-03]',
       prompt: '각각 {{p * 10}}명인 {{p}}개 학급의 설문에서 두 답을 고른 학생 10%를 두 부문에 모두 넣어 합계가 110%가 되었습니다. 중복으로 센 학생은 모두 몇 명인가요?',
       solver: 'p * p',
@@ -433,7 +433,7 @@ const setDefinitions = {
     {
       family: 'c-circle-swapped-sector-error',
       domain: 'reasoning',
-      pattern: 'error_analysis',
+      pattern: 'error_analysis', taskActions: ['analyze_error', 'calculate'],
       standard: '[6수04-03]',
       prompt: '각각 {{p * 20}}명인 {{p}}개 학교의 원그래프에서 아침 운동 20%와 독서 50%의 이름표를 서로 바꿨습니다. 아침 운동 인원 보고의 전체 오차는 몇 명인가요?',
       solver: '6 * p * p',

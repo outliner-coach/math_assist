@@ -171,6 +171,36 @@ describe('Grade 6 Study release slice', () => {
     }
   })
 
+  it('uses recognition metadata and question-specific hints for ratio terms', () => {
+    const expectations = [
+      ['tmpl-g6ratio-A-01', ['recognize', 'interpret'], '기준량'],
+      ['tmpl-g6ratio-A-02', ['recognize', 'interpret'], '비교하는 양'],
+      ['tmpl-g6ratio-B-01', ['recognize', 'interpret'], '앞 항'],
+      ['tmpl-g6ratio-B-02', ['recognize', 'interpret'], '뒤 항'],
+      ['tmpl-g6ratio-C-01', ['recognize', 'interpret'], '비교하는 양'],
+      ['tmpl-g6ratio-C-02', ['recognize', 'interpret'], '기준량'],
+    ] as const
+
+    for (const [templateId, taskActions, hintKeyword] of expectations) {
+      const template = ratioTemplates.find((item) => item.id === templateId) as ReviewedGrade6Template
+      expect(template.taskActions, templateId).toEqual(taskActions)
+      expect(template.hint_steps_template?.join(' '), templateId).toContain(hintKeyword)
+      expect(template.hint_steps_template?.join(' '), templateId).not.toContain(
+        '분수, 소수, 백분율',
+      )
+    }
+  })
+
+  it('keeps fractional bottle answers semantically aligned with the decimal-division prompt', () => {
+    const template = decimalDivisionTemplates.find(
+      (item) => item.id === 'tmpl-g6decimaldiv-A-06',
+    )
+
+    expect(template?.prompt_template).toContain('몇 병 분량인가요?')
+    expect(template?.solution_steps_template.join(' ')).toContain('병 분량')
+    expect(template?.solver_rule).toBe('(p + 5) / 5')
+  })
+
   it('audits every allowed Grade 6 numeric variant and long deterministic seed', () => {
     let variantCount = 0
     const longSeeds = [0, 1, 2_026_072_600, 2_147_483_647, 4_294_967_295]

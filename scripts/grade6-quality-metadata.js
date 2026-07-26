@@ -1,25 +1,37 @@
-const TASK_ACTIONS_BY_REASONING_PATTERN = Object.freeze({
-  direct: Object.freeze(['calculate']),
-  systematic_counting: Object.freeze(['model', 'calculate']),
-  representation_shift: Object.freeze(['interpret', 'calculate']),
-  multi_step: Object.freeze(['model', 'calculate']),
-  inverse: Object.freeze(['reason', 'calculate']),
-  error_analysis: Object.freeze(['analyze_error', 'calculate']),
-  compare_methods: Object.freeze(['compare', 'calculate']),
-  model_and_check: Object.freeze(['model', 'reason', 'calculate']),
-})
+const ALLOWED_TASK_ACTIONS = new Set([
+  'recognize',
+  'classify',
+  'compare',
+  'calculate',
+  'measure',
+  'construct',
+  'model',
+  'interpret',
+  'explain',
+  'analyze_error',
+  'reason',
+])
 
 function explicitTaskActionsFor(definition) {
-  const actions = TASK_ACTIONS_BY_REASONING_PATTERN[definition.pattern]
-  if (!actions) {
+  const { taskActions } = definition
+  if (!Array.isArray(taskActions) || taskActions.length === 0) {
     throw new Error(
-      `${definition.family}: explicit Grade 6 taskActions are missing for ${definition.pattern}`,
+      `${definition.family}: explicit Grade 6 taskActions are required on the source definition`,
     )
   }
-  return [...actions]
+  const unsupported = taskActions.filter((action) => !ALLOWED_TASK_ACTIONS.has(action))
+  if (unsupported.length > 0) {
+    throw new Error(
+      `${definition.family}: unsupported Grade 6 taskActions: ${unsupported.join(', ')}`,
+    )
+  }
+  if (new Set(taskActions).size !== taskActions.length) {
+    throw new Error(`${definition.family}: Grade 6 taskActions must not contain duplicates`)
+  }
+  return [...taskActions]
 }
 
 module.exports = {
-  TASK_ACTIONS_BY_REASONING_PATTERN,
+  ALLOWED_TASK_ACTIONS,
   explicitTaskActionsFor,
 }

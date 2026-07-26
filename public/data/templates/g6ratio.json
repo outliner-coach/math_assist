@@ -6,7 +6,8 @@
     "difficulty": 1,
     "set_id": "A",
     "taskActions": [
-      "calculate"
+      "recognize",
+      "interpret"
     ],
     "problem_family": "a-ratio-baseline",
     "blueprint": {
@@ -35,8 +36,8 @@
       "기준량은 {{p * 2}}개입니다."
     ],
     "hint_steps_template": [
-      "비에서 비교하는 양과 기준량의 순서를 먼저 확인해요.",
-      "분수, 소수, 백분율 중 문제에서 요구한 표현으로 바꿔요."
+      "비에서 뒤에 놓인 양이 기준량임을 확인해요.",
+      "파란 구슬 수가 비의 뒤 항과 같은지 찾아요."
     ]
   },
   {
@@ -46,7 +47,8 @@
     "difficulty": 1,
     "set_id": "A",
     "taskActions": [
-      "calculate"
+      "recognize",
+      "interpret"
     ],
     "problem_family": "a-ratio-comparison-quantity",
     "blueprint": {
@@ -75,8 +77,8 @@
       "비교하는 양은 {{p}}자루입니다."
     ],
     "hint_steps_template": [
-      "비에서 비교하는 양과 기준량의 순서를 먼저 확인해요.",
-      "분수, 소수, 백분율 중 문제에서 요구한 표현으로 바꿔요."
+      "비에서 앞에 놓인 양이 비교하는 양임을 확인해요.",
+      "연필 수가 비의 앞 항과 같은지 찾아요."
     ]
   },
   {
@@ -467,8 +469,8 @@
     "difficulty": 1,
     "set_id": "B",
     "taskActions": [
-      "interpret",
-      "calculate"
+      "recognize",
+      "interpret"
     ],
     "problem_family": "b-write-ratio-first-term",
     "blueprint": {
@@ -497,8 +499,8 @@
       "비의 앞 항은 {{p}}입니다."
     ],
     "hint_steps_template": [
-      "비에서 비교하는 양과 기준량의 순서를 먼저 확인해요.",
-      "분수, 소수, 백분율 중 문제에서 요구한 표현으로 바꿔요."
+      "큰 단추 수부터 쓰므로 큰 단추 수가 비의 앞 항이에요.",
+      "문장에 나온 큰 단추 수를 그대로 찾아요."
     ]
   },
   {
@@ -508,8 +510,8 @@
     "difficulty": 1,
     "set_id": "B",
     "taskActions": [
-      "interpret",
-      "calculate"
+      "recognize",
+      "interpret"
     ],
     "problem_family": "b-write-ratio-second-term",
     "blueprint": {
@@ -538,8 +540,8 @@
       "비의 뒤 항은 {{p * 2}}입니다."
     ],
     "hint_steps_template": [
-      "비에서 비교하는 양과 기준량의 순서를 먼저 확인해요.",
-      "분수, 소수, 백분율 중 문제에서 요구한 표현으로 바꿔요."
+      "축구공 수를 먼저 쓰면 농구공 수가 비의 뒤 항이에요.",
+      "문장에 나온 농구공 수를 그대로 찾아요."
     ]
   },
   {
@@ -930,7 +932,8 @@
     "difficulty": 1,
     "set_id": "C",
     "taskActions": [
-      "calculate"
+      "recognize",
+      "interpret"
     ],
     "problem_family": "c-identify-comparison-quantity",
     "blueprint": {
@@ -959,8 +962,8 @@
       "비교하는 양은 {{p}}개입니다."
     ],
     "hint_steps_template": [
-      "비에서 비교하는 양과 기준량의 순서를 먼저 확인해요.",
-      "분수, 소수, 백분율 중 문제에서 요구한 표현으로 바꿔요."
+      "비에서 앞에 놓인 양이 비교하는 양이에요.",
+      "노란 깃발 수를 비의 앞 항에서 찾아요."
     ]
   },
   {
@@ -970,7 +973,8 @@
     "difficulty": 1,
     "set_id": "C",
     "taskActions": [
-      "calculate"
+      "recognize",
+      "interpret"
     ],
     "problem_family": "c-identify-baseline-quantity",
     "blueprint": {
@@ -999,8 +1003,8 @@
       "기준량은 {{p * 4}}개입니다."
     ],
     "hint_steps_template": [
-      "비에서 비교하는 양과 기준량의 순서를 먼저 확인해요.",
-      "분수, 소수, 백분율 중 문제에서 요구한 표현으로 바꿔요."
+      "비에서 뒤에 놓인 전체 과제 수가 기준량이에요.",
+      "비의 뒤 항과 전체 과제 수를 맞춰 봐요."
     ]
   },
   {
