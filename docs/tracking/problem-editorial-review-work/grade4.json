@@ -328,7 +328,9 @@
       "reviewId": "4:mission:g4-big-10",
       "contentHash": "3120636b64d63a47758e98fdd6c11173e0478731d2ac33a714fea15ca3f8ee23",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed claim-evaluation as a choice response to \"두 큰 수를 비교한 친구의 말에 알맞은 판단 근거를 고르세요.\" Source decision: taskActions=analyze_error+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -464,7 +466,9 @@
       "reviewId": "4:mission:g4-dec-08",
       "contentHash": "62d45314c19dc6a0b0b2b2cc60b5e029af3bef8a1dc054fca0d86f831737b802",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed locate-decimal-between-tenths as a choice response to \"주어진 소수가 어느 두 소수 한 자리 수 사이인지 고르세요.\" Source decision: taskActions=compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -481,7 +485,9 @@
       "reviewId": "4:mission:g4-dec-09",
       "contentHash": "2c33716cf706736b39f6209c0505891ab8a025f5cc2c54eefbc2dfda7f0a8bc3",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed whole-digit-count-comparison-error as a choice response to \"소수점 아래 숫자 개수로 비교한 친구의 말을 고치세요.\" Source decision: taskActions=analyze_error+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -498,7 +504,9 @@
       "reviewId": "4:mission:g4-dec-10",
       "contentHash": "8b677dc1e53adb737e8c6f47faa4e39807f1ecb8360c53bf9be6189a16e7063f",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed missing-tenths-digit-constraint as a integer response to \"소수의 크기 조건을 만족하는 빈칸의 가장 큰 숫자를 구하세요.\" Source decision: taskActions=reason+compare; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -549,7 +557,9 @@
       "reviewId": "4:mission:g4-div-03",
       "contentHash": "d9813db910412157c0e2a9f465cda6e38468fb89133d8b19dabe5466da4af3d1",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed remainder-from-division as a integer response to \"세 자리 수를 두 자리 수로 나눈 나머지를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -566,7 +576,9 @@
       "reviewId": "4:mission:g4-div-04",
       "contentHash": "7bb8b503bec6f5a13b8c0830eeb4d8d6f1a303a047299499566d0adea58dbec9",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed division-check-equation as a choice response to \"나눗셈을 확인하는 식으로 알맞은 것을 고르세요.\" Source decision: taskActions=model; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -617,7 +629,9 @@
       "reviewId": "4:mission:g4-div-07",
       "contentHash": "4e9ebf303cff4f5c249bc52656b46744d1260913a5c9b5c1953acbcbd6bd50e8",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed leftover-after-packing as a integer response to \"물건을 같은 수씩 포장한 뒤 남는 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -634,7 +648,9 @@
       "reviewId": "4:mission:g4-div-08",
       "contentHash": "4dcedcc348746791797f484cb6cfe73bc05e1cf3ddbe174d27d205bcef82d0da",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "The inverse-division visual now uses the division-model declared by the source. Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -668,7 +684,9 @@
       "reviewId": "4:mission:g4-div-10",
       "contentHash": "55df3e1ad3786952eaebf3e8f3f738fed2b39e834475c10e3630aee41265f0bf",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed trial-quotient-error as a integer response to \"몫을 하나 크게 잡았을 때 곱이 나누어지는 수보다 얼마나 큰지 구하세요.\" Source decision: taskActions=analyze_error+calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -787,7 +805,9 @@
       "reviewId": "4:mission:g4-dop-07",
       "contentHash": "5a9802012a332459459e5836cfefc09338d54ab36afae1b21e7bc342abbd4dab",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed missing-decimal-addend as a decimal response to \"소수 덧셈식에서 빠진 덧셈 항을 구하세요.\" Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -855,7 +875,9 @@
       "reviewId": "4:mission:g4-eq-01",
       "contentHash": "317212d998904d37f117ce1f32dad4a50af7fceab07be41132540e9daa6d55eb",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed missing-addend-equality as a integer response to \"덧셈 등식의 빈칸을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -872,7 +894,9 @@
       "reviewId": "4:mission:g4-eq-02",
       "contentHash": "a8933d0a9cd70e54621baa72813f7b2601e6595aec6a606ea43c4d34d627fb2b",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed missing-minuend-equality as a integer response to \"뺄셈 등식의 처음 빈 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -889,7 +913,9 @@
       "reviewId": "4:mission:g4-eq-03",
       "contentHash": "8465699e22c802be08b4b50e1d7a456429f5e5e2018735e367e16b16b741c60e",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed select-equal-expression as a choice response to \"등호 양쪽의 값이 같은 식을 고르세요.\" Source decision: taskActions=compare+calculate; supportTool=none; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -923,7 +949,9 @@
       "reviewId": "4:mission:g4-eq-05",
       "contentHash": "1c91bcd5cecfe7d741eb9d8e5f0cac4ad8d73b2dbd180fe702ed8de4eb8853fb",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed balanced-bags-missing-quantity as a integer response to \"균형을 이룬 두 쪽에서 빠진 양을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -1076,7 +1104,9 @@
       "reviewId": "4:mission:g4-est-04",
       "contentHash": "7b2eae6271468d20fbec44d89b4c668f55c0cf7db34599088443b46c6070ba72",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed compatible-number-division as a integer response to \"나누어지는 수를 백 단위에 가장 가까운 수로 바꾸어 몫을 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -1144,7 +1174,9 @@
       "reviewId": "4:mission:g4-est-08",
       "contentHash": "2c9582aecd5e8d301f18659955d382d80bf35605eb4cb5808e65c5536a43afae",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed packing-quotient-estimate as a integer response to \"전체 수를 백 개쯤으로 바꾸어 묶음 수를 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -1193,10 +1225,12 @@
     },
     {
       "reviewId": "4:mission:g4-frac-01",
-      "contentHash": "adc4c9b1dd8da46e6ea82aaadd17b1e081336e501ee1c9d03887431b6d26c64e",
+      "contentHash": "1b839299304ef0d0ae5b0cae3c9146455735ad86dcc54b0e853e9b40319b659d",
       "status": "blocked",
-      "findingCategories": [],
-      "note": "Reviewed proper-fraction-addition as a fraction response to \"분수 띠를 보고 분모가 같은 두 진분수의 합을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed proper-fraction-addition as a fraction response to \"분수 띠를 보고 분모가 같은 두 진분수의 합을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier 24-template/127-surface regression for numeric copular connectives remains resolved and independently covered. Pre-fix finding: korean_particle — an independent audit reproduced 47 incorrect fraction-particle surfaces across six templates within 144 fraction-particle occurrences and 10,026 generated surfaces for variants 1..9. Resolution: complete simple and mixed fraction tokens now select particles from the numerator final sound, including 으로/로 and the ㄹ exception; the explicit 47-surface forbidden corpus and 144-occurrence audit pass. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1210,10 +1244,12 @@
     },
     {
       "reviewId": "4:mission:g4-frac-02",
-      "contentHash": "5c6904a8504388d3f96414001a5ae877b80a34e13d5ec6c4842bd9b19281fadd",
+      "contentHash": "e9acbe52ed00f3d1ca816e10dadf502f0d50eab18de3d915c400af02b7df56eb",
       "status": "blocked",
-      "findingCategories": [],
-      "note": "Reviewed proper-fraction-subtraction as a fraction response to \"분수 띠를 보고 분모가 같은 두 진분수의 차를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed proper-fraction-subtraction as a fraction response to \"분수 띠를 보고 분모가 같은 두 진분수의 차를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier 24-template/127-surface regression for numeric copular connectives remains resolved and independently covered. Pre-fix finding: korean_particle — an independent audit reproduced 47 incorrect fraction-particle surfaces across six templates within 144 fraction-particle occurrences and 10,026 generated surfaces for variants 1..9. Resolution: complete simple and mixed fraction tokens now select particles from the numerator final sound, including 으로/로 and the ㄹ exception; the explicit 47-surface forbidden corpus and 144-occurrence audit pass. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1227,10 +1263,12 @@
     },
     {
       "reviewId": "4:mission:g4-frac-03",
-      "contentHash": "40560956c9505bb0871d6b1f3fad0bd7874d0634154cf524f8998f22e5d5766d",
+      "contentHash": "f9ea738d4bd74fad322232f584fb9dbe4067cd6ea8f8be9e1b9127543fd9a861",
       "status": "blocked",
-      "findingCategories": [],
-      "note": "Reviewed mixed-number-addition as a fraction response to \"분모가 같은 두 대분수의 합을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed mixed-number-addition as a fraction response to \"분모가 같은 두 대분수의 합을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Pre-fix finding: korean_particle — an independent audit reproduced 47 incorrect fraction-particle surfaces across six templates within 144 fraction-particle occurrences and 10,026 generated surfaces for variants 1..9. Resolution: complete simple and mixed fraction tokens now select particles from the numerator final sound, including 으로/로 and the ㄹ exception; the explicit 47-surface forbidden corpus and 144-occurrence audit pass. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1247,7 +1285,7 @@
       "contentHash": "9a6a629452bd1f5ca909b6558a4058924296c21b04a71ebca8166efc5f61af57",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Reviewed mixed-number-subtraction-regrouping as a fraction response to \"받아내림이 필요한 대분수의 뺄셈을 계산하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "note": "Reviewed mixed-number-subtraction-regrouping as a fraction response to \"받아내림이 필요한 대분수의 뺄셈을 계산하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Fraction-particle review: this template had no pre-fix finding among the 144 fraction-particle occurrences across 10,026 generated surfaces for variants 1..9; the independent numerator-final-sound corpus remains passing. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1264,7 +1302,7 @@
       "contentHash": "bb2dab15bc6bc2dd284662652575dc0325d6f507bb350e686b14cdf8b0916bb9",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Reviewed recipe-fraction-sum as a fraction response to \"두 재료의 양을 합하여 필요한 전체 양을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "note": "Reviewed recipe-fraction-sum as a fraction response to \"두 재료의 양을 합하여 필요한 전체 양을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Fraction-particle review: this template had no pre-fix finding among the 144 fraction-particle occurrences across 10,026 generated surfaces for variants 1..9; the independent numerator-final-sound corpus remains passing. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1281,7 +1319,7 @@
       "contentHash": "93e33060b4affaeff2ecfe119e7e652d8824b33b44d747caa080e1313e253b11",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Reviewed remaining-distance-fraction as a fraction response to \"전체 거리와 이동한 거리를 동분모 대분수로 나타내어 남은 거리를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "note": "Reviewed remaining-distance-fraction as a fraction response to \"전체 거리와 이동한 거리를 동분모 대분수로 나타내어 남은 거리를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Fraction-particle review: this template had no pre-fix finding among the 144 fraction-particle occurrences across 10,026 generated surfaces for variants 1..9; the independent numerator-final-sound corpus remains passing. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1295,10 +1333,12 @@
     },
     {
       "reviewId": "4:mission:g4-frac-07",
-      "contentHash": "a8d726f0ab4d5a0f30dc5d9f4515a768eb8000c1ffd95c757a6bdda07abf542d",
+      "contentHash": "1512809bb2952b4277d2ab3c8ce16dabe1df0a13a0012a8d3a1e2de78ed741ed",
       "status": "blocked",
-      "findingCategories": [],
-      "note": "Reviewed missing-fraction-addend as a fraction response to \"분수 덧셈식에서 빠진 덧셈 항을 구하세요.\" Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed missing-fraction-addend as a fraction response to \"분수 덧셈식에서 빠진 덧셈 항을 구하세요.\" Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Pre-fix finding: korean_particle — an independent audit reproduced 47 incorrect fraction-particle surfaces across six templates within 144 fraction-particle occurrences and 10,026 generated surfaces for variants 1..9. Resolution: complete simple and mixed fraction tokens now select particles from the numerator final sound, including 으로/로 and the ㄹ exception; the explicit 47-surface forbidden corpus and 144-occurrence audit pass. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1315,7 +1355,7 @@
       "contentHash": "18f6796b19e74f8a269ea58d2165dac575978723b92aa1e5bf4ebffb8f974e25",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Reviewed select-fraction-situation-equation as a choice response to \"사용하고 남은 양을 나타내는 올바른 동분모 분수 식을 고르세요.\" Source decision: taskActions=model; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "note": "Reviewed select-fraction-situation-equation as a choice response to \"사용하고 남은 양을 나타내는 올바른 동분모 분수 식을 고르세요.\" Source decision: taskActions=model; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Fraction-particle review: this template had no pre-fix finding among the 144 fraction-particle occurrences across 10,026 generated surfaces for variants 1..9; the independent numerator-final-sound corpus remains passing. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1329,10 +1369,12 @@
     },
     {
       "reviewId": "4:mission:g4-frac-09",
-      "contentHash": "053aaf30d424742e4699a67444e5ac00cbc855caf58203fde01512a753f855c5",
+      "contentHash": "a051bdb60dc912c6f140183b911b6ee3b8aa325376f7acec45333ed9c1bfb514",
       "status": "blocked",
-      "findingCategories": [],
-      "note": "Reviewed denominator-addition-error as a choice response to \"분자와 분모를 모두 더한 계산의 오류를 분수 단위로 설명하세요.\" Source decision: taskActions=analyze_error+explain; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed denominator-addition-error as a choice response to \"분자와 분모를 모두 더한 계산의 오류를 분수 단위로 설명하세요.\" Source decision: taskActions=analyze_error+explain; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Pre-fix finding: korean_particle — an independent audit reproduced 47 incorrect fraction-particle surfaces across six templates within 144 fraction-particle occurrences and 10,026 generated surfaces for variants 1..9. Resolution: complete simple and mixed fraction tokens now select particles from the numerator final sound, including 으로/로 and the ㄹ exception; the explicit 47-surface forbidden corpus and 144-occurrence audit pass. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1346,10 +1388,12 @@
     },
     {
       "reviewId": "4:mission:g4-frac-10",
-      "contentHash": "079a22b14c979f7e04baa22ec26a80e1ec71bb2d66c55b6d2a91c736b764b165",
+      "contentHash": "ce25b12703b55a2dae3b1c945e717bcdcf283ef50f7db533f27643f32ae83ad4",
       "status": "blocked",
-      "findingCategories": [],
-      "note": "Reviewed mixed-subtraction-regrouping-error as a choice response to \"분수 부분이 더 작은 대분수 뺄셈의 잘못된 풀이를 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed mixed-subtraction-regrouping-error as a choice response to \"분수 부분이 더 작은 대분수 뺄셈의 잘못된 풀이를 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Pre-fix finding: korean_particle — an independent audit reproduced 47 incorrect fraction-particle surfaces across six templates within 144 fraction-particle occurrences and 10,026 generated surfaces for variants 1..9. Resolution: complete simple and mixed fraction tokens now select particles from the numerator final sound, including 으로/로 and the ㄹ exception; the explicit 47-surface forbidden corpus and 144-occurrence audit pass. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1365,8 +1409,10 @@
       "reviewId": "4:mission:g4-graph-01",
       "contentHash": "3810749d1cbc51effe57f0b30763e67aa78e333a1a0fba8de93d38dbf49a5ad0",
       "status": "blocked",
-      "findingCategories": [],
-      "note": "The focused 11-34 values use a dynamic 20-25-unit range, 5-unit major ticks, 1-unit minor ticks, a tall plot, and an unlabeled focus guide. Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the answer_exposure defect: variants 1..9 pre-answer DOM omits point data-value and answer text/a11y/data/title/desc values; revealed DOM restores point values. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "The focused 11-34 values use a dynamic 20-25-unit range, 5-unit major ticks, 1-unit minor ticks, a tall plot, and an unlabeled focus guide. Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the answer_exposure defect: variants 1..9 pre-answer DOM omits answer-only text/attribute values, including point data-value, while required axis ticks remain even when one is numerically equal to the answer; revealed DOM restores point values. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1773,7 +1819,9 @@
       "reviewId": "4:mission:g4-move-05",
       "contentHash": "5c17968a2cd90bcce80c45209c883d16da057f9979502b249a111ef7b355a2d7",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed translate-point-by-vector as a choice response to \"점을 오른쪽과 위쪽으로 민 뒤 좌표를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -1875,7 +1923,9 @@
       "reviewId": "4:mission:g4-pat-01",
       "contentHash": "71c64808c6e8a58008fd3b411f5db2daa94d792d77972ba8adc9329643869732",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed additive-sequence-next-term as a integer response to \"일정하게 커지는 수 배열의 다음 수를 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -1892,7 +1942,9 @@
       "reviewId": "4:mission:g4-pat-02",
       "contentHash": "c65607af2350138f537b442131bb1acdd291d963842ef52ea071c6503f668394",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed input-output-next-value as a integer response to \"대응표에서 위 수와 아래 수의 규칙을 찾아 빈칸을 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -1909,7 +1961,9 @@
       "reviewId": "4:mission:g4-pat-03",
       "contentHash": "d1a4968d957de313c879521bd6ae8268367923096a3ffbc66bfc61d28d8f204f",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed multiplication-array-next-result as a integer response to \"곱셈식 배열의 규칙을 찾아 다음 계산 결과를 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -2011,7 +2065,9 @@
       "reviewId": "4:mission:g4-pat-09",
       "contentHash": "50c689183b4a7e11d8ef142297b0e394c8cc50a628b04d8b6209d3d827ff5d60",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "The correspondence rule is stated as multiplication followed by addition, with number particles normalized. Source decision: taskActions=analyze_error+calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
@@ -2028,7 +2084,9 @@
       "reviewId": "4:mission:g4-pat-10",
       "contentHash": "a752ddba8c3d326059c7e2103422d8c515583c8f9c58885f4b3b792a3f8e3447",
       "status": "blocked",
-      "findingCategories": [],
+      "findingCategories": [
+        "wording"
+      ],
       "note": "Reviewed two-part-calculation-pattern-error as a choice response to \"곱하는 수와 더하는 수가 함께 변하는 계산식 배열의 잘못된 다음 식을 고치세요.\" Source decision: taskActions=analyze_error+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,

@@ -39,6 +39,14 @@ const numericConnectiveRegressionTemplateIds = new Set([
   'g4-eq-01', 'g4-eq-02', 'g4-eq-03', 'g4-eq-05',
   'g4-move-05',
 ])
+const fractionParticleRegressionTemplateIds = new Set([
+  'g4-frac-01',
+  'g4-frac-02',
+  'g4-frac-03',
+  'g4-frac-07',
+  'g4-frac-09',
+  'g4-frac-10',
+])
 
 describe('Grade 4 Bridge release bank', () => {
   it('requires source-owned editorial actions and visual semantics for every template', () => {
@@ -198,10 +206,19 @@ describe('Grade 4 Bridge release bank', () => {
       ['6.19 L이 남았습니다.', '6.19 L가 남았습니다.'],
       ['3 kg로 나타냅니다.', '3 kg으로 나타냅니다.'],
       ['5 cm으로 옮깁니다.', '5 cm로 옮깁니다.'],
+      ['1/8 + 4/8을 계산합니다.', '1/8 + 4/8를 계산합니다.'],
+      ['10/8로 고칩니다.', '10/8으로 고칩니다.'],
+      ['19/8을 대분수로 고칩니다.', '19/8를 대분수로 고칩니다.'],
+      ['5/18이 더 큽니다.', '5/18가 더 큽니다.'],
+      ['6/8를 선택합니다.', '6/8을 선택합니다.'],
+      ['2 1/8을 더합니다.', '2 1/8을 더합니다.'],
       ['5이므로 다음 단계로 갑니다.', '5이므로 다음 단계로 갑니다.'],
       ['5이면 조건을 만족합니다.', '5이면 조건을 만족합니다.'],
       ['5이다.', '5이다.'],
       ['5이라서 계산합니다.', '5이라서 계산합니다.'],
+      ['https://example.test/grade/1/8을 엽니다.', 'https://example.test/grade/1/8을 엽니다.'],
+      ['12 / 5으로 나눕니다.', '12 / 5으로 나눕니다.'],
+      ['12/5으로 나눕니다.', '12/5으로 나눕니다.'],
     ] as const
 
     for (const [input, expected] of cases) {
@@ -209,9 +226,74 @@ describe('Grade 4 Bridge release bank', () => {
     }
   })
 
-  it('preserves connective endings and normalizes every generated surface for variants 1..9', () => {
+  it('audits all generated surfaces with independent connective and fraction corpora', () => {
+    const expectedFractionParticles = {
+      '0': { topic: '은', subject: '이', object: '을', join: '과', direction: '으로' },
+      '1': { topic: '은', subject: '이', object: '을', join: '과', direction: '로' },
+      '2': { topic: '는', subject: '가', object: '를', join: '와', direction: '로' },
+      '3': { topic: '은', subject: '이', object: '을', join: '과', direction: '으로' },
+      '4': { topic: '는', subject: '가', object: '를', join: '와', direction: '로' },
+      '5': { topic: '는', subject: '가', object: '를', join: '와', direction: '로' },
+      '6': { topic: '은', subject: '이', object: '을', join: '과', direction: '으로' },
+      '7': { topic: '은', subject: '이', object: '을', join: '과', direction: '로' },
+      '8': { topic: '은', subject: '이', object: '을', join: '과', direction: '로' },
+      '9': { topic: '는', subject: '가', object: '를', join: '와', direction: '로' },
+    } as const
+    const historicalDefects = [
+      ['g4-frac-01', 2, 'prompt', '4/8을', '4/8를'],
+      ['g4-frac-01', 3, 'prompt', '2/6을', '2/6를'],
+      ['g4-frac-01', 5, 'prompt', '4/8을', '4/8를'],
+      ['g4-frac-01', 6, 'prompt', '2/6을', '2/6를'],
+      ['g4-frac-01', 8, 'prompt', '4/8을', '4/8를'],
+      ['g4-frac-01', 9, 'prompt', '2/6을', '2/6를'],
+      ['g4-frac-02', 1, 'prompt', '2/8을', '2/8를'],
+      ['g4-frac-02', 4, 'prompt', '2/8을', '2/8를'],
+      ['g4-frac-02', 7, 'prompt', '2/8을', '2/8를'],
+      ['g4-frac-03', 1, 'prompt', '1 2/7을', '1 2/7를'],
+      ['g4-frac-03', 2, 'prompt', '1 2/8을', '1 2/8를'],
+      ['g4-frac-03', 2, 'step1', '10/8로', '10/8으로'],
+      ['g4-frac-03', 2, 'step2', '19/8을', '19/8를'],
+      ['g4-frac-03', 3, 'prompt', '1 2/9을', '1 2/9를'],
+      ['g4-frac-03', 3, 'step2', '22/9을', '22/9를'],
+      ['g4-frac-03', 4, 'prompt', '1 2/6을', '1 2/6를'],
+      ['g4-frac-03', 4, 'step2', '15/6을', '15/6를'],
+      ['g4-frac-03', 5, 'prompt', '1 2/7을', '1 2/7를'],
+      ['g4-frac-03', 6, 'prompt', '1 2/8을', '1 2/8를'],
+      ['g4-frac-03', 6, 'step1', '10/8로', '10/8으로'],
+      ['g4-frac-03', 6, 'step2', '19/8을', '19/8를'],
+      ['g4-frac-03', 7, 'prompt', '1 2/9을', '1 2/9를'],
+      ['g4-frac-03', 7, 'step2', '22/9을', '22/9를'],
+      ['g4-frac-03', 8, 'prompt', '1 2/6을', '1 2/6를'],
+      ['g4-frac-03', 8, 'step2', '15/6을', '15/6를'],
+      ['g4-frac-03', 9, 'prompt', '1 2/7을', '1 2/7를'],
+      ['g4-frac-07', 1, 'step1', '3/8로', '3/8으로'],
+      ['g4-frac-07', 4, 'step1', '3/8로', '3/8으로'],
+      ['g4-frac-07', 7, 'step1', '3/8로', '3/8으로'],
+      ['g4-frac-09', 2, 'choice1', '5/18이', '5/18가'],
+      ['g4-frac-09', 2, 'choice1', '2/18이', '2/18가'],
+      ['g4-frac-09', 2, 'choice4', '5/18이', '5/18가'],
+      ['g4-frac-09', 4, 'choice2', '5/16이', '5/16가'],
+      ['g4-frac-09', 4, 'choice3', '5/16이', '5/16가'],
+      ['g4-frac-09', 4, 'choice3', '2/16이', '2/16가'],
+      ['g4-frac-09', 6, 'choice1', '5/14이', '5/14가'],
+      ['g4-frac-09', 6, 'choice1', '2/14이', '2/14가'],
+      ['g4-frac-09', 6, 'choice4', '5/14이', '5/14가'],
+      ['g4-frac-09', 8, 'choice2', '5/18이', '5/18가'],
+      ['g4-frac-09', 8, 'choice3', '5/18이', '5/18가'],
+      ['g4-frac-09', 8, 'choice3', '2/18이', '2/18가'],
+      ['g4-frac-10', 1, 'choice3', '6/8를', '6/8을'],
+      ['g4-frac-10', 2, 'choice2', '7/9를', '7/9을'],
+      ['g4-frac-10', 4, 'choice4', '6/8를', '6/8을'],
+      ['g4-frac-10', 5, 'choice3', '7/9를', '7/9을'],
+      ['g4-frac-10', 7, 'choice1', '6/8를', '6/8을'],
+      ['g4-frac-10', 8, 'choice4', '7/9를', '7/9을'],
+    ] as const
+    const fractionPattern = /(?<![/\dA-Za-z])(?:\d[\d,]*\s+)?(\d[\d,]*)\/(\d[\d,]*)(으로|로|은|는|이|가|을|를|과|와)(?=$|[\s.,!?…;:)\]}'"”’])/g
+    const fractionDefects: string[] = []
+    const generatedSurfaces = new Map<string, string>()
     const connectiveTemplateIds = new Set<string>()
     let connectiveSurfaceCount = 0
+    let fractionParticleCount = 0
     let auditedSurfaceCount = 0
     for (const template of grade4MissionTemplates) {
       for (let variant = 1; variant <= 9; variant += 1) {
@@ -224,10 +306,21 @@ describe('Grade 4 Bridge release bank', () => {
         ]
         for (const [surface, text] of surfaces) {
           auditedSurfaceCount += 1
-          expect(
-            correctGrade4NumericParticles(text),
-            `${template.id} v${variant} ${surface}`,
-          ).toBe(text)
+          generatedSurfaces.set(`${template.id}:${variant}:${surface}`, text)
+          for (const match of text.matchAll(fractionPattern)) {
+            fractionParticleCount += 1
+            const [, numerator, , particle] = match
+            const finalDigit = numerator.replaceAll(',', '').at(-1) as keyof typeof expectedFractionParticles
+            const pair = particle === '은' || particle === '는' ? 'topic'
+              : particle === '이' || particle === '가' ? 'subject'
+                : particle === '을' || particle === '를' ? 'object'
+                  : particle === '과' || particle === '와' ? 'join'
+                    : 'direction'
+            const expected = expectedFractionParticles[finalDigit][pair]
+            if (particle !== expected) {
+              fractionDefects.push(`${template.id} v${variant} ${surface}: ${match[0]}→${expected}`)
+            }
+          }
           if (
             numericConnectiveRegressionTemplateIds.has(template.id)
             && /[2459](?:이므로|이면)/.test(text)
@@ -240,9 +333,20 @@ describe('Grade 4 Bridge release bank', () => {
       }
     }
 
-    expect(auditedSurfaceCount).toBeGreaterThan(5_000)
+    expect(auditedSurfaceCount).toBe(10_026)
+    expect(fractionParticleCount).toBe(144)
+    expect(fractionDefects).toEqual([])
     expect(connectiveTemplateIds).toEqual(numericConnectiveRegressionTemplateIds)
     expect(connectiveSurfaceCount).toBe(127)
+    expect(historicalDefects).toHaveLength(47)
+    expect(new Set(historicalDefects.map(([templateId]) => templateId))).toEqual(
+      fractionParticleRegressionTemplateIds,
+    )
+    for (const [templateId, variant, surface, forbidden, expected] of historicalDefects) {
+      const text = generatedSurfaces.get(`${templateId}:${variant}:${surface}`)!
+      expect(text, `${templateId} v${variant} ${surface}`).not.toContain(forbidden)
+      expect(text, `${templateId} v${variant} ${surface}`).toContain(expected)
+    }
   })
 
   it('gives graph-01 a readable focused scale without exposing its answer as text', () => {
@@ -338,8 +442,15 @@ describe('Grade 4 Bridge release bank', () => {
       grade4MissionTemplates.length,
     )
     for (const item of receipt.items) {
+      const templateId = item.reviewId.replace('4:mission:', '')
+      const expectedFindingCategories = (
+        numericConnectiveRegressionTemplateIds.has(templateId)
+        || fractionParticleRegressionTemplateIds.has(templateId)
+      ) ? ['wording']
+        : templateId === 'g4-graph-01' ? ['answer_exposure']
+          : []
       expect(item.status, item.reviewId).toBe('blocked')
-      expect(item.findingCategories, item.reviewId).toEqual([])
+      expect(item.findingCategories, item.reviewId).toEqual(expectedFindingCategories)
       expect(item.note, item.reviewId).toContain('variants 1..9')
       expect(item.note, item.reviewId).toContain('taskActions=')
       expect(item.note, item.reviewId).toContain('supportTool=')
@@ -362,11 +473,27 @@ describe('Grade 4 Bridge release bank', () => {
       )
       expect(reviewed?.note, templateId).toContain('24-template/127-surface regression')
     }
-    expect(
-      receipt.items.find(
-        (item: { reviewId: string }) => item.reviewId === '4:mission:g4-graph-01',
-      )?.note,
-    ).toContain('pre-answer DOM')
+    for (const templateId of fractionParticleRegressionTemplateIds) {
+      const reviewed = receipt.items.find(
+        (item: { reviewId: string }) => item.reviewId === `4:mission:${templateId}`,
+      )
+      expect(reviewed?.note, templateId).toContain('Pre-fix finding: korean_particle')
+      expect(reviewed?.note, templateId).toContain('47 incorrect fraction-particle surfaces')
+      expect(reviewed?.note, templateId).toContain('Resolution:')
+      expect(reviewed?.findingCategories, templateId).toEqual(['wording'])
+    }
+    for (let index = 1; index <= 10; index += 1) {
+      const templateId = `g4-frac-${String(index).padStart(2, '0')}`
+      const reviewed = receipt.items.find(
+        (item: { reviewId: string }) => item.reviewId === `4:mission:${templateId}`,
+      )
+      expect(reviewed?.note, templateId).toContain('144 fraction-particle occurrences')
+    }
+    const graphReview = receipt.items.find(
+      (item: { reviewId: string }) => item.reviewId === '4:mission:g4-graph-01',
+    )
+    expect(graphReview?.findingCategories).toEqual(['answer_exposure'])
+    expect(graphReview?.note).toContain('answer-only text/attribute')
 
     const errors = reviewCore.loadContractModule().validateEditorialLedger(catalog, receipt)
     expect(errors.filter((error: string) => !error.startsWith('blocked editorial status: '))).toEqual([])

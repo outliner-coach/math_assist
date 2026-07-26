@@ -361,7 +361,11 @@ const grade4NumericUnits = [
 ].sort((left, right) => right.length - left.length)
 
 const grade4NumericParticlePattern = new RegExp(
-  `(?<![/\\d])(\\d[\\d,]*(?:\\.\\d+)?(?:\\s*(?:${grade4NumericUnits.join('|')}))?)(으로|로|은|는|이|가|을|를|과|와)(?=$|[\\s.,!?…;:)\\]}'"”’])`,
+  `(?<![\\dA-Za-z])(\\d[\\d,]*(?:\\.\\d+)?(?:\\s*(?:${grade4NumericUnits.join('|')}))?)(으로|로|은|는|이|가|을|를|과|와)(?=$|[\\s.,!?…;:)\\]}'"”’])`,
+  'g',
+)
+const grade4FractionParticlePattern = new RegExp(
+  `(?<![/\\dA-Za-z])((?:\\d[\\d,]*\\s+)?(\\d[\\d,]*)/(\\d[\\d,]*))(으로|로|은|는|이|가|을|를|과|와)(?=$|[\\s.,!?…;:)\\]}'"”’])`,
   'g',
 )
 
@@ -389,16 +393,52 @@ function finalSound(value: string): { hasBatchim: boolean; hasRieulBatchim: bool
   }
 }
 
+function correctParticle(
+  value: string,
+  pronunciationValue: string,
+  particle: KoreanNumericParticle,
+): string {
+  const { hasBatchim, hasRieulBatchim } = finalSound(pronunciationValue)
+  if (particle === '은' || particle === '는') return `${value}${hasBatchim ? '은' : '는'}`
+  if (particle === '이' || particle === '가') return `${value}${hasBatchim ? '이' : '가'}`
+  if (particle === '을' || particle === '를') return `${value}${hasBatchim ? '을' : '를'}`
+  if (particle === '과' || particle === '와') return `${value}${hasBatchim ? '과' : '와'}`
+  return `${value}${hasBatchim && !hasRieulBatchim ? '으로' : '로'}`
+}
+
+function isDivisionSlashSurface(text: string, start: number, end: number): boolean {
+  return /\/\s*$/.test(text.slice(0, start))
+    || /^\s*(?:나눗셈|나누|나눕|나눠|나눈|나눌)/.test(text.slice(end))
+}
+
 export function correctGrade4NumericParticles(text: string): string {
-  return text.replace(
+  const fractionsCorrected = text.replace(
+    grade4FractionParticlePattern,
+    (
+      matched: string,
+      value: string,
+      numerator: string,
+      _denominator: string,
+      particle: KoreanNumericParticle,
+      offset: number,
+      source: string,
+    ) => {
+      if (isDivisionSlashSurface(source, offset, offset + matched.length)) return matched
+      return correctParticle(value, numerator, particle)
+    },
+  )
+
+  return fractionsCorrected.replace(
     grade4NumericParticlePattern,
-    (_, value: string, particle: KoreanNumericParticle) => {
-      const { hasBatchim, hasRieulBatchim } = finalSound(value)
-      if (particle === '은' || particle === '는') return `${value}${hasBatchim ? '은' : '는'}`
-      if (particle === '이' || particle === '가') return `${value}${hasBatchim ? '이' : '가'}`
-      if (particle === '을' || particle === '를') return `${value}${hasBatchim ? '을' : '를'}`
-      if (particle === '과' || particle === '와') return `${value}${hasBatchim ? '과' : '와'}`
-      return `${value}${hasBatchim && !hasRieulBatchim ? '으로' : '로'}`
+    (
+      matched: string,
+      value: string,
+      particle: KoreanNumericParticle,
+      offset: number,
+      source: string,
+    ) => {
+      if (isDivisionSlashSurface(source, offset, offset + matched.length)) return matched
+      return correctParticle(value, value, particle)
     },
   )
 }
