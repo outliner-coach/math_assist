@@ -2,6 +2,25 @@ import type { Grade3AnswerType } from './grade3-answer-normalizers'
 
 export type Grade3Semester = '3-1' | '3-2'
 export type Grade3DifficultyStep = 'easy' | 'medium' | 'applied'
+export type Grade3TaskAction =
+  | 'recognize'
+  | 'classify'
+  | 'compare'
+  | 'calculate'
+  | 'measure'
+  | 'construct'
+  | 'model'
+  | 'interpret'
+  | 'explain'
+  | 'analyze_error'
+  | 'reason'
+export type Grade3VisualSemantics = 'decorative' | 'schematic' | 'quantitative'
+
+interface Grade3QualityMetadata {
+  taskActions: Grade3TaskAction[]
+  visualSemantics: Grade3VisualSemantics
+}
+
 export type Grade3Skill =
   | 'addition-subtraction'
   | 'line-angle'
@@ -78,7 +97,7 @@ export interface Grade3Unit {
   rewardId: Grade3RewardId
 }
 
-export interface Grade3MissionTemplate {
+export interface Grade3MissionTemplate extends Grade3QualityMetadata {
   id: string
   unitId: string
   semester: Grade3Semester
@@ -225,8 +244,62 @@ const commonHints = {
   unit: ['단위 칸을 나누어 생각해요.', '작은 단위 칸은 정해진 범위를 넘지 않게 써요.'],
 }
 
-function mission(template: Grade3MissionTemplate): Grade3MissionTemplate {
-  return template
+type Grade3MissionTemplateSource = Omit<Grade3MissionTemplate, keyof Grade3QualityMetadata>
+
+function quality(
+  taskAction: Grade3TaskAction,
+  visualSemantics: Grade3VisualSemantics
+): Grade3QualityMetadata {
+  return { taskActions: [taskAction], visualSemantics }
+}
+
+const grade3QualityMetadataBySourceId: Record<string, Grade3QualityMetadata> = {
+  'g3-1-add-sub-01': quality('calculate', 'schematic'),
+  'g3-1-add-sub-02': quality('calculate', 'schematic'),
+  'g3-1-add-sub-03': quality('model', 'schematic'),
+  'g3-1-lines-01': quality('recognize', 'schematic'),
+  'g3-1-lines-02': quality('classify', 'quantitative'),
+  'g3-1-lines-03': quality('classify', 'quantitative'),
+  'g3-1-division-01': quality('model', 'quantitative'),
+  'g3-1-division-02': quality('calculate', 'quantitative'),
+  'g3-1-division-03': quality('model', 'quantitative'),
+  'g3-1-multiply-01': quality('calculate', 'quantitative'),
+  'g3-1-multiply-02': quality('calculate', 'quantitative'),
+  'g3-1-multiply-03': quality('model', 'quantitative'),
+  'g3-1-length-time-01': quality('measure', 'quantitative'),
+  'g3-1-length-time-02': quality('interpret', 'quantitative'),
+  'g3-1-length-time-03': quality('calculate', 'quantitative'),
+  'g3-1-fraction-decimal-01': quality('interpret', 'quantitative'),
+  'g3-1-fraction-decimal-02': quality('interpret', 'quantitative'),
+  'g3-1-fraction-decimal-03': quality('model', 'quantitative'),
+  'g3-2-multiply-01': quality('calculate', 'quantitative'),
+  'g3-2-multiply-02': quality('calculate', 'quantitative'),
+  'g3-2-multiply-03': quality('model', 'quantitative'),
+  'g3-2-division-01': quality('calculate', 'quantitative'),
+  'g3-2-division-02': quality('calculate', 'quantitative'),
+  'g3-2-division-03': quality('model', 'quantitative'),
+  'g3-2-circle-01': quality('recognize', 'quantitative'),
+  'g3-2-circle-02': quality('calculate', 'quantitative'),
+  'g3-2-circle-03': quality('construct', 'quantitative'),
+  'g3-2-fraction-01': quality('compare', 'quantitative'),
+  'g3-2-fraction-02': quality('classify', 'quantitative'),
+  'g3-2-fraction-03': quality('compare', 'quantitative'),
+  'g3-2-capacity-weight-01': quality('measure', 'quantitative'),
+  'g3-2-capacity-weight-02': quality('measure', 'quantitative'),
+  'g3-2-capacity-weight-03': quality('calculate', 'quantitative'),
+  'g3-2-capacity-weight-04': quality('model', 'quantitative'),
+  'g3-2-capacity-weight-05': quality('model', 'quantitative'),
+  'g3-2-capacity-weight-06': quality('calculate', 'quantitative'),
+  'g3-2-capacity-weight-07': quality('calculate', 'quantitative'),
+  'g3-2-graph-01': quality('interpret', 'quantitative'),
+  'g3-2-graph-02': quality('compare', 'quantitative'),
+  'g3-2-graph-03': quality('calculate', 'quantitative'),
+}
+
+function mission(source: Grade3MissionTemplateSource): Grade3MissionTemplate {
+  const metadata = grade3QualityMetadataBySourceId[source.id]
+  if (!metadata) throw new Error(`${source.id}: missing explicit Grade 3 quality metadata`)
+  return { ...source, ...metadata }
 }
 
 const integerAnswerConfig: Grade3AnswerConfig = { kind: 'integer', inputLabel: '답을 숫자로 써요' }
@@ -820,7 +893,7 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     stageOrder: 28,
     skill: 'fraction',
     difficultyStep: 'easy',
-    curriculumCode: '[4수01-10]',
+    curriculumCode: '[4수01-11]',
     learnerGoal: '분모가 같은 분수의 크기를 비교해요.',
     parentSummaryTag: '분수 비교',
     prompt: '2/6와 5/6 중 더 큰 분수는 무엇일까요?',
@@ -842,19 +915,19 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     stageOrder: 29,
     skill: 'fraction',
     difficultyStep: 'medium',
-    curriculumCode: '[4수01-11]',
-    learnerGoal: '같은 크기의 분수를 찾아요.',
-    parentSummaryTag: '같은 크기 분수',
-    prompt: '1/2과 같은 크기의 분수는 무엇일까요?',
+    curriculumCode: '[4수01-10]',
+    learnerGoal: '진분수의 뜻을 알고 분류해요.',
+    parentSummaryTag: '분수 종류',
+    prompt: '3/4은 진분수, 가분수, 대분수 중 무엇일까요?',
     answerType: 'choice',
     answerConfig: choiceAnswerConfig,
-    correctAnswer: '2/4',
-    choices: ['1/4', '2/4', '3/4'],
-    hintSteps: ['전체를 4칸으로 나누면 반은 2칸이에요.', '2/4는 전체의 반이에요.'],
-    solutionSteps: ['1/2과 2/4는 같은 크기예요.'],
+    correctAnswer: '진분수',
+    choices: ['진분수', '가분수', '대분수'],
+    hintSteps: ['분자와 분모의 크기를 비교해요.', '3은 4보다 작아요.'],
+    solutionSteps: ['분자가 분모보다 작은 분수는 진분수예요.', '3은 4보다 작으므로 3/4은 진분수예요.'],
     visualModel: 'fraction-strip',
-    visualConfig: { compareA: '1/2', compareB: '2/4', target: '2/4' },
-    scaffoldConfig: { kind: 'fraction-strip', prompt: '전체의 반을 나타내는 것을 찾아요.', options: ['1칸', '2칸', '3칸'] },
+    visualConfig: { totalParts: 4, shadedParts: 3 },
+    scaffoldConfig: { kind: 'fraction-strip', prompt: '분자가 분모보다 작은지 확인해요.', options: ['작다', '같다', '크다'] },
     rewardId: 'fractionLantern',
   }),
   mission({
@@ -864,7 +937,7 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     stageOrder: 30,
     skill: 'fraction',
     difficultyStep: 'applied',
-    curriculumCode: '[4수01-10]',
+    curriculumCode: '[4수01-11]',
     learnerGoal: '상황 속에서 더 큰 분수를 골라요.',
     parentSummaryTag: '분수 상황 비교',
     prompt: '같은 케이크에서 민아는 3/8, 준호는 5/8을 먹었어요. 누가 더 많이 먹었나요?',
@@ -894,7 +967,7 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     answerConfig: capacityAnswerConfig,
     correctAnswer: '1L250mL',
     hintSteps: commonHints.unit,
-    solutionSteps: ['L 칸에 1, mL 칸에 250을 써요.'],
+    solutionSteps: ['L 칸에 1, mL 칸에 250을 써요.', '들이는 1L 250mL예요.'],
     visualModel: 'capacity-beaker',
     visualConfig: { mode: 'measure', liters: 1, milliliters: 250, totalMl: 1250 },
     scaffoldConfig: { kind: 'unit-reader', prompt: '큰 단위와 작은 단위를 나누어 봐요.', options: ['L', 'mL'] },
@@ -915,7 +988,7 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     answerConfig: weightAnswerConfig,
     correctAnswer: '2kg300g',
     hintSteps: commonHints.unit,
-    solutionSteps: ['kg 칸에 2, g 칸에 300을 써요.'],
+    solutionSteps: ['kg 칸에 2, g 칸에 300을 써요.', '무게는 2kg 300g이에요.'],
     visualModel: 'weight-scale',
     visualConfig: { mode: 'measure', kilograms: 2, grams: 300, totalG: 2300 },
     scaffoldConfig: { kind: 'unit-reader', prompt: '저울의 큰 단위와 작은 단위를 봐요.', options: ['kg', 'g'] },
@@ -1195,6 +1268,104 @@ function validateVisualSafety(template: Grade3MissionTemplate, errors: string[])
   }
 }
 
+export interface Grade3VariantAuditResult {
+  sourceCount: number
+  variantCount: number
+  errors: string[]
+}
+
+function grade3VisualAnswer(mission: Grade3Mission): string | undefined {
+  const config = mission.visualConfig
+  if (mission.visualModel === 'vertical-operation') {
+    const top = Number(config.top)
+    const bottom = Number(config.bottom)
+    return String(config.operator === '+' ? top + bottom : top - bottom)
+  }
+  if (mission.visualModel === 'division-groups') {
+    if (mission.prompt.includes('나머지') || mission.prompt.includes('남는')) {
+      return String(config.remainder)
+    }
+    return String(config.quotient)
+  }
+  if (mission.visualModel === 'array-area') return String(config.product)
+  if (mission.visualModel === 'ruler-mm') {
+    return `${config.centimeters}cm${config.millimeters}mm`
+  }
+  if (mission.visualModel === 'clock-seconds') {
+    if (config.second !== undefined) {
+      return `${config.hour}시${config.minute}분${config.second}초`
+    }
+    const durationSeconds = Number(config.durationResult)
+    return `${Math.floor(durationSeconds / 60)}분${durationSeconds % 60}초`
+  }
+  if (mission.visualModel === 'fraction-strip') {
+    if (mission.answerType === 'fraction') {
+      return `${config.shadedParts}/${config.totalParts}`
+    }
+    if (config.target !== undefined) return String(config.target)
+  }
+  if (mission.visualModel === 'decimal-grid') {
+    return String(Number(config.shadedParts) / Number(config.totalParts))
+  }
+  if (mission.visualModel === 'circle-parts' && mission.answerType === 'integer') {
+    return String(config.hideRadiusUntilReveal ? config.radius : config.diameter)
+  }
+  if (mission.visualModel === 'bar-graph') {
+    const categories = splitList(config.categories)
+    const counts = splitList(config.counts).map(Number)
+    const target = String(config.target)
+    if (target.includes('-')) {
+      const [left, right] = target.split('-')
+      return String(counts[categories.indexOf(left)] - counts[categories.indexOf(right)])
+    }
+    return /^\d+$/.test(mission.correctAnswer)
+      ? String(counts[categories.indexOf(target)])
+      : target
+  }
+  return undefined
+}
+
+export function auditGrade3MissionVariants(
+  templates: Grade3MissionTemplate[] = grade3MissionTemplates
+): Grade3VariantAuditResult {
+  const errors: string[] = []
+
+  for (const template of templates) {
+    const label = `${template.id} variant 1`
+    if (!normalizeCorrectAnswer(template.answerType, template.correctAnswer)) {
+      errors.push(`${label}: correct answer cannot be normalized`)
+    }
+    if (template.choices) {
+      if (new Set(template.choices).size !== template.choices.length) {
+        errors.push(`${label}: duplicate choices`)
+      }
+      const correctCount = template.choices.filter((choice) => choice === template.correctAnswer).length
+      if (correctCount !== 1) errors.push(`${label}: expected one correct choice, got ${correctCount}`)
+    }
+    const renderedText = [
+      template.prompt,
+      template.correctAnswer,
+      ...template.hintSteps,
+      ...template.solutionSteps,
+      ...Object.values(template.visualConfig).map(String),
+    ]
+    if (renderedText.some((value) => /{{|}}/.test(value))) {
+      errors.push(`${label}: unresolved template placeholder`)
+    }
+    const solution = template.solutionSteps.join(' ').replace(/\s/g, '')
+    const answer = template.correctAnswer.replace(/\s/g, '')
+    if (!solution.includes(answer)) {
+      errors.push(`${label}: solution does not trace to the correct answer`)
+    }
+    const visualAnswer = grade3VisualAnswer({ ...template, unitMissionOrder: 1 })
+    if (visualAnswer !== undefined && visualAnswer !== template.correctAnswer) {
+      errors.push(`${label}: visual answer ${visualAnswer} does not match ${template.correctAnswer}`)
+    }
+  }
+
+  return { sourceCount: templates.length, variantCount: templates.length, errors }
+}
+
 export function validateGrade3MissionBank(
   templates: Grade3MissionTemplate[] = grade3MissionTemplates
 ): Grade3ValidationResult {
@@ -1217,6 +1388,10 @@ export function validateGrade3MissionBank(
     if (!unitIds.has(template.unitId) || !unit) errors.push(`${template.id}: unknown unit ${template.unitId}`)
     if (unit && unit.semester !== template.semester) errors.push(`${template.id}: semester does not match unit`)
     if (!template.curriculumCode.trim()) errors.push(`${template.id}: missing curriculumCode`)
+    if (template.taskActions.length === 0) errors.push(`${template.id}: missing taskActions`)
+    if (template.visualSemantics !== 'schematic' && template.visualSemantics !== 'quantitative') {
+      errors.push(`${template.id}: visualSemantics must match the required visual`)
+    }
     if (template.curriculumCode && !allowedCodes.has(template.curriculumCode)) {
       errors.push(`${template.id}: curriculumCode is outside the unit scope`)
     }
@@ -1274,6 +1449,7 @@ export function validateGrade3MissionBank(
 
   if (templates.length !== 40) errors.push(`Grade 3 expects 40 missions, got ${templates.length}`)
   if (!ids.has(SAFE_GRADE3_MISSION_ID)) errors.push(`Safe mission id is missing: ${SAFE_GRADE3_MISSION_ID}`)
+  errors.push(...auditGrade3MissionVariants(templates).errors)
 
   return { errors, warnings }
 }

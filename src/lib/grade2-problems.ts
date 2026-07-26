@@ -4,6 +4,26 @@ export type Grade2Semester = '2-1' | '2-2'
 
 export type Grade2DifficultyStep = 'easy' | 'medium' | 'applied'
 
+export type Grade2TaskAction =
+  | 'recognize'
+  | 'classify'
+  | 'compare'
+  | 'calculate'
+  | 'measure'
+  | 'construct'
+  | 'model'
+  | 'interpret'
+  | 'explain'
+  | 'analyze_error'
+  | 'reason'
+
+export type Grade2VisualSemantics = 'decorative' | 'schematic' | 'quantitative'
+
+interface Grade2QualityMetadata {
+  taskActions: Grade2TaskAction[]
+  visualSemantics: Grade2VisualSemantics
+}
+
 export type Grade2Skill =
   | 'place-value'
   | 'number-comparison'
@@ -64,7 +84,7 @@ export interface Grade2Unit {
   rewardId: Grade2RewardId
 }
 
-export interface Grade2MissionTemplate {
+export interface Grade2MissionTemplate extends Grade2QualityMetadata {
   id: string
   unitId: string
   semester: Grade2Semester
@@ -88,7 +108,7 @@ export interface Grade2MissionTemplate {
   rewardId: Grade2RewardId
 }
 
-export interface Grade2Mission {
+export interface Grade2Mission extends Grade2QualityMetadata {
   id: string
   unitId: string
   semester: Grade2Semester
@@ -226,8 +246,94 @@ export const grade2Units: Grade2Unit[] = [
 
 export const SAFE_GRADE2_MISSION_ID = 'g2-1-place-value-01'
 
-function template(template: Grade2MissionTemplate): Grade2MissionTemplate {
-  return template
+type Grade2MissionTemplateSource = Omit<Grade2MissionTemplate, keyof Grade2QualityMetadata>
+
+function quality(
+  taskAction: Grade2TaskAction,
+  visualSemantics: Grade2VisualSemantics
+): Grade2QualityMetadata {
+  return { taskActions: [taskAction], visualSemantics }
+}
+
+const grade2QualityMetadataBySourceId: Record<string, Grade2QualityMetadata> = {
+  'g2-1-place-value-01': quality('interpret', 'quantitative'),
+  'g2-1-place-value-02': quality('compare', 'schematic'),
+  'g2-1-place-value-03': quality('model', 'schematic'),
+  'g2-1-place-value-04': quality('interpret', 'quantitative'),
+  'g2-1-place-value-05': quality('compare', 'schematic'),
+  'g2-1-place-value-06': quality('model', 'schematic'),
+  'g2-1-shapes-01': quality('recognize', 'schematic'),
+  'g2-1-shapes-02': quality('classify', 'schematic'),
+  'g2-1-shapes-03': quality('calculate', 'quantitative'),
+  'g2-1-shapes-04': quality('recognize', 'schematic'),
+  'g2-1-shapes-05': quality('classify', 'schematic'),
+  'g2-1-shapes-06': quality('calculate', 'quantitative'),
+  'g2-1-add-sub-01': quality('calculate', 'schematic'),
+  'g2-1-add-sub-02': quality('calculate', 'schematic'),
+  'g2-1-add-sub-03': quality('calculate', 'schematic'),
+  'g2-1-add-sub-04': quality('calculate', 'schematic'),
+  'g2-1-add-sub-05': quality('calculate', 'schematic'),
+  'g2-1-add-sub-06': quality('calculate', 'schematic'),
+  'g2-1-length-01': quality('measure', 'quantitative'),
+  'g2-1-length-02': quality('model', 'quantitative'),
+  'g2-1-length-03': quality('compare', 'quantitative'),
+  'g2-1-length-04': quality('measure', 'quantitative'),
+  'g2-1-length-05': quality('model', 'quantitative'),
+  'g2-1-length-06': quality('compare', 'quantitative'),
+  'g2-1-classification-01': quality('interpret', 'quantitative'),
+  'g2-1-classification-02': quality('compare', 'quantitative'),
+  'g2-1-classification-03': quality('calculate', 'quantitative'),
+  'g2-1-classification-04': quality('interpret', 'quantitative'),
+  'g2-1-classification-05': quality('compare', 'quantitative'),
+  'g2-1-classification-06': quality('calculate', 'quantitative'),
+  'g2-1-multiplication-01': quality('calculate', 'quantitative'),
+  'g2-1-multiplication-02': quality('calculate', 'quantitative'),
+  'g2-1-multiplication-03': quality('model', 'quantitative'),
+  'g2-1-multiplication-04': quality('calculate', 'quantitative'),
+  'g2-1-multiplication-05': quality('calculate', 'quantitative'),
+  'g2-1-multiplication-06': quality('model', 'quantitative'),
+  'g2-2-place-value-01': quality('interpret', 'quantitative'),
+  'g2-2-place-value-02': quality('compare', 'schematic'),
+  'g2-2-place-value-03': quality('model', 'schematic'),
+  'g2-2-place-value-04': quality('interpret', 'quantitative'),
+  'g2-2-place-value-05': quality('compare', 'schematic'),
+  'g2-2-place-value-06': quality('model', 'schematic'),
+  'g2-2-facts-01': quality('calculate', 'quantitative'),
+  'g2-2-facts-02': quality('calculate', 'quantitative'),
+  'g2-2-facts-03': quality('model', 'quantitative'),
+  'g2-2-facts-04': quality('calculate', 'quantitative'),
+  'g2-2-facts-05': quality('calculate', 'quantitative'),
+  'g2-2-facts-06': quality('model', 'quantitative'),
+  'g2-2-length-01': quality('calculate', 'quantitative'),
+  'g2-2-length-02': quality('calculate', 'quantitative'),
+  'g2-2-length-03': quality('model', 'quantitative'),
+  'g2-2-length-04': quality('calculate', 'quantitative'),
+  'g2-2-length-05': quality('calculate', 'quantitative'),
+  'g2-2-length-06': quality('model', 'quantitative'),
+  'g2-2-time-01': quality('interpret', 'quantitative'),
+  'g2-2-time-02': quality('calculate', 'quantitative'),
+  'g2-2-time-03': quality('reason', 'schematic'),
+  'g2-2-time-04': quality('interpret', 'quantitative'),
+  'g2-2-time-05': quality('calculate', 'quantitative'),
+  'g2-2-time-06': quality('reason', 'schematic'),
+  'g2-2-table-graph-01': quality('interpret', 'quantitative'),
+  'g2-2-table-graph-02': quality('compare', 'quantitative'),
+  'g2-2-table-graph-03': quality('calculate', 'quantitative'),
+  'g2-2-table-graph-04': quality('interpret', 'quantitative'),
+  'g2-2-table-graph-05': quality('compare', 'quantitative'),
+  'g2-2-table-graph-06': quality('calculate', 'quantitative'),
+  'g2-2-pattern-01': quality('reason', 'schematic'),
+  'g2-2-pattern-02': quality('reason', 'schematic'),
+  'g2-2-pattern-03': quality('reason', 'quantitative'),
+  'g2-2-pattern-04': quality('reason', 'schematic'),
+  'g2-2-pattern-05': quality('reason', 'schematic'),
+  'g2-2-pattern-06': quality('reason', 'quantitative'),
+}
+
+function template(source: Grade2MissionTemplateSource): Grade2MissionTemplate {
+  const metadata = grade2QualityMetadataBySourceId[source.id]
+  if (!metadata) throw new Error(`${source.id}: missing explicit Grade 2 quality metadata`)
+  return { ...source, ...metadata }
 }
 
 const integerAnswerConfig: Grade2AnswerConfig = { kind: 'integer', inputLabel: '답을 숫자로 써요' }
@@ -369,7 +475,7 @@ const grade2AlphaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 3,
     skill: 'solid-shapes',
     difficultyStep: 'applied',
-    curriculumCode: '[2수03-05]',
+    curriculumCode: '[2수03-02]',
     learnerGoal: '쌓기나무 위치를 말해요',
     parentSummaryTag: 'cube-position',
     promptTemplate: '위층에 있는 쌓기나무는 모두 몇 개일까요?',
@@ -391,7 +497,7 @@ const grade2AlphaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 1,
     skill: 'addition-subtraction',
     difficultyStep: 'easy',
-    curriculumCode: '[2수01-05]',
+    curriculumCode: '[2수01-06]',
     learnerGoal: '받아올림 덧셈을 해요',
     parentSummaryTag: 'vertical-addition',
     promptTemplate: '38 + 27은 얼마일까요?',
@@ -413,7 +519,7 @@ const grade2AlphaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 2,
     skill: 'addition-subtraction',
     difficultyStep: 'medium',
-    curriculumCode: '[2수01-07]',
+    curriculumCode: '[2수01-06]',
     learnerGoal: '받아내림 뺄셈을 해요',
     parentSummaryTag: 'vertical-subtraction',
     promptTemplate: '52 - 28은 얼마일까요?',
@@ -457,7 +563,7 @@ const grade2AlphaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 1,
     skill: 'length',
     difficultyStep: 'easy',
-    curriculumCode: '[2수03-06]',
+    curriculumCode: '[2수03-10]',
     learnerGoal: 'cm 눈금을 읽어요',
     parentSummaryTag: 'ruler-reading',
     promptTemplate: '연필의 길이는 몇 cm일까요?',
@@ -479,7 +585,7 @@ const grade2AlphaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 2,
     skill: 'length',
     difficultyStep: 'medium',
-    curriculumCode: '[2수03-10]',
+    curriculumCode: '[2수03-11]',
     learnerGoal: 'm와 cm를 바꾸어 보아요',
     parentSummaryTag: 'length-conversion',
     promptTemplate: '1m 20cm는 모두 몇 cm일까요?',
@@ -501,7 +607,7 @@ const grade2AlphaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 3,
     skill: 'length',
     difficultyStep: 'applied',
-    curriculumCode: '[2수03-12]',
+    curriculumCode: '[2수03-11]',
     learnerGoal: '길이를 비교해요',
     parentSummaryTag: 'length-comparison',
     promptTemplate: '90cm와 1m 중 더 긴 길이는 무엇일까요?',
@@ -792,7 +898,7 @@ const grade2AlphaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 1,
     skill: 'length',
     difficultyStep: 'easy',
-    curriculumCode: '[2수03-11]',
+    curriculumCode: '[2수03-13]',
     learnerGoal: 'm와 cm를 합쳐요',
     parentSummaryTag: 'length-addition',
     promptTemplate: '1m 30cm와 40cm를 합치면 얼마일까요?',
@@ -836,14 +942,14 @@ const grade2AlphaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 3,
     skill: 'length',
     difficultyStep: 'applied',
-    curriculumCode: '[2수03-13]',
+    curriculumCode: '[2수03-11]',
     learnerGoal: '동치 길이 답안을 써요',
     parentSummaryTag: 'equivalent-length',
     promptTemplate: '120cm와 같은 길이를 m와 cm로 나타내면 얼마일까요?',
     answerType: 'length',
     answerConfig: lengthAnswerConfig,
     paramSchema: {},
-    solverRule: '120cm',
+    solverRule: '1m20cm',
     visualModel: 'length-bars',
     visualConfig: { leftLabel: '120cm', leftCm: 120, rightLabel: '1m 20cm', rightCm: 120, totalCm: 120, hideRightLabelUntilReveal: true },
     hintStepsTemplate: ['100cm는 1m예요.', '120cm는 100cm와 20cm로 나눌 수 있어요.'],
@@ -1014,7 +1120,7 @@ const grade2AlphaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 2,
     skill: 'pattern',
     difficultyStep: 'medium',
-    curriculumCode: '[2수02-02]',
+    curriculumCode: '[2수02-01]',
     learnerGoal: '증가 규칙을 찾아요',
     parentSummaryTag: 'growing-patterns',
     promptTemplate: '2, 4, 6, 8 다음 수는 무엇일까요?',
@@ -1036,7 +1142,7 @@ const grade2AlphaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 3,
     skill: 'pattern',
     difficultyStep: 'applied',
-    curriculumCode: '[2수02-02]',
+    curriculumCode: '[2수02-01]',
     learnerGoal: '곱셈표 규칙을 찾아요',
     parentSummaryTag: 'multiplication-patterns',
     promptTemplate: '5단에서 5, 10, 15, 20 다음 수는 무엇일까요?',
@@ -1174,7 +1280,7 @@ const grade2BetaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 6,
     skill: 'solid-shapes',
     difficultyStep: 'applied',
-    curriculumCode: '[2수03-05]',
+    curriculumCode: '[2수03-02]',
     learnerGoal: '쌓기나무 층을 구별해요',
     parentSummaryTag: 'cube-position',
     promptTemplate: '아래층에 있는 쌓기나무는 모두 몇 개일까요?',
@@ -1196,7 +1302,7 @@ const grade2BetaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 4,
     skill: 'addition-subtraction',
     difficultyStep: 'easy',
-    curriculumCode: '[2수01-05]',
+    curriculumCode: '[2수01-06]',
     learnerGoal: '받아올림 없는 덧셈을 해요',
     parentSummaryTag: 'vertical-addition',
     promptTemplate: '24 + 13은 얼마일까요?',
@@ -1218,7 +1324,7 @@ const grade2BetaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 5,
     skill: 'addition-subtraction',
     difficultyStep: 'medium',
-    curriculumCode: '[2수01-07]',
+    curriculumCode: '[2수01-06]',
     learnerGoal: '받아내림 없는 뺄셈을 해요',
     parentSummaryTag: 'vertical-subtraction',
     promptTemplate: '76 - 34는 얼마일까요?',
@@ -1262,7 +1368,7 @@ const grade2BetaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 4,
     skill: 'length',
     difficultyStep: 'easy',
-    curriculumCode: '[2수03-06]',
+    curriculumCode: '[2수03-10]',
     learnerGoal: '자 눈금을 다시 읽어요',
     parentSummaryTag: 'ruler-reading',
     promptTemplate: '지우개의 길이는 몇 cm일까요?',
@@ -1284,7 +1390,7 @@ const grade2BetaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 5,
     skill: 'length',
     difficultyStep: 'medium',
-    curriculumCode: '[2수03-10]',
+    curriculumCode: '[2수03-11]',
     learnerGoal: 'm를 cm로 바꾸어요',
     parentSummaryTag: 'length-conversion',
     promptTemplate: '2m는 모두 몇 cm일까요?',
@@ -1306,7 +1412,7 @@ const grade2BetaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 6,
     skill: 'length',
     difficultyStep: 'applied',
-    curriculumCode: '[2수03-12]',
+    curriculumCode: '[2수03-11]',
     learnerGoal: '길이 차이를 비교해요',
     parentSummaryTag: 'length-comparison',
     promptTemplate: '1m 10cm와 105cm 중 더 긴 길이는 무엇일까요?',
@@ -1597,7 +1703,7 @@ const grade2BetaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 4,
     skill: 'length',
     difficultyStep: 'easy',
-    curriculumCode: '[2수03-11]',
+    curriculumCode: '[2수03-13]',
     learnerGoal: '길이를 더해요',
     parentSummaryTag: 'length-addition',
     promptTemplate: '1m 10cm와 30cm를 합치면 얼마일까요?',
@@ -1641,14 +1747,14 @@ const grade2BetaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 6,
     skill: 'length',
     difficultyStep: 'applied',
-    curriculumCode: '[2수03-13]',
+    curriculumCode: '[2수03-11]',
     learnerGoal: '같은 길이를 바꾸어 써요',
     parentSummaryTag: 'equivalent-length',
     promptTemplate: '230cm와 같은 길이를 m와 cm로 나타내면 얼마일까요?',
     answerType: 'length',
     answerConfig: lengthAnswerConfig,
     paramSchema: {},
-    solverRule: '230cm',
+    solverRule: '2m30cm',
     visualModel: 'length-bars',
     visualConfig: { leftLabel: '230cm', leftCm: 230, rightLabel: '2m 30cm', rightCm: 230, totalCm: 230, hideRightLabelUntilReveal: true },
     hintStepsTemplate: ['100cm는 1m예요.', '230cm는 200cm와 30cm로 나눌 수 있어요.'],
@@ -1819,7 +1925,7 @@ const grade2BetaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 5,
     skill: 'pattern',
     difficultyStep: 'medium',
-    curriculumCode: '[2수02-02]',
+    curriculumCode: '[2수02-01]',
     learnerGoal: '3씩 커지는 규칙을 찾아요',
     parentSummaryTag: 'growing-patterns',
     promptTemplate: '3, 6, 9, 12 다음 수는 무엇일까요?',
@@ -1841,7 +1947,7 @@ const grade2BetaMissionTemplates: Grade2MissionTemplate[] = [
     unitMissionOrder: 6,
     skill: 'pattern',
     difficultyStep: 'applied',
-    curriculumCode: '[2수02-02]',
+    curriculumCode: '[2수02-01]',
     learnerGoal: '구구단 증가 규칙을 찾아요',
     parentSummaryTag: 'multiplication-patterns',
     promptTemplate: '4단에서 4, 8, 12, 16 다음 수는 무엇일까요?',
@@ -1972,12 +2078,11 @@ function renderVisualConfig(
   )
 }
 
-export function renderGrade2Mission(
+function renderGrade2MissionFromParams(
   template: Grade2MissionTemplate,
-  seed = template.stageOrder
+  params: Record<string, number>,
+  random: () => number
 ): Grade2Mission {
-  const random = seededRandom(seed + template.stageOrder * 997)
-  const params = generateParams(template.paramSchema, random)
   const correctAnswer = renderTemplate(template.solverRule, params)
   const choices = template.choicesTemplate
     ? template.choicesTemplate.map((choice) => renderTemplate(choice, params))
@@ -1993,6 +2098,8 @@ export function renderGrade2Mission(
     skill: template.skill,
     difficultyStep: template.difficultyStep,
     curriculumCode: template.curriculumCode,
+    taskActions: template.taskActions,
+    visualSemantics: template.visualSemantics,
     learnerGoal: template.learnerGoal,
     parentSummaryTag: template.parentSummaryTag,
     prompt: renderTemplate(template.promptTemplate, params),
@@ -2008,6 +2115,15 @@ export function renderGrade2Mission(
     solutionSteps: template.solutionStepsTemplate.map((step) => renderTemplate(step, params)),
     rewardId: template.rewardId,
   }
+}
+
+export function renderGrade2Mission(
+  template: Grade2MissionTemplate,
+  seed = template.stageOrder
+): Grade2Mission {
+  const random = seededRandom(seed + template.stageOrder * 997)
+  const params = generateParams(template.paramSchema, random)
+  return renderGrade2MissionFromParams(template, params, random)
 }
 
 export function getGrade2Missions(seed = 20260510): Grade2Mission[] {
@@ -2039,6 +2155,12 @@ export function getGrade2UnitById(id: string): Grade2Unit | undefined {
 export interface Grade2ValidationResult {
   errors: string[]
   warnings: string[]
+}
+
+export interface Grade2VariantAuditResult {
+  sourceCount: number
+  variantCount: number
+  errors: string[]
 }
 
 const visualRequiredFields: Record<Grade2VisualModel, string[]> = {
@@ -2100,6 +2222,112 @@ function validateRulerVisual(template: Grade2MissionTemplate, errors: string[]) 
   }
 }
 
+function enumerateGrade2Params(
+  schema: Grade2MissionTemplate['paramSchema']
+): Record<string, number>[] {
+  let variants: Record<string, number>[] = [{}]
+  for (const [name, range] of Object.entries(schema)) {
+    const next: Record<string, number>[] = []
+    for (const variant of variants) {
+      for (let value = range.min; value <= range.max; value += 1) {
+        next.push({ ...variant, [name]: value })
+      }
+    }
+    variants = next
+  }
+  return variants
+}
+
+function renderedGrade2TextHasPlaceholder(mission: Grade2Mission) {
+  return [
+    mission.prompt,
+    mission.correctAnswer,
+    ...(mission.choices ?? []),
+    ...mission.hintSteps,
+    ...mission.solutionSteps,
+    ...Object.values(mission.visualConfig).map(String),
+  ].some((value) => /{{|}}/.test(value))
+}
+
+function grade2VisualAnswer(mission: Grade2Mission): string | undefined {
+  const config = mission.visualConfig
+  if (mission.visualModel === 'place-value-blocks') return String(config.number)
+  if (mission.visualModel === 'expanded-number-cards') return String(config.target)
+  if (mission.visualModel === 'vertical-operation') return String(config.result)
+  if (mission.visualModel === 'box-equation') {
+    const right = Number(config.right)
+    const result = Number(config.result)
+    if (config.missing === 'left' && config.operator === '+') return String(result - right)
+    if (config.missing === 'left' && config.operator === '-') return String(result + right)
+  }
+  if (mission.visualModel === 'solid-shape-cards') return String(config.target)
+  if (mission.visualModel === 'stack-cubes') {
+    return String(config.targetLayer === 'top' ? config.top : config.bottom)
+  }
+  if (mission.visualModel === 'ruler-line') {
+    return `${Number(config.endCm) - Number(config.startCm)}cm`
+  }
+  if (mission.visualModel === 'array-groups' && !mission.correctAnswer.includes('x')) {
+    return String(Number(config.rows) * Number(config.cols))
+  }
+  if (mission.visualModel === 'multiplication-table') {
+    if (mission.prompt.includes('□')) return String(config.factor)
+    return String(config.product)
+  }
+  if (mission.visualModel === 'calendar-strip') return String(config.target)
+  if (mission.visualModel === 'classification-table' || mission.visualModel === 'mark-graph') {
+    const categories = splitList(config.categories)
+    const counts = splitList(config.counts).map(Number)
+    const target = String(config.target)
+    if (target.includes('-')) {
+      const [left, right] = target.split('-')
+      return String(counts[categories.indexOf(left)] - counts[categories.indexOf(right)])
+    }
+    const targetCount = counts[categories.indexOf(target)]
+    return /^\d+$/.test(mission.correctAnswer) ? String(targetCount) : target
+  }
+  return undefined
+}
+
+export function auditGrade2MissionVariants(
+  templates: Grade2MissionTemplate[] = grade2MissionTemplates
+): Grade2VariantAuditResult {
+  const errors: string[] = []
+  let variantCount = 0
+
+  for (const template of templates) {
+    const variants = enumerateGrade2Params(template.paramSchema)
+    for (let index = 0; index < variants.length; index += 1) {
+      const mission = renderGrade2MissionFromParams(
+        template,
+        variants[index],
+        seededRandom(template.stageOrder * 10_000 + index + 1)
+      )
+      variantCount += 1
+      const label = `${template.id} variant ${index + 1}`
+      if (renderedGrade2TextHasPlaceholder(mission)) errors.push(`${label}: unresolved template placeholder`)
+      if (!mission.correctAnswer.trim()) errors.push(`${label}: empty correct answer`)
+
+      if (mission.answerType === 'choice' || mission.answerType === 'label') {
+        const choices = mission.choices ?? []
+        if (new Set(choices).size !== choices.length) errors.push(`${label}: duplicate choices`)
+        const correctCount = choices.filter((choice) => choice === mission.correctAnswer).length
+        if (correctCount !== 1) errors.push(`${label}: expected one correct choice, got ${correctCount}`)
+      }
+      if (mission.prompt.includes('m와 cm로') && !/^\d+m\d+cm$/.test(mission.correctAnswer)) {
+        errors.push(`${label}: answer must use the requested m-and-cm format`)
+      }
+
+      const visualAnswer = grade2VisualAnswer(mission)
+      if (visualAnswer !== undefined && visualAnswer !== mission.correctAnswer) {
+        errors.push(`${label}: visual answer ${visualAnswer} does not match ${mission.correctAnswer}`)
+      }
+    }
+  }
+
+  return { sourceCount: templates.length, variantCount, errors }
+}
+
 export function validateGrade2MissionBank(
   templates: Grade2MissionTemplate[] = grade2MissionTemplates
 ): Grade2ValidationResult {
@@ -2123,6 +2351,10 @@ export function validateGrade2MissionBank(
       errors.push(`${template.id}: semester does not match unit`)
     }
     if (!template.curriculumCode.trim()) errors.push(`${template.id}: missing curriculumCode`)
+    if (template.taskActions.length === 0) errors.push(`${template.id}: missing taskActions`)
+    if (template.visualSemantics !== 'schematic' && template.visualSemantics !== 'quantitative') {
+      errors.push(`${template.id}: visualSemantics must match the required visual`)
+    }
     if (template.answerConfig.kind !== template.answerType) {
       errors.push(`${template.id}: answerConfig.kind must match answerType`)
     }
@@ -2179,6 +2411,7 @@ export function validateGrade2MissionBank(
 
   if (templates.length !== 144) errors.push(`V1 expects 144 missions, got ${templates.length}`)
   if (!ids.has(SAFE_GRADE2_MISSION_ID)) errors.push(`Safe mission id is missing: ${SAFE_GRADE2_MISSION_ID}`)
+  errors.push(...auditGrade2MissionVariants(templates).errors)
 
   return { errors, warnings }
 }

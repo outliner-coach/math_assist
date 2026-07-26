@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  auditGrade3MissionVariants,
   getGrade3MissionById,
   getGrade3Missions,
   grade3MissionTemplates,
@@ -41,11 +42,29 @@ describe('grade3 mission bank', () => {
 
   it('keeps curriculum traceability, answer configs, and validator clean', () => {
     const result = validateGrade3MissionBank()
+    const allowedActions = new Set([
+      'recognize', 'classify', 'compare', 'calculate', 'measure', 'construct',
+      'model', 'interpret', 'explain', 'analyze_error', 'reason',
+    ])
 
     expect(result.errors).toEqual([])
     expect(result.warnings).toEqual([])
     expect(grade3MissionTemplates.every((template) => template.curriculumCode.startsWith('[4수'))).toBe(true)
     expect(grade3MissionTemplates.every((template) => template.answerConfig.kind === template.answerType)).toBe(true)
+    expect(grade3MissionTemplates.every((template) =>
+      template.taskActions.length > 0
+      && template.taskActions.every((action) => allowedActions.has(action))
+    )).toBe(true)
+    expect(grade3MissionTemplates.every((template) =>
+      template.visualSemantics === 'schematic' || template.visualSemantics === 'quantitative'
+    )).toBe(true)
+  })
+
+  it('audits every published Grade 3 source variant', () => {
+    const result = auditGrade3MissionVariants()
+
+    expect(result.variantCount).toBe(40)
+    expect(result.errors).toEqual([])
   })
 
   it('keeps choice answers unique and exact', () => {

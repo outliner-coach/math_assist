@@ -17,6 +17,27 @@ export type Grade1VisualModel =
 
 export type Grade1AnswerType = 'choice' | 'number'
 
+export type Grade1TaskAction =
+  | 'recognize'
+  | 'classify'
+  | 'compare'
+  | 'calculate'
+  | 'measure'
+  | 'construct'
+  | 'model'
+  | 'interpret'
+  | 'explain'
+  | 'analyze_error'
+  | 'reason'
+
+export type Grade1VisualSemantics = 'decorative' | 'schematic' | 'quantitative'
+
+interface Grade1QualityMetadata {
+  curriculumCodes: string[]
+  taskActions: Grade1TaskAction[]
+  visualSemantics: Grade1VisualSemantics
+}
+
 export interface Grade1Island {
   id: string
   title: string
@@ -32,7 +53,7 @@ export type Grade1RewardId =
 
 export type Grade1VisualConfig = Record<string, string | number | boolean>
 
-export interface Grade1MissionTemplate {
+export interface Grade1MissionTemplate extends Grade1QualityMetadata {
   id: string
   islandId: string
   stageOrder: number
@@ -52,7 +73,7 @@ export interface Grade1MissionTemplate {
   rewardId: Grade1RewardId
 }
 
-export interface Grade1Mission {
+export interface Grade1Mission extends Grade1QualityMetadata {
   id: string
   islandId: string
   stageOrder: number
@@ -118,7 +139,84 @@ export const grade1Islands: Grade1Island[] = [
   },
 ]
 
-const grade1AlphaMissionTemplates: Grade1MissionTemplate[] = [
+type Grade1MissionTemplateSource = Omit<Grade1MissionTemplate, keyof Grade1QualityMetadata>
+
+function quality(
+  curriculumCode: string,
+  taskAction: Grade1TaskAction,
+  visualSemantics: Grade1VisualSemantics
+): Grade1QualityMetadata {
+  return {
+    curriculumCodes: [curriculumCode],
+    taskActions: [taskAction],
+    visualSemantics,
+  }
+}
+
+const grade1QualityMetadataBySourceId: Record<string, Grade1QualityMetadata> = {
+  'count-cove-01': quality('[2수01-01]', 'calculate', 'quantitative'),
+  'count-cove-02': quality('[2수01-01]', 'calculate', 'quantitative'),
+  'count-cove-03': quality('[2수01-01]', 'calculate', 'quantitative'),
+  'count-cove-04': quality('[2수01-01]', 'calculate', 'quantitative'),
+  'count-cove-05': quality('[2수01-01]', 'calculate', 'quantitative'),
+  'count-cove-06': quality('[2수01-01]', 'calculate', 'quantitative'),
+  'count-cove-07': quality('[2수01-01]', 'calculate', 'quantitative'),
+  'count-cove-08': quality('[2수01-01]', 'calculate', 'quantitative'),
+  'count-cove-09': quality('[2수01-01]', 'calculate', 'quantitative'),
+  'order-bridge-01': quality('[2수01-03]', 'compare', 'schematic'),
+  'order-bridge-02': quality('[2수01-03]', 'compare', 'schematic'),
+  'order-bridge-03': quality('[2수01-03]', 'compare', 'schematic'),
+  'order-bridge-04': quality('[2수01-03]', 'compare', 'schematic'),
+  'order-bridge-05': quality('[2수01-03]', 'compare', 'schematic'),
+  'order-bridge-06': quality('[2수01-03]', 'compare', 'schematic'),
+  'order-bridge-07': quality('[2수01-03]', 'compare', 'schematic'),
+  'order-bridge-08': quality('[2수01-03]', 'compare', 'schematic'),
+  'order-bridge-09': quality('[2수01-03]', 'compare', 'schematic'),
+  'orchard-port-01': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'orchard-port-02': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'orchard-port-03': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'orchard-port-04': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'orchard-port-05': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'orchard-port-06': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'orchard-port-07': quality('[2수01-06]', 'calculate', 'quantitative'),
+  'orchard-port-08': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'orchard-port-09': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'orchard-port-10': quality('[2수01-08]', 'calculate', 'quantitative'),
+  'river-dock-01': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'river-dock-02': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'river-dock-03': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'river-dock-04': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'river-dock-05': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'river-dock-06': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'river-dock-07': quality('[2수01-06]', 'calculate', 'quantitative'),
+  'river-dock-08': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'river-dock-09': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'river-dock-10': quality('[2수01-05]', 'calculate', 'quantitative'),
+  'shape-forest-01': quality('[2수03-04]', 'recognize', 'schematic'),
+  'shape-forest-02': quality('[2수03-04]', 'recognize', 'schematic'),
+  'shape-forest-03': quality('[2수03-04]', 'recognize', 'schematic'),
+  'shape-forest-04': quality('[2수03-04]', 'recognize', 'schematic'),
+  'shape-forest-05': quality('[2수03-04]', 'recognize', 'schematic'),
+  'shape-forest-06': quality('[2수03-05]', 'classify', 'schematic'),
+  'shape-forest-07': quality('[2수03-05]', 'classify', 'schematic'),
+  'shape-forest-08': quality('[2수03-05]', 'classify', 'schematic'),
+  'shape-forest-09': quality('[2수03-05]', 'classify', 'schematic'),
+  'clock-tower-01': quality('[2수03-07]', 'interpret', 'quantitative'),
+  'clock-tower-02': quality('[2수03-07]', 'interpret', 'quantitative'),
+  'clock-tower-03': quality('[2수03-07]', 'interpret', 'quantitative'),
+  'clock-tower-04': quality('[2수03-09]', 'reason', 'schematic'),
+  'clock-tower-05': quality('[2수03-07]', 'interpret', 'quantitative'),
+  'clock-tower-06': quality('[2수03-07]', 'interpret', 'quantitative'),
+  'clock-tower-07': quality('[2수03-09]', 'reason', 'schematic'),
+  'pattern-cave-01': quality('[2수02-01]', 'reason', 'schematic'),
+  'pattern-cave-02': quality('[2수02-01]', 'reason', 'schematic'),
+  'pattern-cave-03': quality('[2수02-01]', 'reason', 'schematic'),
+  'pattern-cave-04': quality('[2수02-01]', 'reason', 'schematic'),
+  'pattern-cave-05': quality('[2수02-01]', 'reason', 'schematic'),
+  'pattern-cave-06': quality('[2수02-01]', 'reason', 'schematic'),
+}
+
+const grade1AlphaMissionTemplates: Grade1MissionTemplateSource[] = [
   {
     id: 'count-cove-01',
     islandId: 'count-cove',
@@ -570,7 +668,7 @@ const grade1AlphaMissionTemplates: Grade1MissionTemplate[] = [
   },
 ]
 
-const grade1BetaMissionTemplates: Grade1MissionTemplate[] = [
+const grade1BetaMissionTemplates: Grade1MissionTemplateSource[] = [
   {
     id: 'count-cove-05',
     islandId: 'count-cove',
@@ -1099,17 +1197,17 @@ const grade1BetaMissionTemplates: Grade1MissionTemplate[] = [
     stageOrder: 53,
     skill: 'time',
     difficulty: 1,
-    learnerGoal: '생활 순서를 골라요',
-    parentSummaryTag: 'daily-order',
-    promptTemplate: '아침에 먼저 하는 일은 무엇일까요?',
+    learnerGoal: '하루와 시간의 관계를 알아요',
+    parentSummaryTag: 'day-hour-relation',
+    promptTemplate: '하루는 몇 시간일까요?',
     answerType: 'choice',
     paramSchema: {},
-    solverRule: '일어나기',
-    choicesTemplate: ['일어나기', '저녁 먹기', '잠자기'],
+    solverRule: '24시간',
+    choicesTemplate: ['24시간', '12시간', '60시간'],
     visualModel: 'number-cards',
-    visualConfig: { cards: '일어나기,저녁 먹기,잠자기', target: '일어나기' },
-    hintStepsTemplate: ['하루를 시작할 때를 생각해요.', '잠에서 깬 뒤 하는 일을 골라요.'],
-    solutionStepsTemplate: ['아침에는 먼저 일어나요.'],
+    visualConfig: { cards: '24시간,12시간,60시간', target: '24시간' },
+    hintStepsTemplate: ['낮 12시간과 밤 12시간을 합쳐요.', '12 + 12를 계산해요.'],
+    solutionStepsTemplate: ['12 + 12 = 24예요.', '하루는 24시간이에요.'],
     rewardId: 'clockBadge',
   },
   {
@@ -1156,17 +1254,17 @@ const grade1BetaMissionTemplates: Grade1MissionTemplate[] = [
     stageOrder: 56,
     skill: 'time',
     difficulty: 3,
-    learnerGoal: '하루 순서를 생각해요',
-    parentSummaryTag: 'daily-order',
-    promptTemplate: '아침 다음에 오는 때는 무엇일까요?',
+    learnerGoal: '일주일과 날짜의 관계를 알아요',
+    parentSummaryTag: 'week-day-relation',
+    promptTemplate: '1주일은 며칠일까요?',
     answerType: 'choice',
     paramSchema: {},
-    solverRule: '점심',
-    choicesTemplate: ['점심', '새벽', '밤'],
+    solverRule: '7일',
+    choicesTemplate: ['7일', '5일', '10일'],
     visualModel: 'number-cards',
-    visualConfig: { cards: '아침,점심,저녁', target: '점심' },
-    hintStepsTemplate: ['하루의 순서를 떠올려요.', '아침 뒤에는 점심이 와요.'],
-    solutionStepsTemplate: ['아침 다음은 점심이에요.'],
+    visualConfig: { cards: '7일,5일,10일', target: '7일' },
+    hintStepsTemplate: ['월요일부터 일요일까지 세어요.', '일주일에는 날짜가 7개 있어요.'],
+    solutionStepsTemplate: ['월요일부터 일요일까지 모두 7일이에요.', '1주일은 7일이에요.'],
     rewardId: 'clockBadge',
   },
   {
@@ -1246,7 +1344,7 @@ const grade1BetaMissionTemplates: Grade1MissionTemplate[] = [
   },
 ]
 
-const grade1BaseMissionTemplates: Grade1MissionTemplate[] = [
+const grade1BaseMissionTemplates: Grade1MissionTemplateSource[] = [
   ...grade1AlphaMissionTemplates,
   ...grade1BetaMissionTemplates,
 ]
@@ -1269,6 +1367,11 @@ function buildGrade1V1MissionTemplates(): Grade1MissionTemplate[] {
     const originals = grade1BaseMissionTemplates
       .filter((mission) => mission.islandId === island.id)
       .sort((left, right) => left.stageOrder - right.stageOrder)
+      .map((mission) => {
+        const metadata = grade1QualityMetadataBySourceId[mission.id]
+        if (!metadata) throw new Error(`${mission.id}: missing explicit Grade 1 quality metadata`)
+        return { ...mission, ...metadata }
+      })
     const target = grade1IslandTargets[island.id] ?? originals.length
 
     for (const original of originals) {
@@ -1379,12 +1482,11 @@ function renderVisualConfig(
   )
 }
 
-export function renderGrade1Mission(
+function renderGrade1MissionFromParams(
   template: Grade1MissionTemplate,
-  seed = template.stageOrder
+  params: Record<string, number>,
+  random: () => number
 ): Grade1Mission {
-  const random = seededRandom(seed + template.stageOrder * 997)
-  const params = generateParams(template.paramSchema, random)
   const correctAnswer = renderTemplate(template.solverRule, params)
   const choices = template.choicesTemplate
     ? template.choicesTemplate.map((choice) => renderTemplate(choice, params))
@@ -1399,6 +1501,9 @@ export function renderGrade1Mission(
     difficulty: template.difficulty,
     learnerGoal: template.learnerGoal,
     parentSummaryTag: template.parentSummaryTag,
+    curriculumCodes: template.curriculumCodes,
+    taskActions: template.taskActions,
+    visualSemantics: template.visualSemantics,
     prompt: renderTemplate(template.promptTemplate, params),
     answerType: template.answerType,
     params,
@@ -1411,6 +1516,15 @@ export function renderGrade1Mission(
     solutionSteps: template.solutionStepsTemplate.map((step) => renderTemplate(step, params)),
     rewardId: template.rewardId,
   }
+}
+
+export function renderGrade1Mission(
+  template: Grade1MissionTemplate,
+  seed = template.stageOrder
+): Grade1Mission {
+  const random = seededRandom(seed + template.stageOrder * 997)
+  const params = generateParams(template.paramSchema, random)
+  return renderGrade1MissionFromParams(template, params, random)
 }
 
 export function getGrade1Missions(seed = 20260509): Grade1Mission[] {
@@ -1440,6 +1554,95 @@ export function getGrade1IslandById(id: string): Grade1Island | undefined {
 export interface Grade1ValidationResult {
   errors: string[]
   warnings: string[]
+}
+
+export interface Grade1VariantAuditResult {
+  sourceCount: number
+  variantCount: number
+  errors: string[]
+}
+
+function enumerateGrade1Params(
+  schema: Grade1MissionTemplate['paramSchema']
+): Record<string, number>[] {
+  let variants: Record<string, number>[] = [{}]
+  for (const [name, range] of Object.entries(schema)) {
+    const next: Record<string, number>[] = []
+    for (const variant of variants) {
+      for (let value = range.min; value <= range.max; value += 1) {
+        next.push({ ...variant, [name]: value })
+      }
+    }
+    variants = next
+  }
+  return variants
+}
+
+function renderedTextHasPlaceholder(mission: Grade1Mission) {
+  return [
+    mission.prompt,
+    mission.correctAnswer,
+    ...(mission.choices ?? []),
+    ...mission.hintSteps,
+    ...mission.solutionSteps,
+    ...Object.values(mission.visualConfig).map(String),
+  ].some((value) => /{{|}}/.test(value))
+}
+
+function expectedGrade1VisualAnswer(mission: Grade1Mission): string | undefined {
+  if (mission.visualModel === 'counting-grid') {
+    return String(mission.visualConfig.count)
+  }
+  if (mission.visualModel === 'object-groups') {
+    const operation = String(mission.visualConfig.operation)
+    if (operation === 'add') {
+      return String(Number(mission.visualConfig.left) + Number(mission.visualConfig.right))
+    }
+    if (operation === 'sub') {
+      return String(Number(mission.visualConfig.total) - Number(mission.visualConfig.take))
+    }
+  }
+  if (mission.visualModel === 'number-cards' || mission.visualModel === 'shape-cards') {
+    return String(mission.visualConfig.target)
+  }
+  return undefined
+}
+
+export function auditGrade1MissionVariants(
+  templates: Grade1MissionTemplate[] = grade1MissionTemplates
+): Grade1VariantAuditResult {
+  const errors: string[] = []
+  let variantCount = 0
+
+  for (const template of templates) {
+    const variants = enumerateGrade1Params(template.paramSchema)
+    for (let index = 0; index < variants.length; index += 1) {
+      const mission = renderGrade1MissionFromParams(
+        template,
+        variants[index],
+        seededRandom(template.stageOrder * 10_000 + index + 1)
+      )
+      variantCount += 1
+      const label = `${template.id} variant ${index + 1}`
+      if (renderedTextHasPlaceholder(mission)) errors.push(`${label}: unresolved template placeholder`)
+      if (!mission.correctAnswer.trim()) errors.push(`${label}: empty correct answer`)
+      if (/^-\d/.test(mission.correctAnswer)) errors.push(`${label}: negative correct answer`)
+
+      if (mission.answerType === 'choice') {
+        const choices = mission.choices ?? []
+        if (new Set(choices).size !== choices.length) errors.push(`${label}: duplicate choices`)
+        const correctCount = choices.filter((choice) => choice === mission.correctAnswer).length
+        if (correctCount !== 1) errors.push(`${label}: expected one correct choice, got ${correctCount}`)
+      }
+
+      const visualAnswer = expectedGrade1VisualAnswer(mission)
+      if (visualAnswer !== undefined && visualAnswer !== mission.correctAnswer) {
+        errors.push(`${label}: visual answer ${visualAnswer} does not match ${mission.correctAnswer}`)
+      }
+    }
+  }
+
+  return { sourceCount: templates.length, variantCount, errors }
 }
 
 export function validateGrade1MissionBank(
@@ -1484,6 +1687,11 @@ export function validateGrade1MissionBank(
     }
     if (!template.learnerGoal.trim()) errors.push(`${template.id}: missing learnerGoal`)
     if (!template.parentSummaryTag.trim()) errors.push(`${template.id}: missing parentSummaryTag`)
+    if (template.curriculumCodes.length === 0) errors.push(`${template.id}: missing curriculumCodes`)
+    if (template.taskActions.length === 0) errors.push(`${template.id}: missing taskActions`)
+    if (template.visualSemantics !== 'schematic' && template.visualSemantics !== 'quantitative') {
+      errors.push(`${template.id}: visualSemantics must match the required visual`)
+    }
     if (template.hintStepsTemplate.length === 0) errors.push(`${template.id}: missing hints`)
     if (template.solutionStepsTemplate.length === 0) errors.push(`${template.id}: missing solution steps`)
     if (template.answerType === 'choice' && (!template.choicesTemplate || template.choicesTemplate.length < 2)) {
@@ -1519,6 +1727,7 @@ export function validateGrade1MissionBank(
     errors.push(`Safe mission id is missing: ${SAFE_GRADE1_MISSION_ID}`)
   }
   if (templates.length !== 96) errors.push(`V1 expects 96 missions, got ${templates.length}`)
+  errors.push(...auditGrade1MissionVariants(templates).errors)
 
   return { errors, warnings }
 }

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  auditGrade1MissionVariants,
   getGrade1MissionById,
   getGrade1Missions,
   getSafeGrade1Mission,
@@ -53,10 +54,32 @@ describe('grade1 mission bank', () => {
 
   it('validates choices, metadata, rewards, and visual models', () => {
     const result = validateGrade1MissionBank()
+    const allowedActions = new Set([
+      'recognize', 'classify', 'compare', 'calculate', 'measure', 'construct',
+      'model', 'interpret', 'explain', 'analyze_error', 'reason',
+    ])
 
     expect(result.errors).toEqual([])
     expect(grade1MissionTemplates.every((template) => template.learnerGoal)).toBe(true)
     expect(grade1MissionTemplates.every((template) => template.parentSummaryTag)).toBe(true)
+    expect(grade1MissionTemplates.every((template) => template.curriculumCodes.length > 0)).toBe(true)
+    expect(grade1MissionTemplates.every((template) =>
+      template.curriculumCodes.every((code) => /^\[2수\d{2}-\d{2}\]$/.test(code))
+    )).toBe(true)
+    expect(grade1MissionTemplates.every((template) =>
+      template.taskActions.length > 0
+      && template.taskActions.every((action) => allowedActions.has(action))
+    )).toBe(true)
+    expect(grade1MissionTemplates.every((template) =>
+      template.visualSemantics === 'schematic' || template.visualSemantics === 'quantitative'
+    )).toBe(true)
+  })
+
+  it('audits every allowed Grade 1 parameter combination', () => {
+    const result = auditGrade1MissionVariants()
+
+    expect(result.variantCount).toBe(659)
+    expect(result.errors).toEqual([])
   })
 
   it('renders each choice mission with exactly one correct answer across seeds', () => {
