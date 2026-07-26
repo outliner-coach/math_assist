@@ -13,6 +13,7 @@ describe('content release IDs', () => {
     expect(resolveContentReleaseId(6, 'g6prismpyramid-001')).toBe('grade6-prism-pyramid-v1')
     expect(resolveContentReleaseId(6, 'g6roundsolid-001')).toBe('grade6-round-solid-v1')
     expect(resolveContentReleaseId(6, 'g6spatial-001')).toBe('grade6-spatial-reasoning-v1')
+    expect(resolveContentReleaseId(6, 'g6circle-001')).toBe('grade6-circle-measurement-v1')
   })
 
   it('fails closed for an unknown Grade 6 concept', () => {

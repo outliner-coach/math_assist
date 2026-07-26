@@ -1459,6 +1459,158 @@ function CubeStackVisual({ visual }: {
   return <CubeViewsVisual heights={visual.heights} mode={visual.mode} />
 }
 
+type CircleMeasurementVisualValue = Extract<GeometryVisual, {
+  type: 'circle-measurement'
+}>
+
+export interface CircleMeasurementModel {
+  radius: number
+  diameter: number
+  circumference: number
+  area: number
+  copies: number
+  innerRadius?: number
+}
+
+function roundCircleValue(value: number): number {
+  return Math.round(value * 100) / 100
+}
+
+export function buildCircleMeasurementModel(
+  visual: CircleMeasurementVisualValue
+): CircleMeasurementModel {
+  const radius = Math.max(0.5, Math.min(20, positive(visual.radius)))
+  const pi = Math.max(3, Math.min(3.2, positive(visual.pi, 3.14)))
+  const copies = Math.max(1, Math.min(4, Math.round(positive(visual.copies, 1))))
+  const innerRadius = typeof visual.innerRadius === 'number'
+    ? Math.max(0, Math.min(radius - 0.25, visual.innerRadius))
+    : undefined
+  return {
+    radius,
+    diameter: roundCircleValue(radius * 2),
+    circumference: roundCircleValue(radius * 2 * pi),
+    area: roundCircleValue(radius * radius * pi),
+    copies,
+    ...(innerRadius !== undefined ? { innerRadius } : {}),
+  }
+}
+
+function formatCircleValue(value: number): string {
+  return Number.isInteger(value) ? String(value) : String(roundCircleValue(value))
+}
+
+function CircleMeasurementVisual({ visual }: {
+  visual: CircleMeasurementVisualValue
+}) {
+  const model = buildCircleMeasurementModel(visual)
+  const unit = visual.unit ?? 'cm'
+  const positions = model.copies === 1
+    ? [{ x: 180, y: 105 }]
+    : model.copies === 2
+      ? [{ x: 105, y: 105 }, { x: 255, y: 105 }]
+      : model.copies === 3
+        ? [{ x: 70, y: 105 }, { x: 180, y: 105 }, { x: 290, y: 105 }]
+        : [{ x: 105, y: 70 }, { x: 255, y: 70 }, { x: 105, y: 155 }, { x: 255, y: 155 }]
+  const pixelRadius = model.copies === 1 ? 62 : model.copies === 2 ? 48 : 36
+  const labelRadius = visual.measureLabel === 'radius' || visual.measureLabel === 'both'
+  const labelDiameter = visual.measureLabel === 'diameter' || visual.measureLabel === 'both'
+  const ariaLabel = visual.focus === 'pi'
+    ? '원주율 측정 원'
+    : visual.innerRadius !== undefined
+      ? '두 원 사이의 영역'
+      : visual.focus === 'area'
+        ? '넓이를 구할 원'
+        : visual.focus === 'circumference'
+          ? '원주를 구할 원'
+          : '원주와 넓이를 비교할 원'
+
+  return (
+    <svg
+      viewBox="0 0 360 220"
+      className="mx-auto w-full max-w-lg"
+      role="img"
+      aria-label={ariaLabel}
+    >
+      {positions.map((position, index) => {
+        const innerPixelRadius = model.innerRadius === undefined
+          ? undefined
+          : pixelRadius * model.innerRadius / model.radius
+        return (
+          <g key={index} data-circle-copy={index}>
+            <circle
+              cx={position.x}
+              cy={position.y}
+              r={pixelRadius}
+              fill={visual.focus === 'area' || visual.focus === 'composite' ? '#dbeafe' : '#f8fafc'}
+              stroke={visual.focus === 'circumference' || visual.focus === 'pi' ? '#2563eb' : '#0284c7'}
+              strokeWidth={visual.focus === 'circumference' || visual.focus === 'pi' ? 5 : 3}
+              data-circle-outer=""
+            />
+            {innerPixelRadius !== undefined && (
+              <circle
+                cx={position.x}
+                cy={position.y}
+                r={innerPixelRadius}
+                fill="#f8fafc"
+                stroke="#7c3aed"
+                strokeWidth="3"
+                data-circle-inner=""
+              />
+            )}
+            {labelDiameter && index === 0 && (
+              <>
+                <line
+                  x1={position.x - pixelRadius}
+                  y1={position.y}
+                  x2={position.x + pixelRadius}
+                  y2={position.y}
+                  stroke="#475569"
+                  strokeWidth="2"
+                  data-circle-diameter=""
+                />
+                <text x={position.x} y={position.y - 9} textAnchor="middle" fontSize="13" fontWeight="700" fill="#334155">
+                  지름 {formatCircleValue(model.diameter)}{unit}
+                </text>
+              </>
+            )}
+            {labelRadius && index === 0 && (
+              <>
+                <line
+                  x1={position.x}
+                  y1={position.y}
+                  x2={position.x + pixelRadius}
+                  y2={position.y}
+                  stroke="#475569"
+                  strokeWidth="2"
+                  data-circle-radius=""
+                />
+                <text x={position.x + pixelRadius / 2} y={position.y - 9} textAnchor="middle" fontSize="13" fontWeight="700" fill="#334155">
+                  반지름 {formatCircleValue(model.radius)}{unit}
+                </text>
+              </>
+            )}
+          </g>
+        )
+      })}
+      {visual.focus === 'pi' && (
+        <text x="180" y="205" textAnchor="middle" fontSize="14" fontWeight="700" fill="#334155">
+          측정한 원주 {formatCircleValue(model.circumference)}{unit}
+        </text>
+      )}
+      {model.innerRadius !== undefined && (
+        <text x="180" y="205" textAnchor="middle" fontSize="13" fontWeight="700" fill="#334155">
+          바깥 반지름 {formatCircleValue(model.radius)}{unit} · 안쪽 반지름 {formatCircleValue(model.innerRadius)}{unit}
+        </text>
+      )}
+      {model.copies > 1 && (
+        <text x="180" y="215" textAnchor="middle" fontSize="13" fontWeight="700" fill="#475569">
+          같은 크기의 원 {model.copies}개
+        </text>
+      )}
+    </svg>
+  )
+}
+
 export default function GeometryProblemVisual({ visual, showAnswer = false }: GeometryProblemVisualProps) {
   return (
     <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-3" data-testid={`geometry-visual-${visual.type}`}>
@@ -1472,6 +1624,7 @@ export default function GeometryProblemVisual({ visual, showAnswer = false }: Ge
       {visual.type === 'round-solid' && <RoundSolidVisual visual={visual} />}
       {visual.type === 'cylinder-net' && <CylinderNetVisual visual={visual} />}
       {visual.type === 'cube-stack' && <CubeStackVisual visual={visual} />}
+      {visual.type === 'circle-measurement' && <CircleMeasurementVisual visual={visual} />}
     </div>
   )
 }

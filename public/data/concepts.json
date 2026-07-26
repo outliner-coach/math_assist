@@ -1308,5 +1308,67 @@
       "한 방향에서 보이는 정사각형 수를 전체 쌓기나무 수로 생각하는 실수"
     ],
     "order": 1
+  },
+  {
+    "id": "g6circle-001",
+    "unit_id": "unit-6-2-circle-measurement",
+    "concept_title": "원주율과 원의 둘레·넓이",
+    "base_explanation": "원주율은 원주를 지름으로 나눈 값으로 원의 크기와 관계없이 약 3.14입니다. 원주는 지름×원주율 또는 반지름×2×원주율로 구하고, 원의 넓이는 반지름×반지름×원주율로 구합니다.",
+    "friendly_explanation": "큰 원도 작은 원도 둘레를 지름으로 나누면 약 3.14가 나와요. 둘레를 구할 때는 지름을, 넓이를 구할 때는 반지름을 두 번 곱한다는 차이를 기억해요.",
+    "key_points": [
+      "지름=반지름×2, 반지름=지름÷2",
+      "원주율=원주÷지름≈3.14",
+      "원주=지름×원주율=반지름×2×원주율",
+      "원의 넓이=반지름×반지름×원주율"
+    ],
+    "steps": [
+      "주어진 길이가 반지름인지 지름인지 확인하기",
+      "원주율 3.14와 필요한 원주·넓이 공식을 고르기",
+      "반지름·지름과 원주율을 같은 모델에서 계산하기",
+      "cm와 cm²처럼 길이와 넓이 단위를 구별해 검산하기"
+    ],
+    "visual_aids": [
+      {
+        "type": "circle-measurement",
+        "semantics": "quantitative",
+        "radius": 5,
+        "pi": 3.14,
+        "focus": "pi",
+        "measureLabel": "diameter",
+        "copies": 1,
+        "unit": "cm"
+      },
+      {
+        "type": "circle-measurement",
+        "semantics": "quantitative",
+        "radius": 4,
+        "pi": 3.14,
+        "focus": "area",
+        "measureLabel": "radius",
+        "copies": 1,
+        "unit": "cm"
+      }
+    ],
+    "mini_checks": [
+      {
+        "question": "지름이 10cm인 원의 원주를 원주율 3.14로 구하면 몇 cm인가요?",
+        "answer": "31.4"
+      },
+      {
+        "question": "반지름이 3cm인 원의 넓이를 원주율 3.14로 구하면 몇 cm²인가요?",
+        "answer": "28.26"
+      }
+    ],
+    "examples": [
+      "반지름 5cm인 원의 지름은 10cm입니다.",
+      "지름 10cm인 원의 원주는 10×3.14=31.4cm입니다.",
+      "반지름 4cm인 원의 넓이는 4×4×3.14=50.24cm²입니다."
+    ],
+    "pitfalls": [
+      "원주를 구할 때 반지름을 그대로 원주율에 곱하는 실수",
+      "원의 넓이를 지름×지름×원주율로 구하는 실수",
+      "원주의 cm와 원의 넓이의 cm² 단위를 바꾸어 쓰는 실수"
+    ],
+    "order": 1
   }
 ]

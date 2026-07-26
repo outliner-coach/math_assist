@@ -1600,11 +1600,13 @@
       "prerequisiteCodes": [],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 29,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "원의 측정으로 원주율 도입",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6circle-001"
+      ],
+      "allocationRationale": "6학년 원 문제은행에서 지름과 측정 원주를 같은 원 모델에서 파생하고 원주÷지름이 3.14로 일정함을 직접 계산하고 오류 분석합니다.",
+      "reviewedBy": "grade6-circle-measurement-release-2026-07-26"
     },
     {
       "standardCode": "[6수03-16]",
@@ -1618,11 +1620,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 29,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "원주율 뒤 원주와 원의 넓이",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6circle-001"
+      ],
+      "allocationRationale": "6학년 원 문제은행에서 원주·넓이 직접 계산, 바퀴·울타리·원형 매트·고리 응용, 공식 혼동과 원주율 어림 오류 분석을 제공합니다.",
+      "reviewedBy": "grade6-circle-measurement-release-2026-07-26"
     },
     {
       "standardCode": "[6수03-17]",

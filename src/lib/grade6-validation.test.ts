@@ -18,6 +18,7 @@ const templatesByConcept = {
   'g6prismpyramid-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6prismpyramid.json'), 'utf8')),
   'g6roundsolid-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6roundsolid.json'), 'utf8')),
   'g6spatial-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6spatial.json'), 'utf8')),
+  'g6circle-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6circle.json'), 'utf8')),
 }
 
 describe('Grade 6 release validation', () => {
@@ -26,9 +27,9 @@ describe('Grade 6 release validation', () => {
 
     expect(result.errors).toEqual([])
     expect(result.summary).toMatchObject({
-      unitCount: 8,
-      conceptCount: 8,
-      templateCount: 240,
+      unitCount: 9,
+      conceptCount: 9,
+      templateCount: 270,
     })
   })
 
@@ -104,6 +105,30 @@ describe('Grade 6 release validation', () => {
     )
     expect(result.errors).toContain(
       'tmpl-g6spatial-A-03: unsupported cube-stack mode perspective',
+    )
+  })
+
+  it('rejects circle visuals that decouple the radius or expose an answer field', () => {
+    const invalidTemplates = structuredClone(templatesByConcept)
+    invalidTemplates['g6circle-001'][0].visual_template.radius = 9
+    invalidTemplates['g6circle-001'][1].visual_template.answer = '3.14'
+    invalidTemplates['g6circle-001'][2].visual_template.pi = 3.14159
+
+    const result = validateGrade6Release({
+      units,
+      concepts,
+      ledger,
+      templatesByConcept: invalidTemplates,
+    })
+
+    expect(result.errors).toContain(
+      'tmpl-g6circle-A-01: circle radius must derive from p',
+    )
+    expect(result.errors).toContain(
+      'tmpl-g6circle-A-02: circle visual contains an answer-only key',
+    )
+    expect(result.errors).toContain(
+      'tmpl-g6circle-A-03: circle pi must be 3.14',
     )
   })
 })

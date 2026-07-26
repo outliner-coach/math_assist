@@ -70,4 +70,23 @@ describe('VisualAid', () => {
     expect(html.match(/data-front-cell=/g)).toHaveLength(4)
     expect(html.match(/data-side-cell=/g)).toHaveLength(5)
   })
+
+  it('renders a measured circle through the shared quantitative geometry model', () => {
+    const html = renderToStaticMarkup(createElement(VisualAid, {
+      aid: {
+        type: 'circle-measurement',
+        semantics: 'quantitative',
+        radius: 4,
+        pi: 3.14,
+        focus: 'area',
+        measureLabel: 'radius',
+        copies: 1,
+      },
+    }))
+
+    expect(html).toContain('geometry-visual-circle-measurement')
+    expect(html.match(/data-circle-copy=/g)).toHaveLength(1)
+    expect(html).toContain('반지름 4cm')
+    expect(html).not.toContain('50.24cm²')
+  })
 })

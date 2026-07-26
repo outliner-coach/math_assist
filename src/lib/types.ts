@@ -240,6 +240,17 @@ export type GeometryVisual =
       heights: number[][]
       mode: 'stack' | 'top' | 'front' | 'side' | 'all-views'
     }
+  | {
+      type: 'circle-measurement'
+      semantics: 'quantitative'
+      radius: number
+      pi: number
+      focus: 'pi' | 'circumference' | 'area' | 'composite'
+      measureLabel: 'radius' | 'diameter' | 'both' | 'none'
+      copies?: number
+      innerRadius?: number
+      unit?: string
+    }
 
 export type VisualTemplateValue =
   | string
@@ -373,5 +384,5 @@ export type VisualAid =
     }
   | Extract<GeometryVisual, {
       type: 'poly-solid' | 'prism-net' | 'round-solid' | 'cylinder-net'
-        | 'cube-stack'
+        | 'cube-stack' | 'circle-measurement'
     }>

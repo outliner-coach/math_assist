@@ -12,6 +12,7 @@ import GeometryProblemVisual, {
   buildRoundSolidLayout,
   buildCylinderNetLayout,
   buildCubeStackLayout,
+  buildCircleMeasurementModel,
   deriveCubeViews,
   isValidCubeNet,
 } from './GeometryProblemVisual'
@@ -569,6 +570,57 @@ describe('GeometryProblemVisual', () => {
     expect(views.match(/data-side-cell=/g)).toHaveLength(6)
     expect(views).toContain('위·앞·옆에서 본 모양')
     expect(views).not.toContain('전체 7')
+  })
+
+  it('derives diameter, circumference, and area from one circle model', () => {
+    for (let p = 2; p <= 6; p += 1) {
+      const model = buildCircleMeasurementModel({
+        type: 'circle-measurement',
+        semantics: 'quantitative',
+        radius: p,
+        pi: 3.14,
+        focus: 'area',
+        measureLabel: 'radius',
+        copies: 1,
+      })
+
+      expect(model.radius).toBe(p)
+      expect(model.diameter).toBe(2 * p)
+      expect(model.circumference).toBeCloseTo(6.28 * p, 8)
+      expect(model.area).toBeCloseTo(3.14 * p * p, 8)
+    }
+  })
+
+  it('renders quantitative circle givens without exposing the requested result', () => {
+    const circumference = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'circle-measurement',
+        semantics: 'quantitative',
+        radius: 3,
+        pi: 3.14,
+        focus: 'circumference',
+        measureLabel: 'radius',
+        copies: 1,
+      },
+    }))
+    const measuredPi = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'circle-measurement',
+        semantics: 'quantitative',
+        radius: 5,
+        pi: 3.14,
+        focus: 'pi',
+        measureLabel: 'diameter',
+        copies: 1,
+      },
+    }))
+
+    expect(circumference.match(/data-circle-copy=/g)).toHaveLength(1)
+    expect(circumference).toContain('반지름 3cm')
+    expect(circumference).not.toContain('18.84cm')
+    expect(measuredPi).toContain('지름 10cm')
+    expect(measuredPi).toContain('측정한 원주 31.4cm')
+    expect(measuredPi).toContain('원주율 측정 원')
   })
 
   it('keeps the reflected point hidden until the solution is shown', () => {

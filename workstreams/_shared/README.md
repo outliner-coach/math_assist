@@ -21,6 +21,17 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 6 circle-measurement Study release (primary workstreams
+  01, 02, 03, and 04) owns the narrow addition of a quantitative
+  `circle-measurement` visual payload in `src/lib/types.ts`, its shared
+  problem/concept renderer, `unit-6-2-circle-measurement`, `g6circle-001`,
+  deterministic template generator, release identity, curriculum rows, and
+  focused renderer, generation, allocation, route, storage, and browser
+  tests. One radius, optional inner radius, copy count, and π value must drive
+  diameter, circumference, area, labels, solver steps, and SVG geometry.
+  Requested circumference or area answers must not appear in the unchecked
+  DOM or accessibility name.
+
 - 2026-07-26: Grade 6 cube-stack spatial-reasoning Study release (primary
   workstreams 01, 02, 03, and 04) owns the narrow addition of a quantitative
   `cube-stack` visual payload in `src/lib/types.ts`, its shared problem/concept

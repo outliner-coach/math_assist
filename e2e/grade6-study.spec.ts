@@ -229,6 +229,41 @@ test('쌓기나무와 위·앞·옆 모양을 하나의 높이 격자에서 정�
   await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
 })
 
+test('반지름에서 원주·넓이·측정 원주를 같은 원 모델로 렌더링한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/practice/g6circle-001?set=A&count=10`)
+  await expect(page.getByTestId('practice-session')).toBeVisible()
+  const visualIndexes = await page.evaluate((key) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return {
+      measuredPi: session.problems.findIndex((problem: {
+        visual?: { type?: string; focus?: string }
+      }) => problem.visual?.type === 'circle-measurement' && problem.visual.focus === 'pi'),
+      repeated: session.problems.findIndex((problem: {
+        visual?: { type?: string; copies?: number }
+      }) => problem.visual?.type === 'circle-measurement' && (problem.visual.copies ?? 1) > 1),
+    }
+  }, GRADE6_KEYS[0])
+  expect(visualIndexes.measuredPi).toBeGreaterThanOrEqual(0)
+  expect(visualIndexes.repeated).toBeGreaterThanOrEqual(0)
+
+  await page.getByTestId(`progress-step-${visualIndexes.measuredPi + 1}`).click()
+  const measured = page.getByTestId('geometry-visual-circle-measurement')
+  await expect(measured).toBeVisible()
+  await expect(measured.locator('[data-circle-diameter]')).toHaveCount(1)
+  await expect(measured.getByText(/측정한 원주/)).toBeVisible()
+
+  await page.getByTestId(`progress-step-${visualIndexes.repeated + 1}`).click()
+  const repeated = page.getByTestId('geometry-visual-circle-measurement')
+  const repeatedModel = await page.evaluate(({ key, itemIndex }) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return session.problems[itemIndex].visual
+  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.repeated })
+  await expect(repeated.locator('[data-circle-copy]')).toHaveCount(repeatedModel.copies)
+  await expect(repeated.locator('[data-circle-outer]')).toHaveCount(repeatedModel.copies)
+  await expect(page.locator('[data-answer]')).toHaveCount(0)
+  await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
+})
+
 test('손상된 6학년 세션은 원문을 보존하고 명시적 초기화 뒤에만 새로 저장한다', async ({ page }) => {
   await page.evaluate(({ grade5Key, grade6Key }) => {
     localStorage.setItem(grade5Key, '{"keep":"grade5"}')
@@ -313,6 +348,12 @@ for (const releasedConcept of [
     title: '쌓기나무와 위·앞·옆에서 본 모양',
     conceptId: 'g6spatial-001',
     releaseId: 'grade6-spatial-reasoning-v1',
+  },
+  {
+    unitId: 'unit-6-2-circle-measurement',
+    title: '원주율과 원의 둘레·넓이',
+    conceptId: 'g6circle-001',
+    releaseId: 'grade6-circle-measurement-v1',
   },
 ] as const) {
   test(`${releasedConcept.title} 단원을 찾아 5문제를 완주하고 단원별 콘텐츠 버전을 기록한다`, async ({ page }) => {

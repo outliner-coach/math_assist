@@ -186,6 +186,41 @@ function validateGrade6Release({ units, concepts, ledger, templatesByConcept }) 
           }
         }
       }
+      if (concept.id === 'g6circle-001') {
+        const visual = template.visual_template
+        if (visualContainsAnswerOnlyKey(visual)) {
+          fail(`${template.id}: circle visual contains an answer-only key`)
+        }
+        if (
+          !visual ||
+          visual.type !== 'circle-measurement' ||
+          visual.semantics !== 'quantitative'
+        ) {
+          fail(`${template.id}: circle problem requires a quantitative circle-measurement visual`)
+        } else {
+          if (!['{{p}}', '{{p + 1}}', '{{p + 2}}', '{{2 * p}}'].includes(visual.radius)) {
+            fail(`${template.id}: circle radius must derive from p`)
+          }
+          if (visual.pi !== 3.14) {
+            fail(`${template.id}: circle pi must be 3.14`)
+          }
+          if (!['pi', 'circumference', 'area', 'composite'].includes(visual.focus)) {
+            fail(`${template.id}: unsupported circle focus ${visual.focus}`)
+          }
+          if (!['radius', 'diameter', 'both', 'none'].includes(visual.measureLabel)) {
+            fail(`${template.id}: unsupported circle measureLabel ${visual.measureLabel}`)
+          }
+          if (![1, 2, 3, 4].includes(visual.copies)) {
+            fail(`${template.id}: circle copies must be 1 through 4`)
+          }
+          if (
+            visual.innerRadius !== undefined &&
+            !['{{p}}', '{{p - 1}}'].includes(visual.innerRadius)
+          ) {
+            fail(`${template.id}: circle innerRadius must derive from p`)
+          }
+        }
+      }
 
       const primaryStandard = template.blueprint?.primaryStandard
       const primaryRow = releasedRowsByStandard.get(primaryStandard)

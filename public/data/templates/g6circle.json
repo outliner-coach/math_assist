@@ -1,0 +1,1559 @@
+[
+  {
+    "id": "tmpl-g6circle-A-01",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-diameter-from-radius",
+    "blueprint": {
+      "problemFamily": "a-diameter-from-radius",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수03-15]",
+      "connectedStandards": [
+        "[6수03-16]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 원의 지름은 몇 cm인가요?",
+    "solver_rule": "2 * p",
+    "solution_steps_template": [
+      "지름은 반지름의 2배입니다.",
+      "{{p}}×2={{2 * p}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "지름은 반지름의 2배이고, 원주율은 원주를 지름으로 나눈 값이에요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "composite",
+      "measureLabel": "radius",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-A-02",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-measured-circumference-diameter-ratio",
+    "blueprint": {
+      "problemFamily": "a-measured-circumference-diameter-ratio",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "[6수03-15]",
+      "connectedStandards": [
+        "[6수03-16]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "그림의 원주를 지름으로 나눈 값은 얼마인가요?",
+    "solver_rule": "3.14",
+    "solution_steps_template": [
+      "원주는 {{628 * p / 100}}cm이고 지름은 {{2 * p}}cm입니다.",
+      "{{628 * p / 100}}÷{{2 * p}}=3.14이므로 원주율은 3.14입니다."
+    ],
+    "hint_steps_template": [
+      "지름은 반지름의 2배이고, 원주율은 원주를 지름으로 나눈 값이에요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "pi",
+      "measureLabel": "diameter",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-A-03",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-circumference-from-diameter",
+    "blueprint": {
+      "problemFamily": "a-circumference-from-diameter",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "지름이 {{2 * p}}cm인 원의 원주를 원주율 3.14로 구하세요.",
+    "solver_rule": "628 * p / 100",
+    "solution_steps_template": [
+      "원주=지름×원주율입니다.",
+      "{{2 * p}}×3.14={{628 * p / 100}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "circumference",
+      "measureLabel": "diameter",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-A-04",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-area-from-radius",
+    "blueprint": {
+      "problemFamily": "a-area-from-radius",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 원의 넓이를 원주율 3.14로 구하세요.",
+    "solver_rule": "314 * p * p / 100",
+    "solution_steps_template": [
+      "원의 넓이=반지름×반지름×원주율입니다.",
+      "{{p}}×{{p}}×3.14={{314 * p * p / 100}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "area",
+      "measureLabel": "radius",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-A-05",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-wheel-two-turn-distance",
+    "blueprint": {
+      "problemFamily": "a-wheel-two-turn-distance",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 바퀴가 미끄러지지 않고 2바퀴 굴렀습니다. 이동한 거리는 몇 cm인가요?",
+    "solver_rule": "1256 * p / 100",
+    "solution_steps_template": [
+      "바퀴 한 바퀴의 이동 거리는 원주인 {{628 * p / 100}}cm입니다.",
+      "2바퀴는 {{628 * p / 100}}×2={{1256 * p / 100}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "circumference",
+      "measureLabel": "radius",
+      "copies": 2,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-A-06",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-semicircle-curved-arc",
+    "blueprint": {
+      "problemFamily": "a-semicircle-curved-arc",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 반원의 굽은 부분 길이는 몇 cm인가요? 원주율은 3.14로 계산하세요.",
+    "solver_rule": "314 * p / 100",
+    "solution_steps_template": [
+      "반원의 굽은 부분은 같은 반지름인 원주의 절반입니다.",
+      "{{628 * p / 100}}÷2={{314 * p / 100}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "circumference",
+      "measureLabel": "radius",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-A-07",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-circular-fence-with-gate",
+    "blueprint": {
+      "problemFamily": "a-circular-fence-with-gate",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "반지름이 {{p}}m인 원 모양 화단 둘레에 울타리를 치되 2m 너비의 출입구는 비워 둡니다. 필요한 울타리 길이는 몇 m인가요?",
+    "solver_rule": "(628 * p - 200) / 100",
+    "solution_steps_template": [
+      "화단의 원주는 {{628 * p / 100}}m입니다.",
+      "출입구 2m를 빼면 {{628 * p / 100}}-2={{(628 * p - 200) / 100}}m입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "circumference",
+      "measureLabel": "radius",
+      "copies": 1,
+      "unit": "m"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-A-08",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-two-circular-mats-area",
+    "blueprint": {
+      "problemFamily": "a-two-circular-mats-area",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 같은 원 모양 매트 2장의 넓이 합은 몇 cm²인가요?",
+    "solver_rule": "628 * p * p / 100",
+    "solution_steps_template": [
+      "매트 한 장의 넓이는 {{314 * p * p / 100}}cm²입니다.",
+      "2장의 넓이는 {{314 * p * p / 100}}×2={{628 * p * p / 100}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "area",
+      "measureLabel": "radius",
+      "copies": 2,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-A-09",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "a-radius-used-as-diameter-error",
+    "blueprint": {
+      "problemFamily": "a-radius-used-as-diameter-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 같은 원 2개의 원주를 구하면서 각 원의 반지름을 지름처럼 3.14에 곱했습니다. 두 원에서 올바른 원주와 잘못 구한 값의 차를 모두 합하면 몇 cm인가요?",
+    "solver_rule": "628 * p / 100",
+    "solution_steps_template": [
+      "원 하나의 올바른 원주는 {{628 * p / 100}}cm이고 잘못 구한 값은 {{314 * p / 100}}cm입니다.",
+      "원 하나에서 차는 {{314 * p / 100}}cm입니다.",
+      "두 원의 차를 합하면 {{314 * p / 100}}×2={{628 * p / 100}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "올바른 식과 제시된 식을 각각 계산한 뒤 차가 무엇을 뜻하는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "circumference",
+      "measureLabel": "radius",
+      "copies": 2,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-A-10",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "a-circumference-formula-used-for-area",
+    "blueprint": {
+      "problemFamily": "a-circumference-formula-used-for-area",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 같은 원 2개의 넓이를 각각 반지름×2×3.14로 잘못 구했습니다. 두 원에서 올바른 넓이와 잘못 구한 값의 차를 모두 합하면 몇 cm²인가요?",
+    "solver_rule": "628 * (p * p - 2 * p) / 100",
+    "solution_steps_template": [
+      "원 하나의 올바른 넓이는 {{314 * p * p / 100}}cm²이고 잘못 구한 값은 {{628 * p / 100}}입니다.",
+      "원 하나에서 차는 {{314 * (p * p - 2 * p) / 100}}cm²입니다.",
+      "두 원의 차를 합하면 {{628 * (p * p - 2 * p) / 100}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "올바른 식과 제시된 식을 각각 계산한 뒤 차가 무엇을 뜻하는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "area",
+      "measureLabel": "radius",
+      "copies": 2,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-B-01",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-radius-from-diameter",
+    "blueprint": {
+      "problemFamily": "b-radius-from-diameter",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수03-15]",
+      "connectedStandards": [
+        "[6수03-16]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "지름이 {{2 * p}}cm인 원의 반지름은 몇 cm인가요?",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "반지름은 지름의 절반입니다.",
+      "{{2 * p}}÷2={{p}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "지름은 반지름의 2배이고, 원주율은 원주를 지름으로 나눈 값이에요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "composite",
+      "measureLabel": "diameter",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-B-02",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-object-pi-ratio-check",
+    "blueprint": {
+      "problemFamily": "b-object-pi-ratio-check",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "[6수03-15]",
+      "connectedStandards": [
+        "[6수03-16]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "원 모양 물체의 지름과 측정한 원주를 그림처럼 얻었습니다. 원주÷지름의 값을 구하세요.",
+    "solver_rule": "3.14",
+    "solution_steps_template": [
+      "원주는 {{628 * p / 100}}cm, 지름은 {{2 * p}}cm입니다.",
+      "{{628 * p / 100}}÷{{2 * p}}=3.14입니다."
+    ],
+    "hint_steps_template": [
+      "지름은 반지름의 2배이고, 원주율은 원주를 지름으로 나눈 값이에요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "pi",
+      "measureLabel": "diameter",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-B-03",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-circumference-from-radius",
+    "blueprint": {
+      "problemFamily": "b-circumference-from-radius",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 원의 원주를 원주율 3.14로 구하세요.",
+    "solver_rule": "628 * p / 100",
+    "solution_steps_template": [
+      "지름은 {{2 * p}}cm입니다.",
+      "{{2 * p}}×3.14={{628 * p / 100}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "circumference",
+      "measureLabel": "radius",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-B-04",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-area-from-diameter",
+    "blueprint": {
+      "problemFamily": "b-area-from-diameter",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "지름이 {{2 * p}}cm인 원의 넓이를 원주율 3.14로 구하세요.",
+    "solver_rule": "314 * p * p / 100",
+    "solution_steps_template": [
+      "반지름은 {{2 * p}}÷2={{p}}cm입니다.",
+      "{{p}}×{{p}}×3.14={{314 * p * p / 100}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "area",
+      "measureLabel": "diameter",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-B-05",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-three-wheels-one-turn",
+    "blueprint": {
+      "problemFamily": "b-three-wheels-one-turn",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 같은 바퀴 3개가 각각 한 바퀴씩 굴렀습니다. 세 바퀴의 이동 거리 합은 몇 cm인가요?",
+    "solver_rule": "1884 * p / 100",
+    "solution_steps_template": [
+      "한 바퀴의 원주는 {{628 * p / 100}}cm입니다.",
+      "3개의 합은 {{628 * p / 100}}×3={{1884 * p / 100}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "circumference",
+      "measureLabel": "radius",
+      "copies": 3,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-B-06",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-one-unit-wide-circular-ring",
+    "blueprint": {
+      "problemFamily": "b-one-unit-wide-circular-ring",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "바깥 반지름이 {{p + 1}}cm이고 안쪽 반지름이 {{p}}cm인 고리 모양의 넓이는 몇 cm²인가요?",
+    "solver_rule": "314 * (2 * p + 1) / 100",
+    "solution_steps_template": [
+      "바깥 원 넓이는 {{314 * (p + 1) * (p + 1) / 100}}cm²입니다.",
+      "안쪽 원 넓이 {{314 * p * p / 100}}cm²를 빼면 {{314 * (2 * p + 1) / 100}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p + 1}}",
+      "pi": 3.14,
+      "focus": "area",
+      "measureLabel": "none",
+      "copies": 1,
+      "unit": "cm",
+      "innerRadius": "{{p}}"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-B-07",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-one-unit-hole-painted-area",
+    "blueprint": {
+      "problemFamily": "b-one-unit-hole-painted-area",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 원판에서 반지름이 {{p - 1}}cm인 가운데 원을 칠하지 않았습니다. 칠한 넓이는 몇 cm²인가요?",
+    "solver_rule": "314 * (2 * p - 1) / 100",
+    "solution_steps_template": [
+      "전체 원판 넓이는 {{314 * p * p / 100}}cm²입니다.",
+      "가운데 넓이 {{314 * (p - 1) * (p - 1) / 100}}cm²를 빼면 {{314 * (2 * p - 1) / 100}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "area",
+      "measureLabel": "none",
+      "copies": 1,
+      "unit": "cm",
+      "innerRadius": "{{p - 1}}"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-B-08",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-semicircle-area",
+    "blueprint": {
+      "problemFamily": "b-semicircle-area",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 반원의 넓이는 몇 cm²인가요? 원주율은 3.14로 계산하세요.",
+    "solver_rule": "157 * p * p / 100",
+    "solution_steps_template": [
+      "같은 반지름인 원의 넓이는 {{314 * p * p / 100}}cm²입니다.",
+      "그 절반은 {{157 * p * p / 100}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "area",
+      "measureLabel": "radius",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-B-09",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "b-diameter-squared-area-error",
+    "blueprint": {
+      "problemFamily": "b-diameter-squared-area-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 같은 원 2개의 넓이를 각각 지름×지름×3.14로 잘못 구했습니다. 두 원에서 잘못 구한 넓이와 올바른 넓이의 차를 모두 합하면 몇 cm²인가요?",
+    "solver_rule": "1884 * p * p / 100",
+    "solution_steps_template": [
+      "원 하나의 올바른 넓이는 {{314 * p * p / 100}}cm²이고 잘못 구한 값은 {{1256 * p * p / 100}}cm²입니다.",
+      "원 하나에서 차는 {{942 * p * p / 100}}cm²입니다.",
+      "두 원의 차를 합하면 {{1884 * p * p / 100}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "올바른 식과 제시된 식을 각각 계산한 뒤 차가 무엇을 뜻하는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "area",
+      "measureLabel": "radius",
+      "copies": 2,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-B-10",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "b-pi-three-circumference-gap",
+    "blueprint": {
+      "problemFamily": "b-pi-three-circumference-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-15]",
+      "connectedStandards": [
+        "[6수03-16]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 같은 원 3개에서 원주율 3으로 어림한 원주와 원주율 3.14로 구한 원주의 차를 모두 합하면 몇 cm인가요?",
+    "solver_rule": "84 * p / 100",
+    "solution_steps_template": [
+      "원 하나에서 원주율 3.14를 쓴 원주는 {{628 * p / 100}}cm, 원주율 3을 쓴 값은 {{6 * p}}cm입니다.",
+      "원 하나에서 차는 {{28 * p / 100}}cm입니다.",
+      "세 원의 차를 합하면 {{28 * p / 100}}×3={{84 * p / 100}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "지름은 반지름의 2배이고, 원주율은 원주를 지름으로 나눈 값이에요.",
+      "올바른 식과 제시된 식을 각각 계산한 뒤 차가 무엇을 뜻하는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "circumference",
+      "measureLabel": "radius",
+      "copies": 3,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-C-01",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-diameter-from-larger-radius",
+    "blueprint": {
+      "problemFamily": "c-diameter-from-larger-radius",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수03-15]",
+      "connectedStandards": [
+        "[6수03-16]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "반지름이 {{p + 1}}cm인 원의 지름은 몇 cm인가요?",
+    "solver_rule": "2 * p + 2",
+    "solution_steps_template": [
+      "지름은 반지름의 2배입니다.",
+      "{{p + 1}}×2={{2 * p + 2}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "지름은 반지름의 2배이고, 원주율은 원주를 지름으로 나눈 값이에요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p + 1}}",
+      "pi": 3.14,
+      "focus": "composite",
+      "measureLabel": "radius",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-C-02",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-half-diameter-radius",
+    "blueprint": {
+      "problemFamily": "c-half-diameter-radius",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수03-15]",
+      "connectedStandards": [
+        "[6수03-16]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "지름이 {{2 * p}}cm인 원에서 중심부터 원 위까지의 거리는 몇 cm인가요?",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "중심부터 원 위까지의 거리는 반지름입니다.",
+      "지름의 절반인 {{p}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "지름은 반지름의 2배이고, 원주율은 원주를 지름으로 나눈 값이에요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "composite",
+      "measureLabel": "diameter",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-C-03",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-measured-pi-constant",
+    "blueprint": {
+      "problemFamily": "c-measured-pi-constant",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "[6수03-15]",
+      "connectedStandards": [
+        "[6수03-16]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "그림에서 측정한 원주와 지름의 비를 소수로 나타내세요.",
+    "solver_rule": "3.14",
+    "solution_steps_template": [
+      "원주 {{628 * p / 100}}cm를 지름 {{2 * p}}cm로 나눕니다.",
+      "그 비는 3.14로 일정합니다."
+    ],
+    "hint_steps_template": [
+      "지름은 반지름의 2배이고, 원주율은 원주를 지름으로 나눈 값이에요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "pi",
+      "measureLabel": "diameter",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-C-04",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-area-from-larger-radius",
+    "blueprint": {
+      "problemFamily": "c-area-from-larger-radius",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "반지름이 {{p + 1}}cm인 원의 넓이를 원주율 3.14로 구하세요.",
+    "solver_rule": "314 * (p + 1) * (p + 1) / 100",
+    "solution_steps_template": [
+      "원의 넓이는 반지름×반지름×원주율입니다.",
+      "{{p + 1}}×{{p + 1}}×3.14={{314 * (p + 1) * (p + 1) / 100}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p + 1}}",
+      "pi": 3.14,
+      "focus": "area",
+      "measureLabel": "radius",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-C-05",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-table-edge-ribbon-with-knot",
+    "blueprint": {
+      "problemFamily": "c-table-edge-ribbon-with-knot",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 원형 탁자 가장자리를 리본으로 한 바퀴 두르고 매듭에 1cm를 더 씁니다. 리본은 몇 cm 필요한가요?",
+    "solver_rule": "(628 * p + 100) / 100",
+    "solution_steps_template": [
+      "탁자 가장자리 길이는 {{628 * p / 100}}cm입니다.",
+      "매듭 1cm를 더하면 {{(628 * p + 100) / 100}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "circumference",
+      "measureLabel": "radius",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-C-06",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-four-semicircular-arcs",
+    "blueprint": {
+      "problemFamily": "c-four-semicircular-arcs",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 같은 반원 4개의 굽은 부분 길이를 모두 더하면 몇 cm인가요?",
+    "solver_rule": "1256 * p / 100",
+    "solution_steps_template": [
+      "반원 하나의 굽은 부분은 {{314 * p / 100}}cm입니다.",
+      "4개의 합은 {{314 * p / 100}}×4={{1256 * p / 100}}cm입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "circumference",
+      "measureLabel": "radius",
+      "copies": 4,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-C-07",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-two-unit-wide-pond-ring",
+    "blueprint": {
+      "problemFamily": "c-two-unit-wide-pond-ring",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "바깥 반지름이 {{p + 2}}m이고 안쪽 반지름이 {{p}}m인 원형 산책로의 넓이는 몇 m²인가요?",
+    "solver_rule": "1256 * (p + 1) / 100",
+    "solution_steps_template": [
+      "바깥 원 넓이에서 안쪽 원 넓이를 뺍니다.",
+      "3.14×(({{p + 2}}×{{p + 2}})-({{p}}×{{p}}))={{1256 * (p + 1) / 100}}m²입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p + 2}}",
+      "pi": 3.14,
+      "focus": "area",
+      "measureLabel": "none",
+      "copies": 1,
+      "unit": "m",
+      "innerRadius": "{{p}}"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-C-08",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-doubled-radius-area-increase",
+    "blueprint": {
+      "problemFamily": "c-doubled-radius-area-increase",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "원의 반지름을 {{p}}cm에서 {{2 * p}}cm로 늘렸습니다. 넓이는 몇 cm² 늘어났나요?",
+    "solver_rule": "942 * p * p / 100",
+    "solution_steps_template": [
+      "큰 원의 넓이는 {{1256 * p * p / 100}}cm²입니다.",
+      "처음 원의 넓이 {{314 * p * p / 100}}cm²를 빼면 {{942 * p * p / 100}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "반지름과 지름 중 어떤 길이가 주어졌는지 먼저 표시하고 단위를 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{2 * p}}",
+      "pi": 3.14,
+      "focus": "area",
+      "measureLabel": "none",
+      "copies": 1,
+      "unit": "cm",
+      "innerRadius": "{{p}}"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-C-09",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "c-radius-used-for-pi-ratio-error",
+    "blueprint": {
+      "problemFamily": "c-radius-used-for-pi-ratio-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-15]",
+      "connectedStandards": [
+        "[6수03-16]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "같은 크기의 원 {{p + 1}}개에서 원주를 지름이 아니라 반지름으로 나누어 원주율을 구했습니다. 잘못 구한 값과 올바른 원주율의 차를 모두 합하면 얼마인가요?",
+    "solver_rule": "314 * (p + 1) / 100",
+    "solution_steps_template": [
+      "원주를 반지름으로 나누면 6.28이 되어 올바른 3.14보다 3.14 큽니다.",
+      "이 실수를 {{p + 1}}번 반복하면 차의 합은 3.14×{{p + 1}}={{314 * (p + 1) / 100}}입니다."
+    ],
+    "hint_steps_template": [
+      "지름은 반지름의 2배이고, 원주율은 원주를 지름으로 나눈 값이에요.",
+      "올바른 식과 제시된 식을 각각 계산한 뒤 차가 무엇을 뜻하는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "pi",
+      "measureLabel": "diameter",
+      "copies": 1,
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6circle-C-10",
+    "concept_id": "g6circle-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "c-area-circumference-numeric-gap",
+    "blueprint": {
+      "problemFamily": "c-area-circumference-numeric-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "[6수03-16]",
+      "connectedStandards": [
+        "[6수03-15]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "반지름이 {{p}}cm인 같은 원 2개에서 넓이의 수와 원주의 수를 각각 원주율 3.14로 구했습니다. 두 원의 넓이 수 합은 원주 수 합보다 얼마 큰가요?",
+    "solver_rule": "628 * (p * p - 2 * p) / 100",
+    "solution_steps_template": [
+      "원 하나에서 넓이의 수는 {{314 * p * p / 100}}, 원주의 수는 {{628 * p / 100}}입니다.",
+      "원 하나에서 차는 {{314 * (p * p - 2 * p) / 100}}입니다.",
+      "두 원의 차를 합하면 {{628 * (p * p - 2 * p) / 100}}입니다."
+    ],
+    "hint_steps_template": [
+      "원주는 지름×원주율, 넓이는 반지름×반지름×원주율로 구해요.",
+      "올바른 식과 제시된 식을 각각 계산한 뒤 차가 무엇을 뜻하는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "circle-measurement",
+      "semantics": "quantitative",
+      "radius": "{{p}}",
+      "pi": 3.14,
+      "focus": "composite",
+      "measureLabel": "radius",
+      "copies": 2,
+      "unit": "cm"
+    }
+  }
+]
