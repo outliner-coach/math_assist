@@ -22,7 +22,8 @@ const problemVisualTypes = new Set<ProblemVisual['type']>([
   'ratio_graph',
   'number_range',
   'fraction_comparison',
-  'area_unit_square'
+  'area_unit_square',
+  'possibility_trials'
 ])
 
 export function isProblemVisual(visual: GeometryVisual): visual is ProblemVisual {
@@ -191,6 +192,63 @@ function OverlapRegionCells({
 }
 
 export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
+  if (visual.type === 'possibility_trials') {
+    const { caption, rows } = visual.props
+    const height = 55 + rows.length * 72
+
+    return (
+      <figure
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
+        data-testid="problem-diagram-possibility-trials"
+      >
+        <figcaption className="pb-2 text-center text-base font-extrabold text-slate-800">
+          {caption}
+        </figcaption>
+        <svg
+          viewBox={`0 0 360 ${height}`}
+          role="img"
+          aria-label={`${caption}: ${rows.map(row => `${row.label} ${row.total}번 중 ${row.favorable}번`).join(', ')}`}
+          className="mx-auto w-full max-w-md"
+        >
+          {rows.map((row, rowIndex) => {
+            const x = 72
+            const y = 22 + rowIndex * 72
+            const width = 254
+            const cellWidth = width / Math.max(1, row.total)
+            return (
+              <g
+                key={`${row.label}-${rowIndex}`}
+                data-possibility-row={rowIndex}
+                data-favorable={row.favorable}
+                data-total={row.total}
+              >
+                <text x="36" y={y + 23} textAnchor="middle" fontSize="14" fontWeight="800" fill="#334155">
+                  {row.label}
+                </text>
+                {Array.from({ length: row.total }, (_, index) => (
+                  <rect
+                    key={index}
+                    x={x + index * cellWidth}
+                    y={y}
+                    width={cellWidth}
+                    height="34"
+                    fill={index < row.favorable ? '#34d399' : '#ffffff'}
+                    stroke="#475569"
+                    strokeWidth="1"
+                    data-trial-outcome={index < row.favorable ? 'favorable' : 'other'}
+                  />
+                ))}
+                <text x="199" y={y + 54} textAnchor="middle" fontSize="12" fontWeight="700" fill="#475569">
+                  전체 {row.total}번 · 사건 {row.favorable}번
+                </text>
+              </g>
+            )
+          })}
+        </svg>
+      </figure>
+    )
+  }
+
   if (visual.type === 'area_unit_square') {
     const { caption, largerLengthUnit, smallerLengthUnit } = visual.props
     const sideScale = largerLengthUnit === 'm' && smallerLengthUnit === 'cm'

@@ -168,6 +168,30 @@ describe('ProblemDiagram', () => {
     expect(html).not.toContain('data-answer')
   })
 
+  it('renders exact observed trial counts without a derived prediction', () => {
+    const html = renderToStaticMarkup(createElement(ProblemDiagram, {
+      visual: {
+        type: 'possibility_trials',
+        semantics: 'quantitative',
+        props: {
+          caption: '두 사건의 관찰 기록',
+          rows: [
+            { label: '가', favorable: 3, total: 10 },
+            { label: '나', favorable: 7, total: 10 },
+          ],
+        },
+      } as ProblemVisual,
+    }))
+
+    expect(html).toContain('problem-diagram-possibility-trials')
+    expect(html.match(/data-trial-outcome=/g)).toHaveLength(20)
+    expect(html.match(/data-trial-outcome="favorable"/g)).toHaveLength(10)
+    expect(html).toContain('전체 10번 · 사건 3번')
+    expect(html).toContain('전체 10번 · 사건 7번')
+    expect(html).not.toContain('예상')
+    expect(html).not.toContain('data-answer')
+  })
+
   it('labels the given square side without an ambiguous question mark', () => {
     const html = renderToStaticMarkup(createElement(ProblemDiagram, {
       visual: {

@@ -26,6 +26,7 @@ const MIGRATED_BANKS = [
   'pattern.json',
   'perimeter.json',
   'polygonarea.json',
+  'possibility.json',
   'rounding.json',
   'simplify.json',
   'symmetry.json',
@@ -68,6 +69,13 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
     'areaunit-square-centimeters-reverse', 'areaunit-square-meters-reverse',
     'areaunit-rectangle-to-square-centimeters', 'areaunit-mixed-land-total',
     'areaunit-one-direction-error', 'areaunit-rectangle-one-side-error'
+  ],
+  'possibility-001': [
+    'possibility-verbal-impossible-certain', 'possibility-verbal-comparison',
+    'possibility-numeric-half', 'possibility-numeric-impossible',
+    'possibility-predict-from-half', 'possibility-compare-relative-frequency',
+    'possibility-predicted-count-gap', 'possibility-sample-size-reliability',
+    'possibility-raw-count-error', 'possibility-pooled-data-prediction'
   ],
   'mixedcalc-001': [
     'mixedcalc-add-multiply-order', 'mixedcalc-multiply-add-order',
@@ -211,6 +219,18 @@ const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
   'areaunit-mixed-land-total': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수03-12', estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world', visualSemantics: 'quantitative' }),
   'areaunit-one-direction-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-12', estimatedSteps: 4, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
   'areaunit-rectangle-one-side-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수03-12', connectedStandards: ['6수03-13'], estimatedSteps: 5, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
+
+  // Possibility language, numeric expression, and data-grounded prediction
+  'possibility-verbal-impossible-certain': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'constraint', primaryStandard: '6수04-04', estimatedSteps: 1, readingLoad: 'medium', visualSemantics: 'quantitative' }),
+  'possibility-verbal-comparison': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수04-04', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
+  'possibility-numeric-half': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수04-05', connectedStandards: ['6수04-04'], estimatedSteps: 2, readingLoad: 'low', visualSemantics: 'quantitative' }),
+  'possibility-numeric-impossible': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수04-05', connectedStandards: ['6수04-04'], estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
+  'possibility-predict-from-half': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수04-06', connectedStandards: ['6수04-05'], estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'possibility-compare-relative-frequency': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'compare_methods', primaryStandard: '6수04-06', connectedStandards: ['6수04-05'], estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'possibility-predicted-count-gap': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수04-06', connectedStandards: ['6수04-05'], estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'possibility-sample-size-reliability': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'data_sufficiency', primaryStandard: '6수04-06', connectedStandards: ['6수04-05'], estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'possibility-raw-count-error': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'error_analysis', primaryStandard: '6수04-06', connectedStandards: ['6수04-05'], estimatedSteps: 5, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
+  'possibility-pooled-data-prediction': reviewed({ cognitiveDomain: 'reasoning', reasoningPattern: 'data_sufficiency', primaryStandard: '6수04-06', connectedStandards: ['6수04-05'], estimatedSteps: 5, readingLoad: 'high', contextType: 'puzzle', visualSemantics: 'quantitative' }),
 
   // Natural-number mixed calculation: direct rules, transferred contexts, and
   // two genuine comparison/error-analysis families.

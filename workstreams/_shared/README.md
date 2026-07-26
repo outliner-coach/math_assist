@@ -48,6 +48,14 @@ When you change a high-conflict file, add a short dated note below:
   squared conversion result. Preserve `perimeter-001`, `polygonarea-001`, and
   `area-001` IDs and their Grade 5 progress.
 
+- 2026-07-26: Grade 5 possibility completion (primary workstreams 01, 03, and
+  04) owns `possibility-001`, one deterministic A/B/C bank spanning
+  `[6수04-04]`~`[6수04-06]`, and a shared quantitative
+  `possibility_trials` visual. Trial rows contain only the observed favorable
+  count and total count from the prompt. Numeric possibility, verbal category,
+  predicted count, comparison result, or chosen decision must remain derived
+  answers outside the unchecked visual payload and accessibility name.
+
 - 2026-07-26: Grade 3 capacity-and-weight completion (primary workstreams 01,
   03, and 04) owns the narrow expansion of `g3-2-capacity-weight` from three
   to seven stable-ID missions, its seven curriculum references, and the

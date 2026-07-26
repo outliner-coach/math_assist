@@ -1768,11 +1768,13 @@
       "prerequisiteCodes": [],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 31,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "5학년 평균과 가능성 단원 내 말로 비교",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade5:possibility-001"
+      ],
+      "allocationRationale": "관찰 횟수와 전체 횟수로 가능성을 말로 표현하고 비교",
+      "reviewedBy": "grade5-possibility-release-2026-07-26"
     },
     {
       "standardCode": "[6수04-05]",
@@ -1786,11 +1788,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 31,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "가능성의 말 표현 뒤 수 표현",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade5:possibility-001"
+      ],
+      "allocationRationale": "0·1/2·1과 관찰 비율로 가능성을 수로 표현",
+      "reviewedBy": "grade5-possibility-release-2026-07-26"
     },
     {
       "standardCode": "[6수04-06]",
@@ -1804,11 +1808,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 31,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "가능성 수 표현 뒤 자료 근거 판단",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade5:possibility-001"
+      ],
+      "allocationRationale": "서로 다른 크기의 관찰 자료를 비율로 비교해 예측하고 판단",
+      "reviewedBy": "grade5-possibility-release-2026-07-26"
     }
   ]
 }

@@ -252,3 +252,30 @@ Original prompt: /goal 제안한 계획대로 브라우저 테스트까지 마�
   console errors, or page errors.
 - Next: document, commit, push, deploy, and publicly verify the area-unit
   relation, then complete the three possibility standards.
+- Grade 5 area-unit relations shipped as commit `eb053ec` on `main`; GitHub
+  Pages run `30184623410` completed build and deployment successfully.
+- A fresh-cache public 390x844 browser found all four unit concepts, rendered
+  both 100 and 1000 side-scale models, generated ten `area_unit_square`
+  problems, exposed no answer nodes/text, and completed Set A 10/10 with no
+  overflow or console/page errors.
+- Final planned implementation target: `[6수04-04]`~`[6수04-06]`
+  possibility language, numeric possibility, and data-grounded prediction.
+- Added `possibility-001` to the existing Grade 5 average unit while
+  preserving the original average concept ID and local progress. Its
+  deterministic A/B/C bank has 30 questions, ten families, K12/A12/R6, and
+  difficulty 4/4/2 per set across `[6수04-04]`~`[6수04-06]`.
+- `possibility_trials` renders only the observed favorable and total counts.
+  Relative frequency, comparisons, pooled ratios, and predicted counts remain
+  derived work and never enter the unchecked visual payload or DOM.
+- The first quality audit raised nine warnings because a reduced-fraction
+  prompt did not display the actual observed fraction. The prompt now includes
+  favorable/total explicitly; ordered signals are 3.11 < 3.64 < 6.26 and both
+  audits are 0 errors/0 warnings.
+- Full release gates pass: Vitest 65 files and 569/569 tests, lint, TDD guard,
+  template metadata 1110/1110, curriculum 92/92 current references, static
+  build 113/113, focused E2E 1/1, and full E2E 74/74.
+- A 390x844 real browser inspected the concept and practice visual, answer
+  selection, and two-step hint state. There was no pre-check answer exposure,
+  horizontal overflow, console error, or page error.
+- Next: commit and push the final possibility unit, verify Pages and the
+  fresh-cache public route, then record the final curriculum audit.

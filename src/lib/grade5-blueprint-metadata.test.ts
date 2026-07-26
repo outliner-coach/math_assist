@@ -31,6 +31,7 @@ import {
 import { templates as generatedMixedCalculationTemplates } from '../../scripts/generate-grade5-mixedcalc-templates.js'
 import { templates as generatedNumberRangeTemplates } from '../../scripts/generate-grade5-number-range-templates.js'
 import { templates as generatedPatternTemplates } from '../../scripts/generate-grade5-pattern-templates.js'
+import { templates as generatedPossibilityTemplates } from '../../scripts/generate-grade5-possibility-templates.js'
 import { templates as generatedRoundingTemplates } from '../../scripts/generate-grade5-rounding-templates.js'
 import {
   buildProblemBlueprintCoverage,
@@ -43,7 +44,7 @@ const migratedBanks = [
   'area', 'areaunit', 'average', 'commonden', 'congruence', 'cuboid', 'cuboidnet',
   'decimalmul', 'divisor', 'estimate', 'fracadd', 'fraccompare', 'fracmul', 'fracsub',
   'gcd', 'lcm', 'mixedcalc', 'multiple', 'numberrange', 'pattern', 'perimeter',
-  'polygonarea', 'rounding', 'simplify', 'symmetry'
+  'polygonarea', 'possibility', 'rounding', 'simplify', 'symmetry'
 ]
 
 function readMigratedTemplates(): ProblemTemplate[] {
@@ -120,9 +121,9 @@ describe('Grade 5 reviewed blueprint metadata', () => {
         .map(template => template.problem_family)
     )
 
-    expect(templates).toHaveLength(750)
+    expect(templates).toHaveLength(780)
     expect(BLOCKED_CONTENT_TEMPLATE_IDS.size).toBe(0)
-    expect(families.size).toBe(250)
+    expect(families.size).toBe(260)
     expect(new Set(Object.keys(REVIEWED_FAMILY_BLUEPRINTS))).toEqual(families)
   })
 
@@ -369,18 +370,18 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     ))).toBe(true)
   })
 
-  it('migrates all 750 semantically reviewed Grade 5 templates', () => {
+  it('migrates all 780 semantically reviewed Grade 5 templates', () => {
     const templates = readMigratedTemplates()
     const coverage = buildProblemBlueprintCoverage(templates)
 
     expect(coverage.summary).toEqual({
-      templateCount: 750,
-      completeCount: 750,
+      templateCount: 780,
+      completeCount: 780,
       missingCount: 0,
       invalidCount: 0,
       coveragePercent: 100
     })
-    expect(coverage.byConcept).toHaveLength(25)
+    expect(coverage.byConcept).toHaveLength(26)
     expect(coverage.byConcept.every(concept => (
       concept.completeCount === 30 && concept.missingCount === 0
     ))).toBe(true)
@@ -887,6 +888,61 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       ])
       expect(setTemplates.every(template => (
         template.visual_template?.type === 'area_unit_square' &&
+        template.visual_template?.semantics === 'quantitative'
+      ))).toBe(true)
+    }
+  })
+
+  it('keeps the possibility bank reproducible, exhaustive, and balanced across three standards', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'possibility.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+    const coverage = buildProblemBlueprintCoverage(generatedPossibilityTemplates)
+    const possibility = coverage.byConcept[0]
+
+    expect(generatedPossibilityTemplates).toEqual(committed)
+    expect(generatedPossibilityTemplates).toHaveLength(30)
+    expect(possibility.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(possibility.problemFamilyCount).toBe(10)
+    expect(possibility.reasoningFamilyCount).toBe(2)
+    expect(possibility.representationCount).toBeGreaterThanOrEqual(2)
+    expect(possibility.targetGaps).toEqual([])
+    expect(collectExhaustiveTemplateIssues(
+      generatedPossibilityTemplates,
+      /^(?:\d+|\d+\/\d+)$/
+    )).toEqual([])
+
+    const standardCounts = generatedPossibilityTemplates.reduce<Record<string, number>>(
+      (counts, template) => {
+        const standard = template.blueprint!.primaryStandard
+        counts[standard] = (counts[standard] ?? 0) + 1
+        return counts
+      },
+      {}
+    )
+    expect(standardCounts).toEqual({
+      '6수04-04': 6,
+      '6수04-05': 6,
+      '6수04-06': 18,
+    })
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = generatedPossibilityTemplates.filter(
+        template => template.set_id === setId
+      )
+      expect(setTemplates).toHaveLength(10)
+      expect(setTemplates.map(template => template.difficulty)).toEqual([
+        1, 1, 1, 1, 2, 2, 2, 2, 3, 3
+      ])
+      expect(setTemplates.every(template => (
+        template.visual_template?.type === 'possibility_trials' &&
         template.visual_template?.semantics === 'quantitative'
       ))).toBe(true)
     }

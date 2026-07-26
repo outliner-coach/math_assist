@@ -232,6 +232,35 @@ test('5학년 넓이 단위는 두 방향 변환을 그리고 10문제를 완주
   expect(result.total).toBe(10)
 })
 
+test('5학년 가능성은 관찰 자료로 말·수·예측을 연결해 10문제를 완주한다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(`${BASE_PATH}/unit/unit-5-2-average`)
+  await expect(page.getByText('개념 선택 (2개)')).toBeVisible()
+  await expect(page.getByRole('link', { name: /가능성과 자료에 근거한 예측/ })).toBeVisible()
+
+  await page.goto(`${BASE_PATH}/concept/possibility-001`)
+  const conceptVisual = page.getByTestId('problem-diagram-possibility-trials')
+  await expect(conceptVisual).toBeVisible()
+  await expect(conceptVisual.locator('[data-possibility-row]')).toHaveCount(2)
+  await expect(conceptVisual.locator('[data-trial-outcome="favorable"]')).toHaveCount(10)
+
+  await page.goto(`${BASE_PATH}/practice/possibility-001?set=A`)
+  const session = await readSession(page)
+  expect(session.problems).toHaveLength(10)
+  expect(session.problems.every((problem) => problem.visual?.type === 'possibility_trials')).toBe(true)
+
+  const practiceVisual = page.getByTestId('problem-diagram-possibility-trials')
+  await expect(practiceVisual).toBeVisible()
+  await expect(page.locator('[data-answer]')).toHaveCount(0)
+  await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
+
+  await completeSession(page)
+  const result = await readResult(page)
+  expect(result.score).toBe(10)
+  expect(result.total).toBe(10)
+})
+
 test('5학년 풀이장은 문제별로 자동 저장하고 이동·새로고침 뒤 복구한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/practice/divisor-001?set=A`)
   await drawScratchStroke(page)

@@ -210,6 +210,18 @@ export type ProblemVisual =
         smallerLengthUnit: 'cm' | 'm'
       }
     }
+  | {
+      type: 'possibility_trials'
+      semantics: 'quantitative'
+      props: {
+        caption: string
+        rows: Array<{
+          label: string
+          favorable: number
+          total: number
+        }>
+      }
+    }
 
 export type GeometryVisual =
   | ProblemVisual
@@ -446,3 +458,4 @@ export type VisualAid =
   | Extract<ProblemVisual, { type: 'number_range' }>
   | Extract<ProblemVisual, { type: 'fraction_comparison' }>
   | Extract<ProblemVisual, { type: 'area_unit_square' }>
+  | Extract<ProblemVisual, { type: 'possibility_trials' }>
