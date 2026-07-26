@@ -5,6 +5,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-natural-quotient-proper",
     "blueprint": {
       "problemFamily": "a-natural-quotient-proper",
@@ -42,6 +46,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-natural-quotient-improper",
     "blueprint": {
       "problemFamily": "a-natural-quotient-improper",
@@ -79,6 +87,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "a-unit-fraction-divided-by-two",
     "blueprint": {
       "problemFamily": "a-unit-fraction-divided-by-two",
@@ -119,6 +130,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "a-proper-fraction-divided-by-two",
     "blueprint": {
       "problemFamily": "a-proper-fraction-divided-by-two",
@@ -159,6 +173,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-ribbon-equal-shares",
     "blueprint": {
       "problemFamily": "a-ribbon-equal-shares",
@@ -199,6 +217,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-juice-two-bottles",
     "blueprint": {
       "problemFamily": "a-juice-two-bottles",
@@ -239,6 +261,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-count-unit-fraction-scoops",
     "blueprint": {
       "problemFamily": "a-count-unit-fraction-scoops",
@@ -279,6 +305,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-count-double-unit-portions",
     "blueprint": {
       "problemFamily": "a-count-double-unit-portions",
@@ -319,6 +349,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-reciprocal-error-gap",
     "blueprint": {
       "problemFamily": "a-reciprocal-error-gap",
@@ -359,6 +393,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-remaining-unit-portions",
     "blueprint": {
       "problemFamily": "a-remaining-unit-portions",
@@ -399,6 +437,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-natural-sharing-proper",
     "blueprint": {
       "problemFamily": "b-natural-sharing-proper",
@@ -436,6 +478,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-natural-sharing-improper",
     "blueprint": {
       "problemFamily": "b-natural-sharing-improper",
@@ -473,6 +519,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "b-two-parts-divided-by-three",
     "blueprint": {
       "problemFamily": "b-two-parts-divided-by-three",
@@ -513,6 +562,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "b-cancel-dividend-and-divisor",
     "blueprint": {
       "problemFamily": "b-cancel-dividend-and-divisor",
@@ -553,6 +605,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-cloth-three-shares",
     "blueprint": {
       "problemFamily": "b-cloth-three-shares",
@@ -593,6 +649,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-unit-strip-count",
     "blueprint": {
       "problemFamily": "b-unit-strip-count",
@@ -633,6 +693,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-double-unit-serving-count",
     "blueprint": {
       "problemFamily": "b-double-unit-serving-count",
@@ -673,6 +737,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-recover-dividend-from-quotient",
     "blueprint": {
       "problemFamily": "b-recover-dividend-from-quotient",
@@ -713,6 +781,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
     "problem_family": "b-divide-by-half-comparison",
     "blueprint": {
       "problemFamily": "b-divide-by-half-comparison",
@@ -753,6 +825,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-denominator-cancellation-error",
     "blueprint": {
       "problemFamily": "b-denominator-cancellation-error",
@@ -793,6 +869,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-natural-cake-sharing",
     "blueprint": {
       "problemFamily": "c-natural-cake-sharing",
@@ -830,6 +910,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-natural-rope-sharing",
     "blueprint": {
       "problemFamily": "c-natural-rope-sharing",
@@ -867,6 +951,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "c-fraction-divided-by-four",
     "blueprint": {
       "problemFamily": "c-fraction-divided-by-four",
@@ -907,6 +994,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "c-three-parts-divided-by-two",
     "blueprint": {
       "problemFamily": "c-three-parts-divided-by-two",
@@ -947,6 +1037,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-lap-time",
     "blueprint": {
       "problemFamily": "c-lap-time",
@@ -987,6 +1081,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-two-unit-cookie-count",
     "blueprint": {
       "problemFamily": "c-two-unit-cookie-count",
@@ -1027,6 +1125,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-use-then-share",
     "blueprint": {
       "problemFamily": "c-use-then-share",
@@ -1067,6 +1169,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-find-missing-divisor",
     "blueprint": {
       "problemFamily": "c-find-missing-divisor",
@@ -1107,6 +1213,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
     "problem_family": "c-method-numerator-check",
     "blueprint": {
       "problemFamily": "c-method-numerator-check",
@@ -1147,6 +1257,11 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-method-denominator-check",
     "blueprint": {
       "problemFamily": "c-method-denominator-check",

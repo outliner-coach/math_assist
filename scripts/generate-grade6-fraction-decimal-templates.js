@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const { explicitTaskActionsFor } = require('./grade6-quality-metadata')
 
 const outputPath = path.join(__dirname, '..', 'public', 'data', 'templates', 'g6fractiondecimal.json')
 const sets = ['A', 'B', 'C']
@@ -49,6 +50,7 @@ const templates = sets.flatMap((setId) => setDefinitions[setId].map((definition,
   type: 'number',
   difficulty: index < 4 ? 1 : index < 8 ? 2 : 3,
   set_id: setId,
+  taskActions: explicitTaskActionsFor(definition),
   problem_family: definition.family,
   blueprint: {
     problemFamily: definition.family,

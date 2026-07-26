@@ -5,6 +5,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-cylinder-circular-base-count",
     "blueprint": {
       "problemFamily": "a-cylinder-circular-base-count",
@@ -50,6 +54,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-cone-vertex-count",
     "blueprint": {
       "problemFamily": "a-cone-vertex-count",
@@ -95,6 +103,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-sphere-curved-surface-count",
     "blueprint": {
       "problemFamily": "a-sphere-curved-surface-count",
@@ -140,6 +152,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-cylinder-net-circle-count",
     "blueprint": {
       "problemFamily": "a-cylinder-net-circle-count",
@@ -188,6 +204,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-multiple-cylinder-base-labels",
     "blueprint": {
       "problemFamily": "a-multiple-cylinder-base-labels",
@@ -234,6 +254,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-multiple-cone-tip-covers",
     "blueprint": {
       "problemFamily": "a-multiple-cone-tip-covers",
@@ -280,6 +304,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-cylinder-sphere-curved-labels",
     "blueprint": {
       "problemFamily": "a-cylinder-sphere-curved-labels",
@@ -318,6 +346,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-multiple-cylinder-net-pieces",
     "blueprint": {
       "problemFamily": "a-multiple-cylinder-net-pieces",
@@ -367,6 +399,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-cylinder-two-vertices-error",
     "blueprint": {
       "problemFamily": "a-cylinder-two-vertices-error",
@@ -414,6 +450,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-cylinder-net-missing-circle",
     "blueprint": {
       "problemFamily": "a-cylinder-net-missing-circle",
@@ -464,6 +504,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-cylinder-curved-surface-count",
     "blueprint": {
       "problemFamily": "b-cylinder-curved-surface-count",
@@ -509,6 +553,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-cone-circular-base-count",
     "blueprint": {
       "problemFamily": "b-cone-circular-base-count",
@@ -554,6 +602,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-sphere-vertex-count",
     "blueprint": {
       "problemFamily": "b-sphere-vertex-count",
@@ -599,6 +651,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-cylinder-net-rectangle-count",
     "blueprint": {
       "problemFamily": "b-cylinder-net-rectangle-count",
@@ -647,6 +703,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-multiple-cone-surface-labels",
     "blueprint": {
       "problemFamily": "b-multiple-cone-surface-labels",
@@ -693,6 +753,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-multiple-cylinder-surface-labels",
     "blueprint": {
       "problemFamily": "b-multiple-cylinder-surface-labels",
@@ -739,6 +803,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-cone-cylinder-base-combination",
     "blueprint": {
       "problemFamily": "b-cone-cylinder-base-combination",
@@ -777,6 +845,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-multiple-cylinder-net-circles",
     "blueprint": {
       "problemFamily": "b-multiple-cylinder-net-circles",
@@ -826,6 +898,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-sphere-one-base-error",
     "blueprint": {
       "problemFamily": "b-sphere-one-base-error",
@@ -873,6 +949,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-cylinder-net-extra-circle",
     "blueprint": {
       "problemFamily": "b-cylinder-net-extra-circle",
@@ -923,6 +1003,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-cone-curved-surface-count",
     "blueprint": {
       "problemFamily": "c-cone-curved-surface-count",
@@ -968,6 +1052,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-cylinder-vertex-count",
     "blueprint": {
       "problemFamily": "c-cylinder-vertex-count",
@@ -1013,6 +1101,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-sphere-circular-base-count",
     "blueprint": {
       "problemFamily": "c-sphere-circular-base-count",
@@ -1058,6 +1150,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-cylinder-net-total-piece-count",
     "blueprint": {
       "problemFamily": "c-cylinder-net-total-piece-count",
@@ -1106,6 +1202,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-three-kind-circular-base-total",
     "blueprint": {
       "problemFamily": "c-three-kind-circular-base-total",
@@ -1144,6 +1244,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-three-kind-surface-label-total",
     "blueprint": {
       "problemFamily": "c-three-kind-surface-label-total",
@@ -1182,6 +1286,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-cylinder-cone-vertex-total",
     "blueprint": {
       "problemFamily": "c-cylinder-cone-vertex-total",
@@ -1220,6 +1328,11 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-cylinder-net-circle-rectangle-gap",
     "blueprint": {
       "problemFamily": "c-cylinder-net-circle-rectangle-gap",
@@ -1269,6 +1382,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "c-cone-two-curved-surfaces-error",
     "blueprint": {
       "problemFamily": "c-cone-two-curved-surfaces-error",
@@ -1316,6 +1433,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "c-cylinder-net-missing-rectangle",
     "blueprint": {
       "problemFamily": "c-cylinder-net-missing-rectangle",

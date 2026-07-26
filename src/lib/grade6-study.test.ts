@@ -106,6 +106,24 @@ const releasedConceptTemplates = [
   ['g6ratiograph-001', ratioGraphTemplates],
 ] as const
 
+const allowedTaskActions = new Set([
+  'recognize',
+  'classify',
+  'compare',
+  'calculate',
+  'measure',
+  'construct',
+  'model',
+  'interpret',
+  'explain',
+  'analyze_error',
+  'reason',
+])
+
+type ReviewedGrade6Template = ProblemTemplate & {
+  taskActions?: string[]
+}
+
 describe('Grade 6 Study release slice', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
@@ -131,6 +149,117 @@ describe('Grade 6 Study release slice', () => {
       }
     },
   )
+
+  it('keeps explicit source-owned quality metadata on every released template', () => {
+    for (const [, templates] of releasedConceptTemplates) {
+      for (const template of templates as ReviewedGrade6Template[]) {
+        expect(template.taskActions, template.id).toEqual(expect.any(Array))
+        expect(template.taskActions?.length, template.id).toBeGreaterThan(0)
+        expect(
+          template.taskActions?.every((action) => allowedTaskActions.has(action)),
+          template.id,
+        ).toBe(true)
+
+        if (template.visual_template) {
+          expect(template.blueprint?.visualSemantics, template.id).toBe(
+            template.visual_template.semantics,
+          )
+        } else {
+          expect(template.blueprint?.visualSemantics, template.id).toBeUndefined()
+        }
+      }
+    }
+  })
+
+  it('audits every allowed Grade 6 numeric variant and long deterministic seed', () => {
+    let variantCount = 0
+    const longSeeds = [0, 1, 2_026_072_600, 2_147_483_647, 4_294_967_295]
+
+    for (const [, templates] of releasedConceptTemplates) {
+      for (const template of templates) {
+        const { min, max } = template.param_schema.p
+        for (let p = min; p <= max; p += 1) {
+          variantCount += 1
+          const params = { p }
+          const rendered = [
+            evaluateTemplate(template.prompt_template, params),
+            ...template.solution_steps_template.map((step) => evaluateTemplate(step, params)),
+            ...(template.hint_steps_template ?? []).map((step) => evaluateTemplate(step, params)),
+          ]
+          const solution = template.solution_steps_template.map(
+            (step) => evaluateTemplate(step, params),
+          )
+          const answer = evaluateTemplate(`{{${template.solver_rule}}}`, params)
+          const escapedAnswer = answer.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+          const answerToken = new RegExp(`(^|[^0-9.])${escapedAnswer}([^0-9.]|$)`)
+
+          expect(rendered.every((text) => text.trim().length > 0), `${template.id} p=${p}`).toBe(true)
+          expect(rendered.some((text) => text.includes('{{')), `${template.id} p=${p}`).toBe(false)
+          expect(Number.isFinite(Number(answer)) || /^-?\d+\/\d+$/.test(answer), `${template.id} p=${p}`).toBe(true)
+          expect(Number(answer) >= 0 || /^-?\d+\/\d+$/.test(answer), `${template.id} p=${p}`).toBe(true)
+          expect(solution.some((step) => answerToken.test(step)), `${template.id} p=${p}`).toBe(true)
+        }
+      }
+
+      for (const setId of ['A', 'B', 'C'] as const) {
+        for (const seed of longSeeds) {
+          const options = {
+            count: 10,
+            setId,
+            difficultyMix: { 1: 4, 2: 4, 3: 2 },
+            seed,
+          } as const
+          expect(generateProblems(templates, options)).toEqual(generateProblems(templates, options))
+        }
+      }
+    }
+
+    expect(variantCount).toBe(1_633)
+  })
+
+  it('renders every allowed Grade 6 visual variant without unchecked answer payloads', () => {
+    vi.stubGlobal('React', React)
+    let renderedVariantCount = 0
+
+    for (const [, templates] of releasedConceptTemplates) {
+      for (const template of templates.filter((item) => item.visual_template)) {
+        const { min, max } = template.param_schema.p
+        for (let targetP = min; targetP <= max; targetP += 1) {
+          const difficultyMix = { 1: 0, 2: 0, 3: 0 }
+          difficultyMix[template.difficulty] = 1
+          let problem
+
+          for (let seed = 0; seed < 100 && problem === undefined; seed += 1) {
+            const candidate = generateProblems([template], {
+              count: 1,
+              setId: template.set_id,
+              difficultyMix,
+              seed,
+            })[0]
+            if (candidate.params.p === targetP) problem = candidate
+          }
+
+          expect(problem, `${template.id} p=${targetP}`).toBeDefined()
+          const html = renderToStaticMarkup(createElement(ProblemCard, {
+            problem: problem!,
+            answer: null,
+            checked: false,
+            onAnswer: () => undefined,
+          }))
+
+          expect(html, `${template.id} p=${targetP}`).not.toContain('data-answer')
+          expect(html, `${template.id} p=${targetP}`).not.toContain('correctAnswer')
+          expect(html, `${template.id} p=${targetP}`).not.toContain('정답:')
+          expect(JSON.stringify(problem!.visual), `${template.id} p=${targetP}`).not.toMatch(
+            /"(?:answer|result|target|product|correctAnswer)":/,
+          )
+          renderedVariantCount += 1
+        }
+      }
+    }
+
+    expect(renderedVariantCount).toBe(707)
+  })
 
   it('uses materially different A/B/C families and keeps proportion-only standards out of 6-1', () => {
     const familySets = (['A', 'B', 'C'] as const).map((setId) => new Set(

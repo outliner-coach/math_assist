@@ -5,6 +5,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "a-ratio-baseline",
     "blueprint": {
       "problemFamily": "a-ratio-baseline",
@@ -42,6 +45,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "a-ratio-comparison-quantity",
     "blueprint": {
       "problemFamily": "a-ratio-comparison-quantity",
@@ -79,6 +85,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-rate-quarter-fraction",
     "blueprint": {
       "problemFamily": "a-rate-quarter-fraction",
@@ -119,6 +129,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-rate-quarter-percent",
     "blueprint": {
       "problemFamily": "a-rate-quarter-percent",
@@ -159,6 +173,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-reading-decimal-rate",
     "blueprint": {
       "problemFamily": "a-reading-decimal-rate",
@@ -199,6 +217,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-vote-percent-rate",
     "blueprint": {
       "problemFamily": "a-vote-percent-rate",
@@ -239,6 +261,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-participation-decimal",
     "blueprint": {
       "problemFamily": "a-participation-decimal",
@@ -279,6 +305,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-quarter-quantity",
     "blueprint": {
       "problemFamily": "a-quarter-quantity",
@@ -319,6 +349,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-quarter-error-gap",
     "blueprint": {
       "problemFamily": "a-quarter-error-gap",
@@ -359,6 +393,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
     "problem_family": "a-table-rate-comparison",
     "blueprint": {
       "problemFamily": "a-table-rate-comparison",
@@ -428,6 +466,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-write-ratio-first-term",
     "blueprint": {
       "problemFamily": "b-write-ratio-first-term",
@@ -465,6 +507,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-write-ratio-second-term",
     "blueprint": {
       "problemFamily": "b-write-ratio-second-term",
@@ -502,6 +548,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-three-quarter-numerator",
     "blueprint": {
       "problemFamily": "b-three-quarter-numerator",
@@ -542,6 +592,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-two-fifths-percent",
     "blueprint": {
       "problemFamily": "b-two-fifths-percent",
@@ -582,6 +636,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-reduce-ratio-denominator",
     "blueprint": {
       "problemFamily": "b-reduce-ratio-denominator",
@@ -622,6 +680,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-remaining-percent",
     "blueprint": {
       "problemFamily": "b-remaining-percent",
@@ -662,6 +724,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-find-forty-percent-part",
     "blueprint": {
       "problemFamily": "b-find-forty-percent-part",
@@ -702,6 +768,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-find-whole-from-half",
     "blueprint": {
       "problemFamily": "b-find-whole-from-half",
@@ -742,6 +812,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-percent-claim-check",
     "blueprint": {
       "problemFamily": "b-percent-claim-check",
@@ -782,6 +856,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
     "problem_family": "b-table-efficiency-comparison",
     "blueprint": {
       "problemFamily": "b-table-efficiency-comparison",
@@ -851,6 +929,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "c-identify-comparison-quantity",
     "blueprint": {
       "problemFamily": "c-identify-comparison-quantity",
@@ -888,6 +969,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "c-identify-baseline-quantity",
     "blueprint": {
       "problemFamily": "c-identify-baseline-quantity",
@@ -925,6 +1009,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-three-fifths-denominator",
     "blueprint": {
       "problemFamily": "c-three-fifths-denominator",
@@ -965,6 +1053,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-three-quarters-percent",
     "blueprint": {
       "problemFamily": "c-three-quarters-percent",
@@ -1005,6 +1097,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-combine-two-groups-rate",
     "blueprint": {
       "problemFamily": "c-combine-two-groups-rate",
@@ -1045,6 +1141,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-unused-percent",
     "blueprint": {
       "problemFamily": "c-unused-percent",
@@ -1085,6 +1185,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-find-whole-from-twenty-percent",
     "blueprint": {
       "problemFamily": "c-find-whole-from-twenty-percent",
@@ -1125,6 +1229,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-two-stage-half-rate",
     "blueprint": {
       "problemFamily": "c-two-stage-half-rate",
@@ -1165,6 +1273,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "c-rate-overestimate-gap",
     "blueprint": {
       "problemFamily": "c-rate-overestimate-gap",
@@ -1205,6 +1317,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
     "problem_family": "c-table-rate-ordering",
     "blueprint": {
       "problemFamily": "c-table-rate-ordering",

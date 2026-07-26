@@ -5,6 +5,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-prism-face-count",
     "blueprint": {
       "problemFamily": "a-prism-face-count",
@@ -50,6 +54,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-prism-edge-count",
     "blueprint": {
       "problemFamily": "a-prism-edge-count",
@@ -95,6 +103,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-pyramid-vertex-count",
     "blueprint": {
       "problemFamily": "a-pyramid-vertex-count",
@@ -140,6 +152,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-prism-net-lateral-count",
     "blueprint": {
       "problemFamily": "a-prism-net-lateral-count",
@@ -188,6 +204,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-inverse-prism-from-faces",
     "blueprint": {
       "problemFamily": "a-inverse-prism-from-faces",
@@ -226,6 +246,11 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-prism-pyramid-edge-difference",
     "blueprint": {
       "problemFamily": "a-prism-pyramid-edge-difference",
@@ -264,6 +289,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-corner-protector-combination",
     "blueprint": {
       "problemFamily": "a-corner-protector-combination",
@@ -302,6 +331,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-prism-net-total-pieces",
     "blueprint": {
       "problemFamily": "a-prism-net-total-pieces",
@@ -351,6 +384,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-prism-double-face-error",
     "blueprint": {
       "problemFamily": "a-prism-double-face-error",
@@ -398,6 +435,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-prism-net-missing-lateral",
     "blueprint": {
       "problemFamily": "a-prism-net-missing-lateral",
@@ -448,6 +489,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-pyramid-face-count",
     "blueprint": {
       "problemFamily": "b-pyramid-face-count",
@@ -493,6 +538,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-pyramid-edge-count",
     "blueprint": {
       "problemFamily": "b-pyramid-edge-count",
@@ -538,6 +587,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-prism-vertex-count",
     "blueprint": {
       "problemFamily": "b-prism-vertex-count",
@@ -583,6 +636,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-prism-net-base-count",
     "blueprint": {
       "problemFamily": "b-prism-net-base-count",
@@ -631,6 +688,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-inverse-pyramid-from-edges",
     "blueprint": {
       "problemFamily": "b-inverse-pyramid-from-edges",
@@ -669,6 +730,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-face-labels-for-two-solids",
     "blueprint": {
       "problemFamily": "b-face-labels-for-two-solids",
@@ -707,6 +772,11 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-prism-edge-vertex-gap",
     "blueprint": {
       "problemFamily": "b-prism-edge-vertex-gap",
@@ -753,6 +823,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-two-prism-nets-lateral-panels",
     "blueprint": {
       "problemFamily": "b-two-prism-nets-lateral-panels",
@@ -802,6 +876,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-pyramid-double-vertex-error",
     "blueprint": {
       "problemFamily": "b-pyramid-double-vertex-error",
@@ -849,6 +927,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-prism-net-missing-base",
     "blueprint": {
       "problemFamily": "b-prism-net-missing-base",
@@ -899,6 +981,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-prism-face-count",
     "blueprint": {
       "problemFamily": "c-prism-face-count",
@@ -944,6 +1030,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-pyramid-edge-count",
     "blueprint": {
       "problemFamily": "c-pyramid-edge-count",
@@ -989,6 +1079,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-prism-edge-count",
     "blueprint": {
       "problemFamily": "c-prism-edge-count",
@@ -1034,6 +1128,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-pyramid-vertex-count",
     "blueprint": {
       "problemFamily": "c-pyramid-vertex-count",
@@ -1079,6 +1177,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-inverse-prism-from-vertices",
     "blueprint": {
       "problemFamily": "c-inverse-prism-from-vertices",
@@ -1117,6 +1219,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-combined-edge-tape",
     "blueprint": {
       "problemFamily": "c-combined-edge-tape",
@@ -1155,6 +1261,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-two-prism-face-stickers",
     "blueprint": {
       "problemFamily": "c-two-prism-face-stickers",
@@ -1201,6 +1311,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-three-prism-nets-lateral-panels",
     "blueprint": {
       "problemFamily": "c-three-prism-nets-lateral-panels",
@@ -1250,6 +1364,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "c-prism-double-edge-error",
     "blueprint": {
       "problemFamily": "c-prism-double-edge-error",
@@ -1297,6 +1415,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "c-prism-net-extra-lateral",
     "blueprint": {
       "problemFamily": "c-prism-net-extra-lateral",
