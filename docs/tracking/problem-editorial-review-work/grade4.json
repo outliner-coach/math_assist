@@ -3,10 +3,10 @@
   "items": [
     {
       "reviewId": "4:mission:g4-ang-01",
-      "contentHash": "b353b7821ced88e43a4fc094202a096d7d0be0180dff286d4fb84d4e8a6c9069",
+      "contentHash": "601b530dc546a5c7062c44dfa8c5e4be6aa835fa777cfdf1a1a05ef4b4f00947",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed measure-angle-on-protractor as a choice response to \"각도기의 광선이 가리키는 각도를 읽으세요.\" Source decision: taskActions=measure; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -20,10 +20,10 @@
     },
     {
       "reviewId": "4:mission:g4-ang-02",
-      "contentHash": "9f22c6c5b6110e292317e46d0eee1bb8af6fc2096ef017af0bdf0ccdf6b233a0",
+      "contentHash": "98dcafa80a021bd3e8cdee236c8810e9615d5f042fcc92080899a5902a0c754c",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed classify-obtuse-by-measure as a choice response to \"측정값이 90°와 180° 사이인 각을 분류하세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -37,10 +37,10 @@
     },
     {
       "reviewId": "4:mission:g4-ang-03",
-      "contentHash": "7edd2236231ad52226edf9d9cf224aff16e025d11e7165c54206b72686bcdb19",
+      "contentHash": "0866693dd6d5a647569f3a52e4dac167a4ef33a4e023ff5932abb6d2c5f1b385",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed estimate-angle-near-benchmark as a choice response to \"기준 각과 비교해 가장 가까운 어림값을 고르세요.\" Source decision: taskActions=compare+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -54,10 +54,10 @@
     },
     {
       "reviewId": "4:mission:g4-ang-04",
-      "contentHash": "b3bf92fced8074905a3290c3b590026e99f44e6c2c654eea371c0a604b04f100",
+      "contentHash": "0fe6e173d6a4e9043c03111cc482ee592fddb0b081ba217664d91c6917ebb7f5",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed align-protractor-before-measuring as a choice response to \"각도기를 바르게 놓는 방법을 고르세요.\" Source decision: taskActions=recognize; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -71,10 +71,10 @@
     },
     {
       "reviewId": "4:mission:g4-ang-05",
-      "contentHash": "47fc93f9b3d8e0bcc5a67eebf894f4fc09501f25bbe018abbb044d35afd199d0",
+      "contentHash": "87f122b4a0300f3afac5d8e00486c0ee8e06efb4a1a7656320f26677f3c0baee",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed triangle-missing-interior-angle as a integer response to \"삼각형의 두 각에서 나머지 한 각을 구하세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -88,10 +88,10 @@
     },
     {
       "reviewId": "4:mission:g4-ang-06",
-      "contentHash": "32620d93a9ce48ab3b26e47989d79637447e6bae261431d89319181d24c61f87",
+      "contentHash": "125d879e0affadfde93b78790fd5cb280d8b052a55c0c0e5b155f9de3ce2037d",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed parallelogram-missing-interior-angle as a integer response to \"평행사변형의 세 각에서 나머지 한 각을 구하세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -105,10 +105,10 @@
     },
     {
       "reviewId": "4:mission:g4-ang-07",
-      "contentHash": "9469b4d57d79b3b3df15438e7e2c728bde1d08ba1d77aee6adc6a6e508396b37",
+      "contentHash": "286bfafded4c0507129556b6efc580030d429732f83461bc4b6a45d35f950266",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed navigation-turn-angle as a choice response to \"이동 경로의 오른쪽 회전을 각도로 나타내세요.\" Source decision: taskActions=interpret; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -122,10 +122,10 @@
     },
     {
       "reviewId": "4:mission:g4-ang-08",
-      "contentHash": "0c2fca1adcd0de39d5d556896ad00085a243c2149655582de96cd1db496b3dec",
+      "contentHash": "ec9cdb04501f78f79d724aa25dfb0affc5415dca84e99879bd565199ab18b4ce",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed complete-straight-angle-turn as a integer response to \"평각을 완성하는 남은 각도를 구하세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -139,10 +139,10 @@
     },
     {
       "reviewId": "4:mission:g4-ang-09",
-      "contentHash": "aa1fe2f8ce7b506296ad803926cb29f6cd8bfd0d0803d09a53ccea6f40167d01",
+      "contentHash": "21e49bb2c7c9bb3be288bee1a69ac7d2f0a3aa783a0ec8d051684b263761a254",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed wrong-protractor-scale as a choice response to \"각도기의 반대 눈금을 읽은 오류를 고치세요.\" Source decision: taskActions=analyze_error+interpret; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -156,10 +156,10 @@
     },
     {
       "reviewId": "4:mission:g4-ang-10",
-      "contentHash": "cf684f0cf073bee54ac8213215d78053e2849cf8c42d09026efd95f439a7ab69",
+      "contentHash": "e08ac4e40478c303c74dde8726ae550dafa072329a8b873a199327a586c83bc9",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed quadrilateral-split-two-triangles as a choice response to \"대각선으로 나눈 두 삼각형에서 사각형 내각의 합을 설명하세요.\" Source decision: taskActions=explain+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -173,10 +173,10 @@
     },
     {
       "reviewId": "4:mission:g4-big-01",
-      "contentHash": "6cf21363171ce34d8daebc93e8e6734b0e7e2e1eb3db170392d4af7cf2e03e1a",
+      "contentHash": "5ac3a629b7753ca05a10316778abf09e958d4dbe4d0d001adbdb79cdd7acc09f",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed place-value-value as a choice response to \"수의 만의 자리 숫자가 나타내는 값은 얼마일까요?\" Source decision: taskActions=recognize; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -190,10 +190,10 @@
     },
     {
       "reviewId": "4:mission:g4-big-02",
-      "contentHash": "f0dc5f58c4087d0b10d4e5e13aaca1297227a6163a21cdfa1cc4d8693f5e329a",
+      "contentHash": "b71b9c61f4aabfae55866e8d62958d9bb7f98127df2967dba7a6c7a6b16d367b",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed place-value-compose as a integer response to \"십만, 만, 천, 십, 일의 수를 모아 하나의 수로 쓰세요.\" Source decision: taskActions=model; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -207,10 +207,10 @@
     },
     {
       "reviewId": "4:mission:g4-big-03",
-      "contentHash": "5f185c25fed560330cd8842fa346b6de98409d381f1b8a0f6b84df0d5f3118fd",
+      "contentHash": "59d947b201d099572deff6832839e51903e7d0ac6fbfb1a66520fa83d7ed9c0d",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed place-value-name as a choice response to \"수에서 천의 자리 숫자가 나타내는 값을 고르세요.\" Source decision: taskActions=recognize; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -224,10 +224,10 @@
     },
     {
       "reviewId": "4:mission:g4-big-04",
-      "contentHash": "4e746433e6d424eb4433b5c07f58a0ae1c0cccef7cfe05ec88b286b12544b7d5",
+      "contentHash": "166a1c3556e00c8792994e642ee8293113c4d3abff385fbd5ba37ee98d072fba",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed direct-comparison as a choice response to \"두 큰 수를 비교한 설명 중 옳은 것을 고르세요.\" Source decision: taskActions=compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -241,10 +241,10 @@
     },
     {
       "reviewId": "4:mission:g4-big-05",
-      "contentHash": "9e775b797520368e92d6acf598bcbdb4600d0963068355cc4200be7eb9551dc2",
+      "contentHash": "a8b56d04c8aeac0f4900d41fab41dd02625cdf604948f83619e88a146ece84d8",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed select-maximum as a choice response to \"네 수 중 가장 큰 수를 고르세요.\" Source decision: taskActions=compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -258,10 +258,10 @@
     },
     {
       "reviewId": "4:mission:g4-big-06",
-      "contentHash": "aa2a7c86f3a46a5983aae609b8643cdcc96e9cec5ef601226970cb46f484a069",
+      "contentHash": "34c5a68c22a5a40b8dc6cff2d9409ae63cfc40418c32cca6d1b22aaf5c521797",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed ten-thousand-step as a integer response to \"주어진 수보다 10,000만큼 큰 수를 쓰세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -275,10 +275,10 @@
     },
     {
       "reviewId": "4:mission:g4-big-07",
-      "contentHash": "4f41b63db506f7a7e96a908cdacebd4f196946f0b5e7aff6360a0cc20b7d0fe0",
+      "contentHash": "0fe6de15738c759d67c1494de91c60157fe628a77b575d97d24fda2874ff4a68",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed context-difference as a integer response to \"두 지역의 사람 수 차이는 몇 명인지 구하세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -292,10 +292,10 @@
     },
     {
       "reviewId": "4:mission:g4-big-08",
-      "contentHash": "f24f6acce042b957f651b562f29998d7dc460a2dc5ab12d076ffdbf239e205f8",
+      "contentHash": "fa9bec1a80c84473ef333a7e0a8c0a702d9d360461ef00c24bc034f54549e2f5",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed between-bounds as a choice response to \"두 수보다 크고 작은 조건을 모두 만족하는 수를 고르세요.\" Source decision: taskActions=compare; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -309,10 +309,10 @@
     },
     {
       "reviewId": "4:mission:g4-big-09",
-      "contentHash": "4f36c1b73b98f89f172d27aaf4f513aba41b8eb0be7783446b132af089594bbe",
+      "contentHash": "775d6dba96feaaac58fa54f4905380fe399ce4d78269708fd9e1a57873b2a5aa",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed constraint-digit as a choice response to \"큰 수의 비교 조건을 만족하는 빈칸 숫자 중 가장 큰 것을 고르세요.\" Source decision: taskActions=reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -326,10 +326,10 @@
     },
     {
       "reviewId": "4:mission:g4-big-10",
-      "contentHash": "2e1e59d13ef4b918d081570705cdb40358af5224dcb7ff7f6642e49f933572a6",
+      "contentHash": "a0899395e1ce1eadf1741bbffd85edad33f1f763e11e84e6f0f714f1ec6f445e",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed claim-evaluation as a choice response to \"두 큰 수를 비교한 친구의 말에 알맞은 판단 근거를 고르세요.\" Source decision: taskActions=analyze_error+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -343,10 +343,10 @@
     },
     {
       "reviewId": "4:mission:g4-dec-01",
-      "contentHash": "443f37920cf8d40601551a430fff1f178e9fa75ff212a59726b4319e093f4d52",
+      "contentHash": "84524df28bdf229a56771f0162703398b41ee340816fd2ab31c74be15568e6ad",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed compose-two-place-decimal as a decimal response to \"자리별 수를 모아 소수 두 자리 수로 쓰세요.\" Source decision: taskActions=model; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -360,10 +360,10 @@
     },
     {
       "reviewId": "4:mission:g4-dec-02",
-      "contentHash": "58d190b17a3ef5ae3eebfc897c8170c699be4d74a0b8bba126dc65210e3a9b74",
+      "contentHash": "890342e7a11aa2bfb86233a3f3a94058cdcb55d86a812fa819a6a995f0ae8ea7",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed decimal-place-value as a decimal response to \"소수에서 백분의 일 자리 숫자가 나타내는 값을 쓰세요.\" Source decision: taskActions=recognize; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -377,10 +377,10 @@
     },
     {
       "reviewId": "4:mission:g4-dec-03",
-      "contentHash": "76e80bef0df954b1a734cbdc26588f4a7be8a6ed388147b164ce2f974e431344",
+      "contentHash": "41b09a3e6d4ee40ef97c87ace2b53bcd0b0564a93885c7fb724763140293b4dd",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed compose-three-place-decimal as a decimal response to \"자리별 수를 모아 소수 세 자리 수로 쓰세요.\" Source decision: taskActions=model; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -394,10 +394,10 @@
     },
     {
       "reviewId": "4:mission:g4-dec-04",
-      "contentHash": "b0d15c87dfad73333ccc2cd670d7a38f7673d59e4ce40058162c97407ca16082",
+      "contentHash": "d82953135532fad0f18d67723d290cd467c9a729b43037b2a71861dd590a6af8",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed compare-two-decimals as a choice response to \"두 소수의 크기를 비교하는 부등호를 고르세요.\" Source decision: taskActions=compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -411,10 +411,10 @@
     },
     {
       "reviewId": "4:mission:g4-dec-05",
-      "contentHash": "2b007911d4176eda913ee3d30901e6e018745c16c0c0267d9f43d8252a6e8069",
+      "contentHash": "85a41fc9109bce6063d0b0d80c414f72b2a6a87eee8464b3447b5b1b1aff9515",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed measurement-place-value as a choice response to \"소수로 나타낸 길이에서 백분의 일 자리의 값을 고르세요.\" Source decision: taskActions=recognize; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -428,10 +428,10 @@
     },
     {
       "reviewId": "4:mission:g4-dec-06",
-      "contentHash": "708ce0835185a8a41789de7d4a2f0b3de945d0578871b3b1bcb88408e703a7be",
+      "contentHash": "1cadc442b6a609087fefed5dcf816b40db2b41f1371416c29a40c2f004e245c5",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed order-three-decimals as a choice response to \"세 소수를 작은 수부터 차례로 놓은 보기를 고르세요.\" Source decision: taskActions=compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -445,10 +445,10 @@
     },
     {
       "reviewId": "4:mission:g4-dec-07",
-      "contentHash": "64fe8df59cf4ccf0658ad2af4675e1319c492f31b92f018ec3ab97879e00a227",
+      "contentHash": "c2e16c8800320dda82e10ac25e0db08ada2594ae8fd6610e8105b4aa6b33f9a7",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed greatest-decimal-from-digits as a decimal response to \"세 숫자를 한 번씩 사용하여 1보다 작은 가장 큰 소수를 만드세요.\" Source decision: taskActions=compare+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -462,10 +462,10 @@
     },
     {
       "reviewId": "4:mission:g4-dec-08",
-      "contentHash": "b7c83f73c63f1a08c7f9d265ba50a122052d4431c29958c9b532e99ecc100665",
+      "contentHash": "4e7892c9a9d1fb0ae361bd79c890d3da440df578f33eded6d0a18dcf93714b83",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed locate-decimal-between-tenths as a choice response to \"주어진 소수가 어느 두 소수 한 자리 수 사이인지 고르세요.\" Source decision: taskActions=compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -479,10 +479,10 @@
     },
     {
       "reviewId": "4:mission:g4-dec-09",
-      "contentHash": "7bdcedaeb10a25abeb7e5201b2b99b5924e28cb8266f4b5c89c8f9edd5c864af",
+      "contentHash": "4be60bf09c5fe75f091bc834848478d6fd85dee924a44f80c9e654f278dbc683",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed whole-digit-count-comparison-error as a choice response to \"소수점 아래 숫자 개수로 비교한 친구의 말을 고치세요.\" Source decision: taskActions=analyze_error+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -496,10 +496,10 @@
     },
     {
       "reviewId": "4:mission:g4-dec-10",
-      "contentHash": "a77468a2a5bfd00b382bf2d7d22d449f42a6459d1bb38bc04628eb0f58678520",
+      "contentHash": "8ef57c5c44635d1af217d4cb15a94d14369bd6dc79520797c2ee3ef737c243e6",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed missing-tenths-digit-constraint as a integer response to \"소수의 크기 조건을 만족하는 빈칸의 가장 큰 숫자를 구하세요.\" Source decision: taskActions=reason+compare; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -513,10 +513,10 @@
     },
     {
       "reviewId": "4:mission:g4-div-01",
-      "contentHash": "3ddc957126f587f8d93e4a046468fee0d08c87794eef5c4a3a7f4eb6ce0ca246",
+      "contentHash": "43792d0c4da4eeada9cbe10a22b219afaf01d7c145bf1c5ed618eac525c853da",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed exact-two-digit-division as a integer response to \"세 자리 수를 두 자리 수로 나눈 몫을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -530,10 +530,10 @@
     },
     {
       "reviewId": "4:mission:g4-div-02",
-      "contentHash": "53524135fd8f50c6d343cce3a6876b2b649301c5529ab6ba4e8d7be95a4fb701",
+      "contentHash": "4bddd187c1e4c827ebb6f833e646955c98f1f638df045060b8859de81558d4c6",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed quotient-with-remainder as a integer response to \"세 자리 수를 두 자리 수로 나눈 몫을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -547,10 +547,10 @@
     },
     {
       "reviewId": "4:mission:g4-div-03",
-      "contentHash": "649cbc3157b1c6f4dc483bd8848bbe5647b52e58c7a5407787a5982aefbabe55",
+      "contentHash": "424bc42dc30c1992a6d14130cdab492012662a4f0ff4ac18bf89f69ad4cc8c77",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed remainder-from-division as a integer response to \"세 자리 수를 두 자리 수로 나눈 나머지를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -564,10 +564,10 @@
     },
     {
       "reviewId": "4:mission:g4-div-04",
-      "contentHash": "c479457cf3b7531358059cd6f7398d2a5075cfbde5fbb7b4826d8c58d9cd18f6",
+      "contentHash": "002faae6999e663fa70f1413590f371a9bb38ed1b58420ee3f50598a2b705a31",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed division-check-equation as a choice response to \"나눗셈을 확인하는 식으로 알맞은 것을 고르세요.\" Source decision: taskActions=model; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -581,10 +581,10 @@
     },
     {
       "reviewId": "4:mission:g4-div-05",
-      "contentHash": "bba3284987cf161a017c34c75901c4cd2f4d8544a78191cd89eef0bd2eab426a",
+      "contentHash": "60d1aef22992b0af4eddd8a1ae1d933a704389c259b7d35a904ed6f5311fa32b",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed equal-pack-count as a integer response to \"준비물을 같은 수씩 상자에 담을 때 필요한 상자 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -598,10 +598,10 @@
     },
     {
       "reviewId": "4:mission:g4-div-06",
-      "contentHash": "2a446724cd537c89f7a6cfa6838f42bf3f42bbbc66db708fa100d2c2b3aeb1f0",
+      "contentHash": "b0d1cb6060b6a94634b57b617b8522d35cdbba8df34821503bbf9428fb1ff356",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed round-up-capacity as a integer response to \"한 대에 탈 수 있는 수가 정해진 상황에서 필요한 탈것 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -615,10 +615,10 @@
     },
     {
       "reviewId": "4:mission:g4-div-07",
-      "contentHash": "b5aae4b092109fd6f3a232b1b0b418372c6c89ef62a2d2c7fc99ebbe18ea8e15",
+      "contentHash": "0fa0169bc8cb7a4342acce03f707ffdc67a9f531d23de18008625399fe550304",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed leftover-after-packing as a integer response to \"물건을 같은 수씩 포장한 뒤 남는 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -632,12 +632,10 @@
     },
     {
       "reviewId": "4:mission:g4-div-08",
-      "contentHash": "2f2b22882ea1759495857521d954a0e40be23480955e7b79c9ceb9b381b5ceb9",
+      "contentHash": "83eb51f6a704db55869520ca4fde02f3dea0490a58fd5c56166b33db7fe1bed6",
       "status": "blocked",
-      "findingCategories": [
-        "visual_semantics"
-      ],
-      "note": "The declared representation was corrected to the actual division model. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "findingCategories": [],
+      "note": "The inverse-division visual now uses the division-model declared by the source. Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -651,10 +649,10 @@
     },
     {
       "reviewId": "4:mission:g4-div-09",
-      "contentHash": "fa35c97e79bdc98157b8ba1589f8195bafd771d5e3303f629e69571baf9c7e4a",
+      "contentHash": "f923468fc04428698ee85f415cc50ef0d138ba1d8f51b4f5338394da2cb73a59",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed ignored-remainder-capacity-error as a choice response to \"나머지를 무시한 계획이 맞는지 판단하세요.\" Source decision: taskActions=analyze_error+calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -668,10 +666,10 @@
     },
     {
       "reviewId": "4:mission:g4-div-10",
-      "contentHash": "8d02db943b486e84aacf29f2097a6b3216c9f8f8ba3198d6b3c97490f7d49f65",
+      "contentHash": "72e16f73916a77da405491d0cf6d14a1407ad71879f26cd52e32d9edcae7a839",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed trial-quotient-error as a integer response to \"몫을 하나 크게 잡았을 때 곱이 나누어지는 수보다 얼마나 큰지 구하세요.\" Source decision: taskActions=analyze_error+calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -685,10 +683,10 @@
     },
     {
       "reviewId": "4:mission:g4-dop-01",
-      "contentHash": "4ec6514e86a9fc602a29627da36998637d906e1f608ca73e79f1db8fe9dacc2f",
+      "contentHash": "5df423dcc04d9b9fc36078eb5ffe313d08eb041db6f6208fdea8c8cee541fefc",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed hundredths-addition-without-regrouping as a decimal response to \"받아올림이 없는 소수 두 자리 수의 덧셈을 계산하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -702,10 +700,10 @@
     },
     {
       "reviewId": "4:mission:g4-dop-02",
-      "contentHash": "994e82ed6c3f6a0d4cd626f5433d65229ab72cb075643218254f2acb4c181aff",
+      "contentHash": "c2357de4e77909e5ed7d323ad42c12eaedf03f96cc92fcdb87ab0a267268e957",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed hundredths-addition-with-regrouping as a decimal response to \"받아올림이 있는 소수 두 자리 수의 덧셈을 계산하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -719,10 +717,10 @@
     },
     {
       "reviewId": "4:mission:g4-dop-03",
-      "contentHash": "28b5a3d20ae8470ddd57d402edf909fd911cfbbdca86c568a999a8c2cd713190",
+      "contentHash": "f3ef032b682e25b4a4e010decc6e925f5b88f578197bb64e7a9e2f2d536905bd",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed hundredths-subtraction-without-regrouping as a decimal response to \"받아내림이 없는 소수 두 자리 수의 뺄셈을 계산하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -736,10 +734,10 @@
     },
     {
       "reviewId": "4:mission:g4-dop-04",
-      "contentHash": "bfb5fd46ba426ae98e1e391570df7db7f503080fb90acbbfab6e8d2c5f69c4f5",
+      "contentHash": "e74479841fb09d3bf38f3efcefa35cc95037e49e2c4391b922331a10bc967313",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed hundredths-subtraction-with-regrouping as a decimal response to \"받아내림이 있는 소수 두 자리 수의 뺄셈을 계산하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -753,10 +751,10 @@
     },
     {
       "reviewId": "4:mission:g4-dop-05",
-      "contentHash": "8eae3a1c106987d229573d65624ee35657e7220a270be634210394fdb2a3d9fd",
+      "contentHash": "a2bf82d4f561c18ec04182b3cb97a479161124a54b9a0d916e8afabd3b3f45dd",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed decimal-measurement-sum as a decimal response to \"두 소수 길이를 더하여 전체 길이를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -770,10 +768,10 @@
     },
     {
       "reviewId": "4:mission:g4-dop-06",
-      "contentHash": "31fc3186edc2d9b0f50fe5e7541174da270518298da62fc763b44b78303dcf54",
+      "contentHash": "75fc462951da773e42a9436634de5829226f8550d24a8992b9181bbaeec21429",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed decimal-remaining-amount as a decimal response to \"처음 있던 소수 양에서 사용한 양을 빼세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -787,10 +785,10 @@
     },
     {
       "reviewId": "4:mission:g4-dop-07",
-      "contentHash": "7789fa4de8052bed8433e4a23df98fb4b0afbb783c98b662c3b7d3877497b405",
+      "contentHash": "db3be883dcad0540152b708324870be29d1df8de35913d8d8a816d3e01ece2a8",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed missing-decimal-addend as a decimal response to \"소수 덧셈식에서 빠진 덧셈 항을 구하세요.\" Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -804,10 +802,10 @@
     },
     {
       "reviewId": "4:mission:g4-dop-08",
-      "contentHash": "8820ad27de1b3c99ce757ddde035eceaa40f64b47c3558bb7bedcb41db4488a7",
+      "contentHash": "0b78f2b44c12138678369890023b14546a5adc8838c694312ed82f170a571b95",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed select-decimal-situation-equation as a choice response to \"두 소수 양의 합을 나타내는 식을 고르세요.\" Source decision: taskActions=model; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -821,10 +819,10 @@
     },
     {
       "reviewId": "4:mission:g4-dop-09",
-      "contentHash": "b35078115a12306e20f2525fb052dda516ae37c4305b04cb53ed9657ba198b42",
+      "contentHash": "a3ad2876015bca833cdaab187733c2bef7a228f80a5559a234a1375cc8d26b26",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed decimal-point-alignment-error as a choice response to \"소수점을 맞추지 않은 소수 덧셈의 오류를 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -838,10 +836,10 @@
     },
     {
       "reviewId": "4:mission:g4-dop-10",
-      "contentHash": "c039aa57b14183048cc604294319e8644783172c98206382d4623feffcb5d91e",
+      "contentHash": "6aae0e5c92d5effc86b2782699e422ca51426cfdfc075978d4b07e1226620346",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed decimal-regrouping-error as a choice response to \"받아내림을 하지 않은 소수 뺄셈의 오류를 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -855,10 +853,10 @@
     },
     {
       "reviewId": "4:mission:g4-eq-01",
-      "contentHash": "f9933ac32fed9d600380d6e863c3f3ff16b71bd03630033dd978e8dc74f429e2",
+      "contentHash": "a86071a517bae5eb14a18359d03b89b72a66beed9d27ff523126d6774dfe3925",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed missing-addend-equality as a integer response to \"덧셈 등식의 빈칸을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -872,10 +870,10 @@
     },
     {
       "reviewId": "4:mission:g4-eq-02",
-      "contentHash": "10d0391e24f75bbc54485d8814bf8f45a4c36d6095ad57498a4d2948aac7d871",
+      "contentHash": "07315b2e5c79b801b5fd7065a3d46d67483c3052ee11b0f69542767c6e0db1dd",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed missing-minuend-equality as a integer response to \"뺄셈 등식의 처음 빈 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -889,10 +887,10 @@
     },
     {
       "reviewId": "4:mission:g4-eq-03",
-      "contentHash": "8c18ebf0862c2e44206a056e81afe350ac5d84272522c2c8135b6835044fd9a6",
+      "contentHash": "2b66126316e8ba1698ab68fdfd70f9cd2f606d1b93d7bdf0aae1cdeef0817740",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed select-equal-expression as a choice response to \"등호 양쪽의 값이 같은 식을 고르세요.\" Source decision: taskActions=compare+calculate; supportTool=none; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -906,10 +904,10 @@
     },
     {
       "reviewId": "4:mission:g4-eq-04",
-      "contentHash": "83b0658c3b34465dbf73416f0b3b0aab7b00071c82483da0da677a8b292b2521",
+      "contentHash": "a129e71b19ad91b1a81acf15e2c86ee89dcb0192f519004c39c911ae6f13ff5e",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed commutative-equality-meaning as a choice response to \"두 덧셈식이 등호로 연결되는 까닭을 고르세요.\" Source decision: taskActions=explain; supportTool=none; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -923,10 +921,10 @@
     },
     {
       "reviewId": "4:mission:g4-eq-05",
-      "contentHash": "c008cff0d8528ff9f1911aec9fc4702a423d6f0c76ff6de7fe0cd23d7eaed997",
+      "contentHash": "ecb1f1fb2fc352dce14445c52311c3617abdfcf2f603ab676594575fd597e3c2",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed balanced-bags-missing-quantity as a integer response to \"균형을 이룬 두 쪽에서 빠진 양을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -940,10 +938,10 @@
     },
     {
       "reviewId": "4:mission:g4-eq-06",
-      "contentHash": "e74fd8545c7386c07116769c57c677d9d327a00f5f6a3fe77fd32e57bb8a6fe8",
+      "contentHash": "0c29bde447ca1c03bca94d6920a7204818ce5381cd1c558ede7cfbe1d8286bc8",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed equal-purchase-missing-price as a integer response to \"두 사람이 같은 금액을 냈을 때 빠진 금액을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -957,10 +955,10 @@
     },
     {
       "reviewId": "4:mission:g4-eq-07",
-      "contentHash": "0372b480b30928bdc2dfecaa997e572d330fd0d5ab7affb7de1fef972b7fb74a",
+      "contentHash": "7608284d37f4b704e28f508df9d1af05dc74c5ee05aa97801bf70378ca8033b3",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed same-change-both-sides as a integer response to \"같은 두 양에 같은 수를 더한 등식의 빈칸을 구하세요.\" Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -974,10 +972,10 @@
     },
     {
       "reviewId": "4:mission:g4-eq-08",
-      "contentHash": "0d93cf0ca84c889ebbdc1c7e9c0fcc299bca8dba31d946f3101a8a6986dbcec9",
+      "contentHash": "c9ab333e4690a8f78d6c127be9fe014bf598e23258674454f096d0cee865638a",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed select-equality-from-story as a choice response to \"두 모둠의 같은 전체 양을 나타내는 등식을 고르세요.\" Source decision: taskActions=model; supportTool=none; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -991,10 +989,10 @@
     },
     {
       "reviewId": "4:mission:g4-eq-09",
-      "contentHash": "f7da35313387e4bd5131451566e8ba01e7c5a3c205532b3c4e82536256aa202e",
+      "contentHash": "ec090640e032f4fd5146b32220b138956893f584022b7f485678654d1b0d5ec1",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed equal-sign-answer-marker-error as a choice response to \"등호의 뜻을 잘못 설명한 친구의 말을 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=none; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1008,10 +1006,10 @@
     },
     {
       "reviewId": "4:mission:g4-eq-10",
-      "contentHash": "b41e8e4bb2f697a3fd19834bbfe2e139081825bce20a6c1acb875b0a8d7070eb",
+      "contentHash": "b8a053b167696aa4e74cacac3eee7c39d6b10347130f5cc153e108de49adcfe0",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed one-side-change-equality-error as a choice response to \"등식 한쪽에만 수를 더한 오류를 고치세요.\" Source decision: taskActions=analyze_error+reason; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1025,10 +1023,10 @@
     },
     {
       "reviewId": "4:mission:g4-est-01",
-      "contentHash": "fd4633ebc02439d716f72842beb7c66144914959dc87d74ece8ee873c6161432",
+      "contentHash": "9907adec73323064672ac11adb6a5e06005db959bc8084eae16ec7d99249660a",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed nearest-hundred-addition as a integer response to \"두 수를 백 단위에 가장 가까운 수로 바꾸어 합을 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1042,10 +1040,10 @@
     },
     {
       "reviewId": "4:mission:g4-est-02",
-      "contentHash": "b16a7899e261548f151c716baff50ae57c85ee282d9009a5f0e8e75a0e67ffef",
+      "contentHash": "e796a438b86244d3539acdeeadb10f64c7b0756541189a6647938e78e7b5631e",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed nearest-hundred-subtraction as a integer response to \"두 수를 백 단위에 가장 가까운 수로 바꾸어 차를 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1059,10 +1057,10 @@
     },
     {
       "reviewId": "4:mission:g4-est-03",
-      "contentHash": "154302ca15edab23e041389facd65469066be2e20eb3b6ab79d9f3a421073124",
+      "contentHash": "11dd052bdebe461914d93c67c30c242ab0a0f2b2fffc0fdd149054dca4cd072c",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed nearest-ten-multiplication as a integer response to \"두 자리 수를 십 단위에 가장 가까운 수로 바꾸어 곱을 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1076,10 +1074,10 @@
     },
     {
       "reviewId": "4:mission:g4-est-04",
-      "contentHash": "c6b6309a4c2fdf41c8c720fda9a910e5c9904e2fe2bc281a438daf010cfa32c2",
+      "contentHash": "764a0ce17e2391af519b3b2827ab171eae1c89aea08073aab7e8fe3e50a79ab9",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed compatible-number-division as a integer response to \"나누어지는 수를 백 단위에 가장 가까운 수로 바꾸어 몫을 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1093,10 +1091,10 @@
     },
     {
       "reviewId": "4:mission:g4-est-05",
-      "contentHash": "71d9316797dd1f7342e95232f6eeeb389d11a599c3d10fa6b975e7827647b2c8",
+      "contentHash": "f0b45a6abfe3d7fb96383273dae76b4c1a9eb0a5639dbb20e5753f31ecb37469",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed attendance-total-estimate as a integer response to \"두 행사 인원을 백 명쯤으로 바꾸어 전체 인원을 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1110,10 +1108,10 @@
     },
     {
       "reviewId": "4:mission:g4-est-06",
-      "contentHash": "8aa133af7b94e8e7beee12807844ff3110beb5f1e07f8327631eebc0d95098ca",
+      "contentHash": "1336ea26ff96c37979657fa1e8f1af600f3f25466885ccfb6224936464348aaa",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed budget-remainder-estimate as a integer response to \"예산과 지출을 천 원쯤으로 바꾸어 남을 돈을 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1127,10 +1125,10 @@
     },
     {
       "reviewId": "4:mission:g4-est-07",
-      "contentHash": "18f27e506c890e09320a2212252613b7afb24d56f9a4b4eca992bd6f02fd8b5d",
+      "contentHash": "4307db9b715fd3d18f2253c12fb5e1b0f681222fd622fb646ee4ece221b9be7e",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed class-supplies-product-estimate as a integer response to \"한 반의 준비물 수를 십 개쯤으로 바꾸어 전체 수를 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1144,10 +1142,10 @@
     },
     {
       "reviewId": "4:mission:g4-est-08",
-      "contentHash": "fbc85a4fc8d0377a716943ec52427d556e7fcfee88ac6a85475c4250c9904cb9",
+      "contentHash": "b2a185fea513a3c63aa8071b8b0a546d0a5fa0a1b1b8c922794a63f2f65e6c0a",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed packing-quotient-estimate as a integer response to \"전체 수를 백 개쯤으로 바꾸어 묶음 수를 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1161,10 +1159,10 @@
     },
     {
       "reviewId": "4:mission:g4-est-09",
-      "contentHash": "de705ff6f41db1bbaceb79fc49c473f531fa4ceb165e169af75dfef7301b8345",
+      "contentHash": "9d71aea1f8e0cabeac2db20804355936b7488a7b5111da3cd451ec5d7667e310",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed incorrect-addition-estimate as a choice response to \"친구가 말한 어림한 합을 확인하고 알맞게 고치세요.\" Source decision: taskActions=analyze_error+calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1178,10 +1176,10 @@
     },
     {
       "reviewId": "4:mission:g4-est-10",
-      "contentHash": "89089e63674cdc4127d0abaf9e3bee4a12741a00e369d3d01d814c02965f1ea8",
+      "contentHash": "fd06a2484a22d058b94c202c3a3b2c680f45e58af863ddc1421d74c4c884a98f",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed compare-estimation-strategies as a choice response to \"두 곱셈 어림 방법 중 정확한 값에 더 가까운 방법을 고르세요.\" Source decision: taskActions=calculate+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1195,10 +1193,10 @@
     },
     {
       "reviewId": "4:mission:g4-frac-01",
-      "contentHash": "518ad79edae1374525136c715e561ce6c1b54dceb61e58f00223e3470dc00e71",
+      "contentHash": "777dceadf93bad848fc81834e0148e1b83c59a887b5a964d3122c2c141b2d991",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed proper-fraction-addition as a fraction response to \"분수 띠를 보고 분모가 같은 두 진분수의 합을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1212,10 +1210,10 @@
     },
     {
       "reviewId": "4:mission:g4-frac-02",
-      "contentHash": "a8c8c03084130cb04a3e77b1645ea9489df840c249df539f739c413a07bf6952",
+      "contentHash": "c5c44bfeb9d02776394c6557cfc3fb5d299f6df0287fb19d8355f325facb8f76",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed proper-fraction-subtraction as a fraction response to \"분수 띠를 보고 분모가 같은 두 진분수의 차를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1229,10 +1227,10 @@
     },
     {
       "reviewId": "4:mission:g4-frac-03",
-      "contentHash": "6b2799f82c73b68ff28d5cb6016b21c302d685e81a82e304f9ad98a61765bcca",
+      "contentHash": "0f8207428696e646f7cc413bc308371a5f0afb8075ac15609c9d9c9f138fe712",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed mixed-number-addition as a fraction response to \"분모가 같은 두 대분수의 합을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1246,10 +1244,10 @@
     },
     {
       "reviewId": "4:mission:g4-frac-04",
-      "contentHash": "88f6914744a9dc75ae0311786706dbd9f029cfd6e986a8bde025aeb37fc0065d",
+      "contentHash": "31b3266ef242fa5e480c34ebd5526de3274ae64d680f79e282cbac4851a46eff",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed mixed-number-subtraction-regrouping as a fraction response to \"받아내림이 필요한 대분수의 뺄셈을 계산하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1263,10 +1261,10 @@
     },
     {
       "reviewId": "4:mission:g4-frac-05",
-      "contentHash": "6bff46c93940b22a8f0227f529c634095a43bbbf73aa9098d7b14e28f122e1fb",
+      "contentHash": "c3b974886b97fe713b398a809c2eea1bacc0ed01b018d270eda8631ced2e46b4",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed recipe-fraction-sum as a fraction response to \"두 재료의 양을 합하여 필요한 전체 양을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1280,10 +1278,10 @@
     },
     {
       "reviewId": "4:mission:g4-frac-06",
-      "contentHash": "0d2408d26c3725ca3526274f92ad2fdbb2cd11bd95f095cc8c3ccb5eaaf378f2",
+      "contentHash": "ec76481da4e5c0e63f92350dcc2e8ec051e92939ddba4dc80e101808112de48c",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed remaining-distance-fraction as a fraction response to \"전체 거리와 이동한 거리를 동분모 대분수로 나타내어 남은 거리를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1297,10 +1295,10 @@
     },
     {
       "reviewId": "4:mission:g4-frac-07",
-      "contentHash": "de2ec7a29016f4c7005b96a0e8e8cb610824e9ff08e56ac196c4987cb229f615",
+      "contentHash": "435d28ce7ac3c278ac100414becea3e9dc1e0071ccfd412f25db118b5157d460",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed missing-fraction-addend as a fraction response to \"분수 덧셈식에서 빠진 덧셈 항을 구하세요.\" Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1314,10 +1312,10 @@
     },
     {
       "reviewId": "4:mission:g4-frac-08",
-      "contentHash": "3419c2b04ccda5be60c161572c08040e6e0baac3eac5936a362f9c2a3dda6d43",
+      "contentHash": "f4dfb7c8dc6dc22d705f86fdbf3ce17abad00de8052314b7be03905185ab1800",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed select-fraction-situation-equation as a choice response to \"사용하고 남은 양을 나타내는 올바른 동분모 분수 식을 고르세요.\" Source decision: taskActions=model; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1331,10 +1329,10 @@
     },
     {
       "reviewId": "4:mission:g4-frac-09",
-      "contentHash": "9b807525f8cae8bdad028e935465f976ce89846cddd9b6f58afaec15e16ec813",
+      "contentHash": "e0a8dbf17c521518ea307fcf08bc7abb7f435c71fe243c006b4f4f3345d5635a",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed denominator-addition-error as a choice response to \"분자와 분모를 모두 더한 계산의 오류를 분수 단위로 설명하세요.\" Source decision: taskActions=analyze_error+explain; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1348,10 +1346,10 @@
     },
     {
       "reviewId": "4:mission:g4-frac-10",
-      "contentHash": "c3297c91c17d1350193074f771be076ca719fdea0d9b354e65c3d3067d4a6aa9",
+      "contentHash": "e97235df58f57d31e2465af864eaad060a8c53a35676114da181efad53701361",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed mixed-subtraction-regrouping-error as a choice response to \"분수 부분이 더 작은 대분수 뺄셈의 잘못된 풀이를 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1365,12 +1363,10 @@
     },
     {
       "reviewId": "4:mission:g4-graph-01",
-      "contentHash": "9315b37453a7ded50536d5eaab6103bf8b70509500e2afb00384f14bb6558ce2",
+      "contentHash": "7d8beb2da90249924afbe2681df09bc0284df7c9f4b0ff854007d7db41729abd",
       "status": "blocked",
-      "findingCategories": [
-        "grade_appropriateness"
-      ],
-      "note": "The classroom temperature variants and axis were reduced to a plausible range. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "findingCategories": [],
+      "note": "The focused 11-34 values use a dynamic 20-25-unit range, 5-unit major ticks, 1-unit minor ticks, a tall plot, and an unlabeled focus guide. Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1384,10 +1380,10 @@
     },
     {
       "reviewId": "4:mission:g4-graph-02",
-      "contentHash": "7321b568f80ea8aa640ad76c433103c657535d198fc3abc31c92a137884840a3",
+      "contentHash": "befb0d79cb0cabcf6006664fdc21678c1efbe9779fb272d331fbe5f8f6fc672d",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed largest-consecutive-change as a choice response to \"연속한 두 시점 사이에서 변화가 가장 큰 구간을 고르세요.\" Source decision: taskActions=interpret+compare; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1401,12 +1397,10 @@
     },
     {
       "reviewId": "4:mission:g4-graph-03",
-      "contentHash": "606ac5229c1b5fcd380c8451fc0ff2891b2f6032ec086cf9614fff0e407dd114",
+      "contentHash": "2ccd58606ce8ec04b64818c5730f65fa49a06b6f33485c37083b23f2dbe45224",
       "status": "blocked",
-      "findingCategories": [
-        "wording"
-      ],
-      "note": "The changing-height context now uses aquarium water rather than a plant that shrinks. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "findingCategories": [],
+      "note": "The decreasing series uses a plausible aquarium-water-height context. Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1420,10 +1414,10 @@
     },
     {
       "reviewId": "4:mission:g4-graph-04",
-      "contentHash": "babd5626541455253ede31187d73050af5dfd00464f692a3e73858a65af0826b",
+      "contentHash": "ea0d19ee175558fc9c18b54a1e8b182769642d07211ee3c421df9d56f385f10e",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed choose-line-graph-axes as a choice response to \"자료 표를 꺾은선그래프로 옮길 때 축을 바르게 설명하세요.\" Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1437,10 +1431,10 @@
     },
     {
       "reviewId": "4:mission:g4-graph-05",
-      "contentHash": "f43ec7b065f90c4779bcd1ae154154f2dde4d6fc0f38cec98f879a357559f15c",
+      "contentHash": "733424754f27c0f3ab275009a4c40a2d7dd2835c0988e80aa2a1ea143470c3f4",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed plot-table-value as a integer response to \"자료 표의 한 값을 그래프의 몇 눈금에 찍어야 하는지 구하세요.\" Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1454,10 +1448,10 @@
     },
     {
       "reviewId": "4:mission:g4-graph-06",
-      "contentHash": "f9c32bac52dcbbc740630ac0df66f4a9f5b637f1231339e7945fe90e363d2214",
+      "contentHash": "a2e67ce776190c1ad3e9608c024b65d226f363aaea09ba067e540837836ad6ea",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed line-graph-range as a integer response to \"꺾은선그래프의 최댓값과 최솟값의 차를 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1471,12 +1465,10 @@
     },
     {
       "reviewId": "4:mission:g4-graph-07",
-      "contentHash": "55d41a5c1fc92736e65d697ac07ab7f3c0a658c2b82ca83f71d798b58a9aa79e",
+      "contentHash": "faceccca06fb68e10c5e715cb9d6d1c6a129756bec9d183068a7b89758d73926",
       "status": "blocked",
-      "findingCategories": [
-        "grade_appropriateness"
-      ],
-      "note": "The weekly daytime temperature variants and axis were reduced to a plausible range. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "findingCategories": [],
+      "note": "The temperature series and scale stay within a plausible classroom range. Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1490,10 +1482,10 @@
     },
     {
       "reviewId": "4:mission:g4-graph-08",
-      "contentHash": "7cd80d198c7b82ac979cda15ce8f17444fd6355a0df8a41927994a9d68f11055",
+      "contentHash": "ce3c7a38fb70d8c03c15b92887174d30e31f1df73b6cfd2fc64e222272c59639",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed complete-table-from-line-graph as a integer response to \"그래프를 보고 표의 빠진 값을 구하세요.\" Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1507,12 +1499,10 @@
     },
     {
       "reviewId": "4:mission:g4-graph-09",
-      "contentHash": "6d767dd31889552764f79f45ad1b004b8e6dd683e5ff73e2f49b5aa4bcf283c2",
+      "contentHash": "2c3e10cd875f1a0dfa03125b88f15655259cf83704400c210bb61e5bd034945c",
       "status": "blocked",
-      "findingCategories": [
-        "wording"
-      ],
-      "note": "The changing-height source table now uses aquarium water rather than a plant that shrinks. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "findingCategories": [],
+      "note": "The decreasing series uses an aquarium-water-height title and table comparison. Source decision: taskActions=analyze_error+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1526,10 +1516,10 @@
     },
     {
       "reviewId": "4:mission:g4-graph-10",
-      "contentHash": "63997fd8986b9c4678efd00655abd9ab61773d74c81da297a874f8756371ddb4",
+      "contentHash": "38c193da7cef221a38782be8d68a0992b1de1dbc533878338cefc95a55ffa7e2",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed compare-line-graph-scales as a choice response to \"같은 자료를 서로 다른 눈금 범위로 나타낸 두 그래프를 비교하세요.\" Source decision: taskActions=compare+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1543,10 +1533,10 @@
     },
     {
       "reviewId": "4:mission:g4-line-01",
-      "contentHash": "7d79523c7eac1ab24c67ee03cb46326ca93e20a6fbc82ae248cfab2965b56709",
+      "contentHash": "3c16dcba87e65d4a6217123295e407ba663b1036d949d1c820665e196b2c71f7",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed identify-perpendicular-by-right-angle as a choice response to \"두 직선의 방향 차이를 보고 관계를 고르세요.\" Source decision: taskActions=calculate+classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1560,10 +1550,10 @@
     },
     {
       "reviewId": "4:mission:g4-line-02",
-      "contentHash": "e92692412088ce5279091f18bb274ccdd8857f14efea8a80e7a249cdded3456c",
+      "contentHash": "7177b5057a56f44698585e07a5a404799b87f06edbc23700161dcd3358459efb",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed identify-parallel-by-direction as a choice response to \"같은 방향으로 놓인 두 직선의 관계를 고르세요.\" Source decision: taskActions=classify+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1577,10 +1567,10 @@
     },
     {
       "reviewId": "4:mission:g4-line-03",
-      "contentHash": "bdad981686373e13c2f5337fb76928123c31f0ae2edf14000fd04a4a415b3255",
+      "contentHash": "300fc7952e9ab26880c5caf41ead6aabb2cc0aedbf0775fd2777d02d987a72a4",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed count-right-angles-at-perpendicular-intersection as a integer response to \"서로 수직인 두 직선이 만드는 직각의 수를 구하세요.\" Source decision: taskActions=recognize; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1594,10 +1584,10 @@
     },
     {
       "reviewId": "4:mission:g4-line-04",
-      "contentHash": "1953c15e8165dc551a1f41f70946b9554ae334a5814b7b9f640b485f4e502d39",
+      "contentHash": "1966b70bd9faf179c56bb1fc7d14d765e53490eed7080f47783d28bea9733c8a",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed parallel-distance-property as a choice response to \"평행한 두 직선 사이의 거리에 대한 바른 설명을 고르세요.\" Source decision: taskActions=reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1611,10 +1601,10 @@
     },
     {
       "reviewId": "4:mission:g4-line-05",
-      "contentHash": "b82bf02e841999979f0e39d804570ea4559ce2dec60b10ea4b52da08eadad151",
+      "contentHash": "95f5592ec5bf932ffedafb7be46add15519207a8e4a34a4425f3a39e0ae707ec",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed map-streets-perpendicular-route as a choice response to \"지도에서 두 길의 방향 차이를 이용해 관계를 고르세요.\" Source decision: taskActions=calculate+classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1628,10 +1618,10 @@
     },
     {
       "reviewId": "4:mission:g4-line-06",
-      "contentHash": "1e6f70d5c240c7f1263eeed71cd985fe8900ad8efc073a7d39533ae651626841",
+      "contentHash": "45974ff81f5ccd179d769d31d61685f7af06191b3ead8b38f50cf9618a164576",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed railway-tracks-parallel-safety as a choice response to \"철길 두 선의 방향과 간격을 보고 관계를 고르세요.\" Source decision: taskActions=classify+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1645,10 +1635,10 @@
     },
     {
       "reviewId": "4:mission:g4-line-07",
-      "contentHash": "b30f32116490a00c7b0a772bcf67ac06e6b9b40c54de261f4033d9eb49fb37b8",
+      "contentHash": "31e83bd44a300151e23ea0a30c625f10d87861816eeaa38e75b89ba9c5d4e5ac",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed construct-parallel-through-point as a choice response to \"한 점을 지나며 주어진 직선과 평행한 직선의 방향을 고르세요.\" Source decision: taskActions=compare+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1662,10 +1652,10 @@
     },
     {
       "reviewId": "4:mission:g4-line-08",
-      "contentHash": "8197752bee50d910bd140422045754b27ba7a8a2da28cd3052263f5edf40094c",
+      "contentHash": "b510db02ab37d3849e9ae312902ed7bc590c8df842c6e0708af401d8ce93963e",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed construct-perpendicular-through-point as a choice response to \"한 점을 지나며 주어진 직선과 수직인 직선의 방향을 고르세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1679,10 +1669,10 @@
     },
     {
       "reviewId": "4:mission:g4-line-09",
-      "contentHash": "4e469e93371185f6e388b11c14ca4e5e054272a6080192690f4a8ae975c9c4ff",
+      "contentHash": "89c88c63d652f803fd9e32a3cfe0699c720624e2862086c2dc875626f5d3e30f",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed finite-segments-parallel-error as a choice response to \"두 선분을 직선으로 늘여 생각해 평행 판단의 오류를 고치세요.\" Source decision: taskActions=analyze_error+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1696,10 +1686,10 @@
     },
     {
       "reviewId": "4:mission:g4-line-10",
-      "contentHash": "1fa43c3d51c3508c95dad1a019a4de87f693e395fd3869a53f470d91d2a9e556",
+      "contentHash": "b71527bd2ded57106ddf1a0599bfc6bd664d7c16c621df09d68eab41b6a987da",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed shared-rotation-preserves-relation as a choice response to \"서로 수직인 두 직선을 함께 돌린 뒤의 관계를 추론하세요.\" Source decision: taskActions=reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1713,10 +1703,10 @@
     },
     {
       "reviewId": "4:mission:g4-move-01",
-      "contentHash": "ab465253efbb4da90f228ea511d49959c0f411a20279795e79b1ad4484c3c87b",
+      "contentHash": "93946d5ca6a0266a89fcb442400ab2f872f3738fd56c8c41f5f112d45486462b",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed identify-slide-from-position-change as a choice response to \"두 도형의 모양과 방향을 비교해 밀기를 찾으세요.\" Source decision: taskActions=classify; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1730,10 +1720,10 @@
     },
     {
       "reviewId": "4:mission:g4-move-02",
-      "contentHash": "e1a4298e5dc2102c0aa5d09f7d2e14f2cab5299136046f2ccd432b0cd0c9db92",
+      "contentHash": "fd9092183591f9c618fb153653fd74ccb53bf56de6e9dd131febae1ae2eafa12",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed identify-vertical-flip as a choice response to \"기준선 양쪽의 거울 모양을 보고 이동을 고르세요.\" Source decision: taskActions=classify; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1747,10 +1737,10 @@
     },
     {
       "reviewId": "4:mission:g4-move-03",
-      "contentHash": "de7d8fe183cb85e9e6d9c4bbce281d35fbbf10ca0f87abd4a0fded0e14269c9e",
+      "contentHash": "19064f09120d2dc62d20a7aba4d3eaaf2a4f095d03f206506defe2b3c7c34140",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed identify-quarter-turn as a choice response to \"회전 중심과 도형 방향의 변화를 보고 돌리기를 고르세요.\" Source decision: taskActions=classify; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1764,10 +1754,10 @@
     },
     {
       "reviewId": "4:mission:g4-move-04",
-      "contentHash": "fe118efd28fc6f8172549ee3ee0c3eb04853ce4bbd7e274db6132292aa443fea",
+      "contentHash": "9e08d31beafeb0add7ed73347099a81573cb1a09899ccd002883a8183f311544",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed compare-orientation-change-by-transformation as a choice response to \"도형의 방향을 좌우로 바꾸는 이동을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1781,10 +1771,10 @@
     },
     {
       "reviewId": "4:mission:g4-move-05",
-      "contentHash": "c7347c278dfa2c940f39fc06c8070aa07c0ebedc7fffd052159ea42434f8b947",
+      "contentHash": "952a49d5ef433d102e7556bd54abf13464a4964db540b5d8f487770a01597a2e",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed translate-point-by-vector as a choice response to \"점을 오른쪽과 위쪽으로 민 뒤 좌표를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1798,10 +1788,10 @@
     },
     {
       "reviewId": "4:mission:g4-move-06",
-      "contentHash": "a12c9be5e232fd744a238fc152aba26153ac94d3c22043f472d13dcbacf9e5fa",
+      "contentHash": "93896cfd432f5f0c74111448e491b26ade7562ac6e83d1b72c6cbb561eafc54f",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed reflect-point-across-vertical-line as a choice response to \"점을 세로 기준선에 따라 뒤집은 좌표를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1815,10 +1805,10 @@
     },
     {
       "reviewId": "4:mission:g4-move-07",
-      "contentHash": "05188a8b69397bedd2775bcf25d0681e96663f1b270b967fa68411870b7eaf5b",
+      "contentHash": "866934b98b8a3169bd71d67968d517551700d23c744b02818ccf96b23ec6ac36",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed rotate-point-clockwise-quarter-turn as a choice response to \"점을 중심 둘레로 시계 방향 90° 돌린 좌표를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1832,10 +1822,10 @@
     },
     {
       "reviewId": "4:mission:g4-move-08",
-      "contentHash": "40881754d78ac612bd096452de4cc3bf6eb0d260e1f142cfaef9a56245fe9ba0",
+      "contentHash": "81d32fdda59172e9187a3be4a70725bd95582f20458ddb88ad40ba755ac2664f",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed compose-slide-then-reflection as a choice response to \"첫 이동 결과를 구한 뒤 두 번째 이동을 이어서 적용하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1849,10 +1839,10 @@
     },
     {
       "reviewId": "4:mission:g4-move-09",
-      "contentHash": "a3220204e94f869f0dac2dbd73c43370e8eed2d66b10a4adaad07e0ee5b88185",
+      "contentHash": "6343e26d45570f9130ea1caabbe8b1294368b9dd33f87bd16dca671d40e3d844",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed slide-orientation-error-analysis as a choice response to \"밀기 뒤 방향이 달라진다는 친구의 설명을 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1866,10 +1856,10 @@
     },
     {
       "reviewId": "4:mission:g4-move-10",
-      "contentHash": "63f149ed479071c7af277c300f64ae6a5a5e26d019dc9826c01b9dda71c36bc9",
+      "contentHash": "ac9c5524488f089155d6b61b5fca845211c61753fb600c189c3293087b103f8c",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed double-reflection-inverse-reasoning as a choice response to \"같은 뒤집기를 두 번 했을 때 마지막 위치를 추론하세요.\" Source decision: taskActions=reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1883,10 +1873,10 @@
     },
     {
       "reviewId": "4:mission:g4-pat-01",
-      "contentHash": "43d55fc0afb53100fb0ece5e6e325dcdbc57af70ef8ee5cb35cf5a6a80090d60",
+      "contentHash": "1fc86b719c863890a7bcc82bbd33985a586a8e6da66d8cee96bd6a9c9fddc783",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed additive-sequence-next-term as a integer response to \"일정하게 커지는 수 배열의 다음 수를 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1900,10 +1890,10 @@
     },
     {
       "reviewId": "4:mission:g4-pat-02",
-      "contentHash": "f6828ebfffe4e0df06dcb3c56ed4798d1e8495b992aec8d382060453ae72f485",
+      "contentHash": "ac9ca946cac0fa0790f574f9471e0f3c1ad1c7092ca697352ea08a1f5a97ef90",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed input-output-next-value as a integer response to \"대응표에서 위 수와 아래 수의 규칙을 찾아 빈칸을 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1917,10 +1907,10 @@
     },
     {
       "reviewId": "4:mission:g4-pat-03",
-      "contentHash": "2781ec3eca9e6100ec4cdc1a9d850b8f82558aae36bab5bb9d99e8c47c5bdff2",
+      "contentHash": "6727061ed74be8520443116db5255d2d7a32f1c89ace8b9abd8c6f0ccba3feb2",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed multiplication-array-next-result as a integer response to \"곱셈식 배열의 규칙을 찾아 다음 계산 결과를 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1934,10 +1924,10 @@
     },
     {
       "reviewId": "4:mission:g4-pat-04",
-      "contentHash": "f545ed07578edda50f08c15a1c0d3d2ac69904b80caffc541ed6801bf54ad597",
+      "contentHash": "e5553fb7eed4be2e32908080d706234f0574bf31b4424b7ab1c1e37a2ef79c2e",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed addition-array-next-result as a integer response to \"두 덧셈 항이 함께 변하는 배열의 다음 계산 결과를 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1951,10 +1941,10 @@
     },
     {
       "reviewId": "4:mission:g4-pat-05",
-      "contentHash": "76b59cef2a647038cdeca81d4840d56550f6634f689e1174dca9bd3e2307b8eb",
+      "contentHash": "a620356b414ab6dec056f04c33778ace3bc63200fab17e8ce6f8fc156f7740cd",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed growing-stage-far-term as a integer response to \"단계마다 일정하게 늘어나는 모형의 먼 단계 개수를 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1968,10 +1958,10 @@
     },
     {
       "reviewId": "4:mission:g4-pat-06",
-      "contentHash": "f38d40f9b69c4a04e21f25500ff4917dd72d3305a7729f597ce8225b07d49797",
+      "contentHash": "4a50e19c422b85f903766e42847348de35312864e3491eb63caccc16b1da6a16",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed price-correspondence-far-value as a integer response to \"물건 수와 전체 금액의 표에서 목표 개수의 금액을 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -1985,10 +1975,10 @@
     },
     {
       "reviewId": "4:mission:g4-pat-07",
-      "contentHash": "10f584044831582e2b3ee1e3ce575daca01b3b569e0d01ecf3f6e8084b7391a4",
+      "contentHash": "c21a0745f1aedbc8a55a54fe21068dd04fda9d334df492123f6c3d66a67e5445",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed multiplication-array-far-row as a integer response to \"곱셈식 배열에서 여러 칸 뒤 계산 결과를 규칙으로 구하세요.\" Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2002,10 +1992,10 @@
     },
     {
       "reviewId": "4:mission:g4-pat-08",
-      "contentHash": "4b35711f2b2c7a567929ec80ad2cddb2c81357d8e8545aeb90b34ecee56a416c",
+      "contentHash": "90e717c254305fb09f00cf39799d55b91f469a1c7c19083c704643de3cba0ad9",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed select-next-calculation-row as a choice response to \"계산식 배열의 규칙을 모두 지키는 다음 식을 고르세요.\" Source decision: taskActions=interpret+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2019,13 +2009,10 @@
     },
     {
       "reviewId": "4:mission:g4-pat-09",
-      "contentHash": "e4a7d7ac9b54284b88c75a588692cdc0fa468ce53cce94fa42eb09ecb4ee66cc",
+      "contentHash": "3e6b78c8081a373f3c1c6f245eef848ff8dc05575ae03500cf02f086f4ce1967",
       "status": "blocked",
-      "findingCategories": [
-        "solvability",
-        "wording"
-      ],
-      "note": "The claim now explicitly says to add to the input, removing the ambiguity with the valid output-to-output step rule. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "findingCategories": [],
+      "note": "The correspondence rule is stated as multiplication followed by addition, with number particles normalized. Source decision: taskActions=analyze_error+calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2039,10 +2026,10 @@
     },
     {
       "reviewId": "4:mission:g4-pat-10",
-      "contentHash": "31f1e73c0d12eed48cd5dac81bc16a6cf6d8424614ea7bcc15be461aacaf61d0",
+      "contentHash": "bd896a1b381c9f50103dfc81f1285e132f37ff8e019d0024b528f29f88194670",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed two-part-calculation-pattern-error as a choice response to \"곱하는 수와 더하는 수가 함께 변하는 계산식 배열의 잘못된 다음 식을 고치세요.\" Source decision: taskActions=analyze_error+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2056,10 +2043,10 @@
     },
     {
       "reviewId": "4:mission:g4-poly-01",
-      "contentHash": "471d1a5d86671ce1ae513e8e83b3b9b2556ca7045c64bd2ec816be14e4b30abd",
+      "contentHash": "b8246c79eb1ed61c5350840489ea8c1c2b920add7cdff1c6368a95aa9a71780f",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed name-polygon-from-side-count as a choice response to \"변의 수에서 다각형의 이름을 고르세요.\" Source decision: taskActions=recognize+classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2073,10 +2060,10 @@
     },
     {
       "reviewId": "4:mission:g4-poly-02",
-      "contentHash": "df1c1ed38c5d8ba43960c8d127a41266008f46450c5fb6bdf9a1b66a69a3feb7",
+      "contentHash": "befd7255037df02a6a6d8617004955f7bcb756218c4662d98c0dffd411ab85ac",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed regular-polygon-definition as a choice response to \"정다각형이 되기 위한 변과 각의 조건을 고르세요.\" Source decision: taskActions=classify+explain; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2090,10 +2077,10 @@
     },
     {
       "reviewId": "4:mission:g4-poly-03",
-      "contentHash": "512832120fa643d4371a0a7096377d9d378263048e354c6d9e183647808ff33a",
+      "contentHash": "97b7d3f8ccda679f24ece27201090d5af6438959151a195a559e27af935c6e8c",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed name-regular-polygon as a choice response to \"정다각형의 변 수를 보고 정확한 이름을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2107,10 +2094,10 @@
     },
     {
       "reviewId": "4:mission:g4-poly-04",
-      "contentHash": "3b28cb91ff1f2c5fefb822307315a0d11f6193e91edf349b6072fb8917f05eda",
+      "contentHash": "b1373ea3a450e665a67b7a0e65389585a4f8b8cde3207423d19a91b28746fe71",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed diagonals-from-one-vertex as a choice response to \"한 꼭짓점에서 그을 수 있는 대각선 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2124,10 +2111,10 @@
     },
     {
       "reviewId": "4:mission:g4-poly-05",
-      "contentHash": "01145f0e4051222546d19d4b3d2b7c3952f3893ff7db84750317fd5d29dda4ff",
+      "contentHash": "93f534c90783082c0177bad70c9149fad6085f8ea9c105a014805629a1646c9c",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed regular-polygon-perimeter as a integer response to \"한 변의 길이와 변의 수로 정다각형의 둘레를 구하세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2141,10 +2128,10 @@
     },
     {
       "reviewId": "4:mission:g4-poly-06",
-      "contentHash": "367dd2193b5888e82dc753ddcd29feb291c7cefd80479fa4079c2fa179130bb0",
+      "contentHash": "dedf0aab73296398d9f6c90a0313c2df7d933fb8620bfd88369722c97fed835b",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed compose-two-triangles as a choice response to \"같은 삼각형 두 개를 붙여 만든 도형을 고르세요.\" Source decision: taskActions=classify; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2158,10 +2145,10 @@
     },
     {
       "reviewId": "4:mission:g4-poly-07",
-      "contentHash": "d06c367f63671cfa1aaca1cf430f0461c415a8aac7656d9a19b98dcfcc3d9493",
+      "contentHash": "e2bb4e92a6ed2060c5c5255ba36a61788a5cb34927754587bb6f376bdaadb7d3",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed fill-rectangle-with-squares as a choice response to \"정사각형 격자의 행과 열에서 조각 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2175,10 +2162,10 @@
     },
     {
       "reviewId": "4:mission:g4-poly-08",
-      "contentHash": "222ee94225efef7d6a7a3fbb98429244e01f3167d7f3410bbb2d64f1415bdfc1",
+      "contentHash": "042bb3d195a85e5c6b8afb88c5ef275bccc8832dc5896c18922e93a54aca4a84",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed fill-parallelogram-with-triangles as a choice response to \"번갈아 놓인 삼각형 조각 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2192,10 +2179,10 @@
     },
     {
       "reviewId": "4:mission:g4-poly-09",
-      "contentHash": "4bf5fc584927098dee6ff6bf317a0f280710111d690f0a60fb4fdfc5e3962188",
+      "contentHash": "095459b84661325d398c512731982504133b7b4b3089c42abd4672ebaef31bdb",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed equal-sides-only-regular-error as a choice response to \"변만 같으면 정다각형이라는 주장의 빠진 조건을 찾으세요.\" Source decision: taskActions=analyze_error+classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2209,10 +2196,10 @@
     },
     {
       "reviewId": "4:mission:g4-poly-10",
-      "contentHash": "f8db0585fbad46fbd3c5ce7cfd777e5e90e6192426bd0a9aaa637d3da657d20e",
+      "contentHash": "2221f6a02041ebb1b98baf488d5739b562d43c40777a67041aecc7899a8b068a",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed regular-pentagon-tiling-gap as a choice response to \"정오각형 반복 배열의 빈틈을 보고 바른 설명을 고르세요.\" Source decision: taskActions=reason+interpret; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2226,10 +2213,10 @@
     },
     {
       "reviewId": "4:mission:g4-quad-01",
-      "contentHash": "4ec82e0583264381a9d3eb6f09f635fa3295a34320724b0b33a652e7add3c30a",
+      "contentHash": "132a7bce0bd019f2934df7efff816c589824059931127c38994fd1e5ca229f9d",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed rectangle-from-four-right-angles as a choice response to \"네 각이 직각인 사각형의 이름을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2243,10 +2230,10 @@
     },
     {
       "reviewId": "4:mission:g4-quad-02",
-      "contentHash": "9e0d17ca1c4330d78dd3b3bb71692a8998a2c520e38ea98afc1599b87942ab2f",
+      "contentHash": "5d01a93c610ed057a308d8d0dcbcd81883456cd8b0565104daba779ded2a2ce4",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed square-from-equal-sides-right-angles as a choice response to \"네 변과 네 각의 성질로 정사각형을 알아봐요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2260,10 +2247,10 @@
     },
     {
       "reviewId": "4:mission:g4-quad-03",
-      "contentHash": "b0faaa342dfb51a53a3e5f026cdc72a145ed6ab5c23f6c68d4a499848f85a404",
+      "contentHash": "c2bfb3a0de2c671bdd57341336236139eb7fb54a4ea953683ea6576a5f593ab3",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed trapezoid-from-one-parallel-pair as a choice response to \"한 쌍의 평행한 변을 보고 사각형의 이름을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2277,10 +2264,10 @@
     },
     {
       "reviewId": "4:mission:g4-quad-04",
-      "contentHash": "6a01299e9d9a4d6f677ff04a51caa3b4b86259638896dbd526e26f6b0dd551d1",
+      "contentHash": "e8b8de4be4e454ba0084d83e6219411721a3d0c8a1b2d4b11ccee73eabdf70c7",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed parallelogram-from-two-parallel-pairs as a choice response to \"두 쌍의 평행한 변을 보고 사각형의 이름을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2294,10 +2281,10 @@
     },
     {
       "reviewId": "4:mission:g4-quad-05",
-      "contentHash": "5038f5732741aef9c152685a5a5a8303d0da32da459246745b3d5ed7cea8e33f",
+      "contentHash": "45890b0f690a9e8b7eda6d00e2ce9eaea24f5b78f8ddb9301daa911649e1922c",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed rectangular-frame-properties as a choice response to \"액자 틀의 각과 변을 보고 알맞은 분류를 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2311,10 +2298,10 @@
     },
     {
       "reviewId": "4:mission:g4-quad-06",
-      "contentHash": "4138bb0fff815debc95f6ca7ab6ea1360cbfcaa59e5fc00216aa691d4f4d6f24",
+      "contentHash": "650bcd8a6bef37cc5336bb444d860cb96c84bfd4aa130b3ff7f151d02204e20e",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed rhombus-from-four-equal-sides as a choice response to \"네 변의 길이 표시를 보고 마름모를 알아봐요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2328,10 +2315,10 @@
     },
     {
       "reviewId": "4:mission:g4-quad-07",
-      "contentHash": "bb8adfac34cb50ce0a792a9a2ad7dd37568de536cd9905d65984d117929ed030",
+      "contentHash": "57719922e5a3d41019046d38b48eb1c83e9baa2dffe7a3ff77d526222d49f2fb",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed square-overlapping-classifications as a choice response to \"정사각형에 겹쳐 적용되는 사각형의 성질을 고르세요.\" Source decision: taskActions=classify+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2345,10 +2332,10 @@
     },
     {
       "reviewId": "4:mission:g4-quad-08",
-      "contentHash": "20bb54954dcefec454b662b744f6f80c454e4cc1d440b6cb0a19d14ff9e5d540",
+      "contentHash": "f40e07943cc655d3cae7ef1ef5cc75f6a7e3567717886e2fe00779f32fae5738",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed parallelogram-one-right-angle as a choice response to \"평행사변형의 한 직각에서 전체 모양을 추론하세요.\" Source decision: taskActions=classify+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2362,10 +2349,10 @@
     },
     {
       "reviewId": "4:mission:g4-quad-09",
-      "contentHash": "a4a6c83b1147b8bef8049a27381d5b83bcb9b2e8c665f9175fb291172133eef3",
+      "contentHash": "39d3df6f3c9edee535571790a5407de377fd898450fb613de0b1b50e66fef1f1",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed opposite-sides-equal-rectangle-error as a choice response to \"마주 보는 변이 같으면 직사각형이라는 주장을 고치세요.\" Source decision: taskActions=analyze_error+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2379,10 +2366,10 @@
     },
     {
       "reviewId": "4:mission:g4-quad-10",
-      "contentHash": "450a94023dd1322795d65e31085f258383db1927374e5594542f64fbf557cb60",
+      "contentHash": "9e59c9658140e6bcbf32fbf4b19a8f6d14f3c49647ccdcca1f82150545990bad",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed combine-rhombus-rectangle-conditions as a choice response to \"네 변이 같고 네 각이 직각인 두 조건을 결합하세요.\" Source decision: taskActions=classify+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2396,10 +2383,10 @@
     },
     {
       "reviewId": "4:mission:g4-tri-01",
-      "contentHash": "6976867652bbfba22ecc032ce819a15c50c4700098dfbfef2b2c2852cfdf751c",
+      "contentHash": "0868aa731e39da6546f769b9b455e9a583ecf41959d00a94205e717919dcf8b2",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed equilateral-from-three-equal-sides as a choice response to \"세 변의 길이를 비교해 삼각형의 이름을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2413,10 +2400,10 @@
     },
     {
       "reviewId": "4:mission:g4-tri-02",
-      "contentHash": "5fedd45bd1706ef02f8dc30c21f6390a560cf7ac9919803792ba30c5d0350f49",
+      "contentHash": "3baab586448c099bb1ab83b8523745c864d36ebb2ce7010058dd817f0bb7a89e",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed isosceles-from-two-equal-sides as a choice response to \"같은 두 변을 찾아 삼각형의 이름을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2430,13 +2417,10 @@
     },
     {
       "reviewId": "4:mission:g4-tri-03",
-      "contentHash": "c56924290fd07fa186e149617931272db2253f520904e2dc047f290f6d73bc77",
+      "contentHash": "5327a7dc5390771223419d2c9e3579d1137a2566433b4eee231510f02af83215",
       "status": "blocked",
-      "findingCategories": [
-        "hint_solution",
-        "grade_appropriateness"
-      ],
-      "note": "The solution now uses the given right-angle mark instead of a Pythagorean-square argument beyond the Grade 4 target. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "findingCategories": [],
+      "note": "The answer follows the given right-angle mark; no measurement action, protractor support, or Pythagorean argument is claimed. Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2450,10 +2434,10 @@
     },
     {
       "reviewId": "4:mission:g4-tri-04",
-      "contentHash": "59dec71a1f54396b26aba9072c239f52379cd7dfa86365ef0b3c7a404e3d4b03",
+      "contentHash": "4c37f58c56d8304c6087d1a797db2b170bd1d5edd23bf52b1c79bb488696a20d",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed obtuse-triangle-from-longest-side as a choice response to \"가장 큰 각을 살펴 예각·직각·둔각삼각형을 구별하세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2467,10 +2451,10 @@
     },
     {
       "reviewId": "4:mission:g4-tri-05",
-      "contentHash": "08f63f227b58c50bb7dfac5d67567c13394e3f8e0df0ff8e081308b7655abb4c",
+      "contentHash": "cf2456f8affb08c2f3651b2ea5fbea78fdbd4b4af77a97cf85180715157820b0",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed acute-triangle-park-sign as a choice response to \"표지판의 세 각을 살펴 삼각형을 분류하세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2484,10 +2468,10 @@
     },
     {
       "reviewId": "4:mission:g4-tri-06",
-      "contentHash": "a80d8cc1e0d264d88de1a0d78b9c82bcbd0cf4d3e224568e72f8fe0cf21d5d6b",
+      "contentHash": "ef5029c753e6d0fbb276eff0c5debd0c21e3666417a1def38d284c509a4523b7",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed classify-isosceles-right-triangle as a choice response to \"같은 두 변과 직각을 모두 이용해 두 가지 이름을 고르세요.\" Source decision: taskActions=classify+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2501,10 +2485,10 @@
     },
     {
       "reviewId": "4:mission:g4-tri-07",
-      "contentHash": "8f2df47305df2473a1532a7ef6d5e64fe218c30c09160063418a6b62b9757a10",
+      "contentHash": "ad580bb35a48dbef63e474438c4c6a04afe9f861ef129bc7ed95108181c8a32d",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed isosceles-roof-frame as a choice response to \"지붕 골조의 두 빗변 길이를 비교해 분류하세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2518,10 +2502,10 @@
     },
     {
       "reviewId": "4:mission:g4-tri-08",
-      "contentHash": "d3b30bc6b4c802aa549b8b16abc35afee0218469ed2ca932f96efb592aff7616",
+      "contentHash": "c9decf010807aba535d7f155e38bc0ebb1cdb102820358b083fede0c1544ccd9",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed construct-equilateral-with-equal-radius as a choice response to \"세 변을 같은 길이로 만드는 정삼각형 작도 방법을 고르세요.\" Source decision: taskActions=classify+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2535,10 +2519,10 @@
     },
     {
       "reviewId": "4:mission:g4-tri-09",
-      "contentHash": "4eea8f9a09450bc7c330eaff33e851fa23fa2b49ab0621d665aaaedeeeaa5f16",
+      "contentHash": "7cc14e5489021db6f5f327dc42bc227fac1d35c4e2a8510d03cc4c3ea960b056",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed isosceles-all-angles-equal-error as a choice response to \"두 변이 같으면 세 각도 모두 같다는 오류를 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,
@@ -2552,10 +2536,10 @@
     },
     {
       "reviewId": "4:mission:g4-tri-10",
-      "contentHash": "083b259e773ba2639d3759186d4bdfc11a8144e2dbb13fff1d214e450dcd803f",
+      "contentHash": "b12100d61778b5d0fefb653390dad5ffe2e655f3d46d6f84fa341e617a9570dc",
       "status": "blocked",
       "findingCategories": [],
-      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "note": "Reviewed classify-isosceles-obtuse-triangle as a choice response to \"같은 두 변과 가장 큰 각을 모두 근거로 두 가지 이름을 고르세요.\" Source decision: taskActions=classify+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices for variants 1..9 passed deterministic math, answer, and Korean-particle checks. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
       "evidence": {
         "editorialRead": true,
         "variantAudit": true,

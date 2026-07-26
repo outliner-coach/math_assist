@@ -250,6 +250,17 @@ describe('Grade4MissionVisual', () => {
     }
   })
 
+  it('renders graph-01 with a tall readable plot and an unlabeled focus guide', () => {
+    const mission = getGrade4MissionBank(42).find((item) => item.id === 'g4-graph-01')!
+    const html = renderToStaticMarkup(createElement(Grade4MissionVisual, { mission }))
+
+    expect(html).toMatch(/viewBox="0 0 320 3\d\d"/)
+    expect(html).toContain('data-testid="grade4-line-focus-guide"')
+    expect(html).toContain('data-testid="grade4-line-focus-axis-tick"')
+    expect(html).not.toContain(`>${mission.correctAnswer}<`)
+    expect(html).not.toMatch(new RegExp(`aria-label="[^"]*${mission.correctAnswer}`))
+  })
+
   it('renders source tables and hides only the requested graph-derived cell', () => {
     const source = getGrade4MissionBank(42).find((item) => item.id === 'g4-graph-05')!
     const missing = getGrade4MissionBank(42).find((item) => item.id === 'g4-graph-08')!

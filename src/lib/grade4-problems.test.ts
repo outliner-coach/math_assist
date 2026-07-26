@@ -28,6 +28,35 @@ import {
 const ledger = JSON.parse(readFileSync(join(process.cwd(), 'public/data/curriculum-allocations-v1.json'), 'utf8'))
 const reviewCore = require('../../scripts/problem-review-catalog-core.js')
 
+function numberHasBatchim(value: string): boolean {
+  const normalized = value.replaceAll(',', '')
+  const lastDigit = normalized.at(-1)
+  return lastDigit !== undefined && ['0', '1', '3', '6', '7', '8'].includes(lastDigit)
+}
+
+function numericParticleErrors(text: string): string[] {
+  const expectedByPair = {
+    '은/는': (hasBatchim: boolean) => hasBatchim ? '은' : '는',
+    '이/가': (hasBatchim: boolean) => hasBatchim ? '이' : '가',
+    '을/를': (hasBatchim: boolean) => hasBatchim ? '을' : '를',
+    '과/와': (hasBatchim: boolean) => hasBatchim ? '과' : '와',
+  } as const
+  const pairFor = (particle: string) => (
+    particle === '은' || particle === '는' ? '은/는'
+      : particle === '이' || particle === '가' ? '이/가'
+        : particle === '을' || particle === '를' ? '을/를'
+          : '과/와'
+  ) as keyof typeof expectedByPair
+  const errors: string[] = []
+
+  for (const match of text.matchAll(/(?<![/\d])(\d[\d,]*(?:\.\d+)?)(은|는|이|가|을|를|과|와)/g)) {
+    const [, value, particle] = match
+    const expected = expectedByPair[pairFor(particle)](numberHasBatchim(value))
+    if (particle !== expected) errors.push(`${match[0]}→${value}${expected}`)
+  }
+  return errors
+}
+
 describe('Grade 4 Bridge release bank', () => {
   it('requires source-owned editorial actions and visual semantics for every template', () => {
     const allowedActions = new Set([
@@ -52,6 +81,163 @@ describe('Grade 4 Bridge release bank', () => {
         allowedVisualSemantics.has(quality.visualSemantics ?? ''),
         `${template.id} visualSemantics`,
       ).toBe(true)
+    }
+  })
+
+  it('matches reviewed geometry actions to the actual prompt and answer behavior', () => {
+    const expected = new Map<string, string[]>([
+      ['g4-line-01', ['calculate', 'classify']],
+      ['g4-line-02', ['classify', 'compare']],
+      ['g4-line-03', ['recognize']],
+      ['g4-line-04', ['reason']],
+      ['g4-line-05', ['calculate', 'classify']],
+      ['g4-line-06', ['classify', 'compare']],
+      ['g4-line-07', ['compare', 'reason']],
+      ['g4-line-08', ['calculate']],
+      ['g4-line-09', ['analyze_error', 'compare']],
+      ['g4-line-10', ['reason']],
+      ['g4-tri-01', ['classify']],
+      ['g4-tri-02', ['classify']],
+      ['g4-tri-03', ['classify']],
+      ['g4-tri-04', ['classify']],
+      ['g4-tri-05', ['classify']],
+      ['g4-tri-06', ['classify', 'reason']],
+      ['g4-tri-07', ['classify']],
+      ['g4-tri-08', ['classify', 'reason']],
+      ['g4-tri-09', ['analyze_error', 'explain']],
+      ['g4-tri-10', ['classify', 'reason']],
+      ['g4-quad-01', ['classify']],
+      ['g4-quad-02', ['classify']],
+      ['g4-quad-03', ['classify']],
+      ['g4-quad-04', ['classify']],
+      ['g4-quad-05', ['classify']],
+      ['g4-quad-06', ['classify']],
+      ['g4-quad-07', ['classify', 'reason']],
+      ['g4-quad-08', ['classify', 'reason']],
+      ['g4-quad-09', ['analyze_error', 'reason']],
+      ['g4-quad-10', ['classify', 'reason']],
+    ])
+    const byId = new Map(grade4MissionTemplates.map((template) => [template.id, template]))
+
+    for (const [id, actions] of expected) {
+      const template = byId.get(id)!
+      const mission = template.build(1, 1)
+      expect(template.taskActions, `${id}: ${mission.prompt} → ${mission.correctAnswer}`).toEqual(actions)
+    }
+
+    expect(
+      grade4MissionTemplates.filter((template) => template.taskActions.includes('construct')),
+      'Grade 4 currently has choice/text answers, not a drawing or construction response',
+    ).toEqual([])
+    const measured = grade4MissionTemplates.filter((template) => template.taskActions.includes('measure'))
+    expect(measured.map((template) => template.id)).toEqual(['g4-ang-01'])
+    const protractorReading = measured[0].build(1, 1)
+    expect(protractorReading.prompt).toContain('가리키는 각도')
+    expect(protractorReading.visualConfig.showProtractor).toBe(true)
+  })
+
+  it('ties every declared action to generated prompt or answer evidence', () => {
+    const interpretedRepresentations = new Set([
+      'number-line', 'pattern-table', 'shape-transformation',
+      'tiling-model', 'line-graph-model', 'data-table-model',
+    ])
+
+    for (const template of grade4MissionTemplates) {
+      const mission = template.build(1, 1)
+      const text = [
+        template.promptTemplate,
+        mission.prompt,
+        mission.correctAnswer,
+        ...mission.solutionSteps,
+      ].join(' ')
+
+      for (const action of template.taskActions) {
+        if (action === 'recognize') {
+          expect(mission.correctAnswer.trim(), `${template.id} recognize answer`).not.toBe('')
+        } else if (action === 'classify') {
+          expect(template.answerType, `${template.id} classify response`).toBe('choice')
+          expect(text, `${template.id} classify wording`).toMatch(/이름|분류|관계|이동|도형|다각형|각/)
+        } else if (action === 'compare') {
+          expect(text, `${template.id} compare wording`).toMatch(/비교|크|작|차|같|사이|가까|평행/)
+        } else if (action === 'calculate') {
+          expect(mission.solutionSteps.join(' '), `${template.id} calculate steps`).toMatch(
+            /[+\-×÷<>=]|계산|구하|더|빼|곱|나누|차|합|몫|나머지|칸|좌표|옮겨/,
+          )
+        } else if (action === 'measure') {
+          expect(template.id).toBe('g4-ang-01')
+          expect(mission.visualConfig.showProtractor).toBe(true)
+        } else if (action === 'construct') {
+          throw new Error(`${template.id}: no Grade 4 response surface accepts a construction`)
+        } else if (action === 'model') {
+          expect(text, `${template.id} model wording`).toMatch(/식|수로 쓰|나타내/)
+        } else if (action === 'interpret') {
+          expect(
+            interpretedRepresentations.has(template.representation)
+              || /표|그래프|눈금|자료|규칙|회전|방향/.test(text),
+            `${template.id} interpret evidence`,
+          ).toBe(true)
+        } else if (action === 'explain') {
+          expect(mission.correctAnswer, `${template.id} explain answer`).toMatch(/입니다|습니다|때문|까닭|므로/)
+        } else if (action === 'analyze_error') {
+          expect(text, `${template.id} error-analysis wording`).toMatch(/말했|라고 했|주장|오류|잘못|고치|멈췄|틀|시험|너무/)
+        } else if (action === 'reason') {
+          expect(mission.solutionSteps.length, `${template.id} reasoning steps`).toBeGreaterThanOrEqual(2)
+        }
+      }
+    }
+  })
+
+  it('declares only support tools the Grade 4 UI actually provides', () => {
+    expect(new Set(grade4MissionTemplates.map((template) => template.supportTool))).toEqual(
+      new Set(['none', 'grid']),
+    )
+    const protractorReading = grade4MissionTemplates.find((template) => template.id === 'g4-ang-01')!
+    expect(protractorReading.supportTool).toBe('none')
+    expect(protractorReading.build(1, 1).visualConfig.showProtractor).toBe(true)
+  })
+
+  it('uses correct Korean particles in every generated text surface for variants 1..9', () => {
+    const errors: string[] = []
+
+    for (const template of grade4MissionTemplates) {
+      for (let variant = 1; variant <= 9; variant += 1) {
+        const mission = template.build(variant, 2_026_072_600 + variant)
+        const surfaces = [
+          ['prompt', mission.prompt],
+          ...template.hintSteps.map((text, index) => [`hint${index + 1}`, text]),
+          ...mission.solutionSteps.map((text, index) => [`step${index + 1}`, text]),
+          ...mission.choices?.map((text, index) => [`choice${index + 1}`, text]) ?? [],
+        ]
+        for (const [surface, text] of surfaces) {
+          for (const error of numericParticleErrors(text)) {
+            errors.push(`${template.id} v${variant} ${surface}: ${error}`)
+          }
+          if (/\d(?:\.\d+)?\s+L가(?![가-힣])/.test(text)) {
+            errors.push(`${template.id} v${variant} ${surface}: rephrase awkward L가 sentence`)
+          }
+        }
+      }
+    }
+
+    expect(errors).toEqual([])
+  })
+
+  it('gives graph-01 a readable focused scale without exposing its answer as text', () => {
+    const template = grade4MissionTemplates.find((item) => item.id === 'g4-graph-01')!
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      const mission = template.build(variant, variant)
+      const values = String(mission.visualConfig.valuesCsv).split(',').map(Number)
+      const yMin = Number(mission.visualConfig.yMin)
+      const yMax = Number(mission.visualConfig.yMax)
+
+      expect(yMin, `variant ${variant}`).toBeLessThanOrEqual(Math.min(...values))
+      expect(yMax, `variant ${variant}`).toBeGreaterThanOrEqual(Math.max(...values))
+      expect(yMax - yMin, `variant ${variant}`).toBeLessThanOrEqual(25)
+      expect(mission.visualConfig.yStep).toBe(5)
+      expect(mission.visualConfig.yMinorStep).toBe(1)
+      expect(mission.visualConfig.focusGuide).toBe(true)
+      expect(mission.visualConfig).not.toHaveProperty('focusValueLabel')
     }
   })
 
@@ -125,8 +311,16 @@ describe('Grade 4 Bridge release bank', () => {
 
     expect(actualReviewIds).toEqual(expectedReviewIds)
     expect(new Set(actualReviewIds).size).toBe(grade4MissionTemplates.length)
+    expect(new Set(receipt.items.map((item: { note: string }) => item.note)).size).toBe(
+      grade4MissionTemplates.length,
+    )
     for (const item of receipt.items) {
       expect(item.status, item.reviewId).toBe('blocked')
+      expect(item.findingCategories, item.reviewId).toEqual([])
+      expect(item.note, item.reviewId).toContain('variants 1..9')
+      expect(item.note, item.reviewId).toContain('taskActions=')
+      expect(item.note, item.reviewId).toContain('supportTool=')
+      expect(item.note, item.reviewId).toContain('Browser evidence remains separate and blocked')
       expect(item.evidence, item.reviewId).toMatchObject({
         editorialRead: true,
         variantAudit: true,
