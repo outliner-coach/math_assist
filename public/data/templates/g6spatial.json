@@ -5,6 +5,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-stack-total-cubes",
     "blueprint": {
       "problemFamily": "a-stack-total-cubes",
@@ -61,6 +65,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-top-view-occupied-cells",
     "blueprint": {
       "problemFamily": "a-top-view-occupied-cells",
@@ -117,6 +125,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-front-view-highest-column",
     "blueprint": {
       "problemFamily": "a-front-view-highest-column",
@@ -173,6 +185,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-side-view-highest-column",
     "blueprint": {
       "problemFamily": "a-side-view-highest-column",
@@ -229,6 +245,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-cubes-below-top-layer",
     "blueprint": {
       "problemFamily": "a-cubes-below-top-layer",
@@ -286,6 +306,11 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-front-view-square-total",
     "blueprint": {
       "problemFamily": "a-front-view-square-total",
@@ -343,6 +368,11 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-side-view-square-total",
     "blueprint": {
       "problemFamily": "a-side-view-square-total",
@@ -400,6 +430,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-raise-every-occupied-column",
     "blueprint": {
       "problemFamily": "a-raise-every-occupied-column",
@@ -457,6 +491,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-projection-used-as-total-error",
     "blueprint": {
       "problemFamily": "a-projection-used-as-total-error",
@@ -515,6 +553,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-top-view-empty-cell-error",
     "blueprint": {
       "problemFamily": "a-top-view-empty-cell-error",
@@ -573,6 +615,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-stack-total-cubes",
     "blueprint": {
       "problemFamily": "b-stack-total-cubes",
@@ -629,6 +675,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-top-view-occupied-cells",
     "blueprint": {
       "problemFamily": "b-top-view-occupied-cells",
@@ -685,6 +735,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-front-view-highest-column",
     "blueprint": {
       "problemFamily": "b-front-view-highest-column",
@@ -741,6 +795,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-side-view-highest-column",
     "blueprint": {
       "problemFamily": "b-side-view-highest-column",
@@ -797,6 +855,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-cubes-below-top-layer",
     "blueprint": {
       "problemFamily": "b-cubes-below-top-layer",
@@ -854,6 +916,11 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-front-view-square-total",
     "blueprint": {
       "problemFamily": "b-front-view-square-total",
@@ -911,6 +978,11 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-side-view-square-total",
     "blueprint": {
       "problemFamily": "b-side-view-square-total",
@@ -968,6 +1040,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-raise-every-occupied-column",
     "blueprint": {
       "problemFamily": "b-raise-every-occupied-column",
@@ -1025,6 +1101,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-projection-used-as-total-error",
     "blueprint": {
       "problemFamily": "b-projection-used-as-total-error",
@@ -1083,6 +1163,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-top-view-empty-cell-error",
     "blueprint": {
       "problemFamily": "b-top-view-empty-cell-error",
@@ -1141,6 +1225,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-stack-total-cubes",
     "blueprint": {
       "problemFamily": "c-stack-total-cubes",
@@ -1199,6 +1287,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-top-view-occupied-cells",
     "blueprint": {
       "problemFamily": "c-top-view-occupied-cells",
@@ -1257,6 +1349,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-front-view-highest-column",
     "blueprint": {
       "problemFamily": "c-front-view-highest-column",
@@ -1315,6 +1411,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-side-view-highest-column",
     "blueprint": {
       "problemFamily": "c-side-view-highest-column",
@@ -1373,6 +1473,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-cubes-below-top-layer",
     "blueprint": {
       "problemFamily": "c-cubes-below-top-layer",
@@ -1432,6 +1536,11 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-front-view-square-total",
     "blueprint": {
       "problemFamily": "c-front-view-square-total",
@@ -1491,6 +1600,11 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-side-view-square-total",
     "blueprint": {
       "problemFamily": "c-side-view-square-total",
@@ -1550,6 +1664,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-raise-every-occupied-column",
     "blueprint": {
       "problemFamily": "c-raise-every-occupied-column",
@@ -1609,6 +1727,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "c-projection-used-as-total-error",
     "blueprint": {
       "problemFamily": "c-projection-used-as-total-error",
@@ -1669,6 +1791,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "c-top-view-empty-cell-error",
     "blueprint": {
       "problemFamily": "c-top-view-empty-cell-error",

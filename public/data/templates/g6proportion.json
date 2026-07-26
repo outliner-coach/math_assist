@@ -5,6 +5,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "a-double-second-ratio-term",
     "blueprint": {
       "problemFamily": "a-double-second-ratio-term",
@@ -45,6 +48,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "a-scale-denominator-term",
     "blueprint": {
       "problemFamily": "a-scale-denominator-term",
@@ -85,6 +91,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-cross-product-missing-term",
     "blueprint": {
       "problemFamily": "a-cross-product-missing-term",
@@ -125,6 +135,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "a-two-to-three-smaller-share",
     "blueprint": {
       "problemFamily": "a-two-to-three-smaller-share",
@@ -165,6 +178,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-notebook-price-scaling",
     "blueprint": {
       "problemFamily": "a-notebook-price-scaling",
@@ -205,6 +222,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-map-distance-scaling",
     "blueprint": {
       "problemFamily": "a-map-distance-scaling",
@@ -245,6 +266,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-three-to-four-mixture",
     "blueprint": {
       "problemFamily": "a-three-to-four-mixture",
@@ -285,6 +310,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-one-to-three-larger-share",
     "blueprint": {
       "problemFamily": "a-one-to-three-larger-share",
@@ -325,6 +354,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-additive-proportion-error-gap",
     "blueprint": {
       "problemFamily": "a-additive-proportion-error-gap",
@@ -365,6 +398,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-missing-ratio-part-shortage",
     "blueprint": {
       "problemFamily": "a-missing-ratio-part-shortage",
@@ -405,6 +442,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "b-double-ratio-term",
     "blueprint": {
       "problemFamily": "b-double-ratio-term",
@@ -445,6 +485,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "b-triple-denominator-term",
     "blueprint": {
       "problemFamily": "b-triple-denominator-term",
@@ -485,6 +528,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-cross-product-triple-term",
     "blueprint": {
       "problemFamily": "b-cross-product-triple-term",
@@ -525,6 +572,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "b-three-to-four-smaller-share",
     "blueprint": {
       "problemFamily": "b-three-to-four-smaller-share",
@@ -565,6 +615,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-recipe-serving-scaling",
     "blueprint": {
       "problemFamily": "b-recipe-serving-scaling",
@@ -605,6 +659,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-constant-speed-scaling",
     "blueprint": {
       "problemFamily": "b-constant-speed-scaling",
@@ -645,6 +703,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-four-to-five-ribbon-share",
     "blueprint": {
       "problemFamily": "b-four-to-five-ribbon-share",
@@ -685,6 +747,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-one-to-two-larger-vote-share",
     "blueprint": {
       "problemFamily": "b-one-to-two-larger-vote-share",
@@ -725,6 +791,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-add-eight-error-gap",
     "blueprint": {
       "problemFamily": "b-add-eight-error-gap",
@@ -765,6 +835,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-equal-share-instead-of-three-four",
     "blueprint": {
       "problemFamily": "b-equal-share-instead-of-three-four",
@@ -805,6 +879,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "c-triple-ratio-term",
     "blueprint": {
       "problemFamily": "c-triple-ratio-term",
@@ -845,6 +922,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "c-triple-denominator-from-five",
     "blueprint": {
       "problemFamily": "c-triple-denominator-from-five",
@@ -885,6 +965,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-cross-product-eighteen-term",
     "blueprint": {
       "problemFamily": "c-cross-product-eighteen-term",
@@ -925,6 +1009,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "c-four-to-five-larger-share",
     "blueprint": {
       "problemFamily": "c-four-to-five-larger-share",
@@ -965,6 +1052,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-scale-twelve-centimeters",
     "blueprint": {
       "problemFamily": "c-scale-twelve-centimeters",
@@ -1005,6 +1096,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-ten-serving-recipe",
     "blueprint": {
       "problemFamily": "c-ten-serving-recipe",
@@ -1045,6 +1140,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-five-to-six-smaller-share",
     "blueprint": {
       "problemFamily": "c-five-to-six-smaller-share",
@@ -1085,6 +1184,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-three-to-five-larger-share",
     "blueprint": {
       "problemFamily": "c-three-to-five-larger-share",
@@ -1125,6 +1228,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "c-add-ten-error-gap",
     "blueprint": {
       "problemFamily": "c-add-ten-error-gap",
@@ -1165,6 +1272,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "c-equal-share-instead-of-four-five",
     "blueprint": {
       "problemFamily": "c-equal-share-instead-of-four-five",

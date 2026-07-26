@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const { explicitTaskActionsFor } = require('./grade6-quality-metadata')
 
 const outputPath = path.join(__dirname, '..', 'public', 'data', 'templates', 'g6spatial.json')
 const sets = ['A', 'B', 'C']
@@ -64,7 +65,7 @@ function definitionsFor(setId) {
     {
       family: `${prefix}-stack-total-cubes`,
       domain: 'knowing',
-      pattern: 'systematic_counting',
+      pattern: 'systematic_counting', taskActions: ['model', 'calculate'],
       standard: '[6수03-09]',
       prompt: '그림의 각 자리에 쌓인 나무 수를 층별로 모두 세면 쌓기나무는 몇 개인가요?',
       solver: model.total,
@@ -77,7 +78,7 @@ function definitionsFor(setId) {
     {
       family: `${prefix}-top-view-occupied-cells`,
       domain: 'knowing',
-      pattern: 'representation_shift',
+      pattern: 'representation_shift', taskActions: ['interpret', 'calculate'],
       standard: '[6수03-10]',
       prompt: '이 입체도형을 위에서 보았을 때 쌓기나무가 보이는 칸은 몇 칸인가요?',
       solver: model.occupied,
@@ -90,7 +91,7 @@ function definitionsFor(setId) {
     {
       family: `${prefix}-front-view-highest-column`,
       domain: 'knowing',
-      pattern: 'representation_shift',
+      pattern: 'representation_shift', taskActions: ['interpret', 'calculate'],
       standard: '[6수03-10]',
       prompt: '앞에서 본 모양에서 가장 높은 세로줄의 칸 수는 몇 칸인가요?',
       solver: 'p',
@@ -103,7 +104,7 @@ function definitionsFor(setId) {
     {
       family: `${prefix}-side-view-highest-column`,
       domain: 'knowing',
-      pattern: 'representation_shift',
+      pattern: 'representation_shift', taskActions: ['interpret', 'calculate'],
       standard: '[6수03-10]',
       prompt: '옆에서 본 모양에서 가장 높은 세로줄의 칸 수는 몇 칸인가요?',
       solver: 'p',
@@ -116,7 +117,7 @@ function definitionsFor(setId) {
     {
       family: `${prefix}-cubes-below-top-layer`,
       domain: 'applying',
-      pattern: 'multi_step',
+      pattern: 'multi_step', taskActions: ['model', 'calculate'],
       standard: '[6수03-09]',
       prompt: '각 기둥의 맨 위 쌓기나무를 하나씩 빼면 남는 쌓기나무는 몇 개인가요?',
       solver: model.lower,
@@ -129,7 +130,7 @@ function definitionsFor(setId) {
     {
       family: `${prefix}-front-view-square-total`,
       domain: 'applying',
-      pattern: 'model_and_check',
+      pattern: 'model_and_check', taskActions: ['model', 'reason', 'calculate'],
       standard: '[6수03-10]',
       prompt: '앞에서 본 모양을 단위 정사각형으로 채우려면 정사각형은 모두 몇 개 필요한가요?',
       solver: model.frontSum,
@@ -142,7 +143,7 @@ function definitionsFor(setId) {
     {
       family: `${prefix}-side-view-square-total`,
       domain: 'applying',
-      pattern: 'model_and_check',
+      pattern: 'model_and_check', taskActions: ['model', 'reason', 'calculate'],
       standard: '[6수03-10]',
       prompt: '옆에서 본 모양을 단위 정사각형으로 채우려면 정사각형은 모두 몇 개 필요한가요?',
       solver: model.sideSum,
@@ -155,7 +156,7 @@ function definitionsFor(setId) {
     {
       family: `${prefix}-raise-every-occupied-column`,
       domain: 'applying',
-      pattern: 'multi_step',
+      pattern: 'multi_step', taskActions: ['model', 'calculate'],
       standard: '[6수03-09]',
       prompt: '쌓기나무가 있는 모든 자리의 맨 위에 쌓기나무를 하나씩 더 놓았습니다. 새 입체도형의 쌓기나무는 모두 몇 개인가요?',
       solver: model.raised,
@@ -168,7 +169,7 @@ function definitionsFor(setId) {
     {
       family: `${prefix}-projection-used-as-total-error`,
       domain: 'reasoning',
-      pattern: 'error_analysis',
+      pattern: 'error_analysis', taskActions: ['analyze_error', 'calculate'],
       standard: '[6수03-09]',
       prompt: '한 학생이 그림과 같은 입체도형 {{p}}개에서 각각 앞에서 본 정사각형 수를 전체 쌓기나무 수로 잘못 답했습니다. 실제 전체와 잘못 센 수의 차를 모두 합하면 몇 개인가요?',
       solver: model.repeatedTotalGap,
@@ -182,7 +183,7 @@ function definitionsFor(setId) {
     {
       family: `${prefix}-top-view-empty-cell-error`,
       domain: 'reasoning',
-      pattern: 'error_analysis',
+      pattern: 'error_analysis', taskActions: ['analyze_error', 'calculate'],
       standard: '[6수03-10]',
       prompt: `한 학생이 그림과 같은 입체도형을 {{p + 1}}번 관찰하면서 위에서 본 ${viewLabel}을 매번 모두 채워 그렸습니다. 실제 모양과 비교해 잘못 채운 칸 수를 모두 합하면 몇 칸인가요?`,
       solver: model.repeatedTopGap,
@@ -202,6 +203,7 @@ const templates = sets.flatMap((setId) => definitionsFor(setId).map((definition,
   type: 'number',
   difficulty: index < 4 ? 1 : index < 8 ? 2 : 3,
   set_id: setId,
+  taskActions: explicitTaskActionsFor(definition),
   problem_family: definition.family,
   blueprint: {
     problemFamily: definition.family,

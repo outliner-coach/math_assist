@@ -5,6 +5,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-tenths-fraction-to-decimal",
     "blueprint": {
       "problemFamily": "a-tenths-fraction-to-decimal",
@@ -42,6 +46,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-fifths-fraction-to-decimal",
     "blueprint": {
       "problemFamily": "a-fifths-fraction-to-decimal",
@@ -79,6 +87,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-tenths-decimal-to-fraction",
     "blueprint": {
       "problemFamily": "a-tenths-decimal-to-fraction",
@@ -116,6 +128,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-quarters-fraction-to-decimal",
     "blueprint": {
       "problemFamily": "a-quarters-fraction-to-decimal",
@@ -153,6 +169,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-milk-sum-fraction-decimal",
     "blueprint": {
       "problemFamily": "a-milk-sum-fraction-decimal",
@@ -190,6 +210,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
     "problem_family": "a-compare-fifths-and-tenths",
     "blueprint": {
       "problemFamily": "a-compare-fifths-and-tenths",
@@ -227,6 +251,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-twentieths-as-hundredths",
     "blueprint": {
       "problemFamily": "a-twentieths-as-hundredths",
@@ -264,6 +292,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-remaining-from-one",
     "blueprint": {
       "problemFamily": "a-remaining-from-one",
@@ -301,6 +333,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-fifths-tenths-equivalence-error",
     "blueprint": {
       "problemFamily": "a-fifths-tenths-equivalence-error",
@@ -338,6 +374,11 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-midpoint-between-tenths",
     "blueprint": {
       "problemFamily": "a-midpoint-between-tenths",
@@ -375,6 +416,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-twentieths-fraction-to-decimal",
     "blueprint": {
       "problemFamily": "b-twentieths-fraction-to-decimal",
@@ -412,6 +457,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-twenty-fifths-fraction-to-decimal",
     "blueprint": {
       "problemFamily": "b-twenty-fifths-fraction-to-decimal",
@@ -449,6 +498,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-decimal-to-reduced-tenths",
     "blueprint": {
       "problemFamily": "b-decimal-to-reduced-tenths",
@@ -486,6 +539,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-equivalent-numerator-over-twenty",
     "blueprint": {
       "problemFamily": "b-equivalent-numerator-over-twenty",
@@ -523,6 +580,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-ribbon-sum-fifth-and-decimal",
     "blueprint": {
       "problemFamily": "b-ribbon-sum-fifth-and-decimal",
@@ -560,6 +621,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-trip-remaining-from-three",
     "blueprint": {
       "problemFamily": "b-trip-remaining-from-three",
@@ -597,6 +662,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
     "problem_family": "b-difference-counted-in-tenths",
     "blueprint": {
       "problemFamily": "b-difference-counted-in-tenths",
@@ -634,6 +703,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-missing-numerator-over-twenty",
     "blueprint": {
       "problemFamily": "b-missing-numerator-over-twenty",
@@ -671,6 +744,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-denominator-size-comparison-error",
     "blueprint": {
       "problemFamily": "b-denominator-size-comparison-error",
@@ -708,6 +785,11 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-hundredths-gap-between-representations",
     "blueprint": {
       "problemFamily": "b-hundredths-gap-between-representations",
@@ -745,6 +827,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-fiftieths-fraction-to-decimal",
     "blueprint": {
       "problemFamily": "c-fiftieths-fraction-to-decimal",
@@ -782,6 +868,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-hundredths-fraction-to-decimal",
     "blueprint": {
       "problemFamily": "c-hundredths-fraction-to-decimal",
@@ -819,6 +909,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-decimal-to-reduced-fraction",
     "blueprint": {
       "problemFamily": "c-decimal-to-reduced-fraction",
@@ -856,6 +950,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-halves-fraction-to-decimal",
     "blueprint": {
       "problemFamily": "c-halves-fraction-to-decimal",
@@ -893,6 +991,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-recipe-quarter-plus-half",
     "blueprint": {
       "problemFamily": "c-recipe-quarter-plus-half",
@@ -930,6 +1032,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
     "problem_family": "c-nearby-fifth-and-tenth",
     "blueprint": {
       "problemFamily": "c-nearby-fifth-and-tenth",
@@ -967,6 +1073,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-target-half-after-tenths",
     "blueprint": {
       "problemFamily": "c-target-half-after-tenths",
@@ -1004,6 +1114,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-equivalent-numerator-over-hundred",
     "blueprint": {
       "problemFamily": "c-equivalent-numerator-over-hundred",
@@ -1041,6 +1155,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "c-same-numerator-denominator-fallacy",
     "blueprint": {
       "problemFamily": "c-same-numerator-denominator-fallacy",
@@ -1078,6 +1196,11 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-quarter-fifth-comparison-gap",
     "blueprint": {
       "problemFamily": "c-quarter-fifth-comparison-gap",

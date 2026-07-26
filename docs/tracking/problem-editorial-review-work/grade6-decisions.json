@@ -1,0 +1,6357 @@
+{
+  "items": [
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-A-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-A-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-A-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-A-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-A-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-A-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-A-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-A-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-A-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-A-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-B-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-B-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-B-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-B-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-B-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-B-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-B-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-B-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-B-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-B-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-C-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-C-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-C-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-C-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-C-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-C-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-C-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-C-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-C-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6circle.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6circle-C-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-A-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-A-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-A-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-A-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-A-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [
+        {
+          "category": "wording",
+          "note": "분수 몫을 허용하는 질문을 몇 병 분량인지 묻는 문장으로 교정했습니다.",
+          "resolved": true
+        },
+        {
+          "category": "answer",
+          "note": "기존 정확한 분수 병 수 정답과 질문의 의미를 일치시켰습니다.",
+          "resolved": true
+        },
+        {
+          "category": "hint_solution",
+          "note": "풀이의 단위를 병에서 병 분량으로 교정했습니다.",
+          "resolved": true
+        }
+      ],
+      "note": "허용 p=2..7의 6개 변형을 다시 검수했습니다. 정확한 분수 병 수 정답은 유지하고 질문과 풀이 단위를 모두 병 분량으로 교정했으며 관련 finding을 해결했습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-A-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-A-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-A-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-A-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-A-10",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-B-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-B-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-B-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-B-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-B-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-B-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-B-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-B-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-B-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-B-10",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-C-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-C-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-C-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-C-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-C-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-C-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-C-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-C-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-C-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6decimaldiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6decimaldiv-C-10",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-A-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-A-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-A-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-A-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-A-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-A-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-A-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-A-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-A-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-A-10",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-B-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-B-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-B-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-B-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-B-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-B-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-B-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-B-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-B-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-B-10",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-C-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-C-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-C-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-C-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-C-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-C-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-C-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-C-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-C-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondecimal.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..9 (5개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondecimal-C-10",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-A-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-A-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-A-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-A-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-A-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-A-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-A-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-A-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-A-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-A-10",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-B-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-B-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-B-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-B-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-B-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-B-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-B-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-B-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-B-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-B-10",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-C-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-C-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-C-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-C-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-C-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-C-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-C-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-C-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-C-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6fractiondiv.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6fractiondiv-C-10",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-A-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-A-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-A-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-A-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-A-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-A-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-A-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-A-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-A-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-A-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-B-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-B-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-B-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-B-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-B-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-B-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-B-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-B-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-B-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-B-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-C-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-C-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-C-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-C-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-C-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-C-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-C-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-C-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-C-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6prismpyramid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6prismpyramid-C-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-A-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-A-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-A-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-A-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-A-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-A-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-A-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-A-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-A-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-A-10",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-B-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-B-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-B-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-B-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-B-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-B-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-B-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-B-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-B-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-B-10",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-C-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-C-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-C-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-C-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-C-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-C-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-C-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-C-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=6..9 (4개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-C-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6proportion.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6proportion-C-10",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [
+        {
+          "category": "curriculum",
+          "note": "계산이 아닌 비의 항과 기준량 식별 활동으로 taskActions를 교정했습니다.",
+          "resolved": true
+        },
+        {
+          "category": "hint_solution",
+          "note": "질문의 앞 항·뒤 항·비교하는 양·기준량에 직접 대응하는 힌트로 교정했습니다.",
+          "resolved": true
+        }
+      ],
+      "note": "허용 숫자 변형을 다시 검수했습니다. 계산 활동으로 잘못 분류된 비의 항·비교하는 양·기준량 식별을 recognize/interpret로 교정하고 질문별 힌트 finding을 해결했습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-A-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [
+        {
+          "category": "curriculum",
+          "note": "계산이 아닌 비의 항과 기준량 식별 활동으로 taskActions를 교정했습니다.",
+          "resolved": true
+        },
+        {
+          "category": "hint_solution",
+          "note": "질문의 앞 항·뒤 항·비교하는 양·기준량에 직접 대응하는 힌트로 교정했습니다.",
+          "resolved": true
+        }
+      ],
+      "note": "허용 숫자 변형을 다시 검수했습니다. 계산 활동으로 잘못 분류된 비의 항·비교하는 양·기준량 식별을 recognize/interpret로 교정하고 질문별 힌트 finding을 해결했습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-A-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-A-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-A-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-A-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-A-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-A-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-A-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-A-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratio-A-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [
+        {
+          "category": "curriculum",
+          "note": "계산이 아닌 비의 항과 기준량 식별 활동으로 taskActions를 교정했습니다.",
+          "resolved": true
+        },
+        {
+          "category": "hint_solution",
+          "note": "질문의 앞 항·뒤 항·비교하는 양·기준량에 직접 대응하는 힌트로 교정했습니다.",
+          "resolved": true
+        }
+      ],
+      "note": "허용 숫자 변형을 다시 검수했습니다. 계산 활동으로 잘못 분류된 비의 항·비교하는 양·기준량 식별을 recognize/interpret로 교정하고 질문별 힌트 finding을 해결했습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-B-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [
+        {
+          "category": "curriculum",
+          "note": "계산이 아닌 비의 항과 기준량 식별 활동으로 taskActions를 교정했습니다.",
+          "resolved": true
+        },
+        {
+          "category": "hint_solution",
+          "note": "질문의 앞 항·뒤 항·비교하는 양·기준량에 직접 대응하는 힌트로 교정했습니다.",
+          "resolved": true
+        }
+      ],
+      "note": "허용 숫자 변형을 다시 검수했습니다. 계산 활동으로 잘못 분류된 비의 항·비교하는 양·기준량 식별을 recognize/interpret로 교정하고 질문별 힌트 finding을 해결했습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-B-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-B-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-B-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-B-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-B-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-B-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-B-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-B-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratio-B-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [
+        {
+          "category": "curriculum",
+          "note": "계산이 아닌 비의 항과 기준량 식별 활동으로 taskActions를 교정했습니다.",
+          "resolved": true
+        },
+        {
+          "category": "hint_solution",
+          "note": "질문의 앞 항·뒤 항·비교하는 양·기준량에 직접 대응하는 힌트로 교정했습니다.",
+          "resolved": true
+        }
+      ],
+      "note": "허용 숫자 변형을 다시 검수했습니다. 계산 활동으로 잘못 분류된 비의 항·비교하는 양·기준량 식별을 recognize/interpret로 교정하고 질문별 힌트 finding을 해결했습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-C-01",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [
+        {
+          "category": "curriculum",
+          "note": "계산이 아닌 비의 항과 기준량 식별 활동으로 taskActions를 교정했습니다.",
+          "resolved": true
+        },
+        {
+          "category": "hint_solution",
+          "note": "질문의 앞 항·뒤 항·비교하는 양·기준량에 직접 대응하는 힌트로 교정했습니다.",
+          "resolved": true
+        }
+      ],
+      "note": "허용 숫자 변형을 다시 검수했습니다. 계산 활동으로 잘못 분류된 비의 항·비교하는 양·기준량 식별을 recognize/interpret로 교정하고 질문별 힌트 finding을 해결했습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-C-02",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-C-03",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-C-04",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-C-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-C-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-C-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-C-08",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6ratio-C-09",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratio.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratio-C-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-A-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-A-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-A-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-A-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-A-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-A-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-A-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-A-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-A-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-A-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-B-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-B-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-B-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-B-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-B-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-B-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-B-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-B-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-B-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-B-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-C-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-C-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-C-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-C-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-C-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-C-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-C-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-C-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-C-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6ratiograph.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6ratiograph-C-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-A-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-A-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-A-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-A-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-A-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-A-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-A-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-A-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-A-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-A-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-B-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-B-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-B-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-B-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-B-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-B-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-B-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-B-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-B-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-B-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-C-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-C-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-C-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-C-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-C-05",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-C-06",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": null,
+        "mobile": null,
+        "preAnswer": null,
+        "revealed": null,
+        "tablet": null
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수하고 문항별 source taskActions를 확인했습니다. 명시된 해결 finding 외 미해결 결함이 없습니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-C-07",
+      "status": "pass",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-C-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-C-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6roundsolid.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6roundsolid-C-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-A-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-A-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-A-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-A-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-A-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-A-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-A-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-A-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-A-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-A-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-B-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-B-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-B-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-B-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-B-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-B-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-B-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-B-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-B-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-B-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-C-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-C-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-C-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-C-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-C-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-C-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-C-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-C-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-C-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6spatial.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6spatial-C-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-A-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-A-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-A-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-A-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-A-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-A-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-A-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-A-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-A-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-A-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-B-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-B-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-B-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-B-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-B-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-B-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-B-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-B-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-B-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-B-10",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-C-01",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-C-02",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-C-03",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-C-04",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-C-05",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-C-06",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-C-07",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-C-08",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-C-09",
+      "status": "blocked",
+      "variantAudit": true
+    },
+    {
+      "editorialRead": true,
+      "evidence": {
+        "artifacts": [
+          "public/data/templates/g6volume.json",
+          "src/lib/grade6-study.test.ts"
+        ],
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false
+      },
+      "findings": [],
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "reviewId": "6:template:tmpl-g6volume-C-10",
+      "status": "blocked",
+      "variantAudit": true
+    }
+  ],
+  "schemaVersion": 1
+}
