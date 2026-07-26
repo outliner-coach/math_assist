@@ -1196,6 +1196,269 @@ function CylinderNetVisual({ visual }: {
   )
 }
 
+type HeightGrid = number[][]
+
+export interface CubeViews {
+  totalCubes: number
+  topOccupied: boolean[][]
+  frontHeights: number[]
+  sideHeights: number[]
+}
+
+function normalizeHeightGrid(source: HeightGrid): HeightGrid {
+  const rowCount = Math.max(1, Math.min(3, source.length || 1))
+  const columnCount = Math.max(
+    1,
+    Math.min(3, ...source.slice(0, rowCount).map((row) => row.length || 1))
+  )
+  return Array.from({ length: rowCount }, (_, rowIndex) => (
+    Array.from({ length: columnCount }, (_, columnIndex) => {
+      const value = source[rowIndex]?.[columnIndex]
+      return Number.isFinite(value)
+        ? Math.max(0, Math.min(6, Math.round(value)))
+        : 0
+    })
+  ))
+}
+
+export function deriveCubeViews(source: HeightGrid): CubeViews {
+  const heights = normalizeHeightGrid(source)
+  const columnCount = heights[0].length
+  const totalCubes = heights.flat().reduce((sum, height) => sum + height, 0)
+  const topOccupied = heights.map((row) => row.map((height) => height > 0))
+  const frontHeights = Array.from({ length: columnCount }, (_, columnIndex) => (
+    Math.max(...heights.map((row) => row[columnIndex]))
+  ))
+  const sideHeights = heights.map((row) => Math.max(...row))
+  return { totalCubes, topOccupied, frontHeights, sideHeights }
+}
+
+export interface CubeLayoutItem {
+  x: number
+  y: number
+  z: number
+  top: Point[]
+  left: Point[]
+  right: Point[]
+}
+
+export interface CubeStackLayout {
+  heights: HeightGrid
+  cubes: CubeLayoutItem[]
+}
+
+export function buildCubeStackLayout(source: HeightGrid): CubeStackLayout {
+  const heights = normalizeHeightGrid(source)
+  const halfWidth = 22
+  const halfHeight = 10
+  const vertical = 18
+  const cubes: CubeLayoutItem[] = []
+
+  heights.forEach((row, y) => {
+    row.forEach((height, x) => {
+      for (let z = 0; z < height; z += 1) {
+        const centerX = 160 + (x - y) * 24
+        const topY = 145 + (x + y) * 10 - (z + 1) * vertical
+        const top = [
+          { x: centerX, y: topY },
+          { x: centerX + halfWidth, y: topY + halfHeight },
+          { x: centerX, y: topY + halfHeight * 2 },
+          { x: centerX - halfWidth, y: topY + halfHeight },
+        ]
+        const left = [
+          top[3],
+          top[2],
+          { x: top[2].x, y: top[2].y + vertical },
+          { x: top[3].x, y: top[3].y + vertical },
+        ]
+        const right = [
+          top[1],
+          top[2],
+          { x: top[2].x, y: top[2].y + vertical },
+          { x: top[1].x, y: top[1].y + vertical },
+        ]
+        cubes.push({ x, y, z, top, left, right })
+      }
+    })
+  })
+  cubes.sort((left, right) => (
+    left.x + left.y - (right.x + right.y) ||
+    left.z - right.z ||
+    left.y - right.y
+  ))
+  return { heights, cubes }
+}
+
+function CubeStackModel({ heights }: { heights: HeightGrid }) {
+  const layout = buildCubeStackLayout(heights)
+  return (
+    <svg
+      viewBox="0 0 320 220"
+      className="mx-auto w-full max-w-md"
+      role="img"
+      aria-label="쌓기나무 입체도형"
+    >
+      {layout.cubes.map((cube, index) => (
+        <g key={`${cube.x}-${cube.y}-${cube.z}`} data-stack-cube={index}>
+          <polygon
+            points={pointString(cube.left)}
+            fill="#93c5fd"
+            stroke="#2563eb"
+            strokeWidth="1.8"
+            strokeLinejoin="round"
+          />
+          <polygon
+            points={pointString(cube.right)}
+            fill="#60a5fa"
+            stroke="#2563eb"
+            strokeWidth="1.8"
+            strokeLinejoin="round"
+          />
+          <polygon
+            points={pointString(cube.top)}
+            fill="#dbeafe"
+            stroke="#2563eb"
+            strokeWidth="1.8"
+            strokeLinejoin="round"
+          />
+        </g>
+      ))}
+    </svg>
+  )
+}
+
+function TopProjection({
+  occupied,
+  originX,
+  originY,
+  cellSize,
+}: {
+  occupied: boolean[][]
+  originX: number
+  originY: number
+  cellSize: number
+}) {
+  return <>{occupied.flatMap((row, rowIndex) => row.map((isOccupied, columnIndex) => (
+    <rect
+      key={`${rowIndex}-${columnIndex}`}
+      {...(isOccupied ? { 'data-top-occupied': `${rowIndex}-${columnIndex}` } : {})}
+      x={originX + columnIndex * cellSize}
+      y={originY + rowIndex * cellSize}
+      width={cellSize}
+      height={cellSize}
+      fill={isOccupied ? '#bfdbfe' : '#f8fafc'}
+      stroke="#64748b"
+      strokeWidth="1.5"
+    />
+  )))}</>
+}
+
+function ElevationProjection({
+  heights,
+  originX,
+  baseY,
+  cellSize,
+  dataAttribute,
+}: {
+  heights: number[]
+  originX: number
+  baseY: number
+  cellSize: number
+  dataAttribute: 'front' | 'side'
+}) {
+  return <>{heights.flatMap((height, columnIndex) => (
+    Array.from({ length: height }, (_, level) => (
+      <rect
+        key={`${columnIndex}-${level}`}
+        {...(dataAttribute === 'front'
+          ? { 'data-front-cell': `${columnIndex}-${level}` }
+          : { 'data-side-cell': `${columnIndex}-${level}` })}
+        x={originX + columnIndex * cellSize}
+        y={baseY - (level + 1) * cellSize}
+        width={cellSize}
+        height={cellSize}
+        fill={dataAttribute === 'front' ? '#bae6fd' : '#ddd6fe'}
+        stroke={dataAttribute === 'front' ? '#0284c7' : '#7c3aed'}
+        strokeWidth="1.5"
+      />
+    ))
+  ))}</>
+}
+
+function CubeViewsVisual({
+  heights,
+  mode,
+}: {
+  heights: HeightGrid
+  mode: Exclude<Extract<GeometryVisual, { type: 'cube-stack' }>['mode'], 'stack'>
+}) {
+  const views = deriveCubeViews(heights)
+  const panels = mode === 'all-views'
+    ? [
+        { type: 'top' as const, x: 10, label: '위' },
+        { type: 'front' as const, x: 130, label: '앞' },
+        { type: 'side' as const, x: 250, label: '옆' },
+      ]
+    : [{ type: mode, x: 130, label: mode === 'top' ? '위' : mode === 'front' ? '앞' : '옆' }]
+
+  return (
+    <svg
+      viewBox="0 0 360 180"
+      className="mx-auto w-full max-w-lg"
+      role="img"
+      aria-label={mode === 'all-views' ? '위·앞·옆에서 본 모양' : `${panels[0].label}에서 본 모양`}
+    >
+      {panels.map((panel) => {
+        const cellSize = 22
+        const width = panel.type === 'top'
+          ? views.topOccupied[0].length * cellSize
+          : (panel.type === 'front' ? views.frontHeights.length : views.sideHeights.length) * cellSize
+        const originX = panel.x + (100 - width) / 2
+        return (
+          <g key={panel.type}>
+            <text x={panel.x + 50} y="22" textAnchor="middle" fontSize="14" fontWeight="700" fill="#334155">
+              {panel.label}
+            </text>
+            {panel.type === 'top' && (
+              <TopProjection
+                occupied={views.topOccupied}
+                originX={originX}
+                originY={48}
+                cellSize={cellSize}
+              />
+            )}
+            {panel.type === 'front' && (
+              <ElevationProjection
+                heights={views.frontHeights}
+                originX={originX}
+                baseY={150}
+                cellSize={cellSize}
+                dataAttribute="front"
+              />
+            )}
+            {panel.type === 'side' && (
+              <ElevationProjection
+                heights={views.sideHeights}
+                originX={originX}
+                baseY={150}
+                cellSize={cellSize}
+                dataAttribute="side"
+              />
+            )}
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
+function CubeStackVisual({ visual }: {
+  visual: Extract<GeometryVisual, { type: 'cube-stack' }>
+}) {
+  if (visual.mode === 'stack') return <CubeStackModel heights={visual.heights} />
+  return <CubeViewsVisual heights={visual.heights} mode={visual.mode} />
+}
+
 export default function GeometryProblemVisual({ visual, showAnswer = false }: GeometryProblemVisualProps) {
   return (
     <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-3" data-testid={`geometry-visual-${visual.type}`}>
@@ -1208,6 +1471,7 @@ export default function GeometryProblemVisual({ visual, showAnswer = false }: Ge
       {visual.type === 'prism-net' && <PrismNetVisual visual={visual} />}
       {visual.type === 'round-solid' && <RoundSolidVisual visual={visual} />}
       {visual.type === 'cylinder-net' && <CylinderNetVisual visual={visual} />}
+      {visual.type === 'cube-stack' && <CubeStackVisual visual={visual} />}
     </div>
   )
 }

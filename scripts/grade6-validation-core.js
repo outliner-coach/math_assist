@@ -142,6 +142,50 @@ function validateGrade6Release({ units, concepts, ledger, templatesByConcept }) 
           fail(`${template.id}: cylinder-net standard requires a cylinder-net visual`)
         }
       }
+      if (concept.id === 'g6spatial-001') {
+        const visual = template.visual_template
+        if (visualContainsAnswerOnlyKey(visual)) {
+          fail(`${template.id}: cube-stack visual contains an answer-only key`)
+        }
+        if (
+          !visual ||
+          visual.type !== 'cube-stack' ||
+          visual.semantics !== 'quantitative'
+        ) {
+          fail(`${template.id}: spatial problem requires a quantitative cube-stack visual`)
+        } else {
+          const heights = visual.heights
+          const cells = Array.isArray(heights) ? heights.flat() : []
+          const rectangular = (
+            Array.isArray(heights) &&
+            [2, 3].includes(heights.length) &&
+            heights.every((row) => (
+              Array.isArray(row) &&
+              [2, 3].includes(row.length) &&
+              row.length === heights[0].length
+            ))
+          )
+          if (
+            !rectangular ||
+            cells.filter((cell) => cell === '{{p}}').length !== 1 ||
+            cells.some((cell) => (
+              cell !== '{{p}}' &&
+              (!Number.isInteger(cell) || cell < 0 || cell > 2)
+            ))
+          ) {
+            fail(`${template.id}: cube-stack heights must be a 2-3 by 2-3 grid derived from p`)
+          }
+          if (!['stack', 'top', 'front', 'side', 'all-views'].includes(visual.mode)) {
+            fail(`${template.id}: unsupported cube-stack mode ${visual.mode}`)
+          }
+          if (
+            template.blueprint?.primaryStandard === '[6수03-10]' &&
+            !['top', 'front', 'side', 'all-views'].includes(visual.mode)
+          ) {
+            fail(`${template.id}: spatial-view standard requires a projection mode`)
+          }
+        }
+      }
 
       const primaryStandard = template.blueprint?.primaryStandard
       const primaryRow = releasedRowsByStandard.get(primaryStandard)

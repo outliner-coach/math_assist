@@ -8,6 +8,7 @@ const GRADE6_CONTENT_RELEASE_IDS: Readonly<Record<string, string>> = {
   'g6proportion-001': 'grade6-proportion-v1',
   'g6prismpyramid-001': 'grade6-prism-pyramid-v1',
   'g6roundsolid-001': 'grade6-round-solid-v1',
+  'g6spatial-001': 'grade6-spatial-reasoning-v1',
 }
 
 export function resolveContentReleaseId(grade: PracticeGrade, conceptId: string): string {

@@ -234,6 +234,12 @@ export type GeometryVisual =
       circleCount?: number
       rectangleCount?: number
     }
+  | {
+      type: 'cube-stack'
+      semantics: 'quantitative'
+      heights: number[][]
+      mode: 'stack' | 'top' | 'front' | 'side' | 'all-views'
+    }
 
 export type VisualTemplateValue =
   | string
@@ -367,4 +373,5 @@ export type VisualAid =
     }
   | Extract<GeometryVisual, {
       type: 'poly-solid' | 'prism-net' | 'round-solid' | 'cylinder-net'
+        | 'cube-stack'
     }>

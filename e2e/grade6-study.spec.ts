@@ -179,6 +179,56 @@ test('곡면 입체와 원기둥 전개도를 실제 반복 수와 조각 수로
   await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
 })
 
+test('쌓기나무와 위·앞·옆 모양을 하나의 높이 격자에서 정량 렌더링한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/practice/g6spatial-001?set=A&count=10`)
+  await expect(page.getByTestId('practice-session')).toBeVisible()
+  const visualIndexes = await page.evaluate((key) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return {
+      stack: session.problems.findIndex((problem: {
+        visual?: { type?: string; mode?: string }
+      }) => problem.visual?.type === 'cube-stack' && problem.visual.mode === 'stack'),
+      views: session.problems.findIndex((problem: {
+        visual?: { type?: string; mode?: string }
+      }) => problem.visual?.type === 'cube-stack' && problem.visual.mode === 'all-views'),
+    }
+  }, GRADE6_KEYS[0])
+  expect(visualIndexes.stack).toBeGreaterThanOrEqual(0)
+  expect(visualIndexes.views).toBeGreaterThanOrEqual(0)
+
+  await page.getByTestId(`progress-step-${visualIndexes.stack + 1}`).click()
+  const stack = page.getByTestId('geometry-visual-cube-stack')
+  await expect(stack).toBeVisible()
+  const stackModel = await page.evaluate(({ key, itemIndex }) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return session.problems[itemIndex].visual
+  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.stack })
+  const totalCubes = stackModel.heights.flat().reduce(
+    (sum: number, height: number) => sum + height,
+    0,
+  )
+  await expect(stack.locator('[data-stack-cube]')).toHaveCount(totalCubes)
+
+  await page.getByTestId(`progress-step-${visualIndexes.views + 1}`).click()
+  const views = page.getByTestId('geometry-visual-cube-stack')
+  await expect(views).toBeVisible()
+  const viewModel = await page.evaluate(({ key, itemIndex }) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return session.problems[itemIndex].visual
+  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.views })
+  const topCount = viewModel.heights.flat().filter((height: number) => height > 0).length
+  const frontCount = viewModel.heights[0].map((_: number, columnIndex: number) => (
+    Math.max(...viewModel.heights.map((row: number[]) => row[columnIndex]))
+  )).reduce((sum: number, height: number) => sum + height, 0)
+  const sideCount = viewModel.heights.map((row: number[]) => Math.max(...row))
+    .reduce((sum: number, height: number) => sum + height, 0)
+  await expect(views.locator('[data-top-occupied]')).toHaveCount(topCount)
+  await expect(views.locator('[data-front-cell]')).toHaveCount(frontCount)
+  await expect(views.locator('[data-side-cell]')).toHaveCount(sideCount)
+  await expect(page.locator('[data-answer]')).toHaveCount(0)
+  await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
+})
+
 test('손상된 6학년 세션은 원문을 보존하고 명시적 초기화 뒤에만 새로 저장한다', async ({ page }) => {
   await page.evaluate(({ grade5Key, grade6Key }) => {
     localStorage.setItem(grade5Key, '{"keep":"grade5"}')
@@ -257,6 +307,12 @@ for (const releasedConcept of [
     title: '원기둥·원뿔·구와 전개도',
     conceptId: 'g6roundsolid-001',
     releaseId: 'grade6-round-solid-v1',
+  },
+  {
+    unitId: 'unit-6-1-spatial-reasoning',
+    title: '쌓기나무와 위·앞·옆에서 본 모양',
+    conceptId: 'g6spatial-001',
+    releaseId: 'grade6-spatial-reasoning-v1',
   },
 ] as const) {
   test(`${releasedConcept.title} 단원을 찾아 5문제를 완주하고 단원별 콘텐츠 버전을 기록한다`, async ({ page }) => {

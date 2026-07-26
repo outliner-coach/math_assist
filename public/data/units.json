@@ -136,6 +136,14 @@
     "description": "각기둥과 각뿔의 구성 요소를 체계적으로 세고 각기둥의 전개도를 완성합니다."
   },
   {
+    "id": "unit-6-1-spatial-reasoning",
+    "grade": 6,
+    "semester": "6-1",
+    "order": 6,
+    "title": "쌓기나무와 공간 감각",
+    "description": "쌓기나무의 전체 개수를 세고 위·앞·옆에서 본 모양을 연결하여 추론합니다."
+  },
+  {
     "id": "unit-6-2-proportion",
     "grade": 6,
     "semester": "6-2",

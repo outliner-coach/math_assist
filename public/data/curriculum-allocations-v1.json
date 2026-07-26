@@ -1483,11 +1483,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 28,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "직육면체 구성 이해 뒤 쌓기나무 개수",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6spatial-001"
+      ],
+      "allocationRationale": "6학년 쌓기나무 문제은행에서 하나의 높이 격자로 전체 개수, 아래층, 기둥 추가와 가려진 쌓기나무 오류 분석을 제공합니다.",
+      "reviewedBy": "grade6-spatial-reasoning-release-2026-07-26"
     },
     {
       "standardCode": "[6수03-10]",
@@ -1501,11 +1503,13 @@
       ],
       "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W",
       "sourcePage": 28,
-      "reviewStatus": "curriculum-reviewed",
-      "coverageStatus": "planned",
-      "existingContentRefs": [],
-      "allocationRationale": "쌓기나무 개수 뒤 정투영 표현 추론",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade6:g6spatial-001"
+      ],
+      "allocationRationale": "6학년 쌓기나무 문제은행에서 같은 높이 격자로 위·앞·옆 투영을 만들고 정사각형 수와 잘못 그린 모양을 분석합니다.",
+      "reviewedBy": "grade6-spatial-reasoning-release-2026-07-26"
     },
     {
       "standardCode": "[6수03-11]",

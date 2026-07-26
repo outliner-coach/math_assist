@@ -11,6 +11,8 @@ import GeometryProblemVisual, {
   buildPrismNetLayout,
   buildRoundSolidLayout,
   buildCylinderNetLayout,
+  buildCubeStackLayout,
+  deriveCubeViews,
   isValidCubeNet,
 } from './GeometryProblemVisual'
 
@@ -516,6 +518,57 @@ describe('GeometryProblemVisual', () => {
     expect(extra.match(/data-cylinder-net-circle=/g)).toHaveLength(3)
     expect(extra).toContain('원기둥 전개도')
     expect(extra).not.toContain('1개 남음')
+  })
+
+  it('derives cube totals and three views from one height grid', () => {
+    for (let p = 2; p <= 5; p += 1) {
+      const heights = [[p, 1], [2, 0]]
+      const views = deriveCubeViews(heights)
+      const layout = buildCubeStackLayout(heights)
+
+      expect(views.totalCubes).toBe(p + 3)
+      expect(views.topOccupied).toEqual([[true, true], [true, false]])
+      expect(views.frontHeights).toEqual([p, 1])
+      expect(views.sideHeights).toEqual([p, 2])
+      expect(layout.cubes).toHaveLength(p + 3)
+      for (const cube of layout.cubes) {
+        for (const point of [...cube.top, ...cube.left, ...cube.right]) {
+          expect(point.x).toBeGreaterThanOrEqual(20)
+          expect(point.x).toBeLessThanOrEqual(300)
+          expect(point.y).toBeGreaterThanOrEqual(15)
+          expect(point.y).toBeLessThanOrEqual(210)
+        }
+      }
+    }
+  })
+
+  it('renders stack, top, front, and side evidence without an answer label', () => {
+    const heights = [[4, 1], [2, 0]]
+    const stack = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cube-stack',
+        semantics: 'quantitative',
+        heights,
+        mode: 'stack',
+      },
+    }))
+    const views = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cube-stack',
+        semantics: 'quantitative',
+        heights,
+        mode: 'all-views',
+      },
+    }))
+
+    expect(stack.match(/data-stack-cube=/g)).toHaveLength(7)
+    expect(stack).toContain('쌓기나무 입체도형')
+    expect(stack).not.toContain('7개')
+    expect(views.match(/data-top-occupied=/g)).toHaveLength(3)
+    expect(views.match(/data-front-cell=/g)).toHaveLength(5)
+    expect(views.match(/data-side-cell=/g)).toHaveLength(6)
+    expect(views).toContain('위·앞·옆에서 본 모양')
+    expect(views).not.toContain('전체 7')
   })
 
   it('keeps the reflected point hidden until the solution is shown', () => {

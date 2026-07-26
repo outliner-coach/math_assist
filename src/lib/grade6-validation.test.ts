@@ -17,6 +17,7 @@ const templatesByConcept = {
   'g6proportion-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6proportion.json'), 'utf8')),
   'g6prismpyramid-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6prismpyramid.json'), 'utf8')),
   'g6roundsolid-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6roundsolid.json'), 'utf8')),
+  'g6spatial-001': JSON.parse(readFileSync(join(root, 'public/data/templates/g6spatial.json'), 'utf8')),
 }
 
 describe('Grade 6 release validation', () => {
@@ -25,9 +26,9 @@ describe('Grade 6 release validation', () => {
 
     expect(result.errors).toEqual([])
     expect(result.summary).toMatchObject({
-      unitCount: 7,
-      conceptCount: 7,
-      templateCount: 210,
+      unitCount: 8,
+      conceptCount: 8,
+      templateCount: 240,
     })
   })
 
@@ -79,6 +80,30 @@ describe('Grade 6 release validation', () => {
     )
     expect(result.errors).toContain(
       'tmpl-g6roundsolid-A-02: round-solid visual contains an answer-only key',
+    )
+  })
+
+  it('rejects cube-stack visuals that decouple the height model or expose an answer field', () => {
+    const invalidTemplates = structuredClone(templatesByConcept)
+    invalidTemplates['g6spatial-001'][0].visual_template.heights = [[7, 1], [2, 0]]
+    invalidTemplates['g6spatial-001'][1].visual_template.result = '{{p + 3}}'
+    invalidTemplates['g6spatial-001'][2].visual_template.mode = 'perspective'
+
+    const result = validateGrade6Release({
+      units,
+      concepts,
+      ledger,
+      templatesByConcept: invalidTemplates,
+    })
+
+    expect(result.errors).toContain(
+      'tmpl-g6spatial-A-01: cube-stack heights must be a 2-3 by 2-3 grid derived from p',
+    )
+    expect(result.errors).toContain(
+      'tmpl-g6spatial-A-02: cube-stack visual contains an answer-only key',
+    )
+    expect(result.errors).toContain(
+      'tmpl-g6spatial-A-03: unsupported cube-stack mode perspective',
     )
   })
 })

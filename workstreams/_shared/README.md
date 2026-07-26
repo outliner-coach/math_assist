@@ -21,6 +21,17 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-26: Grade 6 cube-stack spatial-reasoning Study release (primary
+  workstreams 01, 02, 03, and 04) owns the narrow addition of a quantitative
+  `cube-stack` visual payload in `src/lib/types.ts`, its shared problem/concept
+  renderer, Grade 6 unit/concept/template data, release identity, generator,
+  curriculum rows, and focused renderer, generation, allocation, route,
+  storage, and browser tests. `g6spatial-001` must derive total cubes, occupied
+  top cells, front and side silhouettes, lower-layer cubes, and every error
+  gap from the same nonnegative height grid used by its prompt and solution.
+  The renderer must not serialize a derived total or answer label into the
+  unchecked DOM or accessibility name.
+
 - 2026-07-26: Grade 6 round-solids Study release (primary workstreams 01,
   02, 03, and 04) owns the narrow addition of quantitative `round-solid`
   and `cylinder-net` visual payloads in `src/lib/types.ts`, their shared

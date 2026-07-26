@@ -1,0 +1,1726 @@
+[
+  {
+    "id": "tmpl-g6spatial-A-01",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-stack-total-cubes",
+    "blueprint": {
+      "problemFamily": "a-stack-total-cubes",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "[6수03-09]",
+      "connectedStandards": [
+        "[6수03-10]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "그림의 각 자리에 쌓인 나무 수를 층별로 모두 세면 쌓기나무는 몇 개인가요?",
+    "solver_rule": "p + 3",
+    "solution_steps_template": [
+      "각 자리의 기둥 높이는 그림의 쌓기나무 수와 같습니다.",
+      "모든 기둥을 더하면 {{p + 3}}개입니다."
+    ],
+    "hint_steps_template": [
+      "각 자리의 높이를 따로 세고, 가려진 쌓기나무까지 빠짐없이 더해 보세요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "mode": "stack"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-A-02",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-top-view-occupied-cells",
+    "blueprint": {
+      "problemFamily": "a-top-view-occupied-cells",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "이 입체도형을 위에서 보았을 때 쌓기나무가 보이는 칸은 몇 칸인가요?",
+    "solver_rule": "3",
+    "solution_steps_template": [
+      "위에서 보면 높이에 관계없이 쌓기나무가 하나라도 있는 자리가 한 칸으로 보입니다.",
+      "빈 자리를 빼면 {{3}}칸입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "mode": "top"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-A-03",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-front-view-highest-column",
+    "blueprint": {
+      "problemFamily": "a-front-view-highest-column",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "앞에서 본 모양에서 가장 높은 세로줄의 칸 수는 몇 칸인가요?",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "앞에서 같은 가로 위치에 겹치는 기둥 중 가장 높은 높이를 봅니다.",
+      "가장 높은 세로줄은 {{p}}칸입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "mode": "front"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-A-04",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "a-side-view-highest-column",
+    "blueprint": {
+      "problemFamily": "a-side-view-highest-column",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "옆에서 본 모양에서 가장 높은 세로줄의 칸 수는 몇 칸인가요?",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "옆에서 같은 깊이 위치에 겹치는 기둥 중 가장 높은 높이를 봅니다.",
+      "가장 높은 세로줄은 {{p}}칸입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "mode": "side"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-A-05",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-cubes-below-top-layer",
+    "blueprint": {
+      "problemFamily": "a-cubes-below-top-layer",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-09]",
+      "connectedStandards": [
+        "[6수03-10]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "각 기둥의 맨 위 쌓기나무를 하나씩 빼면 남는 쌓기나무는 몇 개인가요?",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "전체 쌓기나무는 {{p + 3}}개이고, 쌓기나무가 있는 자리는 {{3}}곳입니다.",
+      "각 자리에서 하나씩 빼면 {{p + 3}}-{{3}}={{p}}개가 남습니다."
+    ],
+    "hint_steps_template": [
+      "각 자리의 높이를 따로 세고, 가려진 쌓기나무까지 빠짐없이 더해 보세요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "mode": "stack"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-A-06",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-front-view-square-total",
+    "blueprint": {
+      "problemFamily": "a-front-view-square-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "앞에서 본 모양을 단위 정사각형으로 채우려면 정사각형은 모두 몇 개 필요한가요?",
+    "solver_rule": "p + 1",
+    "solution_steps_template": [
+      "앞에서 같은 가로 위치의 기둥은 가장 높은 높이만 남깁니다.",
+      "앞 모양의 세로줄 높이를 더하면 {{p + 1}}개입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "mode": "front"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-A-07",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-side-view-square-total",
+    "blueprint": {
+      "problemFamily": "a-side-view-square-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "옆에서 본 모양을 단위 정사각형으로 채우려면 정사각형은 모두 몇 개 필요한가요?",
+    "solver_rule": "p + 2",
+    "solution_steps_template": [
+      "옆에서 같은 깊이 위치의 기둥은 가장 높은 높이만 남깁니다.",
+      "옆 모양의 세로줄 높이를 더하면 {{p + 2}}개입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "mode": "side"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-A-08",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "a-raise-every-occupied-column",
+    "blueprint": {
+      "problemFamily": "a-raise-every-occupied-column",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-09]",
+      "connectedStandards": [
+        "[6수03-10]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "쌓기나무가 있는 모든 자리의 맨 위에 쌓기나무를 하나씩 더 놓았습니다. 새 입체도형의 쌓기나무는 모두 몇 개인가요?",
+    "solver_rule": "p + 6",
+    "solution_steps_template": [
+      "처음에는 {{p + 3}}개이고, 위에서 보이는 {{3}}개 자리에 하나씩 더 놓습니다.",
+      "따라서 {{p + 3}}+{{3}}={{p + 6}}개입니다."
+    ],
+    "hint_steps_template": [
+      "각 자리의 높이를 따로 세고, 가려진 쌓기나무까지 빠짐없이 더해 보세요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "mode": "stack"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-A-09",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "a-projection-used-as-total-error",
+    "blueprint": {
+      "problemFamily": "a-projection-used-as-total-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-09]",
+      "connectedStandards": [
+        "[6수03-10]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "한 학생이 그림과 같은 입체도형 {{p}}개에서 각각 앞에서 본 정사각형 수를 전체 쌓기나무 수로 잘못 답했습니다. 실제 전체와 잘못 센 수의 차를 모두 합하면 몇 개인가요?",
+    "solver_rule": "2 * p",
+    "solution_steps_template": [
+      "앞에서 보이는 정사각형은 {{p + 1}}개이지만, 뒤에 가려진 쌓기나무도 있습니다.",
+      "입체도형 하나에서 실제 전체 {{p + 3}}개와의 차는 {{2}}개입니다.",
+      "같은 실수를 {{p}}번 반복했으므로 차의 합은 {{2 * p}}개입니다."
+    ],
+    "hint_steps_template": [
+      "각 자리의 높이를 따로 세고, 가려진 쌓기나무까지 빠짐없이 더해 보세요.",
+      "친구가 센 대상이 전체 입체인지 한 방향의 그림인지 먼저 구별해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "mode": "all-views"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-A-10",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "a-top-view-empty-cell-error",
+    "blueprint": {
+      "problemFamily": "a-top-view-empty-cell-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "한 학생이 그림과 같은 입체도형을 {{p + 1}}번 관찰하면서 위에서 본 네 칸을 매번 모두 채워 그렸습니다. 실제 모양과 비교해 잘못 채운 칸 수를 모두 합하면 몇 칸인가요?",
+    "solver_rule": "p + 1",
+    "solution_steps_template": [
+      "위에서 본 전체 격자는 네 칸이지만 쌓기나무가 없는 빈자리가 있습니다.",
+      "실제로 보이는 칸은 {{3}}칸이므로 한 번에 잘못 채운 칸은 {{1}}칸입니다.",
+      "{{p + 1}}번 그렸으므로 잘못 채운 칸은 모두 {{p + 1}}칸입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "친구가 센 대상이 전체 입체인지 한 방향의 그림인지 먼저 구별해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "mode": "all-views"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-B-01",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-stack-total-cubes",
+    "blueprint": {
+      "problemFamily": "b-stack-total-cubes",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "[6수03-09]",
+      "connectedStandards": [
+        "[6수03-10]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "그림의 각 자리에 쌓인 나무 수를 층별로 모두 세면 쌓기나무는 몇 개인가요?",
+    "solver_rule": "p + 4",
+    "solution_steps_template": [
+      "각 자리의 기둥 높이는 그림의 쌓기나무 수와 같습니다.",
+      "모든 기둥을 더하면 {{p + 4}}개입니다."
+    ],
+    "hint_steps_template": [
+      "각 자리의 높이를 따로 세고, 가려진 쌓기나무까지 빠짐없이 더해 보세요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "mode": "stack"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-B-02",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-top-view-occupied-cells",
+    "blueprint": {
+      "problemFamily": "b-top-view-occupied-cells",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "이 입체도형을 위에서 보았을 때 쌓기나무가 보이는 칸은 몇 칸인가요?",
+    "solver_rule": "4",
+    "solution_steps_template": [
+      "위에서 보면 높이에 관계없이 쌓기나무가 하나라도 있는 자리가 한 칸으로 보입니다.",
+      "빈 자리를 빼면 {{4}}칸입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "mode": "top"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-B-03",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-front-view-highest-column",
+    "blueprint": {
+      "problemFamily": "b-front-view-highest-column",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "앞에서 본 모양에서 가장 높은 세로줄의 칸 수는 몇 칸인가요?",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "앞에서 같은 가로 위치에 겹치는 기둥 중 가장 높은 높이를 봅니다.",
+      "가장 높은 세로줄은 {{p}}칸입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "mode": "front"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-B-04",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "b-side-view-highest-column",
+    "blueprint": {
+      "problemFamily": "b-side-view-highest-column",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "옆에서 본 모양에서 가장 높은 세로줄의 칸 수는 몇 칸인가요?",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "옆에서 같은 깊이 위치에 겹치는 기둥 중 가장 높은 높이를 봅니다.",
+      "가장 높은 세로줄은 {{p}}칸입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "mode": "side"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-B-05",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-cubes-below-top-layer",
+    "blueprint": {
+      "problemFamily": "b-cubes-below-top-layer",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-09]",
+      "connectedStandards": [
+        "[6수03-10]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "각 기둥의 맨 위 쌓기나무를 하나씩 빼면 남는 쌓기나무는 몇 개인가요?",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "전체 쌓기나무는 {{p + 4}}개이고, 쌓기나무가 있는 자리는 {{4}}곳입니다.",
+      "각 자리에서 하나씩 빼면 {{p + 4}}-{{4}}={{p}}개가 남습니다."
+    ],
+    "hint_steps_template": [
+      "각 자리의 높이를 따로 세고, 가려진 쌓기나무까지 빠짐없이 더해 보세요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "mode": "stack"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-B-06",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-front-view-square-total",
+    "blueprint": {
+      "problemFamily": "b-front-view-square-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "앞에서 본 모양을 단위 정사각형으로 채우려면 정사각형은 모두 몇 개 필요한가요?",
+    "solver_rule": "p + 2",
+    "solution_steps_template": [
+      "앞에서 같은 가로 위치의 기둥은 가장 높은 높이만 남깁니다.",
+      "앞 모양의 세로줄 높이를 더하면 {{p + 2}}개입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "mode": "front"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-B-07",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-side-view-square-total",
+    "blueprint": {
+      "problemFamily": "b-side-view-square-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "옆에서 본 모양을 단위 정사각형으로 채우려면 정사각형은 모두 몇 개 필요한가요?",
+    "solver_rule": "p + 1",
+    "solution_steps_template": [
+      "옆에서 같은 깊이 위치의 기둥은 가장 높은 높이만 남깁니다.",
+      "옆 모양의 세로줄 높이를 더하면 {{p + 1}}개입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "mode": "side"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-B-08",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "b-raise-every-occupied-column",
+    "blueprint": {
+      "problemFamily": "b-raise-every-occupied-column",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-09]",
+      "connectedStandards": [
+        "[6수03-10]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "쌓기나무가 있는 모든 자리의 맨 위에 쌓기나무를 하나씩 더 놓았습니다. 새 입체도형의 쌓기나무는 모두 몇 개인가요?",
+    "solver_rule": "p + 8",
+    "solution_steps_template": [
+      "처음에는 {{p + 4}}개이고, 위에서 보이는 {{4}}개 자리에 하나씩 더 놓습니다.",
+      "따라서 {{p + 4}}+{{4}}={{p + 8}}개입니다."
+    ],
+    "hint_steps_template": [
+      "각 자리의 높이를 따로 세고, 가려진 쌓기나무까지 빠짐없이 더해 보세요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "mode": "stack"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-B-09",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "b-projection-used-as-total-error",
+    "blueprint": {
+      "problemFamily": "b-projection-used-as-total-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-09]",
+      "connectedStandards": [
+        "[6수03-10]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "한 학생이 그림과 같은 입체도형 {{p}}개에서 각각 앞에서 본 정사각형 수를 전체 쌓기나무 수로 잘못 답했습니다. 실제 전체와 잘못 센 수의 차를 모두 합하면 몇 개인가요?",
+    "solver_rule": "2 * p",
+    "solution_steps_template": [
+      "앞에서 보이는 정사각형은 {{p + 2}}개이지만, 뒤에 가려진 쌓기나무도 있습니다.",
+      "입체도형 하나에서 실제 전체 {{p + 4}}개와의 차는 {{2}}개입니다.",
+      "같은 실수를 {{p}}번 반복했으므로 차의 합은 {{2 * p}}개입니다."
+    ],
+    "hint_steps_template": [
+      "각 자리의 높이를 따로 세고, 가려진 쌓기나무까지 빠짐없이 더해 보세요.",
+      "친구가 센 대상이 전체 입체인지 한 방향의 그림인지 먼저 구별해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "mode": "all-views"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-B-10",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "b-top-view-empty-cell-error",
+    "blueprint": {
+      "problemFamily": "b-top-view-empty-cell-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "한 학생이 그림과 같은 입체도형을 {{p + 1}}번 관찰하면서 위에서 본 네 칸을 매번 모두 채워 그렸습니다. 실제 모양과 비교해 잘못 채운 칸 수를 모두 합하면 몇 칸인가요?",
+    "solver_rule": "p + 1",
+    "solution_steps_template": [
+      "위에서 본 전체 격자는 네 칸이지만 쌓기나무가 없는 빈자리가 있습니다.",
+      "실제로 보이는 칸은 {{4}}칸이므로 한 번에 잘못 채운 칸은 {{1}}칸입니다.",
+      "{{p + 1}}번 그렸으므로 잘못 채운 칸은 모두 {{p + 1}}칸입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "친구가 센 대상이 전체 입체인지 한 방향의 그림인지 먼저 구별해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "mode": "all-views"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-C-01",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-stack-total-cubes",
+    "blueprint": {
+      "problemFamily": "c-stack-total-cubes",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "[6수03-09]",
+      "connectedStandards": [
+        "[6수03-10]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "그림의 각 자리에 쌓인 나무 수를 층별로 모두 세면 쌓기나무는 몇 개인가요?",
+    "solver_rule": "p + 6",
+    "solution_steps_template": [
+      "각 자리의 기둥 높이는 그림의 쌓기나무 수와 같습니다.",
+      "모든 기둥을 더하면 {{p + 6}}개입니다."
+    ],
+    "hint_steps_template": [
+      "각 자리의 높이를 따로 세고, 가려진 쌓기나무까지 빠짐없이 더해 보세요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ]
+      ],
+      "mode": "stack"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-C-02",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-top-view-occupied-cells",
+    "blueprint": {
+      "problemFamily": "c-top-view-occupied-cells",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "이 입체도형을 위에서 보았을 때 쌓기나무가 보이는 칸은 몇 칸인가요?",
+    "solver_rule": "5",
+    "solution_steps_template": [
+      "위에서 보면 높이에 관계없이 쌓기나무가 하나라도 있는 자리가 한 칸으로 보입니다.",
+      "빈 자리를 빼면 {{5}}칸입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ]
+      ],
+      "mode": "top"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-C-03",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-front-view-highest-column",
+    "blueprint": {
+      "problemFamily": "c-front-view-highest-column",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "앞에서 본 모양에서 가장 높은 세로줄의 칸 수는 몇 칸인가요?",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "앞에서 같은 가로 위치에 겹치는 기둥 중 가장 높은 높이를 봅니다.",
+      "가장 높은 세로줄은 {{p}}칸입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ]
+      ],
+      "mode": "front"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-C-04",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "c-side-view-highest-column",
+    "blueprint": {
+      "problemFamily": "c-side-view-highest-column",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "옆에서 본 모양에서 가장 높은 세로줄의 칸 수는 몇 칸인가요?",
+    "solver_rule": "p",
+    "solution_steps_template": [
+      "옆에서 같은 깊이 위치에 겹치는 기둥 중 가장 높은 높이를 봅니다.",
+      "가장 높은 세로줄은 {{p}}칸입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ]
+      ],
+      "mode": "side"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-C-05",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-cubes-below-top-layer",
+    "blueprint": {
+      "problemFamily": "c-cubes-below-top-layer",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-09]",
+      "connectedStandards": [
+        "[6수03-10]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "각 기둥의 맨 위 쌓기나무를 하나씩 빼면 남는 쌓기나무는 몇 개인가요?",
+    "solver_rule": "p + 1",
+    "solution_steps_template": [
+      "전체 쌓기나무는 {{p + 6}}개이고, 쌓기나무가 있는 자리는 {{5}}곳입니다.",
+      "각 자리에서 하나씩 빼면 {{p + 6}}-{{5}}={{p + 1}}개가 남습니다."
+    ],
+    "hint_steps_template": [
+      "각 자리의 높이를 따로 세고, 가려진 쌓기나무까지 빠짐없이 더해 보세요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ]
+      ],
+      "mode": "stack"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-C-06",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-front-view-square-total",
+    "blueprint": {
+      "problemFamily": "c-front-view-square-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "앞에서 본 모양을 단위 정사각형으로 채우려면 정사각형은 모두 몇 개 필요한가요?",
+    "solver_rule": "p + 4",
+    "solution_steps_template": [
+      "앞에서 같은 가로 위치의 기둥은 가장 높은 높이만 남깁니다.",
+      "앞 모양의 세로줄 높이를 더하면 {{p + 4}}개입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ]
+      ],
+      "mode": "front"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-C-07",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-side-view-square-total",
+    "blueprint": {
+      "problemFamily": "c-side-view-square-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "옆에서 본 모양을 단위 정사각형으로 채우려면 정사각형은 모두 몇 개 필요한가요?",
+    "solver_rule": "p + 2",
+    "solution_steps_template": [
+      "옆에서 같은 깊이 위치의 기둥은 가장 높은 높이만 남깁니다.",
+      "옆 모양의 세로줄 높이를 더하면 {{p + 2}}개입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ]
+      ],
+      "mode": "side"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-C-08",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "c-raise-every-occupied-column",
+    "blueprint": {
+      "problemFamily": "c-raise-every-occupied-column",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-09]",
+      "connectedStandards": [
+        "[6수03-10]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "쌓기나무가 있는 모든 자리의 맨 위에 쌓기나무를 하나씩 더 놓았습니다. 새 입체도형의 쌓기나무는 모두 몇 개인가요?",
+    "solver_rule": "p + 11",
+    "solution_steps_template": [
+      "처음에는 {{p + 6}}개이고, 위에서 보이는 {{5}}개 자리에 하나씩 더 놓습니다.",
+      "따라서 {{p + 6}}+{{5}}={{p + 11}}개입니다."
+    ],
+    "hint_steps_template": [
+      "각 자리의 높이를 따로 세고, 가려진 쌓기나무까지 빠짐없이 더해 보세요.",
+      "입체도형과 한 방향에서 본 평면 모양을 서로 비교해 검산해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ]
+      ],
+      "mode": "stack"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-C-09",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "c-projection-used-as-total-error",
+    "blueprint": {
+      "problemFamily": "c-projection-used-as-total-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-09]",
+      "connectedStandards": [
+        "[6수03-10]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "한 학생이 그림과 같은 입체도형 {{p}}개에서 각각 앞에서 본 정사각형 수를 전체 쌓기나무 수로 잘못 답했습니다. 실제 전체와 잘못 센 수의 차를 모두 합하면 몇 개인가요?",
+    "solver_rule": "4 * p",
+    "solution_steps_template": [
+      "앞에서 보이는 정사각형은 {{p + 4}}개이지만, 뒤에 가려진 쌓기나무도 있습니다.",
+      "입체도형 하나에서 실제 전체 {{p + 6}}개와의 차는 {{4}}개입니다.",
+      "같은 실수를 {{p}}번 반복했으므로 차의 합은 {{4 * p}}개입니다."
+    ],
+    "hint_steps_template": [
+      "각 자리의 높이를 따로 세고, 가려진 쌓기나무까지 빠짐없이 더해 보세요.",
+      "친구가 센 대상이 전체 입체인지 한 방향의 그림인지 먼저 구별해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ]
+      ],
+      "mode": "all-views"
+    }
+  },
+  {
+    "id": "tmpl-g6spatial-C-10",
+    "concept_id": "g6spatial-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "c-top-view-empty-cell-error",
+    "blueprint": {
+      "problemFamily": "c-top-view-empty-cell-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-10]",
+      "connectedStandards": [
+        "[6수03-09]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "한 학생이 그림과 같은 입체도형을 {{p + 1}}번 관찰하면서 위에서 본 여섯 칸을 매번 모두 채워 그렸습니다. 실제 모양과 비교해 잘못 채운 칸 수를 모두 합하면 몇 칸인가요?",
+    "solver_rule": "p + 1",
+    "solution_steps_template": [
+      "위에서 본 전체 격자는 여섯 칸이지만 쌓기나무가 없는 빈자리가 있습니다.",
+      "실제로 보이는 칸은 {{5}}칸이므로 한 번에 잘못 채운 칸은 {{1}}칸입니다.",
+      "{{p + 1}}번 그렸으므로 잘못 채운 칸은 모두 {{p + 1}}칸입니다."
+    ],
+    "hint_steps_template": [
+      "위에서는 차지한 자리, 앞과 옆에서는 같은 방향으로 겹친 기둥의 가장 큰 높이를 봐요.",
+      "친구가 센 대상이 전체 입체인지 한 방향의 그림인지 먼저 구별해요."
+    ],
+    "visual_template": {
+      "type": "cube-stack",
+      "semantics": "quantitative",
+      "heights": [
+        [
+          "{{p}}",
+          1,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ]
+      ],
+      "mode": "all-views"
+    }
+  }
+]

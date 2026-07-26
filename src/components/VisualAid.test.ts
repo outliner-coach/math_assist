@@ -54,4 +54,20 @@ describe('VisualAid', () => {
     expect(net).toContain('geometry-visual-cylinder-net')
     expect(net.match(/data-cylinder-net-circle=/g)).toHaveLength(2)
   })
+
+  it('renders a cube stack through the shared quantitative geometry model', () => {
+    const html = renderToStaticMarkup(createElement(VisualAid, {
+      aid: {
+        type: 'cube-stack',
+        semantics: 'quantitative',
+        heights: [[3, 1], [2, 0]],
+        mode: 'all-views',
+      },
+    }))
+
+    expect(html).toContain('geometry-visual-cube-stack')
+    expect(html.match(/data-top-occupied=/g)).toHaveLength(3)
+    expect(html.match(/data-front-cell=/g)).toHaveLength(4)
+    expect(html.match(/data-side-cell=/g)).toHaveLength(5)
+  })
 })
