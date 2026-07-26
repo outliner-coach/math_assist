@@ -142,11 +142,11 @@ export interface GradeProblemReviewAdapter<TSource = unknown> {
 export interface EditorialEvidence {
   editorialRead: boolean
   variantAudit: boolean
-  preAnswer: boolean
-  hint: boolean
-  revealed: boolean
-  mobile: boolean
-  tablet: boolean
+  preAnswer: boolean | null
+  hint: boolean | null
+  revealed: boolean | null
+  mobile: boolean | null
+  tablet: boolean | null
   artifacts: string[]
 }
 
@@ -169,9 +169,11 @@ const TASK_ACTION_SET = new Set<string>(TASK_ACTIONS)
 const REQUIRED_EVIDENCE_SET = new Set<string>(REQUIRED_EVIDENCE_KINDS)
 const VISUAL_SEMANTICS_SET = new Set<string>(VISUAL_SEMANTICS)
 const FINDING_CATEGORY_SET = new Set<string>(EDITORIAL_FINDING_CATEGORIES)
-const EVIDENCE_BOOLEAN_KEYS = [
+const EVIDENCE_ALWAYS_TRUE_KEYS = [
   'editorialRead',
   'variantAudit',
+] as const
+const EVIDENCE_VISUAL_KEYS = [
   'preAnswer',
   'hint',
   'revealed',
@@ -186,7 +188,11 @@ const LEDGER_ITEM_KEYS = [
   'note',
   'evidence',
 ]
-const EVIDENCE_KEYS = [...EVIDENCE_BOOLEAN_KEYS, 'artifacts']
+const EVIDENCE_KEYS = [
+  ...EVIDENCE_ALWAYS_TRUE_KEYS,
+  ...EVIDENCE_VISUAL_KEYS,
+  'artifacts',
+]
 
 function compareText(left: string, right: string) {
   return left < right ? -1 : left > right ? 1 : 0
@@ -489,7 +495,13 @@ function exactKeys(value: Record<string, unknown>, expected: string[]) {
     && actual.every((key, index) => key === normalizedExpected[index])
 }
 
-function validateEvidence(reviewId: string, evidence: unknown, errors: string[]) {
+function validateEvidence(
+  reviewId: string,
+  catalogItem: ProblemReviewItem | undefined,
+  status: unknown,
+  evidence: unknown,
+  errors: string[]
+) {
   if (!isRecord(evidence)) {
     errors.push(`${reviewId}: evidence must be an object`)
     return
@@ -497,14 +509,31 @@ function validateEvidence(reviewId: string, evidence: unknown, errors: string[])
   if (!exactKeys(evidence, EVIDENCE_KEYS)) {
     errors.push(`${reviewId}: evidence must contain exactly ${EVIDENCE_KEYS.join(', ')}`)
   }
-  for (const key of EVIDENCE_BOOLEAN_KEYS) {
+  for (const key of EVIDENCE_ALWAYS_TRUE_KEYS) {
     if (evidence[key] !== true) {
       errors.push(`${reviewId}: evidence.${key} must be true`)
     }
   }
-  if (!Array.isArray(evidence.artifacts) || evidence.artifacts.length === 0) {
-    errors.push(`${reviewId}: evidence.artifacts must contain at least one artifact path`)
+  const hasVisual = catalogItem === undefined
+    ? undefined
+    : catalogItem.content.visual !== null
+  for (const key of EVIDENCE_VISUAL_KEYS) {
+    if (hasVisual === true) {
+      if (status === 'pass' && evidence[key] !== true) {
+        errors.push(`${reviewId}: evidence.${key} must be true for pass`)
+      } else if (status !== 'pass' && typeof evidence[key] !== 'boolean') {
+        errors.push(`${reviewId}: evidence.${key} must be boolean when the catalog item has a visual`)
+      }
+    } else if (hasVisual === false && evidence[key] !== null) {
+      errors.push(`${reviewId}: evidence.${key} must be null when the catalog item has no visual`)
+    }
+  }
+  if (!Array.isArray(evidence.artifacts)) {
+    errors.push(`${reviewId}: evidence.artifacts must be an array`)
   } else {
+    if (hasVisual === true && status === 'pass' && evidence.artifacts.length === 0) {
+      errors.push(`${reviewId}: evidence.artifacts must contain at least one artifact path for visual pass`)
+    }
     const seen = new Set<string>()
     for (const artifact of evidence.artifacts) {
       if (!nonEmptyString(artifact) || pathIsUnsafe(artifact)) {
@@ -599,7 +628,13 @@ export function validateEditorialLedger(
     if (!nonEmptyString(candidate.note)) {
       errors.push(`${candidate.reviewId}: note must be non-empty`)
     }
-    validateEvidence(candidate.reviewId, candidate.evidence, errors)
+    validateEvidence(
+      candidate.reviewId,
+      catalogItem,
+      candidate.status,
+      candidate.evidence,
+      errors
+    )
   }
 
   for (const reviewId of catalog.items.map(item => item.reviewId)) {
