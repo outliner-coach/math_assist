@@ -254,4 +254,28 @@ describe('ProblemDiagram', () => {
     expect(html).not.toContain('AB만 4')
     expect(html).not.toContain('AC만 2')
   })
+
+  it('introduces A, B, and C before an external-callout region decomposition', () => {
+    const html = renderToStaticMarkup(createElement(ProblemDiagram, {
+      visual: {
+        type: 'three_shape_overlap',
+        semantics: 'quantitative',
+        props: {
+          shapeArea: 29,
+          exclusiveAreas: [18, 20, 22],
+          tripleOverlap: 5,
+          unit: 'cm'
+        }
+      }
+    }))
+
+    expect(html).toContain('영역 분해도')
+    expect(html).toContain('A = 파랑')
+    expect(html).toContain('B = 초록')
+    expect(html).toContain('C = 분홍')
+    expect((html.match(/data-region-callout=/g) ?? [])).toHaveLength(6)
+    expect((html.match(/data-region-symbol=/g) ?? [])).toHaveLength(6)
+    expect((html.match(/data-given-value=/g) ?? [])).toHaveLength(4)
+    expect(html).not.toMatch(/data-cell-region="(?:abOnly|acOnly)"[^>]*>[\s\S]*?(?:AB만 4|AC만 2)/)
+  })
 })

@@ -114,80 +114,157 @@ function ratioGraphSectorPath(
 
 const overlapRegionLayout: Array<{
   key: OverlapRegionKey
-  column: 0 | 1 | 2
-  row: 0 | 1 | 2
+  centerX: number
+  centerY: number
+  calloutX: number
+  calloutY: number
+  calloutSide: 'left' | 'right' | 'top' | 'bottom'
   label: string
+  symbol: string
   fill: string
   given: boolean
 }> = [
-  { key: 'aOnly', column: 0, row: 0, label: 'A만', fill: '#93c5fd', given: true },
-  { key: 'abOnly', column: 1, row: 0, label: 'AB', fill: '#67e8f9', given: false },
-  { key: 'bOnly', column: 2, row: 0, label: 'B만', fill: '#86efac', given: true },
-  { key: 'acOnly', column: 0, row: 1, label: 'AC', fill: '#c4b5fd', given: false },
-  { key: 'abc', column: 1, row: 1, label: 'ABC', fill: '#fcd34d', given: true },
-  { key: 'bcOnly', column: 2, row: 1, label: 'BC', fill: '#fdba74', given: false },
-  { key: 'cOnly', column: 1, row: 2, label: 'C만', fill: '#fca5a5', given: true }
+  {
+    key: 'aOnly', centerX: 150, centerY: 165, calloutX: 8, calloutY: 148,
+    calloutSide: 'left', label: 'A만', symbol: '●', fill: '#93c5fd', given: true,
+  },
+  {
+    key: 'abOnly', centerX: 250, centerY: 165, calloutX: 195, calloutY: 92,
+    calloutSide: 'top', label: 'A∩B만', symbol: '●▲', fill: '#67e8f9', given: false,
+  },
+  {
+    key: 'bOnly', centerX: 350, centerY: 165, calloutX: 387, calloutY: 148,
+    calloutSide: 'right', label: 'B만', symbol: '▲', fill: '#86efac', given: true,
+  },
+  {
+    key: 'acOnly', centerX: 195, centerY: 250, calloutX: 8, calloutY: 233,
+    calloutSide: 'left', label: 'A∩C만', symbol: '●■', fill: '#c4b5fd', given: false,
+  },
+  {
+    key: 'abc', centerX: 250, centerY: 250, calloutX: 195, calloutY: 287,
+    calloutSide: 'bottom', label: 'A∩B∩C', symbol: '●▲■', fill: '#fcd34d', given: true,
+  },
+  {
+    key: 'bcOnly', centerX: 305, centerY: 250, calloutX: 387, calloutY: 233,
+    calloutSide: 'right', label: 'B∩C만', symbol: '▲■', fill: '#fdba74', given: false,
+  },
+  {
+    key: 'cOnly', centerX: 250, centerY: 350, calloutX: 195, calloutY: 402,
+    calloutSide: 'bottom', label: 'C만', symbol: '■', fill: '#fca5a5', given: true,
+  },
 ]
 
 function OverlapRegionCells({
   regionKey,
   area,
-  column,
-  row,
+  centerX,
+  centerY,
+  calloutX,
+  calloutY,
+  calloutSide,
   label,
+  symbol,
   fill,
-  given
+  given,
+  unit,
 }: {
   regionKey: OverlapRegionKey
   area: number
-  column: 0 | 1 | 2
-  row: 0 | 1 | 2
+  centerX: number
+  centerY: number
+  calloutX: number
+  calloutY: number
+  calloutSide: 'left' | 'right' | 'top' | 'bottom'
   label: string
+  symbol: string
   fill: string
   given: boolean
+  unit: string
 }) {
   if (area === 0) return null
 
-  const zoneWidth = 118
-  const zoneHeight = 70
   const pitch = 10
   const cellSize = 9
   const columns = Math.min(7, area)
   const rows = Math.ceil(area / columns)
   const blockWidth = columns * pitch - 1
   const blockHeight = rows * pitch - 1
-  const zoneX = 17 + column * 124
-  const zoneY = 50 + row * 76
-  const startX = zoneX + (zoneWidth - blockWidth) / 2
-  const startY = zoneY + (zoneHeight - blockHeight) / 2
-  const labelX = startX + blockWidth / 2
-  const labelY = startY + blockHeight / 2 + 4
+  const startX = centerX - blockWidth / 2
+  const startY = centerY - blockHeight / 2
+  const calloutWidth = 105
+  const calloutHeight = 34
+  const lineStart = calloutSide === 'left'
+    ? { x: calloutX + calloutWidth, y: calloutY + calloutHeight / 2 }
+    : calloutSide === 'right'
+      ? { x: calloutX, y: calloutY + calloutHeight / 2 }
+      : calloutSide === 'top'
+        ? { x: calloutX + calloutWidth / 2, y: calloutY + calloutHeight }
+        : { x: calloutX + calloutWidth / 2, y: calloutY }
+  const lineEnd = calloutSide === 'left'
+    ? { x: startX - 3, y: centerY }
+    : calloutSide === 'right'
+      ? { x: startX + blockWidth + 3, y: centerY }
+      : calloutSide === 'top'
+        ? { x: centerX, y: startY - 3 }
+        : { x: centerX, y: startY + blockHeight + 3 }
+  const labelText = `${label} ${symbol}${given ? ` · ${area} ${unit}²` : ''}`
 
   return (
-    <g data-region={regionKey} aria-hidden="true">
-      {Array.from({ length: area }, (_, index) => (
-        <rect
-          key={index}
-          data-cell-region={regionKey}
-          x={startX + (index % columns) * pitch}
-          y={startY + Math.floor(index / columns) * pitch}
-          width={cellSize}
-          height={cellSize}
-          rx="1"
-          fill={fill}
-          stroke="#64748b"
-          strokeWidth="0.7"
-        />
-      ))}
-      <text
-        x={labelX}
-        y={labelY}
-        textAnchor="middle"
-        className="fill-slate-900 text-[9px] font-extrabold"
+    <>
+      <g data-region={regionKey} aria-hidden="true">
+        {Array.from({ length: area }, (_, index) => (
+          <rect
+            key={index}
+            data-cell-region={regionKey}
+            x={startX + (index % columns) * pitch}
+            y={startY + Math.floor(index / columns) * pitch}
+            width={cellSize}
+            height={cellSize}
+            rx="1"
+            fill={fill}
+            stroke="#475569"
+            strokeWidth="0.8"
+          />
+        ))}
+      </g>
+      <g
+        data-region-callout={regionKey}
+        data-region-symbol={symbol}
+        data-given-value={given ? area : undefined}
+        aria-hidden="true"
       >
-        {label}{given ? ` ${area}` : ''}
-      </text>
-    </g>
+        <line
+          x1={lineStart.x}
+          y1={lineStart.y}
+          x2={lineEnd.x}
+          y2={lineEnd.y}
+          stroke="#475569"
+          strokeWidth="1.5"
+          data-callout-link={regionKey}
+        />
+        <circle cx={lineEnd.x} cy={lineEnd.y} r="2.5" fill="#475569" />
+        <rect
+          x={calloutX}
+          y={calloutY}
+          width={calloutWidth}
+          height={calloutHeight}
+          rx="10"
+          fill="white"
+          stroke={fill}
+          strokeWidth="3"
+        />
+        <text
+          x={calloutX + calloutWidth / 2}
+          y={calloutY + 22}
+          textAnchor="middle"
+          fontSize="12"
+          fontWeight="800"
+          fill="#0f172a"
+        >
+          {labelText}
+        </text>
+      </g>
+    </>
   )
 }
 
@@ -697,17 +774,31 @@ export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
   const { shapeArea, exclusiveAreas, tripleOverlap, unit } = visual.props
   const model = visual.model ?? buildThreeShapeOverlapModel(visual.props)
   return (
-    <figure className="rounded-2xl border border-slate-200 bg-slate-50 p-3" data-testid="problem-diagram-three-shape-overlap">
+    <figure
+      className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
+      data-testid="problem-diagram-three-shape-overlap"
+    >
+      <figcaption className="space-y-1 text-center">
+        <div className="text-base font-extrabold text-slate-900">
+          영역 분해도
+        </div>
+        <div className="text-sm font-bold text-slate-700">
+          세 도형을 먼저 A, B, C라고 부릅니다.
+        </div>
+        <div className="text-xs font-semibold text-slate-600">
+          A = 파랑 ● · B = 초록 ▲ · C = 분홍 ■
+        </div>
+      </figcaption>
       <svg
-        viewBox="0 0 400 300"
+        viewBox="0 0 500 445"
         role="img"
-        aria-label={`각 넓이가 ${shapeArea}${unit}²이고, 겹치지 않은 부분이 ${exclusiveAreas.join(', ')}${unit}²이며, 세 도형 공통부분이 ${tripleOverlap}${unit}²인 단위 넓이 그림`}
+        aria-label={`영역 분해도. A는 파랑 원 기호, B는 초록 세모 기호, C는 분홍 네모 기호입니다. A, B, C의 넓이는 각각 ${shapeArea} ${unit}²입니다. A만 ${exclusiveAreas[0]} ${unit}², B만 ${exclusiveAreas[1]} ${unit}², C만 ${exclusiveAreas[2]} ${unit}², 세 도형 공통부분 ${tripleOverlap} ${unit}²입니다.`}
         className="mx-auto w-full max-w-md"
       >
-        <text x="200" y="20" textAnchor="middle" className="fill-slate-800 text-[13px] font-bold">
-          각 도형 {shapeArea} {unit}²
+        <text x="250" y="30" textAnchor="middle" className="fill-slate-800 text-[14px] font-bold">
+          A · B · C의 넓이: 각각 {shapeArea} {unit}²
         </text>
-        <text x="200" y="38" textAnchor="middle" className="fill-slate-600 text-[11px] font-semibold">
+        <text x="250" y="52" textAnchor="middle" className="fill-slate-600 text-[12px] font-semibold">
           한 칸 = 1 {unit}²
         </text>
         {overlapRegionLayout.map(region => (
@@ -715,15 +806,20 @@ export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
             key={region.key}
             regionKey={region.key}
             area={model.regions[region.key]}
-            column={region.column}
-            row={region.row}
+            centerX={region.centerX}
+            centerY={region.centerY}
+            calloutX={region.calloutX}
+            calloutY={region.calloutY}
+            calloutSide={region.calloutSide}
             label={region.label}
+            symbol={region.symbol}
             fill={region.fill}
             given={region.given}
+            unit={unit}
           />
         ))}
-        <text x="200" y="290" textAnchor="middle" className="fill-slate-500 text-[10px] font-semibold">
-          AB·AC·BC는 표시된 두 도형만 겹친 칸이에요.
+        <text x="250" y="442" textAnchor="middle" className="fill-slate-500 text-[11px] font-semibold">
+          A∩B만 · A∩C만 · B∩C만의 수치는 풀이 전 따로 적지 않아요.
         </text>
       </svg>
     </figure>

@@ -109,9 +109,9 @@ describe('GeometryProblemVisual', () => {
     const hiddenCuboid = renderToStaticMarkup(createElement(GeometryProblemVisual, { visual: cuboid }))
     const revealedCuboid = renderToStaticMarkup(createElement(GeometryProblemVisual, { visual: cuboid, showAnswer: true }))
 
-    expect(hiddenCuboid).toContain('?cm')
-    expect(hiddenCuboid).not.toContain('8cm')
-    expect(revealedCuboid).toContain('8cm')
+    expect(hiddenCuboid).toContain('가로 ? cm')
+    expect(hiddenCuboid).not.toContain('가로 8 cm')
+    expect(revealedCuboid).toContain('가로 8 cm')
   })
 
   it('reveals congruence and net answers only after submission', () => {
@@ -246,6 +246,45 @@ describe('GeometryProblemVisual', () => {
 
     expect(hiddenRatio).not.toBeCloseTo(revealedRatio, 8)
     expect(revealedRatio).toBeCloseTo(2, 8)
+  })
+
+  it('labels every relevant cuboid measurement by meaning and unit', () => {
+    const html = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cuboid',
+        width: 12,
+        depth: 6,
+        height: 9,
+        unit: 'cm',
+        focus: 'edges',
+      },
+    }))
+
+    expect(html).toContain('가로 12 cm')
+    expect(html).toContain('세로 6 cm')
+    expect(html).toContain('높이 9 cm')
+    expect(html).toContain('aria-label="직육면체 모서리')
+  })
+
+  it('renders dimension-free cuboid properties with the requested element highlighted', () => {
+    for (const [focus, accessibleName] of [
+      ['face', '면'],
+      ['edge', '모서리'],
+      ['vertex', '꼭짓점'],
+      ['edges-at-vertex', '한 꼭짓점에서 만나는 모서리'],
+    ] as const) {
+      const html = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+        visual: {
+          type: 'cuboid',
+          focus,
+        } as never,
+      }))
+
+      expect(html).toContain(`data-cuboid-focus="${focus}"`)
+      expect(html).toContain(accessibleName)
+      expect(html).not.toContain('cm')
+      expect(html).not.toContain('data-cuboid-measurement')
+    }
   })
 
   it('keeps every generated cuboid dimension combination quantitative and in bounds', () => {

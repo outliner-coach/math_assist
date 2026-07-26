@@ -12,6 +12,8 @@ const RENDERER_REVIEW_VERSION_REGISTRY = Object.freeze({
   'grade3-mission-visual': 'grade3-mission-visual-review-v1',
   'grade4-mission-visual': 'grade4-mission-visual-review-v1',
   'practice-problem-visual': 'practice-problem-visual-review-v1',
+  'practice-problem-visual:cuboid': 'practice-problem-cuboid-review-v2',
+  'practice-problem-visual:three_shape_overlap': 'practice-problem-three-shape-overlap-review-v2',
 })
 
 // Grade 4 generation uses positiveModulo(..., 9) + 1, so the review catalog
@@ -82,11 +84,12 @@ function actualEvidence({ visual, tool, scaffold }) {
 }
 
 function rendererKey(grade, visual) {
-  return visual === null
-    ? 'none'
-    : grade <= 4
-      ? `grade${grade}-mission-visual`
-      : 'practice-problem-visual'
+  if (visual === null) return 'none'
+  if (grade <= 4) return `grade${grade}-mission-visual`
+  if (visual.kind === 'cuboid' || visual.kind === 'three_shape_overlap') {
+    return `practice-problem-visual:${visual.kind}`
+  }
+  return 'practice-problem-visual'
 }
 
 function sourceVisual(visualKind, config) {
