@@ -18,6 +18,8 @@
     "validate:grade6": "node scripts/validate-grade6-templates.js",
     "validate:curriculum": "node scripts/validate-curriculum.js",
     "audit:missions": "node scripts/mission-bank-quality-report.js",
+    "generate:problem-review-catalog": "node scripts/generate-problem-review-catalog.js",
+    "check:problem-editorial-review": "node scripts/check-problem-editorial-ledger.js",
     "generate:grade5-geometry": "node scripts/generate-grade5-geometry-templates.js",
     "generate:grade5-average": "node scripts/generate-grade5-average-templates.js",
     "generate:grade5-area-unit": "node scripts/generate-grade5-area-unit-templates.js",
