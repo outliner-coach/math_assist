@@ -72,9 +72,16 @@ describe('Grade 1-3 temporary editorial receipt', () => {
     const weight = itemById(items, '3:mission:g3-2-capacity-weight-02')
 
     expect(compass.findingCategories).toEqual(
-      expect.arrayContaining(['curriculum', 'grade_appropriateness'])
+      expect.arrayContaining([
+        'curriculum',
+        'grade_appropriateness',
+        'visual_semantics',
+        'solvability',
+        'answer_exposure',
+      ])
     )
     expect(compass.note).toMatch(/컴퍼스.*원 구성.*construct/)
+    expect(compass.note).toMatch(/지름 12cm.*6cm 선노출.*제거.*폭 조절.*원 그리기.*제출/)
 
     expect(capacity.findingCategories).toEqual(
       expect.arrayContaining(['curriculum', 'solvability', 'visual_semantics'])

@@ -1117,6 +1117,77 @@ test('3학년 들이와 무게는 일곱 성취기준을 정량 그림과 안전
   })
 })
 
+test('3학년 원 구성은 폭 조절과 실제 그리기를 답 제출의 선행조건으로 유지한다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-2-circle`)
+  await page.getByTestId('grade3-mission-node-3').click()
+
+  const card = page.getByTestId('grade3-mission-card')
+  await expect(card).toHaveAttribute('data-mission-id', 'g3-2-circle-03')
+  await expect(card).toContainText('지름 12cm')
+  const preAnswerExposure = await card.evaluate((element) => ({
+    htmlHasAnswer: element.outerHTML.includes('6cm'),
+    textHasAnswer: element.textContent?.includes('6cm') ?? false,
+    accessibleNames: Array.from(element.querySelectorAll('[aria-label]'))
+      .map((node) => node.getAttribute('aria-label'))
+      .join(' '),
+    answerAttributes: Array.from(element.querySelectorAll('*')).some((node) =>
+      Array.from(node.attributes).some((attribute) =>
+        /^data-(?:answer|correct-answer|radius)$/.test(attribute.name)
+      )
+    ),
+  }))
+  expect(preAnswerExposure).toEqual({
+    htmlHasAnswer: false,
+    textHasAnswer: false,
+    accessibleNames: expect.not.stringMatching(/6cm|6센티미터/),
+    answerAttributes: false,
+  })
+  for (const testId of [
+    'grade3-compass-decrease',
+    'grade3-compass-increase',
+    'grade3-compass-draw',
+  ]) {
+    const box = await page.getByTestId(testId).boundingBox()
+    expect(box?.width ?? 0).toBeGreaterThanOrEqual(48)
+    expect(box?.height ?? 0).toBeGreaterThanOrEqual(48)
+  }
+
+  const answer = page.getByTestId('grade3-integer-input')
+  const submit = page.getByTestId('grade3-integer-submit')
+  await answer.fill('6')
+  await expect(submit).toBeDisabled()
+
+  await page.getByTestId('grade3-compass-draw').click()
+  await expect(page.getByTestId('grade3-compass-drawn-circle')).toBeVisible()
+  await expect(submit).toBeDisabled()
+
+  await answer.fill('4')
+  await expect(submit).toBeEnabled()
+  await submit.click()
+  await expect(page.getByTestId('grade3-mission-hint')).toBeVisible()
+  await expect(page.getByTestId('grade3-mission-success')).toHaveCount(0)
+
+  await page.getByTestId('grade3-compass-increase').click()
+  await page.getByTestId('grade3-compass-increase').click()
+  await expect(page.getByTestId('grade3-compass-width')).toHaveText('6')
+  await expect(page.getByTestId('grade3-compass-drawn-circle')).toHaveCount(0)
+  await answer.fill('6')
+  await expect(submit).toBeDisabled()
+
+  await page.getByTestId('grade3-compass-draw').click()
+  await expect(submit).toBeEnabled()
+  await submit.click()
+  await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
+  await expect(page.getByTestId('grade3-compass-radius-result')).toContainText('6cm')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
+
+  await page.getByTestId('grade3-retry-mission').click()
+  await expect(page.getByTestId('grade3-compass-width')).toHaveText('4')
+  await expect(page.getByTestId('grade3-compass-drawn-circle')).toHaveCount(0)
+  await expect(page.getByTestId('grade3-integer-submit')).toBeDisabled()
+})
+
 test('3학년 풀이장은 문항 이동과 새로고침을 복구하고 재시작을 격리한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-1-add-sub`)
   await drawScratchStroke(page)

@@ -79,13 +79,19 @@ describe('grade3 mission bank', () => {
     expect(circleCompass?.prompt).toContain('②')
     expect(circleCompass?.prompt).toContain('컴퍼스')
     expect(circleCompass?.prompt).toContain('원을 그린')
+    expect(circleCompass?.prompt).toContain('지름 12cm')
+    expect(circleCompass?.prompt).not.toContain('6cm')
+    expect(circleCompass?.hintSteps.join(' ')).not.toContain('6cm')
+    expect(circleCompass?.learnerGoal).toMatch(/중심.*반지름.*컴퍼스.*구성/)
+    expect(circleCompass?.solutionSteps.join(' ')).toMatch(/12cm.*6cm.*가상 컴퍼스.*원 그리기/)
     expect(circleCompass?.correctAnswer).toBe('6')
     expect(circleCompass?.visualConfig).toMatchObject({
       mode: 'construction',
       centerLabel: 'O',
-      radius: 6,
+      diameter: 12,
       hideRadiusUntilReveal: true,
     })
+    expect(circleCompass?.visualConfig).not.toHaveProperty('radius')
 
     expect(capacityReader?.taskActions).toEqual(['measure'])
     expect(capacityReader?.prompt).not.toContain('1L 250mL')
@@ -122,6 +128,11 @@ describe('grade3 mission bank', () => {
         ? { ...template, visualConfig: { ...template.visualConfig, totalG: 2200 } }
         : template
     )
+    const answerLeakingCompassHint = grade3MissionTemplates.map((template) =>
+      template.id === 'g3-2-circle-03'
+        ? { ...template, hintSteps: ['컴퍼스 폭은 6 cm예요.', ...template.hintSteps.slice(1)] }
+        : template
+    )
 
     expect(validateGrade3MissionBank(calculationCircle).errors).toContain(
       'g3-2-circle-03: [4수03-07] requires a two-stage compass construction activity'
@@ -131,6 +142,9 @@ describe('grade3 mission bank', () => {
     )
     expect(validateGrade3MissionBank(mismatchedWeightModel).errors).toContain(
       'g3-2-capacity-weight-02: weight scale model must match the rule-based answer'
+    )
+    expect(validateGrade3MissionBank(answerLeakingCompassHint).errors).toContain(
+      'g3-2-circle-03: prompt and hints must not expose the compass-width answer'
     )
   })
 

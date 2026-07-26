@@ -190,10 +190,10 @@ describe('Grade3MissionVisual', () => {
       createElement(Grade3MissionVisual, { mission, showAnswer: true })
     )
 
-    expect(hidden).toContain('data-testid="grade3-compass-construction-circle"')
-    expect(hidden).toContain('data-testid="grade3-compass-needle-leg"')
-    expect(hidden).toContain('data-testid="grade3-compass-pencil-leg"')
+    expect(hidden).toContain('data-testid="grade3-construction-given-circle"')
+    expect(hidden).toContain('data-testid="grade3-construction-given-diameter"')
     expect(hidden).toContain('data-testid="grade3-compass-center-O"')
+    expect(hidden).toContain('지름 12cm')
     expect(hidden).not.toContain('6cm')
     expect(hidden).not.toMatch(/aria-label="[^"]*6/)
     expect(revealed).toContain('6cm')
@@ -267,5 +267,19 @@ describe('Grade3MissionCard', () => {
 
     expect(html).toContain('grade3-mission-hint')
     expect(html).toContain('grade3-solution-path')
+  })
+
+  it('keeps the complete compass card free of the answer before success, including hints and repeated-attempt support', () => {
+    const html = renderCard('g3-2-circle-03', {
+      wrongAttemptCount: 3,
+      showHint: true,
+    })
+
+    expect(html).toContain('지름 12cm')
+    expect(html).toContain('grade3-compass-construction')
+    expect(html).not.toContain('6cm')
+    expect(html).not.toContain('6센티미터')
+    expect(html).not.toMatch(/data-(?:answer|correct-answer|radius)=/)
+    expect(html).not.toMatch(/aria-label="[^"]*6cm/)
   })
 })

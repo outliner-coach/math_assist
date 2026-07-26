@@ -334,51 +334,38 @@ function CircleParts({ mission, showAnswer }: { mission: Grade3Mission; showAnsw
   const centerOnly = asString(mission.visualConfig.target) === '원의 중심'
 
   if (mode === 'construction') {
-    const displayRadius = Math.min(72, Math.max(54, radius * 10))
-    const centerX = 70
-    const centerY = 135
-    const pencilX = centerX + displayRadius
-    const hingeX = (centerX + pencilX) / 2
+    const displayRadius = Math.min(72, Math.max(54, diameter * 5))
+    const centerX = 105
+    const centerY = 112
+    const answerRadius = diameter / 2
 
     return (
       <div data-testid="grade3-visual-circle-parts" className="grid place-items-center rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
         <svg
           viewBox="0 0 210 215"
           role="img"
-          aria-label="중심점 O, 컴퍼스 바늘 다리와 연필 다리, 한 바퀴 그리기 방향이 표시된 원 구성 안내"
+          aria-label={`중심점 O와 지름 ${diameter}센티미터가 표시된 원 구성 자료`}
           className="h-auto w-full max-w-72 rounded-2xl bg-white"
         >
           <circle
-            data-testid="grade3-compass-construction-circle"
+            data-testid="grade3-construction-given-circle"
             cx={centerX}
             cy={centerY}
             r={displayRadius}
             fill="none"
             stroke="#60a5fa"
             strokeWidth="4"
-            strokeDasharray="8 7"
           />
           <line
-            data-testid="grade3-compass-needle-leg"
-            x1={hingeX}
-            y1="30"
-            x2={centerX}
+            data-testid="grade3-construction-given-diameter"
+            x1={centerX - displayRadius}
             y2={centerY}
+            x2={centerX + displayRadius}
+            y1={centerY}
             stroke="#0f172a"
-            strokeWidth="9"
+            strokeWidth="4"
             strokeLinecap="round"
           />
-          <line
-            data-testid="grade3-compass-pencil-leg"
-            x1={hingeX}
-            y1="30"
-            x2={pencilX}
-            y2={centerY}
-            stroke="#f97316"
-            strokeWidth="9"
-            strokeLinecap="round"
-          />
-          <circle cx={hingeX} cy="30" r="10" fill="#facc15" stroke="#0f172a" strokeWidth="3" />
           <circle
             data-testid={`grade3-compass-center-${centerLabel}`}
             cx={centerX}
@@ -389,18 +376,14 @@ function CircleParts({ mission, showAnswer }: { mission: Grade3Mission; showAnsw
           <text x={centerX - 15} y={centerY + 24} className="fill-[#0f172a] text-lg font-black">
             {centerLabel}
           </text>
-          <path
-            d={`M ${centerX + displayRadius * 0.65} ${centerY - displayRadius * 0.72} A ${displayRadius} ${displayRadius} 0 0 1 ${centerX + displayRadius * 0.98} ${centerY + displayRadius * 0.18}`}
-            fill="none"
-            stroke="#16a34a"
-            strokeWidth="4"
-            strokeLinecap="round"
-          />
+          <text x={centerX} y={200} textAnchor="middle" className="fill-[#0f172a] text-base font-black">
+            지름 {diameter}cm
+          </text>
         </svg>
         <p className="mt-4 text-center text-base font-black text-[#0f172a]">
-          유지한 컴퍼스 폭{' '}
+          구성에 사용한 컴퍼스 폭{' '}
           <MaskedValue
-            value={`${radius}cm`}
+            value={`${answerRadius}cm`}
             showAnswer={showAnswer}
             testId="grade3-compass-radius-result"
           />

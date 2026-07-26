@@ -4786,7 +4786,7 @@
       "status": "blocked"
     },
     {
-      "contentHash": "00b9158cb7d5091e5cb9d68288af53107ddaff22615c3d41aa21750902f28c5c",
+      "contentHash": "5923978cbfad822c99df8d1d26900e9abda8355eb445f274ab6ef2d0605d5327",
       "evidence": {
         "artifacts": [],
         "editorialRead": true,
@@ -4801,9 +4801,10 @@
         "curriculum",
         "grade_appropriateness",
         "visual_semantics",
-        "solvability"
+        "solvability",
+        "answer_exposure"
       ],
-      "note": "[4수03-07]에 맞춰 중심·반지름 설정 뒤 컴퍼스로 실제 그리기를 수행하는 2단계 원 구성 활동으로 교정하고 taskActions를 construct로 일치시킴. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "note": "[4수03-07]에 맞춰 지름 12cm만 입력 자료로 남기고 prompt·hint·정답 전 전체 카드 DOM/a11y에서 6cm 선노출을 제거함. 가상 컴퍼스의 폭 조절→원 그리기 완료→그린 폭과 숫자 일치 순서가 제출을 게이트하도록 원 구성 활동을 교정하고 taskActions를 construct로 일치시킴. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
       "reviewId": "3:mission:g3-2-circle-03",
       "status": "blocked"
     },

@@ -394,6 +394,7 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
       </section>
 
       <Grade3MissionCard
+        key={`${selectedMission.id}:run-${missionRun}`}
         mission={selectedMission}
         selectedAnswer={selectedAnswer}
         textAnswer={textAnswer}

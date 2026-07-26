@@ -875,14 +875,14 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
     curriculumCode: '[4수03-07]',
     learnerGoal: '중심과 반지름을 정해 컴퍼스로 원을 구성해요.',
     parentSummaryTag: '원 그리기',
-    prompt: '① 풀이장에 중심 O를 찍고 컴퍼스를 자로 6cm 벌리세요. ② O에 바늘을 놓고 원을 그린 뒤, 유지한 폭을 쓰세요.',
+    prompt: '지름 12cm인 원을 구성하세요. ① 가상 컴퍼스 폭을 정하세요. ② 그 폭으로 원을 그린 뒤 폭을 답에 쓰세요.',
     answerType: 'integer',
     answerConfig: integerAnswerConfig,
     correctAnswer: '6',
-    hintSteps: ['먼저 중심 O를 표시하고 컴퍼스 바늘을 놓아요.', '자로 두 다리 사이를 6cm로 맞춘 뒤 폭을 바꾸지 않고 한 바퀴 돌려요.'],
-    solutionSteps: ['자로 컴퍼스 두 다리 사이를 6cm로 맞춰요.', '바늘을 중심 O에 고정하고 연필 다리를 한 바퀴 돌려 원을 그려요.', '원을 그리는 동안 유지한 컴퍼스 폭은 6cm예요.'],
+    hintSteps: ['지름은 중심을 지나 원 둘레의 두 점을 잇는 길이예요.', '컴퍼스 폭은 지름의 절반이에요. 폭을 정한 뒤 그 폭으로 원을 그려요.'],
+    solutionSteps: ['지름 12cm의 절반은 6cm예요.', '가상 컴퍼스 폭을 6으로 정하고 원 그리기를 완료해요.', '그린 폭과 답 6을 같게 쓰면 구성이 완성돼요.'],
     visualModel: 'circle-parts',
-    visualConfig: { mode: 'construction', centerLabel: 'O', radius: 6, hideRadiusUntilReveal: true },
+    visualConfig: { mode: 'construction', centerLabel: 'O', diameter: 12, hideRadiusUntilReveal: true },
     scaffoldConfig: { kind: 'circle-finder', prompt: '원의 중심에 고정할 컴퍼스 부분을 확인해요.', options: ['바늘 다리', '연필 다리'] },
     rewardId: 'circleCompass',
   }),
@@ -1282,6 +1282,11 @@ function formatWeightAnswer(totalG: number): string {
 
 function validateRequiredActivityContract(template: Grade3MissionTemplate, errors: string[]) {
   if (template.id === 'g3-2-circle-03') {
+    const diameter = Number(template.visualConfig.diameter)
+    const answerExposurePattern = new RegExp(
+      `${template.correctAnswer}\\s*(?:cm|센티미터)`,
+      'i'
+    )
     if (
       template.curriculumCode !== '[4수03-07]'
       || template.taskActions.length !== 1
@@ -1289,12 +1294,17 @@ function validateRequiredActivityContract(template: Grade3MissionTemplate, error
       || template.visualSemantics !== 'quantitative'
       || template.visualConfig.mode !== 'construction'
       || template.visualConfig.hideRadiusUntilReveal !== true
+      || template.visualConfig.radius !== undefined
+      || !Number.isFinite(diameter)
       || !/①.*컴퍼스.*②.*원.*그(?:리|린|려)/.test(template.prompt)
     ) {
       errors.push(`${template.id}: [4수03-07] requires a two-stage compass construction activity`)
     }
-    if (String(template.visualConfig.radius) !== template.correctAnswer) {
-      errors.push(`${template.id}: construction model radius must match the rule-based answer`)
+    if (String(diameter / 2) !== template.correctAnswer) {
+      errors.push(`${template.id}: given diameter must derive the rule-based compass width`)
+    }
+    if ([template.prompt, ...template.hintSteps].some((text) => answerExposurePattern.test(text))) {
+      errors.push(`${template.id}: prompt and hints must not expose the compass-width answer`)
     }
   }
 
@@ -1379,6 +1389,9 @@ function grade3VisualAnswer(mission: Grade3Mission): string | undefined {
     return String(Number(config.shadedParts) / Number(config.totalParts))
   }
   if (mission.visualModel === 'circle-parts' && mission.answerType === 'integer') {
+    if (config.mode === 'construction') {
+      return String(Number(config.diameter) / 2)
+    }
     return String(config.hideRadiusUntilReveal ? config.radius : config.diameter)
   }
   if (mission.visualModel === 'bar-graph') {
