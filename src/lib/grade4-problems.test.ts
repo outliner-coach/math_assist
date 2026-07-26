@@ -26,8 +26,126 @@ import {
 } from './grade4-problems'
 
 const ledger = JSON.parse(readFileSync(join(process.cwd(), 'public/data/curriculum-allocations-v1.json'), 'utf8'))
+const reviewCore = require('../../scripts/problem-review-catalog-core.js')
 
 describe('Grade 4 Bridge release bank', () => {
+  it('requires source-owned editorial actions and visual semantics for every template', () => {
+    const allowedActions = new Set([
+      'recognize', 'classify', 'compare', 'calculate', 'measure', 'construct',
+      'model', 'interpret', 'explain', 'analyze_error', 'reason',
+    ])
+    const allowedVisualSemantics = new Set(['decorative', 'schematic', 'quantitative'])
+
+    for (const template of grade4MissionTemplates) {
+      const quality = template as typeof template & {
+        taskActions?: string[]
+        visualSemantics?: string
+      }
+
+      expect(quality.taskActions, `${template.id} taskActions`).toBeDefined()
+      expect(quality.taskActions?.length, `${template.id} taskActions`).toBeGreaterThan(0)
+      expect(
+        quality.taskActions?.every((action) => allowedActions.has(action)),
+        `${template.id} taskActions`,
+      ).toBe(true)
+      expect(
+        allowedVisualSemantics.has(quality.visualSemantics ?? ''),
+        `${template.id} visualSemantics`,
+      ).toBe(true)
+    }
+  })
+
+  it('audits every allowed variant with deterministic editorial choice seeds', () => {
+    for (const template of grade4MissionTemplates) {
+      for (let variant = 1; variant <= 9; variant += 1) {
+        const choiceSeed = 2_026_072_600 + variant
+        const mission = template.build(variant, choiceSeed)
+        const repeated = template.build(variant, choiceSeed)
+
+        expect(mission, `${template.id} variant ${variant}`).toEqual(repeated)
+        expect(mission.prompt.trim(), `${template.id} variant ${variant} prompt`).not.toBe('')
+        expect(mission.correctAnswer.trim(), `${template.id} variant ${variant} answer`).not.toBe('')
+        expect(mission.solutionSteps.length, `${template.id} variant ${variant} solution`).toBeGreaterThan(0)
+        expect(mission.solutionSteps.every((step) => step.trim().length > 0)).toBe(true)
+        expect(mission.visualModel.trim(), `${template.id} variant ${variant} visual`).not.toBe('')
+        if (template.representation !== 'context') {
+          expect(mission.visualModel, `${template.id} variant ${variant} visual`).toBe(template.representation)
+        }
+        expect(Object.keys(mission.visualConfig).length, `${template.id} variant ${variant} visualConfig`).toBeGreaterThan(0)
+        if (mission.choices) {
+          expect(mission.choices, `${template.id} variant ${variant} choices`).toHaveLength(4)
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant} unique choices`).toBe(4)
+          expect(
+            mission.choices.filter((choice) => choice === mission.correctAnswer),
+            `${template.id} variant ${variant} answer occurrence`,
+          ).toHaveLength(1)
+        }
+      }
+    }
+  })
+
+  it('keeps reviewed wording, grade-level explanations, and graph contexts unambiguous', () => {
+    const byId = new Map(grade4MissionTemplates.map((template) => [template.id, template]))
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      const patternClaim = byId.get('g4-pat-09')!.build(variant, variant)
+      expect(patternClaim.prompt).toContain('위 수에')
+
+      const rightTriangle = byId.get('g4-tri-03')!.build(variant, variant)
+      expect(rightTriangle.solutionSteps.join(' ')).toContain('직각')
+      expect(rightTriangle.solutionSteps.join(' ')).not.toContain('²')
+
+      for (const id of ['g4-graph-01', 'g4-graph-07']) {
+        const temperature = byId.get(id)!.build(variant, variant)
+        const values = String(temperature.visualConfig.valuesCsv).split(',').map(Number)
+        expect(Math.max(...values), `${id} variant ${variant} temperature`).toBeLessThanOrEqual(40)
+      }
+
+      for (const id of ['g4-graph-03', 'g4-graph-09']) {
+        const changingHeight = byId.get(id)!.build(variant, variant)
+        expect(String(changingHeight.visualConfig.title)).toContain('물')
+      }
+    }
+  })
+
+  it('records every Grade 4 review exactly once and leaves absent browser evidence blocked', () => {
+    const catalog = reviewCore.buildCatalog(
+      reviewCore.loadActualSources(process.cwd()).filter(
+        (source: { grade: number }) => source.grade === 4,
+      ),
+    )
+    const receipt = JSON.parse(
+      readFileSync(
+        join(process.cwd(), 'docs/tracking/problem-editorial-review-work/grade4.json'),
+        'utf8',
+      ),
+    )
+    const expectedReviewIds = catalog.items.map((item: { reviewId: string }) => item.reviewId)
+    const actualReviewIds = receipt.items.map((item: { reviewId: string }) => item.reviewId)
+
+    expect(actualReviewIds).toEqual(expectedReviewIds)
+    expect(new Set(actualReviewIds).size).toBe(grade4MissionTemplates.length)
+    for (const item of receipt.items) {
+      expect(item.status, item.reviewId).toBe('blocked')
+      expect(item.evidence, item.reviewId).toMatchObject({
+        editorialRead: true,
+        variantAudit: true,
+        preAnswer: false,
+        hint: false,
+        revealed: false,
+        mobile: false,
+        tablet: false,
+        artifacts: [],
+      })
+    }
+
+    const errors = reviewCore.loadContractModule().validateEditorialLedger(catalog, receipt)
+    expect(errors.filter((error: string) => !error.startsWith('blocked editorial status: '))).toEqual([])
+    expect(errors.filter((error: string) => error.startsWith('blocked editorial status: '))).toHaveLength(
+      grade4MissionTemplates.length,
+    )
+  })
+
   it('keeps every reviewed unit at ten K4/A4/R2 templates', () => {
     const result = validateGrade4MissionBank(ledger)
 

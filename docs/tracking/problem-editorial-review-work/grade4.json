@@ -1,0 +1,2571 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "reviewId": "4:mission:g4-ang-01",
+      "contentHash": "b353b7821ced88e43a4fc094202a096d7d0be0180dff286d4fb84d4e8a6c9069",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-02",
+      "contentHash": "9f22c6c5b6110e292317e46d0eee1bb8af6fc2096ef017af0bdf0ccdf6b233a0",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-03",
+      "contentHash": "7edd2236231ad52226edf9d9cf224aff16e025d11e7165c54206b72686bcdb19",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-04",
+      "contentHash": "b3bf92fced8074905a3290c3b590026e99f44e6c2c654eea371c0a604b04f100",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-05",
+      "contentHash": "47fc93f9b3d8e0bcc5a67eebf894f4fc09501f25bbe018abbb044d35afd199d0",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-06",
+      "contentHash": "32620d93a9ce48ab3b26e47989d79637447e6bae261431d89319181d24c61f87",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-07",
+      "contentHash": "9469b4d57d79b3b3df15438e7e2c728bde1d08ba1d77aee6adc6a6e508396b37",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-08",
+      "contentHash": "0c2fca1adcd0de39d5d556896ad00085a243c2149655582de96cd1db496b3dec",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-09",
+      "contentHash": "aa1fe2f8ce7b506296ad803926cb29f6cd8bfd0d0803d09a53ccea6f40167d01",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-10",
+      "contentHash": "cf684f0cf073bee54ac8213215d78053e2849cf8c42d09026efd95f439a7ab69",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-01",
+      "contentHash": "6cf21363171ce34d8daebc93e8e6734b0e7e2e1eb3db170392d4af7cf2e03e1a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-02",
+      "contentHash": "f0dc5f58c4087d0b10d4e5e13aaca1297227a6163a21cdfa1cc4d8693f5e329a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-03",
+      "contentHash": "5f185c25fed560330cd8842fa346b6de98409d381f1b8a0f6b84df0d5f3118fd",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-04",
+      "contentHash": "4e746433e6d424eb4433b5c07f58a0ae1c0cccef7cfe05ec88b286b12544b7d5",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-05",
+      "contentHash": "9e775b797520368e92d6acf598bcbdb4600d0963068355cc4200be7eb9551dc2",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-06",
+      "contentHash": "aa2a7c86f3a46a5983aae609b8643cdcc96e9cec5ef601226970cb46f484a069",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-07",
+      "contentHash": "4f41b63db506f7a7e96a908cdacebd4f196946f0b5e7aff6360a0cc20b7d0fe0",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-08",
+      "contentHash": "f24f6acce042b957f651b562f29998d7dc460a2dc5ab12d076ffdbf239e205f8",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-09",
+      "contentHash": "4f36c1b73b98f89f172d27aaf4f513aba41b8eb0be7783446b132af089594bbe",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-10",
+      "contentHash": "2e1e59d13ef4b918d081570705cdb40358af5224dcb7ff7f6642e49f933572a6",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-01",
+      "contentHash": "443f37920cf8d40601551a430fff1f178e9fa75ff212a59726b4319e093f4d52",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-02",
+      "contentHash": "58d190b17a3ef5ae3eebfc897c8170c699be4d74a0b8bba126dc65210e3a9b74",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-03",
+      "contentHash": "76e80bef0df954b1a734cbdc26588f4a7be8a6ed388147b164ce2f974e431344",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-04",
+      "contentHash": "b0d15c87dfad73333ccc2cd670d7a38f7673d59e4ce40058162c97407ca16082",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-05",
+      "contentHash": "2b007911d4176eda913ee3d30901e6e018745c16c0c0267d9f43d8252a6e8069",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-06",
+      "contentHash": "708ce0835185a8a41789de7d4a2f0b3de945d0578871b3b1bcb88408e703a7be",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-07",
+      "contentHash": "64fe8df59cf4ccf0658ad2af4675e1319c492f31b92f018ec3ab97879e00a227",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-08",
+      "contentHash": "b7c83f73c63f1a08c7f9d265ba50a122052d4431c29958c9b532e99ecc100665",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-09",
+      "contentHash": "7bdcedaeb10a25abeb7e5201b2b99b5924e28cb8266f4b5c89c8f9edd5c864af",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-10",
+      "contentHash": "a77468a2a5bfd00b382bf2d7d22d449f42a6459d1bb38bc04628eb0f58678520",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-01",
+      "contentHash": "3ddc957126f587f8d93e4a046468fee0d08c87794eef5c4a3a7f4eb6ce0ca246",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-02",
+      "contentHash": "53524135fd8f50c6d343cce3a6876b2b649301c5529ab6ba4e8d7be95a4fb701",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-03",
+      "contentHash": "649cbc3157b1c6f4dc483bd8848bbe5647b52e58c7a5407787a5982aefbabe55",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-04",
+      "contentHash": "c479457cf3b7531358059cd6f7398d2a5075cfbde5fbb7b4826d8c58d9cd18f6",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-05",
+      "contentHash": "bba3284987cf161a017c34c75901c4cd2f4d8544a78191cd89eef0bd2eab426a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-06",
+      "contentHash": "2a446724cd537c89f7a6cfa6838f42bf3f42bbbc66db708fa100d2c2b3aeb1f0",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-07",
+      "contentHash": "b5aae4b092109fd6f3a232b1b0b418372c6c89ef62a2d2c7fc99ebbe18ea8e15",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-08",
+      "contentHash": "2f2b22882ea1759495857521d954a0e40be23480955e7b79c9ceb9b381b5ceb9",
+      "status": "blocked",
+      "findingCategories": [
+        "visual_semantics"
+      ],
+      "note": "The declared representation was corrected to the actual division model. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-09",
+      "contentHash": "fa35c97e79bdc98157b8ba1589f8195bafd771d5e3303f629e69571baf9c7e4a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-10",
+      "contentHash": "8d02db943b486e84aacf29f2097a6b3216c9f8f8ba3198d6b3c97490f7d49f65",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-01",
+      "contentHash": "4ec6514e86a9fc602a29627da36998637d906e1f608ca73e79f1db8fe9dacc2f",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-02",
+      "contentHash": "994e82ed6c3f6a0d4cd626f5433d65229ab72cb075643218254f2acb4c181aff",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-03",
+      "contentHash": "28b5a3d20ae8470ddd57d402edf909fd911cfbbdca86c568a999a8c2cd713190",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-04",
+      "contentHash": "bfb5fd46ba426ae98e1e391570df7db7f503080fb90acbbfab6e8d2c5f69c4f5",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-05",
+      "contentHash": "8eae3a1c106987d229573d65624ee35657e7220a270be634210394fdb2a3d9fd",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-06",
+      "contentHash": "31fc3186edc2d9b0f50fe5e7541174da270518298da62fc763b44b78303dcf54",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-07",
+      "contentHash": "7789fa4de8052bed8433e4a23df98fb4b0afbb783c98b662c3b7d3877497b405",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-08",
+      "contentHash": "8820ad27de1b3c99ce757ddde035eceaa40f64b47c3558bb7bedcb41db4488a7",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-09",
+      "contentHash": "b35078115a12306e20f2525fb052dda516ae37c4305b04cb53ed9657ba198b42",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-10",
+      "contentHash": "c039aa57b14183048cc604294319e8644783172c98206382d4623feffcb5d91e",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-01",
+      "contentHash": "f9933ac32fed9d600380d6e863c3f3ff16b71bd03630033dd978e8dc74f429e2",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-02",
+      "contentHash": "10d0391e24f75bbc54485d8814bf8f45a4c36d6095ad57498a4d2948aac7d871",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-03",
+      "contentHash": "8c18ebf0862c2e44206a056e81afe350ac5d84272522c2c8135b6835044fd9a6",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-04",
+      "contentHash": "83b0658c3b34465dbf73416f0b3b0aab7b00071c82483da0da677a8b292b2521",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-05",
+      "contentHash": "c008cff0d8528ff9f1911aec9fc4702a423d6f0c76ff6de7fe0cd23d7eaed997",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-06",
+      "contentHash": "e74fd8545c7386c07116769c57c677d9d327a00f5f6a3fe77fd32e57bb8a6fe8",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-07",
+      "contentHash": "0372b480b30928bdc2dfecaa997e572d330fd0d5ab7affb7de1fef972b7fb74a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-08",
+      "contentHash": "0d93cf0ca84c889ebbdc1c7e9c0fcc299bca8dba31d946f3101a8a6986dbcec9",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-09",
+      "contentHash": "f7da35313387e4bd5131451566e8ba01e7c5a3c205532b3c4e82536256aa202e",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-10",
+      "contentHash": "b41e8e4bb2f697a3fd19834bbfe2e139081825bce20a6c1acb875b0a8d7070eb",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-01",
+      "contentHash": "fd4633ebc02439d716f72842beb7c66144914959dc87d74ece8ee873c6161432",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-02",
+      "contentHash": "b16a7899e261548f151c716baff50ae57c85ee282d9009a5f0e8e75a0e67ffef",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-03",
+      "contentHash": "154302ca15edab23e041389facd65469066be2e20eb3b6ab79d9f3a421073124",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-04",
+      "contentHash": "c6b6309a4c2fdf41c8c720fda9a910e5c9904e2fe2bc281a438daf010cfa32c2",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-05",
+      "contentHash": "71d9316797dd1f7342e95232f6eeeb389d11a599c3d10fa6b975e7827647b2c8",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-06",
+      "contentHash": "8aa133af7b94e8e7beee12807844ff3110beb5f1e07f8327631eebc0d95098ca",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-07",
+      "contentHash": "18f27e506c890e09320a2212252613b7afb24d56f9a4b4eca992bd6f02fd8b5d",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-08",
+      "contentHash": "fbc85a4fc8d0377a716943ec52427d556e7fcfee88ac6a85475c4250c9904cb9",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-09",
+      "contentHash": "de705ff6f41db1bbaceb79fc49c473f531fa4ceb165e169af75dfef7301b8345",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-10",
+      "contentHash": "89089e63674cdc4127d0abaf9e3bee4a12741a00e369d3d01d814c02965f1ea8",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-01",
+      "contentHash": "518ad79edae1374525136c715e561ce6c1b54dceb61e58f00223e3470dc00e71",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-02",
+      "contentHash": "a8c8c03084130cb04a3e77b1645ea9489df840c249df539f739c413a07bf6952",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-03",
+      "contentHash": "6b2799f82c73b68ff28d5cb6016b21c302d685e81a82e304f9ad98a61765bcca",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-04",
+      "contentHash": "88f6914744a9dc75ae0311786706dbd9f029cfd6e986a8bde025aeb37fc0065d",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-05",
+      "contentHash": "6bff46c93940b22a8f0227f529c634095a43bbbf73aa9098d7b14e28f122e1fb",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-06",
+      "contentHash": "0d2408d26c3725ca3526274f92ad2fdbb2cd11bd95f095cc8c3ccb5eaaf378f2",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-07",
+      "contentHash": "de2ec7a29016f4c7005b96a0e8e8cb610824e9ff08e56ac196c4987cb229f615",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-08",
+      "contentHash": "3419c2b04ccda5be60c161572c08040e6e0baac3eac5936a362f9c2a3dda6d43",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-09",
+      "contentHash": "9b807525f8cae8bdad028e935465f976ce89846cddd9b6f58afaec15e16ec813",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-10",
+      "contentHash": "c3297c91c17d1350193074f771be076ca719fdea0d9b354e65c3d3067d4a6aa9",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-01",
+      "contentHash": "9315b37453a7ded50536d5eaab6103bf8b70509500e2afb00384f14bb6558ce2",
+      "status": "blocked",
+      "findingCategories": [
+        "grade_appropriateness"
+      ],
+      "note": "The classroom temperature variants and axis were reduced to a plausible range. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-02",
+      "contentHash": "7321b568f80ea8aa640ad76c433103c657535d198fc3abc31c92a137884840a3",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-03",
+      "contentHash": "606ac5229c1b5fcd380c8451fc0ff2891b2f6032ec086cf9614fff0e407dd114",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "The changing-height context now uses aquarium water rather than a plant that shrinks. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-04",
+      "contentHash": "babd5626541455253ede31187d73050af5dfd00464f692a3e73858a65af0826b",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-05",
+      "contentHash": "f43ec7b065f90c4779bcd1ae154154f2dde4d6fc0f38cec98f879a357559f15c",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-06",
+      "contentHash": "f9c32bac52dcbbc740630ac0df66f4a9f5b637f1231339e7945fe90e363d2214",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-07",
+      "contentHash": "55d41a5c1fc92736e65d697ac07ab7f3c0a658c2b82ca83f71d798b58a9aa79e",
+      "status": "blocked",
+      "findingCategories": [
+        "grade_appropriateness"
+      ],
+      "note": "The weekly daytime temperature variants and axis were reduced to a plausible range. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-08",
+      "contentHash": "7cd80d198c7b82ac979cda15ce8f17444fd6355a0df8a41927994a9d68f11055",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-09",
+      "contentHash": "6d767dd31889552764f79f45ad1b004b8e6dd683e5ff73e2f49b5aa4bcf283c2",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "The changing-height source table now uses aquarium water rather than a plant that shrinks. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-10",
+      "contentHash": "63997fd8986b9c4678efd00655abd9ab61773d74c81da297a874f8756371ddb4",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-01",
+      "contentHash": "7d79523c7eac1ab24c67ee03cb46326ca93e20a6fbc82ae248cfab2965b56709",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-02",
+      "contentHash": "e92692412088ce5279091f18bb274ccdd8857f14efea8a80e7a249cdded3456c",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-03",
+      "contentHash": "bdad981686373e13c2f5337fb76928123c31f0ae2edf14000fd04a4a415b3255",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-04",
+      "contentHash": "1953c15e8165dc551a1f41f70946b9554ae334a5814b7b9f640b485f4e502d39",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-05",
+      "contentHash": "b82bf02e841999979f0e39d804570ea4559ce2dec60b10ea4b52da08eadad151",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-06",
+      "contentHash": "1e6f70d5c240c7f1263eeed71cd985fe8900ad8efc073a7d39533ae651626841",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-07",
+      "contentHash": "b30f32116490a00c7b0a772bcf67ac06e6b9b40c54de261f4033d9eb49fb37b8",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-08",
+      "contentHash": "8197752bee50d910bd140422045754b27ba7a8a2da28cd3052263f5edf40094c",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-09",
+      "contentHash": "4e469e93371185f6e388b11c14ca4e5e054272a6080192690f4a8ae975c9c4ff",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-10",
+      "contentHash": "1fa43c3d51c3508c95dad1a019a4de87f693e395fd3869a53f470d91d2a9e556",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-01",
+      "contentHash": "ab465253efbb4da90f228ea511d49959c0f411a20279795e79b1ad4484c3c87b",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-02",
+      "contentHash": "e1a4298e5dc2102c0aa5d09f7d2e14f2cab5299136046f2ccd432b0cd0c9db92",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-03",
+      "contentHash": "de7d8fe183cb85e9e6d9c4bbce281d35fbbf10ca0f87abd4a0fded0e14269c9e",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-04",
+      "contentHash": "fe118efd28fc6f8172549ee3ee0c3eb04853ce4bbd7e274db6132292aa443fea",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-05",
+      "contentHash": "c7347c278dfa2c940f39fc06c8070aa07c0ebedc7fffd052159ea42434f8b947",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-06",
+      "contentHash": "a12c9be5e232fd744a238fc152aba26153ac94d3c22043f472d13dcbacf9e5fa",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-07",
+      "contentHash": "05188a8b69397bedd2775bcf25d0681e96663f1b270b967fa68411870b7eaf5b",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-08",
+      "contentHash": "40881754d78ac612bd096452de4cc3bf6eb0d260e1f142cfaef9a56245fe9ba0",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-09",
+      "contentHash": "a3220204e94f869f0dac2dbd73c43370e8eed2d66b10a4adaad07e0ee5b88185",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-10",
+      "contentHash": "63f149ed479071c7af277c300f64ae6a5a5e26d019dc9826c01b9dda71c36bc9",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-01",
+      "contentHash": "43d55fc0afb53100fb0ece5e6e325dcdbc57af70ef8ee5cb35cf5a6a80090d60",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-02",
+      "contentHash": "f6828ebfffe4e0df06dcb3c56ed4798d1e8495b992aec8d382060453ae72f485",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-03",
+      "contentHash": "2781ec3eca9e6100ec4cdc1a9d850b8f82558aae36bab5bb9d99e8c47c5bdff2",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-04",
+      "contentHash": "f545ed07578edda50f08c15a1c0d3d2ac69904b80caffc541ed6801bf54ad597",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-05",
+      "contentHash": "76b59cef2a647038cdeca81d4840d56550f6634f689e1174dca9bd3e2307b8eb",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-06",
+      "contentHash": "f38d40f9b69c4a04e21f25500ff4917dd72d3305a7729f597ce8225b07d49797",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-07",
+      "contentHash": "10f584044831582e2b3ee1e3ce575daca01b3b569e0d01ecf3f6e8084b7391a4",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-08",
+      "contentHash": "4b35711f2b2c7a567929ec80ad2cddb2c81357d8e8545aeb90b34ecee56a416c",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-09",
+      "contentHash": "e4a7d7ac9b54284b88c75a588692cdc0fa468ce53cce94fa42eb09ecb4ee66cc",
+      "status": "blocked",
+      "findingCategories": [
+        "solvability",
+        "wording"
+      ],
+      "note": "The claim now explicitly says to add to the input, removing the ambiguity with the valid output-to-output step rule. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-10",
+      "contentHash": "31f1e73c0d12eed48cd5dac81bc16a6cf6d8424614ea7bcc15be461aacaf61d0",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-01",
+      "contentHash": "471d1a5d86671ce1ae513e8e83b3b9b2556ca7045c64bd2ec816be14e4b30abd",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-02",
+      "contentHash": "df1c1ed38c5d8ba43960c8d127a41266008f46450c5fb6bdf9a1b66a69a3feb7",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-03",
+      "contentHash": "512832120fa643d4371a0a7096377d9d378263048e354c6d9e183647808ff33a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-04",
+      "contentHash": "3b28cb91ff1f2c5fefb822307315a0d11f6193e91edf349b6072fb8917f05eda",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-05",
+      "contentHash": "01145f0e4051222546d19d4b3d2b7c3952f3893ff7db84750317fd5d29dda4ff",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-06",
+      "contentHash": "367dd2193b5888e82dc753ddcd29feb291c7cefd80479fa4079c2fa179130bb0",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-07",
+      "contentHash": "d06c367f63671cfa1aaca1cf430f0461c415a8aac7656d9a19b98dcfcc3d9493",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-08",
+      "contentHash": "222ee94225efef7d6a7a3fbb98429244e01f3167d7f3410bbb2d64f1415bdfc1",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-09",
+      "contentHash": "4bf5fc584927098dee6ff6bf317a0f280710111d690f0a60fb4fdfc5e3962188",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-10",
+      "contentHash": "f8db0585fbad46fbd3c5ce7cfd777e5e90e6192426bd0a9aaa637d3da657d20e",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-01",
+      "contentHash": "4ec82e0583264381a9d3eb6f09f635fa3295a34320724b0b33a652e7add3c30a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-02",
+      "contentHash": "9e0d17ca1c4330d78dd3b3bb71692a8998a2c520e38ea98afc1599b87942ab2f",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-03",
+      "contentHash": "b0faaa342dfb51a53a3e5f026cdc72a145ed6ab5c23f6c68d4a499848f85a404",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-04",
+      "contentHash": "6a01299e9d9a4d6f677ff04a51caa3b4b86259638896dbd526e26f6b0dd551d1",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-05",
+      "contentHash": "5038f5732741aef9c152685a5a5a8303d0da32da459246745b3d5ed7cea8e33f",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-06",
+      "contentHash": "4138bb0fff815debc95f6ca7ab6ea1360cbfcaa59e5fc00216aa691d4f4d6f24",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-07",
+      "contentHash": "bb8adfac34cb50ce0a792a9a2ad7dd37568de536cd9905d65984d117929ed030",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-08",
+      "contentHash": "20bb54954dcefec454b662b744f6f80c454e4cc1d440b6cb0a19d14ff9e5d540",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-09",
+      "contentHash": "a4a6c83b1147b8bef8049a27381d5b83bcb9b2e8c665f9175fb291172133eef3",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-10",
+      "contentHash": "450a94023dd1322795d65e31085f258383db1927374e5594542f64fbf557cb60",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-01",
+      "contentHash": "6976867652bbfba22ecc032ce819a15c50c4700098dfbfef2b2c2852cfdf751c",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-02",
+      "contentHash": "5fedd45bd1706ef02f8dc30c21f6390a560cf7ac9919803792ba30c5d0350f49",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-03",
+      "contentHash": "c56924290fd07fa186e149617931272db2253f520904e2dc047f290f6d73bc77",
+      "status": "blocked",
+      "findingCategories": [
+        "hint_solution",
+        "grade_appropriateness"
+      ],
+      "note": "The solution now uses the given right-angle mark instead of a Pythagorean-square argument beyond the Grade 4 target. Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-04",
+      "contentHash": "59dec71a1f54396b26aba9072c239f52379cd7dfa86365ef0b3c7a404e3d4b03",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-05",
+      "contentHash": "08f63f227b58c50bb7dfac5d67567c13394e3f8e0df0ff8e081308b7655abb4c",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-06",
+      "contentHash": "a80d8cc1e0d264d88de1a0d78b9c82bcbd0cf4d3e224568e72f8fe0cf21d5d6b",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-07",
+      "contentHash": "8f2df47305df2473a1532a7ef6d5e64fe218c30c09160063418a6b62b9757a10",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-08",
+      "contentHash": "d3b30bc6b4c802aa549b8b16abc35afee0218469ed2ca932f96efb592aff7616",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-09",
+      "contentHash": "4eea8f9a09450bc7c330eaff33e851fa23fa2b49ab0621d665aaaedeeeaa5f16",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-10",
+      "contentHash": "083b259e773ba2639d3759186d4bdfc11a8144e2dbb13fff1d214e450dcd803f",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Editorial source read and variants 1..9 audited with fixed choice seeds. Browser pre-answer, hint, revealed, 390x844, and 1024x768 evidence was not captured in T7, so visual pass remains blocked.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    }
+  ]
+}
