@@ -12,6 +12,12 @@ const GRADE6_KEYS = [
   'mathAssist_grade6Progress',
 ] as const
 
+type StoredGrade6Problem = {
+  type: 'choice' | 'number'
+  correctAnswer: string
+  correctChoiceIndex?: number
+}
+
 async function clearStorage(page: Page) {
   await page.goto(`${BASE_PATH}/`)
   await page.evaluate(() => localStorage.clear())
@@ -26,6 +32,14 @@ async function enterKeypadAnswer(page: Page, answer: string) {
   for (const character of answer) {
     await page.getByTestId(`key-${encodeURIComponent(character)}`).click()
   }
+}
+
+async function answerStoredProblem(page: Page, problem: StoredGrade6Problem) {
+  if (problem.type === 'choice') {
+    await page.getByTestId(`choice-${problem.correctChoiceIndex}`).click()
+    return
+  }
+  await enterKeypadAnswer(page, problem.correctAnswer)
 }
 
 test.beforeEach(async ({ page }) => {
@@ -55,6 +69,9 @@ test('홈에서 6학년을 선택해 단원·개념·기본 5문제까지 진입
 })
 
 test('10문제 세트의 실제 비율 표를 렌더링하고 답 전용 metadata를 노출하지 않는다', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(Date, 'now', { value: () => 1 })
+  })
   await page.goto(`${BASE_PATH}/practice/g6ratio-001?set=A&count=10`)
   await expect(page.getByTestId('practice-session')).toBeVisible()
   const tableIndex = await page.evaluate((key) => {
@@ -95,11 +112,11 @@ test('5문제를 모두 확인하면 6학년 결과와 진도만 격리 저장�
   await expect(page.getByTestId('practice-session')).toBeVisible()
 
   for (let index = 0; index < 5; index += 1) {
-    const answer = await page.evaluate(({ key, itemIndex }) => {
+    const problem = await page.evaluate(({ key, itemIndex }) => {
       const session = JSON.parse(localStorage.getItem(key) ?? 'null')
-      return String(session.problems[itemIndex].correctAnswer)
+      return session.problems[itemIndex] as StoredGrade6Problem
     }, { key: GRADE6_KEYS[0], itemIndex: index })
-    await enterKeypadAnswer(page, answer)
+    await answerStoredProblem(page, problem)
     await page.getByTestId('check-answer-button').click()
     if (index < 4) await page.getByTestId('next-button').click()
   }

@@ -345,6 +345,9 @@ test('5학년 도형 연습은 SVG 정답을 제출 전 숨기고 결과에서 �
 })
 
 test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세션도 복구한다', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(Date, 'now', { value: () => 3 })
+  })
   await page.goto(`${BASE_PATH}/practice/area-001?set=A`)
   const session = await readSession(page)
   const overlapProblemIndex = session.problems.findIndex(
