@@ -21,6 +21,14 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-28: T11 final editorial-ledger integration (primary workstream 04)
+  owns `docs/tracking/problem-editorial-review-v1.json` as the only final
+  Grade 1-6 review decision source. It contains exactly 1,540 current pass
+  items, empty final finding categories, preserved per-item resolution notes,
+  and required visual evidence. Runtime review, validation, and evidence
+  application must read this file; parallel grade receipts are temporary
+  merge inputs and must not survive a completed publication review.
+
 - 2026-07-28: T10 visual-browser evidence integration (primary workstreams
   03 and 04) owns the deterministic 931-item/3,018-variant evidence report,
   its fail-closed validator and temporary-receipt application, and the

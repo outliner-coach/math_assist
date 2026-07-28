@@ -30,15 +30,21 @@ npm run dev
 제품 코드나 콘텐츠를 바꾼 경우 영향 범위의 집중 테스트를 먼저 실행한 뒤 다음을 수행한다.
 
 ```bash
-npm run lint
-npm test
-npm run tdd:guard
-npm run validate:templates
 npm run validate:grade1
 npm run validate:grade2
 npm run validate:grade3
+npm run validate:grade4
+npm run validate:grade6
+npm run validate:curriculum
+npm run validate:templates
 npm run audit:missions
-npm run audit:problems
+npm run audit:problems -- --strict-warnings
+npm run promptfoo:problems
+npm run generate:problem-review-catalog
+npm run check:problem-editorial-review
+npm test
+npm run lint
+npm run tdd:guard
 npm run build
 npm run test:e2e
 git diff --check
@@ -49,13 +55,32 @@ git diff --check
 - Playwright는 기본적으로 3100 포트를 사용한다. 다른 서버와 충돌하면 `PLAYWRIGHT_PORT=3173 npm run test:e2e`처럼 빈 포트를 지정한다.
 - `npm run build`는 `out/`에 GitHub Pages용 정적 결과를 만든다. 빌드 중 69개보다 경로 수가 달라질 수 있으므로 수치 자체보다 의도한 동적 식별자가 모두 생성됐는지 확인한다.
 
-문제 품질의 선택적 외부 평가를 실행하려면 다음을 사용한다.
+`npm run promptfoo:problems`는 문제 품질 출판 주기의 전체 검증에서는
+필수이며, 일반 기능 변경에서는 선택적 외부 평가로 실행할 수 있다.
 
 ```bash
 npm run promptfoo:problems
 ```
 
-이 명령은 기본 출시 게이트가 아니며 생성·채점의 권한을 AI에 넘기지 않는다. 결과는 품질 검토 자료일 뿐 정답 판정 자료가 아니다.
+외부 평가가 통과해도 생성·채점의 권한을 AI에 넘기지 않는다. 결과는
+품질 검토 자료일 뿐 정답 판정 자료가 아니며, 결정적 validator·감사·
+편집 원장 검사를 대신하지 않는다.
+
+실제 renderer 검수 증거를 다시 만들 때는 개발 서버와 빌드를 겹치지
+않게 다음을 실행한다. 이 명령은 931개 시각 원본의 허용 변형을
+전수하므로 시간이 오래 걸린다.
+
+```bash
+npm run generate:problem-visual-evidence -- \
+  --output docs/tracking/problem-visual-browser-evidence-v1.json
+npm run apply:problem-visual-evidence
+npm run generate:problem-review-catalog
+npm run check:problem-editorial-review
+```
+
+증거 생성이나 적용이 실패하면 최종 원장을 통과로 유지한 채 결과를
+무시하지 않는다. renderer 검수 버전과 최신 해시를 맞추고 영향 항목을
+다시 확인한다.
 
 ## Codex 작업 단계 실행
 

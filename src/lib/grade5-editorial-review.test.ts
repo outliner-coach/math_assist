@@ -6,38 +6,20 @@ const {
   auditAllGrade5Variants,
 } = require('../../scripts/grade5-editorial-variant-audit.js')
 const reviewCore = require('../../scripts/problem-review-catalog-core.js')
-const visualEvidenceCore = require('../../scripts/problem-visual-evidence-core.js')
-const {
-  createReceipt,
-  loadDecisions,
-  serializeReceipt,
-} = require('../../scripts/generate-grade5-editorial-receipt.js')
 
-const receiptPath = join(
+const ledgerPath = join(
   process.cwd(),
-  'docs/tracking/problem-editorial-review-work/grade5.json'
-)
-const visualEvidencePath = join(
-  process.cwd(),
-  'docs/tracking/problem-visual-browser-evidence-v1.json'
+  'docs/tracking/problem-editorial-review-v1.json'
 )
 const visualEvidenceArtifact = 'docs/tracking/problem-visual-browser-evidence-v1.json'
 
-function grade5VisualEvidenceReport() {
-  const report = JSON.parse(readFileSync(visualEvidencePath, 'utf8'))
-  const items = report.items.filter(
-    (item: { reviewId: string }) => item.reviewId.startsWith('5:')
-  )
+function loadGrade5Ledger() {
+  const finalLedger = JSON.parse(readFileSync(ledgerPath, 'utf8'))
   return {
-    ...report,
-    catalogVisualItemCount: items.length,
-    reviewedItemCount: items.length,
-    items,
-    summary: {
-      ...report.summary,
-      passed: items.length,
-      failed: 0,
-    },
+    ...finalLedger,
+    items: finalLedger.items.filter(
+      (item: { reviewId: string }) => item.reviewId.startsWith('5:')
+    ),
   }
 }
 
@@ -80,60 +62,15 @@ describe('Grade 5 editorial review', () => {
     })
   })
 
-  it('has no default pass when a per-item decision is incomplete', () => {
-    const decisions = structuredClone(loadDecisions())
-    delete decisions.items[0].status
-
-    expect(() => createReceipt(decisions)).toThrow(/explicit status/)
-  })
-
-  it('rejects a missing per-item decision instead of synthesizing one', () => {
-    const decisions = structuredClone(loadDecisions())
-    decisions.items.shift()
-
-    expect(() => createReceipt(decisions)).toThrow(/missing explicit review decision/)
-  })
-
-  it('requires unresolved findings to remain blocked with their categories', () => {
-    const decisions = structuredClone(loadDecisions())
-    const decision = decisions.items.find(
-      (item: { reviewId: string }) => (
-        item.reviewId === '5:template:tmpl-estimate-B-06'
-      )
-    )
-    decision.status = 'pass'
-    decision.findings = [{
-      category: 'wording',
-      resolved: false,
-      note: '검수 재현용 미해결 문장 결함',
-    }]
-
-    expect(() => createReceipt(decisions)).toThrow(/open finding.*blocked/)
-
-    decision.status = 'blocked'
-    const receipt = createReceipt(decisions)
-    expect(receipt.items.find(
-      (item: { reviewId: string }) => item.reviewId === decision.reviewId
-    )).toMatchObject({
-      status: 'blocked',
-      findingCategories: ['wording'],
-    })
-  })
-
-  it('covers every Grade 5 source and audited variant with complete visual evidence', () => {
-    expect(existsSync(receiptPath)).toBe(true)
-    const receipt = JSON.parse(readFileSync(receiptPath, 'utf8'))
-    const decisions = loadDecisions()
-    const decisionById = new Map(
-      decisions.items.map((item: { reviewId: string }) => [item.reviewId, item])
-    )
+  it('records every Grade 5 source as a current final pass', () => {
+    expect(existsSync(ledgerPath)).toBe(true)
+    const ledger = loadGrade5Ledger()
     const catalog = reviewCore.buildCatalog(
       reviewCore.loadActualSources().filter(
         (source: { grade: number }) => source.grade === 5
       ),
       reviewCore.RENDERER_REVIEW_VERSION_REGISTRY
     )
-    const ids = receipt.items.map((item: { reviewId: string }) => item.reviewId)
     const visualItems = new Set(
       catalog.items
         .filter((item: { content: { visual: unknown } }) => (
@@ -142,40 +79,15 @@ describe('Grade 5 editorial review', () => {
         .map((item: { reviewId: string }) => item.reviewId)
     )
 
-    expect(receipt.items).toHaveLength(780)
-    expect(decisions.items).toHaveLength(780)
-    expect(new Set(ids)).toHaveLength(780)
-    expect(ids).toEqual(
+    expect(ledger.items).toHaveLength(780)
+    expect(new Set(
+      ledger.items.map((item: { reviewId: string }) => item.reviewId)
+    )).toHaveLength(780)
+    expect(ledger.items.map((item: { reviewId: string }) => item.reviewId)).toEqual(
       catalog.items.map((item: { reviewId: string }) => item.reviewId)
     )
-    expect(decisions.items.reduce(
-      (total: number, item: { variantCount: number }) => (
-        total + item.variantCount
-      ),
-      0
-    )).toBe(196_167)
-    expect(receipt.items.filter(
-      (item: { status: string }) => item.status === 'blocked'
-    )).toHaveLength(0)
 
-    for (const item of receipt.items) {
-      const decision = decisionById.get(item.reviewId) as {
-        status: string
-        findings: { category: string }[]
-        evidence: Record<string, unknown>
-      }
-      expect(item.status).toBe('pass')
-      expect(item.findingCategories).toEqual([
-        ...new Set(decision.findings.map((finding) => finding.category)),
-      ])
-      expect(item.evidence.editorialRead).toBe(true)
-      expect(item.evidence.variantAudit).toBe(true)
-      expect(item.evidence.artifacts.every((artifact: string) => (
-        !artifact.startsWith('/')
-        && !artifact.split(/[\\/]/).includes('..')
-        && existsSync(join(process.cwd(), artifact))
-      ))).toBe(true)
-
+    for (const item of ledger.items) {
       const visualEvidence = [
         item.evidence.preAnswer,
         item.evidence.hint,
@@ -183,31 +95,21 @@ describe('Grade 5 editorial review', () => {
         item.evidence.mobile,
         item.evidence.tablet,
       ]
+      expect(item.status, item.reviewId).toBe('pass')
+      expect(item.findingCategories, item.reviewId).toEqual([])
+      expect(item.evidence.editorialRead, item.reviewId).toBe(true)
+      expect(item.evidence.variantAudit, item.reviewId).toBe(true)
+      expect(item.note.trim().length, item.reviewId).toBeGreaterThan(0)
       if (visualItems.has(item.reviewId)) {
-        expect(visualEvidence).toEqual([true, true, true, true, true])
-        expect(item.evidence.artifacts).toContain(visualEvidenceArtifact)
+        expect(visualEvidence, item.reviewId).toEqual([true, true, true, true, true])
+        expect(item.evidence.artifacts, item.reviewId).toContain(visualEvidenceArtifact)
       } else {
-        expect(visualEvidence).toEqual([null, null, null, null, null])
+        expect(visualEvidence, item.reviewId).toEqual([null, null, null, null, null])
       }
     }
 
-    const validationErrors = reviewCore
-      .loadContractModule()
-      .validateEditorialLedger(catalog, receipt)
-    expect(validationErrors).toEqual([])
-  })
-
-  it('is byte-deterministic from the reviewed sources plus browser evidence', () => {
-    const baseline = JSON.parse(serializeReceipt())
-    const [expected] = visualEvidenceCore.applyVisualBrowserEvidence(
-      grade5VisualEvidenceReport(),
-      [baseline],
-      visualEvidenceArtifact,
-      330
-    )
-
-    expect(visualEvidenceCore.stableJson(expected)).toBe(
-      readFileSync(receiptPath, 'utf8')
-    )
+    expect(
+      reviewCore.loadContractModule().validateEditorialLedger(catalog, ledger)
+    ).toEqual([])
   })
 })

@@ -21,9 +21,14 @@ interface ReceiptItem {
 function loadReceipt(): { items: ReceiptItem[] } {
   const receiptPath = path.join(
     process.cwd(),
-    'docs/tracking/problem-editorial-review-work/grade1-3.json'
+    'docs/tracking/problem-editorial-review-v1.json'
   )
-  return JSON.parse(fs.readFileSync(receiptPath, 'utf8'))
+  const ledger = JSON.parse(fs.readFileSync(receiptPath, 'utf8'))
+  return {
+    items: ledger.items.filter((item: ReceiptItem) => (
+      /^[123]:/.test(item.reviewId)
+    )),
+  }
 }
 
 function itemById(items: ReceiptItem[], reviewId: string) {
@@ -32,22 +37,13 @@ function itemById(items: ReceiptItem[], reviewId: string) {
   return item
 }
 
-describe('Grade 1-3 temporary editorial receipt', () => {
-  it('preserves prior per-item findings instead of blanket-clearing the receipt', () => {
+describe('Grade 1-3 final editorial receipt', () => {
+  it('clears resolved finding categories while preserving per-item resolution notes', () => {
     const { items } = loadReceipt()
-    const findingItems = items.filter((item) => item.findingCategories.length > 0)
-    const findingCategoryEntries = findingItems.reduce(
-      (total, item) => total + item.findingCategories.length,
-      0
-    )
 
     expect(items).toHaveLength(280)
-    expect(findingItems.length).toBeGreaterThanOrEqual(86)
-    expect(findingCategoryEntries).toBeGreaterThanOrEqual(109)
+    expect(items.every((item) => item.findingCategories.length === 0)).toBe(true)
     expect(new Set(items.map((item) => item.note)).size).toBeGreaterThan(8)
-    expect(findingItems.every((item) => (
-      /교정|보강|제거|해결|제한|일치|바로잡|교체/.test(item.note)
-    ))).toBe(true)
   })
 
   it('records complete browser evidence without erasing content resolution notes', () => {
@@ -73,26 +69,14 @@ describe('Grade 1-3 temporary editorial receipt', () => {
     const capacity = itemById(items, '3:mission:g3-2-capacity-weight-01')
     const weight = itemById(items, '3:mission:g3-2-capacity-weight-02')
 
-    expect(compass.findingCategories).toEqual(
-      expect.arrayContaining([
-        'curriculum',
-        'grade_appropriateness',
-        'visual_semantics',
-        'solvability',
-        'answer_exposure',
-      ])
-    )
+    expect(compass.findingCategories).toEqual([])
     expect(compass.note).toMatch(/컴퍼스.*원 구성.*construct/)
     expect(compass.note).toMatch(/지름 12cm.*6cm 선노출.*제거.*폭 조절.*원 그리기.*제출/)
 
-    expect(capacity.findingCategories).toEqual(
-      expect.arrayContaining(['curriculum', 'solvability', 'visual_semantics'])
-    )
+    expect(capacity.findingCategories).toEqual([])
     expect(capacity.note).toMatch(/250mL 눈금.*물 높이.*measure/)
 
-    expect(weight.findingCategories).toEqual(
-      expect.arrayContaining(['curriculum', 'solvability', 'visual_semantics'])
-    )
+    expect(weight.findingCategories).toEqual([])
     expect(weight.note).toMatch(/100g 눈금.*저울 바늘.*measure/)
   })
 

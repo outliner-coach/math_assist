@@ -9,10 +9,7 @@ const {
 const ROOT_DIR = path.join(__dirname, '..')
 const EVIDENCE_ARTIFACT = 'docs/tracking/problem-visual-browser-evidence-v1.json'
 const RECEIPT_PATHS = [
-  'docs/tracking/problem-editorial-review-work/grade1-3.json',
-  'docs/tracking/problem-editorial-review-work/grade4.json',
-  'docs/tracking/problem-editorial-review-work/grade5.json',
-  'docs/tracking/problem-editorial-review-work/grade6.json',
+  'docs/tracking/problem-editorial-review-v1.json',
 ]
 
 function readJson(relativePath) {
@@ -40,7 +37,7 @@ function main() {
     )
   }
   console.log(
-    `Applied browser evidence to ${report.items.length} visual editorial receipts`
+    `Applied browser evidence to ${report.items.length} final editorial records`
   )
 }
 

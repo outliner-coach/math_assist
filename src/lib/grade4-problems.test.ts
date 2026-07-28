@@ -427,12 +427,18 @@ describe('Grade 4 Bridge release bank', () => {
         (source: { grade: number }) => source.grade === 4,
       ),
     )
-    const receipt = JSON.parse(
+    const finalReceipt = JSON.parse(
       readFileSync(
-        join(process.cwd(), 'docs/tracking/problem-editorial-review-work/grade4.json'),
+        join(process.cwd(), 'docs/tracking/problem-editorial-review-v1.json'),
         'utf8',
       ),
     )
+    const receipt = {
+      ...finalReceipt,
+      items: finalReceipt.items.filter(
+        (item: { reviewId: string }) => item.reviewId.startsWith('4:'),
+      ),
+    }
     const expectedReviewIds = catalog.items.map((item: { reviewId: string }) => item.reviewId)
     const actualReviewIds = receipt.items.map((item: { reviewId: string }) => item.reviewId)
     const catalogById = new Map(
@@ -451,14 +457,8 @@ describe('Grade 4 Bridge release bank', () => {
         catalogById.get(item.reviewId)?.contentHash
       )
       const templateId = item.reviewId.replace('4:mission:', '')
-      const expectedFindingCategories = (
-        numericConnectiveRegressionTemplateIds.has(templateId)
-        || fractionParticleRegressionTemplateIds.has(templateId)
-      ) ? ['wording']
-        : templateId === 'g4-graph-01' ? ['answer_exposure']
-          : []
       expect(item.status, item.reviewId).toBe('pass')
-      expect(item.findingCategories, item.reviewId).toEqual(expectedFindingCategories)
+      expect(item.findingCategories, item.reviewId).toEqual([])
       expect(item.note, item.reviewId).toContain('variants 1..9')
       expect(item.note, item.reviewId).toContain('taskActions=')
       expect(item.note, item.reviewId).toContain('supportTool=')
@@ -489,7 +489,7 @@ describe('Grade 4 Bridge release bank', () => {
       expect(reviewed?.note, templateId).toContain('Pre-fix finding: korean_particle')
       expect(reviewed?.note, templateId).toContain('47 incorrect fraction-particle surfaces')
       expect(reviewed?.note, templateId).toContain('Resolution:')
-      expect(reviewed?.findingCategories, templateId).toEqual(['wording'])
+      expect(reviewed?.findingCategories, templateId).toEqual([])
     }
     for (let index = 1; index <= 10; index += 1) {
       const templateId = `g4-frac-${String(index).padStart(2, '0')}`
@@ -501,7 +501,7 @@ describe('Grade 4 Bridge release bank', () => {
     const graphReview = receipt.items.find(
       (item: { reviewId: string }) => item.reviewId === '4:mission:g4-graph-01',
     )
-    expect(graphReview?.findingCategories).toEqual(['answer_exposure'])
+    expect(graphReview?.findingCategories).toEqual([])
     expect(graphReview?.note).toContain('answer-only text/attribute')
 
     const errors = reviewCore.loadContractModule().validateEditorialLedger(catalog, receipt)

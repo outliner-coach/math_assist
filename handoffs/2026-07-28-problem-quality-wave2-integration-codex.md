@@ -2,11 +2,17 @@
 
 기준일: 2026-07-28
 
+> T11 완료 갱신: 아래 학년군 경로는 병렬 검수 당시의 역사적 병합
+> 입력이다. 현재 권위 있는 판정은
+> `docs/tracking/problem-editorial-review-v1.json` 하나이며 임시
+> 입력 디렉터리는 제거됐다. `main`·Pages는 여전히 미반영이다.
+
 ## 현재 경계
 
 - 통합 브랜치: `dryforge/problem-quality-production`
-- 현재 로컬 통합본은 `main`보다 29개 커밋 앞서며 아직 `main` 병합,
-  GitHub Pages 배포, 최종 편집 검수 원장 확정은 하지 않았다.
+- 아래 체크포인트 작성 당시 로컬 통합본은 `main`보다 29개 커밋
+  앞서 있었다. 현재도 `main` 병합·GitHub Pages 배포는 하지 않았지만
+  최종 편집 검수 원장은 T11에서 확정했다.
 - `dryforge/task-t6`의 1~3학년 범위와 `dryforge/task-t7`의 4학년
   범위를 각각 통합했다.
 - 사용자 소유 `.vscode`, 기존 `e2e-screenshots`, 루트 PNG 두 장은

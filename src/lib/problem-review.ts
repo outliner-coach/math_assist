@@ -1044,26 +1044,11 @@ async function practiceReviewSources(
 }
 
 async function readEditorialReceipts(): Promise<EditorialLedger> {
-  const receiptPaths = [
-    'grade1-3.json',
-    'grade4.json',
-    'grade5.json',
-    'grade6.json',
-  ]
-  const ledgers = await Promise.all(receiptPaths.map(fileName => (
-    readJsonFile<EditorialLedger>(
-      'docs',
-      'tracking',
-      'problem-editorial-review-work',
-      fileName
-    )
-  )))
-  return {
-    schemaVersion: 1,
-    items: ledgers
-      .flatMap(ledger => ledger.items)
-      .sort((left, right) => left.reviewId.localeCompare(right.reviewId)),
-  }
+  return readJsonFile<EditorialLedger>(
+    'docs',
+    'tracking',
+    'problem-editorial-review-v1.json'
+  )
 }
 
 function enrichReviewRows(
