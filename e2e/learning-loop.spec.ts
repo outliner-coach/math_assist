@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
+import { readFile } from 'node:fs/promises'
 
 import { getGrade1Missions } from '../src/lib/grade1-problems'
 
@@ -1369,4 +1370,116 @@ test('3학년 시각화는 풀이 전 정답을 숨기고 성공 후 공개한�
   await page.getByTestId('grade3-fraction-submit').click()
   await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
   await expect(fractionVisual.getByTestId('grade3-fraction-result')).toContainText('2/5')
+})
+
+test('문제 렌더러 검수 화면은 실제 표본과 상태를 모바일·태블릿에서 재현한다', async ({ page }) => {
+  const browserErrors: string[] = []
+  page.on('console', message => {
+    if (message.type() === 'error') browserErrors.push(message.text())
+  })
+  page.on('pageerror', error => browserErrors.push(error.message))
+  await page.evaluate(() => {
+    localStorage.setItem('mathAssist_reviewPreservationProbe', 'keep')
+  })
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(
+    `${BASE_PATH}/review/problems?id=1%3Amission%3Acount-cove-03&state=pre&variant=minimum`
+  )
+
+  const surface = page.getByTestId('problem-review-surface')
+  await expect(surface).toHaveAttribute('data-review-id', '1:mission:count-cove-03')
+  await expect(surface).toHaveAttribute('data-review-variant', 'minimum')
+  await expect(surface).toHaveAttribute('data-review-state', 'pre')
+  await expect(surface).toHaveAttribute('data-review-answer-visible', 'false')
+  await expect(surface).toHaveAttribute('data-review-status', 'blocked')
+  await expect(surface.locator('[data-actual-renderer]')).toHaveAttribute(
+    'data-actual-renderer',
+    'grade1'
+  )
+  await expect(page.getByText('1540', { exact: true })).toBeVisible()
+  await expect(page.getByText('931', { exact: true }).first()).toBeVisible()
+  await expect(page.getByTestId('problem-review-hints')).toHaveCount(0)
+  await expect(page.getByTestId('problem-review-answer')).toHaveCount(0)
+  await expect(page.getByTestId('problem-review-solution')).toHaveCount(0)
+  const hashes = await surface.evaluate(element => ({
+    current: element.getAttribute('data-review-content-hash'),
+    reviewed: element.getAttribute('data-review-reviewed-hash'),
+  }))
+  expect(hashes.current).toBe(hashes.reviewed)
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    )
+  ).toBe(false)
+  expect(await page.locator(
+    '[data-testid^="review-"][data-testid$="-filter"]'
+  ).evaluateAll(elements => elements.flatMap(element => {
+    const rect = element.getBoundingClientRect()
+    return rect.left < -1 || rect.right > document.documentElement.clientWidth + 1
+      ? [element.getAttribute('data-testid')]
+      : []
+  }))).toEqual([])
+
+  await page.getByTestId('review-variant-select').selectOption('maximum')
+  await expect(surface).toHaveAttribute('data-review-variant', 'maximum')
+  await expect(page).toHaveURL(/variant=maximum/)
+
+  await page.getByTestId('review-state-hint').click()
+  await expect(surface).toHaveAttribute('data-review-state', 'hint')
+  await expect(page).toHaveURL(/state=hint/)
+  await expect(page.getByTestId('problem-review-hints')).toBeVisible()
+  await expect(page.getByTestId('problem-review-answer')).toHaveCount(0)
+
+  await page.getByTestId('review-state-revealed').click()
+  await expect(surface).toHaveAttribute('data-review-state', 'revealed')
+  await expect(surface).toHaveAttribute('data-review-answer-visible', 'true')
+  await expect(page).toHaveURL(/state=revealed/)
+  await expect(page.getByTestId('problem-review-answer')).toBeVisible()
+  await expect(page.getByTestId('problem-review-solution')).toBeVisible()
+
+  await page.getByTestId('review-grade-filter').selectOption('all')
+  await page.getByTestId('review-visual-filter').selectOption('all')
+  await page.getByTestId('review-status-filter').selectOption('blocked')
+  await expect(page.getByTestId('review-source-select').locator('option')).toHaveCount(931)
+  await page.getByTestId('review-status-filter').selectOption('pass')
+  await expect(page.getByTestId('review-source-select').locator('option')).toHaveCount(609)
+  await page.getByTestId('review-reset-filters').click()
+
+  const downloadPromise = page.waitForEvent('download')
+  await page.getByTestId('review-export-ledger').click()
+  const download = await downloadPromise
+  expect(download.suggestedFilename()).toBe('problem-editorial-review-v1.json')
+  const downloadPath = await download.path()
+  expect(downloadPath).not.toBeNull()
+  const exportedLedger = JSON.parse(await readFile(downloadPath!, 'utf8'))
+  expect(exportedLedger.schemaVersion).toBe(1)
+  expect(exportedLedger.items).toHaveLength(1_540)
+  expect(new Set(
+    exportedLedger.items.map((item: { reviewId: string }) => item.reviewId)
+  ).size).toBe(1_540)
+
+  await page.setViewportSize({ width: 1024, height: 768 })
+  await page.goto(
+    `${BASE_PATH}/review/problems?id=5%3Atemplate%3Atmpl-cuboidnet-A-01&state=pre`
+  )
+  await expect(surface).toHaveAttribute(
+    'data-review-id',
+    '5:template:tmpl-cuboidnet-A-01'
+  )
+  await expect(surface).toHaveAttribute('data-review-visual-kind', 'cuboid-net')
+  await expect(surface).toHaveAttribute('data-review-answer-visible', 'false')
+  await expect(surface.locator('[data-actual-renderer]')).toHaveAttribute(
+    'data-actual-renderer',
+    'practice'
+  )
+  await expect(page.getByTestId('problem-review-answer')).toHaveCount(0)
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    )
+  ).toBe(false)
+  expect(await page.evaluate(
+    () => localStorage.getItem('mathAssist_reviewPreservationProbe')
+  )).toBe('keep')
+  expect(browserErrors).toEqual([])
 })

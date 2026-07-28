@@ -435,6 +435,11 @@ describe('Grade 4 Bridge release bank', () => {
     )
     const expectedReviewIds = catalog.items.map((item: { reviewId: string }) => item.reviewId)
     const actualReviewIds = receipt.items.map((item: { reviewId: string }) => item.reviewId)
+    const catalogById = new Map(
+      catalog.items.map((item: { reviewId: string; contentHash: string }) => (
+        [item.reviewId, item]
+      ))
+    )
 
     expect(actualReviewIds).toEqual(expectedReviewIds)
     expect(new Set(actualReviewIds).size).toBe(grade4MissionTemplates.length)
@@ -442,6 +447,9 @@ describe('Grade 4 Bridge release bank', () => {
       grade4MissionTemplates.length,
     )
     for (const item of receipt.items) {
+      expect(item.contentHash, `${item.reviewId} contentHash`).toBe(
+        catalogById.get(item.reviewId)?.contentHash
+      )
       const templateId = item.reviewId.replace('4:mission:', '')
       const expectedFindingCategories = (
         numericConnectiveRegressionTemplateIds.has(templateId)

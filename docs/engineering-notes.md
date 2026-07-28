@@ -1121,3 +1121,31 @@
   파생한다. 시각에는 관찰된 두 수만 넣고 비교 결과, 기약분수,
   예상 횟수, 합친 비율, `answer`·`result`·`target` 같은 답 전용
   값을 제출 전에 추가하지 않는다.
+
+## 검수 화면의 정렬과 입력 폭을 브라우저 기본값에 맡기면 hydration과 모바일 검수가 어긋남
+
+- 증상: 전 학년 검수 화면에 문제군 등 한국어 필터를 추가한 뒤
+  서버 HTML의 option 순서와 브라우저 hydration 순서가 달라
+  React가 전체 문서를 클라이언트 렌더링으로 교체했다. 390px
+  화면은 페이지 가로 스크롤이 0인데도 select 자체가 415px이 되어
+  카드 오른쪽에서 잘렸다.
+- 원인: `localeCompare`의 정렬 결과가 Node ICU와 Chromium에서
+  같다고 가정했고, select의 브라우저 기본 최소 너비가 긴 option
+  텍스트를 따라 커지는 것을 부모의 `overflow-x-hidden`이 가렸다.
+- 실패한 접근: `documentElement.scrollWidth <= innerWidth`만
+  검사하면 잘린 내부 컨트롤을 찾지 못한다. 단위·E2E 성공만 보고
+  실화면의 console과 필터 위치를 다시 보지 않으면 hydration
+  재렌더링도 통과한 것처럼 보인다.
+- 대응: 필터 값은 로케일과 무관한 코드포인트 비교로 결정적으로
+  정렬한다. 모든 필터 label에 `min-width: 0`, 입력에
+  `width: 100%; min-width: 0; max-width: 100%`를 적용한다.
+  E2E는 console/page error 0과 각 필터의 실제 좌우 경계가 viewport
+  안인지 함께 검사한다.
+- 확인: 390×844에서 필터 너비가 415px에서 316px로 줄고 오른쪽
+  경계가 353px에 머무는 것을 캡처했다. 1024×768 실제 직육면체
+  전개도 경계 변형에서도 가로 넘침과 console 오류가 0이었다.
+  전체 Vitest 679/679, build 113/113, E2E 77/77이 통과했다.
+- 유지 계약: SSR되는 선택지 정렬은 실행 환경의 locale에 의존하지
+  않는다. 페이지 가로 스크롤 검사와 별도로 모든 모바일 필터의
+  bounding box를 검사하며, hydration·console 오류 0을 검수 화면의
+  필수 게이트로 유지한다.

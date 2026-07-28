@@ -1,28 +1,88 @@
 import { describe, expect, it } from 'vitest'
 
-import { getProblemReviewData } from './problem-review'
+import {
+  classifyProblemReviewStatus,
+  getProblemReviewData,
+} from './problem-review'
 
 describe('getProblemReviewData', () => {
-  it('builds one deterministic review row per template', async () => {
+  it('builds one deterministic review row per Grade 1-6 catalog source', async () => {
     const data = await getProblemReviewData()
 
-    expect(data.summary.totalConcepts).toBeGreaterThan(0)
-    expect(data.summary.totalProblems).toBe(data.rows.length)
-    expect(new Set(data.rows.map(row => row.templateId)).size).toBe(data.rows.length)
+    expect(data.summary.totalProblems).toBe(1_540)
+    expect(data.rows).toHaveLength(1_540)
+    expect(new Set(data.rows.map(row => row.reviewId)).size).toBe(1_540)
+    expect(data.summary.byGrade).toEqual({
+      1: 96,
+      2: 144,
+      3: 40,
+      4: 150,
+      5: 780,
+      6: 330,
+    })
+    expect(data.summary).toMatchObject({
+      passProblems: 609,
+      blockedProblems: 931,
+      staleProblems: 0,
+      missingProblems: 0,
+    })
+    expect(data.rows.every(row => row.contentHash === row.reviewedContentHash)).toBe(true)
   })
 
-  it('includes rendered prompts and answers for both choice and number problems', async () => {
+  it('includes one actual renderer payload and canonical filter metadata per row', async () => {
     const data = await getProblemReviewData()
-    const choiceRow = data.rows.find(row => row.type === 'choice')
-    const numberRow = data.rows.find(row => row.type === 'number')
+    const rendererCounts = data.rows.reduce<Record<string, number>>(
+      (counts, row) => {
+        counts[row.renderer] = (counts[row.renderer] ?? 0) + 1
+        return counts
+      },
+      {}
+    )
 
-    expect(choiceRow).toBeDefined()
-    expect(choiceRow?.choices.length).toBeGreaterThan(0)
-    expect(choiceRow?.correctChoiceLabel).toMatch(/①|②|③|④/)
-    expect(choiceRow?.correctAnswer).not.toHaveLength(0)
+    expect(rendererCounts).toEqual({
+      grade1: 96,
+      grade2: 144,
+      grade3: 40,
+      grade4: 150,
+      practice: 1_110,
+    })
+    expect(data.rows.every(row => row.prompt.trim().length > 0)).toBe(true)
+    expect(data.rows.every(row => row.correctAnswer.trim().length > 0)).toBe(true)
+    expect(data.rows.every(row => row.hintSteps.length > 0)).toBe(true)
+    expect(data.rows.every(row => row.solutionSteps.length > 0)).toBe(true)
+    expect(data.rows.filter(row => row.hasVisual)).toHaveLength(931)
+    expect(data.rows.every(row => row.curriculumCodes.length > 0)).toBe(true)
+    expect(data.rows.every(row => row.taskActions.length > 0)).toBe(true)
+    expect(data.rows.every(row => row.family.trim().length > 0)).toBe(true)
+    expect(data.rows.every(row => row.rendererReviewVersion.length > 0)).toBe(true)
+    expect(data.rows.every(row => row.variants.length > 0)).toBe(true)
+    expect(
+      data.rows
+        .filter(row => row.renderer === 'grade4')
+        .every(row => row.variants.length === 9)
+    ).toBe(true)
+    expect(
+      data.rows
+        .filter(row => row.renderer === 'practice')
+        .every(row => row.variants.length >= 1 && row.variants.length <= 3)
+    ).toBe(true)
+  })
 
-    expect(numberRow).toBeDefined()
-    expect(numberRow?.correctChoiceLabel).toBeNull()
-    expect(numberRow?.correctAnswer).not.toHaveLength(0)
+  it('marks missing and stale receipts without treating them as pass', () => {
+    const currentItem = { contentHash: 'current' }
+
+    expect(classifyProblemReviewStatus(currentItem, undefined)).toBe('missing')
+    expect(classifyProblemReviewStatus(currentItem, {
+      contentHash: 'old',
+      status: 'pass',
+    })).toBe('stale')
+    expect(classifyProblemReviewStatus(currentItem, {
+      contentHash: 'current',
+      status: 'blocked',
+    })).toBe('blocked')
+    expect(classifyProblemReviewStatus(currentItem, {
+      contentHash: 'current',
+      status: 'pass',
+    })).toBe('pass')
   })
 })

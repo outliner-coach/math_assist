@@ -149,6 +149,52 @@ describe('problem review catalog scripts', () => {
     expect(after.items[0].contentHash).not.toBe(before.items[0].contentHash)
   })
 
+  it('keeps the Grade 4 hash stable when function source differs but all reviewed variants match', () => {
+    const units = [{ id: 'g4-unit', semester: '4-1', releaseStatus: 'released' }]
+    const shared = {
+      id: 'g4-stable-source-01',
+      unitId: 'g4-unit',
+      curriculumCode: '[4수01-01]',
+      problemFamily: 'g4-stable-family',
+      representation: 'context',
+      answerType: 'integer',
+      supportTool: 'none',
+      hintSteps: ['Hint'],
+      promptTemplate: 'Raw prompt',
+      taskActions: ['calculate'],
+      visualSemantics: 'quantitative',
+    }
+    const buildResult = (variant: number, choiceSeed: number) => ({
+      prompt: `Prompt ${variant}`,
+      correctAnswer: `${variant}`,
+      solutionSteps: [`Solution ${variant}`],
+      visualModel: 'stable-visual',
+      visualConfig: { variant, choiceSeed },
+    })
+    const methodTemplate = {
+      ...shared,
+      build(variant: number, choiceSeed: number) {
+        return buildResult(variant, choiceSeed)
+      },
+    }
+    const arrowTemplate = {
+      ...shared,
+      build: (variant: number, choiceSeed: number) => (
+        buildResult(variant, choiceSeed)
+      ),
+    }
+
+    expect(methodTemplate.build.toString()).not.toBe(arrowTemplate.build.toString())
+    const methodItem = reviewCore.buildCatalog(
+      reviewCore.adaptGrade4Templates([methodTemplate], units)
+    ).items[0]
+    const arrowItem = reviewCore.buildCatalog(
+      reviewCore.adaptGrade4Templates([arrowTemplate], units)
+    ).items[0]
+
+    expect(methodItem.contentHash).toBe(arrowItem.contentHash)
+  })
+
   it('rejects a visualModel that differs only at Grade 4 variant 5 with variant details', () => {
     const template = {
       id: 'g4-visual-mismatch-01',

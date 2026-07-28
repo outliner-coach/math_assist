@@ -21,6 +21,17 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-28: T5 actual-renderer review surface completion (primary
+  workstream 04) owns the shared renderer-review version registry extraction
+  and the `/review/problems` projection of the canonical Grade 1-6 review
+  catalog. The browser surface must compare the current canonical
+  `contentHash` with the temporary editorial receipts, expose stale or missing
+  status without silently treating it as pass, preserve the exact
+  `reviewId=grade:sourceKind:sourceId` identity, and export the schema-v1
+  ledger without writing learner storage. Catalog scripts, Grade 5/6 receipt
+  generators, and the review route must re-check the same renderer version
+  registry whenever a reviewed visual or completed-text renderer changes.
+
 - 2026-07-28: Grade 5 exhaustive editorial review (primary workstreams 01 and
   04) owns the Grade 5-only completed-text numeric particle correction in
   `src/lib/problem-generator.ts`, its independent particle corpus, all

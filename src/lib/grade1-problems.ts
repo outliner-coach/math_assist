@@ -1482,7 +1482,7 @@ function renderVisualConfig(
   )
 }
 
-function renderGrade1MissionFromParams(
+export function renderGrade1MissionFromParams(
   template: Grade1MissionTemplate,
   params: Record<string, number>,
   random: () => number

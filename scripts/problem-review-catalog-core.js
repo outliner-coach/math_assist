@@ -5,20 +5,12 @@ const ts = require('typescript')
 
 const ROOT_DIR = path.join(__dirname, '..')
 
-const RENDERER_REVIEW_VERSION_REGISTRY = Object.freeze({
-  none: 'no-visual-review-v1',
-  'grade1-mission-visual': 'grade1-mission-visual-review-v1',
-  'grade2-mission-visual': 'grade2-mission-visual-review-v1',
-  'grade3-mission-visual': 'grade3-mission-visual-review-v1',
-  'grade4-mission-visual': 'grade4-mission-visual-review-v1',
-  'practice-problem-visual': 'practice-problem-visual-review-v1',
-  'practice-problem-visual:cuboid': 'practice-problem-cuboid-review-v2',
-  'practice-problem-visual:three_shape_overlap': 'practice-problem-three-shape-overlap-review-v2',
-  'grade5-practice-text': 'grade5-practice-text-particles-v1',
-  'grade5-practice-visual': 'grade5-practice-visual-particles-v1',
-  'grade5-practice-visual:cuboid': 'grade5-practice-cuboid-v2-particles-v1',
-  'grade5-practice-visual:three_shape_overlap': 'grade5-practice-three-shape-overlap-v2-particles-v1',
-})
+const RENDERER_REVIEW_VERSION_REGISTRY = Object.freeze(
+  compileTsModule(
+    path.join(ROOT_DIR, 'src', 'lib', 'problem-review-renderer-versions.ts'),
+    'problem-review-renderer-versions'
+  ).PROBLEM_REVIEW_RENDERER_VERSIONS
+)
 
 // Grade 4 generation uses positiveModulo(..., 9) + 1, so the review catalog
 // exhausts variants 1..9. Each variant has the fixed seed 2026072600 + variant.
@@ -244,7 +236,6 @@ function adaptGrade4Templates(grade4MissionTemplates, grade4Units) {
       )
     }
     const visualKind = reviewVariants[0].visualKind
-    const buildSource = template.build.toString()
     const visual = sourceVisual(visualKind, {
       reviewCases: reviewVariants.map(variant => ({
         key: variant.key,
@@ -271,7 +262,10 @@ function adaptGrade4Templates(grade4MissionTemplates, grade4Units) {
       content: {
         prompt: template.promptTemplate,
         choices: [],
-        answerRule: { buildSource },
+        answerRule: {
+          mode: 'grade4-reviewed-variants',
+          variantKeys: reviewVariants.map(variant => variant.key),
+        },
         hints: template.hintSteps,
         solution: [],
         scaffold: null,
