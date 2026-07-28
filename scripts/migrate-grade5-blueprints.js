@@ -192,6 +192,352 @@ const REVIEWED_SLOT_FAMILIES = Object.freeze({
   ]
 })
 
+const ALLOWED_TASK_ACTIONS = new Set([
+  'recognize',
+  'classify',
+  'compare',
+  'calculate',
+  'measure',
+  'construct',
+  'model',
+  'interpret',
+  'explain',
+  'analyze_error',
+  'reason',
+])
+
+function reviewedActions(...actions) {
+  if (actions.length === 0) {
+    throw new Error('reviewed Grade 5 task actions must not be empty')
+  }
+  const unsupported = actions.filter(action => !ALLOWED_TASK_ACTIONS.has(action))
+  if (unsupported.length > 0) {
+    throw new Error(`unsupported Grade 5 task actions: ${unsupported.join(', ')}`)
+  }
+  if (new Set(actions).size !== actions.length) {
+    throw new Error(`duplicate Grade 5 task actions: ${actions.join(', ')}`)
+  }
+  return Object.freeze(actions)
+}
+
+// These actions were selected slot by slot from the learner-facing prompt and
+// solver meaning. This is deliberately an explicit source table: no action is
+// inferred from difficulty, cognitiveDomain, or reasoningPattern.
+const REVIEWED_SLOT_TASK_ACTIONS = Object.freeze({
+  'area-001': [
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'reason'),
+    reviewedActions('reason', 'calculate'),
+  ],
+  'areaunit-001': [
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+  ],
+  'average-001': [
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+  ],
+  'commonden-001': [
+    reviewedActions('calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+  ],
+  'congruence-001': [
+    reviewedActions('interpret'),
+    reviewedActions('interpret'),
+    reviewedActions('interpret'),
+    reviewedActions('interpret'),
+    reviewedActions('interpret'),
+    reviewedActions('interpret'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('analyze_error', 'interpret'),
+    reviewedActions('analyze_error', 'reason'),
+  ],
+  'cuboid-001': [
+    reviewedActions('recognize'),
+    reviewedActions('recognize'),
+    reviewedActions('recognize'),
+    reviewedActions('recognize'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+  ],
+  'cuboidnet-001': [
+    reviewedActions('recognize'),
+    reviewedActions('construct', 'interpret'),
+    reviewedActions('construct', 'interpret'),
+    reviewedActions('construct', 'reason'),
+    reviewedActions('construct', 'interpret'),
+    reviewedActions('recognize'),
+    reviewedActions('construct', 'interpret'),
+    reviewedActions('calculate'),
+    reviewedActions('construct', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+  ],
+  'decimalmul-001': [
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('compare', 'calculate'),
+  ],
+  'divisor-001': [
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('classify', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('classify'),
+    reviewedActions('classify'),
+    reviewedActions('calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('classify', 'calculate'),
+  ],
+  'estimate-001': [
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('compare', 'calculate'),
+  ],
+  'fracadd-001': [
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+  ],
+  'fraccompare-001': [
+    reviewedActions('compare'),
+    reviewedActions('compare'),
+    reviewedActions('compare', 'calculate'),
+    reviewedActions('compare', 'calculate'),
+    reviewedActions('model', 'compare'),
+    reviewedActions('model', 'compare', 'calculate'),
+    reviewedActions('compare', 'reason'),
+    reviewedActions('compare', 'calculate'),
+    reviewedActions('analyze_error', 'compare', 'calculate'),
+    reviewedActions('analyze_error', 'compare', 'calculate'),
+  ],
+  'fracmul-001': [
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('compare', 'calculate'),
+  ],
+  'fracsub-001': [
+    reviewedActions('calculate'),
+    reviewedActions('compare', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+  ],
+  'gcd-001': [
+    reviewedActions('calculate'),
+    reviewedActions('classify', 'calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+  ],
+  'lcm-001': [
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+  ],
+  'mixedcalc-001': [
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('analyze_error', 'model', 'calculate'),
+  ],
+  'multiple-001': [
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+  ],
+  'numberrange-001': [
+    reviewedActions('interpret'),
+    reviewedActions('interpret'),
+    reviewedActions('interpret'),
+    reviewedActions('interpret'),
+    reviewedActions('classify', 'calculate'),
+    reviewedActions('classify', 'calculate'),
+    reviewedActions('classify', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('compare', 'calculate'),
+  ],
+  'pattern-001': [
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('compare', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+  ],
+  'perimeter-001': [
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+  ],
+  'polygonarea-001': [
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+  ],
+  'possibility-001': [
+    reviewedActions('classify'),
+    reviewedActions('compare'),
+    reviewedActions('interpret'),
+    reviewedActions('interpret'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('compare', 'interpret'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('interpret', 'reason'),
+    reviewedActions('analyze_error', 'compare', 'calculate'),
+    reviewedActions('model', 'reason', 'calculate'),
+  ],
+  'rounding-001': [
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('compare', 'calculate'),
+  ],
+  'simplify-001': [
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('model', 'calculate'),
+    reviewedActions('reason', 'calculate'),
+    reviewedActions('calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+  ],
+  'symmetry-001': [
+    reviewedActions('recognize'),
+    reviewedActions('recognize'),
+    reviewedActions('recognize'),
+    reviewedActions('recognize'),
+    reviewedActions('interpret'),
+    reviewedActions('interpret', 'calculate'),
+    reviewedActions('interpret'),
+    reviewedActions('interpret'),
+    reviewedActions('analyze_error', 'calculate'),
+    reviewedActions('analyze_error', 'calculate'),
+  ],
+})
+
 // Every Grade 5 content correction has been reviewed and is eligible for a
 // complete blueprint. Keep the exported set as an explicit release gate.
 const BLOCKED_CONTENT_TEMPLATE_IDS = new Set()
@@ -536,6 +882,22 @@ function getReviewedProblemFamily(template) {
   return reviewedFamily
 }
 
+function getReviewedTaskActions(template) {
+  const slotActions = REVIEWED_SLOT_TASK_ACTIONS[template.concept_id]
+  if (!slotActions || slotActions.length !== 10) {
+    throw new Error(
+      `${template.id}: expected 10 explicit task-action slots for ${template.concept_id}`,
+    )
+  }
+  const match = template.id.match(/-(\d{2})$/)
+  const slot = match ? Number(match[1]) : NaN
+  const taskActions = slotActions[slot - 1]
+  if (!taskActions) {
+    throw new Error(`${template.id}: no reviewed task actions for slot ${match?.[1] || 'unknown'}`)
+  }
+  return [...taskActions]
+}
+
 function getReviewedBlueprint(template) {
   if (BLOCKED_CONTENT_TEMPLATE_IDS.has(template.id)) {
     throw new Error(`${template.id}: blueprint blocked by unresolved content semantics`)
@@ -553,8 +915,39 @@ function getReviewedBlueprint(template) {
     ...(reviewedBlueprint.connectedStandards
       ? { connectedStandards: [...reviewedBlueprint.connectedStandards] }
       : {}),
-    representations: [...reviewedBlueprint.representations]
+    representations: [...reviewedBlueprint.representations],
+    taskActions: getReviewedTaskActions(template),
   }
+}
+
+function findJsonObjectEnd(source, objectStart, context) {
+  let depth = 0
+  let inString = false
+  let escaped = false
+
+  for (let index = objectStart; index < source.length; index += 1) {
+    const character = source[index]
+    if (inString) {
+      if (escaped) {
+        escaped = false
+      } else if (character === '\\') {
+        escaped = true
+      } else if (character === '"') {
+        inString = false
+      }
+      continue
+    }
+    if (character === '"') {
+      inString = true
+    } else if (character === '{') {
+      depth += 1
+    } else if (character === '}') {
+      depth -= 1
+      if (depth === 0) return index + 1
+    }
+  }
+
+  throw new Error(`${context}: unterminated blueprint object`)
 }
 
 function migrateTemplateFile(raw, filename) {
@@ -597,13 +990,34 @@ function migrateTemplateFile(raw, filename) {
       migrated = `${migrated.slice(0, familyLineEnd + 1)}${blueprintLine}\n${migrated.slice(familyLineEnd + 1)}`
       changedCount += 1
     } else if (JSON.stringify(template.blueprint) !== JSON.stringify(blueprint)) {
-      const existingToken = `"blueprint": ${JSON.stringify(template.blueprint)},`
-      const blueprintIndex = migrated.indexOf(existingToken, idIndex)
+      const blueprintKey = '"blueprint":'
+      const blueprintIndex = migrated.indexOf(blueprintKey, idIndex)
       if (blueprintIndex < 0 || (nextObjectIndex >= 0 && blueprintIndex > nextObjectIndex)) {
         throw new Error(`${filename} ${template.id}: existing blueprint line not found in object`)
       }
-      const replacement = `"blueprint": ${JSON.stringify(blueprint)},`
-      migrated = `${migrated.slice(0, blueprintIndex)}${replacement}${migrated.slice(blueprintIndex + existingToken.length)}`
+      const blueprintObjectStart = migrated.indexOf('{', blueprintIndex + blueprintKey.length)
+      if (
+        blueprintObjectStart < 0
+        || (nextObjectIndex >= 0 && blueprintObjectStart > nextObjectIndex)
+      ) {
+        throw new Error(`${filename} ${template.id}: existing blueprint object not found`)
+      }
+      const blueprintObjectEnd = findJsonObjectEnd(
+        migrated,
+        blueprintObjectStart,
+        `${filename} ${template.id}`,
+      )
+      const existingBlueprint = migrated.slice(blueprintObjectStart, blueprintObjectEnd)
+      const blueprintLineStart = migrated.lastIndexOf('\n', blueprintIndex) + 1
+      const blueprintIndent = migrated.slice(blueprintLineStart, blueprintIndex)
+      const serializedBlueprint = existingBlueprint.includes('\n')
+        ? JSON.stringify(blueprint, null, 2).replace(/\n/g, `\n${blueprintIndent}`)
+        : JSON.stringify(blueprint)
+      migrated = (
+        `${migrated.slice(0, blueprintObjectStart)}` +
+        `${serializedBlueprint}` +
+        `${migrated.slice(blueprintObjectEnd)}`
+      )
       changedCount += 1
     }
   }
@@ -657,7 +1071,9 @@ module.exports = {
   BLOCKED_CONTENT_TEMPLATE_IDS,
   REVIEWED_FAMILY_BLUEPRINTS,
   REVIEWED_SLOT_FAMILIES,
+  REVIEWED_SLOT_TASK_ACTIONS,
   getReviewedProblemFamily,
+  getReviewedTaskActions,
   getReviewedBlueprint,
   migrateTemplateFile,
   runMigration

@@ -21,6 +21,16 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-28: Grade 5 full editorial review metadata completion (primary
+  workstreams 01 and 04) owns the explicit `taskActions` classification for
+  every one of the 260 reviewed Grade 5 problem families, the shared blueprint
+  type/validator contract, deterministic migration, and regenerated 780
+  template records. Task actions must be selected from the editorial catalog
+  vocabulary by reading each prompt/solver family; consumers must not infer
+  them from difficulty, cognitive domain, or reasoning pattern. Grade 5
+  generators, `validate:grade5-templates`, the problem audit, and the review
+  catalog must all re-check the same source-owned values.
+
 - 2026-07-26: Problem editorial review catalog foundation (primary workstream
   04) owns the new shared review-item contract, canonical content hash,
   Grade 1-6 adapter registry, renderer-review version registry, deterministic

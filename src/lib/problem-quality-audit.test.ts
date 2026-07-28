@@ -19,6 +19,7 @@ const completeBlueprint = {
   contextType: 'pure_math',
   estimatedSteps: 3,
   readingLoad: 'medium',
+  taskActions: ['reason', 'calculate'],
   visualSemantics: undefined
 }
 

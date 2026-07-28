@@ -17,7 +17,10 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 1,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -54,7 +57,10 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 1,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -91,7 +97,10 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 1,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -128,7 +137,10 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 1,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -165,7 +177,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -202,7 +218,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -239,7 +259,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -276,7 +300,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -313,7 +341,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 3,
-      "readingLoad": "high"
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -350,7 +382,11 @@
       ],
       "contextType": "puzzle",
       "estimatedSteps": 3,
-      "readingLoad": "high"
+      "readingLoad": "high",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -387,7 +423,10 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 1,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -424,7 +463,10 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 1,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -461,7 +503,10 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 1,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -498,7 +543,10 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 1,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -535,7 +583,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -572,7 +624,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -609,7 +665,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -646,7 +706,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -683,7 +747,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 3,
-      "readingLoad": "high"
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -720,7 +788,11 @@
       ],
       "contextType": "puzzle",
       "estimatedSteps": 3,
-      "readingLoad": "high"
+      "readingLoad": "high",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -757,7 +829,10 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 1,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -794,7 +869,10 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 1,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -831,7 +909,10 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 1,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -868,7 +949,10 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 1,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -905,7 +989,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -942,7 +1030,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -979,7 +1071,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -1016,7 +1112,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -1053,7 +1153,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 3,
-      "readingLoad": "high"
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {
@@ -1090,7 +1194,11 @@
       ],
       "contextType": "puzzle",
       "estimatedSteps": 3,
-      "readingLoad": "high"
+      "readingLoad": "high",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
     },
     "param_schema": {
       "h": {

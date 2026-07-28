@@ -6,7 +6,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "cuboid-face-count",
-    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
     "param_schema": {},
     "prompt_template": "직육면체의 면은 모두 몇 개인가요?",
     "solver_rule": "6",
@@ -31,7 +31,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "cuboid-edge-count",
-    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
     "param_schema": {},
     "prompt_template": "직육면체의 모서리는 모두 몇 개인가요?",
     "solver_rule": "12",
@@ -56,7 +56,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "cuboid-vertex-count",
-    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
     "param_schema": {},
     "prompt_template": "직육면체의 꼭짓점은 모두 몇 개인가요?",
     "solver_rule": "8",
@@ -81,7 +81,7 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "cuboid-edges-at-vertex",
-    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
     "param_schema": {},
     "prompt_template": "직육면체의 한 꼭짓점에서 만나는 모서리는 몇 개인가요?",
     "solver_rule": "3",
@@ -106,7 +106,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-total-edge-length",
-    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["model","calculate"]},
     "param_schema": {
       "w": {
         "min": 5,
@@ -147,7 +147,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-missing-width-from-edges",
-    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["reason","calculate"]},
     "param_schema": {
       "w": {
         "min": 5,
@@ -189,7 +189,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-front-face-area",
-    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["interpret","calculate"]},
     "param_schema": {
       "w": {
         "min": 5,
@@ -225,7 +225,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-front-face-perimeter",
-    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["interpret","calculate"]},
     "param_schema": {
       "w": {
         "min": 5,
@@ -261,7 +261,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "cuboid-half-edge-count-error",
-    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["analyze_error","calculate"]},
     "param_schema": {
       "w": {
         "min": 6,
@@ -302,7 +302,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "cuboid-one-of-each-face-area-error",
-    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["analyze_error","calculate"]},
     "param_schema": {
       "w": {
         "min": 5,
@@ -343,7 +343,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "cuboid-face-count",
-    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
     "param_schema": {},
     "prompt_template": "직육면체 상자를 이루는 직사각형 면의 수를 구하세요.",
     "solver_rule": "6",
@@ -368,7 +368,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "cuboid-edge-count",
-    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
     "param_schema": {},
     "prompt_template": "직육면체 철사 틀의 모서리 수를 구하세요.",
     "solver_rule": "12",
@@ -393,7 +393,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "cuboid-vertex-count",
-    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
     "param_schema": {},
     "prompt_template": "직육면체에서 세 모서리의 끝이 만나는 꼭짓점 수를 구하세요.",
     "solver_rule": "8",
@@ -418,7 +418,7 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "cuboid-edges-at-vertex",
-    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
     "param_schema": {},
     "prompt_template": "직육면체의 한 꼭짓점에서 서로 다른 방향으로 뻗는 모서리는 몇 개인가요?",
     "solver_rule": "3",
@@ -443,7 +443,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-total-edge-length",
-    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["model","calculate"]},
     "param_schema": {
       "w": {
         "min": 7,
@@ -484,7 +484,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-missing-width-from-edges",
-    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["reason","calculate"]},
     "param_schema": {
       "w": {
         "min": 7,
@@ -526,7 +526,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-front-face-area",
-    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["interpret","calculate"]},
     "param_schema": {
       "w": {
         "min": 7,
@@ -562,7 +562,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-front-face-perimeter",
-    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["interpret","calculate"]},
     "param_schema": {
       "w": {
         "min": 7,
@@ -598,7 +598,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "cuboid-half-edge-count-error",
-    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["analyze_error","calculate"]},
     "param_schema": {
       "w": {
         "min": 8,
@@ -639,7 +639,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "cuboid-one-of-each-face-area-error",
-    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["analyze_error","calculate"]},
     "param_schema": {
       "w": {
         "min": 7,
@@ -680,7 +680,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "cuboid-face-count",
-    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
     "param_schema": {},
     "prompt_template": "서로 마주 보는 면 3쌍으로 이루어진 직육면체의 전체 면 수를 구하세요.",
     "solver_rule": "6",
@@ -705,7 +705,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "cuboid-edge-count",
-    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
     "param_schema": {},
     "prompt_template": "가로·세로·높이 방향 모서리가 각각 4개인 직육면체의 전체 모서리 수를 구하세요.",
     "solver_rule": "12",
@@ -730,7 +730,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "cuboid-vertex-count",
-    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
     "param_schema": {},
     "prompt_template": "윗면과 아랫면의 꼭짓점을 모두 세어 직육면체의 꼭짓점 수를 구하세요.",
     "solver_rule": "8",
@@ -755,7 +755,7 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "cuboid-edges-at-vertex",
-    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
+    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
     "param_schema": {},
     "prompt_template": "한 꼭짓점에서 가로·세로·높이 방향으로 만나는 모서리 수를 구하세요.",
     "solver_rule": "3",
@@ -780,7 +780,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-total-edge-length",
-    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["model","calculate"]},
     "param_schema": {
       "w": {
         "min": 9,
@@ -821,7 +821,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-missing-width-from-edges",
-    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["reason","calculate"]},
     "param_schema": {
       "w": {
         "min": 9,
@@ -863,7 +863,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-front-face-area",
-    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["interpret","calculate"]},
     "param_schema": {
       "w": {
         "min": 9,
@@ -899,7 +899,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-front-face-perimeter",
-    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["interpret","calculate"]},
     "param_schema": {
       "w": {
         "min": 9,
@@ -935,7 +935,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "cuboid-half-edge-count-error",
-    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["analyze_error","calculate"]},
     "param_schema": {
       "w": {
         "min": 10,
@@ -976,7 +976,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "cuboid-one-of-each-face-area-error",
-    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["analyze_error","calculate"]},
     "param_schema": {
       "w": {
         "min": 9,

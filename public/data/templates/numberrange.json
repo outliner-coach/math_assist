@@ -18,7 +18,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -67,7 +70,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -116,7 +122,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -165,7 +174,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -214,7 +226,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -269,7 +285,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -324,7 +344,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -379,7 +403,11 @@
       "contextType": "real_world",
       "estimatedSteps": 3,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -434,7 +462,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -493,7 +525,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -552,7 +588,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -601,7 +640,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -650,7 +692,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -699,7 +744,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -748,7 +796,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -803,7 +855,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -858,7 +914,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -913,7 +973,11 @@
       "contextType": "real_world",
       "estimatedSteps": 3,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -968,7 +1032,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1027,7 +1095,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1086,7 +1158,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1135,7 +1210,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1184,7 +1262,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1233,7 +1314,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1282,7 +1366,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1337,7 +1425,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1392,7 +1484,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1447,7 +1543,11 @@
       "contextType": "real_world",
       "estimatedSteps": 3,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1502,7 +1602,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1561,7 +1665,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
