@@ -13,11 +13,19 @@ describe('Grade 2 application mission catalog boundary', () => {
     expect(result).toEqual({ status: 'blocked' })
   })
 
-  it('keeps the production draft catalog on the exact legacy count', () => {
+  it('keeps all legacy missions and appends the three approved V1 missions', () => {
     const result = buildGrade2MissionCatalog(42)
 
     expect(result.status).toBe('ready')
-    if (result.status === 'ready') expect(result.missions).toHaveLength(144)
+    if (result.status === 'ready') {
+      expect(result.missions).toHaveLength(147)
+      expect(result.missions.slice(0, 144).every((mission) => !mission.applicationSource)).toBe(true)
+      expect(result.missions.slice(144).map((mission) => mission.applicationSource.familyId)).toEqual([
+        'g2-length-route-total',
+        'g2-length-missing-segment',
+        'g2-length-claim-check',
+      ])
+    }
   })
 
   it('keeps the V1 snapshot authority independent from current Grade 2 family recipes', () => {

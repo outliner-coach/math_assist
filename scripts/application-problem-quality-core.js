@@ -289,7 +289,8 @@ function checkSessionContracts(input, errors) {
     const expected = contract.grade === 2 ? { easy: 48, medium: 48, applied: 48 }
       : contract.grade === 5 ? { 1: 4, 2: 4, 3: 2 }
         : contract.sessionCount === 10 ? { 1: 4, 2: 4, 3: 2 } : { 1: 2, 2: 2, 3: 1 }
-    const validCount = contract.grade === 2 ? contract.legacyCount === 144 && contract.sessionCount === 144
+    const validCount = contract.grade === 2
+      ? contract.legacyCount === 144 && contract.sessionCount === contract.legacyCount + contract.candidateCount
       : contract.grade === 5 ? contract.legacyCount === 10 && contract.sessionCount === 10
         : contract.grade === 6 && contract.legacyCount === 10 && [5, 10].includes(contract.sessionCount)
     const expectedStorage = contract.grade === 2 ? 'mathAssist_grade2Progress'
@@ -381,7 +382,7 @@ function loadTypeScriptModule(relativePath) {
 function generatedDifficultyDistribution(problems, templates) {
   const difficultyByTemplate = new Map((templates ?? []).map((template) => [template.id, template.difficulty]))
   return (problems ?? []).reduce((distribution, problem) => {
-    const difficulty = difficultyByTemplate.get(problem.templateId)
+    const difficulty = difficultyByTemplate.get(problem.templateId) ?? problem.placementDifficulty
     if (difficulty) distribution[difficulty] = (distribution[difficulty] ?? 0) + 1
     return distribution
   }, {})

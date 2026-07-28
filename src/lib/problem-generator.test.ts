@@ -43,7 +43,7 @@ function makeTemplate(overrides: Partial<ProblemTemplate>): ProblemTemplate {
 }
 
 describe('generateProblems', () => {
-  it('keeps production output unchanged while every registered pilot remains draft', () => {
+  it('keeps the requested production session count while using approved pilot candidates', () => {
     const templates: ProblemTemplate[] = Array.from({ length: 10 }, (_, index) =>
       makeTemplate({
         id: `legacy-${index}`,
@@ -62,8 +62,8 @@ describe('generateProblems', () => {
       }),
     })
 
-    expect(integrated).toEqual(legacy)
-    expect(integrated.every((problem) => problem.applicationSource === undefined)).toBe(true)
+    expect(integrated).toHaveLength(legacy.length)
+    expect(integrated.some((problem) => problem.applicationSource)).toBe(true)
   })
 
   it.each([

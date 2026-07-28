@@ -298,8 +298,14 @@ export const G5_PERIMETER_BOUNDARY_REBUILD_FAMILY = {
   },
   proofMode: 'exhaustive',
   runtimeMode: 'deterministic-generator',
-  releaseStatus: 'draft',
-  approval: { ownerStatus: 'pending', evidenceRefs: [], expertStatus: 'not-reviewed' },
+  releaseStatus: 'approved',
+  approval: {
+    ownerStatus: 'approved',
+    ownerId: 'project-owner',
+    approvedAt: '2026-07-28T09:05:24Z',
+    evidenceRefs: ['docs/reviews/application-problems-v1-approval.md'],
+    expertStatus: 'not-reviewed',
+  },
 } as const satisfies ApplicationProblemFamilyV1
 
 export const G5_PERIMETER_BOUNDARY_REBUILD_GENERATOR = {

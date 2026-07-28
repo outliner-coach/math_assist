@@ -65,16 +65,18 @@ function oracleInput(problem: GeneratedApplicationProblemV1) {
 }
 
 describe('Grade 6 ratio application family metadata', () => {
-  it('keeps all three pack-bound families draft, pending, deterministic, and exhaustive', () => {
+  it('keeps all three pack-bound V1 families approved, deterministic, and exhaustive', () => {
     expect(G6_RATIO_FAMILIES).toHaveLength(3)
     for (const family of G6_RATIO_FAMILIES) {
       expect(parseApplicationProblemFamilyV1(family)).toEqual(family)
       expect(family.packId).toBe(PACK_ID)
       expect(family.unitId).toBe(UNIT_ID)
-      expect(family.releaseStatus).toBe('draft')
+      expect(family.releaseStatus).toBe('approved')
       expect(family.approval).toEqual({
-        ownerStatus: 'pending',
-        evidenceRefs: [],
+        ownerStatus: 'approved',
+        ownerId: 'project-owner',
+        approvedAt: '2026-07-28T09:05:24Z',
+        evidenceRefs: ['docs/reviews/application-problems-v1-approval.md'],
         expertStatus: 'not-reviewed',
       })
       expect(family.runtimeMode).toBe('deterministic-generator')

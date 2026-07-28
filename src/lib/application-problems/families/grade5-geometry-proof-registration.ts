@@ -83,7 +83,7 @@ const FAMILY_IMPLEMENTATIONS = {
   perimeter: {
     generatorId: 'g5-perimeter-boundary-rebuild-generator',
     generatorSource: 'src/lib/application-problems/families/g5-perimeter-boundary-rebuild.ts',
-    generatorDigest: 'sha256:286df3b2a64bd3d8ad37a9d5d7c63fd44c4c154129c4678d568ccb63b2d70b3b',
+    generatorDigest: 'sha256:f37462c393696a6214e2c273a8155af8d11f2ceb2f480af38d6855e161c7d316',
     oracleId: 'g5-perimeter-boundary-rebuild-oracle',
     oracleSource: 'src/lib/application-problems/families/g5-perimeter-boundary-rebuild-oracle.ts',
     oracleDigest: 'sha256:19070b2ecf21dc7d252fa1141e056bc480982fe4ca80a3cb6f8a90bf17ca3850',
@@ -91,7 +91,7 @@ const FAMILY_IMPLEMENTATIONS = {
   composite: {
     generatorId: 'g5-area-composite-inverse-generator',
     generatorSource: 'src/lib/application-problems/families/g5-area-composite-inverse.ts',
-    generatorDigest: 'sha256:c4376e5ba11726903f75cc00beda661596d1e03c64a18ed153ebe1d207f8a7ef',
+    generatorDigest: 'sha256:48064eb3723a271ee7d8f50154f77260ac313b94277a7194aa88f83dea4b181c',
     oracleId: 'g5-area-composite-inverse-oracle',
     oracleSource: 'src/lib/application-problems/families/g5-area-composite-inverse-oracle.ts',
     oracleDigest: 'sha256:3ce409da1b25b1c9c6340142ceefbeff0904fe78c36d8b278551e94a645a84c5',
@@ -99,7 +99,7 @@ const FAMILY_IMPLEMENTATIONS = {
   overlap: {
     generatorId: 'g5-area-overlap-reconstruction-generator',
     generatorSource: 'src/lib/application-problems/families/g5-area-overlap-reconstruction.ts',
-    generatorDigest: 'sha256:7a04a02c70ad7a1437a624573222efb05ef9b28fbab85a8c493bd1794e560d9e',
+    generatorDigest: 'sha256:2df7f15ed08fbcb92ed9e855f8975245080f756a025c20362a8b5481624ad573',
     oracleId: 'g5-area-overlap-reconstruction-oracle',
     oracleSource: 'src/lib/application-problems/families/g5-area-overlap-reconstruction-oracle.ts',
     oracleDigest: 'sha256:4adae455c9f7b955ceb9b3221ef32f839140ecab85e9f36cb39bc97f009a64c8',

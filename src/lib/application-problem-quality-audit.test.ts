@@ -118,7 +118,7 @@ function baseline(overrides: Record<string, unknown> = {}) {
     visualResults: [{ family: currentFamily, problem: problem(), valid: true }],
     answerExposureResults: [{ family: currentFamily, problem: problem(), exposed: false }],
     sessionContracts: [
-      { grade: 2, legacyCount: 144, candidateCount: 1, sessionCount: 144, difficultyDistribution: { easy: 48, medium: 48, applied: 48 }, storageKey: 'mathAssist_grade2Progress' },
+      { grade: 2, legacyCount: 144, candidateCount: 1, sessionCount: 145, difficultyDistribution: { easy: 48, medium: 48, applied: 48 }, storageKey: 'mathAssist_grade2Progress' },
       { grade: 5, legacyCount: 10, candidateCount: 1, sessionCount: 10, difficultyDistribution: { 1: 4, 2: 4, 3: 2 }, storageKey: 'mathAssist_currentSession' },
       {
         grade: 6,
@@ -155,6 +155,11 @@ describe('application problem quality audit', () => {
     expect(input.answerExposureResults).toHaveLength(input.families.length)
     expect(report.familyEvidence).toHaveLength(input.families.length)
     expect(report.familyEvidence.every((evidence: { status: string }) => evidence.status === 'passed')).toBe(true)
+    expect(report.summary).toMatchObject({
+      approvedFamilyCount: 9,
+      draftFamilyCount: 0,
+      errorCount: 0,
+    })
     expect(input.sessionContracts).toMatchObject([
       { grade: 2, storageKey: 'mathAssist_grade2Progress', legacyCount: 144 },
       { grade: 5, storageKey: 'mathAssist_currentSession', legacyCount: 10 },
@@ -226,6 +231,7 @@ describe('application problem quality audit', () => {
       return baseline({ families: [quarantined], registries: [{ grade: 5, entries: [{ family: quarantined, runtime: { kind: 'deterministic-generator' } }], releaseLedger: [quarantined] }] })
     }, 'APQ_BLOCKED_RELEASE_CANDIDATE'],
     ['session contract regression', () => baseline({ sessionContracts: [{ grade: 5, legacyCount: 10, candidateCount: 1, sessionCount: 11, difficultyDistribution: { 1: 5, 2: 4, 3: 2 }, storageKey: 'changed-key' }] }), 'APQ_SESSION_CONTRACT'],
+    ['Grade 2 approved-candidate count not included', () => baseline({ sessionContracts: [{ grade: 2, legacyCount: 144, candidateCount: 3, sessionCount: 144, difficultyDistribution: { easy: 48, medium: 48, applied: 48 }, storageKey: 'mathAssist_grade2Progress' }] }), 'APQ_SESSION_CONTRACT'],
   ])('reports %s with a stable code', (_label, arrange, expectedCode) => {
     expect(codes(arrange())).toContain(expectedCode)
   })

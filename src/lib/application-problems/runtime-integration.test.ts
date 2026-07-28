@@ -37,7 +37,15 @@ function approvedRegistry(
         releaseStatus: 'approved' as const,
         approval: ownerApproval,
       }
-    : family
+    : {
+        ...family,
+        releaseStatus: 'draft' as const,
+        approval: {
+          ownerStatus: 'pending' as const,
+          evidenceRefs: [],
+          expertStatus: 'not-reviewed' as const,
+        },
+      }
   return {
     entries: APPLICATION_PROBLEM_REGISTRY_V1.entries.map((entry) => ({
       ...entry,
@@ -48,7 +56,7 @@ function approvedRegistry(
 }
 
 describe('application runtime integration', () => {
-  it('registers all nine pilot makers while keeping every production candidate unapproved', () => {
+  it('registers exactly the nine owner-approved V1 pilot makers as production candidates', () => {
     expect(APPLICATION_PROBLEM_REGISTRY_V1.entries.map((entry) => entry.family.familyId)).toEqual([
       'g2-length-route-total',
       'g2-length-missing-segment',
@@ -60,9 +68,26 @@ describe('application runtime integration', () => {
       'g6-ratio-relative-comparison',
       'g6-ratio-representation-check',
     ])
-    expect(new Set(APPLICATION_PROBLEM_REGISTRY_V1.entries.map((entry) => entry.family.releaseStatus)))
-      .toEqual(new Set(['draft']))
-    expect(selectApprovedRuntimeCandidates(APPLICATION_PROBLEM_REGISTRY_V1)).toEqual([])
+    const expectedApproval = {
+      ownerStatus: 'approved',
+      ownerId: 'project-owner',
+      approvedAt: '2026-07-28T09:05:24Z',
+      evidenceRefs: ['docs/reviews/application-problems-v1-approval.md'],
+      expertStatus: 'not-reviewed',
+    }
+    expect(APPLICATION_PROBLEM_REGISTRY_V1.entries.every((entry) => (
+      entry.family.releaseStatus === 'approved' &&
+      JSON.stringify(entry.family.approval) === JSON.stringify(expectedApproval)
+    ))).toBe(true)
+    expect(APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger).toHaveLength(9)
+    expect(APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger.every((family) => (
+      family.releaseStatus === 'approved' &&
+      JSON.stringify(family.approval) === JSON.stringify(expectedApproval)
+    ))).toBe(true)
+    const candidates = selectApprovedRuntimeCandidates(APPLICATION_PROBLEM_REGISTRY_V1)
+    expect(candidates).toHaveLength(9)
+    expect(new Set(candidates.map((entry) => `${entry.family.familyId}@${entry.family.version}`)).size)
+      .toBe(9)
   })
 
   it('maps only owner-approved families with evidence into their Grade 5/6 concepts', () => {
@@ -97,7 +122,11 @@ describe('application runtime integration', () => {
       registry: APPLICATION_PROBLEM_REGISTRY_V1,
       grade: 6,
       conceptId: 'g6ratio-001',
-    })).toEqual([])
+    }).map(({ entry }) => entry.family.familyId)).toEqual([
+      'g6-ratio-part-whole',
+      'g6-ratio-relative-comparison',
+      'g6-ratio-representation-check',
+    ])
   })
 
   it('selects the highest approved family version regardless of registry order', () => {

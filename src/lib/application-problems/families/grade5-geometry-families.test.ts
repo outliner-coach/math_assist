@@ -66,7 +66,7 @@ function proofInput(problem: ReturnType<typeof generateG5PerimeterBoundaryRebuil
 }
 
 describe('Grade 5 quantitative geometry family metadata', () => {
-  it('keeps all three family versions draft, pending, deterministic, and exhaustive', () => {
+  it('keeps all three approved V1 family versions deterministic and exhaustive', () => {
     const families = [
       G5_PERIMETER_BOUNDARY_REBUILD_FAMILY,
       G5_AREA_COMPOSITE_INVERSE_FAMILY,
@@ -81,10 +81,12 @@ describe('Grade 5 quantitative geometry family metadata', () => {
     for (const family of families) {
       expect(family.packId).toBe(PACK_ID)
       expect(family.unitId).toBe(UNIT_ID)
-      expect(family.releaseStatus).toBe('draft')
+      expect(family.releaseStatus).toBe('approved')
       expect(family.approval).toEqual({
-        ownerStatus: 'pending',
-        evidenceRefs: [],
+        ownerStatus: 'approved',
+        ownerId: 'project-owner',
+        approvedAt: '2026-07-28T09:05:24Z',
+        evidenceRefs: ['docs/reviews/application-problems-v1-approval.md'],
         expertStatus: 'not-reviewed',
       })
       expect(family.runtimeMode).toBe('deterministic-generator')

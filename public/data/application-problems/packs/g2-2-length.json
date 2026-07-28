@@ -6,7 +6,7 @@
   "grade": 2,
   "semester": "2-2",
   "coverageStatus": "pilot",
-  "releaseStatus": "draft",
+  "releaseStatus": "approved",
   "coveredStandardCodes": [
     "[2수03-11]",
     "[2수03-13]"
@@ -99,8 +99,12 @@
     }
   ],
   "approval": {
-    "ownerStatus": "pending",
-    "evidenceRefs": [],
+    "ownerStatus": "approved",
+    "ownerId": "project-owner",
+    "approvedAt": "2026-07-28T09:05:24Z",
+    "evidenceRefs": [
+      "docs/reviews/application-problems-v1-approval.md"
+    ],
     "expertStatus": "not-reviewed"
   }
 }

@@ -37,9 +37,11 @@ export const G2_LENGTH_ROUTE_TOTAL_CASES: readonly G2LengthRouteTotalCase[] = Ob
   ),
 )
 
-const pendingApproval = Object.freeze({
-  ownerStatus: 'pending' as const,
-  evidenceRefs: Object.freeze([] as string[]),
+const approvedV1Approval = Object.freeze({
+  ownerStatus: 'approved' as const,
+  ownerId: 'project-owner',
+  approvedAt: '2026-07-28T09:05:24Z',
+  evidenceRefs: Object.freeze(['docs/reviews/application-problems-v1-approval.md']),
   expertStatus: 'not-reviewed' as const,
 })
 
@@ -80,8 +82,8 @@ export const G2_LENGTH_ROUTE_TOTAL_FAMILY: ApplicationProblemFamilyV1 =
     },
     proofMode: 'exhaustive',
     runtimeMode: 'deterministic-generator',
-    releaseStatus: 'draft',
-    approval: pendingApproval,
+    releaseStatus: 'approved',
+    approval: approvedV1Approval,
   })
 
 function routeParams(params: Readonly<Record<string, JsonValue>>): G2LengthRouteTotalCase {

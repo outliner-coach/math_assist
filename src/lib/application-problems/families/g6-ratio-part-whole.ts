@@ -155,10 +155,12 @@ export const G6_RATIO_PART_WHOLE_FAMILY = parseApplicationProblemFamilyV1({
   },
   proofMode: 'exhaustive',
   runtimeMode: 'deterministic-generator',
-  releaseStatus: 'draft',
+  releaseStatus: 'approved',
   approval: {
-    ownerStatus: 'pending',
-    evidenceRefs: [],
+    ownerStatus: 'approved',
+    ownerId: 'project-owner',
+    approvedAt: '2026-07-28T09:05:24Z',
+    evidenceRefs: ['docs/reviews/application-problems-v1-approval.md'],
     expertStatus: 'not-reviewed',
   },
 })

@@ -240,7 +240,7 @@ function packPath(fileName: string) {
 }
 
 describe('pilot unit knowledge packs', () => {
-  it.each(packExpectations)('parses $fileName as an unapproved pilot with stable family refs', (expected) => {
+  it.each(packExpectations)('parses $fileName as an approved V1 pilot with stable family refs', (expected) => {
     const path = packPath(expected.fileName)
     expect(existsSync(path), `missing ${expected.fileName}`).toBe(true)
     if (!existsSync(path)) return
@@ -255,10 +255,13 @@ describe('pilot unit knowledge packs', () => {
       grade: expected.grade,
       semester: expected.semester,
       coverageStatus: 'pilot',
-      releaseStatus: 'draft',
+      releaseStatus: 'approved',
       coveredStandardCodes: expected.coveredStandardCodes,
       approval: {
-        ownerStatus: 'pending',
+        ownerStatus: 'approved',
+        ownerId: 'project-owner',
+        approvedAt: '2026-07-28T09:05:24Z',
+        evidenceRefs: ['docs/reviews/application-problems-v1-approval.md'],
         expertStatus: 'not-reviewed',
       },
     })

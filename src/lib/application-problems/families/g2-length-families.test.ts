@@ -76,7 +76,7 @@ function sourceDigest(sourceModule: string): string {
 }
 
 describe('Grade 2 length application families', () => {
-  it('keeps all three pilots draft, pending, exhaustive, deterministic, and pack-linked', () => {
+  it('keeps all three approved V1 pilots exhaustive, deterministic, and pack-linked', () => {
     const conceptIds = new Set(g2LengthPack.concepts.map((concept) => concept.conceptId))
     const misconceptionIds = new Set(
       g2LengthPack.concepts.flatMap((concept) =>
@@ -91,12 +91,14 @@ describe('Grade 2 length application families', () => {
         unitId: 'g2-2-length',
         primaryStandard: '[2수03-13]',
         connectedStandards: ['[2수03-11]'],
-        releaseStatus: 'draft',
+        releaseStatus: 'approved',
         proofMode: 'exhaustive',
         runtimeMode: 'deterministic-generator',
         approval: {
-          ownerStatus: 'pending',
-          evidenceRefs: [],
+          ownerStatus: 'approved',
+          ownerId: 'project-owner',
+          approvedAt: '2026-07-28T09:05:24Z',
+          evidenceRefs: ['docs/reviews/application-problems-v1-approval.md'],
           expertStatus: 'not-reviewed',
         },
       })
