@@ -142,6 +142,44 @@
 - `npm run audit:applications` — 0 errors.
 - `npm run lint`, `npm run tdd:guard`, and `git diff --check` — passed.
 
+## Fix round 4 — exact target-key cover enforcement
+
+### RED evidence
+
+- Added a renderer test requiring the exact public primitive key and exact
+  label `targetKey` to be emitted as separate SVG QA attributes. It failed
+  while the renderer exposed only boolean markers.
+- Replaced the broad target-label exemption with exact-pair browser checks.
+  Before the exact attributes existed, the all-diagram browser run failed with
+  forbidden cover ratio `1`; the mutation fixture also could not locate the
+  Grade 5 target label.
+
+### Change
+
+- `data-application-visual-primitive` now preserves the rendered primitive
+  key, while `data-application-visual-target` preserves a label's exact
+  `targetKey`. These are structural identifiers only; no answer value or
+  disclosure state is added.
+- The browser permits G6 `missing-part` and `known-part` labels only over (a)
+  their exact leaf target and (b) the fully containing `whole-bar` background
+  when that background is painted earlier. The latter is the same visible bar
+  region, not a second label exception.
+- Every other pair, including every Grade 5 target label and all G6
+  nonmatching/foreground primitives, remains subject to the `<0.2` cover
+  limit.
+- Mutation regression checks now move a Grade 5 label over its own area target
+  and a Grade 6 `missing-part` label over `known-part`; both measure cover
+  `>=0.2` and fail the forbidden-pair rule. The unmutated G6 own-segment label
+  remains the only permitted visible leaf association.
+
+### Verification
+
+- `npx vitest run src/components/ApplicationProblemVisual.test.ts src/lib/problem-review.test.ts src/lib/application-problem-quality-audit.test.ts src/lib/application-problems/quality-evidence.test.ts` — 37 passed.
+- `npx playwright test e2e/problem-review.spec.ts --project=chromium --workers=1` — 5 passed, including all diagram-state checks and both mutations.
+- `npm run validate:application-packs` — 9 families, 0 errors.
+- `npm run audit:applications` — 0 errors.
+- `npm run lint`, `npm run tdd:guard`, and `git diff --check` — passed.
+
 ## Fix round 3 — all diagram label readability
 
 ### RED evidence

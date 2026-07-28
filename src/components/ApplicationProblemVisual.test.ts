@@ -26,11 +26,19 @@ describe('ApplicationProblemVisual', () => {
     expect(hidden).toContain('? cm')
     expect(hidden).not.toContain('ANSWER-SENTINEL-731')
     expect(hidden).not.toContain('ANSWER-DESCRIPTION-731')
-    expect(hidden).not.toContain('route-segment')
     expect(hidden).not.toContain('application-visual--answer')
     expect(revealed).toContain('ANSWER-SENTINEL-731')
     expect(revealed).toContain('ANSWER-DESCRIPTION-731')
     expect(revealed).not.toContain('? cm')
+  })
+
+  it('writes exact primitive and label target keys for diagram QA', () => {
+    const markup = renderToStaticMarkup(
+      createElement(ApplicationProblemVisual, { scene: validatedDiagram(), showAnswer: false }),
+    )
+
+    expect(markup).toContain('data-application-visual-primitive="route-segment"')
+    expect(markup).toContain('data-application-visual-target="route-segment"')
   })
 
   it('uses a uniform SVG viewport and semantic table markup', () => {

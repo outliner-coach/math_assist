@@ -60,7 +60,7 @@ function renderPrimitive(primitive: ApplicationVisualPrimitive): ReactElement {
   const colors = palette[primitive.styleRole]
   const common = {
     className: primitiveClassName(primitive),
-    'data-application-visual-primitive': 'true',
+    'data-application-visual-primitive': primitive.key,
     stroke: colors.stroke,
     strokeWidth: primitive.emphasis === 'answer' ? 3 : 2,
     vectorEffect: 'non-scaling-stroke' as const,
@@ -161,7 +161,7 @@ function ApplicationDiagram({
             key={label.key}
             className={`application-visual__label application-visual__label--${label.styleRole}`}
             data-application-visual-label={label.key}
-            data-application-visual-targets-diagram-primitive={label.targetKey ? 'true' : undefined}
+            data-application-visual-target={label.targetKey}
             fontSize={fontSize}
             x={compact ? scene.viewBox.width / 2 : label.x}
             y={compact ? scene.viewBox.height + 1 + lineHeight * (labelIndex + 0.5) : label.y}
