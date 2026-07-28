@@ -421,7 +421,7 @@ describe('Grade 4 Bridge release bank', () => {
     }
   })
 
-  it('records every Grade 4 review exactly once and leaves absent browser evidence blocked', () => {
+  it('records every Grade 4 review exactly once with complete browser evidence', () => {
     const catalog = reviewCore.buildCatalog(
       reviewCore.loadActualSources(process.cwd()).filter(
         (source: { grade: number }) => source.grade === 4,
@@ -457,22 +457,23 @@ describe('Grade 4 Bridge release bank', () => {
       ) ? ['wording']
         : templateId === 'g4-graph-01' ? ['answer_exposure']
           : []
-      expect(item.status, item.reviewId).toBe('blocked')
+      expect(item.status, item.reviewId).toBe('pass')
       expect(item.findingCategories, item.reviewId).toEqual(expectedFindingCategories)
       expect(item.note, item.reviewId).toContain('variants 1..9')
       expect(item.note, item.reviewId).toContain('taskActions=')
       expect(item.note, item.reviewId).toContain('supportTool=')
       expect(item.note, item.reviewId).toContain('Browser evidence remains separate and blocked')
+      expect(item.note, item.reviewId).toContain('브라우저 증거 차단 사유를 해소함')
       expect(item.note, item.reviewId).not.toContain('Korean-particle checks passed')
       expect(item.evidence, item.reviewId).toMatchObject({
         editorialRead: true,
         variantAudit: true,
-        preAnswer: false,
-        hint: false,
-        revealed: false,
-        mobile: false,
-        tablet: false,
-        artifacts: [],
+        preAnswer: true,
+        hint: true,
+        revealed: true,
+        mobile: true,
+        tablet: true,
+        artifacts: ['docs/tracking/problem-visual-browser-evidence-v1.json'],
       })
     }
     for (const templateId of numericConnectiveRegressionTemplateIds) {
@@ -504,10 +505,7 @@ describe('Grade 4 Bridge release bank', () => {
     expect(graphReview?.note).toContain('answer-only text/attribute')
 
     const errors = reviewCore.loadContractModule().validateEditorialLedger(catalog, receipt)
-    expect(errors.filter((error: string) => !error.startsWith('blocked editorial status: '))).toEqual([])
-    expect(errors.filter((error: string) => error.startsWith('blocked editorial status: '))).toHaveLength(
-      grade4MissionTemplates.length,
-    )
+    expect(errors).toEqual([])
   })
 
   it('keeps every reviewed unit at ten K4/A4/R2 templates', () => {

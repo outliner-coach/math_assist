@@ -21,8 +21,8 @@ describe('getProblemReviewData', () => {
       6: 330,
     })
     expect(data.summary).toMatchObject({
-      passProblems: 609,
-      blockedProblems: 931,
+      passProblems: 1_540,
+      blockedProblems: 0,
       staleProblems: 0,
       missingProblems: 0,
     })
@@ -60,6 +60,11 @@ describe('getProblemReviewData', () => {
       data.rows
         .filter(row => row.renderer === 'grade4')
         .every(row => row.variants.length === 9)
+    ).toBe(true)
+    expect(
+      data.rows
+        .filter(row => row.renderer === 'grade2')
+        .every(row => row.rendererReviewVersion === 'grade2-mission-visual-review-v2')
     ).toBe(true)
     expect(
       data.rows

@@ -6,6 +6,7 @@ const {
   auditAllGrade5Variants,
 } = require('../../scripts/grade5-editorial-variant-audit.js')
 const reviewCore = require('../../scripts/problem-review-catalog-core.js')
+const visualEvidenceCore = require('../../scripts/problem-visual-evidence-core.js')
 const {
   createReceipt,
   loadDecisions,
@@ -16,6 +17,29 @@ const receiptPath = join(
   process.cwd(),
   'docs/tracking/problem-editorial-review-work/grade5.json'
 )
+const visualEvidencePath = join(
+  process.cwd(),
+  'docs/tracking/problem-visual-browser-evidence-v1.json'
+)
+const visualEvidenceArtifact = 'docs/tracking/problem-visual-browser-evidence-v1.json'
+
+function grade5VisualEvidenceReport() {
+  const report = JSON.parse(readFileSync(visualEvidencePath, 'utf8'))
+  const items = report.items.filter(
+    (item: { reviewId: string }) => item.reviewId.startsWith('5:')
+  )
+  return {
+    ...report,
+    catalogVisualItemCount: items.length,
+    reviewedItemCount: items.length,
+    items,
+    summary: {
+      ...report.summary,
+      passed: items.length,
+      failed: 0,
+    },
+  }
+}
 
 describe('Grade 5 editorial review', () => {
   it('exhausts every allowed parameter variant without answer or rendering defects', () => {
@@ -96,7 +120,7 @@ describe('Grade 5 editorial review', () => {
     })
   })
 
-  it('covers every Grade 5 source and audited variant with honest visual blockers', () => {
+  it('covers every Grade 5 source and audited variant with complete visual evidence', () => {
     expect(existsSync(receiptPath)).toBe(true)
     const receipt = JSON.parse(readFileSync(receiptPath, 'utf8'))
     const decisions = loadDecisions()
@@ -132,7 +156,7 @@ describe('Grade 5 editorial review', () => {
     )).toBe(196_167)
     expect(receipt.items.filter(
       (item: { status: string }) => item.status === 'blocked'
-    )).toHaveLength(330)
+    )).toHaveLength(0)
 
     for (const item of receipt.items) {
       const decision = decisionById.get(item.reviewId) as {
@@ -140,7 +164,7 @@ describe('Grade 5 editorial review', () => {
         findings: { category: string }[]
         evidence: Record<string, unknown>
       }
-      expect(item.status).toBe(decision.status)
+      expect(item.status).toBe('pass')
       expect(item.findingCategories).toEqual([
         ...new Set(decision.findings.map((finding) => finding.category)),
       ])
@@ -160,7 +184,8 @@ describe('Grade 5 editorial review', () => {
         item.evidence.tablet,
       ]
       if (visualItems.has(item.reviewId)) {
-        expect(visualEvidence).toEqual([false, false, false, false, false])
+        expect(visualEvidence).toEqual([true, true, true, true, true])
+        expect(item.evidence.artifacts).toContain(visualEvidenceArtifact)
       } else {
         expect(visualEvidence).toEqual([null, null, null, null, null])
       }
@@ -169,14 +194,20 @@ describe('Grade 5 editorial review', () => {
     const validationErrors = reviewCore
       .loadContractModule()
       .validateEditorialLedger(catalog, receipt)
-    expect(validationErrors).toEqual(
-      [...visualItems].map(
-        (reviewId) => `blocked editorial status: ${reviewId}`
-      )
-    )
+    expect(validationErrors).toEqual([])
   })
 
-  it('is byte-deterministic from the reviewed Grade 5 sources', () => {
-    expect(serializeReceipt()).toBe(readFileSync(receiptPath, 'utf8'))
+  it('is byte-deterministic from the reviewed sources plus browser evidence', () => {
+    const baseline = JSON.parse(serializeReceipt())
+    const [expected] = visualEvidenceCore.applyVisualBrowserEvidence(
+      grade5VisualEvidenceReport(),
+      [baseline],
+      visualEvidenceArtifact,
+      330
+    )
+
+    expect(visualEvidenceCore.stableJson(expected)).toBe(
+      readFileSync(receiptPath, 'utf8')
+    )
   })
 })

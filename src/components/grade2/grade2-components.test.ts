@@ -20,6 +20,21 @@ describe('grade 2 components', () => {
     }
   })
 
+  it('keeps repeated length and calendar labels on distinct render nodes', () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    try {
+      for (const missionId of ['g2-1-length-05', 'g2-2-time-06']) {
+        const mission = getGrade2MissionById(missionId, 42)
+        renderToStaticMarkup(createElement(Grade2MissionVisual, { mission }))
+      }
+
+      expect(consoleError).not.toHaveBeenCalled()
+    } finally {
+      consoleError.mockRestore()
+    }
+  })
+
   it('renders the safe integer mission with a simple numeric input', () => {
     const mission = getSafeGrade2Mission(42)
     const html = renderToStaticMarkup(

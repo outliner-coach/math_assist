@@ -21,6 +21,16 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-28: T10 visual-browser evidence integration (primary workstreams
+  03 and 04) owns the deterministic 931-item/3,018-variant evidence report,
+  its fail-closed validator and temporary-receipt application, and the
+  Grade 2 renderer review version v2. A visual receipt can become pass only
+  when every allowed route variant passes pre/hint/revealed at 390x844 and
+  1024x768 with zero browser errors, current hashes, exact review IDs, and
+  preserved learner storage. Repeated display labels are not stable React
+  keys; renderer changes must bump the owned review version and rerun all
+  affected visual items.
+
 - 2026-07-28: T5 actual-renderer review surface completion (primary
   workstream 04) owns the shared renderer-review version registry extraction
   and the `/review/problems` projection of the canonical Grade 1-6 review

@@ -4,601 +4,631 @@
       "contentHash": "043487d06bf51a1aa26212aaa867c68f5a017d39cf2764d3397f9268783229dc",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-A-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "c76b3c5445cd33002138b2268aa9589af70c6c4b4d019b22346c7a46df3300d2",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-A-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "8e1e015014ce872b7229b22fcd4e181708a24ede7b57df7e5e5ca0a287f86f79",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-A-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "df2d13314d4f06da87b837bf6d10564d739efb389aab082246f1da0694b9d0d1",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-A-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "69a230f979df8d4987695d25b382f73e606b540720ed2ad08e38854bdf4393e3",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-A-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "4b08027cac6823f0187712482ee7187f319160f5c88c8c23ce7a5dca7ab40c5d",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-A-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "0a82999e2fab533f4b94314e0c98e13ebc7a4cde7b41b7a42891c6600b56de55",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-A-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "e29ab1e649270a08d9d801f8bbbe4bac634f6bdb33d096526df014a8c511d734",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-A-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "62b2cdc1e277a235cff4f23d0618d4637cd0231d51ee3b29e63e41d6ea3a1986",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-A-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "14fc49d41ce8cdd05932cfa684b8e014fc05ebf4de3ca747988827776d967ae1",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-A-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "1f03590fc108bff03135ba47e9b5b8fb98dcec1dd91f71b4deecd557aa805ce5",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-B-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "5619b57a48dc65924ca2751e8974f4a0b8fc2c9785e26a788097314b0968e102",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-B-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "cbaf2f6089cc8db557bc5b03199ba1ad8fb63e095544de081cf5b72d9fedb7fb",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-B-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "cd67aeaf538d93eeb5d516f2c38417e7bcfb15563931c3f2836092cffd8c0001",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-B-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "b88d9854bb0be89b0d76fb44f08c79e50aed35e2eeec2f1129b0776b84e8c3b6",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-B-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "c5fe6c7d24a56ff36119c7fc2614982229bb4dae0e4650affe6c436a8ad7ca25",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-B-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "b7746caa9cf06d7c32ff5105040aae45671b39c562468df35babb702ac9bde1f",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-B-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "139ec96142fb020d5a8eff7ea490af4cb5d48876da5922d0cb77a618a237a050",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-B-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "c2c30b533057790d090e6b1a5b7c2da8467f51f912ccfacb55a26c4e1a5751af",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-B-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "ff49d322c5d96333b4102bd2ac60b1c619d74544843f5f0865fb9f6b4da09841",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-B-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "ff17dfbbc640c757ad6cadcfd7c9f44061bd4f010545c6689bee4ba3f1293284",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-C-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "3a1ae54e2bfb9d841394a3a3ea7da22f25855e022fa31ce33b256d857ed6e409",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-C-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "973410b185efe01ba2e88b5176660931f90018aabd987c816bb1ff486073b6fc",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-C-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "264bfa9d8ad347b2418fe559c599418cc4ef0acd291117b680f7e3fbe3b07e9c",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-C-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "11b155e52ab3418bf41997f08fe5ad10aeb9a2670e55ab67a709ebf3762e5210",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-C-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "af13b110571cff5c1c1d7d1f84dc7786ff900d4778c7a5ab4a007d8cce4593a2",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-C-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "883b681c77154f5ca15bd725e5407fbd312217ed20adc673c7feb61a32a0f0f2",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-C-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "4cbde6e727c4e306f1832149fcbf12a96e2ce2649fe27304021d96917eb94c21",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-C-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "765f963c87d9cbdc9f05be45b31a56fcc62f771402c5d27dc726ccac0edfe425",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-C-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "c61e1de7648ad6fb847ceaf28ad17fd9459fbdc9c64091a7132122906ca9937e",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6circle.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6circle-C-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "8c14fe6b07d02f222550854e1c2cb12a4b689a2c565cf418a297ac7c6be78d12",
@@ -2408,81 +2438,85 @@
       "contentHash": "39bd58b37e4f757447f067439397da619e5ed7a1f94a5a0ca9e42b9ad2f78ecd",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-A-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "570d0a46d2db5c9b89b18601a903b11dbb3c0168c97c3efc603477f50371d018",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-A-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "07d5ef07629b7ac6fd44022789aedf846c4dcd3a2d36a0df6acd6dd732a6f99c",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-A-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "f3f9a054dd4d4f55499ca9fd9a072013401607ce3f37b7880aac6e8ffee9f05a",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-A-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "c250ffaca91e4530b60181fcfbedf6c0d3d8304033fa20aef17a9a9fa730307c",
@@ -2548,141 +2582,148 @@
       "contentHash": "363ae02b5345ef03dcb973418a0497bda0967d61518e3d4391c8ac9353f8649f",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-A-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "43121ca72ef6d7c8091a50e0201362419dff0370b8cea3daa86cbc471f91f9e4",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-A-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "54c6082af22e36abdbc77b64b468a39511756c680654979998db14990d5e7f7c",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-A-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "ac8506d4b0799474f39cce17d37b37afc9a2ef706ddbe7d120b64a5d2185cc6e",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-B-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "37914d077aa22df1d30671410c8946f91e5ab04a6369537159c5f1c10ed899da",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-B-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "d3718c5fe798b13dca3ad66f69d6f3f607482f882b5b963f4eae28fcbdd3d4e2",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-B-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "b4a4729d0cdc469640d619050c03071067c9769ad4f1d7490f231f029c92fffa",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-B-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "0280bb69419a9a74fb142d64c2ab70bd53aaddbb88a8e95f941c27e7e4b28643",
@@ -2728,161 +2769,169 @@
       "contentHash": "6ae67eafb04f23e84002be4e55f61c00cfb3991e0409e1a2678c3aadde0ec6e4",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-B-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "6733c2761e79e9dd3e74cd5c6ec9443b3a39f93a3c33ef5042d02ccb0c96ceb4",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-B-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "968a66cfc9e8a1cd43e63d480fd7d76fc4bda95a2305c01c95e0a0ef41c216a9",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-B-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "44a6624b42ccb5b39f0393bdfe692d07126674ea0d781848651d345c99ffbfab",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..7 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-B-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "f7bd749c7306ed2fff592c70a562373319daa839392fd27e76ac4485640ff9a9",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-C-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "80b7108a1bef496678074e842665ddb483339c74f38a4d1f164756db72881ebc",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-C-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "de5550675ee3500b44a2745fc55ffcbf7da62052720e91d434e19508eca9dcaa",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-C-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "171f3d24bceb97f3a0d7c1739cd8304138909eda4c85f08696662a47945b314d",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-C-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "38a8cd480e5519fdc0cfd5ac4a4ebcf58f5d8ceb1e9d472c0b34e3511a0c73fd",
@@ -2928,81 +2977,85 @@
       "contentHash": "8ad63470e2bafd5d303a48cf6ed57897a91d9f9851036af146228ee8a873fee2",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-C-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "21ec169adf7844ff87a8acf5ba4fa1e63bdac3a87f0254eaa18451c0e0d86eb9",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-C-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "0b5bac0080971754c2b0e4e138513e715174a4b2e5e5e60eb2943745b473de33",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-C-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "944fb256764df820b1707048ced2c959ed1aea6b7dd0d644c6a10c4fe268ea8c",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6prismpyramid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=5..8 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6prismpyramid-C-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "f0178fa02afb0d9fb18bebde2d8eaa7728b71147768d6ac67a6d16c4831aff84",
@@ -3794,21 +3847,22 @@
       "contentHash": "0068b6808ffbf8814061e64795ab8eb08ae48315d88d36254b983dd821d19613",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratio.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..7 (6개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratio-A-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "66ed8a8b38f48c651650a6278b367dd472b145b99f5680a20194b9b1ba58d276",
@@ -4000,21 +4054,22 @@
       "contentHash": "33c47b1f897f50c9b6dddeda625b0d0bd47edce63cac4b9f40e3058ed965af9a",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratio.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..8 (6개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratio-B-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "3d6a4b8d2014e64c7ca6bda5bf8dd7bc1875f256e5346b977a191afee39351f0",
@@ -4206,741 +4261,778 @@
       "contentHash": "7998252f4f37efa775801298b3d7d1da28a6faf041a0ccade8129bf08a03918f",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratio.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..9 (6개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratio-C-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "88a9c4ce448d9b6b30cf96e4ba9f707bb0e10679b56bc4e70af3f4ec638d50b2",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-A-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "c912379afe9a88d36c5219cce0249249548e564f2c8e5765addf66300d7527e8",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-A-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "7bfd3ccf544726a00b4a3b51f079dbeef9252c4ada01910fc57623679673fea7",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-A-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "e668779a99f8cbd858c6506d57319ebcd56fe3fb32829475a6a44338963d77a5",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-A-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "a2ef588ad7d152788958f0956ec24c3c1520041065f926bddb98240c2b5467e5",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-A-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "2d8707269327e3b56f57edff8e081ec006dd4a55dddc73fe53ce94f286c5d7bd",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-A-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "91848a8af48ad265d4b32945869d1facda57ab509a6dd0c40a1835cb2b0d1fb1",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-A-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "605c907d935069e81488d6ccf1f9d08f702127f853325648a7605c6258e0323a",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-A-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "75c6a52c358d82f159c676104f3bf95c459cbd954b77ceacd1567f2dd1e4824e",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-A-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "15211544e0ba24fd4fc1cf50230c953fc8366f3424aab4ed32eb44d765df3fb8",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-A-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "d0548208d31b2c2e1714becd08a87309f17398a329d835268083942680111de1",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-B-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "7f5f6b7a2aaf86b24810501eeeb85abaaf3b8d84611381b7a54640d8a14ae4de",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-B-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "0e2d2eed8918d2146863ae4d2469312e5558c03e3bb05e22e3af4c6fd55dec21",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-B-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "c195bf1ff170e567f7ed7f61882f8b238031e204cb9e801526a2bbb00c0cb7c5",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-B-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "17eba9dd3efa3bfd76f02ee525cbe274859a536096d1b162656651e609a7a095",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-B-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "05b368fdfc239f253c1ca513efd8a0c4c5d95f0148c67e1167600ee83e289b89",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-B-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "8e8e5ca54c72a6700f8870365353cad735f74fa09bd71fbcca415d6c8be83707",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-B-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "1ed794a95317199d516543d2a1a600be20a3143022c9c07d56c459cfdd1577db",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-B-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "08c656902f30660c9298d32aa93488d291122bf0ade1dc85cbb41fc280d4830a",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-B-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "8cccf3c01ecc70d66a0f6d664ce417fbbd408b2c1089fcaeb08bb0bc64520b9d",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-B-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "d3a155d59dbcb924a8d183dadbf274a5a1194d87c888bdfdb3a3abd6b0c79866",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-C-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "c9f7098404cfc470e462d470fb563a3fe78ac246655d919a9d27c214f54b678c",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-C-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "0453439449cce450797cd80fbca67feaa565431b479d801db20c189c7f1a9c87",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-C-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "ec5eb89c2a1838b4f084c3072eb1bbcd7f9a4da7d492421dc1220b684e0dbdf2",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-C-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "cf30be45dc517d21b70e0cb10b261760625436c30b34511c8649126a5aaf47aa",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-C-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "f3f0a1af0441aaa50dc9c6b547ccae98e2464d27e284759ff7e76e84ed9d1c3b",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-C-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "3f840b6c946d5a893a83bcb9a3808cc69b8172d767e3e518c73d4c5e632ab7ca",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-C-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "e16f2a2e9031e339387a5a51627c7da53d94d41119aeb3d4b25e751307a9f5b3",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-C-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "dce2b4a71532dc195b47465924dbd170833e7a116c4536b280ae6c9b576b7e1d",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-C-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "abc6bf2d7771cd4b7887561d4ba99b6d4f6b240bb9fb5753033b59bbec1396e0",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6ratiograph.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..4 (3개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6ratiograph-C-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "4cb415b33b39c7df5257190c2135a834223f00e447a4fb6d4b24095940286759",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-A-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "fc53bb942c17d0c01f5781f8310f3a4c72f3e2757210da6baa7969e63e6bbb1e",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-A-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "aafd45b2a30ecd2086524f00c98e4a2419efa888a9fb49fad6a5c1856613a43e",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-A-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "fb39175fcbb4cf8343087c508f5228ebeb174666b051a673641cee30f60e224a",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-A-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "3e2f4816e8393254f1cd2960b772b73722708bdad2f298061df3275b50e90b7a",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-A-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "a8496dbdd2d72c2a21ae663a19c4c807faae43d434a3ebe6963d6d17aaba958b",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-A-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "f65fd8875cf9f4670a59820c80636be8ce2aaeffddc567a93d087f50a115680b",
@@ -4966,181 +5058,190 @@
       "contentHash": "ad67464d24b6aa0727142a0d709ca7ff2142d51843bf002cc878ee18a3c1ad2b",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-A-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "7fcd2048a254e90a25f1edc6c2ff4919e30472523be1fe5557c249d263c02c24",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-A-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "cc555fdd3629fb547dcc27e66df14ed863c45c875b8ff8a4ab8ac676be98afe3",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-A-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "b081230ff8d62dc7df95aaf6515709daec92dac172165d923c63be1e9dca21bf",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-B-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "be59c493634874f65b88ac3ab69dada724fbcead9d039d30c9faa92fa74a54ac",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-B-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "f75e6b7f6b6b48fe55e76dcc8e2286939f438dfe4e1b5f8ce44c44be2983c793",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-B-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "2bc46e4ec5fc050c6a8281d5fb17c664b6570096f0a5b62f413436ff9592261f",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-B-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "f2ab765ee8116c9989b966bac2b3d622c489495d4e1c0f08efc41dbca0f5f442",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-B-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "b350148c8b404ade6986b361c564bdf59d80a0d00c929bf0d73158d899ebff7a",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-B-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "24b5ba6dde430a7e2a054c4f7bf0ddb8e1852d5dcfc8ce9e3fbf92f55d27fe2a",
@@ -5166,141 +5267,148 @@
       "contentHash": "aaf1b04bef663795393f370c8a9ebc4f604118f913a147d6d41e54345233c7d9",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-B-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "e9f24cd4f2e3090fa24c65c47a1b3459b70d17ebfa0dd167a39c903196d6569d",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-B-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "f284196559f5cdfc77283e3c4997102315260131b3d3e5baaaa1b3c54816ea4e",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-B-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "af9ab02eb57827811718a0a98c05ee420ddc3921b23ea49e1fcbc5116cf799ab",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-C-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "47b77ec6c5cf31caeed0637b885938314dd1b2773baa0cf5c9692003347f8495",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-C-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "bba4786fd058b9d7c9d66f9f06cdaade43edead78913eb67168e32c2ba3b7a4f",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-C-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "b831745bc006b07b411773aa8d8e735d3b500c7031914067e7b2e0f0b96739bb",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-C-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "e4ad8b5604668e4404f662da6b593dfa1455981421932ba7e63f7d40a143d5d4",
@@ -5366,1261 +5474,1324 @@
       "contentHash": "02861d336b9db769f653d41b66a6ea1511df3547c637d7e0ef2d47945a5ec9fd",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-C-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "eeb8de1effc789c869ec38bbbe6415b93d3e270138e3d9574d8d1d43ed8afde6",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-C-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "98efbf5fee9a29b67300099e3e3cec133374e0e5318d759d0a692ee7687154a6",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6roundsolid.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..6 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6roundsolid-C-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "b3c2d556b883bd9822514cf22f43468df2db66d8eb4b95bcf9b52ddd63a05f0a",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-A-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "2a8cdd9abe1b8c93137a3a11efaacd7505718f713d343446129c8294ffc59ec7",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-A-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "4584c5e7542bedb3b46c0a9d22ad674d33cd1fff6841380e248f6c972f10cd7d",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-A-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "c7efa747f5ef0463c10f9c34b7154cd440b9490575758b3f18e7762b51e1c760",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-A-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "cfbf4239cf96b6eb89941cd47a5c8408989f7604f72126860d015ae13b1d8fdd",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-A-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "72248f811f447ac26ec8b834cd345e3425bbae703a52e0d34a9926e7eb497326",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-A-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "0414591531facc5e91dbda4723e85c69cc5491a630f43765d3f71754cee65186",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-A-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "f7eb12962c77aa347b46343df4a3e9a626d874897569ac5c6e34024a38cea6d9",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-A-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "62ab2f8378e98ea8fd05614306fd954666dca36006d22757b0a7aa33a6072ee2",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-A-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "f9ded0fa5ebdb80c75350714f507849751d408e1cb6c1ef71331b858cf3cab82",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=2..5 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-A-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "682d560a17e038bf35dd3979af551fa642697e3fe22122dbd3d03b82650b84bb",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-B-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "8fb6a956ae5273ee5d93e82e8ab861ce25eb82cf0a393a5c06404a2cf5249d92",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-B-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "7c649dc50815e9c62a6f4e2c58b919164421466a190d088b1a7fd675d32407f7",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-B-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "a457bcefcbdc25b6317c34055537b46c9cff3332bb176783e733578ef641711d",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-B-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "e2cbdf5dfb6b16d09b197684300883c741df758aacbbe5cf1511bd5f3867daeb",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-B-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "8f33ef5a585ef64ac24b391e5ec4f9b209384e8f9389b70d7e180edd85db5557",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-B-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "9e783e9659e30e9645f3efa478fd39d367c1c14a8f0f426f8868b9154a464fd9",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-B-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "d2cb4d349bd1b91c9961319fe629de85194d0ae7b77ef2d19e95387e818a5a42",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-B-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "ae9ca4dd87f4cf5198dfe58d70d2c3e62a9d0da11b3db56ef796db428b877c65",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-B-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "c259f106ad4908fe0d7ea1e09b1191d08d694a9a83ca01360a267be5a22eb86c",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-B-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "04ae8d46d82851d0bff73697622fb97e12663ee76b1395a0158ec1080573ed88",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-C-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "2d2c5b6edbfc2f2a0fde5ca47e5f3f48c71178053103d12ab7672732015ffb13",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-C-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "fb0990c0aa76da097f5d11435c7fcbfa908e4839eb2cc0ccecd7761fb790b48e",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-C-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "3d308c4b4f6dc4dc77ca32f83a67e99ba52abc5a141dcf37e9150c8bbcf96d61",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-C-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "4797972533e90119e7f90adcc5fccf608e21468d36fcffd4a3c50db116b83162",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-C-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "9e3c0c3ec1176e9e91fbda04794ae988240b83e025b7d5cf15f8ed4df6f559b3",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-C-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "97c04edad64a5b1fd959de7e8b74c0f2207438819af2fe6d00cd4d44c7c821ec",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-C-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "14a1e00977f42ce93e0f0049b3aa3e97939b5965c6d44433c8d8000ab4f1ba1c",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-C-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "d6eaf60493b5d122f6c40e3b4a36b6bc06afebe30c7492884f0b93356545f6f1",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-C-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "634a7c11c4085b1cf03c852823667e6abeb1ca6bfdc0a143a160ada97ea8ccb6",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6spatial.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6spatial-C-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "1e19139e1b7a982f77494c5ca7cdd2f307cb94692189dfc64185b7059fbcb844",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-A-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "ae55e9e1d91c8b8ddf14becb9182bb62bc5863f54b59398dce8e1afd4eeaf04e",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-A-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "7edc673133282b249c04ab836cad25807ad8c5818b6cf780eb7b7c38057593d1",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-A-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "705bb96a24c6e90b778fb053254772798ccf737338e633a7d47543ae2d2fa6ab",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-A-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "a148643522ef8b4b44b7a4013f444e8da88c3fdd0f37d8e9d4690b3a7898c2e2",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-A-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "05c080f6028d28f8a792149d4a8da1e35098b5f352617d652bf309b129777340",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-A-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "5c5ca7a9cab46b7faae65fe410107d95c474d90f3f6a380fcf7839efbea0880e",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-A-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "1b2c38a3212ec6ffd6c19e6434603a89090643c7ceb83bc2bd4ea8ab77ba4411",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-A-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "e8f833c794ee8ddbfa0cd0b9d8aeaf04fdb54c87eef88125ab76cdc5a2a90d56",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-A-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "4c72b0dc5f47775b4699278a7e660e1eda9de77c1714c88358e1dbff4cb057bf",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..6 (4개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-A-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "d01a5645a997c0e041bf1daecaa330b5b988fef3b6c6e11e0c17ce1ac92cecd8",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-B-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "5fdad1d444b683b85e9b7934615e4c7a08a875bb328b75b7ccee90b34cce132a",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-B-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "c973da08f8294fb09359d4ceb04bb4a92022408473dcbe8d72661a7a7063d337",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-B-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "b4bc3638e871859a9458e474d61c6bc24f52cad8deda7056826d0b5562937c59",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-B-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "6781e8e63b7aba2bf33d0331a0b18c3d58a6a98eb223baa68e531a19d8326f11",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-B-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "0b22c2747e434426071b7ae7fcbaafec91f6286869a6eb258de0b965603d683b",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-B-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "4a331525ace71fe6782beb72a58fdd2e422ca66022e23bb530b70c5070fde55e",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-B-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "0e9ff4cb48022b03d84f0d767ed3387690f05625749b442db50d8047fed47ec6",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-B-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "2e13eb49595a3bc415c1f6df964d185a15965eaceae6cfe92f95b0e70ad6ed43",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-B-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "f81131ffa521cf81d4498d200462664f583759c59936d337540783f9d6cae6f6",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=3..7 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-B-10",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "a8d01b0b1427374f8a04feb614c0cf4899600d0c32de25358316888a0eca7a95",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-C-01",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "ce94d4c2c9693b6f8dd2aec86ea41b3d618180605519cd92711ae806c93b5703",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-C-02",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "161bb97201496184305769c990af3aaa51f75906255f760807113c0dbc013758",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-C-03",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "32337333234a9b48465d40699a890f82b2f76421f247cdd3908d517fbf16f0cc",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-C-04",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "b76d839542a86a5e5ae05c6fb00bf728b39537a44dea3e4613310085e5e6480c",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-C-05",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "b840ee428fb98aec74321924426c6ce69a54b9ed4e8a17c9068203cfc2ccb2ab",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-C-06",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "97c969542bb8537ecbda6cbf062ada26c42a3cfb5c3380d34acd623ce2cf1a09",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-C-07",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "4a027c87a179117d1a89e1330ba9ace90f3bf343683578a3066ca3ef113c328a",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-C-08",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "98bc9f61bb0c060cf8721e5db80b64d96c57cca8111a0d80378f9abc782fc5a3",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-C-09",
-      "status": "blocked"
+      "status": "pass"
     },
     {
       "contentHash": "b29700858be31b8de8fbfc2d5958a502b88fcdcd5ed0eac203d5fc64993abd47",
       "evidence": {
         "artifacts": [
+          "docs/tracking/problem-visual-browser-evidence-v1.json",
           "public/data/templates/g6volume.json",
           "src/lib/grade6-study.test.ts"
         ],
         "editorialRead": true,
-        "hint": false,
-        "mobile": false,
-        "preAnswer": false,
-        "revealed": false,
-        "tablet": false,
+        "hint": true,
+        "mobile": true,
+        "preAnswer": true,
+        "revealed": true,
+        "tablet": true,
         "variantAudit": true
       },
       "findingCategories": [],
-      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다.",
+      "note": "원본 문장·답·힌트·풀이와 허용 p=4..8 (5개)를 검수했습니다. 실제 브라우저의 제출 전·힌트·정답 공개·모바일·태블릿 증거가 없어 차단 상태를 유지합니다. T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 차단 사유를 해소함.",
       "reviewId": "6:template:tmpl-g6volume-C-10",
-      "status": "blocked"
+      "status": "pass"
     }
   ],
   "schemaVersion": 1

@@ -443,8 +443,8 @@ function LengthBars({ mission, emphasize, showAnswer = false }: Grade2MissionVis
             value: rightCm,
             color: '#f97316',
           },
-        ].map((bar) => (
-          <div key={bar.label} className="grid grid-cols-[90px_1fr] items-center gap-3">
+        ].map((bar, index) => (
+          <div key={`${bar.label}-${index}`} className="grid grid-cols-[90px_1fr] items-center gap-3">
             <div className="text-right text-lg font-black text-[#334155]">{bar.label}</div>
             <div className="h-12 rounded-full bg-white p-2 shadow-sm">
               <div
@@ -517,7 +517,7 @@ function CalendarStrip({ mission, emphasize }: Grade2MissionVisualProps) {
     <VisualShell emphasize={emphasize} testId="grade2-visual-calendar-strip">
       <div className="grid min-h-[220px] grid-cols-7 items-center gap-2">
         {days.map((day, index) => (
-          <div key={day} className={`rounded-2xl border-2 p-4 text-center text-2xl font-black ${index >= 5 ? 'border-[#f97316] bg-[#ffedd5]' : 'border-[#cbd5e1] bg-white'}`}>
+          <div key={`${day}-${index}`} className={`rounded-2xl border-2 p-4 text-center text-2xl font-black ${index >= 5 ? 'border-[#f97316] bg-[#ffedd5]' : 'border-[#cbd5e1] bg-white'}`}>
             {day}
           </div>
         ))}

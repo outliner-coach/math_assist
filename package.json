@@ -19,6 +19,8 @@
     "validate:curriculum": "node scripts/validate-curriculum.js",
     "audit:missions": "node scripts/mission-bank-quality-report.js",
     "generate:problem-review-catalog": "node scripts/generate-problem-review-catalog.js",
+    "generate:problem-visual-evidence": "node scripts/generate-problem-visual-browser-evidence.js",
+    "apply:problem-visual-evidence": "node scripts/apply-problem-visual-evidence.js",
     "generate:grade5-editorial-receipt": "node scripts/generate-grade5-editorial-receipt.js",
     "check:problem-editorial-review": "node scripts/check-problem-editorial-ledger.js",
     "generate:grade5-geometry": "node scripts/generate-grade5-geometry-templates.js",

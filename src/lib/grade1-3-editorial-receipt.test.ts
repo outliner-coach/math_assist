@@ -50,18 +50,20 @@ describe('Grade 1-3 temporary editorial receipt', () => {
     ))).toBe(true)
   })
 
-  it('keeps content resolution evidence separate from the browser evidence blocker', () => {
+  it('records complete browser evidence without erasing content resolution notes', () => {
     const { items } = loadReceipt()
 
-    expect(items.every((item) => item.status === 'blocked')).toBe(true)
+    expect(items.every((item) => item.status === 'pass')).toBe(true)
     expect(items.every((item) => item.note.includes('브라우저'))).toBe(true)
     expect(items.every((item) => (
-      item.evidence.preAnswer === false
-      && item.evidence.hint === false
-      && item.evidence.revealed === false
-      && item.evidence.mobile === false
-      && item.evidence.tablet === false
-      && item.evidence.artifacts.length === 0
+      item.evidence.preAnswer === true
+      && item.evidence.hint === true
+      && item.evidence.revealed === true
+      && item.evidence.mobile === true
+      && item.evidence.tablet === true
+      && item.evidence.artifacts.includes(
+        'docs/tracking/problem-visual-browser-evidence-v1.json'
+      )
     ))).toBe(true)
   })
 
