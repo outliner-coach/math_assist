@@ -86,3 +86,35 @@ would let a mutation hide a ledger mismatch.
   `grade2-learning-runtime.test.ts`). The command still reports unrelated
   existing diagnostics in component tests, `visual-model.test.ts`,
   `curriculum-allocation.test.ts`, Grade 4/6 tests, and remote-auth tests.
+
+## Fix round 2 — detached learner-shard release ledgers
+
+### RED
+
+The immutable snapshot builder from fix round 1 lived only in
+`registered-families.ts`. Learner routes consume the Grade 2/5/6 shard
+registries directly, so each shard still aliased every executable
+`entry.family` from its `releaseLedger`. The new parameterized shard test
+reproduced the same object-identity failure independently for all three grades.
+
+### GREEN
+
+- Moved the canonical deep-clone/deep-freeze builder into the shared
+  `registry.ts` layer without adding an import cycle.
+- Applied the same builder to the Grade 2, Grade 5, Grade 6, and aggregate
+  release ledgers.
+- Each shard now selects exactly 3 approved candidates, while the aggregate
+  still selects 9. A forged runtime-family owner leaves the shard ledger and
+  original family export unchanged and removes only that candidate (3 to 2).
+- Ledger roots, nested approval objects, and evidence arrays are all distinct
+  from executable metadata and frozen.
+
+### Fix-round verification
+
+- Focused registry/runtime/Grade 2/5/6 shard Vitest: 20 passed.
+- Expanded release-focused Vitest suite: 185 passed.
+- `npm run validate:application-packs`, `npm run audit:applications`,
+  `npm run lint`, and `npm run tdd:guard`: passed.
+- `npx tsc --noEmit` has no diagnostics in this round's changed registry and
+  runtime-integration files; unrelated existing diagnostics remain outside
+  this change.

@@ -6,7 +6,11 @@ import {
   G5_PERIMETER_BOUNDARY_REBUILD_FAMILY,
   G5_PERIMETER_BOUNDARY_REBUILD_GENERATOR,
 } from './families/grade5-geometry-families'
-import { deterministicRegistryEntry, type ApplicationProblemRegistryV1 } from './registry'
+import {
+  createImmutableReleaseFamilySnapshot,
+  deterministicRegistryEntry,
+  type ApplicationProblemRegistryV1,
+} from './registry'
 
 export const GRADE5_APPLICATION_PROBLEM_REGISTRY_V1: ApplicationProblemRegistryV1 =
   Object.freeze({
@@ -28,5 +32,5 @@ export const GRADE5_APPLICATION_PROBLEM_REGISTRY_V1: ApplicationProblemRegistryV
       G5_PERIMETER_BOUNDARY_REBUILD_FAMILY,
       G5_AREA_COMPOSITE_INVERSE_FAMILY,
       G5_AREA_OVERLAP_RECONSTRUCTION_FAMILY,
-    ]),
+    ].map(createImmutableReleaseFamilySnapshot)),
   })

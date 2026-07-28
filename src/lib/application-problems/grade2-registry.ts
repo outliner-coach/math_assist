@@ -10,7 +10,11 @@ import {
   G2_LENGTH_ROUTE_TOTAL_FAMILY,
   G2_LENGTH_ROUTE_TOTAL_GENERATOR,
 } from './families/g2-length-route-total'
-import { deterministicRegistryEntry, type ApplicationProblemRegistryV1 } from './registry'
+import {
+  createImmutableReleaseFamilySnapshot,
+  deterministicRegistryEntry,
+  type ApplicationProblemRegistryV1,
+} from './registry'
 
 export const GRADE2_APPLICATION_PROBLEM_REGISTRY_V1: ApplicationProblemRegistryV1 =
   Object.freeze({
@@ -26,5 +30,5 @@ export const GRADE2_APPLICATION_PROBLEM_REGISTRY_V1: ApplicationProblemRegistryV
       G2_LENGTH_ROUTE_TOTAL_FAMILY,
       G2_LENGTH_MISSING_SEGMENT_FAMILY,
       G2_LENGTH_CLAIM_CHECK_FAMILY,
-    ]),
+    ].map(createImmutableReleaseFamilySnapshot)),
   })

@@ -47,6 +47,27 @@ export function deterministicRegistryEntry(
   })
 }
 
+function deepFreeze<T>(value: T): T {
+  if (value && typeof value === 'object') {
+    Object.values(value as Record<string, unknown>).forEach((entry) => {
+      deepFreeze(entry)
+    })
+    Object.freeze(value)
+  }
+  return value
+}
+
+/**
+ * Builds an immutable historical approval snapshot that cannot alias an
+ * executable entry's family metadata. The contract parser canonicalizes the
+ * data-only clone before every nested object and array is frozen.
+ */
+export function createImmutableReleaseFamilySnapshot(
+  family: ApplicationProblemFamilyV1,
+): ApplicationProblemFamilyV1 {
+  return deepFreeze(parseApplicationProblemFamilyV1(JSON.parse(JSON.stringify(family))))
+}
+
 function hasApprovedOwnerEvidence(family: ApplicationProblemFamilyV1): boolean {
   try {
     const canonical = parseApplicationProblemFamilyV1(family)

@@ -10,6 +10,9 @@ import {
   type ApplicationProblemRegistryV1,
 } from './registry'
 import { APPLICATION_PROBLEM_REGISTRY_V1 } from './registered-families'
+import { GRADE2_APPLICATION_PROBLEM_REGISTRY_V1 } from './grade2-registry'
+import { GRADE5_APPLICATION_PROBLEM_REGISTRY_V1 } from './grade5-registry'
+import { GRADE6_APPLICATION_PROBLEM_REGISTRY_V1 } from './grade6-registry'
 import { buildApprovedGrade2ApplicationMissions } from './grade2-runtime'
 import {
   APPLICATION_PROBLEM_MAX_SEED_ATTEMPTS,
@@ -126,6 +129,52 @@ describe('application runtime integration', () => {
 
     expect(ledgerFamily.approval.ownerId).toBe('project-owner')
     expect(selectApprovedRuntimeCandidates(forgedRegistry)).toHaveLength(8)
+  })
+
+  it.each([
+    ['Grade 2', GRADE2_APPLICATION_PROBLEM_REGISTRY_V1],
+    ['Grade 5', GRADE5_APPLICATION_PROBLEM_REGISTRY_V1],
+    ['Grade 6', GRADE6_APPLICATION_PROBLEM_REGISTRY_V1],
+  ] as const)('keeps the %s learner shard ledger detached and immutable', (_label, registry) => {
+    expect(selectApprovedRuntimeCandidates(registry)).toHaveLength(3)
+
+    for (const entry of registry.entries) {
+      const ledgerFamily = registry.releaseLedger.find((family) => (
+        family.familyId === entry.family.familyId && family.version === entry.family.version
+      ))
+      expect(ledgerFamily).toBeDefined()
+      if (!ledgerFamily) continue
+      expect(ledgerFamily).not.toBe(entry.family)
+      expect(ledgerFamily.approval).not.toBe(entry.family.approval)
+      expect(ledgerFamily.approval.evidenceRefs).not.toBe(entry.family.approval.evidenceRefs)
+      expect(Object.isFrozen(ledgerFamily)).toBe(true)
+      expect(Object.isFrozen(ledgerFamily.approval)).toBe(true)
+      expect(Object.isFrozen(ledgerFamily.approval.evidenceRefs)).toBe(true)
+    }
+
+    const [targetEntry] = registry.entries
+    const targetLedger = registry.releaseLedger.find((family) => (
+      family.familyId === targetEntry.family.familyId && family.version === targetEntry.family.version
+    ))
+    const forgedRegistry: ApplicationProblemRegistryV1 = {
+      entries: registry.entries.map((entry) => (
+        entry === targetEntry
+          ? {
+              ...entry,
+              family: {
+                ...entry.family,
+                approval: { ...entry.family.approval, ownerId: 'forged-owner' },
+              },
+            }
+          : entry
+      )),
+      releaseLedger: registry.releaseLedger,
+    }
+
+    expect(targetEntry.family.approval.ownerId).toBe('project-owner')
+    expect(targetLedger?.approval.ownerId).toBe('project-owner')
+    expect(selectApprovedRuntimeCandidates(forgedRegistry)).toHaveLength(2)
+    expect(selectApprovedRuntimeCandidates(registry)).toHaveLength(3)
   })
 
   it('maps only owner-approved families with evidence into their Grade 5/6 concepts', () => {
