@@ -251,7 +251,7 @@ test('규칙 찾기 단원은 대응·먼 계산식·두 변화 오류 분석 �
   await page.getByTestId('grade4-next-mission').click()
 
   await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-pat-10')
-  await page.getByRole('button', { name: '곱하는 수와 더하는 수를 모두 4로 바꾸어 9×4+4=40로 써야 합니다.' }).click()
+  await page.getByRole('button', { name: '곱하는 수와 더하는 수를 모두 4로 바꾸어 9×4+4=40으로 써야 합니다.' }).click()
   await page.getByTestId('grade4-next-mission').click()
 
   await expect(page.getByTestId('grade4-activity-complete')).toContainText('규칙 찾기 다리를 건넜어요!')
@@ -289,7 +289,7 @@ test('등호 단원은 빠진 양·양쪽 같은 변화·한쪽 변화 오류 �
   await page.getByTestId('grade4-next-mission').click()
 
   await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-eq-10')
-  await page.getByRole('button', { name: '왼쪽에 6만큼 더했으므로 오른쪽에도 6만큼 더한 20+9+6=29+6로 써야 합니다.' }).click()
+  await page.getByRole('button', { name: '왼쪽에 6만큼 더했으므로 오른쪽에도 6만큼 더한 20+9+6=29+6으로 써야 합니다.' }).click()
   await page.getByTestId('grade4-next-mission').click()
 
   await expect(page.getByTestId('grade4-activity-complete')).toContainText('등호와 양의 관계 다리를 건넜어요!')
