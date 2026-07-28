@@ -55,3 +55,34 @@ the production quality summary.
 - This is a V1 pilot release, not a claim of complete all-grade or all-type
   coverage.
 - T12 remains responsible for its separately specified full verification order.
+
+## Fix round 1 — immutable release ledger and Grade 2 test typing
+
+### RED
+
+The production `releaseLedger` reused the family object from each executable
+entry. The new registry test failed with the ledger snapshot and
+`g5-perimeter-boundary-rebuild` runtime family being the same object, which
+would let a mutation hide a ledger mismatch.
+
+### GREEN
+
+- `APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger` now creates a separate,
+  contract-canonicalized JSON snapshot for each family and recursively freezes
+  the snapshot, nested approval object, and evidence array.
+- A forged registry with only the runtime entry's `ownerId` changed retains the
+  ledger's `project-owner` value and selects 8, not 9, candidates.
+- Grade 2 runtime assertions now narrow missions through
+  `isGrade2ApplicationMission` before accessing `applicationSource`.
+
+### Fix-round verification
+
+- Focused registry/Grade 2 Vitest: 12 passed.
+- Release-focused Vitest suite: 177 passed.
+- `npm run validate:application-packs`, `npm run audit:applications`,
+  `npm run lint`, and `npm run tdd:guard`: passed.
+- `npx tsc --noEmit` has no diagnostics in this round's changed files
+  (`registered-families.ts`, `runtime-integration.test.ts`, or
+  `grade2-learning-runtime.test.ts`). The command still reports unrelated
+  existing diagnostics in component tests, `visual-model.test.ts`,
+  `curriculum-allocation.test.ts`, Grade 4/6 tests, and remote-auth tests.

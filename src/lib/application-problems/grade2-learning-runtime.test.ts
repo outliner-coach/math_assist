@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 
 import { buildGrade2MissionCatalog } from './grade2-runtime'
+import { isGrade2ApplicationMission } from './grade2-adapter'
 
 describe('Grade 2 application mission catalog boundary', () => {
   it('returns a safe blocked result instead of throwing when application generation is exhausted', () => {
@@ -19,8 +20,10 @@ describe('Grade 2 application mission catalog boundary', () => {
     expect(result.status).toBe('ready')
     if (result.status === 'ready') {
       expect(result.missions).toHaveLength(147)
-      expect(result.missions.slice(0, 144).every((mission) => !mission.applicationSource)).toBe(true)
-      expect(result.missions.slice(144).map((mission) => mission.applicationSource.familyId)).toEqual([
+      expect(result.missions.slice(0, 144).every((mission) => !isGrade2ApplicationMission(mission))).toBe(true)
+      const applicationMissions = result.missions.slice(144).filter(isGrade2ApplicationMission)
+      expect(applicationMissions).toHaveLength(3)
+      expect(applicationMissions.map((mission) => mission.applicationSource.familyId)).toEqual([
         'g2-length-route-total',
         'g2-length-missing-segment',
         'g2-length-claim-check',

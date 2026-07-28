@@ -90,6 +90,44 @@ describe('application runtime integration', () => {
       .toBe(9)
   })
 
+  it('keeps a deeply frozen release-ledger snapshot independent from every runtime family', () => {
+    const runtimeEntry = APPLICATION_PROBLEM_REGISTRY_V1.entries.find(
+      (entry) => entry.family.familyId === 'g5-perimeter-boundary-rebuild',
+    )
+    const ledgerFamily = APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger.find(
+      (family) => family.familyId === 'g5-perimeter-boundary-rebuild',
+    )
+
+    expect(runtimeEntry).toBeDefined()
+    expect(ledgerFamily).toBeDefined()
+    if (!runtimeEntry || !ledgerFamily) return
+
+    expect(ledgerFamily).not.toBe(runtimeEntry.family)
+    expect(ledgerFamily.approval).not.toBe(runtimeEntry.family.approval)
+    expect(ledgerFamily.approval.evidenceRefs).not.toBe(runtimeEntry.family.approval.evidenceRefs)
+    expect(Object.isFrozen(ledgerFamily)).toBe(true)
+    expect(Object.isFrozen(ledgerFamily.approval)).toBe(true)
+    expect(Object.isFrozen(ledgerFamily.approval.evidenceRefs)).toBe(true)
+
+    const forgedRegistry: ApplicationProblemRegistryV1 = {
+      entries: APPLICATION_PROBLEM_REGISTRY_V1.entries.map((entry) => (
+        entry === runtimeEntry
+          ? {
+              ...entry,
+              family: {
+                ...entry.family,
+                approval: { ...entry.family.approval, ownerId: 'forged-owner' },
+              },
+            }
+          : entry
+      )),
+      releaseLedger: APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger,
+    }
+
+    expect(ledgerFamily.approval.ownerId).toBe('project-owner')
+    expect(selectApprovedRuntimeCandidates(forgedRegistry)).toHaveLength(8)
+  })
+
   it('maps only owner-approved families with evidence into their Grade 5/6 concepts', () => {
     const registry = approvedRegistry([
       'g5-perimeter-boundary-rebuild',
