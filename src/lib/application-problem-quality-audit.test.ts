@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest'
 
-import { auditApplicationProblemQuality } from '../../scripts/application-problem-quality-core.js'
+import {
+  auditApplicationProblemQuality,
+  loadProductionApplicationProblemQualityInput,
+} from '../../scripts/application-problem-quality-core.js'
 
 const approval = {
   ownerStatus: 'pending',
@@ -112,9 +115,21 @@ function baseline(overrides: Record<string, unknown> = {}) {
     visualResults: [{ family: currentFamily, problem: problem(), valid: true }],
     answerExposureResults: [{ family: currentFamily, problem: problem(), exposed: false }],
     sessionContracts: [
-      { grade: 2, legacyCount: 144, candidateCount: 1, sessionCount: 144, difficultyDistribution: { easy: 48, medium: 48, applied: 48 }, storageKey: 'mathAssist_grade2Progress_v3' },
-      { grade: 5, legacyCount: 10, candidateCount: 1, sessionCount: 10, difficultyDistribution: { 1: 4, 2: 4, 3: 2 }, storageKey: 'mathAssist_grade5CurrentSession' },
-      { grade: 6, legacyCount: 10, candidateCount: 1, sessionCount: 5, allowedSessionCounts: [5, 10], difficultyDistribution: { 1: 2, 2: 2, 3: 1 }, storageKey: 'mathAssist_grade6CurrentSession' },
+      { grade: 2, legacyCount: 144, candidateCount: 1, sessionCount: 144, difficultyDistribution: { easy: 48, medium: 48, applied: 48 }, storageKey: 'mathAssist_grade2Progress' },
+      { grade: 5, legacyCount: 10, candidateCount: 1, sessionCount: 10, difficultyDistribution: { 1: 4, 2: 4, 3: 2 }, storageKey: 'mathAssist_currentSession' },
+      {
+        grade: 6,
+        legacyCount: 10,
+        candidateCount: 1,
+        sessionCount: 5,
+        allowedSessionCounts: [5, 10],
+        difficultyDistribution: { 1: 2, 2: 2, 3: 1 },
+        generatedSessions: [
+          { count: 5, difficultyDistribution: { 1: 2, 2: 2, 3: 1 } },
+          { count: 10, difficultyDistribution: { 1: 4, 2: 4, 3: 2 } },
+        ],
+        storageKey: 'mathAssist_grade6CurrentSession',
+      },
     ],
     ...overrides,
   }
@@ -125,6 +140,21 @@ function codes(input: Record<string, unknown>) {
 }
 
 describe('application problem quality audit', () => {
+  it('materializes actual production evidence for every registered family and session contract', () => {
+    const input = loadProductionApplicationProblemQualityInput()
+
+    expect(input.generatedSnapshots).toHaveLength(input.families.length)
+    expect(input.proofReports).toHaveLength(input.families.length)
+    expect(input.oracleResults).toHaveLength(input.families.length)
+    expect(input.visualResults).toHaveLength(input.families.length)
+    expect(input.answerExposureResults).toHaveLength(input.families.length)
+    expect(input.sessionContracts).toMatchObject([
+      { grade: 2, storageKey: 'mathAssist_grade2Progress', legacyCount: 144 },
+      { grade: 5, storageKey: 'mathAssist_currentSession', legacyCount: 10 },
+      { grade: 6, storageKey: 'mathAssist_grade6CurrentSession', legacyCount: 10 },
+    ])
+  })
+
   it('accepts a deterministic draft fixture without treating it as a released candidate', () => {
     const report = auditApplicationProblemQuality(baseline())
 
@@ -153,6 +183,11 @@ describe('application problem quality audit', () => {
       const approved = family({ releaseStatus: 'approved', approval: { ownerStatus: 'approved', ownerId: 'owner', approvedAt: '2026-07-01T00:00:00Z', evidenceRefs: [], expertStatus: 'not-reviewed' } })
       return baseline({ families: [approved], registries: [{ grade: 5, entries: [{ family: approved, runtime: { kind: 'deterministic-generator' } }], releaseLedger: [approved] }] })
     }, 'APQ_APPROVAL_EVIDENCE'],
+    ['missing approved evidence file', () => {
+      const approved = family({ releaseStatus: 'approved', approval: { ownerStatus: 'approved', ownerId: 'owner', approvedAt: '2026-07-01T00:00:00Z', evidenceRefs: ['docs/missing-approval.md'], expertStatus: 'not-reviewed' } })
+      return baseline({ families: [approved], registries: [{ grade: 5, entries: [{ family: approved, runtime: { kind: 'deterministic-generator' } }], releaseLedger: [approved] }] })
+    }, 'APQ_APPROVAL_EVIDENCE'],
+    ['malformed null family', () => baseline({ families: [null] }), 'APQ_FAMILY_SCHEMA'],
     ['quarantined candidate', () => {
       const quarantined = family({ releaseStatus: 'quarantined' })
       return baseline({ families: [quarantined], registries: [{ grade: 5, entries: [{ family: quarantined, runtime: { kind: 'deterministic-generator' } }], releaseLedger: [quarantined] }] })
