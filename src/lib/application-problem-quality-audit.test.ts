@@ -1,3 +1,6 @@
+import fs from 'node:fs'
+import path from 'node:path'
+
 import { describe, expect, it } from 'vitest'
 
 import {
@@ -161,6 +164,32 @@ describe('application problem quality audit', () => {
     expect(report.summary.errorCount).toBe(0)
     expect(report.summary.draftFamilyCount).toBe(1)
     expect(report.packReports[0]).toMatchObject({ packId: 'pack-g5-area', releaseStatus: 'draft' })
+  })
+
+  it('rejects approval evidence that is a symlink even when its target is inside the repository', () => {
+    const evidenceLink = '.tmp-application-problem-quality-evidence-link'
+    const evidencePath = path.join(process.cwd(), evidenceLink)
+    fs.rmSync(evidencePath, { force: true })
+    fs.symlinkSync('docs/standards.md', evidencePath)
+
+    try {
+      const approved = family({
+        releaseStatus: 'approved',
+        approval: {
+          ownerStatus: 'approved',
+          ownerId: 'owner',
+          approvedAt: '2026-07-01T00:00:00Z',
+          evidenceRefs: [evidenceLink],
+          expertStatus: 'not-reviewed',
+        },
+      })
+      expect(codes(baseline({
+        families: [approved],
+        registries: [{ grade: 5, entries: [{ family: approved, runtime: { kind: 'deterministic-generator' } }], releaseLedger: [approved] }],
+      }))).toContain('APQ_APPROVAL_EVIDENCE')
+    } finally {
+      fs.rmSync(evidencePath, { force: true })
+    }
   })
 
   it.each([

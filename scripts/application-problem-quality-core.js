@@ -45,7 +45,14 @@ function isRepositoryEvidenceFile(reference) {
   const relative = path.relative(ROOT_DIR, resolved)
   if (relative === '' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) return false
   try {
-    return fs.statSync(resolved).isFile()
+    const entry = fs.lstatSync(resolved)
+    if (!entry.isFile() || entry.isSymbolicLink()) return false
+    const canonicalRoot = fs.realpathSync(ROOT_DIR)
+    const canonicalEvidence = fs.realpathSync(resolved)
+    const canonicalRelative = path.relative(canonicalRoot, canonicalEvidence)
+    return canonicalRelative !== '' &&
+      !canonicalRelative.startsWith(`..${path.sep}`) &&
+      !path.isAbsolute(canonicalRelative)
   } catch {
     return false
   }
