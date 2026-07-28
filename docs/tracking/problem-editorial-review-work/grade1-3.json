@@ -1,0 +1,5042 @@
+{
+  "items": [
+    {
+      "contentHash": "6fabe157c0e4eda54a5d1869244ac0db6320fc74cfea3354ffbf6e545f3c7063",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "확인 전 시계 접근성 이름의 정답 노출을 제거함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:clock-tower-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "3941e05c4412607096e866e7cda24cc32b30a8ac3a9afb7348a30fbad7e0819f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "확인 전 시계 접근성 이름의 정답 노출을 제거함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:clock-tower-01-v1-1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "478350e542ef5d726dc16453098bafc0dc478fe586fb7b3b87e041fa8029db66",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "확인 전 시계 접근성 이름의 정답 노출을 제거함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:clock-tower-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "33be36e73dec2e5c02de179895b1c6293898950b846f6254785fae58af8299b6",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "확인 전 시계 접근성 이름의 정답 노출을 제거함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:clock-tower-02-v1-2",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "ade9316839da27ad9df506ffde52a4024e353dfec331a873197e1b0af67e177b",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "확인 전 시계 접근성 이름의 정답 노출을 제거함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:clock-tower-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "3b9e60d57364fe140229d2ccbb01471bfad45a56fb70b4fdb6fc539af451bb8f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "확인 전 시계 접근성 이름의 정답 노출을 제거함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:clock-tower-03-v1-3",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "9f9d366a8786569fcdf9404dea9abcc51223d3acf3b7a4b847055e320b1aadc1",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum",
+        "wording",
+        "answer_exposure"
+      ],
+      "note": "공식 시간 관계 성취기준에 맞게 비수학적 생활 순서 질문을 교정함; 정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:clock-tower-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "f9a1a7cc4abfc0d085b7b8a13d984b36f36933c8aaf02a73092991d54993a879",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum",
+        "wording",
+        "answer_exposure"
+      ],
+      "note": "공식 시간 관계 성취기준에 맞게 비수학적 생활 순서 질문을 교정함; 정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:clock-tower-04-v1-4",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "7090a3119050589f0025a6a31baffdf7f32fe92485880f490cc82a1acdad3b92",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "확인 전 시계 접근성 이름의 정답 노출을 제거함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:clock-tower-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "1c3c6f95610d2a55fbb6e1c0d49eed1135eda8e53f46e9b8b1645298d481b969",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "확인 전 시계 접근성 이름의 정답 노출을 제거함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:clock-tower-05-v1-5",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "ebbadb6cdb3173943b89ea8668ef075559aabb304fdec4bbae32bb702ce25f10",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "확인 전 시계 접근성 이름의 정답 노출을 제거함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:clock-tower-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "0d45938d0e41796c1b40dc3c21b6bb172a31fcf7df3b324d6665457092aecfa8",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "확인 전 시계 접근성 이름의 정답 노출을 제거함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:clock-tower-06-v1-6",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d885f42890cdbd165bb86972cda901bec25dcd670caeb9f1800f0485abf0fe22",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum",
+        "wording",
+        "answer_exposure"
+      ],
+      "note": "공식 시간 관계 성취기준에 맞게 비수학적 생활 순서 질문을 교정함; 정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:clock-tower-07",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "722cb9592a5f9c785715f82c83fa33dd039d8fcba6e2fe570e39ebb19bceeb65",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "0067db2581b48102034fe0709f9070acbab92e072c336c5cd10e0031f5a1b24b",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-01-v1-1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "4aa3e4f566a4e89a82ec9b67789cc713a6ac3703e022ea61082b217107e7d89c",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "f0c1e5586fe3ed58ac37e9e9a562258af75cbfe57bb9c86f513143bbd15915a7",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-02-v1-2",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "3b25ce484d847a731582a849ac374d2545e1ad3a8c8da240d5d07aaa85647c67",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "a1a6776ab00eb36d895e9ed77afe2232cce1a57039a6a00575c928a9ea1bf0cb",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-03-v1-3",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "2adf26dd30af81fa73e9ea746b3fc90408c25e8c955967159592f9a64b7ea4ec",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "visual_semantics",
+        "visual_readability"
+      ],
+      "note": "source-owned 10열 구조와 두 줄의 20칸 전체를 일치시켜 수량 그림의 읽기 순서를 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b8ea241f566880b43f5eb7294328f49875b976ecb60d83a1e8049d06979131d9",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "visual_semantics",
+        "visual_readability"
+      ],
+      "note": "source-owned 10열 구조와 두 줄의 20칸 전체를 일치시켜 수량 그림의 읽기 순서를 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-04-v1-4",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d61faa9f3191f3be279ead658be720b372a95948c7e0bc84c88b943c340fc9e8",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d2647ad8b2d11eb81c0de84f4556767df33a7400553f6487501f79691c421b56",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-05-v1-5",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "9421185cf58323b4eaa14ceb4d32a9eb3e435577802c69cc168616a181f25576",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "0ebf4980a010f49bff3a6a39d6529b5cc19ad523f04165beeee6f0dc21f93ac6",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-07",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "de590be2c69668a44fbe19d9ab244ab460d92e46a626cba1e8f8500a2bc2adaf",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-08",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b0551f99809e484c9f7217dda1f78d336f3e90689f9cec380192a5138575184f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "visual_semantics",
+        "visual_readability"
+      ],
+      "note": "source-owned 10열 구조와 두 줄의 20칸 전체를 일치시켜 수량 그림의 읽기 순서를 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "1:mission:count-cove-09",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "1ce0004ef5624ef89dea3d97570165f7ecdd1cc1a0e42a210c93e77c8d08d491",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "08c61523e296f6ddbcda63b3a8ad597c781458462959b9f4f6a676c75a928359",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-01-v1-1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b21e1b27763c1dcb62d037fb27ee60f207e424606fbe1e2abe8cf5ca7e51b24f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "c6639580175a9f047845c47edaa4fd9553fdcb3717b5326be340f631db914a50",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-02-v1-2",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "123137e16549fc4633de6e451065168055b4eba6fe48fafdd7099beb7aa7c5e2",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "724008e1b0110350fb02a599e61bcd61087a9042517f846d0f8a2e8185167773",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-03-v1-3",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "21c3b583dec6d3ed9e02cd898c3f20f21e796ef7f4e7422059007d8faa3282b2",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "22c21721f386fbb31db7dce615b0dfc04526a1c2e0090d3717128254beb589f0",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-04-v1-4",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "568dc2dd809e368ae13f4e57fd78f7fc371cd6a9393f427c95ccc83a7caef0a1",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "efb5ad27766025540d0ed4348cfe93ef7903371b1beb9bc21a97052fd0e36e23",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "25daa474652297d097d492dc1b212f452a1347b626a45a271711d69fe1eb5fbb",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-07",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "15d91938e657ae800c20b5a1006a396c4d096738471144d7a21db6d4f3976de4",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-08",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "f56d40f038ecdf44174daf57290e30fa465c3f53371f5731e5c90156bb28a992",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-09",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "e52dcdcfb531622df1efacb35b93ab23fc5dc65a914f505fcd26d1c26b3a09a6",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:orchard-port-10",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "98842d2b58a7febe537cf9d209099c5f3956f2e2371fbac696dd9e22e69135b8",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "939853948d4f1cd0a31ce1479064b74b4fe522c8a9115fd8d67c75459dc02d91",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-01-v1-1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "3d1cd98e6125b308e4c9f18b01e7a7317e2b34df0a69bb15c6cc8a3da424e3a8",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "8a2d51ebd7731547218ec9cdf966de2d6d8047c04fd825882b070a21ec540e7d",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-02-v1-2",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d5b4135ae0ca47e3788b7064d5e5a1156d8f67ac60d307dd1968bfaeb3f6bb1e",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b3a56b582be9d8a3e72aef9194745ecef04acf01a45ac52524fc3d342998a047",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-03-v1-3",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b0d8fe94220e3faa31e8e2dfdfa440bd7261bc5dfd767e3630b34588180213bf",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "0d63385c61c1f81ae5ef4560b7b6080373b3e110d2c48a44185bae294c366cae",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-04-v1-4",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "6dc91707cb4d3d43b62d0de4dbbc8546f5d27c9b704c3c2fecc677e60b92732f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "75d7d5e6b077d405678743c5fb98b1304a40b179ca9423f1637da475dfcfc8ff",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-05-v1-5",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "512fbf3234a5daf1395327c1017ecbd6d15722651d1574e4af7c1f37e5d92be8",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "ae8a6106a0edd783e08d5702a13970f9200fd3712438c63350d4782809760215",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-07",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "4c3bf61d9ff9dc24e5a41093508ea4f4a1e2f4b53a7db6a6759271053ead4ad9",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-08",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d2a59cc301437a2f37402e0359e700d6d56765e8f0645118dad65c650da46b61",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:order-bridge-09",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "4f790742d06204b76c842362f3776993addf19baae875f4a2f6c166d23bc6b96",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:pattern-cave-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "a5237b23fceb3843f2806478e9150232f12b569ab8c179fa379af2d05d2fd5bd",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:pattern-cave-01-v1-1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "71df50da3f1eac77d2143be7c877a1f9ba0bbeb57bc091f0b25ba6ac343aa9cf",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:pattern-cave-01-v1-7",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "f8ba0ec82a4b498f0701b53d7b3fb74d44f12b47f3a790b010113a4554f42600",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:pattern-cave-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "952118ab693c09d552f591efdae62b94994ad8a2bef6c6b8d3cf18a918fccbe0",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:pattern-cave-02-v1-2",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "469b3de03247d7cb1d670863e9a7a806e7530d4bf7a140c2e23d96be9eae5059",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:pattern-cave-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b222e85b3b7d69638942e35bad8c79cd512607d37da66c744bb9fb5b225b4805",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:pattern-cave-03-v1-3",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "575daae199e8e2e9893561f7ef1146ac6c7e3d157fafab359b5b4f07152489b1",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:pattern-cave-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "c77e2369946c41b1a601779a4f70aac2161ed76ddb120924d757bded72f51ce4",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:pattern-cave-04-v1-4",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "a64c6bbe7d182344adfa251cf486159baf75c37b520a270c9f0481315dcfbc73",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:pattern-cave-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "f184af6d9c7d809fb3bc5db82b7304c6fbc3e7c99e87c9e50508618bf86401e3",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:pattern-cave-05-v1-5",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "f74ec1ec816c8fd0bf4b633df60ed057cf3ba964e2d3d514ba9a3e1a81011e8b",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:pattern-cave-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "7803b1cce66a1daef288faf4441b4eed93d087eacb211224a77deacb667fa673",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:pattern-cave-06-v1-6",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "e907e7865f0d5b324e124207b1ff5cdcec64b52df0aa0fe1787d4ccfeb272f57",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "8346df499f54423d0a222a4915f94633788d012a1c097a3af7154a9c08da1b9e",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-01-v1-1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "1fc5f612ec767a3ce0404a3dbf64bffabc18fff0bccf1e9c543595646c22c89f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "f39c7f70358bf166aaa38cbc66f758031e4f9d85e7125b1d9a125327cf997115",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-02-v1-2",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d35b22c815d7d6206f8a6d8e9d52bb765909f6b4d8c205987128a9d15c13e2d2",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "58c1d04172a8c538705943794cf7515c31a27db58c5ee982b93a7088289a3a9f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-03-v1-3",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "76c072b8575d12faf678b6ae9454cd8173eaaea6a9c1656282a308d692653fc9",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "7ada17d35796f4d8028af3dfbf7fc26043cf9af6b5aa66a8f9d00578ceb57943",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-04-v1-4",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "1d69a7300c1b3e74e6d56eb4d95b159d8508209ab894c26a93affb9cd2e06f35",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "51bfe62fc32a6a9ed123e248f75b7571a295d323a7d2f46385fe96b2273ee8ab",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "60216630ba280caad09e1cf60fdcba1a2a6824deafaa1c066bbf8289402d2d19",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-07",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "0be6e94ab41037c846dea574ea738430fe9f5474a748d51da16e7dd86237d626",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-08",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "ef6ca2816904cca3a129985c74c552067d68ff5a92d2f14efd52cf6ddb75cab4",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-09",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "28770af39534a7f40af18419d370ea50c1ff50fc9a9356ae3998e90d76dcf7be",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:river-dock-10",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "2d610f3fe063082f66c68952cf18d2344ea832178f767509ebcb8439e28ecae0",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "110d31513ff1e5f4bbcf19bd80019f266ac333feab7e8b11a6ea591c3edc1ce2",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-01-v1-1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "ba154dc37c4c8ca13702b4fa63cb29ecdb1489197a5421b136bcfc37168aa816",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b69beef998d88598d218b6f8bf568fe0091a6b3cec101f6181270e246883c5e1",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-02-v1-2",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "2f2af7e4f6e14caa13aae168ee7457116db392e7b88fb82f79bbdbb08f845e81",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "1829d77390673d37e255f9c9b532e37817106817d447ba54f38b655b0c09a713",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-03-v1-3",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "152a2cf581c355af30a28ec02db744fdfa14c40760cfdfd758b2ca96ced8b8aa",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "2e25a7ed9c06f374a69da672a956ba61ccfb21048096697873dbc91dd8922f68",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-04-v1-4",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "aa2c45c2d13b06d9eae45fa8452d0290ddda6f505100a411eb025cf761762143",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "fca656f9fd5951e2069d117be5e286a8dca52fd2cb668e107716f6ed4cb2123c",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-05-v1-5",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "2544e5d2ba1452e0f5bda05bcb766e955a260db278dc7c2004205a31c704884e",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "ac203d589f72c990c559f3fcec7687ca4f98314b5faf0f5e954c9760032473dc",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-07",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "77df56504a55d740d63a07f873208a8508f959ce972db0fcb66fdf3e2f59e874",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-08",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d228485a634ce10f5f56ceb16bab1747f0abad9ee6beca9f8ae861df3b3b8382",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "정답 전용 target 강조를 정답 확인 뒤로 제한함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "1:mission:shape-forest-09",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "cbbd55101ff359bed8488ac1a9d4a322ca414c3e89a76c981951801883cdcebc",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-add-sub-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "18c70d2f57e3e7e7a4d6d16d2c4f3cf19adf325c58e91412b697ea5c108c8399",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-add-sub-01-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "9eda6bed65cdea5a702a5003fa9cf07530c88d5b66722fd63a9ca8808d18e440",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-add-sub-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "9ed6c28671cefa5a73a01d79fc3e71fb469c0969e267f6f03f099ed893acc70a",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-add-sub-02-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "baa508b2720ce5025ee2bb2b65b583af20c971a7b8094bae54f48e83306fce4a",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-add-sub-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "93b0adc93177d68fdd7003576831ef581e22fd89a41793e01e45f9dc359866c8",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-add-sub-03-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "be192e303fc4e4f9ea1d5cefc2da247bde4d79b8144951598e9e4fdab561eed9",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-add-sub-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "5dab65d697e9dc1595740adc834d4c19ab9b43e7c27b0e33b09c51c268c0597b",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-add-sub-04-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "92f70bf053d66560e7876f4bfcb89d5c9eeae4f7d2958443b15d8387c601f8b8",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-add-sub-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "9d9703a4a1e531377f2055157fccf8fd8c20dc07c74bd96ce2826521083929f7",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-add-sub-05-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "980f95d4da889f1bef4f2eff33ae86214d6690d0bf610f6186bce29e6506e803",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-add-sub-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "28349a04ae747572974dac45c720bde5464cffe34a0310ae82eb80b722ef28e3",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-add-sub-06-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "2c5f057ef8611214a6685d644d61a9567b0e72a5250731ced3e7c67de24ff65f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-classification-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "0646d0efd53326d4b5e6227a4fe717eee79b1bae32897b14034c0955200709a1",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-classification-01-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b03fb3fec3bb5ac7bc8162b0bd03d7db385361f74ec8766fb635abb79996e445",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-classification-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "cd933bda3d6b7b2e8fc1c7fd0dbdbcdbe85482a276f0fdd0a9ebc8851931c0ee",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-classification-02-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "6b2235cb823fde8dcd008e55aa18b618cafa087ff4bd5d0834db647a7cfe463c",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-classification-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "dc44d1ca295eb455916867a22f2999cedd19bc3a2029e6737707a223c11aaabd",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-classification-03-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "7ccf0dd0b1f2164ef4901ceecefbb3f387f435829a982c3141f9daedde1d12ce",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-classification-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "6460fd09032c91d586b21066e79528bfe6949b5ff1aa10031f71dd6066a5b387",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-classification-04-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "693b9a428a50696cd87095f8c045845bb0c03c927f3a368fbb4a650eddd4e949",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-classification-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "dbfae8dbc98dee25c729c39413c95ab0f37bafdd0c0ac601ee1dadfd69f5ea5a",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-classification-05-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "9d9b0ee91def671e8f1fae5039b981db64fdd29f0662d1d3e6be52c55cf7d940",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-classification-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "619710d8d28927c0f25174c715a208dcfd266ceb1aa6936127ed5c21c5ffe630",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-classification-06-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "14d288e9586331581217d8143e42540aca7bb4759613432e8d0721dc742dbf79",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-length-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "0879c777ebeca196925a3a8b4d7ce64e9995abeba279856b81c119f8d3f2f252",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-length-01-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "0e42a0a828d98a0612c23b90224ebd124b5b8f64ce5ca73ff8114e49482cf9ae",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-length-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d005739f916cd0c07717d2903bbbc18b26e762ecd2f164b666a60af0a4c25a6c",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-length-02-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "6dc282d082b9d84c5de21707c93449bfcde07d964211632343b418857c46a8ca",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-length-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "4697858384b4cee78a758907f8fbd8e58da80af86aad236b4ba98c5facd927c7",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-length-03-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "1f5fa989a7f60b3f5840dd218529bd8155f3fd606254fda4424ded775d42f5dc",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-length-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "30683b02f171682368e5752e4242c1f9d928ec11f68847dcfb5a93e0d94b735a",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-length-04-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b07c2e1f3b8309ad8fe36be7b0a332176aa7cd38856fc1a4fb622b89d28514d3",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-length-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "660247cc74c5aa2a8edb203cd9ec867d37127d65918f4673701c9f339167acfd",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-length-05-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "67d96e3bc0304314f0ad1a9dc579e800b432dece2619aa8e4a4e112471fbf5f6",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-length-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "71cd53c1d84726b1ad1960b860612a983a49cb40b566cdacc4c12bc45c39e1af",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-length-06-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "e7c7daac5d95abac750a379f2b8a9d654e5a7243d68801633a53c66e858d9abe",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-multiplication-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "3842e7262c60fab2bea760e7c221ee03ff1cdc3163e2a3583090151ce4ffe9fb",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-multiplication-01-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d37a73fb38a389ac8c050751db20f1fd231b9924f07c1d83f8af217c1fdf25c1",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-multiplication-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "2d6cdb8e97591fbf6615e6ea5671daeb1b7d7a557d0327de1f4a6d47facb036c",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-multiplication-02-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "bf8a62aa89dec2a6d6ca23baa04a63ef07f803dc120e9eec8f314dbedb9f37b1",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-multiplication-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "e42444ad7a41fd4c6956afa0d8f44f1c52cf8bc837a297ff60f5d2e1daee9490",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-multiplication-03-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "24e4706a3e33e19bb3d442449a26298c2b7823f0645826c692a5b9039a03ac67",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-multiplication-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "f5f9808079a937a70c2f04d7645ecf4d175323d94d4793eeae62bb31a00b3915",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-multiplication-04-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "aace8b031cf4218a57813b31993652dbbee9995d58b0ceeb144955f990e8d1a0",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-multiplication-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b8604c956377f297404add1cf5b70baf7e93ac10003f39936f03e6e4f67d7295",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-multiplication-05-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "dcbe372b4d7d9651a104405d7a58b3e75b2c6f494d06e0bf18474d9b3e583687",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-multiplication-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "fb9bba75626594492de8f0f3a04279596a937887b2502bcc3e6898239b373830",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-multiplication-06-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "6af78eb4d7fcd57460e426685ec9744d8c835acea0d36b7a148acb98529a0702",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-place-value-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "c49807bc5128c6988562b343306ba8ad10b3eef123685e9b731228a1a2e5ba2a",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-place-value-01-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b970e078e0ebc111810243cfaa7c41f73ec6a050b984ccfbb3291dafb4c8b1e4",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-place-value-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "a43dcc88370049fac91924b3b279851a49451141f39a966399235bdd6d228820",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-place-value-02-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "633a423058237c67a1dd0751912c503c132163976a42a89fa433071b3e3c3872",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-place-value-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "6bd07d18d294cb0be8d598dea1e2013a1b2707c4293048955ff9f6db64d8a6a0",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-place-value-03-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "3c0bc9587e30761307fa5876fcd4a623b18b540531e695c5b85b6c11d5785877",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-place-value-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "5c7749412c0c4bbcb3483ae97a61a9ad7f7696494d2e99d5efeff115664ff826",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-place-value-04-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "850d2786cc62cb07d5696dd4c103b86a489b6a37e594429bbe51b1fd17fe06ac",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-place-value-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "cc34cf75541571443bfe45c17e99976ad315183c7f8021d66a1a577a02b9ef40",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-place-value-05-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "a6ea99a295c03deeef2c5f403a667780e273471d8f00f425d2f1c16a59fd539e",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-place-value-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "58ac00aa6362c64ec249b913cb569d44ef451c4d2d8b680e703ac4c8a89ea7bd",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-place-value-06-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "78624b4f48a7d2d13cdfb8c14a82c8d0399de61134c3e6d5d908f8bf4e9b50d8",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-shapes-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "0444bf43a4dcd786955fbc713892e32a7785d4a6b1ff143070e6247ec60246aa",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-shapes-01-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "56d1b7e7e2ddaddacd8f2eadccfdb1150d73d3f92ca20df6e5334bf82941e080",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-shapes-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "df00ad2a19a525e02733f3f098408bde210b6dbc3e1160ad6386db414d12cbcb",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-shapes-02-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "4b6efaa263d48371d47138689127d09caf32e7de499bed6116ec2910b177a19e",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-shapes-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d0e99bbd695b0ab0dafc672bb75e14dfd933266cd0ab129c4b2040aa47cf934a",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-shapes-03-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "955f060ae8190172b356c0ed9b1f91e96c1c0749562321f30d3cbd1a57c892af",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-shapes-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "2693769b0415103e98ade059b80d518b8660a239b169fe91d63b3fc53156a275",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-shapes-04-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "c7f337e39306ef8368dd0a22f879b0866a8b21d3694dbefbfd866434e2991305",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-shapes-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "ab4cc765c39068a535afefd8b098acc2de551b45225f7e1a1b86da6b28dd1d69",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-shapes-05-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "874ca4d97380366133f8ced4fe46c17fca7a6084e54018f5b4a369a4fcdeee97",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-shapes-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "eed896b69a9ac27a1b30178b6d1ad56b01ff5400179680c3d03e59c218a2122b",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-1-shapes-06-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "02ae9d0ed34edd001fec74c52bca07f188d312c7780329b7709eb3faef6dea7c",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-facts-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "bb1f487702ed9cb557428744a399d319fb63f5dd142a38a2b0947bd107dba1a4",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-facts-01-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "800e08722e614f4cfb21cd6ac2d0cfde840764164b1be0f99e18fc90fbc9c9e6",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-facts-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "974fb7671a69e875bf143e1b290a597a41eae2d7c35410dd96f3d0c8de0d0aef",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-facts-02-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "fec588ae3993f2d3e20a2addb5c5aa3ebbb3aa17657e9d477c6ff29b4f8ea265",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-facts-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "8f00d060ed52471c2c2e762af9f9a31ea96231271ff8370f87eb3150efd62a0f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-facts-03-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "31906b11168fff925eafa276c5e53f4b817630625c1516180797df162387e38d",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-facts-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "095b5d2b96927580e1c403f1b570f1a0f6a9de3d020ec7607d53290b2f0f88a7",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-facts-04-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "e3d4ea1ef6f1ba1b57f7d0251f004c1ae564fff301a4be4e021df3e18205981f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-facts-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "9fdec0ebe1d21d6b789776b92c1fc5903bd8a9889db47d7d7a2dce6fe15411e3",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-facts-05-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "0ce8198008641ff9c75f1354552be44731830d19d834d662afd9d99d549843bf",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-facts-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "7139b70ef20acb7e7b9a599010794f1fdf8298f37578b4bbd427420cdc300d08",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-facts-06-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "1bfe1fd29d8bcc33f76498cad553cae7db0e3caed34249b9f88998e23b46083a",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-length-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "5fc02574663d2b8e96643015dcb48144f3f3a68883585fc48664326ab6f38f53",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-length-01-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "a1e576dcd18a3e5f2fac451d1bea0a52a5d680c33fc59d5a07bb37bd33c2f51b",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-length-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "7ac88504ab502532406ffd576ade5f2cf8f59ab215c3794f3bbf4b0d3a147959",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-length-02-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "9d2911cdabe2fe1079421453a6659a054038be648f5329881ef5c79f224ceb91",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum",
+        "answer"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴; m와 cm로 답하라는 질문과 solver 답 형식을 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-length-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "e5373a8daf4935e85216f8d471941a47570d72b0703929f3900f5bcffbd5f407",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum",
+        "answer"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴; m와 cm로 답하라는 질문과 solver 답 형식을 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-length-03-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "4fc361721baa73ef05fb9ff580f68fd3c57f6320fb3ccec1bcf3cdcceebc846f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-length-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "9b8a4f55179800bee6187a24ccec921174ad36ee6b8d80b51d3514487ba9f241",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-length-04-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "db23af80958d58b0169cf41f57300d8076d4610e1311ac5c9edd6ab10ea9ffa2",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-length-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "4a4984a3a71baf16f74f1dcea5fb2ffdb85d40eb2159639d3306cfca7e4d56a3",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-length-05-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "dd074964a1aaae68aa618c89a518c1e7f5eaea03f9271047d171830f91ed6d1d",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum",
+        "answer"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴; m와 cm로 답하라는 질문과 solver 답 형식을 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-length-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "a22c620c13ccaa98efd863ab76dc1f4fac12f4e2b088af33c21a9e8337060919",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum",
+        "answer"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴; m와 cm로 답하라는 질문과 solver 답 형식을 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-length-06-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "98c3a2dd3794d841d2c8e0f96503d35f00a77e3ecee9593c57993d873165633b",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-pattern-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "5fecc4f09934a751e1e7a0fc98acc508356491db46932dc6d570ffe6d219e26b",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-pattern-01-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "09674931ae0914dfe15b4117ac571f4f55a4bb5b0ccd96f326101a1babfc4204",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-pattern-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "1ab31c7ce58a99962eda53664bd9f36766e514259736705e38fbe83353f59fb5",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-pattern-02-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "650a1d9e73c3e16290bf308547f56d6bcffd7c0cea8069d1f41c0407624f6fde",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-pattern-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "6a50fb1aed2c3d0d481d2be7c7b4a8f85cf2ccd16a5d10e8619b51feed076610",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-pattern-03-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "7a56a769cc24f4bfe693efe163f242e00279c8cb4ccf304a8e9486226b2cede0",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-pattern-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "cf6aa0d59193eb52c2ad40e050ca231c06e49361dfe6aa9e5b8b5e20b01d7098",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-pattern-04-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "dcab901006662cf0251504d081441af7ccbc5f97de34b6638dc2a2962df0fd98",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-pattern-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b0d7ab071f9e5ca42d4e45fa98df9c175b4b9e46aad5db4f4c725d28aee9f0da",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-pattern-05-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "bfbdd1876282db42d6e7e73a3d702da74d80d2d1d59c4e22d5385dde91d52784",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-pattern-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "38bdcfc0d6572a9c8c26588e082af3fa48350c884064f14f580a4a4c9d8534df",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum"
+      ],
+      "note": "질문 핵심 행동과 공식 성취기준 코드를 일치시킴. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-pattern-06-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "86eab1fb1e93aef68d4193248071777d2f567fa82256e6a591b5290b1e2d82a5",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-place-value-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "720bfe2018742632a6cd687bae876ef3608929b3e56227b3cd82f65a5564a650",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-place-value-01-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "883a480df9272aa629d675322b2fae5c5d944b18e74e726de57eba9aa15046d5",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-place-value-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "18b0e94a467f78d0b84ff1f6d08aafbc51afaee56964181771e7d79802eb0873",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-place-value-02-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d465e1c7c363a588cbdfe575dd09ec3d7b6751274dd6d9f4c5f4f7adcbe27ce5",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-place-value-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d3fd44fd5a42378704a14e868f2ce4194d0ac24df9647821cbd5d275aa096cbf",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-place-value-03-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "1b1369332696e32343dfc8ea4e459fe46c34f40b44e39ed908e90bddf59d9d69",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-place-value-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "c29c6e499b2449023dc9373716361ea67cd234c1979e8dac1b7d6dd93e56bfa5",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-place-value-04-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "07d3732ff6a37cf136b56e0ffdaedc4b9baf59b1f1012527f105720b82e3f386",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-place-value-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "13187d6b057346c80040a11a49867f04f736c6758287b1b586736ff9c590c3b5",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-place-value-05-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "2f9a2a313c39f64ef32f669487bc4c5a33ecdaea8abf40b82c3b16cb1b9b8b7e",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-place-value-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "04e409781107e48f55b9760ffd8d70c1325822ee3791182608337da1f30bb01c",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-place-value-06-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "41b28f62dcb49df0de1863ebb979376ebd8a9b02deb26a832f164d63e031f476",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-table-graph-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b15be1f3fce66c752b5f6d3fd03d28349be171858ce9651cb6b57ad95c534815",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-table-graph-01-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "8e778f415795b7f018f58c8642f61828b1042e0c9eac1960d089438628c9776f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-table-graph-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "16031d612c4c9fb8d749d7cf9f3a143f42cc37fb935de3e8221a92867ec0f2c4",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-table-graph-02-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "a54b6f7dbaa06aaae9c49ca0af7160ec53ac2a9f56676075af9c14417217d4ac",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-table-graph-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "925a4c59bc3716fb1dde290ee7c7740de3ba79608da3a53648ea1953d3356729",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-table-graph-03-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "8e2a94eaa968797c33f7003c0eb5dafbdbda05d6641f19b193fd9b576ef54520",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-table-graph-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "7cb01017a9a386dc79e3098c4d33f8a2df6dfdffe4b36fbf1fe4b8cf2ad1ac2c",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-table-graph-04-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "33eca2280cf79bf1a5b2fc40a54220590ba448ce181276670bb2111bbece5646",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-table-graph-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "6ceeb240273d462839a21bf2fbc051e5e689ec5091a80923eaeaad3460e8bd36",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-table-graph-05-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "4051e58b0c45e4de5edf3345fc74fbfd2a711174ff3f216929085d01961fb56c",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-table-graph-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "2f70ef50688808f9e790e2e0bc33df3dafd49ae56e3c1ddcb1b04f02110cac24",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-table-graph-06-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "47bb9207d96d4a2a2ce752aedad5dd36bdca3b9c8b1553f2aa16abfb6b046998",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "접근성 이름에서 정확한 시각 노출을 제거하고 숫자 눈금·시침·분침만 설명하도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-time-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "e421511e0e4a103f609e7a6450c01a88684326ba672c2ab8acf92c0fe5d77743",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "접근성 이름에서 정확한 시각 노출을 제거하고 숫자 눈금·시침·분침만 설명하도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-time-01-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "dd83cb5165a726d2c9f1a73d60b3c19085569ec805ecb4a0d7a350ecf0d4be39",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "접근성 이름에서 정확한 시각 노출을 제거하고 숫자 눈금·시침·분침만 설명하도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-time-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "ffd924184069a6438a21bea8505bb1f718ff076a67c9cc750df03fef1450a0ae",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "접근성 이름에서 정확한 시각 노출을 제거하고 숫자 눈금·시침·분침만 설명하도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-time-02-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "e03ea1950c3fefd5422f8538183b650e53814066760cedae74fb7ac3c6fce40b",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-time-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "042f691f62377f79a30880c26a106c784ae9f6337efe4988ba3ffe16af6cc01f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-time-03-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "fb3d9960d75b99493c0ced5a3a5cfeb6706f1cc9efa101813e9f7fb82e1f602f",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "접근성 이름에서 정확한 시각 노출을 제거하고 숫자 눈금·시침·분침만 설명하도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-time-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "7cc08d03451948046ff6c79daa58a4ebd2d00618863ce5368b4d9277717dea57",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "접근성 이름에서 정확한 시각 노출을 제거하고 숫자 눈금·시침·분침만 설명하도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-time-04-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "be6373104cede73666b580af86d7b7c524cbb7f61a2b8874ae8e3f6a866e5ce0",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "접근성 이름에서 정확한 시각 노출을 제거하고 숫자 눈금·시침·분침만 설명하도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-time-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "706bba0062c3e392dc32482512a0260228577c4196b6a6bc436252e26ce92063",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "answer_exposure",
+        "accessibility"
+      ],
+      "note": "접근성 이름에서 정확한 시각 노출을 제거하고 숫자 눈금·시침·분침만 설명하도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-time-05-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "f9c7f0be9f09debc5a585c7b46e7d20e9b7e2925e832ced13274182e053da481",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-time-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "aa064f751d3f66f68d8b9b15cf495da88287829c029ae8f87e14faddfa92d9ab",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "2:mission:g2-2-time-06-v1",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "daeaf02252ea2103aaeaecd762a53b1455f05d2b0b92eb6cee420132dbc87ead",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-add-sub-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "044787d4a79617641c6eab88630817df0b8e6f5d348b8d3fe4964afb02f624a5",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-add-sub-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "89f21929843fd04d1c3488a0973c7976db41a84852121dc76a565bbc7152cfdd",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-add-sub-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "f5ac46c74c2b1a3747f261c8f8895be02e5061268a160d680e7abbfc0e7e6507",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-division-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "c4bfd985346fc035588bad39c18bf65bc6a2e8bf1894db9c822c9a3745c95737",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-division-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "f0980a761136853f315d93ef90edc708d7d87665b042bac3c98176bf78333b9b",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-division-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "6479f7383406761b611c49f4aec4ada0c7b58b3cfdcf2982796af3386401339d",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-fraction-decimal-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "bd275b98325d3e416b57cbd7f800126242fb5de8f6e3589dcb334ffd8241437b",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-fraction-decimal-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "c8d6c15fa6a3e7f1838f0bd00192334d8630bbe18475cbf88ec558e6e1612a72",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-fraction-decimal-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "62b010e8343ebc9fb945f5494569e7e801863104fdaf88a84ab2ee2347531626",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "visual_semantics",
+        "visual_readability",
+        "solvability"
+      ],
+      "note": "0~6cm 자에 1mm 간격 61개 눈금과 모델에서 계산한 47mm 끝점을 표시하고 답 문자는 가리도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-length-time-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "dd3b4039234a455fe87e8a81ba539329cdf8e2fd869a164e7e92f684da4833b1",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-length-time-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "46c0403cd1f587bdc09dd71882ec2755a89f56378986f7781c63584c242c8ca3",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-length-time-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "cb3ef349fa46280a7d3d307cd7b2bc6e931c99a27ff43aea9303596ca854ebfb",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-lines-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "0abb29840a0fab10f475da0f69a8eb42a8692ef70c8c9cf2863942c3c56853ae",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-lines-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "a6f572d877b1d0867e1614e7a968e7e74d340a5a9cdc7d147aef7822bc10fb83",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-lines-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "900cb84e90409744d7fda89c7a38fa80b68ded1fba8704498cbbf99b410c2453",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "visual_semantics",
+        "visual_readability",
+        "solvability"
+      ],
+      "note": "곱셈 배열을 10열 묶음으로 나누고 행×열의 전체 셀을 실제로 그리되 곱은 확인 전 가리도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-multiply-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d8be2f3c333412ee80695ec4f59fba213e8f26523c981564211fa32322f38672",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "visual_semantics",
+        "visual_readability",
+        "solvability"
+      ],
+      "note": "곱셈 배열을 10열 묶음으로 나누고 행×열의 전체 셀을 실제로 그리되 곱은 확인 전 가리도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-multiply-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "b1f186b7ebb7845c2e55cc0b8222e32aae9b56711d2a9a67d132ded5e29acc9b",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "visual_semantics",
+        "visual_readability",
+        "solvability"
+      ],
+      "note": "곱셈 배열을 10열 묶음으로 나누고 행×열의 전체 셀을 실제로 그리되 곱은 확인 전 가리도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-1-multiply-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "0bfde1bc413675a72fde8fe25c2944f7f2a90eab189026571cceba86dc0511c3",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "hint_solution",
+        "curriculum",
+        "solvability",
+        "visual_semantics",
+        "answer_exposure"
+      ],
+      "note": "프롬프트의 정답 복사를 제거하고 250mL 눈금과 모델 기반 물 높이를 읽는 활동으로 교정해 taskActions를 measure로 일치시킴. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-capacity-weight-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "28a084e8d3bb2c7efb6701077cc805f26303617637b0f2981c6f135ead9dc2db",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "hint_solution",
+        "curriculum",
+        "solvability",
+        "visual_semantics",
+        "answer_exposure"
+      ],
+      "note": "프롬프트의 정답 복사를 제거하고 100g 눈금과 모델 기반 저울 바늘을 읽는 활동으로 교정해 taskActions를 measure로 일치시킴. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-capacity-weight-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "e9d58cb520574d0aaa2c1abf7f8bbdcae5335b22e0712340ece3ffb642238c44",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-capacity-weight-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "ebac2db91835c6d0c9c9b1892cbe72a17e9385e5e25adac2f3c601571d44a0c1",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-capacity-weight-04",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "dd4f2a228bdfbf18a5a270274724c708a6052af7b9409d6b10f4e5dd247af728",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-capacity-weight-05",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "aad38a44cdb162729b60e3d9d8c13fb3b4fdbf6b28c157dd121add8d5760db60",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-capacity-weight-06",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "9673b801e9f5c50c23075cfbac3e709e04621c9ab1c9ba63988a80a04705c9a6",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-capacity-weight-07",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "fb5fe760d0b0cd400143c617e4357cee28e197ff7873140e0f0409e4d2566760",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "visual_semantics",
+        "grade_appropriateness"
+      ],
+      "note": "중심을 찾는 문항에서 불필요한 반지름·지름 정보를 제거하고 중심점만 남긴 개념 그림으로 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-circle-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "714fcea9a414f3f26695546db42593d4ffcd8cad094d6dc4e33de66b65534afb",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-circle-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "5923978cbfad822c99df8d1d26900e9abda8355eb445f274ab6ef2d0605d5327",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum",
+        "grade_appropriateness",
+        "visual_semantics",
+        "solvability",
+        "answer_exposure"
+      ],
+      "note": "[4수03-07]에 맞춰 지름 12cm만 입력 자료로 남기고 prompt·hint·정답 전 전체 카드 DOM/a11y에서 6cm 선노출을 제거함. 가상 컴퍼스의 폭 조절→원 그리기 완료→그린 폭과 숫자 일치 순서가 제출을 게이트하도록 원 구성 활동을 교정하고 taskActions를 construct로 일치시킴. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-circle-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "892aafd1538c912dbc241720bbd2cf464d0bee3260c7d13d398df59678fb09ca",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-division-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "983aedd2f438801f97a30f7171977adcccb9baea6a34ec1524eecd705bcef632",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-division-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "f1ae0bf63ec5de059a4719b3f84b1b6a7fbad6fa1f278310960c23988817c90c",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-division-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d19c447c4fa1db05eadaf37bcdf0252f07f8e0840e36e027bdf80acbaa7e5548",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum",
+        "grade_appropriateness"
+      ],
+      "note": "분수 비교와 분수 종류 성취기준을 바로잡고 동치분수 문항을 학년 범위로 교체함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-fraction-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "4d620cb9643ee3be99bb79ce86a4e7b248f8652c533329887b3afd53ad42e04c",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum",
+        "grade_appropriateness"
+      ],
+      "note": "분수 비교와 분수 종류 성취기준을 바로잡고 동치분수 문항을 학년 범위로 교체함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-fraction-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "fb4b8cc2b875baaa5c0f68f8a8e6662f01da3a1207e785956142dfc1a7920945",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "curriculum",
+        "grade_appropriateness"
+      ],
+      "note": "분수 비교와 분수 종류 성취기준을 바로잡고 동치분수 문항을 학년 범위로 교체함. 원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-fraction-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "0480f43b6d8bd918428ddba073bf64ef9466dfab629ed560efc626510810ed58",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "visual_semantics",
+        "visual_readability",
+        "solvability"
+      ],
+      "note": "막대그래프에 축·격자·눈금 단위를 보강하고 정답 막대 수치는 확인 전 가리도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-graph-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "10412d7b1cc485367ec5eab2cbd753a50c8ceba772e41d181b6fa71a84fb66f2",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-graph-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "d6b3104249a3d7f8418ce81412cb11bfbf5ce9c7a7f2987b60ce99487845bfd7",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [],
+      "note": "원본 문항과 허용 변형의 문장·정답·보기·힌트·풀이를 수동 및 결정적 전수 감사했으나, 실제 브라우저에서 pre-answer/hint/revealed 상태와 mobile/tablet viewport 증거를 만들지 못해 blocked. 후속 공용 renderer browser review에서 다섯 시각 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-graph-03",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "1c6b359b1160e5e193898c7328670cac8652bfb76943624332cb191894be5e30",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "visual_semantics",
+        "visual_readability",
+        "solvability"
+      ],
+      "note": "곱셈 배열을 10열 묶음으로 나누고 행×열의 전체 셀을 실제로 그리되 곱은 확인 전 가리도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-multiply-01",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "c339063fa3c0503f5ed1df35ce4e450b8b1bdd1b23402b9006910c961a3cbba3",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "visual_semantics",
+        "visual_readability",
+        "solvability"
+      ],
+      "note": "곱셈 배열을 10열 묶음으로 나누고 행×열의 전체 셀을 실제로 그리되 곱은 확인 전 가리도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-multiply-02",
+      "status": "blocked"
+    },
+    {
+      "contentHash": "abad90c3575450f04d21ff2c8775898baa29687d12d4e27815f2973991af7925",
+      "evidence": {
+        "artifacts": [],
+        "editorialRead": true,
+        "hint": false,
+        "mobile": false,
+        "preAnswer": false,
+        "revealed": false,
+        "tablet": false,
+        "variantAudit": true
+      },
+      "findingCategories": [
+        "visual_semantics",
+        "visual_readability",
+        "solvability"
+      ],
+      "note": "곱셈 배열을 10열 묶음으로 나누고 행×열의 전체 셀을 실제로 그리되 곱은 확인 전 가리도록 교정함. 콘텐츠 판정과 별개로 실제 브라우저의 pre-answer/hint/revealed 및 mobile/tablet 증거 artifact가 없어 상태는 blocked이며, 공용 renderer 검토에서 다섯 상태를 캡처해야 함.",
+      "reviewId": "3:mission:g3-2-multiply-03",
+      "status": "blocked"
+    }
+  ],
+  "schemaVersion": 1
+}

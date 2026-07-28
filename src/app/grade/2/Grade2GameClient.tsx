@@ -32,7 +32,10 @@ import {
   getDailyAdventureSeed,
   getMasteryStars,
 } from '@/lib/adventure-progression'
-import { appendMissionAttemptReceipt } from '@/lib/mission-attempt-receipt'
+import {
+  appendMissionAttemptReceipt,
+  createMissionAttemptRunKey,
+} from '@/lib/mission-attempt-receipt'
 import {
   advanceMissionSketchRun,
   createMissionSketchKey,
@@ -217,6 +220,9 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
   const [wrongAttemptCount, setWrongAttemptCount] = useState(0)
   const [lastSubmissionCorrect, setLastSubmissionCorrect] = useState(false)
   const [confirmReset, setConfirmReset] = useState(false)
+  const [missionAttemptRunKey, setMissionAttemptRunKey] = useState(
+    () => createMissionAttemptRunKey(missionSeed),
+  )
 
   const selectedUnit = grade2Units.find((unit) => unit.id === selectedUnitId) ?? grade2Units[0]
   const selectedUnitMissions = unitMissions(missions, selectedUnit.id)
@@ -305,6 +311,7 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
     const nextProgress = dismissGrade2Intro(progress)
     if (nextProgress !== progress) persistProgress(nextProgress)
     setSelectedMissionId(missionId)
+    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
     resetMissionState()
     window.requestAnimationFrame(() => {
       document.getElementById('grade2-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -315,6 +322,7 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
     const nextProgress = advanceMissionSketchRun(progress)
     persistProgress(nextProgress)
     setReplayRound(nextProgress.missionSketchRunOrdinal)
+    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
     resetMissionState()
     document.getElementById('grade2-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
@@ -333,6 +341,7 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
     setStorageRecovered(false)
     setSelectedUnitId(initialUnit.id)
     setSelectedMissionId(unitMissions(missions, initialUnit.id)[0]?.id ?? 'g2-1-place-value-01')
+    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
     setConfirmReset(false)
     resetMissionState()
   }
@@ -355,7 +364,7 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
     void appendMissionAttemptReceipt({
       grade: 2,
       mission: selectedMission,
-      sessionRunKey: missionSeed,
+      sessionRunKey: missionAttemptRunKey,
       attemptIndex: wrongAttemptCount,
       variantKey: currentVariantKey,
       correct: result.correct,

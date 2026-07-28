@@ -115,6 +115,117 @@ describe('Grade3MissionVisual', () => {
     expect(html).toContain('aria-label="직각과 비교할 두 반직선"')
     expect(html).not.toMatch(/120\s*도|각도기|각도:/)
   })
+
+  it('renders every multiplication array cell in mobile-readable groups without exposing the product', () => {
+    const arrayMissionIds = [
+      'g3-1-multiply-01',
+      'g3-1-multiply-02',
+      'g3-1-multiply-03',
+      'g3-2-multiply-01',
+      'g3-2-multiply-02',
+      'g3-2-multiply-03',
+    ]
+
+    for (const missionId of arrayMissionIds) {
+      const mission = getGrade3MissionById(missionId, 42)
+      const rows = Number(mission.visualConfig.rows)
+      const columns = Number(mission.visualConfig.cols)
+      const html = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+
+      expect(html.match(/data-testid="grade3-array-cell"/g)).toHaveLength(rows * columns)
+      expect(html.match(/data-testid="grade3-array-group"/g)).toHaveLength(Math.ceil(columns / 10))
+      expect(html).not.toContain(`>${mission.correctAnswer}<`)
+    }
+  })
+
+  it('renders a measurable 0–6cm ruler and a model-derived object endpoint without answer text', () => {
+    const mission = getGrade3MissionById('g3-1-length-time-01', 42)
+    const html = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+
+    expect(html.match(/data-testid="grade3-ruler-tick"/g)).toHaveLength(61)
+    expect(html.match(/data-testid="grade3-ruler-label"/g)).toHaveLength(7)
+    expect(html).toContain('data-testid="grade3-ruler-object"')
+    expect(html).toContain('x2="468.67"')
+    expect(html).not.toContain('4cm 7mm')
+    expect(html).not.toContain('4cm7mm')
+    expect(html).not.toMatch(/aria-label="[^"]*47/)
+  })
+
+  it('provides graph axes, ticks, grid, and unit without a direct pre-answer bar label', () => {
+    const mission = getGrade3MissionById('g3-2-graph-01', 42)
+    const html = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+
+    expect(html).toContain('data-testid="grade3-graph-y-axis"')
+    expect(html).toContain('data-testid="grade3-graph-x-axis"')
+    expect(html.match(/data-testid="grade3-graph-gridline"/g)).toHaveLength(7)
+    expect(html.match(/data-testid="grade3-graph-y-tick"/g)).toHaveLength(7)
+    expect(html).toContain('눈금 한 칸 = 1개')
+    expect(html).toMatch(/data-testid="grade3-graph-count-0"[^>]*>□<\/span>/)
+    expect(html).not.toContain('aria-label="사과 6개"')
+  })
+
+  it('shows only the relevant center evidence for the center-name problem', () => {
+    const centerMission = getGrade3MissionById('g3-2-circle-01', 42)
+    const centerHtml = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission: centerMission }))
+
+    expect(centerHtml).toContain('data-testid="grade3-circle-center-point"')
+    expect(centerHtml).not.toContain('data-testid="grade3-circle-radius"')
+    expect(centerHtml).not.toContain('data-testid="grade3-circle-diameter"')
+    expect(centerHtml).not.toContain('반지름 5cm')
+    expect(centerHtml).not.toContain('지름 10cm')
+
+    const radiusDiameterMission = getGrade3MissionById('g3-2-circle-02', 42)
+    const radiusDiameterHtml = renderToStaticMarkup(
+      createElement(Grade3MissionVisual, { mission: radiusDiameterMission })
+    )
+
+    expect(radiusDiameterHtml).toContain('data-testid="grade3-circle-radius"')
+    expect(radiusDiameterHtml).toContain('data-testid="grade3-circle-diameter"')
+  })
+
+  it('supports the two-stage compass construction without visual answer exposure', () => {
+    const mission = getGrade3MissionById('g3-2-circle-03', 42)
+    const hidden = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+    const revealed = renderToStaticMarkup(
+      createElement(Grade3MissionVisual, { mission, showAnswer: true })
+    )
+
+    expect(hidden).toContain('data-testid="grade3-construction-given-circle"')
+    expect(hidden).toContain('data-testid="grade3-construction-given-diameter"')
+    expect(hidden).toContain('data-testid="grade3-compass-center-O"')
+    expect(hidden).toContain('지름 12cm')
+    expect(hidden).not.toContain('6cm')
+    expect(hidden).not.toMatch(/aria-label="[^"]*6/)
+    expect(revealed).toContain('6cm')
+  })
+
+  it('renders quantitative capacity and weight scales without pre-answer numeric labels', () => {
+    const capacity = getGrade3MissionById('g3-2-capacity-weight-01', 42)
+    const hiddenCapacity = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission: capacity }))
+    const revealedCapacity = renderToStaticMarkup(
+      createElement(Grade3MissionVisual, { mission: capacity, showAnswer: true })
+    )
+
+    expect(hiddenCapacity).toContain('data-testid="grade3-capacity-water-level"')
+    expect(hiddenCapacity.match(/data-testid="grade3-capacity-scale-tick"/g)).toHaveLength(9)
+    expect(hiddenCapacity).toContain('작은 눈금 한 칸 = 250mL')
+    expect(hiddenCapacity).not.toContain('1L 250mL')
+    expect(hiddenCapacity).not.toMatch(/aria-label="[^"]*1250/)
+    expect(revealedCapacity).toContain('1L 250mL')
+
+    const weight = getGrade3MissionById('g3-2-capacity-weight-02', 42)
+    const hiddenWeight = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission: weight }))
+    const revealedWeight = renderToStaticMarkup(
+      createElement(Grade3MissionVisual, { mission: weight, showAnswer: true })
+    )
+
+    expect(hiddenWeight).toContain('data-testid="grade3-weight-scale-pointer"')
+    expect(hiddenWeight.match(/data-testid="grade3-weight-scale-tick"/g)).toHaveLength(31)
+    expect(hiddenWeight).toContain('작은 눈금 한 칸 = 100g')
+    expect(hiddenWeight).not.toContain('2kg 300g')
+    expect(hiddenWeight).not.toMatch(/aria-label="[^"]*2300/)
+    expect(revealedWeight).toContain('2kg 300g')
+  })
 })
 
 describe('Grade3MissionCard', () => {
@@ -156,5 +267,19 @@ describe('Grade3MissionCard', () => {
 
     expect(html).toContain('grade3-mission-hint')
     expect(html).toContain('grade3-solution-path')
+  })
+
+  it('keeps the complete compass card free of the answer before success, including hints and repeated-attempt support', () => {
+    const html = renderCard('g3-2-circle-03', {
+      wrongAttemptCount: 3,
+      showHint: true,
+    })
+
+    expect(html).toContain('지름 12cm')
+    expect(html).toContain('grade3-compass-construction')
+    expect(html).not.toContain('6cm')
+    expect(html).not.toContain('6센티미터')
+    expect(html).not.toMatch(/data-(?:answer|correct-answer|radius)=/)
+    expect(html).not.toMatch(/aria-label="[^"]*6cm/)
   })
 })
