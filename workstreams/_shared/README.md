@@ -21,15 +21,17 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
-- 2026-07-23: application-problem T8 runtime integration (shared integration
-  lane) owns the populated common registry, `src/lib/grade2-problems.ts`,
+- 2026-07-28: application-problem T11 approval supersedes the T8 draft note.
+  The three V1 packs and nine `familyId@1` snapshots are approved by
+  `project-owner` at `2026-07-28T09:05:24Z`; `expertStatus` remains
+  `not-reviewed`. The populated common registry, `src/lib/grade2-problems.ts`,
   `src/lib/problem-generator.ts`, session snapshot regressions, and the Grade
-  2/5/6 render dispatch needed to consume approved V1 families. Production
-  family metadata remains `draft` / `pending`, so default learner output must
-  stay byte-for-byte compatible until explicit owner approval evidence exists.
-  Test-only approved registry fixtures may exercise selection, an initial seed
-  plus up to three deterministic retry seeds, all-or-nothing session construction, stable Grade 2
-  mission IDs/rewards, and Grade 5/6 4/4/2 or 2/2/1 mixes. Re-check legacy
+  2/5/6 render dispatch now consume only a runtime entry that exactly matches
+  one approved, deeply frozen release-ledger snapshot. Default learner output
+  may therefore select the approved candidates while preserving 144 legacy
+  Grade 2 missions and the Grade 5/6 10-item, 4/4/2 or 5-item, 2/2/1 session
+  contracts. T12-wide regression, build, E2E, and deployment are not implied by
+  this approval. Re-check legacy
   source-less payloads, stored application snapshots, required-visual
   fail-closed behavior, and no-write failure paths before release promotion.
   Grade 2 progress schema V3 migrates V1/V2 records without changing the

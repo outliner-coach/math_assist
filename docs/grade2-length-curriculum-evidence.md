@@ -43,7 +43,9 @@ Assist의 학습 순서와 실제 구현 범위를 반영한 제품 판단이다
 `[2수03-11]`, `[2수03-13]`만 직접 coverage로 선언한다. `[2수03-10]`의 실제
 측정과 `[2수03-12]`의 실제 어림·양감 활동은 개념별 `excludedScope`에 남긴다.
 
-묶음은 `coverageStatus: pilot`, `releaseStatus: draft`, owner `pending`, expert
-`not-reviewed` 상태다. 따라서 이 근거는 지식 묶음의 범위를 추적하기 위한
-것이며 유형·문항의 승인이나 공개 완료를 뜻하지 않는다. 문제 생성과 채점은
-계속 결정적 규칙만 사용하며 서비스 런타임에서 AI 판정을 호출하지 않는다.
+묶음은 `coverageStatus: pilot`, `releaseStatus: approved`, owner
+`project-owner`의 2026-07-28 승인, expert `not-reviewed` 상태다. 승인 근거는
+`docs/reviews/application-problems-v1-approval.md`에 있다. 이 승인은 세 V1
+응용 유형의 pilot 범위에 한정되며 전 학년·전 단원·전 유형 완료나 전문가 검수를
+뜻하지 않는다. 문제 생성과 채점은 계속 결정적 규칙만 사용하며 서비스 런타임에서
+AI 판정을 호출하지 않는다.

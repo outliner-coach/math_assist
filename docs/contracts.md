@@ -28,7 +28,7 @@
 | `/practice/<conceptId>?set=<set>&mode=retry-wrong&source=<sessionId>` | 직전 결과와 일치하는 개념·세트·결과 식별자 | 직전 오답만 포함한 복습 세션 | 결과가 없거나 일치하지 않거나 오답이 없으면 세션을 만들지 않고 안내 |
 | `/result` | `mathAssist_lastResult` | 점수, 오답 우선 풀이, 재도전 또는 새 세트 행동 | 결과가 없거나 손상되면 결과 없음과 홈 이동 제공 |
 | `/result?grade=6` | 공개 release state와 `mathAssist_grade6LastResult` | 현재 `released`인 Grade 6 결과와 재도전 제공 | 손상 결과는 원문을 보존하고 명시적 Grade 6 초기화 UI를 제공; 원장 오류에서는 결과를 읽거나 retry session을 만들지 않음 |
-| `/review/problems` | 정적 문제 은행 | 내부 검수용 문제·난이도·보기·정답 보드 | 학습자 홈과 랜딩에는 이 경로를 노출하지 않음 |
+| `/review/problems` | 2·5·6학년 응용문제 registry와 증명·감사 근거 | 내부 읽기 전용 대표 문제, family·version·출시 상태 필터, 답 공개 전·후 시각 비교 | 학습자 홈·랜딩에는 이 경로를 노출하지 않으며 승인 상태를 저장·변경하지 않음 |
 
 ## 공개 JSON
 
@@ -38,22 +38,25 @@
 | `/data/concepts.json` | 없음 | 단원 연결, 설명, 예시, 실수, 순서를 가진 개념 배열 | 비정상 응답이면 개념 로더가 예외를 반환 |
 | `/data/templates/<prefix>.json` | 개념 식별자의 첫 `-` 앞부분과 같은 파일 접두사 | 같은 `concept_id`를 가진 문제 템플릿 배열 | 파일 없음·비정상 응답·파싱 실패는 빈 템플릿 목록으로 처리 |
 | `/data/curriculum-allocations-v1.json` | 없음 | 검증된 1~2학년군 길이 시범 기준 4개와 기존 3~4·5~6학년군 기준 92개의 배정·참조, 학년별 `releaseState` | 원장 부재·비정상 JSON·알 수 없는 상태는 gated 학년을 열지 않고 fail-closed |
-| `/data/application-problems/packs/<pack>.json` | `g2-2-length`, `unit-5-1-perimeter-area`, `unit-6-1-ratio` 중 하나 | `unit-knowledge-pack-v1` 계약의 개념·범위·오개념·안정적인 family 참조를 가진 `pilot`/`draft` 묶음 | 파일 없음·JSON 파싱 실패·계약 불일치는 묶음을 사용할 수 없는 상태이며 기존 학습 흐름으로 대체 승인하지 않음 |
+| `/data/application-problems/packs/<pack>.json` | `g2-2-length`, `unit-5-1-perimeter-area`, `unit-6-1-ratio` 중 하나 | `unit-knowledge-pack-v1` 계약의 개념·범위·오개념·안정적인 family 참조를 가진 `pilot`/`approved` 묶음 | 파일 없음·JSON 파싱 실패·계약 불일치는 묶음을 사용할 수 없는 상태이며 기존 학습 흐름으로 대체 승인하지 않음 |
 
 템플릿 소비자는 `type`이 `choice`면 네 보기와 정답 보기 위치를, `number`면 정규화 가능한 `solver_rule` 결과를 기대한다. 모든 템플릿은 A·B·C 세트, 난이도 1·2·3, 매개변수 범위, 문제 문장, 정답 규칙, 풀이 단계를 제공해야 한다. 템플릿 산술은 등록 함수 치환 뒤 제한된 유한 십진수·괄호·사칙연산·단항 부호 parser만 사용하며 `eval`, 식별자, 지수, 비유한 수, 0 나눗셈을 허용하지 않는다.
 
 응용문제 지식 묶음 세 개의 불변 ID는 `pack-g2-2-length`,
 `pack-unit-5-1-perimeter-area`, `pack-unit-6-1-ratio`이고 모두 version 1이다.
-세 묶음은 저작 기반 자료일 뿐 현재 학습 화면의 공개 gate, 채점, 세션 또는
-localStorage 계약을 바꾸지 않는다. `coverageStatus: pilot`,
-`releaseStatus: draft`, owner `pending`, expert `not-reviewed`에서 시작하며 참조된
-family 파일이 아직 없다는 이유로 승인 상태를 올리거나 기존 런타임에 연결하지
-않는다. 2학년 공식 원문과 제품의 학기·단원 판단 구분은
+세 묶음은 모두 `coverageStatus: pilot`, `releaseStatus: approved`, owner
+`project-owner`의 2026-07-28 승인과 `expertStatus: not-reviewed`를 기록한다.
+승인 근거는 `docs/reviews/application-problems-v1-approval.md`이며, 이는 V1 pilot
+범위의 승인일 뿐 전 학년·전 단원·전 유형 완료나 전문가 검수가 아니다. 2학년은
+기존 144개 미션 뒤에 승인된 3개 응용 미션을 더하고, 5·6학년은 기존 후보 풀에
+승인 후보를 더한다. 최종 세션은 기존의 정확한 문항 수와 난이도 분배를 유지한다.
+2학년 공식 원문과 제품의 학기·단원 판단 구분은
 `docs/grade2-length-curriculum-evidence.md`에 보존한다.
 응용문제 레지스트리는 실행 가능한 maker 목록과 불변 `releaseLedger`를 분리한다.
-새 문제 생성은 승인된 원장 항목과 정확히 일치하는 실행 항목이 모두 있어야
-가능하지만, 저장된 과거 문제의 표시·채점 여부는 maker 제거 뒤에도 남는
-`approved`·`retired`·`quarantined` 버전 원장으로 판정한다.
+새 문제 생성은 승인된 pack·family와 정확히 일치하는 실행 항목, 그리고 깊게
+동결된 별도 release ledger snapshot이 정확히 하나씩 있어야 가능하다. 저장된
+과거 문제의 표시·채점 여부는 maker 제거 뒤에도 남는 `approved`·`retired`·
+`quarantined` version 원장으로 판정한다.
 
 5학년 청사진은 660/660이며 `fracmul` A/B/C-06, `fracsub` A/B/C-06, `average` A/B/C-08은 문장·범위·solver·풀이를 함께 바로잡고 생성 self-check를 통과한다. 새 6학년 concept의 bank 계약은 A·B·C 각 10개, 세트 간 family 중복 0, 난이도·K/A/R 4/4/2, reasoning family 2개 이상, 실제 표현과 blueprint 일치다. 구조 검증과 함께 교육과정·어린이 문장·브라우저 검토를 통과한 범위만 원장에서 `released`로 승격한다.
 

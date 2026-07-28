@@ -21,8 +21,29 @@ GitHub Actions ──빌드──> 정적 산출물(out) ──배포──> Git
 - `src/lib`는 문제 은행, 결정적 생성과 채점, 진도·세션 정규화, 학습 홈의 여러 저장 형식 읽기를 소유한다. 화면 구조에는 의존하지 않는다.
 - `public/data`는 5·6학년 단원·개념·문제 템플릿의 원천이다. Grade 6 ID와 파일 접두사는 Grade 5와 겹치지 않으며 앱 코드는 이 데이터를 읽지만 데이터가 앱 코드를 참조하지 않는다.
 - `src/lib/grade-release.ts`는 공개 curriculum ledger의 학년별 release state를 읽는 단일 fail-closed 경계다. Grade 6 index와 공유 unit·concept·practice·result 화면은 이 경계를 통과하기 전 저장 repository를 호출하지 않는다.
+- 응용문제는 `public/data/application-problems/packs`의 pack이 family 식별자를 참조하고, grade별 registry가 실행 가능한 family와 별도 불변 `releaseLedger` 스냅샷을 보관하는 방향으로 연결한다. registry는 owner 승인 근거가 있고 ledger 스냅샷과 정확히 일치하는 family만 학습자 후보로 고른다.
 - `scripts`는 콘텐츠를 제품과 같은 규칙으로 검사한다. 검증 결과를 런타임 상태로 사용하지 않는다.
 - GitHub Pages는 정적 파일을 제공하고, 브라우저 번들에 포함된 KaTeX가 개념·문제·풀이의 수식을 HTML로 렌더링한다. KaTeX는 원격 서비스나 CDN 호출이 아니다. 현재 서버, 데이터베이스, 인증 제공자, 원격 AI 호출은 없다.
+
+## 응용문제 V1 의존 흐름
+
+```text
+pack(단원·범위·오개념) ──참조──> family@version(생성·승인 상태)
+family + 증명 근거 ──등록──> grade registry ──복제·동결──> releaseLedger
+registry + ledger ──일치 검사──> 학습자 후보 / 세션
+대표 스냅샷 + 증명·감사 근거 ──표시──> /review/problems(읽기 전용)
+pack·family·증명·시각·세션 계약 ──검사──> validate:application-packs, audit:applications
+```
+
+현재 V1은 2학년 길이, 5학년 둘레·넓이, 6학년 비와 비율의 3 pack과 9개
+`familyId@1`만 포함한다. `releaseLedger`는 실행 제작기와 별도인 깊게 동결된
+승인 스냅샷이므로, 제작기가 제거되어도 과거 `retired`·`quarantined` 출처를
+판정할 수 있다. 정량 시각은 family마다 같은 수학 모델에서 위상·비율·라벨을
+파생한다. 특정 겹침 렌더러를 모든 정량 시각의 구현 방식으로 일반화하지 않는다.
+
+`/review/problems`는 2·5·6학년의 대표 문제, 자동 검사 근거, 답 공개 전·후
+시각을 비교하는 내부 읽기 전용 화면이다. 학습자 홈·단원·미션 동선에 링크하지
+않으며 승인 상태를 저장하거나 바꾸지 않는다.
 
 ## 대표 흐름: 5학년 개념 연습
 
