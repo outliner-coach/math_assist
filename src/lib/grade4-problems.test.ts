@@ -18,6 +18,7 @@ import {
   GRADE4_QUADRILATERALS_UNIT_ID,
   GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID,
   GRADE4_TRIANGLES_UNIT_ID,
+  correctGrade4NumericParticles,
   getGrade4Activity,
   getGrade4MissionBank,
   grade4MissionTemplates,
@@ -26,8 +27,481 @@ import {
 } from './grade4-problems'
 
 const ledger = JSON.parse(readFileSync(join(process.cwd(), 'public/data/curriculum-allocations-v1.json'), 'utf8'))
+const reviewCore = require('../../scripts/problem-review-catalog-core.js')
+const numericConnectiveRegressionTemplateIds = new Set([
+  'g4-big-10',
+  'g4-div-03', 'g4-div-04', 'g4-div-07', 'g4-div-08', 'g4-div-10',
+  'g4-est-04', 'g4-est-08',
+  'g4-dec-08', 'g4-dec-09', 'g4-dec-10',
+  'g4-frac-01', 'g4-frac-02',
+  'g4-dop-07',
+  'g4-pat-01', 'g4-pat-02', 'g4-pat-03', 'g4-pat-09', 'g4-pat-10',
+  'g4-eq-01', 'g4-eq-02', 'g4-eq-03', 'g4-eq-05',
+  'g4-move-05',
+])
+const fractionParticleRegressionTemplateIds = new Set([
+  'g4-frac-01',
+  'g4-frac-02',
+  'g4-frac-03',
+  'g4-frac-07',
+  'g4-frac-09',
+  'g4-frac-10',
+])
 
 describe('Grade 4 Bridge release bank', () => {
+  it('requires source-owned editorial actions and visual semantics for every template', () => {
+    const allowedActions = new Set([
+      'recognize', 'classify', 'compare', 'calculate', 'measure', 'construct',
+      'model', 'interpret', 'explain', 'analyze_error', 'reason',
+    ])
+    const allowedVisualSemantics = new Set(['decorative', 'schematic', 'quantitative'])
+
+    for (const template of grade4MissionTemplates) {
+      const quality = template as typeof template & {
+        taskActions?: string[]
+        visualSemantics?: string
+      }
+
+      expect(quality.taskActions, `${template.id} taskActions`).toBeDefined()
+      expect(quality.taskActions?.length, `${template.id} taskActions`).toBeGreaterThan(0)
+      expect(
+        quality.taskActions?.every((action) => allowedActions.has(action)),
+        `${template.id} taskActions`,
+      ).toBe(true)
+      expect(
+        allowedVisualSemantics.has(quality.visualSemantics ?? ''),
+        `${template.id} visualSemantics`,
+      ).toBe(true)
+    }
+  })
+
+  it('matches reviewed geometry actions to the actual prompt and answer behavior', () => {
+    const expected = new Map<string, string[]>([
+      ['g4-line-01', ['calculate', 'classify']],
+      ['g4-line-02', ['classify', 'compare']],
+      ['g4-line-03', ['recognize']],
+      ['g4-line-04', ['reason']],
+      ['g4-line-05', ['calculate', 'classify']],
+      ['g4-line-06', ['classify', 'compare']],
+      ['g4-line-07', ['compare', 'reason']],
+      ['g4-line-08', ['calculate']],
+      ['g4-line-09', ['analyze_error', 'compare']],
+      ['g4-line-10', ['reason']],
+      ['g4-tri-01', ['classify']],
+      ['g4-tri-02', ['classify']],
+      ['g4-tri-03', ['classify']],
+      ['g4-tri-04', ['classify']],
+      ['g4-tri-05', ['classify']],
+      ['g4-tri-06', ['classify', 'reason']],
+      ['g4-tri-07', ['classify']],
+      ['g4-tri-08', ['classify', 'reason']],
+      ['g4-tri-09', ['analyze_error', 'explain']],
+      ['g4-tri-10', ['classify', 'reason']],
+      ['g4-quad-01', ['classify']],
+      ['g4-quad-02', ['classify']],
+      ['g4-quad-03', ['classify']],
+      ['g4-quad-04', ['classify']],
+      ['g4-quad-05', ['classify']],
+      ['g4-quad-06', ['classify']],
+      ['g4-quad-07', ['classify', 'reason']],
+      ['g4-quad-08', ['classify', 'reason']],
+      ['g4-quad-09', ['analyze_error', 'reason']],
+      ['g4-quad-10', ['classify', 'reason']],
+    ])
+    const byId = new Map(grade4MissionTemplates.map((template) => [template.id, template]))
+
+    for (const [id, actions] of expected) {
+      const template = byId.get(id)!
+      const mission = template.build(1, 1)
+      expect(template.taskActions, `${id}: ${mission.prompt} → ${mission.correctAnswer}`).toEqual(actions)
+    }
+
+    expect(
+      grade4MissionTemplates.filter((template) => template.taskActions.includes('construct')),
+      'Grade 4 currently has choice/text answers, not a drawing or construction response',
+    ).toEqual([])
+    const measured = grade4MissionTemplates.filter((template) => template.taskActions.includes('measure'))
+    expect(measured.map((template) => template.id)).toEqual(['g4-ang-01'])
+    const protractorReading = measured[0].build(1, 1)
+    expect(protractorReading.prompt).toContain('가리키는 각도')
+    expect(protractorReading.visualConfig.showProtractor).toBe(true)
+  })
+
+  it('ties every declared action to generated prompt or answer evidence', () => {
+    const interpretedRepresentations = new Set([
+      'number-line', 'pattern-table', 'shape-transformation',
+      'tiling-model', 'line-graph-model', 'data-table-model',
+    ])
+
+    for (const template of grade4MissionTemplates) {
+      const mission = template.build(1, 1)
+      const text = [
+        template.promptTemplate,
+        mission.prompt,
+        mission.correctAnswer,
+        ...mission.solutionSteps,
+      ].join(' ')
+
+      for (const action of template.taskActions) {
+        if (action === 'recognize') {
+          expect(mission.correctAnswer.trim(), `${template.id} recognize answer`).not.toBe('')
+        } else if (action === 'classify') {
+          expect(template.answerType, `${template.id} classify response`).toBe('choice')
+          expect(text, `${template.id} classify wording`).toMatch(/이름|분류|관계|이동|도형|다각형|각/)
+        } else if (action === 'compare') {
+          expect(text, `${template.id} compare wording`).toMatch(/비교|크|작|차|같|사이|가까|평행/)
+        } else if (action === 'calculate') {
+          expect(mission.solutionSteps.join(' '), `${template.id} calculate steps`).toMatch(
+            /[+\-×÷<>=]|계산|구하|더|빼|곱|나누|차|합|몫|나머지|칸|좌표|옮겨/,
+          )
+        } else if (action === 'measure') {
+          expect(template.id).toBe('g4-ang-01')
+          expect(mission.visualConfig.showProtractor).toBe(true)
+        } else if (action === 'construct') {
+          throw new Error(`${template.id}: no Grade 4 response surface accepts a construction`)
+        } else if (action === 'model') {
+          expect(text, `${template.id} model wording`).toMatch(/식|수로 쓰|나타내/)
+        } else if (action === 'interpret') {
+          expect(
+            interpretedRepresentations.has(template.representation)
+              || /표|그래프|눈금|자료|규칙|회전|방향/.test(text),
+            `${template.id} interpret evidence`,
+          ).toBe(true)
+        } else if (action === 'explain') {
+          expect(mission.correctAnswer, `${template.id} explain answer`).toMatch(/입니다|습니다|때문|까닭|므로/)
+        } else if (action === 'analyze_error') {
+          expect(text, `${template.id} error-analysis wording`).toMatch(/말했|라고 했|주장|오류|잘못|고치|멈췄|틀|시험|너무/)
+        } else if (action === 'reason') {
+          expect(mission.solutionSteps.length, `${template.id} reasoning steps`).toBeGreaterThanOrEqual(2)
+        }
+      }
+    }
+  })
+
+  it('declares only support tools the Grade 4 UI actually provides', () => {
+    expect(new Set(grade4MissionTemplates.map((template) => template.supportTool))).toEqual(
+      new Set(['none', 'grid']),
+    )
+    const protractorReading = grade4MissionTemplates.find((template) => template.id === 'g4-ang-01')!
+    expect(protractorReading.supportTool).toBe('none')
+    expect(protractorReading.build(1, 1).visualConfig.showProtractor).toBe(true)
+  })
+
+  it('corrects complete numeric particles from an independent Korean corpus', () => {
+    const cases = [
+      ['1는 첫 번째 수입니다.', '1은 첫 번째 수입니다.'],
+      ['2은 두 번째 수입니다.', '2는 두 번째 수입니다.'],
+      ['3가 남습니다.', '3이 남습니다.'],
+      ['4이 남습니다.', '4가 남습니다.'],
+      ['6를 더합니다.', '6을 더합니다.'],
+      ['9을 더합니다.', '9를 더합니다.'],
+      ['7와 9를 비교합니다.', '7과 9를 비교합니다.'],
+      ['5과 2를 비교합니다.', '5와 2를 비교합니다.'],
+      ['분모가 6로 같습니다.', '분모가 6으로 같습니다.'],
+      ['5으로 늘어나므로 답을 구합니다.', '5로 늘어나므로 답을 구합니다.'],
+      ['1으로 이동합니다.', '1로 이동합니다.'],
+      ['7으로 이동합니다.', '7로 이동합니다.'],
+      ['8으로 이동합니다.', '8로 이동합니다.'],
+      ['2.710가 가장 큽니다.', '2.710이 가장 큽니다.'],
+      ['6.19 L이 남았습니다.', '6.19 L가 남았습니다.'],
+      ['3 kg로 나타냅니다.', '3 kg으로 나타냅니다.'],
+      ['5 cm으로 옮깁니다.', '5 cm로 옮깁니다.'],
+      ['1/8 + 4/8을 계산합니다.', '1/8 + 4/8를 계산합니다.'],
+      ['10/8로 고칩니다.', '10/8으로 고칩니다.'],
+      ['19/8을 대분수로 고칩니다.', '19/8를 대분수로 고칩니다.'],
+      ['5/18이 더 큽니다.', '5/18가 더 큽니다.'],
+      ['6/8를 선택합니다.', '6/8을 선택합니다.'],
+      ['2 1/8을 더합니다.', '2 1/8을 더합니다.'],
+      ['5이므로 다음 단계로 갑니다.', '5이므로 다음 단계로 갑니다.'],
+      ['5이면 조건을 만족합니다.', '5이면 조건을 만족합니다.'],
+      ['5이다.', '5이다.'],
+      ['5이라서 계산합니다.', '5이라서 계산합니다.'],
+      ['https://example.test/grade/1/8을 엽니다.', 'https://example.test/grade/1/8을 엽니다.'],
+      ['12 / 5으로 나눕니다.', '12 / 5으로 나눕니다.'],
+      ['12/5으로 나눕니다.', '12/5으로 나눕니다.'],
+    ] as const
+
+    for (const [input, expected] of cases) {
+      expect(correctGrade4NumericParticles(input), input).toBe(expected)
+    }
+  })
+
+  it('audits all generated surfaces with independent connective and fraction corpora', () => {
+    const expectedFractionParticles = {
+      '0': { topic: '은', subject: '이', object: '을', join: '과', direction: '으로' },
+      '1': { topic: '은', subject: '이', object: '을', join: '과', direction: '로' },
+      '2': { topic: '는', subject: '가', object: '를', join: '와', direction: '로' },
+      '3': { topic: '은', subject: '이', object: '을', join: '과', direction: '으로' },
+      '4': { topic: '는', subject: '가', object: '를', join: '와', direction: '로' },
+      '5': { topic: '는', subject: '가', object: '를', join: '와', direction: '로' },
+      '6': { topic: '은', subject: '이', object: '을', join: '과', direction: '으로' },
+      '7': { topic: '은', subject: '이', object: '을', join: '과', direction: '로' },
+      '8': { topic: '은', subject: '이', object: '을', join: '과', direction: '로' },
+      '9': { topic: '는', subject: '가', object: '를', join: '와', direction: '로' },
+    } as const
+    const historicalDefects = [
+      ['g4-frac-01', 2, 'prompt', '4/8을', '4/8를'],
+      ['g4-frac-01', 3, 'prompt', '2/6을', '2/6를'],
+      ['g4-frac-01', 5, 'prompt', '4/8을', '4/8를'],
+      ['g4-frac-01', 6, 'prompt', '2/6을', '2/6를'],
+      ['g4-frac-01', 8, 'prompt', '4/8을', '4/8를'],
+      ['g4-frac-01', 9, 'prompt', '2/6을', '2/6를'],
+      ['g4-frac-02', 1, 'prompt', '2/8을', '2/8를'],
+      ['g4-frac-02', 4, 'prompt', '2/8을', '2/8를'],
+      ['g4-frac-02', 7, 'prompt', '2/8을', '2/8를'],
+      ['g4-frac-03', 1, 'prompt', '1 2/7을', '1 2/7를'],
+      ['g4-frac-03', 2, 'prompt', '1 2/8을', '1 2/8를'],
+      ['g4-frac-03', 2, 'step1', '10/8로', '10/8으로'],
+      ['g4-frac-03', 2, 'step2', '19/8을', '19/8를'],
+      ['g4-frac-03', 3, 'prompt', '1 2/9을', '1 2/9를'],
+      ['g4-frac-03', 3, 'step2', '22/9을', '22/9를'],
+      ['g4-frac-03', 4, 'prompt', '1 2/6을', '1 2/6를'],
+      ['g4-frac-03', 4, 'step2', '15/6을', '15/6를'],
+      ['g4-frac-03', 5, 'prompt', '1 2/7을', '1 2/7를'],
+      ['g4-frac-03', 6, 'prompt', '1 2/8을', '1 2/8를'],
+      ['g4-frac-03', 6, 'step1', '10/8로', '10/8으로'],
+      ['g4-frac-03', 6, 'step2', '19/8을', '19/8를'],
+      ['g4-frac-03', 7, 'prompt', '1 2/9을', '1 2/9를'],
+      ['g4-frac-03', 7, 'step2', '22/9을', '22/9를'],
+      ['g4-frac-03', 8, 'prompt', '1 2/6을', '1 2/6를'],
+      ['g4-frac-03', 8, 'step2', '15/6을', '15/6를'],
+      ['g4-frac-03', 9, 'prompt', '1 2/7을', '1 2/7를'],
+      ['g4-frac-07', 1, 'step1', '3/8로', '3/8으로'],
+      ['g4-frac-07', 4, 'step1', '3/8로', '3/8으로'],
+      ['g4-frac-07', 7, 'step1', '3/8로', '3/8으로'],
+      ['g4-frac-09', 2, 'choice1', '5/18이', '5/18가'],
+      ['g4-frac-09', 2, 'choice1', '2/18이', '2/18가'],
+      ['g4-frac-09', 2, 'choice4', '5/18이', '5/18가'],
+      ['g4-frac-09', 4, 'choice2', '5/16이', '5/16가'],
+      ['g4-frac-09', 4, 'choice3', '5/16이', '5/16가'],
+      ['g4-frac-09', 4, 'choice3', '2/16이', '2/16가'],
+      ['g4-frac-09', 6, 'choice1', '5/14이', '5/14가'],
+      ['g4-frac-09', 6, 'choice1', '2/14이', '2/14가'],
+      ['g4-frac-09', 6, 'choice4', '5/14이', '5/14가'],
+      ['g4-frac-09', 8, 'choice2', '5/18이', '5/18가'],
+      ['g4-frac-09', 8, 'choice3', '5/18이', '5/18가'],
+      ['g4-frac-09', 8, 'choice3', '2/18이', '2/18가'],
+      ['g4-frac-10', 1, 'choice3', '6/8를', '6/8을'],
+      ['g4-frac-10', 2, 'choice2', '7/9를', '7/9을'],
+      ['g4-frac-10', 4, 'choice4', '6/8를', '6/8을'],
+      ['g4-frac-10', 5, 'choice3', '7/9를', '7/9을'],
+      ['g4-frac-10', 7, 'choice1', '6/8를', '6/8을'],
+      ['g4-frac-10', 8, 'choice4', '7/9를', '7/9을'],
+    ] as const
+    const fractionPattern = /(?<![/\dA-Za-z])(?:\d[\d,]*\s+)?(\d[\d,]*)\/(\d[\d,]*)(으로|로|은|는|이|가|을|를|과|와)(?=$|[\s.,!?…;:)\]}'"”’])/g
+    const fractionDefects: string[] = []
+    const generatedSurfaces = new Map<string, string>()
+    const connectiveTemplateIds = new Set<string>()
+    let connectiveSurfaceCount = 0
+    let fractionParticleCount = 0
+    let auditedSurfaceCount = 0
+    for (const template of grade4MissionTemplates) {
+      for (let variant = 1; variant <= 9; variant += 1) {
+        const mission = template.build(variant, 2_026_072_600 + variant)
+        const surfaces = [
+          ['prompt', mission.prompt],
+          ...template.hintSteps.map((text, index) => [`hint${index + 1}`, text]),
+          ...mission.solutionSteps.map((text, index) => [`step${index + 1}`, text]),
+          ...mission.choices?.map((text, index) => [`choice${index + 1}`, text]) ?? [],
+        ]
+        for (const [surface, text] of surfaces) {
+          auditedSurfaceCount += 1
+          generatedSurfaces.set(`${template.id}:${variant}:${surface}`, text)
+          for (const match of text.matchAll(fractionPattern)) {
+            fractionParticleCount += 1
+            const [, numerator, , particle] = match
+            const finalDigit = numerator.replaceAll(',', '').at(-1) as keyof typeof expectedFractionParticles
+            const pair = particle === '은' || particle === '는' ? 'topic'
+              : particle === '이' || particle === '가' ? 'subject'
+                : particle === '을' || particle === '를' ? 'object'
+                  : particle === '과' || particle === '와' ? 'join'
+                    : 'direction'
+            const expected = expectedFractionParticles[finalDigit][pair]
+            if (particle !== expected) {
+              fractionDefects.push(`${template.id} v${variant} ${surface}: ${match[0]}→${expected}`)
+            }
+          }
+          if (
+            numericConnectiveRegressionTemplateIds.has(template.id)
+            && /[2459](?:이므로|이면)/.test(text)
+          ) {
+            connectiveTemplateIds.add(template.id)
+            connectiveSurfaceCount += 1
+          }
+          expect(text, `${template.id} v${variant} ${surface}`).not.toMatch(/\d(?:가므로|가면)/)
+        }
+      }
+    }
+
+    expect(auditedSurfaceCount).toBe(10_026)
+    expect(fractionParticleCount).toBe(144)
+    expect(fractionDefects).toEqual([])
+    expect(connectiveTemplateIds).toEqual(numericConnectiveRegressionTemplateIds)
+    expect(connectiveSurfaceCount).toBe(127)
+    expect(historicalDefects).toHaveLength(47)
+    expect(new Set(historicalDefects.map(([templateId]) => templateId))).toEqual(
+      fractionParticleRegressionTemplateIds,
+    )
+    for (const [templateId, variant, surface, forbidden, expected] of historicalDefects) {
+      const text = generatedSurfaces.get(`${templateId}:${variant}:${surface}`)!
+      expect(text, `${templateId} v${variant} ${surface}`).not.toContain(forbidden)
+      expect(text, `${templateId} v${variant} ${surface}`).toContain(expected)
+    }
+  })
+
+  it('gives graph-01 a readable focused scale without exposing its answer as text', () => {
+    const template = grade4MissionTemplates.find((item) => item.id === 'g4-graph-01')!
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      const mission = template.build(variant, variant)
+      const values = String(mission.visualConfig.valuesCsv).split(',').map(Number)
+      const yMin = Number(mission.visualConfig.yMin)
+      const yMax = Number(mission.visualConfig.yMax)
+
+      expect(yMin, `variant ${variant}`).toBeLessThanOrEqual(Math.min(...values))
+      expect(yMax, `variant ${variant}`).toBeGreaterThanOrEqual(Math.max(...values))
+      expect(yMax - yMin, `variant ${variant}`).toBeLessThanOrEqual(25)
+      expect(mission.visualConfig.yStep).toBe(5)
+      expect(mission.visualConfig.yMinorStep).toBe(1)
+      expect(mission.visualConfig.focusGuide).toBe(true)
+      expect(mission.visualConfig).not.toHaveProperty('focusValueLabel')
+    }
+  })
+
+  it('audits every allowed variant with deterministic editorial choice seeds', () => {
+    for (const template of grade4MissionTemplates) {
+      for (let variant = 1; variant <= 9; variant += 1) {
+        const choiceSeed = 2_026_072_600 + variant
+        const mission = template.build(variant, choiceSeed)
+        const repeated = template.build(variant, choiceSeed)
+
+        expect(mission, `${template.id} variant ${variant}`).toEqual(repeated)
+        expect(mission.prompt.trim(), `${template.id} variant ${variant} prompt`).not.toBe('')
+        expect(mission.correctAnswer.trim(), `${template.id} variant ${variant} answer`).not.toBe('')
+        expect(mission.solutionSteps.length, `${template.id} variant ${variant} solution`).toBeGreaterThan(0)
+        expect(mission.solutionSteps.every((step) => step.trim().length > 0)).toBe(true)
+        expect(mission.visualModel.trim(), `${template.id} variant ${variant} visual`).not.toBe('')
+        if (template.representation !== 'context') {
+          expect(mission.visualModel, `${template.id} variant ${variant} visual`).toBe(template.representation)
+        }
+        expect(Object.keys(mission.visualConfig).length, `${template.id} variant ${variant} visualConfig`).toBeGreaterThan(0)
+        if (mission.choices) {
+          expect(mission.choices, `${template.id} variant ${variant} choices`).toHaveLength(4)
+          expect(new Set(mission.choices).size, `${template.id} variant ${variant} unique choices`).toBe(4)
+          expect(
+            mission.choices.filter((choice) => choice === mission.correctAnswer),
+            `${template.id} variant ${variant} answer occurrence`,
+          ).toHaveLength(1)
+        }
+      }
+    }
+  })
+
+  it('keeps reviewed wording, grade-level explanations, and graph contexts unambiguous', () => {
+    const byId = new Map(grade4MissionTemplates.map((template) => [template.id, template]))
+
+    for (let variant = 1; variant <= 9; variant += 1) {
+      const patternClaim = byId.get('g4-pat-09')!.build(variant, variant)
+      expect(patternClaim.prompt).toContain('위 수에')
+
+      const rightTriangle = byId.get('g4-tri-03')!.build(variant, variant)
+      expect(rightTriangle.solutionSteps.join(' ')).toContain('직각')
+      expect(rightTriangle.solutionSteps.join(' ')).not.toContain('²')
+
+      for (const id of ['g4-graph-01', 'g4-graph-07']) {
+        const temperature = byId.get(id)!.build(variant, variant)
+        const values = String(temperature.visualConfig.valuesCsv).split(',').map(Number)
+        expect(Math.max(...values), `${id} variant ${variant} temperature`).toBeLessThanOrEqual(40)
+      }
+
+      for (const id of ['g4-graph-03', 'g4-graph-09']) {
+        const changingHeight = byId.get(id)!.build(variant, variant)
+        expect(String(changingHeight.visualConfig.title)).toContain('물')
+      }
+    }
+  })
+
+  it('records every Grade 4 review exactly once and leaves absent browser evidence blocked', () => {
+    const catalog = reviewCore.buildCatalog(
+      reviewCore.loadActualSources(process.cwd()).filter(
+        (source: { grade: number }) => source.grade === 4,
+      ),
+    )
+    const receipt = JSON.parse(
+      readFileSync(
+        join(process.cwd(), 'docs/tracking/problem-editorial-review-work/grade4.json'),
+        'utf8',
+      ),
+    )
+    const expectedReviewIds = catalog.items.map((item: { reviewId: string }) => item.reviewId)
+    const actualReviewIds = receipt.items.map((item: { reviewId: string }) => item.reviewId)
+
+    expect(actualReviewIds).toEqual(expectedReviewIds)
+    expect(new Set(actualReviewIds).size).toBe(grade4MissionTemplates.length)
+    expect(new Set(receipt.items.map((item: { note: string }) => item.note)).size).toBe(
+      grade4MissionTemplates.length,
+    )
+    for (const item of receipt.items) {
+      const templateId = item.reviewId.replace('4:mission:', '')
+      const expectedFindingCategories = (
+        numericConnectiveRegressionTemplateIds.has(templateId)
+        || fractionParticleRegressionTemplateIds.has(templateId)
+      ) ? ['wording']
+        : templateId === 'g4-graph-01' ? ['answer_exposure']
+          : []
+      expect(item.status, item.reviewId).toBe('blocked')
+      expect(item.findingCategories, item.reviewId).toEqual(expectedFindingCategories)
+      expect(item.note, item.reviewId).toContain('variants 1..9')
+      expect(item.note, item.reviewId).toContain('taskActions=')
+      expect(item.note, item.reviewId).toContain('supportTool=')
+      expect(item.note, item.reviewId).toContain('Browser evidence remains separate and blocked')
+      expect(item.note, item.reviewId).not.toContain('Korean-particle checks passed')
+      expect(item.evidence, item.reviewId).toMatchObject({
+        editorialRead: true,
+        variantAudit: true,
+        preAnswer: false,
+        hint: false,
+        revealed: false,
+        mobile: false,
+        tablet: false,
+        artifacts: [],
+      })
+    }
+    for (const templateId of numericConnectiveRegressionTemplateIds) {
+      const reviewed = receipt.items.find(
+        (item: { reviewId: string }) => item.reviewId === `4:mission:${templateId}`,
+      )
+      expect(reviewed?.note, templateId).toContain('24-template/127-surface regression')
+    }
+    for (const templateId of fractionParticleRegressionTemplateIds) {
+      const reviewed = receipt.items.find(
+        (item: { reviewId: string }) => item.reviewId === `4:mission:${templateId}`,
+      )
+      expect(reviewed?.note, templateId).toContain('Pre-fix finding: korean_particle')
+      expect(reviewed?.note, templateId).toContain('47 incorrect fraction-particle surfaces')
+      expect(reviewed?.note, templateId).toContain('Resolution:')
+      expect(reviewed?.findingCategories, templateId).toEqual(['wording'])
+    }
+    for (let index = 1; index <= 10; index += 1) {
+      const templateId = `g4-frac-${String(index).padStart(2, '0')}`
+      const reviewed = receipt.items.find(
+        (item: { reviewId: string }) => item.reviewId === `4:mission:${templateId}`,
+      )
+      expect(reviewed?.note, templateId).toContain('144 fraction-particle occurrences')
+    }
+    const graphReview = receipt.items.find(
+      (item: { reviewId: string }) => item.reviewId === '4:mission:g4-graph-01',
+    )
+    expect(graphReview?.findingCategories).toEqual(['answer_exposure'])
+    expect(graphReview?.note).toContain('answer-only text/attribute')
+
+    const errors = reviewCore.loadContractModule().validateEditorialLedger(catalog, receipt)
+    expect(errors.filter((error: string) => !error.startsWith('blocked editorial status: '))).toEqual([])
+    expect(errors.filter((error: string) => error.startsWith('blocked editorial status: '))).toHaveLength(
+      grade4MissionTemplates.length,
+    )
+  })
+
   it('keeps every reviewed unit at ten K4/A4/R2 templates', () => {
     const result = validateGrade4MissionBank(ledger)
 

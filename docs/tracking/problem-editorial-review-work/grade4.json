@@ -1,0 +1,2613 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "reviewId": "4:mission:g4-ang-01",
+      "contentHash": "26096a73e192258912a9fd90cce4dc5d172cd05b839ab1a5721ac681b8407ca0",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed measure-angle-on-protractor as a choice response to \"각도기의 광선이 가리키는 각도를 읽으세요.\" Source decision: taskActions=measure; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-02",
+      "contentHash": "a3ae649800b93a404e561960d2dbce2ccee7d8ca87915595be06fdac34959b22",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed classify-obtuse-by-measure as a choice response to \"측정값이 90°와 180° 사이인 각을 분류하세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-03",
+      "contentHash": "364fa1a4c1df85e35930b2caba26c0050910295c3f067242ae458343a79fe387",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed estimate-angle-near-benchmark as a choice response to \"기준 각과 비교해 가장 가까운 어림값을 고르세요.\" Source decision: taskActions=compare+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-04",
+      "contentHash": "1dcfcaac346932da3fcb0a661ea2e513fb06b91447102c76bdc248ec9eeaecac",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed align-protractor-before-measuring as a choice response to \"각도기를 바르게 놓는 방법을 고르세요.\" Source decision: taskActions=recognize; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-05",
+      "contentHash": "2c4f5074e9a433c3bce6967ee26c0ac962e15735e505014a0f6da91110781037",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed triangle-missing-interior-angle as a integer response to \"삼각형의 두 각에서 나머지 한 각을 구하세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-06",
+      "contentHash": "f5169dde2b1fe4637d6a20adde4216b1c0e6be7d003f1e99c9e59cdf0ca0a78c",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed parallelogram-missing-interior-angle as a integer response to \"평행사변형의 세 각에서 나머지 한 각을 구하세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-07",
+      "contentHash": "b86bd5ec0238b34f4c8c247abdb5be32d6cdbdd7eb383b7be9dccc5cc46a7d9b",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed navigation-turn-angle as a choice response to \"이동 경로의 오른쪽 회전을 각도로 나타내세요.\" Source decision: taskActions=interpret; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-08",
+      "contentHash": "451d646cce5f8c5206fc503895f77a3bdb9723a24dcde36f2a109ed096407444",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed complete-straight-angle-turn as a integer response to \"평각을 완성하는 남은 각도를 구하세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-09",
+      "contentHash": "401d21b7f4bb7257e147551f89d6cf8b2ec7364f30ca2cee983f7526c7a1c5ad",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed wrong-protractor-scale as a choice response to \"각도기의 반대 눈금을 읽은 오류를 고치세요.\" Source decision: taskActions=analyze_error+interpret; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-ang-10",
+      "contentHash": "21596dd74153326b6233e85686800bf2c323e49c2e1a9ad6df419c5762f1717c",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed quadrilateral-split-two-triangles as a choice response to \"대각선으로 나눈 두 삼각형에서 사각형 내각의 합을 설명하세요.\" Source decision: taskActions=explain+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-01",
+      "contentHash": "2fe28ded08d7ee387a3fe9320ccb35122e565b03329d2d0f9235f47a13bfa5ef",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed place-value-value as a choice response to \"수의 만의 자리 숫자가 나타내는 값은 얼마일까요?\" Source decision: taskActions=recognize; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-02",
+      "contentHash": "e126e5c270a035b081d0a0422d9146e3045babbf859fa394c7d2c3111df2f18a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed place-value-compose as a integer response to \"십만, 만, 천, 십, 일의 수를 모아 하나의 수로 쓰세요.\" Source decision: taskActions=model; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-03",
+      "contentHash": "de99c2b84d9fe8b51c26f1d713db370e30292c1abb71d0ed80902429558a2283",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed place-value-name as a choice response to \"수에서 천의 자리 숫자가 나타내는 값을 고르세요.\" Source decision: taskActions=recognize; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-04",
+      "contentHash": "04d72135e319c65beefea9b3eee752384f128f85afe01c7f8cde63f2c8504598",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed direct-comparison as a choice response to \"두 큰 수를 비교한 설명 중 옳은 것을 고르세요.\" Source decision: taskActions=compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-05",
+      "contentHash": "5792aafe02d089a25693b90a5ee6896321ccbbb6aeed316c0bd8e6461356e96c",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed select-maximum as a choice response to \"네 수 중 가장 큰 수를 고르세요.\" Source decision: taskActions=compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-06",
+      "contentHash": "85c6e7757512b2b2bd3aef58ceb324d051834e2f869df46c5648d8f740d318b6",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed ten-thousand-step as a integer response to \"주어진 수보다 10,000만큼 큰 수를 쓰세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-07",
+      "contentHash": "90cdd84707003c890a63e61a260a6952c7e6ae73f08fa44029d072ea5c643c65",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed context-difference as a integer response to \"두 지역의 사람 수 차이는 몇 명인지 구하세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-08",
+      "contentHash": "8becb80e0d7234a8a8ad953e0e61e0ccfd27f4a84d1fb67ebbb4a821753d9897",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed between-bounds as a choice response to \"두 수보다 크고 작은 조건을 모두 만족하는 수를 고르세요.\" Source decision: taskActions=compare; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-09",
+      "contentHash": "e25ea62cfe946fba7344af6aa7d42da98fb31022d47a95d6a731a9e95a6e421d",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed constraint-digit as a choice response to \"큰 수의 비교 조건을 만족하는 빈칸 숫자 중 가장 큰 것을 고르세요.\" Source decision: taskActions=reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-big-10",
+      "contentHash": "3120636b64d63a47758e98fdd6c11173e0478731d2ac33a714fea15ca3f8ee23",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed claim-evaluation as a choice response to \"두 큰 수를 비교한 친구의 말에 알맞은 판단 근거를 고르세요.\" Source decision: taskActions=analyze_error+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-01",
+      "contentHash": "9e055ea0038790fc4e1cab6736d2ec56681e021cb17ad25f13803c4d69ad51cf",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed compose-two-place-decimal as a decimal response to \"자리별 수를 모아 소수 두 자리 수로 쓰세요.\" Source decision: taskActions=model; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-02",
+      "contentHash": "4e0d624f50bc37df038e76a25f76400773df150c9f63f09df1284f4027a17a4f",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed decimal-place-value as a decimal response to \"소수에서 백분의 일 자리 숫자가 나타내는 값을 쓰세요.\" Source decision: taskActions=recognize; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-03",
+      "contentHash": "5a6a7c36284d3aa39340d95b3bcdcbbd3da9a2b8085f162001fe0e9ff8e51472",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed compose-three-place-decimal as a decimal response to \"자리별 수를 모아 소수 세 자리 수로 쓰세요.\" Source decision: taskActions=model; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-04",
+      "contentHash": "186f300376b4f282cf6f53fea4f8a941449860805c3850af055b83c8beeb02e3",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed compare-two-decimals as a choice response to \"두 소수의 크기를 비교하는 부등호를 고르세요.\" Source decision: taskActions=compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-05",
+      "contentHash": "ed13d8b0e3f4a482c4696704f83b7dfb9e5361f5de3623646e528446d893e0ba",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed measurement-place-value as a choice response to \"소수로 나타낸 길이에서 백분의 일 자리의 값을 고르세요.\" Source decision: taskActions=recognize; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-06",
+      "contentHash": "2c00a19417602010adb004e08d3d75291aa7d0e7d92a16edbb387ac1edbb1a11",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed order-three-decimals as a choice response to \"세 소수를 작은 수부터 차례로 놓은 보기를 고르세요.\" Source decision: taskActions=compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-07",
+      "contentHash": "5a25d382a05f640c6062ae04a6f25907dc1529ce78ab9ba3635be8661b3eb3ad",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed greatest-decimal-from-digits as a decimal response to \"세 숫자를 한 번씩 사용하여 1보다 작은 가장 큰 소수를 만드세요.\" Source decision: taskActions=compare+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-08",
+      "contentHash": "62d45314c19dc6a0b0b2b2cc60b5e029af3bef8a1dc054fca0d86f831737b802",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed locate-decimal-between-tenths as a choice response to \"주어진 소수가 어느 두 소수 한 자리 수 사이인지 고르세요.\" Source decision: taskActions=compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-09",
+      "contentHash": "2c33716cf706736b39f6209c0505891ab8a025f5cc2c54eefbc2dfda7f0a8bc3",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed whole-digit-count-comparison-error as a choice response to \"소수점 아래 숫자 개수로 비교한 친구의 말을 고치세요.\" Source decision: taskActions=analyze_error+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dec-10",
+      "contentHash": "8b677dc1e53adb737e8c6f47faa4e39807f1ecb8360c53bf9be6189a16e7063f",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed missing-tenths-digit-constraint as a integer response to \"소수의 크기 조건을 만족하는 빈칸의 가장 큰 숫자를 구하세요.\" Source decision: taskActions=reason+compare; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-01",
+      "contentHash": "2e3436199551725721fe8e838159c2453405861abc0dd566fdd2c5e062647c54",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed exact-two-digit-division as a integer response to \"세 자리 수를 두 자리 수로 나눈 몫을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-02",
+      "contentHash": "f166c4dfd563bb54a7d738f74f221323af3ec530d1ebb7c6321b381c6f4c6abf",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed quotient-with-remainder as a integer response to \"세 자리 수를 두 자리 수로 나눈 몫을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-03",
+      "contentHash": "d9813db910412157c0e2a9f465cda6e38468fb89133d8b19dabe5466da4af3d1",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed remainder-from-division as a integer response to \"세 자리 수를 두 자리 수로 나눈 나머지를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-04",
+      "contentHash": "7bb8b503bec6f5a13b8c0830eeb4d8d6f1a303a047299499566d0adea58dbec9",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed division-check-equation as a choice response to \"나눗셈을 확인하는 식으로 알맞은 것을 고르세요.\" Source decision: taskActions=model; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-05",
+      "contentHash": "890cf448eb0a061af983af7cc2117d573b8a7d3193086e3863ce3ecb07cc8c3b",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed equal-pack-count as a integer response to \"준비물을 같은 수씩 상자에 담을 때 필요한 상자 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-06",
+      "contentHash": "0ff774c69ccf19ffae8f2a80f583cba10ccf6f350cf66279522641ba1967d9c1",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed round-up-capacity as a integer response to \"한 대에 탈 수 있는 수가 정해진 상황에서 필요한 탈것 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-07",
+      "contentHash": "4e9ebf303cff4f5c249bc52656b46744d1260913a5c9b5c1953acbcbd6bd50e8",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed leftover-after-packing as a integer response to \"물건을 같은 수씩 포장한 뒤 남는 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-08",
+      "contentHash": "4dcedcc348746791797f484cb6cfe73bc05e1cf3ddbe174d27d205bcef82d0da",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "The inverse-division visual now uses the division-model declared by the source. Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-09",
+      "contentHash": "c43b8697b587d17ddb64e9309739fe7ae8b44ffa8ab7cf5f87b44074c132dc2a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed ignored-remainder-capacity-error as a choice response to \"나머지를 무시한 계획이 맞는지 판단하세요.\" Source decision: taskActions=analyze_error+calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-div-10",
+      "contentHash": "55df3e1ad3786952eaebf3e8f3f738fed2b39e834475c10e3630aee41265f0bf",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed trial-quotient-error as a integer response to \"몫을 하나 크게 잡았을 때 곱이 나누어지는 수보다 얼마나 큰지 구하세요.\" Source decision: taskActions=analyze_error+calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-01",
+      "contentHash": "d692dad8666538867dabe41c3c4c0f01d84c290ec12885c32d654efe3bdb91ef",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed hundredths-addition-without-regrouping as a decimal response to \"받아올림이 없는 소수 두 자리 수의 덧셈을 계산하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-02",
+      "contentHash": "064ed469fce9bf6be68394ff6a07d9090d5975bb736b78329cf9f6f74e8637e7",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed hundredths-addition-with-regrouping as a decimal response to \"받아올림이 있는 소수 두 자리 수의 덧셈을 계산하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-03",
+      "contentHash": "8b79fb65db6b013960e96118d025617aca3c4b6fd6511c9accca1d391716a8e4",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed hundredths-subtraction-without-regrouping as a decimal response to \"받아내림이 없는 소수 두 자리 수의 뺄셈을 계산하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-04",
+      "contentHash": "0d8c28fe80a6b423f3100fd30e1d071036d3589bbd956000d0b22eeed8c22cb7",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed hundredths-subtraction-with-regrouping as a decimal response to \"받아내림이 있는 소수 두 자리 수의 뺄셈을 계산하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-05",
+      "contentHash": "4a90a7c47bf7fc7a1b9fead442b80235297460dbb9e2f6c95e44d5ffa63e385f",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed decimal-measurement-sum as a decimal response to \"두 소수 길이를 더하여 전체 길이를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-06",
+      "contentHash": "a642b3c80dc4c9cda0e974817e67662014bc61c8c1989d1e8278dd20c30e5e8c",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed decimal-remaining-amount as a decimal response to \"처음 있던 소수 양에서 사용한 양을 빼세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-07",
+      "contentHash": "5a9802012a332459459e5836cfefc09338d54ab36afae1b21e7bc342abbd4dab",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed missing-decimal-addend as a decimal response to \"소수 덧셈식에서 빠진 덧셈 항을 구하세요.\" Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-08",
+      "contentHash": "dcf88a85a90979952dab5249b17846643d252fb0aaddc8a53b8ec1bead3b4f13",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed select-decimal-situation-equation as a choice response to \"두 소수 양의 합을 나타내는 식을 고르세요.\" Source decision: taskActions=model; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-09",
+      "contentHash": "cca37523bbf0cf7e84234560054582f950e99375d9eff5cae91fdebec3975a42",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed decimal-point-alignment-error as a choice response to \"소수점을 맞추지 않은 소수 덧셈의 오류를 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-dop-10",
+      "contentHash": "e00f2c2e6dc8332beaaba3f8c273bafdffcec3d5cdad5dcdf8c3901a0bf872eb",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed decimal-regrouping-error as a choice response to \"받아내림을 하지 않은 소수 뺄셈의 오류를 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-01",
+      "contentHash": "317212d998904d37f117ce1f32dad4a50af7fceab07be41132540e9daa6d55eb",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed missing-addend-equality as a integer response to \"덧셈 등식의 빈칸을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-02",
+      "contentHash": "a8933d0a9cd70e54621baa72813f7b2601e6595aec6a606ea43c4d34d627fb2b",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed missing-minuend-equality as a integer response to \"뺄셈 등식의 처음 빈 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-03",
+      "contentHash": "8465699e22c802be08b4b50e1d7a456429f5e5e2018735e367e16b16b741c60e",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed select-equal-expression as a choice response to \"등호 양쪽의 값이 같은 식을 고르세요.\" Source decision: taskActions=compare+calculate; supportTool=none; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-04",
+      "contentHash": "912a48576d5df4c408b35d972d16dcb6419d811659a80b626e3cec770fc57e68",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed commutative-equality-meaning as a choice response to \"두 덧셈식이 등호로 연결되는 까닭을 고르세요.\" Source decision: taskActions=explain; supportTool=none; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-05",
+      "contentHash": "1c91bcd5cecfe7d741eb9d8e5f0cac4ad8d73b2dbd180fe702ed8de4eb8853fb",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed balanced-bags-missing-quantity as a integer response to \"균형을 이룬 두 쪽에서 빠진 양을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-06",
+      "contentHash": "f6876a301e54164346a1a093d860828f9fbb827c2f614c297b008827c9477c72",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed equal-purchase-missing-price as a integer response to \"두 사람이 같은 금액을 냈을 때 빠진 금액을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-07",
+      "contentHash": "3b50c1440a059d658348eff2d59b12b493219fe0f0506368f1db8f4ba7d7bc0c",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed same-change-both-sides as a integer response to \"같은 두 양에 같은 수를 더한 등식의 빈칸을 구하세요.\" Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-08",
+      "contentHash": "36fd9147f2448ccc3922dfb152d8e0bc279474695628a98caa9768d00cdee6fc",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed select-equality-from-story as a choice response to \"두 모둠의 같은 전체 양을 나타내는 등식을 고르세요.\" Source decision: taskActions=model; supportTool=none; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-09",
+      "contentHash": "507c5b00cc5eef5c4a66e355529da1e42cf90c92c6d0b744c4403f4b15d26bdb",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed equal-sign-answer-marker-error as a choice response to \"등호의 뜻을 잘못 설명한 친구의 말을 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=none; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-eq-10",
+      "contentHash": "f3fd4d37d63c5632e68f53618d1380ebb7864c82519ff155baff37af4c72a656",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed one-side-change-equality-error as a choice response to \"등식 한쪽에만 수를 더한 오류를 고치세요.\" Source decision: taskActions=analyze_error+reason; supportTool=grid; visualSemantics=schematic. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-01",
+      "contentHash": "4ebfe3988c0f384849258cf669df1a4d226a88f9959596c0e1bfd7415d93f0fd",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed nearest-hundred-addition as a integer response to \"두 수를 백 단위에 가장 가까운 수로 바꾸어 합을 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-02",
+      "contentHash": "1aa9e9d6399855695d0e7aa62313086895360aa021184287ecb3fbaf6c01ad0d",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed nearest-hundred-subtraction as a integer response to \"두 수를 백 단위에 가장 가까운 수로 바꾸어 차를 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-03",
+      "contentHash": "ee3cc8297ff38f116885c74818dd61a6bf7f326e04d61be32c9a43f57f86deb3",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed nearest-ten-multiplication as a integer response to \"두 자리 수를 십 단위에 가장 가까운 수로 바꾸어 곱을 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-04",
+      "contentHash": "7b2eae6271468d20fbec44d89b4c668f55c0cf7db34599088443b46c6070ba72",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed compatible-number-division as a integer response to \"나누어지는 수를 백 단위에 가장 가까운 수로 바꾸어 몫을 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-05",
+      "contentHash": "5bb65b483df10d3d5c4408801a52a8570495f4d9c2f86e2845a2e3f695eaf09c",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed attendance-total-estimate as a integer response to \"두 행사 인원을 백 명쯤으로 바꾸어 전체 인원을 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-06",
+      "contentHash": "c1f11c844d62da9887f4ece283e5bfd2704e0193cd18ff6612d7f4304846168b",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed budget-remainder-estimate as a integer response to \"예산과 지출을 천 원쯤으로 바꾸어 남을 돈을 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-07",
+      "contentHash": "8746e7c2940b2b8a402befe95896939e3190740587bf89cc4c8ec2afb83865f2",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed class-supplies-product-estimate as a integer response to \"한 반의 준비물 수를 십 개쯤으로 바꾸어 전체 수를 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-08",
+      "contentHash": "2c9582aecd5e8d301f18659955d382d80bf35605eb4cb5808e65c5536a43afae",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed packing-quotient-estimate as a integer response to \"전체 수를 백 개쯤으로 바꾸어 묶음 수를 어림하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-09",
+      "contentHash": "389639452cedc5b72db56edd45c6250da50ade734aecc7d419d0c70f9ed56d0a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed incorrect-addition-estimate as a choice response to \"친구가 말한 어림한 합을 확인하고 알맞게 고치세요.\" Source decision: taskActions=analyze_error+calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-est-10",
+      "contentHash": "ac82a8ac8226b4e9679db1f37b4cc9aa2f7e4c41f961cea2946b51f83f576693",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed compare-estimation-strategies as a choice response to \"두 곱셈 어림 방법 중 정확한 값에 더 가까운 방법을 고르세요.\" Source decision: taskActions=calculate+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-01",
+      "contentHash": "1b839299304ef0d0ae5b0cae3c9146455735ad86dcc54b0e853e9b40319b659d",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed proper-fraction-addition as a fraction response to \"분수 띠를 보고 분모가 같은 두 진분수의 합을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier 24-template/127-surface regression for numeric copular connectives remains resolved and independently covered. Pre-fix finding: korean_particle — an independent audit reproduced 47 incorrect fraction-particle surfaces across six templates within 144 fraction-particle occurrences and 10,026 generated surfaces for variants 1..9. Resolution: complete simple and mixed fraction tokens now select particles from the numerator final sound, including 으로/로 and the ㄹ exception; the explicit 47-surface forbidden corpus and 144-occurrence audit pass. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-02",
+      "contentHash": "e9acbe52ed00f3d1ca816e10dadf502f0d50eab18de3d915c400af02b7df56eb",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed proper-fraction-subtraction as a fraction response to \"분수 띠를 보고 분모가 같은 두 진분수의 차를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier 24-template/127-surface regression for numeric copular connectives remains resolved and independently covered. Pre-fix finding: korean_particle — an independent audit reproduced 47 incorrect fraction-particle surfaces across six templates within 144 fraction-particle occurrences and 10,026 generated surfaces for variants 1..9. Resolution: complete simple and mixed fraction tokens now select particles from the numerator final sound, including 으로/로 and the ㄹ exception; the explicit 47-surface forbidden corpus and 144-occurrence audit pass. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-03",
+      "contentHash": "f9ea738d4bd74fad322232f584fb9dbe4067cd6ea8f8be9e1b9127543fd9a861",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed mixed-number-addition as a fraction response to \"분모가 같은 두 대분수의 합을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Pre-fix finding: korean_particle — an independent audit reproduced 47 incorrect fraction-particle surfaces across six templates within 144 fraction-particle occurrences and 10,026 generated surfaces for variants 1..9. Resolution: complete simple and mixed fraction tokens now select particles from the numerator final sound, including 으로/로 and the ㄹ exception; the explicit 47-surface forbidden corpus and 144-occurrence audit pass. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-04",
+      "contentHash": "9a6a629452bd1f5ca909b6558a4058924296c21b04a71ebca8166efc5f61af57",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed mixed-number-subtraction-regrouping as a fraction response to \"받아내림이 필요한 대분수의 뺄셈을 계산하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Fraction-particle review: this template had no pre-fix finding among the 144 fraction-particle occurrences across 10,026 generated surfaces for variants 1..9; the independent numerator-final-sound corpus remains passing. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-05",
+      "contentHash": "bb2dab15bc6bc2dd284662652575dc0325d6f507bb350e686b14cdf8b0916bb9",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed recipe-fraction-sum as a fraction response to \"두 재료의 양을 합하여 필요한 전체 양을 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Fraction-particle review: this template had no pre-fix finding among the 144 fraction-particle occurrences across 10,026 generated surfaces for variants 1..9; the independent numerator-final-sound corpus remains passing. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-06",
+      "contentHash": "93e33060b4affaeff2ecfe119e7e652d8824b33b44d747caa080e1313e253b11",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed remaining-distance-fraction as a fraction response to \"전체 거리와 이동한 거리를 동분모 대분수로 나타내어 남은 거리를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Fraction-particle review: this template had no pre-fix finding among the 144 fraction-particle occurrences across 10,026 generated surfaces for variants 1..9; the independent numerator-final-sound corpus remains passing. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-07",
+      "contentHash": "1512809bb2952b4277d2ab3c8ce16dabe1df0a13a0012a8d3a1e2de78ed741ed",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed missing-fraction-addend as a fraction response to \"분수 덧셈식에서 빠진 덧셈 항을 구하세요.\" Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Pre-fix finding: korean_particle — an independent audit reproduced 47 incorrect fraction-particle surfaces across six templates within 144 fraction-particle occurrences and 10,026 generated surfaces for variants 1..9. Resolution: complete simple and mixed fraction tokens now select particles from the numerator final sound, including 으로/로 and the ㄹ exception; the explicit 47-surface forbidden corpus and 144-occurrence audit pass. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-08",
+      "contentHash": "18f6796b19e74f8a269ea58d2165dac575978723b92aa1e5bf4ebffb8f974e25",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed select-fraction-situation-equation as a choice response to \"사용하고 남은 양을 나타내는 올바른 동분모 분수 식을 고르세요.\" Source decision: taskActions=model; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Fraction-particle review: this template had no pre-fix finding among the 144 fraction-particle occurrences across 10,026 generated surfaces for variants 1..9; the independent numerator-final-sound corpus remains passing. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-09",
+      "contentHash": "a051bdb60dc912c6f140183b911b6ee3b8aa325376f7acec45333ed9c1bfb514",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed denominator-addition-error as a choice response to \"분자와 분모를 모두 더한 계산의 오류를 분수 단위로 설명하세요.\" Source decision: taskActions=analyze_error+explain; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Pre-fix finding: korean_particle — an independent audit reproduced 47 incorrect fraction-particle surfaces across six templates within 144 fraction-particle occurrences and 10,026 generated surfaces for variants 1..9. Resolution: complete simple and mixed fraction tokens now select particles from the numerator final sound, including 으로/로 and the ㄹ exception; the explicit 47-surface forbidden corpus and 144-occurrence audit pass. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-frac-10",
+      "contentHash": "ce25b12703b55a2dae3b1c945e717bcdcf283ef50f7db533f27643f32ae83ad4",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed mixed-subtraction-regrouping-error as a choice response to \"분수 부분이 더 작은 대분수 뺄셈의 잘못된 풀이를 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. The earlier completed-particle boundary and connective-ending contracts remain independently covered. Pre-fix finding: korean_particle — an independent audit reproduced 47 incorrect fraction-particle surfaces across six templates within 144 fraction-particle occurrences and 10,026 generated surfaces for variants 1..9. Resolution: complete simple and mixed fraction tokens now select particles from the numerator final sound, including 으로/로 and the ㄹ exception; the explicit 47-surface forbidden corpus and 144-occurrence audit pass. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-01",
+      "contentHash": "3810749d1cbc51effe57f0b30763e67aa78e333a1a0fba8de93d38dbf49a5ad0",
+      "status": "blocked",
+      "findingCategories": [
+        "answer_exposure"
+      ],
+      "note": "The focused 11-34 values use a dynamic 20-25-unit range, 5-unit major ticks, 1-unit minor ticks, a tall plot, and an unlabeled focus guide. Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the answer_exposure defect: variants 1..9 pre-answer DOM omits answer-only text/attribute values, including point data-value, while required axis ticks remain even when one is numerically equal to the answer; revealed DOM restores point values. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-02",
+      "contentHash": "6532495fd9266c52a632e0010719e95a40ebc4ee4c8d942579b68941b3a8b4f9",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed largest-consecutive-change as a choice response to \"연속한 두 시점 사이에서 변화가 가장 큰 구간을 고르세요.\" Source decision: taskActions=interpret+compare; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-03",
+      "contentHash": "b047de22b00f93f2497e431430ded192ec3b5e4911820f806b4f0bad09355bb6",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "The decreasing series uses a plausible aquarium-water-height context. Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-04",
+      "contentHash": "f17341aadff3aa1751c304a32efd1aadb88ca1d80e52361d7c436c6815f83d6b",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed choose-line-graph-axes as a choice response to \"자료 표를 꺾은선그래프로 옮길 때 축을 바르게 설명하세요.\" Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-05",
+      "contentHash": "030a3ba57e4d5650e766ee84d9f62fc084e95757cf85258ce2adac9ac3752924",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed plot-table-value as a integer response to \"자료 표의 한 값을 그래프의 몇 눈금에 찍어야 하는지 구하세요.\" Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-06",
+      "contentHash": "7b24e22e1d6cf1350b5731323679d46a835ba80117723d968de6b515a49ce3b2",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed line-graph-range as a integer response to \"꺾은선그래프의 최댓값과 최솟값의 차를 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-07",
+      "contentHash": "e68ede58f9453638a0473d54cdc353736fa2e2f88f97340dbcc6dbba3778db9f",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "The temperature series and scale stay within a plausible classroom range. Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-08",
+      "contentHash": "33f9b0050c0f046161bb48fa6638789d33da894bd97cf7ac684a4d43ebb1c81d",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed complete-table-from-line-graph as a integer response to \"그래프를 보고 표의 빠진 값을 구하세요.\" Source decision: taskActions=interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-09",
+      "contentHash": "f2ea76c669c44ee2fca86163d64bc28103d248b0dcf51ab62c7fb9045f662d22",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "The decreasing series uses an aquarium-water-height title and table comparison. Source decision: taskActions=analyze_error+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-graph-10",
+      "contentHash": "5cf57fdcb0c6981a48b021980ed85d5b3816e34fcaf15dfc2ef1abcb06c08b89",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed compare-line-graph-scales as a choice response to \"같은 자료를 서로 다른 눈금 범위로 나타낸 두 그래프를 비교하세요.\" Source decision: taskActions=compare+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-01",
+      "contentHash": "482d8929f26ae3ac8a203910f72b83a3533771cf98802f67b9224e67d7df82f5",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed identify-perpendicular-by-right-angle as a choice response to \"두 직선의 방향 차이를 보고 관계를 고르세요.\" Source decision: taskActions=calculate+classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-02",
+      "contentHash": "442717683f1744a4c39e16186d951b4adb4015b318bb939a598c4046f254e78a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed identify-parallel-by-direction as a choice response to \"같은 방향으로 놓인 두 직선의 관계를 고르세요.\" Source decision: taskActions=classify+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-03",
+      "contentHash": "89486a5338d8d480db1d13f303b633ea116b9c3cc3a424da4580d58563b8caa6",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed count-right-angles-at-perpendicular-intersection as a integer response to \"서로 수직인 두 직선이 만드는 직각의 수를 구하세요.\" Source decision: taskActions=recognize; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-04",
+      "contentHash": "493cc99d390027a9b5149811203400812e883778201cf5a711d1cac8e504bada",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed parallel-distance-property as a choice response to \"평행한 두 직선 사이의 거리에 대한 바른 설명을 고르세요.\" Source decision: taskActions=reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-05",
+      "contentHash": "ad8c6c85166dab0fd0100f69b8fdd54c3df14b094b48981ed7f90377ec4584c3",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed map-streets-perpendicular-route as a choice response to \"지도에서 두 길의 방향 차이를 이용해 관계를 고르세요.\" Source decision: taskActions=calculate+classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-06",
+      "contentHash": "49feac85d76ca84d2e60133d5ff8dd697d74a6d838be79cdaf77a0e52d8c0f3a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed railway-tracks-parallel-safety as a choice response to \"철길 두 선의 방향과 간격을 보고 관계를 고르세요.\" Source decision: taskActions=classify+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-07",
+      "contentHash": "46124478fe38619a1d5609a3092e3f7da230a06b165a5bd01da39dd9b929c637",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed construct-parallel-through-point as a choice response to \"한 점을 지나며 주어진 직선과 평행한 직선의 방향을 고르세요.\" Source decision: taskActions=compare+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-08",
+      "contentHash": "bf757959153faa282ce50e4cd137b6b122f06bda4e7e83960f59d367c085990a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed construct-perpendicular-through-point as a choice response to \"한 점을 지나며 주어진 직선과 수직인 직선의 방향을 고르세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-09",
+      "contentHash": "b563b13855386b0f25f16f04cfa46e73e4a156d745d98551e673c57d0d5fc7d6",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed finite-segments-parallel-error as a choice response to \"두 선분을 직선으로 늘여 생각해 평행 판단의 오류를 고치세요.\" Source decision: taskActions=analyze_error+compare; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-line-10",
+      "contentHash": "3a7b6b406745d9c534681184fad52c4795753a3d21b53a433bd19be069438d55",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed shared-rotation-preserves-relation as a choice response to \"서로 수직인 두 직선을 함께 돌린 뒤의 관계를 추론하세요.\" Source decision: taskActions=reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-01",
+      "contentHash": "2741ca8bf0d038b3c7a8d285392e5433b421d1fdf658f443192a406afdec4585",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed identify-slide-from-position-change as a choice response to \"두 도형의 모양과 방향을 비교해 밀기를 찾으세요.\" Source decision: taskActions=classify; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-02",
+      "contentHash": "e8e0496a6506798d4ff1b81c7d21fc57cb8251c79fea6f4c7c1261884c18ad26",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed identify-vertical-flip as a choice response to \"기준선 양쪽의 거울 모양을 보고 이동을 고르세요.\" Source decision: taskActions=classify; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-03",
+      "contentHash": "4f5e4ce32953912200db825533a799d06809952179d675294482734bb77a024e",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed identify-quarter-turn as a choice response to \"회전 중심과 도형 방향의 변화를 보고 돌리기를 고르세요.\" Source decision: taskActions=classify; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-04",
+      "contentHash": "157d413bee9757b387d7a824d63e5a09aaeeebf97bf2d276a1696823f83fa882",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed compare-orientation-change-by-transformation as a choice response to \"도형의 방향을 좌우로 바꾸는 이동을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-05",
+      "contentHash": "5c17968a2cd90bcce80c45209c883d16da057f9979502b249a111ef7b355a2d7",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed translate-point-by-vector as a choice response to \"점을 오른쪽과 위쪽으로 민 뒤 좌표를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-06",
+      "contentHash": "8cbac9e38062fb57dde431cd5a735673a4ca321c69e75ecf642c6f0d31854e91",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed reflect-point-across-vertical-line as a choice response to \"점을 세로 기준선에 따라 뒤집은 좌표를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-07",
+      "contentHash": "0acdbddc9ab7f0775380cbc8177590e51fb768ab59a01410641e01a6c60527e9",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed rotate-point-clockwise-quarter-turn as a choice response to \"점을 중심 둘레로 시계 방향 90° 돌린 좌표를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-08",
+      "contentHash": "544b13fe2a8610196161dddab88e0088daf5cd18dca586b176269e438db35f19",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed compose-slide-then-reflection as a choice response to \"첫 이동 결과를 구한 뒤 두 번째 이동을 이어서 적용하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-09",
+      "contentHash": "5d06ada706f098aea6d4f4637c28fd403a282e3a069b588998518d0ec426b5e8",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed slide-orientation-error-analysis as a choice response to \"밀기 뒤 방향이 달라진다는 친구의 설명을 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-move-10",
+      "contentHash": "b84074c860dee7b0261652330a235e23640393e4a07630692b8a7dd7db89a26a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed double-reflection-inverse-reasoning as a choice response to \"같은 뒤집기를 두 번 했을 때 마지막 위치를 추론하세요.\" Source decision: taskActions=reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-01",
+      "contentHash": "71c64808c6e8a58008fd3b411f5db2daa94d792d77972ba8adc9329643869732",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed additive-sequence-next-term as a integer response to \"일정하게 커지는 수 배열의 다음 수를 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-02",
+      "contentHash": "c65607af2350138f537b442131bb1acdd291d963842ef52ea071c6503f668394",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed input-output-next-value as a integer response to \"대응표에서 위 수와 아래 수의 규칙을 찾아 빈칸을 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-03",
+      "contentHash": "d1a4968d957de313c879521bd6ae8268367923096a3ffbc66bfc61d28d8f204f",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed multiplication-array-next-result as a integer response to \"곱셈식 배열의 규칙을 찾아 다음 계산 결과를 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-04",
+      "contentHash": "cb320f455619ea779056e69d9550ec24438ff6b39395341b618867883904d295",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed addition-array-next-result as a integer response to \"두 덧셈 항이 함께 변하는 배열의 다음 계산 결과를 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-05",
+      "contentHash": "687101ad6a4373774960a001791d9da76549ad98fbc044f093ece947ae1f5cdb",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed growing-stage-far-term as a integer response to \"단계마다 일정하게 늘어나는 모형의 먼 단계 개수를 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-06",
+      "contentHash": "1d15353d4c27d29191674c8299c1072183d615299e24fc49712ca922919a8d65",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed price-correspondence-far-value as a integer response to \"물건 수와 전체 금액의 표에서 목표 개수의 금액을 구하세요.\" Source decision: taskActions=calculate+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-07",
+      "contentHash": "b2f7a3ca874887328d6a8c0bd4e25b6b1134151f70177cd6f0f0f14ac4714157",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed multiplication-array-far-row as a integer response to \"곱셈식 배열에서 여러 칸 뒤 계산 결과를 규칙으로 구하세요.\" Source decision: taskActions=calculate+reason; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-08",
+      "contentHash": "a1067fb0de246f17d0a62533ebe77a82bcbdccb4578a9b98901b75819d937ec3",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed select-next-calculation-row as a choice response to \"계산식 배열의 규칙을 모두 지키는 다음 식을 고르세요.\" Source decision: taskActions=interpret+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-09",
+      "contentHash": "50c689183b4a7e11d8ef142297b0e394c8cc50a628b04d8b6209d3d827ff5d60",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "The correspondence rule is stated as multiplication followed by addition, with number particles normalized. Source decision: taskActions=analyze_error+calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-pat-10",
+      "contentHash": "a752ddba8c3d326059c7e2103422d8c515583c8f9c58885f4b3b792a3f8e3447",
+      "status": "blocked",
+      "findingCategories": [
+        "wording"
+      ],
+      "note": "Reviewed two-part-calculation-pattern-error as a choice response to \"곱하는 수와 더하는 수가 함께 변하는 계산식 배열의 잘못된 다음 식을 고치세요.\" Source decision: taskActions=analyze_error+interpret; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Resolved the reproduced numeric-particle wording defect: the 24-template/127-surface regression now preserves numeric copular connectives 이므로/이면, while an independent standalone-particle corpus covers 이/가, 을/를, 은/는, 과/와, and 으로/로 including ㄹ exceptions, decimals, and units. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-01",
+      "contentHash": "acf4c817c89461867fc5bbf94e1b9ed1ea1c1b2d5d7a06e7de1b69edae09e049",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed name-polygon-from-side-count as a choice response to \"변의 수에서 다각형의 이름을 고르세요.\" Source decision: taskActions=recognize+classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-02",
+      "contentHash": "2b3d40ff5e0e213479fb8112b2b2c5511b1404a5e18d807f733e60bf05758d5a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed regular-polygon-definition as a choice response to \"정다각형이 되기 위한 변과 각의 조건을 고르세요.\" Source decision: taskActions=classify+explain; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-03",
+      "contentHash": "350800c37d6242c5aff79fb10b0c2789e4270fdb87a7d8b5df022122bff40ff9",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed name-regular-polygon as a choice response to \"정다각형의 변 수를 보고 정확한 이름을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-04",
+      "contentHash": "1759c57dc03b972c5d380863533b7648ef520c8954004704e733c8f603e1aa6a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed diagonals-from-one-vertex as a choice response to \"한 꼭짓점에서 그을 수 있는 대각선 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-05",
+      "contentHash": "a2af12c64b5bb88ea55b9f9bf75a1212077499335449e4a270c596d3afd87e61",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed regular-polygon-perimeter as a integer response to \"한 변의 길이와 변의 수로 정다각형의 둘레를 구하세요.\" Source decision: taskActions=calculate; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-06",
+      "contentHash": "347a1e7ac5df95e4c0e11a884591418d278f848d1f5115f40e0cf844ef2f123b",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed compose-two-triangles as a choice response to \"같은 삼각형 두 개를 붙여 만든 도형을 고르세요.\" Source decision: taskActions=classify; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-07",
+      "contentHash": "5e029239dd2897f78029c8124ac171eac84f5cc6364b2cd8052e41cceeeace4a",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed fill-rectangle-with-squares as a choice response to \"정사각형 격자의 행과 열에서 조각 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-08",
+      "contentHash": "360becf2a18737101e22ebaaaaee00321801e3f6422d9bd37a8370553c7ab103",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed fill-parallelogram-with-triangles as a choice response to \"번갈아 놓인 삼각형 조각 수를 구하세요.\" Source decision: taskActions=calculate; supportTool=grid; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-09",
+      "contentHash": "6154446f5298d799f9945043b8161ed4b744ef7bbde3969cf43aedc52a890b4d",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed equal-sides-only-regular-error as a choice response to \"변만 같으면 정다각형이라는 주장의 빠진 조건을 찾으세요.\" Source decision: taskActions=analyze_error+classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-poly-10",
+      "contentHash": "9f280a54c5b625714885fff8f6ec9e23eb4366f1ef368936b431d0c32a5fe497",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed regular-pentagon-tiling-gap as a choice response to \"정오각형 반복 배열의 빈틈을 보고 바른 설명을 고르세요.\" Source decision: taskActions=reason+interpret; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-01",
+      "contentHash": "d20fe87f010b995b05f5e2a392fe81b83aed17487f0cd613246933ac69c24620",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed rectangle-from-four-right-angles as a choice response to \"네 각이 직각인 사각형의 이름을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-02",
+      "contentHash": "d38378832ffa36c88dbc95f8e21f5f9653b56c7728d186ea55add2b749252fdc",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed square-from-equal-sides-right-angles as a choice response to \"네 변과 네 각의 성질로 정사각형을 알아봐요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-03",
+      "contentHash": "ea9539efb683727a3398ac34ae833dabfce4603ff811366a7a95757591c30e76",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed trapezoid-from-one-parallel-pair as a choice response to \"한 쌍의 평행한 변을 보고 사각형의 이름을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-04",
+      "contentHash": "d7635dfd9de98cf76b5f1ae4487dfa7ea4a8bfeb0aec5d70cd4d2fa9b3cff2e0",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed parallelogram-from-two-parallel-pairs as a choice response to \"두 쌍의 평행한 변을 보고 사각형의 이름을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-05",
+      "contentHash": "8e03587ec9a24af49553b8a9202ee5bc55389f004b742c2e8f606a542053e1c3",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed rectangular-frame-properties as a choice response to \"액자 틀의 각과 변을 보고 알맞은 분류를 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-06",
+      "contentHash": "9c3d62cb27199d89ae0775b139ce6c9aac8a8f2ba31b7b123685c64f9cf62adf",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed rhombus-from-four-equal-sides as a choice response to \"네 변의 길이 표시를 보고 마름모를 알아봐요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-07",
+      "contentHash": "285098a1aa174de57a54e3f379eabaaa0b49aa30876761da5392ed28f9ea7aff",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed square-overlapping-classifications as a choice response to \"정사각형에 겹쳐 적용되는 사각형의 성질을 고르세요.\" Source decision: taskActions=classify+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-08",
+      "contentHash": "604de13e1a1fbc5aeb58db76963a2c2027aadc3caed31c535746a8be91ce8cbe",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed parallelogram-one-right-angle as a choice response to \"평행사변형의 한 직각에서 전체 모양을 추론하세요.\" Source decision: taskActions=classify+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-09",
+      "contentHash": "56d31cff6eeacb5eb2fa65492302fed7e80b400cdc7628727a3ee949dbcc0963",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed opposite-sides-equal-rectangle-error as a choice response to \"마주 보는 변이 같으면 직사각형이라는 주장을 고치세요.\" Source decision: taskActions=analyze_error+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-quad-10",
+      "contentHash": "db301918884bfa708a4835ec7444497a613ed66b559f37d4865f873c3785cfc7",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed combine-rhombus-rectangle-conditions as a choice response to \"네 변이 같고 네 각이 직각인 두 조건을 결합하세요.\" Source decision: taskActions=classify+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-01",
+      "contentHash": "b663ad78232e27e4a316513635f3d4bae64ca1ebb719a16e98e1e6edc1b717bc",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed equilateral-from-three-equal-sides as a choice response to \"세 변의 길이를 비교해 삼각형의 이름을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-02",
+      "contentHash": "e385d1de8dec245efd94094318c1c7044b0535cf8ae3985e20b55646a2fb1b58",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed isosceles-from-two-equal-sides as a choice response to \"같은 두 변을 찾아 삼각형의 이름을 고르세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-03",
+      "contentHash": "f1b4dc2dde2b88f28ac47dd612596724e17850982341a6220419bae21006a300",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "The answer follows the given right-angle mark; no measurement action, protractor support, or Pythagorean argument is claimed. Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-04",
+      "contentHash": "6cbacf307f9daaabbe3f79e1d758fcb3b4e971543e4795596788f0b96560f37c",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed obtuse-triangle-from-longest-side as a choice response to \"가장 큰 각을 살펴 예각·직각·둔각삼각형을 구별하세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-05",
+      "contentHash": "3b91d50b92f4d461f2b184b844374fc94e637f9cd8ea29b9dc25ed6496bbe211",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed acute-triangle-park-sign as a choice response to \"표지판의 세 각을 살펴 삼각형을 분류하세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-06",
+      "contentHash": "d5b22f1e943e743988ac8cbcfb097587d9d56996cee7270b11227fb287bc408e",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed classify-isosceles-right-triangle as a choice response to \"같은 두 변과 직각을 모두 이용해 두 가지 이름을 고르세요.\" Source decision: taskActions=classify+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-07",
+      "contentHash": "7e1a7306adc8915387203b3adba1ddc775b394736dfb401450c1e9757734584b",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed isosceles-roof-frame as a choice response to \"지붕 골조의 두 빗변 길이를 비교해 분류하세요.\" Source decision: taskActions=classify; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-08",
+      "contentHash": "dded68c572d7c4de1a3534cf293abf6a6ea361c4c00b3cd7592e5db723c5e65b",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed construct-equilateral-with-equal-radius as a choice response to \"세 변을 같은 길이로 만드는 정삼각형 작도 방법을 고르세요.\" Source decision: taskActions=classify+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-09",
+      "contentHash": "317cee586667903f8d14d66ff4afe8fc6e98fe3c27935b235a9eaaf17b9e1ba2",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed isosceles-all-angles-equal-error as a choice response to \"두 변이 같으면 세 각도 모두 같다는 오류를 고치세요.\" Source decision: taskActions=analyze_error+explain; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    },
+    {
+      "reviewId": "4:mission:g4-tri-10",
+      "contentHash": "055243153094fe3bf7869489f1a13bc834aea26effa3ab961a5f531ec648086f",
+      "status": "blocked",
+      "findingCategories": [],
+      "note": "Reviewed classify-isosceles-obtuse-triangle as a choice response to \"같은 두 변과 가장 큰 각을 모두 근거로 두 가지 이름을 고르세요.\" Source decision: taskActions=classify+reason; supportTool=none; visualSemantics=quantitative. Generated prompt, hints, solution steps, and choices were re-read across variants 1..9; deterministic math and answer audits pass. Numeric-particle behavior is covered by the shared independent completed-particle boundary corpus. Browser evidence remains separate and blocked for pre-answer, hint, revealed, 390x844 mobile, and 1024x768 tablet states.",
+      "evidence": {
+        "editorialRead": true,
+        "variantAudit": true,
+        "preAnswer": false,
+        "hint": false,
+        "revealed": false,
+        "mobile": false,
+        "tablet": false,
+        "artifacts": []
+      }
+    }
+  ]
+}

@@ -1227,7 +1227,10 @@ function LineChartSvg({
   yStep,
   yMinorStep = 0,
   focusIndex = -1,
+  focusGuide = false,
+  spaciousScale = false,
   compact = false,
+  revealPointValues = false,
 }: {
   labels: string[]
   values: number[]
@@ -1238,14 +1241,17 @@ function LineChartSvg({
   yStep: number
   yMinorStep?: number
   focusIndex?: number
+  focusGuide?: boolean
+  spaciousScale?: boolean
   compact?: boolean
+  revealPointValues?: boolean
 }) {
   const width = 320
-  const height = compact ? 210 : 235
+  const height = compact ? 210 : spaciousScale ? 330 : 235
   const left = 52
   const right = 298
-  const top = 38
-  const bottom = compact ? 170 : 192
+  const top = spaciousScale ? 42 : 38
+  const bottom = compact ? 170 : spaciousScale ? 286 : 192
   const safeRange = Math.max(1, yMax - yMin)
   const xFor = (index: number) => labels.length <= 1
     ? (left + right) / 2
@@ -1280,6 +1286,29 @@ function LineChartSvg({
       <text x="12" y={top - 6} fill="#475569" fontSize="9" fontWeight="800">{unitLabel}</text>
       <line x1={left} y1={top} x2={left} y2={bottom} stroke="#64748b" strokeWidth="2" />
       <line x1={left} y1={bottom} x2={right} y2={bottom} stroke="#64748b" strokeWidth="2" />
+      {focusGuide && focusIndex >= 0 && focusIndex < values.length && (
+        <>
+          <line
+            data-testid="grade4-line-focus-guide"
+            x1={left}
+            y1={yFor(values[focusIndex])}
+            x2={xFor(focusIndex)}
+            y2={yFor(values[focusIndex])}
+            stroke="#f97316"
+            strokeWidth="2"
+            strokeDasharray="5 4"
+          />
+          <line
+            data-testid="grade4-line-focus-axis-tick"
+            x1={left - 6}
+            y1={yFor(values[focusIndex])}
+            x2={left + 6}
+            y2={yFor(values[focusIndex])}
+            stroke="#f97316"
+            strokeWidth="3"
+          />
+        </>
+      )}
       {values.slice(1).map((value, index) => (
         <line
           key={`segment-${index}`}
@@ -1297,7 +1326,7 @@ function LineChartSvg({
         <circle
           key={`point-${labels[index]}`}
           data-testid="grade4-line-point"
-          data-value={value}
+          data-value={revealPointValues ? value : undefined}
           cx={xFor(index)}
           cy={yFor(value)}
           r={focusIndex === index ? 7 : 5}
@@ -1324,7 +1353,7 @@ function LineChartSvg({
   )
 }
 
-function LineGraphModel({ mission }: { mission: Grade4Mission }) {
+function LineGraphModel({ mission, showAnswer }: { mission: Grade4Mission; showAnswer?: boolean }) {
   const labels = csvLabels(mission.visualConfig.labelsCsv)
   const values = csvNumbers(mission.visualConfig.valuesCsv)
   const sourceValues = csvNumbers(mission.visualConfig.tableValuesCsv)
@@ -1338,6 +1367,8 @@ function LineGraphModel({ mission }: { mission: Grade4Mission }) {
   const hiddenIndex = mission.visualConfig.hiddenIndex === undefined ? -1 : number(mission.visualConfig.hiddenIndex)
   const showTable = Boolean(mission.visualConfig.showTable)
   const compareScale = Boolean(mission.visualConfig.compareScale)
+  const focusGuide = Boolean(mission.visualConfig.focusGuide)
+  const spaciousScale = Boolean(mission.visualConfig.spaciousScale)
 
   return (
     <div data-testid="grade4-visual-line-graph-model" className="space-y-3 overflow-hidden rounded-3xl border-2 border-[#c7d2fe] bg-[#eef2ff] p-3">
@@ -1352,7 +1383,7 @@ function LineGraphModel({ mission }: { mission: Grade4Mission }) {
       )}
       {compareScale ? (
         <div data-testid="grade4-line-scale-comparison" className="grid gap-3">
-          <LineChartSvg labels={labels} values={values} title={`${title} · 넓은 눈금`} unitLabel={unitLabel} yMin={yMin} yMax={yMax} yStep={yStep} yMinorStep={yMinorStep} compact />
+          <LineChartSvg labels={labels} values={values} title={`${title} · 넓은 눈금`} unitLabel={unitLabel} yMin={yMin} yMax={yMax} yStep={yStep} yMinorStep={yMinorStep} compact revealPointValues={showAnswer} />
           <LineChartSvg
             labels={labels}
             values={values}
@@ -1362,10 +1393,24 @@ function LineGraphModel({ mission }: { mission: Grade4Mission }) {
             yMax={number(mission.visualConfig.compareYMax)}
             yStep={number(mission.visualConfig.compareYStep)}
             compact
+            revealPointValues={showAnswer}
           />
         </div>
       ) : (
-        <LineChartSvg labels={labels} values={values} title={title} unitLabel={unitLabel} yMin={yMin} yMax={yMax} yStep={yStep} yMinorStep={yMinorStep} focusIndex={focusIndex} />
+        <LineChartSvg
+          labels={labels}
+          values={values}
+          title={title}
+          unitLabel={unitLabel}
+          yMin={yMin}
+          yMax={yMax}
+          yStep={yStep}
+          yMinorStep={yMinorStep}
+          focusIndex={focusIndex}
+          focusGuide={focusGuide}
+          spaciousScale={spaciousScale}
+          revealPointValues={showAnswer}
+        />
       )}
     </div>
   )
@@ -1438,7 +1483,7 @@ export default function Grade4MissionVisual({ mission, showAnswer = false }: { m
   if (mission.visualModel === 'tiling-model') return <TilingModel mission={mission} />
   if (mission.visualModel === 'angle-model') return <AngleModel mission={mission} />
   if (mission.visualModel === 'angle-sum-model') return <AngleSumModel mission={mission} />
-  if (mission.visualModel === 'line-graph-model') return <LineGraphModel mission={mission} />
+  if (mission.visualModel === 'line-graph-model') return <LineGraphModel mission={mission} showAnswer={showAnswer} />
   if (mission.visualModel === 'data-table-model') return <DataTableModel mission={mission} />
   return <Context mission={mission} />
 }
