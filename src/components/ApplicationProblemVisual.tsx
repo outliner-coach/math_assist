@@ -46,14 +46,14 @@ function primitiveClassName(primitive: ApplicationVisualPrimitive): string {
 }
 
 function isCompactDiagram(scene: Extract<ValidatedApplicationVisualScene, { surface: 'diagram' }>): boolean {
-  return scene.viewBox.width < 48 || scene.viewBox.height < 32
+  return scene.viewBox.width <= 32 && scene.viewBox.height <= 32
 }
 
 function diagramLabelFontSize(
   scene: Extract<ValidatedApplicationVisualScene, { surface: 'diagram' }>,
 ): number {
-  if (isCompactDiagram(scene)) return Math.min(1, scene.viewBox.width / 20)
-  return Math.min(14, scene.viewBox.width / 30)
+  if (isCompactDiagram(scene)) return Math.min(1.4, Math.max(1, scene.viewBox.width / 20))
+  return Math.min(20, Math.max(13, scene.viewBox.width / 18))
 }
 
 function renderPrimitive(primitive: ApplicationVisualPrimitive): ReactElement {
@@ -161,6 +161,7 @@ function ApplicationDiagram({
             key={label.key}
             className={`application-visual__label application-visual__label--${label.styleRole}`}
             data-application-visual-label={label.key}
+            data-application-visual-targets-diagram-primitive={label.targetKey ? 'true' : undefined}
             fontSize={fontSize}
             x={compact ? scene.viewBox.width / 2 : label.x}
             y={compact ? scene.viewBox.height + 1 + lineHeight * (labelIndex + 0.5) : label.y}

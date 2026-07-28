@@ -141,3 +141,56 @@
 - `npm run validate:application-packs` — 9 families, 0 errors.
 - `npm run audit:applications` — 0 errors.
 - `npm run lint`, `npm run tdd:guard`, and `git diff --check` — passed.
+
+## Fix round 3 — all diagram label readability
+
+### RED evidence
+
+- Replaced the overlap-only browser assertion with all seven registered diagram
+  families (three Grade 2, three Grade 5, and one Grade 6) in both
+  pre-answer/revealed-answer states at 390×844 and 1024×768.
+- Before the font adjustment, Chromium measured the first Grade 2 label at
+  `7.73px` CSS-equivalent against the new `10px` minimum. The first RED run
+  failed at that assertion.
+- After the initial size increase, the browser found a full cover ratio for
+  the Grade 6 part-whole label that is intentionally centered in its modeled
+  bar segment. The test was made precise: only labels explicitly associated
+  with a diagram primitive may occupy that primitive; every other label keeps
+  the no-severe-cover (`< 0.2`) rule. This revised test remained RED until the
+  renderer emitted the non-sensitive targeted-label marker.
+
+### Change
+
+- The compact callout path now requires *both* viewBox dimensions to be at
+  most `32`, so ordinary narrow or short diagrams do not accidentally gain a
+  callout region.
+- Compact scenes use `1..1.4` scene units. Non-compact diagrams use a bounded
+  `13..20` scene-unit label size derived from viewBox width; this restores
+  readable Grade 2 and Grade 6 text without changing primitive coordinates,
+  areas, topology, or answer disclosure.
+- The browser test now checks all registered diagram states for CSS-equivalent
+  font size (>=10px), actual text-box height (>=12px), viewBox containment,
+  label overlap (<0.2), and non-targeted diagram cover (<0.2). Before states
+  exclude answer-emphasis primitives; revealed states contain no standalone
+  `?` label.
+
+### Actual Chromium metrics
+
+All ranges include every diagram label and both before/after states.
+
+| Viewport | Grade | CSS font range | Text bbox-height range |
+| --- | --- | --- | --- |
+| 390×844 | 2 | 12.89–13.17px | 15–16px |
+| 390×844 | 5 | 11.60–13.65px | 14–16px |
+| 390×844 | 6 | 12.89px | 15px |
+| 1024×768 | 2 | 18.33–18.73px | 21–23px |
+| 1024×768 | 5 | 16.50–19.41px | 20–23px |
+| 1024×768 | 6 | 18.33px | 21px |
+
+### Verification
+
+- `npx vitest run src/components/ApplicationProblemVisual.test.ts src/lib/problem-review.test.ts src/lib/application-problem-quality-audit.test.ts src/lib/application-problems/quality-evidence.test.ts` — 36 passed.
+- `npx playwright test e2e/problem-review.spec.ts --project=chromium --workers=1` — 4 passed.
+- `npm run validate:application-packs` — 9 families, 0 errors.
+- `npm run audit:applications` — 0 errors.
+- `npm run lint`, `npm run tdd:guard`, and `git diff --check` — passed.
