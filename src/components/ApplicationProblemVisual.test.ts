@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 
 import { parseApplicationVisualSceneV1 } from '../lib/application-problems/visual-model'
 import { validateApplicationVisualScene } from '../lib/application-problems/visual-validator'
+import { getApplicationProblemReviewData } from '../lib/problem-review'
 import { diagramScene } from '../lib/application-problems/visual-model.test'
 import ApplicationProblemVisual from './ApplicationProblemVisual'
 
@@ -88,5 +89,27 @@ describe('ApplicationProblemVisual', () => {
     expect(hidden).not.toContain('>5</td>')
     expect(revealed).toContain('>5</td>')
     expect(revealed).not.toContain('>?</td>')
+  })
+
+  it('keeps an answer-only label out of the actual quantitative review representative until reveal', () => {
+    const row = getApplicationProblemReviewData().rows.find((entry) => (
+      entry.familyId === 'g5-perimeter-boundary-rebuild'
+    ))
+    const revealedScene = row?.visual.after.scene
+    if (!row || !revealedScene || revealedScene.surface !== 'diagram') {
+      throw new Error('expected the registered Grade 5 quantitative representative')
+    }
+    const answerOnlyLabel = revealedScene.labels.find((label) => label.content.after)?.content.after?.text
+    if (!answerOnlyLabel) throw new Error('expected an answer-only visual label')
+
+    const hidden = renderToStaticMarkup(
+      createElement(ApplicationProblemVisual, { scene: row.visual.before.scene, showAnswer: false }),
+    )
+    const revealed = renderToStaticMarkup(
+      createElement(ApplicationProblemVisual, { scene: row.visual.after.scene, showAnswer: true }),
+    )
+
+    expect(hidden).not.toContain(answerOnlyLabel)
+    expect(revealed).toContain(answerOnlyLabel)
   })
 })

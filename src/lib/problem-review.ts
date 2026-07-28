@@ -3,17 +3,12 @@ import g5GeometryPack from '../../public/data/application-problems/packs/unit-5-
 import g6RatioPack from '../../public/data/application-problems/packs/unit-6-1-ratio.json'
 
 import { parseUnitKnowledgePackV1, type ApplicationProblemFamilyV1 } from './application-problems/contracts'
-import { G2_LENGTH_PROOF_AUTHORITY_ENTRIES } from './application-problems/families/g2-length-proof-registration'
-import { G5_GEOMETRY_PROOF_AUTHORITY_SOURCES_V1 } from './application-problems/families/grade5-geometry-proof-registration'
-import { G6_RATIO_PROOF_AUTHORITIES } from './application-problems/families/g6-ratio-proof'
-import { generateApplicationProblem } from './application-problems/generator'
+import { getProductionApplicationFamilyEvidence } from './application-problems/quality-evidence'
 import { APPLICATION_PROBLEM_REGISTRY_V1 } from './application-problems/registered-families'
 import {
   resolveApplicationVisual,
   type ValidatedApplicationVisualScene,
 } from './application-problems/visual-validator'
-
-const REVIEW_SEED = 1700
 
 type ReviewGrade = 2 | 5 | 6
 
@@ -25,7 +20,10 @@ interface ReviewOption {
 interface ProofEvidence {
   mode: ApplicationProblemFamilyV1['proofMode']
   expectedCount: number
-  authorityId: string
+  authorityId: string | null
+  proven: boolean
+  checkedCount: number
+  issues: string[]
 }
 
 export interface ProblemReviewRow {
@@ -55,6 +53,7 @@ export interface ProblemReviewRow {
   automaticChecks: {
     deterministicSample: boolean
     proof: ProofEvidence
+    audit: { status: 'passed' | 'failed'; issues: string[] }
     visual: { status: 'ready'; resolver: 'resolveApplicationVisual' }
   }
 }
@@ -81,36 +80,12 @@ const PACKS = [
   parseUnitKnowledgePackV1(g6RatioPack),
 ]
 
-const proofEvidenceByFamily = new Map<string, ProofEvidence>([
-  ...G2_LENGTH_PROOF_AUTHORITY_ENTRIES.map((authority) => [
-    `${authority.familyId}@${authority.familyVersion}`,
-    {
-      mode: authority.mode,
-      expectedCount: authority.manifest.expectedCount,
-      authorityId: authority.manifest.authorityId,
-    },
-  ] as const),
-  ...G5_GEOMETRY_PROOF_AUTHORITY_SOURCES_V1.map((authority) => [
-    `${authority.familyId}@${authority.familyVersion}`,
-    {
-      mode: authority.mode,
-      expectedCount: authority.expectedCount,
-      authorityId: authority.authorityId,
-    },
-  ] as const),
-  ...G6_RATIO_PROOF_AUTHORITIES.map((authority) => [
-    `${authority.familyId}@${authority.familyVersion}`,
-    {
-      mode: authority.mode,
-      expectedCount: authority.manifest.expectedCount,
-      authorityId: authority.manifest.authorityId,
-    },
-  ] as const),
-])
-
-function stableJson(value: unknown): string {
-  return JSON.stringify(value)
-}
+const productionEvidence = getProductionApplicationFamilyEvidence()
+const evidenceByFamily = new Map(productionEvidence.rows.map((evidence) => [evidence.key, evidence]))
+const snapshotByFamily = new Map(productionEvidence.generatedSnapshots.map((snapshot) => [
+  `${snapshot.family.familyId}@${snapshot.family.version}`,
+  snapshot,
+]))
 
 function getPack(family: ApplicationProblemFamilyV1) {
   const pack = PACKS.find((candidate) => candidate.packId === family.packId)
@@ -119,23 +94,22 @@ function getPack(family: ApplicationProblemFamilyV1) {
 }
 
 function getProofEvidence(family: ApplicationProblemFamilyV1): ProofEvidence {
-  const evidence = proofEvidenceByFamily.get(`${family.familyId}@${family.version}`)
+  const evidence = evidenceByFamily.get(`${family.familyId}@${family.version}`)
   if (!evidence) throw new Error(`Missing proof authority for ${family.familyId}@${family.version}`)
-  if (evidence.mode !== family.proofMode) {
+  if (evidence.proof.mode !== family.proofMode) {
     throw new Error(`Proof mode mismatch for ${family.familyId}@${family.version}`)
   }
-  return evidence
+  return evidence.proof
 }
 
 function makeOptions(values: Iterable<string>): ReviewOption[] {
-  return [...new Set(values)]
+  return Array.from(new Set(values))
     .sort((left, right) => left.localeCompare(right, 'ko'))
     .map((value) => ({ value, label: value }))
 }
 
 function toReviewRow(
   entry: (typeof APPLICATION_PROBLEM_REGISTRY_V1.entries)[number],
-  index: number,
 ): ProblemReviewRow {
   if (entry.runtime.kind !== 'deterministic-generator') {
     throw new Error(`Unsupported review runtime: ${entry.family.familyId}@${entry.family.version}`)
@@ -143,15 +117,10 @@ function toReviewRow(
 
   const family = entry.family
   const pack = getPack(family)
-  const input = {
-    family,
-    generator: entry.runtime.generator,
-    packVersion: entry.runtime.generator.packVersion,
-    seed: REVIEW_SEED + index,
-    variantIndex: 0,
-  }
-  const problem = generateApplicationProblem(input)
-  const repeat = generateApplicationProblem(input)
+  const evidence = evidenceByFamily.get(`${family.familyId}@${family.version}`)
+  const snapshot = snapshotByFamily.get(`${family.familyId}@${family.version}`)
+  if (!evidence || !snapshot) throw new Error(`Missing production evidence for ${family.familyId}@${family.version}`)
+  const problem = snapshot.first
   const visual = resolveApplicationVisual(problem.visual)
   if (visual.status !== 'ready') {
     throw new Error(`Registered visual resolver did not prepare ${family.familyId}@${family.version}`)
@@ -181,7 +150,7 @@ function toReviewRow(
     packId: family.packId,
     cognitiveDomain: family.cognitiveDomain,
     reasoningPattern: family.reasoningPattern,
-    standards: [...problem.curriculumCodes],
+    standards: Array.from(problem.curriculumCodes),
     proofMode: family.proofMode,
     releaseStatus: family.releaseStatus,
     prompt: problem.prompt,
@@ -198,8 +167,9 @@ function toReviewRow(
       after: { scene: visual.scene, showAnswer: true },
     },
     automaticChecks: {
-      deterministicSample: stableJson(problem) === stableJson(repeat),
+      deterministicSample: evidence.deterministicSample,
       proof: getProofEvidence(family),
+      audit: evidence.audit,
       visual: { status: 'ready', resolver: 'resolveApplicationVisual' },
     },
   }
@@ -211,7 +181,7 @@ export function getApplicationProblemReviewData(): ApplicationProblemReviewData 
   return {
     summary: { totalRows: rows.length },
     filters: {
-      grades: [...new Set(rows.map((row) => row.grade))].sort((left, right) => left - right),
+      grades: Array.from(new Set(rows.map((row) => row.grade))).sort((left, right) => left - right),
       units: makeOptions(rows.map((row) => row.unitId)),
       families: makeOptions(rows.map((row) => row.familyId)),
       versions: makeOptions(rows.map((row) => String(row.version))),

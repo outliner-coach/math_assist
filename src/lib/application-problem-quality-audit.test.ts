@@ -146,11 +146,15 @@ describe('application problem quality audit', () => {
   it('materializes actual production evidence for every registered family and session contract', () => {
     const input = loadProductionApplicationProblemQualityInput()
 
+    const report = auditApplicationProblemQuality(input)
+
     expect(input.generatedSnapshots).toHaveLength(input.families.length)
     expect(input.proofReports).toHaveLength(input.families.length)
     expect(input.oracleResults).toHaveLength(input.families.length)
     expect(input.visualResults).toHaveLength(input.families.length)
     expect(input.answerExposureResults).toHaveLength(input.families.length)
+    expect(report.familyEvidence).toHaveLength(input.families.length)
+    expect(report.familyEvidence.every((evidence: { status: string }) => evidence.status === 'passed')).toBe(true)
     expect(input.sessionContracts).toMatchObject([
       { grade: 2, storageKey: 'mathAssist_grade2Progress', legacyCount: 144 },
       { grade: 5, storageKey: 'mathAssist_currentSession', legacyCount: 10 },

@@ -14,6 +14,8 @@ test('내부 검수 화면은 세 학년 family와 읽기 전용 검수 근거�
 
   await expect(page.getByTestId('review-problem-card')).toHaveCount(9)
   await expect(page.getByText('자동 검사 근거').first()).toBeVisible()
+  await expect(page.getByText('증명 실행: 통과').first()).toBeVisible()
+  await expect(page.getByText('감사 결과: 통과').first()).toBeVisible()
   await expect(page.getByTestId('review-visual-before').first()).toBeVisible()
   await expect(page.getByTestId('review-visual-after').first()).toBeVisible()
 })

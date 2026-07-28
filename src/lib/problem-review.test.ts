@@ -8,7 +8,7 @@ describe('getApplicationProblemReviewData', () => {
 
     expect(data.summary.totalRows).toBe(9)
     expect(new Set(data.rows.map((row) => row.familyId)).size).toBe(9)
-    expect([...new Set(data.rows.map((row) => row.grade))].sort()).toEqual([2, 5, 6])
+    expect(Array.from(new Set(data.rows.map((row) => row.grade))).sort()).toEqual([2, 5, 6])
   })
 
   it('derives every filter option from the registered review rows', () => {
@@ -42,7 +42,10 @@ describe('getApplicationProblemReviewData', () => {
       expect(row.hintSteps.length).toBeGreaterThan(0)
       expect(row.misconceptions.length).toBeGreaterThan(0)
       expect(row.automaticChecks.deterministicSample).toBe(true)
+      expect(row.automaticChecks.proof.proven).toBe(true)
       expect(row.automaticChecks.proof.expectedCount).toBeGreaterThan(0)
+      expect(row.automaticChecks.proof.issues).toEqual([])
+      expect(row.automaticChecks.audit.status).toBe('passed')
       expect(row.automaticChecks.visual.status).toBe('ready')
     })
   })

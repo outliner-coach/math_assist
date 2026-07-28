@@ -146,9 +146,13 @@ function ProblemCard({ row }: { row: ProblemReviewRow }) {
 
       <DetailSection title="자동 검사 근거">
         <ul className="space-y-1">
+          <li>감사 결과: {row.automaticChecks.audit.status === 'passed' ? '통과' : '실패'}</li>
           <li>결정적 생성 재현: {row.automaticChecks.deterministicSample ? '일치' : '불일치'}</li>
           <li>시각 해석: {row.automaticChecks.visual.resolver} → {row.automaticChecks.visual.status}</li>
-          <li>증명 등록: {row.automaticChecks.proof.authorityId} · {row.automaticChecks.proof.mode} · {row.automaticChecks.proof.expectedCount}건</li>
+          <li>증명 실행: {row.automaticChecks.proof.proven ? '통과' : '실패'} · {row.automaticChecks.proof.checkedCount}/{row.automaticChecks.proof.expectedCount}건 · {row.automaticChecks.proof.mode}</li>
+          {row.automaticChecks.proof.authorityId && <li>증명 권한: {row.automaticChecks.proof.authorityId}</li>}
+          {row.automaticChecks.proof.issues.map((issue) => <li key={issue} className="text-rose-700">증명 이슈: {issue}</li>)}
+          {row.automaticChecks.audit.issues.map((issue) => <li key={issue} className="text-rose-700">감사 이슈: {issue}</li>)}
         </ul>
       </DetailSection>
     </article>

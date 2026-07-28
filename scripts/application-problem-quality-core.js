@@ -204,6 +204,10 @@ function checkRegistries(input, familyByKey, errors) {
 function checkEvidence(input, errors) {
   const families = Array.isArray(input.validFamilies) ? input.validFamilies : []
   const authorities = Array.isArray(input.proofAuthorities) ? input.proofAuthorities : []
+  const sharedEvidenceByFamily = new Map((input.familyEvidence ?? []).map((evidence) => [
+    `${evidence.familyId}@${evidence.version}`,
+    evidence,
+  ]))
   for (const family of families) {
     const authority = authorities.find((candidate) => candidate.familyId === family.familyId && candidate.familyVersion === family.version)
     if (!authority || authority.mode !== family.proofMode || !Number.isSafeInteger(authority.expectedCount) || authority.expectedCount < 1) {
@@ -234,7 +238,14 @@ function checkEvidence(input, errors) {
       errors.push(issue('APQ_GENERATED_MISCONCEPTION', 'generated distractor or hints do not match the family misconception contract', { family: snapshot.family, seed: snapshot.seed }))
     }
   }
-  for (const proof of input.proofReports ?? []) {
+  const proofReportsByFamily = new Map((input.proofReports ?? []).map((proof) => [familyKey(proof.family), proof]))
+  for (const family of families) {
+    const sharedEvidence = sharedEvidenceByFamily.get(familyKey(family))
+    const registeredProof = proofReportsByFamily.get(familyKey(family))
+    const proof = sharedEvidence
+      ? { family, ...sharedEvidence.proof }
+      : registeredProof
+    if (!proof) continue
     if (proof.mode !== proof.family?.proofMode) {
       errors.push(issue('APQ_PROOF_MODE', 'proof mode cannot substitute for the family-declared mode', { family: proof.family }))
     }
@@ -348,6 +359,7 @@ function auditApplicationProblemQuality(input) {
       errorCount: errors.length,
     },
     packReports: buildPackReports(packs, validFamilies),
+    familyEvidence: input?.familyEvidence ?? [],
     errors,
   }
 }
@@ -364,75 +376,6 @@ function loadTypeScriptModule(relativePath) {
     if (previous) require.extensions['.ts'] = previous
     else delete require.extensions['.ts']
   }
-}
-
-function proofCases(proof) {
-  return (proof?.domain?.cases ?? []).flatMap((entry) => (
-    (proof?.domain?.variantIndexes ?? []).map((variantIndex) => ({
-      caseId: entry.caseId,
-      seed: entry.seed,
-      variantIndex,
-    }))
-  ))
-}
-
-function normalizeOracleAnswer(value) {
-  if (typeof value === 'string') return value
-  if (value && typeof value === 'object' && typeof value.normalized === 'string') return value.normalized
-  return undefined
-}
-
-function executeDeclaredProof({ family, mode, expectedCount, cases, generate, evaluate }) {
-  const issues = []
-  let checkedCount = 0
-  const testCases = Array.isArray(cases) ? cases : []
-  if (mode !== family.proofMode) issues.push('declared proof mode does not match the family')
-  if (testCases.length !== expectedCount) issues.push(`declared proof domain has ${testCases.length}, expected ${expectedCount}`)
-  for (const testCase of testCases) {
-    try {
-      const problem = generate(testCase)
-      const answer = normalizeOracleAnswer(evaluate({
-        ...testCase,
-        params: problem.params,
-        mathModel: problem.visual?.mathModel ?? problem.mathModel,
-      }))
-      if (problem.answer?.normalized !== answer) {
-        issues.push(`${testCase.caseId}:${testCase.variantIndex} generated answer disagrees with declared oracle`)
-      } else {
-        checkedCount += 1
-      }
-    } catch (error) {
-      issues.push(`${testCase.caseId}:${testCase.variantIndex} ${error instanceof Error ? error.message : String(error)}`)
-    }
-  }
-  return {
-    family,
-    mode,
-    proven: issues.length === 0,
-    checkedCount,
-    issues,
-  }
-}
-
-function collectPublicBeforeText(value, collected = []) {
-  if (Array.isArray(value)) {
-    value.forEach((entry) => collectPublicBeforeText(entry, collected))
-  } else if (value && typeof value === 'object') {
-    for (const [key, entry] of Object.entries(value)) {
-      if (key === 'after') continue
-      if (key === 'before' && entry && typeof entry === 'object' && typeof entry.text === 'string') {
-        collected.push(entry.text)
-      }
-      collectPublicBeforeText(entry, collected)
-    }
-  }
-  return collected
-}
-
-function answerIsPublicBeforeSubmission(problem) {
-  const answer = problem?.answer?.normalized
-  if (typeof answer !== 'string' || answer.trim() === '') return false
-  return collectPublicBeforeText(problem.visual).some((text) => text.trim() === answer)
 }
 
 function generatedDifficultyDistribution(problems, templates) {
@@ -476,11 +419,8 @@ function loadProductionApplicationProblemQualityInput() {
   const ledgerAllocations = JSON.parse(
     fs.readFileSync(path.join(ROOT_DIR, 'public', 'data', 'curriculum-allocations-v1.json'), 'utf8'),
   ).allocations
-  const g2Proof = loadTypeScriptModule('src/lib/application-problems/families/g2-length-proof-registration.ts')
-  const g5Proof = loadTypeScriptModule('src/lib/application-problems/families/grade5-geometry-proof-registration.ts')
-  const g6Proof = loadTypeScriptModule('src/lib/application-problems/families/g6-ratio-proof.ts')
-  const { generateApplicationProblem } = loadTypeScriptModule('src/lib/application-problems/generator.ts')
-  const { resolveApplicationVisual } = loadTypeScriptModule('src/lib/application-problems/visual-validator.ts')
+  const { getProductionApplicationFamilyEvidence } = loadTypeScriptModule('src/lib/application-problems/quality-evidence.ts')
+  const productionEvidence = getProductionApplicationFamilyEvidence()
   const { getGrade2Missions } = loadTypeScriptModule('src/lib/grade2-problems.ts')
   const { buildApprovedGrade2ApplicationMissions, buildGrade2MissionCatalog } = loadTypeScriptModule('src/lib/application-problems/grade2-runtime.ts')
   const { buildApprovedGrade5PracticeProblemCandidates } = loadTypeScriptModule('src/lib/application-problems/grade5-practice-runtime.ts')
@@ -488,121 +428,6 @@ function loadProductionApplicationProblemQualityInput() {
   const { generateProblems } = loadTypeScriptModule('src/lib/problem-generator.ts')
   const { GRADE2_PROGRESS_KEY } = loadTypeScriptModule('src/lib/grade2-progress.ts')
   const { GRADE5_SESSION_KEY, GRADE6_SESSION_KEY } = loadTypeScriptModule('src/lib/session.ts')
-  const proofAuthorities = [
-    ...(g2Proof.G2_LENGTH_PROOF_AUTHORITY_ENTRIES ?? []).map((entry) => ({
-      familyId: entry.manifest.familyId,
-      familyVersion: entry.manifest.familyVersion,
-      mode: entry.manifest.mode,
-      expectedCount: entry.manifest.expectedCount,
-    })),
-    ...(g5Proof.G5_GEOMETRY_PROOF_AUTHORITY_SOURCES_V1 ?? []).map((entry) => ({
-      familyId: entry.familyId,
-      familyVersion: entry.familyVersion,
-      mode: entry.mode,
-      expectedCount: entry.expectedCount,
-    })),
-    ...(g6Proof.G6_RATIO_PROOF_AUTHORITIES ?? []).map((entry) => ({
-      familyId: entry.manifest.familyId,
-      familyVersion: entry.manifest.familyVersion,
-      mode: entry.manifest.mode,
-      expectedCount: entry.manifest.expectedCount,
-    })),
-  ]
-  const authorityByFamily = new Map(proofAuthorities.map((authority) => [
-    `${authority.familyId}@${authority.familyVersion}`,
-    authority,
-  ]))
-  const oracleByFamily = new Map()
-  const proofReports = [
-    ...(g2Proof.G2_LENGTH_EXHAUSTIVE_PROOFS ?? []).map((proof) => {
-      oracleByFamily.set(familyKey(proof.family), proof.oracle.evaluate)
-      return executeDeclaredProof({
-        family: proof.family,
-        mode: proof.mode,
-        expectedCount: authorityByFamily.get(familyKey(proof.family))?.expectedCount,
-        cases: proofCases(proof),
-        generate: ({ seed, variantIndex }) => proof.generator.generate({ seed, variantIndex }),
-        evaluate: (input) => proof.oracle.evaluate(input),
-      })
-    }),
-    ...(g5Proof.G5_GEOMETRY_PROOF_AUTHORITY_SOURCES_V1 ?? []).map((authority) => {
-      const generator = (g5Proof.G5_GEOMETRY_PROOF_IMPLEMENTATION_RECORDS_V1 ?? []).find((entry) => (
-        entry.kind === 'generator' && entry.implementationId === authority.generatorRef.implementationId
-      ))
-      const oracle = (g5Proof.G5_GEOMETRY_PROOF_IMPLEMENTATION_RECORDS_V1 ?? []).find((entry) => (
-        entry.kind === 'oracle' && entry.implementationId === authority.oracleRef.implementationId
-      ))
-      oracleByFamily.set(`${authority.familyId}@${authority.familyVersion}`, oracle?.execute)
-      return executeDeclaredProof({
-        family: { familyId: authority.familyId, version: authority.familyVersion, proofMode: authority.mode },
-        mode: authority.mode,
-        expectedCount: authorityByFamily.get(`${authority.familyId}@${authority.familyVersion}`)?.expectedCount,
-        cases: authority.domain,
-        generate: ({ seed, variantIndex }) => generator.execute({ seed, variantIndex }),
-        evaluate: (input) => oracle.execute(input),
-      })
-    }),
-    ...(g6Proof.G6_RATIO_PROOFS ?? []).map((proof) => {
-      oracleByFamily.set(familyKey(proof.family), proof.oracle.evaluate)
-      return executeDeclaredProof({
-        family: proof.family,
-        mode: proof.mode,
-        expectedCount: authorityByFamily.get(familyKey(proof.family))?.expectedCount,
-        cases: proofCases(proof),
-        generate: ({ seed, variantIndex }) => proof.generator.generate({ seed, variantIndex }),
-        evaluate: (input) => proof.oracle.evaluate(input),
-      })
-    }),
-  ]
-  const runtimeEntries = registries.flatMap((registry) => registry.entries ?? [])
-  const generatedSnapshots = runtimeEntries.map((entry, index) => {
-    const input = {
-      family: entry.family,
-      generator: entry.runtime.generator,
-      packVersion: entry.runtime.generator.packVersion,
-      seed: 1700 + index,
-      variantIndex: 0,
-      maxAttempts: entry.runtime.generator.maxAttempts,
-    }
-    return {
-      family: entry.family,
-      seed: input.seed,
-      first: generateApplicationProblem(input),
-      second: generateApplicationProblem(input),
-    }
-  })
-  const oracleResults = generatedSnapshots.map((snapshot) => {
-    const problem = snapshot.first
-    const oracle = oracleByFamily.get(familyKey(snapshot.family))
-    const answer = normalizeOracleAnswer(oracle({
-      caseId: 'production-runtime-sample',
-      seed: snapshot.seed,
-      variantIndex: 0,
-      params: problem.params,
-      mathModel: problem.visual?.mathModel,
-    }))
-    return {
-      family: snapshot.family,
-      problem,
-      answer,
-      solutionValid: (problem.solutionSteps ?? []).some((step) => step.includes(answer ?? '')),
-      unitValid: true,
-    }
-  })
-  const visualResults = generatedSnapshots.map((snapshot) => {
-    const result = resolveApplicationVisual(snapshot.first.visual)
-    return {
-      family: snapshot.family,
-      problem: snapshot.first,
-      valid: result.status === 'ready' || result.status === 'none',
-      reason: result.status === 'blocked' ? 'application visual resolver blocked the generated scene' : undefined,
-    }
-  })
-  const answerExposureResults = generatedSnapshots.map((snapshot) => ({
-    family: snapshot.family,
-    problem: snapshot.first,
-    exposed: answerIsPublicBeforeSubmission(snapshot.first),
-  }))
   const grade2Seed = 27
   const grade2LegacyMissions = getGrade2Missions(grade2Seed)
   const grade2Candidates = buildApprovedGrade2ApplicationMissions(grade2Seed)
@@ -619,12 +444,13 @@ function loadProductionApplicationProblemQualityInput() {
     ledgerAllocations,
     families: APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger,
     registries,
-    generatedSnapshots,
-    proofAuthorities,
-    proofReports,
-    oracleResults,
-    visualResults,
-    answerExposureResults,
+    generatedSnapshots: productionEvidence.generatedSnapshots,
+    proofAuthorities: productionEvidence.proofAuthorities,
+    proofReports: productionEvidence.proofReports,
+    oracleResults: productionEvidence.oracleResults,
+    visualResults: productionEvidence.visualResults,
+    answerExposureResults: productionEvidence.answerExposureResults,
+    familyEvidence: productionEvidence.rows,
     sessionContracts: [
       {
         grade: 2,
