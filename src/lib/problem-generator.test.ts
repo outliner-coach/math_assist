@@ -1,6 +1,31 @@
 import { describe, it, expect } from 'vitest'
 import { generateProblems } from './problem-generator'
 import type { ProblemTemplate } from './types'
+import { APPLICATION_PROBLEM_REGISTRY_V1 } from './application-problems/registered-families'
+import { buildApprovedPracticeProblemCandidates } from './application-problems/practice-runtime'
+import type { ApplicationPracticeProblemV1 } from './application-problems/template-adapter'
+
+const approvedOwner = {
+  ownerStatus: 'approved' as const,
+  ownerId: 'practice-integration-test-owner',
+  approvedAt: '2026-07-23T00:00:00.000Z',
+  evidenceRefs: ['src/lib/problem-generator.test.ts'],
+  expertStatus: 'not-reviewed' as const,
+}
+
+const approvedPracticeRegistry = {
+  entries: APPLICATION_PROBLEM_REGISTRY_V1.entries.map((entry) => ({
+    ...entry,
+    family: entry.family.familyId.startsWith('g5-') || entry.family.familyId.startsWith('g6-')
+      ? { ...entry.family, releaseStatus: 'approved' as const, approval: approvedOwner }
+      : entry.family,
+  })),
+  releaseLedger: APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger.map((family) => (
+    family.familyId.startsWith('g5-') || family.familyId.startsWith('g6-')
+      ? { ...family, releaseStatus: 'approved' as const, approval: approvedOwner }
+      : family
+  )),
+}
 
 function makeTemplate(overrides: Partial<ProblemTemplate>): ProblemTemplate {
   return {
@@ -18,6 +43,84 @@ function makeTemplate(overrides: Partial<ProblemTemplate>): ProblemTemplate {
 }
 
 describe('generateProblems', () => {
+  it('keeps production output unchanged while every registered pilot remains draft', () => {
+    const templates: ProblemTemplate[] = Array.from({ length: 10 }, (_, index) =>
+      makeTemplate({
+        id: `legacy-${index}`,
+        difficulty: index < 4 ? 1 : index < 8 ? 2 : 3,
+      }),
+    )
+    const legacy = generateProblems(templates, { count: 10, setId: 'A', seed: 31 })
+    const integrated = generateProblems(templates, {
+      count: 10,
+      setId: 'A',
+      seed: 31,
+      additionalCandidates: buildApprovedPracticeProblemCandidates({
+        grade: 5,
+        conceptId: 'area-001',
+        registry: APPLICATION_PROBLEM_REGISTRY_V1,
+      }),
+    })
+
+    expect(integrated).toEqual(legacy)
+    expect(integrated.every((problem) => problem.applicationSource === undefined)).toBe(true)
+  })
+
+  it.each([
+    { grade: 5 as const, conceptId: 'area-001', count: 10, mix: { 1: 4, 2: 4, 3: 2 } },
+    { grade: 6 as const, conceptId: 'g6ratio-001', count: 5, mix: { 1: 2, 2: 2, 3: 1 } },
+    { grade: 6 as const, conceptId: 'g6ratio-001', count: 10, mix: { 1: 4, 2: 4, 3: 2 } },
+  ])('adds approved Grade $grade candidates without changing the requested count or mix', ({ grade, conceptId, count, mix }) => {
+    const templates: ProblemTemplate[] = [
+      ...Array.from({ length: mix[1] }, (_, index) => makeTemplate({ id: `${grade}-easy-${index}`, difficulty: 1 })),
+      ...Array.from({ length: mix[2] }, (_, index) => makeTemplate({ id: `${grade}-medium-${index}`, difficulty: 2 })),
+      ...Array.from({ length: mix[3] }, (_, index) => makeTemplate({ id: `${grade}-hard-${index}`, difficulty: 3 })),
+    ]
+    const difficultyByTemplate = new Map(templates.map((template) => [template.id, template.difficulty]))
+    let seedWithApplication: number | undefined
+    let problems: ReturnType<typeof generateProblems> = []
+    for (let seed = 1; seed <= 50; seed += 1) {
+      const candidate = generateProblems(templates, {
+        count,
+        setId: 'A',
+        seed,
+        difficultyMix: mix,
+        additionalCandidates: buildApprovedPracticeProblemCandidates({
+          grade,
+          conceptId,
+          registry: approvedPracticeRegistry,
+        }),
+      })
+      if (candidate.some((problem) => problem.applicationSource)) {
+        seedWithApplication = seed
+        problems = candidate
+        break
+      }
+    }
+
+    expect(seedWithApplication).toBeDefined()
+    expect(problems).toHaveLength(count)
+    expect(generateProblems(templates, {
+      count,
+      setId: 'A',
+      seed: seedWithApplication,
+      difficultyMix: mix,
+      additionalCandidates: buildApprovedPracticeProblemCandidates({
+        grade,
+        conceptId,
+        registry: approvedPracticeRegistry,
+      }),
+    })).toEqual(problems)
+    const actualMix = problems.reduce((result, problem) => {
+      const difficulty = problem.applicationSource
+        ? (problem as ApplicationPracticeProblemV1).placementDifficulty
+        : difficultyByTemplate.get(problem.templateId)!
+      result[difficulty] += 1
+      return result
+    }, { 1: 0, 2: 0, 3: 0 })
+    expect(actualMix).toEqual(mix)
+  })
+
   it('attaches a feasible quantitative region model to three-shape overlap problems', () => {
     const template = makeTemplate({
       id: 'three-shape-overlap',

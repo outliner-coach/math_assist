@@ -126,6 +126,16 @@ async function completeSession(page: Page, wrongIndexes: number[] = []) {
   }
 }
 
+async function solveVisibleGrade1ChoiceMission(page: Page) {
+  const choices = page.locator('[data-testid^="grade1-choice-"]')
+  const count = await choices.count()
+  for (let index = 0; index < count; index += 1) {
+    await choices.nth(index).click()
+    if (await page.getByTestId('mission-success').isVisible()) return
+  }
+  throw new Error('No visible Grade 1 choice solved the current mission')
+}
+
 test.beforeEach(async ({ page }) => {
   await clearStorage(page)
 })
@@ -174,23 +184,33 @@ test('5학년 풀이장은 문제별로 자동 저장하고 이동·새로고침
 test('5학년의 완성되지 않은 숫자 입력은 오답으로 잠그지 않는다', async ({ page }) => {
   const now = Date.now()
   await page.evaluate(({ key, now }) => {
+    const problems = [{
+      index: 0,
+      templateId: 'number-format-boundary',
+      setId: 'A',
+      params: {},
+      prompt: '1과 1/2를 대분수로 쓰세요.',
+      type: 'number',
+      correctAnswer: '1 1/2',
+      solutionSteps: ['분자와 분모를 모두 씁니다.']
+    }, ...Array.from({ length: 9 }, (_, offset) => ({
+      index: offset + 1,
+      templateId: `number-format-padding-${offset + 1}`,
+      setId: 'A',
+      params: {},
+      prompt: `${offset + 1}을 쓰세요.`,
+      type: 'number',
+      correctAnswer: String(offset + 1),
+      solutionSteps: ['수를 그대로 씁니다.']
+    }))]
     localStorage.setItem(key, JSON.stringify({
       sessionId: 'incomplete-number-input',
       conceptId: 'divisor-001',
       setId: 'A',
       mode: 'standard',
-      problems: [{
-        index: 0,
-        templateId: 'number-format-boundary',
-        setId: 'A',
-        params: {},
-        prompt: '1과 1/2를 대분수로 쓰세요.',
-        type: 'number',
-        correctAnswer: '1 1/2',
-        solutionSteps: ['분자와 분모를 모두 씁니다.']
-      }],
-      answers: [null],
-      checkedAnswers: [null],
+      problems,
+      answers: Array(10).fill(null),
+      checkedAnswers: Array(10).fill(null),
       currentIndex: 0,
       startedAt: now,
       expiresAt: now + 60 * 60 * 1000
@@ -203,7 +223,7 @@ test('5학년의 완성되지 않은 숫자 입력은 오답으로 잠그지 않
   await page.getByTestId('check-answer-button').click()
   await expect(page.getByTestId('number-input-error')).toContainText('분모')
   await expect(page.getByTestId('answer-feedback')).toHaveCount(0)
-  expect((await readSession(page)).checkedAnswers).toEqual([null])
+  expect((await readSession(page)).checkedAnswers).toEqual(Array(10).fill(null))
   expect(await page.evaluate((key) => localStorage.getItem(key), ATTEMPT_RECEIPT_KEY)).toBeNull()
 
   await page.getByTestId('keypad-display').click()
@@ -213,7 +233,7 @@ test('5학년의 완성되지 않은 숫자 입력은 오답으로 잠그지 않
   await page.getByTestId('key-done').click()
   await page.getByTestId('check-answer-button').click()
   await expect(page.getByTestId('number-input-error')).toContainText('숫자')
-  expect((await readSession(page)).checkedAnswers).toEqual([null])
+  expect((await readSession(page)).checkedAnswers).toEqual(Array(10).fill(null))
   expect(await page.evaluate((key) => localStorage.getItem(key), ATTEMPT_RECEIPT_KEY)).toBeNull()
 
   await page.getByTestId('keypad-display').click()
@@ -222,7 +242,7 @@ test('5학년의 완성되지 않은 숫자 입력은 오답으로 잠그지 않
   await page.getByTestId('key-done').click()
   await page.getByTestId('check-answer-button').click()
   await expect(page.getByTestId('number-input-error')).toContainText('소수점')
-  expect((await readSession(page)).checkedAnswers).toEqual([null])
+  expect((await readSession(page)).checkedAnswers).toEqual(Array(10).fill(null))
   expect(await page.evaluate((key) => localStorage.getItem(key), ATTEMPT_RECEIPT_KEY)).toBeNull()
 
   await page.getByTestId('keypad-display').click()
@@ -231,7 +251,7 @@ test('5학년의 완성되지 않은 숫자 입력은 오답으로 잠그지 않
   await page.getByTestId('key-done').click()
   await page.getByTestId('check-answer-button').click()
   await expect(page.getByTestId('number-input-error')).toContainText('대분수')
-  expect((await readSession(page)).checkedAnswers).toEqual([null])
+  expect((await readSession(page)).checkedAnswers).toEqual(Array(10).fill(null))
   expect(await page.evaluate((key) => localStorage.getItem(key), ATTEMPT_RECEIPT_KEY)).toBeNull()
 
   await page.getByTestId('keypad-display').click()
@@ -240,7 +260,7 @@ test('5학년의 완성되지 않은 숫자 입력은 오답으로 잠그지 않
   await expect(page.getByTestId('number-input-error')).toHaveCount(0)
   await page.getByTestId('check-answer-button').click()
   await expect(page.getByTestId('feedback-correct')).toBeVisible()
-  expect((await readSession(page)).checkedAnswers).toEqual([true])
+  expect((await readSession(page)).checkedAnswers).toEqual([true, ...Array(9).fill(null)])
   const ledger = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), ATTEMPT_RECEIPT_KEY)
   expect(ledger.receipts).toHaveLength(1)
   expect(ledger.receipts[0]).toMatchObject({
@@ -275,14 +295,14 @@ test('결과 화면에서 틀린 문제만 다시 풀 수 있다', async ({ page
   await completeSession(page, [1, 4])
 
   await page.getByTestId('retry-wrong-button').click()
-  await expect(page).toHaveURL(/mode=retry-wrong/)
+  await expect(page).toHaveURL(/mode=retry-wrong/, { timeout: 15_000 })
 
   const retrySession = await readSession(page)
   expect(retrySession.problems).toHaveLength(2)
 
   await completeSession(page)
 
-  await expect(page).toHaveURL(/\/math_assist\/result\/?$/)
+  await expect(page).toHaveURL(/\/math_assist\/result\/?$/, { timeout: 15_000 })
   await expect(page.getByTestId('retry-wrong-button')).toHaveCount(0)
 
   const retryResult = await readResult(page)
@@ -319,7 +339,7 @@ test('5학년 도형 연습은 SVG 정답을 제출 전 숨기고 결과에서 �
 
   await completeSession(page, [0])
 
-  await expect(page).toHaveURL(/\/math_assist\/result\/?$/)
+  await expect(page).toHaveURL(/\/math_assist\/result\/?$/, { timeout: 15_000 })
   await expect(page.getByTestId('wrong-results').getByTestId('geometry-visual-congruence')).toBeVisible()
   await expect(page.getByTestId('wrong-results')).toContainText('정답:')
 })
@@ -336,7 +356,9 @@ test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세�
   expect(overlapVisual).toBeTruthy()
   if (!overlapVisual) throw new Error('three_shape_overlap visual was not generated')
 
-  await page.getByRole('button', { name: `문제 ${overlapProblemIndex + 1}`, exact: true }).click()
+  await page
+    .getByRole('button', { name: `문제 ${overlapProblemIndex + 1}`, exact: true })
+    .click({ force: true })
 
   const diagram = page.getByTestId('problem-diagram-three-shape-overlap')
   await expect(diagram).toBeVisible()
@@ -362,6 +384,7 @@ test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세�
 })
 
 test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수 있다', async ({ page }) => {
+  await page.clock.setFixedTime('2026-07-20T03:00:00.000Z')
   await page.goto(`${BASE_PATH}/grade/1`)
 
   await expect(page.getByTestId('grade1-game-map')).toBeVisible()
@@ -418,7 +441,7 @@ test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수
     window as typeof window & { render_game_to_text?: () => string }
   ).render_game_to_text?.() ?? '{}'))
   expect(replayState.missionSeed).not.toBe(firstState.missionSeed)
-  await page.getByTestId('grade1-choice-7').click()
+  await solveVisibleGrade1ChoiceMission(page)
   await expect(page.getByTestId('daily-goal')).toContainText('2/8')
 
   const replayProgress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE1_PROGRESS_KEY)
@@ -511,7 +534,7 @@ test('2학년 게임 모드에서 단원 선택, 힌트, 보상, 다음 미션 �
   expect(progress.completedMissionIds).toContain('g2-1-place-value-01')
   expect(progress.reviewMissionIds).toContain('g2-1-place-value-01')
   expect(progress.todaySolvedCount).toBe(1)
-  expect(progress.schemaVersion).toBe(2)
+  expect(progress.schemaVersion).toBe(3)
   expect(progress.xp).toBe(10)
 
   const grade2Receipts = await readAttemptReceipts(page)

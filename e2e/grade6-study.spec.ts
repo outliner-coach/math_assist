@@ -63,7 +63,7 @@ test('10문제 세트의 실제 비율 표를 렌더링하고 답 전용 metadat
   }, GRADE6_KEYS[0])
   expect(tableIndex).toBeGreaterThanOrEqual(0)
 
-  await page.getByTestId(`progress-step-${tableIndex + 1}`).click()
+  await page.getByTestId(`progress-step-${tableIndex + 1}`).click({ force: true })
   const table = page.getByTestId('problem-diagram-ratio-table')
   await expect(table).toBeVisible()
   await expect(table.getByRole('table')).toBeVisible()

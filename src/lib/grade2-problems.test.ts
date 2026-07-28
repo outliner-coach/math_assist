@@ -9,6 +9,30 @@ import {
   grade2Units,
   validateGrade2MissionBank,
 } from './grade2-problems'
+import { GRADE2_APPLICATION_PROBLEM_REGISTRY_V1 } from './application-problems/grade2-registry'
+import { buildApprovedGrade2ApplicationMissions } from './application-problems/grade2-runtime'
+
+const approvedOwner = {
+  ownerStatus: 'approved' as const,
+  ownerId: 'grade2-integration-test-owner',
+  approvedAt: '2026-07-23T00:00:00.000Z',
+  evidenceRefs: ['src/lib/grade2-problems.test.ts'],
+  expertStatus: 'not-reviewed' as const,
+}
+
+const approvedGrade2Registry = {
+  entries: GRADE2_APPLICATION_PROBLEM_REGISTRY_V1.entries.map((entry) => ({
+    ...entry,
+    family: entry.family.familyId.startsWith('g2-')
+      ? { ...entry.family, releaseStatus: 'approved' as const, approval: approvedOwner }
+      : entry.family,
+  })),
+  releaseLedger: GRADE2_APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger.map((family) => (
+    family.familyId.startsWith('g2-')
+      ? { ...family, releaseStatus: 'approved' as const, approval: approvedOwner }
+      : family
+  )),
+}
 
 describe('grade2 mission bank', () => {
   it('provides a 144-template V1 bank across 12 units', () => {
@@ -41,6 +65,46 @@ describe('grade2 mission bank', () => {
         'applied',
       ])
     }
+  })
+
+  it('keeps every legacy mission identical and appends approved application missions only', () => {
+    const legacy = getGrade2Missions(42)
+    const provider = (seed: number) => buildApprovedGrade2ApplicationMissions(
+      seed,
+      approvedGrade2Registry,
+    )
+    const expanded = getGrade2Missions(42, provider)
+
+    expect(legacy).toHaveLength(144)
+    expect(expanded).toHaveLength(147)
+    expect(expanded.slice(0, 144)).toEqual(legacy)
+    expect(expanded.slice(144).map((mission) => mission.id)).toEqual([
+      'g2-2-length-application-route-total-v1',
+      'g2-2-length-application-missing-segment-v1',
+      'g2-2-length-application-claim-check-v1',
+    ])
+    expect(
+      expanded
+        .filter((mission) => legacy.some((item) => item.id === mission.id))
+        .map(({ id, rewardId }) => ({ id, rewardId })),
+    ).toEqual(legacy.map(({ id, rewardId }) => ({ id, rewardId })))
+    expect(getGrade2MissionsByUnit('g2-2-length', 42, provider))
+      .toHaveLength(15)
+  })
+
+  it('rejects extension providers that collide with legacy unit order or extension stage order', () => {
+    const base = getSafeGrade2Mission(42)
+    expect(() => getGrade2Missions(42, () => [{
+      ...base,
+      id: 'g2-1-place-value-extension',
+      stageOrder: 145,
+      unitMissionOrder: 1,
+    }])).toThrow(/must follow the legacy unit/i)
+
+    expect(() => getGrade2Missions(42, () => [
+      { ...base, id: 'grade2-extension-a', stageOrder: 145, unitMissionOrder: 13 },
+      { ...base, id: 'grade2-extension-b', stageOrder: 145, unitMissionOrder: 14 },
+    ])).toThrow(/duplicate additional Grade 2 stage order/i)
   })
 
   it('keeps a simple place-value mission as the safe fallback', () => {

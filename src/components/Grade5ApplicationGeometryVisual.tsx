@@ -1,8 +1,9 @@
-import React, { type CSSProperties } from 'react'
+import React, { type CSSProperties, type ReactNode } from 'react'
 
 import type { GeneratedApplicationProblemV1 } from '../lib/application-problems/contracts'
+import type { ApplicationProblemRegistryV1 } from '../lib/application-problems/registry'
 import { resolveApplicationVisual } from '../lib/application-problems/visual-validator'
-import { validateGrade5ApplicationGeometryProblem } from '../lib/application-problems/families/grade5-geometry-visual-validator'
+import { resolveGrade5ApplicationGeometryVisual } from '../lib/application-problems/grade5-visual-resolution'
 import ApplicationProblemVisual from './ApplicationProblemVisual'
 
 interface Grade5ApplicationGeometryVisualProps {
@@ -10,12 +11,9 @@ interface Grade5ApplicationGeometryVisualProps {
   showAnswer?: boolean
   availableWidth?: number
   availableHeight?: number
-}
-
-const VISUAL_GENERATORS: Readonly<Record<string, string>> = {
-  'g5-perimeter-boundary-rebuild': 'g5-perimeter-boundary-rebuild-visual',
-  'g5-area-composite-inverse': 'g5-area-composite-inverse-visual',
-  'g5-area-overlap-reconstruction': 'g5-area-overlap-reconstruction-visual',
+  applicationProblemRegistry?: ApplicationProblemRegistryV1
+  beforeVisual?: ReactNode
+  children?: ReactNode
 }
 
 function FatalGeometry() {
@@ -51,18 +49,11 @@ export default function Grade5ApplicationGeometryVisual({
   showAnswer = false,
   availableWidth,
   availableHeight,
+  applicationProblemRegistry,
+  beforeVisual,
+  children,
 }: Grade5ApplicationGeometryVisualProps) {
-  const expectedGenerator = VISUAL_GENERATORS[problem.familyId]
-  if (
-    expectedGenerator === undefined ||
-    problem.visual.generatorId !== expectedGenerator ||
-    problem.visual.generatorVersion !== 1
-  ) {
-    return <FatalGeometry />
-  }
-  const resolution = resolveApplicationVisual(problem.visual, {
-    familyValidator: (scene) => validateGrade5ApplicationGeometryProblem(problem, scene),
-  })
+  const resolution = resolveGrade5ApplicationGeometryVisual(problem, applicationProblemRegistry)
   if (resolution.status !== 'ready') {
     return <FatalGeometry />
   }
@@ -73,9 +64,11 @@ export default function Grade5ApplicationGeometryVisual({
     marginInline: 'auto',
     overflow: 'hidden',
   }
-  return (
-    <div className="grade5-application-geometry" style={style}>
+  return <>
+    {beforeVisual}
+    <div className={`grade5-application-geometry${children ? ' mb-8' : ''}`} style={style}>
       <ApplicationProblemVisual scene={resolution.scene} showAnswer={showAnswer} />
     </div>
-  )
+    {children}
+  </>
 }

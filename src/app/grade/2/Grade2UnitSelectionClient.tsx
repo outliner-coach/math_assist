@@ -7,12 +7,15 @@ import {
   getGrade2Missions,
   grade2Units,
   type Grade2Mission,
+  type Grade2MissionProvider,
   type Grade2Unit,
 } from '@/lib/grade2-problems'
+import { buildGrade2MissionCatalog } from '@/lib/application-problems/grade2-runtime'
 import {
   createInitialGrade2Progress,
   dismissGrade2Intro,
   loadGrade2Progress,
+  mergeGrade2ApplicationMissionSnapshots,
   resetGrade2Progress,
   saveGrade2Progress,
   selectGrade2Unit,
@@ -99,9 +102,25 @@ function UnitCard({
   )
 }
 
-export default function Grade2UnitSelectionClient() {
-  const missions = useMemo(() => getGrade2Missions(MISSION_SEED), [])
+interface Grade2UnitSelectionClientProps {
+  applicationMissionProvider?: Grade2MissionProvider
+}
+
+export default function Grade2UnitSelectionClient({
+  applicationMissionProvider,
+}: Grade2UnitSelectionClientProps) {
+  const missionCatalog = useMemo(
+    () => buildGrade2MissionCatalog(MISSION_SEED, applicationMissionProvider),
+    [applicationMissionProvider],
+  )
   const [progress, setProgress] = useState<Grade2Progress>(() => createInitialGrade2Progress())
+  const catalogMissions = missionCatalog.status === 'ready'
+    ? missionCatalog.missions
+    : getGrade2Missions(MISSION_SEED)
+  const missions = useMemo(
+    () => mergeGrade2ApplicationMissionSnapshots(catalogMissions, progress),
+    [catalogMissions, progress],
+  )
   const [storageAvailable, setStorageAvailable] = useState(true)
   const [storageRecovered, setStorageRecovered] = useState(false)
   const [confirmReset, setConfirmReset] = useState(false)
@@ -133,6 +152,22 @@ export default function Grade2UnitSelectionClient() {
     setStorageAvailable(true)
     setStorageRecovered(false)
     setConfirmReset(false)
+  }
+
+  if (missionCatalog.status !== 'ready') {
+    return (
+      <main className="mx-auto max-w-2xl py-10" data-testid="grade2-application-generation-error">
+        <section className="rounded-3xl border-2 border-amber-300 bg-amber-50 p-6 text-center md:p-8" role="alert">
+          <h1 className="text-2xl font-black text-slate-900">응용 문제를 안전하게 만들지 못했어요</h1>
+          <p className="mt-3 font-bold leading-7 text-slate-700">
+            잘못된 문제는 보여 주거나 저장하지 않았어요. 잠시 뒤 다시 열어 주세요.
+          </p>
+          <Link href="/home" className="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-xl border-2 border-slate-300 bg-white px-5 font-black text-slate-700">
+            홈으로 돌아가기
+          </Link>
+        </section>
+      </main>
+    )
   }
 
   return (

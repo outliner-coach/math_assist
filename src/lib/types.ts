@@ -272,6 +272,26 @@ export type PracticeMode = 'standard' | 'retry-wrong'
 export type PracticeGrade = 5 | 6
 export type PracticeItemCount = 5 | 10
 
+export interface ApplicationProblemReplacementEvidence {
+  problemIndex: number
+  originalInstanceId: string
+  replacementInstanceId: string
+  originalProblem: Problem
+}
+
+export interface ApplicationProblemRecoveryEvidenceV1 {
+  schemaVersion: 'application-problem-recovery-evidence-v1'
+  evidenceId: string
+  sessionId: string
+  conceptId: string
+  setId: 'A' | 'B' | 'C'
+  mode: PracticeMode
+  grade: PracticeGrade
+  itemCount: PracticeItemCount
+  sourceResultId?: string
+  replacements: ApplicationProblemReplacementEvidence[]
+}
+
 // 연습 세션
 export interface PracticeSession {
   sessionId: string
@@ -285,6 +305,7 @@ export interface PracticeSession {
   problems: Problem[]
   answers: (string | null)[]
   checkedAnswers: (boolean | null)[]
+  applicationProblemReplacementArchive?: ApplicationProblemReplacementEvidence[]
   currentIndex: number
   startedAt: number
   expiresAt: number

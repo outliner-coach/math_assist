@@ -7,6 +7,17 @@ import { evaluateArithmeticExpression } from './arithmetic-expression'
 import { buildThreeShapeOverlapModel } from './three-shape-overlap'
 import type { Problem, ProblemTemplate } from './types'
 
+export interface AdditionalProblemCandidate {
+  id: string
+  difficulty: 1 | 2 | 3
+  generate(input: {
+    seed: number
+    variantIndex: number
+    index: number
+    setId: 'A' | 'B' | 'C'
+  }): Problem
+}
+
 // 시드 기반 난수 생성기 (재현 가능)
 function seededRandom(seed: number): () => number {
   return function() {
@@ -318,6 +329,7 @@ export function generateProblems(
     setId?: 'A' | 'B' | 'C'
     difficultyMix?: { 1: number; 2: number; 3: number }
     seed?: number
+    additionalCandidates?: readonly AdditionalProblemCandidate[]
   }
 ): Problem[] {
   const count = options?.count ?? 10
@@ -327,6 +339,7 @@ export function generateProblems(
   const random = seededRandom(actualSeed)
 
   const setTemplates = templates.filter(t => t.set_id === setId)
+  const additionalCandidates = options?.additionalCandidates ?? []
   const totalMix = Object.values(difficultyMix).reduce((a, b) => a + b, 0)
   if (totalMix !== count) {
     throw new Error(`difficultyMix total (${totalMix}) must match count (${count})`)
@@ -343,12 +356,86 @@ export function generateProblems(
   }
 
   for (const level of [1, 2, 3] as const) {
-    if (byDifficulty[level].length < difficultyMix[level]) {
+    const candidateCount = byDifficulty[level].length + additionalCandidates.filter(
+      (candidate) => candidate.difficulty === level,
+    ).length
+    if (candidateCount < difficultyMix[level]) {
+      const noun = additionalCandidates.length > 0 ? 'candidates' : 'templates'
       throw new Error(
-        `Not enough templates for set ${setId}, difficulty ${level}: ` +
-        `${byDifficulty[level].length} < ${difficultyMix[level]}`
+        `Not enough ${noun} for set ${setId}, difficulty ${level}: ` +
+        `${candidateCount} < ${difficultyMix[level]}`
       )
     }
+  }
+
+  if (additionalCandidates.length > 0) {
+    type Candidate =
+      | { kind: 'legacy'; template: ProblemTemplate }
+      | { kind: 'additional'; additional: AdditionalProblemCandidate }
+
+    const candidatesByDifficulty: Record<1 | 2 | 3, Candidate[]> = {
+      1: byDifficulty[1].map((template) => ({ kind: 'legacy', template })),
+      2: byDifficulty[2].map((template) => ({ kind: 'legacy', template })),
+      3: byDifficulty[3].map((template) => ({ kind: 'legacy', template })),
+    }
+    additionalCandidates.forEach((additional) => {
+      candidatesByDifficulty[additional.difficulty].push({
+        kind: 'additional',
+        additional,
+      })
+    })
+
+    const selectedCandidates: Candidate[] = []
+    for (const level of [1, 2, 3] as const) {
+      selectedCandidates.push(
+        ...shuffleArray(candidatesByDifficulty[level], random).slice(0, difficultyMix[level]),
+      )
+    }
+    const orderedCandidates = shuffleArray(selectedCandidates, random)
+    const problems: Problem[] = []
+    const usedKeys = new Set<string>()
+    const usedPrompts = new Set<string>()
+
+    orderedCandidates.forEach((candidate, idx) => {
+      if (candidate.kind === 'additional') {
+        const problem = candidate.additional.generate({
+          seed: actualSeed,
+          variantIndex: idx,
+          index: idx,
+          setId,
+        })
+        const key = `${candidate.additional.id}:${problem.applicationSource?.instanceId ?? paramsKey(problem.templateId, problem.params)}`
+        if (usedKeys.has(key) || usedPrompts.has(problem.prompt)) {
+          throw new Error(`Failed to generate unique additional prompt for ${problem.templateId}`)
+        }
+        usedKeys.add(key)
+        usedPrompts.add(problem.prompt)
+        problems.push(problem)
+        return
+      }
+
+      const template = candidate.template
+      let attempts = 0
+      const maxAttempts = 20
+      let params = generateParams(template.param_schema, random)
+      let key = paramsKey(template.id, params)
+      let problem = generateSingleProblem(template, params, idx, random)
+
+      while ((usedKeys.has(key) || usedPrompts.has(problem.prompt)) && attempts < maxAttempts) {
+        attempts++
+        params = generateParams(template.param_schema, random)
+        key = paramsKey(template.id, params)
+        problem = generateSingleProblem(template, params, idx, random)
+      }
+      if (usedKeys.has(key) || usedPrompts.has(problem.prompt)) {
+        throw new Error(`Failed to generate unique prompt for template ${template.id}`)
+      }
+      usedKeys.add(key)
+      usedPrompts.add(problem.prompt)
+      problems.push(problem)
+    })
+
+    return problems
   }
 
   const selectedTemplates: ProblemTemplate[] = []

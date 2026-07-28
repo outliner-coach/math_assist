@@ -4,6 +4,9 @@ import MathText from './MathText'
 import NumberKeypad from './NumberKeypad'
 import GeometryProblemVisual from './GeometryProblemVisual'
 import ProblemDiagram, { isProblemVisual } from './ProblemDiagram'
+import ApplicationPracticeVisual from './ApplicationPracticeVisual'
+import type { ApplicationProblemRegistryV1 } from '@/lib/application-problems/registry'
+import { hasApplicationProblemFootprint } from '@/lib/application-problems/template-adapter'
 import type { Problem } from '@/lib/types'
 
 interface ProblemCardProps {
@@ -11,65 +14,87 @@ interface ProblemCardProps {
   answer: string | null
   onAnswer: (answer: string) => void
   checked?: boolean
+  applicationProblemRegistry?: ApplicationProblemRegistryV1
 }
 
-export default function ProblemCard({ problem, answer, onAnswer, checked = false }: ProblemCardProps) {
+export default function ProblemCard({
+  problem,
+  answer,
+  onAnswer,
+  checked = false,
+  applicationProblemRegistry,
+}: ProblemCardProps) {
+  const answerControls = problem.type === 'choice' && problem.choices ? (
+    <div className="grid grid-cols-2 gap-4">
+      {problem.choices.map((choice, index) => (
+        <button
+          key={index}
+          data-choice={index}
+          data-testid={`choice-${index}`}
+          disabled={checked}
+          onClick={() => onAnswer(String(index))}
+          className={`
+            p-4 md:p-6 rounded-xl text-lg md:text-xl font-medium
+            transition-all duration-200 touch-manipulation
+            min-h-touch border-2
+            ${answer === String(index)
+              ? 'bg-primary-600 text-white border-primary-600'
+              : checked
+                ? 'cursor-not-allowed bg-gray-100 text-gray-500 border-gray-200'
+                : 'bg-white text-gray-800 border-gray-200 hover:border-primary-300 hover:bg-primary-50'
+            }
+          `}
+        >
+          <span className="mr-2 text-sm opacity-60">
+            {['①', '②', '③', '④'][index]}
+          </span>
+          <MathText>{choice}</MathText>
+        </button>
+      ))}
+    </div>
+  ) : (
+    <NumberKeypad
+      value={answer || ''}
+      onChange={onAnswer}
+      disabled={checked}
+      inputHint={problem.visual ? '단위는 쓰지 않고 숫자만 입력하세요.' : undefined}
+    />
+  )
+
+  const prompt = (
+    <div
+      className="text-xl md:text-2xl font-medium text-gray-800 mb-8 text-center leading-relaxed"
+      data-testid="problem-prompt"
+    >
+      <MathText>{problem.prompt}</MathText>
+    </div>
+  )
+
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8" data-testid="problem-card">
-      {/* 문제 */}
-      <div
-        className="text-xl md:text-2xl font-medium text-gray-800 mb-8 text-center leading-relaxed"
-        data-testid="problem-prompt"
-      >
-        <MathText>{problem.prompt}</MathText>
-      </div>
-
-      {problem.visual && (
-        isProblemVisual(problem.visual) ? (
-          <div className="mb-8">
-            <ProblemDiagram visual={problem.visual} />
-          </div>
-        ) : (
-          <GeometryProblemVisual visual={problem.visual} showAnswer={checked} />
-        )
-      )}
-
-      {/* 답 입력 */}
-      {problem.type === 'choice' && problem.choices ? (
-        <div className="grid grid-cols-2 gap-4">
-          {problem.choices.map((choice, index) => (
-            <button
-              key={index}
-              data-choice={index}
-              data-testid={`choice-${index}`}
-              disabled={checked}
-              onClick={() => onAnswer(String(index))}
-              className={`
-                p-4 md:p-6 rounded-xl text-lg md:text-xl font-medium
-                transition-all duration-200 touch-manipulation
-                min-h-touch border-2
-                ${answer === String(index)
-                  ? 'bg-primary-600 text-white border-primary-600'
-                  : checked
-                    ? 'cursor-not-allowed bg-gray-100 text-gray-500 border-gray-200'
-                    : 'bg-white text-gray-800 border-gray-200 hover:border-primary-300 hover:bg-primary-50'
-                }
-              `}
-            >
-              <span className="mr-2 text-sm opacity-60">
-                {['①', '②', '③', '④'][index]}
-              </span>
-              <MathText>{choice}</MathText>
-            </button>
-          ))}
-        </div>
+      {hasApplicationProblemFootprint(problem) ? (
+        <ApplicationPracticeVisual
+          problem={problem}
+          showAnswer={checked}
+          applicationProblemRegistry={applicationProblemRegistry}
+          beforeVisual={prompt}
+        >
+          {answerControls}
+        </ApplicationPracticeVisual>
       ) : (
-        <NumberKeypad
-          value={answer || ''}
-          onChange={onAnswer}
-          disabled={checked}
-          inputHint={problem.visual ? '단위는 쓰지 않고 숫자만 입력하세요.' : undefined}
-        />
+        <>
+          {prompt}
+          {problem.visual && (
+            isProblemVisual(problem.visual) ? (
+              <div className="mb-8">
+                <ProblemDiagram visual={problem.visual} />
+              </div>
+            ) : (
+              <GeometryProblemVisual visual={problem.visual} showAnswer={checked} />
+            )
+          )}
+          {answerControls}
+        </>
       )}
     </div>
   )

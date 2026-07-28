@@ -15,19 +15,19 @@ import {
   G2_LENGTH_ROUTE_TOTAL_CASES,
   generateG2LengthRouteTotal,
 } from '@/lib/application-problems/families/g2-length-route-total'
+import { resolveGrade2ApplicationLengthVisual } from '@/lib/application-problems/grade2-visual-resolution'
 
-import Grade2ApplicationLengthVisual, {
-  resolveGrade2ApplicationLengthVisual,
-} from './Grade2ApplicationLengthVisual'
+import Grade2ApplicationLengthVisual from './Grade2ApplicationLengthVisual'
 
 function renderProblem(
   problem: ReturnType<typeof generateG2LengthRouteTotal>,
   showAnswer: boolean,
 ): string {
+  const resolution = resolveGrade2ApplicationLengthVisual(problem.visual, problem.params)
+  if (resolution.status !== 'ready') throw new Error('test fixture visual must be valid')
   return renderToStaticMarkup(
     createElement(Grade2ApplicationLengthVisual, {
-      visual: problem.visual,
-      params: problem.params,
+      scene: resolution.scene,
       showAnswer,
     }),
   )
@@ -105,11 +105,6 @@ describe('Grade2ApplicationLengthVisual', () => {
     const visual = { ...problem.visual, mathModel: mathModel as unknown as JsonValue }
 
     expect(resolveGrade2ApplicationLengthVisual(visual, problem.params).status).toBe('blocked')
-    expect(() =>
-      renderToStaticMarkup(
-        createElement(Grade2ApplicationLengthVisual, { visual, params: problem.params }),
-      ),
-    ).toThrow(/required Grade 2 length visual/i)
   })
 
   it('pairs pre/post leak scans for every one of the 18, 54, and 32 cases', () => {

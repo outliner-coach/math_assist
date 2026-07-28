@@ -660,7 +660,7 @@ describe('application problem registry', () => {
 
   it('selects only owner-approved families with evidence as runtime candidates', () => {
     const approved = family({ releaseStatus: 'approved', approval: approvedApproval })
-    const draft = family()
+    const draft = family({ familyId: 'draft-family' })
     const quarantined = { ...approved, familyId: 'quarantined-family', releaseStatus: 'quarantined' as const }
     const retired = { ...approved, familyId: 'retired-family', releaseStatus: 'retired' as const }
     const missingOwnerEvidence = {
@@ -680,6 +680,7 @@ describe('application problem registry', () => {
           familyId: entryFamily.familyId,
         }) },
       })),
+      releaseLedger: [approved, draft, quarantined, retired, missingOwnerEvidence, blankEvidence],
     }
 
     expect(selectApprovedRuntimeCandidates(registry).map((entry) => entry.family.familyId)).toEqual([
@@ -708,6 +709,7 @@ describe('application problem registry', () => {
           family: staticFamily,
           runtime: { kind: 'static-corpus', entries } as never,
         }],
+        releaseLedger: [staticFamily],
       }).length
 
     const foreignProblem: GeneratedApplicationProblemV1 = {

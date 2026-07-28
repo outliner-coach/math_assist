@@ -167,5 +167,72 @@ export function adaptGeneratedApplicationProblemToPractice(
 export function hasApplicationProblemSource(
   problem: Problem,
 ): problem is Problem & { applicationSource: ApplicationProblemSource } {
-  return problem.applicationSource?.schemaVersion === 'generated-application-problem-v1'
+  return Boolean(problem) && typeof problem === 'object' &&
+    problem.applicationSource?.schemaVersion === 'generated-application-problem-v1'
+}
+
+/**
+ * Distinguishes a genuinely legacy practice snapshot from a damaged application
+ * snapshot whose provenance was removed. Every application adapter writes all of
+ * these markers; retaining any one of them must keep the problem on the strict
+ * validation path.
+ */
+export function hasApplicationProblemFootprint(problem: Problem): boolean {
+  if (!problem || typeof problem !== 'object' || Array.isArray(problem)) return true
+  const candidate = problem as unknown as Record<string, unknown>
+  return (
+    problem.templateId.startsWith('application-') ||
+    (typeof problem.problemFamily === 'string' && /^g[56]-/.test(problem.problemFamily)) ||
+    'applicationSource' in candidate ||
+    'applicationParams' in candidate ||
+    'applicationMisconceptionRefs' in candidate ||
+    'applicationVisual' in candidate ||
+    'placementDifficulty' in candidate
+  )
+}
+
+export function isApplicationPracticeProblem(
+  problem: Problem,
+): problem is ApplicationPracticeProblemV1 {
+  const candidate = problem as Partial<ApplicationPracticeProblemV1>
+  return (
+    hasApplicationProblemSource(problem) &&
+    typeof candidate.applicationParams === 'object' &&
+    candidate.applicationParams !== null &&
+    !Array.isArray(candidate.applicationParams) &&
+    Array.isArray(candidate.applicationMisconceptionRefs) &&
+    typeof candidate.applicationVisual === 'object' &&
+    candidate.applicationVisual !== null &&
+    [1, 2, 3].includes(candidate.placementDifficulty as number)
+  )
+}
+
+/** Rebuilds the common immutable problem view from a saved Grade 5/6 shell. */
+export function restoreGeneratedApplicationProblemFromPractice(
+  problem: Problem,
+): GeneratedApplicationProblemV1 | null {
+  if (!isApplicationPracticeProblem(problem)) return null
+  try {
+    return parseGeneratedApplicationProblemV1({
+      ...problem.applicationSource,
+      params: problem.applicationParams,
+      prompt: problem.prompt,
+      answer: {
+        format: problem.type === 'choice' ? 'choice' : 'number',
+        normalized: problem.correctAnswer,
+      },
+      ...(problem.type === 'choice'
+        ? {
+            choices: problem.choices,
+            correctChoiceIndex: problem.correctChoiceIndex,
+          }
+        : {}),
+      solutionSteps: problem.solutionSteps,
+      hintSteps: problem.hintSteps ?? [],
+      misconceptionRefs: problem.applicationMisconceptionRefs,
+      visual: problem.applicationVisual,
+    })
+  } catch {
+    return null
+  }
 }

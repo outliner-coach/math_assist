@@ -5,6 +5,8 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { getConceptById, getTemplatesByConceptId } from '@/lib/data'
 import { generateProblems } from '@/lib/problem-generator'
+import { canGradePracticeProblem } from '@/lib/application-problems/practice-interaction-gate'
+import { replaceBlockedApplicationProblemsInSession } from '@/lib/application-problems/practice-session-recovery'
 import { getNumberAnswerInputError, gradeSession } from '@/lib/grader'
 import {
   LocalAttemptReceiptStore,
@@ -18,15 +20,19 @@ import { dispatchMascotReaction, mascotReactionForAnswer } from '@/lib/mascot'
 import {
   saveSession,
   loadSession,
+  clearSession,
   createSessionTiming,
   createSessionId,
   createRetrySessionFromResult,
   getSessionStorageStatus,
   markAnswerChecked,
+  persistRecoveredPracticeSession,
   resetGrade6SessionStorage,
+  resetGrade5SessionStorage,
   updateAnswer,
   updateCurrentIndex,
   loadResult,
+  isSessionExpired,
   matchesSessionRequest
 } from '@/lib/session'
 import type { Concept, PracticeMode, PracticeSession } from '@/lib/types'
@@ -47,6 +53,16 @@ function problemVariantKey(problem: PracticeSession['problems'][number]): string
     .map(([key, value]) => `${key}=${value}`)
     .join(',')
   return `${problem.templateId}:${params}`
+}
+
+function practiceHrefForSession(session: PracticeSession, grade: 5 | 6): string {
+  const search = new URLSearchParams({ set: session.setId })
+  if (grade === 6) search.set('count', String(session.itemCount ?? 5))
+  if (session.mode === 'retry-wrong') {
+    search.set('mode', 'retry-wrong')
+    if (session.sourceResultId) search.set('source', session.sourceResultId)
+  }
+  return `/practice/${encodeURIComponent(session.conceptId)}?${search.toString()}`
 }
 
 export default function PracticeClient() {
@@ -73,6 +89,9 @@ export default function PracticeClient() {
   const [inputError, setInputError] = useState<string | null>(null)
   const [releaseBlocked, setReleaseBlocked] = useState(false)
   const [storageRecoveryNeeded, setStorageRecoveryNeeded] = useState(false)
+  const [blockedApplicationSession, setBlockedApplicationSession] = useState<PracticeSession | null>(null)
+  const [applicationRecoveryError, setApplicationRecoveryError] = useState<string | null>(null)
+  const [replacingApplicationProblem, setReplacingApplicationProblem] = useState(false)
   const [initializationAttempt, setInitializationAttempt] = useState(0)
 
   // 세션 초기화 또는 복구
@@ -104,7 +123,25 @@ export default function PracticeClient() {
         }
 
         // 기존 세션 확인
-        const existingSession = loadSession(practiceGrade)
+        let existingSession = loadSession(practiceGrade)
+        if (existingSession) {
+          const eligibility = await Promise.all(
+            existingSession.problems.map((problem) => (
+              canGradePracticeProblem(problem, practiceGrade)
+            )),
+          )
+          if (!active) return
+          if (eligibility.some((eligible) => !eligible)) {
+            setBlockedApplicationSession(existingSession)
+            setApplicationRecoveryError(null)
+            return
+          }
+          if (isSessionExpired(existingSession)) {
+            clearSession(practiceGrade)
+            existingSession = null
+          }
+        }
+
         if (
           existingSession &&
           matchesSessionRequest(existingSession, {
@@ -130,6 +167,20 @@ export default function PracticeClient() {
           ) {
             const retrySession = createRetrySessionFromResult(result)
             if (retrySession) {
+              const eligibility = await Promise.all(
+                retrySession.problems.map((problem) => (
+                  canGradePracticeProblem(problem, practiceGrade)
+                )),
+              )
+              if (!active) return
+              if (eligibility.some((eligible) => !eligible)) {
+                const originalSaved = saveSession(retrySession)
+                setBlockedApplicationSession(retrySession)
+                setApplicationRecoveryError(originalSaved
+                  ? null
+                  : '원래 문제 저장을 보존할 수 없어 아직 새 문제로 바꾸지 않았어요.')
+                return
+              }
               if (!saveSession(retrySession)) {
                 setStorageRecoveryNeeded(true)
                 return
@@ -148,10 +199,18 @@ export default function PracticeClient() {
           return
         }
 
+        const additionalCandidates = practiceGrade === 5
+          ? (await import('@/lib/application-problems/grade5-practice-runtime'))
+              .buildApprovedGrade5PracticeProblemCandidates({ conceptId })
+          : (await import('@/lib/application-problems/grade6-practice-runtime'))
+              .buildApprovedGrade6PracticeProblemCandidates({ conceptId })
+        if (!active) return
+
         const problems = generateProblems(templates, {
           count: requestedItemCount,
           setId,
           difficultyMix: requestedItemCount === 5 ? { 1: 2, 2: 2, 3: 1 } : { 1: 4, 2: 4, 3: 2 },
+          additionalCandidates,
         })
         const timing = createSessionTiming()
 
@@ -167,6 +226,14 @@ export default function PracticeClient() {
           checkedAnswers: Array(problems.length).fill(null),
           currentIndex: 0,
           ...timing
+        }
+
+        const eligibility = await Promise.all(
+          newSession.problems.map((problem) => canGradePracticeProblem(problem, practiceGrade)),
+        )
+        if (!active) return
+        if (eligibility.some((eligible) => !eligible)) {
+          throw new Error('generated session contains an ineligible application problem')
         }
 
         if (!saveSession(newSession)) {
@@ -196,6 +263,83 @@ export default function PracticeClient() {
     setInitializationAttempt((attempt) => attempt + 1)
   }, [])
 
+  const handleReplaceBlockedApplicationSession = useCallback(async () => {
+    if (!blockedApplicationSession || replacingApplicationProblem) return
+    setReplacingApplicationProblem(true)
+    setApplicationRecoveryError(null)
+    try {
+      const candidates = practiceGrade === 5
+        ? (await import('@/lib/application-problems/grade5-practice-runtime'))
+            .buildApprovedGrade5PracticeProblemCandidates({
+              conceptId: blockedApplicationSession.conceptId,
+            })
+        : (await import('@/lib/application-problems/grade6-practice-runtime'))
+            .buildApprovedGrade6PracticeProblemCandidates({
+              conceptId: blockedApplicationSession.conceptId,
+            })
+      const recovered = await replaceBlockedApplicationProblemsInSession({
+        session: blockedApplicationSession,
+        grade: practiceGrade,
+        candidates,
+      })
+      if (
+        !recovered ||
+        !persistRecoveredPracticeSession(blockedApplicationSession, recovered)
+      ) {
+        setApplicationRecoveryError(
+          '지금은 승인된 새 문제로 안전하게 바꿀 수 없어요. 원래 저장 기록은 그대로 두었어요.',
+        )
+        return
+      }
+      if (
+        !matchesSessionRequest(recovered, {
+          conceptId,
+          setId,
+          mode: requestedMode,
+          sourceResultId,
+          grade: practiceGrade,
+          itemCount: requestedItemCount,
+        })
+      ) {
+        setBlockedApplicationSession(null)
+        setHintLevel(0)
+        setInputError(null)
+        router.push(practiceHrefForSession(recovered, practiceGrade))
+        return
+      }
+      setSession(recovered)
+      setBlockedApplicationSession(null)
+      setHintLevel(0)
+      setInputError(null)
+    } catch {
+      setApplicationRecoveryError(
+        '지금은 승인된 새 문제로 안전하게 바꿀 수 없어요. 원래 저장 기록은 그대로 두었어요.',
+      )
+    } finally {
+      setReplacingApplicationProblem(false)
+    }
+  }, [
+    blockedApplicationSession,
+    conceptId,
+    practiceGrade,
+    replacingApplicationProblem,
+    requestedItemCount,
+    requestedMode,
+    router,
+    setId,
+    sourceResultId,
+  ])
+
+  const handleResetBlockedApplicationSession = useCallback(() => {
+    if (practiceGrade === 6) resetGrade6SessionStorage()
+    else resetGrade5SessionStorage()
+    setBlockedApplicationSession(null)
+    setApplicationRecoveryError(null)
+    setSession(null)
+    setLoading(true)
+    setInitializationAttempt((attempt) => attempt + 1)
+  }, [practiceGrade])
+
   // 답안 변경
   const handleAnswer = useCallback((answer: string) => {
     if (!session) return
@@ -207,12 +351,16 @@ export default function PracticeClient() {
   }, [session])
 
   // 현재 문제 즉시 채점
-  const handleCheckAnswer = useCallback(() => {
+  const handleCheckAnswer = useCallback(async () => {
     if (!session) return
     const index = session.currentIndex
     if (!isAnswered(session.answers[index]) || session.checkedAnswers[index] !== null) return
 
     const problem = session.problems[index]
+    if (!await canGradePracticeProblem(problem, practiceGrade)) {
+      setInputError('필수 그림을 확인할 수 없어 이 문제를 채점하지 않았어요. 문제를 다시 불러와 주세요.')
+      return
+    }
     if (problem.type === 'number') {
       const error = getNumberAnswerInputError(session.answers[index] ?? '')
       if (error) {
@@ -275,6 +423,14 @@ export default function PracticeClient() {
   const handleSubmit = useCallback(async () => {
     if (!session || session.checkedAnswers.some(value => value === null)) return
 
+    const gradeable = await Promise.all(
+      session.problems.map((problem) => canGradePracticeProblem(problem, practiceGrade)),
+    )
+    if (gradeable.some((ready) => !ready)) {
+      setInputError('필수 그림을 확인할 수 없어 결과를 저장하지 않았어요. 문제를 다시 불러와 주세요.')
+      return
+    }
+
     setSubmitting(true)
 
     try {
@@ -295,6 +451,43 @@ export default function PracticeClient() {
   }, [session?.currentIndex])
 
   if (releaseBlocked) return <GradeReleaseBlocked grade={6} />
+
+  if (blockedApplicationSession) {
+    return (
+      <main className="mx-auto max-w-2xl py-10" data-testid="blocked-application-session-recovery">
+        <section className="rounded-3xl border-2 border-amber-300 bg-amber-50 p-6 text-center md:p-8" role="alert">
+          <p className="text-sm font-black text-amber-800">응용 문제 안전 확인</p>
+          <h1 className="mt-2 text-2xl font-black text-slate-900">이 문제는 새 문제로 바꿔야 해요</h1>
+          <p className="mt-3 font-bold leading-7 text-slate-700">
+            문제 문장과 답안은 표시하지 않았어요. 새 문제로 바꿀 때에도 원래 문제 기록은 확인할 수 있도록 함께 보존해요.
+          </p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <Button
+              type="button"
+              onClick={handleReplaceBlockedApplicationSession}
+              disabled={replacingApplicationProblem}
+              data-testid="replace-blocked-application-session"
+            >
+              {replacingApplicationProblem ? '새 문제 확인 중...' : '안전한 새 문제 받기'}
+            </Button>
+            <Button
+              type="button"
+              onClick={handleResetBlockedApplicationSession}
+              data-testid="reset-blocked-application-session"
+            >
+              이 문제 저장 초기화
+            </Button>
+          </div>
+          {applicationRecoveryError && (
+            <p className="mt-4 font-black text-amber-900">{applicationRecoveryError}</p>
+          )}
+          <Link href="/home" className="mt-5 inline-flex min-h-[48px] items-center justify-center rounded-xl border-2 border-slate-300 bg-white px-5 font-black text-slate-700">
+            학습 홈으로
+          </Link>
+        </section>
+      </main>
+    )
+  }
 
   if (storageRecoveryNeeded) {
     return (

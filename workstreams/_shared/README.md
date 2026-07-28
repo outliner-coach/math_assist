@@ -21,6 +21,45 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-23: application-problem T8 runtime integration (shared integration
+  lane) owns the populated common registry, `src/lib/grade2-problems.ts`,
+  `src/lib/problem-generator.ts`, session snapshot regressions, and the Grade
+  2/5/6 render dispatch needed to consume approved V1 families. Production
+  family metadata remains `draft` / `pending`, so default learner output must
+  stay byte-for-byte compatible until explicit owner approval evidence exists.
+  Test-only approved registry fixtures may exercise selection, an initial seed
+  plus up to three deterministic retry seeds, all-or-nothing session construction, stable Grade 2
+  mission IDs/rewards, and Grade 5/6 4/4/2 or 2/2/1 mixes. Re-check legacy
+  source-less payloads, stored application snapshots, required-visual
+  fail-closed behavior, and no-write failure paths before release promotion.
+  Grade 2 progress schema V3 migrates V1/V2 records without changing the
+  primary storage key, archives validated application snapshots append-only by
+  immutable `instanceId`, and keeps a separate active instance pointer per
+  stable mission ID. A semantically damaged snapshot makes the exact primary
+  storage source read-only. The learner's explicit safe-replacement action must
+  first preserve that source in `mathAssist_grade2ProgressRecoveryEvidence_v1`,
+  then activate a validated replacement in a clean progress record without
+  changing completion, reward, or mastery fields. Scoring is allowed only for
+  the exact active validated snapshot. Grade 5/6 V1 stored application
+  snapshots use historical validators that do not call production generator
+  recipes or current family visual validators; they bind source, content, shuffled choices, answer, explanations,
+  misconceptions, and required quantitative models before display or grading.
+  Immutable `releaseLedger` family snapshots remain after executable runtime
+  entries are removed, so retired historical problems stay readable while
+  quarantined ones remain blocked. Standard practice sessions/results must
+  contain their exact declared 5/10 items; retry sessions use a non-empty
+  source result plus unique in-range original problem indexes.
+  A lifecycle-blocked active session exposes no problem content. Explicit
+  replacement requires a same-family, higher approved version, resets only the
+  replaced response, archives the exact original problem in
+  `applicationProblemReplacementArchive`, and writes only if the current
+  storage snapshot still equals the session originally loaded. Grade 5 and 6
+  also persist the replacement archive first in the append-only
+  `mathAssist_grade5ApplicationProblemRecoveryEvidence_v1` or
+  `mathAssist_grade6ApplicationProblemRecoveryEvidence_v1` store. A malformed
+  evidence store blocks both replacement and completion without deleting the
+  active session.
+
 - 2026-07-22: application-problem pilot families are split by ownership before
   generator work begins: Grade 2 length families belong to workstreams 01 and
   03, Grade 5 quantitative geometry families belong to workstreams 01, 03, and

@@ -70,3 +70,25 @@ export function adaptGeneratedApplicationProblemToGrade2(
     applicationVisual: problem.visual,
   }
 }
+
+export function isGrade2ApplicationMission(
+  mission: Grade2Mission,
+): mission is Grade2ApplicationMissionV1 {
+  const candidate = mission as Partial<Grade2ApplicationMissionV1>
+  return (
+    candidate.applicationSource?.schemaVersion === 'generated-application-problem-v1' &&
+    typeof candidate.applicationParams === 'object' &&
+    candidate.applicationParams !== null &&
+    !Array.isArray(candidate.applicationParams) &&
+    typeof candidate.applicationVisual === 'object' &&
+    candidate.applicationVisual !== null
+  )
+}
+
+export function hasGrade2ApplicationProblemSource(
+  mission: Grade2Mission,
+): mission is Grade2Mission & { applicationSource: ApplicationProblemSource } {
+  return (
+    mission as Grade2Mission & { applicationSource?: ApplicationProblemSource }
+  ).applicationSource?.schemaVersion === 'generated-application-problem-v1'
+}

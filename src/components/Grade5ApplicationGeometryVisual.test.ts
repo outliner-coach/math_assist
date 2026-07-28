@@ -12,8 +12,35 @@ import {
   generateG5AreaOverlapReconstructionProblem,
   generateG5PerimeterBoundaryRebuildProblem,
 } from '../lib/application-problems/families/grade5-geometry-families'
+import { GRADE5_APPLICATION_PROBLEM_REGISTRY_V1 } from '../lib/application-problems/grade5-registry'
+import type { ApplicationProblemRegistryV1 } from '../lib/application-problems/registry'
 import { parseApplicationVisualSceneV1 } from '../lib/application-problems/visual-model'
 import Grade5ApplicationGeometryVisual from './Grade5ApplicationGeometryVisual'
+
+function approvedRegistry(familyId: string): ApplicationProblemRegistryV1 {
+  const approveFamily = <T extends ApplicationProblemRegistryV1['releaseLedger'][number]>(
+    family: T,
+  ): T => family.familyId === familyId
+    ? {
+        ...family,
+        releaseStatus: 'approved' as const,
+        approval: {
+          ownerStatus: 'approved' as const,
+          ownerId: 'grade5-visual-test-owner',
+          approvedAt: '2026-07-23T00:00:00.000Z',
+          evidenceRefs: ['src/components/Grade5ApplicationGeometryVisual.test.ts'],
+          expertStatus: 'not-reviewed' as const,
+        },
+      }
+    : family
+  return {
+    entries: GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.entries.map((entry) => ({
+      ...entry,
+      family: approveFamily(entry.family),
+    })),
+    releaseLedger: GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger.map(approveFamily),
+  }
+}
 
 function renderPair(
   problem: ReturnType<typeof generateG5PerimeterBoundaryRebuildProblem>,
@@ -24,12 +51,14 @@ function renderPair(
     hidden: renderToStaticMarkup(createElement(Grade5ApplicationGeometryVisual, {
       problem,
       showAnswer: false,
+      applicationProblemRegistry: approvedRegistry(problem.familyId),
       availableWidth,
       availableHeight,
     })),
     revealed: renderToStaticMarkup(createElement(Grade5ApplicationGeometryVisual, {
       problem,
       showAnswer: true,
+      applicationProblemRegistry: approvedRegistry(problem.familyId),
       availableWidth,
       availableHeight,
     })),
@@ -47,6 +76,7 @@ function renderProblem(problem: GeneratedApplicationProblemV1): string {
   return renderToStaticMarkup(createElement(Grade5ApplicationGeometryVisual, {
     problem,
     showAnswer: false,
+    applicationProblemRegistry: approvedRegistry(problem.familyId),
     availableWidth: 390,
     availableHeight: 844,
   }))
@@ -89,11 +119,13 @@ describe('Grade5ApplicationGeometryVisual', () => {
     const hidden = renderToStaticMarkup(createElement(Grade5ApplicationGeometryVisual, {
       problem,
       showAnswer: false,
+      applicationProblemRegistry: approvedRegistry(problem.familyId),
       availableWidth: 1024,
     }))
     const revealed = renderToStaticMarkup(createElement(Grade5ApplicationGeometryVisual, {
       problem,
       showAnswer: true,
+      applicationProblemRegistry: approvedRegistry(problem.familyId),
       availableWidth: 1024,
     }))
     expect(answerChannels(hidden)).not.toMatch(new RegExp(`(?:^|\\D)${width}(?:\\D|$)`))
@@ -109,11 +141,13 @@ describe('Grade5ApplicationGeometryVisual', () => {
     const hidden = renderToStaticMarkup(createElement(Grade5ApplicationGeometryVisual, {
       problem,
       showAnswer: false,
+      applicationProblemRegistry: approvedRegistry(problem.familyId),
       availableWidth: 390,
     }))
     const revealed = renderToStaticMarkup(createElement(Grade5ApplicationGeometryVisual, {
       problem,
       showAnswer: true,
+      applicationProblemRegistry: approvedRegistry(problem.familyId),
       availableWidth: 390,
     }))
     expect(answerChannels(hidden)).not.toMatch(new RegExp(`(?:^|\\D)${target}(?:\\D|$)`))
@@ -133,6 +167,7 @@ describe('Grade5ApplicationGeometryVisual', () => {
     const markup = renderToStaticMarkup(createElement(Grade5ApplicationGeometryVisual, {
       problem: broken,
       showAnswer: false,
+      applicationProblemRegistry: approvedRegistry(problem.familyId),
       availableWidth: 390,
     }))
     expect(markup).toContain('정량 그림을 만들 수 없습니다')
@@ -151,6 +186,7 @@ describe('Grade5ApplicationGeometryVisual', () => {
     const markup = renderToStaticMarkup(createElement(Grade5ApplicationGeometryVisual, {
       problem: mismatched,
       showAnswer: false,
+      applicationProblemRegistry: approvedRegistry(problem.familyId),
       availableWidth: 390,
       availableHeight: 844,
     }))

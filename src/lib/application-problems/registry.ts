@@ -5,6 +5,7 @@ import {
 } from './contracts'
 import type { ApplicationProblemFamilyGeneratorV1 } from './generator'
 import type { StaticCorpusEntryV1 } from './proof'
+import type { ApplicationProblemSource } from '../types'
 
 export type ApplicationProblemRuntimeV1 =
   | {
@@ -23,11 +24,28 @@ export interface ApplicationProblemRegistryEntryV1 {
 
 export interface ApplicationProblemRegistryV1 {
   entries: readonly ApplicationProblemRegistryEntryV1[]
+  /**
+   * Immutable release metadata is kept independently from executable runtimes
+   * so retired or quarantined historical snapshots remain classifiable after
+   * their maker code is removed.
+   */
+  releaseLedger: readonly ApplicationProblemFamilyV1[]
 }
 
 export const EMPTY_APPLICATION_PROBLEM_REGISTRY: ApplicationProblemRegistryV1 = Object.freeze({
   entries: Object.freeze([] as ApplicationProblemRegistryEntryV1[]),
+  releaseLedger: Object.freeze([] as ApplicationProblemFamilyV1[]),
 })
+
+export function deterministicRegistryEntry(
+  family: ApplicationProblemFamilyV1,
+  generator: ApplicationProblemFamilyGeneratorV1,
+): ApplicationProblemRegistryEntryV1 {
+  return Object.freeze({
+    family,
+    runtime: Object.freeze({ kind: 'deterministic-generator' as const, generator }),
+  })
+}
 
 function hasApprovedOwnerEvidence(family: ApplicationProblemFamilyV1): boolean {
   try {
@@ -90,10 +108,100 @@ function runtimeMatchesFamily(entry: ApplicationProblemRegistryEntryV1): boolean
   )
 }
 
+function canonicalJson(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonicalJson)
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .sort(([left], [right]) => left.localeCompare(right))
+        .map(([key, entry]) => [key, canonicalJson(entry)]),
+    )
+  }
+  return value
+}
+
+function sameFamilySnapshot(
+  left: ApplicationProblemFamilyV1,
+  right: ApplicationProblemFamilyV1,
+): boolean {
+  try {
+    return JSON.stringify(canonicalJson(parseApplicationProblemFamilyV1(left))) ===
+      JSON.stringify(canonicalJson(parseApplicationProblemFamilyV1(right)))
+  } catch {
+    return false
+  }
+}
+
+function matchingReleaseLedgerEntries(
+  registry: ApplicationProblemRegistryV1,
+  source: Pick<ApplicationProblemSource, 'familyId' | 'generatorVersion'>,
+): readonly ApplicationProblemFamilyV1[] {
+  return registry.releaseLedger.filter((family) => (
+    family.familyId === source.familyId &&
+    family.version === source.generatorVersion
+  ))
+}
+
 export function selectApprovedRuntimeCandidates(
   registry: ApplicationProblemRegistryV1,
 ): ApplicationProblemRegistryEntryV1[] {
-  return registry.entries.filter(
-    (entry) => hasApprovedOwnerEvidence(entry.family) && runtimeMatchesFamily(entry),
+  const eligible = registry.entries.filter(
+    (entry) => {
+      if (!hasApprovedOwnerEvidence(entry.family) || !runtimeMatchesFamily(entry)) return false
+      const ledgerEntries = matchingReleaseLedgerEntries(registry, {
+        familyId: entry.family.familyId,
+        generatorVersion: entry.family.version,
+      })
+      return ledgerEntries.length === 1 &&
+        hasApprovedOwnerEvidence(ledgerEntries[0]) &&
+        sameFamilySnapshot(entry.family, ledgerEntries[0])
+    },
   )
+  const identityCounts = new Map<string, number>()
+  eligible.forEach((entry) => {
+    const identity = `${entry.family.familyId}@${entry.family.version}`
+    identityCounts.set(identity, (identityCounts.get(identity) ?? 0) + 1)
+  })
+
+  return eligible.filter((entry) => (
+    identityCounts.get(`${entry.family.familyId}@${entry.family.version}`) === 1
+  ))
+}
+
+export function isApplicationProblemSourceQuarantined(
+  registry: ApplicationProblemRegistryV1,
+  source: Pick<ApplicationProblemSource, 'familyId' | 'generatorVersion'>,
+): boolean {
+  return getApplicationProblemSourceReleaseStatus(registry, source) === 'quarantined'
+}
+
+export type ApplicationProblemSourceReleaseStatus =
+  | 'approved'
+  | 'draft'
+  | 'quarantined'
+  | 'retired'
+  | 'unknown'
+
+export function getApplicationProblemSourceReleaseStatus(
+  registry: ApplicationProblemRegistryV1,
+  source: Pick<ApplicationProblemSource, 'familyId' | 'generatorVersion'>,
+): ApplicationProblemSourceReleaseStatus {
+  const matchingEntries = matchingReleaseLedgerEntries(registry, source)
+  if (matchingEntries.length !== 1) return 'unknown'
+  const [family] = matchingEntries
+  try {
+    const canonical = parseApplicationProblemFamilyV1(family)
+    if (canonical.releaseStatus !== 'approved') return canonical.releaseStatus
+    return hasApprovedOwnerEvidence(canonical) ? 'approved' : 'draft'
+  } catch {
+    return 'unknown'
+  }
+}
+
+export function isApplicationProblemSourceInteractionEligible(
+  registry: ApplicationProblemRegistryV1,
+  source: Pick<ApplicationProblemSource, 'familyId' | 'generatorVersion'>,
+): boolean {
+  const status = getApplicationProblemSourceReleaseStatus(registry, source)
+  return status === 'approved' || status === 'retired'
 }

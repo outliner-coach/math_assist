@@ -3,10 +3,14 @@
 import MathText from './MathText'
 import GeometryProblemVisual from './GeometryProblemVisual'
 import ProblemDiagram, { isProblemVisual } from './ProblemDiagram'
+import ApplicationPracticeVisual from './ApplicationPracticeVisual'
+import type { ApplicationProblemRegistryV1 } from '@/lib/application-problems/registry'
+import { hasApplicationProblemFootprint } from '@/lib/application-problems/template-adapter'
 import type { SubmissionResult } from '@/lib/types'
 
 interface ResultCardProps {
   result: SubmissionResult
+  applicationProblemRegistry?: ApplicationProblemRegistryV1
 }
 
 function getRenderedAnswer(result: SubmissionResult): string | null {
@@ -22,16 +26,11 @@ function getRenderedAnswer(result: SubmissionResult): string | null {
   return result.userAnswer
 }
 
-export default function ResultCard({ result }: ResultCardProps) {
+export default function ResultCard({ result, applicationProblemRegistry }: ResultCardProps) {
   const { correct, correctAnswer, solutionSteps } = result
   const renderedAnswer = getRenderedAnswer(result)
 
-  return (
-    <div className={`
-      bg-white rounded-2xl shadow-md p-6
-      border-l-4 ${correct ? 'border-green-500' : 'border-red-500'}
-    `}>
-      {/* 문제 */}
+  const problemHeading = (
       <div className="flex items-start justify-between mb-4">
         <div className="text-lg font-medium text-gray-800">
           <span className="text-gray-400 mr-2">Q{result.problem.index + 1}.</span>
@@ -44,18 +43,10 @@ export default function ResultCard({ result }: ResultCardProps) {
           {correct ? '정답' : '오답'}
         </span>
       </div>
+  )
 
-      {result.problem.visual && (
-        isProblemVisual(result.problem.visual) ? (
-          <div className="mb-6">
-            <ProblemDiagram visual={result.problem.visual} />
-          </div>
-        ) : (
-          <GeometryProblemVisual visual={result.problem.visual} showAnswer />
-        )
-      )}
-
-      {/* 내 답안 / 정답 */}
+  const answerAndSolution = (
+    <>
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div className={`p-3 rounded-lg ${correct ? 'bg-green-50' : 'bg-red-50'}`}>
           <p className="text-xs text-gray-500 mb-1">내 답</p>
@@ -90,6 +81,38 @@ export default function ResultCard({ result }: ResultCardProps) {
             ))}
           </ol>
         </div>
+      )}
+    </>
+  )
+
+  return (
+    <div className={`
+      bg-white rounded-2xl shadow-md p-6
+      border-l-4 ${correct ? 'border-green-500' : 'border-red-500'}
+    `}>
+      {hasApplicationProblemFootprint(result.problem) ? (
+        <ApplicationPracticeVisual
+          problem={result.problem}
+          showAnswer
+          applicationProblemRegistry={applicationProblemRegistry}
+          beforeVisual={problemHeading}
+        >
+          {answerAndSolution}
+        </ApplicationPracticeVisual>
+      ) : (
+        <>
+          {problemHeading}
+          {result.problem.visual && (
+            isProblemVisual(result.problem.visual) ? (
+              <div className="mb-6">
+                <ProblemDiagram visual={result.problem.visual} />
+              </div>
+            ) : (
+              <GeometryProblemVisual visual={result.problem.visual} showAnswer />
+            )
+          )}
+          {answerAndSolution}
+        </>
       )}
     </div>
   )

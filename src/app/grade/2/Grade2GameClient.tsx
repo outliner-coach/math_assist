@@ -15,11 +15,24 @@ import {
   getGrade2Missions,
   grade2Units,
   type Grade2Mission,
+  type Grade2MissionProvider,
 } from '@/lib/grade2-problems'
+import { buildGrade2MissionCatalog } from '@/lib/application-problems/grade2-runtime'
+import { hasGrade2ApplicationProblemSource } from '@/lib/application-problems/grade2-adapter'
 import {
+  grade2MissionVariantSignature,
+  resolveGrade2MissionInteraction,
+} from '@/lib/application-problems/grade2-interaction-gate'
+import { GRADE2_APPLICATION_PROBLEM_REGISTRY_V1 } from '@/lib/application-problems/grade2-registry'
+import type { ApplicationProblemRegistryV1 } from '@/lib/application-problems/registry'
+import {
+  activateGrade2ApplicationMissionSnapshot,
   createInitialGrade2Progress,
   dismissGrade2Intro,
+  getActiveGrade2ApplicationMissionSnapshot,
   loadGrade2Progress,
+  mergeGrade2ApplicationMissionSnapshots,
+  persistGrade2ApplicationMissionReplacement,
   recordGrade2Attempt,
   resetGrade2Progress,
   saveGrade2Progress,
@@ -75,6 +88,12 @@ function nextMissionInUnit(
     items.find((mission) => !progress.completedMissionIds.includes(mission.id)) ??
     null
   )
+}
+
+function applicationInstanceId(mission: Grade2Mission | undefined): string | null {
+  return mission && hasGrade2ApplicationProblemSource(mission)
+    ? mission.applicationSource.instanceId
+    : null
 }
 
 function strongestTag(progress: Grade2Progress): string {
@@ -191,17 +210,40 @@ function MissionList({
 
 interface Grade2GameClientProps {
   initialUnitId: string
+  applicationMissionProvider?: Grade2MissionProvider
+  applicationProblemRegistry?: ApplicationProblemRegistryV1
 }
 
-export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProps) {
+export default function Grade2GameClient({
+  initialUnitId,
+  applicationMissionProvider,
+  applicationProblemRegistry = GRADE2_APPLICATION_PROBLEM_REGISTRY_V1,
+}: Grade2GameClientProps) {
   const [replayRound, setReplayRound] = useState(0)
+  const [preferLiveApplicationMissionIds, setPreferLiveApplicationMissionIds] = useState<string[]>([])
   const missionSeed = useMemo(
     () => getDailyAdventureSeed('grade2', Date.now(), replayRound),
     [replayRound]
   )
-  const missions = useMemo(() => getGrade2Missions(missionSeed), [missionSeed])
+  const missionCatalog = useMemo(
+    () => buildGrade2MissionCatalog(missionSeed, applicationMissionProvider),
+    [applicationMissionProvider, missionSeed],
+  )
+  const catalogMissions = useMemo(
+    () => missionCatalog.status === 'ready'
+      ? missionCatalog.missions
+      : getGrade2Missions(missionSeed),
+    [missionCatalog, missionSeed],
+  )
   const initialUnit = grade2Units.find((unit) => unit.id === initialUnitId) ?? grade2Units[0]
   const [progress, setProgress] = useState<Grade2Progress>(() => createInitialGrade2Progress())
+  const [unresolvedActiveApplicationMissionId, setUnresolvedActiveApplicationMissionId] = useState<string | null>(null)
+  const missions = useMemo(
+    () => mergeGrade2ApplicationMissionSnapshots(catalogMissions, progress, {
+      preferLiveMissionIds: preferLiveApplicationMissionIds,
+    }),
+    [catalogMissions, preferLiveApplicationMissionIds, progress],
+  )
   const [storageAvailable, setStorageAvailable] = useState(true)
   const [storageRecovered, setStorageRecovered] = useState(false)
   const [selectedUnitId, setSelectedUnitId] = useState(initialUnit.id)
@@ -223,54 +265,96 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
   const selectedMission =
     selectedUnitMissions.find((mission) => mission.id === selectedMissionId) ??
     firstMissionForUnit(missions, selectedUnit.id, progress)
+  const selectedInteractionStatus = resolveGrade2MissionInteraction(
+    selectedMission,
+    applicationProblemRegistry,
+  )
+  const selectedApplicationSource = hasGrade2ApplicationProblemSource(selectedMission)
+    ? selectedMission.applicationSource
+    : null
+  const blockedApplicationMissionId = unresolvedActiveApplicationMissionId ?? (
+    selectedInteractionStatus === 'blocked' ? selectedMission.id : null
+  )
+  const liveReplacementMission = blockedApplicationMissionId
+    ? catalogMissions.find((mission) => (
+        mission.id === blockedApplicationMissionId &&
+        resolveGrade2MissionInteraction(mission, applicationProblemRegistry) === 'ready' &&
+        hasGrade2ApplicationProblemSource(mission) &&
+        (
+          blockedApplicationMissionId !== selectedMission.id ||
+          mission.applicationSource.instanceId !== selectedApplicationSource?.instanceId
+        )
+      ))
+    : undefined
   const solved = lastSubmissionCorrect
   const nextMission = solved ? nextMissionInUnit(missions, selectedMission, progress) : null
-  const currentVariantKey = getAdventureVariantKey(selectedMission.id, JSON.stringify([
-    selectedMission.prompt,
-    selectedMission.correctAnswer,
-    selectedMission.choices,
-    selectedMission.visualConfig,
-  ]))
+  const currentVariantKey = getAdventureVariantKey(
+    selectedMission.id,
+    grade2MissionVariantSignature(selectedMission),
+  )
   const scratchKey = createMissionSketchKey({
     grade: 2,
     sessionRunKey: missionSeed,
     missionId: selectedMission.id,
     variantKey: currentVariantKey,
   })
+  const rewardProjectionMissions = progress.completedMissionIds.flatMap((missionId) => {
+    const mission = catalogMissions.find((candidate) => candidate.id === missionId) ??
+      missions.find((candidate) => candidate.id === missionId)
+    return mission ? [mission] : []
+  })
   const rewardCounts = Object.fromEntries(grade2RewardOrder.map((rewardId) => [
     rewardId,
-    missions.filter((mission) => (
-      mission.rewardId === rewardId && progress.completedMissionIds.includes(mission.id)
-    )).length,
+    rewardProjectionMissions.filter((mission) => mission.rewardId === rewardId).length,
   ])) as Record<Grade2Mission['rewardId'], number>
 
   useEffect(() => {
+    if (missionCatalog.status !== 'ready') return
     const result = loadGrade2Progress()
     const progressForUnit =
       result.progress.selectedUnitId === initialUnit.id
         ? result.progress
         : selectGrade2Unit(result.progress, initialUnit.id)
-    const recommendedMission = firstMissionForUnit(missions, initialUnit.id, progressForUnit)
-    const restoredMission = progressForUnit.missionSketchRunOrdinal > 0
-      ? unitMissions(missions, initialUnit.id).find((mission) => mission.id === progressForUnit.latestMissionId) ?? recommendedMission
+    const restoredCatalog = mergeGrade2ApplicationMissionSnapshots(catalogMissions, progressForUnit)
+    const recommendedMission = firstMissionForUnit(restoredCatalog, initialUnit.id, progressForUnit)
+    const hasStoredLatestApplicationMission = Boolean(
+      progressForUnit.latestMissionId &&
+      progressForUnit.activeApplicationInstanceIdByMissionId[progressForUnit.latestMissionId]
+    )
+    const unresolvedLatestApplicationMissionId =
+      progressForUnit.latestMissionId &&
+      progressForUnit.activeApplicationInstanceIdByMissionId[progressForUnit.latestMissionId] &&
+      !getActiveGrade2ApplicationMissionSnapshot(progressForUnit, progressForUnit.latestMissionId)
+        ? progressForUnit.latestMissionId
+        : null
+    const restoredMission = progressForUnit.missionSketchRunOrdinal > 0 || hasStoredLatestApplicationMission
+      ? unitMissions(restoredCatalog, initialUnit.id).find((mission) => mission.id === progressForUnit.latestMissionId) ?? recommendedMission
       : recommendedMission
-    setProgress(progressForUnit)
+    const restoredProgress = activateGrade2ApplicationMissionSnapshot(
+      progressForUnit,
+      restoredMission,
+    )
+    setProgress(restoredProgress)
     setReplayRound(progressForUnit.missionSketchRunOrdinal)
     setStorageAvailable(
-      progressForUnit === result.progress ? result.storageAvailable : saveGrade2Progress(progressForUnit)
+      restoredProgress === result.progress
+        ? result.storageAvailable
+        : saveGrade2Progress(restoredProgress)
     )
     setStorageRecovered((wasRecovered) => wasRecovered || result.recovered)
     setSelectedUnitId(initialUnit.id)
     setSelectedMissionId(restoredMission.id)
-  }, [initialUnit.id, missions])
+    setUnresolvedActiveApplicationMissionId(unresolvedLatestApplicationMissionId)
+  }, [catalogMissions, initialUnit.id, missionCatalog.status])
 
   useEffect(() => {
+    if (missionCatalog.status !== 'ready') return
     if (typeof window === 'undefined') return
     ;(window as unknown as { render_game_to_text?: () => string }).render_game_to_text = () =>
       JSON.stringify({
         selectedUnitId,
         selectedMissionId,
-        selectedPrompt: selectedMission.prompt,
+        selectedPrompt: blockedApplicationMissionId ? null : selectedMission.prompt,
         solved,
         wrongAttemptCount,
         todaySolvedCount: progress.todaySolvedCount,
@@ -281,7 +365,7 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
         masteryStars: getMasteryStars(progress.masteryByMissionId[selectedMission.id]),
         missionSeed,
       })
-  }, [missionSeed, progress.completedMissionIds.length, progress.masteryByMissionId, progress.reviewMissionIds.length, progress.todaySolvedCount, progress.xp, selectedMission.id, selectedMission.prompt, selectedMissionId, selectedUnitId, solved, wrongAttemptCount])
+  }, [blockedApplicationMissionId, missionCatalog.status, missionSeed, progress.completedMissionIds.length, progress.masteryByMissionId, progress.reviewMissionIds.length, progress.todaySolvedCount, progress.xp, selectedMission.id, selectedMission.prompt, selectedMissionId, selectedUnitId, solved, wrongAttemptCount])
 
   const persistProgress = (nextProgress: Grade2Progress) => {
     setProgress(nextProgress)
@@ -302,7 +386,12 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
 
   const chooseMission = (missionId: string) => {
     setConfirmReset(false)
-    const nextProgress = dismissGrade2Intro(progress)
+    setUnresolvedActiveApplicationMissionId(null)
+    const mission = missions.find((candidate) => candidate.id === missionId)
+    const introDismissedProgress = dismissGrade2Intro(progress)
+    const nextProgress = mission
+      ? activateGrade2ApplicationMissionSnapshot(introDismissedProgress, mission)
+      : introDismissedProgress
     if (nextProgress !== progress) persistProgress(nextProgress)
     setSelectedMissionId(missionId)
     resetMissionState()
@@ -312,11 +401,75 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
   }
 
   const resetMission = () => {
+    if (selectedInteractionStatus !== 'legacy') {
+      const nextReplayRound = progress.missionSketchRunOrdinal + 1
+      const nextSeed = getDailyAdventureSeed('grade2', Date.now(), nextReplayRound)
+      const nextCatalog = buildGrade2MissionCatalog(nextSeed, applicationMissionProvider)
+      const replayMission = nextCatalog.status === 'ready'
+        ? nextCatalog.missions.find((mission) => (
+            mission.id === selectedMission.id &&
+            resolveGrade2MissionInteraction(mission, applicationProblemRegistry) === 'ready'
+          ))
+        : undefined
+      if (!replayMission || !hasGrade2ApplicationProblemSource(replayMission)) {
+        setInputError('지금은 이 응용 문제의 새 버전을 준비할 수 없어요. 다른 미션을 골라 주세요.')
+        return
+      }
+      setPreferLiveApplicationMissionIds((missionIds) => (
+        missionIds.includes(selectedMission.id)
+          ? missionIds
+          : [...missionIds, selectedMission.id]
+      ))
+      const nextProgress = activateGrade2ApplicationMissionSnapshot(
+        advanceMissionSketchRun(progress),
+        replayMission,
+      )
+      if (
+        applicationInstanceId(getActiveGrade2ApplicationMissionSnapshot(nextProgress, replayMission.id)) !==
+        replayMission.applicationSource.instanceId
+      ) {
+        setInputError('새 문제를 안전하게 저장하지 못했어요. 다른 미션을 골라 주세요.')
+        return
+      }
+      persistProgress(nextProgress)
+      setReplayRound(nextProgress.missionSketchRunOrdinal)
+      resetMissionState()
+      document.getElementById('grade2-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      return
+    }
     const nextProgress = advanceMissionSketchRun(progress)
     persistProgress(nextProgress)
     setReplayRound(nextProgress.missionSketchRunOrdinal)
     resetMissionState()
     document.getElementById('grade2-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  const replaceBlockedApplicationMission = () => {
+    if (!liveReplacementMission || !hasGrade2ApplicationProblemSource(liveReplacementMission)) return
+    const nextProgress = persistGrade2ApplicationMissionReplacement(
+      progress,
+      liveReplacementMission,
+    )
+    if (
+      !nextProgress ||
+      applicationInstanceId(
+        getActiveGrade2ApplicationMissionSnapshot(nextProgress, liveReplacementMission.id),
+      ) !== liveReplacementMission.applicationSource.instanceId
+    ) {
+      setInputError('새 문제를 안전하게 저장하지 못했어요. 다른 미션을 골라 주세요.')
+      return
+    }
+    setPreferLiveApplicationMissionIds((missionIds) => (
+      missionIds.includes(liveReplacementMission.id)
+        ? missionIds
+        : [...missionIds, liveReplacementMission.id]
+    ))
+    setProgress(nextProgress)
+    setStorageAvailable(true)
+    setStorageRecovered(false)
+    setUnresolvedActiveApplicationMissionId(null)
+    setSelectedMissionId(liveReplacementMission.id)
+    resetMissionState()
   }
 
   const resetAllProgress = () => {
@@ -330,7 +483,9 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
     }
     persistProgress(nextProgress)
     setReplayRound(nextProgress.missionSketchRunOrdinal)
+    setPreferLiveApplicationMissionIds([])
     setStorageRecovered(false)
+    setUnresolvedActiveApplicationMissionId(null)
     setSelectedUnitId(initialUnit.id)
     setSelectedMissionId(unitMissions(missions, initialUnit.id)[0]?.id ?? 'g2-1-place-value-01')
     setConfirmReset(false)
@@ -342,6 +497,10 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
     displayAnswer: string
   ) => {
     if (solved) return
+    if (selectedInteractionStatus === 'blocked') {
+      setInputError('필수 그림을 확인할 수 없어 이 문제를 채점하지 않았어요. 문제를 다시 불러와 주세요.')
+      return
+    }
 
     const progressWithIntroDismissed = dismissGrade2Intro(progress)
     const result = checkGrade2Answer(selectedMission.answerType, rawAnswer, selectedMission.correctAnswer)
@@ -389,6 +548,22 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
       variantKey: currentVariantKey,
       wrongAttempts: nextWrongAttemptCount,
     }))
+  }
+
+  if (missionCatalog.status !== 'ready') {
+    return (
+      <main className="mx-auto max-w-2xl py-10" data-testid="grade2-application-generation-error">
+        <section className="rounded-3xl border-2 border-amber-300 bg-amber-50 p-6 text-center md:p-8" role="alert">
+          <h1 className="text-2xl font-black text-slate-900">응용 문제를 안전하게 만들지 못했어요</h1>
+          <p className="mt-3 font-bold leading-7 text-slate-700">
+            잘못된 문제는 보여 주거나 저장하지 않았어요. 잠시 뒤 다시 열어 주세요.
+          </p>
+          <Link href="/grade/2" className="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-xl border-2 border-slate-300 bg-white px-5 font-black text-slate-700">
+            단원 선택으로 돌아가기
+          </Link>
+        </section>
+      </main>
+    )
   }
 
   return (
@@ -461,52 +636,86 @@ export default function Grade2GameClient({ initialUnitId }: Grade2GameClientProp
           />
         </section>
 
-        <Grade2MissionCard
-          mission={selectedMission}
-          selectedAnswer={selectedAnswer}
-          textAnswer={textAnswer}
-          lengthAnswer={lengthAnswer}
-          timeAnswer={timeAnswer}
-          showHint={showHint}
-          wrongAttemptCount={wrongAttemptCount}
-          inputError={inputError}
-          solved={solved}
-          missionCount={selectedUnitMissions.length}
-          onChoiceAnswer={(answer) => submitAnswer(answer, answer)}
-          onTextAnswerChange={(answer) => {
-            setTextAnswer(answer)
-            setInputError(null)
-          }}
-          onLengthAnswerChange={(answer) => {
-            setLengthAnswer(answer)
-            setInputError(null)
-          }}
-          onTimeAnswerChange={(answer) => {
-            setTimeAnswer(answer)
-            setInputError(null)
-          }}
-          onSubmitText={() => submitAnswer(textAnswer.trim(), textAnswer.trim())}
-          onSubmitLength={() => {
-            const lengthUnit = selectedMission.answerConfig.unit === 'cm' ? 'cm' : 'm-cm'
-            const displayAnswer = formatStructuredLength(lengthAnswer, lengthUnit)
-            submitAnswer(lengthUnit === 'cm' ? displayAnswer : lengthAnswer, displayAnswer)
-          }}
-          onSubmitTime={() =>
-            submitAnswer(
-              timeAnswer,
-              formatStructuredTime(timeAnswer, selectedMission.answerType === 'duration' ? '시간' : '시')
-            )
-          }
-          onShowHint={() => {
-            setShowHint(true)
-            dispatchMascotReaction('hint')
-          }}
-        />
+        {blockedApplicationMissionId ? (
+          <section
+            id="grade2-mission"
+            className="scroll-mt-6 rounded-[2rem] border-2 border-amber-300 bg-amber-50 p-5 md:p-6"
+            role="alert"
+            data-testid="grade2-blocked-application-replacement"
+          >
+            <h2 className="text-2xl font-black text-[#0f172a]">
+              이 문제는 안전하게 새 문제로 바꿔야 해요
+            </h2>
+            <p className="mt-3 font-bold leading-7 text-[#475569]">
+              지금까지의 완료와 보상은 그대로예요. 원래 문제 기록도 확인을 위해 보존했어요.
+            </p>
+            {liveReplacementMission ? (
+              <button
+                type="button"
+                onClick={replaceBlockedApplicationMission}
+                className="mt-5 min-h-[56px] rounded-xl bg-[#2563eb] px-5 py-3 text-base font-black text-white shadow-[0_5px_0_#1e40af]"
+                data-testid="grade2-replace-blocked-application"
+              >
+                안전한 새 문제 받기
+              </button>
+            ) : (
+              <p className="mt-4 font-black text-[#9a3412]">
+                지금은 바꿀 문제가 없어요. 위 목록에서 다른 미션을 골라 주세요.
+              </p>
+            )}
+            {inputError && <p className="mt-3 font-black text-[#b91c1c]">{inputError}</p>}
+          </section>
+        ) : (
+          <>
+            <Grade2MissionCard
+              mission={selectedMission}
+              applicationProblemRegistry={applicationProblemRegistry}
+              selectedAnswer={selectedAnswer}
+              textAnswer={textAnswer}
+              lengthAnswer={lengthAnswer}
+              timeAnswer={timeAnswer}
+              showHint={showHint}
+              wrongAttemptCount={wrongAttemptCount}
+              inputError={inputError}
+              solved={solved}
+              missionCount={selectedUnitMissions.length}
+              onChoiceAnswer={(answer) => submitAnswer(answer, answer)}
+              onTextAnswerChange={(answer) => {
+                setTextAnswer(answer)
+                setInputError(null)
+              }}
+              onLengthAnswerChange={(answer) => {
+                setLengthAnswer(answer)
+                setInputError(null)
+              }}
+              onTimeAnswerChange={(answer) => {
+                setTimeAnswer(answer)
+                setInputError(null)
+              }}
+              onSubmitText={() => submitAnswer(textAnswer.trim(), textAnswer.trim())}
+              onSubmitLength={() => {
+                const lengthUnit = selectedMission.answerConfig.unit === 'cm' ? 'cm' : 'm-cm'
+                const displayAnswer = formatStructuredLength(lengthAnswer, lengthUnit)
+                submitAnswer(lengthUnit === 'cm' ? displayAnswer : lengthAnswer, displayAnswer)
+              }}
+              onSubmitTime={() =>
+                submitAnswer(
+                  timeAnswer,
+                  formatStructuredTime(timeAnswer, selectedMission.answerType === 'duration' ? '시간' : '시')
+                )
+              }
+              onShowHint={() => {
+                setShowHint(true)
+                dispatchMascotReaction('hint')
+              }}
+            />
 
-        <ScratchPad
-          {...scratchKey}
-          sessionStatus={resolveMissionSketchStatus({ completed: solved })}
-        />
+            <ScratchPad
+              {...scratchKey}
+              sessionStatus={resolveMissionSketchStatus({ completed: solved })}
+            />
+          </>
+        )}
 
         {solved && (
           <section className="rounded-[2rem] border-2 border-[#16a34a] bg-[#dcfce7] p-5 md:p-6" data-testid="grade2-reward-panel">
