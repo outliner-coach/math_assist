@@ -1,28 +1,61 @@
 import { describe, expect, it } from 'vitest'
 
-import { getProblemReviewData } from './problem-review'
+import { getApplicationProblemReviewData } from './problem-review'
 
-describe('getProblemReviewData', () => {
-  it('builds one deterministic review row per template', async () => {
-    const data = await getProblemReviewData()
+describe('getApplicationProblemReviewData', () => {
+  it('builds one representative row for every registered Grade 2, 5, and 6 application family', () => {
+    const data = getApplicationProblemReviewData()
 
-    expect(data.summary.totalConcepts).toBeGreaterThan(0)
-    expect(data.summary.totalProblems).toBe(data.rows.length)
-    expect(new Set(data.rows.map(row => row.templateId)).size).toBe(data.rows.length)
+    expect(data.summary.totalRows).toBe(9)
+    expect(new Set(data.rows.map((row) => row.familyId)).size).toBe(9)
+    expect([...new Set(data.rows.map((row) => row.grade))].sort()).toEqual([2, 5, 6])
   })
 
-  it('includes rendered prompts and answers for both choice and number problems', async () => {
-    const data = await getProblemReviewData()
-    const choiceRow = data.rows.find(row => row.type === 'choice')
-    const numberRow = data.rows.find(row => row.type === 'number')
+  it('derives every filter option from the registered review rows', () => {
+    const data = getApplicationProblemReviewData()
 
-    expect(choiceRow).toBeDefined()
-    expect(choiceRow?.choices.length).toBeGreaterThan(0)
-    expect(choiceRow?.correctChoiceLabel).toMatch(/①|②|③|④/)
-    expect(choiceRow?.correctAnswer).not.toHaveLength(0)
+    expect(Object.keys(data.filters).sort()).toEqual([
+      'cognitiveDomains',
+      'families',
+      'grades',
+      'proofModes',
+      'reasoningPatterns',
+      'releaseStatuses',
+      'standards',
+      'units',
+      'versions',
+    ])
+    expect(data.filters.grades).toEqual([2, 5, 6])
+    expect(data.filters.families.every((option) => data.rows.some((row) => row.familyId === option.value))).toBe(true)
+    expect(data.filters.units.every((option) => data.rows.some((row) => row.unitId === option.value))).toBe(true)
+    expect(data.filters.standards.every((option) => data.rows.some((row) => row.standards.includes(option.value)))).toBe(true)
+    expect(data.filters.versions.every((option) => data.rows.some((row) => String(row.version) === option.value))).toBe(true)
+  })
 
-    expect(numberRow).toBeDefined()
-    expect(numberRow?.correctChoiceLabel).toBeNull()
-    expect(numberRow?.correctAnswer).not.toHaveLength(0)
+  it('keeps the generated problem content and registered automated evidence together', () => {
+    const data = getApplicationProblemReviewData()
+
+    data.rows.forEach((row) => {
+      expect(row.prompt).not.toHaveLength(0)
+      expect(row.answer).not.toHaveLength(0)
+      expect(row.solutionSteps.length).toBeGreaterThan(0)
+      expect(row.hintSteps.length).toBeGreaterThan(0)
+      expect(row.misconceptions.length).toBeGreaterThan(0)
+      expect(row.automaticChecks.deterministicSample).toBe(true)
+      expect(row.automaticChecks.proof.expectedCount).toBeGreaterThan(0)
+      expect(row.automaticChecks.visual.status).toBe('ready')
+    })
+  })
+
+  it('provides answer-hidden and answer-revealed visual review states for quantitative rows', () => {
+    const data = getApplicationProblemReviewData()
+    const quantitativeRows = data.rows.filter((row) => row.visual.semantics === 'quantitative')
+
+    expect(quantitativeRows).not.toHaveLength(0)
+    quantitativeRows.forEach((row) => {
+      expect(row.visual.before).toBeDefined()
+      expect(row.visual.after).toBeDefined()
+      expect(row.visual.before).not.toEqual(row.visual.after)
+    })
   })
 })

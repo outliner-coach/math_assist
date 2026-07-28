@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
 
 import ProblemReviewClient from './ProblemReviewClient'
-import { getProblemReviewData } from '@/lib/problem-review'
+import { getApplicationProblemReviewData } from '@/lib/problem-review'
 
 export const metadata: Metadata = {
-  title: '연습문제 검수 보드',
-  description: '문제 유형, 난이도, 보기, 정답을 한 번에 검수하는 페이지',
+  title: '세 학년 응용문제 내부 검수',
+  description: '등록된 응용문제 family의 대표 사례와 자동 검사 근거를 비교하는 내부 화면',
 }
 
-export default async function ProblemReviewPage() {
-  const data = await getProblemReviewData()
+export default function ProblemReviewPage() {
+  const data = getApplicationProblemReviewData()
 
   return <ProblemReviewClient data={data} />
 }
