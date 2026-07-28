@@ -142,6 +142,33 @@
 - `npm run audit:applications` — 0 errors.
 - `npm run lint`, `npm run tdd:guard`, and `git diff --check` — passed.
 
+## Fix round 5 — shared mutation cover evaluator
+
+### RED evidence
+
+- Changed both mutation expectations to require
+  `maximumForbiddenDiagramCover >= 0.2`, rather than a raw selected-pair
+  overlap. Before extraction, the mutation payload had no such value and the
+  Grade 5 assertion failed with `undefined`, proving the old fixture had not
+  executed the forbidden-pair rule.
+
+### Change
+
+- Extracted the E2E-local `inspectDiagramMetrics` evaluator from the live
+  scene loop. It is now called for all 28 live diagram scenes and again after
+  each DOM mutation.
+- The Grade 5 own-target mutation and Grade 6 `missing-part`-over-
+  `known-part` mutation directly assert the shared evaluator's
+  `maximumForbiddenDiagramCover >= 0.2` result. A broad matching-target
+  exemption would therefore fail the Grade 5 mutation assertion.
+- No production code or visual behavior changed in this round.
+
+### Verification
+
+- `npx playwright test e2e/problem-review.spec.ts --project=chromium --workers=1` — 5 passed: 28 live diagram scenes plus both mutation checks.
+- `npx vitest run src/components/ApplicationProblemVisual.test.ts src/lib/problem-review.test.ts src/lib/application-problem-quality-audit.test.ts src/lib/application-problems/quality-evidence.test.ts` — 37 passed.
+- `npm run lint`, `npm run tdd:guard`, and `git diff --check` — passed.
+
 ## Fix round 4 — exact target-key cover enforcement
 
 ### RED evidence

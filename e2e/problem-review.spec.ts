@@ -2,6 +2,66 @@ import { expect, test } from '@playwright/test'
 
 const BASE_PATH = '/math_assist'
 
+function inspectDiagramMetrics(element: SVGSVGElement, targetFamilyId: string) {
+  const viewBox = element.viewBox.baseVal
+  const svgBox = element.getBoundingClientRect()
+  const labels = Array.from(element.querySelectorAll<SVGTextElement>('[data-application-visual-label]'))
+  const primitives = Array.from(element.querySelectorAll<SVGGraphicsElement>('[data-application-visual-primitive]'))
+  const overlapRatio = (first: DOMRect, second: DOMRect) => {
+    const width = Math.max(0, Math.min(first.x + first.width, second.x + second.width) - Math.max(first.x, second.x))
+    const height = Math.max(0, Math.min(first.y + first.height, second.y + second.height) - Math.max(first.y, second.y))
+    return first.width * first.height === 0 ? 0 : (width * height) / (first.width * first.height)
+  }
+  const labelsWithBoxes = labels.map((label) => ({
+    box: label.getBBox(),
+    targetKey: label.dataset.applicationVisualTarget ?? '',
+  }))
+  const primitivesWithBoxes = primitives.map((primitive, paintOrder) => ({
+    box: primitive.getBBox(),
+    key: primitive.dataset.applicationVisualPrimitive ?? '',
+    paintOrder,
+  }))
+  const contains = (outer: DOMRect, inner: DOMRect) => (
+    outer.x <= inner.x &&
+    outer.y <= inner.y &&
+    outer.x + outer.width >= inner.x + inner.width &&
+    outer.y + outer.height >= inner.y + inner.height
+  )
+  const isAllowedG6TargetPair = (targetKey: string, primitive: typeof primitivesWithBoxes[number]) => {
+    if (targetFamilyId !== 'g6-ratio-part-whole' || !['missing-part', 'known-part'].includes(targetKey)) {
+      return false
+    }
+    const target = primitivesWithBoxes.find((entry) => entry.key === targetKey)
+    if (!target) return false
+    return (
+      primitive.key === targetKey ||
+      (primitive.key === 'whole-bar' && primitive.paintOrder < target.paintOrder && contains(primitive.box, target.box))
+    )
+  }
+  const boxes = labelsWithBoxes.map(({ box }) => box)
+  return {
+    hasAnswerEmphasis: element.querySelector('.application-visual--answer') !== null,
+    labelTexts: labels.map((label) => label.textContent ?? ''),
+    minimumCssFontSize: Math.min(...labels.map((label) => (
+      Number(label.getAttribute('font-size')) * svgBox.width / viewBox.width
+    ))),
+    minimumCssTextHeight: Math.min(...labels.map((label) => label.getBoundingClientRect().height)),
+    boxes: boxes.map((box) => ({ x: box.x, y: box.y, width: box.width, height: box.height })),
+    maximumLabelOverlap: Math.max(0, ...boxes.flatMap((box, index) => boxes.slice(index + 1).map((other) => overlapRatio(box, other)))),
+    maximumForbiddenDiagramCover: Math.max(0, ...labelsWithBoxes.flatMap(({ box, targetKey }) => (
+      primitivesWithBoxes
+        .filter((primitive) => !isAllowedG6TargetPair(targetKey, primitive))
+        .map((primitive) => overlapRatio(box, primitive.box))
+    ))),
+    maximumAllowedG6TargetCover: Math.max(0, ...labelsWithBoxes.flatMap(({ box, targetKey }) => (
+      primitivesWithBoxes
+        .filter((primitive) => isAllowedG6TargetPair(targetKey, primitive))
+        .map((primitive) => overlapRatio(box, primitive.box))
+    ))),
+    viewBox: { width: viewBox.width, height: viewBox.height },
+  }
+}
+
 test('내부 검수 화면은 세 학년 family와 읽기 전용 검수 근거를 표시한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/review/problems`)
 
@@ -67,66 +127,7 @@ test('등록된 모든 diagram family는 두 뷰포트와 공개 상태에서 �
       await expect(card).toHaveCount(1)
       for (const state of ['before', 'after'] as const) {
         const svg = card.getByTestId(`review-visual-${state}`).locator('svg')
-        const metrics = await svg.evaluate((element, targetFamilyId) => {
-          const svgElement = element as SVGSVGElement
-          const viewBox = svgElement.viewBox.baseVal
-          const svgBox = svgElement.getBoundingClientRect()
-          const labels = Array.from(svgElement.querySelectorAll<SVGTextElement>('[data-application-visual-label]'))
-          const primitives = Array.from(svgElement.querySelectorAll<SVGGraphicsElement>('[data-application-visual-primitive]'))
-          const overlapRatio = (first: DOMRect, second: DOMRect) => {
-            const width = Math.max(0, Math.min(first.x + first.width, second.x + second.width) - Math.max(first.x, second.x))
-            const height = Math.max(0, Math.min(first.y + first.height, second.y + second.height) - Math.max(first.y, second.y))
-            return first.width * first.height === 0 ? 0 : (width * height) / (first.width * first.height)
-          }
-          const labelsWithBoxes = labels.map((label) => ({
-            box: label.getBBox(),
-            targetKey: label.dataset.applicationVisualTarget ?? '',
-          }))
-          const primitivesWithBoxes = primitives.map((primitive) => ({
-            box: primitive.getBBox(),
-            key: primitive.dataset.applicationVisualPrimitive ?? '',
-            paintOrder: Array.from(primitives).indexOf(primitive),
-          }))
-          const contains = (outer: DOMRect, inner: DOMRect) => (
-            outer.x <= inner.x &&
-            outer.y <= inner.y &&
-            outer.x + outer.width >= inner.x + inner.width &&
-            outer.y + outer.height >= inner.y + inner.height
-          )
-          const isAllowedG6TargetPair = (targetKey: string, primitive: typeof primitivesWithBoxes[number]) => {
-            if (targetFamilyId !== 'g6-ratio-part-whole' || !['missing-part', 'known-part'].includes(targetKey)) {
-              return false
-            }
-            const target = primitivesWithBoxes.find((entry) => entry.key === targetKey)
-            if (!target) return false
-            return (
-              primitive.key === targetKey ||
-              (primitive.key === 'whole-bar' && primitive.paintOrder < target.paintOrder && contains(primitive.box, target.box))
-            )
-          }
-          const boxes = labelsWithBoxes.map(({ box }) => box)
-          return {
-            hasAnswerEmphasis: svgElement.querySelector('.application-visual--answer') !== null,
-            labelTexts: labels.map((label) => label.textContent ?? ''),
-            minimumCssFontSize: Math.min(...labels.map((label) => (
-              Number(label.getAttribute('font-size')) * svgBox.width / viewBox.width
-            ))),
-            minimumCssTextHeight: Math.min(...labels.map((label) => label.getBoundingClientRect().height)),
-            boxes: boxes.map((box) => ({ x: box.x, y: box.y, width: box.width, height: box.height })),
-            maximumLabelOverlap: Math.max(0, ...boxes.flatMap((box, index) => boxes.slice(index + 1).map((other) => overlapRatio(box, other)))),
-            maximumForbiddenDiagramCover: Math.max(0, ...labelsWithBoxes.flatMap(({ box, targetKey }) => (
-              primitivesWithBoxes
-                .filter((primitive) => !isAllowedG6TargetPair(targetKey, primitive))
-                .map((primitive) => overlapRatio(box, primitive.box))
-            ))),
-            maximumAllowedG6TargetCover: Math.max(0, ...labelsWithBoxes.flatMap(({ box, targetKey }) => (
-              primitivesWithBoxes
-                .filter((primitive) => isAllowedG6TargetPair(targetKey, primitive))
-                .map((primitive) => overlapRatio(box, primitive.box))
-            ))),
-            viewBox: { width: viewBox.width, height: viewBox.height },
-          }
-        }, familyId)
+        const metrics = await svg.evaluate(inspectDiagramMetrics, familyId)
 
         expect(metrics.minimumCssFontSize).toBeGreaterThanOrEqual(10)
         expect(metrics.minimumCssTextHeight).toBeGreaterThanOrEqual(12)
@@ -165,17 +166,11 @@ test('Grade 5 matching and Grade 6 nonmatching target-label mutations fail cover
     const targetBox = target.getBBox()
     label.setAttribute('x', String(targetBox.x + targetBox.width / 2))
     label.setAttribute('y', String(targetBox.y + targetBox.height / 2))
-    const labelBox = label.getBBox()
-    const overlapRatio = (first: DOMRect, second: DOMRect) => {
-      const width = Math.max(0, Math.min(first.x + first.width, second.x + second.width) - Math.max(first.x, second.x))
-      const height = Math.max(0, Math.min(first.y + first.height, second.y + second.height) - Math.max(first.y, second.y))
-      return first.width * first.height === 0 ? 0 : (width * height) / (first.width * first.height)
-    }
     return {
       targetKey: label.dataset.applicationVisualTarget,
-      cover: overlapRatio(labelBox, targetBox),
     }
   })
+  const grade5Metrics = await grade5Svg.evaluate(inspectDiagramMetrics, 'g5-area-composite-inverse')
 
   const grade6Card = page.getByTestId('review-problem-card').filter({ hasText: 'g6-ratio-part-whole' })
   const grade6Svg = grade6Card.getByTestId('review-visual-before').locator('svg')
@@ -187,22 +182,16 @@ test('Grade 5 matching and Grade 6 nonmatching target-label mutations fail cover
     const targetBox = target.getBBox()
     label.setAttribute('x', String(targetBox.x + targetBox.width / 2))
     label.setAttribute('y', String(targetBox.y + targetBox.height / 2))
-    const labelBox = label.getBBox()
-    const overlapRatio = (first: DOMRect, second: DOMRect) => {
-      const width = Math.max(0, Math.min(first.x + first.width, second.x + second.width) - Math.max(first.x, second.x))
-      const height = Math.max(0, Math.min(first.y + first.height, second.y + second.height) - Math.max(first.y, second.y))
-      return first.width * first.height === 0 ? 0 : (width * height) / (first.width * first.height)
-    }
     return {
       targetKey: label.dataset.applicationVisualTarget,
       nonmatchingPrimitiveKey: target.dataset.applicationVisualPrimitive,
-      cover: overlapRatio(labelBox, targetBox),
     }
   })
+  const grade6Metrics = await grade6Svg.evaluate(inspectDiagramMetrics, 'g6-ratio-part-whole')
 
   expect(grade5Mutation.targetKey).toBeTruthy()
-  expect(grade5Mutation.cover).toBeGreaterThanOrEqual(0.2)
+  expect(grade5Metrics.maximumForbiddenDiagramCover).toBeGreaterThanOrEqual(0.2)
   expect(grade6Mutation.targetKey).toBe('missing-part')
   expect(grade6Mutation.nonmatchingPrimitiveKey).toBe('known-part')
-  expect(grade6Mutation.cover).toBeGreaterThanOrEqual(0.2)
+  expect(grade6Metrics.maximumForbiddenDiagramCover).toBeGreaterThanOrEqual(0.2)
 })
