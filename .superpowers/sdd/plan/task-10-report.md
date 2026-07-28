@@ -95,3 +95,49 @@
   `src/lib/grade4-problems.test.ts:56`, `src/lib/grade6-study.test.ts:42-44`,
   and `src/lib/server/remote-auth-core.test.ts:67`. No diagnostics remain in
   T10-modified/new files.
+
+## Fix round 2 — compact overlap SVG label scale
+
+### RED evidence
+
+- Added a representative-render assertion for an explicit SVG `font-size` and
+  label marker on `g5-area-overlap-reconstruction`.
+- `npx vitest run src/components/ApplicationProblemVisual.test.ts` failed first:
+  the pre-change SVG had no scene-relative label size or label marker, so its
+  browser default of `14` viewBox units scaled into the small `18.4102`-unit
+  overlap scene.
+
+### Change
+
+- `ApplicationProblemVisual` now derives a bounded label size from each
+  diagram's viewBox. Compact diagrams use at most `1` viewBox unit.
+- For compact diagrams only, labels move to an added, scene-relative callout
+  region directly below the unchanged mathematical drawing. The original
+  primitive coordinates, visible-before/revealed-after content selection, and
+  answer disclosure rules are unchanged.
+- The review browser test measures all marked label and primitive `getBBox()`
+  values at 390×844 and 1024×768. It requires positive bounded label sizes,
+  viewBox containment, less than 20% label-to-label overlap, and less than 20%
+  label-to-diagram coverage.
+
+### Actual-card visual evidence
+
+- Captured the Grade 5 overlap review card in Chromium at 390×844 and
+  1024×768. The before-answer SVG viewBox is `18.4102 × 22.4610`; all six
+  labels are `0.921` scene units (under 12% of viewBox width).
+- At 390px the SVG renders `232 × 283.05` CSS px; label bounds are within
+  `x=5.649..12.761`, `y=13.479..22.184`. At 1024px it renders
+  `330 × 402.61` CSS px; bounds are within `x=5.648..12.762`,
+  `y=13.459..22.169`.
+- Both viewports measured `maximumLabelOverlap=0` and
+  `maximumDiagramCover=0`; visual inspection confirmed the text is legible
+  below, rather than across, the three-shape diagram in both pre-answer and
+  revealed-answer cards.
+
+### Verification
+
+- `npx vitest run src/components/ApplicationProblemVisual.test.ts src/lib/problem-review.test.ts src/lib/application-problem-quality-audit.test.ts src/lib/application-problems/quality-evidence.test.ts` — 36 passed.
+- `npx playwright test e2e/problem-review.spec.ts --project=chromium --workers=1` — 4 passed, including the two viewport geometry checks.
+- `npm run validate:application-packs` — 9 families, 0 errors.
+- `npm run audit:applications` — 0 errors.
+- `npm run lint`, `npm run tdd:guard`, and `git diff --check` — passed.

@@ -112,4 +112,18 @@ describe('ApplicationProblemVisual', () => {
     expect(hidden).not.toContain(answerOnlyLabel)
     expect(revealed).toContain(answerOnlyLabel)
   })
+
+  it('writes an explicit scene-relative SVG label size for the overlap representative', () => {
+    const row = getApplicationProblemReviewData().rows.find((entry) => (
+      entry.familyId === 'g5-area-overlap-reconstruction'
+    ))
+    if (!row) throw new Error('expected the registered overlap representative')
+
+    const markup = renderToStaticMarkup(
+      createElement(ApplicationProblemVisual, { scene: row.visual.before.scene, showAnswer: false }),
+    )
+
+    expect(markup).toContain('font-size=')
+    expect(markup).toContain('data-application-visual-label')
+  })
 })

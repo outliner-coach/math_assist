@@ -45,10 +45,22 @@ function primitiveClassName(primitive: ApplicationVisualPrimitive): string {
     .join(' ')
 }
 
+function isCompactDiagram(scene: Extract<ValidatedApplicationVisualScene, { surface: 'diagram' }>): boolean {
+  return scene.viewBox.width < 48 || scene.viewBox.height < 32
+}
+
+function diagramLabelFontSize(
+  scene: Extract<ValidatedApplicationVisualScene, { surface: 'diagram' }>,
+): number {
+  if (isCompactDiagram(scene)) return Math.min(1, scene.viewBox.width / 20)
+  return Math.min(14, scene.viewBox.width / 30)
+}
+
 function renderPrimitive(primitive: ApplicationVisualPrimitive): ReactElement {
   const colors = palette[primitive.styleRole]
   const common = {
     className: primitiveClassName(primitive),
+    'data-application-visual-primitive': 'true',
     stroke: colors.stroke,
     strokeWidth: primitive.emphasis === 'answer' ? 3 : 2,
     vectorEffect: 'non-scaling-stroke' as const,
@@ -117,16 +129,23 @@ function ApplicationDiagram({
   const description = scene.description
     ? visibleContent(scene.description, showAnswer)
     : null
-  const visibleLabels = scene.labels
-    .map((label) => visibleContent(label.content, showAnswer))
-    .filter((text): text is string => text !== null)
+  const visibleLabels = scene.labels.flatMap((label) => {
+    const text = visibleContent(label.content, showAnswer)
+    return text === null ? [] : [{ label, text }]
+  })
   const accessibleName =
-    [description, ...visibleLabels].filter((text): text is string => Boolean(text)).join('. ') ||
+    [description, ...visibleLabels.map(({ text }) => text)].filter((text): text is string => Boolean(text)).join('. ') ||
     '문제 풀이를 돕는 그림'
+  const compact = isCompactDiagram(scene)
+  const fontSize = diagramLabelFontSize(scene)
+  const lineHeight = fontSize * 1.65
+  const renderedHeight = compact
+    ? scene.viewBox.height + 1 + lineHeight * visibleLabels.length
+    : scene.viewBox.height
   return (
     <svg
       className="application-visual application-visual__diagram"
-      viewBox={`0 0 ${scene.viewBox.width} ${scene.viewBox.height}`}
+      viewBox={`0 0 ${scene.viewBox.width} ${renderedHeight}`}
       preserveAspectRatio="xMidYMid meet"
       role="img"
       aria-label={accessibleName}
@@ -136,15 +155,15 @@ function ApplicationDiagram({
       {scene.primitives
         .filter((primitive) => showAnswer || isPublicDisclosure(primitive.disclosure))
         .map(renderPrimitive)}
-      {scene.labels.map((label) => {
-        const text = visibleContent(label.content, showAnswer)
-        if (text === null) return null
+      {visibleLabels.map(({ label, text }, labelIndex) => {
         return (
           <text
             key={label.key}
             className={`application-visual__label application-visual__label--${label.styleRole}`}
-            x={label.x}
-            y={label.y}
+            data-application-visual-label={label.key}
+            fontSize={fontSize}
+            x={compact ? scene.viewBox.width / 2 : label.x}
+            y={compact ? scene.viewBox.height + 1 + lineHeight * (labelIndex + 0.5) : label.y}
             textAnchor="middle"
             dominantBaseline="middle"
             fill={palette[label.styleRole].stroke}

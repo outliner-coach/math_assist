@@ -45,3 +45,39 @@ test('390×844와 1024×768 검수 화면은 가로 넘침이나 고정 행동 �
     expect((await gradeFilter.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(40)
   }
 })
+
+test('overlap 대표 SVG는 두 뷰포트에서 label을 viewBox 안에 읽을 수 있게 배치한다', async ({ page }) => {
+  for (const viewport of [
+    { width: 390, height: 844 },
+    { width: 1024, height: 768 },
+  ]) {
+    await page.setViewportSize(viewport)
+    await page.goto(`${BASE_PATH}/review/problems`)
+    const card = page.getByTestId('review-problem-card').filter({ hasText: 'g5-area-overlap-reconstruction' })
+    const svg = card.getByTestId('review-visual-before').locator('svg')
+    const metrics = await svg.evaluate((element) => {
+      const svgElement = element as SVGSVGElement
+      const viewBox = svgElement.viewBox.baseVal
+      const labels = Array.from(svgElement.querySelectorAll<SVGTextElement>('[data-application-visual-label]'))
+      const primitives = Array.from(svgElement.querySelectorAll<SVGGraphicsElement>('[data-application-visual-primitive]'))
+      const overlapRatio = (first: DOMRect, second: DOMRect) => {
+        const width = Math.max(0, Math.min(first.x + first.width, second.x + second.width) - Math.max(first.x, second.x))
+        const height = Math.max(0, Math.min(first.y + first.height, second.y + second.height) - Math.max(first.y, second.y))
+        return first.width * first.height === 0 ? 0 : (width * height) / (first.width * first.height)
+      }
+      const boxes = labels.map((label) => label.getBBox())
+      return {
+        viewBox: { width: viewBox.width, height: viewBox.height },
+        fontSizes: labels.map((label) => Number(label.getAttribute('font-size'))),
+        boxes: boxes.map((box) => ({ x: box.x, y: box.y, width: box.width, height: box.height })),
+        maximumLabelOverlap: Math.max(0, ...boxes.flatMap((box, index) => boxes.slice(index + 1).map((other) => overlapRatio(box, other)))),
+        maximumDiagramCover: Math.max(0, ...boxes.flatMap((box) => primitives.map((primitive) => overlapRatio(box, primitive.getBBox())))),
+      }
+    })
+
+    expect(metrics.fontSizes.every((size) => size > 0 && size < metrics.viewBox.width * 0.12)).toBe(true)
+    expect(metrics.boxes.every((box) => box.x >= 0 && box.y >= 0 && box.x + box.width <= metrics.viewBox.width && box.y + box.height <= metrics.viewBox.height)).toBe(true)
+    expect(metrics.maximumLabelOverlap).toBeLessThan(0.2)
+    expect(metrics.maximumDiagramCover).toBeLessThan(0.2)
+  }
+})
