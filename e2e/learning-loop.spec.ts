@@ -1391,12 +1391,12 @@ test('문제 렌더러 검수 화면은 실제 표본과 상태를 모바일·�
   await expect(surface).toHaveAttribute('data-review-variant', 'minimum')
   await expect(surface).toHaveAttribute('data-review-state', 'pre')
   await expect(surface).toHaveAttribute('data-review-answer-visible', 'false')
-  await expect(surface).toHaveAttribute('data-review-status', 'blocked')
+  await expect(surface).toHaveAttribute('data-review-status', 'pass')
   await expect(surface.locator('[data-actual-renderer]')).toHaveAttribute(
     'data-actual-renderer',
     'grade1'
   )
-  await expect(page.getByText('1540', { exact: true })).toBeVisible()
+  await expect(page.getByText('1540', { exact: true }).first()).toBeVisible()
   await expect(page.getByText('931', { exact: true }).first()).toBeVisible()
   await expect(page.getByTestId('problem-review-hints')).toHaveCount(0)
   await expect(page.getByTestId('problem-review-answer')).toHaveCount(0)
@@ -1440,9 +1440,9 @@ test('문제 렌더러 검수 화면은 실제 표본과 상태를 모바일·�
   await page.getByTestId('review-grade-filter').selectOption('all')
   await page.getByTestId('review-visual-filter').selectOption('all')
   await page.getByTestId('review-status-filter').selectOption('blocked')
-  await expect(page.getByTestId('review-source-select').locator('option')).toHaveCount(931)
+  await expect(page.getByTestId('review-source-select').locator('option')).toHaveCount(0)
   await page.getByTestId('review-status-filter').selectOption('pass')
-  await expect(page.getByTestId('review-source-select').locator('option')).toHaveCount(609)
+  await expect(page.getByTestId('review-source-select').locator('option')).toHaveCount(1_540)
   await page.getByTestId('review-reset-filters').click()
 
   const downloadPromise = page.waitForEvent('download')
@@ -1457,6 +1457,12 @@ test('문제 렌더러 검수 화면은 실제 표본과 상태를 모바일·�
   expect(new Set(
     exportedLedger.items.map((item: { reviewId: string }) => item.reviewId)
   ).size).toBe(1_540)
+  expect(exportedLedger.items.every(
+    (item: { status: string }) => item.status === 'pass'
+  )).toBe(true)
+  expect(exportedLedger.items.every(
+    (item: { findingCategories: string[] }) => item.findingCategories.length === 0
+  )).toBe(true)
 
   await page.setViewportSize({ width: 1024, height: 768 })
   await page.goto(
