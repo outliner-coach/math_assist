@@ -21,6 +21,18 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-28: Grade 5 exhaustive editorial review (primary workstreams 01 and
+  04) owns the Grade 5-only completed-text numeric particle correction in
+  `src/lib/problem-generator.ts`, its independent particle corpus, all
+  196,167 allowed parameter variants, and the explicit 780-item Grade 5
+  editorial decision receipt. The correction applies to prompt, choices,
+  hints, and solution text after expression rendering; it does not change the
+  answer rule, visual payload, Grade 6 renderer version, or saved progress.
+  `estimate.json`, `fraccompare.json`, and `numberrange.json` also contain
+  source-level fixed wording corrections. Consumers must rerun the exhaustive
+  Grade 5 audit and bump the Grade 5 renderer review version if this completed
+  text contract changes.
+
 - 2026-07-28: Grade 5 full editorial review metadata completion (primary
   workstreams 01 and 04) owns the explicit `taskActions` classification for
   every one of the 260 reviewed Grade 5 problem families, the shared blueprint

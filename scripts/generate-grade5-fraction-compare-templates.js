@@ -144,7 +144,7 @@ function buildDefinitions(profile) {
     },
     {
       params: reasoningParams,
-      prompt: '가 분수는 2/{{d}}, 나 분수는 3/{{d + 2}}입니다. 민준이는 분모만 보고 더 작은 가를 골랐습니다. 같은 일을 {{groups}}번 반복할 때, 통분하여 구한 올바른 나의 합은 민준이가 고른 가의 합보다 얼마 큰가요?',
+      prompt: '가 분수는 2/{{d}}, 나 분수는 3/{{d + 2}}입니다. 민준이는 분모만 보고 더 큰 가를 골랐습니다. 같은 일을 {{groups}}번 반복할 때, 통분하여 구한 올바른 나의 합은 민준이가 고른 가의 합보다 얼마 큰가요?',
       solver: 'reduceFrac(d * groups - 4 * groups, d * d + 2 * d)',
       choices: [
         'reduceFrac(d * groups - 4 * groups, d * d + 2 * d)',
@@ -157,7 +157,7 @@ function buildDefinitions(profile) {
     },
     {
       params: reasoningParams,
-      prompt: '가 분수는 {{d - 2}}/{{d}}, 나 분수는 {{d - 1}}/{{d + 2}}입니다. 서윤이는 분자만 보고 더 작은 나를 골랐습니다. 같은 양을 {{groups}}번 담을 때, 통분하여 구한 올바른 가의 합은 나의 합보다 얼마 큰가요?',
+      prompt: '가 분수는 {{d - 2}}/{{d}}, 나 분수는 {{d - 1}}/{{d + 2}}입니다. 서윤이는 분자만 보고 더 큰 나를 골랐습니다. 같은 양을 {{groups}}번 담을 때, 통분하여 구한 올바른 가의 합은 나의 합보다 얼마 큰가요?',
       solver: 'reduceFrac(d * groups - 4 * groups, d * d + 2 * d)',
       steps: ['교차곱은 가가 {{(d - 2) * (d + 2)}}, 나가 {{(d - 1) * d}}이므로 가가 더 큽니다.', '한 번의 차이는 {{fracSub(d - 2, d, d - 1, d + 2)}}입니다.', '{{groups}}번의 누적 차이는 {{reduceFrac(d * groups - 4 * groups, d * d + 2 * d)}}입니다.'],
       visual: comparisonVisual('분자만 보고 판단한 경우', '{{d - 2}}', '{{d}}', '{{d - 1}}', '{{d + 2}}'),

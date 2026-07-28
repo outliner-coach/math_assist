@@ -51,10 +51,10 @@ const setProfiles = {
     a: { min: 12, max: 30 },
     span: { min: 4, max: 8 },
     groups: { min: 2, max: 4 },
-    lowerInclusive: '행사 참가 나이',
-    lowerExclusive: '수영장 깊이 기준',
-    upperInclusive: '도서 대출 권수',
-    upperExclusive: '보관함 번호',
+    lowerInclusive: '행사 참가 나이가',
+    lowerExclusive: '수영장 깊이 기준이',
+    upperInclusive: '도서 대출 권수가',
+    upperExclusive: '보관함 번호가',
     bounded: '체험관 입장 번호',
     context: '공연장 좌석 번호',
     group: '학급',
@@ -63,10 +63,10 @@ const setProfiles = {
     a: { min: 25, max: 50 },
     span: { min: 5, max: 9 },
     groups: { min: 2, max: 5 },
-    lowerInclusive: '안전 검사 무게',
-    lowerExclusive: '기온 경보 기준',
-    upperInclusive: '엘리베이터 적재 수',
-    upperExclusive: '주차 시간 기준',
+    lowerInclusive: '안전 검사 무게가',
+    lowerExclusive: '기온 경보 기준이',
+    upperInclusive: '엘리베이터 적재 수가',
+    upperExclusive: '주차 시간 기준이',
     bounded: '대여 자전거 번호',
     context: '과학관 관찰 기록 번호',
     group: '모둠',
@@ -75,10 +75,10 @@ const setProfiles = {
     a: { min: 40, max: 70 },
     span: { min: 4, max: 10 },
     groups: { min: 3, max: 6 },
-    lowerInclusive: '걷기 목표 거리',
-    lowerExclusive: '훈련 통과 기록',
-    upperInclusive: '자료 제출 번호',
-    upperExclusive: '창고 사용량 기준',
+    lowerInclusive: '걷기 목표 거리가',
+    lowerExclusive: '훈련 통과 기록이',
+    upperInclusive: '자료 제출 번호가',
+    upperExclusive: '창고 사용량 기준이',
     bounded: '숲길 표지 번호',
     context: '환경 조사 지점 번호',
     group: '조사팀',
@@ -93,7 +93,7 @@ function buildDefinitions(profile) {
   return [
     {
       params: baseParams,
-      prompt: `${profile.lowerInclusive}가 {{a}} 이상입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?`,
+      prompt: `${profile.lowerInclusive} {{a}} 이상입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?`,
       solver: 'a',
       steps: ['이상은 경계값 {{a}}를 포함합니다.', '가장 작은 자연수는 {{a}}입니다.'],
       visual: rangeVisual({
@@ -106,7 +106,7 @@ function buildDefinitions(profile) {
     },
     {
       params: baseParams,
-      prompt: `${profile.lowerExclusive}가 {{a}} 초과입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?`,
+      prompt: `${profile.lowerExclusive} {{a}} 초과입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?`,
       solver: 'a + 1',
       steps: ['초과는 경계값 {{a}}를 포함하지 않습니다.', '{{a}} 다음 자연수인 {{a + 1}}부터 조건을 만족합니다.'],
       visual: rangeVisual({
@@ -119,7 +119,7 @@ function buildDefinitions(profile) {
     },
     {
       params: baseParams,
-      prompt: `${profile.upperInclusive}가 {{a}} 이하입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?`,
+      prompt: `${profile.upperInclusive} {{a}} 이하입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?`,
       solver: 'a',
       steps: ['이하는 경계값 {{a}}를 포함합니다.', '가장 큰 자연수는 {{a}}입니다.'],
       visual: rangeVisual({
@@ -132,7 +132,7 @@ function buildDefinitions(profile) {
     },
     {
       params: baseParams,
-      prompt: `${profile.upperExclusive}가 {{a}} 미만입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?`,
+      prompt: `${profile.upperExclusive} {{a}} 미만입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?`,
       solver: 'a - 1',
       steps: ['미만은 경계값 {{a}}를 포함하지 않습니다.', '{{a}} 바로 전 자연수인 {{a - 1}}이 가장 큽니다.'],
       visual: rangeVisual({

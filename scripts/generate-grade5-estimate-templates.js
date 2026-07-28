@@ -28,7 +28,7 @@ const setConfigs = {
   A: {
     direct: ['물병은', '개', '모은 종이는', '장'],
     capacity: ['강당 행사에', '명'],
-    complete: ['전단은', '장'],
+    complete: ['전단은', '장', '을'],
     purchase: ['인쇄용지가', '장'],
     remainder: ['재활용품은', '개'],
     wrong: ['현장학습에', '명'],
@@ -40,7 +40,7 @@ const setConfigs = {
   B: {
     direct: ['학습 카드는', '장', '모은 병뚜껑은', '개'],
     capacity: ['공연에', '명'],
-    complete: ['택배로 보낼 제품은', '개'],
+    complete: ['택배로 보낼 제품은', '개', '를'],
     purchase: ['행사 안내문이', '장'],
     remainder: ['창고 부품은', '개'],
     wrong: ['대피 훈련에', '명'],
@@ -52,7 +52,7 @@ const setConfigs = {
   C: {
     direct: ['연필은', '자루', '도서관 책은', '권'],
     capacity: ['체육관 행사에', '명'],
-    complete: ['보낼 책은', '권'],
+    complete: ['보낼 책은', '권', '을'],
     purchase: ['전시용 스티커가', '장'],
     remainder: ['기부 물품은', '개'],
     wrong: ['학교 축제에', '명'],
@@ -66,7 +66,7 @@ const setConfigs = {
 function buildSetDefinitions(config) {
   const [smallSubject, smallUnit, largeSubject, largeUnit] = config.direct
   const [capacityContext, capacityUnit] = config.capacity
-  const [completeSubject, completeUnit] = config.complete
+  const [completeSubject, completeUnit, completeObjectParticle] = config.complete
   const [purchaseSubject, purchaseUnit] = config.purchase
   const [remainderSubject, remainderUnit] = config.remainder
   const [wrongContext, wrongUnit] = config.wrong
@@ -107,9 +107,9 @@ function buildSetDefinitions(config) {
     },
     {
       params: { h: hRange },
-      prompt: `${completeSubject} ${`{{${value100}}}`}${completeUnit} 있습니다. 100${completeUnit}씩 한 묶음으로 완성된 것만 보낼 때 최대 몇 ${completeUnit}을 보낼 수 있나요?`,
+      prompt: `${completeSubject} ${`{{${value100}}}`}${completeUnit} 있습니다. 100${completeUnit}씩 한 묶음으로 완성된 것만 보낼 때 최대 몇 ${completeUnit}${completeObjectParticle} 보낼 수 있나요?`,
       solver: `floorTo(${value100}, 100)`,
-      steps: ['100씩 완성되지 않은 나머지는 이번에 보낼 수 없습니다.', `백의 자리까지 버린 ${`{{floorTo(${value100}, 100)}}`}${completeUnit}을 보낼 수 있습니다.`],
+      steps: ['100씩 완성되지 않은 나머지는 이번에 보낼 수 없습니다.', `백의 자리까지 버린 ${`{{floorTo(${value100}, 100)}}`}${completeUnit}${completeObjectParticle} 보낼 수 있습니다.`],
     },
     {
       params: { h: hRange },

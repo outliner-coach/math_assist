@@ -1199,6 +1199,12 @@ function loadProblemGenerator() {
   const mathPath = path.join(ROOT_DIR, 'src', 'lib', 'math.ts')
   const arithmeticExpressionPath = path.join(ROOT_DIR, 'src', 'lib', 'arithmetic-expression.ts')
   const generatorPath = path.join(ROOT_DIR, 'src', 'lib', 'problem-generator.ts')
+  const koreanNumericParticlesPath = path.join(
+    ROOT_DIR,
+    'src',
+    'lib',
+    'korean-numeric-particles.ts',
+  )
   const overlapModelPath = path.join(ROOT_DIR, 'src', 'lib', 'three-shape-overlap.ts')
 
   const mathCode = ts.transpileModule(
@@ -1217,9 +1223,17 @@ function loadProblemGenerator() {
     fs.readFileSync(overlapModelPath, 'utf8'),
     { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }
   ).outputText
+  const koreanNumericParticlesCode = ts.transpileModule(
+    fs.readFileSync(koreanNumericParticlesPath, 'utf8'),
+    { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }
+  ).outputText
 
   fs.writeFileSync(path.join(tempDir, 'math.js'), mathCode)
   fs.writeFileSync(path.join(tempDir, 'arithmetic-expression.js'), arithmeticExpressionCode)
+  fs.writeFileSync(
+    path.join(tempDir, 'korean-numeric-particles.js'),
+    koreanNumericParticlesCode,
+  )
   fs.writeFileSync(path.join(tempDir, 'types.js'), 'module.exports = {}')
   fs.writeFileSync(path.join(tempDir, 'three-shape-overlap.js'), overlapModelCode)
   fs.writeFileSync(path.join(tempDir, 'problem-generator.js'), generatorCode)

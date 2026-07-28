@@ -254,13 +254,13 @@ describe('problem review catalog scripts', () => {
     )
 
     expect(sources.map((source: ProblemReviewSource) => source.rendererReviewKey)).toEqual([
-      'practice-problem-visual:cuboid',
-      'practice-problem-visual:three_shape_overlap',
-      'practice-problem-visual',
+      'grade5-practice-visual:cuboid',
+      'grade5-practice-visual:three_shape_overlap',
+      'grade5-practice-visual',
     ])
     expect(reviewCore.RENDERER_REVIEW_VERSION_REGISTRY).toMatchObject({
-      'practice-problem-visual:cuboid': 'practice-problem-cuboid-review-v2',
-      'practice-problem-visual:three_shape_overlap': 'practice-problem-three-shape-overlap-review-v2',
+      'grade5-practice-visual:cuboid': 'grade5-practice-cuboid-v2-particles-v1',
+      'grade5-practice-visual:three_shape_overlap': 'grade5-practice-three-shape-overlap-v2-particles-v1',
     })
   })
 

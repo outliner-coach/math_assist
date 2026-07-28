@@ -53,16 +53,23 @@
   `docs/tracking/problem-editorial-review-work/grade4.json`
 - 6학년 임시 영수증과 5학년 핵심 도형 수정은 이전 통합 체크포인트에
   포함되어 있다.
+- 5학년 임시 결정·영수증:
+  `docs/tracking/problem-editorial-review-work/grade5-decisions.json`,
+  `docs/tracking/problem-editorial-review-work/grade5.json`
+- 5학년은 780개 원문과 196,167개 허용 변형을 전수 검수했다. 비시각
+  450개만 통과했고, 실제 브라우저 증거가 없는 시각 330개는 차단
+  상태다. 숫자 조사 30,239개 표면과 고정 문구·오류 분석 전제
+  12개 원문을 수정했으며 전체 Vitest 674/674, metadata 1110/1110,
+  문제 감사 오류·경고 0, build 113/113을 통과했다.
 - 임시 영수증의 시각 항목은 실제 브라우저 증거가 없는 동안 계속
   `blocked`다. 자동 통과나 최종 원장 승격으로 해석하면 안 된다.
 
 ## 다음 실행 순서
 
-1. 5학년 780개 원문과 모든 허용 변형 전수 편집 검수
-2. 실제 렌더러를 쓰는 `/review/problems` 검수 화면 구현
-3. 모든 시각 항목의 모바일·태블릿·제출 전·힌트·정답 공개 증거 확보
-4. 임시 영수증을 최종
+1. 실제 렌더러를 쓰는 `/review/problems` 검수 화면 구현
+2. 모든 시각 항목의 모바일·태블릿·제출 전·힌트·정답 공개 증거 확보
+3. 임시 영수증을 최종
    `docs/tracking/problem-editorial-review-v1.json`으로 병합
-5. 전체 test·lint·TDD guard·validator·audit·promptfoo·build·E2E와
+4. 전체 test·lint·TDD guard·validator·audit·promptfoo·build·E2E와
    최종 독립 리뷰
-6. 사용자 승인 뒤에만 `main` 통합과 배포
+5. 사용자 승인 뒤에만 `main` 통합과 배포
