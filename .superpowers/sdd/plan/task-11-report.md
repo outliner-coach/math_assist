@@ -147,3 +147,32 @@ replacement state without an explicit blocked registry.
 - `npm run validate:application-packs`, `npm run audit:applications`,
   `npm run lint`, and `npm run tdd:guard`: passed.
 - `npx tsc --noEmit` has no diagnostics in the two changed test files.
+
+## Fix round 4 — explicit unreleased client fixtures
+
+### RED
+
+Two client dispatch tests omitted the registry while expecting an unreleased
+state. Because the production Grade 5 registry is now approved by default, the
+affected six-test run reproduced two failures: `ProblemCard` and `ResultCard`
+rendered released content instead of the expected alert-only state.
+
+### GREEN
+
+- Added an explicit Grade 5 draft/pending registry fixture with independent
+  family entries and matching immutable release-ledger snapshots.
+- Injected that fixture into the unreleased `ProblemCard` and `ResultCard`
+  tests, preserving the alert and prompt/answer/solution/control
+  non-disclosure assertions.
+- The positive `ProblemCard` assertion now exercises the actual approved
+  production default. The positive `ResultCard` assertion retains its
+  synthetic approved registry coverage.
+- No product logic or approval metadata changed.
+
+### Fix-round verification
+
+- Affected client dispatch file: 6 passed after the initial 2-failure RED run.
+- Full `npm test`: 87 files and 729 tests passed.
+- `npm run lint` and `npm run tdd:guard`: passed.
+- `npx tsc --noEmit` has no diagnostics in the changed client test file.
+- The staged diff check passed.

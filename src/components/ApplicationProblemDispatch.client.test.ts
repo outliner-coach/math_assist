@@ -7,7 +7,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { generateG5PerimeterBoundaryRebuildProblem } from '@/lib/application-problems/families/grade5-geometry-families'
 import { GRADE5_APPLICATION_PROBLEM_REGISTRY_V1 } from '@/lib/application-problems/grade5-registry'
-import type { ApplicationProblemRegistryV1 } from '@/lib/application-problems/registry'
+import {
+  createImmutableReleaseFamilySnapshot,
+  type ApplicationProblemRegistryV1,
+} from '@/lib/application-problems/registry'
 import { adaptGeneratedApplicationProblemToPractice } from '@/lib/application-problems/template-adapter'
 import type { Problem, SubmissionResult } from '@/lib/types'
 
@@ -55,6 +58,28 @@ function approvedRegistry(): ApplicationProblemRegistryV1 {
   }
 }
 
+function draftRegistry(): ApplicationProblemRegistryV1 {
+  const draftFamily = <T extends ApplicationProblemRegistryV1['releaseLedger'][number]>(
+    family: T,
+  ): T => ({
+    ...family,
+    releaseStatus: 'draft' as const,
+    approval: {
+      ownerStatus: 'pending' as const,
+      evidenceRefs: [],
+      expertStatus: 'not-reviewed' as const,
+    },
+  })
+  const entries = GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.entries.map((entry) => ({
+    ...entry,
+    family: draftFamily(entry.family),
+  }))
+  return {
+    entries,
+    releaseLedger: entries.map((entry) => createImmutableReleaseFamilySnapshot(entry.family)),
+  }
+}
+
 function result(problem: Problem): SubmissionResult {
   return {
     index: problem.index,
@@ -92,6 +117,7 @@ describe('application problem client dispatch', () => {
         problem: draftProblem,
         answer: null,
         onAnswer: () => undefined,
+        applicationProblemRegistry: draftRegistry(),
       }))
       await import('./Grade5ApplicationGeometryVisual')
       await Promise.resolve()
@@ -102,13 +128,12 @@ describe('application problem client dispatch', () => {
     expect(container.querySelector('[data-testid="choice-0"]')).toBeNull()
   })
 
-  it('opens answer controls only after the approved required visual validates', async () => {
+  it('opens answer controls with the approved production default after visual validation', async () => {
     await act(async () => {
       root?.render(createElement(ProblemCard, {
         problem: problem(),
         answer: null,
         onAnswer: () => undefined,
-        applicationProblemRegistry: approvedRegistry(),
       }))
       await import('./Grade5ApplicationGeometryVisual')
       await Promise.resolve()
@@ -159,7 +184,10 @@ describe('application problem client dispatch', () => {
   it('hides an unreleased result prompt, answer, and solution behind the same gate', async () => {
     const draftProblem = problem()
     await act(async () => {
-      root?.render(createElement(ResultCard, { result: result(draftProblem) }))
+      root?.render(createElement(ResultCard, {
+        result: result(draftProblem),
+        applicationProblemRegistry: draftRegistry(),
+      }))
       await import('./Grade5ApplicationGeometryVisual')
       await Promise.resolve()
     })
