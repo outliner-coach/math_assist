@@ -5,6 +5,7 @@ import {
   analyzeThreeShapeOverlapVisual,
   buildProblemBlueprintCoverage,
   calculateDifficultySignal,
+  generateProblemQualityReport,
   inspectProblemBlueprintMeta,
   loadProblemGenerator
 } from '../../scripts/problem-quality-core.js'
@@ -23,6 +24,13 @@ const completeBlueprint = {
 }
 
 describe('problem quality audit helpers', () => {
+  it('keeps strict quality output actionable while retaining blueprint targets as report context', () => {
+    const report = generateProblemQualityReport({ sampleCount: 16 })
+
+    expect(report.summary.warningCount).toBe(0)
+    expect(report.blueprintCoverage.byConcept.some((entry: { targetGaps: string[] }) => entry.targetGaps.length > 0)).toBe(true)
+  })
+
   it('loads the runtime generator with its safe arithmetic dependency', () => {
     const { generateProblems } = loadProblemGenerator()
     const [problem] = generateProblems([

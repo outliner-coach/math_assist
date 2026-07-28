@@ -23,6 +23,18 @@ function generateTests(config = {}) {
   const tests = []
 
   tests.push({
+    description: 'application problem metadata and provenance gate',
+    metadata: { suite: 'application_metadata' },
+    vars: { auditType: 'application_metadata' },
+    assert: [
+      {
+        type: 'javascript',
+        value: failingReason('Application problem metadata or provenance validation failed')
+      }
+    ]
+  })
+
+  tests.push({
     description: 'template validation gate',
     metadata: { suite: 'template_validation' },
     vars: {

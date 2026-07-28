@@ -1230,6 +1230,7 @@ function generateProblemQualityReport(options = {}) {
   const validation = validateTemplates({ sampleCount })
   const errors = [...validation.errors]
   const warnings = []
+  const coverageRecommendations = []
   const conceptMap = loadConceptMap()
   const catalog = loadTemplateCatalog()
   const allTemplates = catalog.flatMap(entry =>
@@ -1257,7 +1258,7 @@ function generateProblemQualityReport(options = {}) {
     }
 
     for (const code of conceptCoverage.targetGaps) {
-      warnings.push(createIssue('warning', code, {
+      coverageRecommendations.push(createIssue('recommendation', code, {
         file: null,
         templateId: null,
         conceptId: conceptCoverage.conceptId,
@@ -1434,6 +1435,7 @@ function generateProblemQualityReport(options = {}) {
     },
     errors,
     warnings,
+    coverageRecommendations,
     blueprintCoverage,
     conceptSummaries
   }

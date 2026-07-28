@@ -21,6 +21,8 @@
     "generate:grade5-geometry": "node scripts/generate-grade5-geometry-templates.js",
     "migrate:grade5-blueprints": "node scripts/migrate-grade5-blueprints.js",
     "validate:templates": "node scripts/validate-templates.js",
+    "validate:application-packs": "node scripts/validate-application-packs.js",
+    "audit:applications": "node scripts/application-problem-quality-report.js",
     "audit:problems": "node scripts/problem-quality-report.js",
     "promptfoo:problems": "mkdir -p public/reports out/promptfoo && promptfoo eval -c promptfooconfig.problem-quality.yaml --no-progress-bar -o public/reports/promptfoo-problem-quality.html -o out/promptfoo/problem-quality.json"
   },
