@@ -230,7 +230,7 @@ describe('application interaction gates', () => {
     }
   })
 
-  it('blocks quarantined snapshots but keeps retired snapshots self-contained', () => {
+  it('uses approved production defaults while blocking quarantine and preserving retirement', () => {
     const grade2 = grade2Mission(0)
     const grade5 = generateG5PerimeterBoundaryRebuildProblem({ seed: 0, variantIndex: 0 })
     const grade6 = generateG6RatioPartWhole({ seed: 0, variantIndex: 0 })
@@ -240,7 +240,7 @@ describe('application interaction gates', () => {
       'approved',
     )
 
-    expect(resolveGrade2MissionInteraction(grade2)).toBe('blocked')
+    expect(resolveGrade2MissionInteraction(grade2)).toBe('ready')
     expect(resolveGrade2MissionInteraction(grade2, approvedGrade2Registry)).toBe('ready')
     expect(resolveGrade2MissionInteraction(grade2, {
       entries: approvedGrade2Registry.entries,
@@ -277,7 +277,7 @@ describe('application interaction gates', () => {
       grade6.familyId,
       'approved',
     )
-    expect(resolveGrade5ApplicationGeometryVisual(grade5).status).toBe('blocked')
+    expect(resolveGrade5ApplicationGeometryVisual(grade5).status).toBe('ready')
     expect(resolveGrade5ApplicationGeometryVisual(grade5, approvedGrade5Registry).status)
       .toBe('ready')
     expect(resolveGrade5ApplicationGeometryVisual(grade5, {
@@ -290,7 +290,7 @@ describe('application interaction gates', () => {
       grade5.familyId,
       'retired',
     )).status).toBe('ready')
-    expect(resolveGrade6ApplicationRatioProblem(grade6).status).toBe('blocked')
+    expect(resolveGrade6ApplicationRatioProblem(grade6).status).toBe('ready')
     expect(resolveGrade6ApplicationRatioProblem(grade6, approvedGrade6Registry).status)
       .toBe('ready')
     expect(resolveGrade6ApplicationRatioProblem(grade6, {
@@ -364,7 +364,7 @@ describe('application interaction gates', () => {
 
     expect(await canGradePracticeProblem(legacy, 5)).toBe(true)
     expect(await canGradePracticeProblem(grade5, 5)).toBe(false)
-    expect(await canGradePracticeProblem(grade6, 6)).toBe(false)
+    expect(await canGradePracticeProblem(grade6, 6)).toBe(true)
     expect(await canGradePracticeProblem(grade6, 6, approvedGrade6Registry)).toBe(true)
     expect(await canGradePracticeProblem(grade6, 5)).toBe(false)
 

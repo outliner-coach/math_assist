@@ -71,6 +71,21 @@ function approvedApplicationMission(seed = 42): Grade2ApplicationMissionV1 {
   return buildApprovedGrade2ApplicationMissions(seed, approvedRegistry())[0]
 }
 
+function quarantinedRegistry(familyId: string): ApplicationProblemRegistryV1 {
+  const quarantineFamily = <T extends ApplicationProblemRegistryV1['releaseLedger'][number]>(
+    family: T,
+  ): T => family.familyId === familyId
+    ? { ...family, releaseStatus: 'quarantined' as const }
+    : family
+  return {
+    entries: GRADE2_APPLICATION_PROBLEM_REGISTRY_V1.entries.map((entry) => ({
+      ...entry,
+      family: quarantineFamily(entry.family),
+    })),
+    releaseLedger: GRADE2_APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger.map(quarantineFamily),
+  }
+}
+
 describe('Grade 2 application learning boundary', () => {
   let container: HTMLDivElement
   let root: Root | null
@@ -273,7 +288,7 @@ describe('Grade 2 application learning boundary', () => {
       .toContain('0개')
   })
 
-  it('hides a blocked problem completely and preserves progress when no approved replacement exists', async () => {
+  it('hides a quarantined problem and preserves progress when no higher approved replacement exists', async () => {
     const mission = approvedApplicationMission(42)
     const activated = activateGrade2ApplicationMissionSnapshot(
       createInitialGrade2Progress(100),
@@ -288,7 +303,10 @@ describe('Grade 2 application learning boundary', () => {
     storageData.set(GRADE2_PROGRESS_KEY, raw)
 
     await act(async () => {
-      root?.render(createElement(Grade2GameClient, { initialUnitId: 'g2-2-length' }))
+      root?.render(createElement(Grade2GameClient, {
+        initialUnitId: 'g2-2-length',
+        applicationProblemRegistry: quarantinedRegistry(mission.applicationSource.familyId),
+      }))
       await Promise.resolve()
       await Promise.resolve()
     })

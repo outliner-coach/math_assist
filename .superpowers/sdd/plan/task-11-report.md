@@ -118,3 +118,32 @@ reproduced the same object-identity failure independently for all three grades.
 - `npx tsc --noEmit` has no diagnostics in this round's changed registry and
   runtime-integration files; unrelated existing diagnostics remain outside
   this change.
+
+## Fix round 3 — approved production defaults in related tests
+
+### RED
+
+The interaction and Grade 2 client suites still treated the production
+registries as draft-by-default. The two-file run reproduced three failures:
+default Grade 2/5/6 interaction was `ready` rather than `blocked`, a valid
+Grade 6 snapshot was gradable, and the Grade 2 UI no longer showed a blocked
+replacement state without an explicit blocked registry.
+
+### GREEN
+
+- Updated positive default assertions to the approved production contract:
+  Grade 2/5/6 interaction is ready and a valid Grade 6 snapshot is gradable.
+- Preserved explicit empty-ledger, duplicate-ledger, quarantined, malformed,
+  wrong-grade, and wrong-answer blocked coverage, plus retired ready coverage.
+- The Grade 2 UI preservation test now supplies a quarantined current family
+  with no higher approved replacement. It still verifies hidden problem and
+  answer content, no replacement button, and byte-for-byte progress retention.
+- No product logic or approval metadata changed.
+
+### Fix-round verification
+
+- The two affected files: 15 passed after the initial 3-failure RED run.
+- Expanded release-focused Vitest suite: 200 passed.
+- `npm run validate:application-packs`, `npm run audit:applications`,
+  `npm run lint`, and `npm run tdd:guard`: passed.
+- `npx tsc --noEmit` has no diagnostics in the two changed test files.
