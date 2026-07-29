@@ -74,6 +74,18 @@ export type ProblemRepresentation =
 export type ProblemContextType = 'pure_math' | 'real_world' | 'puzzle'
 export type ReadingLoad = 'low' | 'medium' | 'high'
 export type VisualSemantics = 'decorative' | 'schematic' | 'quantitative'
+export type ProblemTaskAction =
+  | 'recognize'
+  | 'classify'
+  | 'compare'
+  | 'calculate'
+  | 'measure'
+  | 'construct'
+  | 'model'
+  | 'interpret'
+  | 'explain'
+  | 'analyze_error'
+  | 'reason'
 
 /**
  * A reviewed content-design axis that is independent from numeric difficulty.
@@ -92,6 +104,7 @@ export interface ProblemBlueprintMeta {
   contextType: ProblemContextType
   estimatedSteps: number
   readingLoad: ReadingLoad
+  taskActions?: ProblemTaskAction[]
   visualSemantics?: VisualSemantics
 }
 
@@ -342,6 +355,7 @@ export interface ProblemTemplate {
   solution_steps_template: string[]
   hint_steps_template?: string[]
   problem_family?: string
+  taskActions?: ProblemTaskAction[]
   blueprint?: ProblemBlueprintMeta
   visual_template?: { [key: string]: VisualTemplateValue }
 }

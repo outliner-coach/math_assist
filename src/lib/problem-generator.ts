@@ -4,6 +4,7 @@
 
 import * as math from './math'
 import { evaluateArithmeticExpression } from './arithmetic-expression'
+import { correctKoreanNumericParticles } from './korean-numeric-particles'
 import { buildThreeShapeOverlapModel } from './three-shape-overlap'
 import type { Problem, ProblemTemplate } from './types'
 
@@ -253,20 +254,25 @@ function generateSingleProblem(
   index: number,
   random: () => number
 ): Problem {
-  const prompt = evaluateTemplate(template.prompt_template, params)
+  const correctRenderedText = template.concept_id.startsWith('g6')
+    ? (text: string) => text
+    : correctKoreanNumericParticles
+  const prompt = correctRenderedText(evaluateTemplate(template.prompt_template, params))
   const correctAnswer = evaluateTemplate(`{{${template.solver_rule}}}`, params)
   const solutionSteps = template.solution_steps_template.map(step =>
-    evaluateTemplate(step, params)
+    correctRenderedText(evaluateTemplate(step, params))
   )
   const hintSteps = template.hint_steps_template
-    ? template.hint_steps_template.map(step => evaluateTemplate(step, params))
+    ? template.hint_steps_template.map(step => (
+      correctRenderedText(evaluateTemplate(step, params))
+    ))
     : undefined
   const visual = resolveProblemVisual(template, params)
 
   if (template.type === 'choice' && template.choices_template) {
     // 객관식: 보기 생성 및 셔플
     const choices = template.choices_template.map(choice =>
-      evaluateTemplate(choice, params)
+      correctRenderedText(evaluateTemplate(choice, params))
     )
 
     // 정답 위치 기억
@@ -308,6 +314,19 @@ function generateSingleProblem(
     blueprint: template.blueprint,
     visual
   }
+}
+
+export function renderProblemTemplate(
+  template: ProblemTemplate,
+  params: Record<string, number>,
+  options?: { index?: number; choiceSeed?: number }
+): Problem {
+  return generateSingleProblem(
+    template,
+    params,
+    options?.index ?? 1,
+    seededRandom(options?.choiceSeed ?? 1)
+  )
 }
 
 // 문제 세트 생성

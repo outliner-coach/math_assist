@@ -296,7 +296,7 @@ test('직육면체의 면·부분 채움·미지 높이를 같은 세 길이 모
 
   await page.getByTestId(`progress-step-${visualIndexes.unknown + 1}`).click()
   const unknown = page.getByTestId('geometry-visual-cuboid')
-  await expect(unknown.getByText('?cm')).toBeVisible()
+  await expect(unknown.getByText('높이 ? cm')).toBeVisible()
   await expect(page.locator('[data-answer]')).toHaveCount(0)
   await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
 })

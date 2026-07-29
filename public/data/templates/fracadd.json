@@ -17,7 +17,10 @@
       ],
       "contextType": "pure_math",
       "estimatedSteps": 2,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -75,7 +78,10 @@
       ],
       "contextType": "pure_math",
       "estimatedSteps": 2,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -120,7 +126,11 @@
       ],
       "contextType": "pure_math",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -170,7 +180,11 @@
       ],
       "contextType": "pure_math",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -215,7 +229,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -270,7 +288,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 3,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -319,7 +341,11 @@
       ],
       "contextType": "puzzle",
       "estimatedSteps": 3,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -377,7 +403,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 3,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -426,7 +456,11 @@
       ],
       "contextType": "puzzle",
       "estimatedSteps": 4,
-      "readingLoad": "high"
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -481,7 +515,11 @@
       ],
       "contextType": "puzzle",
       "estimatedSteps": 4,
-      "readingLoad": "high"
+      "readingLoad": "high",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -530,7 +568,10 @@
       ],
       "contextType": "pure_math",
       "estimatedSteps": 2,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -588,7 +629,10 @@
       ],
       "contextType": "pure_math",
       "estimatedSteps": 2,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -633,7 +677,11 @@
       ],
       "contextType": "pure_math",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -683,7 +731,11 @@
       ],
       "contextType": "pure_math",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -728,7 +780,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -783,7 +839,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 3,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -832,7 +892,11 @@
       ],
       "contextType": "puzzle",
       "estimatedSteps": 3,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -890,7 +954,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 3,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -939,7 +1007,11 @@
       ],
       "contextType": "puzzle",
       "estimatedSteps": 4,
-      "readingLoad": "high"
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -994,7 +1066,11 @@
       ],
       "contextType": "puzzle",
       "estimatedSteps": 4,
-      "readingLoad": "high"
+      "readingLoad": "high",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -1043,7 +1119,10 @@
       ],
       "contextType": "pure_math",
       "estimatedSteps": 2,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -1101,7 +1180,10 @@
       ],
       "contextType": "pure_math",
       "estimatedSteps": 2,
-      "readingLoad": "low"
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -1146,7 +1228,11 @@
       ],
       "contextType": "pure_math",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -1196,7 +1282,11 @@
       ],
       "contextType": "pure_math",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -1241,7 +1331,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -1296,7 +1390,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 3,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -1345,7 +1443,11 @@
       ],
       "contextType": "puzzle",
       "estimatedSteps": 3,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -1403,7 +1505,11 @@
       ],
       "contextType": "real_world",
       "estimatedSteps": 3,
-      "readingLoad": "medium"
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -1452,7 +1558,11 @@
       ],
       "contextType": "puzzle",
       "estimatedSteps": 4,
-      "readingLoad": "high"
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {
@@ -1507,7 +1617,11 @@
       ],
       "contextType": "puzzle",
       "estimatedSteps": 4,
-      "readingLoad": "high"
+      "readingLoad": "high",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
     },
     "param_schema": {
       "n": {

@@ -5,6 +5,7 @@ import path from 'node:path'
 import {
   BLOCKED_CONTENT_TEMPLATE_IDS,
   REVIEWED_FAMILY_BLUEPRINTS,
+  REVIEWED_SLOT_TASK_ACTIONS,
   getReviewedBlueprint
 } from '../../scripts/migrate-grade5-blueprints.js'
 import { templates as generatedAverageTemplates } from '../../scripts/generate-grade5-average-templates.js'
@@ -125,6 +126,46 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     expect(BLOCKED_CONTENT_TEMPLATE_IDS.size).toBe(0)
     expect(families.size).toBe(260)
     expect(new Set(Object.keys(REVIEWED_FAMILY_BLUEPRINTS))).toEqual(families)
+  })
+
+  it('requires explicit source-owned task actions for all 260 families and 780 templates', () => {
+    const templates = readMigratedTemplates()
+    const conceptIds = new Set(templates.map(template => template.concept_id))
+
+    expect(new Set(Object.keys(REVIEWED_SLOT_TASK_ACTIONS))).toEqual(conceptIds)
+    expect(Object.values(REVIEWED_SLOT_TASK_ACTIONS)).toHaveLength(26)
+    expect(Object.values(REVIEWED_SLOT_TASK_ACTIONS).every(actions => (
+      actions.length === 10
+      && actions.every(slotActions => (
+        slotActions.length > 0
+        && new Set(slotActions).size === slotActions.length
+      ))
+    ))).toBe(true)
+
+    for (const template of templates) {
+      const blueprint = template.blueprint as ProblemTemplate['blueprint'] & {
+        taskActions: string[]
+      }
+      expect(blueprint.taskActions.length, template.id).toBeGreaterThan(0)
+      expect(blueprint.taskActions, template.id).toEqual(
+        (getReviewedBlueprint(template) as { taskActions: string[] }).taskActions
+      )
+    }
+  })
+
+  it('rejects a complete blueprint when its explicit task actions are missing', () => {
+    const [template] = readMigratedTemplates()
+    const withoutActions = structuredClone(template) as ProblemTemplate & {
+      blueprint: Record<string, unknown>
+    }
+    delete withoutActions.blueprint.taskActions
+
+    expect(inspectProblemBlueprintMeta(withoutActions)).toMatchObject({
+      status: 'invalid',
+      issues: [{
+        code: 'missing_task_actions',
+      }],
+    })
   })
 
   it('keeps regenerated geometry banks on the reviewed contract', () => {

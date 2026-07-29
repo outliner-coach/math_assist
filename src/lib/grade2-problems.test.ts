@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  auditGrade2MissionVariants,
   getGrade2MissionById,
   getGrade2Missions,
   getGrade2MissionsByUnit,
@@ -60,10 +61,33 @@ describe('grade2 mission bank', () => {
 
   it('validates metadata, choices, visual configs, and alpha distribution', () => {
     const result = validateGrade2MissionBank()
+    const allowedActions = new Set([
+      'recognize', 'classify', 'compare', 'calculate', 'measure', 'construct',
+      'model', 'interpret', 'explain', 'analyze_error', 'reason',
+    ])
 
     expect(result.errors).toEqual([])
     expect(grade2MissionTemplates.every((template) => template.curriculumCode)).toBe(true)
     expect(grade2MissionTemplates.every((template) => template.answerConfig.kind === template.answerType)).toBe(true)
+    expect(grade2MissionTemplates.every((template) =>
+      template.taskActions.length > 0
+      && template.taskActions.every((action) => allowedActions.has(action))
+    )).toBe(true)
+    expect(grade2MissionTemplates.every((template) =>
+      template.visualSemantics === 'schematic' || template.visualSemantics === 'quantitative'
+    )).toBe(true)
+  })
+
+  it('uses the answer format requested by the mixed-unit length questions', () => {
+    expect(getGrade2MissionById('g2-2-length-03', 42).correctAnswer).toBe('1m20cm')
+    expect(getGrade2MissionById('g2-2-length-06', 42).correctAnswer).toBe('2m30cm')
+  })
+
+  it('audits every allowed Grade 2 parameter combination', () => {
+    const result = auditGrade2MissionVariants()
+
+    expect(result.variantCount).toBe(144)
+    expect(result.errors).toEqual([])
   })
 
   it('renders choice and label missions with exactly one correct answer', () => {

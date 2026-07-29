@@ -104,9 +104,9 @@ describe('VisualAid', () => {
 
     expect(html).toContain('geometry-visual-cuboid')
     expect(html.match(/data-cuboid-face=/g)).toHaveLength(3)
-    expect(html).toContain('6cm')
-    expect(html).toContain('3cm')
-    expect(html).toContain('4cm')
+    expect(html).toContain('가로 6 cm')
+    expect(html).toContain('높이 3 cm')
+    expect(html).toContain('세로 4 cm')
     expect(html).not.toContain('108cm²')
   })
 

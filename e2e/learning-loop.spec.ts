@@ -1,4 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
+import { readFile } from 'node:fs/promises'
+
+import { getGrade1Missions } from '../src/lib/grade1-problems'
 
 const BASE_PATH = '/math_assist'
 const SESSION_KEY = 'mathAssist_currentSession'
@@ -511,15 +514,22 @@ test('5학년 직육면체와 전개도 그림은 치수와 접기 구조를 그
 
   type CuboidVisual = {
     type: 'cuboid'
-    width: number
-    height: number
-    depth: number
+    width?: number
+    height?: number
+    depth?: number
+    focus?: string
     unknownMeasurement?: 'width' | 'height' | 'depth'
   }
   const session = await readSession(page)
   const quantitativeIndex = session.problems.findIndex(problem => {
     const visual = problem.visual as unknown as CuboidVisual | undefined
-    return visual?.type === 'cuboid' && !visual.unknownMeasurement
+    return (
+      visual?.type === 'cuboid' &&
+      typeof visual.width === 'number' &&
+      typeof visual.height === 'number' &&
+      typeof visual.depth === 'number' &&
+      !visual.unknownMeasurement
+    )
   })
   expect(quantitativeIndex).toBeGreaterThanOrEqual(0)
   const visual = session.problems[quantitativeIndex].visual as unknown as CuboidVisual
@@ -549,11 +559,26 @@ test('5학년 직육면체와 전개도 그림은 치수와 접기 구조를 그
   const frontWidth = distance(front[0], front[1])
   const frontHeight = distance(front[0], front[3])
   const projectedDepth = distance(polygons[0][0], polygons[0][1])
-  expect(frontWidth / frontHeight).toBeCloseTo(visual.width / visual.height, 1)
+  expect(frontWidth / frontHeight).toBeCloseTo(visual.width! / visual.height!, 1)
   expect(projectedDepth / frontWidth).toBeCloseTo(
-    (visual.depth / visual.width) * Math.hypot(0.65, 0.45),
+    (visual.depth! / visual.width!) * Math.hypot(0.65, 0.45),
     1,
   )
+  await expect(cuboid).toContainText(`가로 ${visual.width} cm`)
+  await expect(cuboid).toContainText(`세로 ${visual.depth} cm`)
+  await expect(cuboid).toContainText(`높이 ${visual.height} cm`)
+
+  const propertyIndex = session.problems.findIndex(problem => {
+    const propertyVisual = problem.visual as unknown as CuboidVisual | undefined
+    return propertyVisual?.type === 'cuboid' && propertyVisual.focus === 'face'
+  })
+  expect(propertyIndex).toBeGreaterThanOrEqual(0)
+  await page.getByRole('button', {
+    name: `문제 ${propertyIndex + 1}`,
+    exact: true,
+  }).click()
+  await expect(cuboid.locator('[data-cuboid-measurement]')).toHaveCount(0)
+  await expect(cuboid.locator('svg')).toHaveAttribute('aria-label', /직육면체 면/)
 
   await page.evaluate((key) => localStorage.removeItem(key), SESSION_KEY)
   await page.goto(`${BASE_PATH}/practice/cuboidnet-001?set=A`)
@@ -647,6 +672,7 @@ test('5학년 다각형 그림은 실제 치수 비율을 따르고 미지 길�
 })
 
 test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세션도 복구한다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/practice/area-001?set=A`)
   const session = await readSession(page)
   const overlapProblemIndex = session.problems.findIndex(
@@ -668,8 +694,34 @@ test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세�
   await expect(diagram.locator('[data-cell-region="abOnly"]')).toHaveCount(4)
   await expect(diagram.locator('[data-cell-region="acOnly"]')).toHaveCount(2)
   await expect(diagram.locator('[data-cell-region="bcOnly"]')).toHaveCount(0)
+  await expect(diagram).toContainText('영역 분해도')
+  await expect(diagram).toContainText('A = 파랑 ●')
+  await expect(diagram.locator('[data-region-callout]')).toHaveCount(6)
+  await expect(diagram.locator('[data-given-value]')).toHaveCount(4)
   await expect(diagram).not.toContainText('AB만 4')
   await expect(diagram).not.toContainText('AC만 2')
+  const readability = await diagram.evaluate(element => {
+    const svg = element.querySelector('svg')
+    const cells = Array.from(element.querySelectorAll<SVGRectElement>('[data-cell-region]'))
+    const labels = Array.from(element.querySelectorAll<SVGTextElement>('[data-overlap-label]'))
+    const note = element.querySelector<SVGTextElement>('[data-overlap-note]')
+    if (!svg || cells.length === 0 || labels.length === 0 || !note) {
+      throw new Error('overlap readability elements are missing')
+    }
+    const scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width
+    return {
+      smallestCell: Math.min(...cells.map(cell => cell.width.baseVal.value * scale)),
+      smallestLabelFont: Math.min(
+        ...labels.map(label => Number(label.getAttribute('font-size')) * scale)
+      ),
+      noteFont: Number.parseFloat(getComputedStyle(note).fontSize) * scale,
+      fitsViewport: document.documentElement.scrollWidth <= window.innerWidth,
+    }
+  })
+  expect(readability.smallestCell).toBeGreaterThanOrEqual(8)
+  expect(readability.smallestLabelFont).toBeGreaterThanOrEqual(13)
+  expect(readability.noteFont).toBeGreaterThanOrEqual(12)
+  expect(readability.fitsViewport).toBe(true)
 
   await page.evaluate((key) => {
     const session = JSON.parse(localStorage.getItem(key) || 'null')
@@ -740,12 +792,31 @@ test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수
     window as typeof window & { render_game_to_text?: () => string }
   ).render_game_to_text?.() ?? '{}'))
   expect(replayState.missionSeed).not.toBe(firstState.missionSeed)
-  await page.getByTestId('grade1-choice-7').click()
-  await expect(page.getByTestId('daily-goal')).toContainText('2/8')
+  const replayMission = getGrade1Missions(replayState.missionSeed).find(
+    (mission) => mission.id === replayState.selectedMissionId,
+  )
+  if (!replayMission) throw new Error('Replayed Grade 1 mission was not generated')
+  const firstMission = getGrade1Missions(firstState.missionSeed).find(
+    (mission) => mission.id === firstState.selectedMissionId,
+  )
+  if (!firstMission) throw new Error('Initial Grade 1 mission was not generated')
+  const replayHasNewContent = JSON.stringify([
+    replayMission.prompt,
+    replayMission.correctAnswer,
+    replayMission.choices,
+    replayMission.visualConfig,
+  ]) !== JSON.stringify([
+    firstMission.prompt,
+    firstMission.correctAnswer,
+    firstMission.choices,
+    firstMission.visualConfig,
+  ])
+  await page.getByTestId(`grade1-choice-${replayMission.correctAnswer}`).click()
+  await expect(page.getByTestId('daily-goal')).toContainText(replayHasNewContent ? '2/8' : '1/8')
 
   const replayProgress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE1_PROGRESS_KEY)
-  expect(replayProgress.xp).toBe(25)
-  expect(replayProgress.solvedVariantKeys).toHaveLength(2)
+  expect(replayProgress.xp).toBe(replayHasNewContent ? 25 : 10)
+  expect(replayProgress.solvedVariantKeys).toHaveLength(replayHasNewContent ? 2 : 1)
 
   await page.getByTestId('next-grade1-mission').click()
   await expect(page.getByTestId('mission-problem-card')).toHaveAttribute('data-mission-id', 'count-cove-02')
@@ -1073,6 +1144,29 @@ test('3학년 탐험섬에서 단원 선택, 발판, 힌트, 보상 흐름을 �
   await expect(page.getByTestId('grade3-reward-panel')).toHaveCount(0)
 })
 
+test('3학년 미션을 떠났다가 돌아오면 새 실행의 정답 영수증을 보존한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-1-add-sub`)
+
+  await page.getByTestId('grade3-integer-input').fill('111')
+  await page.getByTestId('grade3-integer-submit').click()
+  await expect(page.getByTestId('grade3-mission-hint')).toBeVisible()
+
+  await page.getByTestId('grade3-mission-node-2').click()
+  await page.getByTestId('grade3-mission-node-1').click()
+  await page.getByTestId('grade3-integer-input').fill('385')
+  await page.getByTestId('grade3-integer-submit').click()
+  await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
+
+  const receipts = (await readAttemptReceipts(page)).filter(
+    (receipt: { grade: number; activityId: string }) => (
+      receipt.grade === 3 && receipt.activityId === 'g3-1-add-sub-01'
+    ),
+  )
+  expect(receipts.map((receipt: { correct: boolean }) => receipt.correct)).toEqual([false, true])
+  expect(receipts.map((receipt: { attemptOrdinal: number }) => receipt.attemptOrdinal)).toEqual([0, 0])
+  expect(new Set(receipts.map((receipt: { attemptId: string }) => receipt.attemptId)).size).toBe(2)
+})
+
 test('3학년 들이와 무게는 일곱 성취기준을 정량 그림과 안전한 공개 흐름으로 푼다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-2-capacity-weight`)
@@ -1115,6 +1209,77 @@ test('3학년 들이와 무게는 일곱 성취기준을 정량 그림과 안전
     curriculumCode: '[4수03-22]',
     visualModel: 'tonne-scale',
   })
+})
+
+test('3학년 원 구성은 폭 조절과 실제 그리기를 답 제출의 선행조건으로 유지한다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-2-circle`)
+  await page.getByTestId('grade3-mission-node-3').click()
+
+  const card = page.getByTestId('grade3-mission-card')
+  await expect(card).toHaveAttribute('data-mission-id', 'g3-2-circle-03')
+  await expect(card).toContainText('지름 12cm')
+  const preAnswerExposure = await card.evaluate((element) => ({
+    htmlHasAnswer: element.outerHTML.includes('6cm'),
+    textHasAnswer: element.textContent?.includes('6cm') ?? false,
+    accessibleNames: Array.from(element.querySelectorAll('[aria-label]'))
+      .map((node) => node.getAttribute('aria-label'))
+      .join(' '),
+    answerAttributes: Array.from(element.querySelectorAll('*')).some((node) =>
+      Array.from(node.attributes).some((attribute) =>
+        /^data-(?:answer|correct-answer|radius)$/.test(attribute.name)
+      )
+    ),
+  }))
+  expect(preAnswerExposure).toEqual({
+    htmlHasAnswer: false,
+    textHasAnswer: false,
+    accessibleNames: expect.not.stringMatching(/6cm|6센티미터/),
+    answerAttributes: false,
+  })
+  for (const testId of [
+    'grade3-compass-decrease',
+    'grade3-compass-increase',
+    'grade3-compass-draw',
+  ]) {
+    const box = await page.getByTestId(testId).boundingBox()
+    expect(box?.width ?? 0).toBeGreaterThanOrEqual(48)
+    expect(box?.height ?? 0).toBeGreaterThanOrEqual(48)
+  }
+
+  const answer = page.getByTestId('grade3-integer-input')
+  const submit = page.getByTestId('grade3-integer-submit')
+  await answer.fill('6')
+  await expect(submit).toBeDisabled()
+
+  await page.getByTestId('grade3-compass-draw').click()
+  await expect(page.getByTestId('grade3-compass-drawn-circle')).toBeVisible()
+  await expect(submit).toBeDisabled()
+
+  await answer.fill('4')
+  await expect(submit).toBeEnabled()
+  await submit.click()
+  await expect(page.getByTestId('grade3-mission-hint')).toBeVisible()
+  await expect(page.getByTestId('grade3-mission-success')).toHaveCount(0)
+
+  await page.getByTestId('grade3-compass-increase').click()
+  await page.getByTestId('grade3-compass-increase').click()
+  await expect(page.getByTestId('grade3-compass-width')).toHaveText('6')
+  await expect(page.getByTestId('grade3-compass-drawn-circle')).toHaveCount(0)
+  await answer.fill('6')
+  await expect(submit).toBeDisabled()
+
+  await page.getByTestId('grade3-compass-draw').click()
+  await expect(submit).toBeEnabled()
+  await submit.click()
+  await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
+  await expect(page.getByTestId('grade3-compass-radius-result')).toContainText('6cm')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
+
+  await page.getByTestId('grade3-retry-mission').click()
+  await expect(page.getByTestId('grade3-compass-width')).toHaveText('4')
+  await expect(page.getByTestId('grade3-compass-drawn-circle')).toHaveCount(0)
+  await expect(page.getByTestId('grade3-integer-submit')).toBeDisabled()
 })
 
 test('3학년 풀이장은 문항 이동과 새로고침을 복구하고 재시작을 격리한다', async ({ page }) => {
@@ -1205,4 +1370,122 @@ test('3학년 시각화는 풀이 전 정답을 숨기고 성공 후 공개한�
   await page.getByTestId('grade3-fraction-submit').click()
   await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
   await expect(fractionVisual.getByTestId('grade3-fraction-result')).toContainText('2/5')
+})
+
+test('문제 렌더러 검수 화면은 실제 표본과 상태를 모바일·태블릿에서 재현한다', async ({ page }) => {
+  const browserErrors: string[] = []
+  page.on('console', message => {
+    if (message.type() === 'error') browserErrors.push(message.text())
+  })
+  page.on('pageerror', error => browserErrors.push(error.message))
+  await page.evaluate(() => {
+    localStorage.setItem('mathAssist_reviewPreservationProbe', 'keep')
+  })
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(
+    `${BASE_PATH}/review/problems?id=1%3Amission%3Acount-cove-03&state=pre&variant=minimum`
+  )
+
+  const surface = page.getByTestId('problem-review-surface')
+  await expect(surface).toHaveAttribute('data-review-id', '1:mission:count-cove-03')
+  await expect(surface).toHaveAttribute('data-review-variant', 'minimum')
+  await expect(surface).toHaveAttribute('data-review-state', 'pre')
+  await expect(surface).toHaveAttribute('data-review-answer-visible', 'false')
+  await expect(surface).toHaveAttribute('data-review-status', 'pass')
+  await expect(surface.locator('[data-actual-renderer]')).toHaveAttribute(
+    'data-actual-renderer',
+    'grade1'
+  )
+  await expect(page.getByText('1540', { exact: true }).first()).toBeVisible()
+  await expect(page.getByText('931', { exact: true }).first()).toBeVisible()
+  await expect(page.getByTestId('problem-review-hints')).toHaveCount(0)
+  await expect(page.getByTestId('problem-review-answer')).toHaveCount(0)
+  await expect(page.getByTestId('problem-review-solution')).toHaveCount(0)
+  const hashes = await surface.evaluate(element => ({
+    current: element.getAttribute('data-review-content-hash'),
+    reviewed: element.getAttribute('data-review-reviewed-hash'),
+  }))
+  expect(hashes.current).toBe(hashes.reviewed)
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    )
+  ).toBe(false)
+  expect(await page.locator(
+    '[data-testid^="review-"][data-testid$="-filter"]'
+  ).evaluateAll(elements => elements.flatMap(element => {
+    const rect = element.getBoundingClientRect()
+    return rect.left < -1 || rect.right > document.documentElement.clientWidth + 1
+      ? [element.getAttribute('data-testid')]
+      : []
+  }))).toEqual([])
+
+  await page.getByTestId('review-variant-select').selectOption('maximum')
+  await expect(surface).toHaveAttribute('data-review-variant', 'maximum')
+  await expect(page).toHaveURL(/variant=maximum/)
+
+  await page.getByTestId('review-state-hint').click()
+  await expect(surface).toHaveAttribute('data-review-state', 'hint')
+  await expect(page).toHaveURL(/state=hint/)
+  await expect(page.getByTestId('problem-review-hints')).toBeVisible()
+  await expect(page.getByTestId('problem-review-answer')).toHaveCount(0)
+
+  await page.getByTestId('review-state-revealed').click()
+  await expect(surface).toHaveAttribute('data-review-state', 'revealed')
+  await expect(surface).toHaveAttribute('data-review-answer-visible', 'true')
+  await expect(page).toHaveURL(/state=revealed/)
+  await expect(page.getByTestId('problem-review-answer')).toBeVisible()
+  await expect(page.getByTestId('problem-review-solution')).toBeVisible()
+
+  await page.getByTestId('review-grade-filter').selectOption('all')
+  await page.getByTestId('review-visual-filter').selectOption('all')
+  await page.getByTestId('review-status-filter').selectOption('blocked')
+  await expect(page.getByTestId('review-source-select').locator('option')).toHaveCount(0)
+  await page.getByTestId('review-status-filter').selectOption('pass')
+  await expect(page.getByTestId('review-source-select').locator('option')).toHaveCount(1_540)
+  await page.getByTestId('review-reset-filters').click()
+
+  const downloadPromise = page.waitForEvent('download')
+  await page.getByTestId('review-export-ledger').click()
+  const download = await downloadPromise
+  expect(download.suggestedFilename()).toBe('problem-editorial-review-v1.json')
+  const downloadPath = await download.path()
+  expect(downloadPath).not.toBeNull()
+  const exportedLedger = JSON.parse(await readFile(downloadPath!, 'utf8'))
+  expect(exportedLedger.schemaVersion).toBe(1)
+  expect(exportedLedger.items).toHaveLength(1_540)
+  expect(new Set(
+    exportedLedger.items.map((item: { reviewId: string }) => item.reviewId)
+  ).size).toBe(1_540)
+  expect(exportedLedger.items.every(
+    (item: { status: string }) => item.status === 'pass'
+  )).toBe(true)
+  expect(exportedLedger.items.every(
+    (item: { findingCategories: string[] }) => item.findingCategories.length === 0
+  )).toBe(true)
+
+  await page.setViewportSize({ width: 1024, height: 768 })
+  await page.goto(
+    `${BASE_PATH}/review/problems?id=5%3Atemplate%3Atmpl-cuboidnet-A-01&state=pre`
+  )
+  await expect(surface).toHaveAttribute(
+    'data-review-id',
+    '5:template:tmpl-cuboidnet-A-01'
+  )
+  await expect(surface).toHaveAttribute('data-review-visual-kind', 'cuboid-net')
+  await expect(surface).toHaveAttribute('data-review-answer-visible', 'false')
+  await expect(surface.locator('[data-actual-renderer]')).toHaveAttribute(
+    'data-actual-renderer',
+    'practice'
+  )
+  await expect(page.getByTestId('problem-review-answer')).toHaveCount(0)
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    )
+  ).toBe(false)
+  expect(await page.evaluate(
+    () => localStorage.getItem('mathAssist_reviewPreservationProbe')
+  )).toBe('keep')
+  expect(browserErrors).toEqual([])
 })

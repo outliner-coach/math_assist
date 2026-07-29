@@ -5,6 +5,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-natural-divide-by-ten",
     "blueprint": {
       "problemFamily": "a-natural-divide-by-ten",
@@ -42,6 +46,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-natural-divide-by-five",
     "blueprint": {
       "problemFamily": "a-natural-divide-by-five",
@@ -79,6 +87,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "a-decimal-divide-by-two",
     "blueprint": {
       "problemFamily": "a-decimal-divide-by-two",
@@ -119,6 +130,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-divide-by-one-tenth",
     "blueprint": {
       "problemFamily": "a-divide-by-one-tenth",
@@ -159,6 +174,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-ribbon-two-shares",
     "blueprint": {
       "problemFamily": "a-ribbon-two-shares",
@@ -199,6 +218,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-half-liter-serving-count",
     "blueprint": {
       "problemFamily": "a-half-liter-serving-count",
@@ -222,11 +245,11 @@
         "max": 7
       }
     },
-    "prompt_template": "주스 {{dec1(p + 5)}}L를 한 병에 0.5L씩 담으면 몇 병을 채울 수 있나요?",
+    "prompt_template": "주스 {{dec1(p + 5)}}L는 한 병에 0.5L씩 담을 때 몇 병 분량인가요?",
     "solver_rule": "(p + 5) / 5",
     "solution_steps_template": [
-      "전체 양을 한 병의 양으로 나눕니다.",
-      "{{dec1(p + 5)}}÷0.5={{(p + 5) / 5}}이므로 {{(p + 5) / 5}}병입니다."
+      "전체 양을 한 병 분량인 0.5L로 나눕니다.",
+      "{{dec1(p + 5)}}÷0.5={{(p + 5) / 5}}이므로 {{(p + 5) / 5}}병 분량입니다."
     ],
     "hint_steps_template": [
       "나누어지는 수와 나누는 수의 소수점을 같은 자리만큼 함께 옮겨 보세요.",
@@ -239,6 +262,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-three-hour-unit-distance",
     "blueprint": {
       "problemFamily": "a-three-hour-unit-distance",
@@ -279,6 +306,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-recover-four-container-total",
     "blueprint": {
       "problemFamily": "a-recover-four-container-total",
@@ -319,6 +350,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-forgot-to-divide-error-gap",
     "blueprint": {
       "problemFamily": "a-forgot-to-divide-error-gap",
@@ -359,6 +394,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-small-divisor-size-error-gap",
     "blueprint": {
       "problemFamily": "a-small-divisor-size-error-gap",
@@ -399,6 +438,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-natural-divide-by-twenty",
     "blueprint": {
       "problemFamily": "b-natural-divide-by-twenty",
@@ -436,6 +479,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-natural-divide-by-twenty-five",
     "blueprint": {
       "problemFamily": "b-natural-divide-by-twenty-five",
@@ -473,6 +520,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "b-decimal-divide-by-four",
     "blueprint": {
       "problemFamily": "b-decimal-divide-by-four",
@@ -513,6 +563,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-decimal-divide-by-half",
     "blueprint": {
       "problemFamily": "b-decimal-divide-by-half",
@@ -553,6 +607,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-juice-three-bottles",
     "blueprint": {
       "problemFamily": "b-juice-three-bottles",
@@ -593,6 +651,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-two-tenths-rope-count",
     "blueprint": {
       "problemFamily": "b-two-tenths-rope-count",
@@ -633,6 +695,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-five-item-unit-price",
     "blueprint": {
       "problemFamily": "b-five-item-unit-price",
@@ -673,6 +739,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "b-find-missing-decimal-divisor",
     "blueprint": {
       "problemFamily": "b-find-missing-decimal-divisor",
@@ -713,6 +783,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-scale-only-divisor-error-gap",
     "blueprint": {
       "problemFamily": "b-scale-only-divisor-error-gap",
@@ -753,6 +827,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
     "problem_family": "b-equivalent-halving-methods",
     "blueprint": {
       "problemFamily": "b-equivalent-halving-methods",
@@ -793,6 +871,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-natural-divide-by-fifty",
     "blueprint": {
       "problemFamily": "c-natural-divide-by-fifty",
@@ -830,6 +912,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-natural-divide-by-hundred",
     "blueprint": {
       "problemFamily": "c-natural-divide-by-hundred",
@@ -867,6 +953,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "c-decimal-divide-by-five",
     "blueprint": {
       "problemFamily": "c-decimal-divide-by-five",
@@ -907,6 +996,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-decimal-divide-by-quarter",
     "blueprint": {
       "problemFamily": "c-decimal-divide-by-quarter",
@@ -947,6 +1040,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-flour-four-shares",
     "blueprint": {
       "problemFamily": "c-flour-four-shares",
@@ -987,6 +1084,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-quarter-liter-bottle-count",
     "blueprint": {
       "problemFamily": "c-quarter-liter-bottle-count",
@@ -1027,6 +1128,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-use-then-four-shares",
     "blueprint": {
       "problemFamily": "c-use-then-four-shares",
@@ -1067,6 +1172,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-find-three-tenths-divisor",
     "blueprint": {
       "problemFamily": "c-find-three-tenths-divisor",
@@ -1107,6 +1216,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "c-hundredth-divisor-shift-error-gap",
     "blueprint": {
       "problemFamily": "c-hundredth-divisor-shift-error-gap",
@@ -1147,6 +1260,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
     "problem_family": "c-equal-decimal-divisor-methods",
     "blueprint": {
       "problemFamily": "c-equal-decimal-divisor-methods",

@@ -121,6 +121,86 @@ describe('grade 5 geometry problem core', () => {
     }
   })
 
+  it('keeps every cuboid visual focused on only the measurements the task uses', () => {
+    const expectations = {
+      'cuboid-face-count': { focus: 'face', dimensions: [] },
+      'cuboid-edge-count': { focus: 'edge', dimensions: [] },
+      'cuboid-vertex-count': { focus: 'vertex', dimensions: [] },
+      'cuboid-edges-at-vertex': { focus: 'edges-at-vertex', dimensions: [] },
+      'cuboid-total-edge-length': {
+        focus: 'total-edge-length',
+        dimensions: ['depth', 'height', 'width'],
+      },
+      'cuboid-missing-width-from-edges': {
+        focus: 'total-edge-length',
+        dimensions: ['depth', 'height', 'width'],
+      },
+      'cuboid-front-face-area': {
+        focus: 'front-face',
+        dimensions: ['height', 'width'],
+      },
+      'cuboid-front-face-perimeter': {
+        focus: 'front-face',
+        dimensions: ['height', 'width'],
+      },
+      'cuboid-half-edge-count-error': {
+        focus: 'total-edge-length',
+        dimensions: ['depth', 'height', 'width'],
+      },
+      'cuboid-one-of-each-face-area-error': {
+        focus: 'surface-area',
+        dimensions: ['depth', 'height', 'width'],
+      },
+    } as const
+    const templates = readBank('cuboid')
+
+    for (const template of templates) {
+      const expected = expectations[template.problem_family as keyof typeof expectations]
+      const visual = template.visual_template as Record<string, unknown>
+      const dimensionKeys = ['depth', 'height', 'width'].filter(key => key in visual).sort()
+
+      expect(expected, template.id).toBeDefined()
+      expect(visual.focus, template.id).toBe(expected.focus)
+      expect(dimensionKeys, template.id).toEqual([...expected.dimensions])
+      expect(Object.keys(template.param_schema).sort(), template.id).toEqual(
+        expected.dimensions.map(dimension => (
+          dimension === 'width' ? 'w' : dimension === 'height' ? 'h' : 'd'
+        )).sort()
+      )
+    }
+  })
+
+  it('introduces A, B, and C consistently in every three-shape overlap prompt', () => {
+    const templates = readBank('area').filter(template => (
+      template.problem_family === 'triple-overlap-inclusion'
+    ))
+    const expectedSolver = (
+      '(3 * (e + 8 + k) - e - (e + 2) - (e + 4) - 3 * (2 + k)) / 2 + (2 + k)'
+    )
+
+    expect(templates).toHaveLength(3)
+    for (const template of templates) {
+      expect(template.prompt_template).toMatch(
+        /^파랑 ● (?:도형|색종이) A, 초록 ▲ (?:도형|색종이) B, 분홍 ■ (?:도형|색종이) C/
+      )
+      expect(template.prompt_template).toContain('A만 있는 부분은 {{e}} cm²')
+      expect(template.prompt_template).toContain('B만 있는 부분은 {{e + 2}} cm²')
+      expect(template.prompt_template).toContain('C만 있는 부분은 {{e + 4}} cm²')
+      expect(template.prompt_template).toContain('A, B, C가 모두 겹친 부분은 {{2 + k}} cm²')
+      expect(template.solver_rule).toBe(expectedSolver)
+      expect(template.visual_template).toEqual({
+        type: 'three_shape_overlap',
+        semantics: 'quantitative',
+        props: {
+          shapeArea: '{{e + 8 + k}}',
+          exclusiveAreas: ['{{e}}', '{{e + 2}}', '{{e + 4}}'],
+          tripleOverlap: '{{2 + k}}',
+          unit: 'cm',
+        },
+      })
+    }
+  })
+
   it('generates every geometry practice set with unique prompts and safe visuals', () => {
     for (const [name] of banks) {
       const templates = readBank(name)

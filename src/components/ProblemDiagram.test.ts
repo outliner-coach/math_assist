@@ -3,7 +3,10 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
 import type { ProblemVisual } from '@/lib/types'
-import ProblemDiagram, { buildRatioGraphModel } from './ProblemDiagram'
+import ProblemDiagram, {
+  buildRatioGraphModel,
+  buildThreeShapeOverlapLayout,
+} from './ProblemDiagram'
 
 describe('ProblemDiagram', () => {
   it('renders all Grade 5 geometry models without an answer field', () => {
@@ -253,5 +256,90 @@ describe('ProblemDiagram', () => {
     expect(html).toContain('한 칸 = 1 cm²')
     expect(html).not.toContain('AB만 4')
     expect(html).not.toContain('AC만 2')
+  })
+
+  it('introduces A, B, and C before an external-callout region decomposition', () => {
+    const html = renderToStaticMarkup(createElement(ProblemDiagram, {
+      visual: {
+        type: 'three_shape_overlap',
+        semantics: 'quantitative',
+        props: {
+          shapeArea: 29,
+          exclusiveAreas: [18, 20, 22],
+          tripleOverlap: 5,
+          unit: 'cm'
+        }
+      }
+    }))
+
+    expect(html).toContain('영역 분해도')
+    expect(html).toContain('A = 파랑')
+    expect(html).toContain('B = 초록')
+    expect(html).toContain('C = 분홍')
+    expect((html.match(/data-region-callout=/g) ?? [])).toHaveLength(6)
+    expect((html.match(/data-region-symbol=/g) ?? [])).toHaveLength(6)
+    expect((html.match(/data-given-value=/g) ?? [])).toHaveLength(4)
+    expect(html).not.toMatch(/data-cell-region="(?:abOnly|acOnly)"[^>]*>[\s\S]*?(?:AB만 4|AC만 2)/)
+  })
+
+  it('keeps overlap labels, unit cells, and the note readable at the final 390px mobile size', () => {
+    const html = renderToStaticMarkup(createElement(ProblemDiagram, {
+      visual: {
+        type: 'three_shape_overlap',
+        semantics: 'quantitative',
+        props: {
+          shapeArea: 29,
+          exclusiveAreas: [18, 20, 22],
+          tripleOverlap: 5,
+          unit: 'cm'
+        }
+      }
+    }))
+    const viewBoxWidth = Number(html.match(/viewBox="0 0 ([\d.]+)/)?.[1])
+    const cellSize = Number(html.match(/data-cell-region="aOnly"[^>]*\swidth="([\d.]+)"/)?.[1])
+    const calloutFontSize = Number(
+      html.match(/data-region-callout="aOnly"[\s\S]*?<text[^>]*font-size="([\d.]+)"/)?.[1]
+    )
+    const noteFontSize = Number(
+      html.match(/data-overlap-note[^>]*font-size="([\d.]+)"/)?.[1]
+    )
+    const finalSvgWidth = 284
+    const mobileScale = finalSvgWidth / viewBoxWidth
+
+    expect(cellSize * mobileScale).toBeGreaterThanOrEqual(8)
+    expect(calloutFontSize * mobileScale).toBeGreaterThanOrEqual(13)
+    expect(noteFontSize * mobileScale).toBeGreaterThanOrEqual(12)
+  })
+
+  it('derives compact cell grids and tier spacing from every overlap region area', () => {
+    const regions = {
+      aOnly: 18,
+      bOnly: 20,
+      cOnly: 22,
+      abOnly: 4,
+      acOnly: 2,
+      bcOnly: 0,
+      abc: 5,
+    }
+    const layout = buildThreeShapeOverlapLayout(regions)
+
+    expect(layout.width).toBe(360)
+    expect(layout.regions.find(region => region.key === 'bcOnly')).toMatchObject({
+      area: 0,
+      columns: 0,
+      rows: 0,
+    })
+    for (const region of layout.regions.filter(region => region.area > 0)) {
+      expect(region.columns * region.rows).toBeGreaterThanOrEqual(region.area)
+      expect(region.columns).toBeLessThanOrEqual(5)
+      expect(region.centerX - layout.calloutWidth / 2).toBeGreaterThanOrEqual(0)
+      expect(region.centerX + layout.calloutWidth / 2).toBeLessThanOrEqual(layout.width)
+    }
+    const tierStarts = [0, 1, 2].map(tier => (
+      layout.regions.find(region => region.tier === tier)?.calloutY
+    ))
+    expect(tierStarts[0]).toBeLessThan(tierStarts[1] ?? 0)
+    expect(tierStarts[1]).toBeLessThan(tierStarts[2] ?? 0)
+    expect(layout.noteY).toBeLessThan(layout.height)
   })
 })

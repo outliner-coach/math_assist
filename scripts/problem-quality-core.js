@@ -415,6 +415,19 @@ const PROBLEM_REPRESENTATIONS = new Set([
 const CONTEXT_TYPES = new Set(['pure_math', 'real_world', 'puzzle'])
 const READING_LOADS = new Set(['low', 'medium', 'high'])
 const VISUAL_SEMANTICS = new Set(['decorative', 'schematic', 'quantitative'])
+const TASK_ACTIONS = new Set([
+  'recognize',
+  'classify',
+  'compare',
+  'calculate',
+  'measure',
+  'construct',
+  'model',
+  'interpret',
+  'explain',
+  'analyze_error',
+  'reason',
+])
 
 function blueprintIssue(code, message) {
   return { code, message }
@@ -506,6 +519,21 @@ function inspectProblemBlueprintMeta(template) {
     issues.push(blueprintIssue(
       'invalid_reading_load',
       `readingLoad must be one of ${Array.from(READING_LOADS).join(', ')}`
+    ))
+  }
+  const taskActions = template.taskActions ?? blueprint.taskActions
+  if (!Array.isArray(taskActions) || taskActions.length === 0) {
+    issues.push(blueprintIssue(
+      'missing_task_actions',
+      'taskActions must contain at least one explicit reviewed action'
+    ))
+  } else if (
+    taskActions.some(value => !TASK_ACTIONS.has(value)) ||
+    new Set(taskActions).size !== taskActions.length
+  ) {
+    issues.push(blueprintIssue(
+      'invalid_task_actions',
+      `taskActions must be unique values from ${Array.from(TASK_ACTIONS).join(', ')}`
     ))
   }
 
@@ -1171,6 +1199,12 @@ function loadProblemGenerator() {
   const mathPath = path.join(ROOT_DIR, 'src', 'lib', 'math.ts')
   const arithmeticExpressionPath = path.join(ROOT_DIR, 'src', 'lib', 'arithmetic-expression.ts')
   const generatorPath = path.join(ROOT_DIR, 'src', 'lib', 'problem-generator.ts')
+  const koreanNumericParticlesPath = path.join(
+    ROOT_DIR,
+    'src',
+    'lib',
+    'korean-numeric-particles.ts',
+  )
   const overlapModelPath = path.join(ROOT_DIR, 'src', 'lib', 'three-shape-overlap.ts')
 
   const mathCode = ts.transpileModule(
@@ -1189,9 +1223,17 @@ function loadProblemGenerator() {
     fs.readFileSync(overlapModelPath, 'utf8'),
     { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }
   ).outputText
+  const koreanNumericParticlesCode = ts.transpileModule(
+    fs.readFileSync(koreanNumericParticlesPath, 'utf8'),
+    { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }
+  ).outputText
 
   fs.writeFileSync(path.join(tempDir, 'math.js'), mathCode)
   fs.writeFileSync(path.join(tempDir, 'arithmetic-expression.js'), arithmeticExpressionCode)
+  fs.writeFileSync(
+    path.join(tempDir, 'korean-numeric-particles.js'),
+    koreanNumericParticlesCode,
+  )
   fs.writeFileSync(path.join(tempDir, 'types.js'), 'module.exports = {}')
   fs.writeFileSync(path.join(tempDir, 'three-shape-overlap.js'), overlapModelCode)
   fs.writeFileSync(path.join(tempDir, 'problem-generator.js'), generatorCode)

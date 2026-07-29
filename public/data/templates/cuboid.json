@@ -6,21 +6,8 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "cuboid-face-count",
-    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
-    "param_schema": {
-      "w": {
-        "min": 5,
-        "max": 8
-      },
-      "h": {
-        "min": 3,
-        "max": 6
-      },
-      "d": {
-        "min": 2,
-        "max": 5
-      }
-    },
+    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
+    "param_schema": {},
     "prompt_template": "직육면체의 면은 모두 몇 개인가요?",
     "solver_rule": "6",
     "solution_steps_template": [
@@ -33,9 +20,7 @@
     ],
     "visual_template": {
       "type": "cuboid",
-      "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
+      "focus": "face",
       "unit": "cm"
     }
   },
@@ -46,21 +31,8 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "cuboid-edge-count",
-    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
-    "param_schema": {
-      "w": {
-        "min": 5,
-        "max": 8
-      },
-      "h": {
-        "min": 3,
-        "max": 6
-      },
-      "d": {
-        "min": 2,
-        "max": 5
-      }
-    },
+    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
+    "param_schema": {},
     "prompt_template": "직육면체의 모서리는 모두 몇 개인가요?",
     "solver_rule": "12",
     "solution_steps_template": [
@@ -73,9 +45,7 @@
     ],
     "visual_template": {
       "type": "cuboid",
-      "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
+      "focus": "edge",
       "unit": "cm"
     }
   },
@@ -86,21 +56,8 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "cuboid-vertex-count",
-    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
-    "param_schema": {
-      "w": {
-        "min": 5,
-        "max": 8
-      },
-      "h": {
-        "min": 3,
-        "max": 6
-      },
-      "d": {
-        "min": 2,
-        "max": 5
-      }
-    },
+    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
+    "param_schema": {},
     "prompt_template": "직육면체의 꼭짓점은 모두 몇 개인가요?",
     "solver_rule": "8",
     "solution_steps_template": [
@@ -113,9 +70,7 @@
     ],
     "visual_template": {
       "type": "cuboid",
-      "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
+      "focus": "vertex",
       "unit": "cm"
     }
   },
@@ -126,21 +81,8 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "cuboid-edges-at-vertex",
-    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
-    "param_schema": {
-      "w": {
-        "min": 5,
-        "max": 8
-      },
-      "h": {
-        "min": 3,
-        "max": 6
-      },
-      "d": {
-        "min": 2,
-        "max": 5
-      }
-    },
+    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
+    "param_schema": {},
     "prompt_template": "직육면체의 한 꼭짓점에서 만나는 모서리는 몇 개인가요?",
     "solver_rule": "3",
     "solution_steps_template": [
@@ -153,9 +95,7 @@
     ],
     "visual_template": {
       "type": "cuboid",
-      "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
+      "focus": "edges-at-vertex",
       "unit": "cm"
     }
   },
@@ -166,7 +106,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-total-edge-length",
-    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["model","calculate"]},
     "param_schema": {
       "w": {
         "min": 5,
@@ -181,7 +121,7 @@
         "max": 6
       }
     },
-    "prompt_template": "가로 {{w}}cm, 세로 {{d}}cm, 높이 {{h}}cm인 직육면체 철사 틀을 만들 때 필요한 철사의 전체 길이는 몇 cm인가요?",
+    "prompt_template": "가로 {{w}} cm, 세로 {{d}} cm, 높이 {{h}} cm인 직육면체 철사 틀을 만들 때 필요한 철사의 전체 길이는 몇 cm인가요?",
     "solver_rule": "4 * (w + h + d)",
     "solution_steps_template": [
       "가로, 세로, 높이 길이의 모서리는 각각 4개씩입니다.",
@@ -193,10 +133,11 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "total-edge-length",
+      "unit": "cm",
       "width": "{{w}}",
       "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "depth": "{{d}}"
     }
   },
   {
@@ -206,7 +147,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-missing-width-from-edges",
-    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["reason","calculate"]},
     "param_schema": {
       "w": {
         "min": 5,
@@ -221,7 +162,7 @@
         "max": 6
       }
     },
-    "prompt_template": "모든 모서리 길이의 합이 {{4 * (w + h + d)}}cm이고 세로가 {{d}}cm, 높이가 {{h}}cm인 직육면체의 가로는 몇 cm인가요?",
+    "prompt_template": "모든 모서리 길이의 합이 {{4 * (w + h + d)}} cm이고 세로가 {{d}} cm, 높이가 {{h}} cm인 직육면체의 가로는 몇 cm인가요?",
     "solver_rule": "w",
     "solution_steps_template": [
       "전체 모서리 길이를 4로 나누면 가로 + 세로 + 높이인 {{w + h + d}}cm입니다.",
@@ -233,10 +174,11 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "total-edge-length",
+      "unit": "cm",
       "width": "{{w}}",
       "height": "{{h}}",
       "depth": "{{d}}",
-      "unit": "cm",
       "unknownMeasurement": "width"
     }
   },
@@ -247,7 +189,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-front-face-area",
-    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["interpret","calculate"]},
     "param_schema": {
       "w": {
         "min": 5,
@@ -256,13 +198,9 @@
       "h": {
         "min": 3,
         "max": 7
-      },
-      "d": {
-        "min": 2,
-        "max": 6
       }
     },
-    "prompt_template": "가로 {{w}}cm, 높이 {{h}}cm인 직육면체 상자의 앞면에 종이를 붙입니다. 필요한 종이의 넓이는 몇 cm²인가요?",
+    "prompt_template": "가로 {{w}} cm, 높이 {{h}} cm인 직육면체 상자의 앞면에 종이를 붙입니다. 필요한 종이의 넓이는 몇 cm²인가요?",
     "solver_rule": "w * h",
     "solution_steps_template": [
       "앞면은 가로 {{w}}cm, 세로 {{h}}cm인 직사각형입니다.",
@@ -274,10 +212,10 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "front-face",
+      "unit": "cm",
       "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "height": "{{h}}"
     }
   },
   {
@@ -287,7 +225,7 @@
     "difficulty": 2,
     "set_id": "A",
     "problem_family": "cuboid-front-face-perimeter",
-    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["interpret","calculate"]},
     "param_schema": {
       "w": {
         "min": 5,
@@ -296,13 +234,9 @@
       "h": {
         "min": 3,
         "max": 7
-      },
-      "d": {
-        "min": 2,
-        "max": 6
       }
     },
-    "prompt_template": "직육면체 상자의 앞면 가장자리에 띠를 두릅니다. 앞면의 가로가 {{w}}cm, 높이가 {{h}}cm일 때 띠의 길이는 몇 cm인가요?",
+    "prompt_template": "직육면체 상자의 앞면 가장자리에 띠를 두릅니다. 앞면의 가로가 {{w}} cm, 높이가 {{h}} cm일 때 띠의 길이는 몇 cm인가요?",
     "solver_rule": "2 * (w + h)",
     "solution_steps_template": [
       "앞면의 가로는 {{w}}cm, 세로는 {{h}}cm입니다.",
@@ -314,10 +248,10 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "front-face",
+      "unit": "cm",
       "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "height": "{{h}}"
     }
   },
   {
@@ -327,7 +261,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "cuboid-half-edge-count-error",
-    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["analyze_error","calculate"]},
     "param_schema": {
       "w": {
         "min": 6,
@@ -354,10 +288,11 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "total-edge-length",
+      "unit": "cm",
       "width": "{{w}}",
       "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "depth": "{{d}}"
     }
   },
   {
@@ -367,7 +302,7 @@
     "difficulty": 3,
     "set_id": "A",
     "problem_family": "cuboid-one-of-each-face-area-error",
-    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["analyze_error","calculate"]},
     "param_schema": {
       "w": {
         "min": 5,
@@ -394,10 +329,11 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "surface-area",
+      "unit": "cm",
       "width": "{{w}}",
       "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "depth": "{{d}}"
     }
   },
   {
@@ -407,21 +343,8 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "cuboid-face-count",
-    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
-    "param_schema": {
-      "w": {
-        "min": 7,
-        "max": 10
-      },
-      "h": {
-        "min": 5,
-        "max": 8
-      },
-      "d": {
-        "min": 4,
-        "max": 7
-      }
-    },
+    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
+    "param_schema": {},
     "prompt_template": "직육면체 상자를 이루는 직사각형 면의 수를 구하세요.",
     "solver_rule": "6",
     "solution_steps_template": [
@@ -434,9 +357,7 @@
     ],
     "visual_template": {
       "type": "cuboid",
-      "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
+      "focus": "face",
       "unit": "cm"
     }
   },
@@ -447,21 +368,8 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "cuboid-edge-count",
-    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
-    "param_schema": {
-      "w": {
-        "min": 7,
-        "max": 10
-      },
-      "h": {
-        "min": 5,
-        "max": 8
-      },
-      "d": {
-        "min": 4,
-        "max": 7
-      }
-    },
+    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
+    "param_schema": {},
     "prompt_template": "직육면체 철사 틀의 모서리 수를 구하세요.",
     "solver_rule": "12",
     "solution_steps_template": [
@@ -474,9 +382,7 @@
     ],
     "visual_template": {
       "type": "cuboid",
-      "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
+      "focus": "edge",
       "unit": "cm"
     }
   },
@@ -487,21 +393,8 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "cuboid-vertex-count",
-    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
-    "param_schema": {
-      "w": {
-        "min": 7,
-        "max": 10
-      },
-      "h": {
-        "min": 5,
-        "max": 8
-      },
-      "d": {
-        "min": 4,
-        "max": 7
-      }
-    },
+    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
+    "param_schema": {},
     "prompt_template": "직육면체에서 세 모서리의 끝이 만나는 꼭짓점 수를 구하세요.",
     "solver_rule": "8",
     "solution_steps_template": [
@@ -514,9 +407,7 @@
     ],
     "visual_template": {
       "type": "cuboid",
-      "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
+      "focus": "vertex",
       "unit": "cm"
     }
   },
@@ -527,21 +418,8 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "cuboid-edges-at-vertex",
-    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
-    "param_schema": {
-      "w": {
-        "min": 7,
-        "max": 10
-      },
-      "h": {
-        "min": 5,
-        "max": 8
-      },
-      "d": {
-        "min": 4,
-        "max": 7
-      }
-    },
+    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
+    "param_schema": {},
     "prompt_template": "직육면체의 한 꼭짓점에서 서로 다른 방향으로 뻗는 모서리는 몇 개인가요?",
     "solver_rule": "3",
     "solution_steps_template": [
@@ -554,9 +432,7 @@
     ],
     "visual_template": {
       "type": "cuboid",
-      "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
+      "focus": "edges-at-vertex",
       "unit": "cm"
     }
   },
@@ -567,7 +443,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-total-edge-length",
-    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["model","calculate"]},
     "param_schema": {
       "w": {
         "min": 7,
@@ -582,7 +458,7 @@
         "max": 8
       }
     },
-    "prompt_template": "가로 {{w}}cm, 세로 {{d}}cm, 높이 {{h}}cm인 직육면체 모형의 12개 모서리를 철사로 만들려고 합니다. 철사는 모두 몇 cm 필요한가요?",
+    "prompt_template": "가로 {{w}} cm, 세로 {{d}} cm, 높이 {{h}} cm인 직육면체 모형의 12개 모서리를 철사로 만들려고 합니다. 철사는 모두 몇 cm 필요한가요?",
     "solver_rule": "4 * (w + h + d)",
     "solution_steps_template": [
       "가로, 세로, 높이 길이의 모서리는 각각 4개씩입니다.",
@@ -594,10 +470,11 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "total-edge-length",
+      "unit": "cm",
       "width": "{{w}}",
       "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "depth": "{{d}}"
     }
   },
   {
@@ -607,7 +484,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-missing-width-from-edges",
-    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["reason","calculate"]},
     "param_schema": {
       "w": {
         "min": 7,
@@ -622,7 +499,7 @@
         "max": 8
       }
     },
-    "prompt_template": "직육면체 철사 틀의 전체 길이는 {{4 * (w + h + d)}}cm입니다. 세로 {{d}}cm와 높이 {{h}}cm를 이용해 가로를 구하세요.",
+    "prompt_template": "직육면체 철사 틀의 전체 길이는 {{4 * (w + h + d)}} cm입니다. 세로 {{d}} cm와 높이 {{h}} cm를 이용해 가로를 구하세요.",
     "solver_rule": "w",
     "solution_steps_template": [
       "전체 모서리 길이를 4로 나누면 가로 + 세로 + 높이인 {{w + h + d}}cm입니다.",
@@ -634,10 +511,11 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "total-edge-length",
+      "unit": "cm",
       "width": "{{w}}",
       "height": "{{h}}",
       "depth": "{{d}}",
-      "unit": "cm",
       "unknownMeasurement": "width"
     }
   },
@@ -648,7 +526,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-front-face-area",
-    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["interpret","calculate"]},
     "param_schema": {
       "w": {
         "min": 7,
@@ -657,13 +535,9 @@
       "h": {
         "min": 5,
         "max": 9
-      },
-      "d": {
-        "min": 4,
-        "max": 8
       }
     },
-    "prompt_template": "가로 {{w}}cm, 높이 {{h}}cm인 직육면체 수납함의 앞면을 색종이로 덮을 때 색종이 넓이는 몇 cm²인가요?",
+    "prompt_template": "가로 {{w}} cm, 높이 {{h}} cm인 직육면체 수납함의 앞면을 색종이로 덮을 때 색종이 넓이는 몇 cm²인가요?",
     "solver_rule": "w * h",
     "solution_steps_template": [
       "앞면은 가로 {{w}}cm, 세로 {{h}}cm인 직사각형입니다.",
@@ -675,10 +549,10 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "front-face",
+      "unit": "cm",
       "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "height": "{{h}}"
     }
   },
   {
@@ -688,7 +562,7 @@
     "difficulty": 2,
     "set_id": "B",
     "problem_family": "cuboid-front-face-perimeter",
-    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["interpret","calculate"]},
     "param_schema": {
       "w": {
         "min": 7,
@@ -697,13 +571,9 @@
       "h": {
         "min": 5,
         "max": 9
-      },
-      "d": {
-        "min": 4,
-        "max": 8
       }
     },
-    "prompt_template": "가로 {{w}}cm, 높이 {{h}}cm인 직육면체 액자의 앞면 테두리 길이는 몇 cm인가요?",
+    "prompt_template": "가로 {{w}} cm, 높이 {{h}} cm인 직육면체 액자의 앞면 테두리 길이는 몇 cm인가요?",
     "solver_rule": "2 * (w + h)",
     "solution_steps_template": [
       "앞면의 가로는 {{w}}cm, 세로는 {{h}}cm입니다.",
@@ -715,10 +585,10 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "front-face",
+      "unit": "cm",
       "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "height": "{{h}}"
     }
   },
   {
@@ -728,7 +598,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "cuboid-half-edge-count-error",
-    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["analyze_error","calculate"]},
     "param_schema": {
       "w": {
         "min": 8,
@@ -755,10 +625,11 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "total-edge-length",
+      "unit": "cm",
       "width": "{{w}}",
       "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "depth": "{{d}}"
     }
   },
   {
@@ -768,7 +639,7 @@
     "difficulty": 3,
     "set_id": "B",
     "problem_family": "cuboid-one-of-each-face-area-error",
-    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["analyze_error","calculate"]},
     "param_schema": {
       "w": {
         "min": 7,
@@ -795,10 +666,11 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "surface-area",
+      "unit": "cm",
       "width": "{{w}}",
       "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "depth": "{{d}}"
     }
   },
   {
@@ -808,21 +680,8 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "cuboid-face-count",
-    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
-    "param_schema": {
-      "w": {
-        "min": 9,
-        "max": 12
-      },
-      "h": {
-        "min": 7,
-        "max": 10
-      },
-      "d": {
-        "min": 6,
-        "max": 9
-      }
-    },
+    "blueprint": {"problemFamily":"cuboid-face-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
+    "param_schema": {},
     "prompt_template": "서로 마주 보는 면 3쌍으로 이루어진 직육면체의 전체 면 수를 구하세요.",
     "solver_rule": "6",
     "solution_steps_template": [
@@ -835,9 +694,7 @@
     ],
     "visual_template": {
       "type": "cuboid",
-      "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
+      "focus": "face",
       "unit": "cm"
     }
   },
@@ -848,21 +705,8 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "cuboid-edge-count",
-    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
-    "param_schema": {
-      "w": {
-        "min": 9,
-        "max": 12
-      },
-      "h": {
-        "min": 7,
-        "max": 10
-      },
-      "d": {
-        "min": 6,
-        "max": 9
-      }
-    },
+    "blueprint": {"problemFamily":"cuboid-edge-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
+    "param_schema": {},
     "prompt_template": "가로·세로·높이 방향 모서리가 각각 4개인 직육면체의 전체 모서리 수를 구하세요.",
     "solver_rule": "12",
     "solution_steps_template": [
@@ -875,9 +719,7 @@
     ],
     "visual_template": {
       "type": "cuboid",
-      "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
+      "focus": "edge",
       "unit": "cm"
     }
   },
@@ -888,21 +730,8 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "cuboid-vertex-count",
-    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
-    "param_schema": {
-      "w": {
-        "min": 9,
-        "max": 12
-      },
-      "h": {
-        "min": 7,
-        "max": 10
-      },
-      "d": {
-        "min": 6,
-        "max": 9
-      }
-    },
+    "blueprint": {"problemFamily":"cuboid-vertex-count","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
+    "param_schema": {},
     "prompt_template": "윗면과 아랫면의 꼭짓점을 모두 세어 직육면체의 꼭짓점 수를 구하세요.",
     "solver_rule": "8",
     "solution_steps_template": [
@@ -915,9 +744,7 @@
     ],
     "visual_template": {
       "type": "cuboid",
-      "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
+      "focus": "vertex",
       "unit": "cm"
     }
   },
@@ -928,21 +755,8 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "cuboid-edges-at-vertex",
-    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic"},
-    "param_schema": {
-      "w": {
-        "min": 9,
-        "max": 12
-      },
-      "h": {
-        "min": 7,
-        "max": 10
-      },
-      "d": {
-        "min": 6,
-        "max": 9
-      }
-    },
+    "blueprint": {"problemFamily":"cuboid-edges-at-vertex","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low","visualSemantics":"schematic","taskActions":["recognize"]},
+    "param_schema": {},
     "prompt_template": "한 꼭짓점에서 가로·세로·높이 방향으로 만나는 모서리 수를 구하세요.",
     "solver_rule": "3",
     "solution_steps_template": [
@@ -955,9 +769,7 @@
     ],
     "visual_template": {
       "type": "cuboid",
-      "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
+      "focus": "edges-at-vertex",
       "unit": "cm"
     }
   },
@@ -968,7 +780,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-total-edge-length",
-    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-total-edge-length","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["model","calculate"]},
     "param_schema": {
       "w": {
         "min": 9,
@@ -983,7 +795,7 @@
         "max": 10
       }
     },
-    "prompt_template": "길이가 {{w}}cm, {{d}}cm, {{h}}cm인 세 종류의 모서리가 각각 4개 있습니다. 모든 모서리 길이의 합을 구하세요.",
+    "prompt_template": "가로 {{w}} cm, 세로 {{d}} cm, 높이 {{h}} cm인 모서리가 각각 4개 있습니다. 모든 모서리 길이의 합을 구하세요.",
     "solver_rule": "4 * (w + h + d)",
     "solution_steps_template": [
       "가로, 세로, 높이 길이의 모서리는 각각 4개씩입니다.",
@@ -995,10 +807,11 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "total-edge-length",
+      "unit": "cm",
       "width": "{{w}}",
       "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "depth": "{{d}}"
     }
   },
   {
@@ -1008,7 +821,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-missing-width-from-edges",
-    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-missing-width-from-edges","cognitiveDomain":"applying","reasoningPattern":"inverse","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["reason","calculate"]},
     "param_schema": {
       "w": {
         "min": 9,
@@ -1023,7 +836,7 @@
         "max": 10
       }
     },
-    "prompt_template": "모든 모서리 길이의 합 {{4 * (w + h + d)}}cm를 4로 나눈 뒤 세로 {{d}}cm와 높이 {{h}}cm를 빼서 가로를 구하세요.",
+    "prompt_template": "모든 모서리 길이의 합 {{4 * (w + h + d)}} cm를 4로 나눈 뒤 세로 {{d}} cm와 높이 {{h}} cm를 빼서 가로를 구하세요.",
     "solver_rule": "w",
     "solution_steps_template": [
       "전체 모서리 길이를 4로 나누면 가로 + 세로 + 높이인 {{w + h + d}}cm입니다.",
@@ -1035,10 +848,11 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "total-edge-length",
+      "unit": "cm",
       "width": "{{w}}",
       "height": "{{h}}",
       "depth": "{{d}}",
-      "unit": "cm",
       "unknownMeasurement": "width"
     }
   },
@@ -1049,7 +863,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-front-face-area",
-    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-area","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["interpret","calculate"]},
     "param_schema": {
       "w": {
         "min": 9,
@@ -1058,13 +872,9 @@
       "h": {
         "min": 7,
         "max": 11
-      },
-      "d": {
-        "min": 6,
-        "max": 10
       }
     },
-    "prompt_template": "직육면체 앞면의 두 변 {{w}}cm와 {{h}}cm를 이용해 앞면 넓이를 구하세요.",
+    "prompt_template": "직육면체 앞면의 가로 {{w}} cm와 높이 {{h}} cm를 이용해 앞면 넓이를 구하세요.",
     "solver_rule": "w * h",
     "solution_steps_template": [
       "앞면은 가로 {{w}}cm, 세로 {{h}}cm인 직사각형입니다.",
@@ -1076,10 +886,10 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "front-face",
+      "unit": "cm",
       "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "height": "{{h}}"
     }
   },
   {
@@ -1089,7 +899,7 @@
     "difficulty": 2,
     "set_id": "C",
     "problem_family": "cuboid-front-face-perimeter",
-    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-front-face-perimeter","cognitiveDomain":"applying","reasoningPattern":"model_and_check","primaryStandard":"6수03-03","connectedStandards":["6수03-11"],"representations":["text","diagram"],"contextType":"real_world","estimatedSteps":2,"readingLoad":"medium","visualSemantics":"quantitative","taskActions":["interpret","calculate"]},
     "param_schema": {
       "w": {
         "min": 9,
@@ -1098,13 +908,9 @@
       "h": {
         "min": 7,
         "max": 11
-      },
-      "d": {
-        "min": 6,
-        "max": 10
       }
     },
-    "prompt_template": "직육면체 앞면의 가로 {{w}}cm와 높이 {{h}}cm를 이용해 앞면 둘레를 구하세요.",
+    "prompt_template": "직육면체 앞면의 가로 {{w}} cm와 높이 {{h}} cm를 이용해 앞면 둘레를 구하세요.",
     "solver_rule": "2 * (w + h)",
     "solution_steps_template": [
       "앞면의 가로는 {{w}}cm, 세로는 {{h}}cm입니다.",
@@ -1116,10 +922,10 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "front-face",
+      "unit": "cm",
       "width": "{{w}}",
-      "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "height": "{{h}}"
     }
   },
   {
@@ -1129,7 +935,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "cuboid-half-edge-count-error",
-    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-half-edge-count-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":3,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["analyze_error","calculate"]},
     "param_schema": {
       "w": {
         "min": 10,
@@ -1156,10 +962,11 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "total-edge-length",
+      "unit": "cm",
       "width": "{{w}}",
       "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "depth": "{{d}}"
     }
   },
   {
@@ -1169,7 +976,7 @@
     "difficulty": 3,
     "set_id": "C",
     "problem_family": "cuboid-one-of-each-face-area-error",
-    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative"},
+    "blueprint": {"problemFamily":"cuboid-one-of-each-face-area-error","cognitiveDomain":"reasoning","reasoningPattern":"error_analysis","primaryStandard":"6수03-03","connectedStandards":["6수03-13"],"representations":["text","diagram"],"contextType":"puzzle","estimatedSteps":4,"readingLoad":"high","visualSemantics":"quantitative","taskActions":["analyze_error","calculate"]},
     "param_schema": {
       "w": {
         "min": 9,
@@ -1196,10 +1003,11 @@
     ],
     "visual_template": {
       "type": "cuboid",
+      "focus": "surface-area",
+      "unit": "cm",
       "width": "{{w}}",
       "height": "{{h}}",
-      "depth": "{{d}}",
-      "unit": "cm"
+      "depth": "{{d}}"
     }
   }
 ]

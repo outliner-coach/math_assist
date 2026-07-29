@@ -34,6 +34,18 @@ const CONTENT_RELEASE_IDS: Record<MissionReceiptGrade, string> = {
   3: 'grade3-missions-static-v1',
 }
 
+let fallbackRunSequence = 0
+
+export function createMissionAttemptRunKey(sessionRunKey: string | number): string {
+  const baseRunKey = String(sessionRunKey).trim()
+  if (!baseRunKey) throw new Error('Mission receipt sessionRunKey is required')
+
+  fallbackRunSequence += 1
+  const nonce = globalThis.crypto?.randomUUID?.()
+    ?? `${Date.now().toString(36)}-${fallbackRunSequence.toString(36)}`
+  return `${baseRunKey}:entry-${nonce}`
+}
+
 /**
  * Bridges the current retry-in-place mission UI to immutable receipts.
  * Each valid check gets an item ordinal; repeated event delivery before the

@@ -31,6 +31,28 @@
 - 그림 데이터의 `result`, `target`, `product`, 정답 치수와 같은 값은 `showAnswer`와 동등한 공개 상태 뒤에서만 렌더링한다. 제출 전 DOM이나 접근성 이름에 답 전용 값이 있으면 위반이다.
 - 정량 그림은 문제·정답과 같은 수학 모델에서 만들어야 하며 위상, 비율, 라벨, 0 영역 검증을 추가한다. 고정 SVG 좌표만 눈으로 확인한 정량 그림은 출시할 수 없다.
 
+## 편집 검수 원장
+
+- `docs/tracking/problem-editorial-review-v1.json`만 1~6학년 공개 원본의
+  최종 편집 판정 원장이다. 학년별 임시 영수증이나 기본 통과 판정을
+  병렬 소스로 다시 만들지 않는다.
+- 공개 원본마다 `reviewId`와 최신 `contentHash`가 정확히 하나 있어야
+  하며 최종 출시는 `pass`만 허용한다. 누락·중복·오래된 해시·
+  `blocked`가 하나라도 있으면 `npm run check:problem-editorial-review`
+  가 실패해야 한다.
+- 최종 `findingCategories`는 해결되지 않은 finding이 0임을 뜻하는
+  빈 배열이다. 교정한 원인과 해결 내역은 항목 `note`,
+  `docs/engineering-notes.md`, `docs/tracking/findings.md`에 남기며
+  원장을 통과시키기 위해 이력을 지우지 않는다.
+- 시각 항목은 제출 전·힌트·정답 공개와 390×844·1024×768 증거가
+  모두 true이고 저장소 상대 경로 artifact가 있어야 한다. renderer를
+  바꾸면 소유한 검수 버전을 올려 기존 해시를 오래됨으로 만든 뒤
+  영향받는 모든 시각 항목을 다시 확인한다.
+- `docs/tracking/problem-visual-browser-evidence-v1.json` 적용은
+  931개 고유 ID, 최신 해시, 모든 변형·상태·화면 크기, 브라우저
+  오류 0, localStorage 비간섭을 먼저 검사한다. 실패 보고서로 최종
+  원장을 갱신하면 안 된다.
+
 ## 저장 형식
 
 - 기존 localStorage 이름과 읽기 가능한 필드를 변경할 때는 이전 기록을 무손실로 읽는 테스트를 먼저 둔다. 새 형식으로 자동 변환하면서 완료·복습·선택 단원·최근 활동을 잃으면 위반이다.

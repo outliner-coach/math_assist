@@ -21,6 +21,67 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-28: T11 final editorial-ledger integration (primary workstream 04)
+  owns `docs/tracking/problem-editorial-review-v1.json` as the only final
+  Grade 1-6 review decision source. It contains exactly 1,540 current pass
+  items, empty final finding categories, preserved per-item resolution notes,
+  and required visual evidence. Runtime review, validation, and evidence
+  application must read this file; parallel grade receipts are temporary
+  merge inputs and must not survive a completed publication review.
+
+- 2026-07-28: T10 visual-browser evidence integration (primary workstreams
+  03 and 04) owns the deterministic 931-item/3,018-variant evidence report,
+  its fail-closed validator and temporary-receipt application, and the
+  Grade 2 renderer review version v2. A visual receipt can become pass only
+  when every allowed route variant passes pre/hint/revealed at 390x844 and
+  1024x768 with zero browser errors, current hashes, exact review IDs, and
+  preserved learner storage. Repeated display labels are not stable React
+  keys; renderer changes must bump the owned review version and rerun all
+  affected visual items.
+
+- 2026-07-28: T5 actual-renderer review surface completion (primary
+  workstream 04) owns the shared renderer-review version registry extraction
+  and the `/review/problems` projection of the canonical Grade 1-6 review
+  catalog. The browser surface must compare the current canonical
+  `contentHash` with the temporary editorial receipts, expose stale or missing
+  status without silently treating it as pass, preserve the exact
+  `reviewId=grade:sourceKind:sourceId` identity, and export the schema-v1
+  ledger without writing learner storage. Catalog scripts, Grade 5/6 receipt
+  generators, and the review route must re-check the same renderer version
+  registry whenever a reviewed visual or completed-text renderer changes.
+
+- 2026-07-28: Grade 5 exhaustive editorial review (primary workstreams 01 and
+  04) owns the Grade 5-only completed-text numeric particle correction in
+  `src/lib/problem-generator.ts`, its independent particle corpus, all
+  196,167 allowed parameter variants, and the explicit 780-item Grade 5
+  editorial decision receipt. The correction applies to prompt, choices,
+  hints, and solution text after expression rendering; it does not change the
+  answer rule, visual payload, Grade 6 renderer version, or saved progress.
+  `estimate.json`, `fraccompare.json`, and `numberrange.json` also contain
+  source-level fixed wording corrections. Consumers must rerun the exhaustive
+  Grade 5 audit and bump the Grade 5 renderer review version if this completed
+  text contract changes.
+
+- 2026-07-28: Grade 5 full editorial review metadata completion (primary
+  workstreams 01 and 04) owns the explicit `taskActions` classification for
+  every one of the 260 reviewed Grade 5 problem families, the shared blueprint
+  type/validator contract, deterministic migration, and regenerated 780
+  template records. Task actions must be selected from the editorial catalog
+  vocabulary by reading each prompt/solver family; consumers must not infer
+  them from difficulty, cognitive domain, or reasoning pattern. Grade 5
+  generators, `validate:grade5-templates`, the problem audit, and the review
+  catalog must all re-check the same source-owned values.
+
+- 2026-07-26: Problem editorial review catalog foundation (primary workstream
+  04) owns the new shared review-item contract, canonical content hash,
+  Grade 1-6 adapter registry, renderer-review version registry, deterministic
+  catalog generator, and editorial-ledger validator. Other workstreams should
+  preserve `reviewId=grade:sourceKind:sourceId`, supply explicit curriculum,
+  task-action, evidence, and visual-semantics metadata without inference, and
+  treat any hash input or renderer-review version change as making prior
+  editorial review stale. T2 does not own grade source data, public renderers,
+  or the final `docs/tracking/problem-editorial-review-v1.json` ledger.
+
 - 2026-07-26: Grade 5 number-range completion (primary workstreams 01, 03,
   and 04) owns `numberrange-001`, its deterministic A/B/C template bank,
   generator, `[6수01-02]` release reference, and the narrow addition of a

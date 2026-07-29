@@ -18,7 +18,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {},
     "prompt_template": "한 변이 1m인 정사각형의 넓이는 몇 cm²인가요?",
@@ -66,7 +70,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {},
     "prompt_template": "한 변이 1km인 정사각형의 넓이는 몇 m²인가요?",
@@ -108,7 +116,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -161,7 +173,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -208,7 +224,10 @@
       "contextType": "real_world",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -261,7 +280,10 @@
       "contextType": "real_world",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -311,7 +333,11 @@
       "contextType": "real_world",
       "estimatedSteps": 3,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "w": {
@@ -368,7 +394,11 @@
       "contextType": "real_world",
       "estimatedSteps": 3,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -419,7 +449,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -475,7 +509,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 5,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -523,7 +561,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {},
     "prompt_template": "한 변이 1m인 정사각형의 넓이는 몇 cm²인가요?",
@@ -571,7 +613,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {},
     "prompt_template": "한 변이 1km인 정사각형의 넓이는 몇 m²인가요?",
@@ -613,7 +659,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -666,7 +716,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -713,7 +767,10 @@
       "contextType": "real_world",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -766,7 +823,10 @@
       "contextType": "real_world",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -816,7 +876,11 @@
       "contextType": "real_world",
       "estimatedSteps": 3,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "w": {
@@ -873,7 +937,11 @@
       "contextType": "real_world",
       "estimatedSteps": 3,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -924,7 +992,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -980,7 +1052,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 5,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -1028,7 +1104,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {},
     "prompt_template": "한 변이 1m인 정사각형의 넓이는 몇 cm²인가요?",
@@ -1076,7 +1156,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {},
     "prompt_template": "한 변이 1km인 정사각형의 넓이는 몇 m²인가요?",
@@ -1118,7 +1202,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -1171,7 +1259,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -1218,7 +1310,10 @@
       "contextType": "real_world",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -1271,7 +1366,10 @@
       "contextType": "real_world",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -1321,7 +1419,11 @@
       "contextType": "real_world",
       "estimatedSteps": 3,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "w": {
@@ -1378,7 +1480,11 @@
       "contextType": "real_world",
       "estimatedSteps": 3,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -1429,7 +1535,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {
@@ -1485,7 +1595,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 5,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "p": {

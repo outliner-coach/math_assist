@@ -197,6 +197,35 @@ describe('generateProblems', () => {
     expect(problem.correctAnswer).toBe('3')
   })
 
+  it('corrects Grade 5 numeric particles after rendering variable values', () => {
+    const template = makeTemplate({
+      id: 'grade5-particle',
+      concept_id: 'possibility-001',
+      param_schema: { n: { min: 77, max: 77 } },
+      prompt_template: '{{n}}가 72보다 큽니다.',
+      solver_rule: 'n',
+      solution_steps_template: [
+        '{{n}}가 더 큽니다.',
+        '분수 6/12를 약분하면 답은 {{n}}입니다.',
+      ],
+      hint_steps_template: ['6를 더해요.', '10/8로 고쳐요.'],
+    })
+
+    const [problem] = generateProblems([template], {
+      count: 1,
+      setId: 'A',
+      difficultyMix: { 1: 1, 2: 0, 3: 0 },
+      seed: 1,
+    })
+
+    expect(problem.prompt).toBe('77이 72보다 큽니다.')
+    expect(problem.solutionSteps).toEqual([
+      '77이 더 큽니다.',
+      '분수 6/12을 약분하면 답은 77입니다.',
+    ])
+    expect(problem.hintSteps).toEqual(['6을 더해요.', '10/8으로 고쳐요.'])
+  })
+
   it.each([
     '2 ** 3',
     '1 / 0',

@@ -18,7 +18,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -67,7 +70,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -75,7 +81,7 @@
         "max": 30
       }
     },
-    "prompt_template": "수영장 깊이 기준가 {{a}} 초과입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?",
+    "prompt_template": "수영장 깊이 기준이 {{a}} 초과입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?",
     "solver_rule": "a + 1",
     "solution_steps_template": [
       "초과는 경계값 {{a}}를 포함하지 않습니다.",
@@ -116,7 +122,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -165,7 +174,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -214,7 +226,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -269,7 +285,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -324,7 +344,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -379,7 +403,11 @@
       "contextType": "real_world",
       "estimatedSteps": 3,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -434,7 +462,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -493,7 +525,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -552,7 +588,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -601,7 +640,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -609,7 +651,7 @@
         "max": 50
       }
     },
-    "prompt_template": "기온 경보 기준가 {{a}} 초과입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?",
+    "prompt_template": "기온 경보 기준이 {{a}} 초과입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?",
     "solver_rule": "a + 1",
     "solution_steps_template": [
       "초과는 경계값 {{a}}를 포함하지 않습니다.",
@@ -650,7 +692,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -699,7 +744,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -707,7 +755,7 @@
         "max": 50
       }
     },
-    "prompt_template": "주차 시간 기준가 {{a}} 미만입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?",
+    "prompt_template": "주차 시간 기준이 {{a}} 미만입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?",
     "solver_rule": "a - 1",
     "solution_steps_template": [
       "미만은 경계값 {{a}}를 포함하지 않습니다.",
@@ -748,7 +796,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -803,7 +855,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -858,7 +914,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -913,7 +973,11 @@
       "contextType": "real_world",
       "estimatedSteps": 3,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -968,7 +1032,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1027,7 +1095,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1086,7 +1158,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1135,7 +1210,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1143,7 +1221,7 @@
         "max": 70
       }
     },
-    "prompt_template": "훈련 통과 기록가 {{a}} 초과입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?",
+    "prompt_template": "훈련 통과 기록이 {{a}} 초과입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?",
     "solver_rule": "a + 1",
     "solution_steps_template": [
       "초과는 경계값 {{a}}를 포함하지 않습니다.",
@@ -1184,7 +1262,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1233,7 +1314,10 @@
       "contextType": "pure_math",
       "estimatedSteps": 1,
       "readingLoad": "low",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1241,7 +1325,7 @@
         "max": 70
       }
     },
-    "prompt_template": "창고 사용량 기준가 {{a}} 미만입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?",
+    "prompt_template": "창고 사용량 기준이 {{a}} 미만입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?",
     "solver_rule": "a - 1",
     "solution_steps_template": [
       "미만은 경계값 {{a}}를 포함하지 않습니다.",
@@ -1282,7 +1366,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1337,7 +1425,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1392,7 +1484,11 @@
       "contextType": "pure_math",
       "estimatedSteps": 2,
       "readingLoad": "medium",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1447,7 +1543,11 @@
       "contextType": "real_world",
       "estimatedSteps": 3,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1502,7 +1602,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {
@@ -1561,7 +1665,11 @@
       "contextType": "puzzle",
       "estimatedSteps": 4,
       "readingLoad": "high",
-      "visualSemantics": "quantitative"
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
     },
     "param_schema": {
       "a": {

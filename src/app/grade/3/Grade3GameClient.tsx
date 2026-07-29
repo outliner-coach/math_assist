@@ -24,7 +24,10 @@ import {
   selectGrade3Unit,
   type Grade3Progress,
 } from '@/lib/grade3-progress'
-import { appendMissionAttemptReceipt } from '@/lib/mission-attempt-receipt'
+import {
+  appendMissionAttemptReceipt,
+  createMissionAttemptRunKey,
+} from '@/lib/mission-attempt-receipt'
 import {
   advanceMissionSketchRun,
   createMissionSketchKey,
@@ -194,6 +197,9 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
   const [lastSubmissionCorrect, setLastSubmissionCorrect] = useState(false)
   const [confirmReset, setConfirmReset] = useState(false)
   const [missionRun, setMissionRun] = useState(0)
+  const [missionAttemptRunKey, setMissionAttemptRunKey] = useState(
+    () => createMissionAttemptRunKey(`${MISSION_SEED}:run-0`),
+  )
 
   const selectedUnit = grade3Units.find((unit) => unit.id === selectedUnitId) ?? grade3Units[0]
   const selectedUnitMissions = unitMissions(missions, selectedUnit.id)
@@ -274,6 +280,7 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
     const nextProgress = dismissGrade3Intro(progress)
     if (nextProgress !== progress) persistProgress(nextProgress)
     setSelectedMissionId(missionId)
+    setMissionAttemptRunKey(createMissionAttemptRunKey(`${MISSION_SEED}:run-${missionRun}`))
     resetMissionState()
     window.requestAnimationFrame(() => {
       document.getElementById('grade3-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -284,6 +291,9 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
     const nextProgress = advanceMissionSketchRun(progress)
     persistProgress(nextProgress)
     setMissionRun(nextProgress.missionSketchRunOrdinal)
+    setMissionAttemptRunKey(
+      createMissionAttemptRunKey(`${MISSION_SEED}:run-${nextProgress.missionSketchRunOrdinal}`),
+    )
     resetMissionState()
     document.getElementById('grade3-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
@@ -303,6 +313,9 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
     setSelectedMissionId(unitMissions(missions, initialUnit.id)[0]?.id ?? 'g3-1-add-sub-01')
     setConfirmReset(false)
     setMissionRun(nextProgress.missionSketchRunOrdinal)
+    setMissionAttemptRunKey(
+      createMissionAttemptRunKey(`${MISSION_SEED}:run-${nextProgress.missionSketchRunOrdinal}`),
+    )
     resetMissionState()
   }
 
@@ -320,7 +333,7 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
     void appendMissionAttemptReceipt({
       grade: 3,
       mission: selectedMission,
-      sessionRunKey: `${MISSION_SEED}:run-${missionRun}`,
+      sessionRunKey: missionAttemptRunKey,
       attemptIndex: wrongAttemptCount,
       variantKey: currentVariantKey,
       correct: result.correct,
@@ -394,6 +407,7 @@ export default function Grade3GameClient({ initialUnitId }: { initialUnitId: str
       </section>
 
       <Grade3MissionCard
+        key={`${selectedMission.id}:run-${missionRun}`}
         mission={selectedMission}
         selectedAnswer={selectedAnswer}
         textAnswer={textAnswer}

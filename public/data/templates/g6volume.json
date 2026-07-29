@@ -5,6 +5,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "a-cuboid-surface-area",
     "blueprint": {
       "problemFamily": "a-cuboid-surface-area",
@@ -55,6 +58,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-cube-surface-area",
     "blueprint": {
       "problemFamily": "a-cube-surface-area",
@@ -105,6 +112,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "a-cuboid-volume",
     "blueprint": {
       "problemFamily": "a-cuboid-volume",
@@ -156,6 +166,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "a-cube-volume",
     "blueprint": {
       "problemFamily": "a-cube-volume",
@@ -207,6 +220,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-open-top-box-surface",
     "blueprint": {
       "problemFamily": "a-open-top-box-surface",
@@ -259,6 +276,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "a-half-filled-box-volume",
     "blueprint": {
       "problemFamily": "a-half-filled-box-volume",
@@ -312,6 +333,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "a-find-height-from-volume",
     "blueprint": {
       "problemFamily": "a-find-height-from-volume",
@@ -365,6 +390,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "a-one-cubic-meter-conversion",
     "blueprint": {
       "problemFamily": "a-one-cubic-meter-conversion",
@@ -416,6 +445,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-opposite-faces-omitted-error",
     "blueprint": {
       "problemFamily": "a-opposite-faces-omitted-error",
@@ -468,6 +501,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "a-dimensions-added-for-volume-error",
     "blueprint": {
       "problemFamily": "a-dimensions-added-for-volume-error",
@@ -521,6 +558,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "b-larger-cube-surface-area",
     "blueprint": {
       "problemFamily": "b-larger-cube-surface-area",
@@ -571,6 +611,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-one-layer-unit-cubes",
     "blueprint": {
       "problemFamily": "b-one-layer-unit-cubes",
@@ -621,6 +665,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "b-cuboid-volume-three-four",
     "blueprint": {
       "problemFamily": "b-cuboid-volume-three-four",
@@ -672,6 +719,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "b-multiple-cubic-meter-conversion",
     "blueprint": {
       "problemFamily": "b-multiple-cubic-meter-conversion",
@@ -722,6 +773,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-wrapping-paper-surface",
     "blueprint": {
       "problemFamily": "b-wrapping-paper-surface",
@@ -773,6 +828,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-aquarium-capacity",
     "blueprint": {
       "problemFamily": "b-aquarium-capacity",
@@ -827,6 +886,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "b-doubled-height-volume-increase",
     "blueprint": {
       "problemFamily": "b-doubled-height-volume-increase",
@@ -880,6 +943,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
     "problem_family": "b-cube-surface-growth",
     "blueprint": {
       "problemFamily": "b-cube-surface-growth",
@@ -931,6 +998,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-base-area-used-as-volume-error",
     "blueprint": {
       "problemFamily": "b-base-area-used-as-volume-error",
@@ -984,6 +1055,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "b-cubic-meter-place-value-error",
     "blueprint": {
       "problemFamily": "b-cubic-meter-place-value-error",
@@ -1036,6 +1111,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "c-cuboid-surface-area-three",
     "blueprint": {
       "problemFamily": "c-cuboid-surface-area-three",
@@ -1086,6 +1164,9 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "calculate"
+    ],
     "problem_family": "c-larger-cube-volume",
     "blueprint": {
       "problemFamily": "c-larger-cube-volume",
@@ -1137,6 +1218,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
     "problem_family": "c-unit-cubes-in-one-meter-cube",
     "blueprint": {
       "problemFamily": "c-unit-cubes-in-one-meter-cube",
@@ -1187,6 +1272,10 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-larger-cube-six-faces",
     "blueprint": {
       "problemFamily": "c-larger-cube-six-faces",
@@ -1237,6 +1326,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-open-top-storage-surface",
     "blueprint": {
       "problemFamily": "c-open-top-storage-surface",
@@ -1289,6 +1382,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-half-full-container",
     "blueprint": {
       "problemFamily": "c-half-full-container",
@@ -1343,6 +1440,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
     "problem_family": "c-remove-one-unit-layer",
     "blueprint": {
       "problemFamily": "c-remove-one-unit-layer",
@@ -1396,6 +1497,10 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
     "problem_family": "c-find-height-from-base-and-volume",
     "blueprint": {
       "problemFamily": "c-find-height-from-base-and-volume",
@@ -1449,6 +1554,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "c-volume-used-for-surface-error",
     "blueprint": {
       "problemFamily": "c-volume-used-for-surface-error",
@@ -1501,6 +1610,10 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
     "problem_family": "c-six-volumes-used-for-surface-error",
     "blueprint": {
       "problemFamily": "c-six-volumes-used-for-surface-error",

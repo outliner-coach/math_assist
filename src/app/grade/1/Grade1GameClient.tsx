@@ -36,7 +36,10 @@ import {
   getDailyAdventureSeed,
   getMasteryStars,
 } from '@/lib/adventure-progression'
-import { appendMissionAttemptReceipt } from '@/lib/mission-attempt-receipt'
+import {
+  appendMissionAttemptReceipt,
+  createMissionAttemptRunKey,
+} from '@/lib/mission-attempt-receipt'
 import {
   advanceMissionSketchRun,
   createMissionSketchKey,
@@ -110,6 +113,9 @@ export default function Grade1GameClient() {
   const [showHint, setShowHint] = useState(false)
   const [wrongAttemptCount, setWrongAttemptCount] = useState(0)
   const [confirmReset, setConfirmReset] = useState(false)
+  const [missionAttemptRunKey, setMissionAttemptRunKey] = useState(
+    () => createMissionAttemptRunKey(missionSeed),
+  )
   const restoredProgressRef = useRef(false)
 
   const recommendedMission = firstOpenMission(missions, progress)
@@ -200,6 +206,7 @@ export default function Grade1GameClient() {
     setConfirmReset(false)
     dismissIntroGuide()
     setSelectedMissionId(missionId)
+    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
     resetMissionState()
   }
 
@@ -219,6 +226,7 @@ export default function Grade1GameClient() {
     const nextProgress = advanceMissionSketchRun(progress)
     persistProgress(nextProgress)
     setReplayRound(nextProgress.missionSketchRunOrdinal)
+    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
     resetMissionState()
     scrollToMission()
   }
@@ -236,6 +244,7 @@ export default function Grade1GameClient() {
     setReplayRound(nextProgress.missionSketchRunOrdinal)
     setStorageRecovered(false)
     setSelectedMissionId(missions[0]?.id ?? selectedMission.id)
+    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
     setConfirmReset(false)
     resetMissionState()
   }
@@ -258,7 +267,7 @@ export default function Grade1GameClient() {
     void appendMissionAttemptReceipt({
       grade: 1,
       mission: selectedMission,
-      sessionRunKey: missionSeed,
+      sessionRunKey: missionAttemptRunKey,
       attemptIndex: wrongAttemptCount,
       variantKey: currentVariantKey,
       correct,
