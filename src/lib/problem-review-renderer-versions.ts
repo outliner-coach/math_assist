@@ -7,11 +7,11 @@ export const PROBLEM_REVIEW_RENDERER_VERSIONS = Object.freeze({
   'practice-problem-visual': 'practice-problem-visual-review-v1',
   'practice-problem-visual:cuboid': 'practice-problem-cuboid-review-v2',
   'practice-problem-visual:three_shape_overlap':
-    'practice-problem-three-shape-overlap-review-v2',
+    'practice-problem-three-shape-overlap-review-v3',
   'grade5-practice-text': 'grade5-practice-text-particles-v1',
   'grade5-practice-visual': 'grade5-practice-visual-particles-v1',
   'grade5-practice-visual:cuboid':
     'grade5-practice-cuboid-v2-particles-v1',
   'grade5-practice-visual:three_shape_overlap':
-    'grade5-practice-three-shape-overlap-v2-particles-v1',
+    'grade5-practice-three-shape-overlap-v3-particles-v1',
 })

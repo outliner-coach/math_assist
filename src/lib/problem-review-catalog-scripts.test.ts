@@ -306,7 +306,7 @@ describe('problem review catalog scripts', () => {
     ])
     expect(reviewCore.RENDERER_REVIEW_VERSION_REGISTRY).toMatchObject({
       'grade5-practice-visual:cuboid': 'grade5-practice-cuboid-v2-particles-v1',
-      'grade5-practice-visual:three_shape_overlap': 'grade5-practice-three-shape-overlap-v2-particles-v1',
+      'grade5-practice-visual:three_shape_overlap': 'grade5-practice-three-shape-overlap-v3-particles-v1',
     })
   })
 

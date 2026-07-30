@@ -48,7 +48,7 @@ export default function ResultCard({ result }: ResultCardProps) {
       {result.problem.visual && (
         isProblemVisual(result.problem.visual) ? (
           <div className="mb-6">
-            <ProblemDiagram visual={result.problem.visual} />
+            <ProblemDiagram visual={result.problem.visual} showAnswer />
           </div>
         ) : (
           <GeometryProblemVisual visual={result.problem.visual} showAnswer />

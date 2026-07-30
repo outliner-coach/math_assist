@@ -65,4 +65,32 @@ describe('ProblemReviewRenderer', () => {
     expect(grade4Pre).toContain('data-testid="problem-review-tool"')
     expect(grade4Pre).toContain(grade4.mission.supportTool)
   })
+
+  it('keeps the same answer-safe overlapping-shape artwork in every review state', async () => {
+    const data = await getProblemReviewData()
+    const row = data.rows.find(
+      item => item.problem?.visual?.type === 'three_shape_overlap'
+    )!
+
+    const pre = renderToStaticMarkup(
+      createElement(ProblemReviewRenderer, { row, state: 'pre' })
+    )
+    const hint = renderToStaticMarkup(
+      createElement(ProblemReviewRenderer, { row, state: 'hint' })
+    )
+    const revealed = renderToStaticMarkup(
+      createElement(ProblemReviewRenderer, { row, state: 'revealed' })
+    )
+
+    for (const markup of [pre, hint, revealed]) {
+      expect((markup.match(/data-overlap-shape=/g) ?? [])).toHaveLength(3)
+      expect((markup.match(/data-overlap-shape-label=/g) ?? [])).toHaveLength(3)
+      expect(markup).not.toContain('data-cell-region')
+      expect(markup).not.toContain('data-overlap-mask')
+      expect(markup).not.toContain('data-region-callout')
+      expect(markup).not.toContain('A∩B')
+      expect(markup).not.toContain('A∩C')
+      expect(markup).not.toContain('B∩C')
+    }
+  })
 })

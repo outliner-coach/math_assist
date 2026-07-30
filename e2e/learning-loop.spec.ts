@@ -671,7 +671,7 @@ test('5학년 다각형 그림은 실제 치수 비율을 따르고 미지 길�
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 })
 
-test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세션도 복구한다', async ({ page }) => {
+test('세 도형 겹침은 설명 없는 원·삼각형·사각형 중첩도로 보여 준다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/practice/area-001?set=A`)
   const session = await readSession(page)
@@ -688,39 +688,40 @@ test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세�
 
   const diagram = page.getByTestId('problem-diagram-three-shape-overlap')
   await expect(diagram).toBeVisible()
-  await expect(diagram.locator('[data-cell-region="aOnly"]')).toHaveCount(
-    overlapVisual.props.exclusiveAreas[0]
-  )
-  await expect(diagram.locator('[data-cell-region="abOnly"]')).toHaveCount(4)
-  await expect(diagram.locator('[data-cell-region="acOnly"]')).toHaveCount(2)
-  await expect(diagram.locator('[data-cell-region="bcOnly"]')).toHaveCount(0)
-  await expect(diagram).toContainText('영역 분해도')
-  await expect(diagram).toContainText('A = 파랑 ●')
-  await expect(diagram.locator('[data-region-callout]')).toHaveCount(6)
-  await expect(diagram.locator('[data-given-value]')).toHaveCount(4)
-  await expect(diagram).not.toContainText('AB만 4')
-  await expect(diagram).not.toContainText('AC만 2')
+  await expect(diagram.locator('[data-overlap-shape]')).toHaveCount(3)
+  await expect(diagram.locator('[data-overlap-shape-label]')).toHaveCount(3)
+  await expect(diagram.locator('figcaption')).toHaveCount(0)
+  await expect(diagram.locator('[data-cell-region]')).toHaveCount(0)
+  await expect(diagram.locator('[data-overlap-mask]')).toHaveCount(0)
+  await expect(diagram.locator('[data-region-callout]')).toHaveCount(0)
+  await expect(diagram).not.toContainText('cm²')
+  await expect(diagram).not.toContainText('?')
   const readability = await diagram.evaluate(element => {
     const svg = element.querySelector('svg')
-    const cells = Array.from(element.querySelectorAll<SVGRectElement>('[data-cell-region]'))
-    const labels = Array.from(element.querySelectorAll<SVGTextElement>('[data-overlap-label]'))
-    const note = element.querySelector<SVGTextElement>('[data-overlap-note]')
-    if (!svg || cells.length === 0 || labels.length === 0 || !note) {
+    const shapes = Array.from(element.querySelectorAll<SVGGeometryElement>('[data-overlap-shape]'))
+    const labels = Array.from(element.querySelectorAll<SVGTextElement>('[data-overlap-shape-label]'))
+    if (!svg || shapes.length !== 3 || labels.length !== 3) {
       throw new Error('overlap readability elements are missing')
     }
     const scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width
+    const triplePoint = svg.createSVGPoint()
+    triplePoint.x = 210
+    triplePoint.y = 140
     return {
-      smallestCell: Math.min(...cells.map(cell => cell.width.baseVal.value * scale)),
       smallestLabelFont: Math.min(
         ...labels.map(label => Number(label.getAttribute('font-size')) * scale)
       ),
-      noteFont: Number.parseFloat(getComputedStyle(note).fontSize) * scale,
+      allShapesOverlapAtCenter: shapes.every(shape => shape.isPointInFill(triplePoint)),
+      translucentFills: shapes.every(shape => (
+        Number.parseFloat(getComputedStyle(shape).fillOpacity) > 0
+        && Number.parseFloat(getComputedStyle(shape).fillOpacity) < 1
+      )),
       fitsViewport: document.documentElement.scrollWidth <= window.innerWidth,
     }
   })
-  expect(readability.smallestCell).toBeGreaterThanOrEqual(8)
-  expect(readability.smallestLabelFont).toBeGreaterThanOrEqual(13)
-  expect(readability.noteFont).toBeGreaterThanOrEqual(12)
+  expect(readability.smallestLabelFont).toBeGreaterThanOrEqual(20)
+  expect(readability.allShapesOverlapAtCenter).toBe(true)
+  expect(readability.translucentFills).toBe(true)
   expect(readability.fitsViewport).toBe(true)
 
   await page.evaluate((key) => {
@@ -731,8 +732,18 @@ test('세 도형 겹침은 수치와 같은 단위 셀을 그리고 구형 세�
   }, SESSION_KEY)
   await page.reload()
 
-  await expect(page.getByTestId('problem-diagram-three-shape-overlap')).toBeVisible()
-  await expect(page.locator('[data-cell-region="bcOnly"]')).toHaveCount(0)
+  const legacyDiagram = page.getByTestId('problem-diagram-three-shape-overlap')
+  await expect(legacyDiagram).toBeVisible()
+  await expect(legacyDiagram.locator('[data-overlap-shape]')).toHaveCount(3)
+  await expect(legacyDiagram.locator('[data-cell-region]')).toHaveCount(0)
+  await expect(legacyDiagram).not.toContainText('cm²')
+
+  await answerCurrentProblem(page, 'correct')
+  await page.getByTestId('check-answer-button').click()
+  await expect(legacyDiagram.locator('[data-overlap-shape]')).toHaveCount(3)
+  await expect(legacyDiagram.locator('[data-cell-region]')).toHaveCount(0)
+  await expect(legacyDiagram.locator('[data-region-callout]')).toHaveCount(0)
+  await expect(legacyDiagram).not.toContainText('cm²')
 })
 
 test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수 있다', async ({ page }) => {

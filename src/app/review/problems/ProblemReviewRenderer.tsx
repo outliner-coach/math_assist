@@ -101,7 +101,12 @@ export default function ProblemReviewRenderer({
       </div>
     )
   } else if (isProblemVisual(row.problem.visual)) {
-    renderedVisual = <ProblemDiagram visual={row.problem.visual} />
+    renderedVisual = (
+      <ProblemDiagram
+        visual={row.problem.visual}
+        showAnswer={showAnswer}
+      />
+    )
   } else {
     renderedVisual = (
       <GeometryProblemVisual

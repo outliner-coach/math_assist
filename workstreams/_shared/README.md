@@ -821,3 +821,17 @@ When you change a high-conflict file, add a short dated note below:
   capture failure. The user verified the final fix on an iPad. Preserve the
   interaction contract in `docs/scratch-pad-ipados-lessons-learned.md`; the
   handoff is `handoffs/2026-07-19-03-ui-and-visuals-codex.md`.
+
+- 2026-07-30: three-shape overlap answer-safety repair (primary workstream 03,
+  validation dependency on workstream 04) owns
+  `src/components/ProblemDiagram.tsx`, its practice/result/review consumers,
+  focused component and E2E checks, and the
+  `three_shape_overlap` renderer-review version. The visible visual is a
+  reference-style conceptual overlap of the prompt-owned blue circle A, green
+  triangle B, and pink square C. It stays identical before hints, before
+  submission, and after answer checking. Do not add unit cells, numeric region
+  labels, callouts, explanatory captions, exact-area proportions, zero-region
+  omission, or answer-derived accessibility metadata. The rule-based model
+  remains the source for validation and scoring, not for visible answer
+  geometry. Re-run the affected browser evidence and final editorial-ledger
+  check after changing this renderer.

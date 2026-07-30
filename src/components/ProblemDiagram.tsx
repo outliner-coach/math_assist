@@ -6,6 +6,7 @@ import type { GeometryVisual, ProblemVisual } from '@/lib/types'
 
 interface ProblemDiagramProps {
   visual: ProblemVisual
+  showAnswer?: boolean
 }
 
 const stroke = '#334155'
@@ -37,8 +38,6 @@ function DimensionLabel({ x, y, children }: { x: number; y: number; children: Re
     </text>
   )
 }
-
-type OverlapRegionKey = keyof ReturnType<typeof buildThreeShapeOverlapModel>['regions']
 
 type RatioGraphProps = Extract<ProblemVisual, { type: 'ratio_graph' }>['props']
 
@@ -110,237 +109,6 @@ function ratioGraphSectorPath(
     `A ${radius} ${radius} 0 ${largeArc} 1 ${end.x} ${end.y}`,
     'Z',
   ].join(' ')
-}
-
-type OverlapRegionDefinition = {
-  key: OverlapRegionKey
-  tier: number
-  column: number
-  label: string
-  symbol: string
-  fill: string
-  given: boolean
-}
-
-type OverlapRegionLayout = OverlapRegionDefinition & {
-  area: number
-  columns: number
-  rows: number
-  centerX: number
-  calloutY: number
-  cellsY: number
-}
-
-type ThreeShapeOverlapLayout = {
-  width: number
-  height: number
-  cellSize: number
-  pitch: number
-  calloutWidth: number
-  calloutHeight: number
-  labelFontSize: number
-  noteFontSize: number
-  noteY: number
-  regions: OverlapRegionLayout[]
-}
-
-const overlapRegionDefinitions: OverlapRegionDefinition[] = [
-  {
-    key: 'aOnly', tier: 0, column: 0,
-    label: 'A만', symbol: '●', fill: '#93c5fd', given: true,
-  },
-  {
-    key: 'abOnly', tier: 0, column: 1,
-    label: 'A∩B만', symbol: '●▲', fill: '#67e8f9', given: false,
-  },
-  {
-    key: 'bOnly', tier: 0, column: 2,
-    label: 'B만', symbol: '▲', fill: '#86efac', given: true,
-  },
-  {
-    key: 'acOnly', tier: 1, column: 0,
-    label: 'A∩C만', symbol: '●■', fill: '#c4b5fd', given: false,
-  },
-  {
-    key: 'abc', tier: 1, column: 1,
-    label: 'A∩B∩C', symbol: '●▲■', fill: '#fcd34d', given: true,
-  },
-  {
-    key: 'bcOnly', tier: 1, column: 2,
-    label: 'B∩C만', symbol: '▲■', fill: '#fdba74', given: false,
-  },
-  {
-    key: 'cOnly', tier: 2, column: 1,
-    label: 'C만', symbol: '■', fill: '#fca5a5', given: true,
-  },
-]
-
-export function buildThreeShapeOverlapLayout(
-  regions: Record<OverlapRegionKey, number>,
-): ThreeShapeOverlapLayout {
-  const width = 360
-  const horizontalPadding = 12
-  const columnsPerTier = 3
-  const slotWidth = (width - horizontalPadding * 2) / columnsPerTier
-  const cellSize = 11
-  const pitch = 12
-  const calloutWidth = 102
-  const calloutHeight = 52
-  const labelFontSize = 17
-  const noteFontSize = 16
-  const connectorGap = 12
-  const tierGap = 22
-  const contentStartY = 72
-  const tierStarts: number[] = []
-  let nextTierY = contentStartY
-
-  for (let tier = 0; tier < 3; tier += 1) {
-    tierStarts[tier] = nextTierY
-    const tierDefinitions = overlapRegionDefinitions.filter(definition => definition.tier === tier)
-    const maximumRows = Math.max(
-      1,
-      ...tierDefinitions.map(definition => {
-        const area = regions[definition.key]
-        if (area === 0) return 0
-        const columns = Math.min(5, Math.max(1, Math.ceil(Math.sqrt(area))))
-        return Math.ceil(area / columns)
-      }),
-    )
-    const maximumBlockHeight = maximumRows * pitch - (pitch - cellSize)
-    nextTierY += calloutHeight + connectorGap + maximumBlockHeight + tierGap
-  }
-
-  const noteY = nextTierY - tierGap + 26
-  const height = noteY + 42
-  const layouts = overlapRegionDefinitions.map(definition => {
-    const area = regions[definition.key]
-    const columns = area === 0
-      ? 0
-      : Math.min(5, Math.max(1, Math.ceil(Math.sqrt(area))))
-    const rows = columns === 0 ? 0 : Math.ceil(area / columns)
-    return {
-      ...definition,
-      area,
-      columns,
-      rows,
-      centerX: horizontalPadding + slotWidth * (definition.column + 0.5),
-      calloutY: tierStarts[definition.tier],
-      cellsY: tierStarts[definition.tier] + calloutHeight + connectorGap,
-    }
-  })
-
-  return {
-    width,
-    height,
-    cellSize,
-    pitch,
-    calloutWidth,
-    calloutHeight,
-    labelFontSize,
-    noteFontSize,
-    noteY,
-    regions: layouts,
-  }
-}
-
-function OverlapRegionCells({
-  region,
-  layout,
-  unit,
-}: {
-  region: OverlapRegionLayout
-  layout: ThreeShapeOverlapLayout
-  unit: string
-}) {
-  const {
-    key: regionKey,
-    area,
-    columns,
-    centerX,
-    calloutY,
-    cellsY,
-    label,
-    symbol,
-    fill,
-    given,
-  } = region
-  if (area === 0) return null
-
-  const {
-    pitch,
-    cellSize,
-    calloutWidth,
-    calloutHeight,
-    labelFontSize,
-  } = layout
-  const blockWidth = columns * pitch - (pitch - cellSize)
-  const startX = centerX - blockWidth / 2
-  const startY = cellsY
-  const calloutX = centerX - calloutWidth / 2
-  const lineStart = { x: centerX, y: calloutY + calloutHeight }
-  const lineEnd = { x: centerX, y: startY - 3 }
-
-  return (
-    <>
-      <g data-region={regionKey} aria-hidden="true">
-        {Array.from({ length: area }, (_, index) => (
-          <rect
-            key={index}
-            data-cell-region={regionKey}
-            x={startX + (index % columns) * pitch}
-            y={startY + Math.floor(index / columns) * pitch}
-            width={cellSize}
-            height={cellSize}
-            rx="1.5"
-            fill={fill}
-            stroke="#475569"
-            strokeWidth="1"
-          />
-        ))}
-      </g>
-      <g
-        data-region-callout={regionKey}
-        data-region-symbol={symbol}
-        data-given-value={given ? area : undefined}
-        aria-hidden="true"
-      >
-        <line
-          x1={lineStart.x}
-          y1={lineStart.y}
-          x2={lineEnd.x}
-          y2={lineEnd.y}
-          stroke="#475569"
-          strokeWidth="2"
-          data-callout-link={regionKey}
-        />
-        <circle cx={lineEnd.x} cy={lineEnd.y} r="3" fill="#475569" />
-        <rect
-          x={calloutX}
-          y={calloutY}
-          width={calloutWidth}
-          height={calloutHeight}
-          rx="10"
-          fill="white"
-          stroke={fill}
-          strokeWidth="2.5"
-        />
-        <text
-          x={calloutX + calloutWidth / 2}
-          y={calloutY + 19}
-          textAnchor="middle"
-          fontSize={labelFontSize}
-          fontWeight="800"
-          fill="#0f172a"
-          data-overlap-label={regionKey}
-        >
-          <tspan x={centerX}>{label}</tspan>
-          <tspan x={centerX} dy="21" fontWeight="800">
-            {symbol}{given ? ` · ${area} ${unit}²` : ''}
-          </tspan>
-        </text>
-      </g>
-    </>
-  )
 }
 
 export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
@@ -846,57 +614,86 @@ export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
     )
   }
 
-  const { shapeArea, exclusiveAreas, tripleOverlap, unit } = visual.props
   const model = visual.model ?? buildThreeShapeOverlapModel(visual.props)
-  const layout = buildThreeShapeOverlapLayout(model.regions)
+  const commonAreaDescription = model.regions.abc > 0
+    ? '세 도형이 모두 겹치는 가운데 영역이 있습니다.'
+    : '세 도형이 모두 겹치는 영역은 없습니다.'
+
   return (
     <figure
-      className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
+      className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-2"
       data-testid="problem-diagram-three-shape-overlap"
     >
-      <figcaption className="space-y-1 text-center">
-        <div className="text-base font-extrabold text-slate-900">
-          영역 분해도
-        </div>
-        <div className="text-sm font-bold text-slate-700">
-          세 도형을 먼저 A, B, C라고 부릅니다.
-        </div>
-        <div className="text-xs font-semibold text-slate-600">
-          A = 파랑 ● · B = 초록 ▲ · C = 분홍 ■
-        </div>
-      </figcaption>
       <svg
-        viewBox={`0 0 ${layout.width} ${layout.height}`}
+        viewBox="0 0 360 290"
         role="img"
-        aria-label={`영역 분해도. A는 파랑 원 기호, B는 초록 세모 기호, C는 분홍 네모 기호입니다. A, B, C의 넓이는 각각 ${shapeArea} ${unit}²입니다. A만 ${exclusiveAreas[0]} ${unit}², B만 ${exclusiveAreas[1]} ${unit}², C만 ${exclusiveAreas[2]} ${unit}², 세 도형 공통부분 ${tripleOverlap} ${unit}²입니다.`}
+        aria-label={`서로 겹친 파란 원 A, 초록 삼각형 B, 분홍 사각형 C의 개념도입니다. 실제 넓이의 비율을 나타내지 않습니다. ${commonAreaDescription}`}
         className="mx-auto w-full max-w-md"
-        data-overlap-layout-width={layout.width}
-        data-overlap-layout-height={layout.height}
+        data-overlap-diagram="conceptual-shapes"
       >
-        <text x={layout.width / 2} y="24" textAnchor="middle" className="fill-slate-800 text-[18px] font-bold">
-          A · B · C의 넓이: 각각 {shapeArea} {unit}²
-        </text>
-        <text x={layout.width / 2} y="50" textAnchor="middle" className="fill-slate-600 text-[16px] font-semibold">
-          한 칸 = 1 {unit}²
-        </text>
-        {layout.regions.map(region => (
-          <OverlapRegionCells
-            key={region.key}
-            region={region}
-            layout={layout}
-            unit={unit}
-          />
-        ))}
+        <circle
+          cx="126"
+          cy="128"
+          r="108"
+          fill="#6d97dc"
+          fillOpacity="0.48"
+          stroke="#2f5fa7"
+          strokeWidth="4"
+          data-overlap-shape="a"
+        />
+        <polygon
+          points="184,24 346,98 210,184"
+          fill="#63c878"
+          fillOpacity="0.48"
+          stroke="#378a43"
+          strokeWidth="4"
+          strokeLinejoin="round"
+          data-overlap-shape="b"
+        />
+        <polygon
+          points="166,108 302,154 260,278 124,232"
+          fill="#f395aa"
+          fillOpacity="0.48"
+          stroke="#cf526f"
+          strokeWidth="4"
+          strokeLinejoin="round"
+          data-overlap-shape="c"
+        />
         <text
-          x={layout.width / 2}
-          y={layout.noteY}
+          x="80"
+          y="132"
           textAnchor="middle"
-          data-overlap-note="pairwise-values-hidden"
-          fontSize={layout.noteFontSize}
-          className="fill-slate-500 font-semibold"
+          fontSize="30"
+          fontWeight="900"
+          fill="#172033"
+          aria-hidden="true"
+          data-overlap-shape-label="a"
         >
-          <tspan x={layout.width / 2}>A∩B만 · A∩C만 · B∩C만은</tspan>
-          <tspan x={layout.width / 2} dy="19">풀이 전 수치를 따로 적지 않아요.</tspan>
+          A
+        </text>
+        <text
+          x="285"
+          y="96"
+          textAnchor="middle"
+          fontSize="30"
+          fontWeight="900"
+          fill="#172033"
+          aria-hidden="true"
+          data-overlap-shape-label="b"
+        >
+          B
+        </text>
+        <text
+          x="225"
+          y="236"
+          textAnchor="middle"
+          fontSize="30"
+          fontWeight="900"
+          fill="#172033"
+          aria-hidden="true"
+          data-overlap-shape-label="c"
+        >
+          C
         </text>
       </svg>
     </figure>

@@ -58,7 +58,7 @@ describe('Grade 5 editorial review', () => {
       'grade5-practice-text-particles-v1': 450,
       'grade5-practice-visual-particles-v1': 297,
       'grade5-practice-cuboid-v2-particles-v1': 30,
-      'grade5-practice-three-shape-overlap-v2-particles-v1': 3,
+      'grade5-practice-three-shape-overlap-v3-particles-v1': 3,
     })
   })
 
