@@ -113,6 +113,11 @@ function collectExhaustiveTemplateIssues(
   return issues
 }
 
+function sourcePayloadWithoutIdentity(template: ProblemTemplate): string {
+  const { id: _id, set_id: _setId, ...payload } = template
+  return JSON.stringify(payload)
+}
+
 describe('Grade 5 reviewed blueprint metadata', () => {
   it('defines one explicit reviewed mapping for every structured problem family', () => {
     const templates = readMigratedTemplates()
@@ -934,6 +939,34 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     }
   })
 
+  it('keeps the two unit-square sources independently authored across A, B, and C', () => {
+    for (const slot of ['01', '02']) {
+      const sources = generatedAreaUnitTemplates.filter(template => (
+        template.id.endsWith(`-${slot}`)
+      ))
+
+      expect(sources).toHaveLength(3)
+      expect(new Set(sources.map(sourcePayloadWithoutIdentity)).size).toBe(3)
+      expect(new Set(sources.map(template => JSON.stringify({
+        contextType: template.blueprint!.contextType,
+        representations: template.blueprint!.representations,
+        taskActions: template.blueprint!.taskActions,
+      }))).size).toBe(3)
+    }
+
+    const promptsById = Object.fromEntries(
+      generatedAreaUnitTemplates
+        .filter(template => /-(?:01|02)$/.test(template.id))
+        .map(template => [template.id, template.prompt_template])
+    )
+    expect(promptsById['tmpl-areaunit-A-01']).toMatch(/1m²=□cm²/)
+    expect(promptsById['tmpl-areaunit-B-01']).toMatch(/1cm².*몇 장/)
+    expect(promptsById['tmpl-areaunit-C-01']).toMatch(/100cm.*곱/)
+    expect(promptsById['tmpl-areaunit-A-02']).toMatch(/1km²=□m²/)
+    expect(promptsById['tmpl-areaunit-B-02']).toMatch(/1m².*몇 개/)
+    expect(promptsById['tmpl-areaunit-C-02']).toMatch(/1000m.*곱/)
+  })
+
   it('keeps the possibility bank reproducible, exhaustive, and balanced across three standards', () => {
     const committed = JSON.parse(
       fs.readFileSync(
@@ -973,6 +1006,22 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       '6수04-05': 6,
       '6수04-06': 18,
     })
+
+    const domainsByDirectStandard = generatedPossibilityTemplates.reduce<
+      Record<string, Set<string>>
+    >((domains, template) => {
+      const standard = template.blueprint!.primaryStandard
+      const current = domains[standard] ?? new Set<string>()
+      current.add(template.blueprint!.cognitiveDomain)
+      domains[standard] = current
+      return domains
+    }, {})
+    expect(domainsByDirectStandard['6수04-04']).toEqual(
+      new Set(['knowing', 'applying'])
+    )
+    expect(domainsByDirectStandard['6수04-06']).toEqual(
+      new Set(['knowing', 'applying', 'reasoning'])
+    )
 
     for (const setId of ['A', 'B', 'C']) {
       const setTemplates = generatedPossibilityTemplates.filter(
