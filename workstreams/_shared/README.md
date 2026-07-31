@@ -21,6 +21,20 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-31: Grade 1-6 content-structure execution has single-writer
+  ownership across the remaining shared surfaces. The curriculum allocation
+  lane alone writes
+  `workstreams/_shared/grade1-2-curriculum-allocation-v1.json`; Grade 1 and
+  Grade 2 content lanes consume it read-only, and the final curriculum
+  integration lane merges it into
+  `public/data/curriculum-allocations-v1.json` and removes the temporary file.
+  The study-session lane alone writes `src/lib/session.ts` and
+  `src/lib/problem-generator.ts`; the home-integration lane alone writes
+  `src/lib/guest-home.ts` and `src/lib/local-progress-repository.ts`. Grade
+  content lanes do not edit the final curriculum ledger, inventory command
+  wiring, or editorial ledger. The final review lane is the only writer for
+  the catalog, editorial ledger, and shared browser-evidence files.
+
 - 2026-07-31: Grade 1-6 content-structure quality-core foundation (primary
   workstream 04) owns the fixture-tested, production-data-neutral contracts in
   `scripts/curriculum-direct-link-core.js` and
