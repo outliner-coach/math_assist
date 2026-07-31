@@ -1,4 +1,4 @@
-import type { Grade3Mission } from './grade3-problems'
+import { getGrade3MissionSession, type Grade3Mission } from './grade3-problems'
 import { normalizeMissionSketchRunOrdinal } from './mission-sketch-identity'
 
 export const GRADE3_PROGRESS_KEY = 'mathAssist_grade3Progress'
@@ -12,6 +12,8 @@ export interface Grade3SkillSummary {
 export interface Grade3Progress {
   schemaVersion: number
   completedMissionIds: string[]
+  checkedMissionIds: string[]
+  practiceMissionIdsByUnit: Record<string, string[]>
   reviewMissionIds: string[]
   latestMissionId: string | null
   selectedUnitId: string | null
@@ -40,6 +42,8 @@ export function createInitialGrade3Progress(now = Date.now()): Grade3Progress {
   return {
     schemaVersion: GRADE3_PROGRESS_SCHEMA_VERSION,
     completedMissionIds: [],
+    checkedMissionIds: [],
+    practiceMissionIdsByUnit: {},
     reviewMissionIds: [],
     latestMissionId: null,
     selectedUnitId: null,
@@ -76,6 +80,15 @@ function uniqueStrings(values: unknown): string[] {
   return Array.from(new Set(values.filter((id): id is string => typeof id === 'string')))
 }
 
+function normalizePracticeMissionIdsByUnit(value: unknown): Record<string, string[]> {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {}
+  return Object.fromEntries(
+    Object.entries(value)
+      .map(([unitId, missionIds]) => [unitId, uniqueStrings(missionIds)] as const)
+      .filter(([, missionIds]) => missionIds.length === 3),
+  )
+}
+
 function normalizeProgress(value: unknown, now: number): Grade3Progress | null {
   if (!value || typeof value !== 'object') return null
   const candidate = value as Partial<Grade3Progress>
@@ -97,6 +110,10 @@ function normalizeProgress(value: unknown, now: number): Grade3Progress | null {
   return {
     schemaVersion: GRADE3_PROGRESS_SCHEMA_VERSION,
     completedMissionIds: uniqueStrings(candidate.completedMissionIds),
+    checkedMissionIds: Array.isArray(candidate.checkedMissionIds)
+      ? uniqueStrings(candidate.checkedMissionIds)
+      : uniqueStrings([...candidate.completedMissionIds, ...candidate.reviewMissionIds]),
+    practiceMissionIdsByUnit: normalizePracticeMissionIdsByUnit(candidate.practiceMissionIdsByUnit),
     reviewMissionIds: uniqueStrings(candidate.reviewMissionIds),
     latestMissionId: candidate.latestMissionId ?? null,
     selectedUnitId: candidate.selectedUnitId ?? null,
@@ -178,6 +195,7 @@ export function recordGrade3Attempt(
   const summary = progress.skillSummaryByTag[mission.parentSummaryTag] ?? { attempted: 0, correct: 0 }
   return {
     ...progress,
+    checkedMissionIds: toggleId(progress.checkedMissionIds, mission.id, true),
     completedMissionIds: correct
       ? toggleId(progress.completedMissionIds, mission.id, true)
       : progress.completedMissionIds,
@@ -197,6 +215,57 @@ export function recordGrade3Attempt(
     },
     lastPlayedAt: now,
   }
+}
+
+export function recordGrade3PracticeSession(
+  progress: Grade3Progress,
+  unitId: string,
+  missions: ReadonlyArray<Pick<Grade3Mission, 'id' | 'unitId' | 'cognitiveDomain'>>,
+): Grade3Progress {
+  const expectedDomains = ['knowing', 'applying', 'reasoning']
+  const missionIds = uniqueStrings(missions.map((mission) => mission.id))
+  const validSession =
+    missions.length === 3
+    && missionIds.length === 3
+    && missions.every(
+      (mission, index) =>
+        mission.unitId === unitId
+        && mission.cognitiveDomain === expectedDomains[index],
+    )
+  if (!validSession) return progress
+
+  const existingMissionIds = progress.practiceMissionIdsByUnit[unitId]
+  if (
+    existingMissionIds?.length === missionIds.length
+    && existingMissionIds.every((missionId, index) => missionId === missionIds[index])
+  ) return progress
+
+  return {
+    ...progress,
+    practiceMissionIdsByUnit: {
+      ...progress.practiceMissionIdsByUnit,
+      [unitId]: missionIds,
+    },
+  }
+}
+
+export function getGrade3PracticeMissionIds(
+  progress: Pick<Grade3Progress, 'practiceMissionIdsByUnit'>,
+  unitId: string,
+  seed = 20260516,
+): string[] {
+  return progress.practiceMissionIdsByUnit[unitId]
+    ?? getGrade3MissionSession(unitId, 'practice', seed).map((mission) => mission.id)
+}
+
+export function isGrade3UnitComplete(
+  progress: Pick<Grade3Progress, 'checkedMissionIds' | 'practiceMissionIdsByUnit'>,
+  unitId: string,
+  seed = 20260516,
+): boolean {
+  const checked = new Set(progress.checkedMissionIds)
+  return getGrade3PracticeMissionIds(progress, unitId, seed)
+    .every((missionId) => checked.has(missionId))
 }
 
 export function resetGrade3Progress(

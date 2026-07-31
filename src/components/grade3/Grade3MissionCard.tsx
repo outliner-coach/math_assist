@@ -250,7 +250,9 @@ export default function Grade3MissionCard({
   onSubmitWeight,
   onShowHint,
 }: Grade3MissionCardProps) {
-  const isCompassConstruction = mission.id === 'g3-2-circle-03'
+  const isCompassConstruction =
+    mission.visualModel === 'circle-parts'
+    && mission.visualConfig.mode === 'construction'
   const [compassWidth, setCompassWidth] = React.useState(4)
   const [drawnWidth, setDrawnWidth] = React.useState<number | null>(null)
   const isWrong = selectedAnswer !== null && !solved

@@ -1117,7 +1117,7 @@ test('3학년 탐험섬에서 단원 선택, 발판, 힌트, 보상 흐름을 �
   await expect(page.getByTestId('grade3-mission-card')).toHaveCount(0)
 
   await page.getByTestId('grade3-unit-card-g3-1-add-sub').click()
-  await expect(page).toHaveURL(/\/math_assist\/grade\/3\/mission\/?\?unitId=g3-1-add-sub$/)
+  await expect(page).toHaveURL(/\/math_assist\/grade\/3\/mission\/?\?unitId=g3-1-add-sub&mode=basic$/)
   await expect(page.getByTestId('grade3-mission-nav')).toBeVisible()
   await expect(page.getByTestId('grade3-mission-card')).toHaveAttribute('data-mission-id', 'g3-1-add-sub-01')
   await expect(page.getByTestId('grade3-unit-missions').getByTestId(/grade3-mission-node-/)).toHaveCount(3)
@@ -1178,38 +1178,49 @@ test('3학년 미션을 떠났다가 돌아오면 새 실행의 정답 영수증
   expect(new Set(receipts.map((receipt: { attemptId: string }) => receipt.attemptId)).size).toBe(2)
 })
 
-test('3학년 들이와 무게는 일곱 성취기준을 정량 그림과 안전한 공개 흐름으로 푼다', async ({ page }) => {
+test('3학년 들이와 무게는 기본·연습에서 정량 그림과 안전한 공개 흐름으로 푼다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-2-capacity-weight`)
-  await expect(page.getByTestId('grade3-unit-missions').getByTestId(/grade3-mission-node-/)).toHaveCount(7)
-
-  const missions = [
-    { order: 1, code: '[4수03-17]', fields: [['grade3-capacity-liters', '1'], ['grade3-capacity-milliliters', '250']], submit: 'grade3-capacity-submit', shown: '1L 250mL' },
-    { order: 2, code: '[4수03-20]', fields: [['grade3-weight-kilograms', '2'], ['grade3-weight-grams', '300']], submit: 'grade3-weight-submit', shown: '2kg 300g' },
-    { order: 3, code: '[4수03-19]', fields: [['grade3-capacity-liters', '3'], ['grade3-capacity-milliliters', '400']], submit: 'grade3-capacity-submit', shown: '3L400mL' },
-    { order: 4, code: '[4수03-18]', fields: [['grade3-integer-input', '3250']], submit: 'grade3-integer-submit', shown: '3250mL' },
-    { order: 5, code: '[4수03-21]', fields: [['grade3-integer-input', '2300']], submit: 'grade3-integer-submit', shown: '2300g' },
-    { order: 6, code: '[4수03-22]', fields: [['grade3-integer-input', '4000']], submit: 'grade3-integer-submit', shown: '4000kg' },
-    { order: 7, code: '[4수03-23]', fields: [['grade3-weight-kilograms', '2'], ['grade3-weight-grams', '450']], submit: 'grade3-weight-submit', shown: '2kg450g' },
+  const sessions = [
+    {
+      mode: 'basic',
+      missions: [
+        { order: 1, code: '[4수03-17]', fields: [['grade3-capacity-liters', '1'], ['grade3-capacity-milliliters', '250']], submit: 'grade3-capacity-submit', shown: '1L 250mL' },
+        { order: 2, code: '[4수03-19]', fields: [['grade3-capacity-liters', '3'], ['grade3-capacity-milliliters', '400']], submit: 'grade3-capacity-submit', shown: '3L400mL' },
+        { order: 3, code: '[4수03-22]', fields: [['grade3-integer-input', '4000']], submit: 'grade3-integer-submit', shown: '4000kg' },
+      ],
+    },
+    {
+      mode: 'practice',
+      missions: [
+        { order: 1, code: '[4수03-20]', fields: [['grade3-weight-kilograms', '2'], ['grade3-weight-grams', '300']], submit: 'grade3-weight-submit', shown: '2kg 300g' },
+        { order: 2, code: '[4수03-18]', fields: [['grade3-integer-input', '3250']], submit: 'grade3-integer-submit', shown: '3250mL' },
+        { order: 3, code: '[4수03-23]', fields: [['grade3-weight-kilograms', '2'], ['grade3-weight-grams', '450']], submit: 'grade3-weight-submit', shown: '2kg450g' },
+      ],
+    },
   ] as const
 
-  for (const mission of missions) {
-    await page.getByTestId(`grade3-mission-node-${mission.order}`).click()
-    const card = page.getByTestId('grade3-mission-card')
-    await expect(card).toContainText(mission.code)
-    const result = card.locator('[data-testid="grade3-unit-result"], [data-testid="grade3-tonne-result"]')
-    await expect(result).toContainText('□')
-    expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
+  for (const session of sessions) {
+    await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-2-capacity-weight&mode=${session.mode}`)
+    await expect(page.getByTestId('grade3-unit-missions').getByTestId(/grade3-mission-node-/)).toHaveCount(3)
+    for (const mission of session.missions) {
+      await page.getByTestId(`grade3-mission-node-${mission.order}`).click()
+      const card = page.getByTestId('grade3-mission-card')
+      await expect(card).toContainText(mission.code)
+      const result = card.locator('[data-testid="grade3-unit-result"], [data-testid="grade3-tonne-result"]')
+      await expect(result).toContainText('□')
+      expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
 
-    for (const [testId, value] of mission.fields) {
-      await page.getByTestId(testId).fill(value)
+      for (const [testId, value] of mission.fields) {
+        await page.getByTestId(testId).fill(value)
+      }
+      await page.getByTestId(mission.submit).click()
+      await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
+      await expect(result).toContainText(mission.shown)
     }
-    await page.getByTestId(mission.submit).click()
-    await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
-    await expect(result).toContainText(mission.shown)
   }
 
-  await page.getByTestId('grade3-mission-node-6').click()
+  await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-2-capacity-weight&mode=basic`)
+  await page.getByTestId('grade3-mission-node-3').click()
   await expect(page.getByTestId('grade3-visual-tonne-scale').locator('[data-tonne-block="true"]')).toHaveCount(4)
   await expect(page.getByTestId('grade3-visual-tonne-scale')).toContainText('1t = 1000kg')
   const gameState = await page.evaluate(() => JSON.parse(

@@ -151,6 +151,21 @@ describe('Grade3MissionVisual', () => {
     expect(html).not.toMatch(/aria-label="[^"]*47/)
   })
 
+  it('renders km and m from the given distance model without exposing the converted answer', () => {
+    const mission = getGrade3MissionById('g3-1-length-time-06', 42)
+    const hidden = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+    const revealed = renderToStaticMarkup(
+      createElement(Grade3MissionVisual, { mission, showAnswer: true })
+    )
+
+    expect(hidden).toContain('data-testid="grade3-visual-distance-road"')
+    expect(hidden).toContain('3km')
+    expect(hidden).toContain('250m')
+    expect(hidden).toContain('1km = 1000m')
+    expect(hidden).not.toContain('3250')
+    expect(revealed).toContain('3250')
+  })
+
   it('provides graph axes, ticks, grid, and unit without a direct pre-answer bar label', () => {
     const mission = getGrade3MissionById('g3-2-graph-01', 42)
     const html = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
@@ -197,6 +212,10 @@ describe('Grade3MissionVisual', () => {
     expect(hidden).not.toContain('6cm')
     expect(hidden).not.toMatch(/aria-label="[^"]*6/)
     expect(revealed).toContain('6cm')
+
+    const practiceConstruction = renderCard('g3-2-circle-04')
+    expect(practiceConstruction).toContain('data-testid="grade3-compass-construction"')
+    expect(practiceConstruction).toContain('그린 원의 컴퍼스 폭을 숫자로 써요')
   })
 
   it('renders quantitative capacity and weight scales without pre-answer numeric labels', () => {

@@ -1,12 +1,15 @@
 import { describe, expect, it } from 'vitest'
 
-import { getSafeGrade3Mission } from './grade3-problems'
+import { getGrade3MissionSession, getSafeGrade3Mission } from './grade3-problems'
 import {
   GRADE3_PROGRESS_KEY,
   createInitialGrade3Progress,
   dismissGrade3Intro,
+  getGrade3PracticeMissionIds,
+  isGrade3UnitComplete,
   loadGrade3Progress,
   recordGrade3Attempt,
+  recordGrade3PracticeSession,
   resetGrade3Progress,
   saveGrade3Progress,
   selectGrade3Unit,
@@ -76,7 +79,7 @@ describe('grade3 progress', () => {
       [GRADE3_PROGRESS_KEY]: JSON.stringify({
         schemaVersion: 1,
         completedMissionIds: ['g3-1-add-sub-01'],
-        reviewMissionIds: [],
+        reviewMissionIds: ['g3-1-add-sub-02'],
         latestMissionId: 'g3-1-add-sub-01',
         selectedUnitId: 'g3-1-add-sub',
         todaySolvedCount: 1,
@@ -90,7 +93,84 @@ describe('grade3 progress', () => {
 
     expect(loaded.recovered).toBe(false)
     expect(loaded.progress.completedMissionIds).toEqual(['g3-1-add-sub-01'])
+    expect(loaded.progress.checkedMissionIds).toEqual([
+      'g3-1-add-sub-01',
+      'g3-1-add-sub-02',
+    ])
     expect(loaded.progress.missionSketchRunOrdinal).toBe(0)
+  })
+
+  it('does not complete a unit from basic mode and completes it after all practice items', () => {
+    const unitId = 'g3-1-add-sub'
+    const basic = getGrade3MissionSession(unitId, 'basic', 20260516)
+    const practice = getGrade3MissionSession(unitId, 'practice', 20260516)
+    const initial = createInitialGrade3Progress(100)
+    const afterBasic = basic.reduce(
+      (progress, mission, index) => recordGrade3Attempt(progress, mission, true, { now: 200 + index }),
+      initial,
+    )
+    const afterPractice = practice.reduce(
+      (progress, mission, index) => recordGrade3Attempt(progress, mission, true, { now: 300 + index }),
+      afterBasic,
+    )
+
+    expect(isGrade3UnitComplete(afterBasic, unitId, 20260516)).toBe(false)
+    expect(isGrade3UnitComplete(afterPractice, unitId, 20260516)).toBe(true)
+    expect(afterPractice.completedMissionIds).toEqual(expect.arrayContaining([
+      ...basic.map((mission) => mission.id),
+      ...practice.map((mission) => mission.id),
+    ]))
+  })
+
+  it('completes a unit after every practice item is checked even when answers stay in review', () => {
+    const unitId = 'g3-1-add-sub'
+    const practice = getGrade3MissionSession(unitId, 'practice', 20260516)
+    const checkedWithErrors = practice.reduce(
+      (progress, mission, index) => recordGrade3Attempt(progress, mission, false, { now: 200 + index }),
+      createInitialGrade3Progress(100),
+    )
+
+    expect(checkedWithErrors.completedMissionIds).toEqual([])
+    expect(checkedWithErrors.checkedMissionIds).toEqual(practice.map((mission) => mission.id))
+    expect(checkedWithErrors.reviewMissionIds).toEqual(practice.map((mission) => mission.id))
+    expect(isGrade3UnitComplete(checkedWithErrors, unitId, 20260516)).toBe(true)
+  })
+
+  it('completes the resolved practice session when a legacy mission replaces a canonical slot', () => {
+    const unitId = 'g3-2-capacity-weight'
+    const canonical = getGrade3MissionSession(unitId, 'practice', 20260516)
+    const resolved = getGrade3MissionSession(
+      unitId,
+      'practice',
+      20260516,
+      'g3-2-capacity-weight-05',
+    )
+    const sessionProgress = recordGrade3PracticeSession(
+      createInitialGrade3Progress(100),
+      unitId,
+      resolved,
+    )
+    const checkedWithErrors = resolved.reduce(
+      (progress, mission, index) => recordGrade3Attempt(progress, mission, false, { now: 200 + index }),
+      sessionProgress,
+    )
+
+    expect(canonical.map((mission) => mission.id)).toEqual([
+      'g3-2-capacity-weight-02',
+      'g3-2-capacity-weight-04',
+      'g3-2-capacity-weight-07',
+    ])
+    expect(resolved.map((mission) => mission.id)).toEqual([
+      'g3-2-capacity-weight-02',
+      'g3-2-capacity-weight-05',
+      'g3-2-capacity-weight-07',
+    ])
+    expect(getGrade3PracticeMissionIds(checkedWithErrors, unitId, 20260516)).toEqual(
+      resolved.map((mission) => mission.id),
+    )
+    expect(checkedWithErrors.completedMissionIds).toEqual([])
+    expect(checkedWithErrors.reviewMissionIds).toEqual(resolved.map((mission) => mission.id))
+    expect(isGrade3UnitComplete(checkedWithErrors, unitId, 20260516)).toBe(true)
   })
 
   it('recovers corrupt progress without touching other grade storage', () => {
