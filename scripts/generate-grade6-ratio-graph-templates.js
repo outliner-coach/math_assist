@@ -65,11 +65,14 @@ const setDefinitions = {
     {
       family: 'a-circle-combined-leisure-percent',
       domain: 'knowing',
-      pattern: 'systematic_counting', taskActions: ['model', 'calculate'],
-      standard: '[6수04-02]',
-      prompt: '원그래프에서 책 읽기와 운동을 고른 비율의 합은 몇 %인가요? (단위 %는 쓰지 않아요.)',
+      pattern: 'representation_shift', taskActions: ['interpret', 'calculate'],
+      standard: '[6수04-03]',
+      prompt: '학생 20명의 주말 여가 활동을 조사해 원그래프로 정리했습니다. 책 읽기 {{p * 2}}명과 운동 6명을 합한 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)',
       solver: 'p * 10 + 30',
-      steps: ['책 읽기 {{p * 10}}%와 운동 30%를 찾습니다.', '두 비율의 합은 {{p * 10 + 30}}%입니다.'],
+      steps: ['20명 중 책 읽기 {{p * 2}}명은 {{p * 10}}%이고 운동 6명은 30%입니다.', '조사 자료를 원그래프의 비율로 정리하면 두 부문의 합은 {{p * 10 + 30}}%입니다.'],
+      hints: ['조사한 학생 20명을 전체로 두고 각 활동 인원이 전체의 몇 %인지 바꿔요.', '책 읽기와 운동의 비율을 같은 전체 기준으로 더해요.'],
+      context: 'real_world',
+      readingLoad: 'medium',
       visual: ratioGraph('circle', '주말 여가 활동', [
         segment('책 읽기', '{{p * 10}}'),
         segment('운동', 30),
@@ -466,9 +469,9 @@ const templates = sets.flatMap((setId) => setDefinitions[setId].map((definition,
     representations: index < 4
       ? ['text', 'graph']
       : ['text', 'equation', 'graph'],
-    contextType: index < 4 ? 'pure_math' : index < 8 ? 'real_world' : 'puzzle',
+    contextType: definition.context ?? (index < 4 ? 'pure_math' : index < 8 ? 'real_world' : 'puzzle'),
     estimatedSteps: index >= 4 ? 3 : 2,
-    readingLoad: index >= 8 ? 'medium' : 'low',
+    readingLoad: definition.readingLoad ?? (index >= 8 ? 'medium' : 'low'),
     visualSemantics: 'quantitative',
   },
   param_schema: {
@@ -482,7 +485,7 @@ const templates = sets.flatMap((setId) => setDefinitions[setId].map((definition,
         '구한 인원이나 전체 수를 다시 비율로 바꾸어 그래프의 부문 비율과 같은지 검산합니다.',
       ]
     : definition.steps,
-  hint_steps_template: [
+  hint_steps_template: definition.hints ?? [
     definition.standard === '[6수04-02]'
       ? '띠 전체나 원 전체를 100%로 보고 보이는 부문의 비율을 먼저 더해요.'
       : '그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.',

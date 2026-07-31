@@ -201,22 +201,25 @@
     "difficulty": 1,
     "set_id": "A",
     "taskActions": [
-      "model",
+      "interpret",
       "calculate"
     ],
     "problem_family": "a-circle-combined-leisure-percent",
     "blueprint": {
       "problemFamily": "a-circle-combined-leisure-percent",
       "cognitiveDomain": "knowing",
-      "reasoningPattern": "systematic_counting",
-      "primaryStandard": "[6수04-02]",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
       "representations": [
         "text",
         "graph"
       ],
-      "contextType": "pure_math",
+      "contextType": "real_world",
       "estimatedSteps": 2,
-      "readingLoad": "low",
+      "readingLoad": "medium",
       "visualSemantics": "quantitative"
     },
     "param_schema": {
@@ -225,15 +228,15 @@
         "max": 4
       }
     },
-    "prompt_template": "원그래프에서 책 읽기와 운동을 고른 비율의 합은 몇 %인가요? (단위 %는 쓰지 않아요.)",
+    "prompt_template": "학생 20명의 주말 여가 활동을 조사해 원그래프로 정리했습니다. 책 읽기 {{p * 2}}명과 운동 6명을 합한 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)",
     "solver_rule": "p * 10 + 30",
     "solution_steps_template": [
-      "책 읽기 {{p * 10}}%와 운동 30%를 찾습니다.",
-      "두 비율의 합은 {{p * 10 + 30}}%입니다."
+      "20명 중 책 읽기 {{p * 2}}명은 {{p * 10}}%이고 운동 6명은 30%입니다.",
+      "조사 자료를 원그래프의 비율로 정리하면 두 부문의 합은 {{p * 10 + 30}}%입니다."
     ],
     "hint_steps_template": [
-      "띠 전체나 원 전체를 100%로 보고 보이는 부문의 비율을 먼저 더해요.",
-      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+      "조사한 학생 20명을 전체로 두고 각 활동 인원이 전체의 몇 %인지 바꿔요.",
+      "책 읽기와 운동의 비율을 같은 전체 기준으로 더해요."
     ],
     "visual_template": {
       "type": "ratio_graph",
