@@ -153,4 +153,28 @@ describe('grade2 progress', () => {
     expect(loaded.progress.missionSketchRunOrdinal).toBe(0)
     expect(loaded.progress.checkedMissionIds).toEqual(['g2-1-place-value-01'])
   })
+
+  it('preserves basic and existing v1 practice records while using practice checks for completion', () => {
+    const unitId = 'g2-1-place-value'
+    const practiceIds = getGrade2MissionSet(unitId, 'practice', 42).map((mission) => mission.id)
+    const storage = createMemoryStorage({
+      [GRADE2_PROGRESS_KEY]: JSON.stringify({
+        ...createInitialGrade2Progress(100),
+        schemaVersion: 2,
+        completedMissionIds: ['g2-1-place-value-01'],
+        checkedMissionIds: ['g2-1-place-value-01', ...practiceIds],
+        reviewMissionIds: [practiceIds[1]],
+        latestMissionId: practiceIds[5],
+        selectedUnitId: unitId,
+      }),
+    })
+
+    const loaded = loadGrade2Progress(storage, 200)
+
+    expect(loaded.progress.completedMissionIds).toEqual(['g2-1-place-value-01'])
+    expect(loaded.progress.checkedMissionIds).toEqual(['g2-1-place-value-01', ...practiceIds])
+    expect(loaded.progress.reviewMissionIds).toEqual([practiceIds[1]])
+    expect(loaded.progress.latestMissionId).toBe(practiceIds[5])
+    expect(isGrade2UnitComplete(loaded.progress, unitId)).toBe(true)
+  })
 })

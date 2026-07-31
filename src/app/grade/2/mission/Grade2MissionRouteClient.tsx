@@ -16,8 +16,8 @@ export default function Grade2MissionRouteClient() {
   const initialUnitId = requestedUnitId && grade2Units.some((unit) => unit.id === requestedUnitId)
     ? requestedUnitId
     : grade2Units[0].id
-  const initialMode = normalizeGrade2Mode(searchParams.get('mode'))
   const requestedMissionId = searchParams.get('missionId')
+  const initialMode = normalizeGrade2Mode(searchParams.get('mode'), requestedMissionId)
   const initialMissionId = requestedMissionId
     && getGrade2MissionsByUnit(initialUnitId).some((mission) => mission.id === requestedMissionId)
     ? requestedMissionId

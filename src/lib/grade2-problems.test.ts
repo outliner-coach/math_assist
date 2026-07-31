@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import grade12Allocation from '../../workstreams/_shared/grade1-2-curriculum-allocation-v1.json'
+import { buildCanonicalMathSignature } from '../../scripts/content-inventory-core.js'
 import {
   auditGrade2MissionVariants,
   getGrade2MissionById,
@@ -8,11 +9,32 @@ import {
   getGrade2Missions,
   getGrade2MissionsByUnit,
   getSafeGrade2Mission,
+  grade2OfficialContentPairs,
+  grade2OfficialStandardText,
   grade2MissionTemplates,
   grade2Units,
   normalizeGrade2Mode,
   validateGrade2MissionBank,
 } from './grade2-problems'
+
+function canonicalGrade2AuthoredSignature(template: (typeof grade2MissionTemplates)[number]): string {
+  const withoutVariantNoise = (value: string) => value
+    .normalize('NFKC')
+    .replace(/^(?:생활 연습|그림을 확인하세요|한 번 더|다시|도전|재도전)\s*[:：]?\s*/u, '')
+    .replace(/[-+]?\d+(?:\.\d+)?/g, '#')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  return buildCanonicalMathSignature({
+    curriculumStandards: [...template.directCurriculumCodes].sort(),
+    problemFamily: withoutVariantNoise(template.promptTemplate),
+    solutionRule: template.solverRule,
+    contextType: template.parentSummaryTag,
+    representationTypes: [template.answerType, template.visualModel].sort(),
+    taskActions: [...template.taskActions].sort(),
+    reasoningPattern: withoutVariantNoise(template.hintStepsTemplate.join(' ')),
+  })
+}
 
 describe('grade2 mission bank', () => {
   it('provides a 144-template V1 bank across 12 units', () => {
@@ -50,6 +72,7 @@ describe('grade2 mission bank', () => {
 
   it('provides deterministic unlocked basic and practice sets with six authored problems each', () => {
     expect(normalizeGrade2Mode(undefined)).toBe('basic')
+    expect(normalizeGrade2Mode(undefined, 'g2-1-place-value-01-v1')).toBe('practice')
     expect(normalizeGrade2Mode('unexpected')).toBe('basic')
     expect(normalizeGrade2Mode('practice')).toBe('practice')
 
@@ -70,16 +93,10 @@ describe('grade2 mission bank', () => {
   })
 
   it('replaces every prefixed repeat with an authored mathematical variant', () => {
-    const signatures = grade2MissionTemplates.map((template) => JSON.stringify({
-      prompt: template.promptTemplate.replace(/\s+/g, ' ').trim(),
-      answer: template.solverRule,
-      choices: template.choicesTemplate ?? [],
-      visualModel: template.visualModel,
-      visualConfig: template.visualConfig,
-    }))
+    const signatures = grade2MissionTemplates.map(canonicalGrade2AuthoredSignature)
 
     expect(grade2MissionTemplates.filter((template) => template.id.endsWith('-v1'))).toHaveLength(72)
-    expect(grade2MissionTemplates.some((template) => template.promptTemplate.startsWith('한 번 더!'))).toBe(false)
+    expect(grade2MissionTemplates.some((template) => /^(?:생활 연습|그림을 확인하세요|한 번 더|다시)/.test(template.promptTemplate))).toBe(false)
     expect(new Set(signatures).size).toBe(144)
   })
 
@@ -111,6 +128,72 @@ describe('grade2 mission bank', () => {
       )
       expect(domains).toEqual({ knowing: 5, applying: 5, reasoning: 2 })
     }
+  })
+
+  it('declares each official allocation as a source-faithful knowing and applying pair', () => {
+    const allocations = grade12Allocation.allocations.filter((allocation) => allocation.assignedGrade === 2)
+    expect(grade2OfficialContentPairs).toHaveLength(27)
+
+    for (const allocation of allocations) {
+      const pair = grade2OfficialContentPairs.find((item) => item.standardCode === allocation.standardCode)
+      expect(pair).toMatchObject({
+        standardCode: allocation.standardCode,
+        unitId: allocation.unitId,
+        officialText: allocation.officialText,
+      })
+
+      const basic = grade2MissionTemplates.find((template) => template.id === pair?.basicMissionId)
+      const applying = grade2MissionTemplates.find((template) => template.id === pair?.applyingMissionId)
+      expect(basic).toMatchObject({
+        mode: 'basic',
+        cognitiveDomain: 'knowing',
+        directCurriculumCodes: [allocation.standardCode],
+        curriculumText: allocation.officialText,
+      })
+      expect(applying).toMatchObject({
+        mode: 'practice',
+        cognitiveDomain: 'applying',
+        directCurriculumCodes: [allocation.standardCode],
+        curriculumText: allocation.officialText,
+      })
+      expect(grade2OfficialStandardText[allocation.standardCode]).toBe(allocation.officialText)
+    }
+  })
+
+  it('keeps the three previously missing curriculum behaviors in prompt, solver, and visual', () => {
+    for (const id of ['g2-1-add-sub-04', 'g2-1-add-sub-04-v1']) {
+      const template = grade2MissionTemplates.find((item) => item.id === id)!
+      expect(template.promptTemplate.match(/[+-]/g)).toHaveLength(2)
+      expect(template.visualModel).toBe('pattern-strip')
+      expect(String(template.visualConfig.pattern).match(/[+-]/g)).toHaveLength(2)
+      expect(template.directCurriculumCodes).toEqual(['[2수01-08]'])
+    }
+
+    for (const id of ['g2-2-pattern-02', 'g2-2-pattern-04-v1']) {
+      const template = grade2MissionTemplates.find((item) => item.id === id)!
+      expect(template.promptTemplate).toContain('정한 규칙')
+      expect(template.taskActions).toContain('construct')
+      expect(template.visualModel).toBe('pattern-strip')
+      expect(template.directCurriculumCodes).toEqual(['[2수02-02]'])
+    }
+
+    for (const id of ['g2-1-shapes-05', 'g2-1-shapes-05-v1']) {
+      const template = grade2MissionTemplates.find((item) => item.id === id)!
+      expect(template.promptTemplate).toMatch(/삼각형.*사각형/)
+      expect(template.promptTemplate).toMatch(/공통|모두/)
+      expect(template.choicesTemplate?.some((choice) => /곧은 변/.test(choice))).toBe(true)
+      expect(template.directCurriculumCodes).toEqual(['[2수03-05]'])
+    }
+  })
+
+  it('keeps Korean particles natural across prompts, hints, and solutions', () => {
+    const text = grade2MissionTemplates.flatMap((template) => [
+      template.promptTemplate,
+      ...template.hintStepsTemplate,
+      ...template.solutionStepsTemplate,
+    ]).join('\n')
+
+    expect(text).not.toMatch(/(?:딸기|포도)은|딸기이|\d+\s*x\s*\d+는/u)
   })
 
   it('keeps a simple place-value mission as the safe fallback', () => {

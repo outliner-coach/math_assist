@@ -1048,6 +1048,17 @@ test('2학년 기본과 연습은 잠금 없이 열리고 연습 6문제를 확�
   }
 })
 
+test('2학년 기존 연습 링크는 mode가 없어도 같은 v1 문제를 연다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-1-place-value&missionId=g2-1-place-value-03-v1`)
+
+  await expect(page.getByTestId('grade2-mode-practice')).toHaveAttribute('aria-current', 'page')
+  await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute(
+    'data-mission-id',
+    'g2-1-place-value-03-v1',
+  )
+  await expect(page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)).toHaveCount(6)
+})
+
 test('2학년 풀이장은 문항 이동과 새로고침을 복구하고 재시작을 격리한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-1-place-value`)
   await drawScratchStroke(page)
@@ -1117,8 +1128,8 @@ test('2학년 게임 모드에서 길이와 시간 구조화 입력을 사용한
   await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
 
   await page.getByTestId('next-grade2-mission').click()
-  await page.getByTestId('grade2-duration-hours').fill('0')
-  await page.getByTestId('grade2-duration-minutes').fill('35')
+  await page.getByTestId('grade2-duration-hours').fill('1')
+  await page.getByTestId('grade2-duration-minutes').fill('0')
   await page.getByTestId('grade2-duration-submit').click()
   await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
 })

@@ -99,6 +99,8 @@ export interface Grade2MissionTemplate extends Grade2QualityMetadata {
   skill: Grade2Skill
   difficultyStep: Grade2DifficultyStep
   curriculumCode: string
+  directCurriculumCodes: string[]
+  curriculumText: string
   learnerGoal: string
   parentSummaryTag: string
   promptTemplate: string
@@ -125,6 +127,8 @@ export interface Grade2Mission extends Grade2QualityMetadata {
   skill: Grade2Skill
   difficultyStep: Grade2DifficultyStep
   curriculumCode: string
+  directCurriculumCodes: string[]
+  curriculumText: string
   learnerGoal: string
   parentSummaryTag: string
   prompt: string
@@ -254,7 +258,10 @@ export const grade2Units: Grade2Unit[] = [
 
 export const SAFE_GRADE2_MISSION_ID = 'g2-1-place-value-01'
 
-type Grade2BaseMissionTemplate = Omit<Grade2MissionTemplate, 'mode' | 'cognitiveDomain'>
+type Grade2BaseMissionTemplate = Omit<
+  Grade2MissionTemplate,
+  'mode' | 'cognitiveDomain' | 'directCurriculumCodes' | 'curriculumText'
+>
 type Grade2MissionTemplateSource = Omit<Grade2BaseMissionTemplate, keyof Grade2QualityMetadata>
 
 function quality(
@@ -843,7 +850,7 @@ const grade2AlphaMissionTemplates: Grade2BaseMissionTemplate[] = [
     curriculumCode: '[2수01-11]',
     learnerGoal: '구구를 계산해요',
     parentSummaryTag: 'multiplication-facts',
-    promptTemplate: '6 x 4는 얼마일까요?',
+    promptTemplate: '6 x 4의 값은 얼마일까요?',
     answerType: 'integer',
     answerConfig: integerAnswerConfig,
     paramSchema: {},
@@ -1648,7 +1655,7 @@ const grade2BetaMissionTemplates: Grade2BaseMissionTemplate[] = [
     curriculumCode: '[2수01-11]',
     learnerGoal: '구구를 다시 계산해요',
     parentSummaryTag: 'multiplication-facts',
-    promptTemplate: '3 x 6은 얼마일까요?',
+    promptTemplate: '3 x 6의 값은 얼마일까요?',
     answerType: 'integer',
     answerConfig: integerAnswerConfig,
     paramSchema: {},
@@ -1977,615 +1984,284 @@ const grade2BaseMissionTemplates: Grade2BaseMissionTemplate[] = [
   ...grade2BetaMissionTemplates,
 ]
 
-interface Grade2CurriculumBlueprintItem {
+export const grade2OfficialStandardText: Record<string, string> = {
+  '[2수01-02]': '일, 십, 백, 천의 자릿값과 위치적 기수법을 이해하고, 네 자리 이하의 수를 읽고 쓸 수 있다.',
+  '[2수01-03]': '네 자리 이하의 수의 범위에서 수의 계열을 이해하고, 수의 크기를 비교할 수 있다.',
+  '[2수01-05]': '덧셈과 뺄셈이 이루어지는 실생활 상황과 연결하여 덧셈과 뺄셈의 의미를 이해한다.',
+  '[2수01-06]': '두 자리 수의 범위에서 덧셈과 뺄셈의 계산 원리를 이해하고 그 계산을 할 수 있다.',
+  '[2수01-07]': '덧셈과 뺄셈의 관계를 이해한다.',
+  '[2수01-08]': '두 자리 수의 범위에서 세 수의 덧셈과 뺄셈을 할 수 있다.',
+  '[2수01-09]': '□가 사용된 덧셈식과 뺄셈식을 만들고, □의 값을 구할 수 있다.',
+  '[2수01-10]': '곱셈이 이루어지는 실생활 상황과 연결하여 곱셈의 의미를 이해한다.',
+  '[2수01-11]': '곱셈구구를 이해하고, 한 자리 수의 곱셈을 할 수 있다.',
+  '[2수02-01]': '물체, 무늬, 수 등의 배열에서 규칙을 찾아 여러 가지 방법으로 표현할 수 있다.',
+  '[2수02-02]': '자신이 정한 규칙에 따라 물체, 무늬, 수 등을 배열할 수 있다.',
+  '[2수03-01]': '교실 및 생활 주변에서 여러 가지 물건을 관찰하여 직육면체, 원기둥, 구의 모양을 찾고, 이를 이용하여 여러 가지 모양을 만들 수 있다.',
+  '[2수03-02]': '쌓기나무를 이용하여 여러 가지 입체도형의 모양을 만들고, 그 모양에 대해 위치나 방향을 이용하여 말할 수 있다.',
+  '[2수03-03]': '교실 및 생활 주변에서 여러 가지 물건을 관찰하여 삼각형, 사각형, 원의 모양을 찾고, 이를 이용하여 여러 가지 모양을 만들 수 있다.',
+  '[2수03-04]': '삼각형, 사각형, 원을 직관적으로 이해하고, 그 모양을 그릴 수 있다.',
+  '[2수03-05]': '삼각형, 사각형에서 각각의 공통점을 찾아 말할 수 있다.',
+  '[2수03-06]': '구체물의 길이, 들이, 무게, 넓이를 비교하여 각각 ‘길다, 짧다’, ‘많다, 적다’, ‘무겁다, 가볍다’, ‘넓다, 좁다’ 등을 구별하여 말할 수 있다.',
+  '[2수03-07]': '시계를 보고 시각을 ‘몇 시 몇 분’까지 읽을 수 있다.',
+  '[2수03-08]': '1시간과 1분의 관계를 이해하고, 시간을 ‘시간’, ‘분’으로 표현할 수 있다.',
+  '[2수03-09]': '실생활 문제 상황과 연결하여 1분, 1시간, 1일, 1주일, 1개월, 1년 사이의 관계를 이해한다.',
+  '[2수03-10]': '길이 단위 1cm와 1m를 알고, 이를 이용하여 주변 사물의 길이를 측정할 수 있다.',
+  '[2수03-11]': '1m와 1cm의 관계를 이해하고, 길이를 ‘몇 m 몇 cm’와 ‘몇 cm’로 표현할 수 있다.',
+  '[2수03-12]': '여러 가지 물건의 길이를 어림하고, 길이에 대한 양감을 기른다.',
+  '[2수03-13]': '실생활 문제 상황과 연결하여 길이의 덧셈과 뺄셈을 할 수 있다.',
+  '[2수04-01]': '여러 가지 사물을 정해진 기준 또는 자신이 정한 기준으로 분류하여 개수를 세어 보고, 기준에 따른 결과를 말할 수 있다.',
+  '[2수04-02]': '자료를 분류하여 표로 나타내고, 자료를 표로 나타내면 편리한 점을 말할 수 있다.',
+  '[2수04-03]': '자료를 분류하여 ○, ×, / 등을 이용한 그래프로 나타내고, 자료를 그래프로 나타내면 편리한 점을 말할 수 있다.',
+}
+
+interface Grade2Authorship {
   curriculumCode: string
   cognitiveDomain: Grade2CognitiveDomain
 }
 
-const grade2PrimaryCurriculumCodesByUnit: Record<string, string[]> = {
-  'g2-1-place-value': ['[2수01-02]', '[2수01-03]'],
-  'g2-1-shapes': ['[2수03-01]', '[2수03-02]', '[2수03-03]', '[2수03-04]', '[2수03-05]'],
-  'g2-1-add-sub': ['[2수01-05]', '[2수01-06]', '[2수01-07]', '[2수01-08]', '[2수01-09]'],
-  'g2-1-length': ['[2수03-06]', '[2수03-10]', '[2수03-12]'],
-  'g2-1-classification': ['[2수04-01]'],
-  'g2-1-multiplication': ['[2수01-10]'],
-  'g2-2-place-value': ['[2수01-02]', '[2수01-03]'],
-  'g2-2-facts': ['[2수01-11]'],
-  'g2-2-length': ['[2수03-11]', '[2수03-13]'],
-  'g2-2-time': ['[2수03-07]', '[2수03-08]', '[2수03-09]'],
-  'g2-2-table-graph': ['[2수04-02]', '[2수04-03]'],
-  'g2-2-pattern': ['[2수02-01]', '[2수02-02]'],
-}
-
-function blueprintItem(
+function authored(
   curriculumCode: string,
   cognitiveDomain: Grade2CognitiveDomain,
-): Grade2CurriculumBlueprintItem {
+): Grade2Authorship {
   return { curriculumCode, cognitiveDomain }
 }
 
-const grade2CurriculumBlueprintOverrides: Partial<Record<
-  string,
-  { basic: Grade2CurriculumBlueprintItem[]; practice: Grade2CurriculumBlueprintItem[] }
->> = {
-  'g2-1-shapes': {
-    basic: [
-      blueprintItem('[2수03-01]', 'knowing'),
-      blueprintItem('[2수03-03]', 'knowing'),
-      blueprintItem('[2수03-02]', 'knowing'),
-      blueprintItem('[2수03-05]', 'knowing'),
-      blueprintItem('[2수03-04]', 'knowing'),
-      blueprintItem('[2수03-02]', 'reasoning'),
-    ],
-    practice: [
-      blueprintItem('[2수03-01]', 'applying'),
-      blueprintItem('[2수03-03]', 'applying'),
-      blueprintItem('[2수03-02]', 'applying'),
-      blueprintItem('[2수03-05]', 'applying'),
-      blueprintItem('[2수03-04]', 'applying'),
-      blueprintItem('[2수03-01]', 'reasoning'),
-    ],
-  },
-  'g2-1-add-sub': {
-    basic: [
-      blueprintItem('[2수01-05]', 'knowing'),
-      blueprintItem('[2수01-06]', 'knowing'),
-      blueprintItem('[2수01-07]', 'knowing'),
-      blueprintItem('[2수01-08]', 'knowing'),
-      blueprintItem('[2수01-09]', 'knowing'),
-      blueprintItem('[2수01-06]', 'reasoning'),
-    ],
-    practice: [
-      blueprintItem('[2수01-05]', 'applying'),
-      blueprintItem('[2수01-06]', 'applying'),
-      blueprintItem('[2수01-07]', 'applying'),
-      blueprintItem('[2수01-08]', 'applying'),
-      blueprintItem('[2수01-09]', 'applying'),
-      blueprintItem('[2수01-07]', 'reasoning'),
-    ],
-  },
-  'g2-1-length': {
-    basic: [
-      blueprintItem('[2수03-10]', 'knowing'),
-      blueprintItem('[2수03-06]', 'knowing'),
-      blueprintItem('[2수03-12]', 'knowing'),
-      blueprintItem('[2수03-10]', 'applying'),
-      blueprintItem('[2수03-06]', 'knowing'),
-      blueprintItem('[2수03-12]', 'reasoning'),
-    ],
-    practice: [
-      blueprintItem('[2수03-10]', 'knowing'),
-      blueprintItem('[2수03-06]', 'applying'),
-      blueprintItem('[2수03-12]', 'applying'),
-      blueprintItem('[2수03-10]', 'applying'),
-      blueprintItem('[2수03-06]', 'reasoning'),
-      blueprintItem('[2수03-12]', 'applying'),
-    ],
-  },
-  'g2-2-length': {
-    basic: [
-      blueprintItem('[2수03-13]', 'knowing'),
-      blueprintItem('[2수03-13]', 'applying'),
-      blueprintItem('[2수03-11]', 'knowing'),
-      blueprintItem('[2수03-13]', 'knowing'),
-      blueprintItem('[2수03-13]', 'applying'),
-      blueprintItem('[2수03-11]', 'reasoning'),
-    ],
-    practice: [
-      blueprintItem('[2수03-13]', 'knowing'),
-      blueprintItem('[2수03-13]', 'applying'),
-      blueprintItem('[2수03-11]', 'applying'),
-      blueprintItem('[2수03-11]', 'knowing'),
-      blueprintItem('[2수03-13]', 'applying'),
-      blueprintItem('[2수03-11]', 'reasoning'),
-    ],
-  },
-  'g2-2-time': {
-    basic: [
-      blueprintItem('[2수03-07]', 'knowing'),
-      blueprintItem('[2수03-08]', 'knowing'),
-      blueprintItem('[2수03-09]', 'knowing'),
-      blueprintItem('[2수03-07]', 'applying'),
-      blueprintItem('[2수03-08]', 'knowing'),
-      blueprintItem('[2수03-09]', 'reasoning'),
-    ],
-    practice: [
-      blueprintItem('[2수03-07]', 'knowing'),
-      blueprintItem('[2수03-08]', 'applying'),
-      blueprintItem('[2수03-09]', 'applying'),
-      blueprintItem('[2수03-07]', 'applying'),
-      blueprintItem('[2수03-08]', 'reasoning'),
-      blueprintItem('[2수03-09]', 'applying'),
-    ],
-  },
-  'g2-2-pattern': {
-    basic: [
-      blueprintItem('[2수02-01]', 'knowing'),
-      blueprintItem('[2수02-02]', 'knowing'),
-      blueprintItem('[2수02-01]', 'knowing'),
-      blueprintItem('[2수02-01]', 'applying'),
-      blueprintItem('[2수02-02]', 'knowing'),
-      blueprintItem('[2수02-01]', 'reasoning'),
-    ],
-    practice: [
-      blueprintItem('[2수02-01]', 'knowing'),
-      blueprintItem('[2수02-02]', 'applying'),
-      blueprintItem('[2수02-01]', 'applying'),
-      blueprintItem('[2수02-02]', 'applying'),
-      blueprintItem('[2수02-02]', 'reasoning'),
-      blueprintItem('[2수02-01]', 'applying'),
-    ],
-  },
+const grade2BasicAuthorshipById: Record<string, Grade2Authorship> = {
+  'g2-1-place-value-01': authored('[2수01-02]', 'knowing'),
+  'g2-1-place-value-02': authored('[2수01-03]', 'knowing'),
+  'g2-1-place-value-03': authored('[2수01-02]', 'knowing'),
+  'g2-1-place-value-04': authored('[2수01-02]', 'applying'),
+  'g2-1-place-value-05': authored('[2수01-03]', 'applying'),
+  'g2-1-place-value-06': authored('[2수01-02]', 'reasoning'),
+  'g2-1-shapes-01': authored('[2수03-01]', 'knowing'),
+  'g2-1-shapes-02': authored('[2수03-02]', 'knowing'),
+  'g2-1-shapes-03': authored('[2수03-03]', 'knowing'),
+  'g2-1-shapes-04': authored('[2수03-04]', 'knowing'),
+  'g2-1-shapes-05': authored('[2수03-05]', 'knowing'),
+  'g2-1-shapes-06': authored('[2수03-01]', 'reasoning'),
+  'g2-1-add-sub-01': authored('[2수01-05]', 'knowing'),
+  'g2-1-add-sub-02': authored('[2수01-06]', 'knowing'),
+  'g2-1-add-sub-03': authored('[2수01-07]', 'knowing'),
+  'g2-1-add-sub-04': authored('[2수01-08]', 'knowing'),
+  'g2-1-add-sub-05': authored('[2수01-09]', 'knowing'),
+  'g2-1-add-sub-06': authored('[2수01-05]', 'reasoning'),
+  'g2-1-length-01': authored('[2수03-06]', 'knowing'),
+  'g2-1-length-02': authored('[2수03-10]', 'knowing'),
+  'g2-1-length-03': authored('[2수03-12]', 'knowing'),
+  'g2-1-length-04': authored('[2수03-06]', 'applying'),
+  'g2-1-length-05': authored('[2수03-06]', 'knowing'),
+  'g2-1-length-06': authored('[2수03-06]', 'reasoning'),
+  'g2-1-classification-01': authored('[2수04-01]', 'knowing'),
+  'g2-1-classification-02': authored('[2수04-01]', 'knowing'),
+  'g2-1-classification-03': authored('[2수04-01]', 'knowing'),
+  'g2-1-classification-04': authored('[2수04-01]', 'applying'),
+  'g2-1-classification-05': authored('[2수04-01]', 'applying'),
+  'g2-1-classification-06': authored('[2수04-01]', 'reasoning'),
+  'g2-1-multiplication-01': authored('[2수01-10]', 'knowing'),
+  'g2-1-multiplication-02': authored('[2수01-10]', 'knowing'),
+  'g2-1-multiplication-03': authored('[2수01-10]', 'knowing'),
+  'g2-1-multiplication-04': authored('[2수01-10]', 'applying'),
+  'g2-1-multiplication-05': authored('[2수01-10]', 'applying'),
+  'g2-1-multiplication-06': authored('[2수01-10]', 'reasoning'),
+  'g2-2-place-value-01': authored('[2수01-02]', 'knowing'),
+  'g2-2-place-value-02': authored('[2수01-03]', 'knowing'),
+  'g2-2-place-value-03': authored('[2수01-02]', 'knowing'),
+  'g2-2-place-value-04': authored('[2수01-02]', 'applying'),
+  'g2-2-place-value-05': authored('[2수01-03]', 'applying'),
+  'g2-2-place-value-06': authored('[2수01-02]', 'reasoning'),
+  'g2-2-facts-01': authored('[2수01-11]', 'knowing'),
+  'g2-2-facts-02': authored('[2수01-11]', 'knowing'),
+  'g2-2-facts-03': authored('[2수01-11]', 'knowing'),
+  'g2-2-facts-04': authored('[2수01-11]', 'applying'),
+  'g2-2-facts-05': authored('[2수01-11]', 'applying'),
+  'g2-2-facts-06': authored('[2수01-11]', 'reasoning'),
+  'g2-2-length-01': authored('[2수03-11]', 'knowing'),
+  'g2-2-length-02': authored('[2수03-13]', 'knowing'),
+  'g2-2-length-03': authored('[2수03-11]', 'knowing'),
+  'g2-2-length-04': authored('[2수03-11]', 'applying'),
+  'g2-2-length-05': authored('[2수03-13]', 'applying'),
+  'g2-2-length-06': authored('[2수03-11]', 'reasoning'),
+  'g2-2-time-01': authored('[2수03-07]', 'knowing'),
+  'g2-2-time-02': authored('[2수03-08]', 'knowing'),
+  'g2-2-time-03': authored('[2수03-09]', 'knowing'),
+  'g2-2-time-04': authored('[2수03-07]', 'applying'),
+  'g2-2-time-05': authored('[2수03-07]', 'knowing'),
+  'g2-2-time-06': authored('[2수03-07]', 'reasoning'),
+  'g2-2-table-graph-01': authored('[2수04-02]', 'knowing'),
+  'g2-2-table-graph-02': authored('[2수04-03]', 'knowing'),
+  'g2-2-table-graph-03': authored('[2수04-02]', 'knowing'),
+  'g2-2-table-graph-04': authored('[2수04-02]', 'applying'),
+  'g2-2-table-graph-05': authored('[2수04-03]', 'applying'),
+  'g2-2-table-graph-06': authored('[2수04-02]', 'reasoning'),
+  'g2-2-pattern-01': authored('[2수02-01]', 'knowing'),
+  'g2-2-pattern-02': authored('[2수02-02]', 'knowing'),
+  'g2-2-pattern-03': authored('[2수02-01]', 'knowing'),
+  'g2-2-pattern-04': authored('[2수02-01]', 'applying'),
+  'g2-2-pattern-05': authored('[2수02-02]', 'applying'),
+  'g2-2-pattern-06': authored('[2수02-01]', 'reasoning'),
 }
 
-function buildCurriculumBlueprint(codes: string[]): {
-  basic: Grade2CurriculumBlueprintItem[]
-  practice: Grade2CurriculumBlueprintItem[]
-} {
-  const item = (
-    index: number,
-    cognitiveDomain: Grade2CognitiveDomain,
-  ): Grade2CurriculumBlueprintItem => ({
-    curriculumCode: codes[index % codes.length],
-    cognitiveDomain,
-  })
+type Grade2ContentOverride = Partial<Omit<
+  Grade2BaseMissionTemplate,
+  'id' | 'unitId' | 'semester' | 'stageOrder' | 'unitMissionOrder' | 'rewardId' | 'curriculumCode'
+>>
 
-  if (codes.length >= 5) {
-    return {
-      basic: [
-        item(0, 'knowing'),
-        item(1, 'knowing'),
-        item(2, 'knowing'),
-        item(3, 'knowing'),
-        item(4, 'knowing'),
-        item(0, 'reasoning'),
-      ],
-      practice: [
-        item(0, 'applying'),
-        item(1, 'applying'),
-        item(2, 'applying'),
-        item(3, 'applying'),
-        item(4, 'applying'),
-        item(1, 'reasoning'),
-      ],
-    }
-  }
-
-  if (codes.length === 4) {
-    return {
-      basic: [
-        item(0, 'knowing'),
-        item(1, 'knowing'),
-        item(2, 'knowing'),
-        item(3, 'knowing'),
-        item(0, 'applying'),
-        item(0, 'reasoning'),
-      ],
-      practice: [
-        item(1, 'knowing'),
-        item(0, 'applying'),
-        item(1, 'applying'),
-        item(2, 'applying'),
-        item(3, 'applying'),
-        item(1, 'reasoning'),
-      ],
-    }
-  }
-
-  if (codes.length === 3) {
-    return {
-      basic: [
-        item(0, 'knowing'),
-        item(1, 'knowing'),
-        item(2, 'knowing'),
-        item(0, 'applying'),
-        item(0, 'knowing'),
-        item(0, 'reasoning'),
-      ],
-      practice: [
-        item(1, 'knowing'),
-        item(1, 'applying'),
-        item(2, 'applying'),
-        item(0, 'applying'),
-        item(1, 'reasoning'),
-        item(2, 'applying'),
-      ],
-    }
-  }
-
-  if (codes.length === 2) {
-    return {
-      basic: [
-        item(0, 'knowing'),
-        item(1, 'knowing'),
-        item(0, 'knowing'),
-        item(0, 'applying'),
-        item(1, 'applying'),
-        item(0, 'reasoning'),
-      ],
-      practice: [
-        item(0, 'knowing'),
-        item(1, 'knowing'),
-        item(0, 'applying'),
-        item(1, 'applying'),
-        item(0, 'applying'),
-        item(1, 'reasoning'),
-      ],
-    }
-  }
-
-  return {
-    basic: [
-      item(0, 'knowing'),
-      item(0, 'knowing'),
-      item(0, 'knowing'),
-      item(0, 'applying'),
-      item(0, 'applying'),
-      item(0, 'reasoning'),
-    ],
-    practice: [
-      item(0, 'knowing'),
-      item(0, 'knowing'),
-      item(0, 'applying'),
-      item(0, 'applying'),
-      item(0, 'applying'),
-      item(0, 'reasoning'),
-    ],
-  }
+interface Grade2PracticeSpec extends Grade2Authorship, Grade2ContentOverride {
+  promptTemplate: string
+  solverRule: string
+  visualConfig: Grade2VisualConfig
 }
 
-function compactLengthLabel(totalCentimeters: number): string {
-  const meters = Math.floor(totalCentimeters / 100)
-  const centimeters = totalCentimeters % 100
-  if (meters === 0) return `${centimeters}cm`
-  if (centimeters === 0) return `${meters}m`
-  return `${meters}m ${centimeters}cm`
-}
-
-function compactLengthAnswer(totalCentimeters: number): string {
-  return compactLengthLabel(totalCentimeters).replace(' ', '')
-}
-
-function practicePrompt(
-  prompt: string,
+function practice(
+  curriculumCode: string,
   cognitiveDomain: Grade2CognitiveDomain,
-): string {
-  if (cognitiveDomain === 'reasoning') return `그림을 확인하세요. ${prompt}`
-  if (cognitiveDomain === 'applying') return `생활 연습: ${prompt}`
-  return prompt
+  promptTemplate: string,
+  solverRule: string,
+  visualConfig: Grade2VisualConfig,
+  override: Grade2ContentOverride = {},
+): Grade2PracticeSpec {
+  return { curriculumCode, cognitiveDomain, promptTemplate, solverRule, visualConfig, ...override }
 }
 
-function buildPracticeVariant(
-  source: Grade2BaseMissionTemplate,
-  variantIndex: number,
-  blueprint: Grade2CurriculumBlueprintItem,
-): Grade2BaseMissionTemplate {
-  const config = source.visualConfig
-  const numeric = (key: string) => Number(config[key])
-  let promptTemplate = source.promptTemplate
-  let solverRule = source.solverRule
-  let choicesTemplate = source.choicesTemplate ? [...source.choicesTemplate] : undefined
-  let visualConfig: Grade2VisualConfig = { ...config }
-  let hintStepsTemplate = [...source.hintStepsTemplate]
-  let solutionStepsTemplate = [...source.solutionStepsTemplate]
+const grade2BasicContentOverrides: Partial<Record<string, Grade2ContentOverride>> = {
+  'g2-1-shapes-02': { promptTemplate: '쌓기나무 그림에서 위층은 아래층의 어느 쪽에 있을까요?', solverRule: '위', answerType: 'label', answerConfig: labelAnswerConfig, choicesTemplate: ['위', '아래', '옆'], visualModel: 'stack-cubes', visualConfig: { bottom: 4, top: 2 }, hintStepsTemplate: ['바닥에 닿은 층을 먼저 찾아요.', '그 층보다 높은 위치를 말해요.'], solutionStepsTemplate: ['아래층보다 높은 위치는 위예요.'], taskActions: ['interpret'] },
+  'g2-1-shapes-03': { promptTemplate: '교통 표지판에서 찾을 수 있는 세 변의 평면도형은 무엇일까요?', solverRule: '삼각형', answerType: 'label', answerConfig: labelAnswerConfig, choicesTemplate: ['삼각형', '사각형', '원'], visualModel: 'solid-shape-cards', visualConfig: { shapes: '삼각형,사각형,원', target: '삼각형', flat: true }, hintStepsTemplate: ['표지판의 곧은 변을 세어요.', '변이 세 개인 모양을 찾아요.'], solutionStepsTemplate: ['곧은 변이 세 개인 평면도형은 삼각형이에요.'], taskActions: ['recognize'] },
+  'g2-1-shapes-04': { promptTemplate: '곧은 선 네 개를 이어 그릴 수 있는 모양은 무엇일까요?', solverRule: '사각형', choicesTemplate: ['사각형', '삼각형', '원'], visualConfig: { shapes: '사각형,삼각형,원', target: '사각형', flat: true }, hintStepsTemplate: ['곧은 선을 네 번 이어 보아요.', '변이 네 개인 모양을 찾아요.'], solutionStepsTemplate: ['곧은 변 네 개로 그리는 모양은 사각형이에요.'], taskActions: ['construct'] },
+  'g2-1-shapes-05': { promptTemplate: '삼각형과 사각형에서 모두 찾을 수 있는 공통점은 무엇일까요?', solverRule: '곧은 변과 꼭짓점이 있어요', choicesTemplate: ['곧은 변과 꼭짓점이 있어요', '굽은 선만 있어요', '꼭짓점이 없어요'], visualConfig: { shapes: '삼각형,사각형', target: '공통점' }, hintStepsTemplate: ['두 모양의 둘레를 따라가 보아요.', '변과 꼭짓점이 두 모양에 모두 있는지 확인해요.'], solutionStepsTemplate: ['삼각형과 사각형은 모두 곧은 변과 꼭짓점이 있어요.'], taskActions: ['compare'] },
+  'g2-1-add-sub-01': { promptTemplate: '연필 38자루에 27자루를 더 놓았습니다. 모두 몇 자루일까요?', taskActions: ['model', 'calculate'] },
+  'g2-1-add-sub-03': { promptTemplate: '28 + 19 = 47을 이용하면 47 - 19의 답은 얼마일까요?', solverRule: '28', visualConfig: { left: '?', operator: '+', right: 19, result: 47, missing: 'left' }, taskActions: ['reason'] },
+  'g2-1-add-sub-04': { promptTemplate: '18 + 24 - 11의 계산 결과는 얼마일까요?', solverRule: '31', visualModel: 'pattern-strip', visualConfig: { pattern: '18,+24,-11,=,?' }, hintStepsTemplate: ['먼저 18과 24를 더해요.', '구한 합에서 11을 빼요.'], solutionStepsTemplate: ['18 + 24 = 42이고, 42 - 11 = 31이에요.'], taskActions: ['calculate'] },
+  'g2-1-add-sub-05': { promptTemplate: '76 - □ = 34가 되도록 뺄셈식을 완성하세요.', solverRule: '42', visualModel: 'box-equation', visualConfig: { left: 76, operator: '-', right: '?', result: 34, missing: 'right' }, hintStepsTemplate: ['76에서 34가 남도록 덜어 낸 수를 찾아요.', '76 - 34로 빈칸을 확인해요.'], solutionStepsTemplate: ['76 - 34 = 42이므로 빈칸은 42예요.'], taskActions: ['construct', 'calculate'] },
+  'g2-1-length-01': { promptTemplate: '자에 놓인 연필과 6cm 지우개를 비교했습니다. 더 긴 연필의 길이는 몇 cm일까요?', solverRule: '8cm', visualModel: 'ruler-line', visualConfig: { startCm: 0, endCm: 8, maxCm: 12, object: 'pencil' }, hintStepsTemplate: ['자의 0cm 눈금부터 연필 끝까지 읽어요.', '연필의 길이와 6cm인 지우개를 비교해요.'], solutionStepsTemplate: ['연필은 8cm이고 지우개는 6cm이므로, 더 긴 연필의 길이는 8cm예요.'], taskActions: ['measure', 'compare'] },
+  'g2-1-length-02': { promptTemplate: '게시판의 긴 쪽을 1m 자와 20cm 자로 이어 재었습니다. 잰 길이는 모두 몇 cm일까요?', solverRule: '120cm', visualModel: 'length-bars', visualConfig: { leftLabel: '1m 자', leftCm: 100, rightLabel: '20cm 자', rightCm: 20, totalCm: 120 }, hintStepsTemplate: ['1m는 100cm예요.', '100cm와 20cm를 이어 더해요.'], solutionStepsTemplate: ['100cm + 20cm = 120cm이므로 잰 길이는 120cm예요.'], taskActions: ['measure'] },
+  'g2-1-length-03': { promptTemplate: '교실 문의 높이로 가장 알맞게 어림한 값은 무엇일까요?', solverRule: '2m', choicesTemplate: ['2m', '20cm', '20m'], visualConfig: { leftLabel: '어림한 문 높이', leftCm: 200, rightLabel: '1m 기준', rightCm: 100, target: '2m' }, hintStepsTemplate: ['1m의 길이를 기준으로 생각해요.', '교실 문에는 1m가 대략 두 번 들어가요.'], solutionStepsTemplate: ['교실 문 높이의 어림값으로 2m가 알맞아요.'], taskActions: ['measure', 'reason'] },
+  'g2-1-multiplication-01': { promptTemplate: '접시 4개에 귤을 3개씩 담았습니다. 귤은 모두 몇 개일까요?', taskActions: ['model', 'calculate'] },
+  'g2-1-multiplication-05': { promptTemplate: '책장 3칸에 동화책을 4권씩 꽂았습니다. 동화책은 모두 몇 권일까요?', taskActions: ['model', 'calculate'] },
+  'g2-2-facts-05': { promptTemplate: '구구표에서 곱이 32인 8단의 □를 찾으세요.', taskActions: ['interpret', 'calculate'] },
+  'g2-2-time-02': { promptTemplate: '1시간은 모두 몇 분일까요?', solverRule: '60분', visualConfig: { hour: 1, minute: 0, endHour: 2, endMinute: 0 }, hintStepsTemplate: ['시계의 긴바늘이 한 바퀴 도는 시간을 생각해요.', '한 바퀴는 60분이에요.'], solutionStepsTemplate: ['1시간은 60분이에요.'], taskActions: ['interpret'] },
+  'g2-2-pattern-02': { promptTemplate: '내가 정한 규칙 “4씩 커지기”에 맞게 배열한 것은 무엇일까요?', solverRule: '3, 7, 11, 15', answerType: 'label', answerConfig: labelAnswerConfig, choicesTemplate: ['3, 7, 11, 15', '3, 6, 9, 12', '4, 7, 10, 13'], visualConfig: { pattern: '시작 3,+4,+4,+4,?' }, hintStepsTemplate: ['처음 수 3에서 시작해요.', '앞의 수에 4를 더하는 일을 반복해요.'], solutionStepsTemplate: ['3에서 시작해 4씩 커지는 배열은 3, 7, 11, 15예요.'], taskActions: ['construct'] },
+}
 
-  switch (source.visualModel) {
-    case 'place-value-blocks': {
-      const original = numeric('number')
-      const number = original + (original >= 1000 ? 137 : 37)
-      const padded = String(number).padStart(original >= 1000 ? 4 : 3, '0')
-      visualConfig = {
-        number,
-        ...(original >= 1000 ? { thousands: Number(padded[0]) } : {}),
-        hundreds: Number(padded[padded.length - 3]),
-        tens: Number(padded[padded.length - 2]),
-        ones: Number(padded[padded.length - 1]),
-      }
-      promptTemplate = `자리값 블록을 세어 ${original >= 1000 ? '네' : '세'} 자리 수를 쓰세요.`
-      solverRule = String(number)
-      hintStepsTemplate = ['큰 자리의 블록부터 세어요.', '각 자리 숫자를 차례대로 이어 써요.']
-      solutionStepsTemplate = [`자리별 블록 수를 읽으면 ${number}이에요.`]
-      break
-    }
-    case 'expanded-number-cards': {
-      if (config.mode === 'compare') {
-        const delta = 17 + variantIndex
-        const cards = String(config.cards).split(',').map((value) => Number(value) + delta)
-        const target = Math.max(...cards)
-        visualConfig = { ...config, cards: cards.join(','), target }
-        promptTemplate = `${cards[0]}과 ${cards[1]} 중 더 큰 수는 무엇일까요?`
-        solverRule = String(target)
-        choicesTemplate = cards.map(String)
-        hintStepsTemplate = ['가장 큰 자리부터 비교해요.', '앞자리가 같으면 다음 자리를 비교해요.']
-        solutionStepsTemplate = [`자리값을 차례로 비교하면 ${target}이 더 커요.`]
-      } else {
-        const original = numeric('target')
-        const target = original + (original >= 1000 ? 1111 : 111)
-        const digits = String(target).split('').map(Number)
-        const parts = digits
-          .map((digit, index) => digit * 10 ** (digits.length - index - 1))
-          .filter((part) => part > 0)
-        visualConfig = { ...config, parts: parts.join(','), target }
-        promptTemplate = `${parts.join(' + ')}을 수로 쓰면 얼마일까요?`
-        solverRule = String(target)
-        hintStepsTemplate = ['각 수가 나타내는 자리를 찾아요.', '큰 자리부터 차례대로 합쳐요.']
-        solutionStepsTemplate = [`전개한 수를 합치면 ${target}이에요.`]
-      }
-      break
-    }
-    case 'vertical-operation': {
-      const operator = String(config.operator)
-      const top = numeric('top') + 7 + variantIndex
-      const bottom = numeric('bottom') + 2 + (variantIndex % 3)
-      const result = operator === '+' ? top + bottom : top - bottom
-      visualConfig = {
-        top,
-        bottom,
-        operator,
-        result,
-        ...(operator === '+' && top % 10 + bottom % 10 >= 10 ? { carry: 1 } : {}),
-        ...(operator === '-' && top % 10 < bottom % 10 ? { borrow: 1 } : {}),
-      }
-      promptTemplate = `두 자리 수 세로셈 ${top} ${operator} ${bottom}의 답은 얼마일까요?`
-      solverRule = String(result)
-      hintStepsTemplate = ['일의 자리부터 계산해요.', '십의 자리 계산까지 확인해요.']
-      solutionStepsTemplate = [`${top} ${operator} ${bottom} = ${result}이에요.`]
-      break
-    }
-    case 'box-equation': {
-      const operator = String(config.operator)
-      const right = numeric('right') + 2 + variantIndex
-      const missing = Number(source.solverRule) + 3
-      const result = operator === '+' ? missing + right : missing - right
-      visualConfig = { ...config, right, result }
-      promptTemplate = `□ ${operator} ${right} = ${result}일 때 □ 안의 수는 무엇일까요?`
-      solverRule = String(missing)
-      hintStepsTemplate = ['□와 알고 있는 수의 관계를 살펴요.', '반대 계산으로 □를 확인해요.']
-      solutionStepsTemplate = [`□는 ${missing}이고 ${missing} ${operator} ${right} = ${result}이에요.`]
-      break
-    }
-    case 'solid-shape-cards': {
-      const shapes = String(config.shapes).split(',')
-      const current = shapes.indexOf(String(config.target))
-      const target = shapes[(current + 1) % shapes.length]
-      const clues: Record<string, string> = {
-        구: '평평한 면이 없고 어느 쪽으로도 잘 굴러가는 입체도형',
-        원기둥: '동그란 평평한 면이 위아래에 있는 입체도형',
-        직육면체: '상자처럼 평평한 면으로 둘러싸인 입체도형',
-        삼각형: '곧은 변이 3개인 평면도형',
-        사각형: '곧은 변이 4개인 평면도형',
-        원: '굽은 선으로 둘러싸여 꼭짓점이 없는 평면도형',
-      }
-      visualConfig = { ...config, target }
-      promptTemplate = `${clues[target]}은 무엇일까요?`
-      solverRule = target
-      choicesTemplate = [...shapes]
-      hintStepsTemplate = ['면, 변, 꼭짓점을 차례로 살펴요.', '설명과 같은 모양을 고르세요.']
-      solutionStepsTemplate = [`설명한 모양은 ${target}이에요.`]
-      break
-    }
-    case 'stack-cubes': {
-      const bottom = numeric('bottom') + 1
-      const top = numeric('top') + 1 + (variantIndex % 2)
-      const targetLayer = String(config.targetLayer)
-      const answer = targetLayer === 'top' ? top : bottom
-      visualConfig = { ...config, bottom, top }
-      promptTemplate = `쌓기나무 그림의 ${targetLayer === 'top' ? '위' : '아래'}층에는 몇 개가 있을까요?`
-      solverRule = String(answer)
-      hintStepsTemplate = ['묻는 층을 먼저 손가락으로 짚어요.', '그 층의 쌓기나무만 세어요.']
-      solutionStepsTemplate = [`${targetLayer === 'top' ? '위' : '아래'}층에는 ${answer}개가 있어요.`]
-      break
-    }
-    case 'ruler-line': {
-      const startCm = numeric('startCm') + 1
-      const length = numeric('endCm') - numeric('startCm') + 1
-      const endCm = startCm + length
-      visualConfig = { ...config, startCm, endCm, maxCm: Math.max(numeric('maxCm'), endCm + 2) }
-      promptTemplate = `자의 ${startCm}cm 눈금부터 ${endCm}cm 눈금까지 놓인 물건의 길이는 몇 cm일까요?`
-      solverRule = `${length}cm`
-      hintStepsTemplate = ['끝 눈금에서 시작 눈금을 빼요.', '눈금 사이의 길이를 cm로 써요.']
-      solutionStepsTemplate = [`${endCm} - ${startCm} = ${length}이므로 ${length}cm예요.`]
-      break
-    }
-    case 'length-bars': {
-      if (config.target !== undefined) {
-        const leftCm = numeric('leftCm') + 12
-        const rightCm = numeric('rightCm') + 4
-        const leftLabel = compactLengthLabel(leftCm)
-        const rightLabel = compactLengthLabel(rightCm)
-        const target = leftCm > rightCm ? leftLabel : rightLabel
-        visualConfig = { ...config, leftCm, rightCm, leftLabel, rightLabel, target }
-        promptTemplate = `${leftLabel}와 ${rightLabel} 중 더 긴 길이는 무엇일까요?`
-        solverRule = target
-        choicesTemplate = [leftLabel, rightLabel, '같아요']
-        hintStepsTemplate = ['두 길이를 모두 cm로 생각해요.', '더 큰 cm 값을 가진 길이를 골라요.']
-        solutionStepsTemplate = [`두 길이를 cm로 비교하면 ${target}가 더 길어요.`]
-      } else if (config.hideRightLabelUntilReveal) {
-        const totalCm = numeric('leftCm') + 10
-        const rightLabel = compactLengthLabel(totalCm)
-        visualConfig = {
-          ...config,
-          leftLabel: `${totalCm}cm`,
-          leftCm: totalCm,
-          rightLabel,
-          rightCm: totalCm,
-          totalCm,
-        }
-        promptTemplate = `${totalCm}cm와 같은 길이를 m와 cm로 나타내면 얼마일까요?`
-        solverRule = compactLengthAnswer(totalCm)
-        hintStepsTemplate = ['100cm가 1m인 것을 사용해요.', '100cm씩 묶고 남은 cm를 써요.']
-        solutionStepsTemplate = [`${totalCm}cm는 ${rightLabel}예요.`]
-      } else {
-        const leftCm = numeric('leftCm') + 10
-        const rightCm = numeric('rightCm') + 5
-        const operation = String(config.operation ?? 'add')
-        const totalCm = operation === 'subtract' ? leftCm - rightCm : leftCm + rightCm
-        const leftLabel = compactLengthLabel(leftCm)
-        const rightLabel = compactLengthLabel(rightCm)
-        visualConfig = { ...config, leftCm, rightCm, leftLabel, rightLabel, totalCm }
-        const asksForCentimeters = source.answerConfig.unit === 'cm'
-        promptTemplate = operation === 'subtract'
-          ? `${leftLabel} 끈에서 ${rightLabel}를 잘랐습니다. 남은 길이는 ${asksForCentimeters ? '몇 cm' : '얼마'}일까요?`
-          : `${leftLabel}와 ${rightLabel} 끈을 이었습니다. 전체 길이는 ${asksForCentimeters ? '몇 cm' : '얼마'}일까요?`
-        solverRule = `${totalCm}cm`
-        hintStepsTemplate = ['m를 cm로 바꾸어 같은 단위로 만들어요.', operation === 'subtract' ? '두 길이의 차를 구해요.' : '두 길이를 더해요.']
-        solutionStepsTemplate = [`같은 단위로 계산하면 ${totalCm}cm예요.`]
-      }
-      break
-    }
-    case 'classification-table':
-    case 'mark-graph': {
-      const categories = String(config.categories).split(',')
-      const counts = String(config.counts).split(',').map(Number)
-      const target = String(config.target)
-      const delta = 1 + (variantIndex % 2)
-      if (target.includes('-')) {
-        const [left, right] = target.split('-')
-        counts[categories.indexOf(left)] += delta
-        const answer = counts[categories.indexOf(left)] - counts[categories.indexOf(right)]
-        promptTemplate = `${left} 자료는 ${right} 자료보다 몇 개 더 많을까요?`
-        solverRule = String(answer)
-        hintStepsTemplate = ['두 범주의 표식을 각각 세어요.', '많은 쪽에서 적은 쪽을 빼요.']
-        solutionStepsTemplate = [`두 범주의 차는 ${answer}개예요.`]
-      } else if (source.answerType === 'choice' || source.answerType === 'label') {
-        counts.forEach((_, index) => { counts[index] += delta })
-        const targetIndex = categories.indexOf(target)
-        const isLargest = counts[targetIndex] === Math.max(...counts)
-        promptTemplate = `자료를 비교할 때 가장 ${isLargest ? '많은' : '적은'} 종류는 무엇일까요?`
-        solverRule = target
-        choicesTemplate = [...categories]
-        hintStepsTemplate = ['범주마다 표식 수를 세어요.', `가장 ${isLargest ? '큰' : '작은'} 수를 찾아요.`]
-        solutionStepsTemplate = [`표식 수를 비교하면 ${target}이 알맞아요.`]
-      } else {
-        counts[categories.indexOf(target)] += delta
-        const answer = counts[categories.indexOf(target)]
-        promptTemplate = `분류 자료에서 ${target}은 모두 몇 개일까요?`
-        solverRule = String(answer)
-        hintStepsTemplate = [`${target} 범주만 찾아요.`, '표식을 하나씩 세어요.']
-        solutionStepsTemplate = [`${target}은 ${answer}개예요.`]
-      }
-      visualConfig = { ...config, counts: counts.join(',') }
-      break
-    }
-    case 'array-groups': {
-      const rows = numeric('rows') + 1
-      let cols = numeric('cols') + (variantIndex % 2)
-      if (rows === cols) cols += 1
-      const product = rows * cols
-      visualConfig = { ...config, rows, cols, groups: rows, each: cols }
-      if (source.answerType === 'choice' || source.answerType === 'label') {
-        solverRule = `${rows} x ${cols}`
-        choicesTemplate = [`${rows} x ${cols}`, `${cols} x ${cols}`, `${rows} + ${cols}`]
-        promptTemplate = `${rows}줄에 ${cols}개씩 놓인 물건을 나타내는 곱셈식은 무엇일까요?`
-      } else {
-        solverRule = String(product)
-        promptTemplate = `${rows}줄에 ${cols}개씩 놓인 물건은 모두 몇 개일까요?`
-      }
-      hintStepsTemplate = ['한 줄의 수와 줄 수를 확인해요.', '같은 수의 묶음을 곱셈으로 계산해요.']
-      solutionStepsTemplate = [`${rows} x ${cols} = ${product}예요.`]
-      break
-    }
-    case 'multiplication-table': {
-      const dan = numeric('dan') + 1
-      const factor = numeric('factor') + (variantIndex % 2)
-      const product = dan * factor
-      if (config.sequence !== undefined) {
-        const sequence = Array.from({ length: factor - 1 }, (_, index) => dan * (index + 1))
-        visualConfig = { ...config, dan, factor, product, sequence: `${sequence.join(',')},?` }
-        promptTemplate = `${dan}씩 커지는 ${sequence.join(', ')} 다음 수는 무엇일까요?`
-        solverRule = String(product)
-      } else if (config.missing === 'factor') {
-        visualConfig = { ...config, dan, factor, product }
-        promptTemplate = `${dan} x □ = ${product}일 때 □는 얼마일까요?`
-        solverRule = String(factor)
-      } else {
-        visualConfig = { ...config, dan, factor, product }
-        promptTemplate = `${dan} x ${factor}는 얼마일까요?`
-        solverRule = String(product)
-      }
-      hintStepsTemplate = [`${dan}씩 차례로 더해 보세요.`, '구구표의 줄과 칸을 함께 확인해요.']
-      solutionStepsTemplate = [`${dan} x ${factor} = ${product}예요.`]
-      break
-    }
-    case 'clock-face': {
-      if (config.endHour !== undefined) {
-        const start = numeric('hour') * 60 + numeric('minute') + 5
-        const duration = numeric('endHour') * 60 + numeric('endMinute') - (numeric('hour') * 60 + numeric('minute'))
-        const end = start + duration
-        const hour = Math.floor(start / 60)
-        const minute = start % 60
-        const endHour = Math.floor(end / 60)
-        const endMinute = end % 60
-        visualConfig = { ...config, hour, minute, endHour, endMinute }
-        promptTemplate = `${hour}시 ${minute}분부터 ${endHour}시 ${endMinute}분까지 걸린 시간은 얼마일까요?`
-        solverRule = `${duration}분`
-        hintStepsTemplate = ['시작 시각에서 끝 시각까지 분을 세어요.', '두 시각의 차를 분으로 써요.']
-        solutionStepsTemplate = [`두 시각의 차는 ${duration}분이에요.`]
-      } else {
-        const hour = numeric('hour') % 12 + 1
-        const minute = (numeric('minute') + 5) % 60
-        visualConfig = { ...config, hour, minute }
-        promptTemplate = '시계가 가리키는 시각을 몇 시 몇 분으로 쓰세요.'
-        solverRule = `${hour}:${String(minute).padStart(2, '0')}`
-        hintStepsTemplate = ['짧은바늘로 시를 읽어요.', '긴바늘로 분을 읽어요.']
-        solutionStepsTemplate = [`시계는 ${hour}시 ${minute}분을 가리켜요.`]
-      }
-      break
-    }
-    case 'calendar-strip': {
-      const weeks = Math.floor(numeric('target') / 7) + 1
-      const weekdays = ['월', '화', '수', '목', '금', '토', '일']
-      const days = Array.from({ length: weeks }, () => weekdays).flat()
-      const target = weeks * 7
-      visualConfig = { ...config, days: days.join(','), target }
-      promptTemplate = `${weeks}주는 모두 며칠일까요?`
-      solverRule = String(target)
-      hintStepsTemplate = ['1주는 7일이에요.', `7을 ${weeks}번 더해요.`]
-      solutionStepsTemplate = [`${weeks}주는 ${target}일이에요.`]
-      break
-    }
-    case 'pattern-strip': {
-      const pattern = String(config.pattern).split(',')
-      const known = pattern.filter((value) => value !== '?')
-      if (known.every((value) => /^\d+$/.test(value))) {
-        const numbers = known.map(Number)
-        const step = numbers[1] - numbers[0] + 2 + variantIndex
-        const start = numbers[0] + 1 + variantIndex
-        const sequence = Array.from({ length: 4 }, (_, index) => start + step * index)
-        const target = start + step * 4
-        visualConfig = { ...config, pattern: `${sequence.join(',')},?` }
-        promptTemplate = `${sequence.join(', ')} 다음 수는 무엇일까요?`
-        solverRule = String(target)
-        hintStepsTemplate = ['이웃한 두 수의 차를 살펴요.', '같은 만큼 한 번 더 커져요.']
-        solutionStepsTemplate = [`${step}씩 커지므로 다음 수는 ${target}이에요.`]
-      } else {
-        const colors = Array.from(new Set(known))
-        const rotated = [...colors.slice(1), colors[0]]
-        const sequence = Array.from({ length: known.length }, (_, index) => rotated[index % rotated.length])
-        const target = rotated[known.length % rotated.length]
-        visualConfig = { ...config, pattern: `${sequence.join(',')},?` }
-        promptTemplate = `${sequence.join(', ')} 다음에는 어떤 색이 올까요?`
-        solverRule = target
-        choicesTemplate = [...colors]
-        hintStepsTemplate = ['반복되는 색 묶음을 찾아요.', '마지막 색 다음 차례를 확인해요.']
-        solutionStepsTemplate = [`같은 묶음이 반복되므로 다음은 ${target}이에요.`]
-      }
-      break
-    }
-  }
+export const grade2OfficialContentPairs = [
+  ['[2수01-02]', 'g2-2-place-value', 'g2-2-place-value-01', 'g2-2-place-value-03-v1'],
+  ['[2수01-03]', 'g2-2-place-value', 'g2-2-place-value-02', 'g2-2-place-value-04-v1'],
+  ['[2수01-05]', 'g2-1-add-sub', 'g2-1-add-sub-01', 'g2-1-add-sub-01-v1'],
+  ['[2수01-06]', 'g2-1-add-sub', 'g2-1-add-sub-02', 'g2-1-add-sub-02-v1'],
+  ['[2수01-07]', 'g2-1-add-sub', 'g2-1-add-sub-03', 'g2-1-add-sub-03-v1'],
+  ['[2수01-08]', 'g2-1-add-sub', 'g2-1-add-sub-04', 'g2-1-add-sub-04-v1'],
+  ['[2수01-09]', 'g2-1-add-sub', 'g2-1-add-sub-05', 'g2-1-add-sub-05-v1'],
+  ['[2수01-10]', 'g2-1-multiplication', 'g2-1-multiplication-01', 'g2-1-multiplication-03-v1'],
+  ['[2수01-11]', 'g2-2-facts', 'g2-2-facts-01', 'g2-2-facts-03-v1'],
+  ['[2수02-01]', 'g2-2-pattern', 'g2-2-pattern-01', 'g2-2-pattern-03-v1'],
+  ['[2수02-02]', 'g2-2-pattern', 'g2-2-pattern-02', 'g2-2-pattern-04-v1'],
+  ['[2수03-01]', 'g2-1-shapes', 'g2-1-shapes-01', 'g2-1-shapes-01-v1'],
+  ['[2수03-02]', 'g2-1-shapes', 'g2-1-shapes-02', 'g2-1-shapes-02-v1'],
+  ['[2수03-03]', 'g2-1-shapes', 'g2-1-shapes-03', 'g2-1-shapes-03-v1'],
+  ['[2수03-04]', 'g2-1-shapes', 'g2-1-shapes-04', 'g2-1-shapes-04-v1'],
+  ['[2수03-05]', 'g2-1-shapes', 'g2-1-shapes-05', 'g2-1-shapes-05-v1'],
+  ['[2수03-06]', 'g2-1-length', 'g2-1-length-01', 'g2-1-length-04-v1'],
+  ['[2수03-07]', 'g2-2-time', 'g2-2-time-01', 'g2-2-time-04-v1'],
+  ['[2수03-08]', 'g2-2-time', 'g2-2-time-02', 'g2-2-time-02-v1'],
+  ['[2수03-09]', 'g2-2-time', 'g2-2-time-03', 'g2-2-time-03-v1'],
+  ['[2수03-10]', 'g2-1-length', 'g2-1-length-02', 'g2-1-length-02-v1'],
+  ['[2수03-11]', 'g2-2-length', 'g2-2-length-01', 'g2-2-length-03-v1'],
+  ['[2수03-12]', 'g2-1-length', 'g2-1-length-03', 'g2-1-length-03-v1'],
+  ['[2수03-13]', 'g2-2-length', 'g2-2-length-02', 'g2-2-length-04-v1'],
+  ['[2수04-01]', 'g2-1-classification', 'g2-1-classification-01', 'g2-1-classification-03-v1'],
+  ['[2수04-02]', 'g2-2-table-graph', 'g2-2-table-graph-01', 'g2-2-table-graph-03-v1'],
+  ['[2수04-03]', 'g2-2-table-graph', 'g2-2-table-graph-02', 'g2-2-table-graph-04-v1'],
+].map(([standardCode, unitId, basicMissionId, applyingMissionId]) => ({
+  standardCode,
+  unitId,
+  basicMissionId,
+  applyingMissionId,
+  officialText: grade2OfficialStandardText[standardCode],
+}))
 
-  return {
-    ...source,
-    curriculumCode: blueprint.curriculumCode,
-    taskActions: blueprint.cognitiveDomain === 'reasoning' ? ['reason'] : source.taskActions,
-    learnerGoal: `${source.learnerGoal.replace(/다시 /g, '')} · 연습`,
-    promptTemplate: practicePrompt(promptTemplate, blueprint.cognitiveDomain),
-    solverRule,
-    choicesTemplate,
-    visualConfig,
-    hintStepsTemplate,
-    solutionStepsTemplate,
-  }
+const grade2PracticeSpecsBySourceId: Record<string, Grade2PracticeSpec> = {
+  'g2-1-place-value-01': practice('[2수01-02]', 'knowing', '백 모형 4개, 십 모형 3개, 일 모형 5개로 만든 수를 쓰세요.', '435', { number: 435, hundreds: 4, tens: 3, ones: 5 }, { taskActions: ['construct'] }),
+  'g2-1-place-value-02': practice('[2수01-03]', 'knowing', '수 카드 세 장을 작은 수부터 놓을 때 맨 앞에 오는 수는 무엇일까요?', '426', { cards: '446,500,426', target: 426, mode: 'compare' }, { choicesTemplate: ['426', '446', '500'], taskActions: ['compare'] }),
+  'g2-1-place-value-03': practice('[2수01-02]', 'applying', '678에서 십의 자리 숫자 7이 나타내는 값은 얼마일까요?', '70', { parts: '600,70,8', target: 70, mode: 'expanded' }, { taskActions: ['interpret'] }),
+  'g2-1-place-value-04': practice('[2수01-03]', 'applying', '252보다 100만큼 큰 수를 자리값 모형으로 만든 결과를 쓰세요.', '352', { number: 352, hundreds: 3, tens: 5, ones: 2 }, { taskActions: ['reason'] }),
+  'g2-1-place-value-05': practice('[2수01-02]', 'applying', '712를 백, 십, 일의 값으로 바르게 나타낸 것은 무엇일까요?', '700과 10과 2', { cards: '700과 10과 2,700과 12,70과 12', target: '700과 10과 2', mode: 'compare' }, { choicesTemplate: ['700과 10과 2', '700과 12', '70과 12'], taskActions: ['model'] }),
+  'g2-1-place-value-06': practice('[2수01-03]', 'reasoning', '백의 자리와 일의 자리를 바꾸어 845보다 작은 수를 만드세요.', '548', { parts: '500,40,8', target: 548, mode: 'expanded' }, { taskActions: ['reason'] }),
+
+  'g2-1-shapes-01': practice('[2수03-01]', 'applying', '휴지 심과 닮은 모양을 골라 연필꽂이를 만들려고 합니다. 알맞은 입체도형은 무엇일까요?', '원기둥', { shapes: '구,원기둥,직육면체', target: '원기둥' }, { choicesTemplate: ['구', '원기둥', '직육면체'], taskActions: ['model'] }),
+  'g2-1-shapes-02': practice('[2수03-02]', 'applying', '쌓기나무 그림에서 아래층 바로 위에 있는 층을 무엇이라고 말할까요?', '위층', { bottom: 5, top: 3 }, { answerType: 'label', answerConfig: labelAnswerConfig, choicesTemplate: ['위층', '아래층', '옆층'], visualModel: 'stack-cubes', taskActions: ['interpret'] }),
+  'g2-1-shapes-03': practice('[2수03-03]', 'applying', '삼각 깃발과 같은 모양을 이용해 꾸미려면 어떤 평면도형을 고를까요?', '삼각형', { shapes: '삼각형,사각형,원', target: '삼각형', flat: true }, { answerType: 'label', answerConfig: labelAnswerConfig, choicesTemplate: ['삼각형', '사각형', '원'], visualModel: 'solid-shape-cards', taskActions: ['model'] }),
+  'g2-1-shapes-04': practice('[2수03-04]', 'applying', '둥근 선 하나로 그릴 수 있고 꼭짓점이 없는 모양은 무엇일까요?', '원', { shapes: '원,삼각형,사각형', target: '원', flat: true }, { choicesTemplate: ['원', '삼각형', '사각형'], taskActions: ['construct'] }),
+  'g2-1-shapes-05': practice('[2수03-05]', 'applying', '삼각형 여러 개와 사각형 여러 개를 비교했습니다. 두 무리의 모양에서 모두 옳은 설명은 무엇일까요?', '모두 곧은 변으로 둘러싸여 있어요', { shapes: '삼각형,사각형', target: '공통점' }, { choicesTemplate: ['모두 곧은 변으로 둘러싸여 있어요', '모두 변이 3개예요', '모두 변이 4개예요'], taskActions: ['compare', 'explain'] }),
+  'g2-1-shapes-06': practice('[2수03-02]', 'reasoning', '위층 쌓기나무 3개를 아래층으로 옮기면 아래층은 모두 몇 개가 될까요?', '8', { bottom: 5, top: 3 }, { taskActions: ['reason'] }),
+
+  'g2-1-add-sub-01': practice('[2수01-05]', 'applying', '도서관에 그림책 45권이 있었고 29권이 더 들어왔습니다. 그림책은 모두 몇 권일까요?', '74', { top: 45, bottom: 29, operator: '+', result: 74, carry: 1 }, { taskActions: ['model', 'calculate'] }),
+  'g2-1-add-sub-02': practice('[2수01-06]', 'applying', '60 - 31을 일의 자리에서 받아내림하여 계산하면 얼마일까요?', '29', { top: 60, bottom: 31, operator: '-', result: 29, borrow: 1 }, { taskActions: ['calculate'] }),
+  'g2-1-add-sub-03': practice('[2수01-07]', 'applying', '31 + 23 = 54와 짝이 되는 뺄셈식에서 54 - 23의 답을 쓰세요.', '31', { left: '?', operator: '+', right: 23, result: 54, missing: 'left' }, { visualModel: 'box-equation', taskActions: ['reason'] }),
+  'g2-1-add-sub-04': practice('[2수01-08]', 'applying', '선물 46개 중 12개를 나누고 25개를 더 받았습니다. 46 - 12 + 25를 계산하면 몇 개일까요?', '59', { pattern: '46,-12,+25,=,?' }, { visualModel: 'pattern-strip', taskActions: ['model', 'calculate'] }),
+  'g2-1-add-sub-05': practice('[2수01-09]', 'applying', '87 - □ = 50이 되도록 □의 값을 구해 뺄셈식을 완성하세요.', '37', { left: 87, operator: '-', right: '?', result: 50, missing: 'right' }, { visualModel: 'box-equation', taskActions: ['construct', 'calculate'] }),
+  'g2-1-add-sub-06': practice('[2수01-07]', 'reasoning', '□ - 23 = 24를 덧셈식으로 바꾸어 □의 값을 설명하세요.', '47', { left: '?', operator: '-', right: 23, result: 24, missing: 'left' }, { visualModel: 'box-equation', taskActions: ['explain', 'reason'] }),
+
+  'g2-1-length-01': practice('[2수03-10]', 'knowing', '자의 1cm 눈금에서 시작해 10cm 눈금까지 닿은 붓의 길이는 몇 cm일까요?', '9cm', { startCm: 1, endCm: 10, maxCm: 12, object: 'brush' }, { taskActions: ['measure'] }),
+  'g2-1-length-02': practice('[2수03-10]', 'applying', '리본을 자에 맞추어 재었더니 35cm였습니다. 이 길이를 cm로 쓰세요.', '35cm', { startCm: 0, endCm: 35, maxCm: 40, object: 'ribbon' }, { visualModel: 'ruler-line', taskActions: ['measure'] }),
+  'g2-1-length-03': practice('[2수03-12]', 'applying', '필통의 길이를 어림한 값으로 가장 알맞은 것은 무엇일까요?', '20cm', { leftLabel: '어림 20cm', leftCm: 20, rightLabel: '1m 기준', rightCm: 100, target: '20cm' }, { choicesTemplate: ['20cm', '2m', '20m'], taskActions: ['measure', 'reason'] }),
+  'g2-1-length-04': practice('[2수03-06]', 'applying', '두 막대를 직접 맞대어 보았습니다. 더 짧은 막대는 무엇일까요?', '주황 막대', { leftLabel: '파란 막대', leftCm: 8, rightLabel: '주황 막대', rightCm: 6, target: '주황 막대' }, { answerType: 'choice', answerConfig: choiceAnswerConfig, choicesTemplate: ['주황 막대', '파란 막대', '길이가 같아요'], visualModel: 'length-bars', taskActions: ['compare'] }),
+  'g2-1-length-05': practice('[2수03-10]', 'reasoning', '1m 자를 두 번 이어 놓으면 전체 길이는 몇 cm일까요?', '200cm', { leftLabel: '1m 자', leftCm: 100, rightLabel: '1m 자', rightCm: 100, totalCm: 200 }, { taskActions: ['model', 'reason'] }),
+  'g2-1-length-06': practice('[2수03-12]', 'applying', '책상 너비를 1m 22cm로 어림하고 재어 보니 1m 9cm였습니다. 어림한 길이는 실제보다 몇 cm 길까요?', '13cm', { leftLabel: '어림 1m 22cm', leftCm: 122, rightLabel: '실제 1m 9cm', rightCm: 109, totalCm: 13 }, { answerType: 'length', answerConfig: centimeterLengthAnswerConfig, choicesTemplate: undefined, taskActions: ['compare', 'calculate'] }),
+
+  'g2-1-classification-01': practice('[2수04-01]', 'knowing', '단추를 색깔 기준으로 나눈 표에서 빨간 단추 수를 쓰세요.', '5', { categories: '빨강,파랑,노랑', counts: '5,3,2', target: '빨강', countDisplay: 'marks' }, { taskActions: ['interpret'] }),
+  'g2-1-classification-02': practice('[2수04-01]', 'knowing', '장난감을 쓰임새 기준으로 분류했습니다. 가장 많은 무리는 무엇일까요?', '동물', { categories: '동물,탈것,과일', counts: '7,4,6', target: '동물', countDisplay: 'marks' }, { choicesTemplate: ['동물', '탈것', '과일'], taskActions: ['classify'] }),
+  'g2-1-classification-03': practice('[2수04-01]', 'applying', '과일을 내가 정한 “씨가 보이는가” 기준으로 나눈 뒤 사과와 배의 수 차를 구하세요.', '3', { categories: '사과,배,귤', counts: '7,4,3', target: '사과-배', countDisplay: 'marks' }, { taskActions: ['classify', 'calculate'] }),
+  'g2-1-classification-04': practice('[2수04-01]', 'applying', '학용품을 색깔별로 다시 분류했습니다. 노란 학용품은 몇 개일까요?', '5', { categories: '빨강,파랑,노랑', counts: '2,4,5', target: '노랑', countDisplay: 'marks' }, { taskActions: ['classify', 'interpret'] }),
+  'g2-1-classification-05': practice('[2수04-01]', 'applying', '그림 카드를 생물과 탈것과 먹을거리로 나누었습니다. 가장 적은 무리를 고르세요.', '탈것', { categories: '동물,탈것,과일', counts: '5,3,6', target: '탈것', countDisplay: 'marks' }, { choicesTemplate: ['동물', '탈것', '과일'], taskActions: ['classify', 'compare'] }),
+  'g2-1-classification-06': practice('[2수04-01]', 'reasoning', '파란 블록과 노란 블록의 수가 같아지려면 노란 블록을 몇 개 더 놓아야 할까요?', '4', { categories: '빨강,파랑,노랑', counts: '3,7,3', target: '파랑-노랑', countDisplay: 'marks' }, { taskActions: ['reason', 'calculate'] }),
+
+  'g2-1-multiplication-01': practice('[2수01-10]', 'knowing', '화분 5개마다 꽃이 3송이씩 있습니다. 꽃은 모두 몇 송이일까요?', '15', { groups: 5, each: 3, rows: 5, cols: 3 }, { taskActions: ['model', 'calculate'] }),
+  'g2-1-multiplication-02': practice('[2수01-10]', 'knowing', '의자 3줄에 학생이 6명씩 앉았습니다. 학생은 모두 몇 명일까요?', '18', { rows: 3, cols: 6, groups: 3, each: 6 }, { taskActions: ['model', 'calculate'] }),
+  'g2-1-multiplication-03': practice('[2수01-10]', 'applying', '쿠키를 접시 4개에 5개씩 담은 상황을 나타내는 곱셈식을 고르세요.', '4 x 5', { groups: 4, each: 5, rows: 4, cols: 5 }, { choicesTemplate: ['4 x 5', '5 x 5', '4 + 5'], taskActions: ['model'] }),
+  'g2-1-multiplication-04': practice('[2수01-10]', 'applying', '연필 3자루씩 들어 있는 봉지가 6개 있습니다. 연필은 모두 몇 자루일까요?', '18', { groups: 6, each: 3, rows: 6, cols: 3 }, { taskActions: ['model', 'calculate'] }),
+  'g2-1-multiplication-05': practice('[2수01-10]', 'applying', '창문 4줄마다 화분을 5개씩 놓았습니다. 필요한 화분 수를 구하세요.', '20', { rows: 4, cols: 5, groups: 4, each: 5 }, { taskActions: ['model', 'calculate'] }),
+  'g2-1-multiplication-06': practice('[2수01-10]', 'reasoning', '5줄에 6개씩 놓인 배열을 줄 수와 한 줄의 수를 바꾸어도 전체가 같은 까닭을 고르세요.', '6 x 5', { groups: 5, each: 6, rows: 5, cols: 6 }, { answerType: 'choice', answerConfig: choiceAnswerConfig, choicesTemplate: ['6 x 5', '6 + 5', '5 + 5'], taskActions: ['reason'] }),
+
+  'g2-2-place-value-01': practice('[2수01-02]', 'knowing', '천 모형 2개, 백 모형 6개, 십 모형 6개, 일 모형 8개로 만든 수를 쓰세요.', '2668', { number: 2668, thousands: 2, hundreds: 6, tens: 6, ones: 8 }, { taskActions: ['construct'] }),
+  'g2-2-place-value-02': practice('[2수01-03]', 'knowing', '수 카드 3430, 3160, 3032를 큰 수부터 놓을 때 맨 앞의 수는 무엇일까요?', '3430', { cards: '3430,3160,3032', target: 3430, mode: 'compare' }, { choicesTemplate: ['3430', '3160', '3032'], taskActions: ['compare'] }),
+  'g2-2-place-value-03': practice('[2수01-02]', 'applying', '7539에서 백의 자리 숫자 5가 나타내는 값은 얼마일까요?', '500', { parts: '7000,500,30,9', target: 500, mode: 'expanded' }, { taskActions: ['interpret'] }),
+  'g2-2-place-value-04': practice('[2수01-03]', 'applying', '4350보다 1000만큼 작은 수를 자리값 모형으로 만든 결과를 쓰세요.', '3350', { number: 3350, thousands: 3, hundreds: 3, tens: 5, ones: 0 }, { taskActions: ['reason'] }),
+  'g2-2-place-value-05': practice('[2수01-02]', 'applying', '5821을 천, 백, 십, 일의 값으로 나타낸 것을 고르세요.', '5000과 800과 20과 1', { cards: '5000과 800과 20과 1,5000과 821,5800과 21', target: '5000과 800과 20과 1', mode: 'compare' }, { choicesTemplate: ['5000과 800과 20과 1', '5000과 821', '5800과 21'], taskActions: ['model'] }),
+  'g2-2-place-value-06': practice('[2수01-03]', 'reasoning', '4, 8, 7, 0을 한 번씩 써서 4870보다 작은 수 중 가장 큰 수를 만드세요.', '4807', { parts: '4000,800,7', target: 4807, mode: 'expanded' }, { taskActions: ['construct', 'reason'] }),
+
+  'g2-2-facts-01': practice('[2수01-11]', 'knowing', '7단에서 네 번째 곱의 값은 얼마일까요?', '28', { dan: 7, factor: 4, product: 28 }, { taskActions: ['calculate'] }),
+  'g2-2-facts-02': practice('[2수01-11]', 'knowing', '8 x □ = 48에서 □에 들어갈 곱하는 수를 쓰세요.', '6', { dan: 8, factor: 6, product: 48, missing: 'factor' }, { taskActions: ['interpret'] }),
+  'g2-2-facts-03': practice('[2수01-11]', 'applying', '달걀 8개씩 담긴 판이 5개 있습니다. 알맞은 곱셈식을 고르세요.', '5 x 8', { rows: 5, cols: 8, groups: 5, each: 8 }, { choicesTemplate: ['5 x 8', '8 x 8', '5 + 8'], visualModel: 'array-groups', taskActions: ['model'] }),
+  'g2-2-facts-04': practice('[2수01-11]', 'applying', '4단의 일곱 번째 값을 구구표에서 찾아 쓰세요.', '28', { dan: 4, factor: 7, product: 28 }, { taskActions: ['calculate'] }),
+  'g2-2-facts-05': practice('[2수01-11]', 'applying', '9씩 몇 번 더하면 36이 되는지 9 x □ = 36의 빈칸을 채우세요.', '4', { dan: 9, factor: 4, product: 36, missing: 'factor' }, { taskActions: ['model', 'calculate'] }),
+  'g2-2-facts-06': practice('[2수01-11]', 'reasoning', '6줄에 8개인 배열과 전체가 같은 곱셈식을 고르세요.', '8 x 6', { rows: 6, cols: 8, groups: 6, each: 8 }, { answerType: 'choice', answerConfig: choiceAnswerConfig, choicesTemplate: ['8 x 6', '8 + 6', '6 + 6'], visualModel: 'array-groups', taskActions: ['reason'] }),
+
+  'g2-2-length-01': practice('[2수03-11]', 'knowing', '185cm를 몇 m 몇 cm로 바꾸어 쓰세요.', '1m85cm', { leftLabel: '185cm', leftCm: 185, rightLabel: '1m 85cm', rightCm: 185, totalCm: 185, hideRightLabelUntilReveal: true }, { answerConfig: lengthAnswerConfig, taskActions: ['interpret'] }),
+  'g2-2-length-02': practice('[2수03-13]', 'knowing', '2m 10cm 리본에서 55cm를 잘랐습니다. 남은 길이는 몇 cm일까요?', '155cm', { leftLabel: '2m 10cm', leftCm: 210, rightLabel: '55cm', rightCm: 55, totalCm: 155, operation: 'subtract' }, { taskActions: ['model', 'calculate'] }),
+  'g2-2-length-03': practice('[2수03-11]', 'applying', '130cm 높이의 화분 받침을 m와 cm로 나타내세요.', '1m30cm', { leftLabel: '130cm', leftCm: 130, rightLabel: '1m 30cm', rightCm: 130, totalCm: 130, hideRightLabelUntilReveal: true }, { taskActions: ['interpret'] }),
+  'g2-2-length-04': practice('[2수03-13]', 'applying', '1m 20cm 끈과 35cm 끈을 이어 만든 전체 길이는 몇 cm일까요?', '155cm', { leftLabel: '1m 20cm', leftCm: 120, rightLabel: '35cm', rightCm: 35, totalCm: 155 }, { taskActions: ['model', 'calculate'] }),
+  'g2-2-length-05': practice('[2수03-11]', 'applying', '1m 90cm와 같은 길이를 cm만 사용해 나타내세요.', '190cm', { leftLabel: '1m 90cm', leftCm: 190, rightLabel: '190cm', rightCm: 190, totalCm: 190, hideRightLabelUntilReveal: true }, { taskActions: ['interpret'] }),
+  'g2-2-length-06': practice('[2수03-13]', 'reasoning', '240cm 줄에서 70cm를 자르고 30cm를 이었습니다. 줄의 길이는 몇 cm일까요?', '200cm', { leftLabel: '240cm - 70cm', leftCm: 170, rightLabel: '+ 30cm', rightCm: 30, totalCm: 200 }, { taskActions: ['reason', 'calculate'] }),
+
+  'g2-2-time-01': practice('[2수03-07]', 'knowing', '등교 준비를 시작한 시계의 시각을 읽어 몇 시 몇 분인지 쓰세요.', '4:30', { hour: 4, minute: 30 }, { taskActions: ['interpret'] }),
+  'g2-2-time-02': practice('[2수03-08]', 'applying', '1시간 20분은 모두 몇 분일까요?', '80분', { hour: 1, minute: 0, endHour: 2, endMinute: 20 }, { taskActions: ['interpret', 'calculate'] }),
+  'g2-2-time-03': practice('[2수03-09]', 'applying', '여름 방학 달력에서 2주 동안 지난 날은 모두 며칠일까요?', '14', { days: '월,화,수,목,금,토,일,월,화,수,목,금,토,일', target: 14 }, { taskActions: ['model', 'calculate'] }),
+  'g2-2-time-04': practice('[2수03-07]', 'applying', '축구 연습이 끝난 시계의 시각을 읽어 쓰세요.', '6:45', { hour: 6, minute: 45 }, { taskActions: ['interpret'] }),
+  'g2-2-time-05': practice('[2수03-08]', 'reasoning', '4시 20분에서 35분 뒤의 시각은 몇 시 몇 분일까요?', '4:55', { hour: 4, minute: 20, endHour: 4, endMinute: 55 }, { answerType: 'time-of-day', answerConfig: timeOfDayAnswerConfig, taskActions: ['reason', 'calculate'] }),
+  'g2-2-time-06': practice('[2수03-09]', 'applying', '도서 대여 기간 3주는 모두 며칠인지 계산하세요.', '21', { days: '월,화,수,목,금,토,일,월,화,수,목,금,토,일,월,화,수,목,금,토,일', target: 21 }, { taskActions: ['model', 'calculate'] }),
+
+  'g2-2-table-graph-01': practice('[2수04-02]', 'knowing', '좋아하는 과일을 표로 정리했습니다. 딸기를 고른 친구 수를 쓰세요.', '7', { categories: '딸기,포도,수박', counts: '7,4,5', target: '딸기' }, { taskActions: ['interpret'] }),
+  'g2-2-table-graph-02': practice('[2수04-03]', 'knowing', '운동 선호 자료를 막대 표식으로 나타낸 그래프에서 가장 적은 종목을 고르세요.', '축구', { categories: '축구,야구,피구', counts: '5,8,6', target: '축구' }, { choicesTemplate: ['축구', '야구', '피구'], taskActions: ['interpret', 'compare'] }),
+  'g2-2-table-graph-03': practice('[2수04-02]', 'applying', '조사 결과를 표로 정리해 보니 야구를 고른 친구가 축구보다 몇 명 더 많았나요?', '4', { categories: '축구,야구,피구', counts: '3,7,4', target: '야구-축구' }, { taskActions: ['classify', 'calculate'] }),
+  'g2-2-table-graph-04': practice('[2수04-03]', 'applying', '과일 조사 자료를 표식 그래프로 옮겼습니다. 포도 표식은 몇 개 그려야 할까요?', '6', { categories: '딸기,포도,수박', counts: '7,6,5', target: '포도' }, { taskActions: ['construct', 'interpret'] }),
+  'g2-2-table-graph-05': practice('[2수04-02]', 'applying', '표에서 바로 찾기 편리한 정보로 알맞은 것은 무엇일까요?', '종목별 친구 수', { categories: '축구,야구,피구', counts: '5,8,6', target: '야구' }, { answerType: 'label', answerConfig: labelAnswerConfig, choicesTemplate: ['종목별 친구 수', '친구의 키', '운동 시간'], taskActions: ['explain'] }),
+  'g2-2-table-graph-06': practice('[2수04-03]', 'reasoning', '그래프에서 피구 표식 2개를 축구로 옮기면 두 종목의 표식 수는 어떻게 될까요?', '같아져요', { categories: '축구,야구,피구', counts: '4,6,8', target: '' }, { answerType: 'label', answerConfig: labelAnswerConfig, choicesTemplate: ['같아져요', '피구가 더 많아요', '축구가 더 많아요'], taskActions: ['reason'] }),
+
+  'g2-2-pattern-01': practice('[2수02-01]', 'knowing', '파랑, 빨강이 번갈아 나오는 무늬를 말로 표현한 규칙을 고르세요.', '파랑과 빨강이 번갈아 나와요', { pattern: '파랑,빨강,파랑,빨강,?' }, { choicesTemplate: ['파랑과 빨강이 번갈아 나와요', '파랑만 반복해요', '빨강 두 개 뒤 파랑이 와요'], taskActions: ['explain'] }),
+  'g2-2-pattern-02': practice('[2수02-02]', 'knowing', '내가 정한 규칙 “5씩 커지기”로 4에서 시작한 배열의 다음 수를 쓰세요.', '24', { pattern: '4,9,14,19,?' }, { taskActions: ['construct'] }),
+  'g2-2-pattern-03': practice('[2수02-01]', 'applying', '운동 횟수가 날마다 6회씩 늘어납니다. 6, 12, 18, 24 다음 횟수는 얼마일까요?', '30', { dan: 6, factor: 5, product: 30, sequence: '6,12,18,24,?' }, { taskActions: ['model', 'reason'] }),
+  'g2-2-pattern-04': practice('[2수02-02]', 'applying', '“빨강 하나 뒤에 파랑 두 개”라는 내가 정한 규칙에 맞게 빈칸 두 칸을 채우세요.', '파랑, 파랑', { pattern: '빨강,파랑,파랑,빨강,?,?' }, { choicesTemplate: ['파랑, 파랑', '빨강, 파랑', '빨강, 빨강'], taskActions: ['construct'] }),
+  'g2-2-pattern-05': practice('[2수02-01]', 'applying', '버스 번호 배열 8, 17, 26, 35에서 찾은 변화 규칙은 무엇일까요?', '9씩 커져요', { pattern: '8,17,26,35,?' }, { answerType: 'label', answerConfig: labelAnswerConfig, choicesTemplate: ['9씩 커져요', '8씩 커져요', '10씩 커져요'], taskActions: ['explain'] }),
+  'g2-2-pattern-06': practice('[2수02-02]', 'reasoning', '5씩 커지는 규칙으로 배열을 만들었을 때 20 다음 두 수를 차례로 쓰세요.', '25, 30', { pattern: '5,10,15,20,?,?' }, { answerType: 'label', answerConfig: labelAnswerConfig, choicesTemplate: ['25, 30', '24, 29', '30, 35'], visualModel: 'pattern-strip', taskActions: ['construct', 'reason'] }),
 }
 
 function buildGrade2V1MissionTemplates(): Grade2MissionTemplate[] {
@@ -2596,18 +2272,21 @@ function buildGrade2V1MissionTemplates(): Grade2MissionTemplate[] {
     const originals = grade2BaseMissionTemplates
       .filter((mission) => mission.unitId === unit.id)
       .sort((left, right) => left.unitMissionOrder - right.unitMissionOrder)
-    const codes = grade2PrimaryCurriculumCodesByUnit[unit.id]
-    if (!codes?.length) throw new Error(`${unit.id}: missing Grade 2 curriculum blueprint`)
-    const blueprint = buildCurriculumBlueprint(codes)
 
     originals.forEach((original, index) => {
-      const item = blueprint.basic[index]
+      const authorship = grade2BasicAuthorshipById[original.id]
+      if (!authorship) throw new Error(`${original.id}: missing explicit basic authorship`)
+      const content = grade2BasicContentOverrides[original.id] ?? {}
+      const curriculumText = grade2OfficialStandardText[authorship.curriculumCode]
+      if (!curriculumText) throw new Error(`${original.id}: missing official curriculum text`)
       result.push({
         ...original,
+        ...content,
         mode: 'basic',
-        cognitiveDomain: item.cognitiveDomain,
-        curriculumCode: item.curriculumCode,
-        taskActions: item.cognitiveDomain === 'reasoning' ? ['reason'] : original.taskActions,
+        cognitiveDomain: authorship.cognitiveDomain,
+        curriculumCode: authorship.curriculumCode,
+        directCurriculumCodes: [authorship.curriculumCode],
+        curriculumText,
         stageOrder,
         unitMissionOrder: index + 1,
       })
@@ -2615,12 +2294,27 @@ function buildGrade2V1MissionTemplates(): Grade2MissionTemplate[] {
     })
 
     originals.forEach((source, index) => {
-      const practice = buildPracticeVariant(source, index, blueprint.practice[index])
+      const practice = grade2PracticeSpecsBySourceId[source.id]
+      if (!practice) throw new Error(`${source.id}: missing explicit authored practice source`)
+      const curriculumText = grade2OfficialStandardText[practice.curriculumCode]
+      if (!curriculumText) throw new Error(`${source.id}-v1: missing official curriculum text`)
       result.push({
+        ...source,
         ...practice,
         id: `${source.id}-v1`,
         mode: 'practice',
-        cognitiveDomain: blueprint.practice[index].cognitiveDomain,
+        cognitiveDomain: practice.cognitiveDomain,
+        curriculumCode: practice.curriculumCode,
+        directCurriculumCodes: [practice.curriculumCode],
+        curriculumText,
+        learnerGoal: practice.learnerGoal ?? `${source.learnerGoal} 연습`,
+        hintStepsTemplate: practice.hintStepsTemplate ?? [
+          '문제에서 묻는 관계를 먼저 찾아요.',
+          '그림과 식이 같은 뜻인지 확인해요.',
+        ],
+        solutionStepsTemplate: practice.solutionStepsTemplate ?? [
+          `조건을 모두 확인했습니다. 정답: ${practice.solverRule}`,
+        ],
         stageOrder,
         unitMissionOrder: index + 1,
       })
@@ -2732,6 +2426,8 @@ export function renderGrade2MissionFromParams(
     skill: template.skill,
     difficultyStep: template.difficultyStep,
     curriculumCode: template.curriculumCode,
+    directCurriculumCodes: template.directCurriculumCodes,
+    curriculumText: template.curriculumText,
     taskActions: template.taskActions,
     visualSemantics: template.visualSemantics,
     learnerGoal: template.learnerGoal,
@@ -2773,7 +2469,9 @@ export function getGrade2MissionsByUnit(unitId: string, seed = 20260510): Grade2
 
 export function normalizeGrade2Mode(
   value: string | null | undefined,
+  missionId?: string | null,
 ): Grade2Mode {
+  if (value == null && missionId?.endsWith('-v1')) return 'practice'
   return value === 'practice' ? 'practice' : 'basic'
 }
 
@@ -2900,10 +2598,25 @@ function renderedGrade2TextHasPlaceholder(mission: Grade2Mission) {
   ].some((value) => /{{|}}/.test(value))
 }
 
+function renderedGrade2TextHasBrokenParticle(mission: Grade2Mission) {
+  return [
+    mission.prompt,
+    ...(mission.choices ?? []),
+    ...mission.hintSteps,
+    ...mission.solutionSteps,
+  ].some((value) => /(?:딸기|포도)은|딸기이|\d+\s*x\s*\d+는/.test(value))
+}
+
 function grade2VisualAnswer(mission: Grade2Mission): string | undefined {
   const config = mission.visualConfig
-  if (mission.visualModel === 'place-value-blocks') return String(config.number)
-  if (mission.visualModel === 'expanded-number-cards') return String(config.target)
+  if (mission.visualModel === 'place-value-blocks') {
+    const answer = String(config.number)
+    return answer === mission.correctAnswer ? answer : undefined
+  }
+  if (mission.visualModel === 'expanded-number-cards') {
+    const answer = String(config.target)
+    return answer === mission.correctAnswer ? answer : undefined
+  }
   if (mission.visualModel === 'vertical-operation') return String(config.result)
   if (mission.visualModel === 'box-equation') {
     const right = Number(config.right)
@@ -2911,9 +2624,14 @@ function grade2VisualAnswer(mission: Grade2Mission): string | undefined {
     if (config.missing === 'left' && config.operator === '+') return String(result - right)
     if (config.missing === 'left' && config.operator === '-') return String(result + right)
   }
-  if (mission.visualModel === 'solid-shape-cards') return String(config.target)
+  if (mission.visualModel === 'solid-shape-cards') {
+    const target = String(config.target)
+    return target && target === mission.correctAnswer ? target : undefined
+  }
   if (mission.visualModel === 'stack-cubes') {
-    return String(config.targetLayer === 'top' ? config.top : config.bottom)
+    if (config.targetLayer !== 'top' && config.targetLayer !== 'bottom') return undefined
+    const answer = String(config.targetLayer === 'top' ? config.top : config.bottom)
+    return answer === mission.correctAnswer ? answer : undefined
   }
   if (mission.visualModel === 'ruler-line') {
     return `${Number(config.endCm) - Number(config.startCm)}cm`
@@ -2935,7 +2653,10 @@ function grade2VisualAnswer(mission: Grade2Mission): string | undefined {
       return String(counts[categories.indexOf(left)] - counts[categories.indexOf(right)])
     }
     const targetCount = counts[categories.indexOf(target)]
-    return /^\d+$/.test(mission.correctAnswer) ? String(targetCount) : target
+    if (/^\d+$/.test(mission.correctAnswer)) return String(targetCount)
+    return categories.includes(mission.correctAnswer) && target === mission.correctAnswer
+      ? target
+      : undefined
   }
   return undefined
 }
@@ -2957,6 +2678,7 @@ export function auditGrade2MissionVariants(
       variantCount += 1
       const label = `${template.id} variant ${index + 1}`
       if (renderedGrade2TextHasPlaceholder(mission)) errors.push(`${label}: unresolved template placeholder`)
+      if (renderedGrade2TextHasBrokenParticle(mission)) errors.push(`${label}: broken Korean particle`)
       if (!mission.correctAnswer.trim()) errors.push(`${label}: empty correct answer`)
 
       if (mission.answerType === 'choice' || mission.answerType === 'label') {
@@ -3004,6 +2726,15 @@ export function validateGrade2MissionBank(
       errors.push(`${template.id}: semester does not match unit`)
     }
     if (!template.curriculumCode.trim()) errors.push(`${template.id}: missing curriculumCode`)
+    if (
+      template.directCurriculumCodes.length === 0
+      || !template.directCurriculumCodes.includes(template.curriculumCode)
+    ) {
+      errors.push(`${template.id}: directCurriculumCodes must include curriculumCode`)
+    }
+    if (template.curriculumText !== grade2OfficialStandardText[template.curriculumCode]) {
+      errors.push(`${template.id}: curriculumText must match the official standard`)
+    }
     if (template.mode !== 'basic' && template.mode !== 'practice') {
       errors.push(`${template.id}: invalid mode ${template.mode}`)
     }
