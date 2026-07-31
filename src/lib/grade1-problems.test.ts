@@ -72,6 +72,15 @@ describe('grade1 mission bank', () => {
     }
   })
 
+  it('assigns expanded problem codes from the actual mathematical action', () => {
+    const codes = (id: string) => grade1MissionTemplates.find((item) => item.id === id)?.curriculumCodes
+
+    expect(codes('orchard-port-02-v1-2')).toContain('[2수01-08]')
+    expect(codes('shape-forest-02-v1-2')).toContain('[2수03-04]')
+    expect(codes('shape-forest-05-v1-5')).toContain('[2수03-05]')
+    expect(codes('clock-tower-04-v1-4')).toContain('[2수03-09]')
+  })
+
   it('keeps the original apple mission as the safe first mission', () => {
     const mission = getSafeGrade1Mission(42)
 

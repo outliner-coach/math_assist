@@ -937,13 +937,19 @@ test('1학년은 기본과 연습을 처음부터 고르고 연습 7개를 완�
   await page.evaluate(({ key, basic, initial }) => {
     localStorage.setItem(key, JSON.stringify({
       ...initial,
-      completedStageIds: basic,
+      completedStageIds: basic.slice(0, 6),
       checkedStageIds: basic,
       completedIslandIds: [],
+      reviewStageIds: [basic[6]],
     }))
   }, { key: GRADE1_PROGRESS_KEY, basic: basicIds, initial: initialProgress })
   await page.reload()
   await expect(page.getByTestId('grade1-island-completion-count-cove')).toHaveText('연습 7개 완주 전')
+  await page.getByTestId('start-grade1-mission').click()
+  await expect(page.getByTestId('mission-problem-card')).toHaveAttribute(
+    'data-mission-id',
+    practiceIds[0],
+  )
 
   await page.evaluate(({ key, basic, practice }) => {
     const progress = JSON.parse(localStorage.getItem(key) || '{}')

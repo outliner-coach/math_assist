@@ -67,21 +67,18 @@ const introGuideItems = [
 ]
 
 function firstOpenMission(missions: Grade1Mission[], progress: Grade1Progress): Grade1Mission {
-  const reviewMission = missions.find((mission) => progress.reviewStageIds.includes(mission.id))
-  if (reviewMission) return reviewMission
-
   const nextPathMission = firstUnlockedIncompleteMission(missions, progress)
-  return nextPathMission ?? missions[0] ?? getGrade1MissionById('')
+  if (nextPathMission) return nextPathMission
+
+  const reviewMission = missions.find((mission) => progress.reviewStageIds.includes(mission.id))
+  return reviewMission ?? missions[0] ?? getGrade1MissionById('')
 }
 
 function firstUnlockedIncompleteMission(
   missions: Grade1Mission[],
   progress: Grade1Progress
 ): Grade1Mission | null {
-  const incomplete = (mode: Grade1Mission['mode']) => missions.find((mission) => (
-    mission.mode === mode && !progress.completedStageIds.includes(mission.id)
-  ))
-  return incomplete('basic') ?? incomplete('practice') ?? null
+  return missions.find((mission) => !progress.checkedStageIds.includes(mission.id)) ?? null
 }
 
 function strongestTag(progress: Grade1Progress): string {

@@ -160,6 +160,54 @@ export const grade1AllowedCurriculumCodesByIsland: Record<string, readonly strin
   'pattern-cave': ['[2수02-01]'],
 }
 
+const grade1ExpansionCurriculumCodesById: Record<string, readonly string[]> = {
+  'count-cove-01-v1-1': ['[2수01-01]'],
+  'count-cove-02-v1-2': ['[2수01-01]'],
+  'count-cove-03-v1-3': ['[2수01-01]'],
+  'count-cove-04-v1-4': ['[2수01-01]'],
+  'count-cove-05-v1-5': ['[2수01-01]'],
+  'order-bridge-01-v1-1': ['[2수01-03]'],
+  'order-bridge-02-v1-2': ['[2수01-03]'],
+  'order-bridge-03-v1-3': ['[2수01-03]'],
+  'order-bridge-04-v1-4': ['[2수01-03]'],
+  'order-bridge-05-v1-5': ['[2수01-03]'],
+  'orchard-port-01-v1-1': ['[2수01-04]'],
+  'orchard-port-02-v1-2': ['[2수01-08]'],
+  'orchard-port-03-v1-3': ['[2수01-04]'],
+  'orchard-port-04-v1-4': ['[2수01-04]'],
+  'river-dock-01-v1-1': ['[2수01-06]'],
+  'river-dock-02-v1-2': ['[2수01-06]'],
+  'river-dock-03-v1-3': ['[2수01-06]'],
+  'river-dock-04-v1-4': ['[2수01-06]'],
+  'shape-forest-01-v1-1': ['[2수03-03]'],
+  'shape-forest-02-v1-2': ['[2수03-04]'],
+  'shape-forest-03-v1-3': ['[2수03-05]'],
+  'shape-forest-04-v1-4': ['[2수03-03]'],
+  'shape-forest-05-v1-5': ['[2수03-05]'],
+  'clock-tower-01-v1-1': ['[2수03-07]'],
+  'clock-tower-02-v1-2': ['[2수03-07]'],
+  'clock-tower-03-v1-3': ['[2수03-07]'],
+  'clock-tower-04-v1-4': ['[2수03-09]'],
+  'clock-tower-05-v1-5': ['[2수03-09]'],
+  'clock-tower-06-v1-6': ['[2수03-07]'],
+  'clock-tower-07-v1-7': ['[2수03-07]'],
+  'pattern-cave-01-v1-1': ['[2수02-01]'],
+  'pattern-cave-02-v1-2': ['[2수02-01]'],
+  'pattern-cave-03-v1-3': ['[2수02-01]'],
+  'pattern-cave-04-v1-4': ['[2수02-01]'],
+  'pattern-cave-05-v1-5': ['[2수02-01]'],
+  'pattern-cave-06-v1-6': ['[2수02-01]'],
+  'pattern-cave-01-v1-7': ['[2수02-01]'],
+  'pattern-cave-02-v1-8': ['[2수02-01]'],
+}
+
+const grade1DirectCurriculumCodesById: Record<string, readonly string[]> = {
+  'orchard-port-01': ['[2수01-04]'],
+  'orchard-port-05': ['[2수01-04]'],
+  'orchard-port-01-v1-1': ['[2수01-04]'],
+  'orchard-port-03-v1-3': ['[2수01-04]'],
+}
+
 type Grade1MissionTemplateSource = Omit<
   Grade1MissionTemplate,
   keyof Grade1QualityMetadata | 'mode'
@@ -1892,9 +1940,11 @@ function buildGrade1V1MissionTemplates(): Grade1MissionTemplate[] {
 
     authored.forEach((source, islandIndex) => {
       const metadata = grade1QualityMetadataBySourceId[source.id]
-      const fallbackCode = metadata?.curriculumCodes[0]
-        ?? grade1AllowedCurriculumCodesByIsland[island.id]?.[0]
-        ?? '[2수01-01]'
+      const explicitExpansionCodes = grade1ExpansionCurriculumCodesById[source.id]
+      if (!metadata && !explicitExpansionCodes) {
+        throw new Error(`${source.id}: missing explicit Grade 1 curriculum codes`)
+      }
+      const curriculumCodes = [...(metadata?.curriculumCodes ?? explicitExpansionCodes ?? [])]
       const position = islandIndex % 7
       const cognitiveDomain: Grade1CognitiveDomain = position < 3
         ? 'knowing'
@@ -1903,9 +1953,7 @@ function buildGrade1V1MissionTemplates(): Grade1MissionTemplate[] {
           : 'reasoning'
       const directCurriculumCodes = island.id === 'count-cove'
         ? ['[2수01-01]']
-        : island.id === 'orchard-port'
-          ? ['[2수01-04]']
-          : []
+        : [...(grade1DirectCurriculumCodesById[source.id] ?? [])]
       const taskActions = metadata?.taskActions ?? (
         cognitiveDomain === 'reasoning' ? ['analyze_error'] : ['model']
       )
@@ -1914,7 +1962,7 @@ function buildGrade1V1MissionTemplates(): Grade1MissionTemplate[] {
         stageOrder,
         mode: islandIndex < 7 ? 'basic' : 'practice',
         curriculumCodes: Array.from(new Set([
-          ...(metadata?.curriculumCodes ?? [fallbackCode]),
+          ...curriculumCodes,
           ...directCurriculumCodes,
         ])),
         directCurriculumCodes,
