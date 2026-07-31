@@ -1,4 +1,5 @@
 import {
+  getGrade1LegacyMissionIds,
   getGrade1PracticeMissionIds,
   grade1Islands,
   type Grade1Mission,
@@ -95,10 +96,18 @@ function defaultPracticeMissionIdsByIsland(): Record<string, string[]> {
   )
 }
 
+function defaultLegacyMissionIdsByIsland(): Record<string, string[]> {
+  return Object.fromEntries(
+    grade1Islands.map((island) => [island.id, getGrade1LegacyMissionIds(island.id)])
+  )
+}
+
 function deriveCompletedIslandIds(
   checkedStageIds: string[],
   savedIslandIds: unknown,
-  practiceMissionIdsByIsland: Record<string, readonly string[]>
+  practiceMissionIdsByIsland: Record<string, readonly string[]>,
+  legacyMissionIdsByIsland: Record<string, readonly string[]>,
+  acceptLegacyCompletion: boolean,
 ): string[] {
   const checkedStages = new Set(checkedStageIds)
   const completedIslands = new Set(
@@ -114,13 +123,24 @@ function deriveCompletedIslandIds(
       completedIslands.add(islandId)
     }
   }
+  if (acceptLegacyCompletion) {
+    for (const [islandId, legacyMissionIds] of Object.entries(legacyMissionIdsByIsland)) {
+      if (
+        legacyMissionIds.length > 0
+        && legacyMissionIds.every((missionId) => checkedStages.has(missionId))
+      ) {
+        completedIslands.add(islandId)
+      }
+    }
+  }
   return Array.from(completedIslands)
 }
 
 function normalizeProgress(
   value: unknown,
   now: number,
-  practiceMissionIdsByIsland: Record<string, readonly string[]>
+  practiceMissionIdsByIsland: Record<string, readonly string[]>,
+  legacyMissionIdsByIsland: Record<string, readonly string[]>,
 ): Grade1Progress | null {
   if (!value || typeof value !== 'object') return null
   const candidate = value as Partial<Grade1Progress>
@@ -158,7 +178,9 @@ function normalizeProgress(
     completedIslandIds: deriveCompletedIslandIds(
       checkedStageIds,
       candidate.completedIslandIds,
-      practiceMissionIdsByIsland
+      practiceMissionIdsByIsland,
+      legacyMissionIdsByIsland,
+      Number(candidate.schemaVersion) < GRADE1_PROGRESS_SCHEMA_VERSION,
     ),
     reviewStageIds: Array.from(
       new Set(candidate.reviewStageIds.filter((id): id is string => typeof id === 'string'))
@@ -179,7 +201,8 @@ function normalizeProgress(
 export function loadGrade1Progress(
   storage: StorageLike | null = getBrowserStorage(),
   now = Date.now(),
-  practiceMissionIdsByIsland: Record<string, readonly string[]> = defaultPracticeMissionIdsByIsland()
+  practiceMissionIdsByIsland: Record<string, readonly string[]> = defaultPracticeMissionIdsByIsland(),
+  legacyMissionIdsByIsland: Record<string, readonly string[]> = defaultLegacyMissionIdsByIsland(),
 ): Grade1ProgressLoadResult {
   if (!storage) {
     return {
@@ -199,7 +222,12 @@ export function loadGrade1Progress(
       }
     }
 
-    const normalized = normalizeProgress(JSON.parse(raw), now, practiceMissionIdsByIsland)
+    const normalized = normalizeProgress(
+      JSON.parse(raw),
+      now,
+      practiceMissionIdsByIsland,
+      legacyMissionIdsByIsland,
+    )
     if (!normalized) {
       corruptProgressStorages.add(storage)
       return {

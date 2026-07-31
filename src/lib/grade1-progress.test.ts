@@ -1,5 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 
+import { getGrade1LegacyMissionIds } from './grade1-problems'
+
 import {
   createInitialGrade1Progress,
   dismissGrade1Intro,
@@ -226,4 +228,29 @@ describe('grade1 progress persistence', () => {
     expect(loaded.progress.checkedStageIds).toEqual(practiceIds)
     expect(loaded.progress.completedIslandIds).toEqual(['count-cove'])
   })
+
+  it.each(['clock-tower', 'pattern-cave'])(
+    'preserves a fully completed 13-mission legacy %s island',
+    (islandId) => {
+      const legacyMissionIds = getGrade1LegacyMissionIds(islandId)
+      expect(legacyMissionIds).toHaveLength(13)
+      const storage = memoryStorage({
+        [GRADE1_PROGRESS_KEY]: JSON.stringify({
+          schemaVersion: 2,
+          completedStageIds: legacyMissionIds,
+          reviewStageIds: [],
+          latestStageId: legacyMissionIds[12],
+          todaySolvedCount: 13,
+          skillSummaryByTag: {},
+          lastPlayedAt: 100,
+        }),
+      })
+
+      const loaded = loadGrade1Progress(storage, 100)
+
+      expect(loaded.progress.completedStageIds).toEqual(legacyMissionIds)
+      expect(loaded.progress.checkedStageIds).toEqual(legacyMissionIds)
+      expect(loaded.progress.completedIslandIds).toContain(islandId)
+    },
+  )
 })

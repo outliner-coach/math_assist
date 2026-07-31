@@ -300,6 +300,7 @@ export default function Grade1GameClient() {
     persistProgress(recordGrade1Attempt(progressWithIntroDismissed, selectedMission, false, {
       variantKey: currentVariantKey,
       wrongAttempts: nextWrongAttemptCount,
+      practiceMissionIds: getGrade1PracticeMissionIds(selectedMission.islandId),
     }))
   }
 

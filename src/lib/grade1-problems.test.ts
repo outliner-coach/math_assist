@@ -2,10 +2,12 @@ import { describe, expect, it } from 'vitest'
 
 import {
   auditGrade1MissionVariants,
+  buildGrade1AuthoredMathSignature,
   getGrade1MissionById,
   getGrade1Missions,
   getGrade1PracticeMissionIds,
   getSafeGrade1Mission,
+  grade1AllowedCurriculumCodesByIsland,
   grade1MissionTemplates,
   validateGrade1MissionBank,
 } from './grade1-problems'
@@ -40,7 +42,8 @@ describe('grade1 mission bank', () => {
 
   it('owns every expanded id as a materially authored problem instead of a prefixed clone', () => {
     expect(grade1MissionTemplates.every((template) => template.authoredSourceKey === template.id)).toBe(true)
-    expect(new Set(grade1MissionTemplates.map((template) => template.problemFamily))).toHaveLength(98)
+    expect(new Set(grade1MissionTemplates.map((template) => template.problemFamily)).size).toBeLessThan(98)
+    expect(new Set(grade1MissionTemplates.map(buildGrade1AuthoredMathSignature))).toHaveLength(98)
     expect(grade1MissionTemplates.some((template) => (
       template.promptTemplate.startsWith('도전 ')
       || template.learnerGoal.startsWith('도전 ')
@@ -58,6 +61,14 @@ describe('grade1 mission bank', () => {
       expect(direct.some((template) => (
         template.mode === 'basic' && template.cognitiveDomain === 'applying'
       ))).toBe(true)
+    }
+  })
+
+  it('keeps every curriculum code inside the mathematical scope of its island', () => {
+    for (const template of grade1MissionTemplates) {
+      expect(grade1AllowedCurriculumCodesByIsland[template.islandId]).toEqual(
+        expect.arrayContaining(template.curriculumCodes)
+      )
     }
   })
 
@@ -105,7 +116,7 @@ describe('grade1 mission bank', () => {
   it('audits every allowed Grade 1 parameter combination', () => {
     const result = auditGrade1MissionVariants()
 
-    expect(result.variantCount).toBe(1035)
+    expect(result.variantCount).toBe(1046)
     expect(result.errors).toEqual([])
   })
 
