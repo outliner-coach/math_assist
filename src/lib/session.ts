@@ -24,11 +24,27 @@ function resultKey(grade: PracticeGrade): string {
   return grade === 6 ? GRADE6_RESULT_KEY : GRADE5_RESULT_KEY
 }
 
+function hasCompatiblePracticeIdentity(
+  candidate: { grade?: unknown; itemCount?: unknown },
+  grade: PracticeGrade,
+): boolean {
+  if (grade === 6) {
+    return candidate.grade === 6
+      && (candidate.itemCount === 5 || candidate.itemCount === 10)
+  }
+  return (
+    candidate.grade === undefined
+      && candidate.itemCount === undefined
+  ) || (
+    candidate.grade === 5
+      && (candidate.itemCount === 5 || candidate.itemCount === 10)
+  )
+}
+
 function isSessionSnapshot(value: unknown, grade: PracticeGrade): value is PracticeSession {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false
   const candidate = value as Partial<PracticeSession>
-  return resolvePracticeGrade(candidate.grade) === grade
-    && (grade === 5 || (candidate.grade === 6 && (candidate.itemCount === 5 || candidate.itemCount === 10)))
+  return hasCompatiblePracticeIdentity(candidate, grade)
     && typeof candidate.sessionId === 'string'
     && typeof candidate.conceptId === 'string'
     && (candidate.setId === 'A' || candidate.setId === 'B' || candidate.setId === 'C')
@@ -44,8 +60,7 @@ function isSessionSnapshot(value: unknown, grade: PracticeGrade): value is Pract
 function isResultSnapshot(value: unknown, grade: PracticeGrade): value is SessionResult {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false
   const candidate = value as Partial<SessionResult>
-  return resolvePracticeGrade(candidate.grade) === grade
-    && (grade === 5 || (candidate.grade === 6 && (candidate.itemCount === 5 || candidate.itemCount === 10)))
+  return hasCompatiblePracticeIdentity(candidate, grade)
     && typeof candidate.sessionId === 'string'
     && typeof candidate.conceptId === 'string'
     && (candidate.setId === 'A' || candidate.setId === 'B' || candidate.setId === 'C')

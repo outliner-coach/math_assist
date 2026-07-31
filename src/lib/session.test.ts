@@ -16,6 +16,7 @@ import {
   resetGrade6SessionStorage,
   resetGrade5ResultStorage,
   resetGrade5SessionStorage,
+  resolvePracticeItemCount,
   saveResult,
   saveSession,
   updateAnswer
@@ -214,6 +215,67 @@ describe('session helpers', () => {
     })).toBe(false)
   })
 
+  it('resolves missing or invalid link counts to the legacy-safe grade defaults', () => {
+    expect(resolvePracticeItemCount(undefined, 5)).toBe(10)
+    expect(resolvePracticeItemCount('5', 5)).toBe(10)
+    expect(resolvePracticeItemCount(7, 5)).toBe(10)
+    expect(resolvePracticeItemCount(undefined, 6)).toBe(5)
+    expect(resolvePracticeItemCount('10', 6)).toBe(5)
+    expect(resolvePracticeItemCount(7, 6)).toBe(5)
+  })
+
+  it.each([5, 10] as const)('preserves an explicit Grade 5 %i-item request through storage, retry, and results', (itemCount) => {
+    const data = new Map<string, string>()
+    const storage = {
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => data.set(key, value),
+      removeItem: (key: string) => data.delete(key),
+    }
+    vi.stubGlobal('window', {})
+    vi.stubGlobal('localStorage', storage)
+    const problems = [makeProblem(0), makeProblem(1)]
+    const session: PracticeSession = {
+      sessionId: `grade5-${itemCount}`,
+      conceptId: 'divisor-001',
+      setId: 'A',
+      mode: 'standard',
+      grade: 5,
+      itemCount,
+      problems,
+      answers: ['1', 'wrong'],
+      checkedAnswers: [true, false],
+      currentIndex: 1,
+      startedAt: Date.now(),
+      expiresAt: Date.now() + 10_000,
+    }
+
+    expect(saveSession(session)).toBe(true)
+    expect(loadSession(5)).toMatchObject({ grade: 5, itemCount })
+    expect(matchesSessionRequest(session, {
+      conceptId: 'divisor-001',
+      setId: 'A',
+      mode: 'standard',
+      grade: 5,
+      itemCount,
+    })).toBe(true)
+    expect(matchesSessionRequest(session, {
+      conceptId: 'divisor-001',
+      setId: 'A',
+      mode: 'standard',
+      grade: 5,
+      itemCount: itemCount === 5 ? 10 : 5,
+    })).toBe(false)
+
+    const built = buildSessionResult(
+      session,
+      problems.map((problem, index) => makeSubmissionResult(problem, index === 0)),
+      500,
+    )
+    const retry = createRetrySessionFromResult(built, 600)
+    expect(built).toMatchObject({ grade: 5, itemCount })
+    expect(retry).toMatchObject({ grade: 5, itemCount })
+  })
+
   it('preserves corrupt Grade 6 session and result bytes until an explicit reset', () => {
     const data = new Map<string, string>([
       [GRADE6_SESSION_KEY, '{corrupt-session'],
@@ -301,5 +363,54 @@ describe('session helpers', () => {
     expect(saveSession(expired)).toBe(true)
     expect(loadSession(5)).toBeNull()
     expect(data.has(GRADE5_SESSION_KEY)).toBe(false)
+  })
+
+  it('preserves schema-invalid Grade 5 item counts without changing Grade 6 storage', () => {
+    const now = Date.now()
+    const invalidSession = {
+      sessionId: 'invalid-grade5-count',
+      conceptId: 'divisor-001',
+      setId: 'A',
+      mode: 'standard',
+      grade: 5,
+      itemCount: 7,
+      problems: [makeProblem(0)],
+      answers: [null],
+      checkedAnswers: [null],
+      currentIndex: 0,
+      startedAt: now,
+      expiresAt: now + 10_000,
+    }
+    const invalidResult = {
+      ...makeResult({ grade: 5 }),
+      itemCount: 7,
+    }
+    const grade6Raw = JSON.stringify({
+      sessionId: 'grade6-safe',
+      conceptId: 'g6ratio-001',
+      grade: 6,
+      itemCount: 5,
+    })
+    const data = new Map<string, string>([
+      [GRADE5_SESSION_KEY, JSON.stringify(invalidSession)],
+      [GRADE5_RESULT_KEY, JSON.stringify(invalidResult)],
+      [GRADE6_SESSION_KEY, grade6Raw],
+    ])
+    const storage = {
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => data.set(key, value),
+      removeItem: (key: string) => data.delete(key),
+    }
+    vi.stubGlobal('window', {})
+    vi.stubGlobal('localStorage', storage)
+
+    expect(getSessionStorageStatus(5)).toBe('corrupt')
+    expect(getResultStorageStatus(5)).toBe('corrupt')
+    expect(loadSession(5)).toBeNull()
+    expect(loadResult(5)).toBeNull()
+    expect(saveSession({ ...invalidSession, itemCount: 5 } as PracticeSession)).toBe(false)
+    expect(data.get(GRADE5_SESSION_KEY)).toBe(JSON.stringify(invalidSession))
+    expect(data.get(GRADE5_RESULT_KEY)).toBe(JSON.stringify(invalidResult))
+    expect(data.get(GRADE6_SESSION_KEY)).toBe(grade6Raw)
   })
 })

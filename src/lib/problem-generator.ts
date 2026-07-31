@@ -6,7 +6,7 @@ import * as math from './math'
 import { evaluateArithmeticExpression } from './arithmetic-expression'
 import { correctKoreanNumericParticles } from './korean-numeric-particles'
 import { buildThreeShapeOverlapModel } from './three-shape-overlap'
-import type { Problem, ProblemTemplate } from './types'
+import type { CognitiveDomain, Problem, ProblemTemplate } from './types'
 
 // 시드 기반 난수 생성기 (재현 가능)
 function seededRandom(seed: number): () => number {
@@ -29,6 +29,97 @@ function shuffleArray<T>(array: T[], random: () => number): T[] {
     ;[result[i], result[j]] = [result[j], result[i]]
   }
   return result
+}
+
+function selectTemplatesByMix<Key extends string | number>(
+  templates: ProblemTemplate[],
+  orderedKeys: readonly Key[],
+  mix: Record<Key, number>,
+  keyForTemplate: (template: ProblemTemplate) => Key | null,
+  random: () => number,
+  label: string,
+): ProblemTemplate[] {
+  const grouped = new Map<Key, ProblemTemplate[]>(
+    orderedKeys.map(key => [key, []]),
+  )
+  for (const template of templates) {
+    const key = keyForTemplate(template)
+    const group = key === null ? undefined : grouped.get(key)
+    if (!group) {
+      throw new Error(`Missing or unsupported ${label} for template ${template.id}`)
+    }
+    group.push(template)
+  }
+
+  const selected: ProblemTemplate[] = []
+  for (const key of orderedKeys) {
+    const group = grouped.get(key) ?? []
+    if (group.length < mix[key]) {
+      throw new Error(
+        `Not enough templates for ${label} ${String(key)}: ${group.length} < ${mix[key]}`,
+      )
+    }
+    selected.push(...shuffleArray(group, random).slice(0, mix[key]))
+  }
+  return selected
+}
+
+function selectTemplatesByDomainAndDifficulty(
+  templates: ProblemTemplate[],
+  domainMix: Record<CognitiveDomain, number>,
+  difficultyMix: Record<1 | 2 | 3, number>,
+  random: () => number,
+  setId: 'A' | 'B' | 'C',
+): ProblemTemplate[] {
+  for (const template of templates) {
+    if (!template.blueprint?.cognitiveDomain) {
+      throw new Error(`Missing cognitive domain for template ${template.id}`)
+    }
+  }
+
+  const shuffled = shuffleArray(templates, random)
+  const remainingDomains = { ...domainMix }
+  const remainingDifficulties = { ...difficultyMix }
+  const expectedCount = Object.values(domainMix).reduce((sum, value) => sum + value, 0)
+  const selected: ProblemTemplate[] = []
+
+  function search(index: number): boolean {
+    if (selected.length === expectedCount) {
+      return Object.values(remainingDomains).every(value => value === 0)
+        && Object.values(remainingDifficulties).every(value => value === 0)
+    }
+    if (
+      index >= shuffled.length
+      || selected.length + (shuffled.length - index) < expectedCount
+    ) {
+      return false
+    }
+
+    const template = shuffled[index]
+    const domain = template.blueprint!.cognitiveDomain
+    const difficulty = template.difficulty
+    if (
+      remainingDomains[domain] > 0
+      && remainingDifficulties[difficulty] > 0
+    ) {
+      selected.push(template)
+      remainingDomains[domain] -= 1
+      remainingDifficulties[difficulty] -= 1
+      if (search(index + 1)) return true
+      selected.pop()
+      remainingDomains[domain] += 1
+      remainingDifficulties[difficulty] += 1
+    }
+
+    return search(index + 1)
+  }
+
+  if (!search(0)) {
+    throw new Error(
+      `No template selection for set ${setId} satisfies both cognitive domain and difficulty mixes`,
+    )
+  }
+  return selected
 }
 
 // 함수 호출 평가
@@ -336,45 +427,59 @@ export function generateProblems(
     count?: number
     setId?: 'A' | 'B' | 'C'
     difficultyMix?: { 1: number; 2: number; 3: number }
+    cognitiveDomainMix?: Record<CognitiveDomain, number>
     seed?: number
   }
 ): Problem[] {
   const count = options?.count ?? 10
   const setId = options?.setId ?? 'A'
-  const difficultyMix = options?.difficultyMix ?? { 1: 4, 2: 4, 3: 2 }
   const actualSeed = options?.seed ?? Date.now()
   const random = seededRandom(actualSeed)
 
   const setTemplates = templates.filter(t => t.set_id === setId)
-  const totalMix = Object.values(difficultyMix).reduce((a, b) => a + b, 0)
+  if (options?.difficultyMix && options.cognitiveDomainMix) {
+    throw new Error('Choose either difficultyMix or cognitiveDomainMix, not both')
+  }
+  const defaultDomainMix: Record<CognitiveDomain, number> = count === 5
+    ? { knowing: 2, applying: 2, reasoning: 1 }
+    : { knowing: 4, applying: 4, reasoning: 2 }
+  const defaultDifficultyMix: Record<1 | 2 | 3, number> = count === 5
+    ? { 1: 2, 2: 2, 3: 1 }
+    : { 1: 4, 2: 4, 3: 2 }
+  const useReviewedDomains = options?.cognitiveDomainMix !== undefined || (
+    options?.difficultyMix === undefined
+      && setTemplates.length > 0
+      && setTemplates.every(template => template.blueprint?.cognitiveDomain)
+  )
+  const cognitiveDomainMix = useReviewedDomains
+    ? options?.cognitiveDomainMix ?? defaultDomainMix
+    : null
+  const difficultyMix = cognitiveDomainMix
+    ? null
+    : options?.difficultyMix ?? defaultDifficultyMix
+  const activeMix = cognitiveDomainMix ?? difficultyMix!
+  const totalMix = Object.values(activeMix).reduce((a, b) => a + b, 0)
   if (totalMix !== count) {
-    throw new Error(`difficultyMix total (${totalMix}) must match count (${count})`)
+    const mixName = cognitiveDomainMix ? 'cognitiveDomainMix' : 'difficultyMix'
+    throw new Error(`${mixName} total (${totalMix}) must match count (${count})`)
   }
 
-  const byDifficulty: Record<1 | 2 | 3, ProblemTemplate[]> = {
-    1: [],
-    2: [],
-    3: []
-  }
-
-  for (const template of setTemplates) {
-    byDifficulty[template.difficulty].push(template)
-  }
-
-  for (const level of [1, 2, 3] as const) {
-    if (byDifficulty[level].length < difficultyMix[level]) {
-      throw new Error(
-        `Not enough templates for set ${setId}, difficulty ${level}: ` +
-        `${byDifficulty[level].length} < ${difficultyMix[level]}`
+  const selectedTemplates = cognitiveDomainMix
+    ? selectTemplatesByDomainAndDifficulty(
+        setTemplates,
+        cognitiveDomainMix,
+        defaultDifficultyMix,
+        random,
+        setId,
       )
-    }
-  }
-
-  const selectedTemplates: ProblemTemplate[] = []
-  for (const level of [1, 2, 3] as const) {
-    const shuffled = shuffleArray(byDifficulty[level], random)
-    selectedTemplates.push(...shuffled.slice(0, difficultyMix[level]))
-  }
+    : selectTemplatesByMix(
+        setTemplates,
+        [1, 2, 3] as const,
+        difficultyMix!,
+        template => template.difficulty,
+        random,
+        `set ${setId}, difficulty`,
+      )
 
   const orderedTemplates = shuffleArray(selectedTemplates, random)
 

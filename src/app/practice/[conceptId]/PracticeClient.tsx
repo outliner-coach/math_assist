@@ -25,6 +25,7 @@ import {
   getSessionStorageStatus,
   markAnswerChecked,
   resetGrade6SessionStorage,
+  resolvePracticeItemCount,
   updateAnswer,
   updateCurrentIndex,
   loadResult,
@@ -57,9 +58,11 @@ export default function PracticeClient() {
   const sourceResultId = searchParams.get('source') ?? undefined
   const practiceGrade = conceptId.startsWith('g6') ? 6 : 5
   const experiencePreset = resolveExperiencePreset(practiceGrade)
-  const requestedItemCount: 5 | 10 = practiceGrade === 6 && searchParams.get('count') !== '10'
-    ? (experiencePreset.defaultItems === 5 ? 5 : 10)
-    : 10
+  const rawItemCount = searchParams.get('count')
+  const requestedItemCount = resolvePracticeItemCount(
+    rawItemCount === '5' ? 5 : rawItemCount === '10' ? 10 : undefined,
+    practiceGrade,
+  )
 
   const [concept, setConcept] = useState<Concept | null>(null)
   const [session, setSession] = useState<PracticeSession | null>(null)
@@ -122,7 +125,8 @@ export default function PracticeClient() {
             result &&
             result.sessionId === sourceResultId &&
             result.conceptId === conceptId &&
-            result.setId === setId
+            result.setId === setId &&
+            resolvePracticeItemCount(result.itemCount, practiceGrade) === requestedItemCount
           ) {
             const retrySession = createRetrySessionFromResult(result)
             if (retrySession) {
@@ -147,7 +151,9 @@ export default function PracticeClient() {
         const problems = generateProblems(templates, {
           count: requestedItemCount,
           setId,
-          difficultyMix: requestedItemCount === 5 ? { 1: 2, 2: 2, 3: 1 } : { 1: 4, 2: 4, 3: 2 },
+          cognitiveDomainMix: requestedItemCount === 5
+            ? { knowing: 2, applying: 2, reasoning: 1 }
+            : { knowing: 4, applying: 4, reasoning: 2 },
         })
         const timing = createSessionTiming()
 
@@ -156,8 +162,8 @@ export default function PracticeClient() {
           conceptId,
           setId,
           mode: 'standard',
-          grade: practiceGrade === 6 ? 6 : undefined,
-          itemCount: practiceGrade === 6 ? requestedItemCount : undefined,
+          grade: practiceGrade,
+          itemCount: requestedItemCount,
           problems,
           answers: Array(problems.length).fill(null),
           checkedAnswers: Array(problems.length).fill(null),

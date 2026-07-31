@@ -366,7 +366,7 @@ test('손상된 6학년 세션은 원문을 보존하고 명시적 초기화 뒤
   expect(await page.evaluate((key) => localStorage.getItem(key), GRADE5_KEYS[0])).toBe('{"keep":"grade5"}')
 })
 
-test('5문제를 모두 확인하면 6학년 결과와 진도만 격리 저장한다', async ({ page }) => {
+test('5문제를 모두 확인하면 6학년 기본 결과만 저장하고 개념 완료로 올리지 않는다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/practice/g6ratio-001?set=C&count=5`)
   await expect(page.getByTestId('practice-session')).toBeVisible()
 
@@ -386,7 +386,7 @@ test('5문제를 모두 확인하면 6학년 결과와 진도만 격리 저장�
   const result = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), GRADE6_KEYS[1])
   const progress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), GRADE6_KEYS[2])
   expect(result).toMatchObject({ grade: 6, itemCount: 5, score: 5, total: 5 })
-  expect(progress['g6ratio-001']).toMatchObject({ latestScore: 100, needsReview: false })
+  expect(progress).toBeNull()
   expect(await readKeys(page, GRADE5_KEYS)).toEqual([null, null, null])
 })
 
