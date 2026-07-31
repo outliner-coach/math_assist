@@ -1,4 +1,5 @@
 import type { Grade4AnswerType } from './grade4-answer-normalizers'
+import type { LearningSetMode } from './learning-activity'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
@@ -3430,13 +3431,19 @@ export function getGrade4MissionBank(seed: number): Grade4Mission[] {
   })
 }
 
-export function getGrade4Activity(unitId: string, seed: number, activityRun: number): Grade4Mission[] {
+export function getGrade4Activity(
+  unitId: string,
+  seed: number,
+  activityRun: number,
+  mode: LearningSetMode = 'basic',
+): Grade4Mission[] {
   const safeUnitId = grade4Units.some((unit) => unit.id === unitId) ? unitId : SAFE_GRADE4_UNIT_ID
   const bank = getGrade4MissionBank(seed + activityRun * 101).filter((mission) => mission.unitId === safeUnitId)
   const domains: Grade4CognitiveDomain[] = ['knowing', 'applying', 'reasoning']
+  const modeOffset = mode === 'practice' ? 1 : 0
   return domains.map((domain, index) => {
     const candidates = bank.filter((mission) => mission.cognitiveDomain === domain)
-    return candidates[positiveModulo(seed + activityRun * 7 + index, candidates.length)]
+    return candidates[positiveModulo(seed + activityRun * 7 + index + modeOffset, candidates.length)]
   })
 }
 

@@ -1,3 +1,12 @@
+import {
+  createLearningSetCompletionRecord,
+  projectLearningCompletion,
+  readLearningSetCompletionRecord,
+  recordLearningSetCompletion,
+  type LearningSetCompletionRecord,
+  type LearningSetMode,
+} from './learning-activity'
+
 export const GRADE4_PROGRESS_KEY = 'mathAssist_grade4Progress'
 export const GRADE4_PROGRESS_SCHEMA_VERSION = 1
 
@@ -12,11 +21,13 @@ export interface Grade4Progress {
   reviewVariantKeys: string[]
   latestMissionId: string | null
   selectedUnitId: string | null
+  selectedMode: LearningSetMode
   activityRun: number
   activeItemIndex: number
   todaySolvedCount: number
   skillSummaryByTag: Record<string, Grade4SkillSummary>
   lastPlayedAt: number | null
+  completionRecord: LearningSetCompletionRecord
 }
 
 export interface Grade4ProgressStorage {
@@ -38,6 +49,13 @@ export interface Grade4Attempt {
   skillTag: string
   correct: boolean
   usedHint?: boolean
+  now?: number
+}
+
+export interface Grade4ActivityCompletionInput {
+  unitId: string
+  mode: LearningSetMode
+  variantKeys: readonly string[]
   now?: number
 }
 
@@ -75,11 +93,13 @@ export function createInitialGrade4Progress(now = Date.now()): Grade4Progress {
     reviewVariantKeys: [],
     latestMissionId: null,
     selectedUnitId: null,
+    selectedMode: 'basic',
     activityRun: 0,
     activeItemIndex: 0,
     todaySolvedCount: 0,
     skillSummaryByTag: {},
     lastPlayedAt: now,
+    completionRecord: createLearningSetCompletionRecord(),
   }
 }
 
@@ -91,6 +111,14 @@ function normalizeGrade4Progress(value: unknown, now: number): Grade4Progress | 
   if (!candidate.skillSummaryByTag || typeof candidate.skillSummaryByTag !== 'object' || Array.isArray(candidate.skillSummaryByTag)) return null
   if (candidate.latestMissionId != null && typeof candidate.latestMissionId !== 'string') return null
   if (candidate.selectedUnitId != null && typeof candidate.selectedUnitId !== 'string') return null
+  const selectedMode = candidate.selectedMode === undefined
+    ? 'basic'
+    : candidate.selectedMode === 'basic' || candidate.selectedMode === 'practice'
+      ? candidate.selectedMode
+      : null
+  if (!selectedMode) return null
+  const completionRead = readLearningSetCompletionRecord(candidate.completionRecord)
+  if (completionRead.status === 'corrupt') return null
 
   const lastPlayedAt = typeof candidate.lastPlayedAt === 'number' && Number.isFinite(candidate.lastPlayedAt)
     ? candidate.lastPlayedAt
@@ -101,11 +129,13 @@ function normalizeGrade4Progress(value: unknown, now: number): Grade4Progress | 
     reviewVariantKeys: uniqueStrings(candidate.reviewVariantKeys),
     latestMissionId: candidate.latestMissionId ?? null,
     selectedUnitId: candidate.selectedUnitId ?? null,
+    selectedMode,
     activityRun: nonNegativeInteger(candidate.activityRun),
     activeItemIndex: Math.min(2, nonNegativeInteger(candidate.activeItemIndex)),
     todaySolvedCount: isSameLocalDay(lastPlayedAt, now) ? nonNegativeInteger(candidate.todaySolvedCount) : 0,
     skillSummaryByTag: candidate.skillSummaryByTag as Record<string, Grade4SkillSummary>,
     lastPlayedAt,
+    completionRecord: completionRead.record,
   }
 }
 
@@ -173,12 +203,69 @@ export function recordGrade4Attempt(progress: Grade4Progress, attempt: Grade4Att
   }
 }
 
-export function selectGrade4Unit(progress: Grade4Progress, unitId: string, now = Date.now()): Grade4Progress {
+export function resolveGrade4ActivityMode(value: unknown): LearningSetMode {
+  return value === 'practice' ? 'practice' : 'basic'
+}
+
+export function selectGrade4Unit(
+  progress: Grade4Progress,
+  unitId: string,
+  modeOrNow: LearningSetMode | number = 'basic',
+  selectedAt = Date.now(),
+): Grade4Progress {
+  const mode = typeof modeOrNow === 'number'
+    ? progress.selectedMode
+    : resolveGrade4ActivityMode(modeOrNow)
+  const now = typeof modeOrNow === 'number' ? modeOrNow : selectedAt
+  const changedActivity = progress.selectedUnitId !== unitId || progress.selectedMode !== mode
   return {
     ...progress,
     selectedUnitId: unitId,
-    activeItemIndex: progress.selectedUnitId === unitId ? progress.activeItemIndex : 0,
+    selectedMode: mode,
+    activeItemIndex: changedActivity ? 0 : progress.activeItemIndex,
     lastPlayedAt: now,
+  }
+}
+
+export function projectGrade4UnitCompletion(progress: Grade4Progress, unitId: string) {
+  return projectLearningCompletion({
+    activityId: unitId,
+    record: progress.completionRecord,
+    legacyCompleted: false,
+  })
+}
+
+export function completeGrade4Activity(
+  progress: Grade4Progress,
+  input: Grade4ActivityCompletionInput,
+) {
+  const completion = recordLearningSetCompletion(progress.completionRecord, {
+    activityId: input.unitId,
+    mode: input.mode,
+    expectedItemCount: 3,
+    responses: input.variantKeys.map((variantKey) => {
+      const completed = progress.completedVariantKeys.includes(variantKey)
+      const needsReview = progress.reviewVariantKeys.includes(variantKey)
+      return {
+        itemId: variantKey,
+        checked: completed || needsReview,
+        correct: completed || needsReview ? completed && !needsReview : null,
+      }
+    }),
+  })
+  const next = {
+    ...progress,
+    completionRecord: completion.record,
+    reviewVariantKeys: Array.from(new Set([
+      ...progress.reviewVariantKeys,
+      ...completion.reviewItemIds,
+    ])),
+    lastPlayedAt: input.now ?? Date.now(),
+  }
+  return {
+    completed: completion.completed,
+    progress: next,
+    projection: projectGrade4UnitCompletion(next, input.unitId),
   }
 }
 
