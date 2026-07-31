@@ -14,6 +14,9 @@ Use this folder for short async notes between parallel agents.
 
 ## Current entrypoint
 
+- For the current Grade 1–6 content inventory, direct curriculum coverage
+  findings, age-band basic/practice targets, and reinforcement execution order,
+  start with `2026-07-31-grade1-6-content-structure-audit-plan-codex.md`.
 - For Grade 2 continuation work, start with
   `2026-05-11-grade2-continuity-codex.md`.
 - For Grade 3 continuation work, start with
