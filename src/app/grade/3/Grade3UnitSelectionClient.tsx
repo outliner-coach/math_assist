@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 
 import {
+  getGrade3MissionSession,
   getGrade3Missions,
   grade3Units,
   type Grade3Mission,
@@ -12,6 +13,8 @@ import {
 import {
   createInitialGrade3Progress,
   dismissGrade3Intro,
+  getGrade3PracticeMissionIds,
+  isGrade3UnitComplete,
   loadGrade3Progress,
   resetGrade3Progress,
   saveGrade3Progress,
@@ -53,23 +56,55 @@ function UnitCard({
 }) {
   const completed = missions.filter((mission) => progress.completedMissionIds.includes(mission.id)).length
   const review = missions.filter((mission) => progress.reviewMissionIds.includes(mission.id)).length
+  const basicMissions = getGrade3MissionSession(unit.id, 'basic', MISSION_SEED)
+  const basicCompleted = basicMissions.filter((mission) => progress.completedMissionIds.includes(mission.id)).length
+  const practiceMissionIds = getGrade3PracticeMissionIds(progress, unit.id, MISSION_SEED)
+  const practiceChecked = practiceMissionIds.filter((missionId) => progress.checkedMissionIds.includes(missionId)).length
+  const unitComplete = isGrade3UnitComplete(progress, unit.id, MISSION_SEED)
   return (
-    <Link
-      href={`/grade/3/mission?unitId=${unit.id}`}
-      onClick={() => onSelectUnit(unit.id)}
-      data-testid={`grade3-unit-card-${unit.id}`}
-      className="grid min-h-[190px] rounded-[2rem] border-2 border-[#ccfbf1] bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:border-[#14b8a6] hover:shadow-md"
-    >
-      <span className="text-sm font-black uppercase tracking-[0.18em] text-[#0f766e]">{unit.semester}</span>
-      <h2 className="mt-2 text-2xl font-black leading-tight text-[#0f172a]">{unit.title}</h2>
-      <p className="mt-2 text-sm font-bold leading-relaxed text-[#64748b]">{unit.subtitle}</p>
-      <div className="mt-4 flex flex-wrap gap-2 text-xs font-black">
-        <span className="rounded-full bg-[#ecfeff] px-3 py-1 text-[#0f766e]">{missions.length}개 미션</span>
-        <span className="rounded-full bg-[#dcfce7] px-3 py-1 text-[#166534]">완료 {completed}</span>
-        <span className="rounded-full bg-[#fff7e6] px-3 py-1 text-[#9a3412]">복습 {review}</span>
+    <article className="grid overflow-hidden rounded-[2rem] border-2 border-[#ccfbf1] bg-white shadow-sm">
+      <Link
+        href={`/grade/3/mission?unitId=${unit.id}&mode=basic`}
+        onClick={() => onSelectUnit(unit.id)}
+        data-testid={`grade3-unit-card-${unit.id}`}
+        className="grid min-h-[190px] p-5 text-left transition hover:bg-[#f0fdfa]"
+      >
+        <span className="text-sm font-black uppercase tracking-[0.18em] text-[#0f766e]">{unit.semester}</span>
+        <h2 className="mt-2 text-2xl font-black leading-tight text-[#0f172a]">{unit.title}</h2>
+        <p className="mt-2 text-sm font-bold leading-relaxed text-[#64748b]">{unit.subtitle}</p>
+        <div className="mt-4 flex flex-wrap gap-2 text-xs font-black">
+          <span className="rounded-full bg-[#ecfeff] px-3 py-1 text-[#0f766e]">문제은행 {missions.length}개</span>
+          <span className="rounded-full bg-[#dcfce7] px-3 py-1 text-[#166534]">기본 {basicCompleted}/3</span>
+          <span className="rounded-full bg-[#fff7e6] px-3 py-1 text-[#9a3412]">복습 {review}</span>
+        </div>
+        <p className="mt-4 text-sm font-black text-[#0f766e]">{rewardName(unit.rewardId)}</p>
+      </Link>
+      <div className="grid grid-cols-2 gap-2 border-t-2 border-[#ccfbf1] p-3">
+        <Link
+          href={`/grade/3/mission?unitId=${unit.id}&mode=basic`}
+          onClick={() => onSelectUnit(unit.id)}
+          data-testid={`grade3-basic-${unit.id}`}
+          className="grid min-h-[56px] place-items-center rounded-xl bg-[#0f766e] px-3 py-2 text-center text-sm font-black text-white"
+        >
+          기본 · 추천
+        </Link>
+        <Link
+          href={`/grade/3/mission?unitId=${unit.id}&mode=practice`}
+          onClick={() => onSelectUnit(unit.id)}
+          data-testid={`grade3-practice-${unit.id}`}
+          className="grid min-h-[56px] place-items-center rounded-xl border-2 border-[#0f766e] bg-white px-3 py-2 text-center text-sm font-black text-[#0f766e]"
+        >
+          연습 {practiceChecked}/3
+        </Link>
       </div>
-      <p className="mt-4 text-sm font-black text-[#0f766e]">{rewardName(unit.rewardId)}</p>
-    </Link>
+      <p
+        className={`px-4 pb-4 text-center text-xs font-black ${unitComplete ? 'text-[#166534]' : 'text-[#64748b]'}`}
+        data-testid={`grade3-unit-completion-${unit.id}`}
+      >
+        {unitComplete ? '단원 완료' : `연습 ${practiceChecked}/3 · 기본만 풀어도 연습은 열려 있어요`}
+      </p>
+      <span className="sr-only">전체 완료 미션 {completed}</span>
+    </article>
   )
 }
 
@@ -147,7 +182,7 @@ export default function Grade3UnitSelectionClient() {
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-sm font-black uppercase tracking-[0.18em] text-[#0f766e]">단원 선택</p>
-              <h2 className="mt-1 text-2xl font-black text-[#0f172a]">한 단원을 골라 3개 미션을 풀어요</h2>
+              <h2 className="mt-1 text-2xl font-black text-[#0f172a]">기본 3문제로 익히고 연습 3문제로 단원을 완료해요</h2>
             </div>
             <p className="text-sm font-black text-[#64748b]">
               오늘 {progress.todaySolvedCount}개 해결 · 다시 볼 미션 {progress.reviewMissionIds.length}개

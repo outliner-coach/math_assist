@@ -252,6 +252,47 @@ function RulerMm({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?:
   )
 }
 
+function DistanceRoad({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
+  const kilometers = asNumber(mission.visualConfig.kilometers)
+  const meters = asNumber(mission.visualConfig.meters)
+  const addMeters = asNumber(mission.visualConfig.addMeters)
+  const mode = asString(mission.visualConfig.mode, 'convert')
+  return (
+    <div data-testid="grade3-visual-distance-road" className="rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
+      <div
+        role="img"
+        aria-label={addMeters > 0
+          ? `${kilometers}킬로미터 ${meters}미터를 걷고 ${addMeters}미터를 더 걷는 길`
+          : `${kilometers}킬로미터 ${meters}미터 거리 표지`}
+        className="overflow-hidden rounded-2xl bg-white p-4 shadow-sm"
+      >
+        <div className="flex min-w-0 items-center gap-2">
+          <span className="grid h-16 min-w-20 place-items-center rounded-xl bg-[#0f766e] px-3 text-center text-lg font-black text-white">
+            {kilometers}km
+          </span>
+          <span className="h-2 min-w-0 flex-1 rounded-full bg-[#94a3b8]" aria-hidden="true" />
+          <span className="grid h-16 min-w-20 place-items-center rounded-xl bg-[#2563eb] px-3 text-center text-lg font-black text-white">
+            {meters}m
+          </span>
+          {addMeters > 0 && (
+            <>
+              <span className="text-2xl font-black text-[#f97316]" aria-hidden="true">+</span>
+              <span className="grid h-16 min-w-20 place-items-center rounded-xl bg-[#f97316] px-3 text-center text-lg font-black text-white">
+                {addMeters}m
+              </span>
+            </>
+          )}
+        </div>
+        <p className="mt-3 text-center text-sm font-black text-[#475569]">1km = 1000m</p>
+      </div>
+      <p className="mt-4 text-center text-base font-black text-[#0f172a]">
+        {mode === 'error-check' ? '바르게 고친 거리' : '전체 거리'}{' '}
+        <MaskedValue value={mission.correctAnswer} showAnswer={showAnswer} testId="grade3-distance-result" />
+      </p>
+    </div>
+  )
+}
+
 function ClockSeconds({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
   const hour = asNumber(mission.visualConfig.hour)
   const minute = asNumber(mission.visualConfig.minute)
@@ -649,6 +690,7 @@ function UnitVisual({ mission, showAnswer }: { mission: Grade3Mission; showAnswe
 function TonneScale({ mission, showAnswer }: { mission: Grade3Mission; showAnswer?: boolean }) {
   const tonnes = Math.max(1, Math.floor(asNumber(mission.visualConfig.tonnes, 1)))
   const kilogramsPerTonne = asNumber(mission.visualConfig.kilogramsPerTonne, 1000)
+  const removedKilograms = asNumber(mission.visualConfig.removedKilograms)
   return (
     <div data-testid="grade3-visual-tonne-scale" className="rounded-3xl border-2 border-[#d8e3ef] bg-[#f8fbff] p-5">
       <p className="text-center text-base font-black text-[#0f766e]">1t = {kilogramsPerTonne}kg</p>
@@ -663,8 +705,14 @@ function TonneScale({ mission, showAnswer }: { mission: Grade3Mission; showAnswe
           </div>
         ))}
       </div>
+      {removedKilograms > 0 && (
+        <p className="mt-3 text-center text-base font-black text-[#f97316]">
+          여기에서 {removedKilograms}kg을 내려요.
+        </p>
+      )}
       <p className="mt-4 text-center text-base font-black text-[#0f172a]">
-        모두 <MaskedValue value={`${mission.correctAnswer}kg`} showAnswer={showAnswer} testId="grade3-tonne-result" />
+        {removedKilograms > 0 ? '남은 무게' : '모두'}{' '}
+        <MaskedValue value={`${mission.correctAnswer}kg`} showAnswer={showAnswer} testId="grade3-tonne-result" />
       </p>
     </div>
   )
@@ -791,6 +839,8 @@ function renderVisual(mission: Grade3Mission, showAnswer?: boolean) {
       return <ArrayArea mission={mission} showAnswer={showAnswer} />
     case 'ruler-mm':
       return <RulerMm mission={mission} showAnswer={showAnswer} />
+    case 'distance-road':
+      return <DistanceRoad mission={mission} showAnswer={showAnswer} />
     case 'clock-seconds':
       return <ClockSeconds mission={mission} showAnswer={showAnswer} />
     case 'fraction-strip':

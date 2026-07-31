@@ -2,6 +2,8 @@ import type { Grade3AnswerType } from './grade3-answer-normalizers'
 
 export type Grade3Semester = '3-1' | '3-2'
 export type Grade3DifficultyStep = 'easy' | 'medium' | 'applied'
+export type Grade3CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
+export type Grade3Mode = 'basic' | 'practice'
 export type Grade3TaskAction =
   | 'recognize'
   | 'classify'
@@ -19,6 +21,9 @@ export type Grade3VisualSemantics = 'decorative' | 'schematic' | 'quantitative'
 interface Grade3QualityMetadata {
   taskActions: Grade3TaskAction[]
   visualSemantics: Grade3VisualSemantics
+  cognitiveDomain: Grade3CognitiveDomain
+  directCurriculumCodes: string[]
+  authoredSourceKey: string
 }
 
 export type Grade3Skill =
@@ -40,6 +45,7 @@ export type Grade3VisualModel =
   | 'division-groups'
   | 'array-area'
   | 'ruler-mm'
+  | 'distance-road'
   | 'clock-seconds'
   | 'fraction-strip'
   | 'decimal-grid'
@@ -250,7 +256,13 @@ function quality(
   taskAction: Grade3TaskAction,
   visualSemantics: Grade3VisualSemantics
 ): Grade3QualityMetadata {
-  return { taskActions: [taskAction], visualSemantics }
+  return {
+    taskActions: [taskAction],
+    visualSemantics,
+    cognitiveDomain: 'knowing',
+    directCurriculumCodes: [],
+    authoredSourceKey: '',
+  }
 }
 
 const grade3QualityMetadataBySourceId: Record<string, Grade3QualityMetadata> = {
@@ -299,7 +311,18 @@ const grade3QualityMetadataBySourceId: Record<string, Grade3QualityMetadata> = {
 function mission(source: Grade3MissionTemplateSource): Grade3MissionTemplate {
   const metadata = grade3QualityMetadataBySourceId[source.id]
   if (!metadata) throw new Error(`${source.id}: missing explicit Grade 3 quality metadata`)
-  return { ...source, ...metadata }
+  const cognitiveDomainByDifficulty: Record<Grade3DifficultyStep, Grade3CognitiveDomain> = {
+    easy: 'knowing',
+    medium: 'applying',
+    applied: 'reasoning',
+  }
+  return {
+    ...source,
+    ...metadata,
+    cognitiveDomain: cognitiveDomainByDifficulty[source.difficultyStep],
+    directCurriculumCodes: [source.curriculumCode],
+    authoredSourceKey: source.id,
+  }
 }
 
 const integerAnswerConfig: Grade3AnswerConfig = { kind: 'integer', inputLabel: '답을 숫자로 써요' }
@@ -314,7 +337,7 @@ const durationAnswerConfig: Grade3AnswerConfig = { kind: 'duration', unit: 'dura
 const capacityAnswerConfig: Grade3AnswerConfig = { kind: 'capacity', unit: 'l-ml', inputLabel: '들이를 써요' }
 const weightAnswerConfig: Grade3AnswerConfig = { kind: 'weight', unit: 'kg-g', inputLabel: '무게를 써요' }
 
-export const grade3MissionTemplates: Grade3MissionTemplate[] = [
+const legacyGrade3MissionTemplates: Grade3MissionTemplate[] = [
   mission({
     id: 'g3-1-add-sub-01',
     unitId: 'g3-1-add-sub',
@@ -1165,6 +1188,477 @@ export const grade3MissionTemplates: Grade3MissionTemplate[] = [
   }),
 ]
 
+type Grade3ExpansionSlot = {
+  sourceId: string
+  curriculumCode: string
+  directCurriculumCodes?: string[]
+}
+
+const expansionSlotsByUnit: Record<string, Grade3ExpansionSlot[]> = {
+  'g3-1-add-sub': [
+    ['01', '[4수01-03]'], ['02', '[4수01-03]'], ['03', '[4수01-03]'],
+    ['01', '[4수01-03]'], ['02', '[4수01-03]'], ['03', '[4수01-03]'], ['03', '[4수01-03]'],
+  ].map(([suffix, curriculumCode]) => ({ sourceId: `g3-1-add-sub-${suffix}`, curriculumCode })),
+  'g3-1-lines': [
+    ['02', '[4수03-02]'], ['01', '[4수03-01]'], ['01', '[4수03-01]'],
+    ['01', '[4수03-01]'], ['02', '[4수03-02]'], ['03', '[4수03-02]'], ['03', '[4수03-02]'],
+  ].map(([suffix, curriculumCode]) => ({ sourceId: `g3-1-lines-${suffix}`, curriculumCode })),
+  'g3-1-division': [
+    ['02', '[4수01-06]'], ['01', '[4수01-05]'], ['01', '[4수01-05]'],
+    ['01', '[4수01-05]'], ['02', '[4수01-06]'], ['03', '[4수01-06]'], ['03', '[4수01-06]'],
+  ].map(([suffix, curriculumCode]) => ({ sourceId: `g3-1-division-${suffix}`, curriculumCode })),
+  'g3-1-multiply': [
+    ['01', '[4수01-04]'], ['02', '[4수01-04]'], ['03', '[4수01-04]'],
+    ['01', '[4수01-04]'], ['02', '[4수01-04]'], ['03', '[4수01-04]'], ['03', '[4수01-04]'],
+  ].map(([suffix, curriculumCode]) => ({ sourceId: `g3-1-multiply-${suffix}`, curriculumCode })),
+  'g3-1-length-time': [
+    { sourceId: 'g3-1-length-time-02', curriculumCode: '[4수03-13]' },
+    { sourceId: 'g3-1-length-time-03', curriculumCode: '[4수03-14]' },
+    { sourceId: 'g3-1-length-time-01', curriculumCode: '[4수03-16]' },
+    { sourceId: 'g3-1-length-time-03', curriculumCode: '[4수03-14]' },
+    { sourceId: 'g3-1-length-time-01', curriculumCode: '[4수03-15]' },
+    { sourceId: 'g3-1-length-time-01', curriculumCode: '[4수03-16]' },
+    { sourceId: 'g3-1-length-time-01', curriculumCode: '[4수03-16]' },
+  ],
+  'g3-1-fraction-decimal': [
+    ['02', '[4수01-12]'], ['01', '[4수01-09]'], ['01', '[4수01-09]'],
+    ['01', '[4수01-09]'], ['02', '[4수01-12]'], ['03', '[4수01-09]'], ['03', '[4수01-09]'],
+  ].map(([suffix, curriculumCode]) => ({ sourceId: `g3-1-fraction-decimal-${suffix}`, curriculumCode })),
+  'g3-2-multiply': [
+    ['01', '[4수01-04]'], ['02', '[4수01-04]'], ['03', '[4수01-04]'],
+    ['01', '[4수01-04]'], ['02', '[4수01-04]'], ['03', '[4수01-04]'], ['03', '[4수01-04]'],
+  ].map(([suffix, curriculumCode]) => ({ sourceId: `g3-2-multiply-${suffix}`, curriculumCode })),
+  'g3-2-division': [
+    ['01', '[4수01-06]'], ['02', '[4수01-06]'], ['03', '[4수01-06]'],
+    ['01', '[4수01-06]'], ['02', '[4수01-06]'], ['03', '[4수01-06]'], ['03', '[4수01-06]'],
+  ].map(([suffix, curriculumCode]) => ({ sourceId: `g3-2-division-${suffix}`, curriculumCode })),
+  'g3-2-circle': [
+    ['03', '[4수03-07]'], ['01', '[4수03-06]'], ['02', '[4수03-06]'],
+    ['03', '[4수03-07]'], ['02', '[4수03-06]'], ['01', '[4수03-06]'], ['03', '[4수03-07]'],
+  ].map(([suffix, curriculumCode]) => ({ sourceId: `g3-2-circle-${suffix}`, curriculumCode })),
+  'g3-2-fraction': [
+    ['02', '[4수01-10]'], ['01', '[4수01-11]'], ['01', '[4수01-11]'],
+    ['01', '[4수01-11]'], ['02', '[4수01-10]'], ['03', '[4수01-11]'], ['03', '[4수01-11]'],
+  ].map(([suffix, curriculumCode]) => ({ sourceId: `g3-2-fraction-${suffix}`, curriculumCode })),
+  'g3-2-capacity-weight': [
+    {
+      sourceId: 'g3-2-capacity-weight-04',
+      curriculumCode: '[4수03-19]',
+      directCurriculumCodes: ['[4수03-19]'],
+    },
+    {
+      sourceId: 'g3-2-capacity-weight-06',
+      curriculumCode: '[4수03-22]',
+      directCurriculumCodes: ['[4수03-22]', '[4수03-23]'],
+    },
+    {
+      sourceId: 'g3-2-capacity-weight-06',
+      curriculumCode: '[4수03-22]',
+      directCurriculumCodes: ['[4수03-22]', '[4수03-23]'],
+    },
+  ],
+  'g3-2-graph': [
+    ['03', '[4수04-03]'], ['01', '[4수04-01]'], ['02', '[4수04-01]'],
+    ['03', '[4수04-03]'], ['01', '[4수04-01]'], ['02', '[4수04-01]'], ['03', '[4수04-03]'],
+  ].map(([suffix, curriculumCode]) => ({ sourceId: `g3-2-graph-${suffix}`, curriculumCode })),
+}
+
+const expansionDomains: Grade3CognitiveDomain[] = [
+  'knowing', 'knowing', 'knowing', 'applying', 'applying', 'applying', 'reasoning',
+]
+const expansionDifficulty: Record<Grade3CognitiveDomain, Grade3DifficultyStep> = {
+  knowing: 'easy',
+  applying: 'medium',
+  reasoning: 'applied',
+}
+const expansionActions: Grade3TaskAction[] = [
+  'recognize', 'interpret', 'calculate', 'model', 'interpret', 'calculate', 'analyze_error',
+]
+const expansionPromptPrefixes = [
+  '기초 카드: ',
+  '그림 읽기: ',
+  '직접 확인: ',
+  '교실 준비: ',
+  '학교 행사: ',
+  '생활 적용: ',
+  '오류 검산: ',
+]
+
+const authoredExpansionPrompts: Record<string, string[]> = {
+  'g3-1-add-sub': [
+    '식 카드 248 + 137을 일의 자리부터 계산하면 얼마일까요?',
+    '604 - 278 세로식에서 받아내림 자리를 찾고 차를 구해요.',
+    '425권 중 168권을 빌린 기록을 식으로 나타내 남은 책 수를 구해요.',
+    '과학책 248권과 동화책 137권을 모두 꽂으면 몇 권일까요?',
+    '종이 604장 중 278장을 썼어요. 남은 종이는 몇 장일까요?',
+    '425 - 168에 맞는 도서관 상황을 그림으로 나타내고 답을 구해요.',
+    '친구가 425 - 168 = 267이라고 했어요. 그림과 계산으로 고쳐요.',
+  ],
+  'g3-1-lines': [
+    '직각 그림과 비교해 더 작은 각의 이름을 골라요.',
+    '두 끝점이 표시된 길 조각은 어떤 선인지 골라요.',
+    '직선·반직선·선분 그림 중 끝점이 두 개인 선을 찾아요.',
+    '줄자에서 시작점과 끝점 사이를 나타내는 선은 무엇일까요?',
+    '접은 종이의 직각보다 작은 모서리 각은 무엇일까요?',
+    '활짝 열린 문 그림의 각을 직각과 비교해 이름을 골라요.',
+    '친구는 그림의 각이 직각이라고 했어요. 직각보다 큰지 검산해요.',
+  ],
+  'g3-1-division': [
+    '4씩 묶은 그림으로 28 ÷ 4의 몫을 직접 확인해요.',
+    '12개를 3개의 같은 묶음으로 나눌 때 한 묶음은 몇 개일까요?',
+    '사탕 그림을 같은 세 묶음으로 나누고 한 묶음 수를 써요.',
+    '색연필 12자루를 3명에게 같게 나누면 한 명은 몇 자루일까요?',
+    '스티커 28장을 4명에게 모두 나누면 한 명은 몇 장일까요?',
+    '연필 32자루를 8자루씩 묶음으로 포장하면 몇 묶음일까요?',
+    '친구가 32 ÷ 8 = 3이라고 했어요. 묶음 그림으로 고쳐요.',
+  ],
+  'g3-1-multiply': [
+    '30이 네 줄인 배열 그림을 보고 곱을 구해요.',
+    '23을 20과 3으로 나눈 그림에서 23 × 3을 계산해요.',
+    '21개씩 네 묶음인 그림을 곱셈식으로 나타내요.',
+    '연필 30자루 묶음이 4개예요. 모두 몇 자루일까요?',
+    '교실 세 곳에 의자가 23개씩 있어요. 모두 몇 개일까요?',
+    '공 21개씩 든 상자 4개를 생활 상황의 곱셈으로 해결해요.',
+    '친구가 그림의 21 × 4를 74라고 했어요. 묶음을 세어 고쳐요.',
+  ],
+  'g3-1-length-time': [
+    '시계 그림의 시·분·초 바늘을 차례로 읽어 시각을 써요.',
+    '2분 15초와 35초를 초 단위로 직접 더해요.',
+    '등산로의 km와 m 거리 표지를 같은 단위로 바꾸어 읽어요.',
+    '달리기 2분 15초 뒤 35초를 더 달린 상황의 시간을 구해요.',
+    '공책 길이 그림을 cm와 mm로 나누어 읽어요.',
+    '산책한 km와 m를 합해 전체 거리를 구해요.',
+    '친구의 km와 m 받아올림을 그림으로 검산해 고쳐요.',
+  ],
+  'g3-1-fraction-decimal': [
+    '10칸 그림에서 색칠한 7칸을 소수로 직접 읽어요.',
+    '전체 5칸과 색칠한 2칸을 찾아 분수로 써요.',
+    '분수 띠 그림에서 분모와 분자의 역할을 말하고 답을 써요.',
+    '리본 5칸 중 2칸을 쓴 상황을 분수로 나타내요.',
+    '물감판 10칸 중 7칸을 칠한 양을 소수로 나타내요.',
+    '피자 그림의 8조각 중 먹은 3조각을 분수로 나타내요.',
+    '친구가 먹은 양을 8/3이라고 했어요. 그림으로 고쳐요.',
+  ],
+  'g3-2-multiply': [
+    '42를 40과 2로 나눈 배열 그림에서 42 × 2를 구해요.',
+    '12 × 13 넓이 그림을 10칸과 3칸으로 나누어 계산해요.',
+    '14명이 여섯 줄인 그림을 곱셈식으로 나타내요.',
+    '상자마다 42개씩 두 상자를 모두 모으면 몇 개일까요?',
+    '공연장 12줄에 13명씩 앉은 상황의 전체 인원을 구해요.',
+    '운동장에 14명씩 6줄로 선 상황을 곱셈으로 해결해요.',
+    '친구가 그림의 14 × 6을 74라고 했어요. 나누어 계산해 고쳐요.',
+  ],
+  'g3-2-division': [
+    '17개를 5개씩 묶은 그림에서 나머지를 찾아요.',
+    '29개를 4개씩 묶어 몫을 직접 확인해요.',
+    '26개를 6개씩 묶음으로 나누고 나머지를 써요.',
+    '구슬 17개를 5개씩 봉지에 넣으면 나머지는 몇 개일까요?',
+    '학생 29명을 4명씩 모둠으로 나눈 상황의 몫을 구해요.',
+    '쿠키 26개를 6개씩 묶음으로 포장하고 나머지를 구해요.',
+    '친구가 그림의 나머지를 3이라고 했어요. 묶음 수로 검산해요.',
+  ],
+  'g3-2-circle': [
+    '지름 12cm인 원을 구성해요. ① 컴퍼스 폭을 정해요. ② 그 폭으로 원을 그린 뒤 답을 써요.',
+    '원 그림에서 모든 반지름이 시작되는 가운데 점을 찾아요.',
+    '반지름 두 개를 이은 그림에서 지름을 직접 계산해요.',
+    '원형 배지를 만들어요. ① 컴퍼스 폭을 정해요. ② 그 폭으로 원을 그린 뒤 답을 써요.',
+    '반지름 6cm인 원형 표지의 지름은 몇 cm일까요?',
+    '운동장 원 그림에서 가운데 기준점을 무엇이라고 할까요?',
+    '친구의 원 그림을 검산해요. ① 컴퍼스 폭을 정해요. ② 그 폭으로 원을 그린 뒤 답을 써요.',
+  ],
+  'g3-2-fraction': [
+    '3/4 그림에서 분자와 분모를 비교해 분수 종류를 골라요.',
+    '같은 6칸인 두 분수 그림에서 더 큰 쪽을 찾아요.',
+    '2/6와 5/6 띠를 같은 길이로 놓고 크기를 직접 비교해요.',
+    '같은 케이크의 2/6와 5/6 중 더 많이 남은 쪽을 골라요.',
+    '과자 4칸 중 3칸을 나타낸 상황의 분수 종류를 골라요.',
+    '민아와 준호가 먹은 양의 그림을 비교해 더 큰 쪽을 골라요.',
+    '친구는 민아의 3/8이 준호의 5/8보다 크다고 했어요. 누가 더 많이 먹었는지 골라 고쳐요.',
+  ],
+  'g3-2-capacity-weight': [
+    '1L 200mL와 300mL를 더하면 모두 몇 L 몇 mL일까요?',
+    '2t에서 500kg을 내린 무게를 kg으로 직접 계산해요.',
+    '화물 상황에 t와 kg 관계를 적용해 남은 무게를 구해요.',
+  ],
+  'g3-2-graph': [
+    '축구와 야구 막대의 높이를 읽고 차를 직접 구해요.',
+    '사과 막대 그림이 가리키는 값을 눈금으로 읽어요.',
+    '세 운동 막대 그림에서 가장 높은 항목을 찾아요.',
+    '학급 운동 조사에서 축구와 야구의 인원 차는 몇 명일까요?',
+    '과일 판매 그림에서 사과 막대의 값을 읽어 적용해요.',
+    '운동 선택 상황에서 가장 많은 항목을 막대 높이로 골라요.',
+    '친구가 축구와 야구의 차를 2명이라 했어요. 그림으로 검산해요.',
+  ],
+}
+
+function distanceMission(
+  id: string,
+  stageOrder: number,
+  cognitiveDomain: Grade3CognitiveDomain,
+): Grade3MissionTemplate {
+  const common = {
+    id,
+    unitId: 'g3-1-length-time',
+    semester: '3-1' as const,
+    stageOrder,
+    skill: 'length-time' as const,
+    difficultyStep: expansionDifficulty[cognitiveDomain],
+    cognitiveDomain,
+    curriculumCode: '[4수03-16]',
+    directCurriculumCodes: ['[4수03-16]'],
+    visualModel: 'distance-road' as const,
+    visualSemantics: 'quantitative' as const,
+    scaffoldConfig: {
+      kind: 'unit-reader' as const,
+      prompt: 'km와 m를 같은 단위로 바꾸어 확인해요.',
+      options: ['1km = 1000m', '1km = 100m'],
+    },
+    rewardId: 'measureBoots' as const,
+    authoredSourceKey: id,
+  }
+  if (cognitiveDomain === 'knowing') {
+    return {
+      ...common,
+      taskActions: ['calculate'],
+      learnerGoal: 'km와 m의 관계를 직접 바꾸어 확인해요.',
+      parentSummaryTag: 'km와 m 관계',
+      prompt: '등산로 표지의 3km 250m는 모두 몇 m일까요?',
+      answerType: 'integer',
+      answerConfig: integerAnswerConfig,
+      correctAnswer: '3250',
+      hintSteps: ['1km는 1000m예요.', '3000m와 250m를 더해요.'],
+      solutionSteps: ['3km는 3000m예요.', '3000m + 250m = 3250m예요.'],
+      visualConfig: { mode: 'convert', kilometers: 3, meters: 250, hideResultUntilReveal: true },
+    }
+  }
+  if (cognitiveDomain === 'applying') {
+    return {
+      ...common,
+      taskActions: ['model'],
+      learnerGoal: '이동 거리를 km와 m로 합해요.',
+      parentSummaryTag: 'km와 m 적용',
+      prompt: '2km 600m를 걷고 400m를 더 걸었어요. 모두 몇 km 몇 m일까요?',
+      answerType: 'length',
+      answerConfig: kmLengthAnswerConfig,
+      correctAnswer: '3km0m',
+      hintSteps: ['600m와 400m를 먼저 더해요.', '1000m는 1km예요.'],
+      solutionSteps: ['600m + 400m = 1000m예요.', '2km + 1km = 3km이므로 3km 0m예요.'],
+      visualConfig: { mode: 'add', kilometers: 2, meters: 600, addMeters: 400, hideResultUntilReveal: true },
+    }
+  }
+  return {
+    ...common,
+    taskActions: ['analyze_error'],
+    learnerGoal: 'km와 m의 받아올림 오류를 찾아 고쳐요.',
+    parentSummaryTag: 'km와 m 오류 검산',
+    prompt: '1km 800m에 300m를 더해 1km 100m라고 했어요. 바르게 고치면?',
+    answerType: 'length',
+    answerConfig: kmLengthAnswerConfig,
+    correctAnswer: '2km100m',
+    hintSteps: ['800m + 300m는 1100m예요.', '1100m는 1km 100m예요.'],
+    solutionSteps: ['1km 800m + 300m = 1km 1100m예요.', '1km를 받아올리면 2km 100m예요.'],
+    visualConfig: { mode: 'error-check', kilometers: 1, meters: 800, addMeters: 300, hideResultUntilReveal: true },
+  }
+}
+
+function materiallyDistinctExpansion(
+  id: string,
+  stageOrder: number,
+  cognitiveDomain: Grade3CognitiveDomain,
+): Grade3MissionTemplate | null {
+  if (id === 'g3-1-multiply-09') {
+    return {
+      ...legacyGrade3MissionTemplates.find((mission) => mission.id === 'g3-1-multiply-03')!,
+      id,
+      stageOrder,
+      difficultyStep: 'medium',
+      cognitiveDomain,
+      directCurriculumCodes: ['[4수01-04]'],
+      authoredSourceKey: id,
+      taskActions: ['model'],
+      learnerGoal: '좌석의 줄 수와 한 줄의 좌석 수를 곱셈으로 나타내요.',
+      parentSummaryTag: '곱셈 좌석 배열',
+      prompt: '강당에 한 줄마다 좌석이 18개씩 있고, 이런 줄이 5줄 있어요. 좌석은 모두 몇 개일까요?',
+      correctAnswer: '90',
+      hintSteps: ['18개씩 있는 줄이 5개예요.', '18 × 5를 10 × 5와 8 × 5로 나누어 계산해요.'],
+      solutionSteps: ['18 × 5 = 50 + 40 = 90이에요.', '좌석은 모두 90개예요.'],
+      visualConfig: { rows: 5, cols: 18, tens: 10, ones: 8, product: 90 },
+      scaffoldConfig: {
+        kind: 'array-counter',
+        prompt: '한 줄의 좌석 수와 줄 수를 차례로 골라요.',
+        options: ['18개와 5줄', '5개와 18줄', '18개와 18줄'],
+      },
+    }
+  }
+  if (id === 'g3-1-fraction-decimal-05') {
+    return {
+      ...legacyGrade3MissionTemplates.find((mission) => mission.id === 'g3-1-fraction-decimal-01')!,
+      id,
+      stageOrder,
+      difficultyStep: 'easy',
+      cognitiveDomain,
+      directCurriculumCodes: ['[4수01-09]'],
+      authoredSourceKey: id,
+      taskActions: ['interpret'],
+      learnerGoal: '전체에서 색칠하지 않은 부분을 분수로 읽어요.',
+      parentSummaryTag: '분수 남은 부분 읽기',
+      prompt: '전체 6칸 중 4칸이 색칠되어 있어요. 색칠하지 않은 부분은 전체의 얼마일까요?',
+      correctAnswer: '2/6',
+      hintSteps: ['전체 칸 수 6은 분모예요.', '색칠하지 않은 칸은 6 - 4 = 2칸이에요.'],
+      solutionSteps: ['전체 6칸 중 색칠하지 않은 칸은 2칸이에요.', '색칠하지 않은 부분은 2/6예요.'],
+      visualConfig: { totalParts: 6, shadedParts: 4, focus: 'unshaded' },
+      scaffoldConfig: {
+        kind: 'fraction-strip',
+        prompt: '전체 칸과 색칠하지 않은 칸을 구분해요.',
+        options: ['전체 6', '색칠하지 않은 2'],
+      },
+    }
+  }
+  return null
+}
+
+function capacityWeightExpansion(
+  id: string,
+  stageOrder: number,
+  cognitiveDomain: Grade3CognitiveDomain,
+): Grade3MissionTemplate | null {
+  if (id === 'g3-2-capacity-weight-08') {
+    return {
+      ...legacyGrade3MissionTemplates.find((mission) => mission.id === 'g3-2-capacity-weight-03')!,
+      id,
+      stageOrder,
+      difficultyStep: 'easy',
+      cognitiveDomain: 'knowing',
+      curriculumCode: '[4수03-19]',
+      directCurriculumCodes: ['[4수03-19]'],
+      authoredSourceKey: id,
+      taskActions: ['calculate'],
+      learnerGoal: 'L와 mL를 맞추어 들이의 합을 직접 구해요.',
+      parentSummaryTag: '들이 직접 계산',
+      prompt: authoredExpansionPrompts['g3-2-capacity-weight'][0],
+      correctAnswer: '1L500mL',
+      hintSteps: ['mL끼리 먼저 더해요.', '200mL + 300mL = 500mL예요.'],
+      solutionSteps: ['1L는 그대로 두고 mL를 더해요.', '1L 200mL + 300mL = 1L 500mL예요.'],
+      visualConfig: { mode: 'operation', leftMl: 1200, rightMl: 300, operator: '+', totalMl: 1500 },
+    }
+  }
+  if (id === 'g3-2-capacity-weight-09') {
+    return {
+      ...legacyGrade3MissionTemplates.find((mission) => mission.id === 'g3-2-capacity-weight-06')!,
+      id,
+      stageOrder,
+      difficultyStep: 'easy',
+      cognitiveDomain: 'knowing',
+      curriculumCode: '[4수03-22]',
+      directCurriculumCodes: ['[4수03-22]', '[4수03-23]'],
+      authoredSourceKey: id,
+      taskActions: ['calculate'],
+      learnerGoal: 't를 kg으로 바꾸고 남은 무게를 계산해요.',
+      parentSummaryTag: 't와 kg 직접 계산',
+      prompt: '2t 화물에서 500kg을 내렸어요. 남은 무게는 몇 kg일까요?',
+      correctAnswer: '1500',
+      hintSteps: ['2t는 2000kg이에요.', '2000kg에서 500kg을 빼요.'],
+      solutionSteps: ['2t = 2000kg이에요.', '2000 - 500 = 1500이므로 1500kg이에요.'],
+      visualConfig: { tonnes: 2, kilogramsPerTonne: 1000, removedKilograms: 500 },
+      scaffoldConfig: {
+        kind: 'unit-reader',
+        prompt: '2t에는 1t이 몇 번 있는지 확인해요.',
+        options: ['1번', '2번', '3번'],
+      },
+    }
+  }
+  if (id === 'g3-2-capacity-weight-10') {
+    return {
+      ...legacyGrade3MissionTemplates.find((mission) => mission.id === 'g3-2-capacity-weight-06')!,
+      id,
+      stageOrder,
+      difficultyStep: 'medium',
+      cognitiveDomain: 'applying',
+      curriculumCode: '[4수03-22]',
+      directCurriculumCodes: ['[4수03-22]', '[4수03-23]'],
+      authoredSourceKey: id,
+      taskActions: ['model'],
+      learnerGoal: '화물 상황에 t와 kg의 관계와 뺄셈을 적용해요.',
+      parentSummaryTag: 't와 kg 상황 계산',
+      prompt: '3t 화물에서 750kg을 내렸어요. 남은 무게는 몇 kg일까요?',
+      correctAnswer: '2250',
+      hintSteps: ['3t는 3000kg이에요.', '3000kg에서 750kg을 빼요.'],
+      solutionSteps: ['3t = 3000kg이에요.', '3000 - 750 = 2250이므로 2250kg이에요.'],
+      visualConfig: { tonnes: 3, kilogramsPerTonne: 1000, removedKilograms: 750 },
+    }
+  }
+  void cognitiveDomain
+  return null
+}
+
+function buildGrade3ExpansionTemplates(): Grade3MissionTemplate[] {
+  const templates: Grade3MissionTemplate[] = []
+  let stageOrder = 41
+
+  for (const unit of grade3Units) {
+    const slots = expansionSlotsByUnit[unit.id]
+    const firstNewNumber = unit.id === 'g3-2-capacity-weight' ? 8 : 4
+    slots.forEach((slot, index) => {
+      const missionNumber = firstNewNumber + index
+      const id = `${unit.id}-${String(missionNumber).padStart(2, '0')}`
+      const cognitiveDomain = expansionDomains[index]
+      if (unit.id === 'g3-1-length-time' && [6, 9, 10].includes(missionNumber)) {
+        templates.push(distanceMission(id, stageOrder, cognitiveDomain))
+        stageOrder += 1
+        return
+      }
+      const distinctMission = materiallyDistinctExpansion(id, stageOrder, cognitiveDomain)
+      if (distinctMission) {
+        templates.push(distinctMission)
+        stageOrder += 1
+        return
+      }
+      const capacityMission = capacityWeightExpansion(id, stageOrder, cognitiveDomain)
+      if (capacityMission) {
+        templates.push(capacityMission)
+        stageOrder += 1
+        return
+      }
+      const source = legacyGrade3MissionTemplates.find((mission) => mission.id === slot.sourceId)
+      if (!source) throw new Error(`${id}: missing Grade 3 authored source ${slot.sourceId}`)
+      templates.push({
+        ...source,
+        id,
+        stageOrder,
+        difficultyStep: expansionDifficulty[cognitiveDomain],
+        cognitiveDomain,
+        curriculumCode: slot.curriculumCode,
+        directCurriculumCodes: slot.directCurriculumCodes ?? [slot.curriculumCode],
+        authoredSourceKey: id,
+        taskActions: source.visualConfig.mode === 'construction'
+          ? ['construct']
+          : [expansionActions[index]],
+        prompt: authoredExpansionPrompts[unit.id]?.[index]
+          ?? `${expansionPromptPrefixes[index]}${source.prompt}`,
+        learnerGoal: `${expansionPromptPrefixes[index].replace(': ', '')} ${source.learnerGoal}`,
+      })
+      stageOrder += 1
+    })
+  }
+  return templates
+}
+
+const legacyDirectCoverageOverrides: Record<string, string[]> = {
+  'g3-2-capacity-weight-01': ['[4수03-17]', '[4수03-18]'],
+  'g3-2-capacity-weight-02': ['[4수03-20]', '[4수03-21]'],
+  'g3-2-capacity-weight-03': ['[4수03-17]', '[4수03-18]', '[4수03-19]'],
+  'g3-2-capacity-weight-04': ['[4수03-17]', '[4수03-18]'],
+  'g3-2-capacity-weight-05': ['[4수03-20]', '[4수03-21]'],
+}
+
+export const grade3MissionTemplates: Grade3MissionTemplate[] = [
+  ...legacyGrade3MissionTemplates.map((template) => ({
+    ...template,
+    directCurriculumCodes: legacyDirectCoverageOverrides[template.id] ?? template.directCurriculumCodes,
+  })),
+  ...buildGrade3ExpansionTemplates(),
+]
+
 export function getGrade3Missions(seed = 20260516): Grade3Mission[] {
   void seed
   const orderByUnit = new Map<string, number>()
@@ -1180,6 +1674,39 @@ export function getGrade3Missions(seed = 20260516): Grade3Mission[] {
 
 export function getGrade3MissionsByUnit(unitId: string, seed = 20260516): Grade3Mission[] {
   return getGrade3Missions(seed).filter((mission) => mission.unitId === unitId)
+}
+
+export function normalizeGrade3Mode(value: string | null | undefined): Grade3Mode {
+  return value === 'practice' ? 'practice' : 'basic'
+}
+
+export function getGrade3MissionSession(
+  unitId: string,
+  mode: Grade3Mode | string | null | undefined = 'basic',
+  seed = 20260516,
+  preferredMissionId?: string | null,
+): Grade3Mission[] {
+  const safeUnitId = grade3Units.some((unit) => unit.id === unitId) ? unitId : grade3Units[0].id
+  const normalizedMode = normalizeGrade3Mode(mode)
+  const seedOffset = Math.abs(Math.trunc(seed) - 20260516)
+  const unitMissions = getGrade3MissionsByUnit(safeUnitId, seed)
+  const session = (['knowing', 'applying', 'reasoning'] as const).map((domain, index) => {
+    const candidates = unitMissions
+      .filter((mission) => mission.cognitiveDomain === domain)
+    const modeOffset = normalizedMode === 'practice' ? 1 : 0
+    const selected = candidates[(seedOffset + modeOffset) % candidates.length]
+    return { ...selected, unitMissionOrder: index + 1 }
+  })
+  const preferredMission = preferredMissionId
+    ? unitMissions.find((mission) => mission.id === preferredMissionId)
+    : undefined
+  if (!preferredMission || session.some((mission) => mission.id === preferredMission.id)) return session
+
+  return session.map((mission, index) =>
+    mission.cognitiveDomain === preferredMission.cognitiveDomain
+      ? { ...preferredMission, unitMissionOrder: index + 1 }
+      : mission
+  )
 }
 
 export function getGrade3UnitById(id: string): Grade3Unit | undefined {
@@ -1281,7 +1808,7 @@ function formatWeightAnswer(totalG: number): string {
 }
 
 function validateRequiredActivityContract(template: Grade3MissionTemplate, errors: string[]) {
-  if (template.id === 'g3-2-circle-03') {
+  if (template.visualModel === 'circle-parts' && template.visualConfig.mode === 'construction') {
     const diameter = Number(template.visualConfig.diameter)
     const answerExposurePattern = new RegExp(
       `${template.correctAnswer}\\s*(?:cm|센티미터)`,
@@ -1372,6 +1899,16 @@ function grade3VisualAnswer(mission: Grade3Mission): string | undefined {
   if (mission.visualModel === 'ruler-mm') {
     return `${config.centimeters}cm${config.millimeters}mm`
   }
+  if (mission.visualModel === 'distance-road') {
+    const totalMeters =
+      Number(config.kilometers) * 1000
+      + Number(config.meters)
+      + Number(config.addMeters ?? 0)
+    if (mission.answerType === 'length') {
+      return `${Math.floor(totalMeters / 1000)}km${totalMeters % 1000}m`
+    }
+    return String(totalMeters)
+  }
   if (mission.visualModel === 'clock-seconds') {
     if (config.second !== undefined) {
       return `${config.hour}시${config.minute}분${config.second}초`
@@ -1381,6 +1918,9 @@ function grade3VisualAnswer(mission: Grade3Mission): string | undefined {
   }
   if (mission.visualModel === 'fraction-strip') {
     if (mission.answerType === 'fraction') {
+      if (config.focus === 'unshaded') {
+        return `${Number(config.totalParts) - Number(config.shadedParts)}/${config.totalParts}`
+      }
       return `${config.shadedParts}/${config.totalParts}`
     }
     if (config.target !== undefined) return String(config.target)
@@ -1393,6 +1933,12 @@ function grade3VisualAnswer(mission: Grade3Mission): string | undefined {
       return String(Number(config.diameter) / 2)
     }
     return String(config.hideRadiusUntilReveal ? config.radius : config.diameter)
+  }
+  if (mission.visualModel === 'tonne-scale') {
+    return String(
+      Number(config.tonnes) * Number(config.kilogramsPerTonne)
+      - Number(config.removedKilograms ?? 0)
+    )
   }
   if (mission.visualModel === 'bar-graph') {
     const categories = splitList(config.categories)
@@ -1457,7 +2003,13 @@ export function validateGrade3MissionBank(
   const warnings: string[] = []
   const ids = new Set<string>()
   const stageOrders = new Set<number>()
-  const byUnit = new Map<string, { total: number; steps: Record<Grade3DifficultyStep, number> }>()
+  const byUnit = new Map<string, {
+    total: number
+    steps: Record<Grade3DifficultyStep, number>
+    domains: Record<Grade3CognitiveDomain, number>
+    sourceSignatures: Set<string>
+    authoredSourceKeys: Set<string>
+  }>()
   const unitIds = new Set(grade3Units.map((unit) => unit.id))
   const rewardIds = new Set<Grade3RewardId>(grade3Units.map((unit) => unit.rewardId))
   const allowedCodes = new Set(grade3Units.flatMap((unit) => unit.curriculumCodes))
@@ -1479,6 +2031,13 @@ export function validateGrade3MissionBank(
     if (template.curriculumCode && !allowedCodes.has(template.curriculumCode)) {
       errors.push(`${template.id}: curriculumCode is outside the unit scope`)
     }
+    if (template.directCurriculumCodes.length === 0) {
+      errors.push(`${template.id}: needs at least one direct curriculum code`)
+    }
+    if (unit && template.directCurriculumCodes.some((code) => !unit.curriculumCodes.includes(code))) {
+      errors.push(`${template.id}: direct curriculum code is outside the unit scope`)
+    }
+    if (!template.authoredSourceKey.trim()) errors.push(`${template.id}: missing authoredSourceKey`)
     if (!template.learnerGoal.trim()) errors.push(`${template.id}: missing learnerGoal`)
     if (!template.parentSummaryTag.trim()) errors.push(`${template.id}: missing parentSummaryTag`)
     if (template.hintSteps.length < 2) errors.push(`${template.id}: needs at least two hints`)
@@ -1507,19 +2066,38 @@ export function validateGrade3MissionBank(
     validateVisualSafety(template, errors)
     validateRequiredActivityContract(template, errors)
 
-    const bucket = byUnit.get(template.unitId) ?? { total: 0, steps: { easy: 0, medium: 0, applied: 0 } }
+    const expectedDomainByDifficulty: Record<Grade3DifficultyStep, Grade3CognitiveDomain> = {
+      easy: 'knowing',
+      medium: 'applying',
+      applied: 'reasoning',
+    }
+    if (template.cognitiveDomain !== expectedDomainByDifficulty[template.difficultyStep]) {
+      errors.push(`${template.id}: difficultyStep must map to its cognitiveDomain`)
+    }
+
+    const bucket = byUnit.get(template.unitId) ?? {
+      total: 0,
+      steps: { easy: 0, medium: 0, applied: 0 },
+      domains: { knowing: 0, applying: 0, reasoning: 0 },
+      sourceSignatures: new Set<string>(),
+      authoredSourceKeys: new Set<string>(),
+    }
     bucket.total += 1
     bucket.steps[template.difficultyStep] += 1
+    bucket.domains[template.cognitiveDomain] += 1
+    bucket.sourceSignatures.add([
+      template.prompt.replace(/\d+/g, '#'),
+      template.visualModel,
+      template.taskActions.join(','),
+    ].join('|'))
+    bucket.authoredSourceKeys.add(template.authoredSourceKey)
     byUnit.set(template.unitId, bucket)
   }
 
   for (const unit of grade3Units) {
     const bucket = byUnit.get(unit.id)
-    const expanded = unit.id === 'g3-2-capacity-weight'
-    const expectedTotal = expanded ? 7 : 3
-    const expectedSteps: Record<Grade3DifficultyStep, number> = expanded
-      ? { easy: 2, medium: 3, applied: 2 }
-      : { easy: 1, medium: 1, applied: 1 }
+    const expectedTotal = 10
+    const expectedSteps: Record<Grade3DifficultyStep, number> = { easy: 4, medium: 4, applied: 2 }
     if (!bucket) {
       errors.push(`${unit.id}: expects ${expectedTotal} missions, got 0`)
       continue
@@ -1530,9 +2108,35 @@ export function validateGrade3MissionBank(
         errors.push(`${unit.id}: expects ${expectedSteps[step]} ${step} mission(s), got ${bucket.steps[step]}`)
       }
     }
+    const expectedDomains: Record<Grade3CognitiveDomain, number> = {
+      knowing: 4,
+      applying: 4,
+      reasoning: 2,
+    }
+    for (const domain of ['knowing', 'applying', 'reasoning'] as const) {
+      if (bucket.domains[domain] !== expectedDomains[domain]) {
+        errors.push(`${unit.id}: expects ${expectedDomains[domain]} ${domain} mission(s), got ${bucket.domains[domain]}`)
+      }
+    }
+    if (bucket.sourceSignatures.size !== expectedTotal) {
+      errors.push(`${unit.id}: authored missions must differ in context, representation, or learner action`)
+    }
+    if (bucket.authoredSourceKeys.size !== expectedTotal) {
+      errors.push(`${unit.id}: authoredSourceKey values must be unique`)
+    }
+    const unitTemplates = templates.filter((template) => template.unitId === unit.id)
+    for (const code of unit.curriculumCodes) {
+      for (const domain of ['knowing', 'applying'] as const) {
+        if (!unitTemplates.some((template) =>
+          template.cognitiveDomain === domain && template.directCurriculumCodes.includes(code)
+        )) {
+          errors.push(`${unit.id}: ${code} needs a direct ${domain} mission`)
+        }
+      }
+    }
   }
 
-  if (templates.length !== 40) errors.push(`Grade 3 expects 40 missions, got ${templates.length}`)
+  if (templates.length !== 120) errors.push(`Grade 3 expects 120 missions, got ${templates.length}`)
   if (!ids.has(SAFE_GRADE3_MISSION_ID)) errors.push(`Safe mission id is missing: ${SAFE_GRADE3_MISSION_ID}`)
   errors.push(...auditGrade3MissionVariants(templates).errors)
 

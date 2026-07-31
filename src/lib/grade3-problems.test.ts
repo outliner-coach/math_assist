@@ -3,41 +3,159 @@ import { describe, expect, it } from 'vitest'
 import {
   auditGrade3MissionVariants,
   getGrade3MissionById,
+  getGrade3MissionSession,
   getGrade3Missions,
   grade3MissionTemplates,
   grade3Units,
+  normalizeGrade3Mode,
   validateGrade3MissionBank,
 } from './grade3-problems'
 
 describe('grade3 mission bank', () => {
-  it('ships 40 missions and expands the capacity-weight unit to cover every measurement standard', () => {
+  it('ships 12 units with 10 authored missions and K/A/R 4/4/2 in every unit', () => {
     const missions = getGrade3Missions(42)
 
-    expect(missions).toHaveLength(40)
+    expect(grade3Units).toHaveLength(12)
+    expect(missions).toHaveLength(120)
     for (const unit of grade3Units) {
       const unitMissions = missions.filter((mission) => mission.unitId === unit.id)
-      const expanded = unit.id === 'g3-2-capacity-weight'
-      expect(unitMissions).toHaveLength(expanded ? 7 : 3)
-      expect(unitMissions.map((mission) => mission.difficultyStep)).toEqual(
-        expanded
-          ? ['easy', 'easy', 'medium', 'medium', 'medium', 'applied', 'applied']
-          : ['easy', 'medium', 'applied']
-      )
+      expect(unitMissions).toHaveLength(10)
+      expect(unitMissions.filter((mission) => mission.cognitiveDomain === 'knowing')).toHaveLength(4)
+      expect(unitMissions.filter((mission) => mission.cognitiveDomain === 'applying')).toHaveLength(4)
+      expect(unitMissions.filter((mission) => mission.cognitiveDomain === 'reasoning')).toHaveLength(2)
       expect(unitMissions.map((mission) => mission.unitMissionOrder)).toEqual(
-        Array.from({ length: expanded ? 7 : 3 }, (_, index) => index + 1)
+        Array.from({ length: 10 }, (_, index) => index + 1)
       )
+    }
+    expect(missions.filter((mission) => mission.cognitiveDomain === 'knowing')).toHaveLength(48)
+    expect(missions.filter((mission) => mission.cognitiveDomain === 'applying')).toHaveLength(48)
+    expect(missions.filter((mission) => mission.cognitiveDomain === 'reasoning')).toHaveLength(24)
+  })
+
+  it('preserves every legacy mission id while adding distinct authored sources', () => {
+    const legacyIds = [
+      ...Array.from({ length: 6 }, (_, unit) =>
+        Array.from({ length: 3 }, (_, mission) => `g3-1-${[
+          'add-sub', 'lines', 'division', 'multiply', 'length-time', 'fraction-decimal',
+        ][unit]}-${String(mission + 1).padStart(2, '0')}`)
+      ).flat(),
+      ...Array.from({ length: 4 }, (_, unit) =>
+        Array.from({ length: 3 }, (_, mission) => `g3-2-${[
+          'multiply', 'division', 'circle', 'fraction',
+        ][unit]}-${String(mission + 1).padStart(2, '0')}`)
+      ).flat(),
+      ...Array.from({ length: 7 }, (_, mission) => `g3-2-capacity-weight-${String(mission + 1).padStart(2, '0')}`),
+      ...Array.from({ length: 3 }, (_, mission) => `g3-2-graph-${String(mission + 1).padStart(2, '0')}`),
+    ]
+    const ids = new Set(grade3MissionTemplates.map((mission) => mission.id))
+
+    expect(legacyIds).toHaveLength(40)
+    expect(legacyIds.every((id) => ids.has(id))).toBe(true)
+
+    for (const unit of grade3Units) {
+      const sources = grade3MissionTemplates.filter((mission) => mission.unitId === unit.id)
+      const signatures = sources.map((mission) => [
+        mission.prompt.replace(/\d+/g, '#'),
+        mission.visualModel,
+        mission.taskActions.join(','),
+      ].join('|'))
+      expect(new Set(signatures).size).toBe(10)
+      expect(new Set(sources.map((mission) => mission.authoredSourceKey)).size).toBe(10)
     }
   })
 
-  it('covers the complete Grade 3 capacity and weight progression with distinct missions', () => {
-    const unit = grade3Units.find((item) => item.id === 'g3-2-capacity-weight')
-    const missions = getGrade3Missions(42).filter((mission) => mission.unitId === unit?.id)
-    const expectedCodes = Array.from({ length: 7 }, (_, index) => `[4수03-${17 + index}]`)
+  it('gives every allocated standard a direct knowing and applying mission', () => {
+    for (const unit of grade3Units) {
+      const missions = grade3MissionTemplates.filter((mission) => mission.unitId === unit.id)
+      for (const code of unit.curriculumCodes) {
+        expect(
+          missions.some((mission) =>
+            mission.cognitiveDomain === 'knowing' && mission.directCurriculumCodes.includes(code)
+          ),
+          `${unit.id} ${code} knowing`,
+        ).toBe(true)
+        expect(
+          missions.some((mission) =>
+            mission.cognitiveDomain === 'applying' && mission.directCurriculumCodes.includes(code)
+          ),
+          `${unit.id} ${code} applying`,
+        ).toBe(true)
+      }
+    }
 
-    expect(unit?.curriculumCodes).toEqual(expectedCodes)
-    expect(new Set(missions.map((mission) => mission.curriculumCode))).toEqual(new Set(expectedCodes))
-    expect(getGrade3MissionById('g3-2-capacity-weight-03').curriculumCode).toBe('[4수03-19]')
-    expect(getGrade3MissionById('g3-2-capacity-weight-06').visualModel).toBe('tonne-scale')
+    const distanceMissions = grade3MissionTemplates.filter((mission) =>
+      mission.directCurriculumCodes.includes('[4수03-16]')
+    )
+    expect(distanceMissions.some((mission) => mission.cognitiveDomain === 'knowing')).toBe(true)
+    expect(distanceMissions.some((mission) => mission.cognitiveDomain === 'applying')).toBe(true)
+    expect(distanceMissions.every((mission) =>
+      mission.prompt.includes('km') && mission.prompt.includes('m')
+    )).toBe(true)
+  })
+
+  it('builds deterministic unlocked basic and practice sessions with one K, A, and R item', () => {
+    expect(normalizeGrade3Mode(undefined)).toBe('basic')
+    expect(normalizeGrade3Mode('unexpected')).toBe('basic')
+    expect(normalizeGrade3Mode('practice')).toBe('practice')
+
+    for (const unit of grade3Units) {
+      const basic = getGrade3MissionSession(unit.id, 'basic', 20260516)
+      const repeated = getGrade3MissionSession(unit.id, 'basic', 20260516)
+      const practice = getGrade3MissionSession(unit.id, 'practice', 20260516)
+
+      expect(basic).toHaveLength(3)
+      expect(practice).toHaveLength(3)
+      expect(basic.map((mission) => mission.cognitiveDomain)).toEqual(['knowing', 'applying', 'reasoning'])
+      expect(practice.map((mission) => mission.cognitiveDomain)).toEqual(['knowing', 'applying', 'reasoning'])
+      expect(repeated.map((mission) => mission.id)).toEqual(basic.map((mission) => mission.id))
+      expect(new Set([...basic, ...practice].map((mission) => mission.id)).size).toBe(6)
+      expect(basic.map((mission) => mission.unitMissionOrder)).toEqual([1, 2, 3])
+      expect(practice.map((mission) => mission.unitMissionOrder)).toEqual([1, 2, 3])
+    }
+  })
+
+  it('reopens a legacy mission inside an exact three-item K/A/R session', () => {
+    const session = getGrade3MissionSession(
+      'g3-2-capacity-weight',
+      'basic',
+      20260516,
+      'g3-2-capacity-weight-05',
+    )
+
+    expect(session).toHaveLength(3)
+    expect(session.map((mission) => mission.cognitiveDomain)).toEqual(['knowing', 'applying', 'reasoning'])
+    expect(session.map((mission) => mission.unitMissionOrder)).toEqual([1, 2, 3])
+    expect(session.map((mission) => mission.id)).toContain('g3-2-capacity-weight-05')
+  })
+
+  it('keeps reviewed missions materially distinct and aligns prompts with their response model', () => {
+    const multiply03 = getGrade3MissionById('g3-1-multiply-03', 42)
+    const multiply09 = getGrade3MissionById('g3-1-multiply-09', 42)
+    const fraction01 = getGrade3MissionById('g3-1-fraction-decimal-01', 42)
+    const fraction05 = getGrade3MissionById('g3-1-fraction-decimal-05', 42)
+    const fraction10 = getGrade3MissionById('g3-2-fraction-10', 42)
+    const capacity09 = getGrade3MissionById('g3-2-capacity-weight-09', 42)
+
+    expect(multiply09.correctAnswer).not.toBe(multiply03.correctAnswer)
+    expect(multiply09.visualConfig).not.toEqual(multiply03.visualConfig)
+    expect(multiply09.prompt).not.toContain('공')
+    expect(multiply09.prompt).not.toContain('상자')
+
+    expect(fraction05.correctAnswer).not.toBe(fraction01.correctAnswer)
+    expect(fraction05.visualConfig).not.toEqual(fraction01.visualConfig)
+    expect(fraction05.prompt).toContain('색칠하지 않은')
+
+    expect(fraction10.prompt).toContain('누가')
+    expect(fraction10.choices).toEqual(['민아', '준호'])
+    expect(fraction10.correctAnswer).toBe('준호')
+
+    expect(capacity09.visualConfig).toMatchObject({
+      tonnes: 2,
+      kilogramsPerTonne: 1000,
+      removedKilograms: 500,
+    })
+    expect(capacity09.scaffoldConfig.prompt).toContain('2t')
+    expect(capacity09.scaffoldConfig.options).toEqual(['1번', '2번', '3번'])
   })
 
   it('keeps curriculum traceability, answer configs, and validator clean', () => {
@@ -63,7 +181,7 @@ describe('grade3 mission bank', () => {
   it('audits every published Grade 3 source variant', () => {
     const result = auditGrade3MissionVariants()
 
-    expect(result.variantCount).toBe(40)
+    expect(result.variantCount).toBe(120)
     expect(result.errors).toEqual([])
   })
 
