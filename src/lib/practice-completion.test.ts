@@ -63,11 +63,13 @@ function completionFixture(
 describe.each([5, 6] as const)('Grade %i completion storage boundary', (grade) => {
   afterEach(() => vi.unstubAllGlobals())
 
-  it('keeps the active session when corrupt progress blocks completion', () => {
+  it.each([5, 10] as const)(
+    'keeps the active session when corrupt progress blocks a %i-item completion',
+    (itemCount) => {
     const storage = new MemoryStorage()
     vi.stubGlobal('window', {})
     vi.stubGlobal('localStorage', storage)
-    const fixture = completionFixture(grade, 10)
+    const fixture = completionFixture(grade, itemCount)
     const sessionKey = grade === 6 ? GRADE6_SESSION_KEY : GRADE5_SESSION_KEY
     const progressKey = grade === 6 ? GRADE6_PROGRESS_KEY : GRADE5_PROGRESS_KEY
     expect(saveSession(fixture.session)).toBe(true)
@@ -79,7 +81,8 @@ describe.each([5, 6] as const)('Grade %i completion storage boundary', (grade) =
     })
     expect(storage.getItem(progressKey)).toBe(`{corrupt-grade-${grade}`)
     expect(storage.getItem(sessionKey)).toContain(fixture.session.sessionId)
-  })
+    },
+  )
 
   it('clears the active session only after result and progress both save', () => {
     const storage = new MemoryStorage()
@@ -131,7 +134,7 @@ describe.each([5, 6] as const)('Grade %i completion storage boundary', (grade) =
     })
   })
 
-  it('stores a five-item basic result without newly completing concept progress', () => {
+  it('records five-item progress while keeping the new completion projection basic-only', () => {
     const storage = new MemoryStorage()
     vi.stubGlobal('window', {})
     vi.stubGlobal('localStorage', storage)
@@ -157,9 +160,35 @@ describe.each([5, 6] as const)('Grade %i completion storage boundary', (grade) =
     const repeated = persistCompletedPractice(fixture.session, fixture.results, 900)
 
     expect(first.status).toBe('completed')
+    expect(first).toMatchObject({
+      status: 'completed',
+      completion: {
+        record: {
+          completedBasicSetActivityIds: [fixture.session.conceptId],
+          completedPracticeSetActivityIds: [],
+        },
+        projection: {
+          hasCompletedBasicSet: true,
+          hasCompletedPracticeSet: false,
+          isComplete: false,
+          recommendedMode: 'practice',
+        },
+      },
+    })
     expect(repeated).toEqual(first)
     expect(storage.data).toEqual(snapshot)
-    expect(JSON.parse(storage.getItem(progressKey) ?? '{}')).toEqual(legacyProgress)
+    expect(JSON.parse(storage.getItem(progressKey) ?? '{}')).toEqual({
+      ...legacyProgress,
+      [fixture.session.conceptId]: {
+        conceptId: fixture.session.conceptId,
+        attemptCount: 1,
+        bestScore: 80,
+        latestScore: 80,
+        lastCompletedAt: 200,
+        needsReview: true,
+        lastMode: 'standard',
+      },
+    })
     expect(storage.getItem(sessionKey)).toBeNull()
   })
 })

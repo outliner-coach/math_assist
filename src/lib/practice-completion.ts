@@ -122,11 +122,6 @@ export function persistCompletedPractice(
     return { status: 'storage-blocked', target: 'result' }
   }
 
-  if (resolvePracticeItemCount(result.itemCount, grade) === 5) {
-    clearSession(grade)
-    return { status: 'completed', result, completion }
-  }
-
   const currentProgress = loadConceptProgress(result.conceptId, grade)
   if (isRepeatedSession && currentProgress?.lastCompletedAt === result.completedAt) {
     clearSession(grade)
