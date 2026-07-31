@@ -1,4 +1,4 @@
-import type { Grade2Mission } from './grade2-problems'
+import { getGrade2MissionSet, type Grade2Mission } from './grade2-problems'
 import {
   createAdventureState,
   normalizeAdventureState,
@@ -8,7 +8,7 @@ import {
 import { normalizeMissionSketchRunOrdinal } from './mission-sketch-identity'
 
 export const GRADE2_PROGRESS_KEY = 'mathAssist_grade2Progress'
-export const GRADE2_PROGRESS_SCHEMA_VERSION = 2
+export const GRADE2_PROGRESS_SCHEMA_VERSION = 3
 
 export interface Grade2SkillSummary {
   attempted: number
@@ -18,6 +18,7 @@ export interface Grade2SkillSummary {
 export interface Grade2Progress {
   schemaVersion: number
   completedMissionIds: string[]
+  checkedMissionIds: string[]
   reviewMissionIds: string[]
   latestMissionId: string | null
   selectedUnitId: string | null
@@ -50,6 +51,7 @@ export function createInitialGrade2Progress(now = Date.now()): Grade2Progress {
   return {
     schemaVersion: GRADE2_PROGRESS_SCHEMA_VERSION,
     completedMissionIds: [],
+    checkedMissionIds: [],
     reviewMissionIds: [],
     latestMissionId: null,
     selectedUnitId: null,
@@ -91,7 +93,11 @@ function normalizeProgress(value: unknown, now: number): Grade2Progress | null {
   if (!value || typeof value !== 'object') return null
   const candidate = value as Partial<Grade2Progress>
 
-  if (candidate.schemaVersion !== 1 && candidate.schemaVersion !== GRADE2_PROGRESS_SCHEMA_VERSION) return null
+  if (
+    candidate.schemaVersion !== 1
+    && candidate.schemaVersion !== 2
+    && candidate.schemaVersion !== GRADE2_PROGRESS_SCHEMA_VERSION
+  ) return null
   if (!Array.isArray(candidate.completedMissionIds)) return null
   if (!Array.isArray(candidate.reviewMissionIds)) return null
   if (
@@ -119,6 +125,9 @@ function normalizeProgress(value: unknown, now: number): Grade2Progress | null {
   return {
     schemaVersion: GRADE2_PROGRESS_SCHEMA_VERSION,
     completedMissionIds,
+    checkedMissionIds: Array.isArray(candidate.checkedMissionIds)
+      ? uniqueStrings(candidate.checkedMissionIds)
+      : uniqueStrings([...candidate.completedMissionIds, ...candidate.reviewMissionIds]),
     reviewMissionIds: uniqueStrings(candidate.reviewMissionIds),
     latestMissionId: candidate.latestMissionId ?? null,
     selectedUnitId: candidate.selectedUnitId ?? null,
@@ -216,6 +225,20 @@ export function selectGrade2Unit(
   }
 }
 
+export function getGrade2PracticeMissionIds(unitId: string): string[] {
+  return getGrade2MissionSet(unitId, 'practice').map((mission) => mission.id)
+}
+
+export function isGrade2UnitComplete(
+  progress: Pick<Grade2Progress, 'checkedMissionIds'>,
+  unitId: string,
+): boolean {
+  const checked = new Set(progress.checkedMissionIds)
+  const practiceMissionIds = getGrade2PracticeMissionIds(unitId)
+  return practiceMissionIds.length === 6
+    && practiceMissionIds.every((missionId) => checked.has(missionId))
+}
+
 export function dismissGrade2Intro(progress: Grade2Progress, now = Date.now()): Grade2Progress {
   if (progress.introDismissedAt !== null) return progress
   return {
@@ -262,6 +285,7 @@ export function recordGrade2Attempt(
 
   return {
     ...progress,
+    checkedMissionIds: toggleId(progress.checkedMissionIds, mission.id, true),
     completedMissionIds: correct
       ? toggleId(progress.completedMissionIds, mission.id, true)
       : progress.completedMissionIds,

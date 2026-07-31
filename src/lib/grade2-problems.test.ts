@@ -1,13 +1,16 @@
 import { describe, expect, it } from 'vitest'
 
+import grade12Allocation from '../../workstreams/_shared/grade1-2-curriculum-allocation-v1.json'
 import {
   auditGrade2MissionVariants,
   getGrade2MissionById,
+  getGrade2MissionSet,
   getGrade2Missions,
   getGrade2MissionsByUnit,
   getSafeGrade2Mission,
   grade2MissionTemplates,
   grade2Units,
+  normalizeGrade2Mode,
   validateGrade2MissionBank,
 } from './grade2-problems'
 
@@ -24,9 +27,10 @@ describe('grade2 mission bank', () => {
     for (const unit of grade2Units) {
       const unitMissions = getGrade2MissionsByUnit(unit.id, 42)
       expect(unitMissions).toHaveLength(12)
-      expect(unitMissions.map((mission) => mission.unitMissionOrder)).toEqual(
-        Array.from({ length: 12 }, (_, index) => index + 1)
-      )
+      expect(unitMissions.map((mission) => mission.unitMissionOrder)).toEqual([
+        1, 2, 3, 4, 5, 6,
+        1, 2, 3, 4, 5, 6,
+      ])
       expect(unitMissions.map((mission) => mission.difficultyStep)).toEqual([
         'easy',
         'medium',
@@ -41,6 +45,71 @@ describe('grade2 mission bank', () => {
         'medium',
         'applied',
       ])
+    }
+  })
+
+  it('provides deterministic unlocked basic and practice sets with six authored problems each', () => {
+    expect(normalizeGrade2Mode(undefined)).toBe('basic')
+    expect(normalizeGrade2Mode('unexpected')).toBe('basic')
+    expect(normalizeGrade2Mode('practice')).toBe('practice')
+
+    for (const unit of grade2Units) {
+      const basic = getGrade2MissionSet(unit.id, 'basic', 42)
+      const practice = getGrade2MissionSet(unit.id, 'practice', 42)
+
+      expect(basic).toHaveLength(6)
+      expect(practice).toHaveLength(6)
+      expect(basic.every((mission) => mission.mode === 'basic')).toBe(true)
+      expect(practice.every((mission) => mission.mode === 'practice')).toBe(true)
+      expect(basic.map((mission) => mission.unitMissionOrder)).toEqual([1, 2, 3, 4, 5, 6])
+      expect(practice.map((mission) => mission.unitMissionOrder)).toEqual([1, 2, 3, 4, 5, 6])
+      expect(practice.every((mission) => mission.id.endsWith('-v1'))).toBe(true)
+      expect(getGrade2MissionSet(unit.id, 'practice', 42).map((mission) => mission.id))
+        .toEqual(practice.map((mission) => mission.id))
+    }
+  })
+
+  it('replaces every prefixed repeat with an authored mathematical variant', () => {
+    const signatures = grade2MissionTemplates.map((template) => JSON.stringify({
+      prompt: template.promptTemplate.replace(/\s+/g, ' ').trim(),
+      answer: template.solverRule,
+      choices: template.choicesTemplate ?? [],
+      visualModel: template.visualModel,
+      visualConfig: template.visualConfig,
+    }))
+
+    expect(grade2MissionTemplates.filter((template) => template.id.endsWith('-v1'))).toHaveLength(72)
+    expect(grade2MissionTemplates.some((template) => template.promptTemplate.startsWith('한 번 더!'))).toBe(false)
+    expect(new Set(signatures).size).toBe(144)
+  })
+
+  it('directly covers every allocated Grade 2 standard with basic knowing and applying work', () => {
+    const allocations = grade12Allocation.allocations.filter((allocation) => allocation.assignedGrade === 2)
+
+    for (const allocation of allocations) {
+      const direct = grade2MissionTemplates.filter((template) => (
+        template.unitId === allocation.unitId
+        && template.curriculumCode === allocation.standardCode
+      ))
+      expect(
+        direct.some((template) => template.mode === 'basic' && template.cognitiveDomain === 'knowing'),
+        `${allocation.standardCode} needs basic knowing work in ${allocation.unitId}`,
+      ).toBe(true)
+      expect(
+        direct.some((template) => template.cognitiveDomain === 'applying'),
+        `${allocation.standardCode} needs applying work in ${allocation.unitId}`,
+      ).toBe(true)
+    }
+
+    for (const unit of grade2Units) {
+      const missions = grade2MissionTemplates.filter((template) => template.unitId === unit.id)
+      const domains = Object.fromEntries(
+        ['knowing', 'applying', 'reasoning'].map((domain) => [
+          domain,
+          missions.filter((mission) => mission.cognitiveDomain === domain).length,
+        ]),
+      )
+      expect(domains).toEqual({ knowing: 5, applying: 5, reasoning: 2 })
     }
   })
 

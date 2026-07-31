@@ -4,6 +4,10 @@ export type Grade2Semester = '2-1' | '2-2'
 
 export type Grade2DifficultyStep = 'easy' | 'medium' | 'applied'
 
+export type Grade2Mode = 'basic' | 'practice'
+
+export type Grade2CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
+
 export type Grade2TaskAction =
   | 'recognize'
   | 'classify'
@@ -88,6 +92,8 @@ export interface Grade2MissionTemplate extends Grade2QualityMetadata {
   id: string
   unitId: string
   semester: Grade2Semester
+  mode: Grade2Mode
+  cognitiveDomain: Grade2CognitiveDomain
   stageOrder: number
   unitMissionOrder: number
   skill: Grade2Skill
@@ -112,6 +118,8 @@ export interface Grade2Mission extends Grade2QualityMetadata {
   id: string
   unitId: string
   semester: Grade2Semester
+  mode: Grade2Mode
+  cognitiveDomain: Grade2CognitiveDomain
   stageOrder: number
   unitMissionOrder: number
   skill: Grade2Skill
@@ -246,7 +254,8 @@ export const grade2Units: Grade2Unit[] = [
 
 export const SAFE_GRADE2_MISSION_ID = 'g2-1-place-value-01'
 
-type Grade2MissionTemplateSource = Omit<Grade2MissionTemplate, keyof Grade2QualityMetadata>
+type Grade2BaseMissionTemplate = Omit<Grade2MissionTemplate, 'mode' | 'cognitiveDomain'>
+type Grade2MissionTemplateSource = Omit<Grade2BaseMissionTemplate, keyof Grade2QualityMetadata>
 
 function quality(
   taskAction: Grade2TaskAction,
@@ -330,7 +339,7 @@ const grade2QualityMetadataBySourceId: Record<string, Grade2QualityMetadata> = {
   'g2-2-pattern-06': quality('reason', 'quantitative'),
 }
 
-function template(source: Grade2MissionTemplateSource): Grade2MissionTemplate {
+function template(source: Grade2MissionTemplateSource): Grade2BaseMissionTemplate {
   const metadata = grade2QualityMetadataBySourceId[source.id]
   if (!metadata) throw new Error(`${source.id}: missing explicit Grade 2 quality metadata`)
   return { ...source, ...metadata }
@@ -353,7 +362,7 @@ const durationAnswerConfig: Grade2AnswerConfig = {
   inputLabel: '걸린 시간을 써요',
 }
 
-const grade2AlphaMissionTemplates: Grade2MissionTemplate[] = [
+const grade2AlphaMissionTemplates: Grade2BaseMissionTemplate[] = [
   template({
     id: 'g2-1-place-value-01',
     unitId: 'g2-1-place-value',
@@ -1158,7 +1167,7 @@ const grade2AlphaMissionTemplates: Grade2MissionTemplate[] = [
   }),
 ]
 
-const grade2BetaMissionTemplates: Grade2MissionTemplate[] = [
+const grade2BetaMissionTemplates: Grade2BaseMissionTemplate[] = [
   template({
     id: 'g2-1-place-value-04',
     unitId: 'g2-1-place-value',
@@ -1963,10 +1972,621 @@ const grade2BetaMissionTemplates: Grade2MissionTemplate[] = [
   }),
 ]
 
-const grade2BaseMissionTemplates: Grade2MissionTemplate[] = [
+const grade2BaseMissionTemplates: Grade2BaseMissionTemplate[] = [
   ...grade2AlphaMissionTemplates,
   ...grade2BetaMissionTemplates,
 ]
+
+interface Grade2CurriculumBlueprintItem {
+  curriculumCode: string
+  cognitiveDomain: Grade2CognitiveDomain
+}
+
+const grade2PrimaryCurriculumCodesByUnit: Record<string, string[]> = {
+  'g2-1-place-value': ['[2수01-02]', '[2수01-03]'],
+  'g2-1-shapes': ['[2수03-01]', '[2수03-02]', '[2수03-03]', '[2수03-04]', '[2수03-05]'],
+  'g2-1-add-sub': ['[2수01-05]', '[2수01-06]', '[2수01-07]', '[2수01-08]', '[2수01-09]'],
+  'g2-1-length': ['[2수03-06]', '[2수03-10]', '[2수03-12]'],
+  'g2-1-classification': ['[2수04-01]'],
+  'g2-1-multiplication': ['[2수01-10]'],
+  'g2-2-place-value': ['[2수01-02]', '[2수01-03]'],
+  'g2-2-facts': ['[2수01-11]'],
+  'g2-2-length': ['[2수03-11]', '[2수03-13]'],
+  'g2-2-time': ['[2수03-07]', '[2수03-08]', '[2수03-09]'],
+  'g2-2-table-graph': ['[2수04-02]', '[2수04-03]'],
+  'g2-2-pattern': ['[2수02-01]', '[2수02-02]'],
+}
+
+function blueprintItem(
+  curriculumCode: string,
+  cognitiveDomain: Grade2CognitiveDomain,
+): Grade2CurriculumBlueprintItem {
+  return { curriculumCode, cognitiveDomain }
+}
+
+const grade2CurriculumBlueprintOverrides: Partial<Record<
+  string,
+  { basic: Grade2CurriculumBlueprintItem[]; practice: Grade2CurriculumBlueprintItem[] }
+>> = {
+  'g2-1-shapes': {
+    basic: [
+      blueprintItem('[2수03-01]', 'knowing'),
+      blueprintItem('[2수03-03]', 'knowing'),
+      blueprintItem('[2수03-02]', 'knowing'),
+      blueprintItem('[2수03-05]', 'knowing'),
+      blueprintItem('[2수03-04]', 'knowing'),
+      blueprintItem('[2수03-02]', 'reasoning'),
+    ],
+    practice: [
+      blueprintItem('[2수03-01]', 'applying'),
+      blueprintItem('[2수03-03]', 'applying'),
+      blueprintItem('[2수03-02]', 'applying'),
+      blueprintItem('[2수03-05]', 'applying'),
+      blueprintItem('[2수03-04]', 'applying'),
+      blueprintItem('[2수03-01]', 'reasoning'),
+    ],
+  },
+  'g2-1-add-sub': {
+    basic: [
+      blueprintItem('[2수01-05]', 'knowing'),
+      blueprintItem('[2수01-06]', 'knowing'),
+      blueprintItem('[2수01-07]', 'knowing'),
+      blueprintItem('[2수01-08]', 'knowing'),
+      blueprintItem('[2수01-09]', 'knowing'),
+      blueprintItem('[2수01-06]', 'reasoning'),
+    ],
+    practice: [
+      blueprintItem('[2수01-05]', 'applying'),
+      blueprintItem('[2수01-06]', 'applying'),
+      blueprintItem('[2수01-07]', 'applying'),
+      blueprintItem('[2수01-08]', 'applying'),
+      blueprintItem('[2수01-09]', 'applying'),
+      blueprintItem('[2수01-07]', 'reasoning'),
+    ],
+  },
+  'g2-1-length': {
+    basic: [
+      blueprintItem('[2수03-10]', 'knowing'),
+      blueprintItem('[2수03-06]', 'knowing'),
+      blueprintItem('[2수03-12]', 'knowing'),
+      blueprintItem('[2수03-10]', 'applying'),
+      blueprintItem('[2수03-06]', 'knowing'),
+      blueprintItem('[2수03-12]', 'reasoning'),
+    ],
+    practice: [
+      blueprintItem('[2수03-10]', 'knowing'),
+      blueprintItem('[2수03-06]', 'applying'),
+      blueprintItem('[2수03-12]', 'applying'),
+      blueprintItem('[2수03-10]', 'applying'),
+      blueprintItem('[2수03-06]', 'reasoning'),
+      blueprintItem('[2수03-12]', 'applying'),
+    ],
+  },
+  'g2-2-length': {
+    basic: [
+      blueprintItem('[2수03-13]', 'knowing'),
+      blueprintItem('[2수03-13]', 'applying'),
+      blueprintItem('[2수03-11]', 'knowing'),
+      blueprintItem('[2수03-13]', 'knowing'),
+      blueprintItem('[2수03-13]', 'applying'),
+      blueprintItem('[2수03-11]', 'reasoning'),
+    ],
+    practice: [
+      blueprintItem('[2수03-13]', 'knowing'),
+      blueprintItem('[2수03-13]', 'applying'),
+      blueprintItem('[2수03-11]', 'applying'),
+      blueprintItem('[2수03-11]', 'knowing'),
+      blueprintItem('[2수03-13]', 'applying'),
+      blueprintItem('[2수03-11]', 'reasoning'),
+    ],
+  },
+  'g2-2-time': {
+    basic: [
+      blueprintItem('[2수03-07]', 'knowing'),
+      blueprintItem('[2수03-08]', 'knowing'),
+      blueprintItem('[2수03-09]', 'knowing'),
+      blueprintItem('[2수03-07]', 'applying'),
+      blueprintItem('[2수03-08]', 'knowing'),
+      blueprintItem('[2수03-09]', 'reasoning'),
+    ],
+    practice: [
+      blueprintItem('[2수03-07]', 'knowing'),
+      blueprintItem('[2수03-08]', 'applying'),
+      blueprintItem('[2수03-09]', 'applying'),
+      blueprintItem('[2수03-07]', 'applying'),
+      blueprintItem('[2수03-08]', 'reasoning'),
+      blueprintItem('[2수03-09]', 'applying'),
+    ],
+  },
+  'g2-2-pattern': {
+    basic: [
+      blueprintItem('[2수02-01]', 'knowing'),
+      blueprintItem('[2수02-02]', 'knowing'),
+      blueprintItem('[2수02-01]', 'knowing'),
+      blueprintItem('[2수02-01]', 'applying'),
+      blueprintItem('[2수02-02]', 'knowing'),
+      blueprintItem('[2수02-01]', 'reasoning'),
+    ],
+    practice: [
+      blueprintItem('[2수02-01]', 'knowing'),
+      blueprintItem('[2수02-02]', 'applying'),
+      blueprintItem('[2수02-01]', 'applying'),
+      blueprintItem('[2수02-02]', 'applying'),
+      blueprintItem('[2수02-02]', 'reasoning'),
+      blueprintItem('[2수02-01]', 'applying'),
+    ],
+  },
+}
+
+function buildCurriculumBlueprint(codes: string[]): {
+  basic: Grade2CurriculumBlueprintItem[]
+  practice: Grade2CurriculumBlueprintItem[]
+} {
+  const item = (
+    index: number,
+    cognitiveDomain: Grade2CognitiveDomain,
+  ): Grade2CurriculumBlueprintItem => ({
+    curriculumCode: codes[index % codes.length],
+    cognitiveDomain,
+  })
+
+  if (codes.length >= 5) {
+    return {
+      basic: [
+        item(0, 'knowing'),
+        item(1, 'knowing'),
+        item(2, 'knowing'),
+        item(3, 'knowing'),
+        item(4, 'knowing'),
+        item(0, 'reasoning'),
+      ],
+      practice: [
+        item(0, 'applying'),
+        item(1, 'applying'),
+        item(2, 'applying'),
+        item(3, 'applying'),
+        item(4, 'applying'),
+        item(1, 'reasoning'),
+      ],
+    }
+  }
+
+  if (codes.length === 4) {
+    return {
+      basic: [
+        item(0, 'knowing'),
+        item(1, 'knowing'),
+        item(2, 'knowing'),
+        item(3, 'knowing'),
+        item(0, 'applying'),
+        item(0, 'reasoning'),
+      ],
+      practice: [
+        item(1, 'knowing'),
+        item(0, 'applying'),
+        item(1, 'applying'),
+        item(2, 'applying'),
+        item(3, 'applying'),
+        item(1, 'reasoning'),
+      ],
+    }
+  }
+
+  if (codes.length === 3) {
+    return {
+      basic: [
+        item(0, 'knowing'),
+        item(1, 'knowing'),
+        item(2, 'knowing'),
+        item(0, 'applying'),
+        item(0, 'knowing'),
+        item(0, 'reasoning'),
+      ],
+      practice: [
+        item(1, 'knowing'),
+        item(1, 'applying'),
+        item(2, 'applying'),
+        item(0, 'applying'),
+        item(1, 'reasoning'),
+        item(2, 'applying'),
+      ],
+    }
+  }
+
+  if (codes.length === 2) {
+    return {
+      basic: [
+        item(0, 'knowing'),
+        item(1, 'knowing'),
+        item(0, 'knowing'),
+        item(0, 'applying'),
+        item(1, 'applying'),
+        item(0, 'reasoning'),
+      ],
+      practice: [
+        item(0, 'knowing'),
+        item(1, 'knowing'),
+        item(0, 'applying'),
+        item(1, 'applying'),
+        item(0, 'applying'),
+        item(1, 'reasoning'),
+      ],
+    }
+  }
+
+  return {
+    basic: [
+      item(0, 'knowing'),
+      item(0, 'knowing'),
+      item(0, 'knowing'),
+      item(0, 'applying'),
+      item(0, 'applying'),
+      item(0, 'reasoning'),
+    ],
+    practice: [
+      item(0, 'knowing'),
+      item(0, 'knowing'),
+      item(0, 'applying'),
+      item(0, 'applying'),
+      item(0, 'applying'),
+      item(0, 'reasoning'),
+    ],
+  }
+}
+
+function compactLengthLabel(totalCentimeters: number): string {
+  const meters = Math.floor(totalCentimeters / 100)
+  const centimeters = totalCentimeters % 100
+  if (meters === 0) return `${centimeters}cm`
+  if (centimeters === 0) return `${meters}m`
+  return `${meters}m ${centimeters}cm`
+}
+
+function compactLengthAnswer(totalCentimeters: number): string {
+  return compactLengthLabel(totalCentimeters).replace(' ', '')
+}
+
+function practicePrompt(
+  prompt: string,
+  cognitiveDomain: Grade2CognitiveDomain,
+): string {
+  if (cognitiveDomain === 'reasoning') return `그림을 확인하세요. ${prompt}`
+  if (cognitiveDomain === 'applying') return `생활 연습: ${prompt}`
+  return prompt
+}
+
+function buildPracticeVariant(
+  source: Grade2BaseMissionTemplate,
+  variantIndex: number,
+  blueprint: Grade2CurriculumBlueprintItem,
+): Grade2BaseMissionTemplate {
+  const config = source.visualConfig
+  const numeric = (key: string) => Number(config[key])
+  let promptTemplate = source.promptTemplate
+  let solverRule = source.solverRule
+  let choicesTemplate = source.choicesTemplate ? [...source.choicesTemplate] : undefined
+  let visualConfig: Grade2VisualConfig = { ...config }
+  let hintStepsTemplate = [...source.hintStepsTemplate]
+  let solutionStepsTemplate = [...source.solutionStepsTemplate]
+
+  switch (source.visualModel) {
+    case 'place-value-blocks': {
+      const original = numeric('number')
+      const number = original + (original >= 1000 ? 137 : 37)
+      const padded = String(number).padStart(original >= 1000 ? 4 : 3, '0')
+      visualConfig = {
+        number,
+        ...(original >= 1000 ? { thousands: Number(padded[0]) } : {}),
+        hundreds: Number(padded[padded.length - 3]),
+        tens: Number(padded[padded.length - 2]),
+        ones: Number(padded[padded.length - 1]),
+      }
+      promptTemplate = `자리값 블록을 세어 ${original >= 1000 ? '네' : '세'} 자리 수를 쓰세요.`
+      solverRule = String(number)
+      hintStepsTemplate = ['큰 자리의 블록부터 세어요.', '각 자리 숫자를 차례대로 이어 써요.']
+      solutionStepsTemplate = [`자리별 블록 수를 읽으면 ${number}이에요.`]
+      break
+    }
+    case 'expanded-number-cards': {
+      if (config.mode === 'compare') {
+        const delta = 17 + variantIndex
+        const cards = String(config.cards).split(',').map((value) => Number(value) + delta)
+        const target = Math.max(...cards)
+        visualConfig = { ...config, cards: cards.join(','), target }
+        promptTemplate = `${cards[0]}과 ${cards[1]} 중 더 큰 수는 무엇일까요?`
+        solverRule = String(target)
+        choicesTemplate = cards.map(String)
+        hintStepsTemplate = ['가장 큰 자리부터 비교해요.', '앞자리가 같으면 다음 자리를 비교해요.']
+        solutionStepsTemplate = [`자리값을 차례로 비교하면 ${target}이 더 커요.`]
+      } else {
+        const original = numeric('target')
+        const target = original + (original >= 1000 ? 1111 : 111)
+        const digits = String(target).split('').map(Number)
+        const parts = digits
+          .map((digit, index) => digit * 10 ** (digits.length - index - 1))
+          .filter((part) => part > 0)
+        visualConfig = { ...config, parts: parts.join(','), target }
+        promptTemplate = `${parts.join(' + ')}을 수로 쓰면 얼마일까요?`
+        solverRule = String(target)
+        hintStepsTemplate = ['각 수가 나타내는 자리를 찾아요.', '큰 자리부터 차례대로 합쳐요.']
+        solutionStepsTemplate = [`전개한 수를 합치면 ${target}이에요.`]
+      }
+      break
+    }
+    case 'vertical-operation': {
+      const operator = String(config.operator)
+      const top = numeric('top') + 7 + variantIndex
+      const bottom = numeric('bottom') + 2 + (variantIndex % 3)
+      const result = operator === '+' ? top + bottom : top - bottom
+      visualConfig = {
+        top,
+        bottom,
+        operator,
+        result,
+        ...(operator === '+' && top % 10 + bottom % 10 >= 10 ? { carry: 1 } : {}),
+        ...(operator === '-' && top % 10 < bottom % 10 ? { borrow: 1 } : {}),
+      }
+      promptTemplate = `두 자리 수 세로셈 ${top} ${operator} ${bottom}의 답은 얼마일까요?`
+      solverRule = String(result)
+      hintStepsTemplate = ['일의 자리부터 계산해요.', '십의 자리 계산까지 확인해요.']
+      solutionStepsTemplate = [`${top} ${operator} ${bottom} = ${result}이에요.`]
+      break
+    }
+    case 'box-equation': {
+      const operator = String(config.operator)
+      const right = numeric('right') + 2 + variantIndex
+      const missing = Number(source.solverRule) + 3
+      const result = operator === '+' ? missing + right : missing - right
+      visualConfig = { ...config, right, result }
+      promptTemplate = `□ ${operator} ${right} = ${result}일 때 □ 안의 수는 무엇일까요?`
+      solverRule = String(missing)
+      hintStepsTemplate = ['□와 알고 있는 수의 관계를 살펴요.', '반대 계산으로 □를 확인해요.']
+      solutionStepsTemplate = [`□는 ${missing}이고 ${missing} ${operator} ${right} = ${result}이에요.`]
+      break
+    }
+    case 'solid-shape-cards': {
+      const shapes = String(config.shapes).split(',')
+      const current = shapes.indexOf(String(config.target))
+      const target = shapes[(current + 1) % shapes.length]
+      const clues: Record<string, string> = {
+        구: '평평한 면이 없고 어느 쪽으로도 잘 굴러가는 입체도형',
+        원기둥: '동그란 평평한 면이 위아래에 있는 입체도형',
+        직육면체: '상자처럼 평평한 면으로 둘러싸인 입체도형',
+        삼각형: '곧은 변이 3개인 평면도형',
+        사각형: '곧은 변이 4개인 평면도형',
+        원: '굽은 선으로 둘러싸여 꼭짓점이 없는 평면도형',
+      }
+      visualConfig = { ...config, target }
+      promptTemplate = `${clues[target]}은 무엇일까요?`
+      solverRule = target
+      choicesTemplate = [...shapes]
+      hintStepsTemplate = ['면, 변, 꼭짓점을 차례로 살펴요.', '설명과 같은 모양을 고르세요.']
+      solutionStepsTemplate = [`설명한 모양은 ${target}이에요.`]
+      break
+    }
+    case 'stack-cubes': {
+      const bottom = numeric('bottom') + 1
+      const top = numeric('top') + 1 + (variantIndex % 2)
+      const targetLayer = String(config.targetLayer)
+      const answer = targetLayer === 'top' ? top : bottom
+      visualConfig = { ...config, bottom, top }
+      promptTemplate = `쌓기나무 그림의 ${targetLayer === 'top' ? '위' : '아래'}층에는 몇 개가 있을까요?`
+      solverRule = String(answer)
+      hintStepsTemplate = ['묻는 층을 먼저 손가락으로 짚어요.', '그 층의 쌓기나무만 세어요.']
+      solutionStepsTemplate = [`${targetLayer === 'top' ? '위' : '아래'}층에는 ${answer}개가 있어요.`]
+      break
+    }
+    case 'ruler-line': {
+      const startCm = numeric('startCm') + 1
+      const length = numeric('endCm') - numeric('startCm') + 1
+      const endCm = startCm + length
+      visualConfig = { ...config, startCm, endCm, maxCm: Math.max(numeric('maxCm'), endCm + 2) }
+      promptTemplate = `자의 ${startCm}cm 눈금부터 ${endCm}cm 눈금까지 놓인 물건의 길이는 몇 cm일까요?`
+      solverRule = `${length}cm`
+      hintStepsTemplate = ['끝 눈금에서 시작 눈금을 빼요.', '눈금 사이의 길이를 cm로 써요.']
+      solutionStepsTemplate = [`${endCm} - ${startCm} = ${length}이므로 ${length}cm예요.`]
+      break
+    }
+    case 'length-bars': {
+      if (config.target !== undefined) {
+        const leftCm = numeric('leftCm') + 12
+        const rightCm = numeric('rightCm') + 4
+        const leftLabel = compactLengthLabel(leftCm)
+        const rightLabel = compactLengthLabel(rightCm)
+        const target = leftCm > rightCm ? leftLabel : rightLabel
+        visualConfig = { ...config, leftCm, rightCm, leftLabel, rightLabel, target }
+        promptTemplate = `${leftLabel}와 ${rightLabel} 중 더 긴 길이는 무엇일까요?`
+        solverRule = target
+        choicesTemplate = [leftLabel, rightLabel, '같아요']
+        hintStepsTemplate = ['두 길이를 모두 cm로 생각해요.', '더 큰 cm 값을 가진 길이를 골라요.']
+        solutionStepsTemplate = [`두 길이를 cm로 비교하면 ${target}가 더 길어요.`]
+      } else if (config.hideRightLabelUntilReveal) {
+        const totalCm = numeric('leftCm') + 10
+        const rightLabel = compactLengthLabel(totalCm)
+        visualConfig = {
+          ...config,
+          leftLabel: `${totalCm}cm`,
+          leftCm: totalCm,
+          rightLabel,
+          rightCm: totalCm,
+          totalCm,
+        }
+        promptTemplate = `${totalCm}cm와 같은 길이를 m와 cm로 나타내면 얼마일까요?`
+        solverRule = compactLengthAnswer(totalCm)
+        hintStepsTemplate = ['100cm가 1m인 것을 사용해요.', '100cm씩 묶고 남은 cm를 써요.']
+        solutionStepsTemplate = [`${totalCm}cm는 ${rightLabel}예요.`]
+      } else {
+        const leftCm = numeric('leftCm') + 10
+        const rightCm = numeric('rightCm') + 5
+        const operation = String(config.operation ?? 'add')
+        const totalCm = operation === 'subtract' ? leftCm - rightCm : leftCm + rightCm
+        const leftLabel = compactLengthLabel(leftCm)
+        const rightLabel = compactLengthLabel(rightCm)
+        visualConfig = { ...config, leftCm, rightCm, leftLabel, rightLabel, totalCm }
+        const asksForCentimeters = source.answerConfig.unit === 'cm'
+        promptTemplate = operation === 'subtract'
+          ? `${leftLabel} 끈에서 ${rightLabel}를 잘랐습니다. 남은 길이는 ${asksForCentimeters ? '몇 cm' : '얼마'}일까요?`
+          : `${leftLabel}와 ${rightLabel} 끈을 이었습니다. 전체 길이는 ${asksForCentimeters ? '몇 cm' : '얼마'}일까요?`
+        solverRule = `${totalCm}cm`
+        hintStepsTemplate = ['m를 cm로 바꾸어 같은 단위로 만들어요.', operation === 'subtract' ? '두 길이의 차를 구해요.' : '두 길이를 더해요.']
+        solutionStepsTemplate = [`같은 단위로 계산하면 ${totalCm}cm예요.`]
+      }
+      break
+    }
+    case 'classification-table':
+    case 'mark-graph': {
+      const categories = String(config.categories).split(',')
+      const counts = String(config.counts).split(',').map(Number)
+      const target = String(config.target)
+      const delta = 1 + (variantIndex % 2)
+      if (target.includes('-')) {
+        const [left, right] = target.split('-')
+        counts[categories.indexOf(left)] += delta
+        const answer = counts[categories.indexOf(left)] - counts[categories.indexOf(right)]
+        promptTemplate = `${left} 자료는 ${right} 자료보다 몇 개 더 많을까요?`
+        solverRule = String(answer)
+        hintStepsTemplate = ['두 범주의 표식을 각각 세어요.', '많은 쪽에서 적은 쪽을 빼요.']
+        solutionStepsTemplate = [`두 범주의 차는 ${answer}개예요.`]
+      } else if (source.answerType === 'choice' || source.answerType === 'label') {
+        counts.forEach((_, index) => { counts[index] += delta })
+        const targetIndex = categories.indexOf(target)
+        const isLargest = counts[targetIndex] === Math.max(...counts)
+        promptTemplate = `자료를 비교할 때 가장 ${isLargest ? '많은' : '적은'} 종류는 무엇일까요?`
+        solverRule = target
+        choicesTemplate = [...categories]
+        hintStepsTemplate = ['범주마다 표식 수를 세어요.', `가장 ${isLargest ? '큰' : '작은'} 수를 찾아요.`]
+        solutionStepsTemplate = [`표식 수를 비교하면 ${target}이 알맞아요.`]
+      } else {
+        counts[categories.indexOf(target)] += delta
+        const answer = counts[categories.indexOf(target)]
+        promptTemplate = `분류 자료에서 ${target}은 모두 몇 개일까요?`
+        solverRule = String(answer)
+        hintStepsTemplate = [`${target} 범주만 찾아요.`, '표식을 하나씩 세어요.']
+        solutionStepsTemplate = [`${target}은 ${answer}개예요.`]
+      }
+      visualConfig = { ...config, counts: counts.join(',') }
+      break
+    }
+    case 'array-groups': {
+      const rows = numeric('rows') + 1
+      let cols = numeric('cols') + (variantIndex % 2)
+      if (rows === cols) cols += 1
+      const product = rows * cols
+      visualConfig = { ...config, rows, cols, groups: rows, each: cols }
+      if (source.answerType === 'choice' || source.answerType === 'label') {
+        solverRule = `${rows} x ${cols}`
+        choicesTemplate = [`${rows} x ${cols}`, `${cols} x ${cols}`, `${rows} + ${cols}`]
+        promptTemplate = `${rows}줄에 ${cols}개씩 놓인 물건을 나타내는 곱셈식은 무엇일까요?`
+      } else {
+        solverRule = String(product)
+        promptTemplate = `${rows}줄에 ${cols}개씩 놓인 물건은 모두 몇 개일까요?`
+      }
+      hintStepsTemplate = ['한 줄의 수와 줄 수를 확인해요.', '같은 수의 묶음을 곱셈으로 계산해요.']
+      solutionStepsTemplate = [`${rows} x ${cols} = ${product}예요.`]
+      break
+    }
+    case 'multiplication-table': {
+      const dan = numeric('dan') + 1
+      const factor = numeric('factor') + (variantIndex % 2)
+      const product = dan * factor
+      if (config.sequence !== undefined) {
+        const sequence = Array.from({ length: factor - 1 }, (_, index) => dan * (index + 1))
+        visualConfig = { ...config, dan, factor, product, sequence: `${sequence.join(',')},?` }
+        promptTemplate = `${dan}씩 커지는 ${sequence.join(', ')} 다음 수는 무엇일까요?`
+        solverRule = String(product)
+      } else if (config.missing === 'factor') {
+        visualConfig = { ...config, dan, factor, product }
+        promptTemplate = `${dan} x □ = ${product}일 때 □는 얼마일까요?`
+        solverRule = String(factor)
+      } else {
+        visualConfig = { ...config, dan, factor, product }
+        promptTemplate = `${dan} x ${factor}는 얼마일까요?`
+        solverRule = String(product)
+      }
+      hintStepsTemplate = [`${dan}씩 차례로 더해 보세요.`, '구구표의 줄과 칸을 함께 확인해요.']
+      solutionStepsTemplate = [`${dan} x ${factor} = ${product}예요.`]
+      break
+    }
+    case 'clock-face': {
+      if (config.endHour !== undefined) {
+        const start = numeric('hour') * 60 + numeric('minute') + 5
+        const duration = numeric('endHour') * 60 + numeric('endMinute') - (numeric('hour') * 60 + numeric('minute'))
+        const end = start + duration
+        const hour = Math.floor(start / 60)
+        const minute = start % 60
+        const endHour = Math.floor(end / 60)
+        const endMinute = end % 60
+        visualConfig = { ...config, hour, minute, endHour, endMinute }
+        promptTemplate = `${hour}시 ${minute}분부터 ${endHour}시 ${endMinute}분까지 걸린 시간은 얼마일까요?`
+        solverRule = `${duration}분`
+        hintStepsTemplate = ['시작 시각에서 끝 시각까지 분을 세어요.', '두 시각의 차를 분으로 써요.']
+        solutionStepsTemplate = [`두 시각의 차는 ${duration}분이에요.`]
+      } else {
+        const hour = numeric('hour') % 12 + 1
+        const minute = (numeric('minute') + 5) % 60
+        visualConfig = { ...config, hour, minute }
+        promptTemplate = '시계가 가리키는 시각을 몇 시 몇 분으로 쓰세요.'
+        solverRule = `${hour}:${String(minute).padStart(2, '0')}`
+        hintStepsTemplate = ['짧은바늘로 시를 읽어요.', '긴바늘로 분을 읽어요.']
+        solutionStepsTemplate = [`시계는 ${hour}시 ${minute}분을 가리켜요.`]
+      }
+      break
+    }
+    case 'calendar-strip': {
+      const weeks = Math.floor(numeric('target') / 7) + 1
+      const weekdays = ['월', '화', '수', '목', '금', '토', '일']
+      const days = Array.from({ length: weeks }, () => weekdays).flat()
+      const target = weeks * 7
+      visualConfig = { ...config, days: days.join(','), target }
+      promptTemplate = `${weeks}주는 모두 며칠일까요?`
+      solverRule = String(target)
+      hintStepsTemplate = ['1주는 7일이에요.', `7을 ${weeks}번 더해요.`]
+      solutionStepsTemplate = [`${weeks}주는 ${target}일이에요.`]
+      break
+    }
+    case 'pattern-strip': {
+      const pattern = String(config.pattern).split(',')
+      const known = pattern.filter((value) => value !== '?')
+      if (known.every((value) => /^\d+$/.test(value))) {
+        const numbers = known.map(Number)
+        const step = numbers[1] - numbers[0] + 2 + variantIndex
+        const start = numbers[0] + 1 + variantIndex
+        const sequence = Array.from({ length: 4 }, (_, index) => start + step * index)
+        const target = start + step * 4
+        visualConfig = { ...config, pattern: `${sequence.join(',')},?` }
+        promptTemplate = `${sequence.join(', ')} 다음 수는 무엇일까요?`
+        solverRule = String(target)
+        hintStepsTemplate = ['이웃한 두 수의 차를 살펴요.', '같은 만큼 한 번 더 커져요.']
+        solutionStepsTemplate = [`${step}씩 커지므로 다음 수는 ${target}이에요.`]
+      } else {
+        const colors = Array.from(new Set(known))
+        const rotated = [...colors.slice(1), colors[0]]
+        const sequence = Array.from({ length: known.length }, (_, index) => rotated[index % rotated.length])
+        const target = rotated[known.length % rotated.length]
+        visualConfig = { ...config, pattern: `${sequence.join(',')},?` }
+        promptTemplate = `${sequence.join(', ')} 다음에는 어떤 색이 올까요?`
+        solverRule = target
+        choicesTemplate = [...colors]
+        hintStepsTemplate = ['반복되는 색 묶음을 찾아요.', '마지막 색 다음 차례를 확인해요.']
+        solutionStepsTemplate = [`같은 묶음이 반복되므로 다음은 ${target}이에요.`]
+      }
+      break
+    }
+  }
+
+  return {
+    ...source,
+    curriculumCode: blueprint.curriculumCode,
+    taskActions: blueprint.cognitiveDomain === 'reasoning' ? ['reason'] : source.taskActions,
+    learnerGoal: `${source.learnerGoal.replace(/다시 /g, '')} · 연습`,
+    promptTemplate: practicePrompt(promptTemplate, blueprint.cognitiveDomain),
+    solverRule,
+    choicesTemplate,
+    visualConfig,
+    hintStepsTemplate,
+    solutionStepsTemplate,
+  }
+}
 
 function buildGrade2V1MissionTemplates(): Grade2MissionTemplate[] {
   let stageOrder = 1
@@ -1976,21 +2596,33 @@ function buildGrade2V1MissionTemplates(): Grade2MissionTemplate[] {
     const originals = grade2BaseMissionTemplates
       .filter((mission) => mission.unitId === unit.id)
       .sort((left, right) => left.unitMissionOrder - right.unitMissionOrder)
+    const codes = grade2PrimaryCurriculumCodesByUnit[unit.id]
+    if (!codes?.length) throw new Error(`${unit.id}: missing Grade 2 curriculum blueprint`)
+    const blueprint = buildCurriculumBlueprint(codes)
 
-    for (const original of originals) {
-      result.push({ ...original, stageOrder, unitMissionOrder: result.filter((item) => item.unitId === unit.id).length + 1 })
+    originals.forEach((original, index) => {
+      const item = blueprint.basic[index]
+      result.push({
+        ...original,
+        mode: 'basic',
+        cognitiveDomain: item.cognitiveDomain,
+        curriculumCode: item.curriculumCode,
+        taskActions: item.cognitiveDomain === 'reasoning' ? ['reason'] : original.taskActions,
+        stageOrder,
+        unitMissionOrder: index + 1,
+      })
       stageOrder += 1
-    }
+    })
 
     originals.forEach((source, index) => {
-      const unitMissionOrder = originals.length + index + 1
+      const practice = buildPracticeVariant(source, index, blueprint.practice[index])
       result.push({
-        ...source,
+        ...practice,
         id: `${source.id}-v1`,
+        mode: 'practice',
+        cognitiveDomain: blueprint.practice[index].cognitiveDomain,
         stageOrder,
-        unitMissionOrder,
-        learnerGoal: `두 번째 연습 · ${source.learnerGoal}`,
-        promptTemplate: `한 번 더! ${source.promptTemplate}`,
+        unitMissionOrder: index + 1,
       })
       stageOrder += 1
     })
@@ -2093,6 +2725,8 @@ export function renderGrade2MissionFromParams(
     id: template.id,
     unitId: template.unitId,
     semester: template.semester,
+    mode: template.mode,
+    cognitiveDomain: template.cognitiveDomain,
     stageOrder: template.stageOrder,
     unitMissionOrder: template.unitMissionOrder,
     skill: template.skill,
@@ -2135,6 +2769,23 @@ export function getGrade2Missions(seed = 20260510): Grade2Mission[] {
 
 export function getGrade2MissionsByUnit(unitId: string, seed = 20260510): Grade2Mission[] {
   return getGrade2Missions(seed).filter((mission) => mission.unitId === unitId)
+}
+
+export function normalizeGrade2Mode(
+  value: string | null | undefined,
+): Grade2Mode {
+  return value === 'practice' ? 'practice' : 'basic'
+}
+
+export function getGrade2MissionSet(
+  unitId: string,
+  mode: Grade2Mode | string | null | undefined = 'basic',
+  seed = 20260510,
+): Grade2Mission[] {
+  const normalizedMode = normalizeGrade2Mode(mode)
+  return getGrade2MissionsByUnit(unitId, seed)
+    .filter((mission) => mission.mode === normalizedMode)
+    .sort((left, right) => left.unitMissionOrder - right.unitMissionOrder)
 }
 
 export function getSafeGrade2Mission(seed = 20260510): Grade2Mission {
@@ -2337,6 +2988,8 @@ export function validateGrade2MissionBank(
   const stageOrders = new Set<number>()
   const rewardIds = new Set<Grade2RewardId>(grade2Units.map((unit) => unit.rewardId))
   const unitCounts = new Map<string, number>()
+  const unitModeCounts = new Map<string, number>()
+  const unitDomains = new Map<string, Record<Grade2CognitiveDomain, number>>()
 
   for (const template of templates) {
     if (ids.has(template.id)) errors.push(`Duplicate mission id: ${template.id}`)
@@ -2351,6 +3004,12 @@ export function validateGrade2MissionBank(
       errors.push(`${template.id}: semester does not match unit`)
     }
     if (!template.curriculumCode.trim()) errors.push(`${template.id}: missing curriculumCode`)
+    if (template.mode !== 'basic' && template.mode !== 'practice') {
+      errors.push(`${template.id}: invalid mode ${template.mode}`)
+    }
+    if (!['knowing', 'applying', 'reasoning'].includes(template.cognitiveDomain)) {
+      errors.push(`${template.id}: invalid cognitiveDomain ${template.cognitiveDomain}`)
+    }
     if (template.taskActions.length === 0) errors.push(`${template.id}: missing taskActions`)
     if (template.visualSemantics !== 'schematic' && template.visualSemantics !== 'quantitative') {
       errors.push(`${template.id}: visualSemantics must match the required visual`)
@@ -2365,6 +3024,11 @@ export function validateGrade2MissionBank(
     if (template.solutionStepsTemplate.length === 0) errors.push(`${template.id}: missing solution steps`)
 
     unitCounts.set(template.unitId, (unitCounts.get(template.unitId) ?? 0) + 1)
+    const modeKey = `${template.unitId}:${template.mode}`
+    unitModeCounts.set(modeKey, (unitModeCounts.get(modeKey) ?? 0) + 1)
+    const domains = unitDomains.get(template.unitId) ?? { knowing: 0, applying: 0, reasoning: 0 }
+    domains[template.cognitiveDomain] += 1
+    unitDomains.set(template.unitId, domains)
 
     for (const field of visualRequiredFields[template.visualModel]) {
       if (template.visualConfig[field] === undefined || template.visualConfig[field] === '') {
@@ -2407,6 +3071,14 @@ export function validateGrade2MissionBank(
   for (const unit of grade2Units) {
     const count = unitCounts.get(unit.id) ?? 0
     if (count !== 12) errors.push(`${unit.id}: V1 expects 12 missions, got ${count}`)
+    for (const mode of ['basic', 'practice'] as const) {
+      const modeCount = unitModeCounts.get(`${unit.id}:${mode}`) ?? 0
+      if (modeCount !== 6) errors.push(`${unit.id}: ${mode} expects 6 missions, got ${modeCount}`)
+    }
+    const domains = unitDomains.get(unit.id)
+    if (!domains || domains.knowing !== 5 || domains.applying !== 5 || domains.reasoning !== 2) {
+      errors.push(`${unit.id}: expects K/A/R 5/5/2, got ${domains?.knowing ?? 0}/${domains?.applying ?? 0}/${domains?.reasoning ?? 0}`)
+    }
   }
 
   if (templates.length !== 144) errors.push(`V1 expects 144 missions, got ${templates.length}`)

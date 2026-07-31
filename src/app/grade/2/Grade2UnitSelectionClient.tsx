@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 
 import {
+  getGrade2MissionSet,
   getGrade2Missions,
   grade2Units,
   type Grade2Mission,
@@ -12,6 +13,8 @@ import {
 import {
   createInitialGrade2Progress,
   dismissGrade2Intro,
+  getGrade2PracticeMissionIds,
+  isGrade2UnitComplete,
   loadGrade2Progress,
   resetGrade2Progress,
   saveGrade2Progress,
@@ -65,37 +68,65 @@ function UnitCard({
   const items = unitMissions(missions, unit.id)
   const completed = items.filter((mission) => progress.completedMissionIds.includes(mission.id)).length
   const review = items.filter((mission) => progress.reviewMissionIds.includes(mission.id)).length
+  const basic = getGrade2MissionSet(unit.id, 'basic', MISSION_SEED)
+  const basicCompleted = basic.filter((mission) => progress.completedMissionIds.includes(mission.id)).length
+  const practiceIds = getGrade2PracticeMissionIds(unit.id)
+  const practiceChecked = practiceIds.filter((missionId) => progress.checkedMissionIds.includes(missionId)).length
+  const unitComplete = isGrade2UnitComplete(progress, unit.id)
 
   return (
-    <Link
-      href={`/grade/2/mission?unitId=${unit.id}`}
-      onClick={onSelect}
-      data-testid={`grade2-unit-card-${unit.id}`}
-      className={`block min-h-[150px] rounded-2xl border-2 p-4 text-left transition hover:-translate-y-0.5 ${
-        selected
-          ? 'border-[#2563eb] bg-[#eff6ff] ring-4 ring-[#dbeafe]'
-          : 'border-[#d8e3ef] bg-white hover:bg-[#f8fbff]'
-      }`}
-    >
-      <div className="flex items-start justify-between gap-3">
-        <span className="rounded-full bg-[#ffedd5] px-3 py-1 text-xs font-black text-[#9a3412]">
-          {unit.semester}
-        </span>
-        <span className="text-sm font-black text-[#2563eb]">{completed}/{items.length}</span>
-      </div>
-      <h3 className="mt-3 text-xl font-black leading-tight text-[#0f172a]">{unit.title}</h3>
-      <p className="mt-2 text-sm font-bold leading-snug text-[#64748b]">{unit.subtitle}</p>
-      <div className="mt-4 flex flex-wrap gap-2 text-xs font-black">
-        <span className="rounded-full bg-[#dcfce7] px-3 py-1 text-[#166534]">
-          {rewardName(unit.rewardId)}
-        </span>
-        {review > 0 && (
+    <article className={`grid overflow-hidden rounded-2xl border-2 bg-white transition ${
+      selected ? 'border-[#2563eb] ring-4 ring-[#dbeafe]' : 'border-[#d8e3ef]'
+    }`}>
+      <Link
+        href={`/grade/2/mission?unitId=${unit.id}&mode=basic`}
+        onClick={onSelect}
+        data-testid={`grade2-unit-card-${unit.id}`}
+        className="block min-h-[170px] p-4 text-left hover:bg-[#f8fbff]"
+      >
+        <div className="flex items-start justify-between gap-3">
+          <span className="rounded-full bg-[#ffedd5] px-3 py-1 text-xs font-black text-[#9a3412]">
+            {unit.semester}
+          </span>
+          <span className="text-sm font-black text-[#2563eb]">{completed}/{items.length}</span>
+        </div>
+        <h3 className="mt-3 text-xl font-black leading-tight text-[#0f172a]">{unit.title}</h3>
+        <p className="mt-2 text-sm font-bold leading-snug text-[#64748b]">{unit.subtitle}</p>
+        <div className="mt-4 flex flex-wrap gap-2 text-xs font-black">
+          <span className="rounded-full bg-[#dcfce7] px-3 py-1 text-[#166534]">
+            기본 {basicCompleted}/6
+          </span>
           <span className="rounded-full bg-[#fff7e6] px-3 py-1 text-[#9a3412]">
             복습 {review}
           </span>
-        )}
+        </div>
+        <p className="mt-3 text-sm font-black text-[#2563eb]">{rewardName(unit.rewardId)}</p>
+      </Link>
+      <div className="grid grid-cols-2 gap-2 border-t-2 border-[#d8e3ef] p-3">
+        <Link
+          href={`/grade/2/mission?unitId=${unit.id}&mode=basic`}
+          onClick={onSelect}
+          data-testid={`grade2-basic-${unit.id}`}
+          className="grid min-h-[56px] place-items-center rounded-xl bg-[#2563eb] px-3 py-2 text-center text-sm font-black text-white"
+        >
+          기본 · 추천
+        </Link>
+        <Link
+          href={`/grade/2/mission?unitId=${unit.id}&mode=practice`}
+          onClick={onSelect}
+          data-testid={`grade2-practice-${unit.id}`}
+          className="grid min-h-[56px] place-items-center rounded-xl border-2 border-[#2563eb] bg-white px-3 py-2 text-center text-sm font-black text-[#2563eb]"
+        >
+          연습 {practiceChecked}/6
+        </Link>
       </div>
-    </Link>
+      <p
+        className={`px-4 pb-4 text-center text-xs font-black ${unitComplete ? 'text-[#166534]' : 'text-[#64748b]'}`}
+        data-testid={`grade2-unit-completion-${unit.id}`}
+      >
+        {unitComplete ? '단원 완료' : `연습 ${practiceChecked}/6 · 기본과 연습을 바로 고를 수 있어요`}
+      </p>
+    </article>
   )
 }
 
@@ -154,7 +185,7 @@ export default function Grade2UnitSelectionClient() {
                 2학년 탐험섬
               </h1>
               <p className="mt-3 max-w-2xl text-lg font-bold leading-relaxed text-[#64748b]">
-                오늘 풀 단원만 먼저 고르고, 다음 화면에서 한 문제씩 집중해요.
+                기본 6문제로 익히고 연습 6문제를 모두 풀면 단원을 완료해요.
               </p>
             </div>
             <button
