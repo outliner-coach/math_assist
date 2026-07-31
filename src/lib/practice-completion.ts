@@ -63,16 +63,16 @@ export function derivePracticeSetCompletion(
   if (sessionProblemByIndex.size !== session.problems.length) {
     throw new Error('Practice completion problem indexes must be unique')
   }
-  const resultByIndex = new Map<number, SubmissionResult>()
+  const resultByPosition = new Map<number, SubmissionResult>()
   for (const result of results) {
-    if (resultByIndex.has(result.index)) {
+    if (resultByPosition.has(result.index)) {
       throw new Error('Practice completion result indexes must be unique')
     }
-    const sessionProblem = sessionProblemByIndex.get(result.index)
+    const sessionProblem = session.problems[result.index]
     if (!sessionProblem || sessionProblem.templateId !== result.problem.templateId) {
       throw new Error('Practice completion results must match the active session')
     }
-    resultByIndex.set(result.index, result)
+    resultByPosition.set(result.index, result)
   }
 
   const completion = recordLearningSetCompletion(record, {
@@ -80,7 +80,7 @@ export function derivePracticeSetCompletion(
     mode: expectedItemCount === 5 ? 'basic' : 'practice',
     expectedItemCount,
     responses: session.problems.map((problem, index) => {
-      const result = resultByIndex.get(problem.index)
+      const result = resultByPosition.get(index)
       const checked = typeof session.checkedAnswers[index] === 'boolean' && result !== undefined
       return {
         itemId: problem.templateId,
@@ -120,6 +120,11 @@ export function persistCompletedPractice(
   const result = isRepeatedSession ? existingResult : candidate
   if (!isRepeatedSession && !saveResult(result)) {
     return { status: 'storage-blocked', target: 'result' }
+  }
+
+  if (resolvePracticeItemCount(result.itemCount, grade) === 5) {
+    clearSession(grade)
+    return { status: 'completed', result, completion }
   }
 
   const currentProgress = loadConceptProgress(result.conceptId, grade)

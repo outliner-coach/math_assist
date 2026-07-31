@@ -124,6 +124,77 @@ describe('PracticeClient initialization', () => {
       .toBe('generated-1')
   })
 
+  it.each([
+    { conceptId: 'area-001', search: 'set=A&count=5', expectedCount: 5 },
+    { conceptId: 'area-001', search: 'set=A&count=10', expectedCount: 10 },
+    { conceptId: 'area-001', search: 'set=A', expectedCount: 10 },
+    { conceptId: 'area-001', search: 'set=A&count=broken', expectedCount: 10 },
+    { conceptId: 'g6ratio-001', search: 'set=A', expectedCount: 5 },
+    { conceptId: 'g6ratio-001', search: 'set=A&count=broken', expectedCount: 5 },
+    { conceptId: 'g6ratio-001', search: 'set=A&count=10', expectedCount: 10 },
+  ])('resolves $conceptId query "$search" to $expectedCount items', async ({
+    conceptId,
+    search,
+    expectedCount,
+  }) => {
+    mocks.route.conceptId = conceptId
+    mocks.route.search = search
+    mocks.getConceptById.mockResolvedValue({ id: conceptId, concept_title: '연습 개념' })
+
+    await act(async () => {
+      root?.render(createElement(PracticeClient))
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+
+    expect(mocks.generateProblems).toHaveBeenCalledWith([{}], {
+      count: expectedCount,
+      setId: 'A',
+      cognitiveDomainMix: expectedCount === 5
+        ? { knowing: 2, applying: 2, reasoning: 1 }
+        : { knowing: 4, applying: 4, reasoning: 2 },
+    })
+    const key = conceptId.startsWith('g6')
+      ? 'mathAssist_grade6CurrentSession'
+      : 'mathAssist_currentSession'
+    expect(JSON.parse(storageData.get(key) ?? 'null')).toMatchObject({
+      grade: conceptId.startsWith('g6') ? 6 : 5,
+      itemCount: expectedCount,
+    })
+  })
+
+  it('starts a new Grade 5 session when the requested item count changes', async () => {
+    const now = Date.now()
+    mocks.route.search = 'set=A&count=5'
+    storageData.set('mathAssist_currentSession', JSON.stringify({
+      sessionId: 'old-ten-item-session',
+      conceptId: 'area-001',
+      setId: 'A',
+      mode: 'standard',
+      grade: 5,
+      itemCount: 10,
+      problems: [problem('old-problem')],
+      answers: [null],
+      checkedAnswers: [null],
+      currentIndex: 0,
+      startedAt: now,
+      expiresAt: now + 10_000,
+    }))
+
+    await act(async () => {
+      root?.render(createElement(PracticeClient))
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+
+    expect(mocks.generateProblems).toHaveBeenCalledTimes(1)
+    const stored = JSON.parse(storageData.get('mathAssist_currentSession') ?? 'null')
+    expect(stored).toMatchObject({ grade: 5, itemCount: 5 })
+    expect(stored.sessionId).not.toBe('old-ten-item-session')
+  })
+
   it('preserves corrupt Grade 6 session bytes until the learner explicitly resets only that key', async () => {
     mocks.route.conceptId = 'g6ratio-001'
     mocks.route.search = 'set=A&count=5'

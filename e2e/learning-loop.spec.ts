@@ -24,6 +24,8 @@ type StoredProblem = {
 }
 
 type StoredSession = {
+  grade?: 5 | 6
+  itemCount?: 5 | 10
   currentIndex: number
   problems: StoredProblem[]
   checkedAnswers: (boolean | null)[]
@@ -131,6 +133,51 @@ async function completeSession(page: Page, wrongIndexes: number[] = []) {
 
 test.beforeEach(async ({ page }) => {
   await clearStorage(page)
+})
+
+test('5학년 개념에서 기본 5문제와 집중 10문제를 모두 선택한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/concept/divisor-001`)
+
+  await expect(page.getByRole('button', { name: '세트 A · 5문제' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '세트 A · 10문제' })).toBeVisible()
+
+  await page.getByRole('button', { name: '세트 A · 5문제' }).click()
+  await expect(page).toHaveURL(/\/practice\/divisor-001\/?\?set=A&count=5$/)
+  const basic = await readSession(page)
+  expect(basic).toMatchObject({ grade: 5, itemCount: 5 })
+  expect(basic.problems).toHaveLength(5)
+
+  await page.goto(`${BASE_PATH}/concept/divisor-001`)
+  await page.getByRole('button', { name: '세트 A · 10문제' }).click()
+  await expect(page).toHaveURL(/\/practice\/divisor-001\/?\?set=A&count=10$/)
+  await page.waitForFunction((key) => (
+    JSON.parse(localStorage.getItem(key) ?? 'null')?.itemCount === 10
+  ), SESSION_KEY)
+  const practice = await readSession(page)
+  expect(practice).toMatchObject({ grade: 5, itemCount: 10 })
+  expect(practice.problems).toHaveLength(10)
+})
+
+test('5학년 기본 결과는 10문제를 추천하면서 재도전과 새 5문제 선택을 보존한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/practice/divisor-001?set=B&count=5`)
+  await completeSession(page, [0])
+
+  await expect(page).toHaveURL(/\/math_assist\/result\/?$/)
+  await expect(page.getByRole('button', { name: '10문제로 집중 연습' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '새 기본 5문제' })).toBeVisible()
+
+  await page.getByTestId('retry-wrong-button').click()
+  await expect(page).toHaveURL(/set=B&count=5&mode=retry-wrong/)
+  const retry = await readSession(page)
+  expect(retry).toMatchObject({ grade: 5, itemCount: 5 })
+
+  await page.goto(`${BASE_PATH}/result`)
+  await page.getByRole('button', { name: '10문제로 집중 연습' }).click()
+  await expect(page).toHaveURL(/\/practice\/divisor-001\/?\?set=B&count=10$/)
+
+  await page.goto(`${BASE_PATH}/result`)
+  await page.getByRole('button', { name: '새 기본 5문제' }).click()
+  await expect(page).toHaveURL(/\/practice\/divisor-001\/?\?set=B&count=5$/)
 })
 
 test('각 문제를 푼 직후 정답과 풀이를 확인한다', async ({ page }) => {
