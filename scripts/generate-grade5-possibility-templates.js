@@ -76,10 +76,10 @@ function buildDefinitions(profile) {
     },
     {
       params: p,
-      prompt: '같은 {{p + 2}}번 중 가 사건은 {{p}}번, 나 사건은 {{p + 1}}번 일어났습니다. 더 일어날 것 같다고 말할 수 있는 사건의 번호를 1(가), 2(나) 중에서 쓰세요.',
+      prompt: `${profile.decision} 가와 나를 같은 {{p + 2}}번씩 시험했습니다. 가는 {{p}}번, 나는 {{p + 1}}번 성공했습니다. 성공할 가능성을 말로 비교하여 다음에 먼저 적용할 ${profile.decision}의 번호를 1(가), 2(나) 중에서 쓰세요.`,
       solver: '2',
-      steps: ['전체 횟수가 {{p + 2}}번으로 같습니다.', '나 사건이 {{p + 1}}번으로 가보다 1번 더 일어나 나가 더 일어날 것 같습니다.'],
-      visual: trialsVisual('같은 전체 횟수에서 가능성 비교', [
+      steps: ['두 방법은 전체 횟수가 {{p + 2}}번으로 같습니다.', '나는 {{p + 1}}번 성공하여 가의 {{p}}번보다 성공할 가능성이 더 크므로 나를 먼저 적용합니다.'],
+      visual: trialsVisual('가능성을 비교하여 적용할 방법 고르기', [
         { label: '가', favorable: '{{p}}', total: '{{p + 2}}' },
         { label: '나', favorable: '{{p + 1}}', total: '{{p + 2}}' },
       ]),
@@ -105,12 +105,12 @@ function buildDefinitions(profile) {
     },
     {
       params: p,
-      prompt: `${profile.trial} {{2 * p}}번 중 ${profile.event} 경우가 {{p}}번이었습니다. 같은 조건으로 {{4 * p}}번 더 시행하면 약 몇 번 일어날 것으로 예상하나요?`,
+      prompt: `같은 조건의 시행 {{2 * p}}번 중 사건이 {{p}}번 일어났습니다. 시행 횟수를 {{4 * p}}번으로 늘리면 사건이 약 몇 번 일어날 것으로 예상하나요?`,
       solver: '2 * p',
       choices: ['2 * p', 'p', '3 * p', '4 * p'],
-      steps: ['관찰 비율은 {{p}}/{{2 * p}}=1/2입니다.', '{{4 * p}}번의 1/2은 {{2 * p}}번이므로 약 {{2 * p}}번을 예상합니다.'],
-      visual: trialsVisual('관찰 자료로 다음 결과 예상', [
-        { label: profile.event, favorable: '{{p}}', total: '{{2 * p}}' },
+      steps: ['{{2 * p}}번 중 {{p}}번이므로 관찰한 가능성은 1/2입니다.', '{{4 * p}}번의 1/2은 {{2 * p}}번이므로 약 {{2 * p}}번을 예상합니다.'],
+      visual: trialsVisual('절반인 관찰 자료로 결과 예상하기', [
+        { label: '사건', favorable: '{{p}}', total: '{{2 * p}}' },
       ]),
     },
     {

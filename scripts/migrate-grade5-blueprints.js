@@ -490,7 +490,7 @@ const REVIEWED_SLOT_TASK_ACTIONS = Object.freeze({
   ],
   'possibility-001': [
     reviewedActions('classify'),
-    reviewedActions('compare'),
+    reviewedActions('compare', 'model'),
     reviewedActions('interpret'),
     reviewedActions('interpret'),
     reviewedActions('model', 'calculate'),
@@ -538,6 +538,36 @@ const REVIEWED_SLOT_TASK_ACTIONS = Object.freeze({
   ],
 })
 
+// A shared family name may still contain independently authored A/B/C sources.
+// These overrides record the representation or learner action that makes the
+// first two area-unit sources semantically distinct rather than numeric clones.
+const REVIEWED_TEMPLATE_BLUEPRINT_OVERRIDES = Object.freeze({
+  'tmpl-areaunit-A-01': Object.freeze({
+    representations: Object.freeze(['text', 'equation', 'diagram']),
+    taskActions: reviewedActions('interpret', 'calculate'),
+  }),
+  'tmpl-areaunit-A-02': Object.freeze({
+    representations: Object.freeze(['text', 'equation', 'diagram']),
+    taskActions: reviewedActions('interpret', 'calculate'),
+  }),
+  'tmpl-areaunit-B-01': Object.freeze({
+    representations: Object.freeze(['text', 'diagram', 'manipulative']),
+    taskActions: reviewedActions('model', 'calculate'),
+  }),
+  'tmpl-areaunit-B-02': Object.freeze({
+    representations: Object.freeze(['text', 'diagram', 'manipulative']),
+    taskActions: reviewedActions('model', 'calculate'),
+  }),
+  'tmpl-areaunit-C-01': Object.freeze({
+    representations: Object.freeze(['text', 'equation', 'diagram']),
+    taskActions: reviewedActions('calculate'),
+  }),
+  'tmpl-areaunit-C-02': Object.freeze({
+    representations: Object.freeze(['text', 'equation', 'diagram']),
+    taskActions: reviewedActions('calculate'),
+  }),
+})
+
 // Every Grade 5 content correction has been reviewed and is eligible for a
 // complete blueprint. Keep the exported set as an explicit release gate.
 const BLOCKED_CONTENT_TEMPLATE_IDS = new Set()
@@ -568,10 +598,10 @@ const ADDITIONAL_REVIEWED_FAMILY_BLUEPRINTS = Object.freeze({
 
   // Possibility language, numeric expression, and data-grounded prediction
   'possibility-verbal-impossible-certain': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'constraint', primaryStandard: '6수04-04', estimatedSteps: 1, readingLoad: 'medium', visualSemantics: 'quantitative' }),
-  'possibility-verbal-comparison': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수04-04', estimatedSteps: 1, readingLoad: 'low', visualSemantics: 'quantitative' }),
+  'possibility-verbal-comparison': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수04-04', estimatedSteps: 2, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
   'possibility-numeric-half': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수04-05', connectedStandards: ['6수04-04'], estimatedSteps: 2, readingLoad: 'low', visualSemantics: 'quantitative' }),
   'possibility-numeric-impossible': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'representation_shift', primaryStandard: '6수04-05', connectedStandards: ['6수04-04'], estimatedSteps: 2, readingLoad: 'medium', visualSemantics: 'quantitative' }),
-  'possibility-predict-from-half': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'model_and_check', primaryStandard: '6수04-06', connectedStandards: ['6수04-05'], estimatedSteps: 3, readingLoad: 'medium', contextType: 'real_world', visualSemantics: 'quantitative' }),
+  'possibility-predict-from-half': reviewed({ cognitiveDomain: 'knowing', reasoningPattern: 'direct', primaryStandard: '6수04-06', connectedStandards: ['6수04-05'], estimatedSteps: 2, readingLoad: 'low', visualSemantics: 'quantitative' }),
   'possibility-compare-relative-frequency': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'compare_methods', primaryStandard: '6수04-06', connectedStandards: ['6수04-05'], estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world', visualSemantics: 'quantitative' }),
   'possibility-predicted-count-gap': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'multi_step', primaryStandard: '6수04-06', connectedStandards: ['6수04-05'], estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world', visualSemantics: 'quantitative' }),
   'possibility-sample-size-reliability': reviewed({ cognitiveDomain: 'applying', reasoningPattern: 'data_sufficiency', primaryStandard: '6수04-06', connectedStandards: ['6수04-05'], estimatedSteps: 3, readingLoad: 'high', contextType: 'real_world', visualSemantics: 'quantitative' }),
@@ -883,6 +913,10 @@ function getReviewedProblemFamily(template) {
 }
 
 function getReviewedTaskActions(template) {
+  const templateOverride = REVIEWED_TEMPLATE_BLUEPRINT_OVERRIDES[template.id]
+  if (templateOverride?.taskActions) {
+    return [...templateOverride.taskActions]
+  }
   const slotActions = REVIEWED_SLOT_TASK_ACTIONS[template.concept_id]
   if (!slotActions || slotActions.length !== 10) {
     throw new Error(
@@ -904,6 +938,7 @@ function getReviewedBlueprint(template) {
   }
   const family = getReviewedProblemFamily(template)
   const reviewedBlueprint = REVIEWED_FAMILY_BLUEPRINTS[family]
+  const templateOverride = REVIEWED_TEMPLATE_BLUEPRINT_OVERRIDES[template.id]
   if (!reviewedBlueprint) {
     throw new Error(`${template.id}: no reviewed blueprint for ${family || 'missing problem_family'}`)
   }
@@ -915,7 +950,9 @@ function getReviewedBlueprint(template) {
     ...(reviewedBlueprint.connectedStandards
       ? { connectedStandards: [...reviewedBlueprint.connectedStandards] }
       : {}),
-    representations: [...reviewedBlueprint.representations],
+    representations: [
+      ...(templateOverride?.representations ?? reviewedBlueprint.representations),
+    ],
     taskActions: getReviewedTaskActions(template),
   }
 }
@@ -1072,6 +1109,7 @@ module.exports = {
   REVIEWED_FAMILY_BLUEPRINTS,
   REVIEWED_SLOT_FAMILIES,
   REVIEWED_SLOT_TASK_ACTIONS,
+  REVIEWED_TEMPLATE_BLUEPRINT_OVERRIDES,
   getReviewedProblemFamily,
   getReviewedTaskActions,
   getReviewedBlueprint,

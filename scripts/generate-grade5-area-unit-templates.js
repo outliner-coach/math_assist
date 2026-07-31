@@ -32,6 +32,16 @@ const setProfiles = {
     q: { min: 200, max: 800 },
     room: '교실 바닥',
     land: '생태 공원',
+    oneSquareMeter: {
+      prompt: '넓이 단위의 관계 1m²=□cm²에서 □에 알맞은 수를 고르세요.',
+      steps: ['1m=100cm이므로 정사각형의 가로와 세로가 각각 100cm입니다.', '100×100=10000이므로 □에 알맞은 수는 10000입니다.'],
+      caption: '길이 관계로 완성하는 1m² 단위식',
+    },
+    oneSquareKilometer: {
+      prompt: '넓이 단위의 관계 1km²=□m²에서 □에 알맞은 수를 쓰세요.',
+      steps: ['1km=1000m이므로 정사각형의 가로와 세로가 각각 1000m입니다.', '1000×1000=1000000이므로 □에 알맞은 수는 1000000입니다.'],
+      caption: '길이 관계로 완성하는 1km² 단위식',
+    },
   },
   B: {
     p: { min: 5, max: 7 },
@@ -40,6 +50,16 @@ const setProfiles = {
     q: { min: 900, max: 1800 },
     room: '전시관 바닥',
     land: '산림 보호 구역',
+    oneSquareMeter: {
+      prompt: '한 변이 1m인 정사각형을 1cm²인 단위 정사각형으로 나누면 모두 몇 장인가요?',
+      steps: ['1m=100cm이므로 한 줄에 1cm²인 단위 정사각형이 100장 놓입니다.', '100줄에 100장씩 있으므로 100×100=10000장입니다.'],
+      caption: '1cm² 단위 정사각형으로 채운 1m²',
+    },
+    oneSquareKilometer: {
+      prompt: '한 변이 1km인 정사각형을 1m²인 조사 칸으로 나누면 모두 몇 개인가요?',
+      steps: ['1km=1000m이므로 한 줄에 1m²인 조사 칸이 1000개 놓입니다.', '1000줄에 1000개씩 있으므로 1000×1000=1000000개입니다.'],
+      caption: '1m² 조사 칸으로 나눈 1km²',
+    },
   },
   C: {
     p: { min: 8, max: 10 },
@@ -48,6 +68,16 @@ const setProfiles = {
     q: { min: 1900, max: 3500 },
     room: '체육관 안전 구역',
     land: '해양 조사 구역',
+    oneSquareMeter: {
+      prompt: '한 변이 1m인 정사각형에서 가로 100cm와 세로 100cm의 곱으로 구한 넓이는 몇 cm²인가요?',
+      steps: ['정사각형의 가로와 세로 1m를 각각 100cm로 나타냅니다.', '넓이는 가로와 세로의 곱이므로 100×100=10000cm²입니다.'],
+      caption: '두 변의 길이를 곱해 나타낸 1m²',
+    },
+    oneSquareKilometer: {
+      prompt: '한 변이 1km인 정사각형에서 가로 1000m와 세로 1000m의 곱으로 구한 넓이는 몇 m²인가요?',
+      steps: ['정사각형의 가로와 세로 1km를 각각 1000m로 나타냅니다.', '넓이는 가로와 세로의 곱이므로 1000×1000=1000000m²입니다.'],
+      caption: '두 변의 길이를 곱해 나타낸 1km²',
+    },
   },
 }
 
@@ -68,18 +98,18 @@ function buildDefinitions(profile) {
   return [
     {
       params: {},
-      prompt: '한 변이 1m인 정사각형의 넓이는 몇 cm²인가요?',
+      prompt: profile.oneSquareMeter.prompt,
       solver: '10000',
       choices: ['10000', '100', '1000', '100000'],
-      steps: ['1m=100cm이므로 가로와 세로가 각각 100cm입니다.', '100×100=10000이므로 1m²=10000cm²입니다.'],
-      visual: unitSquare('1m²의 두 방향 변환', 'm', 'cm'),
+      steps: profile.oneSquareMeter.steps,
+      visual: unitSquare(profile.oneSquareMeter.caption, 'm', 'cm'),
     },
     {
       params: {},
-      prompt: '한 변이 1km인 정사각형의 넓이는 몇 m²인가요?',
+      prompt: profile.oneSquareKilometer.prompt,
       solver: '1000000',
-      steps: ['1km=1000m이므로 가로와 세로가 각각 1000m입니다.', '1000×1000=1000000이므로 1km²=1000000m²입니다.'],
-      visual: unitSquare('1km²의 두 방향 변환', 'km', 'm'),
+      steps: profile.oneSquareKilometer.steps,
+      visual: unitSquare(profile.oneSquareKilometer.caption, 'km', 'm'),
     },
     {
       params: p,
