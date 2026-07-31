@@ -21,6 +21,22 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-07-31: Grade 1-6 content-structure quality-core foundation (primary
+  workstream 04) owns the fixture-tested, production-data-neutral contracts in
+  `scripts/curriculum-direct-link-core.js` and
+  `scripts/content-inventory-core.js`. Direct curriculum coverage may be
+  credited only to a published mission/template whose own quality metadata
+  names the standard and whose grade matches the one assigned grade; unit
+  declarations, prerequisites, comments, documentation text, and optional
+  other-grade review links do not increase the denominator. Inventory reports
+  keep published sources, authored sources, canonical math signatures,
+  generated variants, and session items as five separate deterministic
+  counts. Authored items with the same canonical math signature are invalid;
+  generated variants may share their authored source signature. Later
+  curriculum and quality command integration may adapt production sources to
+  these cores, but must not weaken their error details or make this foundation
+  enforce the future 1,622-item target before the grade banks are ready.
+
 - 2026-07-28: T11 final editorial-ledger integration (primary workstream 04)
   owns `docs/tracking/problem-editorial-review-v1.json` as the only final
   Grade 1-6 review decision source. It contains exactly 1,540 current pass
