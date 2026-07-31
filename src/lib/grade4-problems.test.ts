@@ -531,6 +531,7 @@ describe('Grade 4 Bridge release bank', () => {
       'unit-4-2-line-graphs',
     ])
     expect(grade4MissionTemplates).toHaveLength(150)
+    expect(new Set(grade4Units.flatMap((unit) => unit.curriculumCodes)).size).toBe(22)
     expect(result.summary).toMatchObject({
       unitCount: 15,
       templateCount: 150,
@@ -556,11 +557,29 @@ describe('Grade 4 Bridge release bank', () => {
   it('builds a deterministic three-item activity with K/A/R coverage', () => {
     const first = getGrade4Activity('unit-4-1-large-numbers', 20260721, 0)
     const repeated = getGrade4Activity('unit-4-1-large-numbers', 20260721, 0)
+    const explicitBasic = getGrade4Activity('unit-4-1-large-numbers', 20260721, 0, 'basic')
+    const practice = getGrade4Activity('unit-4-1-large-numbers', 20260721, 0, 'practice')
 
     expect(first).toEqual(repeated)
+    expect(first).toEqual(explicitBasic)
     expect(first).toHaveLength(GRADE4_ACTIVITY_ITEM_COUNT)
     expect(first.map((mission) => mission.cognitiveDomain).sort()).toEqual(['applying', 'knowing', 'reasoning'])
     expect(new Set(first.map((mission) => mission.id)).size).toBe(first.length)
+    expect(practice).toHaveLength(GRADE4_ACTIVITY_ITEM_COUNT)
+    expect(practice.map((mission) => mission.cognitiveDomain)).toEqual(['knowing', 'applying', 'reasoning'])
+    expect(new Set(practice.map((mission) => mission.id)).size).toBe(practice.length)
+    expect(practice.map((mission) => mission.id)).not.toEqual(first.map((mission) => mission.id))
+  })
+
+  it('keeps every unit and both modes at exactly one K/A/R item', () => {
+    for (const unit of grade4Units) {
+      for (const mode of ['basic', 'practice'] as const) {
+        const activity = getGrade4Activity(unit.id, 20260721, 0, mode)
+        expect(activity, `${unit.id} ${mode}`).toHaveLength(3)
+        expect(activity.map((mission) => mission.cognitiveDomain), `${unit.id} ${mode}`)
+          .toEqual(['knowing', 'applying', 'reasoning'])
+      }
+    }
   })
 
   it('varies concrete prompts across activity runs while keeping choice integrity', () => {

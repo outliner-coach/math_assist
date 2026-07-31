@@ -23,10 +23,60 @@ test('홈에서 4학년을 골라 세 번의 탭 안에 3문제 Bridge 활동에
   await expect(page.getByText(/Release candidate|공개 준비 범위/)).toHaveCount(0)
   await page.getByTestId('grade4-unit-card-unit-4-1-large-numbers').click(); taps += 1
 
-  await expect(page).toHaveURL(/\/math_assist\/grade\/4\/mission\/?\?unitId=unit-4-1-large-numbers/)
+  await expect(page).toHaveURL(/\/math_assist\/grade\/4\/mission\/?\?unitId=unit-4-1-large-numbers&mode=basic/)
   await expect(page.getByTestId('grade4-mission-card')).toBeVisible()
   await expect(page.getByText('활동 1 · 1/3')).toBeVisible()
+  await expect(page.getByTestId('grade4-mode-basic')).toContainText('기본')
+  await expect(page.getByTestId('grade4-mode-practice')).toContainText('연습')
   expect(taps).toBeLessThanOrEqual(3)
+})
+
+test('4학년 기본은 추천 진입이고 연습은 잠금 없이 선택해 오답이 있어도 단원을 완료한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/4`)
+  const basicLink = page.getByTestId('grade4-unit-card-unit-4-1-large-numbers')
+  const practiceLink = page.getByTestId('grade4-practice-unit-card-unit-4-1-large-numbers')
+  await expect(basicLink).toHaveAttribute('href', /mode=basic/)
+  await expect(basicLink).toContainText('추천')
+  await expect(practiceLink).toHaveAttribute('href', /mode=practice/)
+  await expect(practiceLink).toBeEnabled()
+
+  await basicLink.click()
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-big-02')
+  await page.getByTestId('grade4-integer-input').fill('283056')
+  await page.getByTestId('grade4-integer-submit').click()
+  await page.getByTestId('grade4-next-mission').click()
+  await page.getByTestId('grade4-integer-input').fill('20300')
+  await page.getByTestId('grade4-integer-submit').click()
+  await page.getByTestId('grade4-next-mission').click()
+  await page.getByTestId('grade4-choice-십만의 자리에서 3<4이므로 왼쪽 수가 더 작아요.').click()
+  await page.getByTestId('grade4-next-mission').click()
+  await expect(page.getByTestId('grade4-unit-completion-state')).toContainText('연습 3문제')
+
+  await page.getByTestId('grade4-mode-practice').click()
+  await expect(page).toHaveURL(/mode=practice/)
+  await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-big-03')
+  await page.getByTestId('grade4-choice-700').click()
+  await expect(page.getByTestId('grade4-wrong-feedback')).toBeVisible()
+  await expect(page.getByTestId('grade4-next-mission')).toBeVisible()
+  await page.getByTestId('grade4-next-mission').click()
+  await page.locator('[data-testid^="grade4-choice-"]').first().click()
+  await page.getByTestId('grade4-next-mission').click()
+  await page.locator('[data-testid^="grade4-choice-"]').first().click()
+  await page.getByTestId('grade4-next-mission').click()
+
+  await expect(page.getByTestId('grade4-unit-completion-state')).toContainText('단원 완료')
+  const stored = await page.evaluate((progressKey) => JSON.parse(localStorage.getItem(progressKey) ?? 'null'), PROGRESS_KEY)
+  expect(stored.completionRecord.completedBasicSetActivityIds).toContain('unit-4-1-large-numbers')
+  expect(stored.completionRecord.completedPracticeSetActivityIds).toContain('unit-4-1-large-numbers')
+  expect(stored.reviewVariantKeys.some((key: string) => key.startsWith('g4-big-03:'))).toBe(true)
+})
+
+test('4학년 활동 mode가 없거나 잘못되면 기본 3문제로 안전하게 연다', async ({ page }) => {
+  for (const suffix of ['', '&mode=unexpected']) {
+    await page.goto(`${BASE_PATH}/grade/4/mission?unitId=unit-4-1-large-numbers${suffix}`)
+    await expect(page.getByTestId('grade4-mode-basic')).toHaveAttribute('aria-current', 'page')
+    await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-big-02')
+  }
 })
 
 test('두 자리 수 나눗셈 단원은 몫을 숨기고 K/A/R 활동을 끝낸다', async ({ page }) => {
@@ -655,4 +705,23 @@ test('4학년 선택과 활동 화면은 작은 태블릿 폭에서 가로로 �
   expect(inputBox).not.toBeNull()
   expect(mascotBox).not.toBeNull()
   expect(mascotBox!.x).toBeGreaterThanOrEqual(inputBox!.x + inputBox!.width)
+})
+
+test('4학년 활동 선택은 모바일과 태블릿에서 넘치지 않고 큰 터치 영역을 유지한다', async ({ page }) => {
+  for (const viewport of [{ width: 390, height: 844 }, { width: 1024, height: 768 }]) {
+    await page.setViewportSize(viewport)
+    for (const route of [
+      '/grade/4',
+      '/grade/4/mission?unitId=unit-4-1-large-numbers&mode=basic',
+      '/grade/4/mission?unitId=unit-4-1-large-numbers&mode=practice',
+    ]) {
+      await page.goto(`${BASE_PATH}${route}`)
+      await expect.poll(async () => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+    }
+    for (const testId of ['grade4-mode-basic', 'grade4-mode-practice']) {
+      const box = await page.getByTestId(testId).boundingBox()
+      expect(box).not.toBeNull()
+      expect(box!.height).toBeGreaterThanOrEqual(44)
+    }
+  }
 })

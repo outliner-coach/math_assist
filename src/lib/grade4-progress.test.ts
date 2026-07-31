@@ -3,9 +3,12 @@ import { describe, expect, it, vi } from 'vitest'
 import {
   GRADE4_PROGRESS_KEY,
   advanceGrade4Activity,
+  completeGrade4Activity,
   createInitialGrade4Progress,
   loadGrade4Progress,
+  projectGrade4UnitCompletion,
   recordGrade4Attempt,
+  resolveGrade4ActivityMode,
   resetGrade4Progress,
   saveGrade4Progress,
   selectGrade4Unit,
@@ -99,5 +102,145 @@ describe('Grade 4 progress', () => {
     expect(next.activeItemIndex).toBe(0)
     expect(next.completedVariantKeys).toEqual(['g4-big-01:seed-1'])
     expect(next.reviewVariantKeys).toEqual(['g4-big-02:seed-1'])
+  })
+
+  it('defaults missing and invalid activity modes to basic while keeping practice explicit', () => {
+    expect(resolveGrade4ActivityMode(undefined)).toBe('basic')
+    expect(resolveGrade4ActivityMode(null)).toBe('basic')
+    expect(resolveGrade4ActivityMode('unexpected')).toBe('basic')
+    expect(resolveGrade4ActivityMode('basic')).toBe('basic')
+    expect(resolveGrade4ActivityMode('practice')).toBe('practice')
+  })
+
+  it('loads the legacy schema without losing completion, review, reward, or recent activity fields', () => {
+    const legacy = {
+      schemaVersion: 1,
+      completedVariantKeys: ['g4-big-02:seed-1'],
+      reviewVariantKeys: ['g4-big-07:seed-1'],
+      latestMissionId: 'g4-big-07',
+      selectedUnitId: 'unit-4-1-large-numbers',
+      activityRun: 3,
+      activeItemIndex: 1,
+      todaySolvedCount: 8,
+      skillSummaryByTag: { '큰 수 비교': { attempted: 4, correct: 3 } },
+      lastPlayedAt: 1_000,
+    }
+    const storage = memoryStorage({ [GRADE4_PROGRESS_KEY]: JSON.stringify(legacy) })
+
+    const loaded = loadGrade4Progress(storage, 1_000)
+
+    expect(loaded).toMatchObject({ recovered: false, storageAvailable: true })
+    expect(loaded.progress).toMatchObject({
+      ...legacy,
+      selectedMode: 'basic',
+      completionRecord: {
+        completedBasicSetActivityIds: [],
+        completedPracticeSetActivityIds: [],
+      },
+    })
+    expect(storage.setItem).not.toHaveBeenCalled()
+  })
+
+  it('preserves a malformed completion extension as corrupt Grade 4 state', () => {
+    const raw = JSON.stringify({
+      ...createInitialGrade4Progress(100),
+      completionRecord: {
+        completedBasicSetActivityIds: ['unit-4-1-large-numbers'],
+        completedPracticeSetActivityIds: 'broken',
+      },
+    })
+    const storage = memoryStorage({
+      [GRADE4_PROGRESS_KEY]: raw,
+      mathAssist_grade3Progress: '{"keep":true}',
+    })
+
+    const loaded = loadGrade4Progress(storage, 200)
+
+    expect(loaded.recovered).toBe(true)
+    expect(storage.values[GRADE4_PROGRESS_KEY]).toBe(raw)
+    expect(storage.values.mathAssist_grade3Progress).toBe('{"keep":true}')
+    expect(saveGrade4Progress(loaded.progress, storage)).toBe(false)
+    expect(storage.setItem).not.toHaveBeenCalled()
+  })
+
+  it('records a checked basic set without newly completing the unit', () => {
+    const unitId = 'unit-4-1-large-numbers'
+    const variants = ['basic-k', 'basic-a', 'basic-r']
+    const before = {
+      ...createInitialGrade4Progress(100),
+      selectedUnitId: unitId,
+      selectedMode: 'basic' as const,
+      completedVariantKeys: variants,
+      reviewVariantKeys: ['legacy-review'],
+    }
+
+    const result = completeGrade4Activity(before, {
+      unitId,
+      mode: 'basic',
+      variantKeys: variants,
+      now: 200,
+    })
+
+    expect(result.completed).toBe(true)
+    expect(result.progress.completionRecord).toEqual({
+      completedBasicSetActivityIds: [unitId],
+      completedPracticeSetActivityIds: [],
+    })
+    expect(result.progress.reviewVariantKeys).toEqual(['legacy-review'])
+    expect(projectGrade4UnitCompletion(result.progress, unitId)).toMatchObject({
+      hasCompletedBasicSet: true,
+      hasCompletedPracticeSet: false,
+      isComplete: false,
+      recommendedMode: 'practice',
+    })
+  })
+
+  it('completes a unit after all three practice items are checked and keeps wrong items for review', () => {
+    const unitId = 'unit-4-1-large-numbers'
+    const variants = ['practice-k', 'practice-a', 'practice-r']
+    const before = {
+      ...createInitialGrade4Progress(100),
+      selectedUnitId: unitId,
+      selectedMode: 'practice' as const,
+      completedVariantKeys: ['practice-k', 'practice-r', 'legacy-complete'],
+      reviewVariantKeys: ['practice-a', 'legacy-review'],
+    }
+
+    const result = completeGrade4Activity(before, {
+      unitId,
+      mode: 'practice',
+      variantKeys: variants,
+      now: 200,
+    })
+
+    expect(result.completed).toBe(true)
+    expect(result.progress.completedVariantKeys).toContain('legacy-complete')
+    expect(result.progress.reviewVariantKeys).toEqual(['practice-a', 'legacy-review'])
+    expect(projectGrade4UnitCompletion(result.progress, unitId)).toMatchObject({
+      hasCompletedBasicSet: false,
+      hasCompletedPracticeSet: true,
+      isComplete: true,
+    })
+  })
+
+  it('resets only the active item when the mode changes and keeps historical progress', () => {
+    const current = {
+      ...createInitialGrade4Progress(100),
+      selectedUnitId: 'unit-4-1-large-numbers',
+      selectedMode: 'basic' as const,
+      activeItemIndex: 2,
+      completedVariantKeys: ['done'],
+      reviewVariantKeys: ['review'],
+    }
+
+    const next = selectGrade4Unit(current, 'unit-4-1-large-numbers', 'practice', 200)
+
+    expect(next).toMatchObject({
+      selectedUnitId: 'unit-4-1-large-numbers',
+      selectedMode: 'practice',
+      activeItemIndex: 0,
+      completedVariantKeys: ['done'],
+      reviewVariantKeys: ['review'],
+    })
   })
 })
