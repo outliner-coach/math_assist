@@ -33,6 +33,11 @@ describe('grade 1 game components', () => {
     expect(html).toContain('수 세기 만')
     expect(html).toContain('순서 다리')
     expect(html).toContain('오늘 추천')
+    expect(html).toContain('기본 7문제 · 먼저 추천')
+    expect(html).toContain('연습 7문제 · 완주하면 섬 완료')
+    expect(html).toContain('data-testid="grade1-basic-count-cove"')
+    expect(html).toContain('data-testid="grade1-practice-count-cove"')
+    expect(html).not.toContain('disabled=""')
     expect(html).toContain('/assets/grade1/map/adventure-map.png')
   })
 

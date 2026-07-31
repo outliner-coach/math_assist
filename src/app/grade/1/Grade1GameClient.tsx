@@ -19,6 +19,7 @@ import { grade1Mascots, grade1Objects } from '@/lib/grade1-assets'
 import {
   getGrade1MissionById,
   getGrade1Missions,
+  getGrade1PracticeMissionIds,
   type Grade1Mission,
 } from '@/lib/grade1-problems'
 import {
@@ -77,13 +78,10 @@ function firstUnlockedIncompleteMission(
   missions: Grade1Mission[],
   progress: Grade1Progress
 ): Grade1Mission | null {
-  const firstIncomplete = missions.find((mission, index) => {
-    if (progress.completedStageIds.includes(mission.id)) return false
-    if (index === 0) return true
-    return progress.completedStageIds.includes(missions[index - 1].id)
-  })
-
-  return firstIncomplete ?? null
+  const incomplete = (mode: Grade1Mission['mode']) => missions.find((mission) => (
+    mission.mode === mode && !progress.completedStageIds.includes(mission.id)
+  ))
+  return incomplete('basic') ?? incomplete('practice') ?? null
 }
 
 function strongestTag(progress: Grade1Progress): string {
@@ -171,6 +169,7 @@ export default function Grade1GameClient() {
         wrongAttemptCount,
         todaySolvedCount: progress.todaySolvedCount,
         reviewCount: progress.reviewStageIds.length,
+        completedIslandIds: progress.completedIslandIds,
         introDismissed: progress.introDismissedAt !== null,
         rewardCounts,
         xp: progress.xp,
@@ -178,7 +177,7 @@ export default function Grade1GameClient() {
         masteryStars: getMasteryStars(progress.masteryByMissionId[selectedMission.id]),
         missionSeed,
       })
-  }, [missionSeed, nextPathMission?.id, progress.introDismissedAt, progress.masteryByMissionId, progress.reviewStageIds.length, progress.todaySolvedCount, progress.xp, rewardCounts, selectedMission.id, selectedMission.prompt, selectedMissionId, solved, wrongAttemptCount])
+  }, [missionSeed, nextPathMission?.id, progress.completedIslandIds, progress.introDismissedAt, progress.masteryByMissionId, progress.reviewStageIds.length, progress.todaySolvedCount, progress.xp, rewardCounts, selectedMission.id, selectedMission.prompt, selectedMissionId, solved, wrongAttemptCount])
 
   const persistProgress = (nextProgress: Grade1Progress) => {
     setProgress(nextProgress)
@@ -288,6 +287,7 @@ export default function Grade1GameClient() {
         wrongAttempts: wrongAttemptCount,
         variantKey: currentVariantKey,
         difficultyBonus: selectedMission.difficulty === 3 ? 5 : 0,
+        practiceMissionIds: getGrade1PracticeMissionIds(selectedMission.islandId),
       })
       persistProgress(nextProgress)
       return

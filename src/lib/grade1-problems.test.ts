@@ -4,34 +4,61 @@ import {
   auditGrade1MissionVariants,
   getGrade1MissionById,
   getGrade1Missions,
+  getGrade1PracticeMissionIds,
   getSafeGrade1Mission,
   grade1MissionTemplates,
   validateGrade1MissionBank,
 } from './grade1-problems'
 
 describe('grade1 mission bank', () => {
-  it('provides a 96-mission V1 deterministic adventure bank', () => {
+  it('provides seven authored basic and seven authored practice missions per island', () => {
     const missions = getGrade1Missions(42)
 
-    expect(missions).toHaveLength(96)
+    expect(missions).toHaveLength(98)
     expect(missions.map((mission) => mission.stageOrder)).toEqual(
-      Array.from({ length: 96 }, (_, index) => index + 1)
+      Array.from({ length: 98 }, (_, index) => index + 1)
     )
     expect(new Set(missions.map((mission) => mission.islandId)).size).toBe(7)
-    expect(Object.fromEntries(
-      Array.from(new Set(missions.map((mission) => mission.islandId)), (islandId) => [
-        islandId,
-        missions.filter((mission) => mission.islandId === islandId).length,
-      ])
-    )).toEqual({
-      'count-cove': 14,
-      'order-bridge': 14,
-      'orchard-port': 14,
-      'river-dock': 14,
-      'shape-forest': 14,
-      'clock-tower': 13,
-      'pattern-cave': 13,
-    })
+
+    for (const islandId of Array.from(new Set(missions.map((mission) => mission.islandId)))) {
+      const islandMissions = missions.filter((mission) => mission.islandId === islandId)
+      expect(islandMissions).toHaveLength(14)
+      expect(islandMissions.filter((mission) => mission.mode === 'basic')).toHaveLength(7)
+      expect(islandMissions.filter((mission) => mission.mode === 'practice')).toHaveLength(7)
+      expect(islandMissions.filter((mission) => mission.cognitiveDomain === 'knowing')).toHaveLength(6)
+      expect(islandMissions.filter((mission) => mission.cognitiveDomain === 'applying')).toHaveLength(6)
+      expect(islandMissions.filter((mission) => mission.cognitiveDomain === 'reasoning')).toHaveLength(2)
+      expect(islandMissions
+        .filter((mission) => mission.cognitiveDomain === 'reasoning')
+        .every((mission) => mission.taskActions.some((action) => (
+          action === 'reason' || action === 'explain' || action === 'analyze_error'
+        )))
+      ).toBe(true)
+      expect(getGrade1PracticeMissionIds(islandId)).toHaveLength(7)
+    }
+  })
+
+  it('owns every expanded id as a materially authored problem instead of a prefixed clone', () => {
+    expect(grade1MissionTemplates.every((template) => template.authoredSourceKey === template.id)).toBe(true)
+    expect(new Set(grade1MissionTemplates.map((template) => template.problemFamily))).toHaveLength(98)
+    expect(grade1MissionTemplates.some((template) => (
+      template.promptTemplate.startsWith('도전 ')
+      || template.learnerGoal.startsWith('도전 ')
+    ))).toBe(false)
+  })
+
+  it('directly links every Grade 1 allocation to basic knowing and applying work', () => {
+    for (const code of ['[2수01-01]', '[2수01-04]']) {
+      const direct = grade1MissionTemplates.filter((template) =>
+        template.directCurriculumCodes.includes(code)
+      )
+      expect(direct.some((template) => (
+        template.mode === 'basic' && template.cognitiveDomain === 'knowing'
+      ))).toBe(true)
+      expect(direct.some((template) => (
+        template.mode === 'basic' && template.cognitiveDomain === 'applying'
+      ))).toBe(true)
+    }
   })
 
   it('keeps the original apple mission as the safe first mission', () => {
@@ -78,7 +105,7 @@ describe('grade1 mission bank', () => {
   it('audits every allowed Grade 1 parameter combination', () => {
     const result = auditGrade1MissionVariants()
 
-    expect(result.variantCount).toBe(659)
+    expect(result.variantCount).toBe(1035)
     expect(result.errors).toEqual([])
   })
 
