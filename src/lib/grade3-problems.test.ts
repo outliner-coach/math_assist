@@ -188,6 +188,11 @@ describe('grade3 mission bank', () => {
   it('aligns editorial actions and semantics with the actual learner task', () => {
     const circleCenter = grade3MissionTemplates.find((mission) => mission.id === 'g3-2-circle-01')
     const circleCompass = grade3MissionTemplates.find((mission) => mission.id === 'g3-2-circle-03')
+    const expandedCalculation = grade3MissionTemplates.find((mission) => mission.id === 'g3-1-add-sub-04')
+    const expandedLineClassification = grade3MissionTemplates.find((mission) => mission.id === 'g3-1-lines-06')
+    const expandedFractionComparison = grade3MissionTemplates.find((mission) => mission.id === 'g3-2-fraction-06')
+    const expandedGraphComparison = grade3MissionTemplates.find((mission) => mission.id === 'g3-2-graph-06')
+    const expandedCircleError = grade3MissionTemplates.find((mission) => mission.id === 'g3-2-circle-10')
     const capacityReader = grade3MissionTemplates.find((mission) => mission.id === 'g3-2-capacity-weight-01')
     const weightReader = grade3MissionTemplates.find((mission) => mission.id === 'g3-2-capacity-weight-02')
 
@@ -210,6 +215,15 @@ describe('grade3 mission bank', () => {
       hideRadiusUntilReveal: true,
     })
     expect(circleCompass?.visualConfig).not.toHaveProperty('radius')
+
+    expect(expandedCalculation?.taskActions).toEqual(['calculate'])
+    expect(expandedLineClassification?.taskActions).toEqual(['classify'])
+    expect(expandedFractionComparison?.taskActions).toEqual(['compare'])
+    expect(expandedGraphComparison?.taskActions).toEqual(['compare'])
+    expect(expandedCircleError?.taskActions).toEqual(['analyze_error', 'construct'])
+    expect(expandedCircleError?.prompt).toContain('12cm')
+    expect(expandedCircleError?.prompt).toContain('잘못')
+    expect(expandedCircleError?.prompt).toContain('고쳐')
 
     expect(capacityReader?.taskActions).toEqual(['measure'])
     expect(capacityReader?.prompt).not.toContain('1L 250mL')

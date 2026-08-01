@@ -1274,6 +1274,52 @@ const expansionDifficulty: Record<Grade3CognitiveDomain, Grade3DifficultyStep> =
 const expansionActions: Grade3TaskAction[] = [
   'recognize', 'interpret', 'calculate', 'model', 'interpret', 'calculate', 'analyze_error',
 ]
+const authoredExpansionActions: Record<string, Grade3TaskAction[][]> = {
+  'g3-1-add-sub': [
+    ['calculate'], ['interpret', 'calculate'], ['model', 'calculate'],
+    ['model', 'calculate'], ['interpret', 'calculate'], ['model', 'calculate'], ['analyze_error', 'calculate'],
+  ],
+  'g3-1-lines': [
+    ['compare', 'classify'], ['interpret', 'classify'], ['classify'],
+    ['interpret', 'model'], ['compare', 'classify'], ['compare', 'classify'], ['analyze_error', 'compare', 'classify'],
+  ],
+  'g3-1-division': [
+    ['interpret', 'calculate'], ['calculate'], ['model', 'calculate'],
+    ['model', 'calculate'], ['interpret', 'calculate'], ['model', 'calculate'], ['analyze_error', 'calculate'],
+  ],
+  'g3-1-multiply': [
+    ['interpret', 'calculate'], ['interpret', 'calculate'], ['model', 'calculate'],
+    ['model', 'calculate'], ['model', 'calculate'], ['model', 'calculate'], ['analyze_error', 'calculate'],
+  ],
+  'g3-1-length-time': [
+    ['interpret'], ['calculate'], ['calculate'],
+    ['model', 'calculate'], ['measure', 'interpret'], ['model', 'calculate'], ['analyze_error', 'calculate'],
+  ],
+  'g3-1-fraction-decimal': [
+    ['interpret'], ['interpret', 'calculate'], ['explain', 'interpret'],
+    ['model'], ['model', 'interpret'], ['model', 'interpret'], ['analyze_error', 'interpret'],
+  ],
+  'g3-2-multiply': [
+    ['interpret', 'calculate'], ['interpret', 'calculate'], ['model', 'calculate'],
+    ['model', 'calculate'], ['model', 'calculate'], ['model', 'calculate'], ['analyze_error', 'calculate'],
+  ],
+  'g3-2-division': [
+    ['interpret', 'calculate'], ['interpret', 'calculate'], ['model', 'calculate'],
+    ['model', 'calculate'], ['model', 'calculate'], ['model', 'calculate'], ['analyze_error', 'calculate'],
+  ],
+  'g3-2-circle': [
+    ['construct'], ['interpret', 'recognize'], ['calculate'],
+    ['construct'], ['interpret', 'calculate'], ['recognize'], ['analyze_error', 'construct'],
+  ],
+  'g3-2-fraction': [
+    ['classify'], ['compare', 'interpret'], ['compare'],
+    ['model', 'compare'], ['classify', 'interpret'], ['compare'], ['analyze_error', 'compare'],
+  ],
+  'g3-2-graph': [
+    ['interpret', 'compare', 'calculate'], ['interpret'], ['compare'],
+    ['model', 'compare', 'calculate'], ['interpret'], ['compare'], ['analyze_error', 'compare', 'calculate'],
+  ],
+}
 const expansionPromptPrefixes = [
   '기초 카드: ',
   '그림 읽기: ',
@@ -1364,7 +1410,7 @@ const authoredExpansionPrompts: Record<string, string[]> = {
     '원형 배지를 만들어요. ① 컴퍼스 폭을 정해요. ② 그 폭으로 원을 그린 뒤 답을 써요.',
     '반지름 6cm인 원형 표지의 지름은 몇 cm일까요?',
     '운동장 원 그림에서 가운데 기준점을 무엇이라고 할까요?',
-    '친구의 원 그림을 검산해요. ① 컴퍼스 폭을 정해요. ② 그 폭으로 원을 그린 뒤 답을 써요.',
+    '지름 12cm 원에 컴퍼스 폭 12cm를 쓴 잘못을 고쳐요. ① 컴퍼스 폭을 고쳐요. ② 고친 폭으로 원을 그려요.',
   ],
   'g3-2-fraction': [
     '3/4 그림에서 분자와 분모를 비교해 분수 종류를 골라요.',
@@ -1630,9 +1676,8 @@ function buildGrade3ExpansionTemplates(): Grade3MissionTemplate[] {
         curriculumCode: slot.curriculumCode,
         directCurriculumCodes: slot.directCurriculumCodes ?? [slot.curriculumCode],
         authoredSourceKey: id,
-        taskActions: source.visualConfig.mode === 'construction'
-          ? ['construct']
-          : [expansionActions[index]],
+        taskActions: authoredExpansionActions[unit.id]?.[index]
+          ?? (source.visualConfig.mode === 'construction' ? ['construct'] : [expansionActions[index]]),
         prompt: authoredExpansionPrompts[unit.id]?.[index]
           ?? `${expansionPromptPrefixes[index]}${source.prompt}`,
         learnerGoal: `${expansionPromptPrefixes[index].replace(': ', '')} ${source.learnerGoal}`,
@@ -1816,8 +1861,7 @@ function validateRequiredActivityContract(template: Grade3MissionTemplate, error
     )
     if (
       template.curriculumCode !== '[4수03-07]'
-      || template.taskActions.length !== 1
-      || template.taskActions[0] !== 'construct'
+      || !template.taskActions.includes('construct')
       || template.visualSemantics !== 'quantitative'
       || template.visualConfig.mode !== 'construction'
       || template.visualConfig.hideRadiusUntilReveal !== true
