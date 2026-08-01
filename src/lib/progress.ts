@@ -4,7 +4,13 @@ import type {
   SessionResult
 } from './types'
 import type { PracticeGrade } from './types'
-import { resolvePracticeGrade } from './session'
+import {
+  createLearningSetCompletionRecord,
+  projectLearningCompletion,
+  readLearningSetCompletionRecord,
+  type LearningSetCompletionRecord,
+} from './learning-activity'
+import { resolvePracticeGrade, resolvePracticeItemCount } from './session'
 
 export const GRADE5_PROGRESS_KEY = 'mathAssist_progress_v1'
 export const GRADE6_PROGRESS_KEY = 'mathAssist_grade6Progress'
@@ -18,6 +24,7 @@ function isConceptProgressMap(value: unknown): value is ConceptProgressMap {
   return Object.entries(value).every(([conceptId, summary]) => {
     if (!summary || typeof summary !== 'object' || Array.isArray(summary)) return false
     const candidate = summary as Partial<ConceptProgressSummary>
+    const completion = readLearningSetCompletionRecord(candidate.completionRecord)
     return candidate.conceptId === conceptId
       && Number.isInteger(candidate.attemptCount)
       && typeof candidate.bestScore === 'number'
@@ -25,6 +32,46 @@ function isConceptProgressMap(value: unknown): value is ConceptProgressMap {
       && typeof candidate.lastCompletedAt === 'number'
       && typeof candidate.needsReview === 'boolean'
       && (candidate.lastMode === 'standard' || candidate.lastMode === 'retry-wrong')
+      && completion.status !== 'corrupt'
+      && (candidate.legacyCompleted === undefined || typeof candidate.legacyCompleted === 'boolean')
+  })
+}
+
+function appendUnique(values: readonly string[], value: string): readonly string[] {
+  return values.includes(value) ? values : [...values, value]
+}
+
+function existingCompletionEvidence(
+  existing: ConceptProgressSummary | null,
+): { record: LearningSetCompletionRecord; legacyCompleted: boolean } {
+  if (!existing) {
+    return { record: createLearningSetCompletionRecord(), legacyCompleted: false }
+  }
+  const completion = readLearningSetCompletionRecord(existing.completionRecord)
+  if (completion.status === 'corrupt') {
+    throw new Error('A valid concept completion record is required')
+  }
+  return {
+    record: completion.record,
+    legacyCompleted: completion.status === 'missing'
+      ? true
+      : existing.legacyCompleted === true,
+  }
+}
+
+export function projectConceptProgressCompletion(
+  summary: ConceptProgressSummary,
+) {
+  const completion = readLearningSetCompletionRecord(summary.completionRecord)
+  if (completion.status === 'corrupt') {
+    throw new Error('A valid concept completion record is required')
+  }
+  return projectLearningCompletion({
+    activityId: summary.conceptId,
+    record: completion.record,
+    legacyCompleted: completion.status === 'missing'
+      ? true
+      : summary.legacyCompleted === true,
   })
 }
 
@@ -38,6 +85,25 @@ export function buildConceptProgressSummary(
   result: SessionResult
 ): ConceptProgressSummary {
   const latestScore = toPercentScore(result.score, result.total)
+  const previous = existingCompletionEvidence(existing)
+  const itemCount = resolvePracticeItemCount(result.itemCount, resolvePracticeGrade(result.grade))
+  const completionRecord = result.mode === 'standard'
+    ? itemCount === 5
+      ? {
+          ...previous.record,
+          completedBasicSetActivityIds: appendUnique(
+            previous.record.completedBasicSetActivityIds,
+            result.conceptId,
+          ),
+        }
+      : {
+          ...previous.record,
+          completedPracticeSetActivityIds: appendUnique(
+            previous.record.completedPracticeSetActivityIds,
+            result.conceptId,
+          ),
+        }
+    : previous.record
 
   return {
     conceptId: result.conceptId,
@@ -46,7 +112,9 @@ export function buildConceptProgressSummary(
     latestScore,
     lastCompletedAt: result.completedAt,
     needsReview: result.wrongCount > 0,
-    lastMode: result.mode
+    lastMode: result.mode,
+    completionRecord,
+    legacyCompleted: previous.legacyCompleted,
   }
 }
 

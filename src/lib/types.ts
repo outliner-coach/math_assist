@@ -432,6 +432,11 @@ export interface ConceptProgressSummary {
   lastCompletedAt: number
   needsReview: boolean
   lastMode: PracticeMode
+  completionRecord?: {
+    completedBasicSetActivityIds: readonly string[]
+    completedPracticeSetActivityIds: readonly string[]
+  }
+  legacyCompleted?: boolean
 }
 
 export type ConceptProgressMap = Record<string, ConceptProgressSummary>

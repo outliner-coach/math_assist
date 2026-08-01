@@ -187,6 +187,11 @@ describe.each([5, 6] as const)('Grade %i completion storage boundary', (grade) =
         lastCompletedAt: 200,
         needsReview: true,
         lastMode: 'standard',
+        completionRecord: {
+          completedBasicSetActivityIds: [fixture.session.conceptId],
+          completedPracticeSetActivityIds: [],
+        },
+        legacyCompleted: false,
       },
     })
     expect(storage.getItem(sessionKey)).toBeNull()
