@@ -20,11 +20,16 @@ describe('grade 2 components', () => {
     }
   })
 
-  it('keeps repeated length and calendar labels on distinct render nodes', () => {
+  it('keeps repeated length, calendar, and shape labels on distinct render nodes', () => {
     const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
 
     try {
-      for (const missionId of ['g2-1-length-05', 'g2-2-time-06']) {
+      for (const missionId of [
+        'g2-1-length-05',
+        'g2-2-time-06',
+        'g2-1-shapes-05',
+        'g2-1-shapes-05-v1',
+      ]) {
         const mission = getGrade2MissionById(missionId, 42)
         renderToStaticMarkup(createElement(Grade2MissionVisual, { mission }))
       }

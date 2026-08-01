@@ -7,6 +7,7 @@ import path from 'node:path'
 import { afterAll, describe, expect, it } from 'vitest'
 
 import type { ProblemReviewSource } from './problem-review-catalog'
+import { getProblemReviewData } from './problem-review'
 
 const require = createRequire(import.meta.url)
 const reviewCore = require('../../scripts/problem-review-catalog-core.js')
@@ -58,6 +59,24 @@ function writeSources(name: string, sources: ProblemReviewSource[]) {
 }
 
 describe('problem review catalog scripts', () => {
+  it('keeps generated catalog hashes identical to the live review route', async () => {
+    const generated = reviewCore.buildCatalog(
+      reviewCore.loadActualSources(process.cwd())
+    )
+    const runtime = await getProblemReviewData()
+    const generatedById = new Map(
+      generated.items.map((item: { reviewId: string; contentHash: string }) => (
+        [item.reviewId, item.contentHash]
+      ))
+    )
+
+    expect(runtime.rows).toHaveLength(generated.items.length)
+    expect(
+      runtime.rows.filter(row => generatedById.get(row.reviewId) !== row.contentHash)
+        .map(row => row.reviewId)
+    ).toEqual([])
+  })
+
   it('uses fixed Grade 4 builds for every allowed variant and their actual visual outputs', () => {
     const calls: Array<[number, number]> = []
     const templates = [{

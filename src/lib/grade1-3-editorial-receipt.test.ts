@@ -41,7 +41,7 @@ describe('Grade 1-3 final editorial receipt', () => {
   it('clears resolved finding categories while preserving per-item resolution notes', () => {
     const { items } = loadReceipt()
 
-    expect(items).toHaveLength(280)
+    expect(items).toHaveLength(362)
     expect(items.every((item) => item.findingCategories.length === 0)).toBe(true)
     expect(new Set(items.map((item) => item.note)).size).toBeGreaterThan(8)
   })

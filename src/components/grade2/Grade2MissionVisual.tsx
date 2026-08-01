@@ -348,9 +348,9 @@ function SolidShapeCards({ mission, emphasize, showAnswer = false }: Grade2Missi
   return (
     <VisualShell emphasize={emphasize} testId="grade2-visual-solid-shape-cards">
       <div className="grid min-h-[220px] gap-3 sm:grid-cols-3">
-        {shapes.map((shape) => (
+        {shapes.map((shape, index) => (
           <div
-            key={shape}
+            key={`${shape}-${index}`}
             className={`flex flex-col items-center justify-center gap-3 rounded-2xl border-2 bg-white p-4 text-xl font-black text-[#0f172a] ${
               shape === target && emphasize && showAnswer ? 'border-[#16a34a]' : 'border-[#cbd5e1]'
             }`}

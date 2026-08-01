@@ -1594,8 +1594,8 @@ test('문제 렌더러 검수 화면은 실제 표본과 상태를 모바일·�
     'data-actual-renderer',
     'grade1'
   )
-  await expect(page.getByText('1540', { exact: true }).first()).toBeVisible()
-  await expect(page.getByText('931', { exact: true }).first()).toBeVisible()
+  await expect(page.getByText('1622', { exact: true }).first()).toBeVisible()
+  await expect(page.getByText('1013', { exact: true }).first()).toBeVisible()
   await expect(page.getByTestId('problem-review-hints')).toHaveCount(0)
   await expect(page.getByTestId('problem-review-answer')).toHaveCount(0)
   await expect(page.getByTestId('problem-review-solution')).toHaveCount(0)

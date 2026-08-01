@@ -4,8 +4,9 @@ const REQUIRED_VIEWPORTS = Object.freeze({
   mobile: Object.freeze({ width: 390, height: 844 }),
   tablet: Object.freeze({ width: 1024, height: 768 }),
 })
+const EXPECTED_VISUAL_ITEM_COUNT = 1013
 const PASS_NOTE = (
-  ' T10 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 '
+  ' T14 실제 렌더러 브라우저 증거에서 제출 전·힌트·정답 공개 상태와 '
   + '390×844 모바일·1024×768 태블릿을 다시 확인해 위 브라우저 증거 '
   + '차단 사유를 해소함.'
 )
@@ -44,7 +45,11 @@ function visualReceiptItems(ledgers) {
   ))
 }
 
-function validateVisualBrowserEvidence(report, ledgers, expectedCount = 931) {
+function validateVisualBrowserEvidence(
+  report,
+  ledgers,
+  expectedCount = EXPECTED_VISUAL_ITEM_COUNT
+) {
   const errors = []
   if (!isRecord(report)) return ['visual browser evidence must be an object']
   if (report.schemaVersion !== EVIDENCE_SCHEMA_VERSION) {
@@ -153,7 +158,12 @@ function validateVisualBrowserEvidence(report, ledgers, expectedCount = 931) {
   return errors
 }
 
-function applyVisualBrowserEvidence(report, ledgers, artifactPath, expectedCount = 931) {
+function applyVisualBrowserEvidence(
+  report,
+  ledgers,
+  artifactPath,
+  expectedCount = EXPECTED_VISUAL_ITEM_COUNT
+) {
   const errors = validateVisualBrowserEvidence(report, ledgers, expectedCount)
   if (errors.length > 0) throw new Error(errors.join('\n'))
   const evidenceIds = new Set(report.items.map(item => item.reviewId))
@@ -187,6 +197,7 @@ function applyVisualBrowserEvidence(report, ledgers, artifactPath, expectedCount
 
 module.exports = {
   EVIDENCE_SCHEMA_VERSION,
+  EXPECTED_VISUAL_ITEM_COUNT,
   PASS_NOTE,
   REQUIRED_STATES,
   REQUIRED_VIEWPORTS,

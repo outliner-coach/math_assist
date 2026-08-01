@@ -367,7 +367,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
                 1–6학년 문제 렌더러 검수
               </h1>
               <p className="mt-3 text-sm leading-7 text-slate-200 sm:text-base">
-                1,540개 원장을 하나의 review ID로 열고, 실제 학년별 시각
+                1,622개 원장을 하나의 review ID로 열고, 실제 학년별 시각
                 컴포넌트의 제출 전·힌트·정답 공개 상태를 같은 표본에서
                 비교합니다. 학습자 홈에는 노출되지 않는 내부 검수 화면입니다.
               </p>

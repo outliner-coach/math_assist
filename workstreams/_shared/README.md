@@ -21,6 +21,15 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-08-01: T14 final review integration (primary workstreams 03 and 04)
+  owns the 1,622-item single editorial ledger, 1,013-item/3,141-variant
+  browser evidence, fail-closed reviewed-change digest, catalog/live-route
+  hash parity test, and Grade 2 renderer review version v3. Repeated labels
+  must combine a stable position in React keys. Catalog scripts and the live
+  review route must choose identical source metadata for every review hash;
+  evidence cannot be applied unless all visual items pass pre/hint/revealed
+  at 390x844 and 1024x768 with zero browser errors and preserved storage.
+
 - 2026-08-01: The shared home-projection migration adds optional basic/practice
   completion evidence to `src/lib/types.ts`, upgrades Grade 2 progress to
   schema v4 and Grade 3 progress to schema v2, and preserves old full-set

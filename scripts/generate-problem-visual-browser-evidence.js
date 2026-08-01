@@ -15,6 +15,7 @@ const VIEWPORTS = Object.freeze({
   tablet: Object.freeze({ width: 1024, height: 768 }),
 })
 const REVIEW_STATES = Object.freeze(['pre', 'hint', 'revealed'])
+const EXPECTED_VISUAL_ITEM_COUNT = 1013
 
 function readOption(args, option) {
   const index = args.indexOf(option)
@@ -422,9 +423,9 @@ async function generateEvidence({
     if (browserErrors.length > 0) {
       throw new Error(`browser errors: ${browserErrors.length}`)
     }
-    if (allReviewIds.length !== 931) {
+    if (allReviewIds.length !== EXPECTED_VISUAL_ITEM_COUNT) {
       throw new Error(
-        `visual catalog count must be 931, received ${allReviewIds.length}`
+        `visual catalog count must be ${EXPECTED_VISUAL_ITEM_COUNT}, received ${allReviewIds.length}`
       )
     }
     if (failures.length > 0) {

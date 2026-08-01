@@ -1,7 +1,7 @@
 export const PROBLEM_REVIEW_RENDERER_VERSIONS = Object.freeze({
   none: 'no-visual-review-v1',
   'grade1-mission-visual': 'grade1-mission-visual-review-v1',
-  'grade2-mission-visual': 'grade2-mission-visual-review-v2',
+  'grade2-mission-visual': 'grade2-mission-visual-review-v3',
   'grade3-mission-visual': 'grade3-mission-visual-review-v1',
   'grade4-mission-visual': 'grade4-mission-visual-review-v1',
   'practice-problem-visual': 'practice-problem-visual-review-v1',

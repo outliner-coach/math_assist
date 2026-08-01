@@ -21,6 +21,7 @@
     "report:content-inventory": "node scripts/content-inventory-report.js",
     "audit:missions": "node scripts/mission-bank-quality-report.js",
     "generate:problem-review-catalog": "node scripts/generate-problem-review-catalog.js",
+    "finalize:problem-editorial-review": "node scripts/finalize-problem-editorial-ledger.js",
     "generate:problem-visual-evidence": "node scripts/generate-problem-visual-browser-evidence.js",
     "apply:problem-visual-evidence": "node scripts/apply-problem-visual-evidence.js",
     "check:problem-editorial-review": "node scripts/check-problem-editorial-ledger.js",
