@@ -5,17 +5,18 @@
 ## 상태 경계
 
 - **실제 배포본**: GitHub Pages 정적 사이트이며 서버 계정·원격 저장
-  API가 없다. 현재 `main`과 `origin/main`은 커밋 `b004f31`이다.
-  해당 배포본의 1~6학년 품질 원장과 공개 hydration은 확인됐지만,
-  아래 1,622개 콘텐츠 구조 확장은 아직 포함하지 않는다.
-- **현재 작업트리**: `dryforge/grade1-6-content-structure`에 공개 원본
-  1,622개, 121개 성취기준
+  API가 없다. 1~6학년 콘텐츠 구조와 1학년 홈 재고 교정을 포함한
+  제품 커밋 `4da821d`가 `main`과 `origin/main`에 반영됐고, GitHub
+  Actions 실행 `30704097219`의 build·deploy가 모두 성공했다.
+- **현재 작업트리**: `main`에 공개 원본 1,622개, 121개 성취기준
   직접 연결, 기본·연습 홈 투영과 5/10문제 완료 증거를 구현했다.
   최종 편집 원장은 `pass 1622 / blocked 0 / stale 0 / missing 0`이며,
   시각 원본 1,013개·허용 변형 3,141개를 실제 renderer의 세 상태와
   390×844·1024×768에서 다시 확인했다. 전체 Vitest 81개 파일
   786/786, Promptfoo 1,481/1,481, 정적 build 113/113, 전체 E2E
-  92/92도 통과했다. `main` 병합·푸시·Pages 배포는 하지 않았다.
+  92/92도 통과했다. 공개 Pages에서도 1학년 98개 재고, 기본·연습
+  경로, 진행 기록 hydration, 제출 전 정답 비노출과 5학년 전개도
+  실제 renderer를 확인했다.
 - 이 문서에서 `released`는 curriculum ledger, 공개 경로 게이트와 실제 GitHub Pages 화면이 일치한다는 뜻이다. 이후 변경도 `main` 반영, Pages 성공, 새 브라우저 hydration을 모두 확인해야 출시 완료로 기록한다.
 
 ## 단계별 구현 상태
@@ -23,7 +24,7 @@
 | 단계 | 상태 | 현재 결과와 경계 |
 |---|---|---|
 | 1. 숫자 입력 형식 | 완료 | 완성되지 않은 숫자·분수·대분수 형식은 오답, 답 잠금, 진도, receipt로 기록하지 않는다. |
-| 2. 문제 청사진 | 구조·최종 편집 검수 완료(로컬) | 1~6학년 1,622개 원본과 1,116개 정규 수학 서명, K/A/R·학습 행동·표현 계약을 검증한다. 최종 원장 1,622/1,622와 시각 증거 1,013/1,013이 통과했다. |
+| 2. 문제 청사진 | 구조·최종 편집 검수 완료·배포 | 1~6학년 1,622개 원본과 1,116개 정규 수학 서명, K/A/R·학습 행동·표현 계약을 검증한다. 최종 원장 1,622/1,622와 시각 증거 1,013/1,013이 통과했고 Pages에 반영됐다. |
 | 3. 공통 활동·진도 | 완료 | 기존 학년별 localStorage 원문을 쓰지 않는 공통 read projection과 append-only attempt receipt가 1~6학년에 연결되어 있다. 활동별 기본·연습 완료를 분리하며 이전 완료 의미는 legacy 호환으로 보존한다. |
 | 4. 풀이장·경험 프리셋 | 완료 | 정규화 벡터 획, 문제별 복구, clear, undo/redo, 펜·지우개와 `play / bridge / study` 프리셋이 1·2·3·4·5·6학년에 연결되어 있다. 수리·모아·루미 선택과 `환영·생각·힌트·회복·축하` 5개 표현 상태는 같은 프리셋의 `full / companion / coach` 강도로 표시되며 채점·진도와 분리되어 있다. |
 | 5. 선택적 원격 저장 | 비공개 기반만 구현 | merge·rollback backup·엄격한 envelope, mock transport, auth core, one-time recovery와 동의 provisioning 기반이 있다. production flag는 `false`이며 공개 UI·API·실제 provider는 없다. 정책·provider·의존성 blocker가 해소되기 전 배포하지 않는다. |
@@ -103,7 +104,34 @@
 - 수정 구간 Playwright 4/4 뒤 전체 E2E 92/92를 새 실행으로 통과했다.
   이 T15 결과와 HTML 리포트는 로컬
   `dryforge/grade1-6-content-structure`에만 있으며, 사용자 승인 전
-  `main` 병합·푸시·GitHub Pages 배포를 하지 않는다.
+  `main` 병합·푸시·GitHub Pages 배포를 하지 않는다. 이후 사용자
+  승인에 따른 실제 반영과 공개 검증은 아래 T16에 기록한다.
+
+## 2026-08-01 main·GitHub Pages 출시 T16
+
+- `dryforge/grade1-6-content-structure`의 35개 커밋을 `main`에
+  fast-forward하고 `1cc2909`까지 푸시했다. GitHub Actions 실행
+  `30703792961`은 build job `91379263380`과 deploy job
+  `91379443238`을 모두 통과했다.
+- 첫 공개 브라우저 확인에서 실제 1학년 재고는 98개인데 홈 카드만
+  오래된 고정 문구 `96개 미션`을 보여 주는 불일치를 발견했다.
+  실패 E2E로 `98개 미션` 계약을 먼저 고정하고, 카드가 1학년 원본
+  배열 길이를 사용하도록 교정했다. 집중 E2E 1/1 뒤 전체 Vitest
+  81개 파일 786/786, lint, TDD guard, build 113/113, E2E 92/92를
+  다시 통과했다.
+- 교정 커밋 `4da821d`를 `main`과 `origin/main`에 푸시했다. 최종
+  제품 배포 실행 `30704097219`의 build job `91380093258`과 deploy
+  job `91380292742`이 성공했다. 일부 Actions가 Node 20용이라는
+  안내와 runner가 Node 24를 강제한다는 annotation만 있고 실패는 없다.
+- 새 공개 브라우저에서 390×844 홈의 `98개 미션`, 기본·연습 각
+  7문제와 연습 경로, Grade 1 `data-progress-restored=true`, 첫 연습
+  미션 `count-cove-08`, 제출 전 답 속성·답 문구 0을 확인했다.
+  같은 크기의 검수 화면은 원장 1,622, 차단 0, 최신 해시 일치,
+  `data-review-answer-visible=false`였다.
+- 1024×768에서는 같은 홈 재고·경로와 5학년
+  `tmpl-cuboidnet-A-01`의 실제 `cuboid-net` renderer, 검수 통과,
+  최신 해시 일치, 제출 전 정답 비노출을 확인했다. 두 화면 크기에서
+  hydration 완료, 가로 넘침 없음, 콘솔 오류·경고 0이다.
 
 ## 2026-07-28 Grade 5 전수 편집 검수
 
