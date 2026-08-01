@@ -1,12 +1,929 @@
 {
   "schemaVersion": "2022-math-allocation-v1",
   "curriculumNotice": "교육부 고시 제2022-33호 별책 8",
-  "reviewedAt": "2026-07-26",
+  "reviewedAt": "2026-08-01",
   "releaseState": {
+    "grade1": "released",
+    "grade2": "released",
+    "grade3": "released",
     "grade4": "released",
+    "grade5": "released",
     "grade6": "released"
   },
   "allocations": [
+    {
+      "standardCode": "[2수01-01]",
+      "officialText": "수의 필요성을 인식하면서 0과 100까지의 수 개념을 이해하고, 수를 세고 읽고 쓸 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 1,
+      "semester": "1-1",
+      "unitId": "count-cove",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (1) 수와 연산, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade1:count-cove"
+      ],
+      "allocationRationale": "0과 100까지의 수를 세고 읽고 쓰는 첫 수 개념을 현재 Grade 1 수 세기 섬에서 시작한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "1:mission:count-cove-01",
+        "1:mission:count-cove-01-v1-1",
+        "1:mission:count-cove-02",
+        "1:mission:count-cove-02-v1-2",
+        "1:mission:count-cove-03",
+        "1:mission:count-cove-03-v1-3",
+        "1:mission:count-cove-04",
+        "1:mission:count-cove-04-v1-4",
+        "1:mission:count-cove-05",
+        "1:mission:count-cove-05-v1-5",
+        "1:mission:count-cove-06",
+        "1:mission:count-cove-07",
+        "1:mission:count-cove-08",
+        "1:mission:count-cove-09"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수01-02]",
+      "officialText": "일, 십, 백, 천의 자릿값과 위치적 기수법을 이해하고, 네 자리 이하의 수를 읽고 쓸 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-2",
+      "unitId": "g2-2-place-value",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (1) 수와 연산, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-2-place-value"
+      ],
+      "allocationRationale": "천의 자리까지 확장되는 공식 범위를 네 자리 수 단원에서 완결한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-2-place-value-01",
+        "2:mission:g2-2-place-value-01-v1",
+        "2:mission:g2-2-place-value-03",
+        "2:mission:g2-2-place-value-03-v1",
+        "2:mission:g2-2-place-value-04",
+        "2:mission:g2-2-place-value-05-v1",
+        "2:mission:g2-2-place-value-06"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수01-03]",
+      "officialText": "네 자리 이하의 수의 범위에서 수의 계열을 이해하고, 수의 크기를 비교할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-2",
+      "unitId": "g2-2-place-value",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (1) 수와 연산, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-2-place-value"
+      ],
+      "allocationRationale": "네 자리 이하라는 전체 범위의 수 계열과 크기 비교를 네 자리 수 단원에서 책임진다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "otherGradeReviewIntent": {
+        "grade": 1,
+        "scopeIds": [
+          "order-bridge"
+        ],
+        "rationale": "Grade 1에서는 작은 수 범위의 앞뒤 수와 크기 비교를 선수 복습으로 유지한다."
+      },
+      "directContentRefs": [
+        "2:mission:g2-2-place-value-02",
+        "2:mission:g2-2-place-value-02-v1",
+        "2:mission:g2-2-place-value-04-v1",
+        "2:mission:g2-2-place-value-05",
+        "2:mission:g2-2-place-value-06-v1"
+      ],
+      "reviewContentRefs": [
+        "1:mission:order-bridge-01",
+        "1:mission:order-bridge-01-v1-1",
+        "1:mission:order-bridge-02",
+        "1:mission:order-bridge-02-v1-2",
+        "1:mission:order-bridge-03",
+        "1:mission:order-bridge-03-v1-3",
+        "1:mission:order-bridge-04",
+        "1:mission:order-bridge-04-v1-4",
+        "1:mission:order-bridge-05",
+        "1:mission:order-bridge-05-v1-5",
+        "1:mission:order-bridge-06",
+        "1:mission:order-bridge-07",
+        "1:mission:order-bridge-08",
+        "1:mission:order-bridge-09"
+      ]
+    },
+    {
+      "standardCode": "[2수01-04]",
+      "officialText": "하나의 수를 두 수로 분해하고 두 수를 하나의 수로 합성하는 활동을 통하여 수 감각을 기른다.",
+      "band": "1-2",
+      "assignedGrade": 1,
+      "semester": "1-1",
+      "unitId": "orchard-port",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (1) 수와 연산, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade1:orchard-port"
+      ],
+      "allocationRationale": "두 모음을 합치는 기존 섬에서 20 이하 수의 합성과 그 역활동인 분해를 함께 확장한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "1:mission:orchard-port-01",
+        "1:mission:orchard-port-01-v1-1",
+        "1:mission:orchard-port-03-v1-3",
+        "1:mission:orchard-port-04-v1-4",
+        "1:mission:orchard-port-05"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수01-05]",
+      "officialText": "덧셈과 뺄셈이 이루어지는 실생활 상황과 연결하여 덧셈과 뺄셈의 의미를 이해한다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-add-sub",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (1) 수와 연산, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-add-sub"
+      ],
+      "allocationRationale": "덧셈과 뺄셈을 함께 선언한 Grade 2 단원에서 두 연산의 실생활 의미를 한 범위로 다룬다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "otherGradeReviewIntent": {
+        "grade": 1,
+        "scopeIds": [
+          "orchard-port",
+          "river-dock"
+        ],
+        "rationale": "Grade 1의 더하기와 빼기 섬은 작은 수의 구체적 상황을 복습하는 데 사용한다."
+      },
+      "directContentRefs": [
+        "2:mission:g2-1-add-sub-01",
+        "2:mission:g2-1-add-sub-01-v1",
+        "2:mission:g2-1-add-sub-06"
+      ],
+      "reviewContentRefs": [
+        "1:mission:orchard-port-01",
+        "1:mission:orchard-port-02",
+        "1:mission:orchard-port-03",
+        "1:mission:orchard-port-04",
+        "1:mission:orchard-port-05",
+        "1:mission:orchard-port-06",
+        "1:mission:orchard-port-08",
+        "1:mission:orchard-port-09",
+        "1:mission:river-dock-01",
+        "1:mission:river-dock-02",
+        "1:mission:river-dock-03",
+        "1:mission:river-dock-04",
+        "1:mission:river-dock-05",
+        "1:mission:river-dock-06",
+        "1:mission:river-dock-08",
+        "1:mission:river-dock-09",
+        "1:mission:river-dock-10"
+      ]
+    },
+    {
+      "standardCode": "[2수01-06]",
+      "officialText": "두 자리 수의 범위에서 덧셈과 뺄셈의 계산 원리를 이해하고 그 계산을 할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-add-sub",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (1) 수와 연산, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-add-sub"
+      ],
+      "allocationRationale": "두 자리 수 계산 원리와 계산 수행을 Grade 2 덧셈과 뺄셈 단원에서 완결한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "otherGradeReviewIntent": {
+        "grade": 1,
+        "scopeIds": [
+          "orchard-port",
+          "river-dock"
+        ],
+        "rationale": "Grade 1에서는 20 이하의 더하기와 빼기를 선수 복습으로 유지한다."
+      },
+      "directContentRefs": [
+        "2:mission:g2-1-add-sub-02",
+        "2:mission:g2-1-add-sub-02-v1"
+      ],
+      "reviewContentRefs": [
+        "1:mission:orchard-port-07",
+        "1:mission:river-dock-01-v1-1",
+        "1:mission:river-dock-02-v1-2",
+        "1:mission:river-dock-03-v1-3",
+        "1:mission:river-dock-04-v1-4",
+        "1:mission:river-dock-07"
+      ]
+    },
+    {
+      "standardCode": "[2수01-07]",
+      "officialText": "덧셈과 뺄셈의 관계를 이해한다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-add-sub",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (1) 수와 연산, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-add-sub"
+      ],
+      "allocationRationale": "두 연산을 함께 다루는 단원에서 한 상황을 덧셈식과 뺄셈식으로 연결한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-1-add-sub-03",
+        "2:mission:g2-1-add-sub-03-v1",
+        "2:mission:g2-1-add-sub-06-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수01-08]",
+      "officialText": "두 자리 수의 범위에서 세 수의 덧셈과 뺄셈을 할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-add-sub",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (1) 수와 연산, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-add-sub"
+      ],
+      "allocationRationale": "두 자리 수 범위의 세 수 계산을 Grade 2 덧셈과 뺄셈 단원에서 단계적으로 확장한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "otherGradeReviewIntent": {
+        "grade": 1,
+        "scopeIds": [
+          "orchard-port"
+        ],
+        "rationale": "Grade 1의 세 수 더하기 경험을 작은 수 범위의 선수 복습으로 사용한다."
+      },
+      "directContentRefs": [
+        "2:mission:g2-1-add-sub-04",
+        "2:mission:g2-1-add-sub-04-v1"
+      ],
+      "reviewContentRefs": [
+        "1:mission:orchard-port-02-v1-2",
+        "1:mission:orchard-port-10"
+      ]
+    },
+    {
+      "standardCode": "[2수01-09]",
+      "officialText": "□가 사용된 덧셈식과 뺄셈식을 만들고, □의 값을 구할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-add-sub",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (1) 수와 연산, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-add-sub"
+      ],
+      "allocationRationale": "빈칸 덧셈식과 뺄셈식은 두 연산을 함께 다루는 Grade 2 단원의 상자 식 범위에 둔다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-1-add-sub-05",
+        "2:mission:g2-1-add-sub-05-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수01-10]",
+      "officialText": "곱셈이 이루어지는 실생활 상황과 연결하여 곱셈의 의미를 이해한다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-multiplication",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (1) 수와 연산, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-multiplication"
+      ],
+      "allocationRationale": "같은 수 묶음과 배열을 실생활 곱셈 상황으로 연결하는 Grade 2 곱셈 단원에 배정한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-1-multiplication-01",
+        "2:mission:g2-1-multiplication-01-v1",
+        "2:mission:g2-1-multiplication-02",
+        "2:mission:g2-1-multiplication-02-v1",
+        "2:mission:g2-1-multiplication-03",
+        "2:mission:g2-1-multiplication-03-v1",
+        "2:mission:g2-1-multiplication-04",
+        "2:mission:g2-1-multiplication-04-v1",
+        "2:mission:g2-1-multiplication-05",
+        "2:mission:g2-1-multiplication-05-v1",
+        "2:mission:g2-1-multiplication-06",
+        "2:mission:g2-1-multiplication-06-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수01-11]",
+      "officialText": "곱셈구구를 이해하고, 한 자리 수의 곱셈을 할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-2",
+      "unitId": "g2-2-facts",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (1) 수와 연산, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-2-facts"
+      ],
+      "allocationRationale": "곱셈구구와 한 자리 수 곱셈의 숙달을 Grade 2 곱셈구구 단원에서 책임진다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-2-facts-01",
+        "2:mission:g2-2-facts-01-v1",
+        "2:mission:g2-2-facts-02",
+        "2:mission:g2-2-facts-02-v1",
+        "2:mission:g2-2-facts-03",
+        "2:mission:g2-2-facts-03-v1",
+        "2:mission:g2-2-facts-04",
+        "2:mission:g2-2-facts-04-v1",
+        "2:mission:g2-2-facts-05",
+        "2:mission:g2-2-facts-05-v1",
+        "2:mission:g2-2-facts-06",
+        "2:mission:g2-2-facts-06-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수02-01]",
+      "officialText": "물체, 무늬, 수 등의 배열에서 규칙을 찾아 여러 가지 방법으로 표현할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-2",
+      "unitId": "g2-2-pattern",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (2) 변화와 관계, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-2-pattern"
+      ],
+      "allocationRationale": "반복과 증가 규칙을 물체, 무늬, 수로 표현하는 전체 범위를 Grade 2 규칙 찾기 단원에서 완결한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "otherGradeReviewIntent": {
+        "grade": 1,
+        "scopeIds": [
+          "pattern-cave"
+        ],
+        "rationale": "Grade 1의 단순 반복과 수 배열 규칙을 선수 복습으로 유지한다."
+      },
+      "directContentRefs": [
+        "2:mission:g2-2-pattern-01",
+        "2:mission:g2-2-pattern-01-v1",
+        "2:mission:g2-2-pattern-03",
+        "2:mission:g2-2-pattern-03-v1",
+        "2:mission:g2-2-pattern-04",
+        "2:mission:g2-2-pattern-05",
+        "2:mission:g2-2-pattern-05-v1",
+        "2:mission:g2-2-pattern-06"
+      ],
+      "reviewContentRefs": [
+        "1:mission:pattern-cave-01",
+        "1:mission:pattern-cave-01-v1-1",
+        "1:mission:pattern-cave-01-v1-7",
+        "1:mission:pattern-cave-02",
+        "1:mission:pattern-cave-02-v1-2",
+        "1:mission:pattern-cave-02-v1-8",
+        "1:mission:pattern-cave-03",
+        "1:mission:pattern-cave-03-v1-3",
+        "1:mission:pattern-cave-04",
+        "1:mission:pattern-cave-04-v1-4",
+        "1:mission:pattern-cave-05",
+        "1:mission:pattern-cave-05-v1-5",
+        "1:mission:pattern-cave-06",
+        "1:mission:pattern-cave-06-v1-6"
+      ]
+    },
+    {
+      "standardCode": "[2수02-02]",
+      "officialText": "자신이 정한 규칙에 따라 물체, 무늬, 수 등을 배열할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-2",
+      "unitId": "g2-2-pattern",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (2) 변화와 관계, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-2-pattern"
+      ],
+      "allocationRationale": "학습자가 규칙을 정하고 배열을 구성하는 활동을 Grade 2 규칙 찾기 단원에서 확장한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-2-pattern-02",
+        "2:mission:g2-2-pattern-02-v1",
+        "2:mission:g2-2-pattern-04-v1",
+        "2:mission:g2-2-pattern-06-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수03-01]",
+      "officialText": "교실 및 생활 주변에서 여러 가지 물건을 관찰하여 직육면체, 원기둥, 구의 모양을 찾고, 이를 이용하여 여러 가지 모양을 만들 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-shapes",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (3) 도형과 측정, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-shapes"
+      ],
+      "allocationRationale": "생활 속 입체도형 찾기와 모양 만들기를 입체·평면도형을 함께 다루는 Grade 2 도형 단원에 둔다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-1-shapes-01",
+        "2:mission:g2-1-shapes-01-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수03-02]",
+      "officialText": "쌓기나무를 이용하여 여러 가지 입체도형의 모양을 만들고, 그 모양에 대해 위치나 방향을 이용하여 말할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-shapes",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (3) 도형과 측정, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-shapes"
+      ],
+      "allocationRationale": "쌓기나무 구성과 위치·방향 설명을 Grade 2 도형 단원의 공간 표현 범위로 다룬다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-1-shapes-02",
+        "2:mission:g2-1-shapes-02-v1",
+        "2:mission:g2-1-shapes-06",
+        "2:mission:g2-1-shapes-06-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수03-03]",
+      "officialText": "교실 및 생활 주변에서 여러 가지 물건을 관찰하여 삼각형, 사각형, 원의 모양을 찾고, 이를 이용하여 여러 가지 모양을 만들 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-shapes",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (3) 도형과 측정, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-shapes"
+      ],
+      "allocationRationale": "생활 속 평면도형 찾기와 모양 만들기를 Grade 2 여러 가지 도형 단원에 배정한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-1-shapes-03",
+        "2:mission:g2-1-shapes-03-v1"
+      ],
+      "reviewContentRefs": [
+        "1:mission:shape-forest-01-v1-1",
+        "1:mission:shape-forest-04-v1-4"
+      ]
+    },
+    {
+      "standardCode": "[2수03-04]",
+      "officialText": "삼각형, 사각형, 원을 직관적으로 이해하고, 그 모양을 그릴 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-shapes",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (3) 도형과 측정, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-shapes"
+      ],
+      "allocationRationale": "도형 인식뿐 아니라 그리기까지 포함한 전체 성취를 Grade 2 도형 단원에서 책임진다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "otherGradeReviewIntent": {
+        "grade": 1,
+        "scopeIds": [
+          "shape-forest"
+        ],
+        "rationale": "Grade 1의 기본 모양 인식을 선수 복습으로 유지한다."
+      },
+      "directContentRefs": [
+        "2:mission:g2-1-shapes-04",
+        "2:mission:g2-1-shapes-04-v1"
+      ],
+      "reviewContentRefs": [
+        "1:mission:shape-forest-01",
+        "1:mission:shape-forest-02",
+        "1:mission:shape-forest-02-v1-2",
+        "1:mission:shape-forest-03",
+        "1:mission:shape-forest-04",
+        "1:mission:shape-forest-05"
+      ]
+    },
+    {
+      "standardCode": "[2수03-05]",
+      "officialText": "삼각형, 사각형에서 각각의 공통점을 찾아 말할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-shapes",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (3) 도형과 측정, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-shapes"
+      ],
+      "allocationRationale": "삼각형과 사각형의 공통 속성을 분류하고 말하는 활동을 Grade 2 도형 단원에서 확장한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "otherGradeReviewIntent": {
+        "grade": 1,
+        "scopeIds": [
+          "shape-forest"
+        ],
+        "rationale": "Grade 1의 같은 모양 찾기와 간단한 분류를 선수 복습으로 사용한다."
+      },
+      "directContentRefs": [
+        "2:mission:g2-1-shapes-05",
+        "2:mission:g2-1-shapes-05-v1"
+      ],
+      "reviewContentRefs": [
+        "1:mission:shape-forest-03-v1-3",
+        "1:mission:shape-forest-05-v1-5",
+        "1:mission:shape-forest-06",
+        "1:mission:shape-forest-07",
+        "1:mission:shape-forest-08",
+        "1:mission:shape-forest-09"
+      ]
+    },
+    {
+      "standardCode": "[2수03-06]",
+      "officialText": "구체물의 길이, 들이, 무게, 넓이를 비교하여 각각 ‘길다, 짧다’, ‘많다, 적다’, ‘무겁다, 가볍다’, ‘넓다, 좁다’ 등을 구별하여 말할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-length",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (3) 도형과 측정, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-length"
+      ],
+      "allocationRationale": "구체물의 여러 양을 직접 비교하는 활동을 측정의 도입인 Grade 2 길이 재기 단원에 둔다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-1-length-01",
+        "2:mission:g2-1-length-04",
+        "2:mission:g2-1-length-04-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수03-07]",
+      "officialText": "시계를 보고 시각을 ‘몇 시 몇 분’까지 읽을 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-2",
+      "unitId": "g2-2-time",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (3) 도형과 측정, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-2-time"
+      ],
+      "allocationRationale": "분 단위까지 읽는 공식 범위를 Grade 2 시각과 시간 단원에서 완결한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "otherGradeReviewIntent": {
+        "grade": 1,
+        "scopeIds": [
+          "clock-tower"
+        ],
+        "rationale": "Grade 1의 정각과 30분 읽기를 선수 복습으로 유지한다."
+      },
+      "directContentRefs": [
+        "2:mission:g2-2-time-01",
+        "2:mission:g2-2-time-01-v1",
+        "2:mission:g2-2-time-04",
+        "2:mission:g2-2-time-04-v1"
+      ],
+      "reviewContentRefs": [
+        "1:mission:clock-tower-01",
+        "1:mission:clock-tower-01-v1-1",
+        "1:mission:clock-tower-02",
+        "1:mission:clock-tower-02-v1-2",
+        "1:mission:clock-tower-03",
+        "1:mission:clock-tower-03-v1-3",
+        "1:mission:clock-tower-05",
+        "1:mission:clock-tower-06",
+        "1:mission:clock-tower-06-v1-6",
+        "1:mission:clock-tower-07-v1-7"
+      ]
+    },
+    {
+      "standardCode": "[2수03-08]",
+      "officialText": "1시간과 1분의 관계를 이해하고, 시간을 ‘시간’, ‘분’으로 표현할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-2",
+      "unitId": "g2-2-time",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (3) 도형과 측정, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-2-time"
+      ],
+      "allocationRationale": "시간과 분의 단위 관계 및 두 단위 표현을 Grade 2 시각과 시간 단원에 배정한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-2-time-02",
+        "2:mission:g2-2-time-02-v1",
+        "2:mission:g2-2-time-05",
+        "2:mission:g2-2-time-05-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수03-09]",
+      "officialText": "실생활 문제 상황과 연결하여 1분, 1시간, 1일, 1주일, 1개월, 1년 사이의 관계를 이해한다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-2",
+      "unitId": "g2-2-time",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (3) 도형과 측정, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-2-time"
+      ],
+      "allocationRationale": "분부터 년까지의 시간 관계 전체를 달력 표현이 있는 Grade 2 시간 단원에서 연결한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "otherGradeReviewIntent": {
+        "grade": 1,
+        "scopeIds": [
+          "clock-tower"
+        ],
+        "rationale": "Grade 1의 하루와 일주일 관계를 선수 복습으로 유지한다."
+      },
+      "directContentRefs": [
+        "2:mission:g2-2-time-03",
+        "2:mission:g2-2-time-03-v1",
+        "2:mission:g2-2-time-06",
+        "2:mission:g2-2-time-06-v1"
+      ],
+      "reviewContentRefs": [
+        "1:mission:clock-tower-04",
+        "1:mission:clock-tower-04-v1-4",
+        "1:mission:clock-tower-05-v1-5",
+        "1:mission:clock-tower-07"
+      ]
+    },
+    {
+      "standardCode": "[2수03-10]",
+      "officialText": "길이 단위 1cm와 1m를 알고, 이를 이용하여 주변 사물의 길이를 측정할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-length",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (3) 도형과 측정, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-length"
+      ],
+      "allocationRationale": "cm와 m의 도입 및 실제 측정을 Grade 2 첫 길이 재기 단원에서 시작한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-1-length-01-v1",
+        "2:mission:g2-1-length-02",
+        "2:mission:g2-1-length-02-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수03-11]",
+      "officialText": "1m와 1cm의 관계를 이해하고, 길이를 ‘몇 m 몇 cm’와 ‘몇 cm’로 표현할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-2",
+      "unitId": "g2-2-length",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (3) 도형과 측정, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-2-length"
+      ],
+      "allocationRationale": "m와 cm의 관계 및 복합 단위 표현을 Grade 2 두 번째 길이 재기 단원에서 다룬다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-2-length-01",
+        "2:mission:g2-2-length-01-v1",
+        "2:mission:g2-2-length-03",
+        "2:mission:g2-2-length-03-v1",
+        "2:mission:g2-2-length-04",
+        "2:mission:g2-2-length-05-v1",
+        "2:mission:g2-2-length-06"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수03-12]",
+      "officialText": "여러 가지 물건의 길이를 어림하고, 길이에 대한 양감을 기른다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-length",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (3) 도형과 측정, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-length"
+      ],
+      "allocationRationale": "측정 도입과 함께 주변 물건의 길이를 어림하여 양감을 형성하도록 Grade 2 첫 길이 단원에 둔다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-1-length-03",
+        "2:mission:g2-1-length-03-v1",
+        "2:mission:g2-1-length-06-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수03-13]",
+      "officialText": "실생활 문제 상황과 연결하여 길이의 덧셈과 뺄셈을 할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-2",
+      "unitId": "g2-2-length",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (3) 도형과 측정, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-2-length"
+      ],
+      "allocationRationale": "단위 관계를 배운 뒤 실생활 길이의 덧셈과 뺄셈을 Grade 2 두 번째 길이 단원에서 해결한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-2-length-02",
+        "2:mission:g2-2-length-02-v1",
+        "2:mission:g2-2-length-04-v1",
+        "2:mission:g2-2-length-05",
+        "2:mission:g2-2-length-06-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수04-01]",
+      "officialText": "여러 가지 사물을 정해진 기준 또는 자신이 정한 기준으로 분류하여 개수를 세어 보고, 기준에 따른 결과를 말할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-1",
+      "unitId": "g2-1-classification",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (4) 자료와 가능성, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-1-classification"
+      ],
+      "allocationRationale": "기준을 정해 사물을 분류하고 개수와 결과를 말하는 활동을 Grade 2 분류하기 단원에 배정한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-1-classification-01",
+        "2:mission:g2-1-classification-01-v1",
+        "2:mission:g2-1-classification-02",
+        "2:mission:g2-1-classification-02-v1",
+        "2:mission:g2-1-classification-03",
+        "2:mission:g2-1-classification-03-v1",
+        "2:mission:g2-1-classification-04",
+        "2:mission:g2-1-classification-04-v1",
+        "2:mission:g2-1-classification-05",
+        "2:mission:g2-1-classification-05-v1",
+        "2:mission:g2-1-classification-06",
+        "2:mission:g2-1-classification-06-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수04-02]",
+      "officialText": "자료를 분류하여 표로 나타내고, 자료를 표로 나타내면 편리한 점을 말할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-2",
+      "unitId": "g2-2-table-graph",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (4) 자료와 가능성, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-2-table-graph"
+      ],
+      "allocationRationale": "분류한 자료의 표 표현과 편리함 설명을 Grade 2 표와 그래프 단원에서 다룬다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-2-table-graph-01",
+        "2:mission:g2-2-table-graph-01-v1",
+        "2:mission:g2-2-table-graph-03-v1",
+        "2:mission:g2-2-table-graph-04",
+        "2:mission:g2-2-table-graph-05-v1"
+      ],
+      "reviewContentRefs": []
+    },
+    {
+      "standardCode": "[2수04-03]",
+      "officialText": "자료를 분류하여 ○, ×, / 등을 이용한 그래프로 나타내고, 자료를 그래프로 나타내면 편리한 점을 말할 수 있다.",
+      "band": "1-2",
+      "assignedGrade": 2,
+      "semester": "2-2",
+      "unitId": "g2-2-table-graph",
+      "prerequisiteCodes": [],
+      "sourceUrl": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0",
+      "sourcePageDescriptor": "교육부 고시 제2022-33호 별책 8, 초등학교 1∼2학년 성취기준, (4) 자료와 가능성, 첫 번째 성취기준 표",
+      "reviewStatus": "released",
+      "coverageStatus": "existing-reference",
+      "existingContentRefs": [
+        "grade2:g2-2-table-graph"
+      ],
+      "allocationRationale": "표식 그래프의 구성과 표현의 편리함을 Grade 2 표와 그래프 단원에서 완결한다.",
+      "reviewedBy": "grade1-6-content-structure-release-2026-08-01",
+      "directContentRefs": [
+        "2:mission:g2-2-table-graph-02",
+        "2:mission:g2-2-table-graph-02-v1",
+        "2:mission:g2-2-table-graph-03",
+        "2:mission:g2-2-table-graph-04-v1",
+        "2:mission:g2-2-table-graph-05",
+        "2:mission:g2-2-table-graph-06",
+        "2:mission:g2-2-table-graph-06-v1"
+      ],
+      "reviewContentRefs": []
+    },
     {
       "standardCode": "[4수01-01]",
       "officialText": "큰 수의 필요성을 인식하면서 10000 이상의 큰 수에 대한 자릿값과 위치적 기수법을 이해하고, 수를 읽고 쓸 수 있다.",
@@ -23,7 +940,14 @@
         "grade4:unit-4-1-large-numbers:grade4-bridge-big-numbers-v1"
       ],
       "allocationRationale": "4학년 큰 수 도입 순서",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "4:mission:g4-big-01",
+        "4:mission:g4-big-02",
+        "4:mission:g4-big-03",
+        "4:mission:g4-big-06"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-02]",
@@ -43,7 +967,16 @@
         "grade4:unit-4-1-large-numbers:grade4-bridge-big-numbers-v1"
       ],
       "allocationRationale": "큰 수 읽기 뒤 계열과 비교",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "4:mission:g4-big-04",
+        "4:mission:g4-big-05",
+        "4:mission:g4-big-07",
+        "4:mission:g4-big-08",
+        "4:mission:g4-big-09",
+        "4:mission:g4-big-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-03]",
@@ -61,7 +994,20 @@
         "grade3:g3-1-add-sub"
       ],
       "allocationRationale": "현재 3학년 덧셈과 뺄셈 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-1-add-sub-01",
+        "3:mission:g3-1-add-sub-02",
+        "3:mission:g3-1-add-sub-03",
+        "3:mission:g3-1-add-sub-04",
+        "3:mission:g3-1-add-sub-05",
+        "3:mission:g3-1-add-sub-06",
+        "3:mission:g3-1-add-sub-07",
+        "3:mission:g3-1-add-sub-08",
+        "3:mission:g3-1-add-sub-09",
+        "3:mission:g3-1-add-sub-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-04]",
@@ -80,7 +1026,20 @@
         "grade3:g3-2-multiply"
       ],
       "allocationRationale": "현재 3학년 두 학기 곱셈 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-1-multiply-01",
+        "3:mission:g3-1-multiply-02",
+        "3:mission:g3-1-multiply-03",
+        "3:mission:g3-1-multiply-04",
+        "3:mission:g3-1-multiply-05",
+        "3:mission:g3-1-multiply-06",
+        "3:mission:g3-1-multiply-07",
+        "3:mission:g3-1-multiply-08",
+        "3:mission:g3-1-multiply-09",
+        "3:mission:g3-1-multiply-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-05]",
@@ -100,7 +1059,14 @@
         "grade3:g3-1-division"
       ],
       "allocationRationale": "현재 3학년 나눗셈 의미 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-1-division-01",
+        "3:mission:g3-1-division-05",
+        "3:mission:g3-1-division-06",
+        "3:mission:g3-1-division-07"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-06]",
@@ -121,7 +1087,16 @@
         "grade3:g3-2-division"
       ],
       "allocationRationale": "현재 3학년 몫과 나머지 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-1-division-02",
+        "3:mission:g3-1-division-03",
+        "3:mission:g3-1-division-04",
+        "3:mission:g3-1-division-08",
+        "3:mission:g3-1-division-09",
+        "3:mission:g3-1-division-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-07]",
@@ -141,7 +1116,20 @@
         "grade4:unit-4-1-multiplication-division:grade4-bridge-two-digit-division-v1"
       ],
       "allocationRationale": "한 자리 수 나눗셈 뒤 두 자리 수로 확장",
-      "reviewedBy": "curriculum-ledger-review-2026-07-26"
+      "reviewedBy": "curriculum-ledger-review-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-div-01",
+        "4:mission:g4-div-02",
+        "4:mission:g4-div-03",
+        "4:mission:g4-div-04",
+        "4:mission:g4-div-05",
+        "4:mission:g4-div-06",
+        "4:mission:g4-div-07",
+        "4:mission:g4-div-08",
+        "4:mission:g4-div-09",
+        "4:mission:g4-div-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-08]",
@@ -164,7 +1152,20 @@
         "grade4:unit-4-1-arithmetic-estimation:grade4-bridge-arithmetic-estimation-v1"
       ],
       "allocationRationale": "사칙계산 학습 뒤 결과를 어림",
-      "reviewedBy": "curriculum-ledger-review-2026-07-26"
+      "reviewedBy": "curriculum-ledger-review-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-est-01",
+        "4:mission:g4-est-02",
+        "4:mission:g4-est-03",
+        "4:mission:g4-est-04",
+        "4:mission:g4-est-05",
+        "4:mission:g4-est-06",
+        "4:mission:g4-est-07",
+        "4:mission:g4-est-08",
+        "4:mission:g4-est-09",
+        "4:mission:g4-est-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-09]",
@@ -182,7 +1183,17 @@
         "grade3:g3-1-fraction-decimal"
       ],
       "allocationRationale": "현재 3학년 분수 도입 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-1-fraction-decimal-01",
+        "3:mission:g3-1-fraction-decimal-03",
+        "3:mission:g3-1-fraction-decimal-05",
+        "3:mission:g3-1-fraction-decimal-06",
+        "3:mission:g3-1-fraction-decimal-07",
+        "3:mission:g3-1-fraction-decimal-09",
+        "3:mission:g3-1-fraction-decimal-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-10]",
@@ -202,7 +1213,13 @@
         "grade3:g3-2-fraction"
       ],
       "allocationRationale": "현재 3학년 분수 종류 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-2-fraction-02",
+        "3:mission:g3-2-fraction-04",
+        "3:mission:g3-2-fraction-08"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-11]",
@@ -222,7 +1239,17 @@
         "grade3:g3-2-fraction"
       ],
       "allocationRationale": "현재 3학년 분수 비교 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-2-fraction-01",
+        "3:mission:g3-2-fraction-03",
+        "3:mission:g3-2-fraction-05",
+        "3:mission:g3-2-fraction-06",
+        "3:mission:g3-2-fraction-07",
+        "3:mission:g3-2-fraction-09",
+        "3:mission:g3-2-fraction-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-12]",
@@ -242,7 +1269,13 @@
         "grade3:g3-1-fraction-decimal"
       ],
       "allocationRationale": "현재 3학년 소수 한 자리 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-1-fraction-decimal-02",
+        "3:mission:g3-1-fraction-decimal-04",
+        "3:mission:g3-1-fraction-decimal-08"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-13]",
@@ -262,7 +1295,14 @@
         "grade4:unit-4-2-decimals:grade4-bridge-decimals-v1"
       ],
       "allocationRationale": "소수 한 자리 뒤 두세 자리로 확장",
-      "reviewedBy": "curriculum-ledger-review-2026-07-26"
+      "reviewedBy": "curriculum-ledger-review-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-dec-01",
+        "4:mission:g4-dec-02",
+        "4:mission:g4-dec-03",
+        "4:mission:g4-dec-05"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-14]",
@@ -282,7 +1322,16 @@
         "grade4:unit-4-2-decimals:grade4-bridge-decimals-v1"
       ],
       "allocationRationale": "소수 자릿값 이해 뒤 크기 비교",
-      "reviewedBy": "curriculum-ledger-review-2026-07-26"
+      "reviewedBy": "curriculum-ledger-review-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-dec-04",
+        "4:mission:g4-dec-06",
+        "4:mission:g4-dec-07",
+        "4:mission:g4-dec-08",
+        "4:mission:g4-dec-09",
+        "4:mission:g4-dec-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-15]",
@@ -303,7 +1352,20 @@
         "grade4:unit-4-2-fraction-add-sub:grade4-bridge-fraction-add-sub-v1"
       ],
       "allocationRationale": "분수 종류와 비교 뒤 동분모 계산",
-      "reviewedBy": "curriculum-ledger-review-2026-07-26"
+      "reviewedBy": "curriculum-ledger-review-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-frac-01",
+        "4:mission:g4-frac-02",
+        "4:mission:g4-frac-03",
+        "4:mission:g4-frac-04",
+        "4:mission:g4-frac-05",
+        "4:mission:g4-frac-06",
+        "4:mission:g4-frac-07",
+        "4:mission:g4-frac-08",
+        "4:mission:g4-frac-09",
+        "4:mission:g4-frac-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수01-16]",
@@ -324,7 +1386,20 @@
         "grade4:unit-4-2-decimal-add-sub:grade4-bridge-decimal-add-sub-v1"
       ],
       "allocationRationale": "소수 자릿값과 비교 뒤 덧셈 뺄셈",
-      "reviewedBy": "curriculum-ledger-review-2026-07-26"
+      "reviewedBy": "curriculum-ledger-review-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-dop-01",
+        "4:mission:g4-dop-02",
+        "4:mission:g4-dop-03",
+        "4:mission:g4-dop-04",
+        "4:mission:g4-dop-05",
+        "4:mission:g4-dop-06",
+        "4:mission:g4-dop-07",
+        "4:mission:g4-dop-08",
+        "4:mission:g4-dop-09",
+        "4:mission:g4-dop-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수02-01]",
@@ -342,7 +1417,15 @@
         "grade4:unit-4-2-patterns:grade4-bridge-patterns-v1"
       ],
       "allocationRationale": "4학년 변화 규칙 표현",
-      "reviewedBy": "curriculum-ledger-review-2026-07-26"
+      "reviewedBy": "curriculum-ledger-review-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-pat-01",
+        "4:mission:g4-pat-02",
+        "4:mission:g4-pat-05",
+        "4:mission:g4-pat-06",
+        "4:mission:g4-pat-09"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수02-02]",
@@ -362,7 +1445,15 @@
         "grade4:unit-4-2-patterns:grade4-bridge-patterns-v1"
       ],
       "allocationRationale": "변화 규칙 뒤 계산식 배열 추론",
-      "reviewedBy": "curriculum-ledger-review-2026-07-26"
+      "reviewedBy": "curriculum-ledger-review-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-pat-03",
+        "4:mission:g4-pat-04",
+        "4:mission:g4-pat-07",
+        "4:mission:g4-pat-08",
+        "4:mission:g4-pat-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수02-03]",
@@ -382,7 +1473,20 @@
         "grade4:unit-4-2-equality:grade4-bridge-equality-v1"
       ],
       "allocationRationale": "계산 관계를 등호와 동치로 표현",
-      "reviewedBy": "curriculum-ledger-review-2026-07-26"
+      "reviewedBy": "curriculum-ledger-review-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-eq-01",
+        "4:mission:g4-eq-02",
+        "4:mission:g4-eq-03",
+        "4:mission:g4-eq-04",
+        "4:mission:g4-eq-05",
+        "4:mission:g4-eq-06",
+        "4:mission:g4-eq-07",
+        "4:mission:g4-eq-08",
+        "4:mission:g4-eq-09",
+        "4:mission:g4-eq-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-01]",
@@ -400,7 +1504,14 @@
         "grade3:g3-1-lines"
       ],
       "allocationRationale": "현재 3학년 선 종류 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-1-lines-01",
+        "3:mission:g3-1-lines-05",
+        "3:mission:g3-1-lines-06",
+        "3:mission:g3-1-lines-07"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-02]",
@@ -420,7 +1531,16 @@
         "grade3:g3-1-lines"
       ],
       "allocationRationale": "현재 3학년 각 분류 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-1-lines-02",
+        "3:mission:g3-1-lines-03",
+        "3:mission:g3-1-lines-04",
+        "3:mission:g3-1-lines-08",
+        "3:mission:g3-1-lines-09",
+        "3:mission:g3-1-lines-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-03]",
@@ -440,7 +1560,20 @@
         "grade4:unit-4-1-perpendicular-parallel:grade4-bridge-perpendicular-parallel-v1"
       ],
       "allocationRationale": "직선의 방향과 직각을 같은 기하 모델에서 파생하는 10문제 K4/A4/R2 공개 단원",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-line-01",
+        "4:mission:g4-line-02",
+        "4:mission:g4-line-03",
+        "4:mission:g4-line-04",
+        "4:mission:g4-line-05",
+        "4:mission:g4-line-06",
+        "4:mission:g4-line-07",
+        "4:mission:g4-line-08",
+        "4:mission:g4-line-09",
+        "4:mission:g4-line-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-04]",
@@ -458,7 +1591,19 @@
         "grade4:unit-4-1-shape-transformations:grade4-bridge-shape-transformations-v1"
       ],
       "allocationRationale": "밀기·뒤집기·돌리기를 같은 변환 모델에서 파생하는 10문제 K4/A4/R2 공개 단원",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-move-01",
+        "4:mission:g4-move-02",
+        "4:mission:g4-move-03",
+        "4:mission:g4-move-04",
+        "4:mission:g4-move-05",
+        "4:mission:g4-move-06",
+        "4:mission:g4-move-07",
+        "4:mission:g4-move-08",
+        "4:mission:g4-move-09"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-05]",
@@ -478,7 +1623,15 @@
         "grade4:unit-4-1-shape-transformations:grade4-bridge-shape-transformations-v1"
       ],
       "allocationRationale": "점의 좌표·방향·이동량을 같은 변환 모델에서 파생하는 공개 단원",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-move-05",
+        "4:mission:g4-move-06",
+        "4:mission:g4-move-07",
+        "4:mission:g4-move-08",
+        "4:mission:g4-move-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-06]",
@@ -496,7 +1649,16 @@
         "grade3:g3-2-circle"
       ],
       "allocationRationale": "현재 3학년 원 구성 요소 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-2-circle-01",
+        "3:mission:g3-2-circle-02",
+        "3:mission:g3-2-circle-05",
+        "3:mission:g3-2-circle-06",
+        "3:mission:g3-2-circle-08",
+        "3:mission:g3-2-circle-09"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-07]",
@@ -516,7 +1678,14 @@
         "grade3:g3-2-circle"
       ],
       "allocationRationale": "현재 3학년 컴퍼스 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-2-circle-03",
+        "3:mission:g3-2-circle-04",
+        "3:mission:g3-2-circle-07",
+        "3:mission:g3-2-circle-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-08]",
@@ -536,7 +1705,16 @@
         "grade4:unit-4-2-triangles:grade4-bridge-triangles-v1"
       ],
       "allocationRationale": "세 변에서 정량 그림과 이등변·정삼각형 분류를 함께 파생하는 공개 단원",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-tri-01",
+        "4:mission:g4-tri-02",
+        "4:mission:g4-tri-06",
+        "4:mission:g4-tri-07",
+        "4:mission:g4-tri-08",
+        "4:mission:g4-tri-09"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-09]",
@@ -556,7 +1734,14 @@
         "grade4:unit-4-2-triangles:grade4-bridge-triangles-v1"
       ],
       "allocationRationale": "세 변에서 정량 그림과 예각·직각·둔각 분류를 함께 파생하는 공개 단원",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-tri-03",
+        "4:mission:g4-tri-04",
+        "4:mission:g4-tri-05",
+        "4:mission:g4-tri-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-10]",
@@ -577,7 +1762,20 @@
         "grade4:unit-4-2-quadrilaterals:grade4-bridge-quadrilaterals-v1"
       ],
       "allocationRationale": "평행·직각·같은 변의 정량 표시와 사각형 포함 관계를 함께 탐구하는 공개 단원",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-quad-01",
+        "4:mission:g4-quad-02",
+        "4:mission:g4-quad-03",
+        "4:mission:g4-quad-04",
+        "4:mission:g4-quad-05",
+        "4:mission:g4-quad-06",
+        "4:mission:g4-quad-07",
+        "4:mission:g4-quad-08",
+        "4:mission:g4-quad-09",
+        "4:mission:g4-quad-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-11]",
@@ -599,7 +1797,16 @@
         "grade4:unit-4-2-polygons:grade4-bridge-polygons-v1"
       ],
       "allocationRationale": "변 수·정다각형 성질·대각선을 하나의 다각형 모형으로 탐구하는 공개 단원",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-poly-01",
+        "4:mission:g4-poly-02",
+        "4:mission:g4-poly-03",
+        "4:mission:g4-poly-04",
+        "4:mission:g4-poly-05",
+        "4:mission:g4-poly-09"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-12]",
@@ -620,7 +1827,14 @@
         "grade4:unit-4-2-polygons:grade4-bridge-polygons-v1"
       ],
       "allocationRationale": "행·열과 타일 위상에서 조각 수와 빈틈을 파생하는 모양 채우기 공개 단원",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-poly-06",
+        "4:mission:g4-poly-07",
+        "4:mission:g4-poly-08",
+        "4:mission:g4-poly-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-13]",
@@ -638,7 +1852,12 @@
         "grade3:g3-1-length-time"
       ],
       "allocationRationale": "현재 3학년 초 단위 시각 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-1-length-time-02",
+        "3:mission:g3-1-length-time-04"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-14]",
@@ -658,7 +1877,13 @@
         "grade3:g3-1-length-time"
       ],
       "allocationRationale": "현재 3학년 시간 계산 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-1-length-time-03",
+        "3:mission:g3-1-length-time-05",
+        "3:mission:g3-1-length-time-07"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-15]",
@@ -676,7 +1901,12 @@
         "grade3:g3-1-length-time"
       ],
       "allocationRationale": "현재 3학년 mm km 측정 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-1-length-time-01",
+        "3:mission:g3-1-length-time-08"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-16]",
@@ -696,7 +1926,13 @@
         "grade3:g3-1-length-time"
       ],
       "allocationRationale": "현재 3학년 길이 단위 관계 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-1-length-time-06",
+        "3:mission:g3-1-length-time-09",
+        "3:mission:g3-1-length-time-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-17]",
@@ -714,7 +1950,13 @@
         "grade3:g3-2-capacity-weight"
       ],
       "allocationRationale": "현재 3학년 들이 측정 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-2-capacity-weight-01",
+        "3:mission:g3-2-capacity-weight-03",
+        "3:mission:g3-2-capacity-weight-04"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-18]",
@@ -734,7 +1976,13 @@
         "grade3:g3-2-capacity-weight"
       ],
       "allocationRationale": "현재 3학년 들이 단위 관계 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-2-capacity-weight-01",
+        "3:mission:g3-2-capacity-weight-03",
+        "3:mission:g3-2-capacity-weight-04"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-19]",
@@ -754,7 +2002,12 @@
         "grade3:g3-2-capacity-weight"
       ],
       "allocationRationale": "받아올림이 있는 들이 덧셈 미션과 동일한 양 모델에서 파생한 연산 그림",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "3:mission:g3-2-capacity-weight-03",
+        "3:mission:g3-2-capacity-weight-08"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-20]",
@@ -772,7 +2025,12 @@
         "grade3:g3-2-capacity-weight"
       ],
       "allocationRationale": "현재 3학년 무게 측정 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-2-capacity-weight-02",
+        "3:mission:g3-2-capacity-weight-05"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-21]",
@@ -792,7 +2050,12 @@
         "grade3:g3-2-capacity-weight"
       ],
       "allocationRationale": "현재 3학년 무게 단위 관계 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-2-capacity-weight-02",
+        "3:mission:g3-2-capacity-weight-05"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-22]",
@@ -812,7 +2075,13 @@
         "grade3:g3-2-capacity-weight"
       ],
       "allocationRationale": "1t 블록 수와 1t=1000kg 관계에서 전체 kg을 구하는 실생활 미션",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "3:mission:g3-2-capacity-weight-06",
+        "3:mission:g3-2-capacity-weight-09",
+        "3:mission:g3-2-capacity-weight-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-23]",
@@ -833,7 +2102,13 @@
         "grade3:g3-2-capacity-weight"
       ],
       "allocationRationale": "받아내림이 있는 실생활 무게 뺄셈 미션과 동일한 양 모델에서 파생한 연산 그림",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "3:mission:g3-2-capacity-weight-07",
+        "3:mission:g3-2-capacity-weight-09",
+        "3:mission:g3-2-capacity-weight-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-24]",
@@ -853,7 +2128,17 @@
         "grade4:unit-4-1-angle-measurement:grade4-bridge-angle-measurement-v1"
       ],
       "allocationRationale": "광선과 각도기 눈금을 같은 각도 모델에서 파생하는 공개 단원",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-ang-01",
+        "4:mission:g4-ang-02",
+        "4:mission:g4-ang-03",
+        "4:mission:g4-ang-04",
+        "4:mission:g4-ang-07",
+        "4:mission:g4-ang-08",
+        "4:mission:g4-ang-09"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수03-25]",
@@ -873,7 +2158,13 @@
         "grade4:unit-4-1-angle-measurement:grade4-bridge-angle-measurement-v1"
       ],
       "allocationRationale": "삼각형과 평행사변형 꼭짓점에서 내각 합과 미지각을 파생하는 공개 단원",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-ang-05",
+        "4:mission:g4-ang-06",
+        "4:mission:g4-ang-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수04-01]",
@@ -891,7 +2182,16 @@
         "grade3:g3-2-graph"
       ],
       "allocationRationale": "현재 3학년 막대그래프 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-2-graph-01",
+        "3:mission:g3-2-graph-02",
+        "3:mission:g3-2-graph-05",
+        "3:mission:g3-2-graph-06",
+        "3:mission:g3-2-graph-08",
+        "3:mission:g3-2-graph-09"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수04-02]",
@@ -911,7 +2211,20 @@
         "grade4:unit-4-2-line-graphs:grade4-bridge-line-graphs-v1"
       ],
       "allocationRationale": "시간에 따른 자료·눈금·점·선분을 한 모델에서 파생하는 공개 단원",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "4:mission:g4-graph-01",
+        "4:mission:g4-graph-02",
+        "4:mission:g4-graph-03",
+        "4:mission:g4-graph-04",
+        "4:mission:g4-graph-05",
+        "4:mission:g4-graph-06",
+        "4:mission:g4-graph-07",
+        "4:mission:g4-graph-08",
+        "4:mission:g4-graph-09",
+        "4:mission:g4-graph-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[4수04-03]",
@@ -931,7 +2244,14 @@
         "grade3:g3-2-graph"
       ],
       "allocationRationale": "현재 3학년 자료 탐구 미션 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "3:mission:g3-2-graph-03",
+        "3:mission:g3-2-graph-04",
+        "3:mission:g3-2-graph-07",
+        "3:mission:g3-2-graph-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-01]",
@@ -949,7 +2269,40 @@
         "grade5:mixedcalc-001"
       ],
       "allocationRationale": "현재 5학년 혼합 계산 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-mixedcalc-A-01",
+        "5:template:tmpl-mixedcalc-A-02",
+        "5:template:tmpl-mixedcalc-A-03",
+        "5:template:tmpl-mixedcalc-A-04",
+        "5:template:tmpl-mixedcalc-A-05",
+        "5:template:tmpl-mixedcalc-A-06",
+        "5:template:tmpl-mixedcalc-A-07",
+        "5:template:tmpl-mixedcalc-A-08",
+        "5:template:tmpl-mixedcalc-A-09",
+        "5:template:tmpl-mixedcalc-A-10",
+        "5:template:tmpl-mixedcalc-B-01",
+        "5:template:tmpl-mixedcalc-B-02",
+        "5:template:tmpl-mixedcalc-B-03",
+        "5:template:tmpl-mixedcalc-B-04",
+        "5:template:tmpl-mixedcalc-B-05",
+        "5:template:tmpl-mixedcalc-B-06",
+        "5:template:tmpl-mixedcalc-B-07",
+        "5:template:tmpl-mixedcalc-B-08",
+        "5:template:tmpl-mixedcalc-B-09",
+        "5:template:tmpl-mixedcalc-B-10",
+        "5:template:tmpl-mixedcalc-C-01",
+        "5:template:tmpl-mixedcalc-C-02",
+        "5:template:tmpl-mixedcalc-C-03",
+        "5:template:tmpl-mixedcalc-C-04",
+        "5:template:tmpl-mixedcalc-C-05",
+        "5:template:tmpl-mixedcalc-C-06",
+        "5:template:tmpl-mixedcalc-C-07",
+        "5:template:tmpl-mixedcalc-C-08",
+        "5:template:tmpl-mixedcalc-C-09",
+        "5:template:tmpl-mixedcalc-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-02]",
@@ -967,7 +2320,40 @@
         "grade5:numberrange-001"
       ],
       "allocationRationale": "열린·닫힌 경계를 정량 수직선으로 나타내고 생활 범위의 끝값·개수를 구하는 공개 개념",
-      "reviewedBy": "curriculum-ledger-release-2026-07-26"
+      "reviewedBy": "curriculum-ledger-release-2026-07-26",
+      "directContentRefs": [
+        "5:template:tmpl-numberrange-A-01",
+        "5:template:tmpl-numberrange-A-02",
+        "5:template:tmpl-numberrange-A-03",
+        "5:template:tmpl-numberrange-A-04",
+        "5:template:tmpl-numberrange-A-05",
+        "5:template:tmpl-numberrange-A-06",
+        "5:template:tmpl-numberrange-A-07",
+        "5:template:tmpl-numberrange-A-08",
+        "5:template:tmpl-numberrange-A-09",
+        "5:template:tmpl-numberrange-A-10",
+        "5:template:tmpl-numberrange-B-01",
+        "5:template:tmpl-numberrange-B-02",
+        "5:template:tmpl-numberrange-B-03",
+        "5:template:tmpl-numberrange-B-04",
+        "5:template:tmpl-numberrange-B-05",
+        "5:template:tmpl-numberrange-B-06",
+        "5:template:tmpl-numberrange-B-07",
+        "5:template:tmpl-numberrange-B-08",
+        "5:template:tmpl-numberrange-B-09",
+        "5:template:tmpl-numberrange-B-10",
+        "5:template:tmpl-numberrange-C-01",
+        "5:template:tmpl-numberrange-C-02",
+        "5:template:tmpl-numberrange-C-03",
+        "5:template:tmpl-numberrange-C-04",
+        "5:template:tmpl-numberrange-C-05",
+        "5:template:tmpl-numberrange-C-06",
+        "5:template:tmpl-numberrange-C-07",
+        "5:template:tmpl-numberrange-C-08",
+        "5:template:tmpl-numberrange-C-09",
+        "5:template:tmpl-numberrange-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-03]",
@@ -988,7 +2374,70 @@
         "grade5:rounding-001"
       ],
       "allocationRationale": "현재 5학년 어림 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-estimate-A-01",
+        "5:template:tmpl-estimate-A-02",
+        "5:template:tmpl-estimate-A-03",
+        "5:template:tmpl-estimate-A-04",
+        "5:template:tmpl-estimate-A-05",
+        "5:template:tmpl-estimate-A-06",
+        "5:template:tmpl-estimate-A-07",
+        "5:template:tmpl-estimate-A-08",
+        "5:template:tmpl-estimate-A-09",
+        "5:template:tmpl-estimate-A-10",
+        "5:template:tmpl-estimate-B-01",
+        "5:template:tmpl-estimate-B-02",
+        "5:template:tmpl-estimate-B-03",
+        "5:template:tmpl-estimate-B-04",
+        "5:template:tmpl-estimate-B-05",
+        "5:template:tmpl-estimate-B-06",
+        "5:template:tmpl-estimate-B-07",
+        "5:template:tmpl-estimate-B-08",
+        "5:template:tmpl-estimate-B-09",
+        "5:template:tmpl-estimate-B-10",
+        "5:template:tmpl-estimate-C-01",
+        "5:template:tmpl-estimate-C-02",
+        "5:template:tmpl-estimate-C-03",
+        "5:template:tmpl-estimate-C-04",
+        "5:template:tmpl-estimate-C-05",
+        "5:template:tmpl-estimate-C-06",
+        "5:template:tmpl-estimate-C-07",
+        "5:template:tmpl-estimate-C-08",
+        "5:template:tmpl-estimate-C-09",
+        "5:template:tmpl-estimate-C-10",
+        "5:template:tmpl-rounding-A-01",
+        "5:template:tmpl-rounding-A-02",
+        "5:template:tmpl-rounding-A-03",
+        "5:template:tmpl-rounding-A-04",
+        "5:template:tmpl-rounding-A-05",
+        "5:template:tmpl-rounding-A-06",
+        "5:template:tmpl-rounding-A-07",
+        "5:template:tmpl-rounding-A-08",
+        "5:template:tmpl-rounding-A-09",
+        "5:template:tmpl-rounding-A-10",
+        "5:template:tmpl-rounding-B-01",
+        "5:template:tmpl-rounding-B-02",
+        "5:template:tmpl-rounding-B-03",
+        "5:template:tmpl-rounding-B-04",
+        "5:template:tmpl-rounding-B-05",
+        "5:template:tmpl-rounding-B-06",
+        "5:template:tmpl-rounding-B-07",
+        "5:template:tmpl-rounding-B-08",
+        "5:template:tmpl-rounding-B-09",
+        "5:template:tmpl-rounding-B-10",
+        "5:template:tmpl-rounding-C-01",
+        "5:template:tmpl-rounding-C-02",
+        "5:template:tmpl-rounding-C-03",
+        "5:template:tmpl-rounding-C-04",
+        "5:template:tmpl-rounding-C-05",
+        "5:template:tmpl-rounding-C-06",
+        "5:template:tmpl-rounding-C-07",
+        "5:template:tmpl-rounding-C-08",
+        "5:template:tmpl-rounding-C-09",
+        "5:template:tmpl-rounding-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-04]",
@@ -1007,7 +2456,70 @@
         "grade5:gcd-001"
       ],
       "allocationRationale": "현재 5학년 약수와 최대공약수 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-divisor-A-01",
+        "5:template:tmpl-divisor-A-02",
+        "5:template:tmpl-divisor-A-03",
+        "5:template:tmpl-divisor-A-04",
+        "5:template:tmpl-divisor-A-05",
+        "5:template:tmpl-divisor-A-06",
+        "5:template:tmpl-divisor-A-07",
+        "5:template:tmpl-divisor-A-08",
+        "5:template:tmpl-divisor-A-09",
+        "5:template:tmpl-divisor-A-10",
+        "5:template:tmpl-divisor-B-01",
+        "5:template:tmpl-divisor-B-02",
+        "5:template:tmpl-divisor-B-03",
+        "5:template:tmpl-divisor-B-04",
+        "5:template:tmpl-divisor-B-05",
+        "5:template:tmpl-divisor-B-06",
+        "5:template:tmpl-divisor-B-07",
+        "5:template:tmpl-divisor-B-08",
+        "5:template:tmpl-divisor-B-09",
+        "5:template:tmpl-divisor-B-10",
+        "5:template:tmpl-divisor-C-01",
+        "5:template:tmpl-divisor-C-02",
+        "5:template:tmpl-divisor-C-03",
+        "5:template:tmpl-divisor-C-04",
+        "5:template:tmpl-divisor-C-05",
+        "5:template:tmpl-divisor-C-06",
+        "5:template:tmpl-divisor-C-07",
+        "5:template:tmpl-divisor-C-08",
+        "5:template:tmpl-divisor-C-09",
+        "5:template:tmpl-divisor-C-10",
+        "5:template:tmpl-gcd-A-01",
+        "5:template:tmpl-gcd-A-02",
+        "5:template:tmpl-gcd-A-03",
+        "5:template:tmpl-gcd-A-04",
+        "5:template:tmpl-gcd-A-05",
+        "5:template:tmpl-gcd-A-06",
+        "5:template:tmpl-gcd-A-07",
+        "5:template:tmpl-gcd-A-08",
+        "5:template:tmpl-gcd-A-09",
+        "5:template:tmpl-gcd-A-10",
+        "5:template:tmpl-gcd-B-01",
+        "5:template:tmpl-gcd-B-02",
+        "5:template:tmpl-gcd-B-03",
+        "5:template:tmpl-gcd-B-04",
+        "5:template:tmpl-gcd-B-05",
+        "5:template:tmpl-gcd-B-06",
+        "5:template:tmpl-gcd-B-07",
+        "5:template:tmpl-gcd-B-08",
+        "5:template:tmpl-gcd-B-09",
+        "5:template:tmpl-gcd-B-10",
+        "5:template:tmpl-gcd-C-01",
+        "5:template:tmpl-gcd-C-02",
+        "5:template:tmpl-gcd-C-03",
+        "5:template:tmpl-gcd-C-04",
+        "5:template:tmpl-gcd-C-05",
+        "5:template:tmpl-gcd-C-06",
+        "5:template:tmpl-gcd-C-07",
+        "5:template:tmpl-gcd-C-08",
+        "5:template:tmpl-gcd-C-09",
+        "5:template:tmpl-gcd-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-05]",
@@ -1026,7 +2538,70 @@
         "grade5:lcm-001"
       ],
       "allocationRationale": "현재 5학년 배수와 최소공배수 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-lcm-A-01",
+        "5:template:tmpl-lcm-A-02",
+        "5:template:tmpl-lcm-A-03",
+        "5:template:tmpl-lcm-A-04",
+        "5:template:tmpl-lcm-A-05",
+        "5:template:tmpl-lcm-A-06",
+        "5:template:tmpl-lcm-A-07",
+        "5:template:tmpl-lcm-A-08",
+        "5:template:tmpl-lcm-A-09",
+        "5:template:tmpl-lcm-A-10",
+        "5:template:tmpl-lcm-B-01",
+        "5:template:tmpl-lcm-B-02",
+        "5:template:tmpl-lcm-B-03",
+        "5:template:tmpl-lcm-B-04",
+        "5:template:tmpl-lcm-B-05",
+        "5:template:tmpl-lcm-B-06",
+        "5:template:tmpl-lcm-B-07",
+        "5:template:tmpl-lcm-B-08",
+        "5:template:tmpl-lcm-B-09",
+        "5:template:tmpl-lcm-B-10",
+        "5:template:tmpl-lcm-C-01",
+        "5:template:tmpl-lcm-C-02",
+        "5:template:tmpl-lcm-C-03",
+        "5:template:tmpl-lcm-C-04",
+        "5:template:tmpl-lcm-C-05",
+        "5:template:tmpl-lcm-C-06",
+        "5:template:tmpl-lcm-C-07",
+        "5:template:tmpl-lcm-C-08",
+        "5:template:tmpl-lcm-C-09",
+        "5:template:tmpl-lcm-C-10",
+        "5:template:tmpl-multiple-A-01",
+        "5:template:tmpl-multiple-A-02",
+        "5:template:tmpl-multiple-A-03",
+        "5:template:tmpl-multiple-A-04",
+        "5:template:tmpl-multiple-A-05",
+        "5:template:tmpl-multiple-A-06",
+        "5:template:tmpl-multiple-A-07",
+        "5:template:tmpl-multiple-A-08",
+        "5:template:tmpl-multiple-A-09",
+        "5:template:tmpl-multiple-A-10",
+        "5:template:tmpl-multiple-B-01",
+        "5:template:tmpl-multiple-B-02",
+        "5:template:tmpl-multiple-B-03",
+        "5:template:tmpl-multiple-B-04",
+        "5:template:tmpl-multiple-B-05",
+        "5:template:tmpl-multiple-B-06",
+        "5:template:tmpl-multiple-B-07",
+        "5:template:tmpl-multiple-B-08",
+        "5:template:tmpl-multiple-B-09",
+        "5:template:tmpl-multiple-B-10",
+        "5:template:tmpl-multiple-C-01",
+        "5:template:tmpl-multiple-C-02",
+        "5:template:tmpl-multiple-C-03",
+        "5:template:tmpl-multiple-C-04",
+        "5:template:tmpl-multiple-C-05",
+        "5:template:tmpl-multiple-C-06",
+        "5:template:tmpl-multiple-C-07",
+        "5:template:tmpl-multiple-C-08",
+        "5:template:tmpl-multiple-C-09",
+        "5:template:tmpl-multiple-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-06]",
@@ -1048,7 +2623,73 @@
         "grade5:commonden-001"
       ],
       "allocationRationale": "현재 5학년 약분 통분 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-commonden-A-01",
+        "5:template:tmpl-commonden-A-02",
+        "5:template:tmpl-commonden-A-03",
+        "5:template:tmpl-commonden-A-04",
+        "5:template:tmpl-commonden-A-05",
+        "5:template:tmpl-commonden-A-06",
+        "5:template:tmpl-commonden-A-07",
+        "5:template:tmpl-commonden-A-08",
+        "5:template:tmpl-commonden-A-09",
+        "5:template:tmpl-commonden-A-10",
+        "5:template:tmpl-commonden-B-01",
+        "5:template:tmpl-commonden-B-02",
+        "5:template:tmpl-commonden-B-03",
+        "5:template:tmpl-commonden-B-04",
+        "5:template:tmpl-commonden-B-05",
+        "5:template:tmpl-commonden-B-06",
+        "5:template:tmpl-commonden-B-07",
+        "5:template:tmpl-commonden-B-08",
+        "5:template:tmpl-commonden-B-09",
+        "5:template:tmpl-commonden-B-10",
+        "5:template:tmpl-commonden-C-01",
+        "5:template:tmpl-commonden-C-02",
+        "5:template:tmpl-commonden-C-03",
+        "5:template:tmpl-commonden-C-04",
+        "5:template:tmpl-commonden-C-05",
+        "5:template:tmpl-commonden-C-06",
+        "5:template:tmpl-commonden-C-07",
+        "5:template:tmpl-commonden-C-08",
+        "5:template:tmpl-commonden-C-09",
+        "5:template:tmpl-commonden-C-10",
+        "5:template:tmpl-fraccompare-A-04",
+        "5:template:tmpl-fraccompare-B-04",
+        "5:template:tmpl-fraccompare-C-04",
+        "5:template:tmpl-simplify-A-01",
+        "5:template:tmpl-simplify-A-02",
+        "5:template:tmpl-simplify-A-03",
+        "5:template:tmpl-simplify-A-04",
+        "5:template:tmpl-simplify-A-05",
+        "5:template:tmpl-simplify-A-06",
+        "5:template:tmpl-simplify-A-07",
+        "5:template:tmpl-simplify-A-08",
+        "5:template:tmpl-simplify-A-09",
+        "5:template:tmpl-simplify-A-10",
+        "5:template:tmpl-simplify-B-01",
+        "5:template:tmpl-simplify-B-02",
+        "5:template:tmpl-simplify-B-03",
+        "5:template:tmpl-simplify-B-04",
+        "5:template:tmpl-simplify-B-05",
+        "5:template:tmpl-simplify-B-06",
+        "5:template:tmpl-simplify-B-07",
+        "5:template:tmpl-simplify-B-08",
+        "5:template:tmpl-simplify-B-09",
+        "5:template:tmpl-simplify-B-10",
+        "5:template:tmpl-simplify-C-01",
+        "5:template:tmpl-simplify-C-02",
+        "5:template:tmpl-simplify-C-03",
+        "5:template:tmpl-simplify-C-04",
+        "5:template:tmpl-simplify-C-05",
+        "5:template:tmpl-simplify-C-06",
+        "5:template:tmpl-simplify-C-07",
+        "5:template:tmpl-simplify-C-08",
+        "5:template:tmpl-simplify-C-09",
+        "5:template:tmpl-simplify-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-07]",
@@ -1068,7 +2709,40 @@
         "grade5:fraccompare-001"
       ],
       "allocationRationale": "통분·교차곱·정량 분수 막대를 이용한 이분모 분수 크기 비교",
-      "reviewedBy": "grade5-fraction-comparison-release-2026-07-26"
+      "reviewedBy": "grade5-fraction-comparison-release-2026-07-26",
+      "directContentRefs": [
+        "5:template:tmpl-fraccompare-A-01",
+        "5:template:tmpl-fraccompare-A-02",
+        "5:template:tmpl-fraccompare-A-03",
+        "5:template:tmpl-fraccompare-A-04",
+        "5:template:tmpl-fraccompare-A-05",
+        "5:template:tmpl-fraccompare-A-06",
+        "5:template:tmpl-fraccompare-A-07",
+        "5:template:tmpl-fraccompare-A-08",
+        "5:template:tmpl-fraccompare-A-09",
+        "5:template:tmpl-fraccompare-A-10",
+        "5:template:tmpl-fraccompare-B-01",
+        "5:template:tmpl-fraccompare-B-02",
+        "5:template:tmpl-fraccompare-B-03",
+        "5:template:tmpl-fraccompare-B-04",
+        "5:template:tmpl-fraccompare-B-05",
+        "5:template:tmpl-fraccompare-B-06",
+        "5:template:tmpl-fraccompare-B-07",
+        "5:template:tmpl-fraccompare-B-08",
+        "5:template:tmpl-fraccompare-B-09",
+        "5:template:tmpl-fraccompare-B-10",
+        "5:template:tmpl-fraccompare-C-01",
+        "5:template:tmpl-fraccompare-C-02",
+        "5:template:tmpl-fraccompare-C-03",
+        "5:template:tmpl-fraccompare-C-04",
+        "5:template:tmpl-fraccompare-C-05",
+        "5:template:tmpl-fraccompare-C-06",
+        "5:template:tmpl-fraccompare-C-07",
+        "5:template:tmpl-fraccompare-C-08",
+        "5:template:tmpl-fraccompare-C-09",
+        "5:template:tmpl-fraccompare-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-08]",
@@ -1090,7 +2764,70 @@
         "grade5:fracsub-001"
       ],
       "allocationRationale": "현재 5학년 이분모 분수 덧뺄셈 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-fracadd-A-01",
+        "5:template:tmpl-fracadd-A-02",
+        "5:template:tmpl-fracadd-A-03",
+        "5:template:tmpl-fracadd-A-04",
+        "5:template:tmpl-fracadd-A-05",
+        "5:template:tmpl-fracadd-A-06",
+        "5:template:tmpl-fracadd-A-07",
+        "5:template:tmpl-fracadd-A-08",
+        "5:template:tmpl-fracadd-A-09",
+        "5:template:tmpl-fracadd-A-10",
+        "5:template:tmpl-fracadd-B-01",
+        "5:template:tmpl-fracadd-B-02",
+        "5:template:tmpl-fracadd-B-03",
+        "5:template:tmpl-fracadd-B-04",
+        "5:template:tmpl-fracadd-B-05",
+        "5:template:tmpl-fracadd-B-06",
+        "5:template:tmpl-fracadd-B-07",
+        "5:template:tmpl-fracadd-B-08",
+        "5:template:tmpl-fracadd-B-09",
+        "5:template:tmpl-fracadd-B-10",
+        "5:template:tmpl-fracadd-C-01",
+        "5:template:tmpl-fracadd-C-02",
+        "5:template:tmpl-fracadd-C-03",
+        "5:template:tmpl-fracadd-C-04",
+        "5:template:tmpl-fracadd-C-05",
+        "5:template:tmpl-fracadd-C-06",
+        "5:template:tmpl-fracadd-C-07",
+        "5:template:tmpl-fracadd-C-08",
+        "5:template:tmpl-fracadd-C-09",
+        "5:template:tmpl-fracadd-C-10",
+        "5:template:tmpl-fracsub-A-01",
+        "5:template:tmpl-fracsub-A-02",
+        "5:template:tmpl-fracsub-A-03",
+        "5:template:tmpl-fracsub-A-04",
+        "5:template:tmpl-fracsub-A-05",
+        "5:template:tmpl-fracsub-A-06",
+        "5:template:tmpl-fracsub-A-07",
+        "5:template:tmpl-fracsub-A-08",
+        "5:template:tmpl-fracsub-A-09",
+        "5:template:tmpl-fracsub-A-10",
+        "5:template:tmpl-fracsub-B-01",
+        "5:template:tmpl-fracsub-B-02",
+        "5:template:tmpl-fracsub-B-03",
+        "5:template:tmpl-fracsub-B-04",
+        "5:template:tmpl-fracsub-B-05",
+        "5:template:tmpl-fracsub-B-06",
+        "5:template:tmpl-fracsub-B-07",
+        "5:template:tmpl-fracsub-B-08",
+        "5:template:tmpl-fracsub-B-09",
+        "5:template:tmpl-fracsub-B-10",
+        "5:template:tmpl-fracsub-C-01",
+        "5:template:tmpl-fracsub-C-02",
+        "5:template:tmpl-fracsub-C-03",
+        "5:template:tmpl-fracsub-C-04",
+        "5:template:tmpl-fracsub-C-05",
+        "5:template:tmpl-fracsub-C-06",
+        "5:template:tmpl-fracsub-C-07",
+        "5:template:tmpl-fracsub-C-08",
+        "5:template:tmpl-fracsub-C-09",
+        "5:template:tmpl-fracsub-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-09]",
@@ -1110,7 +2847,40 @@
         "grade5:fracmul-001"
       ],
       "allocationRationale": "현재 5학년 분수 곱셈 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-fracmul-A-01",
+        "5:template:tmpl-fracmul-A-02",
+        "5:template:tmpl-fracmul-A-03",
+        "5:template:tmpl-fracmul-A-04",
+        "5:template:tmpl-fracmul-A-05",
+        "5:template:tmpl-fracmul-A-06",
+        "5:template:tmpl-fracmul-A-07",
+        "5:template:tmpl-fracmul-A-08",
+        "5:template:tmpl-fracmul-A-09",
+        "5:template:tmpl-fracmul-A-10",
+        "5:template:tmpl-fracmul-B-01",
+        "5:template:tmpl-fracmul-B-02",
+        "5:template:tmpl-fracmul-B-03",
+        "5:template:tmpl-fracmul-B-04",
+        "5:template:tmpl-fracmul-B-05",
+        "5:template:tmpl-fracmul-B-06",
+        "5:template:tmpl-fracmul-B-07",
+        "5:template:tmpl-fracmul-B-08",
+        "5:template:tmpl-fracmul-B-09",
+        "5:template:tmpl-fracmul-B-10",
+        "5:template:tmpl-fracmul-C-01",
+        "5:template:tmpl-fracmul-C-02",
+        "5:template:tmpl-fracmul-C-03",
+        "5:template:tmpl-fracmul-C-04",
+        "5:template:tmpl-fracmul-C-05",
+        "5:template:tmpl-fracmul-C-06",
+        "5:template:tmpl-fracmul-C-07",
+        "5:template:tmpl-fracmul-C-08",
+        "5:template:tmpl-fracmul-C-09",
+        "5:template:tmpl-fracmul-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-10]",
@@ -1128,7 +2898,40 @@
         "grade6:g6fractiondiv-001"
       ],
       "allocationRationale": "6학년 분수의 나눗셈 문제은행에서 자연수 나눗셈 몫을 분수로 연결",
-      "reviewedBy": "grade6-fraction-division-release-2026-07-26"
+      "reviewedBy": "grade6-fraction-division-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6fractiondiv-A-01",
+        "6:template:tmpl-g6fractiondiv-A-02",
+        "6:template:tmpl-g6fractiondiv-A-03",
+        "6:template:tmpl-g6fractiondiv-A-04",
+        "6:template:tmpl-g6fractiondiv-A-05",
+        "6:template:tmpl-g6fractiondiv-A-06",
+        "6:template:tmpl-g6fractiondiv-A-07",
+        "6:template:tmpl-g6fractiondiv-A-08",
+        "6:template:tmpl-g6fractiondiv-A-09",
+        "6:template:tmpl-g6fractiondiv-A-10",
+        "6:template:tmpl-g6fractiondiv-B-01",
+        "6:template:tmpl-g6fractiondiv-B-02",
+        "6:template:tmpl-g6fractiondiv-B-03",
+        "6:template:tmpl-g6fractiondiv-B-04",
+        "6:template:tmpl-g6fractiondiv-B-05",
+        "6:template:tmpl-g6fractiondiv-B-06",
+        "6:template:tmpl-g6fractiondiv-B-07",
+        "6:template:tmpl-g6fractiondiv-B-08",
+        "6:template:tmpl-g6fractiondiv-B-09",
+        "6:template:tmpl-g6fractiondiv-B-10",
+        "6:template:tmpl-g6fractiondiv-C-01",
+        "6:template:tmpl-g6fractiondiv-C-02",
+        "6:template:tmpl-g6fractiondiv-C-03",
+        "6:template:tmpl-g6fractiondiv-C-04",
+        "6:template:tmpl-g6fractiondiv-C-05",
+        "6:template:tmpl-g6fractiondiv-C-06",
+        "6:template:tmpl-g6fractiondiv-C-07",
+        "6:template:tmpl-g6fractiondiv-C-08",
+        "6:template:tmpl-g6fractiondiv-C-09",
+        "6:template:tmpl-g6fractiondiv-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-11]",
@@ -1149,7 +2952,34 @@
         "grade6:g6fractiondiv-001"
       ],
       "allocationRationale": "6학년 분수의 나눗셈 문제은행에서 계산 원리, 역연산, 오류 분석과 응용을 제공",
-      "reviewedBy": "grade6-fraction-division-release-2026-07-26"
+      "reviewedBy": "grade6-fraction-division-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6fractiondiv-A-03",
+        "6:template:tmpl-g6fractiondiv-A-04",
+        "6:template:tmpl-g6fractiondiv-A-05",
+        "6:template:tmpl-g6fractiondiv-A-06",
+        "6:template:tmpl-g6fractiondiv-A-07",
+        "6:template:tmpl-g6fractiondiv-A-08",
+        "6:template:tmpl-g6fractiondiv-A-09",
+        "6:template:tmpl-g6fractiondiv-A-10",
+        "6:template:tmpl-g6fractiondiv-B-03",
+        "6:template:tmpl-g6fractiondiv-B-04",
+        "6:template:tmpl-g6fractiondiv-B-05",
+        "6:template:tmpl-g6fractiondiv-B-06",
+        "6:template:tmpl-g6fractiondiv-B-07",
+        "6:template:tmpl-g6fractiondiv-B-08",
+        "6:template:tmpl-g6fractiondiv-B-09",
+        "6:template:tmpl-g6fractiondiv-B-10",
+        "6:template:tmpl-g6fractiondiv-C-03",
+        "6:template:tmpl-g6fractiondiv-C-04",
+        "6:template:tmpl-g6fractiondiv-C-05",
+        "6:template:tmpl-g6fractiondiv-C-06",
+        "6:template:tmpl-g6fractiondiv-C-07",
+        "6:template:tmpl-g6fractiondiv-C-08",
+        "6:template:tmpl-g6fractiondiv-C-09",
+        "6:template:tmpl-g6fractiondiv-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-12]",
@@ -1169,7 +2999,40 @@
         "grade6:g6fractiondecimal-001"
       ],
       "allocationRationale": "6학년 분수와 소수 문제은행에서 표현 변환, 동치 확인, 크기 비교와 오류 분석을 제공",
-      "reviewedBy": "grade6-fraction-decimal-release-2026-07-26"
+      "reviewedBy": "grade6-fraction-decimal-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6fractiondecimal-A-01",
+        "6:template:tmpl-g6fractiondecimal-A-02",
+        "6:template:tmpl-g6fractiondecimal-A-03",
+        "6:template:tmpl-g6fractiondecimal-A-04",
+        "6:template:tmpl-g6fractiondecimal-A-05",
+        "6:template:tmpl-g6fractiondecimal-A-06",
+        "6:template:tmpl-g6fractiondecimal-A-07",
+        "6:template:tmpl-g6fractiondecimal-A-08",
+        "6:template:tmpl-g6fractiondecimal-A-09",
+        "6:template:tmpl-g6fractiondecimal-A-10",
+        "6:template:tmpl-g6fractiondecimal-B-01",
+        "6:template:tmpl-g6fractiondecimal-B-02",
+        "6:template:tmpl-g6fractiondecimal-B-03",
+        "6:template:tmpl-g6fractiondecimal-B-04",
+        "6:template:tmpl-g6fractiondecimal-B-05",
+        "6:template:tmpl-g6fractiondecimal-B-06",
+        "6:template:tmpl-g6fractiondecimal-B-07",
+        "6:template:tmpl-g6fractiondecimal-B-08",
+        "6:template:tmpl-g6fractiondecimal-B-09",
+        "6:template:tmpl-g6fractiondecimal-B-10",
+        "6:template:tmpl-g6fractiondecimal-C-01",
+        "6:template:tmpl-g6fractiondecimal-C-02",
+        "6:template:tmpl-g6fractiondecimal-C-03",
+        "6:template:tmpl-g6fractiondecimal-C-04",
+        "6:template:tmpl-g6fractiondecimal-C-05",
+        "6:template:tmpl-g6fractiondecimal-C-06",
+        "6:template:tmpl-g6fractiondecimal-C-07",
+        "6:template:tmpl-g6fractiondecimal-C-08",
+        "6:template:tmpl-g6fractiondecimal-C-09",
+        "6:template:tmpl-g6fractiondecimal-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-13]",
@@ -1187,7 +3050,40 @@
         "grade5:decimalmul-001"
       ],
       "allocationRationale": "현재 5학년 소수 곱셈 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-decimalmul-A-01",
+        "5:template:tmpl-decimalmul-A-02",
+        "5:template:tmpl-decimalmul-A-03",
+        "5:template:tmpl-decimalmul-A-04",
+        "5:template:tmpl-decimalmul-A-05",
+        "5:template:tmpl-decimalmul-A-06",
+        "5:template:tmpl-decimalmul-A-07",
+        "5:template:tmpl-decimalmul-A-08",
+        "5:template:tmpl-decimalmul-A-09",
+        "5:template:tmpl-decimalmul-A-10",
+        "5:template:tmpl-decimalmul-B-01",
+        "5:template:tmpl-decimalmul-B-02",
+        "5:template:tmpl-decimalmul-B-03",
+        "5:template:tmpl-decimalmul-B-04",
+        "5:template:tmpl-decimalmul-B-05",
+        "5:template:tmpl-decimalmul-B-06",
+        "5:template:tmpl-decimalmul-B-07",
+        "5:template:tmpl-decimalmul-B-08",
+        "5:template:tmpl-decimalmul-B-09",
+        "5:template:tmpl-decimalmul-B-10",
+        "5:template:tmpl-decimalmul-C-01",
+        "5:template:tmpl-decimalmul-C-02",
+        "5:template:tmpl-decimalmul-C-03",
+        "5:template:tmpl-decimalmul-C-04",
+        "5:template:tmpl-decimalmul-C-05",
+        "5:template:tmpl-decimalmul-C-06",
+        "5:template:tmpl-decimalmul-C-07",
+        "5:template:tmpl-decimalmul-C-08",
+        "5:template:tmpl-decimalmul-C-09",
+        "5:template:tmpl-decimalmul-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-14]",
@@ -1205,7 +3101,40 @@
         "grade6:g6decimaldiv-001"
       ],
       "allocationRationale": "6학년 소수의 나눗셈 문제은행에서 자연수 나눗셈 몫을 유한소수로 연결",
-      "reviewedBy": "grade6-decimal-division-release-2026-07-26"
+      "reviewedBy": "grade6-decimal-division-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6decimaldiv-A-01",
+        "6:template:tmpl-g6decimaldiv-A-02",
+        "6:template:tmpl-g6decimaldiv-A-03",
+        "6:template:tmpl-g6decimaldiv-A-04",
+        "6:template:tmpl-g6decimaldiv-A-05",
+        "6:template:tmpl-g6decimaldiv-A-06",
+        "6:template:tmpl-g6decimaldiv-A-07",
+        "6:template:tmpl-g6decimaldiv-A-08",
+        "6:template:tmpl-g6decimaldiv-A-09",
+        "6:template:tmpl-g6decimaldiv-A-10",
+        "6:template:tmpl-g6decimaldiv-B-01",
+        "6:template:tmpl-g6decimaldiv-B-02",
+        "6:template:tmpl-g6decimaldiv-B-03",
+        "6:template:tmpl-g6decimaldiv-B-04",
+        "6:template:tmpl-g6decimaldiv-B-05",
+        "6:template:tmpl-g6decimaldiv-B-06",
+        "6:template:tmpl-g6decimaldiv-B-07",
+        "6:template:tmpl-g6decimaldiv-B-08",
+        "6:template:tmpl-g6decimaldiv-B-09",
+        "6:template:tmpl-g6decimaldiv-B-10",
+        "6:template:tmpl-g6decimaldiv-C-01",
+        "6:template:tmpl-g6decimaldiv-C-02",
+        "6:template:tmpl-g6decimaldiv-C-03",
+        "6:template:tmpl-g6decimaldiv-C-04",
+        "6:template:tmpl-g6decimaldiv-C-05",
+        "6:template:tmpl-g6decimaldiv-C-06",
+        "6:template:tmpl-g6decimaldiv-C-07",
+        "6:template:tmpl-g6decimaldiv-C-08",
+        "6:template:tmpl-g6decimaldiv-C-09",
+        "6:template:tmpl-g6decimaldiv-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수01-15]",
@@ -1226,7 +3155,34 @@
         "grade6:g6decimaldiv-001"
       ],
       "allocationRationale": "6학년 소수의 나눗셈 문제은행에서 자리 이동 원리, 역산, 응용과 오류 분석을 제공",
-      "reviewedBy": "grade6-decimal-division-release-2026-07-26"
+      "reviewedBy": "grade6-decimal-division-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6decimaldiv-A-03",
+        "6:template:tmpl-g6decimaldiv-A-04",
+        "6:template:tmpl-g6decimaldiv-A-05",
+        "6:template:tmpl-g6decimaldiv-A-06",
+        "6:template:tmpl-g6decimaldiv-A-07",
+        "6:template:tmpl-g6decimaldiv-A-08",
+        "6:template:tmpl-g6decimaldiv-A-09",
+        "6:template:tmpl-g6decimaldiv-A-10",
+        "6:template:tmpl-g6decimaldiv-B-03",
+        "6:template:tmpl-g6decimaldiv-B-04",
+        "6:template:tmpl-g6decimaldiv-B-05",
+        "6:template:tmpl-g6decimaldiv-B-06",
+        "6:template:tmpl-g6decimaldiv-B-07",
+        "6:template:tmpl-g6decimaldiv-B-08",
+        "6:template:tmpl-g6decimaldiv-B-09",
+        "6:template:tmpl-g6decimaldiv-B-10",
+        "6:template:tmpl-g6decimaldiv-C-03",
+        "6:template:tmpl-g6decimaldiv-C-04",
+        "6:template:tmpl-g6decimaldiv-C-05",
+        "6:template:tmpl-g6decimaldiv-C-06",
+        "6:template:tmpl-g6decimaldiv-C-07",
+        "6:template:tmpl-g6decimaldiv-C-08",
+        "6:template:tmpl-g6decimaldiv-C-09",
+        "6:template:tmpl-g6decimaldiv-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수02-01]",
@@ -1244,7 +3200,40 @@
         "grade5:pattern-001"
       ],
       "allocationRationale": "현재 5학년 대응 관계 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-pattern-A-01",
+        "5:template:tmpl-pattern-A-02",
+        "5:template:tmpl-pattern-A-03",
+        "5:template:tmpl-pattern-A-04",
+        "5:template:tmpl-pattern-A-05",
+        "5:template:tmpl-pattern-A-06",
+        "5:template:tmpl-pattern-A-07",
+        "5:template:tmpl-pattern-A-08",
+        "5:template:tmpl-pattern-A-09",
+        "5:template:tmpl-pattern-A-10",
+        "5:template:tmpl-pattern-B-01",
+        "5:template:tmpl-pattern-B-02",
+        "5:template:tmpl-pattern-B-03",
+        "5:template:tmpl-pattern-B-04",
+        "5:template:tmpl-pattern-B-05",
+        "5:template:tmpl-pattern-B-06",
+        "5:template:tmpl-pattern-B-07",
+        "5:template:tmpl-pattern-B-08",
+        "5:template:tmpl-pattern-B-09",
+        "5:template:tmpl-pattern-B-10",
+        "5:template:tmpl-pattern-C-01",
+        "5:template:tmpl-pattern-C-02",
+        "5:template:tmpl-pattern-C-03",
+        "5:template:tmpl-pattern-C-04",
+        "5:template:tmpl-pattern-C-05",
+        "5:template:tmpl-pattern-C-06",
+        "5:template:tmpl-pattern-C-07",
+        "5:template:tmpl-pattern-C-08",
+        "5:template:tmpl-pattern-C-09",
+        "5:template:tmpl-pattern-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수02-02]",
@@ -1262,7 +3251,40 @@
         "grade6:g6ratio-001"
       ],
       "allocationRationale": "두 양 비교에서 비 도입",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "6:template:tmpl-g6ratio-A-01",
+        "6:template:tmpl-g6ratio-A-02",
+        "6:template:tmpl-g6ratio-A-03",
+        "6:template:tmpl-g6ratio-A-04",
+        "6:template:tmpl-g6ratio-A-05",
+        "6:template:tmpl-g6ratio-A-06",
+        "6:template:tmpl-g6ratio-A-07",
+        "6:template:tmpl-g6ratio-A-08",
+        "6:template:tmpl-g6ratio-A-09",
+        "6:template:tmpl-g6ratio-A-10",
+        "6:template:tmpl-g6ratio-B-01",
+        "6:template:tmpl-g6ratio-B-02",
+        "6:template:tmpl-g6ratio-B-03",
+        "6:template:tmpl-g6ratio-B-04",
+        "6:template:tmpl-g6ratio-B-05",
+        "6:template:tmpl-g6ratio-B-06",
+        "6:template:tmpl-g6ratio-B-07",
+        "6:template:tmpl-g6ratio-B-08",
+        "6:template:tmpl-g6ratio-B-09",
+        "6:template:tmpl-g6ratio-B-10",
+        "6:template:tmpl-g6ratio-C-01",
+        "6:template:tmpl-g6ratio-C-02",
+        "6:template:tmpl-g6ratio-C-03",
+        "6:template:tmpl-g6ratio-C-04",
+        "6:template:tmpl-g6ratio-C-05",
+        "6:template:tmpl-g6ratio-C-06",
+        "6:template:tmpl-g6ratio-C-07",
+        "6:template:tmpl-g6ratio-C-08",
+        "6:template:tmpl-g6ratio-C-09",
+        "6:template:tmpl-g6ratio-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수02-03]",
@@ -1283,7 +3305,34 @@
         "grade6:g6ratio-001"
       ],
       "allocationRationale": "비 뒤 비율을 여러 수 표현으로 확장",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "6:template:tmpl-g6ratio-A-03",
+        "6:template:tmpl-g6ratio-A-04",
+        "6:template:tmpl-g6ratio-A-05",
+        "6:template:tmpl-g6ratio-A-06",
+        "6:template:tmpl-g6ratio-A-07",
+        "6:template:tmpl-g6ratio-A-08",
+        "6:template:tmpl-g6ratio-A-09",
+        "6:template:tmpl-g6ratio-A-10",
+        "6:template:tmpl-g6ratio-B-03",
+        "6:template:tmpl-g6ratio-B-04",
+        "6:template:tmpl-g6ratio-B-05",
+        "6:template:tmpl-g6ratio-B-06",
+        "6:template:tmpl-g6ratio-B-07",
+        "6:template:tmpl-g6ratio-B-08",
+        "6:template:tmpl-g6ratio-B-09",
+        "6:template:tmpl-g6ratio-B-10",
+        "6:template:tmpl-g6ratio-C-03",
+        "6:template:tmpl-g6ratio-C-04",
+        "6:template:tmpl-g6ratio-C-05",
+        "6:template:tmpl-g6ratio-C-06",
+        "6:template:tmpl-g6ratio-C-07",
+        "6:template:tmpl-g6ratio-C-08",
+        "6:template:tmpl-g6ratio-C-09",
+        "6:template:tmpl-g6ratio-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수02-04]",
@@ -1303,7 +3352,40 @@
         "grade6:g6proportion-001"
       ],
       "allocationRationale": "6학년 비례식 문제은행에서 배수 관계, 외항·내항의 곱, 빠진 항과 실제 축척 응용을 제공",
-      "reviewedBy": "grade6-proportion-release-2026-07-26"
+      "reviewedBy": "grade6-proportion-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6proportion-A-01",
+        "6:template:tmpl-g6proportion-A-02",
+        "6:template:tmpl-g6proportion-A-03",
+        "6:template:tmpl-g6proportion-A-04",
+        "6:template:tmpl-g6proportion-A-05",
+        "6:template:tmpl-g6proportion-A-06",
+        "6:template:tmpl-g6proportion-A-07",
+        "6:template:tmpl-g6proportion-A-08",
+        "6:template:tmpl-g6proportion-A-09",
+        "6:template:tmpl-g6proportion-A-10",
+        "6:template:tmpl-g6proportion-B-01",
+        "6:template:tmpl-g6proportion-B-02",
+        "6:template:tmpl-g6proportion-B-03",
+        "6:template:tmpl-g6proportion-B-04",
+        "6:template:tmpl-g6proportion-B-05",
+        "6:template:tmpl-g6proportion-B-06",
+        "6:template:tmpl-g6proportion-B-07",
+        "6:template:tmpl-g6proportion-B-08",
+        "6:template:tmpl-g6proportion-B-09",
+        "6:template:tmpl-g6proportion-B-10",
+        "6:template:tmpl-g6proportion-C-01",
+        "6:template:tmpl-g6proportion-C-02",
+        "6:template:tmpl-g6proportion-C-03",
+        "6:template:tmpl-g6proportion-C-04",
+        "6:template:tmpl-g6proportion-C-05",
+        "6:template:tmpl-g6proportion-C-06",
+        "6:template:tmpl-g6proportion-C-07",
+        "6:template:tmpl-g6proportion-C-08",
+        "6:template:tmpl-g6proportion-C-09",
+        "6:template:tmpl-g6proportion-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수02-05]",
@@ -1323,7 +3405,22 @@
         "grade6:g6proportion-001"
       ],
       "allocationRationale": "6학년 비례식 문제은행에서 전체를 비에 따라 나누고 합으로 검산하는 응용과 오류 분석을 제공",
-      "reviewedBy": "grade6-proportion-release-2026-07-26"
+      "reviewedBy": "grade6-proportion-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6proportion-A-04",
+        "6:template:tmpl-g6proportion-A-07",
+        "6:template:tmpl-g6proportion-A-08",
+        "6:template:tmpl-g6proportion-A-10",
+        "6:template:tmpl-g6proportion-B-04",
+        "6:template:tmpl-g6proportion-B-07",
+        "6:template:tmpl-g6proportion-B-08",
+        "6:template:tmpl-g6proportion-B-10",
+        "6:template:tmpl-g6proportion-C-04",
+        "6:template:tmpl-g6proportion-C-07",
+        "6:template:tmpl-g6proportion-C-08",
+        "6:template:tmpl-g6proportion-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-01]",
@@ -1341,7 +3438,40 @@
         "grade5:congruence-001"
       ],
       "allocationRationale": "현재 5학년 합동 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-congruence-A-01",
+        "5:template:tmpl-congruence-A-02",
+        "5:template:tmpl-congruence-A-03",
+        "5:template:tmpl-congruence-A-04",
+        "5:template:tmpl-congruence-A-05",
+        "5:template:tmpl-congruence-A-06",
+        "5:template:tmpl-congruence-A-07",
+        "5:template:tmpl-congruence-A-08",
+        "5:template:tmpl-congruence-A-09",
+        "5:template:tmpl-congruence-A-10",
+        "5:template:tmpl-congruence-B-01",
+        "5:template:tmpl-congruence-B-02",
+        "5:template:tmpl-congruence-B-03",
+        "5:template:tmpl-congruence-B-04",
+        "5:template:tmpl-congruence-B-05",
+        "5:template:tmpl-congruence-B-06",
+        "5:template:tmpl-congruence-B-07",
+        "5:template:tmpl-congruence-B-08",
+        "5:template:tmpl-congruence-B-09",
+        "5:template:tmpl-congruence-B-10",
+        "5:template:tmpl-congruence-C-01",
+        "5:template:tmpl-congruence-C-02",
+        "5:template:tmpl-congruence-C-03",
+        "5:template:tmpl-congruence-C-04",
+        "5:template:tmpl-congruence-C-05",
+        "5:template:tmpl-congruence-C-06",
+        "5:template:tmpl-congruence-C-07",
+        "5:template:tmpl-congruence-C-08",
+        "5:template:tmpl-congruence-C-09",
+        "5:template:tmpl-congruence-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-02]",
@@ -1361,7 +3491,40 @@
         "grade5:symmetry-001"
       ],
       "allocationRationale": "현재 5학년 대칭 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-symmetry-A-01",
+        "5:template:tmpl-symmetry-A-02",
+        "5:template:tmpl-symmetry-A-03",
+        "5:template:tmpl-symmetry-A-04",
+        "5:template:tmpl-symmetry-A-05",
+        "5:template:tmpl-symmetry-A-06",
+        "5:template:tmpl-symmetry-A-07",
+        "5:template:tmpl-symmetry-A-08",
+        "5:template:tmpl-symmetry-A-09",
+        "5:template:tmpl-symmetry-A-10",
+        "5:template:tmpl-symmetry-B-01",
+        "5:template:tmpl-symmetry-B-02",
+        "5:template:tmpl-symmetry-B-03",
+        "5:template:tmpl-symmetry-B-04",
+        "5:template:tmpl-symmetry-B-05",
+        "5:template:tmpl-symmetry-B-06",
+        "5:template:tmpl-symmetry-B-07",
+        "5:template:tmpl-symmetry-B-08",
+        "5:template:tmpl-symmetry-B-09",
+        "5:template:tmpl-symmetry-B-10",
+        "5:template:tmpl-symmetry-C-01",
+        "5:template:tmpl-symmetry-C-02",
+        "5:template:tmpl-symmetry-C-03",
+        "5:template:tmpl-symmetry-C-04",
+        "5:template:tmpl-symmetry-C-05",
+        "5:template:tmpl-symmetry-C-06",
+        "5:template:tmpl-symmetry-C-07",
+        "5:template:tmpl-symmetry-C-08",
+        "5:template:tmpl-symmetry-C-09",
+        "5:template:tmpl-symmetry-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-03]",
@@ -1379,7 +3542,58 @@
         "grade5:cuboid-001"
       ],
       "allocationRationale": "현재 5학년 직육면체 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-cuboid-A-01",
+        "5:template:tmpl-cuboid-A-02",
+        "5:template:tmpl-cuboid-A-03",
+        "5:template:tmpl-cuboid-A-04",
+        "5:template:tmpl-cuboid-A-05",
+        "5:template:tmpl-cuboid-A-06",
+        "5:template:tmpl-cuboid-A-07",
+        "5:template:tmpl-cuboid-A-08",
+        "5:template:tmpl-cuboid-A-09",
+        "5:template:tmpl-cuboid-A-10",
+        "5:template:tmpl-cuboid-B-01",
+        "5:template:tmpl-cuboid-B-02",
+        "5:template:tmpl-cuboid-B-03",
+        "5:template:tmpl-cuboid-B-04",
+        "5:template:tmpl-cuboid-B-05",
+        "5:template:tmpl-cuboid-B-06",
+        "5:template:tmpl-cuboid-B-07",
+        "5:template:tmpl-cuboid-B-08",
+        "5:template:tmpl-cuboid-B-09",
+        "5:template:tmpl-cuboid-B-10",
+        "5:template:tmpl-cuboid-C-01",
+        "5:template:tmpl-cuboid-C-02",
+        "5:template:tmpl-cuboid-C-03",
+        "5:template:tmpl-cuboid-C-04",
+        "5:template:tmpl-cuboid-C-05",
+        "5:template:tmpl-cuboid-C-06",
+        "5:template:tmpl-cuboid-C-07",
+        "5:template:tmpl-cuboid-C-08",
+        "5:template:tmpl-cuboid-C-09",
+        "5:template:tmpl-cuboid-C-10",
+        "5:template:tmpl-cuboidnet-A-01",
+        "5:template:tmpl-cuboidnet-A-02",
+        "5:template:tmpl-cuboidnet-A-03",
+        "5:template:tmpl-cuboidnet-A-05",
+        "5:template:tmpl-cuboidnet-A-06",
+        "5:template:tmpl-cuboidnet-A-07",
+        "5:template:tmpl-cuboidnet-B-01",
+        "5:template:tmpl-cuboidnet-B-02",
+        "5:template:tmpl-cuboidnet-B-03",
+        "5:template:tmpl-cuboidnet-B-05",
+        "5:template:tmpl-cuboidnet-B-06",
+        "5:template:tmpl-cuboidnet-B-07",
+        "5:template:tmpl-cuboidnet-C-01",
+        "5:template:tmpl-cuboidnet-C-02",
+        "5:template:tmpl-cuboidnet-C-03",
+        "5:template:tmpl-cuboidnet-C-05",
+        "5:template:tmpl-cuboidnet-C-06",
+        "5:template:tmpl-cuboidnet-C-07"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-04]",
@@ -1399,7 +3613,40 @@
         "grade5:cuboidnet-001"
       ],
       "allocationRationale": "현재 5학년 겨냥도 전개도 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-cuboidnet-A-01",
+        "5:template:tmpl-cuboidnet-A-02",
+        "5:template:tmpl-cuboidnet-A-03",
+        "5:template:tmpl-cuboidnet-A-04",
+        "5:template:tmpl-cuboidnet-A-05",
+        "5:template:tmpl-cuboidnet-A-06",
+        "5:template:tmpl-cuboidnet-A-07",
+        "5:template:tmpl-cuboidnet-A-08",
+        "5:template:tmpl-cuboidnet-A-09",
+        "5:template:tmpl-cuboidnet-A-10",
+        "5:template:tmpl-cuboidnet-B-01",
+        "5:template:tmpl-cuboidnet-B-02",
+        "5:template:tmpl-cuboidnet-B-03",
+        "5:template:tmpl-cuboidnet-B-04",
+        "5:template:tmpl-cuboidnet-B-05",
+        "5:template:tmpl-cuboidnet-B-06",
+        "5:template:tmpl-cuboidnet-B-07",
+        "5:template:tmpl-cuboidnet-B-08",
+        "5:template:tmpl-cuboidnet-B-09",
+        "5:template:tmpl-cuboidnet-B-10",
+        "5:template:tmpl-cuboidnet-C-01",
+        "5:template:tmpl-cuboidnet-C-02",
+        "5:template:tmpl-cuboidnet-C-03",
+        "5:template:tmpl-cuboidnet-C-04",
+        "5:template:tmpl-cuboidnet-C-05",
+        "5:template:tmpl-cuboidnet-C-06",
+        "5:template:tmpl-cuboidnet-C-07",
+        "5:template:tmpl-cuboidnet-C-08",
+        "5:template:tmpl-cuboidnet-C-09",
+        "5:template:tmpl-cuboidnet-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-05]",
@@ -1419,7 +3666,40 @@
         "grade6:g6prismpyramid-001"
       ],
       "allocationRationale": "6학년 각기둥·각뿔 문제은행에서 밑면 변 수로 면·모서리·꼭짓점을 직접 계수하고 역산·복합 적용·오류 분석을 제공",
-      "reviewedBy": "grade6-prism-pyramid-release-2026-07-26"
+      "reviewedBy": "grade6-prism-pyramid-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6prismpyramid-A-01",
+        "6:template:tmpl-g6prismpyramid-A-02",
+        "6:template:tmpl-g6prismpyramid-A-03",
+        "6:template:tmpl-g6prismpyramid-A-04",
+        "6:template:tmpl-g6prismpyramid-A-05",
+        "6:template:tmpl-g6prismpyramid-A-06",
+        "6:template:tmpl-g6prismpyramid-A-07",
+        "6:template:tmpl-g6prismpyramid-A-08",
+        "6:template:tmpl-g6prismpyramid-A-09",
+        "6:template:tmpl-g6prismpyramid-A-10",
+        "6:template:tmpl-g6prismpyramid-B-01",
+        "6:template:tmpl-g6prismpyramid-B-02",
+        "6:template:tmpl-g6prismpyramid-B-03",
+        "6:template:tmpl-g6prismpyramid-B-04",
+        "6:template:tmpl-g6prismpyramid-B-05",
+        "6:template:tmpl-g6prismpyramid-B-06",
+        "6:template:tmpl-g6prismpyramid-B-07",
+        "6:template:tmpl-g6prismpyramid-B-08",
+        "6:template:tmpl-g6prismpyramid-B-09",
+        "6:template:tmpl-g6prismpyramid-B-10",
+        "6:template:tmpl-g6prismpyramid-C-01",
+        "6:template:tmpl-g6prismpyramid-C-02",
+        "6:template:tmpl-g6prismpyramid-C-03",
+        "6:template:tmpl-g6prismpyramid-C-04",
+        "6:template:tmpl-g6prismpyramid-C-05",
+        "6:template:tmpl-g6prismpyramid-C-06",
+        "6:template:tmpl-g6prismpyramid-C-07",
+        "6:template:tmpl-g6prismpyramid-C-08",
+        "6:template:tmpl-g6prismpyramid-C-09",
+        "6:template:tmpl-g6prismpyramid-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-06]",
@@ -1439,7 +3719,18 @@
         "grade6:g6prismpyramid-001"
       ],
       "allocationRationale": "6학년 각기둥 전개도 문제은행에서 밑면 변과 직사각형 옆면의 일대일 대응, 완전한 전개도, 빠진·남는 조각 분석을 제공",
-      "reviewedBy": "grade6-prism-pyramid-release-2026-07-26"
+      "reviewedBy": "grade6-prism-pyramid-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6prismpyramid-A-04",
+        "6:template:tmpl-g6prismpyramid-A-08",
+        "6:template:tmpl-g6prismpyramid-A-10",
+        "6:template:tmpl-g6prismpyramid-B-04",
+        "6:template:tmpl-g6prismpyramid-B-08",
+        "6:template:tmpl-g6prismpyramid-B-10",
+        "6:template:tmpl-g6prismpyramid-C-08",
+        "6:template:tmpl-g6prismpyramid-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-07]",
@@ -1459,7 +3750,40 @@
         "grade6:g6roundsolid-001"
       ],
       "allocationRationale": "6학년 곡면 입체 문제은행에서 원기둥·원뿔·구의 밑면·굽은 면·꼭짓점을 직접 계수하고 여러 도형 적용과 오류 분석을 제공",
-      "reviewedBy": "grade6-round-solid-release-2026-07-26"
+      "reviewedBy": "grade6-round-solid-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6roundsolid-A-01",
+        "6:template:tmpl-g6roundsolid-A-02",
+        "6:template:tmpl-g6roundsolid-A-03",
+        "6:template:tmpl-g6roundsolid-A-04",
+        "6:template:tmpl-g6roundsolid-A-05",
+        "6:template:tmpl-g6roundsolid-A-06",
+        "6:template:tmpl-g6roundsolid-A-07",
+        "6:template:tmpl-g6roundsolid-A-08",
+        "6:template:tmpl-g6roundsolid-A-09",
+        "6:template:tmpl-g6roundsolid-A-10",
+        "6:template:tmpl-g6roundsolid-B-01",
+        "6:template:tmpl-g6roundsolid-B-02",
+        "6:template:tmpl-g6roundsolid-B-03",
+        "6:template:tmpl-g6roundsolid-B-04",
+        "6:template:tmpl-g6roundsolid-B-05",
+        "6:template:tmpl-g6roundsolid-B-06",
+        "6:template:tmpl-g6roundsolid-B-07",
+        "6:template:tmpl-g6roundsolid-B-08",
+        "6:template:tmpl-g6roundsolid-B-09",
+        "6:template:tmpl-g6roundsolid-B-10",
+        "6:template:tmpl-g6roundsolid-C-01",
+        "6:template:tmpl-g6roundsolid-C-02",
+        "6:template:tmpl-g6roundsolid-C-03",
+        "6:template:tmpl-g6roundsolid-C-04",
+        "6:template:tmpl-g6roundsolid-C-05",
+        "6:template:tmpl-g6roundsolid-C-06",
+        "6:template:tmpl-g6roundsolid-C-07",
+        "6:template:tmpl-g6roundsolid-C-08",
+        "6:template:tmpl-g6roundsolid-C-09",
+        "6:template:tmpl-g6roundsolid-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-08]",
@@ -1479,7 +3803,19 @@
         "grade6:g6roundsolid-001"
       ],
       "allocationRationale": "6학년 원기둥 전개도 문제은행에서 원 두 개와 직사각형 하나의 대응, 반복 전개도, 빠진·남는 조각 분석을 제공",
-      "reviewedBy": "grade6-round-solid-release-2026-07-26"
+      "reviewedBy": "grade6-round-solid-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6roundsolid-A-04",
+        "6:template:tmpl-g6roundsolid-A-08",
+        "6:template:tmpl-g6roundsolid-A-10",
+        "6:template:tmpl-g6roundsolid-B-04",
+        "6:template:tmpl-g6roundsolid-B-08",
+        "6:template:tmpl-g6roundsolid-B-10",
+        "6:template:tmpl-g6roundsolid-C-04",
+        "6:template:tmpl-g6roundsolid-C-08",
+        "6:template:tmpl-g6roundsolid-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-09]",
@@ -1499,7 +3835,40 @@
         "grade6:g6spatial-001"
       ],
       "allocationRationale": "6학년 쌓기나무 문제은행에서 하나의 높이 격자로 전체 개수, 아래층, 기둥 추가와 가려진 쌓기나무 오류 분석을 제공합니다.",
-      "reviewedBy": "grade6-spatial-reasoning-release-2026-07-26"
+      "reviewedBy": "grade6-spatial-reasoning-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6spatial-A-01",
+        "6:template:tmpl-g6spatial-A-02",
+        "6:template:tmpl-g6spatial-A-03",
+        "6:template:tmpl-g6spatial-A-04",
+        "6:template:tmpl-g6spatial-A-05",
+        "6:template:tmpl-g6spatial-A-06",
+        "6:template:tmpl-g6spatial-A-07",
+        "6:template:tmpl-g6spatial-A-08",
+        "6:template:tmpl-g6spatial-A-09",
+        "6:template:tmpl-g6spatial-A-10",
+        "6:template:tmpl-g6spatial-B-01",
+        "6:template:tmpl-g6spatial-B-02",
+        "6:template:tmpl-g6spatial-B-03",
+        "6:template:tmpl-g6spatial-B-04",
+        "6:template:tmpl-g6spatial-B-05",
+        "6:template:tmpl-g6spatial-B-06",
+        "6:template:tmpl-g6spatial-B-07",
+        "6:template:tmpl-g6spatial-B-08",
+        "6:template:tmpl-g6spatial-B-09",
+        "6:template:tmpl-g6spatial-B-10",
+        "6:template:tmpl-g6spatial-C-01",
+        "6:template:tmpl-g6spatial-C-02",
+        "6:template:tmpl-g6spatial-C-03",
+        "6:template:tmpl-g6spatial-C-04",
+        "6:template:tmpl-g6spatial-C-05",
+        "6:template:tmpl-g6spatial-C-06",
+        "6:template:tmpl-g6spatial-C-07",
+        "6:template:tmpl-g6spatial-C-08",
+        "6:template:tmpl-g6spatial-C-09",
+        "6:template:tmpl-g6spatial-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-10]",
@@ -1519,7 +3888,40 @@
         "grade6:g6spatial-001"
       ],
       "allocationRationale": "6학년 쌓기나무 문제은행에서 같은 높이 격자로 위·앞·옆 투영을 만들고 정사각형 수와 잘못 그린 모양을 분석합니다.",
-      "reviewedBy": "grade6-spatial-reasoning-release-2026-07-26"
+      "reviewedBy": "grade6-spatial-reasoning-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6spatial-A-01",
+        "6:template:tmpl-g6spatial-A-02",
+        "6:template:tmpl-g6spatial-A-03",
+        "6:template:tmpl-g6spatial-A-04",
+        "6:template:tmpl-g6spatial-A-05",
+        "6:template:tmpl-g6spatial-A-06",
+        "6:template:tmpl-g6spatial-A-07",
+        "6:template:tmpl-g6spatial-A-08",
+        "6:template:tmpl-g6spatial-A-09",
+        "6:template:tmpl-g6spatial-A-10",
+        "6:template:tmpl-g6spatial-B-01",
+        "6:template:tmpl-g6spatial-B-02",
+        "6:template:tmpl-g6spatial-B-03",
+        "6:template:tmpl-g6spatial-B-04",
+        "6:template:tmpl-g6spatial-B-05",
+        "6:template:tmpl-g6spatial-B-06",
+        "6:template:tmpl-g6spatial-B-07",
+        "6:template:tmpl-g6spatial-B-08",
+        "6:template:tmpl-g6spatial-B-09",
+        "6:template:tmpl-g6spatial-B-10",
+        "6:template:tmpl-g6spatial-C-01",
+        "6:template:tmpl-g6spatial-C-02",
+        "6:template:tmpl-g6spatial-C-03",
+        "6:template:tmpl-g6spatial-C-04",
+        "6:template:tmpl-g6spatial-C-05",
+        "6:template:tmpl-g6spatial-C-06",
+        "6:template:tmpl-g6spatial-C-07",
+        "6:template:tmpl-g6spatial-C-08",
+        "6:template:tmpl-g6spatial-C-09",
+        "6:template:tmpl-g6spatial-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-11]",
@@ -1537,7 +3939,40 @@
         "grade5:perimeter-001"
       ],
       "allocationRationale": "현재 5학년 둘레 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-area-A-02",
+        "5:template:tmpl-area-A-05",
+        "5:template:tmpl-area-A-08",
+        "5:template:tmpl-area-A-10",
+        "5:template:tmpl-area-B-02",
+        "5:template:tmpl-area-B-05",
+        "5:template:tmpl-area-B-08",
+        "5:template:tmpl-area-B-10",
+        "5:template:tmpl-area-C-02",
+        "5:template:tmpl-area-C-05",
+        "5:template:tmpl-area-C-08",
+        "5:template:tmpl-area-C-10",
+        "5:template:tmpl-perimeter-A-01",
+        "5:template:tmpl-perimeter-A-02",
+        "5:template:tmpl-perimeter-A-03",
+        "5:template:tmpl-perimeter-A-04",
+        "5:template:tmpl-perimeter-A-09",
+        "5:template:tmpl-perimeter-A-10",
+        "5:template:tmpl-perimeter-B-01",
+        "5:template:tmpl-perimeter-B-02",
+        "5:template:tmpl-perimeter-B-03",
+        "5:template:tmpl-perimeter-B-04",
+        "5:template:tmpl-perimeter-B-09",
+        "5:template:tmpl-perimeter-B-10",
+        "5:template:tmpl-perimeter-C-01",
+        "5:template:tmpl-perimeter-C-02",
+        "5:template:tmpl-perimeter-C-03",
+        "5:template:tmpl-perimeter-C-04",
+        "5:template:tmpl-perimeter-C-09",
+        "5:template:tmpl-perimeter-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-12]",
@@ -1557,7 +3992,40 @@
         "grade5:areaunit-001"
       ],
       "allocationRationale": "cm²·m²·km²의 두 방향 변환과 실제 넓이 적용 문제",
-      "reviewedBy": "grade5-area-unit-release-2026-07-26"
+      "reviewedBy": "grade5-area-unit-release-2026-07-26",
+      "directContentRefs": [
+        "5:template:tmpl-areaunit-A-01",
+        "5:template:tmpl-areaunit-A-02",
+        "5:template:tmpl-areaunit-A-03",
+        "5:template:tmpl-areaunit-A-04",
+        "5:template:tmpl-areaunit-A-05",
+        "5:template:tmpl-areaunit-A-06",
+        "5:template:tmpl-areaunit-A-07",
+        "5:template:tmpl-areaunit-A-08",
+        "5:template:tmpl-areaunit-A-09",
+        "5:template:tmpl-areaunit-A-10",
+        "5:template:tmpl-areaunit-B-01",
+        "5:template:tmpl-areaunit-B-02",
+        "5:template:tmpl-areaunit-B-03",
+        "5:template:tmpl-areaunit-B-04",
+        "5:template:tmpl-areaunit-B-05",
+        "5:template:tmpl-areaunit-B-06",
+        "5:template:tmpl-areaunit-B-07",
+        "5:template:tmpl-areaunit-B-08",
+        "5:template:tmpl-areaunit-B-09",
+        "5:template:tmpl-areaunit-B-10",
+        "5:template:tmpl-areaunit-C-01",
+        "5:template:tmpl-areaunit-C-02",
+        "5:template:tmpl-areaunit-C-03",
+        "5:template:tmpl-areaunit-C-04",
+        "5:template:tmpl-areaunit-C-05",
+        "5:template:tmpl-areaunit-C-06",
+        "5:template:tmpl-areaunit-C-07",
+        "5:template:tmpl-areaunit-C-08",
+        "5:template:tmpl-areaunit-C-09",
+        "5:template:tmpl-areaunit-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-13]",
@@ -1579,7 +4047,46 @@
         "grade5:perimeter-001"
       ],
       "allocationRationale": "현재 5학년 직사각형 정사각형 넓이 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-area-A-01",
+        "5:template:tmpl-area-A-06",
+        "5:template:tmpl-area-A-07",
+        "5:template:tmpl-area-A-08",
+        "5:template:tmpl-area-A-09",
+        "5:template:tmpl-area-A-10",
+        "5:template:tmpl-area-B-01",
+        "5:template:tmpl-area-B-06",
+        "5:template:tmpl-area-B-07",
+        "5:template:tmpl-area-B-08",
+        "5:template:tmpl-area-B-09",
+        "5:template:tmpl-area-B-10",
+        "5:template:tmpl-area-C-01",
+        "5:template:tmpl-area-C-06",
+        "5:template:tmpl-area-C-07",
+        "5:template:tmpl-area-C-08",
+        "5:template:tmpl-area-C-09",
+        "5:template:tmpl-area-C-10",
+        "5:template:tmpl-areaunit-A-07",
+        "5:template:tmpl-areaunit-A-10",
+        "5:template:tmpl-areaunit-B-07",
+        "5:template:tmpl-areaunit-B-10",
+        "5:template:tmpl-areaunit-C-07",
+        "5:template:tmpl-areaunit-C-10",
+        "5:template:tmpl-perimeter-A-05",
+        "5:template:tmpl-perimeter-A-06",
+        "5:template:tmpl-perimeter-A-07",
+        "5:template:tmpl-perimeter-A-08",
+        "5:template:tmpl-perimeter-B-05",
+        "5:template:tmpl-perimeter-B-06",
+        "5:template:tmpl-perimeter-B-07",
+        "5:template:tmpl-perimeter-B-08",
+        "5:template:tmpl-perimeter-C-05",
+        "5:template:tmpl-perimeter-C-06",
+        "5:template:tmpl-perimeter-C-07",
+        "5:template:tmpl-perimeter-C-08"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-14]",
@@ -1600,7 +4107,49 @@
         "grade5:polygonarea-001"
       ],
       "allocationRationale": "현재 5학년 여러 다각형 넓이 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-area-A-03",
+        "5:template:tmpl-area-A-04",
+        "5:template:tmpl-area-A-09",
+        "5:template:tmpl-area-B-03",
+        "5:template:tmpl-area-B-04",
+        "5:template:tmpl-area-B-09",
+        "5:template:tmpl-area-C-03",
+        "5:template:tmpl-area-C-04",
+        "5:template:tmpl-area-C-09",
+        "5:template:tmpl-polygonarea-A-01",
+        "5:template:tmpl-polygonarea-A-02",
+        "5:template:tmpl-polygonarea-A-03",
+        "5:template:tmpl-polygonarea-A-04",
+        "5:template:tmpl-polygonarea-A-05",
+        "5:template:tmpl-polygonarea-A-06",
+        "5:template:tmpl-polygonarea-A-07",
+        "5:template:tmpl-polygonarea-A-08",
+        "5:template:tmpl-polygonarea-A-09",
+        "5:template:tmpl-polygonarea-A-10",
+        "5:template:tmpl-polygonarea-B-01",
+        "5:template:tmpl-polygonarea-B-02",
+        "5:template:tmpl-polygonarea-B-03",
+        "5:template:tmpl-polygonarea-B-04",
+        "5:template:tmpl-polygonarea-B-05",
+        "5:template:tmpl-polygonarea-B-06",
+        "5:template:tmpl-polygonarea-B-07",
+        "5:template:tmpl-polygonarea-B-08",
+        "5:template:tmpl-polygonarea-B-09",
+        "5:template:tmpl-polygonarea-B-10",
+        "5:template:tmpl-polygonarea-C-01",
+        "5:template:tmpl-polygonarea-C-02",
+        "5:template:tmpl-polygonarea-C-03",
+        "5:template:tmpl-polygonarea-C-04",
+        "5:template:tmpl-polygonarea-C-05",
+        "5:template:tmpl-polygonarea-C-06",
+        "5:template:tmpl-polygonarea-C-07",
+        "5:template:tmpl-polygonarea-C-08",
+        "5:template:tmpl-polygonarea-C-09",
+        "5:template:tmpl-polygonarea-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-15]",
@@ -1618,7 +4167,40 @@
         "grade6:g6circle-001"
       ],
       "allocationRationale": "6학년 원 문제은행에서 지름과 측정 원주를 같은 원 모델에서 파생하고 원주÷지름이 3.14로 일정함을 직접 계산하고 오류 분석합니다.",
-      "reviewedBy": "grade6-circle-measurement-release-2026-07-26"
+      "reviewedBy": "grade6-circle-measurement-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6circle-A-01",
+        "6:template:tmpl-g6circle-A-02",
+        "6:template:tmpl-g6circle-A-03",
+        "6:template:tmpl-g6circle-A-04",
+        "6:template:tmpl-g6circle-A-05",
+        "6:template:tmpl-g6circle-A-06",
+        "6:template:tmpl-g6circle-A-07",
+        "6:template:tmpl-g6circle-A-08",
+        "6:template:tmpl-g6circle-A-09",
+        "6:template:tmpl-g6circle-A-10",
+        "6:template:tmpl-g6circle-B-01",
+        "6:template:tmpl-g6circle-B-02",
+        "6:template:tmpl-g6circle-B-03",
+        "6:template:tmpl-g6circle-B-04",
+        "6:template:tmpl-g6circle-B-05",
+        "6:template:tmpl-g6circle-B-06",
+        "6:template:tmpl-g6circle-B-07",
+        "6:template:tmpl-g6circle-B-08",
+        "6:template:tmpl-g6circle-B-09",
+        "6:template:tmpl-g6circle-B-10",
+        "6:template:tmpl-g6circle-C-01",
+        "6:template:tmpl-g6circle-C-02",
+        "6:template:tmpl-g6circle-C-03",
+        "6:template:tmpl-g6circle-C-04",
+        "6:template:tmpl-g6circle-C-05",
+        "6:template:tmpl-g6circle-C-06",
+        "6:template:tmpl-g6circle-C-07",
+        "6:template:tmpl-g6circle-C-08",
+        "6:template:tmpl-g6circle-C-09",
+        "6:template:tmpl-g6circle-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-16]",
@@ -1638,7 +4220,40 @@
         "grade6:g6circle-001"
       ],
       "allocationRationale": "6학년 원 문제은행에서 원주·넓이 직접 계산, 바퀴·울타리·원형 매트·고리 응용, 공식 혼동과 원주율 어림 오류 분석을 제공합니다.",
-      "reviewedBy": "grade6-circle-measurement-release-2026-07-26"
+      "reviewedBy": "grade6-circle-measurement-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6circle-A-01",
+        "6:template:tmpl-g6circle-A-02",
+        "6:template:tmpl-g6circle-A-03",
+        "6:template:tmpl-g6circle-A-04",
+        "6:template:tmpl-g6circle-A-05",
+        "6:template:tmpl-g6circle-A-06",
+        "6:template:tmpl-g6circle-A-07",
+        "6:template:tmpl-g6circle-A-08",
+        "6:template:tmpl-g6circle-A-09",
+        "6:template:tmpl-g6circle-A-10",
+        "6:template:tmpl-g6circle-B-01",
+        "6:template:tmpl-g6circle-B-02",
+        "6:template:tmpl-g6circle-B-03",
+        "6:template:tmpl-g6circle-B-04",
+        "6:template:tmpl-g6circle-B-05",
+        "6:template:tmpl-g6circle-B-06",
+        "6:template:tmpl-g6circle-B-07",
+        "6:template:tmpl-g6circle-B-08",
+        "6:template:tmpl-g6circle-B-09",
+        "6:template:tmpl-g6circle-B-10",
+        "6:template:tmpl-g6circle-C-01",
+        "6:template:tmpl-g6circle-C-02",
+        "6:template:tmpl-g6circle-C-03",
+        "6:template:tmpl-g6circle-C-04",
+        "6:template:tmpl-g6circle-C-05",
+        "6:template:tmpl-g6circle-C-06",
+        "6:template:tmpl-g6circle-C-07",
+        "6:template:tmpl-g6circle-C-08",
+        "6:template:tmpl-g6circle-C-09",
+        "6:template:tmpl-g6circle-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-17]",
@@ -1659,7 +4274,35 @@
         "grade6:g6volume-001"
       ],
       "allocationRationale": "6학년 겉넓이·부피 문제은행에서 세 쌍의 면, 정육면체 여섯 면, 열린 상자와 포장·공식 오류 분석을 정량 직육면체로 제공합니다.",
-      "reviewedBy": "grade6-surface-area-volume-release-2026-07-26"
+      "reviewedBy": "grade6-surface-area-volume-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6volume-A-01",
+        "6:template:tmpl-g6volume-A-02",
+        "6:template:tmpl-g6volume-A-03",
+        "6:template:tmpl-g6volume-A-04",
+        "6:template:tmpl-g6volume-A-05",
+        "6:template:tmpl-g6volume-A-06",
+        "6:template:tmpl-g6volume-A-07",
+        "6:template:tmpl-g6volume-A-09",
+        "6:template:tmpl-g6volume-A-10",
+        "6:template:tmpl-g6volume-B-01",
+        "6:template:tmpl-g6volume-B-03",
+        "6:template:tmpl-g6volume-B-05",
+        "6:template:tmpl-g6volume-B-06",
+        "6:template:tmpl-g6volume-B-07",
+        "6:template:tmpl-g6volume-B-08",
+        "6:template:tmpl-g6volume-B-09",
+        "6:template:tmpl-g6volume-C-01",
+        "6:template:tmpl-g6volume-C-02",
+        "6:template:tmpl-g6volume-C-04",
+        "6:template:tmpl-g6volume-C-05",
+        "6:template:tmpl-g6volume-C-06",
+        "6:template:tmpl-g6volume-C-07",
+        "6:template:tmpl-g6volume-C-08",
+        "6:template:tmpl-g6volume-C-09",
+        "6:template:tmpl-g6volume-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-18]",
@@ -1679,7 +4322,28 @@
         "grade6:g6volume-001"
       ],
       "allocationRationale": "6학년 겉넓이·부피 문제은행에서 1cm³ 단위 쌓기, 1m³=1000000cm³의 세 방향 변환과 자릿값 오류 분석을 제공합니다.",
-      "reviewedBy": "grade6-surface-area-volume-release-2026-07-26"
+      "reviewedBy": "grade6-surface-area-volume-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6volume-A-03",
+        "6:template:tmpl-g6volume-A-04",
+        "6:template:tmpl-g6volume-A-06",
+        "6:template:tmpl-g6volume-A-07",
+        "6:template:tmpl-g6volume-A-08",
+        "6:template:tmpl-g6volume-A-10",
+        "6:template:tmpl-g6volume-B-02",
+        "6:template:tmpl-g6volume-B-03",
+        "6:template:tmpl-g6volume-B-04",
+        "6:template:tmpl-g6volume-B-06",
+        "6:template:tmpl-g6volume-B-07",
+        "6:template:tmpl-g6volume-B-09",
+        "6:template:tmpl-g6volume-B-10",
+        "6:template:tmpl-g6volume-C-02",
+        "6:template:tmpl-g6volume-C-03",
+        "6:template:tmpl-g6volume-C-06",
+        "6:template:tmpl-g6volume-C-07",
+        "6:template:tmpl-g6volume-C-08"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수03-19]",
@@ -1700,7 +4364,40 @@
         "grade6:g6volume-001"
       ],
       "allocationRationale": "6학년 겉넓이·부피 문제은행에서 직육면체·정육면체 부피, 부분 채움, 층 제거, 높이 역산과 공식 오류 분석을 제공합니다.",
-      "reviewedBy": "grade6-surface-area-volume-release-2026-07-26"
+      "reviewedBy": "grade6-surface-area-volume-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6volume-A-01",
+        "6:template:tmpl-g6volume-A-02",
+        "6:template:tmpl-g6volume-A-03",
+        "6:template:tmpl-g6volume-A-04",
+        "6:template:tmpl-g6volume-A-05",
+        "6:template:tmpl-g6volume-A-06",
+        "6:template:tmpl-g6volume-A-07",
+        "6:template:tmpl-g6volume-A-08",
+        "6:template:tmpl-g6volume-A-09",
+        "6:template:tmpl-g6volume-A-10",
+        "6:template:tmpl-g6volume-B-01",
+        "6:template:tmpl-g6volume-B-02",
+        "6:template:tmpl-g6volume-B-03",
+        "6:template:tmpl-g6volume-B-04",
+        "6:template:tmpl-g6volume-B-05",
+        "6:template:tmpl-g6volume-B-06",
+        "6:template:tmpl-g6volume-B-07",
+        "6:template:tmpl-g6volume-B-08",
+        "6:template:tmpl-g6volume-B-09",
+        "6:template:tmpl-g6volume-B-10",
+        "6:template:tmpl-g6volume-C-01",
+        "6:template:tmpl-g6volume-C-02",
+        "6:template:tmpl-g6volume-C-03",
+        "6:template:tmpl-g6volume-C-04",
+        "6:template:tmpl-g6volume-C-05",
+        "6:template:tmpl-g6volume-C-06",
+        "6:template:tmpl-g6volume-C-07",
+        "6:template:tmpl-g6volume-C-08",
+        "6:template:tmpl-g6volume-C-09",
+        "6:template:tmpl-g6volume-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수04-01]",
@@ -1718,7 +4415,40 @@
         "grade5:average-001"
       ],
       "allocationRationale": "현재 5학년 평균 청사진 참조",
-      "reviewedBy": "curriculum-ledger-review-2026-07-21"
+      "reviewedBy": "curriculum-ledger-review-2026-07-21",
+      "directContentRefs": [
+        "5:template:tmpl-average-A-01",
+        "5:template:tmpl-average-A-02",
+        "5:template:tmpl-average-A-03",
+        "5:template:tmpl-average-A-04",
+        "5:template:tmpl-average-A-05",
+        "5:template:tmpl-average-A-06",
+        "5:template:tmpl-average-A-07",
+        "5:template:tmpl-average-A-08",
+        "5:template:tmpl-average-A-09",
+        "5:template:tmpl-average-A-10",
+        "5:template:tmpl-average-B-01",
+        "5:template:tmpl-average-B-02",
+        "5:template:tmpl-average-B-03",
+        "5:template:tmpl-average-B-04",
+        "5:template:tmpl-average-B-05",
+        "5:template:tmpl-average-B-06",
+        "5:template:tmpl-average-B-07",
+        "5:template:tmpl-average-B-08",
+        "5:template:tmpl-average-B-09",
+        "5:template:tmpl-average-B-10",
+        "5:template:tmpl-average-C-01",
+        "5:template:tmpl-average-C-02",
+        "5:template:tmpl-average-C-03",
+        "5:template:tmpl-average-C-04",
+        "5:template:tmpl-average-C-05",
+        "5:template:tmpl-average-C-06",
+        "5:template:tmpl-average-C-07",
+        "5:template:tmpl-average-C-08",
+        "5:template:tmpl-average-C-09",
+        "5:template:tmpl-average-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수04-02]",
@@ -1736,7 +4466,40 @@
         "grade6:g6ratiograph-001"
       ],
       "allocationRationale": "6학년 띠·원그래프 문제은행에서 전체 100%와 부문 비율을 같은 정량 그래프로 나타내고 읽기·합성·역산을 제공합니다.",
-      "reviewedBy": "grade6-ratio-graphs-release-2026-07-26"
+      "reviewedBy": "grade6-ratio-graphs-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6ratiograph-A-01",
+        "6:template:tmpl-g6ratiograph-A-02",
+        "6:template:tmpl-g6ratiograph-A-03",
+        "6:template:tmpl-g6ratiograph-A-04",
+        "6:template:tmpl-g6ratiograph-A-05",
+        "6:template:tmpl-g6ratiograph-A-06",
+        "6:template:tmpl-g6ratiograph-A-07",
+        "6:template:tmpl-g6ratiograph-A-08",
+        "6:template:tmpl-g6ratiograph-A-09",
+        "6:template:tmpl-g6ratiograph-A-10",
+        "6:template:tmpl-g6ratiograph-B-01",
+        "6:template:tmpl-g6ratiograph-B-02",
+        "6:template:tmpl-g6ratiograph-B-03",
+        "6:template:tmpl-g6ratiograph-B-04",
+        "6:template:tmpl-g6ratiograph-B-05",
+        "6:template:tmpl-g6ratiograph-B-06",
+        "6:template:tmpl-g6ratiograph-B-07",
+        "6:template:tmpl-g6ratiograph-B-08",
+        "6:template:tmpl-g6ratiograph-B-09",
+        "6:template:tmpl-g6ratiograph-B-10",
+        "6:template:tmpl-g6ratiograph-C-01",
+        "6:template:tmpl-g6ratiograph-C-02",
+        "6:template:tmpl-g6ratiograph-C-03",
+        "6:template:tmpl-g6ratiograph-C-04",
+        "6:template:tmpl-g6ratiograph-C-05",
+        "6:template:tmpl-g6ratiograph-C-06",
+        "6:template:tmpl-g6ratiograph-C-07",
+        "6:template:tmpl-g6ratiograph-C-08",
+        "6:template:tmpl-g6ratiograph-C-09",
+        "6:template:tmpl-g6ratiograph-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수04-03]",
@@ -1756,7 +4519,29 @@
         "grade6:g6ratiograph-001"
       ],
       "allocationRationale": "6학년 띠·원그래프 문제은행에서 조사 자료를 비율로 정리하고 인원·부문 차이·누적 오류를 해석하는 탐구 활동을 제공합니다.",
-      "reviewedBy": "grade6-ratio-graphs-release-2026-07-26"
+      "reviewedBy": "grade6-ratio-graphs-release-2026-07-26",
+      "directContentRefs": [
+        "6:template:tmpl-g6ratiograph-A-04",
+        "6:template:tmpl-g6ratiograph-A-05",
+        "6:template:tmpl-g6ratiograph-A-06",
+        "6:template:tmpl-g6ratiograph-A-07",
+        "6:template:tmpl-g6ratiograph-A-08",
+        "6:template:tmpl-g6ratiograph-A-09",
+        "6:template:tmpl-g6ratiograph-A-10",
+        "6:template:tmpl-g6ratiograph-B-05",
+        "6:template:tmpl-g6ratiograph-B-06",
+        "6:template:tmpl-g6ratiograph-B-07",
+        "6:template:tmpl-g6ratiograph-B-08",
+        "6:template:tmpl-g6ratiograph-B-09",
+        "6:template:tmpl-g6ratiograph-B-10",
+        "6:template:tmpl-g6ratiograph-C-05",
+        "6:template:tmpl-g6ratiograph-C-06",
+        "6:template:tmpl-g6ratiograph-C-07",
+        "6:template:tmpl-g6ratiograph-C-08",
+        "6:template:tmpl-g6ratiograph-C-09",
+        "6:template:tmpl-g6ratiograph-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수04-04]",
@@ -1774,7 +4559,22 @@
         "grade5:possibility-001"
       ],
       "allocationRationale": "관찰 횟수와 전체 횟수로 가능성을 말로 표현하고 비교",
-      "reviewedBy": "grade5-possibility-release-2026-07-26"
+      "reviewedBy": "grade5-possibility-release-2026-07-26",
+      "directContentRefs": [
+        "5:template:tmpl-possibility-A-01",
+        "5:template:tmpl-possibility-A-02",
+        "5:template:tmpl-possibility-A-03",
+        "5:template:tmpl-possibility-A-04",
+        "5:template:tmpl-possibility-B-01",
+        "5:template:tmpl-possibility-B-02",
+        "5:template:tmpl-possibility-B-03",
+        "5:template:tmpl-possibility-B-04",
+        "5:template:tmpl-possibility-C-01",
+        "5:template:tmpl-possibility-C-02",
+        "5:template:tmpl-possibility-C-03",
+        "5:template:tmpl-possibility-C-04"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수04-05]",
@@ -1794,7 +4594,34 @@
         "grade5:possibility-001"
       ],
       "allocationRationale": "0·1/2·1과 관찰 비율로 가능성을 수로 표현",
-      "reviewedBy": "grade5-possibility-release-2026-07-26"
+      "reviewedBy": "grade5-possibility-release-2026-07-26",
+      "directContentRefs": [
+        "5:template:tmpl-possibility-A-03",
+        "5:template:tmpl-possibility-A-04",
+        "5:template:tmpl-possibility-A-05",
+        "5:template:tmpl-possibility-A-06",
+        "5:template:tmpl-possibility-A-07",
+        "5:template:tmpl-possibility-A-08",
+        "5:template:tmpl-possibility-A-09",
+        "5:template:tmpl-possibility-A-10",
+        "5:template:tmpl-possibility-B-03",
+        "5:template:tmpl-possibility-B-04",
+        "5:template:tmpl-possibility-B-05",
+        "5:template:tmpl-possibility-B-06",
+        "5:template:tmpl-possibility-B-07",
+        "5:template:tmpl-possibility-B-08",
+        "5:template:tmpl-possibility-B-09",
+        "5:template:tmpl-possibility-B-10",
+        "5:template:tmpl-possibility-C-03",
+        "5:template:tmpl-possibility-C-04",
+        "5:template:tmpl-possibility-C-05",
+        "5:template:tmpl-possibility-C-06",
+        "5:template:tmpl-possibility-C-07",
+        "5:template:tmpl-possibility-C-08",
+        "5:template:tmpl-possibility-C-09",
+        "5:template:tmpl-possibility-C-10"
+      ],
+      "reviewContentRefs": []
     },
     {
       "standardCode": "[6수04-06]",
@@ -1814,7 +4641,28 @@
         "grade5:possibility-001"
       ],
       "allocationRationale": "서로 다른 크기의 관찰 자료를 비율로 비교해 예측하고 판단",
-      "reviewedBy": "grade5-possibility-release-2026-07-26"
+      "reviewedBy": "grade5-possibility-release-2026-07-26",
+      "directContentRefs": [
+        "5:template:tmpl-possibility-A-05",
+        "5:template:tmpl-possibility-A-06",
+        "5:template:tmpl-possibility-A-07",
+        "5:template:tmpl-possibility-A-08",
+        "5:template:tmpl-possibility-A-09",
+        "5:template:tmpl-possibility-A-10",
+        "5:template:tmpl-possibility-B-05",
+        "5:template:tmpl-possibility-B-06",
+        "5:template:tmpl-possibility-B-07",
+        "5:template:tmpl-possibility-B-08",
+        "5:template:tmpl-possibility-B-09",
+        "5:template:tmpl-possibility-B-10",
+        "5:template:tmpl-possibility-C-05",
+        "5:template:tmpl-possibility-C-06",
+        "5:template:tmpl-possibility-C-07",
+        "5:template:tmpl-possibility-C-08",
+        "5:template:tmpl-possibility-C-09",
+        "5:template:tmpl-possibility-C-10"
+      ],
+      "reviewContentRefs": []
     }
   ]
 }

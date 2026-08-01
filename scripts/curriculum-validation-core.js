@@ -1,4 +1,8 @@
 const STANDARD_RANGES = Object.freeze({
+  '2수01': 11,
+  '2수02': 2,
+  '2수03': 13,
+  '2수04': 3,
   '4수01': 16,
   '4수02': 3,
   '4수03': 25,
@@ -90,11 +94,23 @@ function templateSupportsStandard(templates, conceptId, standardCode) {
     })
 }
 
-function validateRecord(record, expectedSet, unitIds, conceptIds, templates, grade3Source, grade4Source) {
+function validateRecord(record, expectedSet, unitIds, conceptIds, templates, grade1Source, grade2Source, grade3Source, grade4Source) {
   const errors = []
   const standardCode = normalizeStandardCode(record?.standardCode)
-  const expectedBand = standardCode.startsWith('[4수') ? '3-4' : standardCode.startsWith('[6수') ? '5-6' : null
-  const allowedGrades = expectedBand === '3-4' ? [3, 4] : expectedBand === '5-6' ? [5, 6] : []
+  const expectedBand = standardCode.startsWith('[2수')
+    ? '1-2'
+    : standardCode.startsWith('[4수')
+      ? '3-4'
+      : standardCode.startsWith('[6수')
+        ? '5-6'
+        : null
+  const allowedGrades = expectedBand === '1-2'
+    ? [1, 2]
+    : expectedBand === '3-4'
+      ? [3, 4]
+      : expectedBand === '5-6'
+        ? [5, 6]
+        : []
 
   if (!expectedSet.has(standardCode)) errors.push(issue('invalid_standard', '공식 학년군 코드가 아닙니다.', standardCode))
   if (record?.band !== expectedBand) errors.push(issue('band_mismatch', '코드와 학년군이 일치하지 않습니다.', standardCode))
@@ -103,6 +119,12 @@ function validateRecord(record, expectedSet, unitIds, conceptIds, templates, gra
     errors.push(issue('semester_mismatch', '배정 학년과 학기가 일치하지 않습니다.', standardCode))
   }
   if (typeof record?.unitId !== 'string' || !record.unitId.trim()) errors.push(issue('missing_unit', 'unitId가 없습니다.', standardCode))
+  if (record?.assignedGrade === 1 && !grade1Source.includes(`id: '${record.unitId}'`)) {
+    errors.push(issue('unknown_grade1_unit', `현재 1학년 island ${record.unitId}를 찾을 수 없습니다.`, standardCode))
+  }
+  if (record?.assignedGrade === 2 && !grade2Source.includes(`id: '${record.unitId}'`)) {
+    errors.push(issue('unknown_grade2_unit', `현재 2학년 unit ${record.unitId}를 찾을 수 없습니다.`, standardCode))
+  }
   if (record?.assignedGrade === 3 && !grade3Source.includes(`id: '${record.unitId}'`)) {
     errors.push(issue('unknown_grade3_unit', `현재 3학년 unit ${record.unitId}를 찾을 수 없습니다.`, standardCode))
   }
@@ -115,7 +137,11 @@ function validateRecord(record, expectedSet, unitIds, conceptIds, templates, gra
   if (typeof record?.officialText !== 'string' || record.officialText.length < 10 || !record.officialText.endsWith('다.')) {
     errors.push(issue('invalid_official_text', '공식 성취기준 원문이 필요합니다.', standardCode))
   }
-  if (record?.sourceUrl !== OFFICIAL_SOURCE_URL || !Number.isInteger(record?.sourcePage) || record.sourcePage < 1) {
+  const hasOfficialSource = typeof record?.sourceUrl === 'string'
+    && OFFICIAL_SOURCE_URL.startsWith(record.sourceUrl)
+  const hasSourceLocation = (Number.isInteger(record?.sourcePage) && record.sourcePage > 0)
+    || (typeof record?.sourcePageDescriptor === 'string' && record.sourcePageDescriptor.trim())
+  if (!hasOfficialSource || !hasSourceLocation) {
     errors.push(issue('invalid_source', '교육부 원문 URL과 쪽수가 필요합니다.', standardCode))
   }
   if (!REVIEW_STATUSES.has(record?.reviewStatus)) errors.push(issue('invalid_review_status', 'reviewStatus가 유효하지 않습니다.', standardCode))
@@ -143,7 +169,17 @@ function validateRecord(record, expectedSet, unitIds, conceptIds, templates, gra
     errors.push(issue('planned_has_reference', 'planned 항목에 기존 콘텐츠 참조가 있습니다.', standardCode))
   }
   for (const ref of contentRefs) {
-    if (ref.startsWith('grade3:')) {
+    if (ref.startsWith('grade1:')) {
+      const unitId = ref.slice('grade1:'.length)
+      if (record?.assignedGrade !== 1 || !grade1Source.includes(`id: '${unitId}'`)) {
+        errors.push(issue('invalid_grade1_reference', `1학년 참조 ${ref}를 추적할 수 없습니다.`, standardCode))
+      }
+    } else if (ref.startsWith('grade2:')) {
+      const unitId = ref.slice('grade2:'.length)
+      if (record?.assignedGrade !== 2 || !grade2Source.includes(`id: '${unitId}'`)) {
+        errors.push(issue('invalid_grade2_reference', `2학년 참조 ${ref}를 추적할 수 없습니다.`, standardCode))
+      }
+    } else if (ref.startsWith('grade3:')) {
       const unitId = ref.slice('grade3:'.length)
       if (record?.assignedGrade !== 3 || !grade3Source.includes(`id: '${unitId}'`) || !grade3Source.includes(standardCode)) {
         errors.push(issue('invalid_grade3_reference', `3학년 참조 ${ref}를 추적할 수 없습니다.`, standardCode))
@@ -177,7 +213,7 @@ function validateRecord(record, expectedSet, unitIds, conceptIds, templates, gra
   return errors
 }
 
-function validateCurriculumLedger({ ledger, grade3Source = '', grade4Source = '', guestHomeSource = '', units = [], concepts = [], templates = {}, supportedGrades }) {
+function validateCurriculumLedger({ ledger, grade1Source = '', grade2Source = '', grade3Source = '', grade4Source = '', guestHomeSource = '', units = [], concepts = [], templates = {}, supportedGrades }) {
   const errors = []
   const expected = expectedStandardCodes()
   const expectedSet = new Set(expected)
@@ -190,7 +226,7 @@ function validateCurriculumLedger({ ledger, grade3Source = '', grade4Source = ''
   const counts = new Map()
 
   if (ledger?.schemaVersion !== '2022-math-allocation-v1') errors.push(issue('invalid_schema_version', '지원하지 않는 curriculum ledger 버전입니다.'))
-  for (const grade of [4, 6]) {
+  for (const grade of [1, 2, 3, 4, 5, 6]) {
     if (!RELEASE_STATES.has(ledger?.releaseState?.[`grade${grade}`])) {
       errors.push(issue('invalid_release_state', `${grade}학년 releaseState가 유효하지 않습니다.`))
     }
@@ -198,7 +234,7 @@ function validateCurriculumLedger({ ledger, grade3Source = '', grade4Source = ''
   for (const allocation of allocations) {
     const standardCode = normalizeStandardCode(allocation?.standardCode)
     counts.set(standardCode, (counts.get(standardCode) ?? 0) + 1)
-    errors.push(...validateRecord(allocation, expectedSet, unitIds, conceptIds, templates, grade3Source, grade4Source))
+    errors.push(...validateRecord(allocation, expectedSet, unitIds, conceptIds, templates, grade1Source, grade2Source, grade3Source, grade4Source))
   }
 
   const missing = expected.filter((code) => !counts.has(code))
@@ -264,6 +300,7 @@ function validateCurriculumLedger({ ledger, grade3Source = '', grade4Source = ''
     errors,
     summary: {
       total: allocations.length,
+      grade12Total: allocations.filter((allocation) => allocation.band === '1-2').length,
       grade34Total: allocations.filter((allocation) => allocation.band === '3-4').length,
       grade56Total: allocations.filter((allocation) => allocation.band === '5-6').length,
       missingCount: missing.length,

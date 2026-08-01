@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import grade12Allocation from '../../workstreams/_shared/grade1-2-curriculum-allocation-v1.json'
+import grade12Allocation from '../../public/data/curriculum-allocations-v1.json'
 import { buildCanonicalMathSignature } from '../../scripts/content-inventory-core.js'
 import {
   auditGrade2MissionVariants,
@@ -334,6 +334,15 @@ describe('grade2 mission bank', () => {
   it('uses the answer format requested by the mixed-unit length questions', () => {
     expect(getGrade2MissionById('g2-2-length-03', 42).correctAnswer).toBe('1m20cm')
     expect(getGrade2MissionById('g2-2-length-06', 42).correctAnswer).toBe('2m30cm')
+    for (const id of [
+      'g2-2-length-02-v1',
+      'g2-2-length-04-v1',
+      'g2-2-length-06-v1',
+    ]) {
+      const mission = getGrade2MissionById(id, 42)
+      expect(mission.answerConfig.unit, id).toBe('cm')
+      expect(mission.correctAnswer, id).toMatch(/^\d+cm$/)
+    }
   })
 
   it('audits every allowed Grade 2 parameter combination', () => {

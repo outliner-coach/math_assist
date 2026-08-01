@@ -35,6 +35,13 @@ When you change a high-conflict file, add a short dated note below:
   wiring, or editorial ledger. The final review lane is the only writer for
   the catalog, editorial ledger, and shared browser-evidence files.
 
+- 2026-08-01: The Grade 1-2 authoring allocation was merged into the final
+  121-standard `public/data/curriculum-allocations-v1.json` ledger with
+  problem-level direct and review references, then its temporary shared file
+  was removed. Grade 1-6 content and validation now consume only the final
+  ledger; curriculum generation must remain deterministic when rerun without
+  the temporary authoring input.
+
 - 2026-07-31: Grade 1-6 content-structure quality-core foundation (primary
   workstream 04) owns the fixture-tested, production-data-neutral contracts in
   `scripts/curriculum-direct-link-core.js` and

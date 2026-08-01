@@ -37,6 +37,7 @@ export interface Grade4MissionTemplate {
   id: string
   unitId: string
   curriculumCode: string
+  directCurriculumCodes?: string[]
   cognitiveDomain: Grade4CognitiveDomain
   problemFamily: string
   representation: Grade4Representation
@@ -2405,6 +2406,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   }),
   template({
     id: 'g4-move-05', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'applying',
+    directCurriculumCodes: ['[4수03-04]', '[4수03-05]'],
     problemFamily: 'translate-point-by-vector', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '점 밀기',
     taskActions: ['calculate'], visualSemantics: 'quantitative',
     learnerGoal: '점의 좌표에 가로·세로 이동량을 더해 옮긴 위치를 구해요.',
@@ -2429,6 +2431,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   }),
   template({
     id: 'g4-move-06', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'applying',
+    directCurriculumCodes: ['[4수03-04]', '[4수03-05]'],
     problemFamily: 'reflect-point-across-vertical-line', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '점 뒤집기',
     taskActions: ['calculate'], visualSemantics: 'quantitative',
     learnerGoal: '세로 기준선에서 같은 거리에 있는 뒤집힌 점의 좌표를 구해요.',
@@ -2451,6 +2454,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   }),
   template({
     id: 'g4-move-07', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'applying',
+    directCurriculumCodes: ['[4수03-04]', '[4수03-05]'],
     problemFamily: 'rotate-point-clockwise-quarter-turn', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '점 돌리기',
     taskActions: ['calculate'], visualSemantics: 'quantitative',
     learnerGoal: '중심에서의 가로·세로 위치를 바꾸어 90° 돌린 점을 구해요.',
@@ -2477,6 +2481,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   }),
   template({
     id: 'g4-move-08', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'applying',
+    directCurriculumCodes: ['[4수03-04]', '[4수03-05]'],
     problemFamily: 'compose-slide-then-reflection', representation: 'context', answerType: 'choice', supportTool: 'grid', skillTag: '점의 연속 이동',
     taskActions: ['calculate'], visualSemantics: 'quantitative',
     learnerGoal: '점을 차례로 밀고 뒤집어 마지막 위치를 구해요.',
@@ -3486,6 +3491,14 @@ export function validateGrade4MissionBank(ledger?: CurriculumLedgerLike): Grade4
     if (item.cognitiveDomain === 'reasoning') reasoningFamilies.add(item.problemFamily)
     if (!unitIds.has(item.unitId)) errors.push(`${item.id}: unknown Grade 4 unit ${item.unitId}`)
     if (!allowedCodes.has(item.curriculumCode)) errors.push(`${item.id}: curriculum code is outside the release unit`)
+    const unit = grade4Units.find((candidate) => candidate.id === item.unitId)
+    const directCodes = item.directCurriculumCodes ?? [item.curriculumCode]
+    if (directCodes.length === 0 || new Set(directCodes).size !== directCodes.length) {
+      errors.push(`${item.id}: direct curriculum codes must be non-empty and unique`)
+    }
+    if (unit && directCodes.some((code) => !unit.curriculumCodes.includes(code))) {
+      errors.push(`${item.id}: direct curriculum code is outside the release unit`)
+    }
     if (item.hintSteps.length < 2) errors.push(`${item.id}: needs at least two hints`)
     if (!item.learnerGoal.trim() || !item.promptTemplate.trim()) errors.push(`${item.id}: missing learner copy`)
     if (!['none', 'grid', 'ruler', 'protractor'].includes(item.supportTool)) errors.push(`${item.id}: invalid support tool`)

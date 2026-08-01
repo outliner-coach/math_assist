@@ -126,8 +126,8 @@ function auditGrade1() {
     warnings.push(createIssue('warning', 'duplicate_prompt', `Grade 1 ${first.islandId}: repeated prompt "${first.prompt}"`, { missionId: second.id }))
   }
 
-  if (grade1MissionTemplates.length !== 96) {
-    errors.push(createIssue('error', 'grade1_v1_count', `Grade 1 V1 expects 96 missions, got ${grade1MissionTemplates.length}`))
+  if (grade1MissionTemplates.length !== 98) {
+    errors.push(createIssue('error', 'grade1_v1_count', `Grade 1 V1 expects 98 missions, got ${grade1MissionTemplates.length}`))
   }
 
   for (const island of grade1Islands) {
@@ -165,7 +165,10 @@ function auditGrade2TimePrompt(template, warnings) {
   if (template.promptTemplate.includes('걸린 시간') && template.answerType !== 'duration') {
     warnings.push(createIssue('warning', 'time_prompt_type_mismatch', `Grade 2 ${template.id}: elapsed-time prompt should use duration`, { missionId: template.id }))
   }
-  if (template.promptTemplate.includes('시각') && template.answerType !== 'time-of-day') {
+  if (
+    template.promptTemplate.includes('시각')
+    && !['time-of-day', 'choice', 'label'].includes(template.answerType)
+  ) {
     warnings.push(createIssue('warning', 'time_prompt_type_mismatch', `Grade 2 ${template.id}: clock-time prompt should use time-of-day`, { missionId: template.id }))
   }
 }
@@ -306,17 +309,14 @@ function auditGrade3() {
     warnings.push(createIssue('warning', 'duplicate_prompt', `Grade 3 ${first.unitId}: repeated prompt "${first.prompt}"`, { missionId: second.id }))
   }
 
-  if (grade3MissionTemplates.length !== 40) {
-    errors.push(createIssue('error', 'grade3_mission_count', `Grade 3 expects 40 missions, got ${grade3MissionTemplates.length}`))
+  if (grade3MissionTemplates.length !== 120) {
+    errors.push(createIssue('error', 'grade3_mission_count', `Grade 3 expects 120 missions, got ${grade3MissionTemplates.length}`))
   }
 
   for (const unit of grade3Units) {
     const bucket = byUnit.get(unit.id)
-    const expanded = unit.id === 'g3-2-capacity-weight'
-    const expectedTotal = expanded ? 7 : 3
-    const expectedSteps = expanded
-      ? { easy: 2, medium: 3, applied: 2 }
-      : { easy: 1, medium: 1, applied: 1 }
+    const expectedTotal = 10
+    const expectedSteps = { easy: 4, medium: 4, applied: 2 }
     if (!bucket) {
       errors.push(createIssue('error', 'grade3_unit_coverage', `Grade 3 ${unit.id}: missing missions`))
       continue

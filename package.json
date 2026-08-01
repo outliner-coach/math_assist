@@ -17,6 +17,8 @@
     "validate:grade4": "node scripts/validate-grade4-problems.js",
     "validate:grade6": "node scripts/validate-grade6-templates.js",
     "validate:curriculum": "node scripts/validate-curriculum.js",
+    "generate:curriculum-direct-links": "node scripts/finalize-curriculum-allocations.js",
+    "report:content-inventory": "node scripts/content-inventory-report.js",
     "audit:missions": "node scripts/mission-bank-quality-report.js",
     "generate:problem-review-catalog": "node scripts/generate-problem-review-catalog.js",
     "generate:problem-visual-evidence": "node scripts/generate-problem-visual-browser-evidence.js",

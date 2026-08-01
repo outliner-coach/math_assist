@@ -1486,7 +1486,7 @@ const grade1AuthoredExpansionTemplates: Grade1MissionTemplateSource[] = [
   authoredExpansion({
     id: 'count-cove-03-v1-3', islandId: 'count-cove',
     learnerGoal: '두 줄에 놓인 연필을 빠짐없이 세어요', parentSummaryTag: 'counting-to-20',
-    promptTemplate: '연필은 모두 몇 자루일까요?', answerType: 'number',
+    promptTemplate: '두 줄의 연필은 모두 몇 자루일까요?', answerType: 'number',
     paramSchema: { count: { min: 17, max: 19 }, slots: { min: 20, max: 20 } }, solverRule: 'count',
     visualModel: 'counting-grid', visualConfig: { object: 'pencil', count: '{{count}}', slots: '{{slots}}', columns: 10 },
     hintStepsTemplate: ['첫 줄 10자루를 먼저 묶어요.', '둘째 줄을 이어서 세어요.'],

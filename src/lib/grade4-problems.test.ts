@@ -551,6 +551,15 @@ describe('Grade 4 Bridge release bank', () => {
       expect(templates.filter((item) => item.cognitiveDomain === 'reasoning')).toHaveLength(2)
       expect(new Set(templates.map((item) => item.problemFamily)).size).toBe(10)
       expect(new Set(templates.map((item) => item.representation)).size).toBeGreaterThanOrEqual(2)
+      for (const code of unit.curriculumCodes) {
+        const direct = templates.filter((item) => (
+          item.directCurriculumCodes ?? [item.curriculumCode]
+        ).includes(code))
+        expect(
+          direct.some((item) => item.cognitiveDomain === 'applying'),
+          `${unit.id} ${code} needs direct applying work`,
+        ).toBe(true)
+      }
     }
   })
 

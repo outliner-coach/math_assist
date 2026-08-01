@@ -10,6 +10,8 @@ const ledger = JSON.parse(
   readFileSync(join(root, 'public/data/curriculum-allocations-v1.json'), 'utf8')
 )
 
+const grade1Source = readFileSync(join(root, 'src/lib/grade1-problems.ts'), 'utf8')
+const grade2Source = readFileSync(join(root, 'src/lib/grade2-problems.ts'), 'utf8')
 const grade3Source = readFileSync(join(root, 'src/lib/grade3-problems.ts'), 'utf8')
 const grade4Source = readFileSync(join(root, 'src/lib/grade4-problems.ts'), 'utf8')
 const guestHomeSource = readFileSync(join(root, 'src/lib/guest-home.ts'), 'utf8')
@@ -28,6 +30,8 @@ const templates = Object.fromEntries(
 function currentInput(overrides: Record<string, unknown> = {}) {
   return {
     ledger,
+    grade1Source,
+    grade2Source,
     grade3Source,
     grade4Source,
     guestHomeSource,
@@ -39,17 +43,18 @@ function currentInput(overrides: Record<string, unknown> = {}) {
 }
 
 describe('curriculum allocation ledger', () => {
-  it('covers every 3-4 and 5-6 standard exactly once with reviewed allocation evidence', () => {
+  it('covers every Grade 1-6 standard exactly once with reviewed allocation evidence', () => {
     const result = validateCurriculumLedger(currentInput())
 
     expect(result.errors).toEqual([])
     expect(result.summary).toMatchObject({
-      total: 92,
+      total: 121,
+      grade12Total: 29,
       grade34Total: 47,
       grade56Total: 45,
       missingCount: 0,
       duplicateCount: 0,
-      existingReferenceCount: 92,
+      existingReferenceCount: 121,
       unreleasedGradeCount: 0,
     })
   })

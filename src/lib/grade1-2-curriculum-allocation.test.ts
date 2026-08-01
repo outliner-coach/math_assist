@@ -10,10 +10,13 @@ import { grade2Units } from './grade2-problems'
 const root = process.cwd()
 const allocationPath = join(
   root,
-  'workstreams/_shared/grade1-2-curriculum-allocation-v1.json'
+  'public/data/curriculum-allocations-v1.json'
 )
 const allocationSource = readFileSync(allocationPath, 'utf8')
 const allocation = JSON.parse(allocationSource)
+const grade12Allocations = allocation.allocations.filter(
+  (entry: { band: string }) => entry.band === '1-2'
+)
 
 const officialTextByCode: Record<string, string> = {
   '[2수01-01]': '수의 필요성을 인식하면서 0과 100까지의 수 개념을 이해하고, 수를 세고 읽고 쓸 수 있다.',
@@ -49,20 +52,21 @@ const officialTextByCode: Record<string, string> = {
 
 const expectedCodes = Object.keys(officialTextByCode)
 
-describe('Grade 1-2 official curriculum allocation authoring contract', () => {
+describe('Grade 1-2 final curriculum allocation contract', () => {
   it('contains the exact official 29-code set and first-table wording once each', () => {
-    expect(allocation.schemaVersion).toBe('2022-math-grade1-2-allocation-authoring-v1')
+    expect(allocation.schemaVersion).toBe('2022-math-allocation-v1')
     expect(allocation.curriculumNotice).toBe('교육부 고시 제2022-33호 별책 8')
-    expect(allocation.allocations).toHaveLength(29)
+    expect(allocation.allocations).toHaveLength(121)
+    expect(grade12Allocations).toHaveLength(29)
 
-    const codes = allocation.allocations.map(
+    const codes = grade12Allocations.map(
       (entry: { standardCode: string }) => entry.standardCode
     )
     expect(codes).toEqual(expectedCodes)
     expect(new Set(codes).size).toBe(29)
     expect(
       Object.fromEntries(
-        allocation.allocations.map(
+        grade12Allocations.map(
           (entry: { standardCode: string; officialText: string }) => [
             entry.standardCode,
             entry.officialText,
@@ -76,22 +80,24 @@ describe('Grade 1-2 official curriculum allocation authoring contract', () => {
     const grade1IslandIds = new Set(grade1Islands.map((island) => island.id))
     const grade2UnitsById = new Map(grade2Units.map((unit) => [unit.id, unit]))
 
-    for (const entry of allocation.allocations) {
+    for (const entry of grade12Allocations) {
       expect(entry.band).toBe('1-2')
       expect([1, 2]).toContain(entry.assignedGrade)
       expect(entry.semester).toMatch(new RegExp(`^${entry.assignedGrade}-[12]$`))
-      expect(entry.reviewStatus).toBe('allocation-reviewed')
+      expect(entry.reviewStatus).toBe('released')
+      expect(entry.coverageStatus).toBe('existing-reference')
       expect(entry.sourceUrl).toBe(
         'https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0'
       )
       expect(entry.sourcePageDescriptor).toContain('첫 번째 성취기준 표')
       expect(entry.allocationRationale.trim()).not.toBe('')
+      expect(entry.existingContentRefs.length).toBeGreaterThan(0)
+      expect(entry.directContentRefs.length).toBeGreaterThan(0)
+      expect(Array.isArray(entry.reviewContentRefs)).toBe(true)
 
       if (entry.assignedGrade === 1) {
-        expect(entry.scopeKind).toBe('island')
         expect(grade1IslandIds.has(entry.unitId)).toBe(true)
       } else {
-        expect(entry.scopeKind).toBe('unit')
         const unit = grade2UnitsById.get(entry.unitId)
         expect(unit?.semester).toBe(entry.semester)
         expect(unit?.curriculumCodes).toContain(entry.standardCode)
@@ -99,7 +105,7 @@ describe('Grade 1-2 official curriculum allocation authoring contract', () => {
     }
 
     expect(
-      allocation.allocations
+      grade12Allocations
         .filter((entry: { assignedGrade: number }) => entry.assignedGrade === 1)
         .map((entry: { standardCode: string; unitId: string }) => [
           entry.standardCode,
@@ -112,7 +118,7 @@ describe('Grade 1-2 official curriculum allocation authoring contract', () => {
   })
 
   it('keeps optional other-grade review intent outside the assigned denominator', () => {
-    const reviewRows = allocation.allocations.filter(
+    const reviewRows = grade12Allocations.filter(
       (entry: { otherGradeReviewIntent?: unknown }) => entry.otherGradeReviewIntent
     )
     expect(reviewRows.length).toBeGreaterThan(0)
@@ -122,10 +128,10 @@ describe('Grade 1-2 official curriculum allocation authoring contract', () => {
       expect(entry.otherGradeReviewIntent.rationale.trim()).not.toBe('')
     }
 
-    const grade1Assigned = allocation.allocations.filter(
+    const grade1Assigned = grade12Allocations.filter(
       (entry: { assignedGrade: number }) => entry.assignedGrade === 1
     ).length
-    const grade2Assigned = allocation.allocations.filter(
+    const grade2Assigned = grade12Allocations.filter(
       (entry: { assignedGrade: number }) => entry.assignedGrade === 2
     ).length
     expect(grade1Assigned + grade2Assigned).toBe(29)
@@ -136,10 +142,10 @@ describe('Grade 1-2 official curriculum allocation authoring contract', () => {
   })
 
   it('uses problem-level direct links for coverage and keeps review links separate', () => {
-    const assignedGrade1 = allocation.allocations.find(
+    const assignedGrade1 = grade12Allocations.find(
       (entry: { standardCode: string }) => entry.standardCode === '[2수01-01]'
     )
-    const assignedGrade2 = allocation.allocations.find(
+    const assignedGrade2 = grade12Allocations.find(
       (entry: { standardCode: string }) => entry.standardCode === '[2수01-03]'
     )
     const result = validateDirectCurriculumCoverage({
@@ -189,12 +195,12 @@ describe('Grade 1-2 official curriculum allocation authoring contract', () => {
     })
   })
 
-  it('is deterministically formatted and leaves problem references to later integration', () => {
+  it('is deterministically formatted with final problem-level references', () => {
     expect(allocationSource).toBe(`${JSON.stringify(allocation, null, 2)}\n`)
-    for (const entry of allocation.allocations) {
-      expect(entry).not.toHaveProperty('directContentRefs')
-      expect(entry).not.toHaveProperty('reviewContentRefs')
-      expect(entry).not.toHaveProperty('existingContentRefs')
+    for (const entry of grade12Allocations) {
+      expect(entry.directContentRefs.length).toBeGreaterThan(0)
+      expect(Array.isArray(entry.reviewContentRefs)).toBe(true)
+      expect(entry.existingContentRefs.length).toBeGreaterThan(0)
     }
   })
 })
