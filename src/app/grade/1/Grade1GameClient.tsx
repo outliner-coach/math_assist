@@ -111,6 +111,7 @@ export default function Grade1GameClient() {
   const [progress, setProgress] = useState<Grade1Progress>(() =>
     createInitialGrade1Progress()
   )
+  const [progressRestored, setProgressRestored] = useState(false)
   const [storageAvailable, setStorageAvailable] = useState(true)
   const [storageRecovered, setStorageRecovered] = useState(false)
   const [selectedMissionId, setSelectedMissionId] = useState(
@@ -167,6 +168,7 @@ export default function Grade1GameClient() {
     setStorageAvailable(result.storageAvailable)
     setStorageRecovered((wasRecovered) => wasRecovered || result.recovered)
     setSelectedMissionId(restoredMission.id)
+    setProgressRestored(true)
   }, [focusedMissions, missions])
 
   useEffect(() => {
@@ -315,8 +317,26 @@ export default function Grade1GameClient() {
     }))
   }
 
+  if (!progressRestored) {
+    return (
+      <main
+        className="practice-interaction-surface grade1-game-surface -mx-4 -my-6 flex min-h-screen items-center justify-center px-4 py-5"
+        data-progress-restored="false"
+        data-testid="grade1-game-surface"
+      >
+        <p className="rounded-2xl border-2 border-[#e5e5e5] bg-white px-6 py-4 text-lg font-black text-[#3c3c3c]">
+          기기에 저장된 학습 기록을 불러오고 있어요.
+        </p>
+      </main>
+    )
+  }
+
   return (
-    <main className="practice-interaction-surface grade1-game-surface -mx-4 -my-6 min-h-screen px-4 py-5 md:px-6">
+    <main
+      className="practice-interaction-surface grade1-game-surface -mx-4 -my-6 min-h-screen px-4 py-5 md:px-6"
+      data-progress-restored="true"
+      data-testid="grade1-game-surface"
+    >
       <div className="mx-auto max-w-6xl space-y-6">
         <header className="grid gap-5 rounded-[2rem] border-2 border-[#e5e5e5] bg-white p-5 md:grid-cols-[1fr_300px] md:items-center md:p-6">
           <div>

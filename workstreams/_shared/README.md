@@ -21,6 +21,13 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-08-01: T15 release-gate repair (primary workstreams 02 and 04) owns
+  legacy Grade 5 session/result compatibility while normalized `itemCount`
+  metadata is written back, and Grade 1 hydration gating before any learner
+  interaction. Session consumers must preserve corrupt-byte fail-closed
+  behavior and Grade 6 key isolation; Grade 1 consumers must not calculate or
+  start a recommendation from empty client state before local progress loads.
+
 - 2026-08-01: T14 final review integration (primary workstreams 03 and 04)
   owns the 1,622-item single editorial ledger, 1,013-item/3,141-variant
   browser evidence, fail-closed reviewed-change digest, catalog/live-route

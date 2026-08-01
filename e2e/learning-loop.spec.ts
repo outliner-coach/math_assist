@@ -944,6 +944,10 @@ test('1학년은 기본과 연습을 처음부터 고르고 연습 7개를 완�
     }))
   }, { key: GRADE1_PROGRESS_KEY, basic: basicIds, initial: initialProgress })
   await page.reload()
+  await expect(page.getByTestId('grade1-game-surface')).toHaveAttribute(
+    'data-progress-restored',
+    'true',
+  )
   await expect(page.getByTestId('grade1-island-completion-count-cove')).toHaveText('연습 7개 완주 전')
   await page.getByTestId('start-grade1-mission').click()
   await expect(page.getByTestId('mission-problem-card')).toHaveAttribute(
@@ -1640,7 +1644,7 @@ test('문제 렌더러 검수 화면은 실제 표본과 상태를 모바일·�
   await page.getByTestId('review-status-filter').selectOption('blocked')
   await expect(page.getByTestId('review-source-select').locator('option')).toHaveCount(0)
   await page.getByTestId('review-status-filter').selectOption('pass')
-  await expect(page.getByTestId('review-source-select').locator('option')).toHaveCount(1_540)
+  await expect(page.getByTestId('review-source-select').locator('option')).toHaveCount(1_622)
   await page.getByTestId('review-reset-filters').click()
 
   const downloadPromise = page.waitForEvent('download')
@@ -1651,10 +1655,10 @@ test('문제 렌더러 검수 화면은 실제 표본과 상태를 모바일·�
   expect(downloadPath).not.toBeNull()
   const exportedLedger = JSON.parse(await readFile(downloadPath!, 'utf8'))
   expect(exportedLedger.schemaVersion).toBe(1)
-  expect(exportedLedger.items).toHaveLength(1_540)
+  expect(exportedLedger.items).toHaveLength(1_622)
   expect(new Set(
     exportedLedger.items.map((item: { reviewId: string }) => item.reviewId)
-  ).size).toBe(1_540)
+  ).size).toBe(1_622)
   expect(exportedLedger.items.every(
     (item: { status: string }) => item.status === 'pass'
   )).toBe(true)

@@ -32,13 +32,12 @@ function hasCompatiblePracticeIdentity(
     return candidate.grade === 6
       && (candidate.itemCount === 5 || candidate.itemCount === 10)
   }
-  return (
-    candidate.grade === undefined
-      && candidate.itemCount === undefined
-  ) || (
-    candidate.grade === 5
-      && (candidate.itemCount === 5 || candidate.itemCount === 10)
-  )
+  return (candidate.grade === undefined || candidate.grade === 5)
+    && (
+      candidate.itemCount === undefined
+      || candidate.itemCount === 5
+      || candidate.itemCount === 10
+    )
 }
 
 function isSessionSnapshot(value: unknown, grade: PracticeGrade): value is PracticeSession {

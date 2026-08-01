@@ -188,6 +188,41 @@ describe('session helpers', () => {
     expect(loadSession(6)).toMatchObject({ sessionId: 'grade-6', grade: 6, itemCount: 5 })
   })
 
+  it('keeps saving a legacy Grade 5 session after normalized item count is added', () => {
+    const data = new Map<string, string>()
+    const storage = {
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => data.set(key, value),
+      removeItem: (key: string) => data.delete(key),
+    }
+    vi.stubGlobal('window', {})
+    vi.stubGlobal('localStorage', storage)
+
+    const legacyGrade5: PracticeSession = {
+      sessionId: 'legacy-5-writeback',
+      conceptId: 'divisor-001',
+      setId: 'A',
+      mode: 'standard',
+      problems: [makeProblem(0)],
+      answers: [null],
+      checkedAnswers: [null],
+      currentIndex: 0,
+      startedAt: Date.now(),
+      expiresAt: Date.now() + 10_000,
+    }
+    data.set(GRADE5_SESSION_KEY, JSON.stringify(legacyGrade5))
+
+    const loaded = loadSession(5)!
+    expect(loaded).toMatchObject({ grade: undefined, itemCount: 10 })
+    expect(saveSession({ ...loaded, answers: ['1'] })).toBe(true)
+    expect(saveSession({ ...loaded, answers: ['1'], checkedAnswers: [true] })).toBe(true)
+    expect(JSON.parse(data.get(GRADE5_SESSION_KEY) ?? '{}')).toMatchObject({
+      itemCount: 10,
+      answers: ['1'],
+      checkedAnswers: [true],
+    })
+  })
+
   it('preserves Grade 6 grade and requested count through retry and results', () => {
     const grade6Result = makeResult({
       conceptId: 'g6ratio-001',
