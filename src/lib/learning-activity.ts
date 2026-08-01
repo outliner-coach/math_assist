@@ -89,6 +89,7 @@ export interface LearningProgressProjection {
   resume: ProgressResume | null
   completed: readonly string[]
   review: readonly string[]
+  completionByActivityId: Readonly<Record<string, LearningCompletionProjection>>
   lastActivityAt: number | null
   corrupted: boolean
   sessionCorrupted: boolean

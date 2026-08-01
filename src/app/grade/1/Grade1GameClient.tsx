@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 import {
@@ -90,18 +91,31 @@ function strongestTag(progress: Grade1Progress): string {
 }
 
 export default function Grade1GameClient() {
+  const searchParams = useSearchParams()
+  const requestedIslandId = searchParams.get('islandId')
+  const requestedMode = searchParams.get('mode') === 'practice' ? 'practice' : 'basic'
   const [replayRound, setReplayRound] = useState(0)
   const missionSeed = useMemo(
     () => getDailyAdventureSeed('grade1', Date.now(), replayRound),
     [replayRound]
   )
   const missions = useMemo(() => getGrade1Missions(missionSeed), [missionSeed])
+  const focusedMissions = useMemo(() => {
+    const matching = requestedIslandId
+      ? missions.filter((mission) => (
+          mission.islandId === requestedIslandId && mission.mode === requestedMode
+        ))
+      : []
+    return matching.length > 0 ? matching : missions
+  }, [missions, requestedIslandId, requestedMode])
   const [progress, setProgress] = useState<Grade1Progress>(() =>
     createInitialGrade1Progress()
   )
   const [storageAvailable, setStorageAvailable] = useState(true)
   const [storageRecovered, setStorageRecovered] = useState(false)
-  const [selectedMissionId, setSelectedMissionId] = useState(() => missions[0]?.id ?? 'count-cove-01')
+  const [selectedMissionId, setSelectedMissionId] = useState(
+    () => focusedMissions[0]?.id ?? missions[0]?.id ?? 'count-cove-01',
+  )
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
   const [numberAnswer, setNumberAnswer] = useState('')
   const [numberInputError, setNumberInputError] = useState<string | null>(null)
@@ -113,8 +127,8 @@ export default function Grade1GameClient() {
   )
   const restoredProgressRef = useRef(false)
 
-  const recommendedMission = firstOpenMission(missions, progress)
-  const nextPathMission = firstUnlockedIncompleteMission(missions, progress)
+  const recommendedMission = firstOpenMission(focusedMissions, progress)
+  const nextPathMission = firstUnlockedIncompleteMission(focusedMissions, progress)
   const selectedMission =
     missions.find((mission) => mission.id === selectedMissionId) ??
     recommendedMission
@@ -144,16 +158,16 @@ export default function Grade1GameClient() {
     if (restoredProgressRef.current) return
     restoredProgressRef.current = true
     const result = loadGrade1Progress()
-    const recommended = firstOpenMission(missions, result.progress)
+    const recommended = firstOpenMission(focusedMissions, result.progress)
     const restoredMission = result.progress.missionSketchRunOrdinal > 0
-      ? missions.find((mission) => mission.id === result.progress.latestStageId) ?? recommended
+      ? focusedMissions.find((mission) => mission.id === result.progress.latestStageId) ?? recommended
       : recommended
     setProgress(result.progress)
     setReplayRound(result.progress.missionSketchRunOrdinal)
     setStorageAvailable(result.storageAvailable)
     setStorageRecovered((wasRecovered) => wasRecovered || result.recovered)
     setSelectedMissionId(restoredMission.id)
-  }, [missions])
+  }, [focusedMissions, missions])
 
   useEffect(() => {
     if (typeof window === 'undefined') return

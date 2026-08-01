@@ -4,6 +4,9 @@ import {
   createLocalProgressRepository,
   type ReadonlyLearningStorage,
 } from './local-progress-repository'
+import { grade1MissionTemplates } from './grade1-problems'
+import { getGrade2MissionSet } from './grade2-problems'
+import { getGrade3MissionSession } from './grade3-problems'
 
 function memoryStorage(initial: Record<string, string>): ReadonlyLearningStorage & {
   data: Record<string, string>
@@ -128,6 +131,110 @@ function legacyFixtures() {
 }
 
 describe('local read-only progress repository', () => {
+  it.each(['basic', 'practice'] as const)(
+    'projects %s completion evidence consistently across Grades 1-6',
+    (mode) => {
+      const grade1ActivityId = 'count-cove'
+      const grade2ActivityId = 'g2-1-place-value'
+      const grade3ActivityId = 'g3-1-add-sub'
+      const grade4ActivityId = 'unit-4-1-large-numbers'
+      const grade5ActivityId = 'divisor-001'
+      const grade6ActivityId = 'g6ratio-001'
+      const grade1Ids = grade1MissionTemplates
+        .filter((mission) => mission.islandId === grade1ActivityId && mission.mode === mode)
+        .map((mission) => mission.id)
+      const grade2Ids = getGrade2MissionSet(grade2ActivityId, mode).map((mission) => mission.id)
+      const grade3Ids = getGrade3MissionSession(grade3ActivityId, mode).map((mission) => mission.id)
+      const completionRecord = {
+        completedBasicSetActivityIds: mode === 'basic' ? [grade4ActivityId] : [],
+        completedPracticeSetActivityIds: mode === 'practice' ? [grade4ActivityId] : [],
+      }
+      const conceptCompletion = (conceptId: string) => ({
+        conceptId,
+        attemptCount: 1,
+        bestScore: 80,
+        latestScore: 80,
+        lastCompletedAt: 500,
+        needsReview: false,
+        lastMode: 'standard',
+        completionRecord: {
+          completedBasicSetActivityIds: mode === 'basic' ? [conceptId] : [],
+          completedPracticeSetActivityIds: mode === 'practice' ? [conceptId] : [],
+        },
+        legacyCompleted: false,
+      })
+      const storage = memoryStorage({
+        mathAssist_grade1Progress: JSON.stringify({
+          schemaVersion: 3,
+          completedStageIds: grade1Ids,
+          checkedStageIds: grade1Ids,
+          completedIslandIds: mode === 'practice' ? [grade1ActivityId] : [],
+          reviewStageIds: [],
+          latestStageId: grade1Ids.at(-1),
+          lastPlayedAt: 100,
+        }),
+        mathAssist_grade2Progress: JSON.stringify({
+          schemaVersion: 4,
+          completedMissionIds: grade2Ids,
+          checkedMissionIds: grade2Ids,
+          completedUnitIds: mode === 'practice' ? [grade2ActivityId] : [],
+          reviewMissionIds: [],
+          latestMissionId: grade2Ids.at(-1),
+          selectedUnitId: grade2ActivityId,
+          lastPlayedAt: 200,
+        }),
+        mathAssist_grade3Progress: JSON.stringify({
+          schemaVersion: 2,
+          completedMissionIds: grade3Ids,
+          checkedMissionIds: grade3Ids,
+          completedUnitIds: mode === 'practice' ? [grade3ActivityId] : [],
+          practiceMissionIdsByUnit: mode === 'practice' ? { [grade3ActivityId]: grade3Ids } : {},
+          reviewMissionIds: [],
+          latestMissionId: grade3Ids.at(-1),
+          selectedUnitId: grade3ActivityId,
+          lastPlayedAt: 300,
+        }),
+        mathAssist_grade4Progress: JSON.stringify({
+          schemaVersion: 1,
+          completedVariantKeys: [],
+          reviewVariantKeys: [],
+          latestMissionId: null,
+          selectedUnitId: grade4ActivityId,
+          activityRun: 0,
+          activeItemIndex: 0,
+          lastPlayedAt: 400,
+          completionRecord,
+        }),
+        mathAssist_progress_v1: JSON.stringify({
+          [grade5ActivityId]: conceptCompletion(grade5ActivityId),
+        }),
+        mathAssist_grade6Progress: JSON.stringify({
+          [grade6ActivityId]: conceptCompletion(grade6ActivityId),
+        }),
+      })
+
+      const projections = createLocalProgressRepository(storage).readAllProgress(1_000)
+      const activities = [
+        [1, grade1ActivityId],
+        [2, grade2ActivityId],
+        [3, grade3ActivityId],
+        [4, grade4ActivityId],
+        [5, grade5ActivityId],
+        [6, grade6ActivityId],
+      ] as const
+
+      for (const [grade, activityId] of activities) {
+        expect(projections[grade].completionByActivityId[activityId], `${grade}:${activityId}`)
+          .toEqual({
+            hasCompletedBasicSet: mode === 'basic',
+            hasCompletedPracticeSet: mode === 'practice',
+            isComplete: mode === 'practice',
+            recommendedMode: mode === 'basic' ? 'practice' : 'basic',
+          })
+      }
+    },
+  )
+
   it('projects 1/2/3/4/5/6 completion, review, and resume without rewriting storage', () => {
     const storage = memoryStorage(legacyFixtures())
     const before = { ...storage.data }

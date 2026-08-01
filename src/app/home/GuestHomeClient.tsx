@@ -40,6 +40,13 @@ const gradeStyles: Record<SupportedGrade, {
   6: { accent: '#0369a1', border: '#bae6fd', pale: '#f0f9ff', shadow: '#075985', name: '6학년', symbol: '✺' },
 }
 
+function modeChoiceLabels(grade: SupportedGrade): { basic: string; practice: string } {
+  if (grade === 1) return { basic: '기본 7문제', practice: '연습 7문제' }
+  if (grade === 2) return { basic: '기본 6문제', practice: '연습 6문제' }
+  if (grade === 3 || grade === 4) return { basic: '기본 3문제', practice: '연습 3문제' }
+  return { basic: '기본 5문제', practice: '집중 10문제' }
+}
+
 function GradePicker({ onSelect }: { onSelect: (grade: SupportedGrade) => void }) {
   return (
     <section className="mx-auto max-w-4xl py-8 text-center" data-testid="grade-picker">
@@ -106,7 +113,7 @@ function LearningLinks({ grade, grade5Units }: { grade: SupportedGrade; grade5Un
     }
     return grade5Units.filter((unit) => unit.grade === grade).slice(0, 4).map((unit) => ({
       title: unit.title,
-      body: unit.description ?? '개념을 읽고 10문제로 연습해요.',
+      body: unit.description ?? '개념을 읽고 기본 5문제부터 확인해요.',
       href: `/unit/${unit.id}`,
       badge: unit.semester,
     }))
@@ -210,6 +217,7 @@ export default function GuestHomeClient() {
             {(() => {
               const summary = homeState.summaries[activeGrade]
               const style = gradeStyles[activeGrade]
+              const modeLabels = modeChoiceLabels(activeGrade)
               return (
                 <>
                   <section
@@ -232,6 +240,33 @@ export default function GuestHomeClient() {
                         >
                           {summary.continueLabel}
                         </Link>
+                        {summary.activityId && (
+                          <div
+                            className="mt-5 grid max-w-xl gap-3 sm:grid-cols-2"
+                            data-testid="home-mode-choices"
+                          >
+                            <Link
+                              href={summary.basicHref}
+                              data-testid="home-basic-action"
+                              aria-current={summary.recommendedMode === 'basic' ? 'step' : undefined}
+                              className="flex min-h-[52px] items-center justify-between rounded-2xl border-2 bg-white px-4 py-3 font-black"
+                              style={{ borderColor: summary.recommendedMode === 'basic' ? style.accent : style.border, color: style.accent }}
+                            >
+                              <span>{modeLabels.basic}</span>
+                              <span className="text-xs">{summary.hasCompletedBasicSet ? '완주' : '열림'}</span>
+                            </Link>
+                            <Link
+                              href={summary.practiceHref}
+                              data-testid="home-practice-action"
+                              aria-current={summary.recommendedMode === 'practice' ? 'step' : undefined}
+                              className="flex min-h-[52px] items-center justify-between rounded-2xl border-2 bg-white px-4 py-3 font-black"
+                              style={{ borderColor: summary.recommendedMode === 'practice' ? style.accent : style.border, color: style.accent }}
+                            >
+                              <span>{modeLabels.practice}</span>
+                              <span className="text-xs">{summary.hasCompletedPracticeSet ? '완주' : '열림'}</span>
+                            </Link>
+                          </div>
+                        )}
                         <p className="mt-4 text-sm font-bold text-[#94a3b8]">이 기기에 자동 저장돼요.</p>
                       </div>
                       <div className="grid min-h-[250px] place-items-center p-5" style={{ backgroundColor: style.pale }}>

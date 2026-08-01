@@ -611,7 +611,7 @@ test('4학년 진행은 reload와 홈 hydration 뒤 같은 문제로 이어진�
   await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-big-07')
   await page.goto(`${BASE_PATH}/home`)
   await expect(page.getByTestId('change-grade')).toContainText('4학년')
-  await expect(page.getByTestId('home-primary-action')).toHaveAttribute('href', /\/math_assist\/grade\/4\/mission\/?\?unitId=unit-4-1-large-numbers$/)
+  await expect(page.getByTestId('home-primary-action')).toHaveAttribute('href', /\/math_assist\/grade\/4\/mission\/?\?unitId=unit-4-1-large-numbers&mode=basic$/)
   await page.getByTestId('home-primary-action').click()
   await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-big-07')
 })

@@ -1030,7 +1030,7 @@ test('2학년 게임 모드에서 단원 선택, 힌트, 보상, 다음 미션 �
   expect(progress.completedMissionIds).toContain('g2-1-place-value-01')
   expect(progress.reviewMissionIds).toContain('g2-1-place-value-01')
   expect(progress.todaySolvedCount).toBe(1)
-  expect(progress.schemaVersion).toBe(3)
+  expect(progress.schemaVersion).toBe(4)
   expect(progress.xp).toBe(10)
 
   const grade2Receipts = await readAttemptReceipts(page)
@@ -1095,8 +1095,9 @@ test('2학년 기본과 연습은 잠금 없이 열리고 연습 6문제를 확�
       const current = JSON.parse(localStorage.getItem(key) || '{}')
       localStorage.setItem(key, JSON.stringify({
         ...current,
-        schemaVersion: 3,
+        schemaVersion: 4,
         checkedMissionIds: missionIds,
+        completedUnitIds: ['g2-1-place-value'],
       }))
     },
     [GRADE2_PROGRESS_KEY, practiceIds] as const,

@@ -116,6 +116,8 @@ describe('grade3 progress', () => {
 
     expect(isGrade3UnitComplete(afterBasic, unitId, 20260516)).toBe(false)
     expect(isGrade3UnitComplete(afterPractice, unitId, 20260516)).toBe(true)
+    expect(afterBasic.completedUnitIds).toEqual([])
+    expect(afterPractice.completedUnitIds).toEqual([unitId])
     expect(afterPractice.completedMissionIds).toEqual(expect.arrayContaining([
       ...basic.map((mission) => mission.id),
       ...practice.map((mission) => mission.id),
@@ -134,6 +136,7 @@ describe('grade3 progress', () => {
     expect(checkedWithErrors.checkedMissionIds).toEqual(practice.map((mission) => mission.id))
     expect(checkedWithErrors.reviewMissionIds).toEqual(practice.map((mission) => mission.id))
     expect(isGrade3UnitComplete(checkedWithErrors, unitId, 20260516)).toBe(true)
+    expect(checkedWithErrors.completedUnitIds).toEqual([unitId])
   })
 
   it('completes the resolved practice session when a legacy mission replaces a canonical slot', () => {
@@ -194,7 +197,27 @@ describe('grade3 progress', () => {
     const progress = resetGrade3Progress(storage, 100)
 
     expect(progress.todaySolvedCount).toBe(0)
-    expect(storage.getItem(GRADE3_PROGRESS_KEY)).toContain('"schemaVersion":1')
+    expect(storage.getItem(GRADE3_PROGRESS_KEY)).toContain('"schemaVersion":2')
     expect(storage.getItem('mathAssist_grade2Progress')).toBe('{"keep":true}')
+  })
+
+  it('preserves a fully checked legacy basic unit as completed during migration', () => {
+    const unitId = 'g3-1-add-sub'
+    const basicIds = getGrade3MissionSession(unitId, 'basic', 20260516).map((mission) => mission.id)
+    const storage = createMemoryStorage({
+      [GRADE3_PROGRESS_KEY]: JSON.stringify({
+        ...createInitialGrade3Progress(100),
+        schemaVersion: 1,
+        completedMissionIds: basicIds,
+        checkedMissionIds: basicIds,
+        completedUnitIds: undefined,
+      }),
+    })
+
+    const loaded = loadGrade3Progress(storage, 200)
+
+    expect(loaded.progress.schemaVersion).toBe(2)
+    expect(loaded.progress.completedUnitIds).toContain(unitId)
+    expect(isGrade3UnitComplete(loaded.progress, unitId)).toBe(true)
   })
 })

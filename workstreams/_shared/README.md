@@ -21,6 +21,14 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-08-01: The shared home-projection migration adds optional basic/practice
+  completion evidence to `src/lib/types.ts`, upgrades Grade 2 progress to
+  schema v4 and Grade 3 progress to schema v2, and preserves old full-set
+  records as legacy-complete without rewriting learner storage. Grade 1-6
+  home, progress, result, and backup consumers should re-check that new basic
+  completion does not imply practice completion, while legacy completion and
+  review history remain readable.
+
 - 2026-07-31: Grade 1-6 content-structure execution has single-writer
   ownership across the remaining shared surfaces. The curriculum allocation
   lane alone writes

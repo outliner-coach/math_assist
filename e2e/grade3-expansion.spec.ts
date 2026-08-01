@@ -35,7 +35,7 @@ test('3학년 기본 완료는 단원을 끝내지 않고 연습 3문제 완료�
   await page.goto(`${BASE_PATH}/`)
   await page.evaluate(([grade3Key]) => {
     localStorage.setItem(grade3Key, JSON.stringify({
-      schemaVersion: 1,
+      schemaVersion: 2,
       completedMissionIds: [
         'g3-1-add-sub-01',
         'g3-1-add-sub-02',
@@ -46,6 +46,7 @@ test('3학년 기본 완료는 단원을 끝내지 않고 연습 3문제 완료�
         'g3-1-add-sub-02',
         'g3-1-add-sub-03',
       ],
+      completedUnitIds: [],
       reviewMissionIds: [],
       latestMissionId: 'g3-1-add-sub-03',
       selectedUnitId: 'g3-1-add-sub',
@@ -93,9 +94,10 @@ test('3학년 연습 3문제를 모두 확인하면 오답 복습이 남아도 �
       'g3-1-add-sub-10',
     ]
     localStorage.setItem(grade3Key, JSON.stringify({
-      schemaVersion: 1,
+      schemaVersion: 2,
       completedMissionIds: [],
       checkedMissionIds: practiceIds,
+      completedUnitIds: ['g3-1-add-sub'],
       reviewMissionIds: practiceIds,
       latestMissionId: 'g3-1-add-sub-10',
       selectedUnitId: 'g3-1-add-sub',
