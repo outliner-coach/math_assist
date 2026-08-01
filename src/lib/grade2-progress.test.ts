@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
-import { getSafeGrade2Mission } from './grade2-problems'
+import { getGrade2MissionSet, getSafeGrade2Mission } from './grade2-problems'
 import {
   GRADE2_PROGRESS_KEY,
   createInitialGrade2Progress,
   dismissGrade2Intro,
+  isGrade2UnitComplete,
   loadGrade2Progress,
   recordGrade2Attempt,
   resetGrade2Progress,
@@ -73,6 +74,28 @@ describe('grade2 progress', () => {
     expect(duplicate.completedMissionIds).toEqual([mission.id])
   })
 
+  it('does not complete a unit from basic work and completes it after the full practice set is checked', () => {
+    const unitId = 'g2-1-place-value'
+    const basic = getGrade2MissionSet(unitId, 'basic', 42)
+    const practice = getGrade2MissionSet(unitId, 'practice', 42)
+    const afterBasic = basic.reduce(
+      (progress, mission) => recordGrade2Attempt(progress, mission, true, { now: 200 }),
+      createInitialGrade2Progress(100),
+    )
+    const afterPractice = practice.reduce(
+      (progress, mission) => recordGrade2Attempt(progress, mission, false, { now: 300 }),
+      afterBasic,
+    )
+
+    expect(isGrade2UnitComplete(afterBasic, unitId)).toBe(false)
+    expect(isGrade2UnitComplete(afterPractice, unitId)).toBe(true)
+    expect(afterPractice.checkedMissionIds).toEqual([
+      ...basic.map((mission) => mission.id),
+      ...practice.map((mission) => mission.id),
+    ])
+    expect(afterPractice.reviewMissionIds).toEqual(practice.map((mission) => mission.id))
+  })
+
   it('tracks selected unit and intro dismissal', () => {
     const progress = createInitialGrade2Progress(100)
     const selected = selectGrade2Unit(progress, 'g2-2-time', 200)
@@ -101,7 +124,7 @@ describe('grade2 progress', () => {
     const progress = resetGrade2Progress(storage, 100)
 
     expect(progress.todaySolvedCount).toBe(0)
-    expect(storage.getItem(GRADE2_PROGRESS_KEY)).toContain('"schemaVersion":2')
+    expect(storage.getItem(GRADE2_PROGRESS_KEY)).toContain('"schemaVersion":3')
     expect(storage.getItem('mathAssist_grade1Progress')).toBe('{"keep":true}')
   })
 
@@ -123,10 +146,35 @@ describe('grade2 progress', () => {
     const loaded = loadGrade2Progress(storage, 100)
 
     expect(loaded.recovered).toBe(false)
-    expect(loaded.progress.schemaVersion).toBe(2)
+    expect(loaded.progress.schemaVersion).toBe(3)
     expect(loaded.progress.selectedUnitId).toBe('g2-1-place-value')
     expect(loaded.progress.xp).toBe(10)
     expect(loaded.progress.masteryByMissionId['g2-1-place-value-01'].correct).toBe(1)
     expect(loaded.progress.missionSketchRunOrdinal).toBe(0)
+    expect(loaded.progress.checkedMissionIds).toEqual(['g2-1-place-value-01'])
+  })
+
+  it('preserves basic and existing v1 practice records while using practice checks for completion', () => {
+    const unitId = 'g2-1-place-value'
+    const practiceIds = getGrade2MissionSet(unitId, 'practice', 42).map((mission) => mission.id)
+    const storage = createMemoryStorage({
+      [GRADE2_PROGRESS_KEY]: JSON.stringify({
+        ...createInitialGrade2Progress(100),
+        schemaVersion: 2,
+        completedMissionIds: ['g2-1-place-value-01'],
+        checkedMissionIds: ['g2-1-place-value-01', ...practiceIds],
+        reviewMissionIds: [practiceIds[1]],
+        latestMissionId: practiceIds[5],
+        selectedUnitId: unitId,
+      }),
+    })
+
+    const loaded = loadGrade2Progress(storage, 200)
+
+    expect(loaded.progress.completedMissionIds).toEqual(['g2-1-place-value-01'])
+    expect(loaded.progress.checkedMissionIds).toEqual(['g2-1-place-value-01', ...practiceIds])
+    expect(loaded.progress.reviewMissionIds).toEqual([practiceIds[1]])
+    expect(loaded.progress.latestMissionId).toBe(practiceIds[5])
+    expect(isGrade2UnitComplete(loaded.progress, unitId)).toBe(true)
   })
 })

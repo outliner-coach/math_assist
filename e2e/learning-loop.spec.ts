@@ -1008,11 +1008,11 @@ test('2학년 게임 모드에서 단원 선택, 힌트, 보상, 다음 미션 �
   await expect(page.getByTestId('grade2-mission-card')).toHaveCount(0)
 
   await page.getByTestId('grade2-unit-card-g2-1-place-value').click()
-  await expect(page).toHaveURL(/\/math_assist\/grade\/2\/mission\/?\?unitId=g2-1-place-value$/)
+  await expect(page).toHaveURL(/\/math_assist\/grade\/2\/mission\/?\?unitId=g2-1-place-value&mode=basic$/)
   await expect(page.getByTestId('grade2-unit-list')).toHaveCount(0)
   await expect(page.getByTestId('grade2-mission-nav')).toBeVisible()
   await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-place-value-01')
-  await expect(page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)).toHaveCount(12)
+  await expect(page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)).toHaveCount(6)
   await expect(page.getByTestId('adventure-progress-panel')).toBeVisible()
   await expect(page.getByTestId('grade2-reward-collection')).toBeVisible()
 
@@ -1030,7 +1030,7 @@ test('2학년 게임 모드에서 단원 선택, 힌트, 보상, 다음 미션 �
   expect(progress.completedMissionIds).toContain('g2-1-place-value-01')
   expect(progress.reviewMissionIds).toContain('g2-1-place-value-01')
   expect(progress.todaySolvedCount).toBe(1)
-  expect(progress.schemaVersion).toBe(2)
+  expect(progress.schemaVersion).toBe(3)
   expect(progress.xp).toBe(10)
 
   const grade2Receipts = await readAttemptReceipts(page)
@@ -1065,6 +1065,66 @@ test('2학년 게임 모드에서 단원 선택, 힌트, 보상, 다음 미션 �
   await page.getByTestId('next-grade2-mission').click()
   await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-place-value-02')
   await expect(page.getByTestId('grade2-reward-panel')).toHaveCount(0)
+})
+
+test('2학년 기본과 연습은 잠금 없이 열리고 연습 6문제를 확인해야 단원을 완료한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/2`)
+
+  const basicLink = page.getByTestId('grade2-basic-g2-1-place-value')
+  const practiceLink = page.getByTestId('grade2-practice-g2-1-place-value')
+  await expect(basicLink).toHaveAttribute('href', /mode=basic/)
+  await expect(practiceLink).toHaveAttribute('href', /mode=practice/)
+  await expect(practiceLink).toBeEnabled()
+  await expect(page.getByTestId('grade2-unit-completion-g2-1-place-value')).not.toContainText('단원 완료')
+
+  await basicLink.click()
+  await expect(page.getByTestId('grade2-mode-basic')).toHaveAttribute('aria-current', 'page')
+  await expect(page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)).toHaveCount(6)
+  await page.getByTestId('grade2-mode-practice').click()
+  await expect(page).toHaveURL(/unitId=g2-1-place-value&mode=practice/)
+  await expect(page.getByTestId('grade2-mode-practice')).toHaveAttribute('aria-current', 'page')
+  await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute('data-mission-id', 'g2-1-place-value-01-v1')
+  await expect(page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)).toHaveCount(6)
+
+  const practiceIds = Array.from(
+    { length: 6 },
+    (_, index) => `g2-1-place-value-0${index + 1}-v1`,
+  )
+  await page.evaluate(
+    ([key, missionIds]) => {
+      const current = JSON.parse(localStorage.getItem(key) || '{}')
+      localStorage.setItem(key, JSON.stringify({
+        ...current,
+        schemaVersion: 3,
+        checkedMissionIds: missionIds,
+      }))
+    },
+    [GRADE2_PROGRESS_KEY, practiceIds] as const,
+  )
+  await page.goto(`${BASE_PATH}/grade/2`)
+  await expect(page.getByTestId('grade2-unit-completion-g2-1-place-value')).toContainText('단원 완료')
+
+  for (const viewport of [
+    { width: 390, height: 844 },
+    { width: 1024, height: 768 },
+  ]) {
+    await page.setViewportSize(viewport)
+    await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-1-place-value&mode=practice`)
+    await expect(page.getByTestId('grade2-mode-practice')).toBeVisible()
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
+    expect(overflow).toBeLessThanOrEqual(0)
+  }
+})
+
+test('2학년 기존 연습 링크는 mode가 없어도 같은 v1 문제를 연다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-1-place-value&missionId=g2-1-place-value-03-v1`)
+
+  await expect(page.getByTestId('grade2-mode-practice')).toHaveAttribute('aria-current', 'page')
+  await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute(
+    'data-mission-id',
+    'g2-1-place-value-03-v1',
+  )
+  await expect(page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)).toHaveCount(6)
 })
 
 test('2학년 풀이장은 문항 이동과 새로고침을 복구하고 재시작을 격리한다', async ({ page }) => {
@@ -1136,8 +1196,8 @@ test('2학년 게임 모드에서 길이와 시간 구조화 입력을 사용한
   await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
 
   await page.getByTestId('next-grade2-mission').click()
-  await page.getByTestId('grade2-duration-hours').fill('0')
-  await page.getByTestId('grade2-duration-minutes').fill('35')
+  await page.getByTestId('grade2-duration-hours').fill('1')
+  await page.getByTestId('grade2-duration-minutes').fill('0')
   await page.getByTestId('grade2-duration-submit').click()
   await expect(page.getByTestId('grade2-mission-success')).toBeVisible()
 })
