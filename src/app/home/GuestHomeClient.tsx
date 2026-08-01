@@ -12,6 +12,7 @@ import {
   type GuestHomeState,
   type SupportedGrade,
 } from '@/lib/guest-home'
+import { grade1MissionTemplates } from '@/lib/grade1-problems'
 import { grade2Units } from '@/lib/grade2-problems'
 import { grade3Units } from '@/lib/grade3-problems'
 import { grade4Units } from '@/lib/grade4-problems'
@@ -82,7 +83,7 @@ function LearningLinks({ grade, grade5Units }: { grade: SupportedGrade; grade5Un
   const links = useMemo(() => {
     if (grade === 1) {
       return [
-        { title: '숫자 탐험 지도', body: '열린 길과 다음 미션을 확인해요.', href: '/grade/1', badge: '96개 미션' },
+        { title: '숫자 탐험 지도', body: '열린 길과 다음 미션을 확인해요.', href: '/grade/1', badge: `${grade1MissionTemplates.length}개 미션` },
         { title: '다시 도전하기', body: '힌트를 본 문제를 탐험 지도에서 다시 풀어요.', href: '/grade/1', badge: '복습' },
         { title: '보상 모음 보기', body: '미션에서 모은 별과 탐험 보상을 확인해요.', href: '/grade/1', badge: '보상' },
       ]

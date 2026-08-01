@@ -59,7 +59,17 @@ test('홈은 기본을 마친 2학년 학습자에게 잠금 없는 연습 선�
 test('1학년 홈용 섬·모드 링크는 요청한 연습 7문제로 바로 진입한다', async ({ page }) => {
   for (const viewport of VIEWPORTS) {
     await page.setViewportSize(viewport)
-    await page.goto(`${BASE_PATH}/grade/1?islandId=count-cove&mode=practice`)
+    await page.goto(`${BASE_PATH}/`)
+    await page.evaluate(() => {
+      localStorage.clear()
+      localStorage.setItem('mathAssist_guestHome_v1', JSON.stringify({ activeGrade: 1 }))
+    })
+    await page.goto(`${BASE_PATH}/home`)
+
+    await expect(page.getByText('98개 미션', { exact: true })).toBeVisible()
+    await expect(page.getByTestId('home-basic-action')).toContainText('기본 7문제')
+    await expect(page.getByTestId('home-practice-action')).toContainText('연습 7문제')
+    await page.getByTestId('home-practice-action').click()
 
     await expect(page.getByTestId('mission-problem-card')).toHaveAttribute(
       'data-mission-id',
