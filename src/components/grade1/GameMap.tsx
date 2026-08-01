@@ -8,6 +8,7 @@ import {
   type Grade1Mission,
 } from '@/lib/grade1-problems'
 import type { Grade1Progress } from '@/lib/grade1-progress'
+import { isGrade1IslandComplete } from '@/lib/grade1-progress'
 import { getMasteryStars } from '@/lib/adventure-progression'
 
 import Grade1AssetImage from './Grade1AssetImage'
@@ -22,19 +23,10 @@ interface GameMapProps {
   onSelectMission: (missionId: string) => void
 }
 
-function isStageUnlocked(missions: Grade1Mission[], progress: Grade1Progress, index: number): boolean {
-  if (index === 0) return true
-  const previousMission = missions[index - 1]
-  return progress.completedStageIds.includes(previousMission.id)
-}
-
 function getStageStatus(
-  missions: Grade1Mission[],
   progress: Grade1Progress,
-  mission: Grade1Mission,
-  index: number
+  mission: Grade1Mission
 ): StageStatus {
-  if (!isStageUnlocked(missions, progress, index)) return 'locked'
   if (progress.reviewStageIds.includes(mission.id)) return 'review'
   if (progress.completedStageIds.includes(mission.id)) return 'complete'
   return 'open'
@@ -90,40 +82,60 @@ export default function GameMap({
               return (
                 <div key={island.id} className="space-y-3">
                   <div>
-                    <h2 className="text-lg font-black leading-tight text-[#3c3c3c]">
-                      {island.title}
-                    </h2>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h2 className="text-lg font-black leading-tight text-[#3c3c3c]">
+                        {island.title}
+                      </h2>
+                      <span
+                        className={`rounded-full px-3 py-1 text-xs font-black ${
+                          isGrade1IslandComplete(progress, island.id)
+                            ? 'bg-[#d7ffb8] text-[#3c3c3c]'
+                            : 'bg-[#f2f2f2] text-[#777777]'
+                        }`}
+                        data-testid={`grade1-island-completion-${island.id}`}
+                      >
+                        {isGrade1IslandComplete(progress, island.id) ? '섬 완료' : '연습 7개 완주 전'}
+                      </span>
+                    </div>
                     <p className="text-sm font-bold text-[#777777]">{island.subtitle}</p>
                   </div>
-                  <div className="grid gap-3">
-                    {islandMissions.map((mission) => {
-                      const index = missions.findIndex((item) => item.id === mission.id)
-                      const status = getStageStatus(missions, progress, mission, index)
-                      const islandLabel = getGrade1IslandById(mission.islandId)?.title ?? island.title
-                      return (
-                        <StageNode
-                          key={mission.id}
-                          stageId={mission.id}
-                          index={mission.stageOrder}
-                          title={`${mission.stageOrder}. ${mission.learnerGoal}`}
-                          subtitle={`${islandLabel} · 난이도 ${mission.difficulty}`}
-                          status={status}
-                          selected={selectedMissionId === mission.id}
-                          recommended={recommendedMissionId === mission.id}
-                          masteryStars={getMasteryStars(progress.masteryByMissionId[mission.id])}
-                          onSelect={() => {
-                            if (status !== 'locked') {
-                              onSelectMission(mission.id)
-                              document.getElementById('grade1-mission')?.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start',
-                              })
-                            }
-                          }}
-                        />
-                      )
-                    })}
-                  </div>
+                  {(['basic', 'practice'] as const).map((mode) => (
+                    <div
+                      key={mode}
+                      className="space-y-3 rounded-2xl border-2 border-[#eeeeee] bg-[#fbfffa] p-3"
+                      data-testid={`grade1-${mode}-${island.id}`}
+                    >
+                      <h3 className="text-sm font-black text-[#3c3c3c]">
+                        {mode === 'basic' ? '기본 7문제 · 먼저 추천' : '연습 7문제 · 완주하면 섬 완료'}
+                      </h3>
+                      <div className="grid gap-3">
+                        {islandMissions.filter((mission) => mission.mode === mode).map((mission) => {
+                          const status = getStageStatus(progress, mission)
+                          const islandLabel = getGrade1IslandById(mission.islandId)?.title ?? island.title
+                          return (
+                            <StageNode
+                              key={mission.id}
+                              stageId={mission.id}
+                              index={mission.stageOrder}
+                              title={`${mission.stageOrder}. ${mission.learnerGoal}`}
+                              subtitle={`${islandLabel} · ${mode === 'basic' ? '기본' : '연습'} · 난이도 ${mission.difficulty}`}
+                              status={status}
+                              selected={selectedMissionId === mission.id}
+                              recommended={recommendedMissionId === mission.id}
+                              masteryStars={getMasteryStars(progress.masteryByMissionId[mission.id])}
+                              onSelect={() => {
+                                onSelectMission(mission.id)
+                                document.getElementById('grade1-mission')?.scrollIntoView({
+                                  behavior: 'smooth',
+                                  block: 'start',
+                                })
+                              }}
+                            />
+                          )
+                        })}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )
             })}

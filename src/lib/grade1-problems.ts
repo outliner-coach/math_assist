@@ -16,6 +16,8 @@ export type Grade1VisualModel =
   | 'pattern-strip'
 
 export type Grade1AnswerType = 'choice' | 'number'
+export type Grade1Mode = 'basic' | 'practice'
+export type Grade1CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
 
 export type Grade1TaskAction =
   | 'recognize'
@@ -34,8 +36,15 @@ export type Grade1VisualSemantics = 'decorative' | 'schematic' | 'quantitative'
 
 interface Grade1QualityMetadata {
   curriculumCodes: string[]
+  directCurriculumCodes: string[]
   taskActions: Grade1TaskAction[]
   visualSemantics: Grade1VisualSemantics
+  cognitiveDomain: Grade1CognitiveDomain
+  problemFamily: string
+  contextType: string
+  representationTypes: string[]
+  reasoningPattern: string
+  authoredSourceKey: string
 }
 
 export interface Grade1Island {
@@ -57,6 +66,7 @@ export interface Grade1MissionTemplate extends Grade1QualityMetadata {
   id: string
   islandId: string
   stageOrder: number
+  mode: Grade1Mode
   skill: Grade1Skill
   difficulty: 1 | 2 | 3
   learnerGoal: string
@@ -77,6 +87,7 @@ export interface Grade1Mission extends Grade1QualityMetadata {
   id: string
   islandId: string
   stageOrder: number
+  mode: Grade1Mode
   skill: Grade1Skill
   difficulty: 1 | 2 | 3
   learnerGoal: string
@@ -139,7 +150,68 @@ export const grade1Islands: Grade1Island[] = [
   },
 ]
 
-type Grade1MissionTemplateSource = Omit<Grade1MissionTemplate, keyof Grade1QualityMetadata>
+export const grade1AllowedCurriculumCodesByIsland: Record<string, readonly string[]> = {
+  'count-cove': ['[2수01-01]'],
+  'order-bridge': ['[2수01-03]'],
+  'orchard-port': ['[2수01-04]', '[2수01-05]', '[2수01-06]', '[2수01-08]'],
+  'river-dock': ['[2수01-05]', '[2수01-06]'],
+  'shape-forest': ['[2수03-03]', '[2수03-04]', '[2수03-05]'],
+  'clock-tower': ['[2수03-07]', '[2수03-09]'],
+  'pattern-cave': ['[2수02-01]'],
+}
+
+const grade1ExpansionCurriculumCodesById: Record<string, readonly string[]> = {
+  'count-cove-01-v1-1': ['[2수01-01]'],
+  'count-cove-02-v1-2': ['[2수01-01]'],
+  'count-cove-03-v1-3': ['[2수01-01]'],
+  'count-cove-04-v1-4': ['[2수01-01]'],
+  'count-cove-05-v1-5': ['[2수01-01]'],
+  'order-bridge-01-v1-1': ['[2수01-03]'],
+  'order-bridge-02-v1-2': ['[2수01-03]'],
+  'order-bridge-03-v1-3': ['[2수01-03]'],
+  'order-bridge-04-v1-4': ['[2수01-03]'],
+  'order-bridge-05-v1-5': ['[2수01-03]'],
+  'orchard-port-01-v1-1': ['[2수01-04]'],
+  'orchard-port-02-v1-2': ['[2수01-08]'],
+  'orchard-port-03-v1-3': ['[2수01-04]'],
+  'orchard-port-04-v1-4': ['[2수01-04]'],
+  'river-dock-01-v1-1': ['[2수01-06]'],
+  'river-dock-02-v1-2': ['[2수01-06]'],
+  'river-dock-03-v1-3': ['[2수01-06]'],
+  'river-dock-04-v1-4': ['[2수01-06]'],
+  'shape-forest-01-v1-1': ['[2수03-03]'],
+  'shape-forest-02-v1-2': ['[2수03-04]'],
+  'shape-forest-03-v1-3': ['[2수03-05]'],
+  'shape-forest-04-v1-4': ['[2수03-03]'],
+  'shape-forest-05-v1-5': ['[2수03-05]'],
+  'clock-tower-01-v1-1': ['[2수03-07]'],
+  'clock-tower-02-v1-2': ['[2수03-07]'],
+  'clock-tower-03-v1-3': ['[2수03-07]'],
+  'clock-tower-04-v1-4': ['[2수03-09]'],
+  'clock-tower-05-v1-5': ['[2수03-09]'],
+  'clock-tower-06-v1-6': ['[2수03-07]'],
+  'clock-tower-07-v1-7': ['[2수03-07]'],
+  'pattern-cave-01-v1-1': ['[2수02-01]'],
+  'pattern-cave-02-v1-2': ['[2수02-01]'],
+  'pattern-cave-03-v1-3': ['[2수02-01]'],
+  'pattern-cave-04-v1-4': ['[2수02-01]'],
+  'pattern-cave-05-v1-5': ['[2수02-01]'],
+  'pattern-cave-06-v1-6': ['[2수02-01]'],
+  'pattern-cave-01-v1-7': ['[2수02-01]'],
+  'pattern-cave-02-v1-8': ['[2수02-01]'],
+}
+
+const grade1DirectCurriculumCodesById: Record<string, readonly string[]> = {
+  'orchard-port-01': ['[2수01-04]'],
+  'orchard-port-05': ['[2수01-04]'],
+  'orchard-port-01-v1-1': ['[2수01-04]'],
+  'orchard-port-03-v1-3': ['[2수01-04]'],
+}
+
+type Grade1MissionTemplateSource = Omit<
+  Grade1MissionTemplate,
+  keyof Grade1QualityMetadata | 'mode'
+>
 
 function quality(
   curriculumCode: string,
@@ -148,8 +220,15 @@ function quality(
 ): Grade1QualityMetadata {
   return {
     curriculumCodes: [curriculumCode],
+    directCurriculumCodes: [],
     taskActions: [taskAction],
     visualSemantics,
+    cognitiveDomain: 'knowing',
+    problemFamily: '',
+    contextType: '',
+    representationTypes: [],
+    reasoningPattern: '',
+    authoredSourceKey: '',
   }
 }
 
@@ -160,7 +239,7 @@ const grade1QualityMetadataBySourceId: Record<string, Grade1QualityMetadata> = {
   'count-cove-04': quality('[2수01-01]', 'calculate', 'quantitative'),
   'count-cove-05': quality('[2수01-01]', 'calculate', 'quantitative'),
   'count-cove-06': quality('[2수01-01]', 'calculate', 'quantitative'),
-  'count-cove-07': quality('[2수01-01]', 'calculate', 'quantitative'),
+  'count-cove-07': quality('[2수01-01]', 'analyze_error', 'quantitative'),
   'count-cove-08': quality('[2수01-01]', 'calculate', 'quantitative'),
   'count-cove-09': quality('[2수01-01]', 'calculate', 'quantitative'),
   'order-bridge-01': quality('[2수01-03]', 'compare', 'schematic'),
@@ -169,7 +248,7 @@ const grade1QualityMetadataBySourceId: Record<string, Grade1QualityMetadata> = {
   'order-bridge-04': quality('[2수01-03]', 'compare', 'schematic'),
   'order-bridge-05': quality('[2수01-03]', 'compare', 'schematic'),
   'order-bridge-06': quality('[2수01-03]', 'compare', 'schematic'),
-  'order-bridge-07': quality('[2수01-03]', 'compare', 'schematic'),
+  'order-bridge-07': quality('[2수01-03]', 'analyze_error', 'schematic'),
   'order-bridge-08': quality('[2수01-03]', 'compare', 'schematic'),
   'order-bridge-09': quality('[2수01-03]', 'compare', 'schematic'),
   'orchard-port-01': quality('[2수01-05]', 'calculate', 'quantitative'),
@@ -178,7 +257,7 @@ const grade1QualityMetadataBySourceId: Record<string, Grade1QualityMetadata> = {
   'orchard-port-04': quality('[2수01-05]', 'calculate', 'quantitative'),
   'orchard-port-05': quality('[2수01-05]', 'calculate', 'quantitative'),
   'orchard-port-06': quality('[2수01-05]', 'calculate', 'quantitative'),
-  'orchard-port-07': quality('[2수01-06]', 'calculate', 'quantitative'),
+  'orchard-port-07': quality('[2수01-06]', 'analyze_error', 'quantitative'),
   'orchard-port-08': quality('[2수01-05]', 'calculate', 'quantitative'),
   'orchard-port-09': quality('[2수01-05]', 'calculate', 'quantitative'),
   'orchard-port-10': quality('[2수01-08]', 'calculate', 'quantitative'),
@@ -188,7 +267,7 @@ const grade1QualityMetadataBySourceId: Record<string, Grade1QualityMetadata> = {
   'river-dock-04': quality('[2수01-05]', 'calculate', 'quantitative'),
   'river-dock-05': quality('[2수01-05]', 'calculate', 'quantitative'),
   'river-dock-06': quality('[2수01-05]', 'calculate', 'quantitative'),
-  'river-dock-07': quality('[2수01-06]', 'calculate', 'quantitative'),
+  'river-dock-07': quality('[2수01-06]', 'analyze_error', 'quantitative'),
   'river-dock-08': quality('[2수01-05]', 'calculate', 'quantitative'),
   'river-dock-09': quality('[2수01-05]', 'calculate', 'quantitative'),
   'river-dock-10': quality('[2수01-05]', 'calculate', 'quantitative'),
@@ -198,7 +277,7 @@ const grade1QualityMetadataBySourceId: Record<string, Grade1QualityMetadata> = {
   'shape-forest-04': quality('[2수03-04]', 'recognize', 'schematic'),
   'shape-forest-05': quality('[2수03-04]', 'recognize', 'schematic'),
   'shape-forest-06': quality('[2수03-05]', 'classify', 'schematic'),
-  'shape-forest-07': quality('[2수03-05]', 'classify', 'schematic'),
+  'shape-forest-07': quality('[2수03-05]', 'analyze_error', 'schematic'),
   'shape-forest-08': quality('[2수03-05]', 'classify', 'schematic'),
   'shape-forest-09': quality('[2수03-05]', 'classify', 'schematic'),
   'clock-tower-01': quality('[2수03-07]', 'interpret', 'quantitative'),
@@ -712,17 +791,17 @@ const grade1BetaMissionTemplates: Grade1MissionTemplateSource[] = [
     stageOrder: 27,
     skill: 'counting',
     difficulty: 2,
-    learnerGoal: '10과 몇으로 나누어 세어요',
-    parentSummaryTag: 'counting-to-20',
-    promptTemplate: '10묶음 블록은 모두 몇 개일까요?',
+    learnerGoal: '10묶음을 빠뜨린 세기 오류를 고쳐요',
+    parentSummaryTag: 'counting-error-check',
+    promptTemplate: '친구가 첫 줄 10개를 빼고 {{count - 10}}개라고 했어요. 블록은 실제로 몇 개일까요?',
     answerType: 'choice',
     paramSchema: { count: { min: 15, max: 18 }, slots: { min: 20, max: 20 } },
     solverRule: 'count',
     choicesTemplate: ['{{count}}', '{{count - 1}}', '{{count + 1}}'],
     visualModel: 'counting-grid',
     visualConfig: { object: 'block', count: '{{count}}', slots: '{{slots}}' },
-    hintStepsTemplate: ['10개를 먼저 묶어요.', '남은 블록을 이어 세어요.'],
-    solutionStepsTemplate: ['10개와 나머지를 합쳐요.', '모두 {{count}}개예요.'],
+    hintStepsTemplate: ['첫 줄의 10개도 전체에 포함해요.', '10개와 남은 블록을 이어 세어요.'],
+    solutionStepsTemplate: ['친구는 첫 10개를 빠뜨렸어요.', '10개와 나머지를 합치면 모두 {{count}}개예요.'],
     rewardId: 'numberShard',
   },
   {
@@ -806,16 +885,16 @@ const grade1BetaMissionTemplates: Grade1MissionTemplateSource[] = [
     stageOrder: 32,
     skill: 'comparison',
     difficulty: 2,
-    learnerGoal: '두 수 사이의 수를 찾아요',
-    parentSummaryTag: 'before-after',
-    promptTemplate: '{{start}}와 {{start + 2}} 사이의 수는 무엇일까요?',
+    learnerGoal: '수 사이를 건너뛴 오류를 고쳐요',
+    parentSummaryTag: 'sequence-error-check',
+    promptTemplate: '친구가 {{start}} 다음을 바로 {{start + 2}}라고 했어요. 빠뜨린 수는 무엇일까요?',
     answerType: 'number',
     paramSchema: { start: { min: 4, max: 12 } },
     solverRule: 'start + 1',
     visualModel: 'number-cards',
     visualConfig: { cards: '{{start}},?,{{start + 2}}', target: '{{start + 1}}' },
-    hintStepsTemplate: ['{{start}} 다음 수를 생각해요.', '{{start + 2}} 바로 앞의 수도 같아요.'],
-    solutionStepsTemplate: ['{{start}} 다음은 {{start + 1}}이에요.', '그래서 사이의 수는 {{start + 1}}이에요.'],
+    hintStepsTemplate: ['하나씩 커지는 순서로 다시 말해요.', '{{start + 2}} 바로 앞의 수도 같아요.'],
+    solutionStepsTemplate: ['{{start}} 다음은 {{start + 1}}이에요.', '친구가 빠뜨린 수는 {{start + 1}}이에요.'],
     rewardId: 'numberShard',
   },
   {
@@ -898,17 +977,17 @@ const grade1BetaMissionTemplates: Grade1MissionTemplateSource[] = [
     stageOrder: 37,
     skill: 'addition',
     difficulty: 2,
-    learnerGoal: '10을 채워 더해요',
-    parentSummaryTag: 'addition-within-20',
-    promptTemplate: '{{left}} + {{right}}은 얼마일까요?',
+    learnerGoal: '10만 만들고 멈춘 덧셈을 고쳐요',
+    parentSummaryTag: 'addition-error-check',
+    promptTemplate: '친구가 {{left}} + {{right}}에서 10만 만들고 답을 10이라고 했어요. 바른 답은?',
     answerType: 'choice',
     paramSchema: { left: { min: 8, max: 9 }, right: { min: 4, max: 7 } },
     solverRule: 'left + right',
     choicesTemplate: ['{{left + right}}', '{{left + right - 1}}', '{{left + right + 2}}'],
     visualModel: 'object-groups',
     visualConfig: { object: 'star', operation: 'add', left: '{{left}}', right: '{{right}}' },
-    hintStepsTemplate: ['{{left}}에서 10까지 먼저 채워요.', '남은 수를 더해요.'],
-    solutionStepsTemplate: ['{{left}}와 {{right}}를 합치면 {{left + right}}예요.'],
+    hintStepsTemplate: ['{{left}}에서 10까지 채운 뒤 남은 수도 더해야 해요.', '두 모음을 모두 세어 검산해요.'],
+    solutionStepsTemplate: ['10을 만든 뒤 남은 수까지 더해요.', '{{left}}와 {{right}}를 합치면 {{left + right}}예요.'],
     rewardId: 'patternRibbon',
   },
   {
@@ -1009,17 +1088,17 @@ const grade1BetaMissionTemplates: Grade1MissionTemplateSource[] = [
     stageOrder: 43,
     skill: 'subtraction',
     difficulty: 2,
-    learnerGoal: '10을 기준으로 빼요',
-    parentSummaryTag: 'subtraction-within-20',
-    promptTemplate: '{{total}} - {{take}}은 얼마일까요?',
+    learnerGoal: '전체와 덜어낸 수를 거꾸로 쓴 오류를 고쳐요',
+    parentSummaryTag: 'subtraction-error-check',
+    promptTemplate: '친구가 {{take}}에서 {{total}}을 빼려고 했어요. {{total}}개에서 {{take}}개를 빼면 얼마일까요?',
     answerType: 'choice',
     paramSchema: { total: { min: 12, max: 16 }, take: { min: 3, max: 6 } },
     solverRule: 'total - take',
     choicesTemplate: ['{{total - take}}', '{{total - take + 2}}', '{{total - take - 1}}'],
     visualModel: 'object-groups',
     visualConfig: { object: 'marble', operation: 'sub', total: '{{total}}', take: '{{take}}' },
-    hintStepsTemplate: ['{{take}}개를 덜어내요.', '남은 개수를 세어 확인해요.'],
-    solutionStepsTemplate: ['{{total}} - {{take}} = {{total - take}}예요.'],
+    hintStepsTemplate: ['전체인 {{total}}에서 없어진 {{take}}를 빼요.', '남은 개수를 세어 확인해요.'],
+    solutionStepsTemplate: ['큰 전체에서 덜어낸 수를 빼야 해요.', '{{total}} - {{take}} = {{total - take}}예요.'],
     rewardId: 'patternRibbon',
   },
   {
@@ -1121,17 +1200,17 @@ const grade1BetaMissionTemplates: Grade1MissionTemplateSource[] = [
     stageOrder: 49,
     skill: 'shape',
     difficulty: 2,
-    learnerGoal: '변의 수를 비교해요',
-    parentSummaryTag: 'shape-properties',
-    promptTemplate: '변이 4개인 모양은 무엇일까요?',
+    learnerGoal: '변의 수를 잘못 센 설명을 고쳐요',
+    parentSummaryTag: 'shape-error-check',
+    promptTemplate: '친구가 네모의 변은 3개라고 했어요. 변을 다시 세면 어떤 모양일까요?',
     answerType: 'choice',
     paramSchema: {},
     solverRule: '네모',
     choicesTemplate: ['네모', '세모', '동그라미'],
     visualModel: 'shape-cards',
     visualConfig: { shapes: '세모,네모,동그라미', target: '네모' },
-    hintStepsTemplate: ['반듯한 변을 세어요.', '변이 4개인 모양을 찾아요.'],
-    solutionStepsTemplate: ['네모는 변이 4개예요.'],
+    hintStepsTemplate: ['네모의 테두리를 따라 반듯한 변을 세어요.', '변이 4개인 모양을 찾아요.'],
+    solutionStepsTemplate: ['친구가 한 변을 빠뜨렸어요.', '네모는 변이 4개예요.'],
     rewardId: 'shapeBadge',
   },
   {
@@ -1178,17 +1257,17 @@ const grade1BetaMissionTemplates: Grade1MissionTemplateSource[] = [
     stageOrder: 52,
     skill: 'time',
     difficulty: 1,
-    learnerGoal: '정각을 다시 읽어요',
-    parentSummaryTag: 'time-hour',
-    promptTemplate: '시계는 몇 시일까요?',
+    learnerGoal: '한 시간 뒤의 정각을 구해요',
+    parentSummaryTag: 'time-one-hour-later',
+    promptTemplate: '시계가 {{hour}}시를 가리켜요. 한 시간 뒤는 몇 시일까요?',
     answerType: 'choice',
     paramSchema: { hour: { min: 1, max: 5 }, minute: { min: 0, max: 0 } },
-    solverRule: '{{hour}}시',
-    choicesTemplate: ['{{hour}}시', '{{hour + 1}}시', '{{hour + 2}}시'],
+    solverRule: '{{hour + 1}}시',
+    choicesTemplate: ['{{hour + 1}}시', '{{hour}}시', '{{hour + 2}}시'],
     visualModel: 'clock-face',
     visualConfig: { hour: '{{hour}}', minute: '{{minute}}' },
-    hintStepsTemplate: ['긴 바늘이 12를 가리켜요.', '짧은 바늘의 숫자를 읽어요.'],
-    solutionStepsTemplate: ['짧은 바늘이 {{hour}}를 가리키므로 {{hour}}시예요.'],
+    hintStepsTemplate: ['한 시간 뒤에는 짧은 바늘이 다음 숫자로 가요.'],
+    solutionStepsTemplate: ['{{hour}}시에서 한 시간 뒤는 {{hour + 1}}시예요.'],
     rewardId: 'clockBadge',
   },
   {
@@ -1254,17 +1333,17 @@ const grade1BetaMissionTemplates: Grade1MissionTemplateSource[] = [
     stageOrder: 56,
     skill: 'time',
     difficulty: 3,
-    learnerGoal: '일주일과 날짜의 관계를 알아요',
-    parentSummaryTag: 'week-day-relation',
-    promptTemplate: '1주일은 며칠일까요?',
+    learnerGoal: '일주일의 날짜를 빠뜨린 설명을 고쳐요',
+    parentSummaryTag: 'calendar-error-check',
+    promptTemplate: '친구가 주말을 빼고 1주일은 5일이라고 했어요. 주말까지 세면 며칠일까요?',
     answerType: 'choice',
     paramSchema: {},
     solverRule: '7일',
     choicesTemplate: ['7일', '5일', '10일'],
     visualModel: 'number-cards',
     visualConfig: { cards: '7일,5일,10일', target: '7일' },
-    hintStepsTemplate: ['월요일부터 일요일까지 세어요.', '일주일에는 날짜가 7개 있어요.'],
-    solutionStepsTemplate: ['월요일부터 일요일까지 모두 7일이에요.', '1주일은 7일이에요.'],
+    hintStepsTemplate: ['토요일과 일요일도 한 주에 들어가요.', '월요일부터 일요일까지 세어요.'],
+    solutionStepsTemplate: ['평일 5일과 주말 2일을 모두 세어요.', '1주일은 7일이에요.'],
     rewardId: 'clockBadge',
   },
   {
@@ -1344,6 +1423,408 @@ const grade1BetaMissionTemplates: Grade1MissionTemplateSource[] = [
   },
 ]
 
+type Grade1AuthoredExpansionSpec = Pick<
+  Grade1MissionTemplateSource,
+  | 'id'
+  | 'islandId'
+  | 'learnerGoal'
+  | 'parentSummaryTag'
+  | 'promptTemplate'
+  | 'answerType'
+  | 'paramSchema'
+  | 'solverRule'
+  | 'visualModel'
+  | 'visualConfig'
+  | 'hintStepsTemplate'
+  | 'solutionStepsTemplate'
+> & Partial<Pick<Grade1MissionTemplateSource, 'choicesTemplate' | 'difficulty'>>
+
+const grade1ExpansionDefaults: Record<
+  string,
+  Pick<Grade1MissionTemplateSource, 'skill' | 'rewardId'>
+> = {
+  'count-cove': { skill: 'counting', rewardId: 'numberShard' },
+  'order-bridge': { skill: 'comparison', rewardId: 'numberShard' },
+  'orchard-port': { skill: 'addition', rewardId: 'patternRibbon' },
+  'river-dock': { skill: 'subtraction', rewardId: 'patternRibbon' },
+  'shape-forest': { skill: 'shape', rewardId: 'shapeBadge' },
+  'clock-tower': { skill: 'time', rewardId: 'clockBadge' },
+  'pattern-cave': { skill: 'pattern', rewardId: 'patternRibbon' },
+}
+
+function authoredExpansion(spec: Grade1AuthoredExpansionSpec): Grade1MissionTemplateSource {
+  const defaults = grade1ExpansionDefaults[spec.islandId]
+  if (!defaults) throw new Error(`${spec.id}: unknown Grade 1 expansion island`)
+  return {
+    ...defaults,
+    ...spec,
+    stageOrder: 0,
+    difficulty: spec.difficulty ?? 2,
+  }
+}
+
+const grade1AuthoredExpansionTemplates: Grade1MissionTemplateSource[] = [
+  authoredExpansion({
+    id: 'count-cove-01-v1-1', islandId: 'count-cove',
+    learnerGoal: '아무것도 없는 모음을 0으로 나타내요', parentSummaryTag: 'zero-as-count',
+    promptTemplate: '별이 하나도 없는 칸에는 몇 개라고 써야 할까요?', answerType: 'number',
+    paramSchema: { count: { min: 0, max: 0 }, slots: { min: 5, max: 5 } }, solverRule: 'count',
+    visualModel: 'counting-grid', visualConfig: { object: 'star', count: '{{count}}', slots: '{{slots}}' },
+    hintStepsTemplate: ['보이는 별이 하나도 없어요.', '하나도 없을 때는 0이라고 써요.'],
+    solutionStepsTemplate: ['별을 세면 하나도 없어요.', '따라서 0개예요.'],
+  }),
+  authoredExpansion({
+    id: 'count-cove-02-v1-2', islandId: 'count-cove',
+    learnerGoal: '수 카드에 적힌 두 자리 수를 읽어요', parentSummaryTag: 'read-numbers-to-20',
+    promptTemplate: '가운데 카드에 적힌 수는 얼마일까요?', answerType: 'choice',
+    paramSchema: { number: { min: 14, max: 18 } }, solverRule: 'number',
+    choicesTemplate: ['{{number}}', '{{number - 1}}', '{{number + 1}}'],
+    visualModel: 'number-cards', visualConfig: { cards: '{{number - 1}},{{number}},{{number + 1}}', target: '{{number}}' },
+    hintStepsTemplate: ['카드의 십의 자리와 일의 자리를 차례로 읽어요.'],
+    solutionStepsTemplate: ['가운데 카드의 수는 {{number}}예요.'],
+  }),
+  authoredExpansion({
+    id: 'count-cove-03-v1-3', islandId: 'count-cove',
+    learnerGoal: '두 줄에 놓인 연필을 빠짐없이 세어요', parentSummaryTag: 'counting-to-20',
+    promptTemplate: '연필은 모두 몇 자루일까요?', answerType: 'number',
+    paramSchema: { count: { min: 17, max: 19 }, slots: { min: 20, max: 20 } }, solverRule: 'count',
+    visualModel: 'counting-grid', visualConfig: { object: 'pencil', count: '{{count}}', slots: '{{slots}}', columns: 10 },
+    hintStepsTemplate: ['첫 줄 10자루를 먼저 묶어요.', '둘째 줄을 이어서 세어요.'],
+    solutionStepsTemplate: ['10자루와 나머지를 이어 세면 {{count}}자루예요.'],
+  }),
+  authoredExpansion({
+    id: 'count-cove-04-v1-4', islandId: 'count-cove',
+    learnerGoal: '0부터 센 수의 개수를 알아봐요', parentSummaryTag: 'zero-in-sequence',
+    promptTemplate: '0부터 {{last}}까지 하나씩 말하면 수는 모두 몇 개일까요?', answerType: 'number',
+    paramSchema: { last: { min: 5, max: 9 } }, solverRule: 'last + 1',
+    visualModel: 'number-cards', visualConfig: { cards: '0,1,{{last}},?', target: '{{last + 1}}' },
+    hintStepsTemplate: ['0도 하나의 수로 세어야 해요.', '마지막 수보다 개수가 하나 더 많아요.'],
+    solutionStepsTemplate: ['0을 포함하므로 {{last}} + 1 = {{last + 1}}개예요.'],
+  }),
+  authoredExpansion({
+    id: 'count-cove-05-v1-5', islandId: 'count-cove', difficulty: 3,
+    learnerGoal: '잘못 센 수를 그림으로 검산해요', parentSummaryTag: 'counting-error-check',
+    promptTemplate: '친구가 별을 {{count - 1}}개라고 셌어요. 그림을 다시 세면 몇 개일까요?', answerType: 'number',
+    paramSchema: { count: { min: 15, max: 18 }, slots: { min: 20, max: 20 } }, solverRule: 'count',
+    visualModel: 'counting-grid', visualConfig: { object: 'star', count: '{{count}}', slots: '{{slots}}', columns: 10 },
+    hintStepsTemplate: ['10개가 찬 줄을 먼저 확인해요.', '남은 별을 한 번씩만 짚어요.'],
+    solutionStepsTemplate: ['10개와 남은 별을 다시 세면 {{count}}개예요.'],
+  }),
+
+  authoredExpansion({
+    id: 'order-bridge-01-v1-1', islandId: 'order-bridge',
+    learnerGoal: '세 수 가운데 가장 큰 수를 골라요', parentSummaryTag: 'greatest-of-three',
+    promptTemplate: '{{small}}, {{middle}}, {{large}} 중 가장 큰 수는 무엇일까요?', answerType: 'choice',
+    paramSchema: { small: { min: 3, max: 6 }, middle: { min: 8, max: 11 }, large: { min: 14, max: 18 } },
+    solverRule: 'large', choicesTemplate: ['{{large}}', '{{middle}}', '{{small}}'],
+    visualModel: 'number-cards', visualConfig: { cards: '{{middle}},{{small}},{{large}}', target: '{{large}}' },
+    hintStepsTemplate: ['수의 순서에서 가장 뒤에 있는 수를 찾아요.'],
+    solutionStepsTemplate: ['{{large}}가 세 수 중 가장 커요.'],
+  }),
+  authoredExpansion({
+    id: 'order-bridge-02-v1-2', islandId: 'order-bridge',
+    learnerGoal: '세 수 가운데 가장 작은 수를 골라요', parentSummaryTag: 'least-of-three',
+    promptTemplate: '{{large}}, {{small}}, {{middle}} 중 가장 작은 수는 무엇일까요?', answerType: 'choice',
+    paramSchema: { small: { min: 2, max: 5 }, middle: { min: 7, max: 10 }, large: { min: 13, max: 17 } },
+    solverRule: 'small', choicesTemplate: ['{{small}}', '{{middle}}', '{{large}}'],
+    visualModel: 'number-cards', visualConfig: { cards: '{{large}},{{small}},{{middle}}', target: '{{small}}' },
+    hintStepsTemplate: ['수의 순서에서 가장 앞에 있는 수를 찾아요.'],
+    solutionStepsTemplate: ['{{small}}이 세 수 중 가장 작아요.'],
+  }),
+  authoredExpansion({
+    id: 'order-bridge-03-v1-3', islandId: 'order-bridge',
+    learnerGoal: '두 수 사이에 있는 수를 찾아요', parentSummaryTag: 'between-numbers',
+    promptTemplate: '{{n}}과 {{n + 2}} 사이에 있는 수는 무엇일까요?', answerType: 'number',
+    paramSchema: { n: { min: 4, max: 15 } }, solverRule: 'n + 1',
+    visualModel: 'number-cards', visualConfig: { cards: '{{n}},?,{{n + 2}}', target: '{{n + 1}}' },
+    hintStepsTemplate: ['{{n}} 다음 수를 한 번 말해 보아요.'],
+    solutionStepsTemplate: ['{{n}} 다음이자 {{n + 2}} 앞의 수는 {{n + 1}}이에요.'],
+  }),
+  authoredExpansion({
+    id: 'order-bridge-04-v1-4', islandId: 'order-bridge',
+    learnerGoal: '큰 수부터 차례로 놓아요', parentSummaryTag: 'descending-order',
+    promptTemplate: '{{small}}, {{large}}, {{middle}} 중 두 번째로 큰 수는 무엇일까요?', answerType: 'choice',
+    paramSchema: { small: { min: 1, max: 5 }, middle: { min: 7, max: 11 }, large: { min: 14, max: 19 } },
+    solverRule: 'middle', choicesTemplate: ['{{middle}}', '{{large}}', '{{small}}'],
+    visualModel: 'number-cards', visualConfig: { cards: '{{small}},{{large}},{{middle}}', target: '{{middle}}' },
+    hintStepsTemplate: ['가장 큰 수와 가장 작은 수를 먼저 찾으면 가운데 수가 남아요.'],
+    solutionStepsTemplate: ['{{large}}, {{middle}}, {{small}} 순서이므로 두 번째는 {{middle}}이에요.'],
+  }),
+  authoredExpansion({
+    id: 'order-bridge-05-v1-5', islandId: 'order-bridge', difficulty: 3,
+    learnerGoal: '잘못 놓인 수 카드의 자리를 찾아요', parentSummaryTag: 'sequence-error-check',
+    promptTemplate: '{{n}}, {{n + 2}}, {{n + 1}} 순서에서 두 번째 자리에 와야 할 수는 무엇일까요?', answerType: 'number',
+    paramSchema: { n: { min: 5, max: 14 } }, solverRule: 'n + 1',
+    visualModel: 'number-cards', visualConfig: { cards: '{{n}},{{n + 2}},{{n + 1}}', target: '{{n + 1}}' },
+    hintStepsTemplate: ['하나씩 커지는 순서를 떠올려요.'],
+    solutionStepsTemplate: ['{{n}} 다음 수는 {{n + 1}}이므로 두 번째 자리에 와야 해요.'],
+  }),
+
+  authoredExpansion({
+    id: 'orchard-port-01-v1-1', islandId: 'orchard-port',
+    learnerGoal: '10을 두 수로 나누어 빈 부분을 찾아요', parentSummaryTag: 'decompose-ten',
+    promptTemplate: '사과 10개를 {{left}}개와 나머지로 나누었어요. 나머지는 몇 개일까요?', answerType: 'number',
+    paramSchema: { total: { min: 10, max: 10 }, left: { min: 4, max: 7 } }, solverRule: 'total - left',
+    visualModel: 'object-groups', visualConfig: { object: 'apple', operation: 'sub', total: '{{total}}', take: '{{left}}' },
+    hintStepsTemplate: ['10에서 이미 나눈 {{left}}를 빼요.'],
+    solutionStepsTemplate: ['10 - {{left}} = {{total - left}}이므로 나머지는 {{total - left}}개예요.'],
+  }),
+  authoredExpansion({
+    id: 'orchard-port-02-v1-2', islandId: 'orchard-port',
+    learnerGoal: '세 부분을 합쳐 하나의 수를 만들어요', parentSummaryTag: 'compose-three-parts',
+    promptTemplate: '빨간 구슬 {{first}}개, 파란 구슬 {{second}}개, 노란 구슬 {{third}}개를 한 상자에 담으면 모두 몇 개일까요?', answerType: 'number',
+    paramSchema: { first: { min: 2, max: 4 }, second: { min: 3, max: 5 }, third: { min: 1, max: 3 } }, solverRule: 'first + second + third',
+    visualModel: 'number-cards', visualConfig: { cards: '{{first}},{{second}},{{third}}', target: '{{first + second + third}}' },
+    hintStepsTemplate: ['세 부분을 빠짐없이 차례로 더해요.'],
+    solutionStepsTemplate: ['{{first}} + {{second}} + {{third}} = {{first + second + third}}이므로 모두 {{first + second + third}}개예요.'],
+  }),
+  authoredExpansion({
+    id: 'orchard-port-03-v1-3', islandId: 'orchard-port',
+    learnerGoal: '10이 되도록 필요한 수를 적용해요', parentSummaryTag: 'make-ten',
+    promptTemplate: '연필 {{left}}자루에 몇 자루를 더하면 10자루가 될까요?', answerType: 'number',
+    paramSchema: { total: { min: 10, max: 10 }, left: { min: 5, max: 8 } }, solverRule: 'total - left',
+    visualModel: 'object-groups', visualConfig: { object: 'pencil', operation: 'sub', total: '{{total}}', take: '{{left}}' },
+    hintStepsTemplate: ['10에서 지금 있는 {{left}}를 빼요.'],
+    solutionStepsTemplate: ['10은 {{left}}와 {{total - left}}로 나뉘므로 {{total - left}}자루가 필요해요.'],
+  }),
+  authoredExpansion({
+    id: 'orchard-port-04-v1-4', islandId: 'orchard-port', difficulty: 3,
+    learnerGoal: '수의 합성 설명이 맞는지 검산해요', parentSummaryTag: 'composition-error-check',
+    promptTemplate: '친구가 {{left}}와 {{right}}를 합치면 {{left + right - 1}}이라고 했어요. 바른 수는 얼마일까요?', answerType: 'number',
+    paramSchema: { left: { min: 6, max: 8 }, right: { min: 3, max: 5 } }, solverRule: 'left + right',
+    visualModel: 'object-groups', visualConfig: { object: 'marble', operation: 'add', left: '{{left}}', right: '{{right}}' },
+    hintStepsTemplate: ['두 모음의 구슬을 한 번씩 모두 세어요.'],
+    solutionStepsTemplate: ['{{left}} + {{right}} = {{left + right}}이므로 바른 수는 {{left + right}}예요.'],
+  }),
+
+  authoredExpansion({
+    id: 'river-dock-01-v1-1', islandId: 'river-dock',
+    learnerGoal: '처음 수를 거꾸로 찾아요', parentSummaryTag: 'subtraction-missing-start',
+    promptTemplate: '몇 개에서 {{take}}개를 빼니 {{remain}}개가 남았어요. 처음에는 몇 개였을까요?', answerType: 'number',
+    paramSchema: { take: { min: 2, max: 5 }, remain: { min: 5, max: 9 } }, solverRule: 'take + remain',
+    visualModel: 'number-cards', visualConfig: { cards: '{{remain}},{{take}},?', target: '{{take + remain}}' },
+    hintStepsTemplate: ['남은 수와 뺀 수를 다시 합쳐요.'],
+    solutionStepsTemplate: ['{{remain}} + {{take}} = {{take + remain}}이므로 처음에는 {{take + remain}}개였어요.'],
+  }),
+  authoredExpansion({
+    id: 'river-dock-02-v1-2', islandId: 'river-dock',
+    learnerGoal: '얼마를 빼야 하는지 찾아요', parentSummaryTag: 'subtraction-missing-take',
+    promptTemplate: '{{total}}개에서 몇 개를 빼면 {{remain}}개가 남을까요?', answerType: 'number',
+    paramSchema: { total: { min: 13, max: 18 }, remain: { min: 5, max: 8 } }, solverRule: 'total - remain',
+    visualModel: 'number-cards', visualConfig: { cards: '{{total}},{{remain}},?', target: '{{total - remain}}' },
+    hintStepsTemplate: ['전체와 남은 수의 차를 구해요.'],
+    solutionStepsTemplate: ['{{total}} - {{remain}} = {{total - remain}}이므로 {{total - remain}}개를 빼야 해요.'],
+  }),
+  authoredExpansion({
+    id: 'river-dock-03-v1-3', islandId: 'river-dock',
+    learnerGoal: '두 번 줄어든 수를 구해요', parentSummaryTag: 'two-step-subtraction',
+    promptTemplate: '블록 {{total}}개에서 {{first}}개를 치우고 또 {{second}}개를 치웠어요. 몇 개가 남았을까요?', answerType: 'number',
+    paramSchema: { total: { min: 16, max: 19 }, first: { min: 3, max: 5 }, second: { min: 2, max: 4 } }, solverRule: 'total - first - second',
+    visualModel: 'number-cards', visualConfig: { cards: '{{total}},{{first}},{{second}},?', target: '{{total - first - second}}' },
+    hintStepsTemplate: ['두 번 치운 수를 차례로 빼요.'],
+    solutionStepsTemplate: ['{{total}} - {{first}} - {{second}} = {{total - first - second}}이므로 {{total - first - second}}개가 남아요.'],
+  }),
+  authoredExpansion({
+    id: 'river-dock-04-v1-4', islandId: 'river-dock', difficulty: 3,
+    learnerGoal: '뺄셈의 순서 오류를 찾아 고쳐요', parentSummaryTag: 'subtraction-order-error',
+    promptTemplate: '{{total}}개에서 {{take}}개를 빼야 하는데 거꾸로 계산했어요. 바른 나머지는 얼마일까요?', answerType: 'number',
+    paramSchema: { total: { min: 14, max: 18 }, take: { min: 5, max: 8 } }, solverRule: 'total - take',
+    visualModel: 'object-groups', visualConfig: { object: 'apple', operation: 'sub', total: '{{total}}', take: '{{take}}' },
+    hintStepsTemplate: ['전체인 {{total}}에서 없어진 {{take}}를 빼야 해요.'],
+    solutionStepsTemplate: ['{{total}} - {{take}} = {{total - take}}이므로 바른 나머지는 {{total - take}}예요.'],
+  }),
+
+  authoredExpansion({
+    id: 'shape-forest-01-v1-1', islandId: 'shape-forest',
+    learnerGoal: '굴러가는 모양을 찾아요', parentSummaryTag: 'shape-in-life',
+    promptTemplate: '바퀴처럼 굴러가는 평면 모양은 무엇일까요?', answerType: 'choice',
+    paramSchema: {}, solverRule: '동그라미', choicesTemplate: ['동그라미', '세모', '네모'],
+    visualModel: 'shape-cards', visualConfig: { shapes: '세모,동그라미,네모', target: '동그라미' },
+    hintStepsTemplate: ['모서리가 없는 둥근 모양을 찾아요.'],
+    solutionStepsTemplate: ['동그라미는 둥글어서 바퀴 모양으로 알맞아요.'],
+  }),
+  authoredExpansion({
+    id: 'shape-forest-02-v1-2', islandId: 'shape-forest',
+    learnerGoal: '막대 세 개로 만들 모양을 골라요', parentSummaryTag: 'shape-construction',
+    promptTemplate: '길이가 같은 막대 3개를 끝끼리 이어 닫힌 모양을 만들려고 해요. 어떤 모양이 될까요?', answerType: 'choice',
+    paramSchema: {}, solverRule: '세모', choicesTemplate: ['세모', '동그라미', '네모'],
+    visualModel: 'shape-cards', visualConfig: { shapes: '동그라미,네모,세모', target: '세모' },
+    hintStepsTemplate: ['막대 하나가 곧은 변 하나가 돼요.'],
+    solutionStepsTemplate: ['막대 3개를 이어 만든 닫힌 모양은 변이 3개인 세모예요.'],
+  }),
+  authoredExpansion({
+    id: 'shape-forest-03-v1-3', islandId: 'shape-forest',
+    learnerGoal: '변의 수로 네모를 찾아요', parentSummaryTag: 'shape-by-sides',
+    promptTemplate: '반듯한 변이 4개인 모양은 무엇일까요?', answerType: 'choice',
+    paramSchema: {}, solverRule: '네모', choicesTemplate: ['네모', '세모', '동그라미'],
+    visualModel: 'shape-cards', visualConfig: { shapes: '네모,동그라미,세모', target: '네모' },
+    hintStepsTemplate: ['모양의 테두리를 따라 변을 세어요.'],
+    solutionStepsTemplate: ['변이 4개인 모양은 네모예요.'],
+  }),
+  authoredExpansion({
+    id: 'shape-forest-04-v1-4', islandId: 'shape-forest',
+    learnerGoal: '생활 물건에 알맞은 모양을 적용해요', parentSummaryTag: 'shape-modeling',
+    promptTemplate: '삼각 깃발을 나타내기에 알맞은 모양은 무엇일까요?', answerType: 'choice',
+    paramSchema: {}, solverRule: '세모', choicesTemplate: ['세모', '네모', '동그라미'],
+    visualModel: 'shape-cards', visualConfig: { shapes: '동그라미,세모,네모', target: '세모' },
+    hintStepsTemplate: ['삼각 깃발은 세 변으로 둘러싸여 있어요.'],
+    solutionStepsTemplate: ['삼각 깃발과 같은 모양은 세모예요.'],
+  }),
+  authoredExpansion({
+    id: 'shape-forest-05-v1-5', islandId: 'shape-forest', difficulty: 3,
+    learnerGoal: '모양의 성질을 잘못 말한 설명을 고쳐요', parentSummaryTag: 'shape-error-check',
+    promptTemplate: '친구가 네모의 변은 3개라고 했어요. 네모의 변은 몇 개일까요?', answerType: 'number',
+    paramSchema: { sides: { min: 4, max: 4 } }, solverRule: 'sides',
+    visualModel: 'number-cards', visualConfig: { cards: '3,4,5', target: '{{sides}}' },
+    hintStepsTemplate: ['네모의 테두리를 따라 선을 세어요.'],
+    solutionStepsTemplate: ['네모는 반듯한 변이 4개예요.'],
+  }),
+
+  authoredExpansion({
+    id: 'clock-tower-01-v1-1', islandId: 'clock-tower',
+    learnerGoal: '아침 정각을 읽어요', parentSummaryTag: 'time-hour',
+    promptTemplate: '등교 준비 시계는 몇 시를 가리킬까요?', answerType: 'choice',
+    paramSchema: { hour: { min: 6, max: 8 }, minute: { min: 0, max: 0 } }, solverRule: '{{hour}}시',
+    choicesTemplate: ['{{hour}}시', '{{hour - 1}}시', '{{hour + 1}}시'],
+    visualModel: 'clock-face', visualConfig: { hour: '{{hour}}', minute: '{{minute}}' },
+    hintStepsTemplate: ['긴 바늘이 12면 정각이에요.'],
+    solutionStepsTemplate: ['짧은 바늘이 {{hour}}를 가리켜 {{hour}}시예요.'],
+  }),
+  authoredExpansion({
+    id: 'clock-tower-02-v1-2', islandId: 'clock-tower',
+    learnerGoal: '오후 30분 시각을 읽어요', parentSummaryTag: 'time-half-hour',
+    promptTemplate: '놀이 시간 시계는 몇 시 30분일까요?', answerType: 'choice',
+    paramSchema: { hour: { min: 2, max: 5 }, minute: { min: 30, max: 30 } }, solverRule: '{{hour}}시 30분',
+    choicesTemplate: ['{{hour}}시 30분', '{{hour}}시', '{{hour + 1}}시 30분'],
+    visualModel: 'clock-face', visualConfig: { hour: '{{hour}}', minute: '{{minute}}' },
+    hintStepsTemplate: ['긴 바늘이 6이면 30분이에요.'],
+    solutionStepsTemplate: ['긴 바늘은 30분, 짧은 바늘은 {{hour}}를 지나 {{hour}}시 30분이에요.'],
+  }),
+  authoredExpansion({
+    id: 'clock-tower-03-v1-3', islandId: 'clock-tower',
+    learnerGoal: '정각 시각의 짧은바늘을 읽어요', parentSummaryTag: 'clock-hands',
+    promptTemplate: '긴 바늘이 12에 있을 때 짧은 바늘이 {{hour}}를 가리키면 몇 시일까요?', answerType: 'choice',
+    paramSchema: { hour: { min: 4, max: 9 }, minute: { min: 0, max: 0 } }, solverRule: '{{hour}}시',
+    choicesTemplate: ['{{hour}}시', '{{hour - 1}}시', '{{hour + 1}}시'],
+    visualModel: 'clock-face', visualConfig: { hour: '{{hour}}', minute: '{{minute}}' },
+    hintStepsTemplate: ['정각에는 짧은 바늘이 가리키는 수를 읽어요.'],
+    solutionStepsTemplate: ['짧은 바늘이 {{hour}}를 가리키므로 {{hour}}시예요.'],
+  }),
+  authoredExpansion({
+    id: 'clock-tower-04-v1-4', islandId: 'clock-tower',
+    learnerGoal: '한 시간 뒤의 시각을 구해요', parentSummaryTag: 'one-hour-later',
+    promptTemplate: '{{hour}}시에 책 읽기를 시작해 1시간 뒤에 끝냈어요. 끝난 시각은 몇 시일까요?', answerType: 'choice',
+    paramSchema: { hour: { min: 2, max: 8 }, minute: { min: 0, max: 0 } }, solverRule: '{{hour + 1}}시',
+    choicesTemplate: ['{{hour + 1}}시', '{{hour}}시', '{{hour + 2}}시'],
+    visualModel: 'clock-face', visualConfig: { hour: '{{hour}}', minute: '{{minute}}' },
+    hintStepsTemplate: ['짧은 바늘을 한 칸 앞으로 옮겨요.'],
+    solutionStepsTemplate: ['{{hour}}시에서 1시간 뒤는 {{hour + 1}}시예요.'],
+  }),
+  authoredExpansion({
+    id: 'clock-tower-05-v1-5', islandId: 'clock-tower',
+    learnerGoal: '한 시간 전의 시각을 구해요', parentSummaryTag: 'one-hour-before',
+    promptTemplate: '{{hour}}시보다 1시간 전은 몇 시일까요?', answerType: 'choice',
+    paramSchema: { hour: { min: 3, max: 10 }, minute: { min: 0, max: 0 } }, solverRule: '{{hour - 1}}시',
+    choicesTemplate: ['{{hour - 1}}시', '{{hour}}시', '{{hour + 1}}시'],
+    visualModel: 'clock-face', visualConfig: { hour: '{{hour}}', minute: '{{minute}}' },
+    hintStepsTemplate: ['짧은 바늘을 한 칸 뒤로 옮겨요.'],
+    solutionStepsTemplate: ['{{hour}}시에서 1시간 전은 {{hour - 1}}시예요.'],
+  }),
+  authoredExpansion({
+    id: 'clock-tower-06-v1-6', islandId: 'clock-tower',
+    learnerGoal: '두 일정 중 먼저인 시각을 골라요', parentSummaryTag: 'compare-times',
+    promptTemplate: '{{early}}시와 {{late}}시 중 더 이른 시각은 언제일까요?', answerType: 'choice',
+    paramSchema: { early: { min: 2, max: 5 }, late: { min: 7, max: 10 }, minute: { min: 0, max: 0 } }, solverRule: '{{early}}시',
+    choicesTemplate: ['{{early}}시', '{{late}}시', '{{early + 1}}시'],
+    visualModel: 'clock-face', visualConfig: { hour: '{{early}}', minute: '{{minute}}' },
+    hintStepsTemplate: ['하루의 시각 순서에서 먼저 오는 수를 찾아요.'],
+    solutionStepsTemplate: ['{{early}}시가 {{late}}시보다 먼저예요.'],
+  }),
+  authoredExpansion({
+    id: 'clock-tower-07-v1-7', islandId: 'clock-tower', difficulty: 3,
+    learnerGoal: '시계 읽기 오류를 바르게 고쳐요', parentSummaryTag: 'clock-error-check',
+    promptTemplate: '긴 바늘이 6, 짧은 바늘이 {{hour}}를 지났는데 {{hour}}시라고 읽었어요. 바른 시각은?', answerType: 'choice',
+    paramSchema: { hour: { min: 3, max: 8 }, minute: { min: 30, max: 30 } }, solverRule: '{{hour}}시 30분',
+    choicesTemplate: ['{{hour}}시 30분', '{{hour}}시', '{{hour + 1}}시'],
+    visualModel: 'clock-face', visualConfig: { hour: '{{hour}}', minute: '{{minute}}' },
+    hintStepsTemplate: ['긴 바늘이 6이면 30분을 꼭 붙여 읽어요.'],
+    solutionStepsTemplate: ['짧은 바늘은 {{hour}}를 지났고 긴 바늘은 30분이므로 {{hour}}시 30분이에요.'],
+  }),
+
+  authoredExpansion({
+    id: 'pattern-cave-01-v1-1', islandId: 'pattern-cave',
+    learnerGoal: '반복 순서를 뒤바꾼 오류를 고쳐요', parentSummaryTag: 'pattern-error-check',
+    promptTemplate: '네모, 동그라미가 번갈아 나오는데 친구가 동그라미 다음도 동그라미라고 했어요. 바른 다음 모양은?', answerType: 'choice',
+    paramSchema: {}, solverRule: '네모', choicesTemplate: ['네모', '동그라미', '세모'],
+    visualModel: 'pattern-strip', visualConfig: { pattern: '네모,동그라미,네모,동그라미,?' },
+    hintStepsTemplate: ['두 모양이 한 묶음으로 번갈아 반복돼요.'],
+    solutionStepsTemplate: ['친구는 같은 모양을 두 번 놓았어요.', '동그라미 다음에는 네모가 와요.'],
+  }),
+  authoredExpansion({
+    id: 'pattern-cave-02-v1-2', islandId: 'pattern-cave',
+    learnerGoal: '반복되는 한 묶음의 크기를 찾아요', parentSummaryTag: 'pattern-unit-size',
+    promptTemplate: '별, 블록, 사과가 같은 순서로 반복돼요. 반복되는 한 묶음에는 물건이 몇 개일까요?', answerType: 'number',
+    paramSchema: { unitSize: { min: 3, max: 3 } }, solverRule: 'unitSize',
+    visualModel: 'pattern-strip', visualConfig: { pattern: '별,블록,사과,별,블록,사과' },
+    hintStepsTemplate: ['처음과 똑같은 별이 다시 나오기 전까지 세어요.'],
+    solutionStepsTemplate: ['별, 블록, 사과의 3개가 한 묶음이에요.'],
+  }),
+  authoredExpansion({
+    id: 'pattern-cave-03-v1-3', islandId: 'pattern-cave',
+    learnerGoal: '하나씩 커지는 수 규칙을 찾아요', parentSummaryTag: 'increase-by-one',
+    promptTemplate: '{{start}}, {{start + 1}}, {{start + 2}}, {{start + 3}} 다음 수는 무엇일까요?', answerType: 'number',
+    paramSchema: { start: { min: 2, max: 8 } }, solverRule: 'start + 4',
+    visualModel: 'pattern-strip', visualConfig: { pattern: '{{start}},{{start + 1}},{{start + 2}},{{start + 3}},?' },
+    hintStepsTemplate: ['앞의 수보다 1씩 커져요.'],
+    solutionStepsTemplate: ['{{start + 3}}보다 1 큰 수는 {{start + 4}}예요.'],
+  }),
+  authoredExpansion({
+    id: 'pattern-cave-04-v1-4', islandId: 'pattern-cave',
+    learnerGoal: '두 번씩 나오는 모양 규칙을 적용해요', parentSummaryTag: 'paired-pattern',
+    promptTemplate: '세모가 두 번, 네모가 두 번 나오는 규칙에서 다음 모양은 무엇일까요?', answerType: 'choice',
+    paramSchema: {}, solverRule: '세모', choicesTemplate: ['세모', '네모', '동그라미'],
+    visualModel: 'pattern-strip', visualConfig: { pattern: '세모,세모,네모,네모,?' },
+    hintStepsTemplate: ['같은 모양이 두 번씩 나와요.'],
+    solutionStepsTemplate: ['네모 두 번 뒤에는 다시 세모가 와요.'],
+  }),
+  authoredExpansion({
+    id: 'pattern-cave-05-v1-5', islandId: 'pattern-cave',
+    learnerGoal: '둘씩 커지는 규칙의 잘못된 수를 고쳐요', parentSummaryTag: 'increase-by-two-error',
+    promptTemplate: '{{start}}, {{start + 2}}, {{start + 5}}, {{start + 6}}에서 규칙에 맞지 않는 세 번째 수를 무엇으로 고쳐야 할까요?', answerType: 'number',
+    paramSchema: { start: { min: 1, max: 6 } }, solverRule: 'start + 4',
+    visualModel: 'pattern-strip', visualConfig: { pattern: '{{start}},{{start + 2}},{{start + 5}},{{start + 6}}' },
+    hintStepsTemplate: ['앞 수에 2를 더해 세 번째 수를 다시 만들어요.'],
+    solutionStepsTemplate: ['{{start + 2}}에 2를 더한 {{start + 4}}로 고쳐야 해요.'],
+  }),
+  authoredExpansion({
+    id: 'pattern-cave-06-v1-6', islandId: 'pattern-cave',
+    learnerGoal: '거꾸로 하나씩 작아지는 규칙을 적용해요', parentSummaryTag: 'decrease-by-one',
+    promptTemplate: '{{start}}, {{start - 1}}, {{start - 2}}, {{start - 3}} 다음 수는 무엇일까요?', answerType: 'number',
+    paramSchema: { start: { min: 8, max: 12 } }, solverRule: 'start - 4',
+    visualModel: 'pattern-strip', visualConfig: { pattern: '{{start}},{{start - 1}},{{start - 2}},{{start - 3}},?' },
+    hintStepsTemplate: ['앞의 수보다 1씩 작아져요.'],
+    solutionStepsTemplate: ['{{start - 3}}보다 1 작은 수는 {{start - 4}}예요.'],
+  }),
+  authoredExpansion({
+    id: 'pattern-cave-01-v1-7', islandId: 'pattern-cave',
+    learnerGoal: '색과 모양이 함께 바뀌는 규칙을 설명해요', parentSummaryTag: 'combined-pattern',
+    promptTemplate: '동그라미, 동그라미, 세모가 반복될 때 물음표 자리는 무엇일까요?', answerType: 'choice',
+    paramSchema: {}, solverRule: '동그라미', choicesTemplate: ['동그라미', '세모', '네모'],
+    visualModel: 'pattern-strip', visualConfig: { pattern: '동그라미,동그라미,세모,동그라미,?' },
+    hintStepsTemplate: ['동그라미 두 번 뒤에 세모 한 번이 나와요.'],
+    solutionStepsTemplate: ['새 묶음의 두 번째 자리도 동그라미예요.'],
+  }),
+  authoredExpansion({
+    id: 'pattern-cave-02-v1-8', islandId: 'pattern-cave', difficulty: 3,
+    learnerGoal: '잘못 이어진 수 규칙을 찾아 고쳐요', parentSummaryTag: 'pattern-error-check',
+    promptTemplate: '{{start}}, {{start + 2}}, {{start + 4}}, {{start + 7}}에서 마지막 수를 규칙에 맞게 고치면?', answerType: 'number',
+    paramSchema: { start: { min: 2, max: 6 } }, solverRule: 'start + 6',
+    visualModel: 'pattern-strip', visualConfig: { pattern: '{{start}},{{start + 2}},{{start + 4}},{{start + 7}},?' },
+    hintStepsTemplate: ['앞의 두 칸이 얼마나 커지는지 비교해요.'],
+    solutionStepsTemplate: ['2씩 커지는 규칙이므로 마지막 수는 {{start + 6}}이어야 해요.'],
+  }),
+]
+
 const grade1BaseMissionTemplates: Grade1MissionTemplateSource[] = [
   ...grade1AlphaMissionTemplates,
   ...grade1BetaMissionTemplates,
@@ -1355,8 +1836,89 @@ const grade1IslandTargets: Record<string, number> = {
   'orchard-port': 14,
   'river-dock': 14,
   'shape-forest': 14,
+  'clock-tower': 14,
+  'pattern-cave': 14,
+}
+
+const grade1LegacyIslandTargets: Record<string, number> = {
+  'count-cove': 14,
+  'order-bridge': 14,
+  'orchard-port': 14,
+  'river-dock': 14,
+  'shape-forest': 14,
   'clock-tower': 13,
   'pattern-cave': 13,
+}
+
+function deriveGrade1ProblemFamily(source: Grade1MissionTemplateSource): string {
+  switch (source.skill) {
+    case 'counting':
+      return 'counting-cardinality'
+    case 'comparison':
+      return /순서|사이|앞|뒤|두 번째/.test(source.promptTemplate)
+        ? 'number-order'
+        : 'number-comparison'
+    case 'addition': {
+      const plusCount = source.solverRule.match(/\+/g)?.length ?? 0
+      if (source.solverRule.includes('-')) return 'part-whole-missing-part'
+      return plusCount >= 2 ? 'addition-three-parts' : 'addition-composition'
+    }
+    case 'subtraction':
+      return (source.solverRule.match(/-/g)?.length ?? 0) >= 2
+        ? 'subtraction-two-step'
+        : 'subtraction-take-away'
+    case 'shape':
+      if (source.answerType === 'number') return 'shape-property-count'
+      return /만들|이어/.test(source.promptTemplate)
+        ? 'shape-construction'
+        : 'shape-identification'
+    case 'time':
+      if (/주일|요일|날짜|달력/.test(source.promptTemplate)) return 'calendar-relation'
+      if (/동안|시간이 지났|몇 시간|한 시간 뒤/.test(source.promptTemplate)) return 'elapsed-time'
+      return 'clock-reading-order'
+    case 'pattern':
+      if (/한 묶음/.test(source.promptTemplate)) return 'repeating-unit-size'
+      return source.answerType === 'number' ? 'numeric-pattern' : 'repeating-pattern'
+  }
+}
+
+function deriveGrade1ContextType(source: Grade1MissionTemplateSource): string {
+  const object = source.visualConfig.object
+  if (typeof object === 'string' && object.trim()) {
+    const layout = source.visualConfig.columns ? 'grouped' : 'single'
+    const story = /있었|모았|받았|주었|치웠|남았/.test(source.promptTemplate) ? 'story' : 'direct'
+    return `objects:${object.trim()}:${layout}:${story}`
+  }
+  if (source.skill === 'comparison') {
+    const cards = source.visualConfig.cards
+    const cardCount = typeof cards === 'string' ? cards.split(',').length : 0
+    return cardCount >= 3 ? 'number-set' : 'number-pair'
+  }
+  if (source.skill === 'shape') {
+    return /바퀴|깃발|생활/.test(source.promptTemplate) ? 'life-shapes' : 'abstract-shapes'
+  }
+  if (source.skill === 'time') {
+    if (/주일|요일|날짜|달력/.test(source.promptTemplate)) return 'calendar'
+    if (/긴 바늘|짧은 바늘/.test(source.promptTemplate)) return 'clock-hands'
+    if (/등교|준비|생활/.test(source.promptTemplate)) return 'daily-clock'
+    return 'clock'
+  }
+  if (source.skill === 'pattern') {
+    if (source.answerType === 'number') return 'number-sequence'
+    if (/빨강|파랑|노랑|색/.test(source.promptTemplate)) return 'color-sequence'
+    return 'object-shape-sequence'
+  }
+  return source.visualModel === 'number-cards' ? 'abstract-numbers' : source.visualModel
+}
+
+function deriveGrade1ReasoningPattern(
+  actions: readonly Grade1TaskAction[],
+  cognitiveDomain: Grade1CognitiveDomain,
+): string {
+  if (actions.includes('analyze_error')) return 'error-analysis'
+  if (actions.includes('construct')) return 'construction'
+  if (actions.includes('explain') || actions.includes('reason')) return 'justification'
+  return cognitiveDomain
 }
 
 function buildGrade1V1MissionTemplates(): Grade1MissionTemplate[] {
@@ -1367,30 +1929,58 @@ function buildGrade1V1MissionTemplates(): Grade1MissionTemplate[] {
     const originals = grade1BaseMissionTemplates
       .filter((mission) => mission.islandId === island.id)
       .sort((left, right) => left.stageOrder - right.stageOrder)
-      .map((mission) => {
-        const metadata = grade1QualityMetadataBySourceId[mission.id]
-        if (!metadata) throw new Error(`${mission.id}: missing explicit Grade 1 quality metadata`)
-        return { ...mission, ...metadata }
-      })
+    const authored = [
+      ...originals,
+      ...grade1AuthoredExpansionTemplates.filter((mission) => mission.islandId === island.id),
+    ]
     const target = grade1IslandTargets[island.id] ?? originals.length
-
-    for (const original of originals) {
-      result.push({ ...original, stageOrder })
-      stageOrder += 1
+    if (authored.length !== target) {
+      throw new Error(`${island.id}: expected ${target} authored missions, got ${authored.length}`)
     }
 
-    for (let index = originals.length; index < target; index += 1) {
-      const source = originals[(index - originals.length) % originals.length]
-      const round = index - originals.length + 1
+    authored.forEach((source, islandIndex) => {
+      const metadata = grade1QualityMetadataBySourceId[source.id]
+      const explicitExpansionCodes = grade1ExpansionCurriculumCodesById[source.id]
+      if (!metadata && !explicitExpansionCodes) {
+        throw new Error(`${source.id}: missing explicit Grade 1 curriculum codes`)
+      }
+      const curriculumCodes = [...(metadata?.curriculumCodes ?? explicitExpansionCodes ?? [])]
+      const position = islandIndex % 7
+      const cognitiveDomain: Grade1CognitiveDomain = position < 3
+        ? 'knowing'
+        : position < 6
+          ? 'applying'
+          : 'reasoning'
+      const directCurriculumCodes = island.id === 'count-cove'
+        ? ['[2수01-01]']
+        : [...(grade1DirectCurriculumCodesById[source.id] ?? [])]
+      const taskActions = metadata?.taskActions ?? (
+        cognitiveDomain === 'reasoning' ? ['analyze_error'] : ['model']
+      )
       result.push({
         ...source,
-        id: `${source.id}-v1-${round}`,
         stageOrder,
-        learnerGoal: `도전 ${round} · ${source.learnerGoal}`,
-        promptTemplate: `도전 ${round}! ${source.promptTemplate}`,
+        mode: islandIndex < 7 ? 'basic' : 'practice',
+        curriculumCodes: Array.from(new Set([
+          ...curriculumCodes,
+          ...directCurriculumCodes,
+        ])),
+        directCurriculumCodes,
+        taskActions,
+        visualSemantics: metadata?.visualSemantics ?? (
+          source.visualModel === 'counting-grid' || source.visualModel === 'object-groups'
+            ? 'quantitative'
+            : 'schematic'
+        ),
+        cognitiveDomain,
+        problemFamily: deriveGrade1ProblemFamily(source),
+        contextType: deriveGrade1ContextType(source),
+        representationTypes: [source.visualModel, `input:${source.answerType}`],
+        reasoningPattern: deriveGrade1ReasoningPattern(taskActions, cognitiveDomain),
+        authoredSourceKey: source.id,
       })
       stageOrder += 1
-    }
+    })
   }
 
   return result
@@ -1497,13 +2087,21 @@ export function renderGrade1MissionFromParams(
     id: template.id,
     islandId: template.islandId,
     stageOrder: template.stageOrder,
+    mode: template.mode,
     skill: template.skill,
     difficulty: template.difficulty,
     learnerGoal: template.learnerGoal,
     parentSummaryTag: template.parentSummaryTag,
     curriculumCodes: template.curriculumCodes,
+    directCurriculumCodes: template.directCurriculumCodes,
     taskActions: template.taskActions,
     visualSemantics: template.visualSemantics,
+    cognitiveDomain: template.cognitiveDomain,
+    problemFamily: template.problemFamily,
+    contextType: template.contextType,
+    representationTypes: template.representationTypes,
+    reasoningPattern: template.reasoningPattern,
+    authoredSourceKey: template.authoredSourceKey,
     prompt: renderTemplate(template.promptTemplate, params),
     answerType: template.answerType,
     params,
@@ -1549,6 +2147,58 @@ export function getGrade1MissionById(id: string, seed = 20260509): Grade1Mission
 
 export function getGrade1IslandById(id: string): Grade1Island | undefined {
   return grade1Islands.find((island) => island.id === id)
+}
+
+export function getGrade1PracticeMissionIds(islandId: string): string[] {
+  return grade1MissionTemplates
+    .filter((mission) => mission.islandId === islandId && mission.mode === 'practice')
+    .sort((left, right) => left.stageOrder - right.stageOrder)
+    .map((mission) => mission.id)
+}
+
+export function getGrade1LegacyMissionIds(islandId: string): string[] {
+  const originals = grade1BaseMissionTemplates
+    .filter((mission) => mission.islandId === islandId)
+    .sort((left, right) => left.stageOrder - right.stageOrder)
+  const ids = originals.map((mission) => mission.id)
+  const target = grade1LegacyIslandTargets[islandId] ?? originals.length
+  for (let index = originals.length; index < target; index += 1) {
+    const source = originals[(index - originals.length) % originals.length]
+    const round = index - originals.length + 1
+    ids.push(`${source.id}-v1-${round}`)
+  }
+  return ids
+}
+
+function normalizeGrade1SolutionRule(value: string): string {
+  const identifierMap = new Map<string, string>()
+  let identifierIndex = 0
+  return value
+    .replace(/\{\{|\}\}/g, '')
+    .replace(/\d+(?:\.\d+)?/g, '#')
+    .replace(/[A-Za-z_][A-Za-z0-9_]*/g, (identifier) => {
+      const existing = identifierMap.get(identifier)
+      if (existing) return existing
+      const normalized = `v${identifierIndex + 1}`
+      identifierIndex += 1
+      identifierMap.set(identifier, normalized)
+      return normalized
+    })
+    .replace(/\s+/g, '')
+}
+
+export function buildGrade1AuthoredMathSignature(
+  template: Grade1MissionTemplate,
+): string {
+  return JSON.stringify({
+    curriculumStandards: [...template.curriculumCodes].sort(),
+    problemFamily: template.problemFamily,
+    solutionRule: normalizeGrade1SolutionRule(template.solverRule),
+    contextType: template.contextType,
+    representationTypes: [...template.representationTypes].sort(),
+    taskActions: [...template.taskActions].sort(),
+    reasoningPattern: template.reasoningPattern,
+  })
 }
 
 export interface Grade1ValidationResult {
@@ -1688,6 +2338,13 @@ export function validateGrade1MissionBank(
     if (!template.learnerGoal.trim()) errors.push(`${template.id}: missing learnerGoal`)
     if (!template.parentSummaryTag.trim()) errors.push(`${template.id}: missing parentSummaryTag`)
     if (template.curriculumCodes.length === 0) errors.push(`${template.id}: missing curriculumCodes`)
+    if (!template.authoredSourceKey || template.authoredSourceKey !== template.id) {
+      errors.push(`${template.id}: must own its authored source identity`)
+    }
+    if (!template.problemFamily) errors.push(`${template.id}: missing problemFamily`)
+    if (template.mode !== 'basic' && template.mode !== 'practice') {
+      errors.push(`${template.id}: invalid learning mode`)
+    }
     if (template.taskActions.length === 0) errors.push(`${template.id}: missing taskActions`)
     if (template.visualSemantics !== 'schematic' && template.visualSemantics !== 'quantitative') {
       errors.push(`${template.id}: visualSemantics must match the required visual`)
@@ -1726,7 +2383,37 @@ export function validateGrade1MissionBank(
   if (!ids.has(SAFE_GRADE1_MISSION_ID)) {
     errors.push(`Safe mission id is missing: ${SAFE_GRADE1_MISSION_ID}`)
   }
-  if (templates.length !== 96) errors.push(`V1 expects 96 missions, got ${templates.length}`)
+  if (templates.length !== 98) errors.push(`V1 expects 98 missions, got ${templates.length}`)
+  for (const island of grade1Islands) {
+    const islandTemplates = templates.filter((template) => template.islandId === island.id)
+    const expectedDomains: Record<Grade1CognitiveDomain, number> = {
+      knowing: 6,
+      applying: 6,
+      reasoning: 2,
+    }
+    if (islandTemplates.length !== 14) {
+      errors.push(`${island.id}: expected 14 missions, got ${islandTemplates.length}`)
+    }
+    for (const mode of ['basic', 'practice'] as const) {
+      const count = islandTemplates.filter((template) => template.mode === mode).length
+      if (count !== 7) errors.push(`${island.id}: expected 7 ${mode} missions, got ${count}`)
+    }
+    for (const [domain, expected] of Object.entries(expectedDomains)) {
+      const count = islandTemplates.filter((template) => template.cognitiveDomain === domain).length
+      if (count !== expected) {
+        errors.push(`${island.id}: expected ${expected} ${domain} missions, got ${count}`)
+      }
+    }
+  }
+  for (const code of ['[2수01-01]', '[2수01-04]']) {
+    const direct = templates.filter((template) => template.directCurriculumCodes.includes(code))
+    if (!direct.some((template) => template.mode === 'basic' && template.cognitiveDomain === 'knowing')) {
+      errors.push(`${code}: missing direct basic knowing mission`)
+    }
+    if (!direct.some((template) => template.mode === 'basic' && template.cognitiveDomain === 'applying')) {
+      errors.push(`${code}: missing direct basic applying mission`)
+    }
+  }
   errors.push(...auditGrade1MissionVariants(templates).errors)
 
   return { errors, warnings }

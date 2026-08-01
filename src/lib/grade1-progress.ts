@@ -1,4 +1,10 @@
-import type { Grade1Mission } from './grade1-problems'
+import {
+  getGrade1LegacyMissionIds,
+  getGrade1PracticeMissionIds,
+  grade1Islands,
+  type Grade1Mission,
+  type Grade1Mode,
+} from './grade1-problems'
 import {
   createAdventureState,
   normalizeAdventureState,
@@ -8,7 +14,7 @@ import {
 import { normalizeMissionSketchRunOrdinal } from './mission-sketch-identity'
 
 export const GRADE1_PROGRESS_KEY = 'mathAssist_grade1Progress'
-export const GRADE1_PROGRESS_SCHEMA_VERSION = 2
+export const GRADE1_PROGRESS_SCHEMA_VERSION = 3
 
 export interface Grade1SkillSummary {
   attempted: number
@@ -18,6 +24,8 @@ export interface Grade1SkillSummary {
 export interface Grade1Progress {
   schemaVersion: number
   completedStageIds: string[]
+  checkedStageIds: string[]
+  completedIslandIds: string[]
   reviewStageIds: string[]
   latestStageId: string | null
   todaySolvedCount: number
@@ -49,6 +57,8 @@ export function createInitialGrade1Progress(now = Date.now()): Grade1Progress {
   return {
     schemaVersion: GRADE1_PROGRESS_SCHEMA_VERSION,
     completedStageIds: [],
+    checkedStageIds: [],
+    completedIslandIds: [],
     reviewStageIds: [],
     latestStageId: null,
     todaySolvedCount: 0,
@@ -80,11 +90,62 @@ function isSameLocalDay(a: number | null, b: number): boolean {
   )
 }
 
-function normalizeProgress(value: unknown, now: number): Grade1Progress | null {
+function defaultPracticeMissionIdsByIsland(): Record<string, string[]> {
+  return Object.fromEntries(
+    grade1Islands.map((island) => [island.id, getGrade1PracticeMissionIds(island.id)])
+  )
+}
+
+function defaultLegacyMissionIdsByIsland(): Record<string, string[]> {
+  return Object.fromEntries(
+    grade1Islands.map((island) => [island.id, getGrade1LegacyMissionIds(island.id)])
+  )
+}
+
+function deriveCompletedIslandIds(
+  checkedStageIds: string[],
+  savedIslandIds: unknown,
+  practiceMissionIdsByIsland: Record<string, readonly string[]>,
+  legacyMissionIdsByIsland: Record<string, readonly string[]>,
+  acceptLegacyCompletion: boolean,
+): string[] {
+  const checkedStages = new Set(checkedStageIds)
+  const completedIslands = new Set(
+    Array.isArray(savedIslandIds)
+      ? savedIslandIds.filter((id): id is string => typeof id === 'string')
+      : []
+  )
+  for (const [islandId, practiceMissionIds] of Object.entries(practiceMissionIdsByIsland)) {
+    if (
+      practiceMissionIds.length > 0
+      && practiceMissionIds.every((missionId) => checkedStages.has(missionId))
+    ) {
+      completedIslands.add(islandId)
+    }
+  }
+  if (acceptLegacyCompletion) {
+    for (const [islandId, legacyMissionIds] of Object.entries(legacyMissionIdsByIsland)) {
+      if (
+        legacyMissionIds.length > 0
+        && legacyMissionIds.every((missionId) => checkedStages.has(missionId))
+      ) {
+        completedIslands.add(islandId)
+      }
+    }
+  }
+  return Array.from(completedIslands)
+}
+
+function normalizeProgress(
+  value: unknown,
+  now: number,
+  practiceMissionIdsByIsland: Record<string, readonly string[]>,
+  legacyMissionIdsByIsland: Record<string, readonly string[]>,
+): Grade1Progress | null {
   if (!value || typeof value !== 'object') return null
   const candidate = value as Partial<Grade1Progress>
 
-  if (candidate.schemaVersion !== 1 && candidate.schemaVersion !== GRADE1_PROGRESS_SCHEMA_VERSION) return null
+  if (![1, 2, GRADE1_PROGRESS_SCHEMA_VERSION].includes(Number(candidate.schemaVersion))) return null
   if (!Array.isArray(candidate.completedStageIds)) return null
   if (!Array.isArray(candidate.reviewStageIds)) return null
   if (
@@ -101,12 +162,26 @@ function normalizeProgress(value: unknown, now: number): Grade1Progress | null {
   const completedStageIds = Array.from(
     new Set(candidate.completedStageIds.filter((id): id is string => typeof id === 'string'))
   )
+  const checkedStageIds = Array.from(new Set(
+    Array.isArray(candidate.checkedStageIds)
+      ? candidate.checkedStageIds.filter((id): id is string => typeof id === 'string')
+      : [...candidate.completedStageIds, ...candidate.reviewStageIds]
+        .filter((id): id is string => typeof id === 'string')
+  ))
   const lastPlayedAt = typeof candidate.lastPlayedAt === 'number' ? candidate.lastPlayedAt : now
   const adventure = normalizeAdventureState(candidate, completedStageIds, lastPlayedAt)
 
   return {
     schemaVersion: GRADE1_PROGRESS_SCHEMA_VERSION,
     completedStageIds,
+    checkedStageIds,
+    completedIslandIds: deriveCompletedIslandIds(
+      checkedStageIds,
+      candidate.completedIslandIds,
+      practiceMissionIdsByIsland,
+      legacyMissionIdsByIsland,
+      Number(candidate.schemaVersion) < GRADE1_PROGRESS_SCHEMA_VERSION,
+    ),
     reviewStageIds: Array.from(
       new Set(candidate.reviewStageIds.filter((id): id is string => typeof id === 'string'))
     ),
@@ -125,7 +200,9 @@ function normalizeProgress(value: unknown, now: number): Grade1Progress | null {
 
 export function loadGrade1Progress(
   storage: StorageLike | null = getBrowserStorage(),
-  now = Date.now()
+  now = Date.now(),
+  practiceMissionIdsByIsland: Record<string, readonly string[]> = defaultPracticeMissionIdsByIsland(),
+  legacyMissionIdsByIsland: Record<string, readonly string[]> = defaultLegacyMissionIdsByIsland(),
 ): Grade1ProgressLoadResult {
   if (!storage) {
     return {
@@ -145,7 +222,12 @@ export function loadGrade1Progress(
       }
     }
 
-    const normalized = normalizeProgress(JSON.parse(raw), now)
+    const normalized = normalizeProgress(
+      JSON.parse(raw),
+      now,
+      practiceMissionIdsByIsland,
+      legacyMissionIdsByIsland,
+    )
     if (!normalized) {
       corruptProgressStorages.add(storage)
       return {
@@ -195,7 +277,10 @@ function toggleId(ids: string[], id: string, present: boolean): string[] {
 
 export function recordGrade1Attempt(
   progress: Grade1Progress,
-  mission: Pick<Grade1Mission, 'id' | 'parentSummaryTag'>,
+  mission: Pick<Grade1Mission, 'id' | 'parentSummaryTag'> & {
+    islandId?: string
+    mode?: Grade1Mode
+  },
   correct: boolean,
   options: {
     hadHint?: boolean
@@ -204,6 +289,7 @@ export function recordGrade1Attempt(
     variantKey?: string
     wrongAttempts?: number
     difficultyBonus?: number
+    practiceMissionIds?: readonly string[]
   } = {}
 ): Grade1Progress {
   const now = options.now ?? Date.now()
@@ -227,12 +313,25 @@ export function recordGrade1Attempt(
     wrongAttempts: options.wrongAttempts,
     difficultyBonus: options.difficultyBonus,
   })
+  const completedStageIds = correct
+    ? toggleId(progress.completedStageIds, mission.id, true)
+    : progress.completedStageIds
+  const checkedStageIds = toggleId(progress.checkedStageIds, mission.id, true)
+  const completedIslandIds = (
+    mission.islandId
+    && mission.mode === 'practice'
+    && options.practiceMissionIds
+    && options.practiceMissionIds.length > 0
+    && options.practiceMissionIds.every((missionId) => checkedStageIds.includes(missionId))
+  )
+    ? toggleId(progress.completedIslandIds, mission.islandId, true)
+    : progress.completedIslandIds
 
   return {
     ...progress,
-    completedStageIds: correct
-      ? toggleId(progress.completedStageIds, mission.id, true)
-      : progress.completedStageIds,
+    completedStageIds,
+    checkedStageIds,
+    completedIslandIds,
     reviewStageIds:
       correct && !options.hadHint
         ? toggleId(progress.reviewStageIds, mission.id, false)
@@ -251,6 +350,13 @@ export function recordGrade1Attempt(
     lastPlayedAt: now,
     ...adventure,
   }
+}
+
+export function isGrade1IslandComplete(
+  progress: Pick<Grade1Progress, 'completedIslandIds'>,
+  islandId: string
+): boolean {
+  return progress.completedIslandIds.includes(islandId)
 }
 
 export function dismissGrade1Intro(

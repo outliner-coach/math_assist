@@ -1,7 +1,8 @@
 import { expect, test, type Page } from '@playwright/test'
 import { readFile } from 'node:fs/promises'
 
-import { getGrade1Missions } from '../src/lib/grade1-problems'
+import { getGrade1Missions, getGrade1PracticeMissionIds } from '../src/lib/grade1-problems'
+import { createInitialGrade1Progress } from '../src/lib/grade1-progress'
 
 const BASE_PATH = '/math_assist'
 const SESSION_KEY = 'mathAssist_currentSession'
@@ -826,7 +827,7 @@ test('1학년 게임 모드에서 지도, 힌트, 보상 흐름을 확인할 수
   expect(progress.reviewStageIds).toContain('count-cove-01')
   expect(progress.todaySolvedCount).toBe(1)
   expect(typeof progress.introDismissedAt).toBe('number')
-  expect(progress.schemaVersion).toBe(2)
+  expect(progress.schemaVersion).toBe(3)
   expect(progress.xp).toBe(10)
 
   const grade1Receipts = await readAttemptReceipts(page)
@@ -918,6 +919,73 @@ test('1학년 풀이장은 새로고침 복구, 완료 읽기 전용, 재시작 
     (key) => key.startsWith('mathAssist_sketch_v1:'),
   ))
   expect(documents).toHaveLength(2)
+})
+
+test('1학년은 기본과 연습을 처음부터 고르고 연습 7개를 완주해야 섬을 완료한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/grade/1`)
+
+  await expect(page.getByTestId('grade1-basic-count-cove')).toBeVisible()
+  await expect(page.getByTestId('grade1-practice-count-cove')).toBeVisible()
+  const practiceIds = getGrade1PracticeMissionIds('count-cove')
+  const missions = getGrade1Missions(42)
+  const basicIds = missions
+    .filter((mission) => mission.islandId === 'count-cove' && mission.mode === 'basic')
+    .map((mission) => mission.id)
+  await expect(page.locator(`[data-stage-id="${practiceIds[0]}"]`)).toBeEnabled()
+
+  const initialProgress = createInitialGrade1Progress(Date.now())
+  await page.evaluate(({ key, basic, initial }) => {
+    localStorage.setItem(key, JSON.stringify({
+      ...initial,
+      completedStageIds: basic.slice(0, 6),
+      checkedStageIds: basic,
+      completedIslandIds: [],
+      reviewStageIds: [basic[6]],
+    }))
+  }, { key: GRADE1_PROGRESS_KEY, basic: basicIds, initial: initialProgress })
+  await page.reload()
+  await expect(page.getByTestId('grade1-island-completion-count-cove')).toHaveText('연습 7개 완주 전')
+  await page.getByTestId('start-grade1-mission').click()
+  await expect(page.getByTestId('mission-problem-card')).toHaveAttribute(
+    'data-mission-id',
+    practiceIds[0],
+  )
+
+  await page.evaluate(({ key, basic, practice }) => {
+    const progress = JSON.parse(localStorage.getItem(key) || '{}')
+    localStorage.setItem(key, JSON.stringify({
+      ...progress,
+      completedStageIds: [...basic, ...practice.slice(0, 6)],
+      checkedStageIds: [...basic, ...practice.slice(0, 6)],
+      completedIslandIds: [],
+    }))
+  }, { key: GRADE1_PROGRESS_KEY, basic: basicIds, practice: practiceIds })
+  await page.reload()
+
+  const lastPracticeId = practiceIds[6]
+  await page.locator(`[data-stage-id="${lastPracticeId}"]`).click()
+  await expect(page.getByTestId('mission-problem-card')).toHaveAttribute('data-mission-id', lastPracticeId)
+  const state = JSON.parse(await page.evaluate(() => (
+    window as typeof window & { render_game_to_text?: () => string }
+  ).render_game_to_text?.() ?? '{}'))
+  const lastMission = getGrade1Missions(state.missionSeed).find((mission) => mission.id === lastPracticeId)
+  if (!lastMission) throw new Error('Grade 1 final practice mission was not generated')
+  if (lastMission.answerType === 'choice') {
+    const wrongChoice = lastMission.choices?.find((choice) => choice !== lastMission.correctAnswer)
+    if (!wrongChoice) throw new Error('Grade 1 final practice mission needs a wrong choice')
+    await page.getByTestId(`grade1-choice-${wrongChoice}`).click()
+  } else {
+    const wrongAnswer = lastMission.correctAnswer === '999999' ? '999998' : '999999'
+    await page.getByTestId('grade1-number-input').fill(wrongAnswer)
+    await page.getByTestId('grade1-number-submit').click()
+  }
+
+  await expect(page.getByTestId('grade1-island-completion-count-cove')).toHaveText('섬 완료')
+  const completionProgress = await page.evaluate((key) => (
+    JSON.parse(localStorage.getItem(key) || '{}')
+  ), GRADE1_PROGRESS_KEY)
+  expect(completionProgress.completedIslandIds).toContain('count-cove')
+  expect(completionProgress.reviewStageIds).toContain(lastPracticeId)
 })
 
 test('1학년 게임 모드에서 손상된 진행 기록을 복구한다', async ({ page }) => {

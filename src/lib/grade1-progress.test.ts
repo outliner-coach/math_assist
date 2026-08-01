@@ -1,10 +1,13 @@
 import { describe, expect, it, vi } from 'vitest'
 
+import { getGrade1LegacyMissionIds } from './grade1-problems'
+
 import {
   createInitialGrade1Progress,
   dismissGrade1Intro,
   GRADE1_PROGRESS_KEY,
   loadGrade1Progress,
+  isGrade1IslandComplete,
   recordGrade1Attempt,
   resetGrade1Progress,
   saveGrade1Progress,
@@ -26,6 +29,8 @@ function memoryStorage(initial: Record<string, string> = {}): StorageLike {
 
 const mission = {
   id: 'count-cove-01',
+  islandId: 'count-cove',
+  mode: 'basic' as const,
   parentSummaryTag: 'counting-to-10',
 }
 
@@ -114,7 +119,7 @@ describe('grade1 progress persistence', () => {
     expect(loaded.recovered).toBe(false)
     expect(loaded.progress.completedStageIds).toEqual(['count-cove-01'])
     expect(loaded.progress.introDismissedAt).toBe(null)
-    expect(loaded.progress.schemaVersion).toBe(2)
+    expect(loaded.progress.schemaVersion).toBe(3)
     expect(loaded.progress.xp).toBe(10)
     expect(loaded.progress.masteryByMissionId['count-cove-01'].correct).toBe(1)
     expect(loaded.progress.missionSketchRunOrdinal).toBe(0)
@@ -162,4 +167,90 @@ describe('grade1 progress persistence', () => {
     expect(loaded.storageAvailable).toBe(false)
     expect(loaded.progress.lastPlayedAt).toBe(100)
   })
+
+  it('completes an island only after all seven practice missions are checked', () => {
+    let progress = createInitialGrade1Progress(100)
+    const basicIds = Array.from({ length: 7 }, (_, index) => `count-basic-${index + 1}`)
+    const practiceIds = Array.from({ length: 7 }, (_, index) => `count-practice-${index + 1}`)
+
+    for (const id of basicIds) {
+      progress = recordGrade1Attempt(progress, {
+        id,
+        islandId: 'count-cove',
+        mode: 'basic',
+        parentSummaryTag: 'counting',
+      }, true, { now: 200, practiceMissionIds: practiceIds })
+    }
+    expect(isGrade1IslandComplete(progress, 'count-cove')).toBe(false)
+
+    for (const id of practiceIds.slice(0, 6)) {
+      progress = recordGrade1Attempt(progress, {
+        id,
+        islandId: 'count-cove',
+        mode: 'practice',
+        parentSummaryTag: 'counting',
+      }, false, { now: 300, practiceMissionIds: practiceIds })
+    }
+    expect(isGrade1IslandComplete(progress, 'count-cove')).toBe(false)
+
+    progress = recordGrade1Attempt(progress, {
+      id: practiceIds[6],
+      islandId: 'count-cove',
+      mode: 'practice',
+      parentSummaryTag: 'counting',
+    }, false, { now: 400, practiceMissionIds: practiceIds })
+
+    expect(isGrade1IslandComplete(progress, 'count-cove')).toBe(true)
+    expect(progress.completedIslandIds).toEqual(['count-cove'])
+    expect(progress.completedStageIds).not.toEqual(expect.arrayContaining(practiceIds))
+    expect(progress.checkedStageIds).toEqual(expect.arrayContaining(practiceIds))
+  })
+
+  it('preserves legacy mission completion while deriving completed practice islands', () => {
+    const practiceIds = Array.from({ length: 7 }, (_, index) => `practice-${index + 1}`)
+    const storage = memoryStorage({
+      [GRADE1_PROGRESS_KEY]: JSON.stringify({
+        schemaVersion: 2,
+        completedStageIds: practiceIds,
+        reviewStageIds: [],
+        latestStageId: practiceIds[6],
+        todaySolvedCount: 7,
+        skillSummaryByTag: {},
+        lastPlayedAt: 100,
+      }),
+    })
+
+    const loaded = loadGrade1Progress(storage, 100, {
+      'count-cove': practiceIds,
+    })
+
+    expect(loaded.progress.completedStageIds).toEqual(practiceIds)
+    expect(loaded.progress.checkedStageIds).toEqual(practiceIds)
+    expect(loaded.progress.completedIslandIds).toEqual(['count-cove'])
+  })
+
+  it.each(['clock-tower', 'pattern-cave'])(
+    'preserves a fully completed 13-mission legacy %s island',
+    (islandId) => {
+      const legacyMissionIds = getGrade1LegacyMissionIds(islandId)
+      expect(legacyMissionIds).toHaveLength(13)
+      const storage = memoryStorage({
+        [GRADE1_PROGRESS_KEY]: JSON.stringify({
+          schemaVersion: 2,
+          completedStageIds: legacyMissionIds,
+          reviewStageIds: [],
+          latestStageId: legacyMissionIds[12],
+          todaySolvedCount: 13,
+          skillSummaryByTag: {},
+          lastPlayedAt: 100,
+        }),
+      })
+
+      const loaded = loadGrade1Progress(storage, 100)
+
+      expect(loaded.progress.completedStageIds).toEqual(legacyMissionIds)
+      expect(loaded.progress.checkedStageIds).toEqual(legacyMissionIds)
+      expect(loaded.progress.completedIslandIds).toContain(islandId)
+    },
+  )
 })
