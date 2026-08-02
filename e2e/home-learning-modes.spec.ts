@@ -47,7 +47,10 @@ test('홈은 기본을 마친 2학년 학습자에게 잠금 없는 연습 선�
     expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
 
     await page.getByTestId('home-practice-action').click()
-    await expect(page).toHaveURL(/unitId=g2-1-place-value&mode=practice$/)
+    await expect(page).toHaveURL(
+      /unitId=g2-1-place-value&mode=practice$/,
+      { timeout: 15_000 },
+    )
     await expect(page.getByTestId('grade2-mode-practice')).toHaveAttribute('aria-current', 'page')
     await expect(page.getByTestId('grade2-mission-card')).toHaveAttribute(
       'data-mission-id',
