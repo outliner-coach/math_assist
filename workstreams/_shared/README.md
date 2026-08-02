@@ -21,6 +21,18 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-08-02: T2 local profile storage core (primary workstream 02) owns new
+  `src/lib/local-profile.ts`, `src/lib/profile-scoped-storage.ts`,
+  `src/lib/profile-migration.ts`, and `src/lib/profile-session-lease.ts` plus
+  focused tests. It introduces the `mathAssist_profiles_v1` registry,
+  `mathAssist_profile_v1:<profileId>:<legacyKey>` learner-data namespace,
+  restartable byte-preserving legacy migration, and fail-closed profile-change
+  and same-profile session-lease signals. Existing grade progress, session,
+  result, receipt, mascot, sketch, and internal-backup keys remain byte-for-byte
+  inputs; consumers must adopt the scoped adapter explicitly and must not treat
+  local profiles as authentication, add a local PIN, shrink another grade after
+  one corrupt value, or delete legacy/corrupt bytes automatically.
+
 - 2026-08-01: T15 release-gate repair (primary workstreams 02 and 04) owns
   legacy Grade 5 session/result compatibility while normalized `itemCount`
   metadata is written back, and Grade 1 hydration gating before any learner
