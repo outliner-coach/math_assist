@@ -159,9 +159,22 @@ export default function GuestHomeClient() {
   const [mascotId, setMascotId] = useState<MascotId>(DEFAULT_MASCOT_ID)
 
   useEffect(() => {
-    setHomeState(loadGuestHomeState())
-    setMascotId(loadMascotPreference())
-    getUnits().then(setGrade5Units).catch(() => setGrade5Units([]))
+    let cancelled = false
+    queueMicrotask(() => {
+      if (cancelled) return
+      setHomeState(loadGuestHomeState())
+      setMascotId(loadMascotPreference())
+      getUnits()
+        .then((units) => {
+          if (!cancelled) setGrade5Units(units)
+        })
+        .catch(() => {
+          if (!cancelled) setGrade5Units([])
+        })
+    })
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const chooseGrade = (grade: SupportedGrade) => {

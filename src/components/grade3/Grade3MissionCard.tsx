@@ -253,8 +253,17 @@ export default function Grade3MissionCard({
   const isCompassConstruction =
     mission.visualModel === 'circle-parts'
     && mission.visualConfig.mode === 'construction'
-  const [compassWidth, setCompassWidth] = React.useState(4)
-  const [drawnWidth, setDrawnWidth] = React.useState<number | null>(null)
+  const [compassState, setCompassState] = React.useState({
+    missionId: mission.id,
+    compassWidth: 4,
+    drawnWidth: null as number | null,
+  })
+  const compassWidth = compassState.missionId === mission.id
+    ? compassState.compassWidth
+    : 4
+  const drawnWidth = compassState.missionId === mission.id
+    ? compassState.drawnWidth
+    : null
   const isWrong = selectedAnswer !== null && !solved
   const emphasizeVisual = wrongAttemptCount >= 2 && !solved
   const showSolutionPath = wrongAttemptCount >= 3 && !solved
@@ -267,14 +276,12 @@ export default function Grade3MissionCard({
     && drawnWidth !== null
     && numericTextAnswer === drawnWidth
 
-  React.useEffect(() => {
-    setCompassWidth(4)
-    setDrawnWidth(null)
-  }, [mission.id])
-
   const adjustCompassWidth = (delta: number) => {
-    setCompassWidth((width) => Math.min(9, Math.max(1, width + delta)))
-    setDrawnWidth(null)
+    setCompassState({
+      missionId: mission.id,
+      compassWidth: Math.min(9, Math.max(1, compassWidth + delta)),
+      drawnWidth: null,
+    })
   }
 
   const submitTextAnswer = () => {
@@ -364,7 +371,11 @@ export default function Grade3MissionCard({
               solved={solved}
               onDecrease={() => adjustCompassWidth(-1)}
               onIncrease={() => adjustCompassWidth(1)}
-              onDraw={() => setDrawnWidth(compassWidth)}
+              onDraw={() => setCompassState({
+                missionId: mission.id,
+                compassWidth,
+                drawnWidth: compassWidth,
+              })}
             />
           )}
 

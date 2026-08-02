@@ -1,9 +1,8 @@
+@import 'katex/dist/katex.min.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* KaTeX 스타일 */
-@import 'katex/dist/katex.min.css';
 
 /* 기본 폰트 설정 */
 :root {

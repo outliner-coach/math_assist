@@ -249,8 +249,14 @@ export function classifyProblemReviewStatus(
   return receipt.status
 }
 
-async function readJsonFile<T>(...segments: string[]): Promise<T> {
-  const filePath = path.join(process.cwd(), ...segments)
+async function readPublicDataJson<T>(...segments: string[]): Promise<T> {
+  const filePath = path.join(process.cwd(), 'public', 'data', ...segments)
+  const content = await readFile(filePath, 'utf8')
+  return JSON.parse(content) as T
+}
+
+async function readTrackingJson<T>(fileName: string): Promise<T> {
+  const filePath = path.join(process.cwd(), 'docs', 'tracking', fileName)
   const content = await readFile(filePath, 'utf8')
   return JSON.parse(content) as T
 }
@@ -740,9 +746,7 @@ async function practiceRows(units: Unit[], concepts: Concept[]) {
   for (const concept of sortConcepts(concepts, units)) {
     const unit = unitById.get(concept.unit_id)
     if (!unit || (unit.grade !== 5 && unit.grade !== 6)) continue
-    const templates = await readJsonFile<ProblemTemplate[]>(
-      'public',
-      'data',
+    const templates = await readPublicDataJson<ProblemTemplate[]>(
       'templates',
       getTemplateFileName(concept.id)
     )
@@ -978,9 +982,7 @@ async function practiceReviewSources(
   for (const concept of sortConcepts(concepts, units)) {
     const unit = unitById.get(concept.unit_id)
     if (!unit || (unit.grade !== 5 && unit.grade !== 6)) continue
-    const templates = await readJsonFile<ExtendedPracticeTemplate[]>(
-      'public',
-      'data',
+    const templates = await readPublicDataJson<ExtendedPracticeTemplate[]>(
       'templates',
       getTemplateFileName(concept.id)
     )
@@ -1044,11 +1046,7 @@ async function practiceReviewSources(
 }
 
 async function readEditorialReceipts(): Promise<EditorialLedger> {
-  return readJsonFile<EditorialLedger>(
-    'docs',
-    'tracking',
-    'problem-editorial-review-v1.json'
-  )
+  return readTrackingJson<EditorialLedger>('problem-editorial-review-v1.json')
 }
 
 function enrichReviewRows(
@@ -1088,8 +1086,8 @@ function enrichReviewRows(
 
 export async function getProblemReviewData(): Promise<ProblemReviewData> {
   const [units, concepts] = await Promise.all([
-    readJsonFile<Unit[]>('public', 'data', 'units.json'),
-    readJsonFile<Concept[]>('public', 'data', 'concepts.json'),
+    readPublicDataJson<Unit[]>('units.json'),
+    readPublicDataJson<Concept[]>('concepts.json'),
   ])
   const [runtimePracticeRows, practiceSources, ledgerExport] = await Promise.all([
     practiceRows(units, concepts),

@@ -32,9 +32,16 @@ export default function MascotRouteCompanion() {
   const [practiceGrade, setPracticeGrade] = useState<number | null>(null)
 
   useEffect(() => {
-    setMascotId(loadMascotPreference())
-    const params = new URLSearchParams(window.location.search)
-    setPracticeGrade(params.get('grade') === '6' ? 6 : null)
+    let cancelled = false
+    queueMicrotask(() => {
+      if (cancelled) return
+      setMascotId(loadMascotPreference())
+      const params = new URLSearchParams(window.location.search)
+      setPracticeGrade(params.get('grade') === '6' ? 6 : null)
+    })
+    return () => {
+      cancelled = true
+    }
   }, [pathname])
 
   useEffect(() => {

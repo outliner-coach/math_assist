@@ -48,6 +48,11 @@ import {
   resolveMissionSketchStatus,
 } from '@/lib/mission-sketch-identity'
 import { dispatchMascotReaction } from '@/lib/mascot'
+import {
+  captureAdventureReplayTime,
+  captureAdventureViewTime,
+  refreshAdventureProgressTime,
+} from '@/lib/adventure-view-time'
 
 const introGuideItems = [
   {
@@ -94,10 +99,12 @@ export default function Grade1GameClient() {
   const searchParams = useSearchParams()
   const requestedIslandId = searchParams.get('islandId')
   const requestedMode = searchParams.get('mode') === 'practice' ? 'practice' : 'basic'
-  const [replayRound, setReplayRound] = useState(0)
+  const [viewTime, setViewTime] = useState(() =>
+    captureAdventureViewTime(0, Date.now())
+  )
   const missionSeed = useMemo(
-    () => getDailyAdventureSeed('grade1', Date.now(), replayRound),
-    [replayRound]
+    () => getDailyAdventureSeed('grade1', viewTime.seedNow, viewTime.replayRound),
+    [viewTime.replayRound, viewTime.seedNow]
   )
   const missions = useMemo(() => getGrade1Missions(missionSeed), [missionSeed])
   const focusedMissions = useMemo(() => {
@@ -164,7 +171,10 @@ export default function Grade1GameClient() {
       ? focusedMissions.find((mission) => mission.id === result.progress.latestStageId) ?? recommended
       : recommended
     setProgress(result.progress)
-    setReplayRound(result.progress.missionSketchRunOrdinal)
+    setViewTime(captureAdventureReplayTime(
+      result.progress.missionSketchRunOrdinal,
+      Date.now(),
+    ))
     setStorageAvailable(result.storageAvailable)
     setStorageRecovered((wasRecovered) => wasRecovered || result.recovered)
     setSelectedMissionId(restoredMission.id)
@@ -193,7 +203,9 @@ export default function Grade1GameClient() {
   }, [missionSeed, nextPathMission?.id, progress.completedIslandIds, progress.introDismissedAt, progress.masteryByMissionId, progress.reviewStageIds.length, progress.todaySolvedCount, progress.xp, rewardCounts, selectedMission.id, selectedMission.prompt, selectedMissionId, solved, wrongAttemptCount])
 
   const persistProgress = (nextProgress: Grade1Progress) => {
+    const progressNow = Date.now()
     setProgress(nextProgress)
+    setViewTime(current => refreshAdventureProgressTime(current, progressNow))
     const saved = saveGrade1Progress(nextProgress)
     setStorageAvailable(saved)
   }
@@ -236,9 +248,15 @@ export default function Grade1GameClient() {
 
   const resetMission = () => {
     const nextProgress = advanceMissionSketchRun(progress)
+    const nextViewTime = captureAdventureReplayTime(
+      nextProgress.missionSketchRunOrdinal,
+      Date.now(),
+    )
     persistProgress(nextProgress)
-    setReplayRound(nextProgress.missionSketchRunOrdinal)
-    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
+    setViewTime(nextViewTime)
+    setMissionAttemptRunKey(createMissionAttemptRunKey(
+      getDailyAdventureSeed('grade1', nextViewTime.seedNow, nextViewTime.replayRound),
+    ))
     resetMissionState()
     scrollToMission()
   }
@@ -252,11 +270,17 @@ export default function Grade1GameClient() {
       ...resetGrade1Progress(),
       missionSketchRunOrdinal: progress.missionSketchRunOrdinal + 1,
     }
+    const nextViewTime = captureAdventureReplayTime(
+      nextProgress.missionSketchRunOrdinal,
+      Date.now(),
+    )
     persistProgress(nextProgress)
-    setReplayRound(nextProgress.missionSketchRunOrdinal)
+    setViewTime(nextViewTime)
     setStorageRecovered(false)
     setSelectedMissionId(missions[0]?.id ?? selectedMission.id)
-    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
+    setMissionAttemptRunKey(createMissionAttemptRunKey(
+      getDailyAdventureSeed('grade1', nextViewTime.seedNow, nextViewTime.replayRound),
+    ))
     setConfirmReset(false)
     resetMissionState()
   }
@@ -449,6 +473,7 @@ export default function Grade1GameClient() {
           progress={progress}
           totalMissionCount={totalMissionCount}
           tone="green"
+          now={viewTime.progressNow}
         />
 
         <GameMap

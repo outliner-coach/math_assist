@@ -186,7 +186,6 @@ export default function ScratchPad(props: ScratchPadProps = {}) {
   ))
   const currentDocument = sketchDocument ?? internalDocument
   const documentRef = useRef(currentDocument)
-  documentRef.current = currentDocument
 
   const localRepository = useMemo(() => createLocalSketchRepository(undefined, {
     isSessionActive: (key) => key.sessionId === stableKey?.sessionId
@@ -202,31 +201,34 @@ export default function ScratchPad(props: ScratchPadProps = {}) {
   }, [])
 
   useEffect(() => {
-    if (sketchDocument) {
-      documentRef.current = sketchDocument
-      setIsReady(true)
-      return
-    }
-    if (!stableKey) {
-      const next = createSketchDocument(LEGACY_KEY)
-      documentRef.current = next
-      setInternalDocument(next)
-      setIsReady(true)
-      return
-    }
-
     let cancelled = false
-    const pending = createSketchDocument(stableKey)
-    documentRef.current = pending
-    setInternalDocument(pending)
-    setIsReady(false)
-    setSaveState('idle')
-    repository.get(stableKey).then((restored) => {
+    queueMicrotask(() => {
       if (cancelled) return
-      const next = restored ?? createSketchDocument(stableKey)
-      documentRef.current = next
-      setInternalDocument(next)
-      setIsReady(true)
+      if (sketchDocument) {
+        documentRef.current = sketchDocument
+        setIsReady(true)
+        return
+      }
+      if (!stableKey) {
+        const next = createSketchDocument(LEGACY_KEY)
+        documentRef.current = next
+        setInternalDocument(next)
+        setIsReady(true)
+        return
+      }
+
+      const pending = createSketchDocument(stableKey)
+      documentRef.current = pending
+      setInternalDocument(pending)
+      setIsReady(false)
+      setSaveState('idle')
+      repository.get(stableKey).then((restored) => {
+        if (cancelled) return
+        const next = restored ?? createSketchDocument(stableKey)
+        documentRef.current = next
+        setInternalDocument(next)
+        setIsReady(true)
+      })
     })
     return () => {
       cancelled = true

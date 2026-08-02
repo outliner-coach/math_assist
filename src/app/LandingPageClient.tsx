@@ -32,8 +32,10 @@ export default function LandingPageClient() {
   const [returning, setReturning] = useState(false)
 
   useEffect(() => {
-    const state = loadGuestHomeState()
-    setReturning(state.hasAnyProgress || state.activeGrade !== null)
+    queueMicrotask(() => {
+      const state = loadGuestHomeState()
+      setReturning(state.hasAnyProgress || state.activeGrade !== null)
+    })
   }, [])
 
   return (

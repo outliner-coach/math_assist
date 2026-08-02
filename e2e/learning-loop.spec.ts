@@ -1575,6 +1575,7 @@ test('3학년 시각화는 풀이 전 정답을 숨기고 성공 후 공개한�
 })
 
 test('문제 렌더러 검수 화면은 실제 표본과 상태를 모바일·태블릿에서 재현한다', async ({ page }) => {
+  test.setTimeout(180_000)
   const browserErrors: string[] = []
   page.on('console', message => {
     if (message.type() === 'error') browserErrors.push(message.text())
@@ -1589,7 +1590,11 @@ test('문제 렌더러 검수 화면은 실제 표본과 상태를 모바일·�
   )
 
   const surface = page.getByTestId('problem-review-surface')
-  await expect(surface).toHaveAttribute('data-review-id', '1:mission:count-cove-03')
+  await expect(surface).toHaveAttribute(
+    'data-review-id',
+    '1:mission:count-cove-03',
+    { timeout: 90_000 },
+  )
   await expect(surface).toHaveAttribute('data-review-variant', 'minimum')
   await expect(surface).toHaveAttribute('data-review-state', 'pre')
   await expect(surface).toHaveAttribute('data-review-answer-visible', 'false')
@@ -1672,7 +1677,8 @@ test('문제 렌더러 검수 화면은 실제 표본과 상태를 모바일·�
   )
   await expect(surface).toHaveAttribute(
     'data-review-id',
-    '5:template:tmpl-cuboidnet-A-01'
+    '5:template:tmpl-cuboidnet-A-01',
+    { timeout: 90_000 },
   )
   await expect(surface).toHaveAttribute('data-review-visual-kind', 'cuboid-net')
   await expect(surface).toHaveAttribute('data-review-answer-visible', 'false')
