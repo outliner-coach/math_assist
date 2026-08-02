@@ -870,12 +870,9 @@ export default function Grade3MissionVisual({
   emphasize?: boolean
   showAnswer?: boolean
 }) {
+  let visual
   try {
-    return (
-      <div className={emphasize ? 'rounded-[2rem] ring-4 ring-[#ffb020]' : ''}>
-        {renderVisual(mission, showAnswer)}
-      </div>
-    )
+    visual = renderVisual(mission, showAnswer)
   } catch (error) {
     console.error('Failed to render Grade 3 visual', error)
     return (
@@ -884,4 +881,9 @@ export default function Grade3MissionVisual({
       </div>
     )
   }
+  return (
+    <div className={emphasize ? 'rounded-[2rem] ring-4 ring-[#ffb020]' : ''}>
+      {visual}
+    </div>
+  )
 }

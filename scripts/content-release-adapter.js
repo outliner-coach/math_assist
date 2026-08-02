@@ -214,11 +214,11 @@ function practiceRecord(grade, template, concept, unit) {
 function loadReleaseSourceRecords(rootDir = ROOT_DIR) {
   const records = []
   for (const grade of [1, 2, 3, 4]) {
-    const module = compileTsModule(
+    const releaseModule = compileTsModule(
       path.join(rootDir, 'src', 'lib', `grade${grade}-problems.ts`),
       `grade${grade}-content-release-source`
     )
-    const templates = module[`grade${grade}MissionTemplates`]
+    const templates = releaseModule[`grade${grade}MissionTemplates`]
     records.push(...templates.map((template) => missionRecord(grade, template)))
   }
 

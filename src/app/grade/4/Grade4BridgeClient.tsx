@@ -48,17 +48,24 @@ export default function Grade4BridgeClient({
   const [activityComplete, setActivityComplete] = useState(false)
 
   useEffect(() => {
-    const result = loadGrade4Progress()
-    const next = selectGrade4Unit(result.progress, unitId, mode)
-    setProgress(next)
-    setStorageNotice(!result.storageAvailable || result.recovered || !saveGrade4Progress(next))
-    setTextAnswer('')
-    setSelectedAnswer(null)
-    setInputError(null)
-    setWrongAttemptCount(0)
-    setShowHint(false)
-    setSolved(false)
-    setActivityComplete(false)
+    let cancelled = false
+    queueMicrotask(() => {
+      if (cancelled) return
+      const result = loadGrade4Progress()
+      const next = selectGrade4Unit(result.progress, unitId, mode)
+      setProgress(next)
+      setStorageNotice(!result.storageAvailable || result.recovered || !saveGrade4Progress(next))
+      setTextAnswer('')
+      setSelectedAnswer(null)
+      setInputError(null)
+      setWrongAttemptCount(0)
+      setShowHint(false)
+      setSolved(false)
+      setActivityComplete(false)
+    })
+    return () => {
+      cancelled = true
+    }
   }, [mode, unitId])
 
   const activity = useMemo(
