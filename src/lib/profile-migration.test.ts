@@ -1,8 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
+import { BACKED_UP_LOCAL_PROGRESS_KEYS } from './local-progress-backup'
 import { LOCAL_PROFILE_REGISTRY_KEY, parseLocalProfileRegistry } from './local-profile'
 import { migrateLegacyLearnerStorage } from './profile-migration'
 import { createProfileScopedStorageKey } from './profile-scoped-storage'
+import { createSketchDocument, serializeSketchDocument } from './sketch-document'
+import { createSketchStorageKey } from './sketch-repository'
 
 function memoryStorage(initial: Record<string, string> = {}) {
   const data = new Map(Object.entries(initial))
@@ -17,7 +20,158 @@ function memoryStorage(initial: Record<string, string> = {}) {
 }
 
 const UUID = '00000000-0000-4000-8000-000000000001'
+const PROFILE_ID = `local_${UUID}`
 const deps = { now: () => 123, randomUUID: () => UUID }
+
+function grade1ProgressRaw(): string {
+  return JSON.stringify({
+    schemaVersion: 1,
+    completedStageIds: ['count-cove-01'],
+    reviewStageIds: [],
+    latestStageId: 'count-cove-01',
+    todaySolvedCount: 1,
+    skillSummaryByTag: {},
+    lastPlayedAt: 100,
+  })
+}
+
+function grade2ProgressRaw(): string {
+  return JSON.stringify({
+    schemaVersion: 1,
+    completedMissionIds: ['g2-1-place-value-01'],
+    reviewMissionIds: [],
+    latestMissionId: 'g2-1-place-value-01',
+    selectedUnitId: 'g2-1-place-value',
+    todaySolvedCount: 1,
+    skillSummaryByTag: {},
+    introDismissedAt: 50,
+    lastPlayedAt: 100,
+  })
+}
+
+function grade3ProgressRaw(): string {
+  return JSON.stringify({
+    schemaVersion: 1,
+    completedMissionIds: ['g3-1-add-sub-01'],
+    reviewMissionIds: ['g3-1-add-sub-02'],
+    latestMissionId: 'g3-1-add-sub-01',
+    selectedUnitId: 'g3-1-add-sub',
+    todaySolvedCount: 1,
+    skillSummaryByTag: {},
+    introDismissedAt: 50,
+    lastPlayedAt: 100,
+  })
+}
+
+function grade4ProgressRaw(): string {
+  return JSON.stringify({
+    schemaVersion: 1,
+    completedVariantKeys: ['g4-big-02:seed-1'],
+    reviewVariantKeys: ['g4-big-07:seed-1'],
+    latestMissionId: 'g4-big-07',
+    selectedUnitId: 'unit-4-1-large-numbers',
+    activityRun: 3,
+    activeItemIndex: 1,
+    todaySolvedCount: 8,
+    skillSummaryByTag: { '큰 수 비교': { attempted: 4, correct: 3 } },
+    lastPlayedAt: 100,
+  })
+}
+
+function practiceProblem(index = 0) {
+  return {
+    index,
+    templateId: `template-${index}`,
+    setId: 'A',
+    params: { value: index + 1 },
+    prompt: '1을 써 보세요.',
+    type: 'number',
+    correctAnswer: '1',
+    solutionSteps: ['1을 확인합니다.'],
+  }
+}
+
+function practiceSessionRaw(grade: 5 | 6): string {
+  return JSON.stringify({
+    sessionId: `grade-${grade}-session`,
+    conceptId: `grade-${grade}-concept`,
+    setId: 'A',
+    mode: 'standard',
+    ...(grade === 6 ? { grade: 6, itemCount: 5 } : {}),
+    problems: [practiceProblem()],
+    answers: [null],
+    checkedAnswers: [null],
+    currentIndex: 0,
+    startedAt: 100,
+    expiresAt: 1000,
+  })
+}
+
+function practiceResultRaw(grade: 5 | 6): string {
+  const problem = practiceProblem()
+  return JSON.stringify({
+    sessionId: `grade-${grade}-session`,
+    conceptId: `grade-${grade}-concept`,
+    setId: 'A',
+    mode: 'standard',
+    ...(grade === 6 ? { grade: 6, itemCount: 5 } : {}),
+    score: 1,
+    total: 1,
+    wrongCount: 0,
+    results: [{
+      index: 0,
+      correct: true,
+      userAnswer: '1',
+      correctAnswer: '1',
+      solutionSteps: ['1을 확인합니다.'],
+      problem,
+    }],
+    completedAt: 100,
+  })
+}
+
+function representativeLegacyValues(): Record<string, string> {
+  const sketch = createSketchDocument({ learnerId: null, sessionId: 'session-1', itemId: 'item-1' }, 100)
+  const sketchKey = createSketchStorageKey(sketch)
+  const sketchIndexKey = `mathAssist_sketch_index_v1:${encodeURIComponent(JSON.stringify([null]))}`
+  const backupValues = Object.fromEntries(BACKED_UP_LOCAL_PROGRESS_KEYS.map((key) => [key, null]))
+
+  return {
+    mathAssist_grade1Progress: grade1ProgressRaw(),
+    mathAssist_grade2Progress: grade2ProgressRaw(),
+    mathAssist_grade3Progress: grade3ProgressRaw(),
+    mathAssist_grade4Progress: grade4ProgressRaw(),
+    mathAssist_progress_v1: '{}',
+    mathAssist_currentSession: practiceSessionRaw(5),
+    mathAssist_lastResult: practiceResultRaw(5),
+    mathAssist_grade6Progress: '{}',
+    mathAssist_grade6CurrentSession: practiceSessionRaw(6),
+    mathAssist_grade6LastResult: practiceResultRaw(6),
+    mathAssist_guestHome_v1: '{"activeGrade":6}',
+    mathAssist_attemptReceipts_v1: '{"schemaVersion":1,"receipts":[]}',
+    mathAssist_mascot_v1: '{"avatarId":"lumi"}',
+    mathAssist_profileSessionLease_v1: JSON.stringify({
+      schemaVersion: 1,
+      profileId: PROFILE_ID,
+      holderId: 'tab-1',
+      acquiredAt: 100,
+      expiresAt: 200,
+    }),
+    [sketchKey]: serializeSketchDocument(sketch),
+    [sketchIndexKey]: JSON.stringify([{
+      learnerId: null,
+      sessionId: sketch.sessionId,
+      itemId: sketch.itemId,
+      storageKey: sketchKey,
+      updatedAt: sketch.updatedAt,
+    }]),
+    'mathAssist_progressBackup_v1:100': JSON.stringify({
+      schemaVersion: 1,
+      createdAt: 100,
+      values: backupValues,
+    }),
+  }
+}
 
 describe('legacy learner storage migration', () => {
   it('creates one blank profile when no learner data exists', () => {
@@ -35,18 +189,7 @@ describe('legacy learner storage migration', () => {
   })
 
   it('copies every declared learner byte into one profile and verifies a recovery backup', () => {
-    const legacy = {
-      mathAssist_grade1Progress: '{"checked":["g1"]}',
-      mathAssist_grade2Progress: '{"review":["g2"]}',
-      mathAssist_grade6CurrentSession: '{"answers":[null,"7"]}',
-      mathAssist_grade6LastResult: '{"score":1}',
-      mathAssist_guestHome_v1: '{"activeGrade":6}',
-      mathAssist_attemptReceipts_v1: '{"schemaVersion":1,"receipts":[]}',
-      mathAssist_mascot_v1: '{"avatarId":"lumi"}',
-      'mathAssist_sketch_v1:raw-id': '{"commands":[]}',
-      'mathAssist_sketch_index_v1:raw-id': '[]',
-      'mathAssist_progressBackup_v1:100': '{"schemaVersion":1}',
-    }
+    const legacy = representativeLegacyValues()
     const storage = memoryStorage(legacy)
     const registryStatuses: string[] = []
     const originalSetItem = storage.setItem.bind(storage)
@@ -76,8 +219,8 @@ describe('legacy learner storage migration', () => {
 
   it('resumes the same target after an interrupted/quota write without duplicating profiles', () => {
     const storage = memoryStorage({
-      mathAssist_grade1Progress: '{"checked":["g1"]}',
-      mathAssist_grade2Progress: '{"checked":["g2"]}',
+      mathAssist_grade1Progress: grade1ProgressRaw(),
+      mathAssist_grade2Progress: grade2ProgressRaw(),
     })
     const originalSetItem = storage.setItem.bind(storage)
     let failed = false
@@ -101,12 +244,12 @@ describe('legacy learner storage migration', () => {
     expect(second.status).toBe('verified')
     expect(second.registry.profiles).toHaveLength(1)
     expect(second.registry.migration.targetProfileId).toBe(target)
-    expect(storage.getItem(createProfileScopedStorageKey(target!, 'mathAssist_grade1Progress'))).toBe('{"checked":["g1"]}')
-    expect(storage.getItem(createProfileScopedStorageKey(target!, 'mathAssist_grade2Progress'))).toBe('{"checked":["g2"]}')
+    expect(storage.getItem(createProfileScopedStorageKey(target!, 'mathAssist_grade1Progress'))).toBe(grade1ProgressRaw())
+    expect(storage.getItem(createProfileScopedStorageKey(target!, 'mathAssist_grade2Progress'))).toBe(grade2ProgressRaw())
   })
 
   it('fails closed for corrupt or unknown learner values without shrinking another grade', () => {
-    const validGrade = '{"completed":["safe"]}'
+    const validGrade = grade1ProgressRaw()
     const corrupt = memoryStorage({
       mathAssist_grade1Progress: validGrade,
       mathAssist_grade2Progress: '{bad json',
@@ -123,8 +266,38 @@ describe('legacy learner storage migration', () => {
     expect(unknown.getItem('mathAssist_unknownLearnerState')).toBe('{"value":1}')
   })
 
+  it('rejects an unknown progress schema before copying another valid grade', () => {
+    const validGrade = grade2ProgressRaw()
+    const storage = memoryStorage({
+      mathAssist_grade1Progress: '{"schemaVersion":999}',
+      mathAssist_grade2Progress: validGrade,
+    })
+
+    const result = migrateLegacyLearnerStorage(storage, deps)
+
+    expect(result.status).toBe('failed')
+    expect(result.failedKeys).toContain('mathAssist_grade1Progress')
+    expect(storage.getItem('mathAssist_grade2Progress')).toBe(validGrade)
+    expect(storage.getItem(createProfileScopedStorageKey(result.registry.activeProfileId, 'mathAssist_grade2Progress'))).toBeNull()
+  })
+
+  it('rejects a wrong-type known value before copying another valid grade', () => {
+    const validGrade = grade1ProgressRaw()
+    const storage = memoryStorage({
+      mathAssist_grade1Progress: validGrade,
+      mathAssist_guestHome_v1: '{"activeGrade":"2"}',
+    })
+
+    const result = migrateLegacyLearnerStorage(storage, deps)
+
+    expect(result.status).toBe('failed')
+    expect(result.failedKeys).toContain('mathAssist_guestHome_v1')
+    expect(storage.getItem('mathAssist_grade1Progress')).toBe(validGrade)
+    expect(storage.getItem(createProfileScopedStorageKey(result.registry.activeProfileId, 'mathAssist_grade1Progress'))).toBeNull()
+  })
+
   it('does not overwrite a conflicting scoped value and rejects a corrupt registry', () => {
-    const storage = memoryStorage({ mathAssist_grade1Progress: '{"legacy":true}' })
+    const storage = memoryStorage({ mathAssist_grade1Progress: grade1ProgressRaw() })
     const first = migrateLegacyLearnerStorage(storage, deps)
     const scopedKey = createProfileScopedStorageKey(first.registry.activeProfileId, 'mathAssist_grade1Progress')
     storage.setItem(scopedKey, '{corrupt-or-foreign:true}')
