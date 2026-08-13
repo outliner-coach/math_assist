@@ -123,6 +123,7 @@ test('숫자형과 객관식이 섞인 5문제를 모두 확인하면 6학년 �
     const session = JSON.parse(localStorage.getItem(key) ?? 'null')
     return session.problems as StoredGrade6Problem[]
   }, GRADE6_KEYS[0])
+  expect(storedProblems).toHaveLength(5)
   expect(storedProblems.some((problem) => problem.type === 'number')).toBe(true)
   expect(storedProblems.some((problem) => problem.type === 'choice')).toBe(true)
 
@@ -130,7 +131,7 @@ test('숫자형과 객관식이 섞인 5문제를 모두 확인하면 6학년 �
     const problem = storedProblems[index]
     await answerStoredProblem(page, problem)
     await page.getByTestId('check-answer-button').click()
-    if (index < 4) await page.getByTestId('next-button').click()
+    if (index < storedProblems.length - 1) await page.getByTestId('next-button').click()
   }
 
   await page.getByTestId('submit-button').click()

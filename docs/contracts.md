@@ -45,13 +45,15 @@
 응용문제 지식 묶음 세 개의 불변 ID는 `pack-g2-2-length`,
 `pack-unit-5-1-perimeter-area`, `pack-unit-6-1-ratio`이고 모두 version 1이다.
 세 묶음은 모두 `coverageStatus: pilot`, `releaseStatus: approved`, owner
-`project-owner`의 2026-07-28 승인과 `expertStatus: not-reviewed`를 기록한다.
-승인 근거는 `docs/reviews/application-problems-v1-approval.md`이며, 이는 V1 pilot
-범위의 승인일 뿐 전 학년·전 단원·전 유형 완료나 전문가 검수가 아니다. 2학년은
+`project-owner`의 `2026-07-28T09:05:24Z` 승인과 `expertStatus: not-reviewed`를
+기록한다. 이는 V1 pilot 범위의 승인일 뿐 전 학년·전 단원·전 유형 완료나
+전문가 검수가 아니다. 2학년은
 기존 144개 미션 뒤에 승인된 3개 응용 미션을 더하고, 5·6학년은 기존 후보 풀에
 승인 후보를 더한다. 최종 세션은 기존의 정확한 문항 수와 난이도 분배를 유지한다.
-2학년 공식 원문과 제품의 학기·단원 판단 구분은
-`docs/grade2-length-curriculum-evidence.md`에 보존한다.
+교육부 2022 개정 수학과 교육과정은 1~2학년군 성취기준만 제시하므로 학기와
+단원 ID는 제품 배정이다. `[2수03-11]`과 `[2수03-13]`만 `g2-2-length`가 직접
+다루고, `[2수03-10]`의 실제 측정과 `[2수03-12]`의 어림·양감 활동은 이 묶음의
+범위 밖으로 유지한다.
 응용문제 레지스트리는 실행 가능한 maker 목록과 불변 `releaseLedger`를 분리한다.
 새 문제 생성은 승인된 pack·family와 정확히 일치하는 실행 항목, 그리고 깊게
 동결된 별도 release ledger snapshot이 정확히 하나씩 있어야 가능하다. 저장된

@@ -1,11 +1,11 @@
 # 현재 상태
 
-기준일: 2026-07-28
+기준일: 2026-08-13
 
 ## 상태 경계
 
 - **실제 배포본**: GitHub Pages 정적 사이트이며 서버 계정·원격 저장 API가 없다. 2026-07-21 커밋 `14a0904`와 Pages 실행 `29792892987`로 4·6학년 공개 경로, 공통 receipt, 저장형 풀이장까지 실제 배포했다.
-- **현재 작업트리**: 아래 단계 구현과 단계별 집중 검증이 반영되어 있다. 2026-07-21 최종 통합 test·lint·TDD guard·validator·audit·build·E2E를 개발 서버와 겹치지 않게 순차 실행했다.
+- **현재 작업트리**: 아래 단계 구현과 단계별 집중 검증이 반영되어 있다. 2026-08-13 응용문제 V1의 전체 validator·audit·품질 평가·lint·test·TDD guard·정적 build·E2E를 개발 서버와 겹치지 않게 순차 실행했다.
 - 이 문서에서 `released`는 curriculum ledger, 공개 경로 게이트와 실제 GitHub Pages 화면이 일치한다는 뜻이다. 이후 변경도 `main` 반영, Pages 성공, 새 브라우저 hydration을 모두 확인해야 출시 완료로 기록한다.
 
 ## 단계별 구현 상태
@@ -20,7 +20,7 @@
 | 6A. 교육과정 원장 | 완료 | 3~4·5~6학년군 공식 성취기준 92개를 versioned 원장에 배정하고 release reference를 검증한다. |
 | 6B. 4학년 Bridge | 배포 완료 | `[4수01-01]`, `[4수01-02]` 큰 수 범위의 10개 문제 틀과 K/A/R 각 1개인 3문제 활동이 홈·이어하기와 연결되어 있다. 나머지 4학년 기준 20개는 `planned`다. |
 | 6C. 6학년 Study | 배포 완료 | `unit-6-1-ratio`, `g6ratio-001`이 홈·이어하기와 연결됐다. A/B/C에 겹치지 않는 30개 문제군, 실제 정량 표, `[6수02-02/03]` 추적, 5/10문제, 손상 저장 명시적 복구, 48px·두 viewport 검증을 갖춘다. 비례식 성격의 `[6수02-04]` 범위는 이후 단원으로 남겼다. |
-| 7. 응용문제 V1 pilot | owner 승인·로컬 승격 검증 완료 | 3 pack, 9개 `familyId@1`이 project-owner 승인과 불변 release ledger snapshot 일치 조건으로 2·5·6학년 후보에 연결됐다. `expertStatus: not-reviewed`이며 전체 학년·단원·유형 완료가 아니다. T12 전체 회귀·정적 빌드·E2E는 통과했으며 실제 Pages 배포와 새 브라우저 확인은 아직 하지 않았다. |
+| 7. 응용문제 V1 pilot | owner 승인·로컬 승격 검증 완료 | 3 pack, 9개 `familyId@1`이 project-owner 승인과 불변 release ledger snapshot 일치 조건으로 2·5·6학년 후보에 연결됐다. `expertStatus: not-reviewed`이며 전체 학년·단원·유형 완료가 아니다. 전체 회귀·정적 빌드·E2E는 통과했으며 실제 Pages 배포와 새 브라우저 확인은 아직 하지 않았다. |
 
 안전한 산술 parser도 적용했다. 템플릿 식은 더 이상 `eval`로 실행하지 않고 제한된 유한 십진수·괄호·사칙연산·단항 부호만 해석한다.
 
@@ -34,9 +34,10 @@
 - 공개 원장을 읽을 수 없거나 Grade 6 상태가 정확히 `released`가 아니면 저장 repository를 호출하기 전에 fail-closed한다.
 - 정답·채점은 계속 규칙 기반이며 원격 AI 호출은 없다. AI는 향후 힌트 품질 필요성이 입증된 경우에도 정답·채점·원본 풀이를 결정할 수 없다.
 
-## 2026-07-28 응용문제 V1 로컬 승격 검증 기록
+## 응용문제 V1 로컬 승격 검증 기록
 
-- Grade 2 길이, Grade 5 둘레·넓이, Grade 6 비와 비율의 3개 pack과 9개 `familyId@1`을 `project-owner` 승인 상태로 승격했다. 승인 근거는 `docs/reviews/application-problems-v1-approval.md`이며 수학 전문가 상태는 `not-reviewed`다.
+- `project-owner`가 2026-07-28T09:05:24Z에 “9개 V1 유형의 출시 승격을 승인합니다”라고 명시적으로 승인해 Grade 2 길이, Grade 5 둘레·넓이, Grade 6 비와 비율의 3개 pack과 9개 `familyId@1`을 승격했다. 수학 전문가 상태는 `not-reviewed`다.
+- 2026-08-13 최종 검토 수정 뒤 같은 전체 검증을 다시 실행했으며 아래 수와 종료 상태가 유지됐다.
 - Grade 1·2·3·4·6, curriculum, template validator가 각각 96, 144, 36, 10, 30개 콘텐츠와 성취기준 96개를 확인했고 template metadata는 690/690이다.
 - mission audit와 strict problem audit는 오류 0·경고 0, application pack validator는 9 family·오류 0, application audit는 오류 0, promptfoo 품질 평가는 922/922를 통과했다.
 - lint 경고 0, Vitest 87개 파일 729/729, TDD guard, 정적 페이지 75/75 build, Playwright E2E 41/41을 통과했다. 승인 후보가 합류해도 세 도형·비율 표 검사는 고정 시드로 재현되며, 6학년 완료 흐름은 숫자형과 객관식 응용문제를 모두 실제 입력 방식으로 푼다.
