@@ -231,6 +231,7 @@ describe('Grade 6 ratio exhaustive generation and closure', () => {
       expect(validateG6RatioRepresentationCheckClosure(problem)).toEqual({ ok: true, issues: [] })
       expect(problem.prompt).toContain('잘못된 주장')
       expect(problem.choices?.filter((choice) => choice === problem.answer.normalized)).toHaveLength(1)
+      expect(problem.solutionSteps.join('\n')).not.toMatch(/비교하는 양 \d+을 분자/)
       fingerprints.add(JSON.stringify([problem.params, problem.prompt]))
     }
     expect(fingerprints.size).toBe(45)

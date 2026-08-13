@@ -733,6 +733,7 @@ export default function Grade2GameClient({
               wrongAttemptCount={wrongAttemptCount}
               inputError={inputError}
               solved={solved}
+              missionPosition={selectedUnitMissions.findIndex((mission) => mission.id === selectedMission.id) + 1}
               missionCount={selectedUnitMissions.length}
               onChoiceAnswer={(answer) => submitAnswer(answer, answer)}
               onTextAnswerChange={(answer) => {

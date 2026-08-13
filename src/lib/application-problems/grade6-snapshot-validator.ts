@@ -853,7 +853,7 @@ function representationExplanation(model: RepresentationModel): string {
     return `${model.decimal}은 ${model.percent}%이므로 소수 값을 그대로 퍼센트 기호 앞에 쓰면 안 됩니다.`
   }
   if (model.errorMode === 'reference-inversion') {
-    return `비교하는 양 ${model.comparisonQuantity}을 분자, 기준량 ${model.referenceQuantity}을 분모에 두어야 합니다.`
+    return `비교하는 양을 분자, 기준량을 분모에 두어야 합니다. 비교하는 양은 ${model.comparisonQuantity}, 기준량은 ${model.referenceQuantity}입니다.`
   }
   return `분모를 100으로 바꿀 때에는 분자도 같은 값의 비율을 유지하도록 ${model.percent}로 바꾸어야 합니다.`
 }
@@ -1219,7 +1219,20 @@ export function isGrade6ApplicationProblemSnapshotV1Valid(
         mathModel: expectation.mathModel,
       },
     }
-    return sameJson(parsed, expectedProblem) && historicalClosureIsValid(parsed, expectation)
+    const legacyExpectedProblem = familyId === 'g6-ratio-representation-check' &&
+      (expectation.params as unknown as RepresentationModel).errorMode === 'reference-inversion'
+      ? {
+          ...expectedProblem,
+          solutionSteps: expectedProblem.solutionSteps.map((step) => step.replace(
+            representationExplanation(expectation.params as unknown as RepresentationModel),
+            `비교하는 양 ${(expectation.params as unknown as RepresentationModel).comparisonQuantity}을 분자, 기준량 ${(expectation.params as unknown as RepresentationModel).referenceQuantity}을 분모에 두어야 합니다.`,
+          )),
+        }
+      : null
+    return (
+      sameJson(parsed, expectedProblem) ||
+      (legacyExpectedProblem !== null && sameJson(parsed, legacyExpectedProblem))
+    ) && historicalClosureIsValid(parsed, expectation)
   } catch {
     return false
   }

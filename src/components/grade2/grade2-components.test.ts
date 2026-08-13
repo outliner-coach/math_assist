@@ -53,6 +53,7 @@ describe('grade 2 components', () => {
         wrongAttemptCount: 0,
         inputError: null,
         solved: false,
+        missionPosition: 1,
         missionCount: 6,
         onChoiceAnswer: vi.fn(),
         onTextAnswerChange: vi.fn(),
@@ -68,6 +69,39 @@ describe('grade 2 components', () => {
     expect(html).toContain('그림의 백, 십, 일 모형')
     expect(html).toContain('grade2-integer-input')
     expect(html).toContain('grade2-visual-place-value-blocks')
+  })
+
+  it('shows the selected mission position instead of its sparse catalog order', () => {
+    const mission = {
+      ...getGrade2MissionById('g2-2-length-01', 42),
+      unitMissionOrder: 13,
+    }
+    const html = renderToStaticMarkup(
+      createElement(Grade2MissionCard, {
+        mission,
+        missionPosition: 7,
+        selectedAnswer: null,
+        textAnswer: '',
+        lengthAnswer: { meters: '', centimeters: '' },
+        timeAnswer: { hours: '', minutes: '' },
+        showHint: false,
+        wrongAttemptCount: 0,
+        inputError: null,
+        solved: false,
+        missionCount: 9,
+        onChoiceAnswer: vi.fn(),
+        onTextAnswerChange: vi.fn(),
+        onLengthAnswerChange: vi.fn(),
+        onTimeAnswerChange: vi.fn(),
+        onSubmitText: vi.fn(),
+        onSubmitLength: vi.fn(),
+        onSubmitTime: vi.fn(),
+        onShowHint: vi.fn(),
+      })
+    )
+
+    expect(html).toContain('7/9')
+    expect(html).not.toContain('13/9')
   })
 
   it('renders structured length and time inputs instead of unit text entry', () => {
@@ -86,6 +120,7 @@ describe('grade 2 components', () => {
         wrongAttemptCount: 0,
         inputError: null,
         solved: false,
+        missionPosition: 2,
         missionCount: 6,
         onChoiceAnswer: vi.fn(),
         onTextAnswerChange: vi.fn(),
@@ -108,6 +143,7 @@ describe('grade 2 components', () => {
         wrongAttemptCount: 0,
         inputError: null,
         solved: false,
+        missionPosition: 3,
         missionCount: 6,
         onChoiceAnswer: vi.fn(),
         onTextAnswerChange: vi.fn(),
@@ -130,6 +166,7 @@ describe('grade 2 components', () => {
         wrongAttemptCount: 0,
         inputError: null,
         solved: false,
+        missionPosition: 1,
         missionCount: 6,
         onChoiceAnswer: vi.fn(),
         onTextAnswerChange: vi.fn(),
@@ -305,6 +342,7 @@ describe('grade 2 components', () => {
         wrongAttemptCount: 3,
         inputError: '숫자만 써요.',
         solved: false,
+        missionPosition: 3,
         missionCount: 6,
         onChoiceAnswer: vi.fn(),
         onTextAnswerChange: vi.fn(),

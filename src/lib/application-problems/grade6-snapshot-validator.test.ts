@@ -51,6 +51,18 @@ describe('Grade 6 historical application snapshot validator v1', () => {
     })
   })
 
+  it('accepts corrected wording without invalidating the original V1 snapshot', () => {
+    const corrected = generateG6RatioRepresentationCheck({ seed: 1, variantIndex: 0 })
+    const legacy = clone(corrected)
+    legacy.solutionSteps = legacy.solutionSteps.map((step) => step.replace(
+      '비교하는 양을 분자, 기준량을 분모에 두어야 합니다. 비교하는 양은 1, 기준량은 20입니다.',
+      '비교하는 양 1을 분자, 기준량 20을 분모에 두어야 합니다.',
+    ))
+
+    expect(isGrade6ApplicationProblemSnapshotV1Valid(corrected)).toBe(true)
+    expect(isGrade6ApplicationProblemSnapshotV1Valid(legacy)).toBe(true)
+  })
+
   it('rejects source, pack, curriculum, and internally consistent seed mutations', () => {
     const problem = validProblems[0]
 
