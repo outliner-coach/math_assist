@@ -346,8 +346,10 @@ test('5학년의 완성되지 않은 숫자 입력은 오답으로 잠그지 않
       conceptId: 'divisor-001',
       setId: 'A',
       mode: 'standard',
-      problems: [{
-        index: 0,
+      grade: 5,
+      itemCount: 5,
+      problems: Array.from({ length: 5 }, (_, index) => ({
+        index,
         templateId: 'number-format-boundary',
         setId: 'A',
         params: {},
@@ -355,22 +357,22 @@ test('5학년의 완성되지 않은 숫자 입력은 오답으로 잠그지 않
         type: 'number',
         correctAnswer: '1 1/2',
         solutionSteps: ['분자와 분모를 모두 씁니다.']
-      }],
-      answers: [null],
-      checkedAnswers: [null],
+      })),
+      answers: Array(5).fill(null),
+      checkedAnswers: Array(5).fill(null),
       currentIndex: 0,
       startedAt: now,
       expiresAt: now + 60 * 60 * 1000
     }))
   }, { key: SESSION_KEY, now })
 
-  await page.goto(`${BASE_PATH}/practice/divisor-001?set=A`)
+  await page.goto(`${BASE_PATH}/practice/divisor-001?set=A&count=5`)
 
   await enterNumberAnswer(page, '1/')
   await page.getByTestId('check-answer-button').click()
   await expect(page.getByTestId('number-input-error')).toContainText('분모')
   await expect(page.getByTestId('answer-feedback')).toHaveCount(0)
-  expect((await readSession(page)).checkedAnswers).toEqual([null])
+  expect((await readSession(page)).checkedAnswers).toEqual(Array(5).fill(null))
   expect(await page.evaluate((key) => localStorage.getItem(key), ATTEMPT_RECEIPT_KEY)).toBeNull()
 
   await page.getByTestId('keypad-display').click()
@@ -380,7 +382,7 @@ test('5학년의 완성되지 않은 숫자 입력은 오답으로 잠그지 않
   await page.getByTestId('key-done').click()
   await page.getByTestId('check-answer-button').click()
   await expect(page.getByTestId('number-input-error')).toContainText('숫자')
-  expect((await readSession(page)).checkedAnswers).toEqual([null])
+  expect((await readSession(page)).checkedAnswers).toEqual(Array(5).fill(null))
   expect(await page.evaluate((key) => localStorage.getItem(key), ATTEMPT_RECEIPT_KEY)).toBeNull()
 
   await page.getByTestId('keypad-display').click()
@@ -389,7 +391,7 @@ test('5학년의 완성되지 않은 숫자 입력은 오답으로 잠그지 않
   await page.getByTestId('key-done').click()
   await page.getByTestId('check-answer-button').click()
   await expect(page.getByTestId('number-input-error')).toContainText('소수점')
-  expect((await readSession(page)).checkedAnswers).toEqual([null])
+  expect((await readSession(page)).checkedAnswers).toEqual(Array(5).fill(null))
   expect(await page.evaluate((key) => localStorage.getItem(key), ATTEMPT_RECEIPT_KEY)).toBeNull()
 
   await page.getByTestId('keypad-display').click()
@@ -398,7 +400,7 @@ test('5학년의 완성되지 않은 숫자 입력은 오답으로 잠그지 않
   await page.getByTestId('key-done').click()
   await page.getByTestId('check-answer-button').click()
   await expect(page.getByTestId('number-input-error')).toContainText('대분수')
-  expect((await readSession(page)).checkedAnswers).toEqual([null])
+  expect((await readSession(page)).checkedAnswers).toEqual(Array(5).fill(null))
   expect(await page.evaluate((key) => localStorage.getItem(key), ATTEMPT_RECEIPT_KEY)).toBeNull()
 
   await page.getByTestId('keypad-display').click()
@@ -407,7 +409,7 @@ test('5학년의 완성되지 않은 숫자 입력은 오답으로 잠그지 않
   await expect(page.getByTestId('number-input-error')).toHaveCount(0)
   await page.getByTestId('check-answer-button').click()
   await expect(page.getByTestId('feedback-correct')).toBeVisible()
-  expect((await readSession(page)).checkedAnswers).toEqual([true])
+  expect((await readSession(page)).checkedAnswers).toEqual([true, null, null, null, null])
   const ledger = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), ATTEMPT_RECEIPT_KEY)
   expect(ledger.receipts).toHaveLength(1)
   expect(ledger.receipts[0]).toMatchObject({
@@ -720,6 +722,9 @@ test('5학년 다각형 그림은 실제 치수 비율을 따르고 미지 길�
 })
 
 test('세 도형 겹침은 설명 없는 원·삼각형·사각형 중첩도로 보여 준다', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(Date, 'now', { value: () => 4 })
+  })
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/practice/area-001?set=A`)
   const session = await readSession(page)
@@ -1034,7 +1039,7 @@ test('2학년 게임 모드에서 단원 선택, 힌트, 보상, 다음 미션 �
   expect(progress.completedMissionIds).toContain('g2-1-place-value-01')
   expect(progress.reviewMissionIds).toContain('g2-1-place-value-01')
   expect(progress.todaySolvedCount).toBe(1)
-  expect(progress.schemaVersion).toBe(4)
+  expect(progress.schemaVersion).toBe(5)
   expect(progress.xp).toBe(10)
 
   const grade2Receipts = await readAttemptReceipts(page)

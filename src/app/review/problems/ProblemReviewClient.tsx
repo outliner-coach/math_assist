@@ -373,6 +373,12 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
               </p>
             </div>
             <Link
+              href="/review/application-problems"
+              className="inline-flex min-h-[48px] items-center justify-center rounded-2xl border border-white/25 px-5 font-bold hover:bg-white/10"
+            >
+              응용문제 V1 검수
+            </Link>
+            <Link
               href="/home"
               className="inline-flex min-h-[48px] items-center justify-center rounded-2xl border border-white/25 px-5 font-bold hover:bg-white/10"
             >

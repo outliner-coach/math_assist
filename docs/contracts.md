@@ -4,10 +4,10 @@
 
 배포본의 공개 기준 경로는 `/math_assist`다. 모든 공개 인터페이스는 인증이 필요 없는 정적 HTML·JavaScript·JSON이며 서버 API는 없다. 존재하지 않는 경로나 정적 식별자는 GitHub Pages의 404로 끝난다. 브라우저 저장이 차단되어도 공개 콘텐츠는 열 수 있어야 하지만 이어하기는 보장되지 않는다.
 
-아래 표는 2026-08-01 **현재 작업트리 계약**이다. 실제 배포 확인점은
-`main`의 `b004f31`이며, 1,622개 콘텐츠와 새 완료 투영은 아직 Pages에
-반영하지 않았다. 원장이 없거나 학년 상태가 정확히 `released`가 아니면
-해당 경로를 열지 않는다.
+아래 표는 2026-08-13 **현재 작업트리 계약**이다. 2·5·6학년 응용문제
+V1 9유형은 로컬 출시 후보이며 실제 GitHub Pages 반영은 별도 배포 증거가
+필요하다. 원장이 없거나 학년 상태가 정확히 `released`가 아니면 해당 경로를
+열지 않는다.
 
 ## 학습 화면
 
@@ -31,6 +31,7 @@
 | `/result` | `mathAssist_lastResult` | 점수, 오답 우선 풀이, 재도전 또는 새 세트 행동 | 결과가 없거나 손상되면 결과 없음과 홈 이동 제공 |
 | `/result?grade=6` | 공개 release state와 `mathAssist_grade6LastResult` | 현재 `released`인 Grade 6 결과와 재도전 제공 | 손상 결과는 원문을 보존하고 명시적 Grade 6 초기화 UI를 제공; 원장 오류에서는 결과를 읽거나 retry session을 만들지 않음 |
 | `/review/problems` | 정적 문제 은행 | 내부 검수용 문제·난이도·보기·정답 보드 | 학습자 홈과 랜딩에는 이 경로를 노출하지 않음 |
+| `/review/application-problems` | 승인 registry와 고정 대표 시드 | 2·5·6학년 V1 9유형의 문제·정답·풀이·힌트·제출 전후 시각·자동 근거 및 등록값 기반 필터 | 읽기 전용이며 승인·저장·출시 행동과 학습자 동선을 제공하지 않음 |
 
 ## 공개 JSON
 
@@ -40,6 +41,7 @@
 | `/data/concepts.json` | 없음 | 단원 연결, 설명, 예시, 실수, 순서를 가진 개념 배열 | 비정상 응답이면 개념 로더가 예외를 반환 |
 | `/data/templates/<prefix>.json` | 개념 식별자의 첫 `-` 앞부분과 같은 파일 접두사 | 같은 `concept_id`를 가진 문제 템플릿 배열 | 파일 없음·비정상 응답·파싱 실패는 빈 템플릿 목록으로 처리 |
 | `/data/curriculum-allocations-v1.json` | 없음 | 공식 성취기준 121개의 학년 배정, 문제별 직접·복습 참조와 학년별 `releaseState` | 원장 부재·비정상 JSON·알 수 없는 상태는 gated 학년을 열지 않고 fail-closed |
+| `/data/application-problems/packs/<pack>.json` | 승인된 응용문제 묶음 식별자 | 단원 지식, 유형 계약, 승인 근거와 선택적 정적 문제 모음 | parser·참조·승인·출시 원장 검증 중 하나라도 실패하면 해당 유형을 신규 후보로 사용하지 않음 |
 
 템플릿 소비자는 `type`이 `choice`면 네 보기와 정답 보기 위치를, `number`면 정규화 가능한 `solver_rule` 결과를 기대한다. 모든 템플릿은 A·B·C 세트, 난이도 1·2·3, 매개변수 범위, 문제 문장, 정답 규칙, 풀이 단계를 제공해야 한다. 템플릿 산술은 등록 함수 치환 뒤 제한된 유한 십진수·괄호·사칙연산·단항 부호 parser만 사용하며 `eval`, 식별자, 지수, 비유한 수, 0 나눗셈을 허용하지 않는다.
 
@@ -54,7 +56,7 @@ blueprint 일치를 유지한다. 구조 검증과 함께 교육과정·어린�
 |---|---|---|
 | `mathAssist_guestHome_v1` | 명시적으로 고른 `activeGrade`만 저장 | 잘못된 값은 선택 없음으로 처리 |
 | `mathAssist_grade1Progress` | schema v3. 기존 완료·복습·보상 필드와 `checkedStageIds`, 연습 완료 섬 `completedIslandIds` | v1·v2 전체 세트 완료는 legacy 완료로 보존; 새 기본 7문제만 확인한 기록은 섬 완료로 승격하지 않음 |
-| `mathAssist_grade2Progress` | schema v4. 기존 선택·완료·복습·보상 필드와 `checkedMissionIds`, 연습 완료 단원 `completedUnitIds` | v1~v3 전체 기본 세트 완료는 legacy 완료로 보존; 새 기본 6문제만 확인한 기록은 단원 완료로 승격하지 않음 |
+| `mathAssist_grade2Progress` | schema v5. 기존 선택·완료·복습·보상 필드, `checkedMissionIds`, 연습 완료 단원 `completedUnitIds`, 응용문제 활성 스냅샷과 archive | v1~v4 의미를 보존해 읽으며 새 기본 6문제만 확인한 기록은 단원 완료로 승격하지 않음; 응용문제 스냅샷이 손상되면 원문을 자동 덮어쓰지 않음 |
 | `mathAssist_grade3Progress` | schema v2. 기존 선택·완료·복습 필드와 결정적 연습 ID, `completedUnitIds` | v1 전체 기본 세트 완료는 legacy 완료로 보존; 새 기본 3문제만 확인한 기록은 단원 완료로 승격하지 않음 |
 | `mathAssist_grade4Progress` | 4학년 선택 단원, 활동 실행·현재 문제, 완료·복습 variant, 기본·연습 `completionRecord`, 최근 활동 | completion 증거가 없는 이전 정상 기록은 문항 기록을 유지하되 단원 완료로 추측하지 않음; 손상 원문은 명시적 초기화 전 보존 |
 | `mathAssist_progress_v1` | 5학년 개념별 시도·최고·최근 점수·복습 여부와 선택적 기본 5문제·집중 10문제 `completionRecord` | completion 증거가 없는 이전 완료는 legacy 완료로 읽음; 손상 원문은 보존하고 명시적 초기화 전 자동 저장을 거부 |
@@ -72,6 +74,7 @@ blueprint 일치를 유지한다. 구조 검증과 함께 교육과정·어린�
 5·6학년 progress/session/result의 손상 원문은 자동 기록·완료·만료 정리 경로가 덮어쓰거나 삭제하지 않는다. 저장 계층의 명시적 reset/clear를 먼저 호출한 경우에만 새 값을 쓸 수 있다. 정상인 기존 Grade 5 세션은 `grade`·`itemCount`가 없어도 Grade 5·10문제로 읽는다.
 Grade 6의 unit·concept·template 정적 산출물이 존재해도 공개 원장의 상태가 정확히 `released`가 아니면 `/grade/6`, Grade 6 unit/concept/practice/result/retry 모든 화면은 같은 준비 중 경계에서 끝난다.
 저학년의 명시적 `다시 풀기`는 같은 학년 progress repository에서 `missionSketchRunOrdinal`을 먼저 증가·저장한 뒤 새 풀이장 session ID를 만든다. 새로고침은 이 순번을 복구해야 하며, 순번은 채점·보상·receipt 판정을 바꾸지 않는다.
+승인 응용문제 스냅샷은 `familyId`, `version`, 생성 시드, 유형별 입력·정답·시각 모델과 원래 학년 셸을 함께 검증한다. 출처가 없는 과거 기본 문제는 기존 호환 규칙으로 읽지만, 출처가 있다고 주장하는 불완전한 응용문제 스냅샷을 기본 문제로 낮춰 읽지 않는다.
 
 ## 아직 노출되지 않은 계정 인터페이스
 

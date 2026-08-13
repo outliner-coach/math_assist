@@ -3,17 +3,24 @@
  */
 
 import type {
+  ApplicationProblemRecoveryEvidenceV1,
   PracticeGrade,
   PracticeItemCount,
   PracticeSession,
+  Problem,
   SessionResult,
   SubmissionResult,
 } from './types'
+import { hasApplicationProblemFootprint } from './application-problems/template-adapter'
 
 export const GRADE5_SESSION_KEY = 'mathAssist_currentSession'
 export const GRADE5_RESULT_KEY = 'mathAssist_lastResult'
 export const GRADE6_SESSION_KEY = 'mathAssist_grade6CurrentSession'
 export const GRADE6_RESULT_KEY = 'mathAssist_grade6LastResult'
+export const GRADE5_APPLICATION_RECOVERY_EVIDENCE_KEY =
+  'mathAssist_grade5ApplicationProblemRecoveryEvidence_v1'
+export const GRADE6_APPLICATION_RECOVERY_EVIDENCE_KEY =
+  'mathAssist_grade6ApplicationProblemRecoveryEvidence_v1'
 const SESSION_DURATION = 2 * 60 * 60 * 1000 // 2시간
 
 function sessionKey(grade: PracticeGrade): string {
@@ -40,35 +47,293 @@ function hasCompatiblePracticeIdentity(
     )
 }
 
+function recoveryEvidenceKey(grade: PracticeGrade): string {
+  return grade === 6
+    ? GRADE6_APPLICATION_RECOVERY_EVIDENCE_KEY
+    : GRADE5_APPLICATION_RECOVERY_EVIDENCE_KEY
+}
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((entry) => typeof entry === 'string')
+}
+
+function isFiniteNumericRecord(value: unknown): value is Record<string, number> {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value) &&
+    Object.entries(value as Record<string, unknown>).every(([key, entry]) => (
+      key !== '' && typeof entry === 'number' && Number.isFinite(entry)
+    ))
+}
+
+function isProblemSnapshot(value: unknown): value is Problem {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false
+  const candidate = value as Partial<Problem>
+  if (
+    !Number.isSafeInteger(candidate.index) ||
+    (candidate.index ?? -1) < 0 ||
+    typeof candidate.templateId !== 'string' ||
+    candidate.templateId === '' ||
+    !['A', 'B', 'C'].includes(candidate.setId ?? '') ||
+    !isFiniteNumericRecord(candidate.params) ||
+    typeof candidate.prompt !== 'string' ||
+    candidate.prompt === '' ||
+    !['choice', 'number'].includes(candidate.type ?? '') ||
+    typeof candidate.correctAnswer !== 'string' ||
+    candidate.correctAnswer === '' ||
+    !isStringArray(candidate.solutionSteps) ||
+    (candidate.hintSteps !== undefined && !isStringArray(candidate.hintSteps))
+  ) {
+    return false
+  }
+  if (candidate.type === 'choice') {
+    return isStringArray(candidate.choices) &&
+      candidate.choices.length > 0 &&
+      Number.isSafeInteger(candidate.correctChoiceIndex) &&
+      (candidate.correctChoiceIndex ?? -1) >= 0 &&
+      (candidate.correctChoiceIndex ?? Number.MAX_SAFE_INTEGER) < candidate.choices.length
+  }
+  return true
+}
+
+function isApplicationProblemReplacementArchive(value: unknown): boolean {
+  if (value === undefined) return true
+  if (!Array.isArray(value)) return false
+  const originalInstanceIds = new Set<string>()
+  return value.every((entry) => {
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return false
+    const candidate = entry as Record<string, unknown>
+    const originalProblem = candidate.originalProblem
+    if (!originalProblem || typeof originalProblem !== 'object' || Array.isArray(originalProblem)) {
+      return false
+    }
+    const problem = originalProblem as Record<string, unknown>
+    const source = problem.applicationSource
+    if (!source || typeof source !== 'object' || Array.isArray(source)) return false
+    const applicationSource = source as Record<string, unknown>
+    if (
+      !Number.isSafeInteger(candidate.problemIndex) ||
+      candidate.problemIndex !== problem.index ||
+      typeof candidate.originalInstanceId !== 'string' ||
+      candidate.originalInstanceId === '' ||
+      typeof candidate.replacementInstanceId !== 'string' ||
+      candidate.replacementInstanceId === '' ||
+      candidate.originalInstanceId === candidate.replacementInstanceId ||
+      applicationSource.schemaVersion !== 'generated-application-problem-v1' ||
+      applicationSource.instanceId !== candidate.originalInstanceId ||
+      !isProblemSnapshot(originalProblem) ||
+      originalInstanceIds.has(candidate.originalInstanceId)
+    ) {
+      return false
+    }
+    originalInstanceIds.add(candidate.originalInstanceId)
+    return true
+  })
+}
+
+function isApplicationProblemRecoveryEvidence(
+  value: unknown,
+  grade: PracticeGrade,
+): value is ApplicationProblemRecoveryEvidenceV1 {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false
+  const candidate = value as Partial<ApplicationProblemRecoveryEvidenceV1>
+  if (
+    candidate.schemaVersion !== 'application-problem-recovery-evidence-v1' ||
+    typeof candidate.evidenceId !== 'string' ||
+    typeof candidate.sessionId !== 'string' ||
+    candidate.sessionId === '' ||
+    typeof candidate.conceptId !== 'string' ||
+    candidate.conceptId === '' ||
+    !['A', 'B', 'C'].includes(candidate.setId ?? '') ||
+    !['standard', 'retry-wrong'].includes(candidate.mode ?? '') ||
+    candidate.grade !== grade ||
+    ![5, 10].includes(candidate.itemCount ?? 0) ||
+    (candidate.sourceResultId !== undefined && typeof candidate.sourceResultId !== 'string') ||
+    !Array.isArray(candidate.replacements) ||
+    candidate.replacements.length === 0 ||
+    !isApplicationProblemReplacementArchive(candidate.replacements) ||
+    candidate.evidenceId !== `${candidate.sessionId}:${candidate.replacements.length}`
+  ) {
+    return false
+  }
+  return true
+}
+
+function isApplicationProblemRecoveryEvidenceArchive(
+  value: unknown,
+  grade: PracticeGrade,
+): value is ApplicationProblemRecoveryEvidenceV1[] {
+  if (!Array.isArray(value)) return false
+  const evidenceIds = new Set<string>()
+  return value.every((entry) => {
+    if (!isApplicationProblemRecoveryEvidence(entry, grade)) return false
+    if (evidenceIds.has(entry.evidenceId)) return false
+    evidenceIds.add(entry.evidenceId)
+    return true
+  })
+}
+
 function isSessionSnapshot(value: unknown, grade: PracticeGrade): value is PracticeSession {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false
   const candidate = value as Partial<PracticeSession>
-  return hasCompatiblePracticeIdentity(candidate, grade)
+  const gradeContractMatches = hasCompatiblePracticeIdentity(candidate, grade)
+  const problems = Array.isArray(candidate.problems) ? candidate.problems : []
+  const problemsAreValid = problems.length > 0 &&
+    problems.every((problem) => (
+      isProblemSnapshot(problem) && problem.setId === candidate.setId
+    ))
+  const indexes = problemsAreValid
+    ? new Set(problems.map((problem) => problem.index))
+    : new Set<number>()
+  const itemCount = resolvePracticeItemCount(candidate.itemCount, grade)
+  const standardShapeMatches = candidate.mode === 'standard' &&
+    candidate.sourceResultId === undefined &&
+    candidate.sourceProblemIndexes === undefined &&
+    problems.length === itemCount &&
+    problems.every((problem, index) => problem.index === index)
+  const retryIndexes = candidate.sourceProblemIndexes
+  const retryShapeMatches = candidate.mode === 'retry-wrong' &&
+    typeof candidate.sourceResultId === 'string' &&
+    candidate.sourceResultId.trim() !== '' &&
+    Array.isArray(retryIndexes) &&
+    retryIndexes.length === problems.length &&
+    problems.length >= 1 &&
+    problems.length <= itemCount &&
+    new Set(retryIndexes).size === retryIndexes.length &&
+    retryIndexes.every((sourceIndex, index) => (
+      Number.isSafeInteger(sourceIndex) &&
+      sourceIndex >= 0 &&
+      sourceIndex < itemCount &&
+      problems[index]?.index === sourceIndex
+    ))
+  return gradeContractMatches
     && typeof candidate.sessionId === 'string'
     && typeof candidate.conceptId === 'string'
     && (candidate.setId === 'A' || candidate.setId === 'B' || candidate.setId === 'C')
     && (candidate.mode === 'standard' || candidate.mode === 'retry-wrong')
-    && Array.isArray(candidate.problems)
+    && problemsAreValid
+    && indexes.size === problems.length
+    && (standardShapeMatches || retryShapeMatches)
     && Array.isArray(candidate.answers)
-    && candidate.answers.length === candidate.problems.length
-    && Number.isInteger(candidate.currentIndex)
+    && candidate.answers.length === problems.length
+    && candidate.answers.every((answer) => answer === null || typeof answer === 'string')
+    && (candidate.checkedAnswers === undefined || (
+      Array.isArray(candidate.checkedAnswers) &&
+      candidate.checkedAnswers.length === problems.length &&
+      candidate.checkedAnswers.every((answer) => answer === null || typeof answer === 'boolean')
+    ))
+    && isApplicationProblemReplacementArchive(candidate.applicationProblemReplacementArchive)
+    && Number.isSafeInteger(candidate.currentIndex)
+    && (candidate.currentIndex ?? -1) >= 0
+    && (candidate.currentIndex ?? Number.MAX_SAFE_INTEGER) < problems.length
     && typeof candidate.startedAt === 'number'
+    && Number.isFinite(candidate.startedAt)
     && typeof candidate.expiresAt === 'number'
+    && Number.isFinite(candidate.expiresAt)
+    && candidate.startedAt <= candidate.expiresAt
+}
+
+function normalizeSessionSnapshot(
+  parsed: PracticeSession,
+  grade: PracticeGrade,
+): PracticeSession {
+  const checkedAnswers =
+    Array.isArray(parsed.checkedAnswers) &&
+    parsed.checkedAnswers.length === parsed.problems.length
+      ? parsed.checkedAnswers.map((value) => (typeof value === 'boolean' ? value : null))
+      : Array(parsed.problems.length).fill(null)
+  return {
+    ...parsed,
+    checkedAnswers,
+    grade: parsed.grade === undefined && grade === 5 ? undefined : grade,
+    itemCount: resolvePracticeItemCount(parsed.itemCount, grade),
+  }
+}
+
+function canonicalJson(value: unknown): unknown {
+  if (value === null || typeof value !== 'object') return value
+  if (Array.isArray(value)) return value.map(canonicalJson)
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>)
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([key, entry]) => [key, canonicalJson(entry)]),
+  )
+}
+
+function sameJson(left: unknown, right: unknown): boolean {
+  return JSON.stringify(canonicalJson(left)) === JSON.stringify(canonicalJson(right))
+}
+
+function isSubmissionResultSnapshot(value: unknown): value is SubmissionResult {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false
+  const candidate = value as Partial<SubmissionResult>
+  return Number.isSafeInteger(candidate.index)
+    && (candidate.index ?? -1) >= 0
+    && typeof candidate.correct === 'boolean'
+    && (candidate.userAnswer === null || typeof candidate.userAnswer === 'string')
+    && typeof candidate.correctAnswer === 'string'
+    && isStringArray(candidate.solutionSteps)
+    && isProblemSnapshot(candidate.problem)
+    && candidate.correctAnswer === candidate.problem.correctAnswer
+    && sameJson(candidate.solutionSteps, candidate.problem.solutionSteps)
 }
 
 function isResultSnapshot(value: unknown, grade: PracticeGrade): value is SessionResult {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false
   const candidate = value as Partial<SessionResult>
-  return hasCompatiblePracticeIdentity(candidate, grade)
+  if (
+    !Number.isSafeInteger(candidate.score) ||
+    !Number.isSafeInteger(candidate.total) ||
+    !Number.isSafeInteger(candidate.wrongCount)
+  ) {
+    return false
+  }
+  const score = candidate.score as number
+  const total = candidate.total as number
+  const wrongCount = candidate.wrongCount as number
+  const gradeContractMatches = hasCompatiblePracticeIdentity(candidate, grade)
+  const results = Array.isArray(candidate.results) ? candidate.results : []
+  const resultsAreValid = results.length > 0 &&
+    results.every((result) => (
+      isSubmissionResultSnapshot(result) && result.problem.setId === candidate.setId
+    ))
+  const correctCount = resultsAreValid
+    ? results.filter((result) => result.correct).length
+    : -1
+  const itemCount = resolvePracticeItemCount(candidate.itemCount, grade)
+  const resultIndexes = resultsAreValid
+    ? new Set(results.map((result) => result.index))
+    : new Set<number>()
+  const sourceProblemIndexes = resultsAreValid
+    ? new Set(results.map((result) => result.problem.index))
+    : new Set<number>()
+  const standardShapeMatches = candidate.mode === 'standard' &&
+    results.length === itemCount &&
+    results.every((result, index) => (
+      result.index === index &&
+      result.problem.index === index
+    ))
+  const retryShapeMatches = candidate.mode === 'retry-wrong' &&
+    results.length >= 1 &&
+    results.length <= itemCount &&
+    resultIndexes.size === results.length &&
+    sourceProblemIndexes.size === results.length &&
+    results.every((result, index) => (
+      result.index === index &&
+      result.problem.index >= 0 &&
+      result.problem.index < itemCount
+    ))
+  return gradeContractMatches
     && typeof candidate.sessionId === 'string'
     && typeof candidate.conceptId === 'string'
     && (candidate.setId === 'A' || candidate.setId === 'B' || candidate.setId === 'C')
     && (candidate.mode === 'standard' || candidate.mode === 'retry-wrong')
-    && Number.isInteger(candidate.score)
-    && Number.isInteger(candidate.total)
-    && Number.isInteger(candidate.wrongCount)
-    && Array.isArray(candidate.results)
+    && score >= 0
+    && total === results.length
+    && score === correctCount
+    && wrongCount === total - score
+    && resultsAreValid
+    && (standardShapeMatches || retryShapeMatches)
     && typeof candidate.completedAt === 'number'
+    && Number.isFinite(candidate.completedAt)
 }
 
 function existingStorageIsCompatible(
@@ -126,10 +391,90 @@ export function resolvePracticeItemCount(
 export function saveSession(session: PracticeSession): boolean {
   if (typeof window === 'undefined') return false
   const grade = resolvePracticeGrade(session.grade)
+  if (!isSessionSnapshot(session, grade)) return false
   const key = sessionKey(grade)
   if (!existingStorageIsCompatible(key, grade, isSessionSnapshot)) return false
   localStorage.setItem(key, JSON.stringify(session))
   return true
+}
+
+export function persistApplicationProblemRecoveryEvidence(
+  session: PracticeSession,
+): boolean {
+  const replacements = session.applicationProblemReplacementArchive
+  if (replacements === undefined || replacements.length === 0) return true
+  if (typeof window === 'undefined') return false
+  const grade = resolvePracticeGrade(session.grade)
+  if (!isSessionSnapshot(session, grade)) return false
+
+  const record: ApplicationProblemRecoveryEvidenceV1 = {
+    schemaVersion: 'application-problem-recovery-evidence-v1',
+    evidenceId: `${session.sessionId}:${replacements.length}`,
+    sessionId: session.sessionId,
+    conceptId: session.conceptId,
+    setId: session.setId,
+    mode: session.mode,
+    grade,
+    itemCount: resolvePracticeItemCount(session.itemCount, grade),
+    ...(session.sourceResultId === undefined ? {} : { sourceResultId: session.sourceResultId }),
+    replacements,
+  }
+  const key = recoveryEvidenceKey(grade)
+  try {
+    const raw = localStorage.getItem(key)
+    const archive = raw === null ? [] : JSON.parse(raw) as unknown
+    if (!isApplicationProblemRecoveryEvidenceArchive(archive, grade)) return false
+    const existing = archive.find((entry) => entry.evidenceId === record.evidenceId)
+    if (existing) return sameJson(existing, record)
+    localStorage.setItem(key, JSON.stringify([...archive, record]))
+    return true
+  } catch {
+    return false
+  }
+}
+
+export function persistRecoveredPracticeSession(
+  original: PracticeSession,
+  recovered: PracticeSession,
+): boolean {
+  if (typeof window === 'undefined') return false
+  const grade = resolvePracticeGrade(original.grade)
+  if (
+    resolvePracticeGrade(recovered.grade) !== grade ||
+    recovered.sessionId !== original.sessionId ||
+    recovered.conceptId !== original.conceptId ||
+    recovered.setId !== original.setId ||
+    recovered.mode !== original.mode ||
+    recovered.startedAt !== original.startedAt ||
+    recovered.expiresAt !== original.expiresAt ||
+    recovered.problems.length !== original.problems.length ||
+    recovered.answers.length !== recovered.problems.length ||
+    recovered.checkedAnswers.length !== recovered.problems.length ||
+    (recovered.applicationProblemReplacementArchive?.length ?? 0) <=
+      (original.applicationProblemReplacementArchive?.length ?? 0) ||
+    !isSessionSnapshot(recovered, grade)
+  ) {
+    return false
+  }
+
+  const key = sessionKey(grade)
+  try {
+    const raw = localStorage.getItem(key)
+    if (raw === null) return false
+    const parsed = JSON.parse(raw) as unknown
+    if (!isSessionSnapshot(parsed, grade)) return false
+    if (!sameJson(normalizeSessionSnapshot(parsed, grade), original)) return false
+    if (!persistApplicationProblemRecoveryEvidence(recovered)) return false
+    const currentRaw = localStorage.getItem(key)
+    if (currentRaw === null) return false
+    const current = JSON.parse(currentRaw) as unknown
+    if (!isSessionSnapshot(current, grade)) return false
+    if (!sameJson(normalizeSessionSnapshot(current, grade), original)) return false
+    localStorage.setItem(key, JSON.stringify(recovered))
+    return true
+  } catch {
+    return false
+  }
 }
 
 // 세션 로드
@@ -142,18 +487,15 @@ export function loadSession(grade: PracticeGrade = 5): PracticeSession | null {
 
     const parsed = JSON.parse(data) as PracticeSession
     if (!isSessionSnapshot(parsed, grade)) return null
-    const checkedAnswers = Array.isArray(parsed.checkedAnswers) && parsed.checkedAnswers.length === parsed.problems.length
-      ? parsed.checkedAnswers.map(value => typeof value === 'boolean' ? value : null)
-      : Array(parsed.problems.length).fill(null)
-    const session = {
-      ...parsed,
-      checkedAnswers,
-      grade: parsed.grade === undefined && grade === 5 ? undefined : grade,
-      itemCount: resolvePracticeItemCount(parsed.itemCount, grade),
-    }
+    const session = normalizeSessionSnapshot(parsed, grade)
 
-    // 만료 체크
+    // Application snapshots must pass the semantic/release gate before their
+    // stored bytes may be removed. The practice screen performs that preflight
+    // and explicitly clears an eligible expired session afterwards.
     if (isSessionExpired(session)) {
+      if (session.problems.some(hasApplicationProblemFootprint)) {
+        return session
+      }
       clearSession(grade)
       return null
     }
@@ -205,6 +547,7 @@ export function createSessionId(now = Date.now(), grade: PracticeGrade = 5): str
 export function saveResult(result: SessionResult): boolean {
   if (typeof window === 'undefined') return false
   const grade = resolvePracticeGrade(result.grade)
+  if (!isResultSnapshot(result, grade)) return false
   const key = resultKey(grade)
   if (!existingStorageIsCompatible(key, grade, isResultSnapshot)) return false
   localStorage.setItem(key, JSON.stringify(result))

@@ -9,6 +9,7 @@ import {
   buildSessionResult,
   clearSession,
   loadResult,
+  persistApplicationProblemRecoveryEvidence,
   resolvePracticeGrade,
   resolvePracticeItemCount,
   saveResult,
@@ -21,7 +22,7 @@ export type PracticeCompletionWriteResult =
       result: SessionResult
       completion: ReturnType<typeof derivePracticeSetCompletion>
     }
-  | { status: 'storage-blocked'; target: 'result' | 'progress' }
+  | { status: 'storage-blocked'; target: 'recovery-evidence' | 'result' | 'progress' }
 
 function sameCompletedSession(left: SessionResult, right: SessionResult): boolean {
   if (
@@ -105,6 +106,9 @@ export function persistCompletedPractice(
   results: SubmissionResult[],
   completedAt = Date.now(),
 ): PracticeCompletionWriteResult {
+  if (!persistApplicationProblemRecoveryEvidence(session)) {
+    return { status: 'storage-blocked', target: 'recovery-evidence' }
+  }
   const completion = derivePracticeSetCompletion(session, results)
   if (session.mode === 'standard' && !completion.completed) {
     throw new Error('A complete set must be checked before practice completion is persisted')

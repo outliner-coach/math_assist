@@ -21,6 +21,20 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-08-13: 승인된 응용문제 V1 통합은 2·5·6학년 각 3개, 모두 9개
+  `familyId@1`과 세 지식 팩을 소유한다. 공통 레지스트리는 승인 근거와
+  정확히 일치하는 동결 release-ledger 항목만 학습 런타임에 제공한다.
+  2학년은 기존 기본·연습 144문제를 보존하고 길이 단원 연습에 승인된
+  응용문제 3개를 추가한다. 5·6학년은 기존 5/10문제 세트와 난이도 구성을
+  유지하면서 승인된 후보를 선택할 수 있다. 2학년 진도 스키마 V5는 기존
+  완료·확인·단원 완료·보상·숙련도와 응용문제 원본 스냅샷을 함께 이전하며,
+  손상된 응용문제 기록은 원문을 복구 근거 저장소에 보존한 뒤 학습자가
+  명시적으로 승인된 새 문제로 바꿀 때만 갱신한다. 5·6학년 세션도 차단된
+  문제 원본과 교체 이력을 별도 복구 근거 저장소에 먼저 보존한다. 생성기,
+  세션, 진도, 채점, 시각 렌더러, 검수 화면을 바꿀 때에는 기존 콘텐츠
+  선택 규칙과 제출 전 답 비노출, 과거 스냅샷 검증, 실패 시 무기록 조건을
+  함께 다시 확인한다.
+
 - 2026-08-01: T15 release-gate repair (primary workstreams 02 and 04) owns
   legacy Grade 5 session/result compatibility while normalized `itemCount`
   metadata is written back, and Grade 1 hydration gating before any learner

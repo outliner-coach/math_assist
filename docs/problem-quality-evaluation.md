@@ -192,3 +192,42 @@ Grade 3 Alpha 문제 품질 기준:
 - `npm run audit:missions`에 Grade 3 포함, 결과 `0 errors`, `0 warnings`
 - Grade 3 normalizer, mission bank, progress, component tests 통과
 - E2E에서 Grade 3 단원 선택, 발판, 입력 오류 비채점, 정답 은닉 흐름 확인
+
+## Application Problem Release Gate
+
+응용문제는 기존 기본문제 검증을 대체하지 않는다. 아래 두 명령을 기본 문제의
+`validate:*`, `audit:missions`, `audit:problems -- --strict-warnings`와 함께 실행한다.
+
+```bash
+npm run validate:application-packs
+npm run audit:applications
+```
+
+첫 명령은 오류가 있으면 0이 아닌 종료 상태를 반환하며, 오류에는 가능한 pack ID,
+`familyId@version`, seed 또는 static corpus ID를 포함한다. 두 번째 명령은
+`out/quality/application-problem-quality-report.{json,md}`에 pack별 성취기준·개념,
+인지영역·추론 패턴·표현·오개념·승인/출시 상태 비교표를 만들고, 오류가 있으면
+0이 아닌 종료 상태를 반환한다.
+
+주요 오류 코드는 `APQ_PACK_*`, `APQ_FAMILY_SCHEMA`, `APQ_VERSION_CONTINUITY`,
+`APQ_CURRICULUM_SCOPE`, `APQ_APPLICATION_REASONING`, `APQ_DUPLICATE_STRUCTURE`,
+`APQ_MISCONCEPTION_REFERENCE`, `APQ_NON_DETERMINISTIC_OUTPUT`, `APQ_ORACLE_MISMATCH`,
+`APQ_PROOF_*`, `APQ_QUANTITATIVE_VISUAL`, `APQ_ANSWER_EXPOSURE`,
+`APQ_APPROVAL_EVIDENCE`, `APQ_BLOCKED_RELEASE_CANDIDATE`, `APQ_SESSION_CONTRACT`다.
+`exhaustive`, `invariant-boundary`, `static-corpus` 증명 방식은 서로 바꿔 통과할 수 없다.
+
+승인 근거가 없는 `draft` family는 검수 대기로 보고서에만 나타나고 학습자 후보가
+아니다. `approved` family는 owner ID·승인 시각·저장소 안의 근거 경로가 모두 있어야
+한다. Grade 2의 기본 144개, Grade 5/6의 기본 세트 10개는 보존하며, 승인 후보가
+추가되어도 실제 세션 길이와 난이도 분배를 고정한다.
+
+2026-07-28 현재 이 두 명령은 V1 pilot의 3 pack, 9개 승인 `familyId@1`에 대해
+각각 오류 0을 보고한다. 이 결과는 기존 기본문제 감사, 전체 회귀, 빌드, E2E 또는
+GitHub Pages 배포의 완료를 뜻하지 않는다.
+
+기본문제의 blueprint target gap은 향후 제작 범위를 보여 주는 recommendation으로
+보고서에 남기되, 현재 완전한 기본 템플릿을 strict-warning 실패로 바꾸지 않는다.
+반대로 실제 템플릿 오류, 문구 오류, 중복, 세션 생성 오류, 난이도 역전은 계속
+`warning` 또는 `error`로 차단한다. `npm run promptfoo:problems`는 이 결정적 기본문제
+검사와 응용문제 메타데이터·출처 검사를 함께 보여 주지만, 규칙 기반 정답과 출시 판정을
+대체하지 않는다.

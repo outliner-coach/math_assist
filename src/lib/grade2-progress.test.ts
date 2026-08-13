@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { getGrade2MissionSet, getSafeGrade2Mission } from './grade2-problems'
 import {
   GRADE2_PROGRESS_KEY,
+  GRADE2_PROGRESS_SCHEMA_VERSION,
   createInitialGrade2Progress,
   dismissGrade2Intro,
   isGrade2UnitComplete,
@@ -126,7 +127,9 @@ describe('grade2 progress', () => {
     const progress = resetGrade2Progress(storage, 100)
 
     expect(progress.todaySolvedCount).toBe(0)
-    expect(storage.getItem(GRADE2_PROGRESS_KEY)).toContain('"schemaVersion":4')
+    expect(storage.getItem(GRADE2_PROGRESS_KEY)).toContain(
+      `"schemaVersion":${GRADE2_PROGRESS_SCHEMA_VERSION}`,
+    )
     expect(storage.getItem('mathAssist_grade1Progress')).toBe('{"keep":true}')
   })
 
@@ -148,7 +151,7 @@ describe('grade2 progress', () => {
     const loaded = loadGrade2Progress(storage, 100)
 
     expect(loaded.recovered).toBe(false)
-    expect(loaded.progress.schemaVersion).toBe(4)
+    expect(loaded.progress.schemaVersion).toBe(GRADE2_PROGRESS_SCHEMA_VERSION)
     expect(loaded.progress.selectedUnitId).toBe('g2-1-place-value')
     expect(loaded.progress.xp).toBe(10)
     expect(loaded.progress.masteryByMissionId['g2-1-place-value-01'].correct).toBe(1)

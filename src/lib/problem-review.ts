@@ -1,6 +1,21 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 
+import g2LengthPack from '../../public/data/application-problems/packs/g2-2-length.json'
+import g5GeometryPack from '../../public/data/application-problems/packs/unit-5-1-perimeter-area.json'
+import g6RatioPack from '../../public/data/application-problems/packs/unit-6-1-ratio.json'
+
+import {
+  parseUnitKnowledgePackV1,
+  type ApplicationProblemFamilyV1,
+} from './application-problems/contracts'
+import { getProductionApplicationFamilyEvidence } from './application-problems/quality-evidence'
+import { APPLICATION_PROBLEM_REGISTRY_V1 } from './application-problems/registered-families'
+import {
+  resolveApplicationVisual,
+  type ValidatedApplicationVisualScene,
+} from './application-problems/visual-validator'
+
 import {
   getGrade1Missions,
   grade1Islands,
@@ -1139,6 +1154,199 @@ export async function getProblemReviewData(): Promise<ProblemReviewData> {
       byGrade,
     },
     groups: Array.from(groupsById.values()),
+    rows,
+  }
+}
+
+type ApplicationReviewGrade = 2 | 5 | 6
+
+interface ApplicationReviewOption {
+  value: string
+  label: string
+}
+
+interface ApplicationProofEvidence {
+  mode: ApplicationProblemFamilyV1['proofMode']
+  expectedCount: number
+  authorityId: string | null
+  proven: boolean
+  checkedCount: number
+  issues: string[]
+}
+
+export interface ApplicationProblemReviewRow {
+  grade: ApplicationReviewGrade
+  familyId: string
+  version: number
+  unitId: string
+  packId: string
+  cognitiveDomain: ApplicationProblemFamilyV1['cognitiveDomain']
+  reasoningPattern: ApplicationProblemFamilyV1['reasoningPattern']
+  standards: string[]
+  proofMode: ApplicationProblemFamilyV1['proofMode']
+  releaseStatus: ApplicationProblemFamilyV1['releaseStatus']
+  prompt: string
+  answer: string
+  answerFormat: 'number' | 'choice' | 'text'
+  choices: string[]
+  correctChoiceIndex: number | null
+  solutionSteps: string[]
+  hintSteps: string[]
+  misconceptions: Array<{ id: string; description: string }>
+  visual: {
+    semantics: 'decorative' | 'schematic' | 'quantitative'
+    before: { scene: ValidatedApplicationVisualScene; showAnswer: false }
+    after: { scene: ValidatedApplicationVisualScene; showAnswer: true }
+  }
+  automaticChecks: {
+    deterministicSample: boolean
+    proof: ApplicationProofEvidence
+    audit: { status: 'passed' | 'failed'; issues: string[] }
+    visual: { status: 'ready'; resolver: 'resolveApplicationVisual' }
+  }
+}
+
+export interface ApplicationProblemReviewData {
+  summary: { totalRows: number }
+  filters: {
+    grades: ApplicationReviewGrade[]
+    units: ApplicationReviewOption[]
+    families: ApplicationReviewOption[]
+    versions: ApplicationReviewOption[]
+    cognitiveDomains: ApplicationReviewOption[]
+    reasoningPatterns: ApplicationReviewOption[]
+    standards: ApplicationReviewOption[]
+    proofModes: ApplicationReviewOption[]
+    releaseStatuses: ApplicationReviewOption[]
+  }
+  rows: ApplicationProblemReviewRow[]
+}
+
+const APPLICATION_REVIEW_PACKS = [
+  parseUnitKnowledgePackV1(g2LengthPack),
+  parseUnitKnowledgePackV1(g5GeometryPack),
+  parseUnitKnowledgePackV1(g6RatioPack),
+]
+
+const applicationProductionEvidence = getProductionApplicationFamilyEvidence()
+const applicationEvidenceByFamily = new Map(
+  applicationProductionEvidence.rows.map((evidence) => [evidence.key, evidence]),
+)
+const applicationSnapshotByFamily = new Map(
+  applicationProductionEvidence.generatedSnapshots.map((snapshot) => [
+    `${snapshot.family.familyId}@${snapshot.family.version}`,
+    snapshot,
+  ]),
+)
+
+function getApplicationReviewPack(family: ApplicationProblemFamilyV1) {
+  const pack = APPLICATION_REVIEW_PACKS.find((candidate) => candidate.packId === family.packId)
+  if (!pack) throw new Error(`Missing knowledge pack for ${family.familyId}@${family.version}`)
+  return pack
+}
+
+function getApplicationProofEvidence(
+  family: ApplicationProblemFamilyV1,
+): ApplicationProofEvidence {
+  const evidence = applicationEvidenceByFamily.get(`${family.familyId}@${family.version}`)
+  if (!evidence) throw new Error(`Missing proof authority for ${family.familyId}@${family.version}`)
+  if (evidence.proof.mode !== family.proofMode) {
+    throw new Error(`Proof mode mismatch for ${family.familyId}@${family.version}`)
+  }
+  return evidence.proof
+}
+
+function makeApplicationReviewOptions(values: Iterable<string>): ApplicationReviewOption[] {
+  return Array.from(new Set(values))
+    .sort((left, right) => left.localeCompare(right, 'ko'))
+    .map((value) => ({ value, label: value }))
+}
+
+function toApplicationProblemReviewRow(
+  entry: (typeof APPLICATION_PROBLEM_REGISTRY_V1.entries)[number],
+): ApplicationProblemReviewRow {
+  if (entry.runtime.kind !== 'deterministic-generator') {
+    throw new Error(`Unsupported review runtime: ${entry.family.familyId}@${entry.family.version}`)
+  }
+
+  const family = entry.family
+  const pack = getApplicationReviewPack(family)
+  const evidence = applicationEvidenceByFamily.get(`${family.familyId}@${family.version}`)
+  const snapshot = applicationSnapshotByFamily.get(`${family.familyId}@${family.version}`)
+  if (!evidence || !snapshot) {
+    throw new Error(`Missing production evidence for ${family.familyId}@${family.version}`)
+  }
+  const problem = snapshot.first
+  const visual = resolveApplicationVisual(problem.visual)
+  if (visual.status !== 'ready') {
+    throw new Error(`Registered visual resolver did not prepare ${family.familyId}@${family.version}`)
+  }
+
+  const misconceptionById = new Map(
+    pack.concepts.flatMap((concept) => concept.misconceptions.map((misconception) => [
+      misconception.id,
+      { id: misconception.id, description: misconception.description },
+    ])),
+  )
+  const misconceptions = problem.misconceptionRefs.map((id) => {
+    const misconception = misconceptionById.get(id)
+    if (!misconception) throw new Error(`Missing misconception ${id} for ${family.familyId}`)
+    return misconception
+  })
+  const grade = pack.grade
+  if (grade !== 2 && grade !== 5 && grade !== 6) {
+    throw new Error(`Unsupported application review grade ${grade}`)
+  }
+
+  return {
+    grade,
+    familyId: family.familyId,
+    version: family.version,
+    unitId: family.unitId,
+    packId: family.packId,
+    cognitiveDomain: family.cognitiveDomain,
+    reasoningPattern: family.reasoningPattern,
+    standards: Array.from(problem.curriculumCodes),
+    proofMode: family.proofMode,
+    releaseStatus: family.releaseStatus,
+    prompt: problem.prompt,
+    answer: problem.answer.normalized,
+    answerFormat: problem.answer.format,
+    choices: [...(problem.choices ?? [])],
+    correctChoiceIndex: problem.correctChoiceIndex ?? null,
+    solutionSteps: [...problem.solutionSteps],
+    hintSteps: [...problem.hintSteps],
+    misconceptions,
+    visual: {
+      semantics: visual.scene.semantics,
+      before: { scene: visual.scene, showAnswer: false },
+      after: { scene: visual.scene, showAnswer: true },
+    },
+    automaticChecks: {
+      deterministicSample: evidence.deterministicSample,
+      proof: getApplicationProofEvidence(family),
+      audit: evidence.audit,
+      visual: { status: 'ready', resolver: 'resolveApplicationVisual' },
+    },
+  }
+}
+
+export function getApplicationProblemReviewData(): ApplicationProblemReviewData {
+  const rows = APPLICATION_PROBLEM_REGISTRY_V1.entries.map(toApplicationProblemReviewRow)
+
+  return {
+    summary: { totalRows: rows.length },
+    filters: {
+      grades: Array.from(new Set(rows.map((row) => row.grade))).sort((left, right) => left - right),
+      units: makeApplicationReviewOptions(rows.map((row) => row.unitId)),
+      families: makeApplicationReviewOptions(rows.map((row) => row.familyId)),
+      versions: makeApplicationReviewOptions(rows.map((row) => String(row.version))),
+      cognitiveDomains: makeApplicationReviewOptions(rows.map((row) => row.cognitiveDomain)),
+      reasoningPatterns: makeApplicationReviewOptions(rows.map((row) => row.reasoningPattern)),
+      standards: makeApplicationReviewOptions(rows.flatMap((row) => row.standards)),
+      proofModes: makeApplicationReviewOptions(rows.map((row) => row.proofMode)),
+      releaseStatuses: makeApplicationReviewOptions(rows.map((row) => row.releaseStatus)),
+    },
     rows,
   }
 }

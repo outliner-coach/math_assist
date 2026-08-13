@@ -12,6 +12,7 @@
 - 테스트 의미가 없는 유지보수에서만 검토 후 `TDD_GUARD_ALLOW_NO_TEST=1`을 사용할 수 있다. 기능·버그 수정에 이 우회를 사용하면 안 된다.
 - 제품 변경은 관련 집중 테스트, `npm run lint`, `npm test`, `npm run tdd:guard`, `npm run build`를 통과해야 한다. 화면 흐름·라우팅·복구·정답 공개 시점이 바뀌면 `npm run test:e2e`도 통과해야 한다.
 - 교육 콘텐츠 변경은 해당 학년 검증기와 `npm run audit:missions` 또는 `npm run audit:problems` 중 영향을 받는 감사를 통과해야 한다. 5학년 JSON 템플릿 변경은 `npm run validate:templates`를 생략할 수 없다.
+- 응용문제 pack·family·registry·증명·시각·세션 변경은 `npm run validate:application-packs`와 `npm run audit:applications`를 기존 학년 검증·감사와 함께 실행한다. 이 두 명령의 성공으로 기존 감사나 전체 회귀·배포를 대체하지 않는다.
 - 개발 서버와 프로덕션 빌드를 동시에 실행해 같은 `.next` 디렉터리를 공유하면 안 된다. 둘이 겹친 검증 결과는 유효한 통과로 보지 않는다.
 
 ## 코드 경계
@@ -30,6 +31,7 @@
 - 숫자·구조화 입력은 정규화 성공을 확인한 뒤에만 정오를 확정한다. 완성되지 않은 형식을 오답으로 저장하거나 답을 잠그는 테스트가 통과하면 안 된다.
 - 그림 데이터의 `result`, `target`, `product`, 정답 치수와 같은 값은 `showAnswer`와 동등한 공개 상태 뒤에서만 렌더링한다. 제출 전 DOM이나 접근성 이름에 답 전용 값이 있으면 위반이다.
 - 정량 그림은 문제·정답과 같은 수학 모델에서 만들어야 하며 위상, 비율, 라벨, 0 영역 검증을 추가한다. 고정 SVG 좌표만 눈으로 확인한 정량 그림은 출시할 수 없다.
+- 응용문제의 `approved` 후보는 owner 승인 근거와 실행 registry와 분리된 불변 release ledger 스냅샷이 정확히 일치해야 한다. `draft`·`quarantined`는 학습자 후보로 선택하지 않으며, `retired` 과거 스냅샷을 현재 제작기로 다시 해석하지 않는다.
 
 ## 편집 검수 원장
 

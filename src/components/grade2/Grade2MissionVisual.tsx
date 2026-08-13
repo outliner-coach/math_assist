@@ -3,6 +3,14 @@
 import React from 'react'
 
 import type { Grade2Mission } from '@/lib/grade2-problems'
+import {
+  hasGrade2ApplicationProblemSource,
+  isGrade2ApplicationMission,
+} from '@/lib/application-problems/grade2-adapter'
+import { isGrade2ApplicationMissionSemanticallyValid } from '@/lib/application-problems/grade2-snapshot-validator'
+
+import { resolveGrade2ApplicationSnapshotVisualV1 } from '@/lib/application-problems/grade2-v1-visual-resolution'
+import Grade2ApplicationLengthVisual from './Grade2ApplicationLengthVisual'
 
 interface Grade2MissionVisualProps {
   mission: Grade2Mission
@@ -636,6 +644,33 @@ function FallbackVisual({ mission }: { mission: Grade2Mission }) {
 }
 
 export default function Grade2MissionVisual({ mission, emphasize = false, showAnswer = false }: Grade2MissionVisualProps) {
+  if (hasGrade2ApplicationProblemSource(mission)) {
+    if (
+      !isGrade2ApplicationMission(mission) ||
+      !isGrade2ApplicationMissionSemanticallyValid(mission)
+    ) {
+      return (
+        <div role="alert">
+          필수 길이 그림을 확인할 수 없어 이 문제를 표시하지 않았어요. 문제를 다시 불러와 주세요.
+        </div>
+      )
+    }
+    const resolution = resolveGrade2ApplicationSnapshotVisualV1(mission.applicationVisual)
+    if (resolution.status !== 'ready') {
+      return (
+        <div role="alert">
+          필수 길이 그림을 확인할 수 없어 이 문제를 표시하지 않았어요. 문제를 다시 불러와 주세요.
+        </div>
+      )
+    }
+    return (
+      <Grade2ApplicationLengthVisual
+        scene={resolution.scene}
+        showAnswer={showAnswer}
+      />
+    )
+  }
+
   try {
     switch (mission.visualModel) {
       case 'place-value-blocks':

@@ -1,0 +1,140 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-unit-6-1-ratio",
+  "version": 1,
+  "unitId": "unit-6-1-ratio",
+  "grade": 6,
+  "semester": "6-1",
+  "coverageStatus": "pilot",
+  "releaseStatus": "approved",
+  "coveredStandardCodes": [
+    "[6수02-02]",
+    "[6수02-03]"
+  ],
+  "concepts": [
+    {
+      "conceptId": "ratio-part-whole-model",
+      "name": "부분과 전체 관계를 비로 나타내기",
+      "standardCodes": [
+        "[6수02-02]"
+      ],
+      "prerequisites": [],
+      "allowedScope": [
+        "같은 종류의 두 양 또는 부분과 전체의 관계를 순서가 있는 비로 나타낸다.",
+        "그림, 표, 문장에서 비교 기준과 비교하는 양을 구분한다."
+      ],
+      "excludedScope": [
+        "[6수02-04]의 비례식과 비례식의 성질은 다루지 않는다.",
+        "[6수02-05]의 비례배분은 다루지 않는다."
+      ],
+      "misconceptions": [
+        {
+          "id": "ratio-part-whole-order-reversal",
+          "description": "문장에서 요구한 두 양의 순서를 바꾸어 비를 나타낸다.",
+          "diagnosticEvidence": "빨간 구슬 수와 전체 구슬 수의 비를 묻는데 전체:빨강으로 답한다.",
+          "correctionStrategy": "비의 왼쪽과 오른쪽 칸에 질문의 두 대상을 순서대로 이름 붙인 뒤 각각의 양을 대응한다."
+        },
+        {
+          "id": "ratio-part-part-confused-with-part-whole",
+          "description": "부분 대 전체와 부분 대 나머지의 관계를 같은 것으로 본다.",
+          "diagnosticEvidence": "빨강 3개, 파랑 5개에서 빨강:전체를 3:5로 답한다.",
+          "correctionStrategy": "전체를 모든 부분의 합으로 먼저 만들고 부분:나머지와 부분:전체를 나란히 비교한다."
+        }
+      ]
+    },
+    {
+      "conceptId": "ratio-relative-comparison",
+      "name": "기준이 다른 비와 비율 비교",
+      "standardCodes": [
+        "[6수02-02]",
+        "[6수02-03]"
+      ],
+      "prerequisites": [
+        {
+          "kind": "concept",
+          "conceptId": "ratio-part-whole-model"
+        }
+      ],
+      "allowedScope": [
+        "전체 크기가 다른 두 상황을 단순 개수 차이가 아니라 같은 기준의 비율로 비교한다.",
+        "비를 분수나 소수로 바꾸어 상대적인 크기를 확인한다."
+      ],
+      "excludedScope": [
+        "[6수02-04]의 미지항이 있는 비례식을 세우거나 풀지 않는다.",
+        "[6수02-05]의 주어진 양을 비에 따라 나누는 비례배분을 하지 않는다."
+      ],
+      "misconceptions": [
+        {
+          "id": "ratio-compares-absolute-difference",
+          "description": "전체 크기가 다른 두 상황을 성공 수나 차이만으로 비교한다.",
+          "diagnosticEvidence": "성공 8/10과 12/20에서 12가 더 크다는 이유만으로 둘째 비율이 높다고 판단한다.",
+          "correctionStrategy": "각 상황을 전체 1 또는 100인 같은 기준으로 바꾸고 상대적인 부분 크기를 비교한다."
+        },
+        {
+          "id": "ratio-denominator-is-selected-part",
+          "description": "부분 대 전체 비율에서 선택한 부분을 분모로 둔다.",
+          "diagnosticEvidence": "전체 20명 중 8명의 비율을 20/8로 나타낸다.",
+          "correctionStrategy": "분모는 비교 기준인 전체, 분자는 그중 관심 있는 부분이라는 문장 틀과 표로 대응한다."
+        }
+      ]
+    },
+    {
+      "conceptId": "ratio-representation-equivalence",
+      "name": "분수·소수·백분율 표현의 동치 확인",
+      "standardCodes": [
+        "[6수02-03]"
+      ],
+      "prerequisites": [
+        {
+          "kind": "concept",
+          "conceptId": "ratio-relative-comparison"
+        }
+      ],
+      "allowedScope": [
+        "하나의 비율을 분수, 소수, 백분율로 바꾸고 서로 같은 값인지 확인한다.",
+        "표와 그림의 부분·전체 수를 읽어 적절한 비율 표현을 선택한다."
+      ],
+      "excludedScope": [
+        "[6수02-04]의 비례식 성질로 동치비를 계산하지 않는다.",
+        "[6수02-05]의 비례배분 결과를 구하지 않는다."
+      ],
+      "misconceptions": [
+        {
+          "id": "ratio-percent-decimal-place-shift",
+          "description": "소수와 백분율 사이를 바꿀 때 100배 관계나 퍼센트 기호의 뜻을 잘못 적용한다.",
+          "diagnosticEvidence": "0.35를 3.5% 또는 0.35%로 나타내거나 35%를 35로 나타낸다.",
+          "correctionStrategy": "전체를 100칸으로 나타낸 그림과 분모 100인 분수를 거쳐 소수와 백분율을 함께 대응한다."
+        },
+        {
+          "id": "ratio-representation-numerator-only",
+          "description": "비율 표현을 바꿀 때 분자만 바꾸고 분모와 값의 동치를 유지하지 않는다.",
+          "diagnosticEvidence": "3/5를 분모 100으로 바꾸면서 60/5 또는 3/100으로 나타낸다.",
+          "correctionStrategy": "분자와 분모에 같은 수를 곱하거나 나누어 값이 유지되는지 곱셈식으로 검산한다."
+        }
+      ]
+    }
+  ],
+  "familyRefs": [
+    {
+      "familyId": "g6-ratio-part-whole",
+      "version": 1
+    },
+    {
+      "familyId": "g6-ratio-relative-comparison",
+      "version": 1
+    },
+    {
+      "familyId": "g6-ratio-representation-check",
+      "version": 1
+    }
+  ],
+  "approval": {
+    "ownerStatus": "approved",
+    "ownerId": "project-owner",
+    "approvedAt": "2026-07-28T09:05:24Z",
+    "evidenceRefs": [
+      "docs/reviews/application-problems-v1-approval.md"
+    ],
+    "expertStatus": "not-reviewed"
+  }
+}

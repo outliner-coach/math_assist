@@ -10,6 +10,7 @@ const {
   stableParamsKey,
   validateTemplates
 } = require('../problem-quality-core')
+const { generateApplicationProblemQualityReport } = require('../application-problem-quality-core')
 
 const catalog = loadTemplateCatalog()
 const conceptMap = loadConceptMap()
@@ -248,6 +249,18 @@ class ProblemQualityProvider {
             toNumber(vars.sampleCount, 16)
           )
         }
+      case 'application_metadata': {
+        const report = generateApplicationProblemQualityReport()
+        return {
+          output: {
+            auditType,
+            issueCount: report.summary.errorCount,
+            issues: report.errors,
+            summary: report.summary,
+            packReports: report.packReports,
+          }
+        }
+      }
       default:
         throw new Error(`Unsupported audit type: ${auditType}`)
     }

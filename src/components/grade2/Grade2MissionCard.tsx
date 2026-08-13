@@ -6,12 +6,15 @@ import type {
   Grade2StructuredLengthInput,
   Grade2StructuredTimeInput,
 } from '@/lib/grade2-answer-normalizers'
+import { resolveGrade2MissionInteraction } from '@/lib/application-problems/grade2-interaction-gate'
+import type { ApplicationProblemRegistryV1 } from '@/lib/application-problems/registry'
 import type { Grade2Mission } from '@/lib/grade2-problems'
 
 import Grade2MissionVisual from './Grade2MissionVisual'
 
 interface Grade2MissionCardProps {
   mission: Grade2Mission
+  applicationProblemRegistry?: ApplicationProblemRegistryV1
   selectedAnswer: string | null
   textAnswer: string
   lengthAnswer: Grade2StructuredLengthInput
@@ -91,6 +94,7 @@ function SubmitButton({
 
 export default function Grade2MissionCard({
   mission,
+  applicationProblemRegistry,
   selectedAnswer,
   textAnswer,
   lengthAnswer,
@@ -115,6 +119,23 @@ export default function Grade2MissionCard({
   const revealVisualAnswer = solved || showSolutionPath
   const lengthInputUnit = mission.answerConfig.unit ?? 'm-cm'
   const lengthInputLabel = mission.answerConfig.inputLabel ?? '길이를 써요'
+  const interactionBlocked = resolveGrade2MissionInteraction(
+    mission,
+    applicationProblemRegistry,
+  ) === 'blocked'
+
+  if (interactionBlocked) {
+    return (
+      <section
+        id="grade2-mission"
+        className="scroll-mt-6 rounded-[2rem] border-2 border-amber-300 bg-amber-50 p-5 md:p-6"
+        role="alert"
+        data-testid="grade2-application-interaction-blocked"
+      >
+        이 문제는 안전하게 새 문제로 바꿔야 해요. 문제 내용과 답 입력은 표시하지 않았어요.
+      </section>
+    )
+  }
 
   return (
     <section
@@ -143,6 +164,15 @@ export default function Grade2MissionCard({
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
         <Grade2MissionVisual mission={mission} emphasize={emphasizeVisual} showAnswer={revealVisualAnswer} />
 
+        {interactionBlocked ? (
+          <div
+            className="rounded-2xl border-2 border-[#ef4444] bg-[#fee2e2] p-4 font-black leading-relaxed text-[#0f172a]"
+            role="alert"
+            data-testid="grade2-application-interaction-blocked"
+          >
+            필수 그림을 확인할 수 없어 답을 입력하거나 채점하지 않았어요. 문제를 다시 불러와 주세요.
+          </div>
+        ) : (
         <div className="space-y-4">
           <div className={`rounded-2xl border-2 p-4 ${isWrong ? 'border-[#ffb020] bg-[#fff7e6]' : 'border-[#d8e3ef] bg-[#f8fbff]'}`}>
             <p className="text-sm font-black text-[#2563eb]">{isWrong ? '다시 보기' : '오늘 목표'}</p>
@@ -304,6 +334,7 @@ export default function Grade2MissionCard({
             </div>
           )}
         </div>
+        )}
       </div>
     </section>
   )

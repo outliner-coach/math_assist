@@ -1,4 +1,4 @@
-description: Math Assist problem quality gate
+description: Math Assist deterministic problem and application release gate
 
 providers:
   - file://scripts/promptfoo/problem-quality-provider.js
