@@ -12,11 +12,16 @@ const GRADE6_KEYS = [
   'mathAssist_grade6Progress',
 ] as const
 
-type StoredGrade6Problem = {
-  type: 'choice' | 'number'
-  correctAnswer: string
-  correctChoiceIndex?: number
-}
+type StoredGrade6Problem =
+  | {
+      type: 'choice'
+      correctAnswer: string
+      correctChoiceIndex: number
+    }
+  | {
+      type: 'number'
+      correctAnswer: string
+    }
 
 async function clearStorage(page: Page) {
   await page.goto(`${BASE_PATH}/`)
@@ -107,15 +112,22 @@ test('손상된 6학년 세션은 원문을 보존하고 명시적 초기화 뒤
   expect(await page.evaluate((key) => localStorage.getItem(key), GRADE5_KEYS[0])).toBe('{"keep":"grade5"}')
 })
 
-test('5문제를 모두 확인하면 6학년 결과와 진도만 격리 저장한다', async ({ page }) => {
+test('숫자형과 객관식이 섞인 5문제를 모두 확인하면 6학년 결과와 진도만 격리 저장한다', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(Date, 'now', { value: () => 1 })
+  })
   await page.goto(`${BASE_PATH}/practice/g6ratio-001?set=C&count=5`)
   await expect(page.getByTestId('practice-session')).toBeVisible()
 
-  for (let index = 0; index < 5; index += 1) {
-    const problem = await page.evaluate(({ key, itemIndex }) => {
-      const session = JSON.parse(localStorage.getItem(key) ?? 'null')
-      return session.problems[itemIndex] as StoredGrade6Problem
-    }, { key: GRADE6_KEYS[0], itemIndex: index })
+  const storedProblems = await page.evaluate((key) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return session.problems as StoredGrade6Problem[]
+  }, GRADE6_KEYS[0])
+  expect(storedProblems.some((problem) => problem.type === 'number')).toBe(true)
+  expect(storedProblems.some((problem) => problem.type === 'choice')).toBe(true)
+
+  for (let index = 0; index < storedProblems.length; index += 1) {
+    const problem = storedProblems[index]
     await answerStoredProblem(page, problem)
     await page.getByTestId('check-answer-button').click()
     if (index < 4) await page.getByTestId('next-button').click()
