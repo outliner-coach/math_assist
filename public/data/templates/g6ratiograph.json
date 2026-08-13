@@ -1,0 +1,2018 @@
+[
+  {
+    "id": "tmpl-g6ratiograph-A-01",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
+    "problem_family": "a-band-missing-experience-percent",
+    "blueprint": {
+      "problemFamily": "a-band-missing-experience-percent",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수04-02]",
+      "representations": [
+        "text",
+        "graph"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "띠그래프에서 현장 체험의 비율만 가려져 있습니다. 현장 체험을 고른 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)",
+    "solver_rule": "p * 10",
+    "solution_steps_template": [
+      "전체 100%에서 독서 30%와 기타 {{70 - p * 10}}%를 뺍니다.",
+      "100-30-{{70 - p * 10}}={{p * 10}}%입니다."
+    ],
+    "hint_steps_template": [
+      "띠 전체나 원 전체를 100%로 보고 보이는 부문의 비율을 먼저 더해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "희망 학급 활동",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "현장 체험",
+            "percent": "{{p * 10}}"
+          },
+          {
+            "label": "독서",
+            "percent": 30
+          },
+          {
+            "label": "기타",
+            "percent": "{{70 - p * 10}}"
+          }
+        ],
+        "maskedValueIndex": 0
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-A-02",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
+    "problem_family": "a-circle-missing-art-percent",
+    "blueprint": {
+      "problemFamily": "a-circle-missing-art-percent",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수04-02]",
+      "representations": [
+        "text",
+        "graph"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "원그래프에서 미술의 비율만 가려져 있습니다. 미술을 고른 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)",
+    "solver_rule": "p * 10",
+    "solution_steps_template": [
+      "과학 30%와 체육 {{70 - p * 10}}%의 합을 100%에서 뺍니다.",
+      "미술은 {{p * 10}}%입니다."
+    ],
+    "hint_steps_template": [
+      "띠 전체나 원 전체를 100%로 보고 보이는 부문의 비율을 먼저 더해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "좋아하는 방과후 활동",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "과학",
+            "percent": 30
+          },
+          {
+            "label": "미술",
+            "percent": "{{p * 10}}"
+          },
+          {
+            "label": "체육",
+            "percent": "{{70 - p * 10}}"
+          }
+        ],
+        "maskedValueIndex": 1
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-A-03",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
+    "problem_family": "a-band-missing-transport-percent",
+    "blueprint": {
+      "problemFamily": "a-band-missing-transport-percent",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수04-02]",
+      "representations": [
+        "text",
+        "graph"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "띠그래프에서 대중교통의 비율만 가려져 있습니다. 대중교통을 이용한 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)",
+    "solver_rule": "80 - p * 10",
+    "solution_steps_template": [
+      "도보 {{p * 10}}%와 자전거 20%를 더합니다.",
+      "100-{{p * 10 + 20}}={{80 - p * 10}}%입니다."
+    ],
+    "hint_steps_template": [
+      "띠 전체나 원 전체를 100%로 보고 보이는 부문의 비율을 먼저 더해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "학교에 오는 방법",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "도보",
+            "percent": "{{p * 10}}"
+          },
+          {
+            "label": "자전거",
+            "percent": 20
+          },
+          {
+            "label": "대중교통",
+            "percent": "{{80 - p * 10}}"
+          }
+        ],
+        "maskedValueIndex": 2
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-A-04",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
+    "problem_family": "a-circle-combined-leisure-percent",
+    "blueprint": {
+      "problemFamily": "a-circle-combined-leisure-percent",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "graph"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "학생 20명의 주말 여가 활동을 조사해 원그래프로 정리했습니다. 책 읽기 {{p * 2}}명과 운동 6명을 합한 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)",
+    "solver_rule": "p * 10 + 30",
+    "solution_steps_template": [
+      "20명 중 책 읽기 {{p * 2}}명은 {{p * 10}}%이고 운동 6명은 30%입니다.",
+      "조사 자료를 원그래프의 비율로 정리하면 두 부문의 합은 {{p * 10 + 30}}%입니다."
+    ],
+    "hint_steps_template": [
+      "조사한 학생 20명을 전체로 두고 각 활동 인원이 전체의 몇 %인지 바꿔요.",
+      "책 읽기와 운동의 비율을 같은 전체 기준으로 더해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "주말 여가 활동",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "책 읽기",
+            "percent": "{{p * 10}}"
+          },
+          {
+            "label": "운동",
+            "percent": 30
+          },
+          {
+            "label": "영상",
+            "percent": "{{70 - p * 10}}"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-A-05",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "a-band-library-count",
+    "blueprint": {
+      "problemFamily": "a-band-library-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "학생 {{p * 10}}명의 독서 분야를 조사해 띠그래프로 나타냈습니다. 문학을 고른 학생은 몇 명인가요?",
+    "solver_rule": "4 * p",
+    "solution_steps_template": [
+      "문학은 전체의 40%입니다.",
+      "{{p * 10}}×0.4={{4 * p}}명이므로 문학을 고른 학생은 {{4 * p}}명입니다.",
+      "구한 인원이나 전체 수를 다시 비율로 바꾸어 그래프의 부문 비율과 같은지 검산합니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "희망 독서 분야",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "문학",
+            "percent": 40
+          },
+          {
+            "label": "과학",
+            "percent": 30
+          },
+          {
+            "label": "역사",
+            "percent": 30
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-A-06",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
+    "problem_family": "a-circle-pet-count-gap",
+    "blueprint": {
+      "problemFamily": "a-circle-pet-count-gap",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "학생 {{p * 10}}명의 희망 반려동물을 조사했습니다. 강아지를 고른 학생은 새를 고른 학생보다 몇 명 더 많은가요?",
+    "solver_rule": "3 * p",
+    "solution_steps_template": [
+      "강아지와 새의 비율 차는 50-20=30%p입니다.",
+      "{{p * 10}}×0.3={{3 * p}}명입니다.",
+      "구한 인원이나 전체 수를 다시 비율로 바꾸어 그래프의 부문 비율과 같은지 검산합니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "희망 반려동물",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "강아지",
+            "percent": 50
+          },
+          {
+            "label": "고양이",
+            "percent": 30
+          },
+          {
+            "label": "새",
+            "percent": 20
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-A-07",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "a-band-two-program-count",
+    "blueprint": {
+      "problemFamily": "a-band-two-program-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "학생 {{p * 20}}명의 체험 프로그램 희망을 조사했습니다. 로봇과 요리를 고른 학생은 모두 몇 명인가요?",
+    "solver_rule": "12 * p",
+    "solution_steps_template": [
+      "로봇과 요리의 비율은 25+35=60%입니다.",
+      "{{p * 20}}×0.6={{12 * p}}명입니다.",
+      "구한 인원이나 전체 수를 다시 비율로 바꾸어 그래프의 부문 비율과 같은지 검산합니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "희망 체험 프로그램",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "로봇",
+            "percent": 25
+          },
+          {
+            "label": "요리",
+            "percent": 35
+          },
+          {
+            "label": "생태",
+            "percent": 40
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-A-08",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
+    "problem_family": "a-circle-survey-remaining-count",
+    "blueprint": {
+      "problemFamily": "a-circle-survey-remaining-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "학생 {{p * 5}}명의 급식 선호를 조사해 원그래프로 나타냈습니다. 한식과 양식을 제외한 학생은 몇 명인가요?",
+    "solver_rule": "2 * p",
+    "solution_steps_template": [
+      "한식과 양식을 제외한 분식의 비율은 40%입니다.",
+      "{{p * 5}}×0.4={{2 * p}}명입니다.",
+      "구한 인원이나 전체 수를 다시 비율로 바꾸어 그래프의 부문 비율과 같은지 검산합니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "급식 선호",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "한식",
+            "percent": 20
+          },
+          {
+            "label": "양식",
+            "percent": 40
+          },
+          {
+            "label": "분식",
+            "percent": 40
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-A-09",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
+    "problem_family": "a-band-repeated-label-error",
+    "blueprint": {
+      "problemFamily": "a-band-repeated-label-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "각각 {{p * 10}}명인 {{p}}개 학급의 같은 띠그래프에서 현장 학습 30%를 40%로 잘못 읽었습니다. 모든 학급을 합치면 학생 수를 몇 명 더 많게 계산하나요?",
+    "solver_rule": "p * p",
+    "solution_steps_template": [
+      "한 학급의 오차는 10%p이므로 {{p * 10}}×0.1={{p}}명입니다.",
+      "{{p}}개 학급에서는 {{p}}×{{p}}={{p * p}}명 차이입니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "한 집단의 오차를 먼저 구한 뒤 같은 조건의 집단 수만큼 누적해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "학급별 희망 행사",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "현장 학습",
+            "percent": 30
+          },
+          {
+            "label": "운동회",
+            "percent": 40
+          },
+          {
+            "label": "전시회",
+            "percent": 30
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-A-10",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
+    "problem_family": "a-circle-repeated-sector-error",
+    "blueprint": {
+      "problemFamily": "a-circle-repeated-sector-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "각각 {{p * 20}}명인 {{p}}개 동아리의 원그래프에서 공연 30%를 봉사 50%와 같다고 잘못 계산했습니다. 모든 동아리를 합친 학생 수의 오차는 몇 명인가요?",
+    "solver_rule": "4 * p * p",
+    "solution_steps_template": [
+      "두 부문의 차는 50-30=20%p입니다.",
+      "한 동아리 오차 {{4 * p}}명에 {{p}}개 동아리를 곱하면 {{4 * p * p}}명입니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "한 집단의 오차를 먼저 구한 뒤 같은 조건의 집단 수만큼 누적해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "동아리 희망 활동",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "공연",
+            "percent": 30
+          },
+          {
+            "label": "탐구",
+            "percent": 20
+          },
+          {
+            "label": "봉사",
+            "percent": 50
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-B-01",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
+    "problem_family": "b-circle-missing-fiction-percent",
+    "blueprint": {
+      "problemFamily": "b-circle-missing-fiction-percent",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수04-02]",
+      "representations": [
+        "text",
+        "graph"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "원그래프에서 소설의 비율만 가려져 있습니다. 소설의 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)",
+    "solver_rule": "p * 10",
+    "solution_steps_template": [
+      "나머지 두 부문은 40%와 {{60 - p * 10}}%입니다.",
+      "100-40-{{60 - p * 10}}={{p * 10}}%입니다."
+    ],
+    "hint_steps_template": [
+      "띠 전체나 원 전체를 100%로 보고 보이는 부문의 비율을 먼저 더해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "도서관 대출 분야",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "소설",
+            "percent": "{{p * 10}}"
+          },
+          {
+            "label": "과학",
+            "percent": 40
+          },
+          {
+            "label": "역사",
+            "percent": "{{60 - p * 10}}"
+          }
+        ],
+        "maskedValueIndex": 0
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-B-02",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
+    "problem_family": "b-band-missing-bus-percent",
+    "blueprint": {
+      "problemFamily": "b-band-missing-bus-percent",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수04-02]",
+      "representations": [
+        "text",
+        "graph"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "띠그래프에서 버스의 비율만 가려져 있습니다. 버스로 등교한 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)",
+    "solver_rule": "p * 10",
+    "solution_steps_template": [
+      "도보 20%와 기타 {{80 - p * 10}}%를 더합니다.",
+      "100에서 빼면 버스는 {{p * 10}}%입니다."
+    ],
+    "hint_steps_template": [
+      "띠 전체나 원 전체를 100%로 보고 보이는 부문의 비율을 먼저 더해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "등교 방법",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "도보",
+            "percent": 20
+          },
+          {
+            "label": "버스",
+            "percent": "{{p * 10}}"
+          },
+          {
+            "label": "기타",
+            "percent": "{{80 - p * 10}}"
+          }
+        ],
+        "maskedValueIndex": 1
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-B-03",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
+    "problem_family": "b-circle-missing-outdoor-percent",
+    "blueprint": {
+      "problemFamily": "b-circle-missing-outdoor-percent",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수04-02]",
+      "representations": [
+        "text",
+        "graph"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "원그래프에서 야외 활동의 비율만 가려져 있습니다. 야외 활동의 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)",
+    "solver_rule": "70 - p * 10",
+    "solution_steps_template": [
+      "실내 활동 30%와 온라인 활동 {{p * 10}}%를 더합니다.",
+      "100-{{p * 10 + 30}}={{70 - p * 10}}%입니다."
+    ],
+    "hint_steps_template": [
+      "띠 전체나 원 전체를 100%로 보고 보이는 부문의 비율을 먼저 더해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "방학 활동 장소",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "실내",
+            "percent": 30
+          },
+          {
+            "label": "온라인",
+            "percent": "{{p * 10}}"
+          },
+          {
+            "label": "야외",
+            "percent": "{{70 - p * 10}}"
+          }
+        ],
+        "maskedValueIndex": 2
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-B-04",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "b-band-two-commute-percent",
+    "blueprint": {
+      "problemFamily": "b-band-two-commute-percent",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "[6수04-02]",
+      "representations": [
+        "text",
+        "graph"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "띠그래프에서 걷기와 자전거를 합한 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)",
+    "solver_rule": "p * 10 + 20",
+    "solution_steps_template": [
+      "걷기 20%와 자전거 {{p * 10}}%를 찾습니다.",
+      "합은 {{p * 10 + 20}}%입니다."
+    ],
+    "hint_steps_template": [
+      "띠 전체나 원 전체를 100%로 보고 보이는 부문의 비율을 먼저 더해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "주말 이동 방법",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "걷기",
+            "percent": 20
+          },
+          {
+            "label": "자전거",
+            "percent": "{{p * 10}}"
+          },
+          {
+            "label": "자동차",
+            "percent": "{{80 - p * 10}}"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-B-05",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "b-circle-science-count",
+    "blueprint": {
+      "problemFamily": "b-circle-science-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "학생 {{p * 10}}명의 선호 과목을 조사했습니다. 과학을 고른 학생은 몇 명인가요?",
+    "solver_rule": "3 * p",
+    "solution_steps_template": [
+      "과학은 전체의 30%입니다.",
+      "{{p * 10}}×0.3={{3 * p}}명입니다.",
+      "구한 인원이나 전체 수를 다시 비율로 바꾸어 그래프의 부문 비율과 같은지 검산합니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "선호 과목",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "과학",
+            "percent": 30
+          },
+          {
+            "label": "체육",
+            "percent": 50
+          },
+          {
+            "label": "음악",
+            "percent": 20
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-B-06",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
+    "problem_family": "b-band-game-reading-gap",
+    "blueprint": {
+      "problemFamily": "b-band-game-reading-gap",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "학생 {{p * 10}}명의 쉬는 시간 활동을 조사했습니다. 놀이를 고른 학생은 독서를 고른 학생보다 몇 명 더 많은가요?",
+    "solver_rule": "3 * p",
+    "solution_steps_template": [
+      "놀이와 독서의 비율 차는 50-20=30%p입니다.",
+      "{{p * 10}}×0.3={{3 * p}}명입니다.",
+      "구한 인원이나 전체 수를 다시 비율로 바꾸어 그래프의 부문 비율과 같은지 검산합니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "쉬는 시간 활동",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "독서",
+            "percent": 20
+          },
+          {
+            "label": "놀이",
+            "percent": 50
+          },
+          {
+            "label": "대화",
+            "percent": 30
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-B-07",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
+    "problem_family": "b-circle-find-survey-total",
+    "blueprint": {
+      "problemFamily": "b-circle-find-survey-total",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "원그래프에서 만들기 25%에 해당하는 학생이 {{p * 5}}명입니다. 조사한 학생은 모두 몇 명인가요?",
+    "solver_rule": "20 * p",
+    "solution_steps_template": [
+      "25%는 전체의 1/4입니다.",
+      "{{p * 5}}×4={{p * 20}}명이 전체입니다.",
+      "구한 인원이나 전체 수를 다시 비율로 바꾸어 그래프의 부문 비율과 같은지 검산합니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "희망 창의 활동",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "만들기",
+            "percent": 25
+          },
+          {
+            "label": "그리기",
+            "percent": 35
+          },
+          {
+            "label": "코딩",
+            "percent": 40
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-B-08",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "b-band-multiple-groups-combined-count",
+    "blueprint": {
+      "problemFamily": "b-band-multiple-groups-combined-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "각각 {{p * 5}}명인 {{p}}개 모둠에서 실험과 토론의 비율이 모두 같은 띠그래프와 같습니다. 모든 모둠의 실험·토론 희망자는 몇 명인가요?",
+    "solver_rule": "3 * p * p",
+    "solution_steps_template": [
+      "실험과 토론은 40+20=60%입니다.",
+      "한 모둠 {{p * 5}}명의 60%는 {{3 * p}}명이고 {{p}}개 모둠은 {{3 * p * p}}명입니다.",
+      "구한 인원이나 전체 수를 다시 비율로 바꾸어 그래프의 부문 비율과 같은지 검산합니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "탐구 방법 선호",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "실험",
+            "percent": 40
+          },
+          {
+            "label": "토론",
+            "percent": 20
+          },
+          {
+            "label": "관찰",
+            "percent": 40
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-B-09",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
+    "problem_family": "b-circle-repeated-underread-error",
+    "blueprint": {
+      "problemFamily": "b-circle-repeated-underread-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "각각 {{p * 10}}명인 {{p}}개 반의 원그래프에서 축구 40%를 30%로 잘못 읽었습니다. 전체 학생 수 계산의 오차는 몇 명인가요?",
+    "solver_rule": "p * p",
+    "solution_steps_template": [
+      "한 반에서 10%p 차이는 {{p * 10}}×0.1={{p}}명입니다.",
+      "{{p}}개 반에서는 {{p * p}}명 차이입니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "한 집단의 오차를 먼저 구한 뒤 같은 조건의 집단 수만큼 누적해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "희망 구기 종목",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "축구",
+            "percent": 40
+          },
+          {
+            "label": "농구",
+            "percent": 30
+          },
+          {
+            "label": "배구",
+            "percent": 30
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-B-10",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
+    "problem_family": "b-band-merged-category-error",
+    "blueprint": {
+      "problemFamily": "b-band-merged-category-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "각각 {{p * 20}}명인 {{p}}개 학급에서 독서 20%와 운동 30%를 합해 40%라고 잘못 정리했습니다. 모든 학급을 합친 학생 수의 오차는 몇 명인가요?",
+    "solver_rule": "2 * p * p",
+    "solution_steps_template": [
+      "실제 합은 20+30=50%이므로 10%p 부족합니다.",
+      "한 학급 오차 {{2 * p}}명에 {{p}}개 학급을 곱하면 {{2 * p * p}}명입니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "한 집단의 오차를 먼저 구한 뒤 같은 조건의 집단 수만큼 누적해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "방과 후 활동",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "독서",
+            "percent": 20
+          },
+          {
+            "label": "운동",
+            "percent": 30
+          },
+          {
+            "label": "학원",
+            "percent": 50
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-C-01",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
+    "problem_family": "c-band-missing-fruit-percent",
+    "blueprint": {
+      "problemFamily": "c-band-missing-fruit-percent",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수04-02]",
+      "representations": [
+        "text",
+        "graph"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "띠그래프에서 과일의 비율만 가려져 있습니다. 과일을 고른 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)",
+    "solver_rule": "p * 10",
+    "solution_steps_template": [
+      "빵 20%와 음료 {{80 - p * 10}}%의 합을 100%에서 뺍니다.",
+      "과일은 {{p * 10}}%입니다."
+    ],
+    "hint_steps_template": [
+      "띠 전체나 원 전체를 100%로 보고 보이는 부문의 비율을 먼저 더해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "간식 선호",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "과일",
+            "percent": "{{p * 10}}"
+          },
+          {
+            "label": "빵",
+            "percent": 20
+          },
+          {
+            "label": "음료",
+            "percent": "{{80 - p * 10}}"
+          }
+        ],
+        "maskedValueIndex": 0
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-C-02",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
+    "problem_family": "c-circle-missing-walk-percent",
+    "blueprint": {
+      "problemFamily": "c-circle-missing-walk-percent",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수04-02]",
+      "representations": [
+        "text",
+        "graph"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "원그래프에서 걷기의 비율만 가려져 있습니다. 걷기의 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)",
+    "solver_rule": "p * 10",
+    "solution_steps_template": [
+      "자전거 40%와 버스 {{60 - p * 10}}%를 더합니다.",
+      "100에서 빼면 걷기는 {{p * 10}}%입니다."
+    ],
+    "hint_steps_template": [
+      "띠 전체나 원 전체를 100%로 보고 보이는 부문의 비율을 먼저 더해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "공원 이동 방법",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "자전거",
+            "percent": 40
+          },
+          {
+            "label": "걷기",
+            "percent": "{{p * 10}}"
+          },
+          {
+            "label": "버스",
+            "percent": "{{60 - p * 10}}"
+          }
+        ],
+        "maskedValueIndex": 1
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-C-03",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
+    "problem_family": "c-band-missing-paper-percent",
+    "blueprint": {
+      "problemFamily": "c-band-missing-paper-percent",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수04-02]",
+      "representations": [
+        "text",
+        "graph"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "띠그래프에서 종이의 비율만 가려져 있습니다. 종이의 비율은 몇 %인가요? (단위 %는 쓰지 않아요.)",
+    "solver_rule": "50 - p * 10",
+    "solution_steps_template": [
+      "플라스틱 30%와 캔 {{p * 10 + 20}}%를 더합니다.",
+      "100-{{p * 10 + 50}}={{50 - p * 10}}%입니다."
+    ],
+    "hint_steps_template": [
+      "띠 전체나 원 전체를 100%로 보고 보이는 부문의 비율을 먼저 더해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "재활용품 분류",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "플라스틱",
+            "percent": 30
+          },
+          {
+            "label": "캔",
+            "percent": "{{p * 10 + 20}}"
+          },
+          {
+            "label": "종이",
+            "percent": "{{50 - p * 10}}"
+          }
+        ],
+        "maskedValueIndex": 2
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-C-04",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "c-circle-nonfirst-combined-percent",
+    "blueprint": {
+      "problemFamily": "c-circle-nonfirst-combined-percent",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "[6수04-02]",
+      "representations": [
+        "text",
+        "graph"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "원그래프에서 두 번째와 세 번째 부문의 비율을 합하면 몇 %인가요? (단위 %는 쓰지 않아요.)",
+    "solver_rule": "100 - p * 10",
+    "solution_steps_template": [
+      "전체는 100%이고 첫 번째 부문은 {{p * 10}}%입니다.",
+      "나머지 두 부문의 합은 {{100 - p * 10}}%입니다."
+    ],
+    "hint_steps_template": [
+      "띠 전체나 원 전체를 100%로 보고 보이는 부문의 비율을 먼저 더해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "학교 축제 역할",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "진행",
+            "percent": "{{p * 10}}"
+          },
+          {
+            "label": "공연",
+            "percent": 30
+          },
+          {
+            "label": "전시",
+            "percent": "{{70 - p * 10}}"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-C-05",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "c-band-remaining-data-count",
+    "blueprint": {
+      "problemFamily": "c-band-remaining-data-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "학생 {{p * 10}}명의 주말 운동 자료를 띠그래프로 나타냈습니다. 달리기와 수영을 제외한 학생은 몇 명인가요?",
+    "solver_rule": "3 * p",
+    "solution_steps_template": [
+      "달리기와 수영을 제외한 구기 운동은 30%입니다.",
+      "{{p * 10}}×0.3={{3 * p}}명입니다.",
+      "구한 인원이나 전체 수를 다시 비율로 바꾸어 그래프의 부문 비율과 같은지 검산합니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "주말 운동",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "달리기",
+            "percent": 50
+          },
+          {
+            "label": "수영",
+            "percent": 20
+          },
+          {
+            "label": "구기",
+            "percent": 30
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-C-06",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
+    "problem_family": "c-circle-largest-smallest-gap",
+    "blueprint": {
+      "problemFamily": "c-circle-largest-smallest-gap",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "학생 {{p * 20}}명의 진로 체험 자료입니다. 가장 큰 부문과 가장 작은 부문의 학생 수 차는 몇 명인가요?",
+    "solver_rule": "5 * p",
+    "solution_steps_template": [
+      "가장 큰 부문 50%와 가장 작은 부문 25%의 차는 25%p입니다.",
+      "{{p * 20}}×0.25={{5 * p}}명입니다.",
+      "구한 인원이나 전체 수를 다시 비율로 바꾸어 그래프의 부문 비율과 같은지 검산합니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "진로 체험 분야",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "과학",
+            "percent": 25
+          },
+          {
+            "label": "예술",
+            "percent": 25
+          },
+          {
+            "label": "스포츠",
+            "percent": 50
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-C-07",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "c-band-first-third-combined-count",
+    "blueprint": {
+      "problemFamily": "c-band-first-third-combined-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "학생 {{p * 10}}명의 환경 실천 자료입니다. 절전과 재사용을 실천한 학생은 모두 몇 명인가요?",
+    "solver_rule": "7 * p",
+    "solution_steps_template": [
+      "절전과 재사용의 비율은 20+50=70%입니다.",
+      "{{p * 10}}×0.7={{7 * p}}명입니다.",
+      "구한 인원이나 전체 수를 다시 비율로 바꾸어 그래프의 부문 비율과 같은지 검산합니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "환경 실천 방법",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "절전",
+            "percent": 20
+          },
+          {
+            "label": "분리배출",
+            "percent": 30
+          },
+          {
+            "label": "재사용",
+            "percent": 50
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-C-08",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
+    "problem_family": "c-circle-find-total-from-category",
+    "blueprint": {
+      "problemFamily": "c-circle-find-total-from-category",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "원그래프에서 텃밭 40%에 해당하는 학생이 {{p * 4}}명입니다. 조사한 학생은 모두 몇 명인가요?",
+    "solver_rule": "10 * p",
+    "solution_steps_template": [
+      "40%는 0.4입니다.",
+      "전체 학생 수는 {{p * 4}}÷0.4={{p * 10}}명입니다.",
+      "구한 인원이나 전체 수를 다시 비율로 바꾸어 그래프의 부문 비율과 같은지 검산합니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "부문을 합치거나 비교할 때 같은 전체를 기준으로 계산했는지 확인해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "희망 생태 활동",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "텃밭",
+            "percent": 40
+          },
+          {
+            "label": "관찰",
+            "percent": 40
+          },
+          {
+            "label": "정화",
+            "percent": 20
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-C-09",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
+    "problem_family": "c-band-overlap-double-count-error",
+    "blueprint": {
+      "problemFamily": "c-band-overlap-double-count-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "각각 {{p * 10}}명인 {{p}}개 학급의 설문에서 두 답을 고른 학생 10%를 두 부문에 모두 넣어 합계가 110%가 되었습니다. 중복으로 센 학생은 모두 몇 명인가요?",
+    "solver_rule": "p * p",
+    "solution_steps_template": [
+      "한 학급에서 중복된 10%는 {{p * 10}}×0.1={{p}}명입니다.",
+      "{{p}}개 학급의 중복 인원은 {{p * p}}명입니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "한 집단의 오차를 먼저 구한 뒤 같은 조건의 집단 수만큼 누적해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "정리한 독서 장소",
+        "kind": "band",
+        "segments": [
+          {
+            "label": "교실",
+            "percent": 30
+          },
+          {
+            "label": "도서관",
+            "percent": 30
+          },
+          {
+            "label": "집",
+            "percent": 40
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "tmpl-g6ratiograph-C-10",
+    "concept_id": "g6ratiograph-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
+    "problem_family": "c-circle-swapped-sector-error",
+    "blueprint": {
+      "problemFamily": "c-circle-swapped-sector-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수04-03]",
+      "connectedStandards": [
+        "[6수04-02]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "graph"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "각각 {{p * 20}}명인 {{p}}개 학교의 원그래프에서 아침 운동 20%와 독서 50%의 이름표를 서로 바꿨습니다. 아침 운동 인원 보고의 전체 오차는 몇 명인가요?",
+    "solver_rule": "6 * p * p",
+    "solution_steps_template": [
+      "두 부문의 차는 50-20=30%p입니다.",
+      "한 학교 오차 {{6 * p}}명에 {{p}}개 학교를 곱하면 {{6 * p * p}}명입니다."
+    ],
+    "hint_steps_template": [
+      "그래프의 비율을 소수로 바꾼 뒤 전체 자료 수에 곱해요.",
+      "한 집단의 오차를 먼저 구한 뒤 같은 조건의 집단 수만큼 누적해요."
+    ],
+    "visual_template": {
+      "type": "ratio_graph",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "아침 활동",
+        "kind": "circle",
+        "segments": [
+          {
+            "label": "아침 운동",
+            "percent": 20
+          },
+          {
+            "label": "준비",
+            "percent": 30
+          },
+          {
+            "label": "독서",
+            "percent": 50
+          }
+        ]
+      }
+    }
+  }
+]

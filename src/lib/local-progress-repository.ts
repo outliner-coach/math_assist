@@ -1,16 +1,30 @@
 import {
   LEARNING_GRADES,
+  createLearningSetCompletionRecord,
+  projectLearningCompletion,
+  readLearningSetCompletionRecord,
   type ActivityItemSnapshot,
   type ActivityResponse,
   type AttemptReceipt,
   type LearningActivityMode,
   type LearningActivitySession,
+  type LearningCompletionProjection,
   type LearningGrade,
   type LearningProgressProjection,
   type LearningProgressProjectionMap,
   type ProgressRepository,
   type ProgressResume,
 } from './learning-activity'
+import {
+  getGrade1LegacyMissionIds,
+  grade1Islands,
+  grade1MissionTemplates,
+} from './grade1-problems'
+import { getGrade2MissionSet, grade2Units } from './grade2-problems'
+import { getGrade3MissionSession, grade3Units } from './grade3-problems'
+import { grade4Units } from './grade4-problems'
+import { projectConceptProgressCompletion } from './progress'
+import type { ConceptProgressSummary } from './types'
 
 const PROGRESS_KEYS: Record<LearningGrade, string> = {
   1: 'mathAssist_grade1Progress',
@@ -98,12 +112,116 @@ function emptyProjection(grade: LearningGrade, corrupted: boolean): LearningProg
     resume: null,
     completed: [],
     review: [],
+    completionByActivityId: {},
     lastActivityAt: null,
     corrupted,
     sessionCorrupted: false,
     sourceKey: PROGRESS_KEYS[grade],
     schemaVersion: null,
   }
+}
+
+function containsEvery(values: ReadonlySet<string>, required: readonly string[]): boolean {
+  return required.length > 0 && required.every((id) => values.has(id))
+}
+
+function completionProjection(
+  activityId: string,
+  hasCompletedBasicSet: boolean,
+  hasCompletedPracticeSet: boolean,
+  legacyCompleted: boolean,
+): LearningCompletionProjection {
+  return projectLearningCompletion({
+    activityId,
+    record: {
+      completedBasicSetActivityIds: hasCompletedBasicSet ? [activityId] : [],
+      completedPracticeSetActivityIds: hasCompletedPracticeSet ? [activityId] : [],
+    },
+    legacyCompleted,
+  })
+}
+
+function missionCompletionMap(
+  grade: 1 | 2 | 3,
+  value: JsonRecord,
+  completed: readonly string[],
+  review: readonly string[],
+): Record<string, LearningCompletionProjection> | null {
+  const checkedField = stringList(value, grade === 1 ? 'checkedStageIds' : 'checkedMissionIds')
+  if (!checkedField.valid) return null
+  const checked = new Set(
+    checkedField.values.length > 0
+      ? checkedField.values
+      : [...completed, ...review],
+  )
+  const schemaVersion = finiteNumber(value.schemaVersion) ?? 0
+
+  if (grade === 1) {
+    const saved = stringList(value, 'completedIslandIds')
+    if (!saved.valid) return null
+    const savedComplete = new Set(saved.values)
+    return Object.fromEntries(grade1Islands.map((island) => {
+      const basicIds = grade1MissionTemplates
+        .filter((mission) => mission.islandId === island.id && mission.mode === 'basic')
+        .map((mission) => mission.id)
+      const practiceIds = grade1MissionTemplates
+        .filter((mission) => mission.islandId === island.id && mission.mode === 'practice')
+        .map((mission) => mission.id)
+      const legacyCompleted = savedComplete.has(island.id)
+        || (schemaVersion < 3 && containsEvery(checked, getGrade1LegacyMissionIds(island.id)))
+      return [island.id, completionProjection(
+        island.id,
+        containsEvery(checked, basicIds),
+        containsEvery(checked, practiceIds),
+        legacyCompleted,
+      )]
+    }))
+  }
+
+  if (grade === 2) {
+    const saved = stringList(value, 'completedUnitIds')
+    if (!saved.valid) return null
+    const savedComplete = new Set(saved.values)
+    return Object.fromEntries(grade2Units.map((unit) => {
+      const basicIds = getGrade2MissionSet(unit.id, 'basic').map((mission) => mission.id)
+      const practiceIds = getGrade2MissionSet(unit.id, 'practice').map((mission) => mission.id)
+      return [unit.id, completionProjection(
+        unit.id,
+        containsEvery(checked, basicIds),
+        containsEvery(checked, practiceIds),
+        savedComplete.has(unit.id)
+          || (schemaVersion < 4 && containsEvery(checked, basicIds)),
+      )]
+    }))
+  }
+
+  const saved = stringList(value, 'completedUnitIds')
+  if (!saved.valid) return null
+  const savedComplete = new Set(saved.values)
+  const practiceByUnit = value.practiceMissionIdsByUnit
+  if (
+    practiceByUnit !== undefined
+    && (!practiceByUnit || typeof practiceByUnit !== 'object' || Array.isArray(practiceByUnit))
+  ) return null
+  const result: Record<string, LearningCompletionProjection> = {}
+  for (const unit of grade3Units) {
+    const basicIds = getGrade3MissionSession(unit.id, 'basic').map((mission) => mission.id)
+    const storedPractice = practiceByUnit && typeof practiceByUnit === 'object'
+      ? stringList(practiceByUnit as JsonRecord, unit.id)
+      : { values: [], valid: true }
+    if (!storedPractice.valid) return null
+    const practiceIds = storedPractice.values.length === 3
+      ? storedPractice.values
+      : getGrade3MissionSession(unit.id, 'practice').map((mission) => mission.id)
+    result[unit.id] = completionProjection(
+      unit.id,
+      containsEvery(checked, basicIds),
+      containsEvery(checked, practiceIds),
+      savedComplete.has(unit.id)
+        || (schemaVersion < 2 && containsEvery(checked, basicIds)),
+    )
+  }
+  return result
 }
 
 function missionProgressProjection(
@@ -127,6 +245,13 @@ function missionProgressProjection(
   const valid = completed.valid && review.valid && latest.valid && context.valid && lastActivity.valid
 
   if (!valid) return emptyProjection(grade, true)
+  const completionByActivityId = missionCompletionMap(
+    grade,
+    value,
+    completed.values,
+    review.values,
+  )
+  if (!completionByActivityId) return emptyProjection(grade, true)
 
   const activityId = latest.value ?? context.value
   const resume: ProgressResume | null = activityId
@@ -144,6 +269,7 @@ function missionProgressProjection(
     resume,
     completed: completed.values,
     review: review.values,
+    completionByActivityId,
     lastActivityAt: hasProgress ? lastActivity.value : null,
     corrupted: false,
     sessionCorrupted: false,
@@ -164,6 +290,7 @@ function grade4ProgressProjection(record: ParsedRecord): LearningProgressProject
   const activeItemIndex = optionalNumber(value, 'activeItemIndex')
   const activityRun = optionalNumber(value, 'activityRun')
   const lastActivity = optionalNumber(value, 'lastPlayedAt')
+  const completionRead = readLearningSetCompletionRecord(value.completionRecord)
   const valid = value.schemaVersion === 1
     && completed.valid
     && review.valid
@@ -172,6 +299,7 @@ function grade4ProgressProjection(record: ParsedRecord): LearningProgressProject
     && activeItemIndex.valid
     && activityRun.valid
     && lastActivity.valid
+    && completionRead.status !== 'corrupt'
     && activeItemIndex.value !== null
     && Number.isSafeInteger(activeItemIndex.value)
     && activeItemIndex.value >= 0
@@ -183,6 +311,16 @@ function grade4ProgressProjection(record: ParsedRecord): LearningProgressProject
   if (!valid) return emptyProjection(4, true)
 
   const currentIndex = activeItemIndex.value as number
+  const completionRecord = completionRead.status === 'missing'
+    ? createLearningSetCompletionRecord()
+    : completionRead.record
+  const completionByActivityId = Object.fromEntries(
+    grade4Units.map((unit) => [unit.id, projectLearningCompletion({
+      activityId: unit.id,
+      record: completionRecord,
+      legacyCompleted: false,
+    })])
+  )
 
   const activityId = latest.value ?? context.value
   const resume: ProgressResume | null = activityId
@@ -202,6 +340,7 @@ function grade4ProgressProjection(record: ParsedRecord): LearningProgressProject
     resume,
     completed: completed.values,
     review: review.values,
+    completionByActivityId,
     lastActivityAt: hasProgress ? lastActivity.value : null,
     corrupted: false,
     sessionCorrupted: false,
@@ -323,7 +462,11 @@ function practiceProgressProjection(
   const entries = progressRecord.state === 'valid'
     ? Object.entries(progressRecord.value)
     : []
-  const validEntries: Array<{ id: string; value: JsonRecord }> = []
+  const validEntries: Array<{
+    completion: LearningCompletionProjection
+    id: string
+    value: JsonRecord
+  }> = []
   let invalidEntry = false
 
   for (const [key, entry] of entries) {
@@ -337,13 +480,27 @@ function practiceProgressProjection(
       invalidEntry = true
       continue
     }
-    validEntries.push({ id, value })
+    try {
+      validEntries.push({
+        completion: projectConceptProgressCompletion({
+          ...value,
+          conceptId: id,
+        } as unknown as ConceptProgressSummary),
+        id,
+        value,
+      })
+    } catch {
+      invalidEntry = true
+    }
   }
 
   const completed = Array.from(new Set(validEntries.map((entry) => entry.id)))
   const review = Array.from(new Set(
     validEntries.filter((entry) => entry.value.needsReview === true).map((entry) => entry.id)
   ))
+  const completionByActivityId = Object.fromEntries(
+    validEntries.map((entry) => [entry.id, entry.completion])
+  )
   const latest = validEntries
     .slice()
     .sort((left, right) => (
@@ -377,6 +534,7 @@ function practiceProgressProjection(
     resume,
     completed,
     review,
+    completionByActivityId,
     lastActivityAt,
     corrupted: invalidEntry,
     sessionCorrupted: sessionResult.corrupted,

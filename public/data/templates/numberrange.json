@@ -1,0 +1,1712 @@
+[
+  {
+    "id": "tmpl-numberrange-A-01",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "numberrange-lower-inclusive-first",
+    "blueprint": {
+      "problemFamily": "numberrange-lower-inclusive-first",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 30
+      }
+    },
+    "prompt_template": "행사 참가 나이가 {{a}} 이상입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?",
+    "solver_rule": "a",
+    "solution_steps_template": [
+      "이상은 경계값 {{a}}를 포함합니다.",
+      "가장 작은 자연수는 {{a}}입니다."
+    ],
+    "hint_steps_template": [
+      "경계값을 포함하는 말인지 먼저 확인해요.",
+      "이상·이하는 ●, 초과·미만은 ○로 나타내요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 이상",
+        "start": "{{a - 2}}",
+        "end": "{{a + 6}}",
+        "lower": "{{a}}",
+        "lowerInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-A-02",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "numberrange-lower-exclusive-first",
+    "blueprint": {
+      "problemFamily": "numberrange-lower-exclusive-first",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 30
+      }
+    },
+    "prompt_template": "수영장 깊이 기준이 {{a}} 초과입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?",
+    "solver_rule": "a + 1",
+    "solution_steps_template": [
+      "초과는 경계값 {{a}}를 포함하지 않습니다.",
+      "{{a}} 다음 자연수인 {{a + 1}}부터 조건을 만족합니다."
+    ],
+    "hint_steps_template": [
+      "경계값을 포함하는 말인지 먼저 확인해요.",
+      "이상·이하는 ●, 초과·미만은 ○로 나타내요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 초과",
+        "start": "{{a - 2}}",
+        "end": "{{a + 6}}",
+        "lower": "{{a}}",
+        "lowerInclusive": false
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-A-03",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "numberrange-upper-inclusive-last",
+    "blueprint": {
+      "problemFamily": "numberrange-upper-inclusive-last",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 30
+      }
+    },
+    "prompt_template": "도서 대출 권수가 {{a}} 이하입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?",
+    "solver_rule": "a",
+    "solution_steps_template": [
+      "이하는 경계값 {{a}}를 포함합니다.",
+      "가장 큰 자연수는 {{a}}입니다."
+    ],
+    "hint_steps_template": [
+      "경계값을 포함하는 말인지 먼저 확인해요.",
+      "이상·이하는 ●, 초과·미만은 ○로 나타내요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 이하",
+        "start": "{{a - 6}}",
+        "end": "{{a + 2}}",
+        "upper": "{{a}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-A-04",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "problem_family": "numberrange-upper-exclusive-last",
+    "blueprint": {
+      "problemFamily": "numberrange-upper-exclusive-last",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 30
+      }
+    },
+    "prompt_template": "보관함 번호가 {{a}} 미만입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?",
+    "solver_rule": "a - 1",
+    "solution_steps_template": [
+      "미만은 경계값 {{a}}를 포함하지 않습니다.",
+      "{{a}} 바로 전 자연수인 {{a - 1}}이 가장 큽니다."
+    ],
+    "hint_steps_template": [
+      "경계값을 포함하는 말인지 먼저 확인해요.",
+      "이상·이하는 ●, 초과·미만은 ○로 나타내요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 미만",
+        "start": "{{a - 6}}",
+        "end": "{{a + 2}}",
+        "upper": "{{a}}",
+        "upperInclusive": false
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-A-05",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "numberrange-inclusive-count",
+    "blueprint": {
+      "problemFamily": "numberrange-inclusive-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 30
+      },
+      "span": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "자연수 {{a}} 이상 {{a + span}} 이하인 체험관 입장 번호는 모두 몇 개인가요?",
+    "solver_rule": "span + 1",
+    "solution_steps_template": [
+      "이상과 이하는 두 경계값을 모두 포함합니다.",
+      "{{a}}부터 {{a + span}}까지 세면 {{span + 1}}개입니다."
+    ],
+    "hint_steps_template": [
+      "양쪽 경계값의 포함 여부를 각각 표시해요.",
+      "포함되는 첫 자연수와 마지막 자연수를 쓴 뒤 빠짐없이 세어요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 이상 {{a + span}} 이하",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": true,
+        "upper": "{{a + span}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-A-06",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "numberrange-exclusive-count",
+    "blueprint": {
+      "problemFamily": "numberrange-exclusive-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 30
+      },
+      "span": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "자연수 {{a}} 초과 {{a + span}} 미만인 체험관 입장 번호는 모두 몇 개인가요?",
+    "solver_rule": "span - 1",
+    "solution_steps_template": [
+      "초과와 미만은 두 경계값을 모두 제외합니다.",
+      "{{a + 1}}부터 {{a + span - 1}}까지 세면 {{span - 1}}개입니다."
+    ],
+    "hint_steps_template": [
+      "양쪽 경계값의 포함 여부를 각각 표시해요.",
+      "포함되는 첫 자연수와 마지막 자연수를 쓴 뒤 빠짐없이 세어요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 초과 {{a + span}} 미만",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": false,
+        "upper": "{{a + span}}",
+        "upperInclusive": false
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-A-07",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "numberrange-mixed-bound-count",
+    "blueprint": {
+      "problemFamily": "numberrange-mixed-bound-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 30
+      },
+      "span": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "자연수 {{a}} 이상 {{a + span}} 미만인 체험관 입장 번호는 모두 몇 개인가요?",
+    "solver_rule": "span",
+    "solution_steps_template": [
+      "{{a}}는 포함하고 {{a + span}}은 포함하지 않습니다.",
+      "{{a}}부터 {{a + span - 1}}까지 세면 {{span}}개입니다."
+    ],
+    "hint_steps_template": [
+      "양쪽 경계값의 포함 여부를 각각 표시해요.",
+      "포함되는 첫 자연수와 마지막 자연수를 쓴 뒤 빠짐없이 세어요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 이상 {{a + span}} 미만",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": true,
+        "upper": "{{a + span}}",
+        "upperInclusive": false
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-A-08",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "problem_family": "numberrange-context-qualified-count",
+    "blueprint": {
+      "problemFamily": "numberrange-context-qualified-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 30
+      },
+      "span": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "공연장 좌석 번호 {{a}}번부터 {{a + span + 2}}번까지 중 {{a + 1}} 초과 {{a + span}} 이하만 사용할 수 있습니다. 사용할 수 있는 번호는 몇 개인가요?",
+    "solver_rule": "span - 1",
+    "solution_steps_template": [
+      "{{a + 1}}은 제외하고 {{a + span}}은 포함합니다.",
+      "{{a + 2}}부터 {{a + span}}까지 모두 {{span - 1}}개입니다."
+    ],
+    "hint_steps_template": [
+      "양쪽 경계값의 포함 여부를 각각 표시해요.",
+      "포함되는 첫 자연수와 마지막 자연수를 쓴 뒤 빠짐없이 세어요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a + 1}} 초과 {{a + span}} 이하",
+        "start": "{{a}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a + 1}}",
+        "lowerInclusive": false,
+        "upper": "{{a + span}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-A-09",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "numberrange-endpoint-confusion-gap",
+    "blueprint": {
+      "problemFamily": "numberrange-endpoint-confusion-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 30
+      },
+      "span": {
+        "min": 4,
+        "max": 8
+      },
+      "groups": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "학급 {{groups}}곳이 각각 {{a}} 초과 {{a + span}} 이하인 번호를 셉니다. 민수는 {{a}}도 포함해 셌습니다. 학급 전체에서 민수가 실제보다 더 센 번호는 모두 몇 개인가요?",
+    "solver_rule": "groups",
+    "solution_steps_template": [
+      "초과이므로 각 범위에서 경계값 {{a}}는 제외해야 합니다.",
+      "각 학급에서 1개씩 더 셌으므로 {{groups}}곳에서는 {{groups}}개를 더 셌습니다."
+    ],
+    "hint_steps_template": [
+      "잘못 포함하거나 빠뜨린 경계값이 몇 개인지 한 범위부터 비교해요.",
+      "한 범위의 차이를 구한 뒤 모둠이나 학급 수만큼 누적해요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 초과 {{a + span}} 이하",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": false,
+        "upper": "{{a + span}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-A-10",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "problem_family": "numberrange-two-rule-gap",
+    "blueprint": {
+      "problemFamily": "numberrange-two-rule-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 12,
+        "max": 30
+      },
+      "span": {
+        "min": 4,
+        "max": 8
+      },
+      "groups": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    "prompt_template": "학급 {{groups}}곳에서 첫 규칙은 {{a}} 이상 {{a + span}} 이하, 둘째 규칙은 {{a}} 초과 {{a + span}} 미만입니다. 첫 규칙으로 센 수가 둘째보다 전체에서 몇 개 더 많나요?",
+    "solver_rule": "2 * groups",
+    "solution_steps_template": [
+      "한 곳에서 첫 규칙은 두 경계를 포함하고 둘째 규칙은 두 경계를 제외하므로 2개 차이입니다.",
+      "{{groups}}곳의 차이는 2×{{groups}}={{2 * groups}}개입니다."
+    ],
+    "hint_steps_template": [
+      "잘못 포함하거나 빠뜨린 경계값이 몇 개인지 한 범위부터 비교해요.",
+      "한 범위의 차이를 구한 뒤 모둠이나 학급 수만큼 누적해요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "첫 규칙: {{a}} 이상 {{a + span}} 이하",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": true,
+        "upper": "{{a + span}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-B-01",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "numberrange-lower-inclusive-first",
+    "blueprint": {
+      "problemFamily": "numberrange-lower-inclusive-first",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 25,
+        "max": 50
+      }
+    },
+    "prompt_template": "안전 검사 무게가 {{a}} 이상입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?",
+    "solver_rule": "a",
+    "solution_steps_template": [
+      "이상은 경계값 {{a}}를 포함합니다.",
+      "가장 작은 자연수는 {{a}}입니다."
+    ],
+    "hint_steps_template": [
+      "경계값을 포함하는 말인지 먼저 확인해요.",
+      "이상·이하는 ●, 초과·미만은 ○로 나타내요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 이상",
+        "start": "{{a - 2}}",
+        "end": "{{a + 6}}",
+        "lower": "{{a}}",
+        "lowerInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-B-02",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "numberrange-lower-exclusive-first",
+    "blueprint": {
+      "problemFamily": "numberrange-lower-exclusive-first",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 25,
+        "max": 50
+      }
+    },
+    "prompt_template": "기온 경보 기준이 {{a}} 초과입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?",
+    "solver_rule": "a + 1",
+    "solution_steps_template": [
+      "초과는 경계값 {{a}}를 포함하지 않습니다.",
+      "{{a}} 다음 자연수인 {{a + 1}}부터 조건을 만족합니다."
+    ],
+    "hint_steps_template": [
+      "경계값을 포함하는 말인지 먼저 확인해요.",
+      "이상·이하는 ●, 초과·미만은 ○로 나타내요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 초과",
+        "start": "{{a - 2}}",
+        "end": "{{a + 6}}",
+        "lower": "{{a}}",
+        "lowerInclusive": false
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-B-03",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "numberrange-upper-inclusive-last",
+    "blueprint": {
+      "problemFamily": "numberrange-upper-inclusive-last",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 25,
+        "max": 50
+      }
+    },
+    "prompt_template": "엘리베이터 적재 수가 {{a}} 이하입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?",
+    "solver_rule": "a",
+    "solution_steps_template": [
+      "이하는 경계값 {{a}}를 포함합니다.",
+      "가장 큰 자연수는 {{a}}입니다."
+    ],
+    "hint_steps_template": [
+      "경계값을 포함하는 말인지 먼저 확인해요.",
+      "이상·이하는 ●, 초과·미만은 ○로 나타내요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 이하",
+        "start": "{{a - 6}}",
+        "end": "{{a + 2}}",
+        "upper": "{{a}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-B-04",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "problem_family": "numberrange-upper-exclusive-last",
+    "blueprint": {
+      "problemFamily": "numberrange-upper-exclusive-last",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 25,
+        "max": 50
+      }
+    },
+    "prompt_template": "주차 시간 기준이 {{a}} 미만입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?",
+    "solver_rule": "a - 1",
+    "solution_steps_template": [
+      "미만은 경계값 {{a}}를 포함하지 않습니다.",
+      "{{a}} 바로 전 자연수인 {{a - 1}}이 가장 큽니다."
+    ],
+    "hint_steps_template": [
+      "경계값을 포함하는 말인지 먼저 확인해요.",
+      "이상·이하는 ●, 초과·미만은 ○로 나타내요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 미만",
+        "start": "{{a - 6}}",
+        "end": "{{a + 2}}",
+        "upper": "{{a}}",
+        "upperInclusive": false
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-B-05",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "numberrange-inclusive-count",
+    "blueprint": {
+      "problemFamily": "numberrange-inclusive-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 25,
+        "max": 50
+      },
+      "span": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "자연수 {{a}} 이상 {{a + span}} 이하인 대여 자전거 번호는 모두 몇 개인가요?",
+    "solver_rule": "span + 1",
+    "solution_steps_template": [
+      "이상과 이하는 두 경계값을 모두 포함합니다.",
+      "{{a}}부터 {{a + span}}까지 세면 {{span + 1}}개입니다."
+    ],
+    "hint_steps_template": [
+      "양쪽 경계값의 포함 여부를 각각 표시해요.",
+      "포함되는 첫 자연수와 마지막 자연수를 쓴 뒤 빠짐없이 세어요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 이상 {{a + span}} 이하",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": true,
+        "upper": "{{a + span}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-B-06",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "numberrange-exclusive-count",
+    "blueprint": {
+      "problemFamily": "numberrange-exclusive-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 25,
+        "max": 50
+      },
+      "span": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "자연수 {{a}} 초과 {{a + span}} 미만인 대여 자전거 번호는 모두 몇 개인가요?",
+    "solver_rule": "span - 1",
+    "solution_steps_template": [
+      "초과와 미만은 두 경계값을 모두 제외합니다.",
+      "{{a + 1}}부터 {{a + span - 1}}까지 세면 {{span - 1}}개입니다."
+    ],
+    "hint_steps_template": [
+      "양쪽 경계값의 포함 여부를 각각 표시해요.",
+      "포함되는 첫 자연수와 마지막 자연수를 쓴 뒤 빠짐없이 세어요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 초과 {{a + span}} 미만",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": false,
+        "upper": "{{a + span}}",
+        "upperInclusive": false
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-B-07",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "numberrange-mixed-bound-count",
+    "blueprint": {
+      "problemFamily": "numberrange-mixed-bound-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 25,
+        "max": 50
+      },
+      "span": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "자연수 {{a}} 이상 {{a + span}} 미만인 대여 자전거 번호는 모두 몇 개인가요?",
+    "solver_rule": "span",
+    "solution_steps_template": [
+      "{{a}}는 포함하고 {{a + span}}은 포함하지 않습니다.",
+      "{{a}}부터 {{a + span - 1}}까지 세면 {{span}}개입니다."
+    ],
+    "hint_steps_template": [
+      "양쪽 경계값의 포함 여부를 각각 표시해요.",
+      "포함되는 첫 자연수와 마지막 자연수를 쓴 뒤 빠짐없이 세어요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 이상 {{a + span}} 미만",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": true,
+        "upper": "{{a + span}}",
+        "upperInclusive": false
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-B-08",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "problem_family": "numberrange-context-qualified-count",
+    "blueprint": {
+      "problemFamily": "numberrange-context-qualified-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 25,
+        "max": 50
+      },
+      "span": {
+        "min": 5,
+        "max": 9
+      }
+    },
+    "prompt_template": "과학관 관찰 기록 번호 {{a}}번부터 {{a + span + 2}}번까지 중 {{a + 1}} 초과 {{a + span}} 이하만 사용할 수 있습니다. 사용할 수 있는 번호는 몇 개인가요?",
+    "solver_rule": "span - 1",
+    "solution_steps_template": [
+      "{{a + 1}}은 제외하고 {{a + span}}은 포함합니다.",
+      "{{a + 2}}부터 {{a + span}}까지 모두 {{span - 1}}개입니다."
+    ],
+    "hint_steps_template": [
+      "양쪽 경계값의 포함 여부를 각각 표시해요.",
+      "포함되는 첫 자연수와 마지막 자연수를 쓴 뒤 빠짐없이 세어요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a + 1}} 초과 {{a + span}} 이하",
+        "start": "{{a}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a + 1}}",
+        "lowerInclusive": false,
+        "upper": "{{a + span}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-B-09",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "numberrange-endpoint-confusion-gap",
+    "blueprint": {
+      "problemFamily": "numberrange-endpoint-confusion-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 25,
+        "max": 50
+      },
+      "span": {
+        "min": 5,
+        "max": 9
+      },
+      "groups": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "모둠 {{groups}}곳이 각각 {{a}} 초과 {{a + span}} 이하인 번호를 셉니다. 민수는 {{a}}도 포함해 셌습니다. 모둠 전체에서 민수가 실제보다 더 센 번호는 모두 몇 개인가요?",
+    "solver_rule": "groups",
+    "solution_steps_template": [
+      "초과이므로 각 범위에서 경계값 {{a}}는 제외해야 합니다.",
+      "각 모둠에서 1개씩 더 셌으므로 {{groups}}곳에서는 {{groups}}개를 더 셌습니다."
+    ],
+    "hint_steps_template": [
+      "잘못 포함하거나 빠뜨린 경계값이 몇 개인지 한 범위부터 비교해요.",
+      "한 범위의 차이를 구한 뒤 모둠이나 학급 수만큼 누적해요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 초과 {{a + span}} 이하",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": false,
+        "upper": "{{a + span}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-B-10",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "problem_family": "numberrange-two-rule-gap",
+    "blueprint": {
+      "problemFamily": "numberrange-two-rule-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 25,
+        "max": 50
+      },
+      "span": {
+        "min": 5,
+        "max": 9
+      },
+      "groups": {
+        "min": 2,
+        "max": 5
+      }
+    },
+    "prompt_template": "모둠 {{groups}}곳에서 첫 규칙은 {{a}} 이상 {{a + span}} 이하, 둘째 규칙은 {{a}} 초과 {{a + span}} 미만입니다. 첫 규칙으로 센 수가 둘째보다 전체에서 몇 개 더 많나요?",
+    "solver_rule": "2 * groups",
+    "solution_steps_template": [
+      "한 곳에서 첫 규칙은 두 경계를 포함하고 둘째 규칙은 두 경계를 제외하므로 2개 차이입니다.",
+      "{{groups}}곳의 차이는 2×{{groups}}={{2 * groups}}개입니다."
+    ],
+    "hint_steps_template": [
+      "잘못 포함하거나 빠뜨린 경계값이 몇 개인지 한 범위부터 비교해요.",
+      "한 범위의 차이를 구한 뒤 모둠이나 학급 수만큼 누적해요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "첫 규칙: {{a}} 이상 {{a + span}} 이하",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": true,
+        "upper": "{{a + span}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-C-01",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "numberrange-lower-inclusive-first",
+    "blueprint": {
+      "problemFamily": "numberrange-lower-inclusive-first",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 40,
+        "max": 70
+      }
+    },
+    "prompt_template": "걷기 목표 거리가 {{a}} 이상입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?",
+    "solver_rule": "a",
+    "solution_steps_template": [
+      "이상은 경계값 {{a}}를 포함합니다.",
+      "가장 작은 자연수는 {{a}}입니다."
+    ],
+    "hint_steps_template": [
+      "경계값을 포함하는 말인지 먼저 확인해요.",
+      "이상·이하는 ●, 초과·미만은 ○로 나타내요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 이상",
+        "start": "{{a - 2}}",
+        "end": "{{a + 6}}",
+        "lower": "{{a}}",
+        "lowerInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-C-02",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "numberrange-lower-exclusive-first",
+    "blueprint": {
+      "problemFamily": "numberrange-lower-exclusive-first",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 40,
+        "max": 70
+      }
+    },
+    "prompt_template": "훈련 통과 기록이 {{a}} 초과입니다. 조건을 만족하는 자연수 중 가장 작은 수는 무엇인가요?",
+    "solver_rule": "a + 1",
+    "solution_steps_template": [
+      "초과는 경계값 {{a}}를 포함하지 않습니다.",
+      "{{a}} 다음 자연수인 {{a + 1}}부터 조건을 만족합니다."
+    ],
+    "hint_steps_template": [
+      "경계값을 포함하는 말인지 먼저 확인해요.",
+      "이상·이하는 ●, 초과·미만은 ○로 나타내요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 초과",
+        "start": "{{a - 2}}",
+        "end": "{{a + 6}}",
+        "lower": "{{a}}",
+        "lowerInclusive": false
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-C-03",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "numberrange-upper-inclusive-last",
+    "blueprint": {
+      "problemFamily": "numberrange-upper-inclusive-last",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 40,
+        "max": 70
+      }
+    },
+    "prompt_template": "자료 제출 번호가 {{a}} 이하입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?",
+    "solver_rule": "a",
+    "solution_steps_template": [
+      "이하는 경계값 {{a}}를 포함합니다.",
+      "가장 큰 자연수는 {{a}}입니다."
+    ],
+    "hint_steps_template": [
+      "경계값을 포함하는 말인지 먼저 확인해요.",
+      "이상·이하는 ●, 초과·미만은 ○로 나타내요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 이하",
+        "start": "{{a - 6}}",
+        "end": "{{a + 2}}",
+        "upper": "{{a}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-C-04",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "problem_family": "numberrange-upper-exclusive-last",
+    "blueprint": {
+      "problemFamily": "numberrange-upper-exclusive-last",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "interpret"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 40,
+        "max": 70
+      }
+    },
+    "prompt_template": "창고 사용량 기준이 {{a}} 미만입니다. 조건을 만족하는 자연수 중 가장 큰 수는 무엇인가요?",
+    "solver_rule": "a - 1",
+    "solution_steps_template": [
+      "미만은 경계값 {{a}}를 포함하지 않습니다.",
+      "{{a}} 바로 전 자연수인 {{a - 1}}이 가장 큽니다."
+    ],
+    "hint_steps_template": [
+      "경계값을 포함하는 말인지 먼저 확인해요.",
+      "이상·이하는 ●, 초과·미만은 ○로 나타내요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 미만",
+        "start": "{{a - 6}}",
+        "end": "{{a + 2}}",
+        "upper": "{{a}}",
+        "upperInclusive": false
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-C-05",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "numberrange-inclusive-count",
+    "blueprint": {
+      "problemFamily": "numberrange-inclusive-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 40,
+        "max": 70
+      },
+      "span": {
+        "min": 4,
+        "max": 10
+      }
+    },
+    "prompt_template": "자연수 {{a}} 이상 {{a + span}} 이하인 숲길 표지 번호는 모두 몇 개인가요?",
+    "solver_rule": "span + 1",
+    "solution_steps_template": [
+      "이상과 이하는 두 경계값을 모두 포함합니다.",
+      "{{a}}부터 {{a + span}}까지 세면 {{span + 1}}개입니다."
+    ],
+    "hint_steps_template": [
+      "양쪽 경계값의 포함 여부를 각각 표시해요.",
+      "포함되는 첫 자연수와 마지막 자연수를 쓴 뒤 빠짐없이 세어요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 이상 {{a + span}} 이하",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": true,
+        "upper": "{{a + span}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-C-06",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "numberrange-exclusive-count",
+    "blueprint": {
+      "problemFamily": "numberrange-exclusive-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 40,
+        "max": 70
+      },
+      "span": {
+        "min": 4,
+        "max": 10
+      }
+    },
+    "prompt_template": "자연수 {{a}} 초과 {{a + span}} 미만인 숲길 표지 번호는 모두 몇 개인가요?",
+    "solver_rule": "span - 1",
+    "solution_steps_template": [
+      "초과와 미만은 두 경계값을 모두 제외합니다.",
+      "{{a + 1}}부터 {{a + span - 1}}까지 세면 {{span - 1}}개입니다."
+    ],
+    "hint_steps_template": [
+      "양쪽 경계값의 포함 여부를 각각 표시해요.",
+      "포함되는 첫 자연수와 마지막 자연수를 쓴 뒤 빠짐없이 세어요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 초과 {{a + span}} 미만",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": false,
+        "upper": "{{a + span}}",
+        "upperInclusive": false
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-C-07",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "numberrange-mixed-bound-count",
+    "blueprint": {
+      "problemFamily": "numberrange-mixed-bound-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "classify",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 40,
+        "max": 70
+      },
+      "span": {
+        "min": 4,
+        "max": 10
+      }
+    },
+    "prompt_template": "자연수 {{a}} 이상 {{a + span}} 미만인 숲길 표지 번호는 모두 몇 개인가요?",
+    "solver_rule": "span",
+    "solution_steps_template": [
+      "{{a}}는 포함하고 {{a + span}}은 포함하지 않습니다.",
+      "{{a}}부터 {{a + span - 1}}까지 세면 {{span}}개입니다."
+    ],
+    "hint_steps_template": [
+      "양쪽 경계값의 포함 여부를 각각 표시해요.",
+      "포함되는 첫 자연수와 마지막 자연수를 쓴 뒤 빠짐없이 세어요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 이상 {{a + span}} 미만",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": true,
+        "upper": "{{a + span}}",
+        "upperInclusive": false
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-C-08",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "problem_family": "numberrange-context-qualified-count",
+    "blueprint": {
+      "problemFamily": "numberrange-context-qualified-count",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 40,
+        "max": 70
+      },
+      "span": {
+        "min": 4,
+        "max": 10
+      }
+    },
+    "prompt_template": "환경 조사 지점 번호 {{a}}번부터 {{a + span + 2}}번까지 중 {{a + 1}} 초과 {{a + span}} 이하만 사용할 수 있습니다. 사용할 수 있는 번호는 몇 개인가요?",
+    "solver_rule": "span - 1",
+    "solution_steps_template": [
+      "{{a + 1}}은 제외하고 {{a + span}}은 포함합니다.",
+      "{{a + 2}}부터 {{a + span}}까지 모두 {{span - 1}}개입니다."
+    ],
+    "hint_steps_template": [
+      "양쪽 경계값의 포함 여부를 각각 표시해요.",
+      "포함되는 첫 자연수와 마지막 자연수를 쓴 뒤 빠짐없이 세어요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a + 1}} 초과 {{a + span}} 이하",
+        "start": "{{a}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a + 1}}",
+        "lowerInclusive": false,
+        "upper": "{{a + span}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-C-09",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "numberrange-endpoint-confusion-gap",
+    "blueprint": {
+      "problemFamily": "numberrange-endpoint-confusion-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 40,
+        "max": 70
+      },
+      "span": {
+        "min": 4,
+        "max": 10
+      },
+      "groups": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "조사팀 {{groups}}곳이 각각 {{a}} 초과 {{a + span}} 이하인 번호를 셉니다. 민수는 {{a}}도 포함해 셌습니다. 조사팀 전체에서 민수가 실제보다 더 센 번호는 모두 몇 개인가요?",
+    "solver_rule": "groups",
+    "solution_steps_template": [
+      "초과이므로 각 범위에서 경계값 {{a}}는 제외해야 합니다.",
+      "각 조사팀에서 1개씩 더 셌으므로 {{groups}}곳에서는 {{groups}}개를 더 셌습니다."
+    ],
+    "hint_steps_template": [
+      "잘못 포함하거나 빠뜨린 경계값이 몇 개인지 한 범위부터 비교해요.",
+      "한 범위의 차이를 구한 뒤 모둠이나 학급 수만큼 누적해요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "{{a}} 초과 {{a + span}} 이하",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": false,
+        "upper": "{{a + span}}",
+        "upperInclusive": true
+      }
+    }
+  },
+  {
+    "id": "tmpl-numberrange-C-10",
+    "concept_id": "numberrange-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "problem_family": "numberrange-two-rule-gap",
+    "blueprint": {
+      "problemFamily": "numberrange-two-rule-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-02",
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "visualSemantics": "quantitative",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
+    },
+    "param_schema": {
+      "a": {
+        "min": 40,
+        "max": 70
+      },
+      "span": {
+        "min": 4,
+        "max": 10
+      },
+      "groups": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "조사팀 {{groups}}곳에서 첫 규칙은 {{a}} 이상 {{a + span}} 이하, 둘째 규칙은 {{a}} 초과 {{a + span}} 미만입니다. 첫 규칙으로 센 수가 둘째보다 전체에서 몇 개 더 많나요?",
+    "solver_rule": "2 * groups",
+    "solution_steps_template": [
+      "한 곳에서 첫 규칙은 두 경계를 포함하고 둘째 규칙은 두 경계를 제외하므로 2개 차이입니다.",
+      "{{groups}}곳의 차이는 2×{{groups}}={{2 * groups}}개입니다."
+    ],
+    "hint_steps_template": [
+      "잘못 포함하거나 빠뜨린 경계값이 몇 개인지 한 범위부터 비교해요.",
+      "한 범위의 차이를 구한 뒤 모둠이나 학급 수만큼 누적해요."
+    ],
+    "visual_template": {
+      "type": "number_range",
+      "semantics": "quantitative",
+      "props": {
+        "caption": "첫 규칙: {{a}} 이상 {{a + span}} 이하",
+        "start": "{{a - 2}}",
+        "end": "{{a + span + 2}}",
+        "lower": "{{a}}",
+        "lowerInclusive": true,
+        "upper": "{{a + span}}",
+        "upperInclusive": true
+      }
+    }
+  }
+]

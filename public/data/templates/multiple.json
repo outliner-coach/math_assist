@@ -5,29 +5,48 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "multiple-identify",
-    "blueprint": {"problemFamily":"multiple-identify","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-second",
+    "blueprint": {
+      "problemFamily": "multiple-second",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
+      "a": {
         "min": 2,
-        "max": 9
+        "max": 4
+      },
+      "k": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "다음 중 {{n}}의 배수인 것은?",
-    "solver_rule": "n * 2",
+    "prompt_template": "{{a}}의 두 번째 배수를 구하세요.",
+    "solver_rule": "2 * a",
     "solution_steps_template": [
-      "{{n}}의 배수는 {{n}}의 곱입니다.",
-      "{{n}} × 2 = {{n * 2}}이므로 배수입니다."
+      "두 번째 배수는 기준 수 {{a}}의 2배입니다.",
+      "{{a}} × 2 = {{2 * a}}입니다."
     ],
     "hint_steps_template": [
-      "{{n}}을 2배 해요.",
-      "나머지가 0이면 배수예요."
+      "약수와 배수의 정의를 곱셈식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ],
     "choices_template": [
-      "{{n * 2}}",
-      "{{n * 2 + 1}}",
-      "{{n * 2 + 2}}",
-      "{{n * 2 + 3}}"
+      "{{2*a}}",
+      "{{(2*a) + 1}}",
+      "{{(2*a) + 2}}",
+      "{{(2*a) + 3}}"
     ]
   },
   {
@@ -37,22 +56,41 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "multiple-nth",
-    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "multiple-nth",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
+      "a": {
         "min": 2,
-        "max": 9
+        "max": 4
+      },
+      "k": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n}}의 4번째 배수는?",
-    "solver_rule": "n * 4",
+    "prompt_template": "{{a}}의 {{k}}번째 배수를 구하세요.",
+    "solver_rule": "a * k",
     "solution_steps_template": [
-      "{{n}}의 4번째 배수는 {{n}} × 4 입니다.",
-      "{{n}} × 4 = {{n * 4}}"
+      "기준 수는 {{a}}이고 순서는 {{k}}번째입니다.",
+      "{{a}} × {{k}} = {{a * k}}입니다."
     ],
     "hint_steps_template": [
-      "배수는 곱셈으로 구해요.",
-      "{{n}} × 4를 계산해요."
+      "약수와 배수의 정의를 곱셈식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
@@ -61,29 +99,48 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "multiple-identify-nonmultiple",
-    "blueprint": {"problemFamily":"multiple-identify-nonmultiple","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-order-from-value",
+    "blueprint": {
+      "problemFamily": "multiple-order-from-value",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
+      "a": {
         "min": 2,
-        "max": 9
+        "max": 4
+      },
+      "k": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "다음 중 {{n}}의 배수가 아닌 것은?",
-    "solver_rule": "n * 3 + 1",
+    "prompt_template": "{{a * k}}는 {{a}}의 몇 번째 배수인가요?",
+    "solver_rule": "k",
     "solution_steps_template": [
-      "{{n}}의 배수는 {{n}}의 곱입니다.",
-      "{{n * 3 + 1}}은 {{n}}으로 나누면 나머지가 1이므로 배수가 아닙니다."
+      "{{a * k}} ÷ {{a}} = {{k}}입니다.",
+      "따라서 {{k}}번째 배수입니다."
     ],
     "hint_steps_template": [
-      "배수는 나누어떨어져요.",
-      "{{n * 3 + 1}}은 나머지가 있어요."
+      "약수와 배수의 정의를 곱셈식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ],
     "choices_template": [
-      "{{n * 3 + 1}}",
-      "{{n * 2}}",
-      "{{n * 3}}",
-      "{{n * 4}}"
+      "{{k}}",
+      "{{k+1}}",
+      "{{k+2}}",
+      "{{k+3}}"
     ]
   },
   {
@@ -92,193 +149,330 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "multiple-nth",
-    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-next",
+    "blueprint": {
+      "problemFamily": "multiple-next",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
+      "a": {
+        "min": 2,
+        "max": 4
+      },
+      "k": {
         "min": 3,
-        "max": 10
+        "max": 5
       }
     },
-    "prompt_template": "{{n}}의 5번째 배수는?",
-    "solver_rule": "n * 5",
+    "prompt_template": "{{a * k}} 바로 다음에 오는 {{a}}의 배수를 구하세요.",
+    "solver_rule": "a * (k + 1)",
     "solution_steps_template": [
-      "{{n}}의 5번째 배수는 {{n}} × 5 입니다.",
-      "{{n}} × 5 = {{n * 5}}"
+      "{{a * k}}는 {{k}}번째 배수입니다.",
+      "현재 배수에 기준 수를 한 번 더하면 {{a * (k + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "{{n}}을 5배 해요.",
-      "곱셈으로 계산해요."
+      "약수와 배수의 정의를 곱셈식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
     "id": "tmpl-multiple-A-05",
     "concept_id": "multiple-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "multiple-sum-two-terms",
-    "blueprint": {"problemFamily":"multiple-sum-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "multiple-context-packages",
+    "blueprint": {
+      "problemFamily": "multiple-context-packages",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 4,
-        "max": 13
+      "a": {
+        "min": 2,
+        "max": 4
+      },
+      "k": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n}}의 2번째 배수와 3번째 배수의 합은?",
-    "solver_rule": "n * 5",
+    "prompt_template": "연필을 한 봉지에 {{a}}개씩 {{k}}봉지 담았습니다. 전체 개수를 구하세요.",
+    "solver_rule": "a * k",
     "solution_steps_template": [
-      "2번째 배수: {{n}} × 2 = {{n * 2}}",
-      "3번째 배수: {{n}} × 3 = {{n * 3}}",
-      "합: {{n * 2}} + {{n * 3}} = {{n * 5}}"
+      "한 봉지의 수와 봉지 수를 곱합니다.",
+      "{{a}} × {{k}} = {{a * k}}입니다."
     ],
     "hint_steps_template": [
-      "2번째와 3번째 배수를 각각 구해요.",
-      "두 값을 더해요."
+      "상황에서 남김없이 나누거나 반복되는 양을 식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
+    ],
+    "choices_template": [
+      "{{a*k}}",
+      "{{(a*k) + 1}}",
+      "{{(a*k) + 2}}",
+      "{{(a*k) + 3}}"
     ]
   },
   {
     "id": "tmpl-multiple-A-06",
     "concept_id": "multiple-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "multiple-scale-term",
-    "blueprint": {"problemFamily":"multiple-scale-term","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "multiple-context-repeated-distance",
+    "blueprint": {
+      "problemFamily": "multiple-context-repeated-distance",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 4,
-        "max": 13
+      "a": {
+        "min": 2,
+        "max": 4
+      },
+      "k": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n}}의 3번째 배수의 두 배는?",
-    "solver_rule": "n * 6",
+    "prompt_template": "한 번에 {{a}}m씩 {{k}}번 이동했습니다. 이동한 거리는 모두 몇 m인가요?",
+    "solver_rule": "a * k",
     "solution_steps_template": [
-      "3번째 배수: {{n}} × 3 = {{n * 3}}",
-      "두 배: {{n * 3}} × 2 = {{n * 6}}"
+      "같은 거리 {{a}}m를 {{k}}번 더합니다.",
+      "전체 거리는 {{a * k}}m입니다."
     ],
     "hint_steps_template": [
-      "3번째 배수를 먼저 구해요.",
-      "그 값을 두 배 해요."
-    ],
-    "choices_template": [
-      "{{n * 6}}",
-      "{{n * 6 + 3}}",
-      "{{n * 6 + 6}}",
-      "{{n * 6 + 9}}"
+      "상황에서 남김없이 나누거나 반복되는 양을 식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
     "id": "tmpl-multiple-A-07",
     "concept_id": "multiple-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "multiple-difference-two-terms",
-    "blueprint": {"problemFamily":"multiple-difference-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "multiple-next-after-known",
+    "blueprint": {
+      "problemFamily": "multiple-next-after-known",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 5,
-        "max": 13
+      "a": {
+        "min": 2,
+        "max": 4
+      },
+      "k": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n}}의 4번째 배수에서 {{n}}을 빼면?",
-    "solver_rule": "n * 3",
+    "prompt_template": "{{a * k}}보다 큰 수 중 가장 작은 {{a}}의 배수를 구하세요.",
+    "solver_rule": "a * (k + 1)",
     "solution_steps_template": [
-      "4번째 배수: {{n}} × 4 = {{n * 4}}",
-      "뺄셈: {{n * 4}} - {{n}} = {{n * 3}}"
+      "{{a * k}}는 {{k}}번째 배수입니다.",
+      "바로 다음 배수는 {{a * (k + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "4번째 배수를 먼저 구해요.",
-      "거기서 {{n}}을 빼요."
+      "상황에서 남김없이 나누거나 반복되는 양을 식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
+    ],
+    "choices_template": [
+      "{{a*(k+1)}}",
+      "{{(a*(k+1)) + 1}}",
+      "{{(a*(k+1)) + 2}}",
+      "{{(a*(k+1)) + 3}}"
     ]
   },
   {
     "id": "tmpl-multiple-A-08",
     "concept_id": "multiple-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "multiple-identify",
-    "blueprint": {"problemFamily":"multiple-identify","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-missing-multiplier",
+    "blueprint": {
+      "problemFamily": "multiple-missing-multiplier",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 5,
-        "max": 13
+      "a": {
+        "min": 2,
+        "max": 4
+      },
+      "k": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "다음 중 {{n}}의 배수인 것은?",
-    "solver_rule": "n * 5",
+    "prompt_template": "{{a}} × □ = {{a * k}}입니다. □에 알맞은 배수의 순서를 구하세요.",
+    "solver_rule": "k",
     "solution_steps_template": [
-      "{{n}} × 5 = {{n * 5}}이므로 배수입니다.",
-      "+1, +2, +3을 하면 배수가 아닙니다."
+      "곱을 {{a}}로 나눕니다.",
+      "{{a * k}} ÷ {{a}} = {{k}}입니다."
     ],
     "hint_steps_template": [
-      "{{n}} × 5 값을 찾으면 돼요.",
-      "나머지가 0인지 확인해요."
-    ],
-    "choices_template": [
-      "{{n * 5}}",
-      "{{n * 5 + 1}}",
-      "{{n * 5 + 2}}",
-      "{{n * 5 + 3}}"
+      "상황에서 남김없이 나누거나 반복되는 양을 식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
     "id": "tmpl-multiple-A-09",
     "concept_id": "multiple-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "multiple-difference-two-terms",
-    "blueprint": {"problemFamily":"multiple-difference-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "multiple-addition-error-gap",
+    "blueprint": {
+      "problemFamily": "multiple-addition-error-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 7,
-        "max": 17
+      "a": {
+        "min": 2,
+        "max": 4
+      },
+      "k": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n}}의 7번째 배수에서 2번째 배수를 빼면?",
-    "solver_rule": "n * 5",
+    "prompt_template": "{{a}}의 {{k}}번째 배수를 구하면서 잘못 계산한 값은 {{a + k}}입니다. 올바른 값은 잘못된 값보다 얼마 큰가요?",
+    "solver_rule": "a * k - (a + k)",
     "solution_steps_template": [
-      "7번째 배수: {{n}} × 7 = {{n * 7}}",
-      "2번째 배수: {{n}} × 2 = {{n * 2}}",
-      "차: {{n * 7}} - {{n * 2}} = {{n * 5}}"
+      "올바른 값은 곱 {{a * k}}, 잘못된 값은 합 {{a + k}}입니다.",
+      "차는 {{a * k - (a + k)}}입니다."
     ],
     "hint_steps_template": [
-      "7번째와 2번째 배수를 각각 구해요.",
-      "큰 것에서 작은 것을 빼요."
+      "주장에 사용한 계산과 올바른 계산을 비교해요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
+    ],
+    "choices_template": [
+      "{{a*k-(a+k)}}",
+      "{{(a*k-(a+k)) + 1}}",
+      "{{(a*k-(a+k)) + 2}}",
+      "{{(a*k-(a+k)) + 3}}"
     ]
   },
   {
     "id": "tmpl-multiple-A-10",
     "concept_id": "multiple-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "multiple-nth",
-    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-between-consecutive",
+    "blueprint": {
+      "problemFamily": "multiple-between-consecutive",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 8,
-        "max": 20
+      "a": {
+        "min": 2,
+        "max": 4
+      },
+      "k": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n}}의 8번째 배수는?",
-    "solver_rule": "n * 8",
+    "prompt_template": "연속한 두 배수 {{a * k}}와 {{a * (k + 1)}} 사이에 있는 자연수는 몇 개인가요?",
+    "solver_rule": "a - 1",
     "solution_steps_template": [
-      "{{n}}의 8번째 배수는 {{n}} × 8 입니다.",
-      "{{n}} × 8 = {{n * 8}}"
+      "연속한 두 배수의 차는 {{a}}입니다.",
+      "양 끝을 제외한 자연수는 {{a - 1}}개입니다."
     ],
     "hint_steps_template": [
-      "{{n}}을 8배 해요.",
-      "곱셈으로 계산해요."
-    ],
-    "choices_template": [
-      "{{n * 8}}",
-      "{{n * 8 + 4}}",
-      "{{n * 8 + 8}}",
-      "{{n * 8 + 12}}"
+      "주장에 사용한 계산과 올바른 계산을 비교해요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
@@ -287,29 +481,48 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "multiple-identify",
-    "blueprint": {"problemFamily":"multiple-identify","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-second",
+    "blueprint": {
+      "problemFamily": "multiple-second",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
+      "a": {
         "min": 4,
-        "max": 11
+        "max": 6
+      },
+      "k": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "다음 중 {{n}}의 배수인 것은?",
-    "solver_rule": "n * 2",
+    "prompt_template": "{{a}}의 두 번째 배수를 구하세요.",
+    "solver_rule": "2 * a",
     "solution_steps_template": [
-      "{{n}}의 배수는 {{n}}의 곱입니다.",
-      "{{n}} × 2 = {{n * 2}}이므로 배수입니다."
+      "두 번째 배수는 기준 수 {{a}}의 2배입니다.",
+      "{{a}} × 2 = {{2 * a}}입니다."
     ],
     "hint_steps_template": [
-      "{{n}}을 2배 해요.",
-      "나머지가 0이면 배수예요."
+      "약수와 배수의 정의를 곱셈식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ],
     "choices_template": [
-      "{{n * 2}}",
-      "{{n * 2 + 1}}",
-      "{{n * 2 + 2}}",
-      "{{n * 2 + 3}}"
+      "{{2*a}}",
+      "{{(2*a) + 1}}",
+      "{{(2*a) + 2}}",
+      "{{(2*a) + 3}}"
     ]
   },
   {
@@ -319,22 +532,41 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "multiple-nth",
-    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "multiple-nth",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
+      "a": {
         "min": 4,
-        "max": 11
+        "max": 6
+      },
+      "k": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{n}}의 4번째 배수는?",
-    "solver_rule": "n * 4",
+    "prompt_template": "{{a}}의 {{k}}번째 배수를 구하세요.",
+    "solver_rule": "a * k",
     "solution_steps_template": [
-      "{{n}}의 4번째 배수는 {{n}} × 4 입니다.",
-      "{{n}} × 4 = {{n * 4}}"
+      "기준 수는 {{a}}이고 순서는 {{k}}번째입니다.",
+      "{{a}} × {{k}} = {{a * k}}입니다."
     ],
     "hint_steps_template": [
-      "배수는 곱셈으로 구해요.",
-      "{{n}} × 4를 계산해요."
+      "약수와 배수의 정의를 곱셈식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
@@ -343,29 +575,48 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "multiple-identify-nonmultiple",
-    "blueprint": {"problemFamily":"multiple-identify-nonmultiple","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-order-from-value",
+    "blueprint": {
+      "problemFamily": "multiple-order-from-value",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
+      "a": {
         "min": 4,
-        "max": 11
+        "max": 6
+      },
+      "k": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "다음 중 {{n}}의 배수가 아닌 것은?",
-    "solver_rule": "n * 3 + 1",
+    "prompt_template": "{{a * k}}는 {{a}}의 몇 번째 배수인가요?",
+    "solver_rule": "k",
     "solution_steps_template": [
-      "{{n}}의 배수는 {{n}}의 곱입니다.",
-      "{{n * 3 + 1}}은 {{n}}으로 나누면 나머지가 1이므로 배수가 아닙니다."
+      "{{a * k}} ÷ {{a}} = {{k}}입니다.",
+      "따라서 {{k}}번째 배수입니다."
     ],
     "hint_steps_template": [
-      "배수는 나누어떨어져요.",
-      "{{n * 3 + 1}}은 나머지가 있어요."
+      "약수와 배수의 정의를 곱셈식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ],
     "choices_template": [
-      "{{n * 3 + 1}}",
-      "{{n * 2}}",
-      "{{n * 3}}",
-      "{{n * 4}}"
+      "{{k}}",
+      "{{k+1}}",
+      "{{k+2}}",
+      "{{k+3}}"
     ]
   },
   {
@@ -374,193 +625,330 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "multiple-nth",
-    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-next",
+    "blueprint": {
+      "problemFamily": "multiple-next",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 5,
-        "max": 12
+      "a": {
+        "min": 4,
+        "max": 6
+      },
+      "k": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{n}}의 5번째 배수는?",
-    "solver_rule": "n * 5",
+    "prompt_template": "{{a * k}} 바로 다음에 오는 {{a}}의 배수를 구하세요.",
+    "solver_rule": "a * (k + 1)",
     "solution_steps_template": [
-      "{{n}}의 5번째 배수는 {{n}} × 5 입니다.",
-      "{{n}} × 5 = {{n * 5}}"
+      "{{a * k}}는 {{k}}번째 배수입니다.",
+      "현재 배수에 기준 수를 한 번 더하면 {{a * (k + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "{{n}}을 5배 해요.",
-      "곱셈으로 계산해요."
+      "약수와 배수의 정의를 곱셈식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
     "id": "tmpl-multiple-B-05",
     "concept_id": "multiple-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "multiple-sum-two-terms",
-    "blueprint": {"problemFamily":"multiple-sum-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "multiple-context-packages",
+    "blueprint": {
+      "problemFamily": "multiple-context-packages",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 6,
-        "max": 15
+      "a": {
+        "min": 4,
+        "max": 6
+      },
+      "k": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{n}}의 2번째 배수와 3번째 배수의 합은?",
-    "solver_rule": "n * 5",
+    "prompt_template": "스티커를 한 봉지에 {{a}}개씩 {{k}}봉지 담았습니다. 전체 개수를 구하세요.",
+    "solver_rule": "a * k",
     "solution_steps_template": [
-      "2번째 배수: {{n}} × 2 = {{n * 2}}",
-      "3번째 배수: {{n}} × 3 = {{n * 3}}",
-      "합: {{n * 2}} + {{n * 3}} = {{n * 5}}"
+      "한 봉지의 수와 봉지 수를 곱합니다.",
+      "{{a}} × {{k}} = {{a * k}}입니다."
     ],
     "hint_steps_template": [
-      "2번째와 3번째 배수를 각각 구해요.",
-      "두 값을 더해요."
+      "상황에서 남김없이 나누거나 반복되는 양을 식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
+    ],
+    "choices_template": [
+      "{{a*k}}",
+      "{{(a*k) + 1}}",
+      "{{(a*k) + 2}}",
+      "{{(a*k) + 3}}"
     ]
   },
   {
     "id": "tmpl-multiple-B-06",
     "concept_id": "multiple-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "multiple-scale-term",
-    "blueprint": {"problemFamily":"multiple-scale-term","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "multiple-context-repeated-distance",
+    "blueprint": {
+      "problemFamily": "multiple-context-repeated-distance",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 6,
-        "max": 15
+      "a": {
+        "min": 4,
+        "max": 6
+      },
+      "k": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{n}}의 3번째 배수의 두 배는?",
-    "solver_rule": "n * 6",
+    "prompt_template": "한 번에 {{a}}m씩 {{k}}번 이동했습니다. 이동한 거리는 모두 몇 m인가요?",
+    "solver_rule": "a * k",
     "solution_steps_template": [
-      "3번째 배수: {{n}} × 3 = {{n * 3}}",
-      "두 배: {{n * 3}} × 2 = {{n * 6}}"
+      "같은 거리 {{a}}m를 {{k}}번 더합니다.",
+      "전체 거리는 {{a * k}}m입니다."
     ],
     "hint_steps_template": [
-      "3번째 배수를 먼저 구해요.",
-      "그 값을 두 배 해요."
-    ],
-    "choices_template": [
-      "{{n * 6}}",
-      "{{n * 6 + 3}}",
-      "{{n * 6 + 6}}",
-      "{{n * 6 + 9}}"
+      "상황에서 남김없이 나누거나 반복되는 양을 식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
     "id": "tmpl-multiple-B-07",
     "concept_id": "multiple-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "multiple-difference-two-terms",
-    "blueprint": {"problemFamily":"multiple-difference-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "multiple-next-after-known",
+    "blueprint": {
+      "problemFamily": "multiple-next-after-known",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 7,
-        "max": 15
+      "a": {
+        "min": 4,
+        "max": 6
+      },
+      "k": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{n}}의 4번째 배수에서 {{n}}을 빼면?",
-    "solver_rule": "n * 3",
+    "prompt_template": "{{a * k}}보다 큰 수 중 가장 작은 {{a}}의 배수를 구하세요.",
+    "solver_rule": "a * (k + 1)",
     "solution_steps_template": [
-      "4번째 배수: {{n}} × 4 = {{n * 4}}",
-      "뺄셈: {{n * 4}} - {{n}} = {{n * 3}}"
+      "{{a * k}}는 {{k}}번째 배수입니다.",
+      "바로 다음 배수는 {{a * (k + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "4번째 배수를 먼저 구해요.",
-      "거기서 {{n}}을 빼요."
+      "상황에서 남김없이 나누거나 반복되는 양을 식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
+    ],
+    "choices_template": [
+      "{{a*(k+1)}}",
+      "{{(a*(k+1)) + 1}}",
+      "{{(a*(k+1)) + 2}}",
+      "{{(a*(k+1)) + 3}}"
     ]
   },
   {
     "id": "tmpl-multiple-B-08",
     "concept_id": "multiple-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "multiple-identify",
-    "blueprint": {"problemFamily":"multiple-identify","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-missing-multiplier",
+    "blueprint": {
+      "problemFamily": "multiple-missing-multiplier",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 7,
-        "max": 15
+      "a": {
+        "min": 4,
+        "max": 6
+      },
+      "k": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "다음 중 {{n}}의 배수인 것은?",
-    "solver_rule": "n * 5",
+    "prompt_template": "{{a}} × □ = {{a * k}}입니다. □에 알맞은 배수의 순서를 구하세요.",
+    "solver_rule": "k",
     "solution_steps_template": [
-      "{{n}} × 5 = {{n * 5}}이므로 배수입니다.",
-      "+1, +2, +3을 하면 배수가 아닙니다."
+      "곱을 {{a}}로 나눕니다.",
+      "{{a * k}} ÷ {{a}} = {{k}}입니다."
     ],
     "hint_steps_template": [
-      "{{n}} × 5 값을 찾으면 돼요.",
-      "나머지가 0인지 확인해요."
-    ],
-    "choices_template": [
-      "{{n * 5}}",
-      "{{n * 5 + 1}}",
-      "{{n * 5 + 2}}",
-      "{{n * 5 + 3}}"
+      "상황에서 남김없이 나누거나 반복되는 양을 식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
     "id": "tmpl-multiple-B-09",
     "concept_id": "multiple-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "multiple-difference-two-terms",
-    "blueprint": {"problemFamily":"multiple-difference-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "multiple-addition-error-gap",
+    "blueprint": {
+      "problemFamily": "multiple-addition-error-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 9,
-        "max": 19
+      "a": {
+        "min": 4,
+        "max": 6
+      },
+      "k": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{n}}의 7번째 배수에서 2번째 배수를 빼면?",
-    "solver_rule": "n * 5",
+    "prompt_template": "{{a}}의 {{k}}번째 배수를 구하면서 잘못 계산한 값은 {{a + k}}입니다. 올바른 값은 잘못된 값보다 얼마 큰가요?",
+    "solver_rule": "a * k - (a + k)",
     "solution_steps_template": [
-      "7번째 배수: {{n}} × 7 = {{n * 7}}",
-      "2번째 배수: {{n}} × 2 = {{n * 2}}",
-      "차: {{n * 7}} - {{n * 2}} = {{n * 5}}"
+      "올바른 값은 곱 {{a * k}}, 잘못된 값은 합 {{a + k}}입니다.",
+      "차는 {{a * k - (a + k)}}입니다."
     ],
     "hint_steps_template": [
-      "7번째와 2번째 배수를 각각 구해요.",
-      "큰 것에서 작은 것을 빼요."
+      "주장에 사용한 계산과 올바른 계산을 비교해요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
+    ],
+    "choices_template": [
+      "{{a*k-(a+k)}}",
+      "{{(a*k-(a+k)) + 1}}",
+      "{{(a*k-(a+k)) + 2}}",
+      "{{(a*k-(a+k)) + 3}}"
     ]
   },
   {
     "id": "tmpl-multiple-B-10",
     "concept_id": "multiple-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "multiple-nth",
-    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-between-consecutive",
+    "blueprint": {
+      "problemFamily": "multiple-between-consecutive",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 10,
-        "max": 22
+      "a": {
+        "min": 4,
+        "max": 6
+      },
+      "k": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{n}}의 8번째 배수는?",
-    "solver_rule": "n * 8",
+    "prompt_template": "연속한 두 배수 {{a * k}}와 {{a * (k + 1)}} 사이에 있는 자연수는 몇 개인가요?",
+    "solver_rule": "a - 1",
     "solution_steps_template": [
-      "{{n}}의 8번째 배수는 {{n}} × 8 입니다.",
-      "{{n}} × 8 = {{n * 8}}"
+      "연속한 두 배수의 차는 {{a}}입니다.",
+      "양 끝을 제외한 자연수는 {{a - 1}}개입니다."
     ],
     "hint_steps_template": [
-      "{{n}}을 8배 해요.",
-      "곱셈으로 계산해요."
-    ],
-    "choices_template": [
-      "{{n * 8}}",
-      "{{n * 8 + 4}}",
-      "{{n * 8 + 8}}",
-      "{{n * 8 + 12}}"
+      "주장에 사용한 계산과 올바른 계산을 비교해요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
@@ -569,29 +957,48 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "multiple-identify",
-    "blueprint": {"problemFamily":"multiple-identify","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-second",
+    "blueprint": {
+      "problemFamily": "multiple-second",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
+      "a": {
         "min": 6,
-        "max": 13
+        "max": 8
+      },
+      "k": {
+        "min": 5,
+        "max": 7
       }
     },
-    "prompt_template": "다음 중 {{n}}의 배수인 것은?",
-    "solver_rule": "n * 2",
+    "prompt_template": "{{a}}의 두 번째 배수를 구하세요.",
+    "solver_rule": "2 * a",
     "solution_steps_template": [
-      "{{n}}의 배수는 {{n}}의 곱입니다.",
-      "{{n}} × 2 = {{n * 2}}이므로 배수입니다."
+      "두 번째 배수는 기준 수 {{a}}의 2배입니다.",
+      "{{a}} × 2 = {{2 * a}}입니다."
     ],
     "hint_steps_template": [
-      "{{n}}을 2배 해요.",
-      "나머지가 0이면 배수예요."
+      "약수와 배수의 정의를 곱셈식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ],
     "choices_template": [
-      "{{n * 2}}",
-      "{{n * 2 + 1}}",
-      "{{n * 2 + 2}}",
-      "{{n * 2 + 3}}"
+      "{{2*a}}",
+      "{{(2*a) + 1}}",
+      "{{(2*a) + 2}}",
+      "{{(2*a) + 3}}"
     ]
   },
   {
@@ -601,22 +1008,41 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "multiple-nth",
-    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "multiple-nth",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
+      "a": {
         "min": 6,
-        "max": 13
+        "max": 8
+      },
+      "k": {
+        "min": 5,
+        "max": 7
       }
     },
-    "prompt_template": "{{n}}의 4번째 배수는?",
-    "solver_rule": "n * 4",
+    "prompt_template": "{{a}}의 {{k}}번째 배수를 구하세요.",
+    "solver_rule": "a * k",
     "solution_steps_template": [
-      "{{n}}의 4번째 배수는 {{n}} × 4 입니다.",
-      "{{n}} × 4 = {{n * 4}}"
+      "기준 수는 {{a}}이고 순서는 {{k}}번째입니다.",
+      "{{a}} × {{k}} = {{a * k}}입니다."
     ],
     "hint_steps_template": [
-      "배수는 곱셈으로 구해요.",
-      "{{n}} × 4를 계산해요."
+      "약수와 배수의 정의를 곱셈식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
@@ -625,29 +1051,48 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "multiple-identify-nonmultiple",
-    "blueprint": {"problemFamily":"multiple-identify-nonmultiple","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-order-from-value",
+    "blueprint": {
+      "problemFamily": "multiple-order-from-value",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
+      "a": {
         "min": 6,
-        "max": 13
+        "max": 8
+      },
+      "k": {
+        "min": 5,
+        "max": 7
       }
     },
-    "prompt_template": "다음 중 {{n}}의 배수가 아닌 것은?",
-    "solver_rule": "n * 3 + 1",
+    "prompt_template": "{{a * k}}는 {{a}}의 몇 번째 배수인가요?",
+    "solver_rule": "k",
     "solution_steps_template": [
-      "{{n}}의 배수는 {{n}}의 곱입니다.",
-      "{{n * 3 + 1}}은 {{n}}으로 나누면 나머지가 1이므로 배수가 아닙니다."
+      "{{a * k}} ÷ {{a}} = {{k}}입니다.",
+      "따라서 {{k}}번째 배수입니다."
     ],
     "hint_steps_template": [
-      "배수는 나누어떨어져요.",
-      "{{n * 3 + 1}}은 나머지가 있어요."
+      "약수와 배수의 정의를 곱셈식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ],
     "choices_template": [
-      "{{n * 3 + 1}}",
-      "{{n * 2}}",
-      "{{n * 3}}",
-      "{{n * 4}}"
+      "{{k}}",
+      "{{k+1}}",
+      "{{k+2}}",
+      "{{k+3}}"
     ]
   },
   {
@@ -656,193 +1101,330 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "multiple-nth",
-    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-next",
+    "blueprint": {
+      "problemFamily": "multiple-next",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 7,
-        "max": 14
+      "a": {
+        "min": 6,
+        "max": 8
+      },
+      "k": {
+        "min": 5,
+        "max": 7
       }
     },
-    "prompt_template": "{{n}}의 5번째 배수는?",
-    "solver_rule": "n * 5",
+    "prompt_template": "{{a * k}} 바로 다음에 오는 {{a}}의 배수를 구하세요.",
+    "solver_rule": "a * (k + 1)",
     "solution_steps_template": [
-      "{{n}}의 5번째 배수는 {{n}} × 5 입니다.",
-      "{{n}} × 5 = {{n * 5}}"
+      "{{a * k}}는 {{k}}번째 배수입니다.",
+      "현재 배수에 기준 수를 한 번 더하면 {{a * (k + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "{{n}}을 5배 해요.",
-      "곱셈으로 계산해요."
+      "약수와 배수의 정의를 곱셈식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
     "id": "tmpl-multiple-C-05",
     "concept_id": "multiple-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "multiple-sum-two-terms",
-    "blueprint": {"problemFamily":"multiple-sum-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "multiple-context-packages",
+    "blueprint": {
+      "problemFamily": "multiple-context-packages",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 8,
-        "max": 17
+      "a": {
+        "min": 6,
+        "max": 8
+      },
+      "k": {
+        "min": 5,
+        "max": 7
       }
     },
-    "prompt_template": "{{n}}의 2번째 배수와 3번째 배수의 합은?",
-    "solver_rule": "n * 5",
+    "prompt_template": "실험 재료를 한 봉지에 {{a}}개씩 {{k}}봉지 담았습니다. 전체 개수를 구하세요.",
+    "solver_rule": "a * k",
     "solution_steps_template": [
-      "2번째 배수: {{n}} × 2 = {{n * 2}}",
-      "3번째 배수: {{n}} × 3 = {{n * 3}}",
-      "합: {{n * 2}} + {{n * 3}} = {{n * 5}}"
+      "한 봉지의 수와 봉지 수를 곱합니다.",
+      "{{a}} × {{k}} = {{a * k}}입니다."
     ],
     "hint_steps_template": [
-      "2번째와 3번째 배수를 각각 구해요.",
-      "두 값을 더해요."
+      "상황에서 남김없이 나누거나 반복되는 양을 식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
+    ],
+    "choices_template": [
+      "{{a*k}}",
+      "{{(a*k) + 1}}",
+      "{{(a*k) + 2}}",
+      "{{(a*k) + 3}}"
     ]
   },
   {
     "id": "tmpl-multiple-C-06",
     "concept_id": "multiple-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "multiple-scale-term",
-    "blueprint": {"problemFamily":"multiple-scale-term","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "multiple-context-repeated-distance",
+    "blueprint": {
+      "problemFamily": "multiple-context-repeated-distance",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 8,
-        "max": 17
+      "a": {
+        "min": 6,
+        "max": 8
+      },
+      "k": {
+        "min": 5,
+        "max": 7
       }
     },
-    "prompt_template": "{{n}}의 3번째 배수의 두 배는?",
-    "solver_rule": "n * 6",
+    "prompt_template": "한 번에 {{a}}m씩 {{k}}번 이동했습니다. 이동한 거리는 모두 몇 m인가요?",
+    "solver_rule": "a * k",
     "solution_steps_template": [
-      "3번째 배수: {{n}} × 3 = {{n * 3}}",
-      "두 배: {{n * 3}} × 2 = {{n * 6}}"
+      "같은 거리 {{a}}m를 {{k}}번 더합니다.",
+      "전체 거리는 {{a * k}}m입니다."
     ],
     "hint_steps_template": [
-      "3번째 배수를 먼저 구해요.",
-      "그 값을 두 배 해요."
-    ],
-    "choices_template": [
-      "{{n * 6}}",
-      "{{n * 6 + 3}}",
-      "{{n * 6 + 6}}",
-      "{{n * 6 + 9}}"
+      "상황에서 남김없이 나누거나 반복되는 양을 식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
     "id": "tmpl-multiple-C-07",
     "concept_id": "multiple-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "multiple-difference-two-terms",
-    "blueprint": {"problemFamily":"multiple-difference-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "multiple-next-after-known",
+    "blueprint": {
+      "problemFamily": "multiple-next-after-known",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 9,
-        "max": 17
+      "a": {
+        "min": 6,
+        "max": 8
+      },
+      "k": {
+        "min": 5,
+        "max": 7
       }
     },
-    "prompt_template": "{{n}}의 4번째 배수에서 {{n}}을 빼면?",
-    "solver_rule": "n * 3",
+    "prompt_template": "{{a * k}}보다 큰 수 중 가장 작은 {{a}}의 배수를 구하세요.",
+    "solver_rule": "a * (k + 1)",
     "solution_steps_template": [
-      "4번째 배수: {{n}} × 4 = {{n * 4}}",
-      "뺄셈: {{n * 4}} - {{n}} = {{n * 3}}"
+      "{{a * k}}는 {{k}}번째 배수입니다.",
+      "바로 다음 배수는 {{a * (k + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "4번째 배수를 먼저 구해요.",
-      "거기서 {{n}}을 빼요."
+      "상황에서 남김없이 나누거나 반복되는 양을 식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
+    ],
+    "choices_template": [
+      "{{a*(k+1)}}",
+      "{{(a*(k+1)) + 1}}",
+      "{{(a*(k+1)) + 2}}",
+      "{{(a*(k+1)) + 3}}"
     ]
   },
   {
     "id": "tmpl-multiple-C-08",
     "concept_id": "multiple-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "multiple-identify",
-    "blueprint": {"problemFamily":"multiple-identify","cognitiveDomain":"knowing","reasoningPattern":"constraint","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-missing-multiplier",
+    "blueprint": {
+      "problemFamily": "multiple-missing-multiplier",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 9,
-        "max": 17
+      "a": {
+        "min": 6,
+        "max": 8
+      },
+      "k": {
+        "min": 5,
+        "max": 7
       }
     },
-    "prompt_template": "다음 중 {{n}}의 배수인 것은?",
-    "solver_rule": "n * 5",
+    "prompt_template": "{{a}} × □ = {{a * k}}입니다. □에 알맞은 배수의 순서를 구하세요.",
+    "solver_rule": "k",
     "solution_steps_template": [
-      "{{n}} × 5 = {{n * 5}}이므로 배수입니다.",
-      "+1, +2, +3을 하면 배수가 아닙니다."
+      "곱을 {{a}}로 나눕니다.",
+      "{{a * k}} ÷ {{a}} = {{k}}입니다."
     ],
     "hint_steps_template": [
-      "{{n}} × 5 값을 찾으면 돼요.",
-      "나머지가 0인지 확인해요."
-    ],
-    "choices_template": [
-      "{{n * 5}}",
-      "{{n * 5 + 1}}",
-      "{{n * 5 + 2}}",
-      "{{n * 5 + 3}}"
+      "상황에서 남김없이 나누거나 반복되는 양을 식으로 나타내요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   },
   {
     "id": "tmpl-multiple-C-09",
     "concept_id": "multiple-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "multiple-difference-two-terms",
-    "blueprint": {"problemFamily":"multiple-difference-two-terms","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "multiple-addition-error-gap",
+    "blueprint": {
+      "problemFamily": "multiple-addition-error-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 11,
-        "max": 21
+      "a": {
+        "min": 6,
+        "max": 8
+      },
+      "k": {
+        "min": 5,
+        "max": 7
       }
     },
-    "prompt_template": "{{n}}의 7번째 배수에서 2번째 배수를 빼면?",
-    "solver_rule": "n * 5",
+    "prompt_template": "{{a}}의 {{k}}번째 배수를 구하면서 잘못 계산한 값은 {{a + k}}입니다. 올바른 값은 잘못된 값보다 얼마 큰가요?",
+    "solver_rule": "a * k - (a + k)",
     "solution_steps_template": [
-      "7번째 배수: {{n}} × 7 = {{n * 7}}",
-      "2번째 배수: {{n}} × 2 = {{n * 2}}",
-      "차: {{n * 7}} - {{n * 2}} = {{n * 5}}"
+      "올바른 값은 곱 {{a * k}}, 잘못된 값은 합 {{a + k}}입니다.",
+      "차는 {{a * k - (a + k)}}입니다."
     ],
     "hint_steps_template": [
-      "7번째와 2번째 배수를 각각 구해요.",
-      "큰 것에서 작은 것을 빼요."
+      "주장에 사용한 계산과 올바른 계산을 비교해요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
+    ],
+    "choices_template": [
+      "{{a*k-(a+k)}}",
+      "{{(a*k-(a+k)) + 1}}",
+      "{{(a*k-(a+k)) + 2}}",
+      "{{(a*k-(a+k)) + 3}}"
     ]
   },
   {
     "id": "tmpl-multiple-C-10",
     "concept_id": "multiple-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "multiple-nth",
-    "blueprint": {"problemFamily":"multiple-nth","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-05","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "multiple-between-consecutive",
+    "blueprint": {
+      "problemFamily": "multiple-between-consecutive",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-05",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n": {
-        "min": 12,
-        "max": 24
+      "a": {
+        "min": 6,
+        "max": 8
+      },
+      "k": {
+        "min": 5,
+        "max": 7
       }
     },
-    "prompt_template": "{{n}}의 8번째 배수는?",
-    "solver_rule": "n * 8",
+    "prompt_template": "연속한 두 배수 {{a * k}}와 {{a * (k + 1)}} 사이에 있는 자연수는 몇 개인가요?",
+    "solver_rule": "a - 1",
     "solution_steps_template": [
-      "{{n}}의 8번째 배수는 {{n}} × 8 입니다.",
-      "{{n}} × 8 = {{n * 8}}"
+      "연속한 두 배수의 차는 {{a}}입니다.",
+      "양 끝을 제외한 자연수는 {{a - 1}}개입니다."
     ],
     "hint_steps_template": [
-      "{{n}}을 8배 해요.",
-      "곱셈으로 계산해요."
-    ],
-    "choices_template": [
-      "{{n * 8}}",
-      "{{n * 8 + 4}}",
-      "{{n * 8 + 8}}",
-      "{{n * 8 + 12}}"
+      "주장에 사용한 계산과 올바른 계산을 비교해요.",
+      "곱셈과 나눗셈의 관계를 확인해요."
     ]
   }
 ]

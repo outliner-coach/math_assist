@@ -131,6 +131,7 @@ describe('Grade 2 application learning boundary', () => {
     await act(async () => {
       root?.render(createElement(Grade2GameClient, {
         initialUnitId: 'g2-2-length',
+        initialMode: 'practice',
         applicationProblemRegistry: approvedRegistry(),
       }))
       await Promise.resolve()
@@ -149,6 +150,7 @@ describe('Grade 2 application learning boundary', () => {
     await act(async () => {
       root?.render(createElement(Grade2GameClient, {
         initialUnitId: 'g2-2-length',
+        initialMode: 'practice',
         applicationMissionProvider: () => {
           throw new Error('all seeds failed')
         },
@@ -178,6 +180,7 @@ describe('Grade 2 application learning boundary', () => {
     await act(async () => {
       root?.render(createElement(Grade2GameClient, {
         initialUnitId: 'g2-2-length',
+        initialMode: 'practice',
         applicationMissionProvider: (seed) => [approvedApplicationMission(seed)],
         applicationProblemRegistry: approvedRegistry(),
       }))
@@ -224,6 +227,7 @@ describe('Grade 2 application learning boundary', () => {
     await act(async () => {
       root?.render(createElement(Grade2GameClient, {
         initialUnitId: 'g2-2-length',
+        initialMode: 'practice',
         applicationMissionProvider: () => [replacementMission],
         applicationProblemRegistry: approvedRegistry(),
       }))
@@ -273,6 +277,7 @@ describe('Grade 2 application learning boundary', () => {
     await act(async () => {
       root?.render(createElement(Grade2GameClient, {
         initialUnitId: 'g2-2-length',
+        initialMode: 'practice',
         applicationMissionProvider: () => [mission],
         applicationProblemRegistry: approvedRegistry(),
       }))
@@ -305,6 +310,7 @@ describe('Grade 2 application learning boundary', () => {
     await act(async () => {
       root?.render(createElement(Grade2GameClient, {
         initialUnitId: 'g2-2-length',
+        initialMode: 'practice',
         applicationProblemRegistry: quarantinedRegistry(mission.applicationSource.familyId),
       }))
       await Promise.resolve()

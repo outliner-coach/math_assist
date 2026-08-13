@@ -5,79 +5,100 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-fraction-natural",
+    "blueprint": {
+      "problemFamily": "fracmul-fraction-natural",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
+      "n": {
         "min": 1,
         "max": 3
       },
-      "d1": {
+      "b": {
         "min": 2,
         "max": 4
       },
-      "n2": {
-        "min": 1,
-        "max": 3
-      },
-      "d2": {
-        "min": 3,
-        "max": 5
+      "m": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{n}}/{{n + b}} × {{m}}. 값을 구하세요.",
+    "solver_rule": "fracMul(n, n + b, m, 1)",
     "solution_steps_template": [
-      "분자끼리, 분모끼리 곱합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "자연수는 {{m}}이고 곱할 분자는 {{n}}입니다. 두 수를 곱합니다.",
+      "곱한 뒤의 분수는 {{n * m}}/{{n + b}}입니다. 약분하면 {{fracMul(n, n + b, m, 1)}}입니다."
     ],
     "hint_steps_template": [
-      "분자끼리 곱해요.",
-      "분모끼리 곱해요."
+      "자연수는 분모가 1인 분수로 나타내고 분자끼리, 분모끼리 곱해요.",
+      "곱하기 전이나 곱한 뒤에 약분하여 기약분수로 만들어요."
     ],
     "choices_template": [
-      "{{fracMul(n1, d1, n2, d2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 3)}}"
+      "{{fracMul(n, n + b, m, 1)}}",
+      "{{reduceFrac(n * m + 1, n + b)}}",
+      "{{reduceFrac(n * m + 2, n + b)}}",
+      "{{reduceFrac(n * m + 3, n + b)}}"
     ]
   },
   {
     "id": "tmpl-fracmul-A-02",
     "concept_id": "fracmul-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 1,
     "set_id": "A",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-natural-fraction",
+    "blueprint": {
+      "problemFamily": "fracmul-natural-fraction",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
+      "n": {
         "min": 1,
         "max": 3
       },
-      "d1": {
+      "b": {
         "min": 2,
-        "max": 5
+        "max": 4
       },
-      "n2": {
-        "min": 1,
-        "max": 3
-      },
-      "d2": {
-        "min": 3,
-        "max": 6
+      "m": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요.",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{m}} × {{n}}/{{n + b}}. 값을 구하세요.",
+    "solver_rule": "fracMul(m, 1, n, n + b)",
     "solution_steps_template": [
-      "분자끼리 곱합니다: {{n1}} × {{n2}}",
-      "분모끼리 곱합니다: {{d1}} × {{d2}}",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "자연수 값은 {{m}}입니다. 분수로 나타내면 {{m}}/1입니다.",
+      "{{m}}/1 × {{n}}/{{n + b}} = {{fracMul(m, 1, n, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "분자끼리 곱해요.",
-      "분모끼리 곱해요."
+      "자연수는 분모가 1인 분수로 나타내고 분자끼리, 분모끼리 곱해요.",
+      "곱하기 전이나 곱한 뒤에 약분하여 기약분수로 만들어요."
     ]
   },
   {
@@ -86,41 +107,56 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-fraction-fraction",
+    "blueprint": {
+      "problemFamily": "fracmul-fraction-fraction",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 2,
-        "max": 4
-      },
-      "d1": {
-        "min": 3,
-        "max": 6
-      },
-      "n2": {
+      "n": {
         "min": 1,
         "max": 3
       },
-      "d2": {
-        "min": 4,
-        "max": 7
+      "b": {
+        "min": 2,
+        "max": 4
+      },
+      "m": {
+        "min": 2,
+        "max": 4
+      },
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{n}}/{{n + b}} × {{m}}/{{m + c}}. 값을 구하세요.",
+    "solver_rule": "fracMul(n, n + b, m, m + c)",
     "solution_steps_template": [
-      "곱셈을 하고 약분합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "분자끼리 곱하면 {{n * m}}, 분모끼리 곱하면 {{(n + b) * (m + c)}}입니다.",
+      "약분한 값은 {{fracMul(n, n + b, m, m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "곱한 뒤 약분해요.",
-      "기약분수로 쓰세요."
+      "자연수는 분모가 1인 분수로 나타내고 분자끼리, 분모끼리 곱해요.",
+      "곱하기 전이나 곱한 뒤에 약분하여 기약분수로 만들어요."
     ],
     "choices_template": [
-      "{{fracMul(n1, d1, n2, d2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, -1)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 4)}}"
+      "{{fracMul(n, n + b, m, m + c)}}",
+      "{{reduceFrac(n * m + 1, n * m + n * c + b * m + b * c)}}",
+      "{{reduceFrac(n * m + 2, n * m + n * c + b * m + b * c)}}",
+      "{{reduceFrac(n * m + 3, n * m + n * c + b * m + b * c)}}"
     ]
   },
   {
@@ -129,78 +165,112 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-cancel-before-product",
+    "blueprint": {
+      "problemFamily": "fracmul-cancel-before-product",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-09",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 2,
-        "max": 4
-      },
-      "d1": {
-        "min": 3,
-        "max": 6
-      },
-      "n2": {
+      "n": {
         "min": 1,
         "max": 3
       },
-      "d2": {
-        "min": 4,
-        "max": 7
+      "b": {
+        "min": 2,
+        "max": 4
+      },
+      "m": {
+        "min": 2,
+        "max": 4
+      },
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요. (예: 2/3)",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{n}}/{{n + b}} × {{n + b}}/{{m + c}}. 곱하기 전에 약분하여 계산하세요.",
+    "solver_rule": "fracMul(n, n + b, n + b, m + c)",
     "solution_steps_template": [
-      "분자끼리 곱하고 분모끼리 곱합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "첫째 분모와 둘째 분자의 공통 인수는 {{n + b}}입니다. 먼저 약분합니다.",
+      "약분 후 남은 분수는 {{n}}/{{m + c}}입니다. 기약분수는 {{fracMul(n, n + b, n + b, m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "분자 × 분자, 분모 × 분모",
-      "약분해요."
+      "자연수는 분모가 1인 분수로 나타내고 분자끼리, 분모끼리 곱해요.",
+      "곱하기 전이나 곱한 뒤에 약분하여 기약분수로 만들어요."
     ]
   },
   {
     "id": "tmpl-fracmul-A-05",
     "concept_id": "fracmul-001",
     "type": "choice",
-    "difficulty": 1,
+    "difficulty": 2,
     "set_id": "A",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-context-part-of-quantity",
+    "blueprint": {
+      "problemFamily": "fracmul-context-part-of-quantity",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
-        "max": 6
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 5,
-        "max": 8
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 3,
-        "max": 5
+      "m": {
+        "min": 2,
+        "max": 4
       },
-      "d2": {
-        "min": 6,
-        "max": 9
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "리본의 전체 길이는 {{m + c}}m이고 사용한 비율은 {{n}}/{{n + b}}입니다. 사용한 리본은 몇 m인가요?",
+    "solver_rule": "reduceFrac(m * n + c * n, n + b)",
     "solution_steps_template": [
-      "곱셈 후 약분합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "전체 양은 {{m + c}}이고 사용한 비율은 {{n}}/{{n + b}}입니다. 두 값을 곱합니다.",
+      "{{m + c}} × {{n}}/{{n + b}} = {{fracMul(m + c, 1, n, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "분자끼리, 분모끼리 곱해요.",
-      "기약분수로 만들어요."
+      "어떤 양의 일부분을 구할 때는 전체 양과 분수를 곱해요.",
+      "일부의 일부는 두 분수의 곱으로 나타내요."
     ],
     "choices_template": [
-      "{{fracMul(n1, d1, n2, d2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 3)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 5)}}"
+      "{{fracMul(m + c, 1, n, n + b)}}",
+      "{{reduceFrac(m * n + c * n + 1, n + b)}}",
+      "{{reduceFrac(m * n + c * n + 2, n + b)}}",
+      "{{reduceFrac(m * n + c * n + 3, n + b)}}"
     ]
   },
   {
@@ -209,194 +279,277 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "fracmul-context-product",
-    "blueprint": {"problemFamily":"fracmul-context-product","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracmul-context-part-of-part",
+    "blueprint": {
+      "problemFamily": "fracmul-context-part-of-part",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
+      "n": {
+        "min": 1,
+        "max": 3
+      },
+      "b": {
         "min": 2,
         "max": 4
       },
-      "d1": {
-        "min": 6,
-        "max": 9
-      },
-      "n2": {
+      "m": {
         "min": 2,
         "max": 4
       },
-      "d2": {
-        "min": 6,
-        "max": 9
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "리본 전체의 {{n1}}/{{d1}}을 장식에 쓰고, 그중 {{n2}}/{{d2}}에 별을 붙였습니다. 별을 붙인 부분은 전체의 얼마인가요?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "리본에서 장식에 쓴 비율은 {{n}}/{{n + b}}입니다. 그중 {{m}}/{{m + c}}에 별을 붙였습니다. 별을 붙인 부분은 전체의 얼마인가요?",
+    "solver_rule": "reduceFrac(n * m, n * m + n * c + b * m + b * c)",
     "solution_steps_template": [
-      "분자끼리 곱하고 분모끼리 곱합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "첫 비율은 {{n}}/{{n + b}}이고 그중의 비율은 {{m}}/{{m + c}}입니다. 두 분수를 곱합니다.",
+      "{{n}}/{{n + b}} × {{m}}/{{m + c}} = {{fracMul(n, n + b, m, m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈 문제예요.",
-      "분자와 분모를 각각 곱해요."
+      "어떤 양의 일부분을 구할 때는 전체 양과 분수를 곱해요.",
+      "일부의 일부는 두 분수의 곱으로 나타내요."
     ]
   },
   {
     "id": "tmpl-fracmul-A-07",
     "concept_id": "fracmul-001",
     "type": "choice",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "A",
-    "problem_family": "fracmul-numerator-product",
-    "blueprint": {"problemFamily":"fracmul-numerator-product","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium"},
+    "problem_family": "fracmul-missing-factor",
+    "blueprint": {
+      "problemFamily": "fracmul-missing-factor",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-09",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
-        "max": 6
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 5,
-        "max": 9
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 3,
-        "max": 5
+      "m": {
+        "min": 2,
+        "max": 4
       },
-      "d2": {
-        "min": 6,
-        "max": 10
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱했을 때 분자끼리 곱한 값은?",
-    "solver_rule": "n1 * n2",
+    "prompt_template": "{{n}}/{{n + b}} × 어떤 분수 = {{fracMul(n, n + b, m, m + c)}}입니다. 어떤 분수를 구하세요.",
+    "solver_rule": "reduceFrac(m, m + c)",
     "solution_steps_template": [
-      "분자끼리 곱합니다: {{n1}} × {{n2}} = {{n1 * n2}}"
+      "곱의 두 번째 인수는 처음 식에서 사용한 {{m}}/{{m + c}}입니다.",
+      "기약분수로 나타내면 {{reduceFrac(m, m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "분자끼리 곱하면 돼요.",
-      "보기에서 그 값을 찾아요."
+      "곱과 알고 있는 한 인수의 관계를 식이나 넓이로 나타내요.",
+      "빠진 인수를 확인하거나 가로와 세로를 곱해요."
     ],
     "choices_template": [
-      "{{n1 * n2}}",
-      "{{n1 * n2 + 1}}",
-      "{{n1 * n2 + 2}}",
-      "{{n1 * n2 + 3}}"
+      "{{reduceFrac(m, m + c)}}",
+      "{{reduceFrac(m + 1, m + c)}}",
+      "{{reduceFrac(m + 2, m + c)}}",
+      "{{reduceFrac(m + 3, m + c)}}"
     ]
   },
   {
     "id": "tmpl-fracmul-A-08",
     "concept_id": "fracmul-001",
     "type": "number",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "A",
-    "problem_family": "fracmul-reduced-component-sum",
-    "blueprint": {"problemFamily":"fracmul-reduced-component-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "fracmul-context-fractional-area",
+    "blueprint": {
+      "problemFamily": "fracmul-context-fractional-area",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-09",
+      "connectedStandards": [
+        "6수03-13"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
-        "max": 6
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 5,
-        "max": 9
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 3,
-        "max": 5
+      "m": {
+        "min": 2,
+        "max": 4
       },
-      "d2": {
-        "min": 6,
-        "max": 10
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}}에서 분자와 분모의 합은?",
-    "solver_rule": "reducedNum(n1 * n2, d1 * d2) + reducedDen(n1 * n2, d1 * d2)",
+    "prompt_template": "가로가 {{n}}/{{n + b}}m, 세로가 {{m}}/{{m + c}}m인 직사각형 색종이의 넓이는 몇 m²인가요?",
+    "solver_rule": "reduceFrac(n * m, n * m + n * c + b * m + b * c)",
     "solution_steps_template": [
-      "곱: {{fracMul(n1, d1, n2, d2)}}",
-      "약분한 분자+분모: {{reducedNum(n1 * n2, d1 * d2) + reducedDen(n1 * n2, d1 * d2)}}"
+      "직사각형의 넓이는 가로와 세로의 곱입니다.",
+      "{{n}}/{{n + b}} × {{m}}/{{m + c}} = {{fracMul(n, n + b, m, m + c)}}이므로 넓이는 {{fracMul(n, n + b, m, m + c)}}m²입니다."
     ],
     "hint_steps_template": [
-      "먼저 곱셈 결과를 구해요.",
-      "기약분수의 분자와 분모를 더해요."
+      "곱과 알고 있는 한 인수의 관계를 식이나 넓이로 나타내요.",
+      "빠진 인수를 확인하거나 가로와 세로를 곱해요."
     ]
   },
   {
     "id": "tmpl-fracmul-A-09",
     "concept_id": "fracmul-001",
-    "type": "number",
-    "difficulty": 2,
+    "type": "choice",
+    "difficulty": 3,
     "set_id": "A",
-    "problem_family": "fracmul-adjusted-result",
-    "blueprint": {"problemFamily":"fracmul-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "fracmul-denominator-omission-error",
+    "blueprint": {
+      "problemFamily": "fracmul-denominator-omission-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 8
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 7,
-        "max": 11
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 5,
-        "max": 7
-      },
-      "d2": {
-        "min": 8,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱한 뒤, 분자에 1을 더해 만든 분수는?",
-    "solver_rule": "fracMulOff(n1, d1, n2, d2, 1)",
+    "prompt_template": "계산식은 {{n}}/{{n + b}} × 1/{{c}}입니다. 두 번째 분모를 빠뜨린 답은 {{n}}/{{n + b}}입니다. 잘못된 답은 올바른 답보다 얼마 큰가요?",
+    "solver_rule": "fracSub(n, n + b, n, n * c + b * c)",
     "solution_steps_template": [
-      "곱한 뒤 분자에 1을 더합니다.",
-      "정답: {{fracMulOff(n1, d1, n2, d2, 1)}}"
+      "올바른 값은 {{n}}/{{n + b}} × 1/{{c}} = {{fracMul(n, n + b, 1, c)}}입니다.",
+      "잘못된 값 {{reduceFrac(n, n + b)}}에서 올바른 값을 빼면 {{fracSub(n, n + b, n, n * c + b * c)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 곱셈을 해요.",
-      "분자에 1을 더해요."
+      "올바른 곱과 잘못된 계산 또는 처음 분수의 크기를 비교해요.",
+      "1보다 작은 양수를 곱하면 처음 수보다 작아지는 까닭을 확인해요."
+    ],
+    "choices_template": [
+      "{{fracSub(n, n + b, n, n * c + b * c)}}",
+      "{{reduceFrac(n * c - n + 1, n * c + b * c)}}",
+      "{{reduceFrac(n * c - n + 2, n * c + b * c)}}",
+      "{{reduceFrac(n * c - n + 3, n * c + b * c)}}"
     ]
   },
   {
     "id": "tmpl-fracmul-A-10",
     "concept_id": "fracmul-001",
-    "type": "choice",
-    "difficulty": 2,
+    "type": "number",
+    "difficulty": 3,
     "set_id": "A",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-product-size-gap",
+    "blueprint": {
+      "problemFamily": "fracmul-product-size-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 8
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 7,
-        "max": 11
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 5,
-        "max": 7
+      "m": {
+        "min": 2,
+        "max": 4
       },
-      "d2": {
-        "min": 8,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱한 값은?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "처음 분수는 {{n}}/{{n + b}}이고 곱하는 수는 1보다 작은 {{m}}/{{m + c}}입니다. 처음 분수는 곱보다 얼마 큰가요?",
+    "solver_rule": "fracSub(n, n + b, n * m, n * m + n * c + b * m + b * c)",
     "solution_steps_template": [
-      "곱셈 후 약분합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "곱하는 수는 {{m}}/{{m + c}}이고 1보다 작습니다. 따라서 곱은 처음 분수보다 작습니다.",
+      "{{reduceFrac(n, n + b)}} - {{fracMul(n, n + b, m, m + c)}} = {{fracSub(n, n + b, n * m, n * m + n * c + b * m + b * c)}}입니다."
     ],
     "hint_steps_template": [
-      "분자와 분모를 각각 곱해요.",
-      "기약분수로 만들어요."
-    ],
-    "choices_template": [
-      "{{fracMul(n1, d1, n2, d2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 3)}}"
+      "올바른 곱과 잘못된 계산 또는 처음 분수의 크기를 비교해요.",
+      "1보다 작은 양수를 곱하면 처음 수보다 작아지는 까닭을 확인해요."
     ]
   },
   {
@@ -405,79 +558,100 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-fraction-natural",
+    "blueprint": {
+      "problemFamily": "fracmul-fraction-natural",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
+      "n": {
+        "min": 2,
         "max": 5
       },
-      "d1": {
-        "min": 4,
+      "b": {
+        "min": 3,
         "max": 6
       },
-      "n2": {
+      "m": {
         "min": 3,
-        "max": 5
-      },
-      "d2": {
-        "min": 5,
-        "max": 7
+        "max": 6
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "주어진 분수는 {{n}}/{{n + b}}입니다. 이 분수를 {{m}}번 더한 값과 같은 곱을 구하세요.",
+    "solver_rule": "fracMul(n, n + b, m, 1)",
     "solution_steps_template": [
-      "분자끼리, 분모끼리 곱합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "자연수는 {{m}}이고 곱할 분자는 {{n}}입니다. 두 수를 곱합니다.",
+      "곱한 뒤의 분수는 {{n * m}}/{{n + b}}입니다. 약분하면 {{fracMul(n, n + b, m, 1)}}입니다."
     ],
     "hint_steps_template": [
-      "분자끼리 곱해요.",
-      "분모끼리 곱해요."
+      "자연수는 분모가 1인 분수로 나타내고 분자끼리, 분모끼리 곱해요.",
+      "곱하기 전이나 곱한 뒤에 약분하여 기약분수로 만들어요."
     ],
     "choices_template": [
-      "{{fracMul(n1, d1, n2, d2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 3)}}"
+      "{{fracMul(n, n + b, m, 1)}}",
+      "{{reduceFrac(n * m + 1, n + b)}}",
+      "{{reduceFrac(n * m + 2, n + b)}}",
+      "{{reduceFrac(n * m + 3, n + b)}}"
     ]
   },
   {
     "id": "tmpl-fracmul-B-02",
     "concept_id": "fracmul-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 1,
     "set_id": "B",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-natural-fraction",
+    "blueprint": {
+      "problemFamily": "fracmul-natural-fraction",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
+      "n": {
+        "min": 2,
         "max": 5
       },
-      "d1": {
-        "min": 4,
-        "max": 7
-      },
-      "n2": {
+      "b": {
         "min": 3,
-        "max": 5
+        "max": 6
       },
-      "d2": {
-        "min": 5,
-        "max": 8
+      "m": {
+        "min": 3,
+        "max": 6
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요.",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "자연수 {{m}}의 {{n}}/{{n + b}}배를 구하세요.",
+    "solver_rule": "fracMul(m, 1, n, n + b)",
     "solution_steps_template": [
-      "분자끼리 곱합니다: {{n1}} × {{n2}}",
-      "분모끼리 곱합니다: {{d1}} × {{d2}}",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "자연수 값은 {{m}}입니다. 분수로 나타내면 {{m}}/1입니다.",
+      "{{m}}/1 × {{n}}/{{n + b}} = {{fracMul(m, 1, n, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "분자끼리 곱해요.",
-      "분모끼리 곱해요."
+      "자연수는 분모가 1인 분수로 나타내고 분자끼리, 분모끼리 곱해요.",
+      "곱하기 전이나 곱한 뒤에 약분하여 기약분수로 만들어요."
     ]
   },
   {
@@ -486,41 +660,56 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-fraction-fraction",
+    "blueprint": {
+      "problemFamily": "fracmul-fraction-fraction",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 4,
-        "max": 6
-      },
-      "d1": {
-        "min": 5,
-        "max": 8
-      },
-      "n2": {
-        "min": 3,
+      "n": {
+        "min": 2,
         "max": 5
       },
-      "d2": {
-        "min": 6,
-        "max": 9
+      "b": {
+        "min": 3,
+        "max": 6
+      },
+      "m": {
+        "min": 3,
+        "max": 6
+      },
+      "c": {
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "두 분수는 {{n}}/{{n + b}}, {{m}}/{{m + c}}입니다. 두 수의 곱을 기약분수로 나타내세요.",
+    "solver_rule": "fracMul(n, n + b, m, m + c)",
     "solution_steps_template": [
-      "곱셈을 하고 약분합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "분자끼리 곱하면 {{n * m}}, 분모끼리 곱하면 {{(n + b) * (m + c)}}입니다.",
+      "약분한 값은 {{fracMul(n, n + b, m, m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "곱한 뒤 약분해요.",
-      "기약분수로 쓰세요."
+      "자연수는 분모가 1인 분수로 나타내고 분자끼리, 분모끼리 곱해요.",
+      "곱하기 전이나 곱한 뒤에 약분하여 기약분수로 만들어요."
     ],
     "choices_template": [
-      "{{fracMul(n1, d1, n2, d2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, -1)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 4)}}"
+      "{{fracMul(n, n + b, m, m + c)}}",
+      "{{reduceFrac(n * m + 1, n * m + n * c + b * m + b * c)}}",
+      "{{reduceFrac(n * m + 2, n * m + n * c + b * m + b * c)}}",
+      "{{reduceFrac(n * m + 3, n * m + n * c + b * m + b * c)}}"
     ]
   },
   {
@@ -529,78 +718,112 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-cancel-before-product",
+    "blueprint": {
+      "problemFamily": "fracmul-cancel-before-product",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-09",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 4,
-        "max": 6
-      },
-      "d1": {
-        "min": 5,
-        "max": 8
-      },
-      "n2": {
-        "min": 3,
+      "n": {
+        "min": 2,
         "max": 5
       },
-      "d2": {
-        "min": 6,
-        "max": 9
+      "b": {
+        "min": 3,
+        "max": 6
+      },
+      "m": {
+        "min": 3,
+        "max": 6
+      },
+      "c": {
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요. (예: 2/3)",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{n}}/{{n + b}} × {{n + b}}/{{m + c}}. 같은 인수를 먼저 약분한 뒤 값을 구하세요.",
+    "solver_rule": "fracMul(n, n + b, n + b, m + c)",
     "solution_steps_template": [
-      "분자끼리 곱하고 분모끼리 곱합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "첫째 분모와 둘째 분자의 공통 인수는 {{n + b}}입니다. 먼저 약분합니다.",
+      "약분 후 남은 분수는 {{n}}/{{m + c}}입니다. 기약분수는 {{fracMul(n, n + b, n + b, m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "분자 × 분자, 분모 × 분모",
-      "약분해요."
+      "자연수는 분모가 1인 분수로 나타내고 분자끼리, 분모끼리 곱해요.",
+      "곱하기 전이나 곱한 뒤에 약분하여 기약분수로 만들어요."
     ]
   },
   {
     "id": "tmpl-fracmul-B-05",
     "concept_id": "fracmul-001",
     "type": "choice",
-    "difficulty": 1,
+    "difficulty": 2,
     "set_id": "B",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-context-part-of-quantity",
+    "blueprint": {
+      "problemFamily": "fracmul-context-part-of-quantity",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 8
+      "n": {
+        "min": 2,
+        "max": 5
       },
-      "d1": {
-        "min": 7,
-        "max": 10
+      "b": {
+        "min": 3,
+        "max": 6
       },
-      "n2": {
-        "min": 5,
-        "max": 7
+      "m": {
+        "min": 3,
+        "max": 6
       },
-      "d2": {
-        "min": 8,
-        "max": 11
+      "c": {
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "전체 물은 {{m + c}}L이고 화분에 준 비율은 {{n}}/{{n + b}}입니다. 화분에 준 물은 몇 L인가요?",
+    "solver_rule": "reduceFrac(m * n + c * n, n + b)",
     "solution_steps_template": [
-      "곱셈 후 약분합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "전체 양은 {{m + c}}이고 사용한 비율은 {{n}}/{{n + b}}입니다. 두 값을 곱합니다.",
+      "{{m + c}} × {{n}}/{{n + b}} = {{fracMul(m + c, 1, n, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "분자끼리, 분모끼리 곱해요.",
-      "기약분수로 만들어요."
+      "어떤 양의 일부분을 구할 때는 전체 양과 분수를 곱해요.",
+      "일부의 일부는 두 분수의 곱으로 나타내요."
     ],
     "choices_template": [
-      "{{fracMul(n1, d1, n2, d2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 3)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 5)}}"
+      "{{fracMul(m + c, 1, n, n + b)}}",
+      "{{reduceFrac(m * n + c * n + 1, n + b)}}",
+      "{{reduceFrac(m * n + c * n + 2, n + b)}}",
+      "{{reduceFrac(m * n + c * n + 3, n + b)}}"
     ]
   },
   {
@@ -609,194 +832,277 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "fracmul-context-product",
-    "blueprint": {"problemFamily":"fracmul-context-product","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracmul-context-part-of-part",
+    "blueprint": {
+      "problemFamily": "fracmul-context-part-of-part",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
-        "max": 5
-      },
-      "d1": {
-        "min": 7,
-        "max": 10
-      },
-      "n2": {
+      "n": {
         "min": 2,
         "max": 5
       },
-      "d2": {
-        "min": 7,
-        "max": 10
+      "b": {
+        "min": 3,
+        "max": 6
+      },
+      "m": {
+        "min": 3,
+        "max": 6
+      },
+      "c": {
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "화단 전체의 {{n1}}/{{d1}}에 꽃을 심고, 그중 {{n2}}/{{d2}}에 팻말을 세웠습니다. 팻말을 세운 부분은 전체의 얼마인가요?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "화단의 {{n}}/{{n + b}}에 꽃을 심고, 그중 {{m}}/{{m + c}}에 이름표를 세웠습니다. 이름표를 세운 부분은 화단 전체의 얼마인가요?",
+    "solver_rule": "reduceFrac(n * m, n * m + n * c + b * m + b * c)",
     "solution_steps_template": [
-      "분자끼리 곱하고 분모끼리 곱합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "첫 비율은 {{n}}/{{n + b}}이고 그중의 비율은 {{m}}/{{m + c}}입니다. 두 분수를 곱합니다.",
+      "{{n}}/{{n + b}} × {{m}}/{{m + c}} = {{fracMul(n, n + b, m, m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈 문제예요.",
-      "분자와 분모를 각각 곱해요."
+      "어떤 양의 일부분을 구할 때는 전체 양과 분수를 곱해요.",
+      "일부의 일부는 두 분수의 곱으로 나타내요."
     ]
   },
   {
     "id": "tmpl-fracmul-B-07",
     "concept_id": "fracmul-001",
     "type": "choice",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "B",
-    "problem_family": "fracmul-numerator-product",
-    "blueprint": {"problemFamily":"fracmul-numerator-product","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium"},
+    "problem_family": "fracmul-missing-factor",
+    "blueprint": {
+      "problemFamily": "fracmul-missing-factor",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-09",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 8
+      "n": {
+        "min": 2,
+        "max": 5
       },
-      "d1": {
-        "min": 7,
-        "max": 11
+      "b": {
+        "min": 3,
+        "max": 6
       },
-      "n2": {
-        "min": 5,
-        "max": 7
+      "m": {
+        "min": 3,
+        "max": 6
       },
-      "d2": {
-        "min": 8,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱했을 때 분자끼리 곱한 값은?",
-    "solver_rule": "n1 * n2",
+    "prompt_template": "{{n}}/{{n + b}}에 어떤 분수를 곱했더니 {{fracMul(n, n + b, m, m + c)}}이 되었습니다. 곱한 분수를 구하세요.",
+    "solver_rule": "reduceFrac(m, m + c)",
     "solution_steps_template": [
-      "분자끼리 곱합니다: {{n1}} × {{n2}} = {{n1 * n2}}"
+      "곱의 두 번째 인수는 처음 식에서 사용한 {{m}}/{{m + c}}입니다.",
+      "기약분수로 나타내면 {{reduceFrac(m, m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "분자끼리 곱하면 돼요.",
-      "보기에서 그 값을 찾아요."
+      "곱과 알고 있는 한 인수의 관계를 식이나 넓이로 나타내요.",
+      "빠진 인수를 확인하거나 가로와 세로를 곱해요."
     ],
     "choices_template": [
-      "{{n1 * n2}}",
-      "{{n1 * n2 + 1}}",
-      "{{n1 * n2 + 2}}",
-      "{{n1 * n2 + 3}}"
+      "{{reduceFrac(m, m + c)}}",
+      "{{reduceFrac(m + 1, m + c)}}",
+      "{{reduceFrac(m + 2, m + c)}}",
+      "{{reduceFrac(m + 3, m + c)}}"
     ]
   },
   {
     "id": "tmpl-fracmul-B-08",
     "concept_id": "fracmul-001",
     "type": "number",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "B",
-    "problem_family": "fracmul-reduced-component-sum",
-    "blueprint": {"problemFamily":"fracmul-reduced-component-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "fracmul-context-fractional-area",
+    "blueprint": {
+      "problemFamily": "fracmul-context-fractional-area",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-09",
+      "connectedStandards": [
+        "6수03-13"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 8
+      "n": {
+        "min": 2,
+        "max": 5
       },
-      "d1": {
-        "min": 7,
-        "max": 11
+      "b": {
+        "min": 3,
+        "max": 6
       },
-      "n2": {
-        "min": 5,
-        "max": 7
+      "m": {
+        "min": 3,
+        "max": 6
       },
-      "d2": {
-        "min": 8,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}}에서 분자와 분모의 합은?",
-    "solver_rule": "reducedNum(n1 * n2, d1 * d2) + reducedDen(n1 * n2, d1 * d2)",
+    "prompt_template": "가로 {{n}}/{{n + b}}m, 세로 {{m}}/{{m + c}}m인 직사각형 화단의 넓이를 구하세요.",
+    "solver_rule": "reduceFrac(n * m, n * m + n * c + b * m + b * c)",
     "solution_steps_template": [
-      "곱: {{fracMul(n1, d1, n2, d2)}}",
-      "약분한 분자+분모: {{reducedNum(n1 * n2, d1 * d2) + reducedDen(n1 * n2, d1 * d2)}}"
+      "직사각형의 넓이는 가로와 세로의 곱입니다.",
+      "{{n}}/{{n + b}} × {{m}}/{{m + c}} = {{fracMul(n, n + b, m, m + c)}}이므로 넓이는 {{fracMul(n, n + b, m, m + c)}}m²입니다."
     ],
     "hint_steps_template": [
-      "먼저 곱셈 결과를 구해요.",
-      "기약분수의 분자와 분모를 더해요."
+      "곱과 알고 있는 한 인수의 관계를 식이나 넓이로 나타내요.",
+      "빠진 인수를 확인하거나 가로와 세로를 곱해요."
     ]
   },
   {
     "id": "tmpl-fracmul-B-09",
     "concept_id": "fracmul-001",
-    "type": "number",
-    "difficulty": 2,
+    "type": "choice",
+    "difficulty": 3,
     "set_id": "B",
-    "problem_family": "fracmul-adjusted-result",
-    "blueprint": {"problemFamily":"fracmul-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "fracmul-denominator-omission-error",
+    "blueprint": {
+      "problemFamily": "fracmul-denominator-omission-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 10
+      "n": {
+        "min": 2,
+        "max": 5
       },
-      "d1": {
-        "min": 9,
-        "max": 12
+      "b": {
+        "min": 3,
+        "max": 6
       },
-      "n2": {
-        "min": 7,
-        "max": 9
-      },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱한 뒤, 분자에 1을 더해 만든 분수는?",
-    "solver_rule": "fracMulOff(n1, d1, n2, d2, 1)",
+    "prompt_template": "서아가 계산한 식은 {{n}}/{{n + b}} × 1/{{c}}입니다. 두 번째 분모를 빠뜨린 답은 {{n}}/{{n + b}}입니다. 서아의 답은 올바른 값보다 얼마 큰가요?",
+    "solver_rule": "fracSub(n, n + b, n, n * c + b * c)",
     "solution_steps_template": [
-      "곱한 뒤 분자에 1을 더합니다.",
-      "정답: {{fracMulOff(n1, d1, n2, d2, 1)}}"
+      "올바른 값은 {{n}}/{{n + b}} × 1/{{c}} = {{fracMul(n, n + b, 1, c)}}입니다.",
+      "잘못된 값 {{reduceFrac(n, n + b)}}에서 올바른 값을 빼면 {{fracSub(n, n + b, n, n * c + b * c)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 곱셈을 해요.",
-      "분자에 1을 더해요."
+      "올바른 곱과 잘못된 계산 또는 처음 분수의 크기를 비교해요.",
+      "1보다 작은 양수를 곱하면 처음 수보다 작아지는 까닭을 확인해요."
+    ],
+    "choices_template": [
+      "{{fracSub(n, n + b, n, n * c + b * c)}}",
+      "{{reduceFrac(n * c - n + 1, n * c + b * c)}}",
+      "{{reduceFrac(n * c - n + 2, n * c + b * c)}}",
+      "{{reduceFrac(n * c - n + 3, n * c + b * c)}}"
     ]
   },
   {
     "id": "tmpl-fracmul-B-10",
     "concept_id": "fracmul-001",
-    "type": "choice",
-    "difficulty": 2,
+    "type": "number",
+    "difficulty": 3,
     "set_id": "B",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-product-size-gap",
+    "blueprint": {
+      "problemFamily": "fracmul-product-size-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 10
+      "n": {
+        "min": 2,
+        "max": 5
       },
-      "d1": {
-        "min": 9,
-        "max": 12
+      "b": {
+        "min": 3,
+        "max": 6
       },
-      "n2": {
-        "min": 7,
-        "max": 9
+      "m": {
+        "min": 3,
+        "max": 6
       },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱한 값은?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "첫 번째 수는 {{n}}/{{n + b}}입니다. 두 번째 수를 만들 때 곱하는 수는 {{m}}/{{m + c}}입니다. 첫 번째 수와 두 번째 수의 차이는 얼마인가요?",
+    "solver_rule": "fracSub(n, n + b, n * m, n * m + n * c + b * m + b * c)",
     "solution_steps_template": [
-      "곱셈 후 약분합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "곱하는 수는 {{m}}/{{m + c}}이고 1보다 작습니다. 따라서 곱은 처음 분수보다 작습니다.",
+      "{{reduceFrac(n, n + b)}} - {{fracMul(n, n + b, m, m + c)}} = {{fracSub(n, n + b, n * m, n * m + n * c + b * m + b * c)}}입니다."
     ],
     "hint_steps_template": [
-      "분자와 분모를 각각 곱해요.",
-      "기약분수로 만들어요."
-    ],
-    "choices_template": [
-      "{{fracMul(n1, d1, n2, d2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 3)}}"
+      "올바른 곱과 잘못된 계산 또는 처음 분수의 크기를 비교해요.",
+      "1보다 작은 양수를 곱하면 처음 수보다 작아지는 까닭을 확인해요."
     ]
   },
   {
@@ -805,79 +1111,100 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-fraction-natural",
+    "blueprint": {
+      "problemFamily": "fracmul-fraction-natural",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
+      "n": {
+        "min": 4,
         "max": 7
       },
-      "d1": {
-        "min": 6,
+      "b": {
+        "min": 4,
         "max": 8
       },
-      "n2": {
+      "m": {
         "min": 5,
-        "max": 7
-      },
-      "d2": {
-        "min": 7,
-        "max": 9
+        "max": 8
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "{{n}}/{{n + b}}의 {{m}}배를 분수로 나타내세요.",
+    "solver_rule": "fracMul(n, n + b, m, 1)",
     "solution_steps_template": [
-      "분자끼리, 분모끼리 곱합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "자연수는 {{m}}이고 곱할 분자는 {{n}}입니다. 두 수를 곱합니다.",
+      "곱한 뒤의 분수는 {{n * m}}/{{n + b}}입니다. 약분하면 {{fracMul(n, n + b, m, 1)}}입니다."
     ],
     "hint_steps_template": [
-      "분자끼리 곱해요.",
-      "분모끼리 곱해요."
+      "자연수는 분모가 1인 분수로 나타내고 분자끼리, 분모끼리 곱해요.",
+      "곱하기 전이나 곱한 뒤에 약분하여 기약분수로 만들어요."
     ],
     "choices_template": [
-      "{{fracMul(n1, d1, n2, d2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 3)}}"
+      "{{fracMul(n, n + b, m, 1)}}",
+      "{{reduceFrac(n * m + 1, n + b)}}",
+      "{{reduceFrac(n * m + 2, n + b)}}",
+      "{{reduceFrac(n * m + 3, n + b)}}"
     ]
   },
   {
     "id": "tmpl-fracmul-C-02",
     "concept_id": "fracmul-001",
     "type": "number",
-    "difficulty": 2,
+    "difficulty": 1,
     "set_id": "C",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-natural-fraction",
+    "blueprint": {
+      "problemFamily": "fracmul-natural-fraction",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
+      "n": {
+        "min": 4,
         "max": 7
       },
-      "d1": {
-        "min": 6,
-        "max": 9
+      "b": {
+        "min": 4,
+        "max": 8
       },
-      "n2": {
+      "m": {
         "min": 5,
-        "max": 7
-      },
-      "d2": {
-        "min": 7,
-        "max": 10
+        "max": 8
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요.",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "{{m}}개 묶음에 각각 {{n}}/{{n + b}}만큼 있을 때 전체 양을 구하세요.",
+    "solver_rule": "fracMul(m, 1, n, n + b)",
     "solution_steps_template": [
-      "분자끼리 곱합니다: {{n1}} × {{n2}}",
-      "분모끼리 곱합니다: {{d1}} × {{d2}}",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "자연수 값은 {{m}}입니다. 분수로 나타내면 {{m}}/1입니다.",
+      "{{m}}/1 × {{n}}/{{n + b}} = {{fracMul(m, 1, n, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "분자끼리 곱해요.",
-      "분모끼리 곱해요."
+      "자연수는 분모가 1인 분수로 나타내고 분자끼리, 분모끼리 곱해요.",
+      "곱하기 전이나 곱한 뒤에 약분하여 기약분수로 만들어요."
     ]
   },
   {
@@ -886,41 +1213,56 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-fraction-fraction",
+    "blueprint": {
+      "problemFamily": "fracmul-fraction-fraction",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 6,
-        "max": 8
-      },
-      "d1": {
-        "min": 7,
-        "max": 10
-      },
-      "n2": {
-        "min": 5,
+      "n": {
+        "min": 4,
         "max": 7
       },
-      "d2": {
-        "min": 8,
-        "max": 11
+      "b": {
+        "min": 4,
+        "max": 8
+      },
+      "m": {
+        "min": 5,
+        "max": 8
+      },
+      "c": {
+        "min": 3,
+        "max": 6
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "첫째 분수: {{n}}/{{n + b}}. 둘째 분수: {{m}}/{{m + c}}. 분자끼리, 분모끼리 곱하세요.",
+    "solver_rule": "fracMul(n, n + b, m, m + c)",
     "solution_steps_template": [
-      "곱셈을 하고 약분합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "분자끼리 곱하면 {{n * m}}, 분모끼리 곱하면 {{(n + b) * (m + c)}}입니다.",
+      "약분한 값은 {{fracMul(n, n + b, m, m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "곱한 뒤 약분해요.",
-      "기약분수로 쓰세요."
+      "자연수는 분모가 1인 분수로 나타내고 분자끼리, 분모끼리 곱해요.",
+      "곱하기 전이나 곱한 뒤에 약분하여 기약분수로 만들어요."
     ],
     "choices_template": [
-      "{{fracMul(n1, d1, n2, d2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, -1)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 4)}}"
+      "{{fracMul(n, n + b, m, m + c)}}",
+      "{{reduceFrac(n * m + 1, n * m + n * c + b * m + b * c)}}",
+      "{{reduceFrac(n * m + 2, n * m + n * c + b * m + b * c)}}",
+      "{{reduceFrac(n * m + 3, n * m + n * c + b * m + b * c)}}"
     ]
   },
   {
@@ -929,78 +1271,112 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-cancel-before-product",
+    "blueprint": {
+      "problemFamily": "fracmul-cancel-before-product",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-09",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 6,
-        "max": 8
-      },
-      "d1": {
-        "min": 7,
-        "max": 10
-      },
-      "n2": {
-        "min": 5,
+      "n": {
+        "min": 4,
         "max": 7
       },
-      "d2": {
-        "min": 8,
-        "max": 11
+      "b": {
+        "min": 4,
+        "max": 8
+      },
+      "m": {
+        "min": 5,
+        "max": 8
+      },
+      "c": {
+        "min": 3,
+        "max": 6
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} 를 계산하세요. (예: 2/3)",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "교차 약분할 공통 인수는 {{n + b}}입니다. {{n}}/{{n + b}} × {{n + b}}/{{m + c}}의 값을 구하세요.",
+    "solver_rule": "fracMul(n, n + b, n + b, m + c)",
     "solution_steps_template": [
-      "분자끼리 곱하고 분모끼리 곱합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "첫째 분모와 둘째 분자의 공통 인수는 {{n + b}}입니다. 먼저 약분합니다.",
+      "약분 후 남은 분수는 {{n}}/{{m + c}}입니다. 기약분수는 {{fracMul(n, n + b, n + b, m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "분자 × 분자, 분모 × 분모",
-      "약분해요."
+      "자연수는 분모가 1인 분수로 나타내고 분자끼리, 분모끼리 곱해요.",
+      "곱하기 전이나 곱한 뒤에 약분하여 기약분수로 만들어요."
     ]
   },
   {
     "id": "tmpl-fracmul-C-05",
     "concept_id": "fracmul-001",
     "type": "choice",
-    "difficulty": 1,
+    "difficulty": 2,
     "set_id": "C",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-context-part-of-quantity",
+    "blueprint": {
+      "problemFamily": "fracmul-context-part-of-quantity",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 10
+      "n": {
+        "min": 4,
+        "max": 7
       },
-      "d1": {
-        "min": 9,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 8
       },
-      "n2": {
-        "min": 7,
-        "max": 9
+      "m": {
+        "min": 5,
+        "max": 8
       },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 6
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "길의 전체 거리는 {{m + c}}km이고 걸은 비율은 {{n}}/{{n + b}}입니다. 걸은 거리는 몇 km인가요?",
+    "solver_rule": "reduceFrac(m * n + c * n, n + b)",
     "solution_steps_template": [
-      "곱셈 후 약분합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "전체 양은 {{m + c}}이고 사용한 비율은 {{n}}/{{n + b}}입니다. 두 값을 곱합니다.",
+      "{{m + c}} × {{n}}/{{n + b}} = {{fracMul(m + c, 1, n, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "분자끼리, 분모끼리 곱해요.",
-      "기약분수로 만들어요."
+      "어떤 양의 일부분을 구할 때는 전체 양과 분수를 곱해요.",
+      "일부의 일부는 두 분수의 곱으로 나타내요."
     ],
     "choices_template": [
-      "{{fracMul(n1, d1, n2, d2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 3)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 5)}}"
+      "{{fracMul(m + c, 1, n, n + b)}}",
+      "{{reduceFrac(m * n + c * n + 1, n + b)}}",
+      "{{reduceFrac(m * n + c * n + 2, n + b)}}",
+      "{{reduceFrac(m * n + c * n + 3, n + b)}}"
     ]
   },
   {
@@ -1009,194 +1385,277 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "fracmul-context-product",
-    "blueprint": {"problemFamily":"fracmul-context-product","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracmul-context-part-of-part",
+    "blueprint": {
+      "problemFamily": "fracmul-context-part-of-part",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
+      "n": {
         "min": 4,
-        "max": 6
+        "max": 7
       },
-      "d1": {
-        "min": 8,
-        "max": 11
+      "b": {
+        "min": 4,
+        "max": 8
       },
-      "n2": {
+      "m": {
+        "min": 5,
+        "max": 8
+      },
+      "c": {
         "min": 3,
-        "max": 5
-      },
-      "d2": {
-        "min": 7,
-        "max": 10
+        "max": 6
       }
     },
-    "prompt_template": "운동장 전체의 {{n1}}/{{d1}}을 놀이 구역으로 정하고, 그중 {{n2}}/{{d2}}에 선을 그었습니다. 선을 그은 부분은 전체의 얼마인가요?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "벽에서 칠한 비율은 {{n}}/{{n + b}}입니다. 그중 {{m}}/{{m + c}}에 무늬를 넣었습니다. 무늬를 넣은 부분은 벽 전체의 얼마인가요?",
+    "solver_rule": "reduceFrac(n * m, n * m + n * c + b * m + b * c)",
     "solution_steps_template": [
-      "분자끼리 곱하고 분모끼리 곱합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "첫 비율은 {{n}}/{{n + b}}이고 그중의 비율은 {{m}}/{{m + c}}입니다. 두 분수를 곱합니다.",
+      "{{n}}/{{n + b}} × {{m}}/{{m + c}} = {{fracMul(n, n + b, m, m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈 문제예요.",
-      "분자와 분모를 각각 곱해요."
+      "어떤 양의 일부분을 구할 때는 전체 양과 분수를 곱해요.",
+      "일부의 일부는 두 분수의 곱으로 나타내요."
     ]
   },
   {
     "id": "tmpl-fracmul-C-07",
     "concept_id": "fracmul-001",
     "type": "choice",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "C",
-    "problem_family": "fracmul-numerator-product",
-    "blueprint": {"problemFamily":"fracmul-numerator-product","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"medium"},
+    "problem_family": "fracmul-missing-factor",
+    "blueprint": {
+      "problemFamily": "fracmul-missing-factor",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-09",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 10
+      "n": {
+        "min": 4,
+        "max": 7
       },
-      "d1": {
-        "min": 9,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 8
       },
-      "n2": {
-        "min": 7,
-        "max": 9
+      "m": {
+        "min": 5,
+        "max": 8
       },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 6
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱했을 때 분자끼리 곱한 값은?",
-    "solver_rule": "n1 * n2",
+    "prompt_template": "어떤 분수와 {{n}}/{{n + b}}의 곱이 {{fracMul(n, n + b, m, m + c)}}입니다. 어떤 분수를 구하세요.",
+    "solver_rule": "reduceFrac(m, m + c)",
     "solution_steps_template": [
-      "분자끼리 곱합니다: {{n1}} × {{n2}} = {{n1 * n2}}"
+      "곱의 두 번째 인수는 처음 식에서 사용한 {{m}}/{{m + c}}입니다.",
+      "기약분수로 나타내면 {{reduceFrac(m, m + c)}}입니다."
     ],
     "hint_steps_template": [
-      "분자끼리 곱하면 돼요.",
-      "보기에서 그 값을 찾아요."
+      "곱과 알고 있는 한 인수의 관계를 식이나 넓이로 나타내요.",
+      "빠진 인수를 확인하거나 가로와 세로를 곱해요."
     ],
     "choices_template": [
-      "{{n1 * n2}}",
-      "{{n1 * n2 + 1}}",
-      "{{n1 * n2 + 2}}",
-      "{{n1 * n2 + 3}}"
+      "{{reduceFrac(m, m + c)}}",
+      "{{reduceFrac(m + 1, m + c)}}",
+      "{{reduceFrac(m + 2, m + c)}}",
+      "{{reduceFrac(m + 3, m + c)}}"
     ]
   },
   {
     "id": "tmpl-fracmul-C-08",
     "concept_id": "fracmul-001",
     "type": "number",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "C",
-    "problem_family": "fracmul-reduced-component-sum",
-    "blueprint": {"problemFamily":"fracmul-reduced-component-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "fracmul-context-fractional-area",
+    "blueprint": {
+      "problemFamily": "fracmul-context-fractional-area",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-09",
+      "connectedStandards": [
+        "6수03-13"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 10
+      "n": {
+        "min": 4,
+        "max": 7
       },
-      "d1": {
-        "min": 9,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 8
       },
-      "n2": {
-        "min": 7,
-        "max": 9
+      "m": {
+        "min": 5,
+        "max": 8
       },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 6
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} × {{n2}}/{{d2}}에서 분자와 분모의 합은?",
-    "solver_rule": "reducedNum(n1 * n2, d1 * d2) + reducedDen(n1 * n2, d1 * d2)",
+    "prompt_template": "가로가 {{n}}/{{n + b}}m이고 세로가 {{m}}/{{m + c}}m인 직사각형 모형의 넓이는 몇 m²인가요?",
+    "solver_rule": "reduceFrac(n * m, n * m + n * c + b * m + b * c)",
     "solution_steps_template": [
-      "곱: {{fracMul(n1, d1, n2, d2)}}",
-      "약분한 분자+분모: {{reducedNum(n1 * n2, d1 * d2) + reducedDen(n1 * n2, d1 * d2)}}"
+      "직사각형의 넓이는 가로와 세로의 곱입니다.",
+      "{{n}}/{{n + b}} × {{m}}/{{m + c}} = {{fracMul(n, n + b, m, m + c)}}이므로 넓이는 {{fracMul(n, n + b, m, m + c)}}m²입니다."
     ],
     "hint_steps_template": [
-      "먼저 곱셈 결과를 구해요.",
-      "기약분수의 분자와 분모를 더해요."
+      "곱과 알고 있는 한 인수의 관계를 식이나 넓이로 나타내요.",
+      "빠진 인수를 확인하거나 가로와 세로를 곱해요."
     ]
   },
   {
     "id": "tmpl-fracmul-C-09",
     "concept_id": "fracmul-001",
-    "type": "number",
-    "difficulty": 2,
+    "type": "choice",
+    "difficulty": 3,
     "set_id": "C",
-    "problem_family": "fracmul-adjusted-result",
-    "blueprint": {"problemFamily":"fracmul-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "fracmul-denominator-omission-error",
+    "blueprint": {
+      "problemFamily": "fracmul-denominator-omission-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 9,
-        "max": 12
+      "n": {
+        "min": 4,
+        "max": 7
       },
-      "d1": {
-        "min": 11,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 8
       },
-      "n2": {
-        "min": 9,
-        "max": 11
-      },
-      "d2": {
-        "min": 12,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 6
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱한 뒤, 분자에 1을 더해 만든 분수는?",
-    "solver_rule": "fracMulOff(n1, d1, n2, d2, 1)",
+    "prompt_template": "민호가 계산한 식은 {{n}}/{{n + b}} × 1/{{c}}입니다. 두 번째 분모를 빠뜨린 답은 {{n}}/{{n + b}}입니다. 잘못된 값과 올바른 값의 차이는 얼마인가요?",
+    "solver_rule": "fracSub(n, n + b, n, n * c + b * c)",
     "solution_steps_template": [
-      "곱한 뒤 분자에 1을 더합니다.",
-      "정답: {{fracMulOff(n1, d1, n2, d2, 1)}}"
+      "올바른 값은 {{n}}/{{n + b}} × 1/{{c}} = {{fracMul(n, n + b, 1, c)}}입니다.",
+      "잘못된 값 {{reduceFrac(n, n + b)}}에서 올바른 값을 빼면 {{fracSub(n, n + b, n, n * c + b * c)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 곱셈을 해요.",
-      "분자에 1을 더해요."
+      "올바른 곱과 잘못된 계산 또는 처음 분수의 크기를 비교해요.",
+      "1보다 작은 양수를 곱하면 처음 수보다 작아지는 까닭을 확인해요."
+    ],
+    "choices_template": [
+      "{{fracSub(n, n + b, n, n * c + b * c)}}",
+      "{{reduceFrac(n * c - n + 1, n * c + b * c)}}",
+      "{{reduceFrac(n * c - n + 2, n * c + b * c)}}",
+      "{{reduceFrac(n * c - n + 3, n * c + b * c)}}"
     ]
   },
   {
     "id": "tmpl-fracmul-C-10",
     "concept_id": "fracmul-001",
-    "type": "choice",
-    "difficulty": 2,
+    "type": "number",
+    "difficulty": 3,
     "set_id": "C",
-    "problem_family": "fracmul-direct",
-    "blueprint": {"problemFamily":"fracmul-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-09","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracmul-product-size-gap",
+    "blueprint": {
+      "problemFamily": "fracmul-product-size-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "6수01-09",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 9,
-        "max": 12
+      "n": {
+        "min": 4,
+        "max": 7
       },
-      "d1": {
-        "min": 11,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 8
       },
-      "n2": {
-        "min": 9,
-        "max": 11
+      "m": {
+        "min": 5,
+        "max": 8
       },
-      "d2": {
-        "min": 12,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 6
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 곱한 값은?",
-    "solver_rule": "fracMul(n1, d1, n2, d2)",
+    "prompt_template": "처음 분수는 {{n}}/{{n + b}}이고 곱하는 수는 {{m}}/{{m + c}}입니다. 곱하면 값이 더 커진다는 주장이 있지만, 실제로 처음 분수는 곱보다 얼마 큰가요?",
+    "solver_rule": "fracSub(n, n + b, n * m, n * m + n * c + b * m + b * c)",
     "solution_steps_template": [
-      "곱셈 후 약분합니다.",
-      "정답: {{fracMul(n1, d1, n2, d2)}}"
+      "곱하는 수는 {{m}}/{{m + c}}이고 1보다 작습니다. 따라서 곱은 처음 분수보다 작습니다.",
+      "{{reduceFrac(n, n + b)}} - {{fracMul(n, n + b, m, m + c)}} = {{fracSub(n, n + b, n * m, n * m + n * c + b * m + b * c)}}입니다."
     ],
     "hint_steps_template": [
-      "분자와 분모를 각각 곱해요.",
-      "기약분수로 만들어요."
-    ],
-    "choices_template": [
-      "{{fracMul(n1, d1, n2, d2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 1)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 2)}}",
-      "{{fracMulOff(n1, d1, n2, d2, 3)}}"
+      "올바른 곱과 잘못된 계산 또는 처음 분수의 크기를 비교해요.",
+      "1보다 작은 양수를 곱하면 처음 수보다 작아지는 까닭을 확인해요."
     ]
   }
 ]

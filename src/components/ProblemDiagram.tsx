@@ -6,6 +6,7 @@ import type { GeometryVisual, ProblemVisual } from '@/lib/types'
 
 interface ProblemDiagramProps {
   visual: ProblemVisual
+  showAnswer?: boolean
 }
 
 const stroke = '#334155'
@@ -18,7 +19,12 @@ const problemVisualTypes = new Set<ProblemVisual['type']>([
   'overlap_rectangles',
   'rectangle_square',
   'three_shape_overlap',
-  'ratio_table'
+  'ratio_table',
+  'ratio_graph',
+  'number_range',
+  'fraction_comparison',
+  'area_unit_square',
+  'possibility_trials'
 ])
 
 export function isProblemVisual(visual: GeometryVisual): visual is ProblemVisual {
@@ -33,88 +39,321 @@ function DimensionLabel({ x, y, children }: { x: number; y: number; children: Re
   )
 }
 
-type OverlapRegionKey = keyof ReturnType<typeof buildThreeShapeOverlapModel>['regions']
+type RatioGraphProps = Extract<ProblemVisual, { type: 'ratio_graph' }>['props']
 
-const overlapRegionLayout: Array<{
-  key: OverlapRegionKey
-  column: 0 | 1 | 2
-  row: 0 | 1 | 2
+export interface RatioGraphSegmentModel {
   label: string
-  fill: string
-  given: boolean
-}> = [
-  { key: 'aOnly', column: 0, row: 0, label: 'A만', fill: '#93c5fd', given: true },
-  { key: 'abOnly', column: 1, row: 0, label: 'AB', fill: '#67e8f9', given: false },
-  { key: 'bOnly', column: 2, row: 0, label: 'B만', fill: '#86efac', given: true },
-  { key: 'acOnly', column: 0, row: 1, label: 'AC', fill: '#c4b5fd', given: false },
-  { key: 'abc', column: 1, row: 1, label: 'ABC', fill: '#fcd34d', given: true },
-  { key: 'bcOnly', column: 2, row: 1, label: 'BC', fill: '#fdba74', given: false },
-  { key: 'cOnly', column: 1, row: 2, label: 'C만', fill: '#fca5a5', given: true }
-]
+  percent: number
+  startPercent: number
+  endPercent: number
+  color: string
+}
 
-function OverlapRegionCells({
-  regionKey,
-  area,
-  column,
-  row,
-  label,
-  fill,
-  given
-}: {
-  regionKey: OverlapRegionKey
-  area: number
-  column: 0 | 1 | 2
-  row: 0 | 1 | 2
-  label: string
-  fill: string
-  given: boolean
-}) {
-  if (area === 0) return null
+export interface RatioGraphModel {
+  kind: RatioGraphProps['kind']
+  caption: string
+  maskedValueIndex?: number
+  segments: RatioGraphSegmentModel[]
+}
 
-  const zoneWidth = 118
-  const zoneHeight = 70
-  const pitch = 10
-  const cellSize = 9
-  const columns = Math.min(7, area)
-  const rows = Math.ceil(area / columns)
-  const blockWidth = columns * pitch - 1
-  const blockHeight = rows * pitch - 1
-  const zoneX = 17 + column * 124
-  const zoneY = 50 + row * 76
-  const startX = zoneX + (zoneWidth - blockWidth) / 2
-  const startY = zoneY + (zoneHeight - blockHeight) / 2
-  const labelX = startX + blockWidth / 2
-  const labelY = startY + blockHeight / 2 + 4
+const ratioGraphColors = ['#38bdf8', '#34d399', '#fbbf24', '#a78bfa', '#fb7185']
 
-  return (
-    <g data-region={regionKey} aria-hidden="true">
-      {Array.from({ length: area }, (_, index) => (
-        <rect
-          key={index}
-          data-cell-region={regionKey}
-          x={startX + (index % columns) * pitch}
-          y={startY + Math.floor(index / columns) * pitch}
-          width={cellSize}
-          height={cellSize}
-          rx="1"
-          fill={fill}
-          stroke="#64748b"
-          strokeWidth="0.7"
-        />
-      ))}
-      <text
-        x={labelX}
-        y={labelY}
-        textAnchor="middle"
-        className="fill-slate-900 text-[9px] font-extrabold"
-      >
-        {label}{given ? ` ${area}` : ''}
-      </text>
-    </g>
-  )
+export function buildRatioGraphModel(props: RatioGraphProps): RatioGraphModel {
+  const safeValues = props.segments.map((segment) => (
+    Number.isFinite(segment.percent) && segment.percent > 0 ? segment.percent : 0
+  ))
+  const total = safeValues.reduce((sum, value) => sum + value, 0) || 1
+  let cursor = 0
+  const segments = props.segments.map((segment, index) => {
+    const percent = safeValues[index] * 100 / total
+    const startPercent = cursor
+    cursor += percent
+    return {
+      label: segment.label,
+      percent,
+      startPercent,
+      endPercent: cursor,
+      color: ratioGraphColors[index % ratioGraphColors.length],
+    }
+  })
+
+  return {
+    kind: props.kind,
+    caption: props.caption,
+    maskedValueIndex: props.maskedValueIndex,
+    segments,
+  }
+}
+
+function ratioGraphPoint(cx: number, cy: number, radius: number, percent: number) {
+  const angle = (percent * 3.6 - 90) * Math.PI / 180
+  return {
+    x: cx + radius * Math.cos(angle),
+    y: cy + radius * Math.sin(angle),
+  }
+}
+
+function ratioGraphSectorPath(
+  cx: number,
+  cy: number,
+  radius: number,
+  startPercent: number,
+  endPercent: number,
+) {
+  const start = ratioGraphPoint(cx, cy, radius, startPercent)
+  const end = ratioGraphPoint(cx, cy, radius, endPercent)
+  const largeArc = endPercent - startPercent > 50 ? 1 : 0
+  return [
+    `M ${cx} ${cy}`,
+    `L ${start.x} ${start.y}`,
+    `A ${radius} ${radius} 0 ${largeArc} 1 ${end.x} ${end.y}`,
+    'Z',
+  ].join(' ')
 }
 
 export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
+  if (visual.type === 'possibility_trials') {
+    const { caption, rows } = visual.props
+    const height = 55 + rows.length * 72
+
+    return (
+      <figure
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
+        data-testid="problem-diagram-possibility-trials"
+      >
+        <figcaption className="pb-2 text-center text-base font-extrabold text-slate-800">
+          {caption}
+        </figcaption>
+        <svg
+          viewBox={`0 0 360 ${height}`}
+          role="img"
+          aria-label={`${caption}: ${rows.map(row => `${row.label} ${row.total}번 중 ${row.favorable}번`).join(', ')}`}
+          className="mx-auto w-full max-w-md"
+        >
+          {rows.map((row, rowIndex) => {
+            const x = 72
+            const y = 22 + rowIndex * 72
+            const width = 254
+            const cellWidth = width / Math.max(1, row.total)
+            return (
+              <g
+                key={`${row.label}-${rowIndex}`}
+                data-possibility-row={rowIndex}
+                data-favorable={row.favorable}
+                data-total={row.total}
+              >
+                <text x="36" y={y + 23} textAnchor="middle" fontSize="14" fontWeight="800" fill="#334155">
+                  {row.label}
+                </text>
+                {Array.from({ length: row.total }, (_, index) => (
+                  <rect
+                    key={index}
+                    x={x + index * cellWidth}
+                    y={y}
+                    width={cellWidth}
+                    height="34"
+                    fill={index < row.favorable ? '#34d399' : '#ffffff'}
+                    stroke="#475569"
+                    strokeWidth="1"
+                    data-trial-outcome={index < row.favorable ? 'favorable' : 'other'}
+                  />
+                ))}
+                <text x="199" y={y + 54} textAnchor="middle" fontSize="12" fontWeight="700" fill="#475569">
+                  전체 {row.total}번 · 사건 {row.favorable}번
+                </text>
+              </g>
+            )
+          })}
+        </svg>
+      </figure>
+    )
+  }
+
+  if (visual.type === 'area_unit_square') {
+    const { caption, largerLengthUnit, smallerLengthUnit } = visual.props
+    const sideScale = largerLengthUnit === 'm' && smallerLengthUnit === 'cm'
+      ? 100
+      : 1000
+    const sideRelation = `1${largerLengthUnit} = ${sideScale}${smallerLengthUnit}`
+
+    return (
+      <figure
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
+        data-testid="problem-diagram-area-unit-square"
+        data-area-side-scale={sideScale}
+      >
+        <figcaption className="pb-2 text-center text-base font-extrabold text-slate-800">
+          {caption}
+        </figcaption>
+        <svg
+          viewBox="0 0 360 245"
+          role="img"
+          aria-label={`한 변이 1${largerLengthUnit}인 정사각형, 가로와 세로 각각 ${sideRelation}`}
+          className="mx-auto w-full max-w-md"
+        >
+          <defs>
+            <pattern id={`area-unit-grid-${sideScale}`} width="18" height="18" patternUnits="userSpaceOnUse">
+              <path d="M 18 0 L 0 0 0 18" fill="none" stroke="#bfdbfe" strokeWidth="1" />
+            </pattern>
+          </defs>
+          <rect x="82" y="24" width="196" height="196" rx="4" fill="#eff6ff" stroke={stroke} strokeWidth="3" />
+          <rect x="82" y="24" width="196" height="196" rx="4" fill={`url(#area-unit-grid-${sideScale})`} aria-hidden="true" />
+          <line x1="82" y1="230" x2="278" y2="230" stroke={accent} strokeWidth="2" />
+          <line x1="68" y1="24" x2="68" y2="220" stroke={accent} strokeWidth="2" />
+          <text x="180" y="242" textAnchor="middle" fontSize="13" fontWeight="800" fill="#1e3a8a">
+            {sideRelation}
+          </text>
+          <text x="48" y="122" textAnchor="middle" fontSize="13" fontWeight="800" fill="#1e3a8a" transform="rotate(-90 48 122)">
+            {sideRelation}
+          </text>
+          <text x="180" y="112" textAnchor="middle" fontSize="18" fontWeight="900" fill="#1e40af">
+            1{largerLengthUnit}²
+          </text>
+          <text x="180" y="140" textAnchor="middle" fontSize="13" fontWeight="700" fill="#475569">
+            {sideScale}{smallerLengthUnit} × {sideScale}{smallerLengthUnit}
+          </text>
+        </svg>
+      </figure>
+    )
+  }
+
+  if (visual.type === 'fraction_comparison') {
+    const { caption, left, right } = visual.props
+    const rows = [left, right]
+
+    return (
+      <figure
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
+        data-testid="problem-diagram-fraction-comparison"
+      >
+        <figcaption className="pb-2 text-center text-base font-extrabold text-slate-800">
+          {caption}
+        </figcaption>
+        <svg
+          viewBox="0 0 360 180"
+          role="img"
+          aria-label={`${caption}: ${left.label} ${left.numerator}/${left.denominator}, ${right.label} ${right.numerator}/${right.denominator}`}
+          className="mx-auto w-full max-w-md"
+        >
+          {rows.map((fraction, rowIndex) => {
+            const x = 58
+            const y = 34 + rowIndex * 76
+            const width = 270
+            const height = 40
+            const partWidth = width / fraction.denominator
+            return (
+              <g
+                key={fraction.label}
+                data-fraction-side={rowIndex === 0 ? 'left' : 'right'}
+                data-fraction-numerator={fraction.numerator}
+                data-fraction-denominator={fraction.denominator}
+              >
+                <text x="26" y={y + 25} textAnchor="middle" fontSize="15" fontWeight="800" fill="#334155">
+                  {fraction.label}
+                </text>
+                {Array.from({ length: fraction.denominator }, (_, index) => (
+                  <rect
+                    key={index}
+                    x={x + index * partWidth}
+                    y={y}
+                    width={partWidth}
+                    height={height}
+                    fill={index < fraction.numerator ? '#60a5fa' : '#ffffff'}
+                    stroke="#475569"
+                    strokeWidth="1.5"
+                    data-fraction-part={rowIndex === 0 ? 'left' : 'right'}
+                    data-fraction-filled={String(index < fraction.numerator)}
+                  />
+                ))}
+                <text x="193" y={y + 59} textAnchor="middle" fontSize="13" fontWeight="700" fill="#475569">
+                  {fraction.numerator}/{fraction.denominator}
+                </text>
+              </g>
+            )
+          })}
+        </svg>
+      </figure>
+    )
+  }
+
+  if (visual.type === 'number_range') {
+    const { caption, start, end, lower, upper, unit = '' } = visual.props
+    const range = Math.max(1, end - start)
+    const xFor = (value: number) => 30 + ((value - start) / range) * 300
+    const tickValues = range <= 12
+      ? Array.from({ length: range + 1 }, (_, index) => start + index)
+      : Array.from({ length: 6 }, (_, index) => Math.round(start + range * index / 5))
+    const lowerX = lower === undefined ? 30 : xFor(lower)
+    const upperX = upper === undefined ? 330 : xFor(upper)
+
+    return (
+      <figure
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
+        data-testid="problem-diagram-number-range"
+      >
+        <figcaption className="pb-2 text-center text-base font-extrabold text-slate-800">
+          {caption}
+        </figcaption>
+        <svg
+          viewBox="0 0 360 145"
+          role="img"
+          aria-label={`${caption} 수직선`}
+          className="mx-auto w-full max-w-md"
+        >
+          <line x1="24" y1="62" x2="336" y2="62" stroke="#64748b" strokeWidth="3" />
+          <line
+            x1={lowerX}
+            y1="62"
+            x2={upperX}
+            y2="62"
+            stroke={accent}
+            strokeWidth="9"
+            strokeLinecap="round"
+            data-range-segment="true"
+          />
+          {lower === undefined && <path d="M 24 62 L 38 53 L 38 71 Z" fill={accent} data-range-left-arrow="true" />}
+          {upper === undefined && <path d="M 336 62 L 322 53 L 322 71 Z" fill={accent} data-range-right-arrow="true" />}
+          {tickValues.map((value) => {
+            const x = xFor(value)
+            return (
+              <g key={value}>
+                <line x1={x} y1="52" x2={x} y2="72" stroke="#475569" strokeWidth="2" />
+                <text x={x} y="98" textAnchor="middle" fontSize="12" fontWeight="700" fill="#475569">
+                  {value}{unit}
+                </text>
+              </g>
+            )
+          })}
+          {lower !== undefined && (
+            <circle
+              cx={lowerX}
+              cy="62"
+              r="8"
+              fill={visual.props.lowerInclusive ? accent : 'white'}
+              stroke={accent}
+              strokeWidth="4"
+              data-range-lower-inclusive={String(Boolean(visual.props.lowerInclusive))}
+            />
+          )}
+          {upper !== undefined && (
+            <circle
+              cx={upperX}
+              cy="62"
+              r="8"
+              fill={visual.props.upperInclusive ? accent : 'white'}
+              stroke={accent}
+              strokeWidth="4"
+              data-range-upper-inclusive={String(Boolean(visual.props.upperInclusive))}
+            />
+          )}
+          <text x="180" y="127" textAnchor="middle" fontSize="12" fontWeight="700" fill="#0f766e">
+            ● 포함 · ○ 포함하지 않음
+          </text>
+        </svg>
+      </figure>
+    )
+  }
+
   if (visual.type === 'basic_shape') {
     const { shape, width, height, unit } = visual.props
     const scale = Math.min(220 / width, 130 / height)
@@ -279,36 +518,182 @@ export default function ProblemDiagram({ visual }: ProblemDiagramProps) {
     )
   }
 
-  const { shapeArea, exclusiveAreas, tripleOverlap, unit } = visual.props
-  const model = visual.model ?? buildThreeShapeOverlapModel(visual.props)
-  return (
-    <figure className="rounded-2xl border border-slate-200 bg-slate-50 p-3" data-testid="problem-diagram-three-shape-overlap">
-      <svg
-        viewBox="0 0 400 300"
-        role="img"
-        aria-label={`각 넓이가 ${shapeArea}${unit}²이고, 겹치지 않은 부분이 ${exclusiveAreas.join(', ')}${unit}²이며, 세 도형 공통부분이 ${tripleOverlap}${unit}²인 단위 넓이 그림`}
-        className="mx-auto w-full max-w-md"
+  if (visual.type === 'ratio_graph') {
+    const model = buildRatioGraphModel(visual.props)
+    const displayValue = (segment: RatioGraphSegmentModel, index: number) => (
+      model.maskedValueIndex === index ? '?' : `${Math.round(segment.percent)}%`
+    )
+
+    return (
+      <figure
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-3"
+        data-testid="problem-diagram-ratio-graph"
       >
-        <text x="200" y="20" textAnchor="middle" className="fill-slate-800 text-[13px] font-bold">
-          각 도형 {shapeArea} {unit}²
+        <figcaption className="pb-2 text-center text-base font-extrabold text-slate-800">
+          {model.caption}
+        </figcaption>
+        {model.kind === 'band' ? (
+          <svg
+            viewBox="0 0 360 150"
+            role="img"
+            aria-label={`${model.caption} 띠그래프`}
+            className="mx-auto w-full max-w-md"
+          >
+            {model.segments.map((segment, index) => {
+              const x = 20 + segment.startPercent * 3.2
+              const width = (segment.endPercent - segment.startPercent) * 3.2
+              const middle = x + width / 2
+              return (
+                <g key={`${segment.label}-${index}`}>
+                  <rect
+                    x={x}
+                    y="28"
+                    width={width}
+                    height="70"
+                    fill={segment.color}
+                    stroke="#ffffff"
+                    strokeWidth="2"
+                    data-ratio-band-segment={index}
+                  />
+                  <text x={middle} y="58" textAnchor="middle" fontSize="12" fontWeight="700" fill="#0f172a">
+                    {segment.label}
+                  </text>
+                  <text x={middle} y="80" textAnchor="middle" fontSize="13" fontWeight="800" fill="#0f172a">
+                    {displayValue(segment, index)}
+                  </text>
+                </g>
+              )
+            })}
+            {[0, 25, 50, 75, 100].map((tick) => (
+              <g key={tick}>
+                <line x1={20 + tick * 3.2} y1="101" x2={20 + tick * 3.2} y2="108" stroke="#475569" />
+                <text x={20 + tick * 3.2} y="126" textAnchor="middle" fontSize="11" fill="#475569">
+                  {tick}
+                </text>
+              </g>
+            ))}
+          </svg>
+        ) : (
+          <svg
+            viewBox="0 0 360 220"
+            role="img"
+            aria-label={`${model.caption} 원그래프`}
+            className="mx-auto w-full max-w-md"
+          >
+            {model.segments.map((segment, index) => {
+              const middlePercent = (segment.startPercent + segment.endPercent) / 2
+              const labelPoint = ratioGraphPoint(180, 103, 48, middlePercent)
+              return (
+                <g key={`${segment.label}-${index}`}>
+                  <path
+                    d={ratioGraphSectorPath(180, 103, 82, segment.startPercent, segment.endPercent)}
+                    fill={segment.color}
+                    stroke="#ffffff"
+                    strokeWidth="3"
+                    data-ratio-circle-segment={index}
+                  />
+                  <text
+                    x={labelPoint.x}
+                    y={labelPoint.y - 4}
+                    textAnchor="middle"
+                    fontSize="11"
+                    fontWeight="700"
+                    fill="#0f172a"
+                  >
+                    <tspan x={labelPoint.x}>{segment.label}</tspan>
+                    <tspan x={labelPoint.x} dy="16" fontWeight="800">
+                      {displayValue(segment, index)}
+                    </tspan>
+                  </text>
+                </g>
+              )
+            })}
+          </svg>
+        )}
+      </figure>
+    )
+  }
+
+  const model = visual.model ?? buildThreeShapeOverlapModel(visual.props)
+  const commonAreaDescription = model.regions.abc > 0
+    ? '세 도형이 모두 겹치는 가운데 영역이 있습니다.'
+    : '세 도형이 모두 겹치는 영역은 없습니다.'
+
+  return (
+    <figure
+      className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-2"
+      data-testid="problem-diagram-three-shape-overlap"
+    >
+      <svg
+        viewBox="0 0 360 290"
+        role="img"
+        aria-label={`서로 겹친 파란 원 A, 초록 삼각형 B, 분홍 사각형 C의 개념도입니다. 실제 넓이의 비율을 나타내지 않습니다. ${commonAreaDescription}`}
+        className="mx-auto w-full max-w-md"
+        data-overlap-diagram="conceptual-shapes"
+      >
+        <circle
+          cx="126"
+          cy="128"
+          r="108"
+          fill="#6d97dc"
+          fillOpacity="0.48"
+          stroke="#2f5fa7"
+          strokeWidth="4"
+          data-overlap-shape="a"
+        />
+        <polygon
+          points="184,24 346,98 210,184"
+          fill="#63c878"
+          fillOpacity="0.48"
+          stroke="#378a43"
+          strokeWidth="4"
+          strokeLinejoin="round"
+          data-overlap-shape="b"
+        />
+        <polygon
+          points="166,108 302,154 260,278 124,232"
+          fill="#f395aa"
+          fillOpacity="0.48"
+          stroke="#cf526f"
+          strokeWidth="4"
+          strokeLinejoin="round"
+          data-overlap-shape="c"
+        />
+        <text
+          x="80"
+          y="132"
+          textAnchor="middle"
+          fontSize="30"
+          fontWeight="900"
+          fill="#172033"
+          aria-hidden="true"
+          data-overlap-shape-label="a"
+        >
+          A
         </text>
-        <text x="200" y="38" textAnchor="middle" className="fill-slate-600 text-[11px] font-semibold">
-          한 칸 = 1 {unit}²
+        <text
+          x="285"
+          y="96"
+          textAnchor="middle"
+          fontSize="30"
+          fontWeight="900"
+          fill="#172033"
+          aria-hidden="true"
+          data-overlap-shape-label="b"
+        >
+          B
         </text>
-        {overlapRegionLayout.map(region => (
-          <OverlapRegionCells
-            key={region.key}
-            regionKey={region.key}
-            area={model.regions[region.key]}
-            column={region.column}
-            row={region.row}
-            label={region.label}
-            fill={region.fill}
-            given={region.given}
-          />
-        ))}
-        <text x="200" y="290" textAnchor="middle" className="fill-slate-500 text-[10px] font-semibold">
-          AB·AC·BC는 표시된 두 도형만 겹친 칸이에요.
+        <text
+          x="225"
+          y="236"
+          textAnchor="middle"
+          fontSize="30"
+          fontWeight="900"
+          fill="#172033"
+          aria-hidden="true"
+          data-overlap-shape-label="c"
+        >
+          C
         </text>
       </svg>
     </figure>

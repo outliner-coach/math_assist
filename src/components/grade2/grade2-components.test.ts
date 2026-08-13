@@ -20,6 +20,26 @@ describe('grade 2 components', () => {
     }
   })
 
+  it('keeps repeated length, calendar, and shape labels on distinct render nodes', () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    try {
+      for (const missionId of [
+        'g2-1-length-05',
+        'g2-2-time-06',
+        'g2-1-shapes-05',
+        'g2-1-shapes-05-v1',
+      ]) {
+        const mission = getGrade2MissionById(missionId, 42)
+        renderToStaticMarkup(createElement(Grade2MissionVisual, { mission }))
+      }
+
+      expect(consoleError).not.toHaveBeenCalled()
+    } finally {
+      consoleError.mockRestore()
+    }
+  })
+
   it('renders the safe integer mission with a simple numeric input', () => {
     const mission = getSafeGrade2Mission(42)
     const html = renderToStaticMarkup(
@@ -138,6 +158,30 @@ describe('grade 2 components', () => {
     expect(html).toContain('aria-label="8cm 끝 눈금"')
     expect(html).toContain('left:66.66666666666666%')
     expect(html).not.toContain('calc(1rem')
+  })
+
+  it('describes every clock without exposing its exact time in the accessibility name', () => {
+    const clockMissionIds = [
+      'g2-2-time-01',
+      'g2-2-time-02',
+      'g2-2-time-04',
+      'g2-2-time-05',
+    ]
+
+    for (const missionId of clockMissionIds) {
+      const mission = getGrade2MissionById(missionId, 42)
+      const html = renderToStaticMarkup(createElement(Grade2MissionVisual, { mission }))
+      const hour = Number(mission.visualConfig.hour)
+      const minute = Number(mission.visualConfig.minute)
+      const endHour = mission.visualConfig.endHour
+      const endMinute = mission.visualConfig.endMinute
+
+      expect(html).toContain('aria-label="숫자 눈금과 짧은 시침, 긴 분침이 있는 아날로그 시계"')
+      expect(html).not.toContain(`aria-label="${hour}시 ${minute}분 시계"`)
+      if (endHour !== undefined && endMinute !== undefined) {
+        expect(html).not.toContain(`aria-label="${endHour}시 ${endMinute}분 시계"`)
+      }
+    }
   })
 
   it('masks answer-only visual values until the answer is revealed', () => {

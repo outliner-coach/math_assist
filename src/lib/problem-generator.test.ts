@@ -1,31 +1,11 @@
 import { describe, it, expect } from 'vitest'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { generateProblems } from './problem-generator'
 import type { ProblemTemplate } from './types'
 import { APPLICATION_PROBLEM_REGISTRY_V1 } from './application-problems/registered-families'
 import { buildApprovedPracticeProblemCandidates } from './application-problems/practice-runtime'
 import type { ApplicationPracticeProblemV1 } from './application-problems/template-adapter'
-
-const approvedOwner = {
-  ownerStatus: 'approved' as const,
-  ownerId: 'practice-integration-test-owner',
-  approvedAt: '2026-07-23T00:00:00.000Z',
-  evidenceRefs: ['src/lib/problem-generator.test.ts'],
-  expertStatus: 'not-reviewed' as const,
-}
-
-const approvedPracticeRegistry = {
-  entries: APPLICATION_PROBLEM_REGISTRY_V1.entries.map((entry) => ({
-    ...entry,
-    family: entry.family.familyId.startsWith('g5-') || entry.family.familyId.startsWith('g6-')
-      ? { ...entry.family, releaseStatus: 'approved' as const, approval: approvedOwner }
-      : entry.family,
-  })),
-  releaseLedger: APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger.map((family) => (
-    family.familyId.startsWith('g5-') || family.familyId.startsWith('g6-')
-      ? { ...family, releaseStatus: 'approved' as const, approval: approvedOwner }
-      : family
-  )),
-}
 
 function makeTemplate(overrides: Partial<ProblemTemplate>): ProblemTemplate {
   return {
@@ -43,29 +23,6 @@ function makeTemplate(overrides: Partial<ProblemTemplate>): ProblemTemplate {
 }
 
 describe('generateProblems', () => {
-  it('keeps the requested production session count while using approved pilot candidates', () => {
-    const templates: ProblemTemplate[] = Array.from({ length: 10 }, (_, index) =>
-      makeTemplate({
-        id: `legacy-${index}`,
-        difficulty: index < 4 ? 1 : index < 8 ? 2 : 3,
-      }),
-    )
-    const legacy = generateProblems(templates, { count: 10, setId: 'A', seed: 31 })
-    const integrated = generateProblems(templates, {
-      count: 10,
-      setId: 'A',
-      seed: 31,
-      additionalCandidates: buildApprovedPracticeProblemCandidates({
-        grade: 5,
-        conceptId: 'area-001',
-        registry: APPLICATION_PROBLEM_REGISTRY_V1,
-      }),
-    })
-
-    expect(integrated).toHaveLength(legacy.length)
-    expect(integrated.some((problem) => problem.applicationSource)).toBe(true)
-  })
-
   it.each([
     { grade: 5 as const, conceptId: 'area-001', count: 10, mix: { 1: 4, 2: 4, 3: 2 } },
     { grade: 6 as const, conceptId: 'g6ratio-001', count: 5, mix: { 1: 2, 2: 2, 3: 1 } },
@@ -76,7 +33,9 @@ describe('generateProblems', () => {
       ...Array.from({ length: mix[2] }, (_, index) => makeTemplate({ id: `${grade}-medium-${index}`, difficulty: 2 })),
       ...Array.from({ length: mix[3] }, (_, index) => makeTemplate({ id: `${grade}-hard-${index}`, difficulty: 3 })),
     ]
-    const difficultyByTemplate = new Map(templates.map((template) => [template.id, template.difficulty]))
+    const difficultyByTemplate = new Map(
+      templates.map((template) => [template.id, template.difficulty]),
+    )
     let seedWithApplication: number | undefined
     let problems: ReturnType<typeof generateProblems> = []
     for (let seed = 1; seed <= 50; seed += 1) {
@@ -88,7 +47,7 @@ describe('generateProblems', () => {
         additionalCandidates: buildApprovedPracticeProblemCandidates({
           grade,
           conceptId,
-          registry: approvedPracticeRegistry,
+          registry: APPLICATION_PROBLEM_REGISTRY_V1,
         }),
       })
       if (candidate.some((problem) => problem.applicationSource)) {
@@ -108,7 +67,7 @@ describe('generateProblems', () => {
       additionalCandidates: buildApprovedPracticeProblemCandidates({
         grade,
         conceptId,
-        registry: approvedPracticeRegistry,
+        registry: APPLICATION_PROBLEM_REGISTRY_V1,
       }),
     })).toEqual(problems)
     const actualMix = problems.reduce((result, problem) => {
@@ -120,6 +79,14 @@ describe('generateProblems', () => {
     }, { 1: 0, 2: 0, 3: 0 })
     expect(actualMix).toEqual(mix)
   })
+
+  function readTemplates(name: string, conceptId: string): ProblemTemplate[] {
+    const templates = JSON.parse(readFileSync(
+      join(process.cwd(), 'public', 'data', 'templates', `${name}.json`),
+      'utf8',
+    )) as ProblemTemplate[]
+    return templates.filter(template => template.concept_id === conceptId)
+  }
 
   it('attaches a feasible quantitative region model to three-shape overlap problems', () => {
     const template = makeTemplate({
@@ -257,6 +224,166 @@ describe('generateProblems', () => {
     expect(counts[3]).toBe(2)
   })
 
+  it.each([
+    { count: 5 as const, expected: { 1: 2, 2: 2, 3: 1 } },
+    { count: 10 as const, expected: { 1: 4, 2: 4, 3: 2 } },
+  ])('uses the Grade 5/6 $count-item K/A/R mix for every set', ({ count, expected }) => {
+    const templates: ProblemTemplate[] = (['A', 'B', 'C'] as const).flatMap((setId) =>
+      Array.from({ length: 10 }, (_, index) => makeTemplate({
+        id: `${setId.toLowerCase()}-${index + 1}`,
+        set_id: setId,
+        difficulty: index < 4 ? 1 : index < 8 ? 2 : 3,
+      }))
+    )
+    const difficultyById = Object.fromEntries(templates.map(template => [
+      template.id,
+      template.difficulty,
+    ]))
+
+    for (const setId of ['A', 'B', 'C'] as const) {
+      const problems = generateProblems(templates, { count, setId, seed: 20260731 })
+      const mix = problems.reduce((counts, problem) => {
+        counts[difficultyById[problem.templateId]] += 1
+        return counts
+      }, { 1: 0, 2: 0, 3: 0 })
+
+      expect(problems).toHaveLength(count)
+      expect(problems.every(problem => problem.setId === setId)).toBe(true)
+      expect(mix).toEqual(expected)
+    }
+  })
+
+  it.each([
+    {
+      grade: 5,
+      bank: 'cuboidnet',
+      conceptId: 'cuboidnet-001',
+      setId: 'A' as const,
+      seed: 19,
+    },
+    {
+      grade: 5,
+      bank: 'possibility',
+      conceptId: 'possibility-001',
+      setId: 'B' as const,
+      seed: 7,
+    },
+    {
+      grade: 5,
+      bank: 'divisor',
+      conceptId: 'divisor-001',
+      setId: 'C' as const,
+      seed: 31,
+    },
+    {
+      grade: 6,
+      bank: 'g6ratio',
+      conceptId: 'g6ratio-001',
+      setId: 'A' as const,
+      seed: 19,
+    },
+    {
+      grade: 6,
+      bank: 'g6spatial',
+      conceptId: 'g6spatial-001',
+      setId: 'B' as const,
+      seed: 7,
+    },
+  ])(
+    'selects Grade $grade $conceptId set $setId by reviewed cognitive domain',
+    ({ bank, conceptId, setId, seed }) => {
+      const templates = readTemplates(bank, conceptId)
+
+      for (const [count, expected] of [
+        [5, { knowing: 2, applying: 2, reasoning: 1 }],
+        [10, { knowing: 4, applying: 4, reasoning: 2 }],
+      ] as const) {
+        const first = generateProblems(templates, { count, setId, seed })
+        const repeated = generateProblems(templates, { count, setId, seed })
+        const domains = first.reduce((mix, problem) => {
+          const domain = problem.blueprint?.cognitiveDomain
+          if (domain) mix[domain] += 1
+          return mix
+        }, { knowing: 0, applying: 0, reasoning: 0 })
+        const difficultyByTemplateId = Object.fromEntries(
+          templates.map(template => [template.id, template.difficulty]),
+        )
+        const difficulties = first.reduce((mix, problem) => {
+          mix[difficultyByTemplateId[problem.templateId]] += 1
+          return mix
+        }, { 1: 0, 2: 0, 3: 0 })
+
+        expect(domains).toEqual(expected)
+        expect(difficulties).toEqual(count === 5
+          ? { 1: 2, 2: 2, 3: 1 }
+          : { 1: 4, 2: 4, 3: 2 })
+        expect(first.map(problem => problem.templateId)).toEqual(
+          repeated.map(problem => problem.templateId),
+        )
+        expect(first.every(problem => problem.setId === setId)).toBe(true)
+        expect(first.every(problem => (
+          templates.some(template => template.id === problem.templateId)
+        ))).toBe(true)
+      }
+    },
+  )
+
+  it('keeps explicit difficulty selection available for legacy callers', () => {
+    const templates: ProblemTemplate[] = [
+      makeTemplate({
+        id: 'difficulty-1-reasoning',
+        difficulty: 1,
+        blueprint: {
+          problemFamily: 'legacy-explicit',
+          cognitiveDomain: 'reasoning',
+          reasoningPattern: 'direct',
+          primaryStandard: '5수01-01',
+          representations: ['text'],
+          contextType: 'pure_math',
+          estimatedSteps: 1,
+          readingLoad: 'low',
+        },
+      }),
+      makeTemplate({
+        id: 'difficulty-2-knowing',
+        difficulty: 2,
+        blueprint: {
+          problemFamily: 'legacy-explicit',
+          cognitiveDomain: 'knowing',
+          reasoningPattern: 'direct',
+          primaryStandard: '5수01-01',
+          representations: ['text'],
+          contextType: 'pure_math',
+          estimatedSteps: 1,
+          readingLoad: 'low',
+        },
+      }),
+      makeTemplate({
+        id: 'difficulty-3-applying',
+        difficulty: 3,
+        blueprint: {
+          problemFamily: 'legacy-explicit',
+          cognitiveDomain: 'applying',
+          reasoningPattern: 'direct',
+          primaryStandard: '5수01-01',
+          representations: ['text'],
+          contextType: 'pure_math',
+          estimatedSteps: 1,
+          readingLoad: 'low',
+        },
+      }),
+    ]
+
+    const selected = generateProblems(templates, {
+      count: 1,
+      setId: 'A',
+      difficultyMix: { 1: 1, 2: 0, 3: 0 },
+      seed: 1,
+    })
+
+    expect(selected.map(problem => problem.templateId)).toEqual(['difficulty-1-reasoning'])
+  })
+
   it('throws when templates are insufficient for difficulty mix', () => {
     const templates: ProblemTemplate[] = [
       makeTemplate({ id: 'a1', difficulty: 1, set_id: 'A' }),
@@ -298,6 +425,35 @@ describe('generateProblems', () => {
     })
 
     expect(problem.correctAnswer).toBe('3')
+  })
+
+  it('corrects Grade 5 numeric particles after rendering variable values', () => {
+    const template = makeTemplate({
+      id: 'grade5-particle',
+      concept_id: 'possibility-001',
+      param_schema: { n: { min: 77, max: 77 } },
+      prompt_template: '{{n}}가 72보다 큽니다.',
+      solver_rule: 'n',
+      solution_steps_template: [
+        '{{n}}가 더 큽니다.',
+        '분수 6/12를 약분하면 답은 {{n}}입니다.',
+      ],
+      hint_steps_template: ['6를 더해요.', '10/8로 고쳐요.'],
+    })
+
+    const [problem] = generateProblems([template], {
+      count: 1,
+      setId: 'A',
+      difficultyMix: { 1: 1, 2: 0, 3: 0 },
+      seed: 1,
+    })
+
+    expect(problem.prompt).toBe('77이 72보다 큽니다.')
+    expect(problem.solutionSteps).toEqual([
+      '77이 더 큽니다.',
+      '분수 6/12을 약분하면 답은 77입니다.',
+    ])
+    expect(problem.hintSteps).toEqual(['6을 더해요.', '10/8으로 고쳐요.'])
   })
 
   it.each([

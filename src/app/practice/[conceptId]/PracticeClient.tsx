@@ -17,6 +17,7 @@ import { resolveExperiencePreset } from '@/lib/experience-preset'
 import { isCurriculumGradeReleased } from '@/lib/grade-release'
 import { persistCompletedPractice } from '@/lib/practice-completion'
 import { dispatchMascotReaction, mascotReactionForAnswer } from '@/lib/mascot'
+import { resolveContentReleaseId } from '@/lib/content-release'
 import {
   saveSession,
   loadSession,
@@ -29,6 +30,7 @@ import {
   persistRecoveredPracticeSession,
   resetGrade6SessionStorage,
   resetGrade5SessionStorage,
+  resolvePracticeItemCount,
   updateAnswer,
   updateCurrentIndex,
   loadResult,
@@ -42,11 +44,6 @@ function isAnswered(answer: string | null): boolean {
   return typeof answer === 'string' && answer.trim() !== ''
 }
 
-const CONTENT_RELEASE_IDS = {
-  5: 'grade5-static-v1',
-  6: 'grade6-ratio-v1',
-} as const
-
 function problemVariantKey(problem: PracticeSession['problems'][number]): string {
   const params = Object.entries(problem.params)
     .sort(([left], [right]) => left.localeCompare(right))
@@ -57,7 +54,7 @@ function problemVariantKey(problem: PracticeSession['problems'][number]): string
 
 function practiceHrefForSession(session: PracticeSession, grade: 5 | 6): string {
   const search = new URLSearchParams({ set: session.setId })
-  if (grade === 6) search.set('count', String(session.itemCount ?? 5))
+  search.set('count', String(session.itemCount ?? (grade === 6 ? 5 : 10)))
   if (session.mode === 'retry-wrong') {
     search.set('mode', 'retry-wrong')
     if (session.sourceResultId) search.set('source', session.sourceResultId)
@@ -77,9 +74,11 @@ export default function PracticeClient() {
   const sourceResultId = searchParams.get('source') ?? undefined
   const practiceGrade = conceptId.startsWith('g6') ? 6 : 5
   const experiencePreset = resolveExperiencePreset(practiceGrade)
-  const requestedItemCount: 5 | 10 = practiceGrade === 6 && searchParams.get('count') !== '10'
-    ? (experiencePreset.defaultItems === 5 ? 5 : 10)
-    : 10
+  const rawItemCount = searchParams.get('count')
+  const requestedItemCount = resolvePracticeItemCount(
+    rawItemCount === '5' ? 5 : rawItemCount === '10' ? 10 : undefined,
+    practiceGrade,
+  )
 
   const [concept, setConcept] = useState<Concept | null>(null)
   const [session, setSession] = useState<PracticeSession | null>(null)
@@ -163,7 +162,8 @@ export default function PracticeClient() {
             result &&
             result.sessionId === sourceResultId &&
             result.conceptId === conceptId &&
-            result.setId === setId
+            result.setId === setId &&
+            resolvePracticeItemCount(result.itemCount, practiceGrade) === requestedItemCount
           ) {
             const retrySession = createRetrySessionFromResult(result)
             if (retrySession) {
@@ -206,12 +206,22 @@ export default function PracticeClient() {
               .buildApprovedGrade6PracticeProblemCandidates({ conceptId })
         if (!active) return
 
-        const problems = generateProblems(templates, {
-          count: requestedItemCount,
-          setId,
-          difficultyMix: requestedItemCount === 5 ? { 1: 2, 2: 2, 3: 1 } : { 1: 4, 2: 4, 3: 2 },
-          additionalCandidates,
-        })
+        const problems = additionalCandidates.length > 0
+          ? generateProblems(templates, {
+              count: requestedItemCount,
+              setId,
+              difficultyMix: requestedItemCount === 5
+                ? { 1: 2, 2: 2, 3: 1 }
+                : { 1: 4, 2: 4, 3: 2 },
+              additionalCandidates,
+            })
+          : generateProblems(templates, {
+              count: requestedItemCount,
+              setId,
+              cognitiveDomainMix: requestedItemCount === 5
+                ? { knowing: 2, applying: 2, reasoning: 1 }
+                : { knowing: 4, applying: 4, reasoning: 2 },
+            })
         const timing = createSessionTiming()
 
         const newSession: PracticeSession = {
@@ -219,8 +229,8 @@ export default function PracticeClient() {
           conceptId,
           setId,
           mode: 'standard',
-          grade: practiceGrade === 6 ? 6 : undefined,
-          itemCount: practiceGrade === 6 ? requestedItemCount : undefined,
+          grade: practiceGrade,
+          itemCount: requestedItemCount,
           problems,
           answers: Array(problems.length).fill(null),
           checkedAnswers: Array(problems.length).fill(null),
@@ -385,7 +395,7 @@ export default function PracticeClient() {
       itemId: `${problem.index}:${problem.templateId}`,
       attemptOrdinal: 0,
       variantKey: problemVariantKey(problem),
-      contentReleaseId: CONTENT_RELEASE_IDS[practiceGrade],
+      contentReleaseId: resolveContentReleaseId(practiceGrade, conceptId),
       responseStatus: 'checked',
       correct: result.correct,
       usedHint: hintLevel > 0,
@@ -406,7 +416,7 @@ export default function PracticeClient() {
         console.error('Failed to append attempt receipt; legacy progress remains unchanged', error)
       })
     }
-  }, [hintLevel, practiceGrade, session])
+  }, [conceptId, hintLevel, practiceGrade, session])
 
   // 문제 이동
   const handleNavigate = useCallback((index: number) => {
@@ -640,7 +650,10 @@ export default function PracticeClient() {
       </div>
 
       {/* 네비게이션 */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">
+      <div
+        className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white p-4 pr-12 md:pr-80"
+        data-testid="practice-navigation-actions"
+      >
         <div className="max-w-4xl mx-auto flex gap-3">
           <Button
             variant="secondary"

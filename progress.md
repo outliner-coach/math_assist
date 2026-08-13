@@ -118,3 +118,175 @@ Original prompt: /goal 제안한 계획대로 브라우저 테스트까지 마�
   the 12-mission unit and reward collection, and neither run emitted an error
   artifact. Final TODO: preserve content-based variant keys and raise the 500/340
   signature floors when genuinely new generators are added.
+
+## 2026-07-26 - Full curriculum completion
+
+- Current goal: complete every remaining Grade 1-6 unit with challenging
+  application problems, committing and pushing after each unit.
+- Completed and publicly verified all 11 Grade 6 Study units. The last release,
+  `g6ratiograph-001`, added 30 disjoint K/A/R ratio-graph problem families,
+  shared quantitative band/circle rendering, 100% model validation, full
+  browser regression, commit `7f52317`, and successful GitHub Pages run
+  `30182787657`.
+- A ledger audit found nine remaining planned standards: Grade 3
+  `[4수03-19]`, `[4수03-22]`, `[4수03-23]`; Grade 5 `[6수01-02]`,
+  `[6수01-07]`, `[6수03-12]`, and `[6수04-04]`~`[6수04-06]`.
+- Next implementation target: extend the existing Grade 3
+  `g3-2-capacity-weight` adventure unit with capacity/weight addition and
+  subtraction plus tonne conversion, then run the required game-client,
+  screenshot, text-state, console, full regression, commit, push, Pages, and
+  live-browser gates.
+- Expanded `g3-2-capacity-weight` from three to seven stable-ID missions after
+  the RED contract exposed that released `[4수03-21]` had no actual kg-to-g
+  conversion mission. The unit now assigns one mission to every
+  `[4수03-17]`~`[4수03-23]` standard, including carry/borrow applications,
+  L/mL and kg/g conversion, and a four-tonne application.
+- Added quantitative capacity-operation, weight-operation, and tonne-block
+  renderers. Given operands and the `1t = 1000kg` relation stay visible while
+  calculated results remain masked until a correct answer.
+- Added Grade 3 browser automation text/time hooks and promoted the three
+  formerly planned ledger rows to released. Focused Grade 3/component/ledger
+  tests pass (17), curriculum validation reports 86 current references, and
+  the mission-bank audit reports 0 errors and 0 warnings.
+- Next: run Grade 3 validation, lint/TDD/build/E2E, the required game-client
+  screenshot/text/error inspection, then document, commit, push, deploy, and
+  live-verify this unit.
+- Full Vitest now passes 557 tests and the production build emits 105 static
+  pages. Grade 3 validation, lint, TDD guard, mission audit, and curriculum
+  validation are clean.
+- The required web-game client ran against all five changed/new missions and
+  wrote screenshots plus `render_game_to_text` state with no error artifacts.
+  Because its canvas-first capture selected the ScratchPad canvas, the actual
+  mission UI was additionally reviewed at 390x844 in a controlled browser.
+  All seven missions were solved correctly; every result was `□` before
+  checking, all answer reveals matched, no horizontal overflow occurred, and
+  no browser console/page errors appeared.
+- Added and passed a focused mobile E2E scenario that solves all seven
+  capacity/weight missions, checks the quantitative tonne blocks, answer
+  masking/reveal, overflow, and the automation text-state contract.
+- Next: full E2E regression, documentation/handoff, commit/push, Pages
+  deployment, and public live verification.
+- Grade 3 capacity/weight completion shipped as commit `fcbd9fd` on `main`.
+  GitHub Pages run `30183280884` completed its build and deploy jobs
+  successfully.
+- A fresh-cache public browser opened the deployed 390x844 route and solved
+  all seven missions again. The page exposed seven nodes, four quantitative
+  tonne blocks, masked every result before checking, revealed all seven
+  expected answers after checking, had no horizontal overflow, and emitted no
+  console/page errors.
+- Next implementation scope is now only the six planned Grade 5 standards:
+  number ranges, unlike-denominator fraction comparison, area-unit relations,
+  and the three possibility/probability standards.
+- Started the Grade 5 `unit-5-2-rounding` completion with a new
+  `numberrange-001` concept and 30 deterministic A/B/C templates. Each set is
+  K4/A4/R2 and difficulty 4/4/2; the bank covers inclusive/exclusive lower and
+  upper bounds, bounded counts, real-world qualification, repeated endpoint
+  errors, and comparison of two range rules.
+- Added a shared quantitative `number_range` visual with one-sided arrows,
+  bounded segments, and distinct closed/open endpoint circles. The visual
+  carries only given boundaries and never the derived count or boundary
+  answer.
+- Focused generator/blueprint/renderer/curriculum tests pass. Template
+  validation reports 1020/1020 complete. The first quality audit exposed that
+  two-sided range constraints were missing from the difficulty heuristic;
+  recognizing that genuine compound constraint restored ordered signals
+  5.61 < 6.36 < 7.33 and the problem audit is now 0 errors/0 warnings.
+- Next: browser routes and 10-item live solving, full release gates,
+  documentation, unit commit/push, Pages, and public verification.
+- The 390x844 concept and practice routes were inspected in a real browser.
+  Closed and open endpoints, one-sided arrows, and bounded segments matched
+  the prompt; all ten Set A questions graded correctly with no answer-only DOM
+  values, horizontal overflow, console errors, or page errors.
+- Full release gates pass: Vitest 65 files and 560/560 tests, lint, TDD guard,
+  1020/1020 template validation, both audits at 0 errors/0 warnings, static
+  build 107/107, focused E2E 1/1, and full E2E 71/71.
+- Next: commit and push the Grade 5 number-range unit, verify Pages and the
+  fresh-cache public route, then implement `[6수01-07]` fraction comparison.
+- Grade 5 number range shipped as commit `4832b87` on `main`; GitHub Pages run
+  `30183741837` completed build and deployment successfully.
+- A fresh-cache public 390x844 browser found all three concepts, rendered the
+  closed lower and open upper endpoints, generated ten `number_range`
+  problems, exposed no pre-check answer nodes/text, and completed Set A 10/10
+  with no overflow or console/page errors.
+- Next implementation target: `[6수01-07]` unlike-denominator fraction
+  comparison as a separate Grade 5 unit commit.
+- Added `fraccompare-001` to the existing fraction-simplify unit without
+  changing the two existing concept IDs. Its deterministic A/B/C bank has
+  K12/A12/R6, ten families, and difficulty 4/4/2 per set.
+- All 30 questions render equal-length `fraction_comparison` bars partitioned
+  and filled from the two given numerator/denominator pairs. No comparison
+  result, difference, cross product, or larger-side marker enters the visual.
+- The first audit found that the two reasoning families were easier than the
+  application families. They now require validating a wrong numerator- or
+  denominator-only judgment and computing its repeated cumulative error;
+  difficulty signals are 4.48 < 5.36 < 9.57 and both audits are 0/0.
+- Full release gates pass: Vitest 65 files and 563/563 tests, lint, TDD guard,
+  template metadata 1050/1050, curriculum 88 current references, static build
+  109/109, focused E2E 1/1, and full E2E 72/72.
+- A 390x844 real browser inspected the concept bars and all ten Set A
+  questions. Partition and fill counts matched every given fraction, the set
+  completed 10/10, and answer exposure, overflow, console errors, and page
+  errors were all zero.
+- Next: document, commit, push, deploy, and publicly verify fraction
+  comparison, then implement `[6수03-12]` area-unit relations.
+- Grade 5 fraction comparison shipped as commit `fc97181` on `main`; GitHub
+  Pages run `30184211796` completed build and deployment successfully.
+- A fresh-cache public 390x844 browser found all three unit concepts, rendered
+  the concept's 3-part and 5-part bars with five total filled cells, generated
+  ten `fraction_comparison` problems, exposed no answer nodes/text, and
+  completed Set A 10/10 with no overflow or console/page errors.
+- Next implementation target: `[6수03-12]` square-centimeter, square-meter,
+  and square-kilometer area-unit relations.
+- Added `areaunit-001` to the existing perimeter/area unit without changing
+  its three concept IDs. The deterministic A/B/C bank has K12/A12/R6, ten
+  families, difficulty 4/4/2 per set, and ordered signals
+  8.40 < 9.38 < 10.81.
+- `area_unit_square` shows the same length conversion on both sides of a
+  square (`1m=100cm` or `1km=1000m`) and the unevaluated side product, but
+  never stores or renders the squared conversion result before checking.
+- Full release gates pass: Vitest 65 files and 566/566 tests, lint, TDD guard,
+  template metadata 1080/1080, curriculum 89 current references, both audits
+  0/0, static build 111/111, focused E2E 1/1, and full E2E 73/73.
+- A 390x844 real browser inspected both concept squares and all ten Set A
+  questions. The set completed 10/10 with no answer exposure, overflow,
+  console errors, or page errors.
+- Next: document, commit, push, deploy, and publicly verify the area-unit
+  relation, then complete the three possibility standards.
+- Grade 5 area-unit relations shipped as commit `eb053ec` on `main`; GitHub
+  Pages run `30184623410` completed build and deployment successfully.
+- A fresh-cache public 390x844 browser found all four unit concepts, rendered
+  both 100 and 1000 side-scale models, generated ten `area_unit_square`
+  problems, exposed no answer nodes/text, and completed Set A 10/10 with no
+  overflow or console/page errors.
+- Final planned implementation target: `[6수04-04]`~`[6수04-06]`
+  possibility language, numeric possibility, and data-grounded prediction.
+- Added `possibility-001` to the existing Grade 5 average unit while
+  preserving the original average concept ID and local progress. Its
+  deterministic A/B/C bank has 30 questions, ten families, K12/A12/R6, and
+  difficulty 4/4/2 per set across `[6수04-04]`~`[6수04-06]`.
+- `possibility_trials` renders only the observed favorable and total counts.
+  Relative frequency, comparisons, pooled ratios, and predicted counts remain
+  derived work and never enter the unchecked visual payload or DOM.
+- The first quality audit raised nine warnings because a reduced-fraction
+  prompt did not display the actual observed fraction. The prompt now includes
+  favorable/total explicitly; ordered signals are 3.11 < 3.64 < 6.26 and both
+  audits are 0 errors/0 warnings.
+- Full release gates pass: Vitest 65 files and 569/569 tests, lint, TDD guard,
+  template metadata 1110/1110, curriculum 92/92 current references, static
+  build 113/113, focused E2E 1/1, and full E2E 74/74.
+- A 390x844 real browser inspected the concept and practice visual, answer
+  selection, and two-step hint state. There was no pre-check answer exposure,
+  horizontal overflow, console error, or page error.
+- Next: commit and push the final possibility unit, verify Pages and the
+  fresh-cache public route, then record the final curriculum audit.
+- Grade 5 possibility shipped as commit `6372e39` on `main`; GitHub Pages run
+  `30185121754` completed build and deployment successfully.
+- A fresh-cache public 390x844 browser found both average-unit concepts,
+  rendered ten favorable cells in the concept model, generated ten
+  `possibility_trials` problems, exposed no answer nodes/text, and completed
+  Set A 10/10 with no overflow or console/page errors.
+- Final inventory audit: 1,540 source missions/problems across Grades 1-6;
+  Grade 4-6 K/A/R is 504/504/252; Grade 5 has 12 units, 26 concepts, and
+  780 templates; Grade 6 has 11 units, 11 concepts, and 330 templates.
+  All 92 curriculum-ledger standards now have current references and none
+  remain planned.

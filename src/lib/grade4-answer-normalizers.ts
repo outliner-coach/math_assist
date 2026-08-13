@@ -1,10 +1,36 @@
-export type Grade4AnswerType = 'choice' | 'integer'
+export type Grade4AnswerType = 'choice' | 'integer' | 'decimal' | 'fraction'
 
 export type Grade4AnswerResult =
   | { ok: true; correct: boolean }
   | { ok: false; error: string }
 
 const INTEGER_PATTERN = /^[+-]?\d+$/
+const DECIMAL_PATTERN = /^[+-]?\d+(?:\.\d+)?$/
+const FRACTION_PATTERN = /^([+-])?(?:(\d+)\s+)?(\d+)\/(\d+)$/
+
+function normalizedDecimal(value: string): string {
+  const negative = value.startsWith('-')
+  const unsigned = value.replace(/^[+-]/, '')
+  const [wholePart, fractionPart = ''] = unsigned.split('.')
+  const whole = wholePart.replace(/^0+(?=\d)/, '') || '0'
+  const fraction = fractionPart.replace(/0+$/, '')
+  const magnitude = fraction ? `${whole}.${fraction}` : whole
+  return negative && magnitude !== '0' ? `-${magnitude}` : magnitude
+}
+
+function parseFraction(value: string): { numerator: bigint; denominator: bigint } | null {
+  const match = value.match(FRACTION_PATTERN)
+  if (!match) return null
+  const denominator = BigInt(match[4])
+  if (denominator === BigInt(0)) return null
+  const whole = BigInt(match[2] ?? '0')
+  const part = BigInt(match[3])
+  const sign = match[1] === '-' ? BigInt(-1) : BigInt(1)
+  return {
+    numerator: sign * (whole * denominator + part),
+    denominator,
+  }
+}
 
 export function checkGrade4Answer(
   answerType: Grade4AnswerType,
@@ -15,6 +41,27 @@ export function checkGrade4Answer(
   if (answerType === 'choice') {
     if (!answer) return { ok: false, error: '보기에서 답을 하나 골라요.' }
     return { ok: true, correct: answer === correctAnswer }
+  }
+
+  if (answerType === 'decimal') {
+    if (!DECIMAL_PATTERN.test(answer)) {
+      return { ok: false, error: '답을 빠짐없는 소수로 써요.' }
+    }
+    if (!DECIMAL_PATTERN.test(correctAnswer)) {
+      throw new Error(`Invalid Grade 4 decimal answer: ${correctAnswer}`)
+    }
+    return { ok: true, correct: normalizedDecimal(answer) === normalizedDecimal(correctAnswer) }
+  }
+
+  if (answerType === 'fraction') {
+    const parsed = parseFraction(answer)
+    if (!parsed) return { ok: false, error: '분자/분모를 빠짐없이 쓰고 분모는 0이 아니어야 해요.' }
+    const correct = parseFraction(correctAnswer)
+    if (!correct) throw new Error(`Invalid Grade 4 fraction answer: ${correctAnswer}`)
+    return {
+      ok: true,
+      correct: parsed.numerator * correct.denominator === correct.numerator * parsed.denominator,
+    }
   }
 
   if (!INTEGER_PATTERN.test(answer)) {

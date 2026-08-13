@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 import {
@@ -19,6 +20,7 @@ import { grade1Mascots, grade1Objects } from '@/lib/grade1-assets'
 import {
   getGrade1MissionById,
   getGrade1Missions,
+  getGrade1PracticeMissionIds,
   type Grade1Mission,
 } from '@/lib/grade1-problems'
 import {
@@ -36,7 +38,10 @@ import {
   getDailyAdventureSeed,
   getMasteryStars,
 } from '@/lib/adventure-progression'
-import { appendMissionAttemptReceipt } from '@/lib/mission-attempt-receipt'
+import {
+  appendMissionAttemptReceipt,
+  createMissionAttemptRunKey,
+} from '@/lib/mission-attempt-receipt'
 import {
   advanceMissionSketchRun,
   createMissionSketchKey,
@@ -63,24 +68,18 @@ const introGuideItems = [
 ]
 
 function firstOpenMission(missions: Grade1Mission[], progress: Grade1Progress): Grade1Mission {
-  const reviewMission = missions.find((mission) => progress.reviewStageIds.includes(mission.id))
-  if (reviewMission) return reviewMission
-
   const nextPathMission = firstUnlockedIncompleteMission(missions, progress)
-  return nextPathMission ?? missions[0] ?? getGrade1MissionById('')
+  if (nextPathMission) return nextPathMission
+
+  const reviewMission = missions.find((mission) => progress.reviewStageIds.includes(mission.id))
+  return reviewMission ?? missions[0] ?? getGrade1MissionById('')
 }
 
 function firstUnlockedIncompleteMission(
   missions: Grade1Mission[],
   progress: Grade1Progress
 ): Grade1Mission | null {
-  const firstIncomplete = missions.find((mission, index) => {
-    if (progress.completedStageIds.includes(mission.id)) return false
-    if (index === 0) return true
-    return progress.completedStageIds.includes(missions[index - 1].id)
-  })
-
-  return firstIncomplete ?? null
+  return missions.find((mission) => !progress.checkedStageIds.includes(mission.id)) ?? null
 }
 
 function strongestTag(progress: Grade1Progress): string {
@@ -92,28 +91,45 @@ function strongestTag(progress: Grade1Progress): string {
 }
 
 export default function Grade1GameClient() {
+  const searchParams = useSearchParams()
+  const requestedIslandId = searchParams.get('islandId')
+  const requestedMode = searchParams.get('mode') === 'practice' ? 'practice' : 'basic'
   const [replayRound, setReplayRound] = useState(0)
   const missionSeed = useMemo(
     () => getDailyAdventureSeed('grade1', Date.now(), replayRound),
     [replayRound]
   )
   const missions = useMemo(() => getGrade1Missions(missionSeed), [missionSeed])
+  const focusedMissions = useMemo(() => {
+    const matching = requestedIslandId
+      ? missions.filter((mission) => (
+          mission.islandId === requestedIslandId && mission.mode === requestedMode
+        ))
+      : []
+    return matching.length > 0 ? matching : missions
+  }, [missions, requestedIslandId, requestedMode])
   const [progress, setProgress] = useState<Grade1Progress>(() =>
     createInitialGrade1Progress()
   )
+  const [progressRestored, setProgressRestored] = useState(false)
   const [storageAvailable, setStorageAvailable] = useState(true)
   const [storageRecovered, setStorageRecovered] = useState(false)
-  const [selectedMissionId, setSelectedMissionId] = useState(() => missions[0]?.id ?? 'count-cove-01')
+  const [selectedMissionId, setSelectedMissionId] = useState(
+    () => focusedMissions[0]?.id ?? missions[0]?.id ?? 'count-cove-01',
+  )
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
   const [numberAnswer, setNumberAnswer] = useState('')
   const [numberInputError, setNumberInputError] = useState<string | null>(null)
   const [showHint, setShowHint] = useState(false)
   const [wrongAttemptCount, setWrongAttemptCount] = useState(0)
   const [confirmReset, setConfirmReset] = useState(false)
+  const [missionAttemptRunKey, setMissionAttemptRunKey] = useState(
+    () => createMissionAttemptRunKey(missionSeed),
+  )
   const restoredProgressRef = useRef(false)
 
-  const recommendedMission = firstOpenMission(missions, progress)
-  const nextPathMission = firstUnlockedIncompleteMission(missions, progress)
+  const recommendedMission = firstOpenMission(focusedMissions, progress)
+  const nextPathMission = firstUnlockedIncompleteMission(focusedMissions, progress)
   const selectedMission =
     missions.find((mission) => mission.id === selectedMissionId) ??
     recommendedMission
@@ -143,16 +159,17 @@ export default function Grade1GameClient() {
     if (restoredProgressRef.current) return
     restoredProgressRef.current = true
     const result = loadGrade1Progress()
-    const recommended = firstOpenMission(missions, result.progress)
+    const recommended = firstOpenMission(focusedMissions, result.progress)
     const restoredMission = result.progress.missionSketchRunOrdinal > 0
-      ? missions.find((mission) => mission.id === result.progress.latestStageId) ?? recommended
+      ? focusedMissions.find((mission) => mission.id === result.progress.latestStageId) ?? recommended
       : recommended
     setProgress(result.progress)
     setReplayRound(result.progress.missionSketchRunOrdinal)
     setStorageAvailable(result.storageAvailable)
     setStorageRecovered((wasRecovered) => wasRecovered || result.recovered)
     setSelectedMissionId(restoredMission.id)
-  }, [missions])
+    setProgressRestored(true)
+  }, [focusedMissions, missions])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -165,6 +182,7 @@ export default function Grade1GameClient() {
         wrongAttemptCount,
         todaySolvedCount: progress.todaySolvedCount,
         reviewCount: progress.reviewStageIds.length,
+        completedIslandIds: progress.completedIslandIds,
         introDismissed: progress.introDismissedAt !== null,
         rewardCounts,
         xp: progress.xp,
@@ -172,7 +190,7 @@ export default function Grade1GameClient() {
         masteryStars: getMasteryStars(progress.masteryByMissionId[selectedMission.id]),
         missionSeed,
       })
-  }, [missionSeed, nextPathMission?.id, progress.introDismissedAt, progress.masteryByMissionId, progress.reviewStageIds.length, progress.todaySolvedCount, progress.xp, rewardCounts, selectedMission.id, selectedMission.prompt, selectedMissionId, solved, wrongAttemptCount])
+  }, [missionSeed, nextPathMission?.id, progress.completedIslandIds, progress.introDismissedAt, progress.masteryByMissionId, progress.reviewStageIds.length, progress.todaySolvedCount, progress.xp, rewardCounts, selectedMission.id, selectedMission.prompt, selectedMissionId, solved, wrongAttemptCount])
 
   const persistProgress = (nextProgress: Grade1Progress) => {
     setProgress(nextProgress)
@@ -200,6 +218,7 @@ export default function Grade1GameClient() {
     setConfirmReset(false)
     dismissIntroGuide()
     setSelectedMissionId(missionId)
+    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
     resetMissionState()
   }
 
@@ -219,6 +238,7 @@ export default function Grade1GameClient() {
     const nextProgress = advanceMissionSketchRun(progress)
     persistProgress(nextProgress)
     setReplayRound(nextProgress.missionSketchRunOrdinal)
+    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
     resetMissionState()
     scrollToMission()
   }
@@ -236,6 +256,7 @@ export default function Grade1GameClient() {
     setReplayRound(nextProgress.missionSketchRunOrdinal)
     setStorageRecovered(false)
     setSelectedMissionId(missions[0]?.id ?? selectedMission.id)
+    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
     setConfirmReset(false)
     resetMissionState()
   }
@@ -258,7 +279,7 @@ export default function Grade1GameClient() {
     void appendMissionAttemptReceipt({
       grade: 1,
       mission: selectedMission,
-      sessionRunKey: missionSeed,
+      sessionRunKey: missionAttemptRunKey,
       attemptIndex: wrongAttemptCount,
       variantKey: currentVariantKey,
       correct,
@@ -279,6 +300,7 @@ export default function Grade1GameClient() {
         wrongAttempts: wrongAttemptCount,
         variantKey: currentVariantKey,
         difficultyBonus: selectedMission.difficulty === 3 ? 5 : 0,
+        practiceMissionIds: getGrade1PracticeMissionIds(selectedMission.islandId),
       })
       persistProgress(nextProgress)
       return
@@ -291,11 +313,30 @@ export default function Grade1GameClient() {
     persistProgress(recordGrade1Attempt(progressWithIntroDismissed, selectedMission, false, {
       variantKey: currentVariantKey,
       wrongAttempts: nextWrongAttemptCount,
+      practiceMissionIds: getGrade1PracticeMissionIds(selectedMission.islandId),
     }))
   }
 
+  if (!progressRestored) {
+    return (
+      <main
+        className="practice-interaction-surface grade1-game-surface -mx-4 -my-6 flex min-h-screen items-center justify-center px-4 py-5"
+        data-progress-restored="false"
+        data-testid="grade1-game-surface"
+      >
+        <p className="rounded-2xl border-2 border-[#e5e5e5] bg-white px-6 py-4 text-lg font-black text-[#3c3c3c]">
+          기기에 저장된 학습 기록을 불러오고 있어요.
+        </p>
+      </main>
+    )
+  }
+
   return (
-    <main className="practice-interaction-surface grade1-game-surface -mx-4 -my-6 min-h-screen px-4 py-5 md:px-6">
+    <main
+      className="practice-interaction-surface grade1-game-surface -mx-4 -my-6 min-h-screen px-4 py-5 md:px-6"
+      data-progress-restored="true"
+      data-testid="grade1-game-surface"
+    >
       <div className="mx-auto max-w-6xl space-y-6">
         <header className="grid gap-5 rounded-[2rem] border-2 border-[#e5e5e5] bg-white p-5 md:grid-cols-[1fr_300px] md:items-center md:p-6">
           <div>

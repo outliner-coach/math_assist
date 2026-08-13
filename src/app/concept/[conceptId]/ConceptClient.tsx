@@ -198,46 +198,62 @@ export default function ConceptClient() {
       </section>
 
       {/* 연습 세트 선택 */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">
+      <div
+        className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white p-4 pr-12 md:pr-80"
+        data-testid="concept-practice-actions"
+      >
         <div className="max-w-4xl mx-auto space-y-3">
           <p className="text-sm text-gray-600 text-center">
             {progress?.needsReview
               ? '최근에 틀린 문제가 있었어요. 같은 개념으로 다시 감각을 잡아보세요.'
               : unit?.grade === 6
                 ? '연습 세트를 선택하세요 (기본 5문항, 집중 10문항)'
-                : '연습 세트를 선택하세요 (각 10문항)'}
+                : '기본 5문제로 가볍게 시작하거나 집중 10문제로 충분히 연습하세요.'}
           </p>
           <div className="grid grid-cols-3 gap-3">
             {(['A', 'B', 'C'] as const).map((set) => (
               <Button
                 key={set}
-                onClick={() => router.push(`/practice/${conceptId}?set=${set}${unit?.grade === 6 ? '&count=5' : ''}`)}
-                className="w-full"
+                onClick={() => router.push(`/practice/${conceptId}?set=${set}&count=5`)}
+                className="w-full px-2 py-3 text-base"
                 size="lg"
+                aria-label={`세트 ${set} · 5문제`}
               >
-                세트 {set}{unit?.grade === 6 ? ' · 5문제' : ''}
+                <span className="flex flex-col items-center gap-0.5 leading-tight">
+                  <span className="whitespace-nowrap" data-study-action-label-line data-grade6-action-label-line>세트 {set}</span>
+                  <span className="whitespace-nowrap" data-study-action-label-line data-grade6-action-label-line>
+                    {unit?.grade === 6 ? '5문제' : '기본 5문제'}
+                  </span>
+                </span>
               </Button>
             ))}
           </div>
-          {unit?.grade === 6 && (
-            <div className="grid grid-cols-3 gap-3" data-testid="grade6-ten-item-options">
-              {(['A', 'B', 'C'] as const).map((set) => (
-                <Button
-                  key={set}
-                  variant="outline"
-                  onClick={() => router.push(`/practice/${conceptId}?set=${set}&count=10`)}
-                  className="w-full"
-                >
-                  {set} · 10문제
-                </Button>
-              ))}
-            </div>
-          )}
+          <div
+            className="grid grid-cols-3 gap-3"
+            data-testid={unit?.grade === 6 ? 'grade6-ten-item-options' : 'grade5-ten-item-options'}
+          >
+            {(['A', 'B', 'C'] as const).map((set) => (
+              <Button
+                key={set}
+                variant="outline"
+                onClick={() => router.push(`/practice/${conceptId}?set=${set}&count=10`)}
+                className="w-full px-2 py-2 text-sm"
+                aria-label={unit?.grade === 6 ? `${set} · 10문제` : `세트 ${set} · 10문제`}
+              >
+                <span className="flex flex-col items-center gap-0.5 leading-tight">
+                  <span className="whitespace-nowrap" data-study-action-label-line data-grade6-action-label-line>세트 {set}</span>
+                  <span className="whitespace-nowrap" data-study-action-label-line data-grade6-action-label-line>
+                    {unit?.grade === 6 ? '10문제' : '집중 10문제'}
+                  </span>
+                </span>
+              </Button>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* 하단 여백 */}
-      <div className="h-32" />
+      <div className="h-64" />
     </div>
   )
 }

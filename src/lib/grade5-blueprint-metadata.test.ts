@@ -5,20 +5,47 @@ import path from 'node:path'
 import {
   BLOCKED_CONTENT_TEMPLATE_IDS,
   REVIEWED_FAMILY_BLUEPRINTS,
+  REVIEWED_SLOT_TASK_ACTIONS,
   getReviewedBlueprint
 } from '../../scripts/migrate-grade5-blueprints.js'
-import { banks as generatedGeometryBanks } from '../../scripts/generate-grade5-geometry-templates.js'
+import { templates as generatedAverageTemplates } from '../../scripts/generate-grade5-average-templates.js'
+import { templates as generatedAreaUnitTemplates } from '../../scripts/generate-grade5-area-unit-templates.js'
+import { templates as generatedDecimalMultiplicationTemplates } from '../../scripts/generate-grade5-decimalmul-templates.js'
+import { templates as generatedEstimateTemplates } from '../../scripts/generate-grade5-estimate-templates.js'
+import {
+  banks as generatedFractionAddSubBanks
+} from '../../scripts/generate-grade5-fraction-addsub-templates.js'
+import {
+  banks as generatedFractionSimplifyBanks
+} from '../../scripts/generate-grade5-fraction-simplify-templates.js'
+import {
+  templates as generatedFractionComparisonTemplates
+} from '../../scripts/generate-grade5-fraction-compare-templates.js'
+import {
+  banks as generatedDivisorMultipleBanks
+} from '../../scripts/generate-grade5-divisor-multiple-templates.js'
+import { templates as generatedFractionMultiplicationTemplates } from '../../scripts/generate-grade5-fracmul-templates.js'
+import {
+  banks as generatedGeometryBanks,
+  serializeTemplates as serializeGeometryTemplates
+} from '../../scripts/generate-grade5-geometry-templates.js'
+import { templates as generatedMixedCalculationTemplates } from '../../scripts/generate-grade5-mixedcalc-templates.js'
+import { templates as generatedNumberRangeTemplates } from '../../scripts/generate-grade5-number-range-templates.js'
+import { templates as generatedPatternTemplates } from '../../scripts/generate-grade5-pattern-templates.js'
+import { templates as generatedPossibilityTemplates } from '../../scripts/generate-grade5-possibility-templates.js'
+import { templates as generatedRoundingTemplates } from '../../scripts/generate-grade5-rounding-templates.js'
 import {
   buildProblemBlueprintCoverage,
+  evaluateTemplate,
   inspectProblemBlueprintMeta
 } from '../../scripts/problem-quality-core.js'
 import type { ProblemTemplate } from './types'
 
 const migratedBanks = [
-  'area', 'average', 'commonden', 'congruence', 'cuboid', 'cuboidnet',
-  'decimalmul', 'divisor', 'estimate', 'fracadd', 'fracmul', 'fracsub',
-  'gcd', 'lcm', 'mixedcalc', 'multiple', 'pattern', 'perimeter',
-  'polygonarea', 'rounding', 'simplify', 'symmetry'
+  'area', 'areaunit', 'average', 'commonden', 'congruence', 'cuboid', 'cuboidnet',
+  'decimalmul', 'divisor', 'estimate', 'fracadd', 'fraccompare', 'fracmul', 'fracsub',
+  'gcd', 'lcm', 'mixedcalc', 'multiple', 'numberrange', 'pattern', 'perimeter',
+  'polygonarea', 'possibility', 'rounding', 'simplify', 'symmetry'
 ]
 
 function readMigratedTemplates(): ProblemTemplate[] {
@@ -30,6 +57,67 @@ function readMigratedTemplates(): ProblemTemplate[] {
   ) as ProblemTemplate[])
 }
 
+function collectVisualTemplateStrings(value: unknown): string[] {
+  if (typeof value === 'string') return [value]
+  if (Array.isArray(value)) return value.flatMap(collectVisualTemplateStrings)
+  if (value && typeof value === 'object') {
+    return Object.values(value).flatMap(collectVisualTemplateStrings)
+  }
+  return []
+}
+
+function collectExhaustiveTemplateIssues(
+  templates: ProblemTemplate[],
+  answerPattern: RegExp
+): string[] {
+  const issues: string[] = []
+
+  for (const template of templates) {
+    let samples: Record<string, number>[] = [{}]
+
+    for (const [name, range] of Object.entries(template.param_schema)) {
+      samples = samples.flatMap(sample => Array.from(
+        { length: range.max - range.min + 1 },
+        (_, offset) => ({ ...sample, [name]: range.min + offset })
+      ))
+    }
+
+    for (const params of samples) {
+      const sampleKey = `${template.id} ${JSON.stringify(params)}`
+      const answer = evaluateTemplate(`{{${template.solver_rule}}}`, params)
+      const renderedTexts = [
+        evaluateTemplate(template.prompt_template, params),
+        ...template.solution_steps_template.map(step => evaluateTemplate(step, params)),
+        ...(template.hint_steps_template ?? []).map(step => evaluateTemplate(step, params)),
+        ...collectVisualTemplateStrings(template.visual_template)
+          .map(value => evaluateTemplate(value, params))
+      ]
+
+      if (!answerPattern.test(answer)) issues.push(`${sampleKey}: invalid answer ${answer}`)
+      if (renderedTexts.some(text => text.includes('?]'))) {
+        issues.push(`${sampleKey}: unresolved expression`)
+      }
+
+      if (template.type === 'choice') {
+        const choices = template.choices_template!.map(choice => (
+          evaluateTemplate(choice, params)
+        ))
+        if (new Set(choices).size !== 4) issues.push(`${sampleKey}: duplicate choices`)
+        if (choices.filter(choice => choice === answer).length !== 1) {
+          issues.push(`${sampleKey}: answer choice mismatch`)
+        }
+      }
+    }
+  }
+
+  return issues
+}
+
+function sourcePayloadWithoutIdentity(template: ProblemTemplate): string {
+  const { id: _id, set_id: _setId, ...payload } = template
+  return JSON.stringify(payload)
+}
+
 describe('Grade 5 reviewed blueprint metadata', () => {
   it('defines one explicit reviewed mapping for every structured problem family', () => {
     const templates = readMigratedTemplates()
@@ -39,10 +127,50 @@ describe('Grade 5 reviewed blueprint metadata', () => {
         .map(template => template.problem_family)
     )
 
-    expect(templates).toHaveLength(660)
+    expect(templates).toHaveLength(780)
     expect(BLOCKED_CONTENT_TEMPLATE_IDS.size).toBe(0)
-    expect(families.size).toBe(147)
+    expect(families.size).toBe(260)
     expect(new Set(Object.keys(REVIEWED_FAMILY_BLUEPRINTS))).toEqual(families)
+  })
+
+  it('requires explicit source-owned task actions for all 260 families and 780 templates', () => {
+    const templates = readMigratedTemplates()
+    const conceptIds = new Set(templates.map(template => template.concept_id))
+
+    expect(new Set(Object.keys(REVIEWED_SLOT_TASK_ACTIONS))).toEqual(conceptIds)
+    expect(Object.values(REVIEWED_SLOT_TASK_ACTIONS)).toHaveLength(26)
+    expect(Object.values(REVIEWED_SLOT_TASK_ACTIONS).every(actions => (
+      actions.length === 10
+      && actions.every(slotActions => (
+        slotActions.length > 0
+        && new Set(slotActions).size === slotActions.length
+      ))
+    ))).toBe(true)
+
+    for (const template of templates) {
+      const blueprint = template.blueprint as ProblemTemplate['blueprint'] & {
+        taskActions: string[]
+      }
+      expect(blueprint.taskActions.length, template.id).toBeGreaterThan(0)
+      expect(blueprint.taskActions, template.id).toEqual(
+        (getReviewedBlueprint(template) as { taskActions: string[] }).taskActions
+      )
+    }
+  })
+
+  it('rejects a complete blueprint when its explicit task actions are missing', () => {
+    const [template] = readMigratedTemplates()
+    const withoutActions = structuredClone(template) as ProblemTemplate & {
+      blueprint: Record<string, unknown>
+    }
+    delete withoutActions.blueprint.taskActions
+
+    expect(inspectProblemBlueprintMeta(withoutActions)).toMatchObject({
+      status: 'invalid',
+      issues: [{
+        code: 'missing_task_actions',
+      }],
+    })
   })
 
   it('keeps regenerated geometry banks on the reviewed contract', () => {
@@ -52,20 +180,254 @@ describe('Grade 5 reviewed blueprint metadata', () => {
     expect(generated.every(template => (
       JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
     ))).toBe(true)
+
+    for (const [filename, templates] of Object.entries(generatedGeometryBanks)) {
+      expect(serializeGeometryTemplates(templates)).toBe(fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', filename),
+        'utf8'
+      ))
+    }
+
+    for (const filename of [
+      'perimeter.json',
+      'polygonarea.json',
+      'congruence.json',
+      'symmetry.json',
+      'cuboid.json',
+      'cuboidnet.json',
+    ]) {
+      expect(collectExhaustiveTemplateIssues(
+        generatedGeometryBanks[filename] as ProblemTemplate[],
+        filename === 'congruence.json' || filename === 'cuboidnet.json'
+          ? /^(?:\d+|[가나다라])$/
+          : /^\d+$/
+      )).toEqual([])
+    }
   })
 
-  it('migrates all 660 semantically reviewed Grade 5 templates', () => {
+  it('keeps the reviewed average bank reproducible from its generator', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'average.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+
+    expect(generatedAverageTemplates).toEqual(committed)
+    expect(generatedAverageTemplates.every(template => (
+      JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
+    ))).toBe(true)
+
+    expect(collectExhaustiveTemplateIssues(
+      generatedAverageTemplates,
+      /^\d+$/
+    )).toEqual([])
+  })
+
+  it('keeps the reviewed fraction-multiplication bank reproducible from its generator', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'fracmul.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+
+    expect(generatedFractionMultiplicationTemplates).toEqual(committed)
+    expect(generatedFractionMultiplicationTemplates.every(template => (
+      JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
+    ))).toBe(true)
+
+    expect(collectExhaustiveTemplateIssues(
+      generatedFractionMultiplicationTemplates,
+      /^\d+(?:\/\d+)?$/
+    )).toEqual([])
+  })
+
+  it('keeps the reviewed fraction-addition and subtraction banks reproducible and exhaustive', () => {
+    for (const [name, generated] of Object.entries(generatedFractionAddSubBanks)) {
+      const committed = JSON.parse(
+        fs.readFileSync(
+          path.join(process.cwd(), 'public', 'data', 'templates', `${name}.json`),
+          'utf8'
+        )
+      ) as ProblemTemplate[]
+
+      expect(generated).toEqual(committed)
+      expect(generated).toHaveLength(30)
+      expect(generated.every(template => (
+        JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
+      ))).toBe(true)
+
+      const domainCounts = generated.reduce<Record<string, number>>((counts, template) => {
+        const domain = template.blueprint!.cognitiveDomain
+        counts[domain] = (counts[domain] ?? 0) + 1
+        return counts
+      }, {})
+      expect(domainCounts).toEqual({ knowing: 12, applying: 12, reasoning: 6 })
+      expect(new Set(generated.map(template => template.problem_family))).toHaveLength(10)
+      expect(new Set(
+        generated
+          .filter(template => template.blueprint!.cognitiveDomain === 'reasoning')
+          .map(template => template.problem_family)
+      )).toHaveLength(2)
+
+      expect(collectExhaustiveTemplateIssues(
+        generated,
+        name === 'fracsub'
+          ? /^(?!0(?:\/|$))\d+(?:\/\d+)?$/
+          : /^\d+(?:\/\d+)?$/
+      )).toEqual([])
+
+      for (const setId of ['A', 'B', 'C']) {
+        const direct = generated.find(template => template.id === `tmpl-${name}-${setId}-01`)!
+        if (name === 'fracadd') {
+          expect(direct.solver_rule).toBe(
+            'fracAdd(n, n + b, m, n + b + m + c)'
+          )
+          const complement = generated.find(
+            template => template.id === `tmpl-fracadd-${setId}-03`
+          )!
+          expect(complement.solver_rule).toBe('reduceFrac(b, n + b)')
+        } else {
+          expect(direct.solver_rule).toBe(
+            'fracSub(n + m, n + m + b, n, n + m + b + c)'
+          )
+        }
+      }
+    }
+  })
+
+  it('keeps fraction simplification and common-denominator banks reproducible and exhaustive', () => {
+    for (const [name, generated] of Object.entries(generatedFractionSimplifyBanks)) {
+      const committed = JSON.parse(fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', `${name}.json`),
+        'utf8'
+      )) as ProblemTemplate[]
+      expect(generated).toEqual(committed)
+      expect(generated).toHaveLength(30)
+      expect(new Set(generated.map(template => template.problem_family))).toHaveLength(10)
+      expect(generated.reduce<Record<string, number>>((counts, template) => {
+        const domain = template.blueprint!.cognitiveDomain
+        counts[domain] = (counts[domain] ?? 0) + 1
+        return counts
+      }, {})).toEqual({ knowing: 12, applying: 12, reasoning: 6 })
+      expect(collectExhaustiveTemplateIssues(generated, /^\d+(?:\/\d+)?$/)).toEqual([])
+    }
+  })
+
+  it('keeps divisor and multiple unit banks reproducible and exhaustive', () => {
+    for (const [name, generated] of Object.entries(generatedDivisorMultipleBanks)) {
+      const committed = JSON.parse(fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', `${name}.json`),
+        'utf8'
+      )) as ProblemTemplate[]
+      expect(generated).toEqual(committed)
+      expect(generated).toHaveLength(30)
+      expect(new Set(generated.map(template => template.problem_family))).toHaveLength(10)
+      expect(generated.reduce<Record<string, number>>((counts, template) => {
+        const domain = template.blueprint!.cognitiveDomain
+        counts[domain] = (counts[domain] ?? 0) + 1
+        return counts
+      }, {})).toEqual({ knowing: 12, applying: 12, reasoning: 6 })
+      expect(collectExhaustiveTemplateIssues(generated, /^\d+$/)).toEqual([])
+    }
+  })
+
+  it('keeps the correspondence-pattern bank reproducible and exhaustive', () => {
+    const committed = JSON.parse(fs.readFileSync(
+      path.join(process.cwd(), 'public', 'data', 'templates', 'pattern.json'),
+      'utf8'
+    )) as ProblemTemplate[]
+
+    expect(generatedPatternTemplates).toEqual(committed)
+    expect(generatedPatternTemplates).toHaveLength(30)
+    expect(new Set(
+      generatedPatternTemplates.map(template => template.problem_family)
+    )).toHaveLength(10)
+    expect(generatedPatternTemplates.reduce<Record<string, number>>((counts, template) => {
+      const domain = template.blueprint!.cognitiveDomain
+      counts[domain] = (counts[domain] ?? 0) + 1
+      return counts
+    }, {})).toEqual({ knowing: 12, applying: 12, reasoning: 6 })
+    expect(new Set(
+      generatedPatternTemplates
+        .filter(template => template.blueprint!.cognitiveDomain === 'reasoning')
+        .map(template => template.problem_family)
+    )).toHaveLength(2)
+    expect(collectExhaustiveTemplateIssues(
+      generatedPatternTemplates,
+      /^\d+$/
+    )).toEqual([])
+  })
+
+  it('keeps the reviewed rounding bank reproducible from its generator', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'rounding.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+
+    expect(generatedRoundingTemplates).toEqual(committed)
+    expect(generatedRoundingTemplates.every(template => (
+      JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
+    ))).toBe(true)
+  })
+
+  it('keeps the reviewed directed-estimation bank reproducible from its generator', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'estimate.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+
+    expect(generatedEstimateTemplates).toEqual(committed)
+    expect(generatedEstimateTemplates.every(template => (
+      JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
+    ))).toBe(true)
+  })
+
+  it('keeps the reviewed mixed-calculation bank reproducible from its generator', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'mixedcalc.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+
+    expect(generatedMixedCalculationTemplates).toEqual(committed)
+    expect(generatedMixedCalculationTemplates.every(template => (
+      JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
+    ))).toBe(true)
+  })
+
+  it('keeps the reviewed decimal-multiplication bank reproducible from its generator', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'decimalmul.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+
+    expect(generatedDecimalMultiplicationTemplates).toEqual(committed)
+    expect(generatedDecimalMultiplicationTemplates.every(template => (
+      JSON.stringify(template.blueprint) === JSON.stringify(getReviewedBlueprint(template))
+    ))).toBe(true)
+  })
+
+  it('migrates all 780 semantically reviewed Grade 5 templates', () => {
     const templates = readMigratedTemplates()
     const coverage = buildProblemBlueprintCoverage(templates)
 
     expect(coverage.summary).toEqual({
-      templateCount: 660,
-      completeCount: 660,
+      templateCount: 780,
+      completeCount: 780,
       missingCount: 0,
       invalidCount: 0,
       coveragePercent: 100
     })
-    expect(coverage.byConcept).toHaveLength(22)
+    expect(coverage.byConcept).toHaveLength(26)
     expect(coverage.byConcept.every(concept => (
       concept.completeCount === 30 && concept.missingCount === 0
     ))).toBe(true)
@@ -81,23 +443,24 @@ describe('Grade 5 reviewed blueprint metadata', () => {
 
     for (const setId of ['A', 'B', 'C']) {
       const multiplication = byId[`tmpl-fracmul-${setId}-06`]
-      expect(multiplication.problem_family).toBe('fracmul-context-product')
+      expect(multiplication.problem_family).toBe('fracmul-context-part-of-part')
       expect(multiplication.prompt_template).toContain('그중')
-      expect(multiplication.solver_rule).toBe('fracMul(n1, d1, n2, d2)')
-
-      const subtraction = byId[`tmpl-fracsub-${setId}-06`]
-      expect(subtraction.problem_family).toBe('fracsub-context-difference')
-      expect(subtraction.prompt_template).not.toContain('남은 양에서 먹은 양')
-      expect(
-        subtraction.param_schema.n1.min / subtraction.param_schema.d1.max,
-      ).toBeGreaterThanOrEqual(
-        subtraction.param_schema.n2.max / subtraction.param_schema.d2.min,
+      expect(multiplication.solver_rule).toBe(
+        'reduceFrac(n * m, n * m + n * c + b * m + b * c)'
       )
 
-      const average = byId[`tmpl-average-${setId}-08`]
-      expect(average.problem_family).toBe('average-context-mean')
+      const subtraction = byId[`tmpl-fracsub-${setId}-06`]
+      expect(subtraction.problem_family).toBe('fracsub-context-distance-gap')
+      expect(subtraction.solver_rule).toBe('fracSub(n, n + b, n, n + b + c)')
+      expect(collectExhaustiveTemplateIssues(
+        [subtraction],
+        /^(?!0(?:\/|$))\d+(?:\/\d+)?$/
+      )).toEqual([])
+
+      const average = byId[`tmpl-average-${setId}-06`]
+      expect(average.problem_family).toBe('average-context-four')
       expect(average.prompt_template).toContain('평균')
-      expect(average.solver_rule).toBe('avg4(a, b, c, d)')
+      expect(average.solver_rule).toBe('a')
     }
   })
 
@@ -137,15 +500,16 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       visualSemantics: 'schematic'
     })
     expect(byId['tmpl-mixedcalc-A-09']).toMatchObject({
-      cognitiveDomain: 'knowing',
-      reasoningPattern: 'multi_step',
-      primaryStandard: '6수01-01',
-      contextType: 'pure_math'
-    })
-    expect(byId['tmpl-pattern-A-01']).toMatchObject({
       cognitiveDomain: 'reasoning',
-      reasoningPattern: 'pattern_generalization',
-      primaryStandard: '6수02-01'
+      reasoningPattern: 'error_analysis',
+      primaryStandard: '6수01-01',
+      contextType: 'puzzle'
+    })
+    expect(byId['tmpl-pattern-A-10']).toMatchObject({
+      cognitiveDomain: 'reasoning',
+      reasoningPattern: 'error_analysis',
+      primaryStandard: '6수02-01',
+      contextType: 'puzzle'
     })
     expect(byId['tmpl-gcd-A-05']).toMatchObject({
       cognitiveDomain: 'applying',
@@ -154,29 +518,628 @@ describe('Grade 5 reviewed blueprint metadata', () => {
       contextType: 'real_world'
     })
     expect(byId['tmpl-rounding-A-09']).toMatchObject({
-      cognitiveDomain: 'knowing',
+      cognitiveDomain: 'reasoning',
+      reasoningPattern: 'systematic_counting',
+      primaryStandard: '6수01-03',
+      contextType: 'puzzle'
+    })
+    expect(byId['tmpl-estimate-A-09']).toMatchObject({
+      cognitiveDomain: 'reasoning',
+      reasoningPattern: 'error_analysis',
       primaryStandard: '6수01-03',
       contextType: 'real_world'
     })
+    expect(byId['tmpl-decimalmul-A-09']).toMatchObject({
+      cognitiveDomain: 'reasoning',
+      reasoningPattern: 'error_analysis',
+      primaryStandard: '6수01-13',
+      contextType: 'puzzle'
+    })
+    expect(byId['tmpl-fracmul-A-09']).toMatchObject({
+      cognitiveDomain: 'reasoning',
+      reasoningPattern: 'error_analysis',
+      primaryStandard: '6수01-09',
+      contextType: 'puzzle'
+    })
     expect(byId['tmpl-average-A-09']).toMatchObject({
-      cognitiveDomain: 'applying',
-      reasoningPattern: 'inverse',
-      primaryStandard: '6수04-01'
+      cognitiveDomain: 'reasoning',
+      reasoningPattern: 'error_analysis',
+      primaryStandard: '6수04-01',
+      contextType: 'real_world'
     })
   })
 
-  it('does not relabel familiar inverse procedures as reasoning to satisfy a quota', () => {
+  it('gives perimeter and polygon-area banks genuine K4/A4/R2 reasoning mixes', () => {
     const coverage = buildProblemBlueprintCoverage(readMigratedTemplates())
     const perimeter = coverage.byConcept.find(entry => entry.conceptId === 'perimeter-001')
     const polygonArea = coverage.byConcept.find(entry => entry.conceptId === 'polygonarea-001')
 
-    expect(perimeter?.cognitiveCounts).toEqual({ knowing: 18, applying: 12, reasoning: 0 })
-    expect(polygonArea?.cognitiveCounts).toEqual({ knowing: 12, applying: 18, reasoning: 0 })
-    expect(perimeter?.targetGaps).toEqual(
-      expect.arrayContaining(['reasoning_family_minimum', 'cognitive_domain_mix'])
+    expect(perimeter?.cognitiveCounts).toEqual({ knowing: 12, applying: 12, reasoning: 6 })
+    expect(polygonArea?.cognitiveCounts).toEqual({ knowing: 12, applying: 12, reasoning: 6 })
+    expect(perimeter?.reasoningFamilyCount).toBe(2)
+    expect(polygonArea?.reasoningFamilyCount).toBe(2)
+    expect(perimeter?.targetGaps).toEqual([])
+    expect(polygonArea?.targetGaps).toEqual([])
+
+    const templates = readMigratedTemplates().filter(template => (
+      template.concept_id === 'perimeter-001' ||
+      template.concept_id === 'polygonarea-001'
+    ))
+    for (const conceptId of ['perimeter-001', 'polygonarea-001']) {
+      for (const setId of ['A', 'B', 'C']) {
+        const setTemplates = templates.filter(template => (
+          template.concept_id === conceptId && template.set_id === setId
+        ))
+        expect(setTemplates.reduce<Record<string, number>>((counts, template) => {
+          const domain = template.blueprint!.cognitiveDomain
+          counts[domain] = (counts[domain] ?? 0) + 1
+          return counts
+        }, {})).toEqual({ knowing: 4, applying: 4, reasoning: 2 })
+      }
+
+      const conceptTemplates = templates.filter(template => (
+        template.concept_id === conceptId
+      ))
+      for (const family of new Set(
+        conceptTemplates.map(template => template.problem_family)
+      )) {
+        expect(new Set(
+          conceptTemplates
+            .filter(template => template.problem_family === family)
+            .map(template => template.prompt_template)
+        )).toHaveLength(3)
+      }
+    }
+
+    expect(templates.find(template => (
+      template.id === 'tmpl-polygonarea-A-08'
+    ))?.problem_family).toBe('polygonarea-congruent-triangle-total')
+    expect(templates.find(template => (
+      template.id === 'tmpl-polygonarea-A-09'
+    ))?.problem_family).toBe('polygonarea-triangle-double-error')
+    expect(templates.find(template => (
+      template.id === 'tmpl-polygonarea-A-10'
+    ))?.problem_family).toBe('polygonarea-trapezoid-base-omission-error')
+  })
+
+  it('gives congruence and symmetry banks genuine K4/A4/R2 reasoning mixes', () => {
+    const templates = readMigratedTemplates().filter(template => (
+      template.concept_id === 'congruence-001' ||
+      template.concept_id === 'symmetry-001'
+    ))
+    const coverage = buildProblemBlueprintCoverage(templates)
+
+    expect(templates).toHaveLength(60)
+    for (const conceptId of ['congruence-001', 'symmetry-001']) {
+      const concept = coverage.byConcept.find(entry => entry.conceptId === conceptId)
+      expect(concept?.cognitiveCounts).toEqual({
+        knowing: 12,
+        applying: 12,
+        reasoning: 6,
+      })
+      expect(concept?.problemFamilyCount).toBe(10)
+      expect(concept?.reasoningFamilyCount).toBe(2)
+      expect(concept?.targetGaps).toEqual([])
+
+      for (const setId of ['A', 'B', 'C']) {
+        const setTemplates = templates.filter(template => (
+          template.concept_id === conceptId && template.set_id === setId
+        ))
+        expect(setTemplates.reduce<Record<string, number>>((counts, template) => {
+          const domain = template.blueprint!.cognitiveDomain
+          counts[domain] = (counts[domain] ?? 0) + 1
+          return counts
+        }, {})).toEqual({ knowing: 4, applying: 4, reasoning: 2 })
+      }
+    }
+
+    expect(templates.find(template => (
+      template.id === 'tmpl-congruence-A-09'
+    ))?.problem_family).toBe('congruence-wrong-corresponding-side-error')
+    expect(templates.find(template => (
+      template.id === 'tmpl-congruence-A-10'
+    ))?.problem_family).toBe('congruence-perimeter-invariance')
+    expect(templates.find(template => (
+      template.id === 'tmpl-symmetry-A-09'
+    ))?.problem_family).toBe('symmetry-line-reflection-distance-error')
+    expect(templates.find(template => (
+      template.id === 'tmpl-symmetry-A-10'
+    ))?.problem_family).toBe('symmetry-point-reflection-one-coordinate-error')
+
+    for (const setId of ['A', 'B', 'C']) {
+      for (const index of ['07', '08']) {
+        expect(templates.find(template => (
+          template.id === `tmpl-congruence-${setId}-${index}`
+        ))?.visual_template).toMatchObject({
+          type: 'congruence',
+          shape: 'rectangle',
+        })
+      }
+    }
+
+    const unstableNumericParticle = /\}\}\s*(?:은|는|이|가|을|를|과|와|로|으로)(?=[\s,.!?])/u
+    expect(templates.flatMap(template => [
+      template.prompt_template,
+      ...template.solution_steps_template,
+      ...(template.hint_steps_template ?? []),
+    ]).filter(text => unstableNumericParticle.test(text))).toEqual([])
+  })
+
+  it('gives cuboid and cuboid-net banks genuine K4/A4/R2 reasoning mixes', () => {
+    const templates = readMigratedTemplates().filter(template => (
+      template.concept_id === 'cuboid-001' ||
+      template.concept_id === 'cuboidnet-001'
+    ))
+    const coverage = buildProblemBlueprintCoverage(templates)
+
+    expect(templates).toHaveLength(60)
+    for (const conceptId of ['cuboid-001', 'cuboidnet-001']) {
+      const concept = coverage.byConcept.find(entry => entry.conceptId === conceptId)
+      expect(concept?.cognitiveCounts).toEqual({
+        knowing: 12,
+        applying: 12,
+        reasoning: 6,
+      })
+      expect(concept?.problemFamilyCount).toBe(10)
+      expect(concept?.reasoningFamilyCount).toBe(2)
+      expect(concept?.targetGaps).toEqual([])
+
+      const conceptTemplates = templates.filter(template => (
+        template.concept_id === conceptId
+      ))
+      for (const setId of ['A', 'B', 'C']) {
+        const setTemplates = conceptTemplates.filter(template => (
+          template.set_id === setId
+        ))
+        expect(setTemplates.reduce<Record<string, number>>((counts, template) => {
+          const domain = template.blueprint!.cognitiveDomain
+          counts[domain] = (counts[domain] ?? 0) + 1
+          return counts
+        }, {})).toEqual({ knowing: 4, applying: 4, reasoning: 2 })
+      }
+      for (const family of new Set(
+        conceptTemplates.map(template => template.problem_family)
+      )) {
+        expect(new Set(
+          conceptTemplates
+            .filter(template => template.problem_family === family)
+            .map(template => template.prompt_template)
+        )).toHaveLength(3)
+      }
+    }
+
+    expect(templates.find(template => (
+      template.id === 'tmpl-cuboid-A-09'
+    ))?.problem_family).toBe('cuboid-half-edge-count-error')
+    expect(templates.find(template => (
+      template.id === 'tmpl-cuboid-A-10'
+    ))?.problem_family).toBe('cuboid-one-of-each-face-area-error')
+    expect(templates.find(template => (
+      template.id === 'tmpl-cuboidnet-A-10'
+    ))?.problem_family).toBe('cuboidnet-shared-edge-perimeter-error')
+  })
+
+  it('gives every average set a reviewed K4/A4/R2 application mix', () => {
+    const templates = readMigratedTemplates()
+      .filter(template => template.concept_id === 'average-001')
+    const coverage = buildProblemBlueprintCoverage(templates)
+    const average = coverage.byConcept[0]
+
+    expect(templates).toHaveLength(30)
+    expect(average.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(average.problemFamilyCount).toBe(10)
+    expect(average.reasoningFamilyCount).toBe(2)
+    expect(average.targetGaps).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = templates.filter(template => template.set_id === setId)
+      const cognitiveCounts = setTemplates.reduce(
+        (counts, template) => {
+          counts[template.blueprint!.cognitiveDomain] += 1
+          return counts
+        },
+        { knowing: 0, applying: 0, reasoning: 0 }
+      )
+
+      expect(cognitiveCounts).toEqual({
+        knowing: 4,
+        applying: 4,
+        reasoning: 2
+      })
+      expect(new Set(setTemplates.map(template => template.prompt_template)).size).toBe(10)
+    }
+  })
+
+  it('gives every fraction-multiplication set a reviewed K4/A4/R2 application mix', () => {
+    const templates = readMigratedTemplates()
+      .filter(template => template.concept_id === 'fracmul-001')
+    const coverage = buildProblemBlueprintCoverage(templates)
+    const fractionMultiplication = coverage.byConcept[0]
+
+    expect(templates).toHaveLength(30)
+    expect(fractionMultiplication.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(fractionMultiplication.problemFamilyCount).toBe(10)
+    expect(fractionMultiplication.reasoningFamilyCount).toBe(2)
+    expect(fractionMultiplication.targetGaps).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = templates.filter(template => template.set_id === setId)
+      const cognitiveCounts = setTemplates.reduce(
+        (counts, template) => {
+          counts[template.blueprint!.cognitiveDomain] += 1
+          return counts
+        },
+        { knowing: 0, applying: 0, reasoning: 0 }
+      )
+
+      expect(cognitiveCounts).toEqual({
+        knowing: 4,
+        applying: 4,
+        reasoning: 2
+      })
+      expect(new Set(setTemplates.map(template => template.prompt_template)).size).toBe(10)
+    }
+  })
+
+  it('gives every rounding set a reviewed K4/A4/R2 application mix', () => {
+    const templates = readMigratedTemplates()
+      .filter(template => template.concept_id === 'rounding-001')
+    const coverage = buildProblemBlueprintCoverage(templates)
+    const rounding = coverage.byConcept[0]
+
+    expect(templates).toHaveLength(30)
+    expect(rounding.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(rounding.problemFamilyCount).toBe(10)
+    expect(rounding.reasoningFamilyCount).toBe(2)
+    expect(rounding.targetGaps).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = templates.filter(template => template.set_id === setId)
+      const cognitiveCounts = setTemplates.reduce(
+        (counts, template) => {
+          counts[template.blueprint!.cognitiveDomain] += 1
+          return counts
+        },
+        { knowing: 0, applying: 0, reasoning: 0 }
+      )
+
+      expect(cognitiveCounts).toEqual({
+        knowing: 4,
+        applying: 4,
+        reasoning: 2
+      })
+      expect(new Set(setTemplates.map(template => template.prompt_template)).size).toBe(10)
+    }
+  })
+
+  it('keeps the number-range bank reproducible, exhaustive, and balanced', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'numberrange.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+    const coverage = buildProblemBlueprintCoverage(generatedNumberRangeTemplates)
+    const numberRange = coverage.byConcept[0]
+
+    expect(generatedNumberRangeTemplates).toEqual(committed)
+    expect(generatedNumberRangeTemplates).toHaveLength(30)
+    expect(numberRange.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(numberRange.problemFamilyCount).toBe(10)
+    expect(numberRange.reasoningFamilyCount).toBe(2)
+    expect(numberRange.representationCount).toBeGreaterThanOrEqual(2)
+    expect(numberRange.targetGaps).toEqual([])
+    expect(collectExhaustiveTemplateIssues(
+      generatedNumberRangeTemplates,
+      /^\d+$/
+    )).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = generatedNumberRangeTemplates.filter(template => template.set_id === setId)
+      expect(setTemplates).toHaveLength(10)
+      expect(setTemplates.map(template => template.difficulty)).toEqual([1, 1, 1, 1, 2, 2, 2, 2, 3, 3])
+    }
+  })
+
+  it('keeps the fraction-comparison bank reproducible, exhaustive, and balanced', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'fraccompare.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+    const coverage = buildProblemBlueprintCoverage(generatedFractionComparisonTemplates)
+    const fractionComparison = coverage.byConcept[0]
+
+    expect(generatedFractionComparisonTemplates).toEqual(committed)
+    expect(generatedFractionComparisonTemplates).toHaveLength(30)
+    expect(fractionComparison.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(fractionComparison.problemFamilyCount).toBe(10)
+    expect(fractionComparison.reasoningFamilyCount).toBe(2)
+    expect(fractionComparison.representationCount).toBeGreaterThanOrEqual(2)
+    expect(fractionComparison.targetGaps).toEqual([])
+    expect(collectExhaustiveTemplateIssues(
+      generatedFractionComparisonTemplates,
+      /^(?:\d+|\d+\/\d+)$/
+    )).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = generatedFractionComparisonTemplates.filter(
+        template => template.set_id === setId
+      )
+      expect(setTemplates).toHaveLength(10)
+      expect(setTemplates.map(template => template.difficulty)).toEqual([
+        1, 1, 1, 1, 2, 2, 2, 2, 3, 3
+      ])
+      expect(setTemplates.every(template => (
+        template.visual_template?.type === 'fraction_comparison' &&
+        template.visual_template?.semantics === 'quantitative'
+      ))).toBe(true)
+    }
+  })
+
+  it('keeps the area-unit bank reproducible, exhaustive, and balanced', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'areaunit.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+    const coverage = buildProblemBlueprintCoverage(generatedAreaUnitTemplates)
+    const areaUnit = coverage.byConcept[0]
+
+    expect(generatedAreaUnitTemplates).toEqual(committed)
+    expect(generatedAreaUnitTemplates).toHaveLength(30)
+    expect(areaUnit.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(areaUnit.problemFamilyCount).toBe(10)
+    expect(areaUnit.reasoningFamilyCount).toBe(2)
+    expect(areaUnit.representationCount).toBeGreaterThanOrEqual(2)
+    expect(areaUnit.targetGaps).toEqual([])
+    expect(collectExhaustiveTemplateIssues(
+      generatedAreaUnitTemplates,
+      /^\d+$/
+    )).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = generatedAreaUnitTemplates.filter(
+        template => template.set_id === setId
+      )
+      expect(setTemplates).toHaveLength(10)
+      expect(setTemplates.map(template => template.difficulty)).toEqual([
+        1, 1, 1, 1, 2, 2, 2, 2, 3, 3
+      ])
+      expect(setTemplates.every(template => (
+        template.visual_template?.type === 'area_unit_square' &&
+        template.visual_template?.semantics === 'quantitative'
+      ))).toBe(true)
+    }
+  })
+
+  it('keeps the two unit-square sources independently authored across A, B, and C', () => {
+    for (const slot of ['01', '02']) {
+      const sources = generatedAreaUnitTemplates.filter(template => (
+        template.id.endsWith(`-${slot}`)
+      ))
+
+      expect(sources).toHaveLength(3)
+      expect(new Set(sources.map(sourcePayloadWithoutIdentity)).size).toBe(3)
+      expect(new Set(sources.map(template => JSON.stringify({
+        contextType: template.blueprint!.contextType,
+        representations: template.blueprint!.representations,
+        taskActions: template.blueprint!.taskActions,
+      }))).size).toBe(3)
+    }
+
+    const promptsById = Object.fromEntries(
+      generatedAreaUnitTemplates
+        .filter(template => /-(?:01|02)$/.test(template.id))
+        .map(template => [template.id, template.prompt_template])
     )
-    expect(polygonArea?.targetGaps).toEqual(
-      expect.arrayContaining(['reasoning_family_minimum', 'cognitive_domain_mix'])
+    expect(promptsById['tmpl-areaunit-A-01']).toMatch(/1m²=□cm²/)
+    expect(promptsById['tmpl-areaunit-B-01']).toMatch(/1cm².*몇 장/)
+    expect(promptsById['tmpl-areaunit-C-01']).toMatch(/100cm.*곱/)
+    expect(promptsById['tmpl-areaunit-A-02']).toMatch(/1km²=□m²/)
+    expect(promptsById['tmpl-areaunit-B-02']).toMatch(/1m².*몇 개/)
+    expect(promptsById['tmpl-areaunit-C-02']).toMatch(/1000m.*곱/)
+  })
+
+  it('keeps the possibility bank reproducible, exhaustive, and balanced across three standards', () => {
+    const committed = JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), 'public', 'data', 'templates', 'possibility.json'),
+        'utf8'
+      )
+    ) as ProblemTemplate[]
+    const coverage = buildProblemBlueprintCoverage(generatedPossibilityTemplates)
+    const possibility = coverage.byConcept[0]
+
+    expect(generatedPossibilityTemplates).toEqual(committed)
+    expect(generatedPossibilityTemplates).toHaveLength(30)
+    expect(possibility.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(possibility.problemFamilyCount).toBe(10)
+    expect(possibility.reasoningFamilyCount).toBe(2)
+    expect(possibility.representationCount).toBeGreaterThanOrEqual(2)
+    expect(possibility.targetGaps).toEqual([])
+    expect(collectExhaustiveTemplateIssues(
+      generatedPossibilityTemplates,
+      /^(?:\d+|\d+\/\d+)$/
+    )).toEqual([])
+
+    const standardCounts = generatedPossibilityTemplates.reduce<Record<string, number>>(
+      (counts, template) => {
+        const standard = template.blueprint!.primaryStandard
+        counts[standard] = (counts[standard] ?? 0) + 1
+        return counts
+      },
+      {}
     )
+    expect(standardCounts).toEqual({
+      '6수04-04': 6,
+      '6수04-05': 6,
+      '6수04-06': 18,
+    })
+
+    const domainsByDirectStandard = generatedPossibilityTemplates.reduce<
+      Record<string, Set<string>>
+    >((domains, template) => {
+      const standard = template.blueprint!.primaryStandard
+      const current = domains[standard] ?? new Set<string>()
+      current.add(template.blueprint!.cognitiveDomain)
+      domains[standard] = current
+      return domains
+    }, {})
+    expect(domainsByDirectStandard['6수04-04']).toEqual(
+      new Set(['knowing', 'applying'])
+    )
+    expect(domainsByDirectStandard['6수04-06']).toEqual(
+      new Set(['knowing', 'applying', 'reasoning'])
+    )
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = generatedPossibilityTemplates.filter(
+        template => template.set_id === setId
+      )
+      expect(setTemplates).toHaveLength(10)
+      expect(setTemplates.map(template => template.difficulty)).toEqual([
+        1, 1, 1, 1, 2, 2, 2, 2, 3, 3
+      ])
+      expect(setTemplates.every(template => (
+        template.visual_template?.type === 'possibility_trials' &&
+        template.visual_template?.semantics === 'quantitative'
+      ))).toBe(true)
+    }
+  })
+
+  it('gives every directed-estimation set a reviewed K4/A4/R2 application mix', () => {
+    const templates = readMigratedTemplates()
+      .filter(template => template.concept_id === 'estimate-001')
+    const coverage = buildProblemBlueprintCoverage(templates)
+    const estimate = coverage.byConcept[0]
+
+    expect(templates).toHaveLength(30)
+    expect(estimate.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(estimate.problemFamilyCount).toBe(10)
+    expect(estimate.reasoningFamilyCount).toBe(2)
+    expect(estimate.targetGaps).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = templates.filter(template => template.set_id === setId)
+      const cognitiveCounts = setTemplates.reduce(
+        (counts, template) => {
+          counts[template.blueprint!.cognitiveDomain] += 1
+          return counts
+        },
+        { knowing: 0, applying: 0, reasoning: 0 }
+      )
+
+      expect(cognitiveCounts).toEqual({
+        knowing: 4,
+        applying: 4,
+        reasoning: 2
+      })
+      expect(new Set(setTemplates.map(template => template.prompt_template)).size).toBe(10)
+    }
+  })
+
+  it('gives every mixed-calculation set a reviewed K4/A4/R2 application mix', () => {
+    const templates = readMigratedTemplates()
+      .filter(template => template.concept_id === 'mixedcalc-001')
+    const coverage = buildProblemBlueprintCoverage(templates)
+    const mixedCalculation = coverage.byConcept[0]
+
+    expect(templates).toHaveLength(30)
+    expect(mixedCalculation.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(mixedCalculation.problemFamilyCount).toBe(10)
+    expect(mixedCalculation.reasoningFamilyCount).toBe(2)
+    expect(mixedCalculation.targetGaps).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = templates.filter(template => template.set_id === setId)
+      const cognitiveCounts = setTemplates.reduce(
+        (counts, template) => {
+          counts[template.blueprint!.cognitiveDomain] += 1
+          return counts
+        },
+        { knowing: 0, applying: 0, reasoning: 0 }
+      )
+
+      expect(cognitiveCounts).toEqual({
+        knowing: 4,
+        applying: 4,
+        reasoning: 2
+      })
+      expect(new Set(setTemplates.map(template => template.prompt_template)).size).toBe(10)
+    }
+  })
+
+  it('gives every decimal-multiplication set a reviewed K4/A4/R2 application mix', () => {
+    const templates = readMigratedTemplates()
+      .filter(template => template.concept_id === 'decimalmul-001')
+    const coverage = buildProblemBlueprintCoverage(templates)
+    const decimalMultiplication = coverage.byConcept[0]
+
+    expect(templates).toHaveLength(30)
+    expect(decimalMultiplication.cognitiveCounts).toEqual({
+      knowing: 12,
+      applying: 12,
+      reasoning: 6
+    })
+    expect(decimalMultiplication.problemFamilyCount).toBe(10)
+    expect(decimalMultiplication.reasoningFamilyCount).toBe(2)
+    expect(decimalMultiplication.targetGaps).toEqual([])
+
+    for (const setId of ['A', 'B', 'C']) {
+      const setTemplates = templates.filter(template => template.set_id === setId)
+      const cognitiveCounts = setTemplates.reduce(
+        (counts, template) => {
+          counts[template.blueprint!.cognitiveDomain] += 1
+          return counts
+        },
+        { knowing: 0, applying: 0, reasoning: 0 }
+      )
+
+      expect(cognitiveCounts).toEqual({
+        knowing: 4,
+        applying: 4,
+        reasoning: 2
+      })
+      expect(new Set(setTemplates.map(template => template.prompt_template)).size).toBe(10)
+    }
   })
 })

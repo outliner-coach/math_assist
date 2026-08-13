@@ -1,10 +1,24 @@
 import type { Grade4AnswerType } from './grade4-answer-normalizers'
+import type { LearningSetMode } from './learning-activity'
 
 export type Grade4Semester = '4-1' | '4-2'
 export type Grade4CognitiveDomain = 'knowing' | 'applying' | 'reasoning'
-export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context'
+export type Grade4Representation = 'place-value-table' | 'number-cards' | 'number-line' | 'context' | 'division-model' | 'fraction-strip' | 'decimal-operation' | 'pattern-table' | 'equation-balance' | 'line-relationship' | 'shape-transformation' | 'triangle-model' | 'quadrilateral-model' | 'polygon-model' | 'tiling-model' | 'angle-model' | 'angle-sum-model' | 'line-graph-model' | 'data-table-model'
 export type Grade4VisualModel = Grade4Representation
 export type Grade4SupportTool = 'none' | 'grid' | 'ruler' | 'protractor'
+export type Grade4TaskAction =
+  | 'recognize'
+  | 'classify'
+  | 'compare'
+  | 'calculate'
+  | 'measure'
+  | 'construct'
+  | 'model'
+  | 'interpret'
+  | 'explain'
+  | 'analyze_error'
+  | 'reason'
+export type Grade4VisualSemantics = 'decorative' | 'schematic' | 'quantitative'
 
 export interface Grade4Unit {
   id: string
@@ -15,18 +29,22 @@ export interface Grade4Unit {
   learnerGoal: string
   curriculumCodes: string[]
   prerequisiteCodes: string[]
-  releaseStatus: 'release-candidate'
+  contentReleaseId: string
+  releaseStatus: 'released'
 }
 
 export interface Grade4MissionTemplate {
   id: string
   unitId: string
   curriculumCode: string
+  directCurriculumCodes?: string[]
   cognitiveDomain: Grade4CognitiveDomain
   problemFamily: string
   representation: Grade4Representation
   answerType: Grade4AnswerType
   supportTool: Grade4SupportTool
+  taskActions: Grade4TaskAction[]
+  visualSemantics: Grade4VisualSemantics
   skillTag: string
   learnerGoal: string
   promptTemplate: string
@@ -70,6 +88,9 @@ interface CurriculumAllocationLike {
   assignedGrade: number
   unitId: string
   semester: string
+  reviewStatus?: string
+  coverageStatus?: string
+  existingContentRefs?: string[]
 }
 
 interface CurriculumLedgerLike {
@@ -79,6 +100,20 @@ interface CurriculumLedgerLike {
 export const GRADE4_CONTENT_RELEASE_ID = 'grade4-bridge-big-numbers-v1'
 export const GRADE4_ACTIVITY_ITEM_COUNT = 3
 export const SAFE_GRADE4_UNIT_ID = 'unit-4-1-large-numbers'
+export const GRADE4_DIVISION_UNIT_ID = 'unit-4-1-multiplication-division'
+export const GRADE4_ESTIMATION_UNIT_ID = 'unit-4-1-arithmetic-estimation'
+export const GRADE4_DECIMAL_UNIT_ID = 'unit-4-2-decimals'
+export const GRADE4_FRACTION_ADD_SUB_UNIT_ID = 'unit-4-2-fraction-add-sub'
+export const GRADE4_DECIMAL_ADD_SUB_UNIT_ID = 'unit-4-2-decimal-add-sub'
+export const GRADE4_PATTERNS_UNIT_ID = 'unit-4-2-patterns'
+export const GRADE4_EQUALITY_UNIT_ID = 'unit-4-2-equality'
+export const GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID = 'unit-4-1-perpendicular-parallel'
+export const GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID = 'unit-4-1-shape-transformations'
+export const GRADE4_TRIANGLES_UNIT_ID = 'unit-4-2-triangles'
+export const GRADE4_QUADRILATERALS_UNIT_ID = 'unit-4-2-quadrilaterals'
+export const GRADE4_POLYGONS_UNIT_ID = 'unit-4-2-polygons'
+export const GRADE4_ANGLE_MEASUREMENT_UNIT_ID = 'unit-4-1-angle-measurement'
+export const GRADE4_LINE_GRAPHS_UNIT_ID = 'unit-4-2-line-graphs'
 
 export const grade4Units: Grade4Unit[] = [
   {
@@ -90,9 +125,183 @@ export const grade4Units: Grade4Unit[] = [
     learnerGoal: '큰 수의 자릿값을 설명하고 수의 크기를 근거와 함께 비교해요.',
     curriculumCodes: ['[4수01-01]', '[4수01-02]'],
     prerequisiteCodes: [],
-    releaseStatus: 'release-candidate',
+    contentReleaseId: GRADE4_CONTENT_RELEASE_ID,
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_DIVISION_UNIT_ID,
+    semester: '4-1',
+    order: 2,
+    title: '두 자리 수로 나누기',
+    subtitle: '몫과 나머지의 뜻을 연결하고 실제 상황에 맞게 나눗셈을 사용해요.',
+    learnerGoal: '두 자리 수로 나눈 몫과 나머지를 구하고 계산이 맞는지 설명해요.',
+    curriculumCodes: ['[4수01-07]'],
+    prerequisiteCodes: ['[4수01-06]'],
+    contentReleaseId: 'grade4-bridge-two-digit-division-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_ESTIMATION_UNIT_ID,
+    semester: '4-1',
+    order: 3,
+    title: '사칙계산 어림',
+    subtitle: '계산하기 전에 알맞은 단위로 수를 바꾸어 결과의 크기를 짐작해요.',
+    learnerGoal: '덧셈·뺄셈·곱셈·나눗셈의 결과를 어림하고 어림 방법이 알맞은지 설명해요.',
+    curriculumCodes: ['[4수01-08]'],
+    prerequisiteCodes: ['[4수01-03]', '[4수01-04]', '[4수01-06]', '[4수01-07]'],
+    contentReleaseId: 'grade4-bridge-arithmetic-estimation-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_DECIMAL_UNIT_ID,
+    semester: '4-2',
+    order: 4,
+    title: '소수',
+    subtitle: '소수 두 자리와 세 자리의 자릿값을 읽고 크기를 근거 있게 비교해요.',
+    learnerGoal: '소수의 각 자리 숫자가 나타내는 값을 설명하고 여러 소수의 크기를 비교해요.',
+    curriculumCodes: ['[4수01-13]', '[4수01-14]'],
+    prerequisiteCodes: ['[4수01-12]'],
+    contentReleaseId: 'grade4-bridge-decimals-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_FRACTION_ADD_SUB_UNIT_ID,
+    semester: '4-2',
+    order: 5,
+    title: '분수의 덧셈과 뺄셈',
+    subtitle: '분모가 같은 분수와 대분수를 더하고 빼는 원리를 그림과 식으로 연결해요.',
+    learnerGoal: '분모가 같은 분수의 분자끼리 계산하고 받아내림이 필요한 까닭을 설명해요.',
+    curriculumCodes: ['[4수01-15]'],
+    prerequisiteCodes: ['[4수01-10]', '[4수01-11]'],
+    contentReleaseId: 'grade4-bridge-fraction-add-sub-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_DECIMAL_ADD_SUB_UNIT_ID,
+    semester: '4-2',
+    order: 6,
+    title: '소수의 덧셈과 뺄셈',
+    subtitle: '소수점을 맞추어 소수 두 자리 수를 더하고 빼며 계산 원리를 설명해요.',
+    learnerGoal: '소수의 같은 자리끼리 계산하고 받아올림과 받아내림의 까닭을 설명해요.',
+    curriculumCodes: ['[4수01-16]'],
+    prerequisiteCodes: ['[4수01-13]', '[4수01-14]'],
+    contentReleaseId: 'grade4-bridge-decimal-add-sub-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_PATTERNS_UNIT_ID,
+    semester: '4-2',
+    order: 7,
+    title: '규칙 찾기',
+    subtitle: '수와 계산식의 배열에서 변하는 규칙을 찾아 식으로 설명하고 다음 결과를 예상해요.',
+    learnerGoal: '변화 규칙을 수·식·표로 나타내고 멀리 있는 값도 근거 있게 구해요.',
+    curriculumCodes: ['[4수02-01]', '[4수02-02]'],
+    prerequisiteCodes: [],
+    contentReleaseId: 'grade4-bridge-patterns-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_EQUALITY_UNIT_ID,
+    semester: '4-2',
+    order: 8,
+    title: '등호와 양의 관계',
+    subtitle: '등호 양쪽의 크기가 같다는 뜻을 이해하고 빈 양과 상황을 식으로 나타내요.',
+    learnerGoal: '같은 두 양을 등호로 연결하고 양쪽의 관계를 근거 있게 설명해요.',
+    curriculumCodes: ['[4수02-03]'],
+    prerequisiteCodes: ['[4수01-03]'],
+    contentReleaseId: 'grade4-bridge-equality-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID,
+    semester: '4-1',
+    order: 9,
+    title: '수직과 평행',
+    subtitle: '두 직선이 이루는 각과 방향을 살펴 수직과 평행 관계를 구별해요.',
+    learnerGoal: '직선의 방향과 직각을 근거로 수직과 평행을 판단하고 생활 속 문제에 적용해요.',
+    curriculumCodes: ['[4수03-03]'],
+    prerequisiteCodes: ['[4수03-01]'],
+    contentReleaseId: 'grade4-bridge-perpendicular-parallel-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID,
+    semester: '4-1',
+    order: 10,
+    title: '도형의 이동',
+    subtitle: '도형을 밀고 뒤집고 돌리며 점의 위치와 방향 변화를 설명해요.',
+    learnerGoal: '평면도형과 점의 이동을 위치·방향·이동량으로 나타내고 여러 이동을 추론해요.',
+    curriculumCodes: ['[4수03-04]', '[4수03-05]'],
+    prerequisiteCodes: [],
+    contentReleaseId: 'grade4-bridge-shape-transformations-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_TRIANGLES_UNIT_ID,
+    semester: '4-2',
+    order: 11,
+    title: '여러 가지 삼각형',
+    subtitle: '변의 길이와 각의 크기를 근거로 여러 삼각형을 분류해요.',
+    learnerGoal: '삼각형을 변과 각의 성질로 분류하고 두 분류가 겹치는 경우도 설명해요.',
+    curriculumCodes: ['[4수03-08]', '[4수03-09]'],
+    prerequisiteCodes: [],
+    contentReleaseId: 'grade4-bridge-triangles-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_QUADRILATERALS_UNIT_ID,
+    semester: '4-2',
+    order: 12,
+    title: '여러 가지 사각형',
+    subtitle: '평행한 변, 직각, 같은 길이의 변을 근거로 여러 사각형을 분류해요.',
+    learnerGoal: '사각형의 성질을 표시하고 여러 이름이 겹치는 경우까지 근거 있게 설명해요.',
+    curriculumCodes: ['[4수03-10]'],
+    prerequisiteCodes: ['[4수03-03]', '[4수03-08]'],
+    contentReleaseId: 'grade4-bridge-quadrilaterals-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_POLYGONS_UNIT_ID,
+    semester: '4-2',
+    order: 13,
+    title: '다각형과 모양 채우기',
+    subtitle: '변과 각의 성질로 다각형을 살피고 여러 도형으로 빈틈없이 모양을 채워요.',
+    learnerGoal: '다각형과 정다각형의 성질을 설명하고 도형을 이어 붙인 결과를 근거 있게 판단해요.',
+    curriculumCodes: ['[4수03-11]', '[4수03-12]'],
+    prerequisiteCodes: ['[4수03-04]', '[4수03-08]', '[4수03-10]'],
+    contentReleaseId: 'grade4-bridge-polygons-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_ANGLE_MEASUREMENT_UNIT_ID,
+    semester: '4-1',
+    order: 14,
+    title: '각도와 내각의 합',
+    subtitle: '각도기로 각을 재고 어림하며 삼각형과 사각형의 내각의 합을 설명해요.',
+    learnerGoal: '각의 크기를 도 단위로 측정하고 도형의 내각의 합에서 빠진 각을 추론해요.',
+    curriculumCodes: ['[4수03-24]', '[4수03-25]'],
+    prerequisiteCodes: ['[4수03-02]'],
+    contentReleaseId: 'grade4-bridge-angle-measurement-v1',
+    releaseStatus: 'released',
+  },
+  {
+    id: GRADE4_LINE_GRAPHS_UNIT_ID,
+    semester: '4-2',
+    order: 15,
+    title: '꺾은선그래프',
+    subtitle: '시간에 따라 변하는 자료를 점과 선분으로 나타내고 변화의 크기와 경향을 읽어요.',
+    learnerGoal: '표와 꺾은선그래프를 연결하고 눈금과 선분을 근거로 자료의 변화를 설명해요.',
+    curriculumCodes: ['[4수04-02]'],
+    prerequisiteCodes: ['[4수04-01]'],
+    contentReleaseId: 'grade4-bridge-line-graphs-v1',
+    releaseStatus: 'released',
   },
 ]
+
+export function grade4ContentReleaseIdForUnit(unitId: string): string {
+  return grade4Units.find((unit) => unit.id === unitId)?.contentReleaseId
+    ?? grade4Units[0].contentReleaseId
+}
 
 function rotateChoices(values: string[], seed: number): string[] {
   const offset = ((seed % values.length) + values.length) % values.length
@@ -103,8 +312,156 @@ function formatted(value: number): string {
   return value.toLocaleString('ko-KR')
 }
 
+function nearest(value: number, place: number): number {
+  return Math.round(value / place) * place
+}
+
+function scaledDecimal(value: number, places: number): string {
+  const scale = 10 ** places
+  const whole = Math.floor(value / scale)
+  const fraction = String(value % scale).padStart(places, '0')
+  return `${whole}.${fraction}`
+}
+
+function fractionText(numerator: number, denominator: number): string {
+  const whole = Math.floor(numerator / denominator)
+  const remainder = numerator % denominator
+  if (whole > 0 && remainder > 0) return `${whole} ${remainder}/${denominator}`
+  return `${numerator}/${denominator}`
+}
+
+function coordinateText(x: number, y: number): string {
+  return `(${x}, ${y})`
+}
+
+function polygonName(sideCount: number): string {
+  return ({ 3: '삼각형', 4: '사각형', 5: '오각형', 6: '육각형', 7: '칠각형', 8: '팔각형' } as Record<number, string>)[sideCount]
+    ?? `${sideCount}각형`
+}
+
+type KoreanNumericParticle = '은' | '는' | '이' | '가' | '을' | '를' | '과' | '와' | '으로' | '로'
+
+const grade4NumericUnitPronunciations: Record<string, string> = {
+  mm: '밀리미터',
+  cm: '센티미터',
+  km: '킬로미터',
+  mL: '밀리리터',
+  kg: '킬로그램',
+  mg: '밀리그램',
+  L: '리터',
+  m: '미터',
+  g: '그램',
+  '%': '퍼센트',
+  '°': '도',
+}
+
+const grade4NumericUnits = [
+  ...Object.keys(grade4NumericUnitPronunciations),
+  '개월', '시간', '자루', '마리', '봉지', '상자', '묶음',
+  '원', '명', '개', '장', '대', '도', '번', '칸', '초', '분',
+  '일', '주', '년', '쪽', '권', '줄', '점', '배',
+].sort((left, right) => right.length - left.length)
+
+const grade4NumericParticlePattern = new RegExp(
+  `(?<![\\dA-Za-z])(\\d[\\d,]*(?:\\.\\d+)?(?:\\s*(?:${grade4NumericUnits.join('|')}))?)(으로|로|은|는|이|가|을|를|과|와)(?=$|[\\s.,!?…;:)\\]}'"”’])`,
+  'g',
+)
+const grade4FractionParticlePattern = new RegExp(
+  `(?<![/\\dA-Za-z])((?:\\d[\\d,]*\\s+)?(\\d[\\d,]*)/(\\d[\\d,]*))(으로|로|은|는|이|가|을|를|과|와)(?=$|[\\s.,!?…;:)\\]}'"”’])`,
+  'g',
+)
+
+function finalSound(value: string): { hasBatchim: boolean; hasRieulBatchim: boolean } {
+  const trimmed = value.trim()
+  const unit = grade4NumericUnits.find((candidate) => trimmed.endsWith(candidate))
+  const spokenEnding = unit === undefined
+    ? trimmed.replaceAll(',', '').at(-1)
+    : (grade4NumericUnitPronunciations[unit] ?? unit).at(-1)
+
+  if (spokenEnding === undefined) return { hasBatchim: false, hasRieulBatchim: false }
+
+  const hangulOffset = spokenEnding.charCodeAt(0) - 0xac00
+  if (hangulOffset >= 0 && hangulOffset <= 0xd7a3 - 0xac00) {
+    const finalConsonant = hangulOffset % 28
+    return {
+      hasBatchim: finalConsonant !== 0,
+      hasRieulBatchim: finalConsonant === 8,
+    }
+  }
+
+  return {
+    hasBatchim: ['0', '1', '3', '6', '7', '8'].includes(spokenEnding),
+    hasRieulBatchim: ['1', '7', '8'].includes(spokenEnding),
+  }
+}
+
+function correctParticle(
+  value: string,
+  pronunciationValue: string,
+  particle: KoreanNumericParticle,
+): string {
+  const { hasBatchim, hasRieulBatchim } = finalSound(pronunciationValue)
+  if (particle === '은' || particle === '는') return `${value}${hasBatchim ? '은' : '는'}`
+  if (particle === '이' || particle === '가') return `${value}${hasBatchim ? '이' : '가'}`
+  if (particle === '을' || particle === '를') return `${value}${hasBatchim ? '을' : '를'}`
+  if (particle === '과' || particle === '와') return `${value}${hasBatchim ? '과' : '와'}`
+  return `${value}${hasBatchim && !hasRieulBatchim ? '으로' : '로'}`
+}
+
+function isDivisionSlashSurface(text: string, start: number, end: number): boolean {
+  return /\/\s*$/.test(text.slice(0, start))
+    || /^\s*(?:나눗셈|나누|나눕|나눠|나눈|나눌)/.test(text.slice(end))
+}
+
+export function correctGrade4NumericParticles(text: string): string {
+  const fractionsCorrected = text.replace(
+    grade4FractionParticlePattern,
+    (
+      matched: string,
+      value: string,
+      numerator: string,
+      _denominator: string,
+      particle: KoreanNumericParticle,
+      offset: number,
+      source: string,
+    ) => {
+      if (isDivisionSlashSurface(source, offset, offset + matched.length)) return matched
+      return correctParticle(value, numerator, particle)
+    },
+  )
+
+  return fractionsCorrected.replace(
+    grade4NumericParticlePattern,
+    (
+      matched: string,
+      value: string,
+      particle: KoreanNumericParticle,
+      offset: number,
+      source: string,
+    ) => {
+      if (isDivisionSlashSurface(source, offset, offset + matched.length)) return matched
+      return correctParticle(value, value, particle)
+    },
+  )
+}
+
 function template(value: Grade4MissionTemplate): Grade4MissionTemplate {
-  return value
+  const build = value.build
+  return {
+    ...value,
+    promptTemplate: correctGrade4NumericParticles(value.promptTemplate),
+    hintSteps: value.hintSteps.map(correctGrade4NumericParticles),
+    build: (variant, choiceSeed) => {
+      const built = build(variant, choiceSeed)
+      return {
+        ...built,
+        prompt: correctGrade4NumericParticles(built.prompt),
+        correctAnswer: correctGrade4NumericParticles(built.correctAnswer),
+        choices: built.choices?.map(correctGrade4NumericParticles),
+        solutionSteps: built.solutionSteps.map(correctGrade4NumericParticles),
+      }
+    },
+  }
 }
 
 const commonPlaceHints = ['가장 왼쪽 자리부터 이름을 붙여요.', '같은 자리끼리 맞춘 뒤 필요한 자리만 확인해요.']
@@ -113,6 +470,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   template({
     id: 'g4-big-01', unitId: SAFE_GRADE4_UNIT_ID, curriculumCode: '[4수01-01]', cognitiveDomain: 'knowing',
     problemFamily: 'place-value-value', representation: 'place-value-table', answerType: 'choice', supportTool: 'none', skillTag: '자릿값',
+    taskActions: ['recognize'], visualSemantics: 'quantitative',
     learnerGoal: '십만 단위 수에서 만의 자리 숫자가 나타내는 값을 찾아요.',
     promptTemplate: '수의 만의 자리 숫자가 나타내는 값은 얼마일까요?', hintSteps: commonPlaceHints,
     build: (v, seed) => {
@@ -130,6 +488,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   template({
     id: 'g4-big-02', unitId: SAFE_GRADE4_UNIT_ID, curriculumCode: '[4수01-01]', cognitiveDomain: 'knowing',
     problemFamily: 'place-value-compose', representation: 'place-value-table', answerType: 'integer', supportTool: 'none', skillTag: '수 읽고 쓰기',
+    taskActions: ['model'], visualSemantics: 'quantitative',
     learnerGoal: '자리별 수를 하나의 큰 수로 써요.',
     promptTemplate: '십만, 만, 천, 십, 일의 수를 모아 하나의 수로 쓰세요.', hintSteps: commonPlaceHints,
     build: (v) => {
@@ -145,6 +504,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   template({
     id: 'g4-big-03', unitId: SAFE_GRADE4_UNIT_ID, curriculumCode: '[4수01-01]', cognitiveDomain: 'knowing',
     problemFamily: 'place-value-name', representation: 'place-value-table', answerType: 'choice', supportTool: 'none', skillTag: '자릿값',
+    taskActions: ['recognize'], visualSemantics: 'quantitative',
     learnerGoal: '천의 자리 숫자가 나타내는 값을 찾아요.',
     promptTemplate: '수에서 천의 자리 숫자가 나타내는 값을 고르세요.', hintSteps: commonPlaceHints,
     build: (v, seed) => {
@@ -160,6 +520,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   template({
     id: 'g4-big-04', unitId: SAFE_GRADE4_UNIT_ID, curriculumCode: '[4수01-02]', cognitiveDomain: 'knowing',
     problemFamily: 'direct-comparison', representation: 'number-cards', answerType: 'choice', supportTool: 'none', skillTag: '큰 수 비교',
+    taskActions: ['compare'], visualSemantics: 'quantitative',
     learnerGoal: '가장 높은 자리부터 비교해 더 큰 수를 찾아요.',
     promptTemplate: '두 큰 수를 비교한 설명 중 옳은 것을 고르세요.', hintSteps: ['십만의 자리부터 차례로 비교해요.', '처음으로 다른 자리의 숫자가 큰 쪽이 더 큰 수예요.'],
     build: (v, seed) => {
@@ -177,6 +538,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   template({
     id: 'g4-big-05', unitId: SAFE_GRADE4_UNIT_ID, curriculumCode: '[4수01-02]', cognitiveDomain: 'applying',
     problemFamily: 'select-maximum', representation: 'number-cards', answerType: 'choice', supportTool: 'none', skillTag: '큰 수 비교',
+    taskActions: ['compare'], visualSemantics: 'quantitative',
     learnerGoal: '여러 큰 수를 비교해 가장 큰 수를 골라요.',
     promptTemplate: '네 수 중 가장 큰 수를 고르세요.', hintSteps: ['십만의 자리를 먼저 비교해요.', '같다면 만, 천, 백의 자리 순서로 비교해요.'],
     build: (v, seed) => {
@@ -194,6 +556,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   template({
     id: 'g4-big-06', unitId: SAFE_GRADE4_UNIT_ID, curriculumCode: '[4수01-01]', cognitiveDomain: 'applying',
     problemFamily: 'ten-thousand-step', representation: 'number-line', answerType: 'integer', supportTool: 'grid', skillTag: '수의 계열',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
     learnerGoal: '큰 수에서 10,000만큼 커진 수를 구해요.',
     promptTemplate: '주어진 수보다 10,000만큼 큰 수를 쓰세요.', hintSteps: ['만의 자리에서 한 칸 앞으로 이동해요.', '다른 자리 숫자는 그대로 두어요.'],
     build: (v) => {
@@ -209,6 +572,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   template({
     id: 'g4-big-07', unitId: SAFE_GRADE4_UNIT_ID, curriculumCode: '[4수01-02]', cognitiveDomain: 'applying',
     problemFamily: 'context-difference', representation: 'context', answerType: 'integer', supportTool: 'none', skillTag: '큰 수 비교',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
     learnerGoal: '두 지역의 사람 수 차이를 구해 비교해요.',
     promptTemplate: '두 지역의 사람 수 차이는 몇 명인지 구하세요.', hintSteps: ['더 큰 사람 수에서 더 작은 사람 수를 빼요.', '천의 자리까지 맞추어 계산해요.'],
     build: (v) => {
@@ -225,6 +589,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   template({
     id: 'g4-big-08', unitId: SAFE_GRADE4_UNIT_ID, curriculumCode: '[4수01-02]', cognitiveDomain: 'applying',
     problemFamily: 'between-bounds', representation: 'number-line', answerType: 'choice', supportTool: 'grid', skillTag: '수의 계열',
+    taskActions: ['compare'], visualSemantics: 'quantitative',
     learnerGoal: '두 큰 수 사이에 있는 수를 찾아요.',
     promptTemplate: '두 수보다 크고 작은 조건을 모두 만족하는 수를 고르세요.', hintSteps: ['먼저 아래 경계보다 큰지 확인해요.', '그다음 위 경계보다 작은지 확인해요.'],
     build: (v, seed) => {
@@ -242,6 +607,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   template({
     id: 'g4-big-09', unitId: SAFE_GRADE4_UNIT_ID, curriculumCode: '[4수01-02]', cognitiveDomain: 'reasoning',
     problemFamily: 'constraint-digit', representation: 'place-value-table', answerType: 'choice', supportTool: 'grid', skillTag: '조건 추론',
+    taskActions: ['reason'], visualSemantics: 'quantitative',
     learnerGoal: '수의 크기 조건을 만족하는 가장 큰 자리 숫자를 추론해요.',
     promptTemplate: '큰 수의 비교 조건을 만족하는 빈칸 숫자 중 가장 큰 것을 고르세요.', hintSteps: ['십만의 자리는 같으니 만의 자리를 비교해요.', '조건을 만족하는 숫자를 작은 것부터 넣어 확인해요.'],
     build: (v, seed) => {
@@ -258,6 +624,7 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
   template({
     id: 'g4-big-10', unitId: SAFE_GRADE4_UNIT_ID, curriculumCode: '[4수01-02]', cognitiveDomain: 'reasoning',
     problemFamily: 'claim-evaluation', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '비교 설명',
+    taskActions: ['analyze_error', 'compare'], visualSemantics: 'quantitative',
     learnerGoal: '친구의 비교 설명을 자릿값 근거로 판단해요.',
     promptTemplate: '두 큰 수를 비교한 친구의 말에 알맞은 판단 근거를 고르세요.', hintSteps: ['큰 수 비교는 가장 높은 자리부터 해요.', '뒤 자리 숫자가 커도 앞 자리 숫자가 작으면 전체 수가 작아요.'],
     build: (v, seed) => {
@@ -273,6 +640,2761 @@ export const grade4MissionTemplates: Grade4MissionTemplate[] = [
       }
     },
   }),
+  template({
+    id: 'g4-div-01', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'knowing',
+    problemFamily: 'exact-two-digit-division', representation: 'division-model', answerType: 'integer', supportTool: 'grid', skillTag: '나눗셈 계산',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '나누어떨어지는 두 자리 수 나눗셈의 몫을 구해요.',
+    promptTemplate: '세 자리 수를 두 자리 수로 나눈 몫을 구하세요.', hintSteps: ['나누는 수의 배수를 차례로 생각해요.', '나누는 수와 몫을 곱해 나누어지는 수가 되는지 확인해요.'],
+    build: (v) => {
+      const divisor = 12 + v
+      const quotient = 20 + v
+      const dividend = divisor * quotient
+      return {
+        prompt: `${formatted(dividend)} ÷ ${divisor}의 몫을 구하세요.`,
+        correctAnswer: String(quotient),
+        solutionSteps: [`${divisor} × ${quotient} = ${formatted(dividend)}입니다.`, `따라서 ${formatted(dividend)} ÷ ${divisor} = ${quotient}입니다.`],
+        visualModel: 'division-model', visualConfig: { dividend, divisor },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-02', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'knowing',
+    problemFamily: 'quotient-with-remainder', representation: 'division-model', answerType: 'integer', supportTool: 'grid', skillTag: '몫',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '나머지가 있는 나눗셈에서 몫을 구해요.',
+    promptTemplate: '세 자리 수를 두 자리 수로 나눈 몫을 구하세요.', hintSteps: ['나누어지는 수보다 크지 않은 배수를 찾아요.', '그 배수에 사용한 횟수가 몫이에요.'],
+    build: (v) => {
+      const divisor = 20 + v
+      const quotient = 10 + v
+      const remainder = v
+      const dividend = divisor * quotient + remainder
+      return {
+        prompt: `${formatted(dividend)} ÷ ${divisor}의 몫을 구하세요.`,
+        correctAnswer: String(quotient),
+        solutionSteps: [`${divisor} × ${quotient} = ${formatted(divisor * quotient)}입니다. 다음 배수는 ${divisor} × ${quotient + 1} = ${formatted(divisor * (quotient + 1))}입니다. 이 값은 ${formatted(dividend)}보다 큽니다.`, `따라서 몫은 ${quotient}이고 나머지는 ${remainder}입니다.`],
+        visualModel: 'division-model', visualConfig: { dividend, divisor },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-03', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'knowing',
+    problemFamily: 'remainder-from-division', representation: 'division-model', answerType: 'integer', supportTool: 'grid', skillTag: '나머지',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '두 자리 수로 나눈 뒤 남는 수를 구해요.',
+    promptTemplate: '세 자리 수를 두 자리 수로 나눈 나머지를 구하세요.', hintSteps: ['나누는 수의 가장 가까운 작은 배수를 찾아요.', '나누어지는 수에서 그 배수를 빼요.'],
+    build: (v) => {
+      const divisor = 15 + v
+      const quotient = 8 + v
+      const remainder = v + 2
+      const dividend = divisor * quotient + remainder
+      return {
+        prompt: `${formatted(dividend)} ÷ ${divisor}의 나머지를 구하세요.`,
+        correctAnswer: String(remainder),
+        solutionSteps: [`${divisor} × ${quotient} = ${formatted(divisor * quotient)}입니다.`, `${formatted(dividend)} - ${formatted(divisor * quotient)} = ${remainder}이므로 나머지는 ${remainder}입니다.`],
+        visualModel: 'division-model', visualConfig: { dividend, divisor },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-04', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'knowing',
+    problemFamily: 'division-check-equation', representation: 'number-cards', answerType: 'choice', supportTool: 'none', skillTag: '나눗셈 검산',
+    taskActions: ['model'], visualSemantics: 'quantitative',
+    learnerGoal: '나눗셈의 몫과 나머지를 곱셈식으로 확인해요.',
+    promptTemplate: '나눗셈을 확인하는 식으로 알맞은 것을 고르세요.', hintSteps: ['나누는 수와 몫을 먼저 곱해요.', '그 곱에 나머지를 더하면 나누어지는 수가 되어야 해요.'],
+    build: (v, seed) => {
+      const divisor = 13 + v
+      const quotient = 6 + v
+      const remainder = v
+      const dividend = divisor * quotient + remainder
+      const answer = `${dividend} = ${divisor} × ${quotient} + ${remainder}`
+      return {
+        prompt: `${dividend} ÷ ${divisor} = ${quotient} … ${remainder}. 이 나눗셈을 확인하는 식을 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices([
+          answer,
+          `${dividend} = ${divisor} × ${quotient}`,
+          `${dividend} = ${divisor} × ${quotient + 1} + ${remainder}`,
+          `${dividend} = ${divisor} × ${quotient} - ${remainder}`,
+        ], seed),
+        solutionSteps: ['나누는 수 × 몫 + 나머지를 계산해요.', `계산 결과는 ${divisor} × ${quotient} + ${remainder} = ${dividend}이므로 이 식이 알맞습니다.`],
+        visualModel: 'number-cards', visualConfig: { card1: dividend, card2: divisor, card3: quotient, card4: remainder },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-05', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'applying',
+    problemFamily: 'equal-pack-count', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '묶음 나누기',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '전체 물건 수와 한 상자 수로 상자 수를 구해요.',
+    promptTemplate: '준비물을 같은 수씩 상자에 담을 때 필요한 상자 수를 구하세요.', hintSteps: ['전체 수를 한 상자에 담는 수로 나누어요.', '곱셈으로 전체 수가 맞는지 확인해요.'],
+    build: (v) => {
+      const divisor = 24 + v
+      const quotient = 5 + v
+      const dividend = divisor * quotient
+      return {
+        prompt: `색연필 ${formatted(dividend)}자루를 한 상자에 ${divisor}자루씩 담습니다. 상자는 몇 개 필요한가요?`,
+        correctAnswer: String(quotient),
+        solutionSteps: [`전체 수를 한 상자 수로 나누어요: ${formatted(dividend)} ÷ ${divisor}.`, `${divisor} × ${quotient} = ${formatted(dividend)}입니다. 두 값이 같으므로 상자는 ${quotient}개 필요합니다.`],
+        visualModel: 'context', visualConfig: { left: dividend, right: divisor, leftLabel: '전체 색연필', rightLabel: '한 상자' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-06', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'applying',
+    problemFamily: 'round-up-capacity', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '올림 나눗셈',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '남는 사람이 있으면 탈것을 한 대 더 준비해요.',
+    promptTemplate: '한 대에 탈 수 있는 수가 정해진 상황에서 필요한 탈것 수를 구하세요.', hintSteps: ['전체 사람 수를 한 대의 정원으로 나누어요.', '나머지가 있으면 모두 타기 위해 한 대가 더 필요해요.'],
+    build: (v) => {
+      const divisor = 20 + v
+      const fullVehicles = 3 + v
+      const remainder = v + 1
+      const dividend = divisor * fullVehicles + remainder
+      return {
+        prompt: `학생 ${formatted(dividend)}명이 한 대에 ${divisor}명씩 탈 수 있는 버스를 탑니다. 모두 타려면 버스는 몇 대 필요한가요?`,
+        correctAnswer: String(fullVehicles + 1),
+        solutionSteps: [`${formatted(dividend)} ÷ ${divisor} = ${fullVehicles} … ${remainder}입니다.`, `${remainder}명도 타야 하므로 버스가 한 대 더 필요해 모두 ${fullVehicles + 1}대입니다.`],
+        visualModel: 'context', visualConfig: { left: dividend, right: divisor, leftLabel: '전체 학생', rightLabel: '한 대 정원' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-07', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'applying',
+    problemFamily: 'leftover-after-packing', representation: 'division-model', answerType: 'integer', supportTool: 'grid', skillTag: '나머지 활용',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '같은 수씩 묶고 남는 물건 수를 구해요.',
+    promptTemplate: '물건을 같은 수씩 포장한 뒤 남는 수를 구하세요.', hintSteps: ['만들 수 있는 완전한 묶음 수를 찾아요.', '전체 수에서 묶음에 사용한 수를 빼요.'],
+    build: (v) => {
+      const divisor = 16 + v
+      const quotient = 7 + v
+      const remainder = v + 1
+      const dividend = divisor * quotient + remainder
+      return {
+        prompt: `구슬 ${formatted(dividend)}개를 한 봉지에 ${divisor}개씩 담으면 몇 개가 남나요?`,
+        correctAnswer: String(remainder),
+        solutionSteps: [`${divisor}개씩 ${quotient}봉지에 담으면 ${formatted(divisor * quotient)}개를 사용합니다.`, `${formatted(dividend)} - ${formatted(divisor * quotient)} = ${remainder}이므로 ${remainder}개가 남습니다.`],
+        visualModel: 'division-model', visualConfig: { dividend, divisor },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-08', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'applying',
+    problemFamily: 'reconstruct-dividend', representation: 'division-model', answerType: 'integer', supportTool: 'grid', skillTag: '나눗셈 역산',
+    taskActions: ['calculate', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '나누는 수, 몫, 나머지로 처음 수를 구해요.',
+    promptTemplate: '나누는 수와 몫과 나머지를 이용하여 나누어지는 수를 구하세요.', hintSteps: ['나누는 수와 몫을 곱해요.', '그 곱에 나머지를 더해요.'],
+    build: (v) => {
+      const divisor = 18 + v
+      const quotient = 8 + v
+      const remainder = v + 2
+      const dividend = divisor * quotient + remainder
+      return {
+        prompt: `나누는 수 ${divisor}, 몫 ${quotient}, 나머지 ${remainder}입니다. 나누어지는 수를 구하세요.`,
+        correctAnswer: String(dividend),
+        solutionSteps: [`나누는 수 × 몫 + 나머지를 계산해요.`, `${divisor} × ${quotient} + ${remainder} = ${formatted(dividend)}이므로 어떤 수는 ${formatted(dividend)}입니다.`],
+        visualModel: 'division-model',
+        visualConfig: { dividend, divisor, givenQuotient: quotient, givenRemainder: remainder, hideDividendUntilReveal: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-09', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'reasoning',
+    problemFamily: 'ignored-remainder-capacity-error', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '나머지 판단',
+    taskActions: ['analyze_error', 'calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '나머지를 버려도 되는지 상황에 맞게 판단해요.',
+    promptTemplate: '나머지를 무시한 계획이 맞는지 판단하세요.', hintSteps: ['몫만큼 준비했을 때 남는 사람이 있는지 확인해요.', '남은 사람도 모두 탈 수 있어야 해요.'],
+    build: (v, seed) => {
+      const divisor = 25 + v
+      const fullVehicles = 4 + v
+      const remainder = v + 1
+      const dividend = divisor * fullVehicles + remainder
+      const answer = '1대 더 필요해요.'
+      return {
+        prompt: `학생 ${formatted(dividend)}명이 정원 ${divisor}명인 버스를 탑니다. 준호는 ${fullVehicles}대면 충분하다고 했습니다. 준호의 계획을 고치려면 어떻게 해야 하나요?`,
+        correctAnswer: answer,
+        choices: rotateChoices([answer, '그대로 충분해요.', '2대 더 필요해요.', '나머지 학생은 탈 수 없어요.'], seed),
+        solutionSteps: [`${formatted(dividend)} ÷ ${divisor} = ${fullVehicles} … ${remainder}입니다.`, `${remainder}명이 남으므로 버스 1대를 더 준비해야 합니다.`],
+        visualModel: 'context', visualConfig: { left: dividend, right: divisor, leftLabel: '전체 학생', rightLabel: '한 대 정원' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-div-10', unitId: GRADE4_DIVISION_UNIT_ID, curriculumCode: '[4수01-07]', cognitiveDomain: 'reasoning',
+    problemFamily: 'trial-quotient-error', representation: 'division-model', answerType: 'integer', supportTool: 'grid', skillTag: '몫 추론',
+    taskActions: ['analyze_error', 'calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '시험한 몫이 너무 클 때 곱과 나누어지는 수의 차이를 설명해요.',
+    promptTemplate: '몫을 하나 크게 잡았을 때 곱이 나누어지는 수보다 얼마나 큰지 구하세요.', hintSteps: ['나누는 수와 시험한 몫을 곱해요.', '그 곱에서 나누어지는 수를 빼요.'],
+    build: (v) => {
+      const divisor = 21 + v
+      const quotient = 6 + v
+      const remainder = Math.floor(v / 2) + 1
+      const dividend = divisor * quotient + remainder
+      const trialQuotient = quotient + 1
+      const difference = divisor * trialQuotient - dividend
+      return {
+        prompt: `${formatted(dividend)} ÷ ${divisor}의 시험 몫: ${trialQuotient}. 다음 두 값의 차를 구하세요: ${divisor} × ${trialQuotient}, ${formatted(dividend)}.`,
+        correctAnswer: String(difference),
+        solutionSteps: [`${divisor} × ${trialQuotient} = ${formatted(divisor * trialQuotient)}입니다.`, `${formatted(divisor * trialQuotient)} - ${formatted(dividend)} = ${difference}이므로 시험한 몫은 너무 큽니다.`],
+        visualModel: 'division-model', visualConfig: { dividend, divisor, trialQuotient },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-01', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'knowing',
+    problemFamily: 'nearest-hundred-addition', representation: 'number-cards', answerType: 'integer', supportTool: 'grid', skillTag: '덧셈 어림',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '두 수를 각각 가장 가까운 백 단위 수로 바꾸어 합을 어림해요.',
+    promptTemplate: '두 수를 백 단위에 가장 가까운 수로 바꾸어 합을 어림하세요.', hintSteps: ['각 수에서 십의 자리 숫자를 살펴 가장 가까운 백 단위 수를 찾아요.', '바꾼 두 수를 더해 어림한 합을 구해요.'],
+    build: (v) => {
+      const left = 1_230 + v * 31
+      const right = 2_620 + v * 27
+      const roundedLeft = nearest(left, 100)
+      const roundedRight = nearest(right, 100)
+      const estimate = roundedLeft + roundedRight
+      return {
+        prompt: `${formatted(left)} + ${formatted(right)}를 백 단위에 가장 가까운 수로 바꾸어 어림하세요.`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${formatted(left)}은 ${formatted(roundedLeft)}쯤, ${formatted(right)}은 ${formatted(roundedRight)}쯤입니다.`, `${formatted(roundedLeft)} + ${formatted(roundedRight)} = ${formatted(estimate)}이므로 합은 ${formatted(estimate)}쯤입니다.`],
+        visualModel: 'number-cards', visualConfig: { left, right, roundPlace: 100 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-02', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'knowing',
+    problemFamily: 'nearest-hundred-subtraction', representation: 'number-cards', answerType: 'integer', supportTool: 'grid', skillTag: '뺄셈 어림',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '두 수를 각각 가장 가까운 백 단위 수로 바꾸어 차를 어림해요.',
+    promptTemplate: '두 수를 백 단위에 가장 가까운 수로 바꾸어 차를 어림하세요.', hintSteps: ['두 수를 각각 가장 가까운 백 단위 수로 바꾸어요.', '바꾼 큰 수에서 작은 수를 빼요.'],
+    build: (v) => {
+      const left = 5_840 + v * 43
+      const right = 1_260 + v * 29
+      const roundedLeft = nearest(left, 100)
+      const roundedRight = nearest(right, 100)
+      const estimate = roundedLeft - roundedRight
+      return {
+        prompt: `${formatted(left)} - ${formatted(right)}를 백 단위에 가장 가까운 수로 바꾸어 어림하세요.`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${formatted(left)}은 ${formatted(roundedLeft)}쯤, ${formatted(right)}은 ${formatted(roundedRight)}쯤입니다.`, `${formatted(roundedLeft)} - ${formatted(roundedRight)} = ${formatted(estimate)}이므로 차는 ${formatted(estimate)}쯤입니다.`],
+        visualModel: 'number-cards', visualConfig: { left, right, roundPlace: 100 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-03', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'knowing',
+    problemFamily: 'nearest-ten-multiplication', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '곱셈 어림',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '두 자리 수를 가장 가까운 십 단위 수로 바꾸어 곱을 어림해요.',
+    promptTemplate: '두 자리 수를 십 단위에 가장 가까운 수로 바꾸어 곱을 어림하세요.', hintSteps: ['두 자리 수를 가장 가까운 십 단위 수로 바꾸어요.', '바꾼 수에 한 자리 수를 곱해요.'],
+    build: (v) => {
+      const left = 42 + v * 6
+      const right = 3 + (v % 4)
+      const roundedLeft = nearest(left, 10)
+      const estimate = roundedLeft * right
+      return {
+        prompt: `${left} × ${right}에서 ${left}를 십 단위에 가장 가까운 수로 바꾸어 어림하세요.`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${left}는 ${roundedLeft}에 가장 가깝습니다.`, `${roundedLeft} × ${right} = ${estimate}이므로 곱은 ${estimate}쯤입니다.`],
+        visualModel: 'context', visualConfig: { left, right, leftLabel: '어림할 수', rightLabel: '곱하는 수', roundPlace: 10 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-04', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'knowing',
+    problemFamily: 'compatible-number-division', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '나눗셈 어림',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '나누어지는 수를 가까운 백 단위 수로 바꾸어 몫을 어림해요.',
+    promptTemplate: '나누어지는 수를 백 단위에 가장 가까운 수로 바꾸어 몫을 어림하세요.', hintSteps: ['나누어지는 수와 가까우면서 나누기 쉬운 백 단위 수를 찾아요.', '바꾼 수를 나누는 수로 나누어요.'],
+    build: (v) => {
+      const roundedDividend = (8 + v) * 100
+      const dividend = roundedDividend + (v % 2 === 0 ? -42 : 37)
+      const divisor = 20
+      const estimate = roundedDividend / divisor
+      return {
+        prompt: `${formatted(dividend)} ÷ ${divisor}에서 ${formatted(dividend)}을 백 단위에 가장 가까운 수로 바꾸어 어림하세요.`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${formatted(dividend)}은 ${formatted(roundedDividend)}에 가장 가깝습니다.`, `${formatted(roundedDividend)} ÷ ${divisor} = ${estimate}이므로 몫은 ${estimate}쯤입니다.`],
+        visualModel: 'context', visualConfig: { left: dividend, right: divisor, leftLabel: '나누어지는 수', rightLabel: '나누는 수', roundPlace: 100 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-05', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'applying',
+    problemFamily: 'attendance-total-estimate', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '합계 어림',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '두 행사 인원을 백 명쯤으로 바꾸어 전체 인원을 어림해요.',
+    promptTemplate: '두 행사 인원을 백 명쯤으로 바꾸어 전체 인원을 어림하세요.', hintSteps: ['각 행사 인원을 가장 가까운 백 명쯤으로 바꾸어요.', '바꾼 두 인원을 더해요.'],
+    build: (v) => {
+      const left = 782 + v * 41
+      const right = 634 + v * 33
+      const roundedLeft = nearest(left, 100)
+      const roundedRight = nearest(right, 100)
+      const estimate = roundedLeft + roundedRight
+      return {
+        prompt: `오전 행사에 ${formatted(left)}명, 오후 행사에 ${formatted(right)}명이 왔습니다. 각 인원을 백 명쯤으로 바꾸면 모두 몇 명쯤인가요?`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${formatted(left)}명은 ${formatted(roundedLeft)}명쯤, ${formatted(right)}명은 ${formatted(roundedRight)}명쯤입니다.`, `${formatted(roundedLeft)} + ${formatted(roundedRight)} = ${formatted(estimate)}이므로 모두 ${formatted(estimate)}명쯤입니다.`],
+        visualModel: 'context', visualConfig: { left, right, leftLabel: '오전 인원', rightLabel: '오후 인원', roundPlace: 100 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-06', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'applying',
+    problemFamily: 'budget-remainder-estimate', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '예산 어림',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '예산과 지출을 천 원쯤으로 바꾸어 남을 돈을 어림해요.',
+    promptTemplate: '예산과 지출을 천 원쯤으로 바꾸어 남을 돈을 어림하세요.', hintSteps: ['예산과 지출을 각각 가장 가까운 천 원쯤으로 바꾸어요.', '어림한 예산에서 어림한 지출을 빼요.'],
+    build: (v) => {
+      const left = 14_620 + v * 800
+      const right = 6_330 + v * 370
+      const roundedLeft = nearest(left, 1_000)
+      const roundedRight = nearest(right, 1_000)
+      const estimate = roundedLeft - roundedRight
+      return {
+        prompt: `예산 ${formatted(left)}원에서 준비물 값 ${formatted(right)}원을 씁니다. 두 금액을 천 원쯤으로 바꾸면 얼마쯤 남나요?`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${formatted(left)}원은 ${formatted(roundedLeft)}원쯤, ${formatted(right)}원은 ${formatted(roundedRight)}원쯤입니다.`, `${formatted(roundedLeft)} - ${formatted(roundedRight)} = ${formatted(estimate)}이므로 ${formatted(estimate)}원쯤 남습니다.`],
+        visualModel: 'context', visualConfig: { left, right, leftLabel: '전체 예산', rightLabel: '준비물 값', roundPlace: 1_000 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-07', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'applying',
+    problemFamily: 'class-supplies-product-estimate', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '수량 어림',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '한 반의 준비물 수를 십 개쯤으로 바꾸어 전체 수를 어림해요.',
+    promptTemplate: '한 반의 준비물 수를 십 개쯤으로 바꾸어 전체 수를 어림하세요.', hintSteps: ['한 반에 필요한 수를 가장 가까운 십 개쯤으로 바꾸어요.', '바꾼 수에 반 수를 곱해요.'],
+    build: (v) => {
+      const left = 122 + v * 8
+      const right = 6 + (v % 3)
+      const roundedLeft = nearest(left, 10)
+      const estimate = roundedLeft * right
+      return {
+        prompt: `한 반에 색종이 ${left}장이 필요하고 같은 준비를 ${right}개 반에 합니다. ${left}를 십 장쯤으로 바꾸면 모두 몇 장쯤 필요한가요?`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${left}장은 ${roundedLeft}장쯤입니다.`, `${roundedLeft} × ${right} = ${formatted(estimate)}이므로 모두 ${formatted(estimate)}장쯤 필요합니다.`],
+        visualModel: 'context', visualConfig: { left, right, leftLabel: '한 반 준비물', rightLabel: '반 수', roundPlace: 10 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-08', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'applying',
+    problemFamily: 'packing-quotient-estimate', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '묶음 수 어림',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '전체 물건 수를 가까운 백 개쯤으로 바꾸어 묶음 수를 어림해요.',
+    promptTemplate: '전체 수를 백 개쯤으로 바꾸어 묶음 수를 어림하세요.', hintSteps: ['전체 수와 가까우면서 나누기 쉬운 백 단위 수를 찾아요.', '바꾼 전체 수를 한 상자의 수로 나누어요.'],
+    build: (v) => {
+      const roundedTotal = (10 + v) * 100
+      const left = roundedTotal + (v % 2 === 0 ? 38 : -43)
+      const right = 20
+      const estimate = roundedTotal / right
+      return {
+        prompt: `구슬 ${formatted(left)}개를 한 상자에 ${right}개씩 담습니다. 전체 수를 백 개쯤으로 바꾸면 상자는 몇 개쯤 필요한가요?`,
+        correctAnswer: String(estimate),
+        solutionSteps: [`${formatted(left)}개는 ${formatted(roundedTotal)}개쯤입니다.`, `${formatted(roundedTotal)} ÷ ${right} = ${estimate}이므로 상자는 ${estimate}개쯤 필요합니다.`],
+        visualModel: 'context', visualConfig: { left, right, leftLabel: '전체 구슬', rightLabel: '한 상자', roundPlace: 100 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-09', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'reasoning',
+    problemFamily: 'incorrect-addition-estimate', representation: 'number-cards', answerType: 'choice', supportTool: 'none', skillTag: '어림 오류 판단',
+    taskActions: ['analyze_error', 'calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '표시된 두 수를 직접 어림해 친구의 잘못된 합을 고쳐요.',
+    promptTemplate: '친구가 말한 어림한 합을 확인하고 알맞게 고치세요.', hintSteps: ['두 수를 각각 가장 가까운 백 단위 수로 바꾸어요.', '바꾼 두 수의 합과 친구가 말한 수를 비교해요.'],
+    build: (v, seed) => {
+      const left = 1_230 + v * 31
+      const right = 2_620 + v * 27
+      const estimate = nearest(left, 100) + nearest(right, 100)
+      const answer = `두 수를 각각 가장 가까운 백 단위로 바꾸면 합은 ${formatted(estimate)}쯤이에요.`
+      return {
+        prompt: `서준이는 ${formatted(left)} + ${formatted(right)}의 합이 ${formatted(estimate - 100)}쯤이라고 했습니다. 알맞은 판단을 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices([
+          answer,
+          `${formatted(estimate - 100)}쯤이 맞으므로 고칠 필요가 없어요.`,
+          `두 수를 더하지 않고 큰 수만 ${formatted(nearest(right, 100))}로 바꾸면 돼요.`,
+          `어림셈은 정확한 계산과 같아야 하므로 ${formatted(left + right)}만 답이에요.`,
+        ], seed),
+        solutionSteps: [`${formatted(left)}은 ${formatted(nearest(left, 100))}쯤, ${formatted(right)}은 ${formatted(nearest(right, 100))}쯤입니다.`, `두 어림값의 합은 ${formatted(estimate)}이므로 서준이의 어림을 ${formatted(estimate)}쯤으로 고쳐야 합니다.`],
+        visualModel: 'number-cards', visualConfig: { left, right, roundPlace: 100, speaker: '서준' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-est-10', unitId: GRADE4_ESTIMATION_UNIT_ID, curriculumCode: '[4수01-08]', cognitiveDomain: 'reasoning',
+    problemFamily: 'compare-estimation-strategies', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '어림 방법 비교',
+    taskActions: ['calculate', 'compare'], visualSemantics: 'quantitative',
+    learnerGoal: '정확한 값에 더 가까운 곱셈 어림 방법을 오차로 비교해요.',
+    promptTemplate: '두 곱셈 어림 방법 중 정확한 값에 더 가까운 방법을 고르세요.', hintSteps: ['두 방법으로 각각 어림한 곱을 구해요.', '정확한 곱과의 차가 더 작은 방법을 찾아요.'],
+    build: (v, seed) => {
+      const left = 212 + v * 4
+      const right = 4 + (v % 4)
+      const tensEstimate = nearest(left, 10) * right
+      const hundredsEstimate = nearest(left, 100) * right
+      const answer = `십 단위 어림: ${formatted(tensEstimate)}`
+      return {
+        prompt: `${left} × ${right}를 어림하려고 합니다. ${left}를 가까운 십 단위로 바꾸는 방법과 가까운 백 단위로 바꾸는 방법 중 정확한 곱에 더 가까운 것을 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices([
+          answer,
+          `백 단위 어림: ${formatted(hundredsEstimate)}`,
+          `정확한 계산만 가능: ${formatted(left * right)}`,
+          '두 어림 방법의 결과는 항상 같아요.',
+        ], seed),
+        solutionSteps: [`정확한 곱은 ${left} × ${right} = ${formatted(left * right)}입니다. 십 단위 어림은 ${formatted(tensEstimate)}, 백 단위 어림은 ${formatted(hundredsEstimate)}입니다.`, `정확한 곱과의 차가 더 작은 ${answer} 방법이 더 가깝습니다.`],
+        visualModel: 'context', visualConfig: { left, right, leftLabel: '한 묶음 수', rightLabel: '묶음 수', roundPlace: 10 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-01', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-13]', cognitiveDomain: 'knowing',
+    problemFamily: 'compose-two-place-decimal', representation: 'place-value-table', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 쓰기',
+    taskActions: ['model'], visualSemantics: 'quantitative',
+    learnerGoal: '일, 십분의 일, 백분의 일의 수를 모아 소수로 써요.',
+    promptTemplate: '자리별 수를 모아 소수 두 자리 수로 쓰세요.', hintSteps: ['소수점 왼쪽에는 일의 자리 숫자를 써요.', '소수점 오른쪽에 십분의 일, 백분의 일 숫자를 차례로 써요.'],
+    build: (v) => {
+      const ones = 1 + (v % 5)
+      const tenths = 2 + (v % 7)
+      const hundredths = 1 + ((v * 2) % 9)
+      const correctAnswer = scaledDecimal(ones * 100 + tenths * 10 + hundredths, 2)
+      return {
+        prompt: `일이 ${ones}, 십분의 일이 ${tenths}, 백분의 일이 ${hundredths}인 수를 소수로 쓰세요.`,
+        correctAnswer,
+        solutionSteps: [`일의 자리에 ${ones}, 소수 첫째 자리에 ${tenths}, 소수 둘째 자리에 ${hundredths}를 놓아요.`, `따라서 소수는 ${correctAnswer}입니다.`],
+        visualModel: 'place-value-table',
+        visualConfig: { ones, tenths, hundredths, thousandths: 0, decimalPlaces: 2, hideCompositeUntilReveal: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-02', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-13]', cognitiveDomain: 'knowing',
+    problemFamily: 'decimal-place-value', representation: 'place-value-table', answerType: 'decimal', supportTool: 'none', skillTag: '소수 자릿값',
+    taskActions: ['recognize'], visualSemantics: 'quantitative',
+    learnerGoal: '소수 둘째 자리 숫자가 나타내는 값을 소수로 써요.',
+    promptTemplate: '소수에서 백분의 일 자리 숫자가 나타내는 값을 쓰세요.', hintSteps: ['소수점 오른쪽 둘째 자리가 백분의 일 자리예요.', '그 숫자는 100분의 몇인지 소수로 나타내요.'],
+    build: (v) => {
+      const ones = 2 + (v % 5)
+      const tenths = 1 + (v % 8)
+      const hundredths = 2 + ((v * 3) % 8)
+      const numberText = scaledDecimal(ones * 100 + tenths * 10 + hundredths, 2)
+      const correctAnswer = scaledDecimal(hundredths, 2)
+      return {
+        prompt: `${numberText}에서 백분의 일 자리 숫자가 나타내는 값을 소수로 쓰세요.`,
+        correctAnswer,
+        solutionSteps: [`${numberText}의 백분의 일 자리 숫자는 ${hundredths}입니다.`, `${hundredths}개의 백분의 일은 ${correctAnswer}입니다.`],
+        visualModel: 'place-value-table',
+        visualConfig: { ones, tenths, hundredths, thousandths: 0, decimalPlaces: 2, highlightPlace: '백분의 일' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-03', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-13]', cognitiveDomain: 'knowing',
+    problemFamily: 'compose-three-place-decimal', representation: 'place-value-table', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 세 자리',
+    taskActions: ['model'], visualSemantics: 'quantitative',
+    learnerGoal: '천분의 일 자리까지 있는 수를 소수로 써요.',
+    promptTemplate: '자리별 수를 모아 소수 세 자리 수로 쓰세요.', hintSteps: ['소수점 오른쪽 자리는 십분의 일, 백분의 일, 천분의 일 순서예요.', '빈 자리가 있어도 0을 써서 자리를 지켜요.'],
+    build: (v) => {
+      const ones = 1 + (v % 4)
+      const tenths = 1 + (v % 8)
+      const hundredths = (v + 3) % 10
+      const thousandths = 1 + ((v * 4) % 9)
+      const correctAnswer = scaledDecimal(ones * 1_000 + tenths * 100 + hundredths * 10 + thousandths, 3)
+      return {
+        prompt: `일이 ${ones}, 십분의 일이 ${tenths}, 백분의 일이 ${hundredths}, 천분의 일이 ${thousandths}인 수를 소수로 쓰세요.`,
+        correctAnswer,
+        solutionSteps: [`소수점 오른쪽에 ${tenths}, ${hundredths}, ${thousandths}를 차례로 놓아요.`, `따라서 소수는 ${correctAnswer}입니다.`],
+        visualModel: 'place-value-table',
+        visualConfig: { ones, tenths, hundredths, thousandths, decimalPlaces: 3, hideCompositeUntilReveal: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-04', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-14]', cognitiveDomain: 'knowing',
+    problemFamily: 'compare-two-decimals', representation: 'number-line', answerType: 'choice', supportTool: 'none', skillTag: '소수 비교',
+    taskActions: ['compare'], visualSemantics: 'quantitative',
+    learnerGoal: '소수의 높은 자리부터 비교해 알맞은 부등호를 골라요.',
+    promptTemplate: '두 소수의 크기를 비교하는 부등호를 고르세요.', hintSteps: ['먼저 일의 자리를 비교해요.', '같으면 소수 첫째, 둘째, 셋째 자리 순서로 비교해요.'],
+    build: (v, seed) => {
+      const leftScaled = 2_300 + v * 17
+      const rightScaled = leftScaled + (v % 2 === 0 ? -1 : 1)
+      const leftText = scaledDecimal(leftScaled, 3)
+      const rightText = scaledDecimal(rightScaled, 3)
+      const answer = leftScaled < rightScaled ? '<' : '>'
+      return {
+        prompt: `${leftText} □ ${rightText}의 □ 안에 알맞은 기호를 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices(['<', '>', '=', '비교할 수 없음'], seed),
+        solutionSteps: ['일의 자리와 소수 첫째·둘째 자리까지 같으므로 소수 셋째 자리를 비교해요.', `${leftText} ${answer} ${rightText}입니다.`],
+        visualModel: 'number-line',
+        visualConfig: { left: Number(leftText), right: Number(rightText), start: Number(leftScaled < rightScaled ? leftText : rightText), end: Number(leftScaled < rightScaled ? rightText : leftText) },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-05', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-13]', cognitiveDomain: 'applying',
+    problemFamily: 'measurement-place-value', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '측정값 자릿값',
+    taskActions: ['recognize'], visualSemantics: 'quantitative',
+    learnerGoal: '측정값의 소수 둘째 자리 숫자가 나타내는 양을 찾아요.',
+    promptTemplate: '소수로 나타낸 길이에서 백분의 일 자리의 값을 고르세요.', hintSteps: ['소수점 오른쪽 둘째 자리 숫자를 찾아요.', '그 숫자를 100분의 몇 m인지 소수로 나타내요.'],
+    build: (v, seed) => {
+      const ones = 1 + (v % 3)
+      const tenths = 2 + (v % 6)
+      const digit = 2 + ((v * 3) % 8)
+      const measurement = scaledDecimal(ones * 100 + tenths * 10 + digit, 2)
+      const answer = `${scaledDecimal(digit, 2)} m`
+      return {
+        prompt: `리본의 길이는 ${measurement} m입니다. 백분의 일 자리 숫자 ${digit}이 나타내는 길이를 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices([answer, `${scaledDecimal(digit, 1)} m`, `${scaledDecimal(digit, 3)} m`, `${digit} m`], seed),
+        solutionSteps: [`${measurement}의 소수 둘째 자리 숫자는 ${digit}입니다.`, `${digit}개의 백분의 일 m는 ${answer}입니다.`],
+        visualModel: 'context', visualConfig: { left: Number(measurement), right: digit, leftLabel: '리본 길이(m)', rightLabel: '백분의 일 자리' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-06', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-14]', cognitiveDomain: 'applying',
+    problemFamily: 'order-three-decimals', representation: 'number-cards', answerType: 'choice', supportTool: 'none', skillTag: '소수 순서',
+    taskActions: ['compare'], visualSemantics: 'quantitative',
+    learnerGoal: '세 소수를 작은 수부터 차례로 놓아요.',
+    promptTemplate: '세 소수를 작은 수부터 차례로 놓은 보기를 고르세요.', hintSteps: ['세 수의 일의 자리부터 비교해요.', '같은 자리에는 0을 붙여 자릿수를 맞추어 비교할 수 있어요.'],
+    build: (v, seed) => {
+      const base = (1 + (v % 3)) * 1_000 + v * 10
+      const values = [base + 7, base + 70, base + 700].map((value) => scaledDecimal(value, 3))
+      const answer = `${values[0]} < ${values[1]} < ${values[2]}`
+      return {
+        prompt: `${values.join(', ')}를 작은 수부터 차례로 놓은 것을 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices([
+          answer,
+          `${values[2]} < ${values[1]} < ${values[0]}`,
+          `${values[0]} < ${values[2]} < ${values[1]}`,
+          `${values[1]} < ${values[0]} < ${values[2]}`,
+        ], seed),
+        solutionSteps: ['세 수를 소수 셋째 자리까지 맞추어 비교해요.', `${values[0]}이 가장 작고 ${values[2]}가 가장 크므로 ${answer}입니다.`],
+        visualModel: 'number-cards', visualConfig: { card1: Number(values[0]), card2: Number(values[1]), card3: Number(values[2]) },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-07', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-14]', cognitiveDomain: 'applying',
+    problemFamily: 'greatest-decimal-from-digits', representation: 'number-cards', answerType: 'decimal', supportTool: 'grid', skillTag: '가장 큰 소수',
+    taskActions: ['compare', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '서로 다른 세 숫자를 소수 자리에 배치해 가장 큰 수를 만들어요.',
+    promptTemplate: '세 숫자를 한 번씩 사용하여 1보다 작은 가장 큰 소수를 만드세요.', hintSteps: ['가장 큰 숫자를 소수 첫째 자리에 놓아요.', '남은 숫자도 큰 순서대로 소수 둘째, 셋째 자리에 놓아요.'],
+    build: (v) => {
+      const digits = [1 + (v % 3), 4 + (v % 3), 7 + (v % 3)]
+      const descending = [...digits].sort((a, b) => b - a)
+      const correctAnswer = `0.${descending.join('')}`
+      return {
+        prompt: `숫자 ${digits.join(', ')}을 한 번씩 모두 사용하여 1보다 작은 가장 큰 소수를 만드세요.`,
+        correctAnswer,
+        solutionSteps: [`큰 자리부터 ${descending.join(', ')} 순서로 놓아요.`, `따라서 가장 큰 소수는 ${correctAnswer}입니다.`],
+        visualModel: 'number-cards', visualConfig: { card1: digits[0], card2: digits[1], card3: digits[2] },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-08', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-14]', cognitiveDomain: 'applying',
+    problemFamily: 'locate-decimal-between-tenths', representation: 'number-line', answerType: 'choice', supportTool: 'none', skillTag: '소수 위치',
+    taskActions: ['compare'], visualSemantics: 'quantitative',
+    learnerGoal: '소수 세 자리 수가 어느 두 연속한 소수 한 자리 수 사이인지 찾아요.',
+    promptTemplate: '주어진 소수가 어느 두 소수 한 자리 수 사이인지 고르세요.', hintSteps: ['주어진 수의 일의 자리와 소수 첫째 자리를 먼저 읽어요.', '그 값과 다음 소수 한 자리 수 사이에 있는지 확인해요.'],
+    build: (v, seed) => {
+      const whole = 1 + (v % 3)
+      const tenth = 1 + (v % 7)
+      const lowerScaled = whole * 10 + tenth
+      const lower = scaledDecimal(lowerScaled, 1)
+      const upper = scaledDecimal(lowerScaled + 1, 1)
+      const target = scaledDecimal(lowerScaled * 100 + 10 + v, 3)
+      const previous = scaledDecimal(lowerScaled - 1, 1)
+      const next = scaledDecimal(lowerScaled + 2, 1)
+      const answer = `${lower}와 ${upper} 사이`
+      return {
+        prompt: `${target}은 어느 두 소수 한 자리 수 사이에 있나요?`,
+        correctAnswer: answer,
+        choices: rotateChoices([answer, `${previous}와 ${lower} 사이`, `${upper}와 ${next} 사이`, `${lower}와 같음`], seed),
+        solutionSteps: [`${target}의 일의 자리와 소수 첫째 자리까지 읽으면 ${lower}입니다.`, `${lower} < ${target} < ${upper}이므로 ${answer}입니다.`],
+        visualModel: 'number-line',
+        visualConfig: { start: Number(lower), end: Number(upper), targetValue: Number(target) },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-09', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-14]', cognitiveDomain: 'reasoning',
+    problemFamily: 'whole-digit-count-comparison-error', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '소수 비교 오류',
+    taskActions: ['analyze_error', 'compare'], visualSemantics: 'quantitative',
+    learnerGoal: '소수점 아래 숫자 개수만 보고 비교한 오류를 자릿값으로 고쳐요.',
+    promptTemplate: '소수점 아래 숫자 개수로 비교한 친구의 말을 고치세요.', hintSteps: ['소수 끝에 0을 붙여도 수의 크기는 같아요.', '두 수의 소수 자릿수를 맞춘 뒤 높은 자리부터 비교해요.'],
+    build: (v, seed) => {
+      const right = scaledDecimal(750 + v, 3)
+      const answer = `0.8 = 0.800이고 0.800 > ${right}이므로 왼쪽 수가 더 커요.`
+      return {
+        prompt: `지우는 “${right}은 소수점 아래 숫자가 세 개이고 0.8은 한 개이므로 ${right}이 더 커.”라고 말했습니다. 알맞은 판단을 고르세요.`,
+        correctAnswer: answer,
+        choices: rotateChoices([
+          answer,
+          `소수점 아래 숫자가 많으므로 ${right}이 더 커요.`,
+          `0.8과 ${right}은 소수점 아래 숫자 개수가 달라 비교할 수 없어요.`,
+          `두 수의 일의 자리가 0이므로 서로 같아요.`,
+        ], seed),
+        solutionSteps: [`0.8의 끝에 0을 붙이면 0.800이고 크기는 바뀌지 않습니다.`, `0.800과 ${right}을 높은 자리부터 비교하면 소수 첫째 자리에서 8>7이므로 왼쪽 수가 더 큽니다.`],
+        visualModel: 'context', visualConfig: { left: 0.8, right: Number(right), leftLabel: '왼쪽 수', rightLabel: '오른쪽 수', speaker: '지우' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dec-10', unitId: GRADE4_DECIMAL_UNIT_ID, curriculumCode: '[4수01-14]', cognitiveDomain: 'reasoning',
+    problemFamily: 'missing-tenths-digit-constraint', representation: 'place-value-table', answerType: 'integer', supportTool: 'grid', skillTag: '소수 조건 추론',
+    taskActions: ['reason', 'compare'], visualSemantics: 'quantitative',
+    learnerGoal: '두 소수의 크기 조건을 만족하는 가장 큰 소수 첫째 자리 숫자를 찾아요.',
+    promptTemplate: '소수의 크기 조건을 만족하는 빈칸의 가장 큰 숫자를 구하세요.', hintSteps: ['일의 자리가 같으므로 소수 첫째 자리를 먼저 비교해요.', '소수 첫째 자리가 같으면 소수 둘째 자리까지 비교해야 해요.'],
+    build: (v) => {
+      const thresholdDigit = 4 + (v % 3)
+      const right = Number(`2.${thresholdDigit}5`)
+      const correctAnswer = String(thresholdDigit - 1)
+      return {
+        prompt: `2.□7 < 2.${thresholdDigit}5를 만족하도록 □ 안에 넣을 수 있는 가장 큰 한 자리 수를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`소수 첫째 자리 숫자가 ${thresholdDigit}이면 2.${thresholdDigit}7 > 2.${thresholdDigit}5이므로 조건을 만족하지 않습니다.`, `${thresholdDigit}보다 작은 가장 큰 숫자는 ${correctAnswer}이므로 답은 ${correctAnswer}입니다.`],
+        visualModel: 'place-value-table',
+        visualConfig: { leftPattern: '2.□7', right, thresholdDigit },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-01', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'knowing',
+    problemFamily: 'proper-fraction-addition', representation: 'fraction-strip', answerType: 'fraction', supportTool: 'grid', skillTag: '동분모 분수 덧셈',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '분모가 같은 진분수는 분자끼리 더해요.',
+    promptTemplate: '분수 띠를 보고 분모가 같은 두 진분수의 합을 구하세요.', hintSteps: ['같은 크기의 조각끼리 더하므로 분모는 그대로예요.', '색칠한 조각 수인 분자끼리 더해요.'],
+    build: (v) => {
+      const denominator = 6 + (v % 3)
+      const firstNumerator = 1 + (v % 2)
+      const secondNumerator = 2 + (v % 3)
+      const correctAnswer = fractionText(firstNumerator + secondNumerator, denominator)
+      return {
+        prompt: `${firstNumerator}/${denominator} + ${secondNumerator}/${denominator}을 계산하세요.`,
+        correctAnswer,
+        solutionSteps: [`분모가 ${denominator}로 같으므로 분모는 그대로 둡니다.`, `분자끼리 더하면 ${firstNumerator}+${secondNumerator}=${firstNumerator + secondNumerator}이므로 ${correctAnswer}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'add' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-02', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'knowing',
+    problemFamily: 'proper-fraction-subtraction', representation: 'fraction-strip', answerType: 'fraction', supportTool: 'grid', skillTag: '동분모 분수 뺄셈',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '분모가 같은 진분수는 분자끼리 빼요.',
+    promptTemplate: '분수 띠를 보고 분모가 같은 두 진분수의 차를 구하세요.', hintSteps: ['같은 크기의 조각을 덜어 내므로 분모는 그대로예요.', '처음 색칠한 조각 수에서 덜어 낸 조각 수를 빼요.'],
+    build: (v) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = denominator - 1
+      const secondNumerator = 1 + (v % 3)
+      const correctAnswer = fractionText(firstNumerator - secondNumerator, denominator)
+      return {
+        prompt: `${firstNumerator}/${denominator} - ${secondNumerator}/${denominator}을 계산하세요.`,
+        correctAnswer,
+        solutionSteps: [`분모가 ${denominator}로 같아 분모는 그대로 둡니다.`, `${firstNumerator}-${secondNumerator}=${firstNumerator - secondNumerator}이므로 ${correctAnswer}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'subtract' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-03', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'knowing',
+    problemFamily: 'mixed-number-addition', representation: 'fraction-strip', answerType: 'fraction', supportTool: 'grid', skillTag: '대분수 덧셈',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '대분수를 분자 수로 보아 같은 분모끼리 더해요.',
+    promptTemplate: '분모가 같은 두 대분수의 합을 구하세요.', hintSteps: ['자연수 부분과 분수 부분을 각각 더할 수 있어요.', '분수 부분이 1보다 크면 자연수로 바꾸어 묶어요.'],
+    build: (v) => {
+      const denominator = 6 + (v % 4)
+      const firstNumerator = denominator + 1 + (v % 2)
+      const secondNumerator = denominator + 2
+      const correctAnswer = fractionText(firstNumerator + secondNumerator, denominator)
+      return {
+        prompt: `${fractionText(firstNumerator, denominator)} + ${fractionText(secondNumerator, denominator)}을 계산하세요.`,
+        correctAnswer,
+        solutionSteps: [`두 수를 ${firstNumerator}/${denominator}, ${secondNumerator}/${denominator}로 보면 분자 합은 ${firstNumerator + secondNumerator}입니다.`, `${firstNumerator + secondNumerator}/${denominator}을 대분수로 나타내면 ${correctAnswer}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'add' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-04', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'knowing',
+    problemFamily: 'mixed-number-subtraction-regrouping', representation: 'fraction-strip', answerType: 'fraction', supportTool: 'grid', skillTag: '대분수 받아내림',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '분수 부분이 작을 때 자연수 1을 같은 분모의 분수로 바꾸어 빼요.',
+    promptTemplate: '받아내림이 필요한 대분수의 뺄셈을 계산하세요.', hintSteps: ['앞 수의 분수 부분만으로 뺄 수 있는지 먼저 살펴봐요.', '자연수 1을 분모와 같은 분수로 바꾸어 분수 부분에 더해요.'],
+    build: (v) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = 3 * denominator + 1 + (v % 2)
+      const secondNumerator = denominator + 3
+      const correctAnswer = fractionText(firstNumerator - secondNumerator, denominator)
+      return {
+        prompt: `${fractionText(firstNumerator, denominator)} - ${fractionText(secondNumerator, denominator)}을 계산하세요.`,
+        correctAnswer,
+        solutionSteps: [`앞 수에서 자연수 1을 ${denominator}/${denominator}로 바꾸어 분수 부분에 받아내림합니다.`, `${firstNumerator}/${denominator}-${secondNumerator}/${denominator}=${firstNumerator - secondNumerator}/${denominator}이므로 ${correctAnswer}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'subtract' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-05', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'applying',
+    problemFamily: 'recipe-fraction-sum', representation: 'context', answerType: 'fraction', supportTool: 'grid', skillTag: '분수 양 합하기',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '같은 단위로 나타낸 두 양을 동분모 분수의 덧셈으로 구해요.',
+    promptTemplate: '두 재료의 양을 합하여 필요한 전체 양을 구하세요.', hintSteps: ['두 양의 분모와 단위가 같은지 확인해요.', '분자는 더하고 분모와 단위는 그대로 둬요.'],
+    build: (v) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = denominator - 3
+      const secondNumerator = 5
+      const correctAnswer = fractionText(firstNumerator + secondNumerator, denominator)
+      return {
+        prompt: `과일차 한 병에 물 ${firstNumerator}/${denominator} L와 과일즙 ${secondNumerator}/${denominator} L를 넣었습니다. 두 재료는 모두 몇 L인가요?`,
+        correctAnswer,
+        solutionSteps: [`단위와 분모가 같으므로 ${firstNumerator}+${secondNumerator}를 계산합니다.`, `두 재료의 양은 ${correctAnswer} L입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'add', firstLabel: '물', secondLabel: '과일즙' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-06', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'applying',
+    problemFamily: 'remaining-distance-fraction', representation: 'context', answerType: 'fraction', supportTool: 'grid', skillTag: '분수 양 빼기',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '전체 거리에서 간 거리를 빼 남은 거리를 구해요.',
+    promptTemplate: '전체 거리와 이동한 거리를 동분모 대분수로 나타내어 남은 거리를 구하세요.', hintSteps: ['전체 거리에서 이미 간 거리를 빼요.', '분수 부분이 작으면 자연수 1을 분수로 바꾸어 받아내림해요.'],
+    build: (v) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = 2 * denominator + 2 + (v % 2)
+      const secondNumerator = denominator + 4
+      const correctAnswer = fractionText(firstNumerator - secondNumerator, denominator)
+      return {
+        prompt: `산책길 ${fractionText(firstNumerator, denominator)} km 중 ${fractionText(secondNumerator, denominator)} km를 걸었습니다. 남은 거리는 몇 km인가요?`,
+        correctAnswer,
+        solutionSteps: [`전체에서 걸은 거리를 빼는 식은 ${fractionText(firstNumerator, denominator)}-${fractionText(secondNumerator, denominator)}입니다.`, `${firstNumerator - secondNumerator}/${denominator}이므로 남은 거리는 ${correctAnswer} km입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'subtract', firstLabel: '전체', secondLabel: '걸은 거리' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-07', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'applying',
+    problemFamily: 'missing-fraction-addend', representation: 'fraction-strip', answerType: 'fraction', supportTool: 'grid', skillTag: '분수 덧셈 역산',
+    taskActions: ['calculate', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '합과 한 덧셈 항을 보고 빠진 분수를 구해요.',
+    promptTemplate: '분수 덧셈식에서 빠진 덧셈 항을 구하세요.', hintSteps: ['빠진 덧셈 항은 합에서 알고 있는 덧셈 항을 빼면 돼요.', '세 분수의 분모가 같으므로 분자끼리 계산해요.'],
+    build: (v) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = 2 + (v % 3)
+      const totalNumerator = denominator + 1
+      const correctAnswer = fractionText(totalNumerator - firstNumerator, denominator)
+      return {
+        prompt: `${firstNumerator}/${denominator} + □ = ${fractionText(totalNumerator, denominator)}입니다. □에 알맞은 분수를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`빠진 수는 ${totalNumerator}/${denominator}-${firstNumerator}/${denominator}로 구합니다.`, `분자끼리 빼면 ${totalNumerator}-${firstNumerator}=${totalNumerator - firstNumerator}이므로 ${correctAnswer}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, totalNumerator, operation: 'missing-addend' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-08', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'applying',
+    problemFamily: 'select-fraction-situation-equation', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '분수 식 세우기',
+    taskActions: ['model'], visualSemantics: 'quantitative',
+    learnerGoal: '남은 양을 구하는 상황을 알맞은 분수 뺄셈식으로 나타내요.',
+    promptTemplate: '사용하고 남은 양을 나타내는 올바른 동분모 분수 식을 고르세요.', hintSteps: ['남은 양은 처음 양에서 사용한 양을 빼요.', '같은 크기의 조각이므로 분모는 바꾸지 않아요.'],
+    build: (v, seed) => {
+      const denominator = 6 + (v % 3)
+      const firstNumerator = denominator + 3
+      const secondNumerator = 2 + (v % 2)
+      const difference = firstNumerator - secondNumerator
+      const correctAnswer = `${fractionText(firstNumerator, denominator)} - ${secondNumerator}/${denominator} = ${fractionText(difference, denominator)}`
+      return {
+        prompt: `색종이 ${fractionText(firstNumerator, denominator)}장 중 ${secondNumerator}/${denominator}장을 썼습니다. 남은 양을 나타내는 식을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `${fractionText(firstNumerator, denominator)} + ${secondNumerator}/${denominator} = ${fractionText(firstNumerator + secondNumerator, denominator)}`,
+          `${firstNumerator}/${denominator} - ${secondNumerator}/${denominator} = ${difference}/${denominator * 2}`,
+          `${firstNumerator}/${denominator} - ${secondNumerator}/${denominator} = ${difference}/${denominator - secondNumerator}`,
+        ], seed),
+        solutionSteps: ['남은 양이므로 처음 양에서 쓴 양을 뺍니다.', `분모는 그대로 두고 분자를 빼면 ${correctAnswer}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'subtract', firstLabel: '처음', secondLabel: '사용' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-09', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'reasoning',
+    problemFamily: 'denominator-addition-error', representation: 'fraction-strip', answerType: 'choice', supportTool: 'none', skillTag: '분수 덧셈 오류',
+    taskActions: ['analyze_error', 'explain'], visualSemantics: 'quantitative',
+    learnerGoal: '동분모 분수 덧셈에서 분모를 더하면 안 되는 까닭을 설명해요.',
+    promptTemplate: '분자와 분모를 모두 더한 계산의 오류를 분수 단위로 설명하세요.', hintSteps: ['분모는 한 조각의 크기를 나타내요.', '같은 크기의 조각을 합쳐도 한 조각의 크기는 바뀌지 않아요.'],
+    build: (v, seed) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = 2 + (v % 2)
+      const secondNumerator = 3
+      const sum = firstNumerator + secondNumerator
+      const correctAnswer = `조각의 크기는 ${denominator}분의 1로 같으므로 분모는 ${denominator}, 분자는 ${sum}이 됩니다.`
+      return {
+        prompt: `민호는 ${firstNumerator}/${denominator}+${secondNumerator}/${denominator}=${sum}/${denominator * 2}라고 계산했습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `분자와 분모를 모두 더한 ${sum}/${denominator * 2}이 맞습니다.`,
+          `분모만 더해 ${firstNumerator + secondNumerator}/${denominator * 2}이 아니라 ${firstNumerator}/${denominator * 2}이 됩니다.`,
+          '분수는 덧셈할 수 없으므로 두 수를 그대로 둬야 합니다.',
+        ], seed),
+        solutionSteps: [`두 분수는 모두 ${denominator}등분한 조각을 나타냅니다.`, `조각 수만 ${firstNumerator}+${secondNumerator}=${sum}으로 늘어나므로 ${sum}/${denominator}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'add' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-frac-10', unitId: GRADE4_FRACTION_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-15]', cognitiveDomain: 'reasoning',
+    problemFamily: 'mixed-subtraction-regrouping-error', representation: 'context', answerType: 'choice', supportTool: 'grid', skillTag: '대분수 받아내림 오류',
+    taskActions: ['analyze_error', 'explain'], visualSemantics: 'quantitative',
+    learnerGoal: '대분수 뺄셈에서 자연수 1을 분수로 바꾸는 받아내림을 설명해요.',
+    promptTemplate: '분수 부분이 더 작은 대분수 뺄셈의 잘못된 풀이를 고치세요.', hintSteps: ['앞 수의 분수 부분에서 뒤 수의 분수 부분을 바로 뺄 수 있는지 봐요.', '자연수 1은 분모와 같은 수를 분자로 한 분수와 같아요.'],
+    build: (v, seed) => {
+      const denominator = 7 + (v % 3)
+      const firstNumerator = 2 * denominator + 1
+      const secondNumerator = denominator + 3
+      const difference = firstNumerator - secondNumerator
+      const correctAnswer = `자연수 1을 ${denominator}/${denominator}로 바꾸어 받아내림하면 답은 ${fractionText(difference, denominator)}입니다.`
+      return {
+        prompt: `서준이는 ${fractionText(firstNumerator, denominator)}-${fractionText(secondNumerator, denominator)}에서 분수 부분 ${1}/${denominator}-${3}/${denominator}을 바로 계산할 수 없다고 멈췄습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `분수 부분을 바꾸지 않고 자연수끼리만 빼면 ${1}/${denominator}입니다.`,
+          `분수 부분의 순서를 바꾸어 ${3 - 1}/${denominator}로 계산하면 됩니다.`,
+          `분모에서 분자를 빼 ${denominator - 2}/${denominator}를 두 수에서 각각 만들면 됩니다.`,
+        ], seed),
+        solutionSteps: [`앞 수의 자연수 부분에서 1을 빌려 ${denominator}/${denominator}로 바꿉니다.`, `${firstNumerator}/${denominator}-${secondNumerator}/${denominator}=${difference}/${denominator}이므로 ${fractionText(difference, denominator)}입니다.`],
+        visualModel: 'fraction-strip',
+        visualConfig: { denominator, firstNumerator, secondNumerator, operation: 'subtract', firstLabel: '앞 수', secondLabel: '빼는 수' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-01', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'knowing',
+    problemFamily: 'hundredths-addition-without-regrouping', representation: 'decimal-operation', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 덧셈',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '소수점을 맞추어 받아올림이 없는 소수 두 자리 수의 합을 구해요.',
+    promptTemplate: '받아올림이 없는 소수 두 자리 수의 덧셈을 계산하세요.', hintSteps: ['소수점을 기준으로 같은 자리끼리 세로로 맞춰요.', '백분의 일 자리부터 차례로 더하고 소수점을 그대로 내려 찍어요.'],
+    build: (v) => {
+      const leftScaled = 110 + v
+      const rightScaled = 229 - v
+      const correctAnswer = scaledDecimal(leftScaled + rightScaled, 2)
+      return {
+        prompt: `${scaledDecimal(leftScaled, 2)} + ${scaledDecimal(rightScaled, 2)}를 계산하세요.`,
+        correctAnswer,
+        solutionSteps: ['두 수의 소수점을 맞추면 같은 자리끼리 계산할 수 있습니다.', `${scaledDecimal(leftScaled, 2)}+${scaledDecimal(rightScaled, 2)}=${correctAnswer}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'add' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-02', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'knowing',
+    problemFamily: 'hundredths-addition-with-regrouping', representation: 'decimal-operation', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 받아올림',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '백분의 일이나 십분의 일 자리에서 받아올림이 있는 소수 덧셈을 계산해요.',
+    promptTemplate: '받아올림이 있는 소수 두 자리 수의 덧셈을 계산하세요.', hintSteps: ['백분의 일 자리의 합이 10 이상이면 십분의 일 자리로 1을 올려요.', '십분의 일 자리의 합도 10 이상인지 확인해요.'],
+    build: (v) => {
+      const leftScaled = 145 + v
+      const rightScaled = 176 + v * 2
+      const correctAnswer = scaledDecimal(leftScaled + rightScaled, 2)
+      return {
+        prompt: `${scaledDecimal(leftScaled, 2)} + ${scaledDecimal(rightScaled, 2)}를 계산하세요.`,
+        correctAnswer,
+        solutionSteps: ['소수점을 맞춘 뒤 백분의 일 자리부터 더하고 필요한 자리에 받아올림합니다.', `${scaledDecimal(leftScaled, 2)}+${scaledDecimal(rightScaled, 2)}=${correctAnswer}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'add' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-03', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'knowing',
+    problemFamily: 'hundredths-subtraction-without-regrouping', representation: 'decimal-operation', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 뺄셈',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '소수점을 맞추어 받아내림이 없는 소수 두 자리 수의 차를 구해요.',
+    promptTemplate: '받아내림이 없는 소수 두 자리 수의 뺄셈을 계산하세요.', hintSteps: ['두 수의 소수점을 세로로 맞춰요.', '백분의 일 자리부터 같은 자리끼리 빼요.'],
+    build: (v) => {
+      const leftScaled = 780 + v
+      const rightScaled = 230 + v
+      const correctAnswer = scaledDecimal(leftScaled - rightScaled, 2)
+      return {
+        prompt: `${scaledDecimal(leftScaled, 2)} - ${scaledDecimal(rightScaled, 2)}를 계산하세요.`,
+        correctAnswer,
+        solutionSteps: ['소수점을 맞추면 일, 십분의 일, 백분의 일 자리가 나란히 놓입니다.', `${scaledDecimal(leftScaled, 2)}-${scaledDecimal(rightScaled, 2)}=${correctAnswer}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'subtract' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-04', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'knowing',
+    problemFamily: 'hundredths-subtraction-with-regrouping', representation: 'decimal-operation', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 받아내림',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '아랫자리 수가 더 클 때 윗자리에서 1을 받아 내려 소수 뺄셈을 해요.',
+    promptTemplate: '받아내림이 있는 소수 두 자리 수의 뺄셈을 계산하세요.', hintSteps: ['백분의 일 자리부터 바로 뺄 수 있는지 살펴봐요.', '필요하면 윗자리의 1을 아랫자리의 10으로 바꾸어 받아 내려요.'],
+    build: (v) => {
+      const leftScaled = 502 + (v % 3) * 10 + v
+      const rightScaled = 178 + v
+      const correctAnswer = scaledDecimal(leftScaled - rightScaled, 2)
+      return {
+        prompt: `${scaledDecimal(leftScaled, 2)} - ${scaledDecimal(rightScaled, 2)}를 계산하세요.`,
+        correctAnswer,
+        solutionSteps: ['같은 자리끼리 맞추고 바로 뺄 수 없는 자리에서는 윗자리의 1을 받아 내립니다.', `${scaledDecimal(leftScaled, 2)}-${scaledDecimal(rightScaled, 2)}=${correctAnswer}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'subtract' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-05', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'applying',
+    problemFamily: 'decimal-measurement-sum', representation: 'context', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 양 합하기',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '같은 단위로 나타낸 두 길이를 더해 전체 길이를 구해요.',
+    promptTemplate: '두 소수 길이를 더하여 전체 길이를 구하세요.', hintSteps: ['두 길이의 단위가 같은지 확인해요.', '소수점을 맞추어 두 길이를 더해요.'],
+    build: (v) => {
+      const leftScaled = 235 + v * 3
+      const rightScaled = 148 + v * 2
+      const correctAnswer = scaledDecimal(leftScaled + rightScaled, 2)
+      return {
+        prompt: `파란 리본 ${scaledDecimal(leftScaled, 2)} m와 노란 리본 ${scaledDecimal(rightScaled, 2)} m를 이었습니다. 전체 길이는 몇 m인가요?`,
+        correctAnswer,
+        solutionSteps: ['두 리본의 길이를 모두 구하므로 덧셈식을 세웁니다.', `${scaledDecimal(leftScaled, 2)}+${scaledDecimal(rightScaled, 2)}=${correctAnswer}이므로 전체 길이는 ${correctAnswer} m입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'add', leftLabel: '파란 리본', rightLabel: '노란 리본' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-06', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'applying',
+    problemFamily: 'decimal-remaining-amount', representation: 'context', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 양 빼기',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '처음 양에서 사용한 양을 빼 남은 양을 구해요.',
+    promptTemplate: '처음 있던 소수 양에서 사용한 양을 빼세요.', hintSteps: ['남은 양은 처음 양에서 사용한 양을 빼서 구해요.', '소수점을 맞춘 뒤 받아내림이 필요한지 살펴봐요.'],
+    build: (v) => {
+      const leftScaled = 865 + v * 3
+      const rightScaled = 247 + v * 2
+      const correctAnswer = scaledDecimal(leftScaled - rightScaled, 2)
+      return {
+        prompt: `물 ${scaledDecimal(leftScaled, 2)} L 중 ${scaledDecimal(rightScaled, 2)} L를 사용했습니다. 남은 물은 몇 L인가요?`,
+        correctAnswer,
+        solutionSteps: ['남은 양을 구하므로 처음 양에서 사용한 양을 뺍니다.', `${scaledDecimal(leftScaled, 2)}-${scaledDecimal(rightScaled, 2)}=${correctAnswer}입니다. 남은 물의 양은 ${correctAnswer} L입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'subtract', leftLabel: '처음 물', rightLabel: '사용한 물' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-07', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'applying',
+    problemFamily: 'missing-decimal-addend', representation: 'decimal-operation', answerType: 'decimal', supportTool: 'grid', skillTag: '소수 덧셈 역산',
+    taskActions: ['calculate', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '합과 한 덧셈 항을 보고 빠진 소수를 뺄셈으로 구해요.',
+    promptTemplate: '소수 덧셈식에서 빠진 덧셈 항을 구하세요.', hintSteps: ['빠진 덧셈 항은 합에서 알고 있는 덧셈 항을 빼면 돼요.', '합과 덧셈 항의 소수점을 맞추어 계산해요.'],
+    build: (v) => {
+      const leftScaled = 215 + v * 2
+      const totalScaled = 650 + v * 4
+      const correctAnswer = scaledDecimal(totalScaled - leftScaled, 2)
+      return {
+        prompt: `${scaledDecimal(leftScaled, 2)} + □ = ${scaledDecimal(totalScaled, 2)}입니다. □에 알맞은 소수를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`빠진 수는 ${scaledDecimal(totalScaled, 2)}-${scaledDecimal(leftScaled, 2)}로 구합니다.`, `계산하면 ${correctAnswer}이므로 □=${correctAnswer}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, totalScaled, operation: 'missing-addend' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-08', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'applying',
+    problemFamily: 'select-decimal-situation-equation', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '소수 식 세우기',
+    taskActions: ['model'], visualSemantics: 'quantitative',
+    learnerGoal: '두 소수 양을 합하는 상황을 올바른 식으로 나타내요.',
+    promptTemplate: '두 소수 양의 합을 나타내는 식을 고르세요.', hintSteps: ['두 양을 모두 합하므로 덧셈식을 세워요.', '소수점 아래 자리 수가 달라도 같은 자리끼리 맞추어 계산해요.'],
+    build: (v, seed) => {
+      const leftScaled = 325 + v
+      const rightScaled = 148 + v * 2
+      const totalScaled = leftScaled + rightScaled
+      const correctAnswer = `${scaledDecimal(leftScaled, 2)} + ${scaledDecimal(rightScaled, 2)} = ${scaledDecimal(totalScaled, 2)}`
+      return {
+        prompt: `화분 두 개에 흙이 각각 ${scaledDecimal(leftScaled, 2)} kg, ${scaledDecimal(rightScaled, 2)} kg 들어 있습니다. 전체 양을 나타내는 식을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `${scaledDecimal(leftScaled, 2)} - ${scaledDecimal(rightScaled, 2)} = ${scaledDecimal(leftScaled - rightScaled, 2)}`,
+          `${scaledDecimal(leftScaled, 2)} + ${scaledDecimal(rightScaled, 2)} = ${scaledDecimal(totalScaled + 100, 2)}`,
+          `${scaledDecimal(leftScaled, 2)} - ${scaledDecimal(rightScaled, 2)} = ${scaledDecimal(totalScaled, 2)}`,
+        ], seed),
+        solutionSteps: ['두 화분의 흙을 모두 구하므로 덧셈식을 세웁니다.', `같은 자리끼리 더하면 ${correctAnswer}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'add', leftLabel: '첫째 화분', rightLabel: '둘째 화분' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-09', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'reasoning',
+    problemFamily: 'decimal-point-alignment-error', representation: 'decimal-operation', answerType: 'choice', supportTool: 'grid', skillTag: '소수점 정렬 오류',
+    taskActions: ['analyze_error', 'explain'], visualSemantics: 'quantitative',
+    learnerGoal: '소수의 끝자리만 맞춘 덧셈 오류를 자릿값으로 설명해요.',
+    promptTemplate: '소수점을 맞추지 않은 소수 덧셈의 오류를 고치세요.', hintSteps: ['소수 계산에서는 숫자의 끝이 아니라 소수점을 맞춰요.', '일은 일끼리, 십분의 일은 십분의 일끼리 더해야 해요.'],
+    build: (v, seed) => {
+      const leftScaled = 320 + v
+      const rightScaled = 45 + v
+      const sum = scaledDecimal(leftScaled + rightScaled, 2)
+      const correctAnswer = `소수점을 맞추면 ${scaledDecimal(leftScaled, 2)}+${scaledDecimal(rightScaled, 2)}=${sum}입니다.`
+      return {
+        prompt: `유나는 ${scaledDecimal(leftScaled, 2)}와 ${scaledDecimal(rightScaled, 2)}의 오른쪽 끝 숫자를 맞추어 더했습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          '오른쪽 끝 숫자만 맞추면 같은 자리끼리 계산되므로 옳습니다.',
+          '소수점은 계산한 뒤 두 수의 소수점 사이에 찍으면 됩니다.',
+          '소수점 아래 숫자는 모두 자연수 부분으로 옮겨 더해야 합니다.',
+        ], seed),
+        solutionSteps: ['숫자의 오른쪽 끝이 아니라 두 수의 소수점을 같은 세로선에 놓습니다.', `같은 자리끼리 더하면 합은 ${sum}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'add' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-dop-10', unitId: GRADE4_DECIMAL_ADD_SUB_UNIT_ID, curriculumCode: '[4수01-16]', cognitiveDomain: 'reasoning',
+    problemFamily: 'decimal-regrouping-error', representation: 'decimal-operation', answerType: 'choice', supportTool: 'grid', skillTag: '소수 받아내림 오류',
+    taskActions: ['analyze_error', 'explain'], visualSemantics: 'quantitative',
+    learnerGoal: '소수 뺄셈에서 윗자리의 1이 아랫자리의 10이 되는 까닭을 설명해요.',
+    promptTemplate: '받아내림을 하지 않은 소수 뺄셈의 오류를 고치세요.', hintSteps: ['각 자리에서 위 숫자가 아래 숫자보다 작은지 확인해요.', '십분의 일 1은 백분의 일 10과 같아요.'],
+    build: (v, seed) => {
+      const leftScaled = 503 + v
+      const rightScaled = 178 + v
+      const difference = scaledDecimal(leftScaled - rightScaled, 2)
+      const correctAnswer = `윗자리의 1을 아랫자리의 10으로 바꾸어 받아내림하면 답은 ${difference}입니다.`
+      return {
+        prompt: `도윤이는 ${scaledDecimal(leftScaled, 2)}-${scaledDecimal(rightScaled, 2)}에서 작은 숫자에서 큰 숫자를 뺄 수 없다고 멈췄습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          '각 자리의 큰 숫자에서 작은 숫자를 빼면 되므로 수의 순서는 상관없습니다.',
+          '소수점 아래 부분만 따로 자연수로 만들어 더해야 합니다.',
+          '받아내림 없이 계산할 수 없으므로 두 소수의 차는 구할 수 없습니다.',
+        ], seed),
+        solutionSteps: ['바로 뺄 수 없는 자리에서는 윗자리의 1을 아랫자리의 10으로 바꾸어 받아 내립니다.', `같은 자리끼리 계산하면 ${scaledDecimal(leftScaled, 2)}-${scaledDecimal(rightScaled, 2)}=${difference}입니다.`],
+        visualModel: 'decimal-operation',
+        visualConfig: { leftScaled, rightScaled, operation: 'subtract' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-01', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-01]', cognitiveDomain: 'knowing',
+    problemFamily: 'additive-sequence-next-term', representation: 'pattern-table', answerType: 'integer', supportTool: 'grid', skillTag: '수의 변화 규칙',
+    taskActions: ['calculate', 'interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '일정하게 커지는 수 배열에서 다음 수를 구해요.',
+    promptTemplate: '일정하게 커지는 수 배열의 다음 수를 구하세요.', hintSteps: ['이웃한 두 수의 차를 차례로 구해요.', '같은 수만큼 커진다면 마지막 수에도 그 수를 더해요.'],
+    build: (v) => {
+      const value1 = 10 + v
+      const step = 2 + (v % 4)
+      const value2 = value1 + step
+      const value3 = value2 + step
+      const value4 = value3 + step
+      const correctAnswer = String(value4 + step)
+      return {
+        prompt: `${value1}, ${value2}, ${value3}, ${value4}, □의 규칙을 찾아 □에 알맞은 수를 쓰세요.`,
+        correctAnswer,
+        solutionSteps: [`이웃한 수의 차는 모두 ${step}입니다.`, `${value4}+${step}=${correctAnswer}이므로 다음 수는 ${correctAnswer}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'sequence', value1, value2, value3, value4, requestedPosition: 5 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-02', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-01]', cognitiveDomain: 'knowing',
+    problemFamily: 'input-output-next-value', representation: 'pattern-table', answerType: 'integer', supportTool: 'grid', skillTag: '대응 규칙',
+    taskActions: ['calculate', 'interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '위 수와 아래 수의 대응 규칙을 찾아 다음 값을 구해요.',
+    promptTemplate: '대응표에서 위 수와 아래 수의 규칙을 찾아 빈칸을 구하세요.', hintSteps: ['각 열에서 위 수가 1 커질 때 아래 수가 얼마나 커지는지 봐요.', '찾은 규칙을 다음 위 수에도 적용해요.'],
+    build: (v) => {
+      const multiplier = 2 + (v % 4)
+      const offset = v
+      const input1 = 1
+      const input2 = 2
+      const input3 = 3
+      const output1 = input1 * multiplier + offset
+      const output2 = input2 * multiplier + offset
+      const output3 = input3 * multiplier + offset
+      const correctAnswer = String(4 * multiplier + offset)
+      return {
+        prompt: `위 수가 1, 2, 3일 때 아래 수가 ${output1}, ${output2}, ${output3}입니다. 위 수가 4일 때 아래 수를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`위 수가 1 커질 때 아래 수는 ${multiplier}씩 커집니다.`, `${output3}+${multiplier}=${correctAnswer}이므로 알맞은 수는 ${correctAnswer}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'correspondence', input1, input2, input3, output1, output2, output3, requestedPosition: 4 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-03', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-02]', cognitiveDomain: 'knowing',
+    problemFamily: 'multiplication-array-next-result', representation: 'pattern-table', answerType: 'integer', supportTool: 'grid', skillTag: '계산식 배열',
+    taskActions: ['calculate', 'interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '곱하는 수가 일정하게 변하는 계산식 배열의 다음 결과를 구해요.',
+    promptTemplate: '곱셈식 배열의 규칙을 찾아 다음 계산 결과를 구하세요.', hintSteps: ['곱해지는 수가 같고 곱하는 수가 어떻게 변하는지 봐요.', '결과가 일정하게 커지는 값도 확인해요.'],
+    build: (v) => {
+      const factor = 10 + v
+      const correctAnswer = String(factor * 5)
+      return {
+        prompt: `${factor}×2=${factor * 2}, ${factor}×3=${factor * 3}, ${factor}×4=${factor * 4}입니다. 규칙을 이용해 ${factor}×5를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`곱하는 수가 1씩 커질 때 결과는 ${factor}씩 커집니다.`, `${factor * 4}+${factor}=${correctAnswer}이므로 ${factor}×5=${correctAnswer}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'multiplication', factor, input1: 2, input2: 3, input3: 4, output1: factor * 2, output2: factor * 3, output3: factor * 4, requestedPosition: 5 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-04', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-02]', cognitiveDomain: 'knowing',
+    problemFamily: 'addition-array-next-result', representation: 'pattern-table', answerType: 'integer', supportTool: 'grid', skillTag: '계산식 배열',
+    taskActions: ['calculate', 'interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '두 수가 함께 변하는 덧셈식 배열에서 다음 결과를 구해요.',
+    promptTemplate: '두 덧셈 항이 함께 변하는 배열의 다음 계산 결과를 구하세요.', hintSteps: ['첫째 수와 둘째 수가 각각 얼마나 커지는지 봐요.', '두 수의 증가량을 합하면 결과의 증가량을 알 수 있어요.'],
+    build: (v) => {
+      const left1 = 20 + v
+      const right1 = 5 + v
+      const leftStep = 3
+      const rightStep = 2
+      const left2 = left1 + leftStep
+      const left3 = left2 + leftStep
+      const right2 = right1 + rightStep
+      const right3 = right2 + rightStep
+      const requestedLeft = left3 + leftStep
+      const requestedRight = right3 + rightStep
+      const correctAnswer = String(requestedLeft + requestedRight)
+      return {
+        prompt: `${left1}+${right1}=${left1 + right1}, ${left2}+${right2}=${left2 + right2}, ${left3}+${right3}=${left3 + right3}입니다. 다음 식 ${requestedLeft}+${requestedRight}의 결과를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`첫째 수는 ${leftStep}씩, 둘째 수는 ${rightStep}씩 커져 결과는 ${leftStep + rightStep}씩 커집니다.`, `${left3 + right3}+${leftStep + rightStep}=${correctAnswer}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'addition', left1, left2, left3, right1, right2, right3, output1: left1 + right1, output2: left2 + right2, output3: left3 + right3, requestedLeft, requestedRight },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-05', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-01]', cognitiveDomain: 'applying',
+    problemFamily: 'growing-stage-far-term', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '단계 규칙',
+    taskActions: ['calculate', 'interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '처음 몇 단계의 변화량을 이용해 멀리 있는 단계의 개수를 구해요.',
+    promptTemplate: '단계마다 일정하게 늘어나는 모형의 먼 단계 개수를 구하세요.', hintSteps: ['1단계에서 시작해 한 단계마다 몇 개씩 늘어나는지 구해요.', '1단계에서 목표 단계까지 증가가 몇 번 일어나는지 세어요.'],
+    build: (v) => {
+      const value1 = 4 + v
+      const step = 3 + (v % 3)
+      const value2 = value1 + step
+      const value3 = value2 + step
+      const requestedPosition = 6 + (v % 3)
+      const correctAnswer = String(value1 + (requestedPosition - 1) * step)
+      return {
+        prompt: `정사각형 타일이 1단계 ${value1}개, 2단계 ${value2}개, 3단계 ${value3}개로 늘어납니다. 같은 규칙일 때 ${requestedPosition}단계에는 몇 개가 필요할까요?`,
+        correctAnswer,
+        solutionSteps: [`한 단계마다 타일이 ${step}개씩 늘어납니다.`, `1단계 뒤로 ${requestedPosition - 1}번 늘어나므로 ${value1}+${step}×${requestedPosition - 1}=${correctAnswer}개입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'stages', value1, value2, value3, requestedPosition, itemLabel: '타일 수' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-06', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-01]', cognitiveDomain: 'applying',
+    problemFamily: 'price-correspondence-far-value', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '생활 속 대응',
+    taskActions: ['calculate', 'interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '물건 수와 전체 금액의 대응 규칙을 이용해 필요한 금액을 구해요.',
+    promptTemplate: '물건 수와 전체 금액의 표에서 목표 개수의 금액을 구하세요.', hintSteps: ['한 개의 값이 일정한지 표의 각 열로 확인해요.', '한 개의 값에 필요한 개수를 곱해요.'],
+    build: (v) => {
+      const unitPrice = 120 + v * 10
+      const requestedPosition = 5 + (v % 4)
+      const correctAnswer = String(unitPrice * requestedPosition)
+      return {
+        prompt: `연필 1자루는 ${unitPrice}원, 2자루는 ${unitPrice * 2}원, 3자루는 ${unitPrice * 3}원입니다. ${requestedPosition}자루의 값은 얼마인가요?`,
+        correctAnswer,
+        solutionSteps: [`연필 수가 1 늘 때 전체 금액은 ${unitPrice}원씩 늘어납니다.`, `${unitPrice}×${requestedPosition}=${correctAnswer}원이 필요합니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'correspondence', input1: 1, input2: 2, input3: 3, output1: unitPrice, output2: unitPrice * 2, output3: unitPrice * 3, requestedPosition, inputLabel: '연필 수', outputLabel: '금액(원)' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-07', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-02]', cognitiveDomain: 'applying',
+    problemFamily: 'multiplication-array-far-row', representation: 'pattern-table', answerType: 'integer', supportTool: 'grid', skillTag: '계산 결과 예측',
+    taskActions: ['calculate', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '가까운 계산식의 규칙을 이용해 배열의 멀리 있는 결과를 예측해요.',
+    promptTemplate: '곱셈식 배열에서 여러 칸 뒤 계산 결과를 규칙으로 구하세요.', hintSteps: ['곱하는 수가 1 늘 때 결과가 얼마나 늘어나는지 봐요.', '목표까지 몇 번 늘어나는지 세거나 곱셈식을 바로 계산해요.'],
+    build: (v) => {
+      const factor = 100 + v
+      const requestedPosition = 7 + v
+      const correctAnswer = String(factor * requestedPosition)
+      return {
+        prompt: `${factor}×2=${factor * 2}, ${factor}×3=${factor * 3}, ${factor}×4=${factor * 4}입니다. 같은 배열에서 ${factor}×${requestedPosition}의 결과를 구하세요.`,
+        correctAnswer,
+        solutionSteps: [`곱하는 수가 1씩 늘 때 결과는 ${factor}씩 늘어납니다.`, `규칙을 이어 가거나 곱하면 ${factor}×${requestedPosition}=${correctAnswer}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'multiplication', factor, input1: 2, input2: 3, input3: 4, output1: factor * 2, output2: factor * 3, output3: factor * 4, requestedPosition },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-08', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-02]', cognitiveDomain: 'applying',
+    problemFamily: 'select-next-calculation-row', representation: 'pattern-table', answerType: 'choice', supportTool: 'none', skillTag: '계산식 배열 완성',
+    taskActions: ['interpret', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '두 수와 결과가 함께 변하는 계산식 배열의 다음 줄을 골라요.',
+    promptTemplate: '계산식 배열의 규칙을 모두 지키는 다음 식을 고르세요.', hintSteps: ['첫째 수, 둘째 수, 결과가 각각 어떻게 변하는지 따로 봐요.', '식 자체의 계산도 맞는지 확인해요.'],
+    build: (v, seed) => {
+      const left1 = 30 + v
+      const right1 = 4 + v
+      const left2 = left1 + 4
+      const left3 = left2 + 4
+      const right2 = right1 + 2
+      const right3 = right2 + 2
+      const requestedLeft = left3 + 4
+      const requestedRight = right3 + 2
+      const requestedResult = requestedLeft - requestedRight
+      const correctAnswer = `${requestedLeft}-${requestedRight}=${requestedResult}`
+      return {
+        prompt: `${left1}-${right1}=${left1 - right1}, ${left2}-${right2}=${left2 - right2}, ${left3}-${right3}=${left3 - right3} 다음에 올 식을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `${requestedLeft}-${right3}=${requestedLeft - right3}`,
+          `${left3}-${requestedRight}=${left3 - requestedRight}`,
+          `${requestedLeft}-${requestedRight}=${requestedResult + 2}`,
+        ], seed),
+        solutionSteps: ['첫째 수는 4씩, 둘째 수는 2씩 커지므로 결과는 2씩 커집니다.', `세 변화와 계산이 모두 맞는 다음 식은 ${correctAnswer}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'subtraction', left1, left2, left3, right1, right2, right3, output1: left1 - right1, output2: left2 - right2, output3: left3 - right3, requestedLeft, requestedRight },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-09', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-01]', cognitiveDomain: 'reasoning',
+    problemFamily: 'correspondence-rule-claim-evaluation', representation: 'context', answerType: 'choice', supportTool: 'grid', skillTag: '대응 규칙 설명',
+    taskActions: ['analyze_error', 'calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '표의 일부만 보고 세운 규칙이 모든 대응쌍에 맞는지 판단해요.',
+    promptTemplate: '대응표에 대한 친구의 규칙 설명을 모든 열로 확인하세요.', hintSteps: ['한 열에만 맞는 규칙은 전체 규칙이라고 할 수 없어요.', '각 위 수에 같은 계산을 적용해 아래 수가 되는지 확인해요.'],
+    build: (v, seed) => {
+      const multiplier = 3 + (v % 3)
+      const offset = 2 + v
+      const output1 = multiplier + offset
+      const output2 = multiplier * 2 + offset
+      const output3 = multiplier * 3 + offset
+      const next = multiplier * 4 + offset
+      const correctAnswer = `위 수에 ${multiplier}을 곱하고 ${offset}를 더하는 규칙이며, 위 수 4에 대응하는 수는 ${next}입니다.`
+      return {
+        prompt: `대응표의 위 수 1, 2, 3에 아래 수 ${output1}, ${output2}, ${output3}이 대응합니다. 지민이는 “위 수에 항상 ${multiplier}만 더하면 돼.”라고 말했습니다. 알맞은 판단을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `위 수에 ${multiplier}만 더하는 규칙이므로 다음 수는 ${4 + multiplier}입니다.`,
+          `아래 수끼리 ${offset}만큼 차이 나므로 다음 수는 ${output3 + offset}입니다.`,
+          '대응하는 수가 세 개뿐이므로 어떤 규칙도 설명할 수 없습니다.',
+        ], seed),
+        solutionSteps: [`각 열에서 위 수에 ${multiplier}을 곱한 뒤 ${offset}를 더하면 아래 수가 됩니다.`, `4×${multiplier}+${offset}=${next}이므로 친구의 설명은 전체 표에 맞지 않습니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'correspondence', input1: 1, input2: 2, input3: 3, output1, output2, output3, requestedPosition: 4, speaker: '지민' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-pat-10', unitId: GRADE4_PATTERNS_UNIT_ID, curriculumCode: '[4수02-02]', cognitiveDomain: 'reasoning',
+    problemFamily: 'two-part-calculation-pattern-error', representation: 'pattern-table', answerType: 'choice', supportTool: 'grid', skillTag: '계산식 규칙 오류',
+    taskActions: ['analyze_error', 'interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '계산식 배열에서 두 곳이 함께 변하는 규칙을 빠뜨린 오류를 고쳐요.',
+    promptTemplate: '곱하는 수와 더하는 수가 함께 변하는 계산식 배열의 잘못된 다음 식을 고치세요.', hintSteps: ['각 식에서 곱하는 수와 더하는 수를 따로 표시해요.', '다음 줄에서는 두 수가 모두 같은 규칙으로 변해야 해요.'],
+    build: (v, seed) => {
+      const factor = 8 + (v % 2)
+      const first = factor * 1 + 1
+      const second = factor * 2 + 2
+      const third = factor * 3 + 3
+      const fourth = factor * 4 + 4
+      const correctAnswer = `곱하는 수와 더하는 수를 모두 4로 바꾸어 ${factor}×4+4=${fourth}로 써야 합니다.`
+      return {
+        prompt: `${factor}×1+1=${first}, ${factor}×2+2=${second}, ${factor}×3+3=${third} 다음에 현우는 ${factor}×4+3=${factor * 4 + 3}이라고 썼습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([
+          correctAnswer,
+          `곱하는 수만 4로 바뀌므로 ${factor}×4+3=${factor * 4 + 3}이 맞습니다.`,
+          `더하는 수만 4로 바꾸어 ${factor}×3+4=${factor * 3 + 4}로 써야 합니다.`,
+          `결과에 4만 더해 ${third + 4}로 쓰면 됩니다.`,
+        ], seed),
+        solutionSteps: ['곱하는 수와 더하는 수가 1, 2, 3으로 함께 1씩 커집니다.', `다음 줄에서는 둘 다 4이므로 ${factor}×4+4=${fourth}입니다.`],
+        visualModel: 'pattern-table',
+        visualConfig: { mode: 'multiply-add', factor, input1: 1, input2: 2, input3: 3, output1: first, output2: second, output3: third, requestedPosition: 4, speaker: '현우' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-01', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'missing-addend-equality', representation: 'equation-balance', answerType: 'integer', supportTool: 'grid', skillTag: '등식의 빈칸',
+    taskActions: ['calculate'], visualSemantics: 'schematic',
+    learnerGoal: '등호 양쪽의 합이 같도록 빠진 덧셈 항을 구해요.',
+    promptTemplate: '덧셈 등식의 빈칸을 구하세요.', hintSteps: ['등호는 양쪽의 크기가 같다는 뜻이에요.', '오른쪽 전체에서 왼쪽의 아는 수를 빼요.'],
+    build: (v) => {
+      const leftKnown = 12 + v
+      const missing = 7 + v
+      const rightTotal = leftKnown + missing
+      return {
+        prompt: `${leftKnown} + □ = ${rightTotal}에서 □에 알맞은 수를 구하세요.`, correctAnswer: String(missing),
+        solutionSteps: [`등호 양쪽은 모두 ${rightTotal}이어야 합니다.`, `${rightTotal}-${leftKnown}=${missing}이므로 □=${missing}입니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${leftKnown} + □`, rightText: String(rightTotal), leftKnown, rightTotal },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-02', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'missing-minuend-equality', representation: 'equation-balance', answerType: 'integer', supportTool: 'grid', skillTag: '등식의 빈칸',
+    taskActions: ['calculate'], visualSemantics: 'schematic',
+    learnerGoal: '뺄셈 등식에서 처음 수를 역산해 구해요.',
+    promptTemplate: '뺄셈 등식의 처음 빈 수를 구하세요.', hintSteps: ['빈 수에서 뺀 결과가 오른쪽 수와 같아요.', '뺀 수와 차를 더하면 처음 수를 구할 수 있어요.'],
+    build: (v) => {
+      const leftKnown = 8 + v
+      const rightTotal = 14 + v
+      const missing = rightTotal + leftKnown
+      return {
+        prompt: `□ - ${leftKnown} = ${rightTotal}에서 □에 알맞은 수를 구하세요.`, correctAnswer: String(missing),
+        solutionSteps: [`빈 수에서 ${leftKnown}을 빼면 ${rightTotal}입니다.`, `${rightTotal}+${leftKnown}=${missing}이므로 □=${missing}입니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `□ - ${leftKnown}`, rightText: String(rightTotal), leftKnown, rightTotal },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-03', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'select-equal-expression', representation: 'equation-balance', answerType: 'choice', supportTool: 'none', skillTag: '같은 값의 식',
+    taskActions: ['compare', 'calculate'], visualSemantics: 'schematic',
+    learnerGoal: '두 식을 계산해 등호 양쪽의 값이 같은 식을 찾아요.',
+    promptTemplate: '등호 양쪽의 값이 같은 식을 고르세요.', hintSteps: ['등호 왼쪽과 오른쪽을 각각 계산해요.', '두 결과가 같은 식만 고르면 돼요.'],
+    build: (v, seed) => {
+      const total = 30 + v
+      const a = 10 + v
+      const correctAnswer = `${a}+${total - a}=${total - 5}+5`
+      return {
+        prompt: '등호를 바르게 사용한 식을 고르세요.', correctAnswer,
+        choices: rotateChoices([correctAnswer, `${a}+${total - a}=${total + 1}`, `${a}+${total - a + 1}=${total}`, `${a}+${total - a}=${total - 2}`], seed),
+        solutionSteps: [`왼쪽 ${a}+${total - a}=${total}입니다.`, `오른쪽 ${total - 5}+5=${total}이므로 두 양이 같습니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${a} + ${total - a}`, rightText: `${total - 5} + 5` },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-04', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'commutative-equality-meaning', representation: 'equation-balance', answerType: 'choice', supportTool: 'none', skillTag: '등호의 뜻',
+    taskActions: ['explain'], visualSemantics: 'schematic',
+    learnerGoal: '덧셈 순서를 바꾸어도 양쪽 값이 같음을 설명해요.',
+    promptTemplate: '두 덧셈식이 등호로 연결되는 까닭을 고르세요.', hintSteps: ['두 식을 각각 계산해요.', '등호는 계산 순서가 아니라 같은 값을 연결해요.'],
+    build: (v, seed) => {
+      const a = 15 + v
+      const b = 6 + v
+      const correctAnswer = '더하는 순서를 바꾸어도 합이 같아서 등호로 연결할 수 있습니다.'
+      return {
+        prompt: `${a}+${b}=${b}+${a}인 까닭을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '등호 오른쪽은 언제나 정답이므로 계산하지 않아도 됩니다.', '등호는 왼쪽 식을 오른쪽 식으로 바꾸라는 표시입니다.', '두 식에 같은 숫자가 하나라도 있으면 값도 항상 같습니다.'], seed),
+        solutionSteps: [`두 식의 합은 모두 ${a + b}입니다.`, '등호는 양쪽의 값이 같음을 나타냅니다.'],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${a} + ${b}`, rightText: `${b} + ${a}` },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-05', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'applying',
+    problemFamily: 'balanced-bags-missing-quantity', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '균형 상황',
+    taskActions: ['calculate'], visualSemantics: 'schematic',
+    learnerGoal: '양팔저울의 같은 양을 식으로 나타내 빠진 개수를 구해요.',
+    promptTemplate: '균형을 이룬 두 쪽에서 빠진 양을 구하세요.', hintSteps: ['균형이므로 왼쪽 전체와 오른쪽 전체가 같아요.', '왼쪽 전체에서 오른쪽의 아는 양을 빼요.'],
+    build: (v) => {
+      const leftTotal = 30 + v * 2
+      const rightKnown = 10 + v
+      const missing = leftTotal - rightKnown
+      return {
+        prompt: `저울 왼쪽에 구슬 ${leftTotal}개, 오른쪽에 구슬 ${rightKnown}개와 한 봉지가 있어 균형입니다. 봉지에는 몇 개가 있을까요?`, correctAnswer: String(missing),
+        solutionSteps: [`균형이므로 ${leftTotal}=${rightKnown}+□입니다.`, `${leftTotal}-${rightKnown}=${missing}이므로 봉지에는 ${missing}개가 있습니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${leftTotal}개`, rightText: `${rightKnown}개 + □`, leftTotal, rightKnown, leftLabel: '왼쪽', rightLabel: '오른쪽' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-06', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'applying',
+    problemFamily: 'equal-purchase-missing-price', representation: 'context', answerType: 'integer', supportTool: 'grid', skillTag: '같은 금액',
+    taskActions: ['calculate'], visualSemantics: 'schematic',
+    learnerGoal: '두 구매 금액이 같은 상황을 등식으로 나타내 빠진 금액을 구해요.',
+    promptTemplate: '두 사람이 같은 금액을 냈을 때 빠진 금액을 구하세요.', hintSteps: ['두 사람이 낸 전체 금액을 등호로 연결해요.', '한쪽 전체에서 이미 아는 금액을 빼요.'],
+    build: (v) => {
+      const price = 200 + v * 20
+      const leftTotal = price * 3
+      const rightKnown = price
+      const missing = leftTotal - rightKnown
+      return {
+        prompt: `민지는 ${price}원짜리 공책 3권을 샀고, 서준이는 ${price}원짜리 공책 1권과 연필 묶음을 사서 같은 금액을 냈습니다. 연필 묶음은 얼마인가요?`, correctAnswer: String(missing),
+        solutionSteps: [`두 금액이 같으므로 ${leftTotal}=${rightKnown}+□입니다.`, `${leftTotal}-${rightKnown}=${missing}원이므로 연필 묶음은 ${missing}원입니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${price} × 3`, rightText: `${price} + □`, leftTotal, rightKnown },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-07', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'applying',
+    problemFamily: 'same-change-both-sides', representation: 'equation-balance', answerType: 'integer', supportTool: 'grid', skillTag: '등식의 성질',
+    taskActions: ['calculate', 'reason'], visualSemantics: 'schematic',
+    learnerGoal: '등식 양쪽에 같은 수를 더해도 관계가 유지됨을 적용해요.',
+    promptTemplate: '같은 두 양에 같은 수를 더한 등식의 빈칸을 구하세요.', hintSteps: ['처음 등식의 양쪽 값이 같은지 확인해요.', '한쪽에 더한 수와 같은 수를 다른 쪽에도 더해야 해요.'],
+    build: (v) => {
+      const a = 12 + v
+      const b = 8 + v
+      const total = a + b
+      const added = 5 + v
+      return {
+        prompt: `${a}+${b}=${total}입니다. ${a}+${b}+${added}=${total}+□가 되도록 □를 구하세요.`, correctAnswer: String(added),
+        solutionSteps: [`처음 양쪽은 모두 ${total}입니다.`, `왼쪽에 ${added}를 더했으므로 오른쪽에도 ${added}를 더해야 합니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${a} + ${b} + ${added}`, rightText: `${total} + □`, leftKnown: total, rightTotal: total + added },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-08', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'applying',
+    problemFamily: 'select-equality-from-story', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '상황을 등식으로',
+    taskActions: ['model'], visualSemantics: 'schematic',
+    learnerGoal: '같은 전체 양을 만든 두 방법을 하나의 등식으로 나타내요.',
+    promptTemplate: '두 모둠의 같은 전체 양을 나타내는 등식을 고르세요.', hintSteps: ['첫째 모둠과 둘째 모둠의 전체를 각각 식으로 나타내요.', '두 전체가 같으므로 두 식 사이에 등호를 써요.'],
+    build: (v, seed) => {
+      const a = 10 + v
+      const b = 6 + v
+      const c = 8 + v
+      const d = a + b - c
+      const correctAnswer = `${a}+${b}=${c}+${d}`
+      return {
+        prompt: `가 모둠은 구슬 ${a}개와 ${b}개, 나 모둠은 ${c}개와 ${d}개를 모아 전체가 같습니다. 알맞은 식을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, `${a}+${b}>${c}+${d}`, `${a}+${c}=${b}+${d}`, `${a}-${b}=${c}-${d}`], seed),
+        solutionSteps: [`가 모둠은 ${a}+${b}=${a + b}개입니다.`, `나 모둠도 ${c}+${d}=${a + b}개이므로 ${correctAnswer}입니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${a} + ${b}`, rightText: `${c} + ${d}`, leftLabel: '가 모둠', rightLabel: '나 모둠' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-09', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'reasoning',
+    problemFamily: 'equal-sign-answer-marker-error', representation: 'equation-balance', answerType: 'choice', supportTool: 'none', skillTag: '등호 의미 오류',
+    taskActions: ['analyze_error', 'explain'], visualSemantics: 'schematic',
+    learnerGoal: '등호를 정답 앞에만 쓰는 표시로 생각한 오류를 고쳐요.',
+    promptTemplate: '등호의 뜻을 잘못 설명한 친구의 말을 고치세요.', hintSteps: ['등호 왼쪽과 오른쪽의 값을 각각 계산해요.', '어느 쪽이 식이고 어느 쪽이 답인지는 중요하지 않아요.'],
+    build: (v, seed) => {
+      const a = 14 + v
+      const b = 9 + v
+      const total = a + b
+      const correctAnswer = `등호는 양쪽 값이 같다는 뜻이므로 ${total}=${a}+${b}도 바른 식입니다.`
+      return {
+        prompt: `하윤이는 “등호 뒤에는 정답만 와야 하므로 ${total}=${a}+${b}는 틀려.”라고 말했습니다. 알맞은 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '등호는 계산을 시작하라는 표시이므로 하윤이의 말이 맞습니다.', '등호 왼쪽에는 언제나 식, 오른쪽에는 언제나 한 수가 와야 합니다.', '두 수의 순서를 바꾸면 값이 달라지므로 판단할 수 없습니다.'], seed),
+        solutionSteps: [`왼쪽은 ${total}, 오른쪽 ${a}+${b}도 ${total}입니다.`, '등호는 방향과 관계없이 같은 두 양을 연결합니다.'],
+        visualModel: 'equation-balance', visualConfig: { leftText: String(total), rightText: `${a} + ${b}`, speaker: '하윤' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-eq-10', unitId: GRADE4_EQUALITY_UNIT_ID, curriculumCode: '[4수02-03]', cognitiveDomain: 'reasoning',
+    problemFamily: 'one-side-change-equality-error', representation: 'equation-balance', answerType: 'choice', supportTool: 'grid', skillTag: '등식 유지 오류',
+    taskActions: ['analyze_error', 'reason'], visualSemantics: 'schematic',
+    learnerGoal: '등식의 한쪽만 바꾸면 두 양이 달라지는 까닭을 설명해요.',
+    promptTemplate: '등식 한쪽에만 수를 더한 오류를 고치세요.', hintSteps: ['바꾸기 전 양쪽 값을 확인해요.', '한쪽만 커지면 균형이 유지되는지 생각해요.'],
+    build: (v, seed) => {
+      const a = 18 + v
+      const b = 7 + v
+      const total = a + b
+      const added = 4 + v
+      const correctAnswer = `왼쪽에 ${added}만큼 더했으므로 오른쪽에도 ${added}만큼 더한 ${a}+${b}+${added}=${total}+${added}로 써야 합니다.`
+      return {
+        prompt: `도현이는 ${a}+${b}=${total}에서 왼쪽에만 ${added}만큼 더해도 등호가 유지된다고 했습니다. 알맞은 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '등호 왼쪽은 계산식이므로 어떤 수를 더해도 등호가 유지됩니다.', `오른쪽에서 ${added}를 빼면 균형이 맞습니다.`, '처음 등식이 맞으면 한쪽을 바꿔도 항상 맞습니다.'], seed),
+        solutionSteps: [`처음 양쪽은 모두 ${total}입니다.`, `한쪽에만 ${added}를 더하면 값이 달라지므로 양쪽에 같은 수를 더해야 합니다.`],
+        visualModel: 'equation-balance', visualConfig: { leftText: `${a} + ${b} + ${added}`, rightText: String(total), speaker: '도현' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-01', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'identify-perpendicular-by-right-angle', representation: 'line-relationship', answerType: 'choice', supportTool: 'none', skillTag: '수직 관계',
+    taskActions: ['calculate', 'classify'], visualSemantics: 'quantitative',
+    learnerGoal: '두 직선이 이루는 각이 직각인지 확인해 수직 관계를 알아봐요.',
+    promptTemplate: '두 직선의 방향 차이를 보고 관계를 고르세요.', hintSteps: ['두 직선이 만나는 곳의 작은 각을 살펴봐요.', '두 방향의 차가 90°이면 서로 수직이에요.'],
+    build: (v, seed) => {
+      const angleA = 8 + v * 4
+      const angleB = angleA + 90
+      const correctAnswer = '두 직선은 서로 수직입니다.'
+      return {
+        prompt: `직선 가의 방향은 ${angleA}°, 직선 나는 ${angleB}°입니다. 두 직선의 관계를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '두 직선은 서로 평행입니다.', '두 직선은 같은 직선입니다.', '두 직선은 수직도 평행도 아닙니다.'], seed),
+        solutionSteps: [`두 방향의 차는 ${angleB}-${angleA}=90°입니다.`, '두 직선이 직각으로 만나므로 서로 수직입니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'intersecting', angleA, angleB, labelA: '직선 가', labelB: '직선 나', showRightAngle: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-02', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'identify-parallel-by-direction', representation: 'line-relationship', answerType: 'choice', supportTool: 'none', skillTag: '평행 관계',
+    taskActions: ['classify', 'compare'], visualSemantics: 'quantitative',
+    learnerGoal: '두 직선의 방향이 같은지 확인해 평행 관계를 알아봐요.',
+    promptTemplate: '같은 방향으로 놓인 두 직선의 관계를 고르세요.', hintSteps: ['두 직선이 같은 쪽으로 기울어져 있는지 봐요.', '방향이 같고 서로 다른 두 직선은 아무리 늘여도 만나지 않아요.'],
+    build: (v, seed) => {
+      const angleA = 10 + (v % 6) * 5
+      const angleB = angleA
+      const correctAnswer = '두 직선은 서로 평행입니다.'
+      return {
+        prompt: `서로 다른 직선 가와 나의 방향이 모두 ${angleA}°입니다. 두 직선의 관계를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '두 직선은 서로 수직입니다.', '두 직선은 한 점에서 만납니다.', '두 직선은 직각을 네 개 만듭니다.'], seed),
+        solutionSteps: [`두 직선의 방향이 모두 ${angleA}°로 같습니다.`, '방향이 같은 서로 다른 두 직선은 평행합니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'parallel', angleA, angleB, offset: 54, labelA: '직선 가', labelB: '직선 나', showRightAngle: false },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-03', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'count-right-angles-at-perpendicular-intersection', representation: 'line-relationship', answerType: 'integer', supportTool: 'none', skillTag: '수직과 직각',
+    taskActions: ['recognize'], visualSemantics: 'quantitative',
+    learnerGoal: '서로 수직인 두 직선이 만드는 직각의 수를 알아봐요.',
+    promptTemplate: '서로 수직인 두 직선이 만드는 직각의 수를 구하세요.', hintSteps: ['두 직선은 만나는 점을 중심으로 네 부분을 만들어요.', '한 부분이 직각이면 마주 보거나 이웃한 각도 모두 직각이에요.'],
+    build: (v) => {
+      const angleA = 5 + v * 4
+      const angleB = angleA + 90
+      return {
+        prompt: `방향이 ${angleA}°와 ${angleB}°인 서로 수직인 두 직선이 한 점에서 만납니다. 생기는 직각은 모두 몇 개인가요?`,
+        correctAnswer: '4',
+        solutionSteps: ['두 직선은 만나는 점 둘레를 네 부분으로 나눕니다.', '수직인 두 직선이 만드는 네 각은 모두 직각이므로 4개입니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'intersecting', angleA, angleB, labelA: '직선 가', labelB: '직선 나', showRightAngle: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-04', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'knowing',
+    problemFamily: 'parallel-distance-property', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '평행선 사이 거리',
+    taskActions: ['reason'], visualSemantics: 'quantitative',
+    learnerGoal: '평행한 두 직선 사이의 거리가 어느 곳에서나 같음을 설명해요.',
+    promptTemplate: '평행한 두 직선 사이의 거리에 대한 바른 설명을 고르세요.', hintSteps: ['두 직선에 수직인 짧은 선분으로 간격을 재요.', '평행선 사이의 수직 거리는 어느 곳에서 재도 같아요.'],
+    build: (v, seed) => {
+      const angleA = 10 + v * 4
+      const angleB = angleA
+      const distance = 2 + v
+      const correctAnswer = `다른 곳에서도 두 직선 사이의 수직 거리는 ${distance} cm입니다.`
+      return {
+        prompt: `평행한 두 직선 가와 나 사이의 수직 거리를 한 곳에서 재니 ${distance} cm였습니다. 다른 곳에서 수직으로 잰 거리를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, `다른 곳에서는 ${distance + 1} cm로 늘어납니다.`, `다른 곳에서는 ${distance - 1} cm로 줄어듭니다.`, '어디에서 재는지에 따라 정할 수 없습니다.'], seed),
+        solutionSteps: ['평행한 두 직선은 같은 방향으로 나아가며 간격이 달라지지 않습니다.', `따라서 어느 곳에서 수직으로 재도 ${distance} cm입니다.`],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'parallel', angleA, angleB, offset: 58, distanceLabel: `${distance} cm`, labelA: '직선 가', labelB: '직선 나', showRightAngle: false },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-05', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'applying',
+    problemFamily: 'map-streets-perpendicular-route', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '생활 속 수직',
+    taskActions: ['calculate', 'classify'], visualSemantics: 'quantitative',
+    learnerGoal: '지도에서 직각으로 만나는 두 길의 수직 관계를 판단해요.',
+    promptTemplate: '지도에서 두 길의 방향 차이를 이용해 관계를 고르세요.', hintSteps: ['두 길의 방향을 각각 확인해요.', '방향의 차가 90°인지 계산해요.'],
+    build: (v, seed) => {
+      const angleA = 5 + (v % 6) * 5
+      const angleB = angleA + 90
+      const correctAnswer = '두 길은 서로 수직이므로 교차로에서 직각으로 만납니다.'
+      return {
+        prompt: `지도에서 해오름길은 ${angleA}° 방향, 솔바람길은 ${angleB}° 방향으로 뻗어 있습니다. 교차로에서 두 길의 관계를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '두 길은 서로 평행하므로 만나지 않습니다.', '두 길의 방향 차가 45°이므로 예각으로 만납니다.', '두 길은 같은 방향의 한 직선입니다.'], seed),
+        solutionSteps: [`두 길의 방향 차는 ${angleB}-${angleA}=90°입니다.`, '90°인 직각으로 만나므로 두 길은 서로 수직입니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'intersecting', angleA, angleB, labelA: '해오름길', labelB: '솔바람길', showRightAngle: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-06', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'applying',
+    problemFamily: 'railway-tracks-parallel-safety', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '생활 속 평행',
+    taskActions: ['classify', 'compare'], visualSemantics: 'quantitative',
+    learnerGoal: '같은 방향과 일정한 간격을 근거로 철길의 평행 관계를 설명해요.',
+    promptTemplate: '철길 두 선의 방향과 간격을 보고 관계를 고르세요.', hintSteps: ['두 선의 기울어진 방향을 비교해요.', '같은 방향으로 일정한 간격을 유지하면 평행해요.'],
+    build: (v, seed) => {
+      const angleA = 10 + (v % 5) * 5
+      const angleB = angleA
+      const offset = 48 + v
+      const correctAnswer = '두 선은 방향이 같고 간격이 일정하므로 서로 평행입니다.'
+      return {
+        prompt: `철길의 두 선은 모두 ${angleA}° 방향이며 사이 간격이 일정합니다. 두 선의 관계를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '두 선은 곧 직각으로 만나므로 서로 수직입니다.', '간격이 있으므로 두 선의 관계를 정할 수 없습니다.', '같은 방향이면 반드시 같은 하나의 직선입니다.'], seed),
+        solutionSteps: [`두 선의 방향은 ${angleA}°로 같습니다.`, '서로 다른 두 선이 같은 방향과 일정한 간격을 유지하므로 평행합니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'parallel', angleA, angleB, offset, labelA: '왼쪽 선로', labelB: '오른쪽 선로', showRightAngle: false },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-07', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'applying',
+    problemFamily: 'construct-parallel-through-point', representation: 'line-relationship', answerType: 'choice', supportTool: 'none', skillTag: '평행선 긋기',
+    taskActions: ['compare', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '주어진 직선과 같은 방향으로 지나가는 평행선을 찾아요.',
+    promptTemplate: '한 점을 지나며 주어진 직선과 평행한 직선의 방향을 고르세요.', hintSteps: ['평행한 직선은 기울어진 방향이 같아요.', '점을 지나는지와 방향이 같은지를 모두 확인해요.'],
+    build: (v, seed) => {
+      const angleA = 10 + (v % 6) * 5
+      const angleB = angleA
+      const correctAnswer = `${angleB}°`
+      return {
+        prompt: `직선 가의 방향은 ${angleA}°입니다. 직선 가 밖의 점 P를 지나며 직선 가와 평행한 직선의 방향을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, `${angleA + 10}°`, `${angleA + 45}°`, `${angleA + 90}°`], seed),
+        solutionSteps: ['평행한 두 직선은 방향이 같습니다.', `따라서 점 P를 지나는 직선의 방향도 ${angleA}°여야 합니다.`],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'parallel-through-point', angleA, angleB, offset: 56, labelA: '직선 가', labelB: '점 P를 지나는 직선', pointLabel: 'P', showRightAngle: false },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-08', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'applying',
+    problemFamily: 'construct-perpendicular-through-point', representation: 'line-relationship', answerType: 'choice', supportTool: 'none', skillTag: '수선 긋기',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '주어진 직선과 90° 방향 차이가 나는 수선을 찾아요.',
+    promptTemplate: '한 점을 지나며 주어진 직선과 수직인 직선의 방향을 고르세요.', hintSteps: ['수직인 두 직선의 방향 차는 90°예요.', '주어진 방향에 90°를 더해요.'],
+    build: (v, seed) => {
+      const angleA = 5 + (v % 6) * 5
+      const angleB = angleA + 90
+      const correctAnswer = `${angleB}°`
+      return {
+        prompt: `직선 가의 방향은 ${angleA}°입니다. 점 P를 지나며 직선 가와 수직인 직선의 방향을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, `${angleA}°`, `${angleA + 45}°`, `${angleA + 80}°`], seed),
+        solutionSteps: [`수직인 방향은 ${angleA}+90=${angleB}°입니다.`, `따라서 ${angleB}° 방향의 직선이 점 P를 지나도록 그으면 됩니다.`],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'perpendicular-through-point', angleA, angleB, labelA: '직선 가', labelB: '점 P를 지나는 수선', pointLabel: 'P', showRightAngle: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-09', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'reasoning',
+    problemFamily: 'finite-segments-parallel-error', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '평행 판단 오류',
+    taskActions: ['analyze_error', 'compare'], visualSemantics: 'quantitative',
+    learnerGoal: '짧은 선분이 당장 만나지 않는다는 사실만으로 평행을 판단한 오류를 고쳐요.',
+    promptTemplate: '두 선분을 직선으로 늘여 생각해 평행 판단의 오류를 고치세요.', hintSteps: ['보이는 선분만이 아니라 양쪽으로 계속 늘인 직선을 생각해요.', '두 직선의 방향이 같은지 비교해요.'],
+    build: (v, seed) => {
+      const angleA = 8 + v * 4
+      const angleB = angleA + 18 + v
+      const correctAnswer = `두 선분의 방향이 ${angleA}°와 ${angleB}°로 달라서 늘이면 만나므로 평행이 아닙니다.`
+      return {
+        prompt: `유나는 ${angleA}° 방향의 짧은 선분과 ${angleB}° 방향의 짧은 선분이 그림 안에서 만나지 않으므로 평행이라고 했습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '그림 안에서 만나지 않는 모든 선분은 반드시 평행입니다.', '두 선분의 길이가 다르면 언제나 서로 수직입니다.', '두 선분을 늘이면 방향이 저절로 같아져 평행이 됩니다.'], seed),
+        solutionSteps: [`두 선분의 방향 차는 ${angleB}-${angleA}=${angleB - angleA}°로 0°가 아닙니다.`, '직선으로 계속 늘이면 만나므로 평행이 아닙니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'separate-nonparallel', angleA, angleB, offset: 58, labelA: '선분 가', labelB: '선분 나', speaker: '유나', showRightAngle: false },
+      }
+    },
+  }),
+  template({
+    id: 'g4-line-10', unitId: GRADE4_PERPENDICULAR_PARALLEL_UNIT_ID, curriculumCode: '[4수03-03]', cognitiveDomain: 'reasoning',
+    problemFamily: 'shared-rotation-preserves-relation', representation: 'line-relationship', answerType: 'choice', supportTool: 'none', skillTag: '관계 보존 추론',
+    taskActions: ['reason'], visualSemantics: 'quantitative',
+    learnerGoal: '두 직선을 같은 각도만큼 돌려도 두 방향의 차이는 유지됨을 설명해요.',
+    promptTemplate: '서로 수직인 두 직선을 함께 돌린 뒤의 관계를 추론하세요.', hintSteps: ['두 방향에 같은 각을 더하면 방향의 차가 바뀌는지 생각해요.', '수직 관계는 두 방향의 차가 90°인 관계예요.'],
+    build: (v, seed) => {
+      const rotation = 8 + v * 4
+      const angleA = rotation
+      const angleB = rotation + 90
+      const correctAnswer = `두 직선의 방향 차는 여전히 90°이므로 서로 수직입니다.`
+      return {
+        prompt: `서로 수직인 두 직선을 함께 ${rotation}°만큼 돌렸습니다. 돌린 뒤 두 직선의 관계를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '두 직선의 방향이 같아져 서로 평행입니다.', `방향 차가 ${rotation}°가 되어 수직도 평행도 아닙니다.`, '두 직선을 돌리면 직선의 관계를 판단할 수 없습니다.'], seed),
+        solutionSteps: [`두 직선의 방향에 똑같이 ${rotation}°를 더해도 두 방향의 차는 변하지 않습니다.`, '방향 차가 90°로 유지되므로 두 직선은 여전히 수직입니다.'],
+        visualModel: 'line-relationship',
+        visualConfig: { mode: 'intersecting', angleA, angleB, rotation, labelA: '돌린 직선 가', labelB: '돌린 직선 나', showRightAngle: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-01', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-04]', cognitiveDomain: 'knowing',
+    problemFamily: 'identify-slide-from-position-change', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '밀기',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '모양과 방향은 그대로이고 위치만 바뀐 이동을 알아봐요.',
+    promptTemplate: '두 도형의 모양과 방향을 비교해 밀기를 찾으세요.', hintSteps: ['두 도형의 뾰족한 부분이 같은 방향인지 봐요.', '방향이 그대로이고 위치만 바뀌면 밀기예요.'],
+    build: (v, seed) => {
+      const startX = 2 + (v % 2)
+      const startY = 2 + (v % 3)
+      const deltaX = 3
+      const deltaY = 1 + (v % 2)
+      const correctAnswer = '밀기'
+      return {
+        prompt: `격자의 ${coordinateText(startX, startY)}에 있던 도형이 오른쪽으로 ${deltaX}칸, 위로 ${deltaY}칸 옮겨졌고 향한 방향은 그대로입니다. 어떤 이동인가요?`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '뒤집기', '시계 방향으로 90° 돌리기', '반 바퀴 돌리기'], seed),
+        solutionSteps: ['처음 도형과 옮긴 도형의 모양과 방향이 같습니다.', `오른쪽 ${deltaX}칸, 위 ${deltaY}칸으로 위치만 바뀌었으므로 밀기입니다.`],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'slide', startX, startY, deltaX, deltaY, showTargetBeforeAnswer: true, startLabel: '처음', targetLabel: '옮긴 뒤' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-02', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-04]', cognitiveDomain: 'knowing',
+    problemFamily: 'identify-vertical-flip', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '뒤집기',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '기준선을 사이에 둔 거울 모양을 보고 뒤집기를 알아봐요.',
+    promptTemplate: '기준선 양쪽의 거울 모양을 보고 이동을 고르세요.', hintSteps: ['기준선에서 두 도형까지의 거리를 비교해요.', '왼쪽과 오른쪽 방향이 서로 바뀌었는지 봐요.'],
+    build: (v, seed) => {
+      const axisX = 5
+      const startX = 2 + (v % 2)
+      const startY = 1 + v
+      const correctAnswer = '세로 기준선을 따라 뒤집기'
+      return {
+        prompt: `${coordinateText(startX, startY)}에 있던 도형을 x=${axisX}인 세로 기준선을 따라 거울처럼 옮겼습니다. 어떤 이동인가요?`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '오른쪽으로 밀기', '시계 방향으로 90° 돌리기', '위쪽으로 밀기'], seed),
+        solutionSteps: ['두 도형은 기준선에서 같은 거리에 있습니다.', '뾰족한 방향이 좌우로 바뀌었으므로 세로 기준선을 따른 뒤집기입니다.'],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'flip-vertical', startX, startY, axisX, showTargetBeforeAnswer: true, startLabel: '처음', targetLabel: '뒤집은 뒤' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-03', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-04]', cognitiveDomain: 'knowing',
+    problemFamily: 'identify-quarter-turn', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '돌리기',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '중심을 기준으로 방향이 90° 바뀐 이동을 알아봐요.',
+    promptTemplate: '회전 중심과 도형 방향의 변화를 보고 돌리기를 고르세요.', hintSteps: ['처음 점과 옮긴 점이 중심에서 같은 거리인지 봐요.', '오른쪽을 향하던 도형이 아래쪽을 향하면 시계 방향으로 90° 돌린 거예요.'],
+    build: (v, seed) => {
+      const centerX = 5
+      const centerY = 5
+      const startX = 2 + (v % 3)
+      const startY = 7
+      const correctAnswer = '중심을 기준으로 시계 방향으로 90° 돌리기'
+      return {
+        prompt: `${coordinateText(startX, startY)}에 있던 도형을 점 O(${centerX}, ${centerY})를 중심으로 돌렸더니 오른쪽을 향하던 모양이 아래쪽을 향했습니다. 어떤 이동인가요?`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '오른쪽으로 밀기', '세로선에 따라 뒤집기', '중심을 기준으로 반 바퀴 돌리기'], seed),
+        solutionSteps: ['도형의 각 점은 중심에서 같은 거리를 유지합니다.', '오른쪽 방향이 아래쪽 방향으로 바뀌었으므로 시계 방향 90° 돌리기입니다.'],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'rotate-clockwise', startX, startY, centerX, centerY, quarterTurns: 1, showTargetBeforeAnswer: true, startLabel: '처음', targetLabel: '돌린 뒤' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-04', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-04]', cognitiveDomain: 'knowing',
+    problemFamily: 'compare-orientation-change-by-transformation', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '이동 성질',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '밀기·뒤집기·돌리기에서 위치와 방향이 어떻게 달라지는지 구별해요.',
+    promptTemplate: '도형의 방향을 좌우로 바꾸는 이동을 고르세요.', hintSteps: ['밀기는 방향을 그대로 유지해요.', '거울에 비춘 것처럼 좌우가 바뀌는 이동을 찾아요.'],
+    build: (v, seed) => {
+      const axisX = 5
+      const startX = 1 + (v % 4)
+      const startY = 1 + v
+      const correctAnswer = '세로 기준선을 따라 뒤집으면 도형의 좌우 방향이 바뀝니다.'
+      return {
+        prompt: `${coordinateText(startX, startY)}에서 오른쪽을 향하는 화살표 모양의 방향을 왼쪽으로 바꾸는 이동에 대한 바른 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '어느 쪽으로 밀어도 도형의 방향이 반대로 바뀝니다.', '한 바퀴 돌리면 도형의 방향이 반대로 바뀝니다.', '위로 밀면 도형의 좌우가 서로 바뀝니다.'], seed),
+        solutionSteps: ['밀기는 모양과 방향을 바꾸지 않습니다.', '세로 기준선에 따라 뒤집으면 오른쪽과 왼쪽이 서로 바뀝니다.'],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'flip-vertical', startX, startY, axisX, showTargetBeforeAnswer: true, startLabel: '오른쪽 방향', targetLabel: '왼쪽 방향' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-05', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'applying',
+    directCurriculumCodes: ['[4수03-04]', '[4수03-05]'],
+    problemFamily: 'translate-point-by-vector', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '점 밀기',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '점의 좌표에 가로·세로 이동량을 더해 옮긴 위치를 구해요.',
+    promptTemplate: '점을 오른쪽과 위쪽으로 민 뒤 좌표를 구하세요.', hintSteps: ['오른쪽으로 간 칸 수를 x좌표에 더해요.', '위로 간 칸 수를 y좌표에 더해요.'],
+    build: (v, seed) => {
+      const startX = 1 + (v % 3)
+      const startY = 2 + (v % 3)
+      const deltaX = 2 + (v % 2)
+      const deltaY = 1 + (v % 2)
+      const targetX = startX + deltaX
+      const targetY = startY + deltaY
+      const correctAnswer = coordinateText(targetX, targetY)
+      return {
+        prompt: `점 P${coordinateText(startX, startY)}를 오른쪽으로 ${deltaX}칸, 위로 ${deltaY}칸 밀었습니다. 옮긴 점의 좌표를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, coordinateText(targetX - 1, targetY), coordinateText(targetX, targetY - 1), coordinateText(startX + deltaY, startY + deltaX)], seed),
+        solutionSteps: [`x좌표는 ${startX}+${deltaX}=${targetX}입니다.`, `y좌표는 ${startY}+${deltaY}=${targetY}이므로 옮긴 점은 ${correctAnswer}입니다.`],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'slide', startX, startY, deltaX, deltaY, showTargetBeforeAnswer: false, startLabel: 'P', targetLabel: "P'" },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-06', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'applying',
+    directCurriculumCodes: ['[4수03-04]', '[4수03-05]'],
+    problemFamily: 'reflect-point-across-vertical-line', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '점 뒤집기',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '세로 기준선에서 같은 거리에 있는 뒤집힌 점의 좌표를 구해요.',
+    promptTemplate: '점을 세로 기준선에 따라 뒤집은 좌표를 구하세요.', hintSteps: ['점에서 기준선까지 가로 거리를 구해요.', '기준선 반대쪽의 같은 거리에 점을 찍고 y좌표는 그대로 둬요.'],
+    build: (v, seed) => {
+      const axisX = 5
+      const startX = 1 + (v % 3)
+      const startY = 2 + (v % 5)
+      const targetX = 2 * axisX - startX
+      const correctAnswer = coordinateText(targetX, startY)
+      return {
+        prompt: `점 P${coordinateText(startX, startY)}를 x=${axisX}인 세로선에 따라 뒤집었습니다. 옮긴 점의 좌표를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, coordinateText(axisX - startX, startY), coordinateText(targetX, startY + 1), coordinateText(startX, 2 * axisX - startY)], seed),
+        solutionSteps: [`점 P는 기준선에서 ${axisX - startX}칸 왼쪽에 있습니다.`, `같은 높이에서 기준선 오른쪽 ${axisX - startX}칸인 ${correctAnswer}로 옮겨집니다.`],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'flip-vertical', startX, startY, axisX, showTargetBeforeAnswer: false, startLabel: 'P', targetLabel: "P'" },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-07', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'applying',
+    directCurriculumCodes: ['[4수03-04]', '[4수03-05]'],
+    problemFamily: 'rotate-point-clockwise-quarter-turn', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '점 돌리기',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '중심에서의 가로·세로 위치를 바꾸어 90° 돌린 점을 구해요.',
+    promptTemplate: '점을 중심 둘레로 시계 방향 90° 돌린 좌표를 구하세요.', hintSteps: ['중심에서 점까지 가로와 세로로 몇 칸인지 봐요.', '시계 방향 90° 돌리면 위쪽 거리는 오른쪽 거리로, 왼쪽 거리는 위쪽 거리로 바뀌어요.'],
+    build: (v, seed) => {
+      const centerX = 5
+      const centerY = 5
+      const startX = 3 + (v % 2)
+      const startY = 2 + (v % 2)
+      const dx = startX - centerX
+      const dy = startY - centerY
+      const targetX = centerX + dy
+      const targetY = centerY - dx
+      const correctAnswer = coordinateText(targetX, targetY)
+      return {
+        prompt: `점 P${coordinateText(startX, startY)}를 점 O${coordinateText(centerX, centerY)}를 중심으로 시계 방향 90° 돌렸습니다. 옮긴 점의 좌표를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, coordinateText(centerX - dy, centerY + dx), coordinateText(targetX + 1, targetY), coordinateText(targetX, targetY - 1)], seed),
+        solutionSteps: [`중심에서 P까지는 왼쪽으로 ${-dx}칸, 아래로 ${-dy}칸입니다.`, `시계 방향 90° 돌리면 왼쪽으로 ${-dy}칸, 위로 ${-dx}칸이므로 ${correctAnswer}입니다.`],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'rotate-clockwise', startX, startY, centerX, centerY, quarterTurns: 1, showTargetBeforeAnswer: false, startLabel: 'P', targetLabel: "P'" },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-08', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'applying',
+    directCurriculumCodes: ['[4수03-04]', '[4수03-05]'],
+    problemFamily: 'compose-slide-then-reflection', representation: 'context', answerType: 'choice', supportTool: 'grid', skillTag: '점의 연속 이동',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '점을 차례로 밀고 뒤집어 마지막 위치를 구해요.',
+    promptTemplate: '첫 이동 결과를 구한 뒤 두 번째 이동을 이어서 적용하세요.', hintSteps: ['먼저 오른쪽·위쪽 이동량을 좌표에 더해요.', '그 점을 기준선 반대쪽의 같은 거리로 뒤집어요.'],
+    build: (v, seed) => {
+      const startX = 1 + (v % 2)
+      const startY = 2 + (v % 2)
+      const deltaX = 2
+      const deltaY = 1
+      const axisX = 5
+      const afterSlideX = startX + deltaX
+      const afterSlideY = startY + deltaY
+      const targetX = 2 * axisX - afterSlideX
+      const correctAnswer = coordinateText(targetX, afterSlideY)
+      return {
+        prompt: `점 P${coordinateText(startX, startY)}를 오른쪽 ${deltaX}칸, 위 ${deltaY}칸 민 뒤 x=${axisX}인 세로선에 따라 뒤집었습니다. 마지막 좌표를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, coordinateText(afterSlideX, afterSlideY), coordinateText(targetX, startY), coordinateText(2 * axisX - startX, startY + deltaY)], seed),
+        solutionSteps: [`먼저 점은 ${coordinateText(afterSlideX, afterSlideY)}로 이동합니다.`, `이 점을 x=${axisX}에 따라 뒤집으면 ${correctAnswer}입니다.`],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'slide-then-flip', startX, startY, deltaX, deltaY, axisX, showTargetBeforeAnswer: false, startLabel: 'P', targetLabel: "P''" },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-09', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-04]', cognitiveDomain: 'reasoning',
+    problemFamily: 'slide-orientation-error-analysis', representation: 'context', answerType: 'choice', supportTool: 'grid', skillTag: '밀기 오류 분석',
+    taskActions: ['analyze_error', 'explain'], visualSemantics: 'quantitative',
+    learnerGoal: '밀기에서 도형의 방향이 바뀐다는 오개념을 그림으로 반박해요.',
+    promptTemplate: '밀기 뒤 방향이 달라진다는 친구의 설명을 고치세요.', hintSteps: ['처음 도형과 옮긴 도형의 대응하는 꼭짓점을 이어 봐요.', '모든 점이 같은 방향으로 같은 거리만큼 움직였는지 확인해요.'],
+    build: (v, seed) => {
+      const startX = 2 + (v % 2)
+      const startY = 2 + (v % 3)
+      const deltaX = 2 + (v % 3)
+      const deltaY = 1 + (v % 2)
+      const correctAnswer = `모든 점을 오른쪽 ${deltaX}칸, 위 ${deltaY}칸씩 밀면 도형의 방향은 바뀌지 않습니다.`
+      return {
+        prompt: `서윤이는 “도형을 오른쪽 ${deltaX}칸, 위 ${deltaY}칸 밀면 뾰족한 방향도 반대로 바뀌어.”라고 말했습니다. 알맞은 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '밀기는 도형을 세로선에 따라 뒤집는 이동이므로 방향이 바뀝니다.', '가로와 세로로 함께 밀면 도형의 크기가 두 배가 됩니다.', '도형을 밀면 꼭짓점마다 서로 다른 거리를 움직입니다.'], seed),
+        solutionSteps: ['밀기에서는 모든 점이 같은 방향으로 같은 거리만큼 움직입니다.', '모양·크기·방향은 그대로이고 위치만 바뀌므로 친구의 설명은 틀렸습니다.'],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'slide', startX, startY, deltaX, deltaY, showTargetBeforeAnswer: true, startLabel: '처음', targetLabel: '민 뒤', speaker: '서윤' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-move-10', unitId: GRADE4_SHAPE_TRANSFORMATIONS_UNIT_ID, curriculumCode: '[4수03-05]', cognitiveDomain: 'reasoning',
+    problemFamily: 'double-reflection-inverse-reasoning', representation: 'shape-transformation', answerType: 'choice', supportTool: 'grid', skillTag: '이동 되돌리기',
+    taskActions: ['reason'], visualSemantics: 'quantitative',
+    learnerGoal: '같은 기준선에 두 번 뒤집으면 처음 위치와 방향으로 돌아옴을 설명해요.',
+    promptTemplate: '같은 뒤집기를 두 번 했을 때 마지막 위치를 추론하세요.', hintSteps: ['첫 번째 뒤집기에서 기준선 반대쪽 같은 거리로 가요.', '그 점을 같은 기준선으로 다시 뒤집으면 어디로 돌아오는지 생각해요.'],
+    build: (v, seed) => {
+      const axisX = 5
+      const startX = 1 + (v % 3)
+      const startY = 2 + (v % 5)
+      const correctAnswer = `처음 점 ${coordinateText(startX, startY)}로 돌아오고 도형의 방향도 처음과 같습니다.`
+      return {
+        prompt: `점 P${coordinateText(startX, startY)}와 그 도형을 x=${axisX}인 세로선에 따라 뒤집은 뒤, 같은 선에 따라 한 번 더 뒤집었습니다. 마지막 상태를 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, `첫 번째 뒤집기 위치 ${coordinateText(2 * axisX - startX, startY)}에 그대로 있습니다.`, '기준선 위로 이동하고 도형의 크기가 작아집니다.', '처음 점으로 돌아오지만 도형의 방향은 반대입니다.'], seed),
+        solutionSteps: [`첫 번째 뒤집기에서 점은 ${coordinateText(2 * axisX - startX, startY)}로 갑니다.`, '같은 기준선에 다시 뒤집으면 모든 점이 처음 자리로 돌아오고 방향도 복원됩니다.'],
+        visualModel: 'shape-transformation',
+        visualConfig: { mode: 'double-flip', startX, startY, axisX, showTargetBeforeAnswer: true, startLabel: '처음과 마지막', targetLabel: '한 번 뒤집은 위치' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-tri-01', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-08]', cognitiveDomain: 'knowing',
+    problemFamily: 'equilateral-from-three-equal-sides', representation: 'triangle-model', answerType: 'choice', supportTool: 'none', skillTag: '정삼각형',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '세 변의 길이가 모두 같은 삼각형을 정삼각형으로 분류해요.',
+    promptTemplate: '세 변의 길이를 비교해 삼각형의 이름을 고르세요.', hintSteps: ['세 변의 길이를 하나씩 비교해요.', '세 변이 모두 같으면 정삼각형이에요.'],
+    build: (v, seed) => {
+      const side = 4 + v
+      const correctAnswer = '정삼각형'
+      return { prompt: `세 변의 길이가 모두 ${side} cm인 삼각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '직각삼각형', '둔각삼각형', '세 변의 길이가 모두 다른 삼각형'], seed),
+        solutionSteps: [`세 변이 모두 ${side} cm로 같습니다.`, '세 변의 길이가 모두 같은 삼각형은 정삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: side, sideB: side, sideC: side, labelMode: 'sides' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-02', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-08]', cognitiveDomain: 'knowing',
+    problemFamily: 'isosceles-from-two-equal-sides', representation: 'triangle-model', answerType: 'choice', supportTool: 'none', skillTag: '이등변삼각형',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '두 변의 길이가 같은 삼각형을 이등변삼각형으로 분류해요.',
+    promptTemplate: '같은 두 변을 찾아 삼각형의 이름을 고르세요.', hintSteps: ['길이가 같은 변이 있는지 찾아요.', '두 변이 같으면 이등변삼각형이에요.'],
+    build: (v, seed) => {
+      const leg = 7 + v
+      const base = 5 + (v % 3)
+      const correctAnswer = '이등변삼각형'
+      return { prompt: `세 변의 길이가 ${leg} cm, ${leg} cm, ${base} cm인 삼각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '정삼각형', '세 변의 길이가 모두 다른 삼각형', '직각삼각형이라고만 할 수 있습니다.'], seed),
+        solutionSteps: [`길이가 ${leg} cm인 두 변이 같습니다.`, '두 변의 길이가 같은 삼각형은 이등변삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: leg, sideB: leg, sideC: base, labelMode: 'sides' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-03', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-09]', cognitiveDomain: 'knowing',
+    problemFamily: 'right-triangle-from-pythagorean-sides', representation: 'triangle-model', answerType: 'choice', supportTool: 'none', skillTag: '직각삼각형',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '한 각이 직각인 삼각형을 직각삼각형으로 분류해요.',
+    promptTemplate: '직각 표식과 세 변의 관계를 보고 삼각형을 분류하세요.', hintSteps: ['가장 긴 변을 찾아요.', '짧은 두 변이 만나는 각이 직각인지 확인해요.'],
+    build: (v, seed) => {
+      const scale = 1 + (v % 3)
+      const a = 3 * scale; const b = 4 * scale; const c = 5 * scale
+      const correctAnswer = '직각삼각형'
+      return { prompt: `세 변의 길이가 ${a} cm, ${b} cm, ${c} cm이고 한 각이 직각인 삼각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '예각삼각형', '둔각삼각형', '정삼각형'], seed),
+        solutionSteps: ['짧은 두 변이 만나는 곳의 직각 표식을 확인합니다.', '한 각이 직각인 삼각형은 직각삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: a, sideB: b, sideC: c, labelMode: 'sides' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-04', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-09]', cognitiveDomain: 'knowing',
+    problemFamily: 'obtuse-triangle-from-longest-side', representation: 'triangle-model', answerType: 'choice', supportTool: 'none', skillTag: '둔각삼각형',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '한 각이 둔각인 삼각형을 둔각삼각형으로 분류해요.',
+    promptTemplate: '가장 큰 각을 살펴 예각·직각·둔각삼각형을 구별하세요.', hintSteps: ['가장 긴 변의 맞은편 각이 가장 커요.', '그 각이 90°보다 큰지 살펴봐요.'],
+    build: (v, seed) => {
+      const scale = 1 + (v % 3)
+      const a = 5 * scale; const b = 6 * scale; const c = 8 * scale
+      const correctAnswer = '둔각삼각형'
+      return { prompt: `세 변의 길이가 ${a} cm, ${b} cm, ${c} cm인 삼각형에서 가장 큰 각은 90°보다 큽니다. 알맞은 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '예각삼각형', '직각삼각형', '정삼각형'], seed),
+        solutionSteps: [`가장 긴 ${c} cm 변의 맞은편 각이 가장 큽니다.`, '그 각이 90°보다 크므로 둔각삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: a, sideB: b, sideC: c, labelMode: 'sides' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-05', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-09]', cognitiveDomain: 'applying',
+    problemFamily: 'acute-triangle-park-sign', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '생활 속 예각삼각형',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '세 각이 모두 예각인 생활 속 삼각형을 분류해요.',
+    promptTemplate: '표지판의 세 각을 살펴 삼각형을 분류하세요.', hintSteps: ['세 각을 각각 90°와 비교해요.', '세 각이 모두 90°보다 작으면 예각삼각형이에요.'],
+    build: (v, seed) => {
+      const a = 6 + v; const b = 7 + v; const c = 8 + v
+      const correctAnswer = '예각삼각형'
+      return { prompt: `공원 표지판의 세 변이 ${a} cm, ${b} cm, ${c} cm이고 세 각이 모두 90°보다 작습니다. 알맞은 분류를 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '직각삼각형', '둔각삼각형', '정삼각형'], seed),
+        solutionSteps: ['세 각을 90°와 비교하면 모두 작습니다.', '세 각이 모두 예각인 삼각형은 예각삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: a, sideB: b, sideC: c, labelMode: 'sides', contextLabel: '공원 표지판' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-06', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-08]', cognitiveDomain: 'applying',
+    problemFamily: 'classify-isosceles-right-triangle', representation: 'triangle-model', answerType: 'choice', supportTool: 'none', skillTag: '겹치는 분류',
+    taskActions: ['classify', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '한 삼각형을 변과 각의 두 기준으로 함께 분류해요.',
+    promptTemplate: '같은 두 변과 직각을 모두 이용해 두 가지 이름을 고르세요.', hintSteps: ['같은 길이인 변의 수를 봐요.', '직각이 있는지도 따로 확인해요.'],
+    build: (v, seed) => {
+      const leg = 5 + v
+      const hypotenuse = leg * Math.SQRT2
+      const correctAnswer = '이등변삼각형이면서 직각삼각형'
+      return { prompt: `두 변의 길이가 모두 ${leg} cm이고 그 두 변 사이의 각이 직각인 삼각형입니다. 가장 알맞은 분류를 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '정삼각형이면서 예각삼각형', '이등변삼각형이면서 둔각삼각형', '세 변이 모두 다른 직각삼각형'], seed),
+        solutionSteps: [`길이가 ${leg} cm인 두 변이 같아 이등변삼각형입니다.`, '그 두 변 사이가 직각이므로 직각삼각형이기도 합니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: leg, sideB: leg, sideC: hypotenuse, labelMode: 'properties' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-07', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-08]', cognitiveDomain: 'applying',
+    problemFamily: 'isosceles-roof-frame', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '생활 속 이등변삼각형',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '생활 속 구조물에서 같은 두 변을 찾아 이등변삼각형을 알아봐요.',
+    promptTemplate: '지붕 골조의 두 빗변 길이를 비교해 분류하세요.', hintSteps: ['지붕 꼭대기에서 양쪽 끝으로 간 길이를 비교해요.', '같은 두 변이 있으면 이등변삼각형이에요.'],
+    build: (v, seed) => {
+      const leg = 8 + v
+      const base = 6 + v
+      const correctAnswer = '이등변삼각형'
+      return { prompt: `지붕 골조의 두 빗변은 각각 ${leg} m이고 밑변은 ${base} m입니다. 골조의 삼각형을 변의 길이로 분류하세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '정삼각형', '세 변의 길이가 모두 다른 삼각형', '직각삼각형이라고만 할 수 있습니다.'], seed),
+        solutionSteps: [`두 빗변이 모두 ${leg} m로 같습니다.`, '두 변이 같으므로 이등변삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: leg, sideB: leg, sideC: base, labelMode: 'sides', contextLabel: '지붕 골조' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-08', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-08]', cognitiveDomain: 'applying',
+    problemFamily: 'construct-equilateral-with-equal-radius', representation: 'triangle-model', answerType: 'choice', supportTool: 'none', skillTag: '정삼각형 만들기',
+    taskActions: ['classify', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '같은 길이를 세 번 사용해 정삼각형을 만드는 방법을 설명해요.',
+    promptTemplate: '세 변을 같은 길이로 만드는 정삼각형 작도 방법을 고르세요.', hintSteps: ['정삼각형의 세 변은 모두 같아요.', '두 끝점에서 같은 길이만큼 떨어진 점을 찾아요.'],
+    build: (v, seed) => {
+      const side = 5 + v
+      const correctAnswer = `세 변을 모두 ${side} cm로 만들면 정삼각형이 됩니다.`
+      return { prompt: `길이 ${side} cm인 선분의 두 끝점에서 각각 ${side} cm 떨어진 점을 찾아 연결했습니다. 만들어진 삼각형에 대한 바른 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '두 변만 같으므로 세 번째 변의 길이는 알 수 없습니다.', `밑변만 ${side} cm이고 나머지 두 변은 서로 다릅니다.`, '세 각 중 하나가 반드시 둔각입니다.'], seed),
+        solutionSteps: [`세 선분의 길이가 모두 ${side} cm입니다.`, '세 변의 길이가 모두 같으므로 정삼각형입니다.'],
+        visualModel: 'triangle-model', visualConfig: { sideA: side, sideB: side, sideC: side, labelMode: 'sides' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-09', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-08]', cognitiveDomain: 'reasoning',
+    problemFamily: 'isosceles-all-angles-equal-error', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '이등변삼각형 오류',
+    taskActions: ['analyze_error', 'explain'], visualSemantics: 'quantitative',
+    learnerGoal: '이등변삼각형에서 같은 변의 맞은편 두 각만 같음을 설명해요.',
+    promptTemplate: '두 변이 같으면 세 각도 모두 같다는 오류를 고치세요.', hintSteps: ['같은 변의 맞은편 각을 찾아요.', '세 번째 각까지 같은지는 따로 확인해요.'],
+    build: (v, seed) => {
+      const leg = 8 + v
+      const base = 5 + (v % 3)
+      const correctAnswer = '같은 두 변의 맞은편 두 각은 같지만, 세 각이 모두 같다고 할 수는 없습니다.'
+      return { prompt: `두 변이 ${leg} cm이고 밑변이 ${base} cm인 삼각형을 보고 민준이는 “이등변삼각형이니 세 각이 모두 같아.”라고 했습니다. 알맞은 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '이등변삼각형의 세 각은 언제나 모두 같습니다.', '같은 두 변 사이의 꼭지각만 두 개가 됩니다.', '변의 길이와 각의 크기는 아무 관계가 없습니다.'], seed),
+        solutionSteps: [`길이 ${leg} cm인 두 변의 맞은편 각 두 개가 같습니다.`, `밑변 ${base} cm는 다른 길이이므로 세 각이 모두 같다는 결론은 틀렸습니다.`],
+        visualModel: 'triangle-model', visualConfig: { sideA: leg, sideB: leg, sideC: base, labelMode: 'sides', speaker: '민준' } }
+    },
+  }),
+  template({
+    id: 'g4-tri-10', unitId: GRADE4_TRIANGLES_UNIT_ID, curriculumCode: '[4수03-09]', cognitiveDomain: 'reasoning',
+    problemFamily: 'classify-isosceles-obtuse-triangle', representation: 'triangle-model', answerType: 'choice', supportTool: 'none', skillTag: '두 기준 추론',
+    taskActions: ['classify', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '변과 각의 기준을 각각 적용해 이등변·둔각삼각형을 함께 분류해요.',
+    promptTemplate: '같은 두 변과 가장 큰 각을 모두 근거로 두 가지 이름을 고르세요.', hintSteps: ['먼저 같은 길이의 변을 찾아요.', '가장 긴 변의 맞은편 각이 90°보다 큰지도 확인해요.'],
+    build: (v, seed) => {
+      const leg = 5 + (v % 3)
+      const base = 2 * leg - 2
+      const correctAnswer = '이등변삼각형이면서 둔각삼각형'
+      return { prompt: `세 변이 ${leg} cm, ${leg} cm, ${base} cm인 삼각형에서 가장 큰 각은 90°보다 큽니다. 가장 알맞은 분류를 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '정삼각형이면서 예각삼각형', '이등변삼각형이면서 직각삼각형', '세 변이 모두 다른 둔각삼각형'], seed),
+        solutionSteps: [`길이 ${leg} cm인 두 변이 같아 이등변삼각형입니다.`, `가장 큰 각이 90°보다 크므로 둔각삼각형이기도 합니다.`],
+        visualModel: 'triangle-model', visualConfig: { sideA: leg, sideB: leg, sideC: base, labelMode: 'properties' } }
+    },
+  }),
+  template({
+    id: 'g4-quad-01', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'knowing',
+    problemFamily: 'rectangle-from-four-right-angles', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'none', skillTag: '직사각형',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '네 각이 모두 직각인 사각형을 직사각형으로 분류해요.',
+    promptTemplate: '네 각이 직각인 사각형의 이름을 고르세요.', hintSteps: ['네 꼭짓점의 각 표시를 확인해요.', '네 각이 모두 직각인 사각형의 이름을 떠올려요.'],
+    build: (v, seed) => {
+      const width = 8 + v
+      const height = 3 + (v % 4)
+      const correctAnswer = '직사각형'
+      return { prompt: `가로 ${width} cm, 세로 ${height} cm이고 네 각이 모두 직각인 사각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '마름모', '사다리꼴이라고만 할 수 있습니다.', '평행사변형이 아닙니다.'], seed),
+        solutionSteps: ['네 꼭짓점에 모두 직각 표시가 있습니다.', '네 각이 모두 직각인 사각형은 직사각형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'rectangle', width, height, rightAngles: 4, parallelPairs: 2, equalSides: 0 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-02', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'knowing',
+    problemFamily: 'square-from-equal-sides-right-angles', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'none', skillTag: '정사각형',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '네 변이 같고 네 각이 직각인 사각형을 정사각형으로 분류해요.',
+    promptTemplate: '네 변과 네 각의 성질로 정사각형을 알아봐요.', hintSteps: ['네 변의 길이 표시를 비교해요.', '네 각의 직각 표시도 모두 확인해요.'],
+    build: (v, seed) => {
+      const side = 5 + v
+      const correctAnswer = '정사각형'
+      return { prompt: `네 변의 길이가 모두 ${side} cm이고 네 각이 모두 직각인 사각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '직사각형이라고만 할 수 있습니다.', '마름모라고만 할 수 있습니다.', '평행사변형이 아닙니다.'], seed),
+        solutionSteps: [`네 변이 모두 ${side} cm로 같습니다.`, '네 각도 모두 직각이므로 정사각형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'square', width: side, height: side, rightAngles: 4, parallelPairs: 2, equalSides: 4 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-03', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'knowing',
+    problemFamily: 'trapezoid-from-one-parallel-pair', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'none', skillTag: '사다리꼴',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '한 쌍의 마주 보는 변이 평행한 사각형을 사다리꼴로 분류해요.',
+    promptTemplate: '한 쌍의 평행한 변을 보고 사각형의 이름을 고르세요.', hintSteps: ['같은 화살표가 있는 두 변을 찾아요.', '한 쌍의 변이 평행한 사각형의 이름을 떠올려요.'],
+    build: (v, seed) => {
+      const topWidth = 5 + v
+      const bottomWidth = topWidth + 4
+      const height = 3 + (v % 4)
+      const correctAnswer = '사다리꼴'
+      return { prompt: `윗변 ${topWidth} cm와 아랫변 ${bottomWidth} cm가 서로 평행하고 나머지 두 변은 평행하지 않은 사각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '직사각형', '정사각형', '마름모'], seed),
+        solutionSteps: ['윗변과 아랫변 한 쌍이 서로 평행합니다.', '한 쌍의 변이 평행하므로 사다리꼴입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'trapezoid', width: bottomWidth, topWidth, height, rightAngles: 0, parallelPairs: 1, equalSides: 0 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-04', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'knowing',
+    problemFamily: 'parallelogram-from-two-parallel-pairs', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'none', skillTag: '평행사변형',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '마주 보는 두 쌍의 변이 각각 평행한 사각형을 평행사변형으로 분류해요.',
+    promptTemplate: '두 쌍의 평행한 변을 보고 사각형의 이름을 고르세요.', hintSteps: ['마주 보는 변끼리 화살표 표시를 비교해요.', '두 쌍이 모두 평행한 사각형의 이름을 떠올려요.'],
+    build: (v, seed) => {
+      const width = 7 + v
+      const height = 4 + (v % 3)
+      const slant = 2 + (v % 2)
+      const correctAnswer = '평행사변형'
+      return { prompt: `밑변 ${width} cm이고 마주 보는 두 쌍의 변이 각각 평행한 사각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '직사각형', '정사각형', '평행한 변이 없는 사각형'], seed),
+        solutionSteps: ['위·아래 변이 평행하고 왼쪽·오른쪽 변도 평행합니다.', '마주 보는 두 쌍의 변이 평행하므로 평행사변형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'parallelogram', width, height, slant, rightAngles: 0, parallelPairs: 2, equalSides: 0 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-05', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'applying',
+    problemFamily: 'rectangular-frame-properties', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '생활 속 직사각형',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '생활 속 틀에서 직각과 마주 보는 변의 성질을 찾아 직사각형을 알아봐요.',
+    promptTemplate: '액자 틀의 각과 변을 보고 알맞은 분류를 고르세요.', hintSteps: ['네 모서리가 모두 직각인지 확인해요.', '가로와 세로가 서로 다른 것은 직사각형의 조건에 어긋나지 않아요.'],
+    build: (v, seed) => {
+      const width = 18 + v
+      const height = 10 + (v % 4)
+      const correctAnswer = '네 각이 모두 직각이므로 직사각형입니다.'
+      return { prompt: `가로 ${width} cm, 세로 ${height} cm인 액자 틀의 네 모서리가 모두 직각입니다. 바른 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '가로와 세로가 다르므로 직사각형이 아닙니다.', '네 변이 모두 같아야만 직사각형입니다.', '평행한 변이 한 쌍도 없습니다.'], seed),
+        solutionSteps: ['액자의 네 모서리는 모두 직각입니다.', '가로와 세로의 길이가 달라도 네 각이 직각이면 직사각형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'rectangle', width, height, rightAngles: 4, parallelPairs: 2, equalSides: 0, contextLabel: '액자 틀' } }
+    },
+  }),
+  template({
+    id: 'g4-quad-06', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'applying',
+    problemFamily: 'rhombus-from-four-equal-sides', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'none', skillTag: '마름모',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '네 변의 길이가 모두 같은 사각형을 마름모로 분류해요.',
+    promptTemplate: '네 변의 길이 표시를 보고 마름모를 알아봐요.', hintSteps: ['네 변에 같은 길이 표시가 있는지 확인해요.', '각이 직각이라는 조건은 주어지지 않았어요.'],
+    build: (v, seed) => {
+      const side = 6 + v
+      const slant = 2 + (v % 3)
+      const correctAnswer = '마름모'
+      return { prompt: `네 변의 길이가 모두 ${side} cm이고 네 각이 직각은 아닌 사각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '정사각형', '직사각형', '평행한 변이 없는 사각형'], seed),
+        solutionSteps: [`네 변이 모두 ${side} cm로 같습니다.`, '네 변의 길이가 모두 같은 사각형은 마름모입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'rhombus', width: side, height: side, slant, rightAngles: 0, parallelPairs: 2, equalSides: 4 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-07', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'applying',
+    problemFamily: 'square-overlapping-classifications', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '포함 관계',
+    taskActions: ['classify', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '정사각형이 직사각형과 마름모의 성질도 함께 가짐을 설명해요.',
+    promptTemplate: '정사각형에 겹쳐 적용되는 사각형의 성질을 고르세요.', hintSteps: ['정사각형의 네 각을 직사각형의 조건과 비교해요.', '정사각형의 네 변을 마름모의 조건과 비교해요.'],
+    build: (v, seed) => {
+      const side = 7 + v
+      const correctAnswer = '정사각형이며 직사각형과 마름모의 성질도 가집니다.'
+      return { prompt: `네 변이 모두 ${side} cm이고 네 각이 모두 직각인 도형에 대한 가장 알맞은 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '정사각형은 직사각형의 성질을 가지지 않습니다.', '정사각형은 마름모의 성질을 가지지 않습니다.', '평행사변형의 성질은 전혀 없습니다.'], seed),
+        solutionSteps: ['네 각이 직각이므로 직사각형의 성질을 가집니다.', '네 변이 같으므로 마름모의 성질도 가지며, 정확한 이름은 정사각형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'square', width: side, height: side, rightAngles: 4, parallelPairs: 2, equalSides: 4 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-08', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'applying',
+    problemFamily: 'parallelogram-one-right-angle', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'none', skillTag: '직사각형 성질 적용',
+    taskActions: ['classify', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '평행사변형의 한 각이 직각이면 나머지 각도 직각임을 적용해 직사각형을 알아봐요.',
+    promptTemplate: '평행사변형의 한 직각에서 전체 모양을 추론하세요.', hintSteps: ['평행사변형에서 이웃한 각의 크기 관계를 떠올려요.', '한 각이 직각이면 이웃한 각과 마주 보는 각도 확인해요.'],
+    build: (v, seed) => {
+      const width = 9 + v
+      const height = 4 + (v % 4)
+      const correctAnswer = '네 각이 모두 직각인 직사각형입니다.'
+      return { prompt: `가로 ${width} cm인 평행사변형의 한 각이 90°입니다. 이 사각형에 대한 바른 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '한 각만 직각인 사다리꼴입니다.', '네 변이 모두 같으므로 마름모입니다.', '나머지 세 각의 크기는 전혀 알 수 없습니다.'], seed),
+        solutionSteps: ['평행사변형에서 이웃한 두 각의 합은 180°입니다.', '한 각이 90°이면 네 각이 모두 90°가 되어 직사각형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'rectangle', width, height, rightAngles: 1, parallelPairs: 2, equalSides: 0 } }
+    },
+  }),
+  template({
+    id: 'g4-quad-09', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'reasoning',
+    problemFamily: 'opposite-sides-equal-rectangle-error', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '직사각형 오류',
+    taskActions: ['analyze_error', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '마주 보는 변이 같은 것만으로 직사각형이라고 할 수 없음을 반례로 설명해요.',
+    promptTemplate: '마주 보는 변이 같으면 직사각형이라는 주장을 고치세요.', hintSteps: ['직사각형을 결정하는 각의 조건을 확인해요.', '기울어진 평행사변형도 마주 보는 변은 같다는 점을 떠올려요.'],
+    build: (v, seed) => {
+      const width = 8 + v
+      const height = 4 + (v % 3)
+      const correctAnswer = '마주 보는 변이 각각 같아도 네 각이 직각이 아니면 직사각형이라고 할 수 없습니다.'
+      return { prompt: `마주 보는 변의 길이가 각각 ${width} cm와 ${height} cm인 기울어진 평행사변형을 보고 지우는 “마주 보는 변이 같으니 직사각형이야.”라고 했습니다. 알맞은 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '마주 보는 변이 같으면 언제나 직사각형입니다.', '평행사변형에는 같은 길이의 변이 있을 수 없습니다.', '사각형의 이름은 변의 개수만으로 모두 정해집니다.'], seed),
+        solutionSteps: ['마주 보는 변이 각각 같은 것은 평행사변형도 만족합니다.', '직사각형이 되려면 네 각이 모두 직각이라는 조건이 더 필요합니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'parallelogram', width, height, slant: 3, rightAngles: 0, parallelPairs: 2, equalSides: 0, contextLabel: '지우의 도형' } }
+    },
+  }),
+  template({
+    id: 'g4-quad-10', unitId: GRADE4_QUADRILATERALS_UNIT_ID, curriculumCode: '[4수03-10]', cognitiveDomain: 'reasoning',
+    problemFamily: 'combine-rhombus-rectangle-conditions', representation: 'quadrilateral-model', answerType: 'choice', supportTool: 'none', skillTag: '성질 결합 추론',
+    taskActions: ['classify', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '마름모와 직사각형의 조건을 결합해 정사각형임을 추론해요.',
+    promptTemplate: '네 변이 같고 네 각이 직각인 두 조건을 결합하세요.', hintSteps: ['네 변이 같은 조건이 만드는 사각형을 떠올려요.', '네 각이 직각인 조건까지 동시에 적용해요.'],
+    build: (v, seed) => {
+      const side = 8 + v
+      const correctAnswer = '두 조건을 모두 만족하므로 정사각형입니다.'
+      return { prompt: `한 사각형은 네 변이 모두 ${side} cm이고 네 각이 모두 90°입니다. 이 도형에 대한 가장 정확한 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '마름모이지만 직사각형의 성질은 없습니다.', '직사각형이지만 마름모의 성질은 없습니다.', '사다리꼴이라고만 해야 합니다.'], seed),
+        solutionSteps: ['네 변이 같으므로 마름모의 성질을 가집니다.', '네 각이 직각이므로 직사각형의 성질도 가지며, 두 조건을 모두 만족하는 정사각형입니다.'],
+        visualModel: 'quadrilateral-model', visualConfig: { shapeType: 'square', width: side, height: side, rightAngles: 4, parallelPairs: 2, equalSides: 4 } }
+    },
+  }),
+  template({
+    id: 'g4-poly-01', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-11]', cognitiveDomain: 'knowing',
+    problemFamily: 'name-polygon-from-side-count', representation: 'polygon-model', answerType: 'choice', supportTool: 'none', skillTag: '다각형 이름',
+    taskActions: ['recognize', 'classify'], visualSemantics: 'quantitative',
+    learnerGoal: '변의 수를 세어 다각형의 이름을 말해요.',
+    promptTemplate: '변의 수에서 다각형의 이름을 고르세요.', hintSteps: ['곧은 선분으로 된 변을 차례로 세어요.', '변의 수와 같은 수의 각을 가진 다각형 이름을 떠올려요.'],
+    build: (v, seed) => {
+      const sideCount = 5 + (v % 4)
+      const correctAnswer = polygonName(sideCount)
+      const choices = ['오각형', '육각형', '칠각형', '팔각형']
+      return { prompt: `그림처럼 ${sideCount}개의 선분으로 둘러싸인 다각형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices(choices, seed),
+        solutionSteps: [`도형의 변은 ${sideCount}개입니다.`, `변이 ${sideCount}개인 다각형은 ${correctAnswer}입니다.`],
+        visualModel: 'polygon-model', visualConfig: { sideCount, regular: false, equalSides: false, showDiagonals: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-02', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-11]', cognitiveDomain: 'knowing',
+    problemFamily: 'regular-polygon-definition', representation: 'polygon-model', answerType: 'choice', supportTool: 'none', skillTag: '정다각형',
+    taskActions: ['classify', 'explain'], visualSemantics: 'quantitative',
+    learnerGoal: '모든 변과 모든 각이 각각 같은 다각형을 정다각형으로 설명해요.',
+    promptTemplate: '정다각형이 되기 위한 변과 각의 조건을 고르세요.', hintSteps: ['변의 길이 조건을 모두 확인해요.', '각의 크기 조건도 모두 확인해야 해요.'],
+    build: (v, seed) => {
+      const sideCount = 5 + (v % 4)
+      const correctAnswer = '모든 변의 길이와 모든 각의 크기가 각각 같습니다.'
+      return { prompt: `그림은 정${polygonName(sideCount)}입니다. 정다각형의 공통 성질을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '모든 변의 길이만 같으면 되고 각은 달라도 됩니다.', '모든 각의 크기만 같으면 되고 변은 달라도 됩니다.', '마주 보는 변이 한 쌍만 평행하면 됩니다.'], seed),
+        solutionSteps: ['정다각형은 모든 변의 길이가 같습니다.', '모든 각의 크기도 각각 같아야 합니다.'],
+        visualModel: 'polygon-model', visualConfig: { sideCount, regular: true, equalSides: true, showDiagonals: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-03', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-11]', cognitiveDomain: 'knowing',
+    problemFamily: 'name-regular-polygon', representation: 'polygon-model', answerType: 'choice', supportTool: 'none', skillTag: '정다각형 이름',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '변과 각이 모두 같은 다각형을 변의 수와 연결해 이름 붙여요.',
+    promptTemplate: '정다각형의 변 수를 보고 정확한 이름을 고르세요.', hintSteps: ['먼저 변의 수에서 다각형 이름을 정해요.', '변과 각이 모두 같으므로 이름 앞에 정을 붙여요.'],
+    build: (v, seed) => {
+      const sideCount = 6 + (v % 3)
+      const correctAnswer = `정${polygonName(sideCount)}`
+      return { prompt: `변이 ${sideCount}개이고 모든 변의 길이와 모든 각의 크기가 각각 같은 도형의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, polygonName(sideCount), `정${polygonName(sideCount - 1)}`, `정${polygonName(sideCount + 1)}`], seed),
+        solutionSteps: [`변이 ${sideCount}개이므로 ${polygonName(sideCount)}입니다.`, '변과 각이 모두 각각 같으므로 정다각형입니다.'],
+        visualModel: 'polygon-model', visualConfig: { sideCount, regular: true, equalSides: true, showDiagonals: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-04', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-11]', cognitiveDomain: 'knowing',
+    problemFamily: 'diagonals-from-one-vertex', representation: 'polygon-model', answerType: 'choice', supportTool: 'none', skillTag: '대각선',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '한 꼭짓점에서 이웃하지 않은 꼭짓점으로 그을 수 있는 대각선을 세어요.',
+    promptTemplate: '한 꼭짓점에서 그을 수 있는 대각선 수를 구하세요.', hintSteps: ['자기 자신과 양옆의 두 꼭짓점에는 대각선을 긋지 않아요.', '전체 꼭짓점 수에서 이 세 꼭짓점을 빼요.'],
+    build: (v, seed) => {
+      const sideCount = 5 + (v % 4)
+      const count = sideCount - 3
+      const correctAnswer = `${count}개`
+      return { prompt: `${polygonName(sideCount)}의 한 꼭짓점에서 그을 수 있는 대각선은 모두 몇 개일까요?`, correctAnswer,
+        choices: rotateChoices([`${count}개`, `${count + 1}개`, `${count + 2}개`, `${count + 3}개`], seed),
+        solutionSteps: [`꼭짓점은 ${sideCount}개입니다.`, `자기 자신과 이웃한 두 꼭짓점을 빼면 ${sideCount}-3=${count}개입니다.`],
+        visualModel: 'polygon-model', visualConfig: { sideCount, regular: true, equalSides: true, showDiagonals: true } }
+    },
+  }),
+  template({
+    id: 'g4-poly-05', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-11]', cognitiveDomain: 'applying',
+    problemFamily: 'regular-polygon-perimeter', representation: 'polygon-model', answerType: 'integer', supportTool: 'none', skillTag: '정다각형 둘레',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '정다각형의 같은 변 길이와 변의 수를 곱해 둘레를 구해요.',
+    promptTemplate: '한 변의 길이와 변의 수로 정다각형의 둘레를 구하세요.', hintSteps: ['정다각형의 모든 변은 길이가 같아요.', '한 변의 길이에 변의 수를 곱해요.'],
+    build: (v) => {
+      const sideCount = 5 + (v % 3)
+      const sideLength = 3 + (v % 5)
+      const perimeter = sideCount * sideLength
+      return { prompt: `한 변이 ${sideLength} cm인 정${polygonName(sideCount)}의 둘레는 몇 cm일까요?`, correctAnswer: String(perimeter),
+        solutionSteps: [`정${polygonName(sideCount)}의 변은 ${sideCount}개이고 모두 ${sideLength} cm입니다.`, `${sideLength}×${sideCount}=${perimeter} cm입니다.`],
+        visualModel: 'polygon-model', visualConfig: { sideCount, sideLength, regular: true, equalSides: true, showDiagonals: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-06', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-12]', cognitiveDomain: 'applying',
+    problemFamily: 'compose-two-triangles', representation: 'tiling-model', answerType: 'choice', supportTool: 'grid', skillTag: '도형 합성',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '같은 삼각형 두 개를 변끼리 붙여 만든 바깥 모양을 알아봐요.',
+    promptTemplate: '같은 삼각형 두 개를 붙여 만든 도형을 고르세요.', hintSteps: ['붙인 변은 바깥 둘레에서 사라져요.', '남은 바깥 선분의 수를 세어요.'],
+    build: (v, seed) => {
+      const edgeLength = 3 + v
+      const correctAnswer = '사각형'
+      return { prompt: `한 변이 ${edgeLength} cm인 같은 삼각형 두 개를 한 변끼리 붙였습니다. 그림의 바깥 모양은 어떤 다각형일까요?`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '삼각형', '오각형', '육각형'], seed),
+        solutionSteps: ['붙인 한 변은 도형의 안쪽 선이 됩니다.', '바깥쪽에 네 선분이 남으므로 사각형입니다.'],
+        visualModel: 'tiling-model', visualConfig: { tileShape: 'triangle', arrangement: 'paired', rows: 1, columns: 2, edgeLength, hasGap: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-07', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-12]', cognitiveDomain: 'applying',
+    problemFamily: 'fill-rectangle-with-squares', representation: 'tiling-model', answerType: 'choice', supportTool: 'grid', skillTag: '정사각형 채우기',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '행과 열로 놓인 정사각형 수를 곱해 빈틈없이 채운 조각 수를 구해요.',
+    promptTemplate: '정사각형 격자의 행과 열에서 조각 수를 구하세요.', hintSteps: ['한 줄에 놓인 정사각형 수를 세어요.', '줄 수와 한 줄의 수를 곱해요.'],
+    build: (v, seed) => {
+      const rows = 3
+      const columns = 4
+      const tileSize = 2 + v
+      const correctAnswer = '12개'
+      return { prompt: `한 변이 ${tileSize} cm인 정사각형을 가로 ${columns}개, 세로 ${rows}개로 빈틈없이 놓았습니다. 모두 몇 개일까요?`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '7개', '14개', '16개'], seed),
+        solutionSteps: [`한 줄에 ${columns}개씩 ${rows}줄입니다.`, `${columns}×${rows}=12개입니다.`],
+        visualModel: 'tiling-model', visualConfig: { tileShape: 'square', arrangement: 'grid', rows, columns, tileSize, hasGap: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-08', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-12]', cognitiveDomain: 'applying',
+    problemFamily: 'fill-parallelogram-with-triangles', representation: 'tiling-model', answerType: 'choice', supportTool: 'grid', skillTag: '삼각형 채우기',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '방향을 번갈아 놓은 삼각형 조각의 행과 열을 이용해 전체 수를 구해요.',
+    promptTemplate: '번갈아 놓인 삼각형 조각 수를 구하세요.', hintSteps: ['각 줄의 삼각형 수를 세어요.', '같은 수의 줄이 몇 줄인지 확인해 곱해요.'],
+    build: (v, seed) => {
+      const rows = 2
+      const columns = 3 + (v % 2)
+      const edgeLength = 3 + v
+      const count = rows * columns
+      const correctAnswer = `${count}개`
+      return { prompt: `한 변이 ${edgeLength} cm인 같은 삼각형을 한 줄에 ${columns}개씩 ${rows}줄로 방향을 번갈아 놓아 빈틈없이 모양을 만들었습니다. 삼각형은 모두 몇 개일까요?`, correctAnswer,
+        choices: rotateChoices([correctAnswer, `${count + 1}개`, `${count + 2}개`, `${count + columns}개`], seed),
+        solutionSteps: [`한 줄에 ${columns}개씩 ${rows}줄입니다.`, `${columns}×${rows}=${count}개입니다.`],
+        visualModel: 'tiling-model', visualConfig: { tileShape: 'triangle', arrangement: 'grid', rows, columns, edgeLength, hasGap: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-09', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-11]', cognitiveDomain: 'reasoning',
+    problemFamily: 'equal-sides-only-regular-error', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '정다각형 오류',
+    taskActions: ['analyze_error', 'classify'], visualSemantics: 'quantitative',
+    learnerGoal: '변의 길이만 같고 각이 다른 반례로 정다각형 조건을 설명해요.',
+    promptTemplate: '변만 같으면 정다각형이라는 주장의 빠진 조건을 찾으세요.', hintSteps: ['정다각형은 변의 조건과 각의 조건이 모두 필요해요.', '마름모의 네 각이 모두 같은지 확인해요.'],
+    build: (v, seed) => {
+      const sideLength = 5 + v
+      const correctAnswer = '네 변이 같아도 네 각의 크기가 모두 같지 않으면 정다각형이 아닙니다.'
+      return { prompt: `네 변이 모두 ${sideLength} cm인 기울어진 마름모를 보고 민서는 “변이 모두 같으니 정사각형이야.”라고 했습니다. 알맞은 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '모든 변이 같으면 각의 크기와 관계없이 정다각형입니다.', '각이 모두 같기만 하면 반드시 정사각형입니다.', '마름모는 변의 길이가 모두 다릅니다.'], seed),
+        solutionSteps: [`네 변은 모두 ${sideLength} cm로 같지만 각의 크기는 모두 같지 않습니다.`, '정다각형은 모든 변과 모든 각이 각각 같아야 합니다.'],
+        visualModel: 'polygon-model', visualConfig: { sideCount: 4, sideLength, regular: false, equalSides: true, shapeType: 'rhombus', showDiagonals: false } }
+    },
+  }),
+  template({
+    id: 'g4-poly-10', unitId: GRADE4_POLYGONS_UNIT_ID, curriculumCode: '[4수03-12]', cognitiveDomain: 'reasoning',
+    problemFamily: 'regular-pentagon-tiling-gap', representation: 'tiling-model', answerType: 'choice', supportTool: 'none', skillTag: '빈틈 추론',
+    taskActions: ['reason', 'interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '정오각형을 같은 방식으로 이어 놓았을 때 생기는 빈틈을 근거로 채우기 가능성을 판단해요.',
+    promptTemplate: '정오각형 반복 배열의 빈틈을 보고 바른 설명을 고르세요.', hintSteps: ['한 점 둘레에 모인 도형 사이를 살펴봐요.', '도형이 겹치지 않아도 빈틈이 남는지 확인해요.'],
+    build: (v, seed) => {
+      const shownTiles = 3
+      const edgeLength = 4 + v
+      const correctAnswer = '빈틈이 남아 이 배열만으로는 평면을 가득 채울 수 없습니다.'
+      return { prompt: `한 변이 ${edgeLength} cm인 같은 정오각형 ${shownTiles}개를 한 점 둘레에 변끼리 이어 놓았습니다. 그림에 대한 바른 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '빈틈도 겹침도 없어 평면을 가득 채웁니다.', '정오각형을 하나만 더 놓으면 언제나 정확히 채워집니다.', '정다각형은 종류와 관계없이 모두 빈틈없이 채울 수 있습니다.'], seed),
+        solutionSteps: ['정오각형을 변끼리 이어도 한 점 둘레에 빈 공간이 남습니다.', '같은 배열을 반복하면 그 빈틈도 반복되므로 평면을 가득 채울 수 없습니다.'],
+        visualModel: 'tiling-model', visualConfig: { tileShape: 'pentagon', arrangement: 'radial', rows: 1, columns: shownTiles, edgeLength, hasGap: true } }
+    },
+  }),
+  template({
+    id: 'g4-ang-01', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'knowing',
+    problemFamily: 'measure-angle-on-protractor', representation: 'angle-model', answerType: 'choice', supportTool: 'none', skillTag: '각도 측정',
+    taskActions: ['measure'], visualSemantics: 'quantitative',
+    learnerGoal: '한 변을 0°선에 맞춘 뒤 다른 변이 가리키는 눈금을 읽어요.',
+    promptTemplate: '각도기의 광선이 가리키는 각도를 읽으세요.', hintSteps: ['오른쪽으로 향한 변이 0°에서 시작해요.', '다른 변까지 같은 방향의 눈금을 따라 읽어요.'],
+    build: (v, seed) => {
+      const angle = 20 + 10 * v
+      const correctAnswer = `${angle}°`
+      return { prompt: '각도기의 중심과 0°선에 한 변을 맞추었습니다. 다른 변이 가리키는 각도를 고르세요.', correctAnswer,
+        choices: rotateChoices([correctAnswer, `${angle + 10}°`, `${angle + 20}°`, `${Math.max(10, angle - 10)}°`], seed),
+        solutionSteps: ['오른쪽 0°선에서 눈금을 시작합니다.', `다른 변이 가리키는 눈금은 ${angle}°입니다.`],
+        visualModel: 'angle-model', visualConfig: { angle, showProtractor: true, contextLabel: '각도기로 재기' } }
+    },
+  }),
+  template({
+    id: 'g4-ang-02', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'knowing',
+    problemFamily: 'classify-obtuse-by-measure', representation: 'angle-model', answerType: 'choice', supportTool: 'none', skillTag: '각의 분류',
+    taskActions: ['classify'], visualSemantics: 'quantitative',
+    learnerGoal: '90°보다 크고 180°보다 작은 각을 둔각으로 분류해요.',
+    promptTemplate: '측정값이 90°와 180° 사이인 각을 분류하세요.', hintSteps: ['직각 90°와 비교해요.', '90°보다 크고 180°보다 작은 각의 이름을 떠올려요.'],
+    build: (v, seed) => {
+      const angle = 100 + 5 * v
+      const correctAnswer = '둔각'
+      return { prompt: `각도기로 재어 보니 ${angle}°였습니다. 이 각의 이름을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '예각', '직각', '평각'], seed),
+        solutionSteps: [`${angle}°는 90°보다 큽니다.`, '180°보다 작으므로 둔각입니다.'],
+        visualModel: 'angle-model', visualConfig: { angle, showProtractor: true, contextLabel: `${angle}°로 측정됨` } }
+    },
+  }),
+  template({
+    id: 'g4-ang-03', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'knowing',
+    problemFamily: 'estimate-angle-near-benchmark', representation: 'angle-model', answerType: 'choice', supportTool: 'none', skillTag: '각도 어림',
+    taskActions: ['compare', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '직각과 60°를 기준으로 각의 크기를 어림해요.',
+    promptTemplate: '기준 각과 비교해 가장 가까운 어림값을 고르세요.', hintSteps: ['직각 90°보다 얼마나 작은지 살펴요.', '30°와 60° 중 어느 쪽에 더 가까운지 비교해요.'],
+    build: (v, seed) => {
+      const angle = 54 + (v % 3) * 2
+      const correctAnswer = '약 60°'
+      return { prompt: '그림의 각을 각도기로 재기 전에 어림하려고 합니다. 가장 가까운 값을 고르세요.', correctAnswer,
+        choices: rotateChoices([correctAnswer, '약 30°', '약 90°', '약 120°'], seed),
+        solutionSteps: [`그림의 각은 실제로 약 ${angle}°입니다.`, '60°와 가장 가까우므로 약 60°로 어림합니다.'],
+        visualModel: 'angle-model', visualConfig: { angle, showProtractor: false, contextLabel: '먼저 어림하기' } }
+    },
+  }),
+  template({
+    id: 'g4-ang-04', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'knowing',
+    problemFamily: 'align-protractor-before-measuring', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '각도기 사용',
+    taskActions: ['recognize'], visualSemantics: 'quantitative',
+    learnerGoal: '각도기의 중심과 0°선을 각의 꼭짓점과 한 변에 정확히 맞춰요.',
+    promptTemplate: '각도기를 바르게 놓는 방법을 고르세요.', hintSteps: ['각도기의 중심은 각의 꼭짓점에 놓아요.', '0°선은 각의 한 변과 겹쳐야 해요.'],
+    build: (v, seed) => {
+      const angle = 30 + 10 * v
+      const correctAnswer = '각도기의 중심을 꼭짓점에 맞추고 한 변을 0°선에 맞춥니다.'
+      return { prompt: `${angle}°쯤으로 보이는 각을 정확히 재려고 합니다. 각도기를 놓는 바른 방법을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '각도기의 바깥쪽 끝을 꼭짓점에 맞춥니다.', '90° 눈금을 한 변에 맞추고 중심은 아무 데나 둡니다.', '두 변 사이에 각도기를 기울여 놓기만 합니다.'], seed),
+        solutionSteps: ['각도기의 중심 표시를 각의 꼭짓점에 맞춥니다.', '한 변을 0°선과 겹친 뒤 다른 변의 눈금을 읽습니다.'],
+        visualModel: 'angle-model', visualConfig: { angle, showProtractor: true, contextLabel: '중심과 0°선 맞추기' } }
+    },
+  }),
+  template({
+    id: 'g4-ang-05', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-25]', cognitiveDomain: 'applying',
+    problemFamily: 'triangle-missing-interior-angle', representation: 'angle-sum-model', answerType: 'integer', supportTool: 'none', skillTag: '삼각형 내각',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '삼각형의 세 각의 합 180°에서 주어진 두 각을 빼요.',
+    promptTemplate: '삼각형의 두 각에서 나머지 한 각을 구하세요.', hintSteps: ['삼각형의 세 각의 합은 180°예요.', '180°에서 주어진 두 각을 차례로 빼요.'],
+    build: (v) => {
+      const angleA = 40 + 5 * (v % 3)
+      const angleB = 60 + 5 * (v % 2)
+      const missing = 180 - angleA - angleB
+      return { prompt: `삼각형의 두 각이 ${angleA}°와 ${angleB}°입니다. 나머지 한 각은 몇 도일까요?`, correctAnswer: String(missing),
+        solutionSteps: ['삼각형의 세 각의 합은 180°입니다.', `180-${angleA}-${angleB}=${missing}°입니다.`],
+        visualModel: 'angle-sum-model', visualConfig: { shapeType: 'triangle', angleA, angleB, hideIndex: 'C', showDiagonal: false } }
+    },
+  }),
+  template({
+    id: 'g4-ang-06', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-25]', cognitiveDomain: 'applying',
+    problemFamily: 'parallelogram-missing-interior-angle', representation: 'angle-sum-model', answerType: 'integer', supportTool: 'none', skillTag: '사각형 내각',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '사각형의 네 각의 합 360°에서 주어진 세 각을 빼요.',
+    promptTemplate: '평행사변형의 세 각에서 나머지 한 각을 구하세요.', hintSteps: ['사각형의 네 각의 합은 360°예요.', '360°에서 주어진 세 각의 합을 빼요.'],
+    build: (v) => {
+      const angleA = 50 + 5 * v
+      const angleB = 180 - angleA
+      const angleC = angleA
+      const missing = 360 - angleA - angleB - angleC
+      return { prompt: `평행사변형의 세 각이 ${angleA}°, ${angleB}°, ${angleC}°입니다. 나머지 한 각은 몇 도일까요?`, correctAnswer: String(missing),
+        solutionSteps: ['사각형의 네 각의 합은 360°입니다.', `360-${angleA}-${angleB}-${angleC}=${missing}°입니다.`],
+        visualModel: 'angle-sum-model', visualConfig: { shapeType: 'parallelogram', angleA, angleB, angleC, hideIndex: 'D', showDiagonal: false } }
+    },
+  }),
+  template({
+    id: 'g4-ang-07', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'applying',
+    problemFamily: 'navigation-turn-angle', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '회전 각도',
+    taskActions: ['interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '생활 속 방향 바꾸기를 시작 방향과 회전 각도로 나타내요.',
+    promptTemplate: '이동 경로의 오른쪽 회전을 각도로 나타내세요.', hintSteps: ['처음 방향을 각의 한 변으로 생각해요.', '오른쪽으로 돈 방향까지의 각도를 읽어요.'],
+    build: (v, seed) => {
+      const angle = 30 + 10 * v
+      const correctAnswer = `오른쪽으로 ${angle}° 돕니다.`
+      const nearbyAngle = angle + 10 <= 170 ? angle + 10 : angle - 10
+      return { prompt: `로봇이 길을 따라 오른쪽으로 ${angle}° 방향을 바꾸었습니다. 움직임을 바르게 설명한 것을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, `왼쪽으로 ${angle}° 돕니다.`, `오른쪽으로 ${nearbyAngle}° 돕니다.`, '방향을 바꾸지 않습니다.'], seed),
+        solutionSteps: ['회전 방향은 오른쪽입니다.', `처음 방향과 새 방향 사이의 각은 ${angle}°입니다.`],
+        visualModel: 'angle-model', visualConfig: { angle, showProtractor: false, turnDirection: 'right', contextLabel: '로봇의 방향 바꾸기' } }
+    },
+  }),
+  template({
+    id: 'g4-ang-08', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'applying',
+    problemFamily: 'complete-straight-angle-turn', representation: 'angle-model', answerType: 'integer', supportTool: 'none', skillTag: '평각 완성',
+    taskActions: ['calculate'], visualSemantics: 'quantitative',
+    learnerGoal: '두 이웃한 각의 합이 180°가 되도록 남은 회전각을 구해요.',
+    promptTemplate: '평각을 완성하는 남은 각도를 구하세요.', hintSteps: ['일직선이 만드는 각은 180°예요.', '180°에서 이미 돈 각도를 빼요.'],
+    build: (v) => {
+      const angle = 40 + 10 * v
+      const remaining = 180 - angle
+      return { prompt: `화살표가 ${angle}°만큼 돌았습니다. 일직선 방향인 180°까지 몇 도를 더 돌아야 할까요?`, correctAnswer: String(remaining),
+        solutionSteps: ['일직선 방향까지의 전체 회전은 180°입니다.', `180-${angle}=${remaining}°를 더 돌아야 합니다.`],
+        visualModel: 'angle-model', visualConfig: { angle, showProtractor: true, contextLabel: '180°까지 남은 회전' } }
+    },
+  }),
+  template({
+    id: 'g4-ang-09', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-24]', cognitiveDomain: 'reasoning',
+    problemFamily: 'wrong-protractor-scale', representation: 'context', answerType: 'choice', supportTool: 'none', skillTag: '각도기 눈금 오류',
+    taskActions: ['analyze_error', 'interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '0°가 시작되는 방향과 반대 눈금을 읽은 오류를 설명해요.',
+    promptTemplate: '각도기의 반대 눈금을 읽은 오류를 고치세요.', hintSteps: ['각의 한 변이 만나는 0° 눈금을 먼저 찾아요.', '같은 방향으로 증가하는 눈금을 따라가요.'],
+    build: (v, seed) => {
+      const angle = 30 + 5 * v
+      const wrongReading = 180 - angle
+      const correctAnswer = '0°가 시작되는 쪽의 눈금을 따라 읽어야 합니다.'
+      return { prompt: `한 변이 오른쪽 0°선에 놓인 ${angle}° 각을 보고 준호는 반대 눈금인 ${wrongReading}°라고 읽었습니다. 바른 설명을 고르세요.`, correctAnswer,
+        choices: rotateChoices([correctAnswer, '항상 더 큰 눈금을 읽어야 합니다.', '두 눈금을 더한 값을 각도로 읽어야 합니다.', '각도기는 90°인 각에만 사용할 수 있습니다.'], seed),
+        solutionSteps: ['한 변이 오른쪽 0°선에 있으므로 오른쪽에서 시작하는 눈금을 읽습니다.', `${wrongReading}°는 반대 방향에서 시작한 눈금입니다.`],
+        visualModel: 'angle-model', visualConfig: { angle, wrongReading, showProtractor: true, contextLabel: '준호의 눈금 읽기' } }
+    },
+  }),
+  template({
+    id: 'g4-ang-10', unitId: GRADE4_ANGLE_MEASUREMENT_UNIT_ID, curriculumCode: '[4수03-25]', cognitiveDomain: 'reasoning',
+    problemFamily: 'quadrilateral-split-two-triangles', representation: 'angle-sum-model', answerType: 'choice', supportTool: 'none', skillTag: '사각형 내각 합 추론',
+    taskActions: ['explain', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '사각형을 대각선으로 나눈 두 삼각형에서 내각의 합 360°를 설명해요.',
+    promptTemplate: '대각선으로 나눈 두 삼각형에서 사각형 내각의 합을 설명하세요.', hintSteps: ['대각선이 만든 삼각형 수를 세어요.', '삼각형 하나의 내각 합 180°를 두 번 더해요.'],
+    build: (v, seed) => {
+      const angleA = 50 + 5 * v
+      const angleB = 180 - angleA
+      const angleC = angleA
+      const correctAnswer = '삼각형 두 개의 각의 합이므로 360°입니다.'
+      return { prompt: '사각형에 대각선 한 개를 그어 삼각형 두 개로 나누었습니다. 사각형의 네 각의 합에 대한 바른 설명을 고르세요.', correctAnswer,
+        choices: rotateChoices([correctAnswer, '삼각형 한 개의 각의 합이므로 180°입니다.', '직각이 네 개일 때만 360°입니다.', '대각선을 그으면 원래 각의 합이 달라집니다.'], seed),
+        solutionSteps: ['대각선 한 개로 삼각형 두 개가 생깁니다.', '180°+180°=360°이므로 사각형의 네 각의 합은 360°입니다.'],
+        visualModel: 'angle-sum-model', visualConfig: { shapeType: 'parallelogram', angleA, angleB, angleC, hideIndex: 'none', showDiagonal: true } }
+    },
+  }),
+  template({
+    id: 'g4-graph-01', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'knowing',
+    problemFamily: 'read-line-graph-point', representation: 'line-graph-model', answerType: 'integer', supportTool: 'grid', skillTag: '점의 값 읽기',
+    taskActions: ['interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '가로축의 시점에서 위로 올라가 점이 놓인 세로축 눈금을 읽어요.',
+    promptTemplate: '꺾은선그래프에서 한 시점의 값을 읽으세요.', hintSteps: ['가로축에서 물어본 요일을 찾아요.', '그 점과 같은 높이의 세로축 눈금을 읽어요.'],
+    build: (v) => {
+      const labels = ['월요일', '화요일', '수요일', '목요일', '금요일']
+      const base = 10 + v
+      const values = [base, base + 5, base, base + 15, base + 10]
+      const focusIndex = v % labels.length
+      const yMin = Math.floor((Math.min(...values) - 1) / 5) * 5
+      const yMax = Math.ceil((Math.max(...values) + 1) / 5) * 5
+      return {
+        prompt: `교실의 낮 기온을 나타낸 그래프입니다. ${labels[focusIndex]}의 기온은 몇 도인가요?`,
+        correctAnswer: String(values[focusIndex]),
+        solutionSteps: [`가로축에서 ${labels[focusIndex]}을 찾습니다.`, `점은 세로축 ${values[focusIndex]} 눈금에 있으므로 ${values[focusIndex]}도입니다.`],
+        visualModel: 'line-graph-model',
+        visualConfig: {
+          labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '교실의 낮 기온',
+          unitLabel: '도', yMin, yMax, yStep: 5, yMinorStep: 1, focusIndex,
+          focusGuide: true, spaciousScale: true,
+        },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-02', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'knowing',
+    problemFamily: 'largest-consecutive-change', representation: 'line-graph-model', answerType: 'choice', supportTool: 'grid', skillTag: '변화가 큰 구간',
+    taskActions: ['interpret', 'compare'], visualSemantics: 'quantitative',
+    learnerGoal: '이웃한 두 점의 높이 차를 비교해 변화가 가장 큰 구간을 찾아요.',
+    promptTemplate: '연속한 두 시점 사이에서 변화가 가장 큰 구간을 고르세요.', hintSteps: ['이웃한 점을 잇는 선분의 기울기를 비교해요.', '두 값의 차가 가장 큰 구간을 찾아요.'],
+    build: (v, seed) => {
+      const labels = ['월요일', '화요일', '수요일', '목요일', '금요일']
+      const base = v * 5
+      const values = [base + 10, base + 15, base + 20, base + 35, base + 25]
+      const changes = values.slice(1).map((value, index) => Math.abs(value - values[index]))
+      const largestIndex = changes.indexOf(Math.max(...changes))
+      const interval = (index: number) => `${labels[index]}과 ${labels[index + 1]} 사이`
+      const correctAnswer = interval(largestIndex)
+      const distractors = [0, 1, 2, 3].filter((index) => index !== largestIndex).map(interval)
+      return {
+        prompt: `월요일 ${values[0]}명에서 시작한 도서관 방문자 그래프입니다. 방문자 수가 가장 크게 변한 구간을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, ...distractors], seed),
+        solutionSteps: [`연속한 두 날의 차는 차례로 ${changes.join('명, ')}명입니다.`, `차가 가장 큰 구간은 ${correctAnswer}입니다.`],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '도서관 방문자 수', unitLabel: '명', yMin: 0, yMax: 90, yStep: 10, yMinorStep: 5 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-03', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'knowing',
+    problemFamily: 'identify-decreasing-segment', representation: 'line-graph-model', answerType: 'choice', supportTool: 'grid', skillTag: '증가와 감소',
+    taskActions: ['interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '오른쪽으로 갈수록 내려가는 선분을 보고 값이 감소한 구간을 찾아요.',
+    promptTemplate: '꺾은선그래프에서 값이 감소한 구간을 고르세요.', hintSteps: ['왼쪽 점과 오른쪽 점의 높이를 비교해요.', '오른쪽 점이 더 낮은 선분을 찾아요.'],
+    build: (v, seed) => {
+      const labels = ['1일', '2일', '3일', '4일', '5일']
+      const base = v * 5
+      const values = [base + 10, base + 15, base + 20, base + 15, base + 25]
+      const interval = (index: number) => `${labels[index]}과 ${labels[index + 1]} 사이`
+      const correctAnswer = interval(2)
+      return {
+        prompt: `첫날 ${values[0]} cm에서 시작한 수조의 물 높이 기록입니다. 높이가 줄어든 구간을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, interval(0), interval(1), interval(3)], seed),
+        solutionSteps: [`${labels[2]}의 ${values[2]} cm에서 ${labels[3]}의 ${values[3]} cm로 줄었습니다.`, `따라서 감소한 구간은 ${correctAnswer}입니다.`],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '수조의 물 높이', unitLabel: 'cm', yMin: 0, yMax: 80, yStep: 10, yMinorStep: 5 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-04', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'knowing',
+    problemFamily: 'choose-line-graph-axes', representation: 'data-table-model', answerType: 'choice', supportTool: 'grid', skillTag: '그래프 구성 요소',
+    taskActions: ['interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '시간에 따른 자료를 나타낼 때 가로축과 세로축에 놓을 내용을 구별해요.',
+    promptTemplate: '자료 표를 꺾은선그래프로 옮길 때 축을 바르게 설명하세요.', hintSteps: ['시간의 순서는 가로로 놓아요.', '측정한 값과 단위는 세로축에 놓아요.'],
+    build: (v, seed) => {
+      const labels = ['1회', '2회', '3회', '4회']
+      const values = [12 + v, 15 + v, 19 + v, 18 + v]
+      const correctAnswer = '가로축에는 조사 시점, 세로축에는 자료의 수를 씁니다.'
+      return {
+        prompt: '표의 줄넘기 횟수를 꺾은선그래프로 나타내려고 합니다. 축에 대한 바른 설명을 고르세요.',
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '가로축과 세로축에 모두 조사 시점만 씁니다.', '가로축에는 자료의 수, 세로축에는 조사 시점을 씁니다.', '축에는 제목만 쓰고 눈금과 단위는 쓰지 않습니다.'], seed),
+        solutionSteps: ['시간이나 조사 순서는 가로축에 놓습니다.', '줄넘기 횟수와 눈금은 세로축에 놓습니다.'],
+        visualModel: 'data-table-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '줄넘기 연습', unitLabel: '회' },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-05', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'applying',
+    problemFamily: 'plot-table-value', representation: 'data-table-model', answerType: 'integer', supportTool: 'grid', skillTag: '자료를 점으로 나타내기',
+    taskActions: ['interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '표의 자료를 세로축 눈금에 맞춰 꺾은선그래프의 점으로 옮겨요.',
+    promptTemplate: '자료 표의 한 값을 그래프의 몇 눈금에 찍어야 하는지 구하세요.', hintSteps: ['표에서 물어본 시점의 값을 찾아요.', '세로축에서 그 값과 같은 눈금에 점을 찍어요.'],
+    build: (v) => {
+      const labels = ['월요일', '화요일', '수요일', '목요일', '금요일']
+      const values = [20 + v, 24 + v, 23 + v, 29 + v, 27 + v]
+      const focusIndex = 3
+      return {
+        prompt: `표를 꺾은선그래프로 옮길 때 ${labels[focusIndex]}의 점은 세로축 몇 L 눈금에 찍어야 하나요?`,
+        correctAnswer: String(values[focusIndex]),
+        solutionSteps: [`표에서 ${labels[focusIndex]}의 양은 ${values[focusIndex]} L입니다.`, `세로축 ${values[focusIndex]} L 눈금에 점을 찍습니다.`],
+        visualModel: 'data-table-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '물 사용량', unitLabel: 'L', focusIndex },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-06', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'applying',
+    problemFamily: 'line-graph-range', representation: 'line-graph-model', answerType: 'integer', supportTool: 'grid', skillTag: '최댓값과 최솟값의 차',
+    taskActions: ['calculate', 'interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '그래프의 가장 높은 값과 가장 낮은 값을 읽어 차를 구해요.',
+    promptTemplate: '꺾은선그래프의 최댓값과 최솟값의 차를 구하세요.', hintSteps: ['가장 높은 점과 가장 낮은 점의 값을 읽어요.', '큰 값에서 작은 값을 빼요.'],
+    build: (v) => {
+      const labels = ['1주', '2주', '3주', '4주', '5주']
+      const base = v * 5
+      const values = [base + 30, base + 40, base + 35, base + 55, base + 45]
+      const range = Math.max(...values) - Math.min(...values)
+      return {
+        prompt: `첫 주 ${values[0]} kg에서 시작한 재활용품 수거량 그래프입니다. 가장 많은 주와 가장 적은 주의 차는 몇 kg인가요?`,
+        correctAnswer: String(range),
+        solutionSteps: [`가장 많은 양은 ${Math.max(...values)} kg, 가장 적은 양은 ${Math.min(...values)} kg입니다.`, `${Math.max(...values)}-${Math.min(...values)}=${range} kg입니다.`],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '재활용품 수거량', unitLabel: 'kg', yMin: 0, yMax: 110, yStep: 10, yMinorStep: 5 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-07', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'applying',
+    problemFamily: 'describe-overall-trend', representation: 'line-graph-model', answerType: 'choice', supportTool: 'grid', skillTag: '변화 경향 설명',
+    taskActions: ['interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '여러 선분의 방향을 이어 살펴 전체 변화 경향을 말해요.',
+    promptTemplate: '꺾은선그래프의 전체 변화 경향을 바르게 설명하세요.', hintSteps: ['처음부터 가장 높은 점까지 선분 방향을 살펴요.', '가장 높은 점 뒤의 선분 방향도 이어서 살펴요.'],
+    build: (v, seed) => {
+      const labels = ['월요일', '화요일', '수요일', '목요일', '금요일']
+      const base = 5 + v
+      const values = [base + 10, base + 15, base + 25, base + 20, base + 15]
+      const correctAnswer = '수요일까지 오르다가 그 뒤로 내려갑니다.'
+      return {
+        prompt: `월요일 ${values[0]}°에서 시작한 한 주 낮 기온 그래프입니다. 변화 경향을 바르게 설명한 것을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '한 주 내내 계속 오릅니다.', '한 주 내내 계속 내려갑니다.', '월요일부터 금요일까지 값이 같습니다.'], seed),
+        solutionSteps: ['월요일부터 수요일까지 점이 차례로 높아집니다.', '수요일 뒤에는 점이 낮아지므로 오르다가 내려가는 경향입니다.'],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '한 주 낮 기온', unitLabel: '도', yMin: 0, yMax: 40, yStep: 10, yMinorStep: 1 },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-08', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'applying',
+    problemFamily: 'complete-table-from-line-graph', representation: 'line-graph-model', answerType: 'integer', supportTool: 'grid', skillTag: '그래프를 표로 옮기기',
+    taskActions: ['interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '꺾은선그래프의 점을 읽어 자료 표의 빈칸을 채워요.',
+    promptTemplate: '그래프를 보고 표의 빠진 값을 구하세요.', hintSteps: ['표에서 빈칸인 시점을 확인해요.', '그래프에서 같은 시점의 점과 세로축 눈금을 읽어요.'],
+    build: (v) => {
+      const labels = ['9시', '10시', '11시', '12시', '13시']
+      const base = v * 5
+      const values = [base + 10, base + 20, base + 30, base + 25, base + 15]
+      const hiddenIndex = v % labels.length
+      return {
+        prompt: `꺾은선그래프를 보고 표의 ${labels[hiddenIndex]} 빈칸에 들어갈 값을 쓰세요.`,
+        correctAnswer: String(values[hiddenIndex]),
+        solutionSteps: [`가로축에서 ${labels[hiddenIndex]}를 찾습니다.`, `그 점은 ${values[hiddenIndex]}명 눈금에 있으므로 빈칸은 ${values[hiddenIndex]}입니다.`],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '시간별 놀이터 인원', unitLabel: '명', yMin: 0, yMax: 80, yStep: 10, yMinorStep: 5, showTable: true, hiddenIndex },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-09', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'reasoning',
+    problemFamily: 'find-misplotted-point', representation: 'line-graph-model', answerType: 'choice', supportTool: 'grid', skillTag: '그래프 오류 분석',
+    taskActions: ['analyze_error', 'interpret'], visualSemantics: 'quantitative',
+    learnerGoal: '자료 표와 그래프의 점을 하나씩 대조해 잘못 옮긴 시점을 찾아요.',
+    promptTemplate: '자료 표와 꺾은선그래프를 비교해 잘못 찍은 점을 찾으세요.', hintSteps: ['표와 그래프의 값을 같은 시점끼리 맞춰요.', '서로 다른 값이 하나뿐인 시점을 찾아요.'],
+    build: (v, seed) => {
+      const labels = ['월요일', '화요일', '수요일', '목요일', '금요일']
+      const base = v * 5
+      const sourceValues = [base + 20, base + 25, base + 20, base + 30, base + 25]
+      const errorIndex = 1 + (v % 3)
+      const plottedValues = sourceValues.map((value, index) => index === errorIndex ? value + 5 : value)
+      const correctAnswer = labels[errorIndex]
+      const otherIndex = errorIndex === 1 ? 2 : 1
+      return {
+        prompt: '표의 자료를 꺾은선그래프로 옮겼지만 점 하나를 잘못 찍었습니다. 잘못 찍은 요일을 고르세요.',
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, labels[0], labels[4], labels[otherIndex]], seed),
+        solutionSteps: ['표와 그래프의 점을 요일별로 비교합니다.', `${correctAnswer}만 표의 ${sourceValues[errorIndex]}와 그래프의 ${plottedValues[errorIndex]}가 다릅니다.`],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: plottedValues.join(','), tableValuesCsv: sourceValues.join(','), title: '수조의 물 높이', unitLabel: 'cm', yMin: 0, yMax: 90, yStep: 10, yMinorStep: 5, showTable: true },
+      }
+    },
+  }),
+  template({
+    id: 'g4-graph-10', unitId: GRADE4_LINE_GRAPHS_UNIT_ID, curriculumCode: '[4수04-02]', cognitiveDomain: 'reasoning',
+    problemFamily: 'compare-line-graph-scales', representation: 'line-graph-model', answerType: 'choice', supportTool: 'grid', skillTag: '눈금 범위 해석',
+    taskActions: ['compare', 'reason'], visualSemantics: 'quantitative',
+    learnerGoal: '같은 자료도 세로축 눈금 범위에 따라 변화가 커 보이거나 작아 보일 수 있음을 설명해요.',
+    promptTemplate: '같은 자료를 서로 다른 눈금 범위로 나타낸 두 그래프를 비교하세요.', hintSteps: ['두 그래프의 자료 값이 같은지 먼저 확인해요.', '세로축에서 같은 값 차이가 차지하는 높이를 비교해요.'],
+    build: (v, seed) => {
+      const labels = ['1분', '2분', '3분', '4분']
+      const base = 40 + v
+      const values = [base, base + 2, base + 5, base + 3]
+      const correctAnswer = '눈금 범위가 좁은 그래프가 같은 변화를 더 크게 보이게 합니다.'
+      return {
+        prompt: `처음 온도가 ${base}°인 같은 자료를 서로 다른 세로축 눈금으로 나타냈습니다. 바른 설명을 고르세요.`,
+        correctAnswer,
+        choices: rotateChoices([correctAnswer, '눈금 범위가 넓은 그래프에 더 큰 자료가 들어 있습니다.', '두 그래프의 점 값은 서로 다릅니다.', '세로축 눈금은 변화가 보이는 크기에 영향을 주지 않습니다.'], seed),
+        solutionSteps: ['두 그래프의 네 자료 값은 모두 같습니다.', '좁은 눈금 범위에서는 같은 값 차이가 더 큰 높이 차이로 보입니다.'],
+        visualModel: 'line-graph-model',
+        visualConfig: { labelsCsv: labels.join(','), valuesCsv: values.join(','), title: '물의 온도', unitLabel: '도', yMin: 0, yMax: 60, yStep: 20, compareScale: true, compareYMin: base - 2, compareYMax: base + 6, compareYStep: 2 },
+      }
+    },
+  }),
 ]
 
 function positiveModulo(value: number, modulus: number): number {
@@ -281,6 +3403,11 @@ function positiveModulo(value: number, modulus: number): number {
 
 function isDeclaredAnswerValid(mission: Grade4Mission): boolean {
   if (mission.answerType === 'choice') return Boolean(mission.correctAnswer.trim())
+  if (mission.answerType === 'decimal') return /^[+-]?\d+(?:\.\d+)?$/.test(mission.correctAnswer)
+  if (mission.answerType === 'fraction') {
+    const match = mission.correctAnswer.match(/^[+-]?(?:(\d+)\s+)?(\d+)\/(\d+)$/)
+    return Boolean(match && Number(match[3]) > 0)
+  }
   return /^[+-]?\d+$/.test(mission.correctAnswer)
 }
 
@@ -298,6 +3425,8 @@ export function getGrade4MissionBank(seed: number): Grade4Mission[] {
       representation: item.representation,
       answerType: item.answerType,
       supportTool: item.supportTool,
+      taskActions: item.taskActions,
+      visualSemantics: item.visualSemantics,
       skillTag: item.skillTag,
       learnerGoal: item.learnerGoal,
       hintSteps: item.hintSteps,
@@ -307,13 +3436,19 @@ export function getGrade4MissionBank(seed: number): Grade4Mission[] {
   })
 }
 
-export function getGrade4Activity(unitId: string, seed: number, activityRun: number): Grade4Mission[] {
+export function getGrade4Activity(
+  unitId: string,
+  seed: number,
+  activityRun: number,
+  mode: LearningSetMode = 'basic',
+): Grade4Mission[] {
   const safeUnitId = grade4Units.some((unit) => unit.id === unitId) ? unitId : SAFE_GRADE4_UNIT_ID
   const bank = getGrade4MissionBank(seed + activityRun * 101).filter((mission) => mission.unitId === safeUnitId)
   const domains: Grade4CognitiveDomain[] = ['knowing', 'applying', 'reasoning']
+  const modeOffset = mode === 'practice' ? 1 : 0
   return domains.map((domain, index) => {
     const candidates = bank.filter((mission) => mission.cognitiveDomain === domain)
-    return candidates[positiveModulo(seed + activityRun * 7 + index, candidates.length)]
+    return candidates[positiveModulo(seed + activityRun * 7 + index + modeOffset, candidates.length)]
   })
 }
 
@@ -324,14 +3459,28 @@ export function validateGrade4MissionBank(ledger?: CurriculumLedgerLike): Grade4
   const reasoningFamilies = new Set<string>()
   const representations = new Set<Grade4Representation>()
   const allowedCodes = new Set(grade4Units.flatMap((unit) => unit.curriculumCodes))
+  const unitIds = new Set(grade4Units.map((unit) => unit.id))
   const ledgerAllocations = new Map((ledger?.allocations ?? []).map((item) => [item.standardCode, item]))
 
-  if (grade4Units.length !== 1) errors.push(`Grade 4 release slice expects 1 unit, got ${grade4Units.length}`)
+  if (new Set(grade4Units.map((unit) => unit.id)).size !== grade4Units.length) {
+    errors.push('Grade 4 unit IDs must be unique')
+  }
+  if (new Set(grade4MissionTemplates.map((item) => item.id)).size !== grade4MissionTemplates.length) {
+    errors.push('Grade 4 mission IDs must be unique')
+  }
   for (const unit of grade4Units) {
+    if (!unit.contentReleaseId.trim()) errors.push(`${unit.id}: missing content release ID`)
     for (const code of unit.curriculumCodes) {
       const allocation = ledgerAllocations.get(code)
       if (ledger && (!allocation || allocation.assignedGrade !== 4 || allocation.unitId !== unit.id || allocation.semester !== unit.semester)) {
         errors.push(`${unit.id}: ledger allocation mismatch for ${code}`)
+      }
+      if (ledger && allocation && (
+        allocation.reviewStatus !== 'released'
+        || allocation.coverageStatus !== 'existing-reference'
+        || !allocation.existingContentRefs?.length
+      )) {
+        errors.push(`${unit.id}: ledger release mismatch for ${code}`)
       }
     }
   }
@@ -340,18 +3489,50 @@ export function validateGrade4MissionBank(ledger?: CurriculumLedgerLike): Grade4
     domains[item.cognitiveDomain] += 1
     representations.add(item.representation)
     if (item.cognitiveDomain === 'reasoning') reasoningFamilies.add(item.problemFamily)
+    if (!unitIds.has(item.unitId)) errors.push(`${item.id}: unknown Grade 4 unit ${item.unitId}`)
     if (!allowedCodes.has(item.curriculumCode)) errors.push(`${item.id}: curriculum code is outside the release unit`)
+    const unit = grade4Units.find((candidate) => candidate.id === item.unitId)
+    const directCodes = item.directCurriculumCodes ?? [item.curriculumCode]
+    if (directCodes.length === 0 || new Set(directCodes).size !== directCodes.length) {
+      errors.push(`${item.id}: direct curriculum codes must be non-empty and unique`)
+    }
+    if (unit && directCodes.some((code) => !unit.curriculumCodes.includes(code))) {
+      errors.push(`${item.id}: direct curriculum code is outside the release unit`)
+    }
     if (item.hintSteps.length < 2) errors.push(`${item.id}: needs at least two hints`)
     if (!item.learnerGoal.trim() || !item.promptTemplate.trim()) errors.push(`${item.id}: missing learner copy`)
     if (!['none', 'grid', 'ruler', 'protractor'].includes(item.supportTool)) errors.push(`${item.id}: invalid support tool`)
+    if (item.taskActions.length === 0) errors.push(`${item.id}: missing task actions`)
+    if (!item.taskActions.every((action) => [
+      'recognize', 'classify', 'compare', 'calculate', 'measure', 'construct',
+      'model', 'interpret', 'explain', 'analyze_error', 'reason',
+    ].includes(action))) errors.push(`${item.id}: invalid task action`)
+    if (!['decorative', 'schematic', 'quantitative'].includes(item.visualSemantics)) {
+      errors.push(`${item.id}: invalid visual semantics`)
+    }
   }
 
-  if (grade4MissionTemplates.length !== 10) errors.push(`Grade 4 unit expects 10 templates, got ${grade4MissionTemplates.length}`)
-  if (domains.knowing !== 4 || domains.applying !== 4 || domains.reasoning !== 2) {
-    errors.push(`Grade 4 K/A/R must be 4/4/2, got ${domains.knowing}/${domains.applying}/${domains.reasoning}`)
+  for (const unit of grade4Units) {
+    const templates = grade4MissionTemplates.filter((item) => item.unitId === unit.id)
+    const unitDomains = {
+      knowing: templates.filter((item) => item.cognitiveDomain === 'knowing').length,
+      applying: templates.filter((item) => item.cognitiveDomain === 'applying').length,
+      reasoning: templates.filter((item) => item.cognitiveDomain === 'reasoning').length,
+    }
+    const unitReasoningFamilies = new Set(
+      templates.filter((item) => item.cognitiveDomain === 'reasoning').map((item) => item.problemFamily),
+    )
+    const unitRepresentations = new Set(templates.map((item) => item.representation))
+    const unitFamilies = new Set(templates.map((item) => item.problemFamily))
+
+    if (templates.length !== 10) errors.push(`${unit.id}: expects 10 templates, got ${templates.length}`)
+    if (unitDomains.knowing !== 4 || unitDomains.applying !== 4 || unitDomains.reasoning !== 2) {
+      errors.push(`${unit.id}: K/A/R must be 4/4/2, got ${unitDomains.knowing}/${unitDomains.applying}/${unitDomains.reasoning}`)
+    }
+    if (unitReasoningFamilies.size < 2) errors.push(`${unit.id}: reasoning needs at least two problem families`)
+    if (unitRepresentations.size < 2) errors.push(`${unit.id}: needs at least two representations`)
+    if (unitFamilies.size !== 10) errors.push(`${unit.id}: needs ten distinct problem families`)
   }
-  if (reasoningFamilies.size < 2) errors.push('Grade 4 reasoning needs at least two problem families')
-  if (representations.size < 2) errors.push('Grade 4 unit needs at least two representations')
 
   for (const seed of [1, 42, 20260721, 20260729]) {
     const bank = getGrade4MissionBank(seed)
@@ -366,16 +3547,25 @@ export function validateGrade4MissionBank(ledger?: CurriculumLedgerLike): Grade4
         if (Object.hasOwn(mission.visualConfig, answerOnlyKey)) errors.push(`${mission.id}: visualConfig leaks ${answerOnlyKey}`)
       }
     }
-    const activity = getGrade4Activity(SAFE_GRADE4_UNIT_ID, seed, 0)
-    if (activity.length !== GRADE4_ACTIVITY_ITEM_COUNT || new Set(activity.map((mission) => mission.cognitiveDomain)).size !== 3) {
-      errors.push(`seed ${seed}: activity must contain one K/A/R item`)
+    for (const unit of grade4Units) {
+      const activity = getGrade4Activity(unit.id, seed, 0)
+      if (activity.length !== GRADE4_ACTIVITY_ITEM_COUNT || new Set(activity.map((mission) => mission.cognitiveDomain)).size !== 3) {
+        errors.push(`${unit.id} seed ${seed}: activity must contain one K/A/R item`)
+      }
     }
   }
 
   const first = getGrade4MissionBank(20260721)
   const later = getGrade4MissionBank(20260729)
-  const changed = first.filter((mission, index) => mission.prompt !== later[index].prompt || mission.correctAnswer !== later[index].correctAnswer)
-  if (changed.length < 7) warnings.push(`Grade 4 long-seed diversity is low: ${changed.length}/10 changed`)
+  for (const unit of grade4Units) {
+    const firstUnit = first.filter((mission) => mission.unitId === unit.id)
+    const laterUnit = later.filter((mission) => mission.unitId === unit.id)
+    const changed = firstUnit.filter((mission, index) => (
+      mission.prompt !== laterUnit[index]?.prompt
+      || mission.correctAnswer !== laterUnit[index]?.correctAnswer
+    ))
+    if (changed.length < 7) warnings.push(`${unit.id}: long-seed diversity is low: ${changed.length}/10 changed`)
+  }
 
   return {
     errors,

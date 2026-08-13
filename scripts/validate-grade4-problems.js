@@ -26,14 +26,14 @@ function loadGrade4ProblemModule() {
   }
 }
 
-const { grade4MissionTemplates, validateGrade4MissionBank } = loadGrade4ProblemModule()
+const { grade4MissionTemplates, grade4Units, validateGrade4MissionBank } = loadGrade4ProblemModule()
 const ledger = JSON.parse(fs.readFileSync(LEDGER_PATH, 'utf8'))
 const result = validateGrade4MissionBank(ledger)
 
 if (result.errors.length > 0) {
-  console.error('Grade 4 release-candidate validation failed:')
+  console.error('Grade 4 released-unit validation failed:')
   for (const error of result.errors) console.error(' -', error)
   process.exit(1)
 }
 for (const warning of result.warnings) console.warn('Warning:', warning)
-console.log(`Grade 4 release-candidate validation passed: ${grade4MissionTemplates.length} templates, K/A/R ${result.summary.knowingCount}/${result.summary.applyingCount}/${result.summary.reasoningCount}.`)
+console.log(`Grade 4 released-unit validation passed: ${grade4Units.length} units, ${grade4MissionTemplates.length} templates, K/A/R ${result.summary.knowingCount}/${result.summary.applyingCount}/${result.summary.reasoningCount}.`)

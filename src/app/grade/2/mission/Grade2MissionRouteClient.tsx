@@ -2,7 +2,11 @@
 
 import { useSearchParams } from 'next/navigation'
 
-import { grade2Units } from '@/lib/grade2-problems'
+import {
+  getGrade2MissionsByUnit,
+  grade2Units,
+  normalizeGrade2Mode,
+} from '@/lib/grade2-problems'
 
 import Grade2GameClient from '../Grade2GameClient'
 
@@ -12,6 +16,18 @@ export default function Grade2MissionRouteClient() {
   const initialUnitId = requestedUnitId && grade2Units.some((unit) => unit.id === requestedUnitId)
     ? requestedUnitId
     : grade2Units[0].id
+  const requestedMissionId = searchParams.get('missionId')
+  const initialMode = normalizeGrade2Mode(searchParams.get('mode'), requestedMissionId)
+  const initialMissionId = requestedMissionId
+    && getGrade2MissionsByUnit(initialUnitId).some((mission) => mission.id === requestedMissionId)
+    ? requestedMissionId
+    : undefined
 
-  return <Grade2GameClient initialUnitId={initialUnitId} />
+  return (
+    <Grade2GameClient
+      initialUnitId={initialUnitId}
+      initialMode={initialMode}
+      initialMissionId={initialMissionId}
+    />
+  )
 }

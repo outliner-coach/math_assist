@@ -1,0 +1,1663 @@
+[
+  {
+    "id": "tmpl-g6volume-A-01",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
+    "problem_family": "a-cuboid-surface-area",
+    "blueprint": {
+      "problemFamily": "a-cuboid-surface-area",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수03-17]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 1}}cm, 높이 2cm인 직육면체의 겉넓이는 몇 cm²인가요?",
+    "solver_rule": "2 * (p * (p + 1) + 2 * p + 2 * (p + 1))",
+    "solution_steps_template": [
+      "서로 다른 세 면의 넓이는 {{p * (p + 1)}}, {{2 * p}}, {{2 * (p + 1)}}cm²입니다.",
+      "각 면이 두 장씩이므로 합의 2배인 {{2 * (p * (p + 1) + 2 * p + 2 * (p + 1))}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "서로 다른 세 면의 넓이를 구하고 마주 보는 면이 두 장씩인지 확인해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 2,
+      "depth": "{{p + 1}}",
+      "focus": "faces",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-A-02",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "a-cube-surface-area",
+    "blueprint": {
+      "problemFamily": "a-cube-surface-area",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "[6수03-17]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "한 모서리가 {{p}}cm인 정육면체의 겉넓이는 몇 cm²인가요?",
+    "solver_rule": "6 * p * p",
+    "solution_steps_template": [
+      "한 면의 넓이는 {{p}}×{{p}}={{p * p}}cm²입니다.",
+      "같은 면 6개의 넓이는 {{6 * p * p}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "서로 다른 세 면의 넓이를 구하고 마주 보는 면이 두 장씩인지 확인해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": "{{p}}",
+      "depth": "{{p}}",
+      "focus": "faces",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-A-03",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
+    "problem_family": "a-cuboid-volume",
+    "blueprint": {
+      "problemFamily": "a-cuboid-volume",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수03-19]",
+      "connectedStandards": [
+        "[6수03-17]",
+        "[6수03-18]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 1}}cm, 높이 2cm인 직육면체의 부피는 몇 cm³인가요?",
+    "solver_rule": "2 * p * (p + 1)",
+    "solution_steps_template": [
+      "부피=가로×세로×높이입니다.",
+      "{{p}}×{{p + 1}}×2={{2 * p * (p + 1)}}cm³입니다."
+    ],
+    "hint_steps_template": [
+      "가로×세로로 한 층의 넓이를 구한 뒤 높이만큼 쌓인 층 수를 곱해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 2,
+      "depth": "{{p + 1}}",
+      "focus": "structure",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-A-04",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "A",
+    "taskActions": [
+      "calculate"
+    ],
+    "problem_family": "a-cube-volume",
+    "blueprint": {
+      "problemFamily": "a-cube-volume",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수03-19]",
+      "connectedStandards": [
+        "[6수03-17]",
+        "[6수03-18]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "한 모서리가 {{p}}cm인 정육면체의 부피는 몇 cm³인가요?",
+    "solver_rule": "p * p * p",
+    "solution_steps_template": [
+      "정육면체의 부피는 한 모서리를 세 번 곱합니다.",
+      "{{p}}×{{p}}×{{p}}={{p * p * p}}cm³입니다."
+    ],
+    "hint_steps_template": [
+      "가로×세로로 한 층의 넓이를 구한 뒤 높이만큼 쌓인 층 수를 곱해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": "{{p}}",
+      "depth": "{{p}}",
+      "focus": "structure",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-A-05",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "a-open-top-box-surface",
+    "blueprint": {
+      "problemFamily": "a-open-top-box-surface",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-17]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 1}}cm, 높이 2cm인 뚜껑 없는 상자의 겉면을 모두 색칠합니다. 색칠하는 넓이는 몇 cm²인가요?",
+    "solver_rule": "2 * (2 * p + p * (p + 1) + 2 * (p + 1)) - p * (p + 1)",
+    "solution_steps_template": [
+      "닫힌 상자의 겉넓이는 {{2 * (2 * p + p * (p + 1) + 2 * (p + 1))}}cm²입니다.",
+      "뚜껑 한 면 {{p * (p + 1)}}cm²를 빼면 {{2 * (2 * p + p * (p + 1) + 2 * (p + 1)) - p * (p + 1)}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "서로 다른 세 면의 넓이를 구하고 마주 보는 면이 두 장씩인지 확인해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 2,
+      "depth": "{{p + 1}}",
+      "focus": "faces",
+      "unit": "cm",
+      "openTop": true
+    }
+  },
+  {
+    "id": "tmpl-g6volume-A-06",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "a-half-filled-box-volume",
+    "blueprint": {
+      "problemFamily": "a-half-filled-box-volume",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-19]",
+      "connectedStandards": [
+        "[6수03-17]",
+        "[6수03-18]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 1}}cm, 높이 4cm인 직육면체 상자를 높이의 절반까지 채웠습니다. 채운 부분의 부피는 몇 cm³인가요?",
+    "solver_rule": "2 * p * (p + 1)",
+    "solution_steps_template": [
+      "상자 전체 부피는 {{4 * p * (p + 1)}}cm³입니다.",
+      "높이의 절반까지 채웠으므로 {{4 * p * (p + 1)}}÷2={{2 * p * (p + 1)}}cm³입니다."
+    ],
+    "hint_steps_template": [
+      "가로×세로로 한 층의 넓이를 구한 뒤 높이만큼 쌓인 층 수를 곱해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 4,
+      "depth": "{{p + 1}}",
+      "focus": "structure",
+      "unit": "cm",
+      "fillFraction": 0.5
+    }
+  },
+  {
+    "id": "tmpl-g6volume-A-07",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
+    "problem_family": "a-find-height-from-volume",
+    "blueprint": {
+      "problemFamily": "a-find-height-from-volume",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수03-19]",
+      "connectedStandards": [
+        "[6수03-17]",
+        "[6수03-18]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 2cm인 직육면체의 부피가 {{6 * p}}cm³입니다. 높이는 몇 cm인가요?",
+    "solver_rule": "3",
+    "solution_steps_template": [
+      "밑면의 넓이는 {{p}}×2={{2 * p}}cm²입니다.",
+      "높이={{6 * p}}÷{{2 * p}}=3cm입니다."
+    ],
+    "hint_steps_template": [
+      "가로×세로로 한 층의 넓이를 구한 뒤 높이만큼 쌓인 층 수를 곱해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 3,
+      "depth": 2,
+      "focus": "structure",
+      "unit": "cm",
+      "unknownMeasurement": "height"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-A-08",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "A",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
+    "problem_family": "a-one-cubic-meter-conversion",
+    "blueprint": {
+      "problemFamily": "a-one-cubic-meter-conversion",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수03-18]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "1m³는 몇 cm³인가요?",
+    "solver_rule": "1000000",
+    "solution_steps_template": [
+      "1m=100cm이므로 세 방향의 길이를 모두 100cm로 바꿉니다.",
+      "100×100×100=1000000이므로 1m³=1000000cm³입니다."
+    ],
+    "hint_steps_template": [
+      "길이 단위를 먼저 바꾸고 가로·세로·높이 세 방향에 모두 적용해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": 100,
+      "height": 100,
+      "depth": 100,
+      "focus": "structure",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-A-09",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
+    "problem_family": "a-opposite-faces-omitted-error",
+    "blueprint": {
+      "problemFamily": "a-opposite-faces-omitted-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-17]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 1}}cm, 높이 2cm인 직육면체의 겉넓이를 구하면서 서로 다른 세 면의 넓이를 한 번씩만 더했습니다. 올바른 겉넓이보다 몇 cm² 작게 구했나요?",
+    "solver_rule": "p * (p + 1) + 2 * p + 2 * (p + 1)",
+    "solution_steps_template": [
+      "서로 다른 세 면의 넓이 합은 {{p * (p + 1) + 2 * p + 2 * (p + 1)}}cm²입니다.",
+      "마주 보는 면까지 포함한 겉넓이는 그 2배입니다.",
+      "따라서 빠뜨린 세 면의 합도 {{p * (p + 1) + 2 * p + 2 * (p + 1)}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "서로 다른 세 면의 넓이를 구하고 마주 보는 면이 두 장씩인지 확인해요.",
+      "올바른 식과 제시된 식을 각각 계산해 빠뜨리거나 더 센 양을 비교해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 2,
+      "depth": "{{p + 1}}",
+      "focus": "faces",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-A-10",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "A",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
+    "problem_family": "a-dimensions-added-for-volume-error",
+    "blueprint": {
+      "problemFamily": "a-dimensions-added-for-volume-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-19]",
+      "connectedStandards": [
+        "[6수03-17]",
+        "[6수03-18]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 6
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 2cm, 높이 3cm인 직육면체의 부피를 세 길이를 더해 {{p + 5}}cm³라고 했습니다. 올바른 부피와의 차는 몇 cm³인가요?",
+    "solver_rule": "5 * p - 5",
+    "solution_steps_template": [
+      "올바른 부피는 {{p}}×2×3={{6 * p}}cm³입니다.",
+      "잘못 구한 값은 {{p + 5}}cm³입니다.",
+      "차는 {{6 * p}}-{{p + 5}}={{5 * p - 5}}cm³입니다."
+    ],
+    "hint_steps_template": [
+      "가로×세로로 한 층의 넓이를 구한 뒤 높이만큼 쌓인 층 수를 곱해요.",
+      "올바른 식과 제시된 식을 각각 계산해 빠뜨리거나 더 센 양을 비교해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 3,
+      "depth": 2,
+      "focus": "structure",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-B-01",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "taskActions": [
+      "calculate"
+    ],
+    "problem_family": "b-larger-cube-surface-area",
+    "blueprint": {
+      "problemFamily": "b-larger-cube-surface-area",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수03-17]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "한 모서리가 {{p + 1}}cm인 정육면체의 겉넓이는 몇 cm²인가요?",
+    "solver_rule": "6 * (p + 1) * (p + 1)",
+    "solution_steps_template": [
+      "한 면의 넓이는 {{(p + 1) * (p + 1)}}cm²입니다.",
+      "같은 면 6개이므로 {{6 * (p + 1) * (p + 1)}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "서로 다른 세 면의 넓이를 구하고 마주 보는 면이 두 장씩인지 확인해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p + 1}}",
+      "height": "{{p + 1}}",
+      "depth": "{{p + 1}}",
+      "focus": "faces",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-B-02",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "b-one-layer-unit-cubes",
+    "blueprint": {
+      "problemFamily": "b-one-layer-unit-cubes",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "[6수03-18]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 1}}cm, 높이 1cm인 한 층을 1cm³ 쌓기나무로 채웁니다. 몇 개 필요한가요?",
+    "solver_rule": "p * (p + 1)",
+    "solution_steps_template": [
+      "높이 1cm인 한 층에는 밑면의 1cm² 칸 수만큼 들어갑니다.",
+      "{{p}}×{{p + 1}}={{p * (p + 1)}}개입니다."
+    ],
+    "hint_steps_template": [
+      "길이 단위를 먼저 바꾸고 가로·세로·높이 세 방향에 모두 적용해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 1,
+      "depth": "{{p + 1}}",
+      "focus": "structure",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-B-03",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "taskActions": [
+      "calculate"
+    ],
+    "problem_family": "b-cuboid-volume-three-four",
+    "blueprint": {
+      "problemFamily": "b-cuboid-volume-three-four",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수03-19]",
+      "connectedStandards": [
+        "[6수03-17]",
+        "[6수03-18]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 4cm, 높이 3cm인 직육면체의 부피는 몇 cm³인가요?",
+    "solver_rule": "12 * p",
+    "solution_steps_template": [
+      "부피=가로×세로×높이입니다.",
+      "{{p}}×4×3={{12 * p}}cm³입니다."
+    ],
+    "hint_steps_template": [
+      "가로×세로로 한 층의 넓이를 구한 뒤 높이만큼 쌓인 층 수를 곱해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 3,
+      "depth": 4,
+      "focus": "structure",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-B-04",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "B",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
+    "problem_family": "b-multiple-cubic-meter-conversion",
+    "blueprint": {
+      "problemFamily": "b-multiple-cubic-meter-conversion",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수03-18]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p}}m³는 몇 cm³인가요?",
+    "solver_rule": "1000000 * p",
+    "solution_steps_template": [
+      "1m³=1000000cm³입니다.",
+      "{{p}}m³는 1000000×{{p}}={{1000000 * p}}cm³입니다."
+    ],
+    "hint_steps_template": [
+      "길이 단위를 먼저 바꾸고 가로·세로·높이 세 방향에 모두 적용해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": 100,
+      "height": 100,
+      "depth": 100,
+      "focus": "structure",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-B-05",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "b-wrapping-paper-surface",
+    "blueprint": {
+      "problemFamily": "b-wrapping-paper-surface",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-17]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 2}}cm, 높이 2cm인 상자를 빈틈없이 포장할 때 필요한 최소 종이 넓이는 몇 cm²인가요?",
+    "solver_rule": "2 * (p * (p + 2) + 2 * p + 2 * (p + 2))",
+    "solution_steps_template": [
+      "서로 다른 세 면의 넓이를 구해 더합니다.",
+      "그 합의 2배는 {{2 * (p * (p + 2) + 2 * p + 2 * (p + 2))}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "서로 다른 세 면의 넓이를 구하고 마주 보는 면이 두 장씩인지 확인해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 2,
+      "depth": "{{p + 2}}",
+      "focus": "faces",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-B-06",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "b-aquarium-capacity",
+    "blueprint": {
+      "problemFamily": "b-aquarium-capacity",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-19]",
+      "connectedStandards": [
+        "[6수03-17]",
+        "[6수03-18]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "안쪽 가로 {{p}}cm, 세로 {{p + 1}}cm, 높이 3cm인 직육면체 수조를 가득 채우면 물의 부피는 몇 cm³인가요?",
+    "solver_rule": "3 * p * (p + 1)",
+    "solution_steps_template": [
+      "수조 안쪽의 세 길이를 곱합니다.",
+      "{{p}}×{{p + 1}}×3={{3 * p * (p + 1)}}cm³입니다."
+    ],
+    "hint_steps_template": [
+      "가로×세로로 한 층의 넓이를 구한 뒤 높이만큼 쌓인 층 수를 곱해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 3,
+      "depth": "{{p + 1}}",
+      "focus": "structure",
+      "unit": "cm",
+      "openTop": true,
+      "fillFraction": 1
+    }
+  },
+  {
+    "id": "tmpl-g6volume-B-07",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "b-doubled-height-volume-increase",
+    "blueprint": {
+      "problemFamily": "b-doubled-height-volume-increase",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-19]",
+      "connectedStandards": [
+        "[6수03-17]",
+        "[6수03-18]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 1}}cm인 상자의 높이를 2cm에서 4cm로 늘렸습니다. 부피는 몇 cm³ 늘어났나요?",
+    "solver_rule": "2 * p * (p + 1)",
+    "solution_steps_template": [
+      "높이는 4-2=2cm 늘었습니다.",
+      "늘어난 부피는 밑넓이×늘어난 높이={{p}}×{{p + 1}}×2={{2 * p * (p + 1)}}cm³입니다."
+    ],
+    "hint_steps_template": [
+      "가로×세로로 한 층의 넓이를 구한 뒤 높이만큼 쌓인 층 수를 곱해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 4,
+      "depth": "{{p + 1}}",
+      "focus": "structure",
+      "unit": "cm",
+      "fillFraction": 0.5
+    }
+  },
+  {
+    "id": "tmpl-g6volume-B-08",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "B",
+    "taskActions": [
+      "compare",
+      "calculate"
+    ],
+    "problem_family": "b-cube-surface-growth",
+    "blueprint": {
+      "problemFamily": "b-cube-surface-growth",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "compare_methods",
+      "primaryStandard": "[6수03-17]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "정육면체의 한 모서리를 {{p}}cm에서 {{p + 1}}cm로 늘렸습니다. 겉넓이는 몇 cm² 늘어났나요?",
+    "solver_rule": "12 * p + 6",
+    "solution_steps_template": [
+      "큰 정육면체 겉넓이는 {{6 * (p + 1) * (p + 1)}}cm²입니다.",
+      "작은 정육면체 겉넓이 {{6 * p * p}}cm²를 빼면 {{12 * p + 6}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "서로 다른 세 면의 넓이를 구하고 마주 보는 면이 두 장씩인지 확인해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p + 1}}",
+      "height": "{{p + 1}}",
+      "depth": "{{p + 1}}",
+      "focus": "faces",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-B-09",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
+    "problem_family": "b-base-area-used-as-volume-error",
+    "blueprint": {
+      "problemFamily": "b-base-area-used-as-volume-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-19]",
+      "connectedStandards": [
+        "[6수03-17]",
+        "[6수03-18]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 1}}cm, 높이 3cm인 직육면체의 부피를 밑넓이만 구해 답했습니다. 올바른 부피보다 몇 cm³ 작게 구했나요?",
+    "solver_rule": "2 * p * (p + 1)",
+    "solution_steps_template": [
+      "올바른 부피는 {{3 * p * (p + 1)}}cm³입니다.",
+      "밑넓이만 구한 값은 {{p * (p + 1)}}입니다.",
+      "차는 {{2 * p * (p + 1)}}cm³입니다."
+    ],
+    "hint_steps_template": [
+      "가로×세로로 한 층의 넓이를 구한 뒤 높이만큼 쌓인 층 수를 곱해요.",
+      "올바른 식과 제시된 식을 각각 계산해 빠뜨리거나 더 센 양을 비교해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 3,
+      "depth": "{{p + 1}}",
+      "focus": "structure",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-B-10",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "B",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
+    "problem_family": "b-cubic-meter-place-value-error",
+    "blueprint": {
+      "problemFamily": "b-cubic-meter-place-value-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-18]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 3,
+        "max": 7
+      }
+    },
+    "prompt_template": "{{p}}m³를 {{10000 * p}}cm³라고 잘못 바꾸었습니다. 올바른 값과의 차는 몇 cm³인가요?",
+    "solver_rule": "990000 * p",
+    "solution_steps_template": [
+      "1m³는 100×100×100=1000000cm³입니다.",
+      "올바른 값은 {{1000000 * p}}cm³입니다.",
+      "{{1000000 * p}}-{{10000 * p}}={{990000 * p}}cm³입니다."
+    ],
+    "hint_steps_template": [
+      "길이 단위를 먼저 바꾸고 가로·세로·높이 세 방향에 모두 적용해요.",
+      "올바른 식과 제시된 식을 각각 계산해 빠뜨리거나 더 센 양을 비교해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": 100,
+      "height": 100,
+      "depth": 100,
+      "focus": "structure",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-C-01",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "taskActions": [
+      "calculate"
+    ],
+    "problem_family": "c-cuboid-surface-area-three",
+    "blueprint": {
+      "problemFamily": "c-cuboid-surface-area-three",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수03-17]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 2}}cm, 높이 3cm인 직육면체의 겉넓이는 몇 cm²인가요?",
+    "solver_rule": "2 * (p * (p + 2) + 3 * p + 3 * (p + 2))",
+    "solution_steps_template": [
+      "서로 다른 세 면의 넓이는 {{p * (p + 2)}}, {{3 * p}}, {{3 * (p + 2)}}cm²입니다.",
+      "합의 2배는 {{2 * (p * (p + 2) + 3 * p + 3 * (p + 2))}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "서로 다른 세 면의 넓이를 구하고 마주 보는 면이 두 장씩인지 확인해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 3,
+      "depth": "{{p + 2}}",
+      "focus": "faces",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-C-02",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "taskActions": [
+      "calculate"
+    ],
+    "problem_family": "c-larger-cube-volume",
+    "blueprint": {
+      "problemFamily": "c-larger-cube-volume",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "[6수03-19]",
+      "connectedStandards": [
+        "[6수03-17]",
+        "[6수03-18]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "한 모서리가 {{p + 1}}cm인 정육면체의 부피는 몇 cm³인가요?",
+    "solver_rule": "(p + 1) * (p + 1) * (p + 1)",
+    "solution_steps_template": [
+      "한 모서리를 세 번 곱합니다.",
+      "{{p + 1}}×{{p + 1}}×{{p + 1}}={{(p + 1) * (p + 1) * (p + 1)}}cm³입니다."
+    ],
+    "hint_steps_template": [
+      "가로×세로로 한 층의 넓이를 구한 뒤 높이만큼 쌓인 층 수를 곱해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p + 1}}",
+      "height": "{{p + 1}}",
+      "depth": "{{p + 1}}",
+      "focus": "structure",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-C-03",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "taskActions": [
+      "interpret",
+      "calculate"
+    ],
+    "problem_family": "c-unit-cubes-in-one-meter-cube",
+    "blueprint": {
+      "problemFamily": "c-unit-cubes-in-one-meter-cube",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "[6수03-18]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "한 모서리가 1cm인 정육면체를 한 모서리가 1m인 정육면체 안에 빈틈없이 채우면 몇 개 필요한가요?",
+    "solver_rule": "1000000",
+    "solution_steps_template": [
+      "1m=100cm이므로 한 방향에 100개씩 놓입니다.",
+      "100×100×100=1000000개가 필요합니다."
+    ],
+    "hint_steps_template": [
+      "길이 단위를 먼저 바꾸고 가로·세로·높이 세 방향에 모두 적용해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": 100,
+      "height": 100,
+      "depth": 100,
+      "focus": "structure",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-C-04",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 1,
+    "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "c-larger-cube-six-faces",
+    "blueprint": {
+      "problemFamily": "c-larger-cube-six-faces",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "systematic_counting",
+      "primaryStandard": "[6수03-17]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "diagram"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "한 모서리가 {{p + 1}}cm인 정육면체의 여섯 면 넓이 합은 몇 cm²인가요?",
+    "solver_rule": "6 * (p + 1) * (p + 1)",
+    "solution_steps_template": [
+      "한 면의 넓이는 {{(p + 1) * (p + 1)}}cm²입니다.",
+      "여섯 면의 합은 {{6 * (p + 1) * (p + 1)}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "서로 다른 세 면의 넓이를 구하고 마주 보는 면이 두 장씩인지 확인해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p + 1}}",
+      "height": "{{p + 1}}",
+      "depth": "{{p + 1}}",
+      "focus": "faces",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-C-05",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "c-open-top-storage-surface",
+    "blueprint": {
+      "problemFamily": "c-open-top-storage-surface",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-17]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 2}}cm, 높이 3cm인 뚜껑 없는 수납함의 바깥 다섯 면 넓이 합은 몇 cm²인가요?",
+    "solver_rule": "2 * (p * (p + 2) + 3 * p + 3 * (p + 2)) - p * (p + 2)",
+    "solution_steps_template": [
+      "닫힌 상자 겉넓이는 {{2 * (p * (p + 2) + 3 * p + 3 * (p + 2))}}cm²입니다.",
+      "윗면 {{p * (p + 2)}}cm²를 빼면 {{2 * (p * (p + 2) + 3 * p + 3 * (p + 2)) - p * (p + 2)}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "서로 다른 세 면의 넓이를 구하고 마주 보는 면이 두 장씩인지 확인해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 3,
+      "depth": "{{p + 2}}",
+      "focus": "faces",
+      "unit": "cm",
+      "openTop": true
+    }
+  },
+  {
+    "id": "tmpl-g6volume-C-06",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "c-half-full-container",
+    "blueprint": {
+      "problemFamily": "c-half-full-container",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-19]",
+      "connectedStandards": [
+        "[6수03-17]",
+        "[6수03-18]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 2}}cm, 높이 4cm인 통에 내용물을 절반만 채웠습니다. 내용물의 부피는 몇 cm³인가요?",
+    "solver_rule": "2 * p * (p + 2)",
+    "solution_steps_template": [
+      "통 전체 부피는 {{4 * p * (p + 2)}}cm³입니다.",
+      "절반은 {{2 * p * (p + 2)}}cm³입니다."
+    ],
+    "hint_steps_template": [
+      "가로×세로로 한 층의 넓이를 구한 뒤 높이만큼 쌓인 층 수를 곱해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 4,
+      "depth": "{{p + 2}}",
+      "focus": "structure",
+      "unit": "cm",
+      "openTop": true,
+      "fillFraction": 0.5
+    }
+  },
+  {
+    "id": "tmpl-g6volume-C-07",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "taskActions": [
+      "model",
+      "calculate"
+    ],
+    "problem_family": "c-remove-one-unit-layer",
+    "blueprint": {
+      "problemFamily": "c-remove-one-unit-layer",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "[6수03-19]",
+      "connectedStandards": [
+        "[6수03-17]",
+        "[6수03-18]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 1}}cm, 높이 5cm인 직육면체에서 높이 1cm인 맨 위 한 층을 덜어 냈습니다. 남은 부피는 몇 cm³인가요?",
+    "solver_rule": "4 * p * (p + 1)",
+    "solution_steps_template": [
+      "처음 부피는 {{5 * p * (p + 1)}}cm³입니다.",
+      "한 층의 부피 {{p * (p + 1)}}cm³를 빼면 {{4 * p * (p + 1)}}cm³입니다."
+    ],
+    "hint_steps_template": [
+      "가로×세로로 한 층의 넓이를 구한 뒤 높이만큼 쌓인 층 수를 곱해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 5,
+      "depth": "{{p + 1}}",
+      "focus": "structure",
+      "unit": "cm",
+      "fillFraction": 0.8
+    }
+  },
+  {
+    "id": "tmpl-g6volume-C-08",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 2,
+    "set_id": "C",
+    "taskActions": [
+      "reason",
+      "calculate"
+    ],
+    "problem_family": "c-find-height-from-base-and-volume",
+    "blueprint": {
+      "problemFamily": "c-find-height-from-base-and-volume",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "[6수03-19]",
+      "connectedStandards": [
+        "[6수03-17]",
+        "[6수03-18]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 {{p + 2}}cm인 직육면체의 부피가 {{3 * p * (p + 2)}}cm³입니다. 높이는 몇 cm인가요?",
+    "solver_rule": "3",
+    "solution_steps_template": [
+      "밑넓이는 {{p * (p + 2)}}cm²입니다.",
+      "높이는 {{3 * p * (p + 2)}}÷{{p * (p + 2)}}=3cm입니다."
+    ],
+    "hint_steps_template": [
+      "가로×세로로 한 층의 넓이를 구한 뒤 높이만큼 쌓인 층 수를 곱해요.",
+      "cm²는 면의 넓이, cm³는 1cm³ 쌓기나무의 개수라는 뜻을 확인해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 3,
+      "depth": "{{p + 2}}",
+      "focus": "structure",
+      "unit": "cm",
+      "unknownMeasurement": "height"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-C-09",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
+    "problem_family": "c-volume-used-for-surface-error",
+    "blueprint": {
+      "problemFamily": "c-volume-used-for-surface-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-17]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 2cm, 높이 2cm인 직육면체의 겉넓이를 세 길이의 곱으로 잘못 구했습니다. 올바른 겉넓이와 잘못 구한 값의 차는 몇 cm²인가요?",
+    "solver_rule": "4 * p + 8",
+    "solution_steps_template": [
+      "올바른 겉넓이는 2×({{2 * p}}+{{2 * p}}+4)={{8 * p + 8}}cm²입니다.",
+      "세 길이의 곱은 {{4 * p}}입니다.",
+      "차는 {{8 * p + 8}}-{{4 * p}}={{4 * p + 8}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "서로 다른 세 면의 넓이를 구하고 마주 보는 면이 두 장씩인지 확인해요.",
+      "올바른 식과 제시된 식을 각각 계산해 빠뜨리거나 더 센 양을 비교해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 2,
+      "depth": 2,
+      "focus": "faces",
+      "unit": "cm"
+    }
+  },
+  {
+    "id": "tmpl-g6volume-C-10",
+    "concept_id": "g6volume-001",
+    "type": "number",
+    "difficulty": 3,
+    "set_id": "C",
+    "taskActions": [
+      "analyze_error",
+      "calculate"
+    ],
+    "problem_family": "c-six-volumes-used-for-surface-error",
+    "blueprint": {
+      "problemFamily": "c-six-volumes-used-for-surface-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "[6수03-17]",
+      "connectedStandards": [
+        "[6수03-19]"
+      ],
+      "representations": [
+        "text",
+        "equation",
+        "diagram"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "visualSemantics": "quantitative"
+    },
+    "param_schema": {
+      "p": {
+        "min": 4,
+        "max": 8
+      }
+    },
+    "prompt_template": "가로 {{p}}cm, 세로 3cm, 높이 2cm인 직육면체의 겉넓이를 가로×세로×높이×6으로 잘못 구했습니다. 잘못 구한 값은 올바른 겉넓이보다 몇 cm² 큰가요?",
+    "solver_rule": "26 * p - 12",
+    "solution_steps_template": [
+      "잘못 구한 값은 {{p}}×3×2×6={{36 * p}}입니다.",
+      "올바른 겉넓이는 2×({{3 * p}}+{{2 * p}}+6)={{10 * p + 12}}cm²입니다.",
+      "차는 {{36 * p}}-{{10 * p + 12}}={{26 * p - 12}}cm²입니다."
+    ],
+    "hint_steps_template": [
+      "서로 다른 세 면의 넓이를 구하고 마주 보는 면이 두 장씩인지 확인해요.",
+      "올바른 식과 제시된 식을 각각 계산해 빠뜨리거나 더 센 양을 비교해요."
+    ],
+    "visual_template": {
+      "type": "cuboid",
+      "semantics": "quantitative",
+      "width": "{{p}}",
+      "height": 2,
+      "depth": 3,
+      "focus": "faces",
+      "unit": "cm"
+    }
+  }
+]

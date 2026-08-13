@@ -54,15 +54,6 @@ function renderMarkdown(report) {
     )
   }
 
-  lines.push('', '## Blueprint Coverage Recommendations', '')
-  if (report.coverageRecommendations.length === 0) {
-    lines.push('- none')
-  } else {
-    for (const recommendation of report.coverageRecommendations) {
-      lines.push(`- [${recommendation.code}] ${recommendation.message}`)
-    }
-  }
-
   lines.push(
     '',
     '## Concept Difficulty Summary',

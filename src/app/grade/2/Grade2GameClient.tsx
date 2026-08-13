@@ -16,6 +16,7 @@ import {
   grade2Units,
   type Grade2Mission,
   type Grade2MissionProvider,
+  type Grade2Mode,
 } from '@/lib/grade2-problems'
 import { buildGrade2MissionCatalog } from '@/lib/application-problems/grade2-runtime'
 import { hasGrade2ApplicationProblemSource } from '@/lib/application-problems/grade2-adapter'
@@ -45,7 +46,10 @@ import {
   getDailyAdventureSeed,
   getMasteryStars,
 } from '@/lib/adventure-progression'
-import { appendMissionAttemptReceipt } from '@/lib/mission-attempt-receipt'
+import {
+  appendMissionAttemptReceipt,
+  createMissionAttemptRunKey,
+} from '@/lib/mission-attempt-receipt'
 import {
   advanceMissionSketchRun,
   createMissionSketchKey,
@@ -210,12 +214,16 @@ function MissionList({
 
 interface Grade2GameClientProps {
   initialUnitId: string
+  initialMode: Grade2Mode
+  initialMissionId?: string
   applicationMissionProvider?: Grade2MissionProvider
   applicationProblemRegistry?: ApplicationProblemRegistryV1
 }
 
 export default function Grade2GameClient({
   initialUnitId,
+  initialMode,
+  initialMissionId,
   applicationMissionProvider,
   applicationProblemRegistry = GRADE2_APPLICATION_PROBLEM_REGISTRY_V1,
 }: Grade2GameClientProps) {
@@ -238,17 +246,23 @@ export default function Grade2GameClient({
   const initialUnit = grade2Units.find((unit) => unit.id === initialUnitId) ?? grade2Units[0]
   const [progress, setProgress] = useState<Grade2Progress>(() => createInitialGrade2Progress())
   const [unresolvedActiveApplicationMissionId, setUnresolvedActiveApplicationMissionId] = useState<string | null>(null)
-  const missions = useMemo(
+  const allMissions = useMemo(
     () => mergeGrade2ApplicationMissionSnapshots(catalogMissions, progress, {
       preferLiveMissionIds: preferLiveApplicationMissionIds,
     }),
     [catalogMissions, preferLiveApplicationMissionIds, progress],
   )
+  const missions = useMemo(
+    () => allMissions.filter((mission) => mission.mode === initialMode),
+    [allMissions, initialMode],
+  )
   const [storageAvailable, setStorageAvailable] = useState(true)
   const [storageRecovered, setStorageRecovered] = useState(false)
   const [selectedUnitId, setSelectedUnitId] = useState(initialUnit.id)
   const [selectedMissionId, setSelectedMissionId] = useState(
-    unitMissions(missions, initialUnit.id)[0]?.id ?? 'g2-1-place-value-01'
+    initialMissionId
+      ?? unitMissions(missions, initialUnit.id)[0]?.id
+      ?? 'g2-1-place-value-01'
   )
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
   const [textAnswer, setTextAnswer] = useState('')
@@ -259,6 +273,9 @@ export default function Grade2GameClient({
   const [wrongAttemptCount, setWrongAttemptCount] = useState(0)
   const [lastSubmissionCorrect, setLastSubmissionCorrect] = useState(false)
   const [confirmReset, setConfirmReset] = useState(false)
+  const [missionAttemptRunKey, setMissionAttemptRunKey] = useState(
+    () => createMissionAttemptRunKey(missionSeed),
+  )
 
   const selectedUnit = grade2Units.find((unit) => unit.id === selectedUnitId) ?? grade2Units[0]
   const selectedUnitMissions = unitMissions(missions, selectedUnit.id)
@@ -316,6 +333,7 @@ export default function Grade2GameClient({
         ? result.progress
         : selectGrade2Unit(result.progress, initialUnit.id)
     const restoredCatalog = mergeGrade2ApplicationMissionSnapshots(catalogMissions, progressForUnit)
+      .filter((mission) => mission.mode === initialMode)
     const recommendedMission = firstMissionForUnit(restoredCatalog, initialUnit.id, progressForUnit)
     const hasStoredLatestApplicationMission = Boolean(
       progressForUnit.latestMissionId &&
@@ -327,9 +345,14 @@ export default function Grade2GameClient({
       !getActiveGrade2ApplicationMissionSnapshot(progressForUnit, progressForUnit.latestMissionId)
         ? progressForUnit.latestMissionId
         : null
-    const restoredMission = progressForUnit.missionSketchRunOrdinal > 0 || hasStoredLatestApplicationMission
-      ? unitMissions(restoredCatalog, initialUnit.id).find((mission) => mission.id === progressForUnit.latestMissionId) ?? recommendedMission
-      : recommendedMission
+    const requestedMission = initialMissionId
+      ? unitMissions(restoredCatalog, initialUnit.id).find((mission) => mission.id === initialMissionId)
+      : undefined
+    const restoredMission = requestedMission ?? (
+      progressForUnit.missionSketchRunOrdinal > 0 || hasStoredLatestApplicationMission
+        ? unitMissions(restoredCatalog, initialUnit.id).find((mission) => mission.id === progressForUnit.latestMissionId) ?? recommendedMission
+        : recommendedMission
+    )
     const restoredProgress = activateGrade2ApplicationMissionSnapshot(
       progressForUnit,
       restoredMission,
@@ -345,7 +368,7 @@ export default function Grade2GameClient({
     setSelectedUnitId(initialUnit.id)
     setSelectedMissionId(restoredMission.id)
     setUnresolvedActiveApplicationMissionId(unresolvedLatestApplicationMissionId)
-  }, [catalogMissions, initialUnit.id, missionCatalog.status])
+  }, [catalogMissions, initialMissionId, initialMode, initialUnit.id, missionCatalog.status])
 
   useEffect(() => {
     if (missionCatalog.status !== 'ready') return
@@ -364,8 +387,9 @@ export default function Grade2GameClient({
         level: getAdventureLevel(progress.xp),
         masteryStars: getMasteryStars(progress.masteryByMissionId[selectedMission.id]),
         missionSeed,
+        mode: initialMode,
       })
-  }, [blockedApplicationMissionId, missionCatalog.status, missionSeed, progress.completedMissionIds.length, progress.masteryByMissionId, progress.reviewMissionIds.length, progress.todaySolvedCount, progress.xp, selectedMission.id, selectedMission.prompt, selectedMissionId, selectedUnitId, solved, wrongAttemptCount])
+  }, [blockedApplicationMissionId, initialMode, missionCatalog.status, missionSeed, progress.completedMissionIds.length, progress.masteryByMissionId, progress.reviewMissionIds.length, progress.todaySolvedCount, progress.xp, selectedMission.id, selectedMission.prompt, selectedMissionId, selectedUnitId, solved, wrongAttemptCount])
 
   const persistProgress = (nextProgress: Grade2Progress) => {
     setProgress(nextProgress)
@@ -394,6 +418,7 @@ export default function Grade2GameClient({
       : introDismissedProgress
     if (nextProgress !== progress) persistProgress(nextProgress)
     setSelectedMissionId(missionId)
+    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
     resetMissionState()
     window.requestAnimationFrame(() => {
       document.getElementById('grade2-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -433,6 +458,7 @@ export default function Grade2GameClient({
       }
       persistProgress(nextProgress)
       setReplayRound(nextProgress.missionSketchRunOrdinal)
+      setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
       resetMissionState()
       document.getElementById('grade2-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
       return
@@ -440,6 +466,7 @@ export default function Grade2GameClient({
     const nextProgress = advanceMissionSketchRun(progress)
     persistProgress(nextProgress)
     setReplayRound(nextProgress.missionSketchRunOrdinal)
+    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
     resetMissionState()
     document.getElementById('grade2-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
@@ -488,6 +515,7 @@ export default function Grade2GameClient({
     setUnresolvedActiveApplicationMissionId(null)
     setSelectedUnitId(initialUnit.id)
     setSelectedMissionId(unitMissions(missions, initialUnit.id)[0]?.id ?? 'g2-1-place-value-01')
+    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
     setConfirmReset(false)
     resetMissionState()
   }
@@ -514,7 +542,7 @@ export default function Grade2GameClient({
     void appendMissionAttemptReceipt({
       grade: 2,
       mission: selectedMission,
-      sessionRunKey: missionSeed,
+      sessionRunKey: missionAttemptRunKey,
       attemptIndex: wrongAttemptCount,
       variantKey: currentVariantKey,
       correct: result.correct,
@@ -579,7 +607,7 @@ export default function Grade2GameClient({
                 단원 선택
               </Link>
               <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#f97316]">
-                {selectedUnit.semester} 미션
+                {selectedUnit.semester} · {initialMode === 'basic' ? '기본' : '연습'} {selectedUnitMissions.length}문제
               </p>
               <h1 className="mt-2 text-4xl font-black leading-tight text-[#0f172a] md:text-5xl">
                 {selectedUnit.title}
@@ -610,9 +638,36 @@ export default function Grade2GameClient({
 
         <AdventureProgressPanel
           progress={progress}
-          totalMissionCount={missions.length}
+          totalMissionCount={allMissions.length}
           tone="blue"
         />
+
+        <nav className="grid grid-cols-2 gap-3" aria-label="2학년 문제 형태">
+          <Link
+            href={`/grade/2/mission?unitId=${selectedUnit.id}&mode=basic`}
+            aria-current={initialMode === 'basic' ? 'page' : undefined}
+            data-testid="grade2-mode-basic"
+            className={`grid min-h-[56px] place-items-center rounded-xl border-2 px-4 py-3 text-base font-black ${
+              initialMode === 'basic'
+                ? 'border-[#2563eb] bg-[#2563eb] text-white'
+                : 'border-[#93c5fd] bg-white text-[#2563eb]'
+            }`}
+          >
+            기본 6문제
+          </Link>
+          <Link
+            href={`/grade/2/mission?unitId=${selectedUnit.id}&mode=practice`}
+            aria-current={initialMode === 'practice' ? 'page' : undefined}
+            data-testid="grade2-mode-practice"
+            className={`grid min-h-[56px] place-items-center rounded-xl border-2 px-4 py-3 text-base font-black ${
+              initialMode === 'practice'
+                ? 'border-[#2563eb] bg-[#2563eb] text-white'
+                : 'border-[#93c5fd] bg-white text-[#2563eb]'
+            }`}
+          >
+            연습 문제
+          </Link>
+        </nav>
 
         <section
           className="grid gap-5 rounded-[2rem] border-2 border-[#d8e3ef] bg-white p-5 md:p-6 lg:grid-cols-[320px_1fr]"
@@ -620,7 +675,7 @@ export default function Grade2GameClient({
         >
           <div>
             <p className="text-sm font-black uppercase tracking-[0.18em] text-[#f97316]">
-              {selectedUnit.semester}
+              {selectedUnit.semester} · {initialMode === 'basic' ? '기본' : '연습'}
             </p>
             <h2 className="mt-1 text-2xl font-black text-[#0f172a]">{selectedUnit.title}</h2>
             <p className="mt-2 text-sm font-bold leading-relaxed text-[#64748b]">{selectedUnit.subtitle}</p>

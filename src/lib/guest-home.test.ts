@@ -7,6 +7,7 @@ import {
   type GuestHomeStorage,
 } from './guest-home'
 import { createLocalProgressRepository } from './local-progress-repository'
+import { getGrade2MissionSet } from './grade2-problems'
 
 function memoryStorage(initial: Record<string, string> = {}): GuestHomeStorage & { data: Record<string, string> } {
   return {
@@ -54,7 +55,7 @@ describe('guest home state', () => {
     expect(state.summaries[2]).toMatchObject({
       hasProgress: true,
       reviewCount: 1,
-      continueHref: '/grade/2/mission?unitId=g2-1-place-value',
+      continueHref: '/grade/2/mission?unitId=g2-1-place-value&mode=basic',
     })
   })
 
@@ -94,12 +95,12 @@ describe('guest home state', () => {
     expect(state.activeGrade).toBe(4)
     expect(state.summaries[4]).toMatchObject({
       hasProgress: true,
-      completedCount: 1,
+      completedCount: 0,
       reviewCount: 1,
       todaySolvedCount: 1,
       continueTitle: '큰 수 활동 이어하기',
-      continueHref: '/grade/4/mission?unitId=unit-4-1-large-numbers',
-      continueLabel: '활동 이어서 하기',
+      continueHref: '/grade/4/mission?unitId=unit-4-1-large-numbers&mode=basic',
+      continueLabel: '기본 3문제 시작',
     })
   })
 
@@ -157,7 +158,7 @@ describe('guest home state', () => {
     const state = loadGuestHomeState(storage, 1_000)
 
     expect(state.summaries[4]).toMatchObject({ hasProgress: false, completedCount: 0, reviewCount: 0 })
-    expect(state.summaries[1].completedCount).toBe(1)
+    expect(state.summaries[1].completedCount).toBe(0)
     expect(state.summaries[5].completedCount).toBe(1)
     expect(storage.data).toEqual(before)
   })
@@ -238,7 +239,10 @@ describe('guest home state', () => {
     const projections = createLocalProgressRepository(storage).readAllProgress(1_000)
 
     for (const grade of [1, 2, 3, 4, 5, 6] as const) {
-      expect(home.summaries[grade].completedCount).toBe(projections[grade].completed.length)
+      expect(home.summaries[grade].completedCount).toBe(
+        Object.values(projections[grade].completionByActivityId)
+          .filter((completion) => completion.isComplete).length,
+      )
       expect(home.summaries[grade].reviewCount).toBe(projections[grade].review.length)
       expect(home.summaries[grade].lastPlayedAt).toBe(projections[grade].lastActivityAt)
     }
@@ -261,7 +265,38 @@ describe('guest home state', () => {
 
     expect(summary.hasProgress).toBe(false)
     expect(summary.continueTitle).toBe('세 자리 수 첫 미션')
-    expect(summary.continueLabel).toBe('첫 미션 시작')
+    expect(summary.continueLabel).toBe('기본 6문제 시작')
+  })
+
+  it('recommends unlocked practice after a Grade 2 basic set without marking the unit complete', () => {
+    const unitId = 'g2-1-place-value'
+    const basicIds = getGrade2MissionSet(unitId, 'basic').map((mission) => mission.id)
+    const storage = memoryStorage({
+      mathAssist_grade2Progress: JSON.stringify({
+        schemaVersion: 4,
+        completedMissionIds: basicIds,
+        checkedMissionIds: basicIds,
+        completedUnitIds: [],
+        reviewMissionIds: [],
+        latestMissionId: basicIds.at(-1),
+        selectedUnitId: unitId,
+        lastPlayedAt: 500,
+      }),
+    })
+
+    const summary = loadGuestHomeState(storage, 1_000).summaries[2]
+
+    expect(summary).toMatchObject({
+      hasCompletedBasicSet: true,
+      hasCompletedPracticeSet: false,
+      isComplete: false,
+      recommendedMode: 'practice',
+      completedCount: 0,
+      basicHref: `/grade/2/mission?unitId=${unitId}&mode=basic`,
+      practiceHref: `/grade/2/mission?unitId=${unitId}&mode=practice`,
+      continueHref: `/grade/2/mission?unitId=${unitId}&mode=practice`,
+      continueLabel: '연습 6문제 시작',
+    })
   })
 
   it('saves the active grade without touching learning records', () => {

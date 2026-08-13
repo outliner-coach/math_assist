@@ -6,36 +6,51 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "mixedcalc-add-multiply-order",
-    "blueprint": {"problemFamily":"mixedcalc-add-multiply-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "mixedcalc-add-multiply-order",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 2,
+        "min": 4,
         "max": 9
       },
       "b": {
-        "min": 2,
-        "max": 5
+        "min": 3,
+        "max": 7
       },
       "c": {
-        "min": 2,
+        "min": 4,
         "max": 9
       }
     },
     "prompt_template": "{{a}} + {{b}} × {{c}} = ?",
     "solver_rule": "a + b * c",
     "solution_steps_template": [
-      "곱셈을 먼저 계산합니다: {{b}} × {{c}} = {{b * c}}",
-      "그 다음 덧셈을 계산합니다: {{a}} + {{b * c}} = {{a + b * c}}"
+      "먼저 곱셈을 계산하면 {{b}} × {{c}} = {{b * c}}입니다.",
+      "그 결과보다 {{a}}만큼 큰 수는 {{a + b * c}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈과 나눗셈을 먼저 계산해요.",
-      "{{b}} × {{c}} 값을 먼저 구해요."
+      "괄호가 있으면 괄호 안을, 없으면 곱셈을 먼저 계산해요.",
+      "먼저 계산한 결과로 덧셈이나 뺄셈을 이어서 해요."
     ],
     "choices_template": [
       "{{a + b * c}}",
-      "{{a + b * c + 5}}",
-      "{{a + b * c + 11}}",
-      "{{a + b * c + 17}}"
+      "{{(a + b * c) + 3}}",
+      "{{(a + b * c) + 7}}",
+      "{{(a + b * c) + 12}}"
     ]
   },
   {
@@ -45,30 +60,45 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "mixedcalc-multiply-add-order",
-    "blueprint": {"problemFamily":"mixedcalc-multiply-add-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "mixedcalc-multiply-add-order",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 3,
-        "max": 8
+        "min": 4,
+        "max": 9
       },
       "b": {
-        "min": 2,
-        "max": 6
+        "min": 3,
+        "max": 7
       },
       "c": {
-        "min": 2,
+        "min": 4,
         "max": 9
       }
     },
-    "prompt_template": "{{a}} × {{b}} + {{c}} 를 계산하세요.",
+    "prompt_template": "{{a}} × {{b}} + {{c}} = ?",
     "solver_rule": "a * b + c",
     "solution_steps_template": [
-      "곱셈을 먼저 계산합니다: {{a}} × {{b}} = {{a * b}}",
-      "그 다음 덧셈을 계산합니다: {{a * b}} + {{c}} = {{a * b + c}}"
+      "먼저 곱셈을 계산하면 {{a}} × {{b}} = {{a * b}}입니다.",
+      "그 결과보다 {{c}}만큼 큰 수는 {{a * b + c}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈부터 계산해요.",
-      "곱셈 결과에 {{c}}를 더해요."
+      "괄호가 있으면 괄호 안을, 없으면 곱셈을 먼저 계산해요.",
+      "먼저 계산한 결과로 덧셈이나 뺄셈을 이어서 해요."
     ]
   },
   {
@@ -78,36 +108,51 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "mixedcalc-parenthesized-sum-product",
-    "blueprint": {"problemFamily":"mixedcalc-parenthesized-sum-product","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "mixedcalc-parenthesized-sum-product",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 2,
-        "max": 6
+        "min": 4,
+        "max": 9
       },
       "b": {
         "min": 3,
-        "max": 8
+        "max": 7
       },
       "c": {
-        "min": 2,
-        "max": 5
+        "min": 4,
+        "max": 9
       }
     },
     "prompt_template": "({{a}} + {{b}}) × {{c}} = ?",
     "solver_rule": "(a + b) * c",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{a}} + {{b}} = {{a + b}}",
-      "그 다음 곱셈을 계산합니다: {{a + b}} × {{c}} = {{(a + b) * c}}"
+      "먼저 괄호 안을 계산하면 {{a}} + {{b}} = {{a + b}}입니다.",
+      "그 결과의 {{c}}배는 {{(a + b) * c}}입니다."
     ],
     "hint_steps_template": [
-      "괄호 안을 먼저 계산해요.",
-      "{{a + b}}에 {{c}}를 곱해요."
+      "괄호가 있으면 괄호 안을, 없으면 곱셈을 먼저 계산해요.",
+      "먼저 계산한 결과로 덧셈이나 뺄셈을 이어서 해요."
     ],
     "choices_template": [
       "{{(a + b) * c}}",
-      "{{(a + b) * c + 4}}",
-      "{{(a + b) * c + 9}}",
-      "{{(a + b) * c + 15}}"
+      "{{((a + b) * c) + 3}}",
+      "{{((a + b) * c) + 7}}",
+      "{{((a + b) * c) + 12}}"
     ]
   },
   {
@@ -117,30 +162,45 @@
     "difficulty": 1,
     "set_id": "A",
     "problem_family": "mixedcalc-multiply-subtract-order",
-    "blueprint": {"problemFamily":"mixedcalc-multiply-subtract-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "mixedcalc-multiply-subtract-order",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 3,
+        "min": 4,
         "max": 9
       },
       "b": {
-        "min": 2,
-        "max": 5
+        "min": 3,
+        "max": 7
       },
       "c": {
-        "min": 2,
-        "max": 8
+        "min": 4,
+        "max": 9
       }
     },
-    "prompt_template": "{{a}} × {{b}} - {{c}} 를 계산하세요.",
+    "prompt_template": "{{a}} × {{b}} - {{c}} = ?",
     "solver_rule": "a * b - c",
     "solution_steps_template": [
-      "곱셈을 먼저 계산합니다: {{a}} × {{b}} = {{a * b}}",
-      "그 다음 뺄셈을 계산합니다: {{a * b}} - {{c}} = {{a * b - c}}"
+      "먼저 곱셈을 계산하면 {{a}} × {{b}} = {{a * b}}입니다.",
+      "그 결과보다 {{c}}만큼 작은 수는 {{a * b - c}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈부터 계산해요.",
-      "곱셈 결과에서 {{c}}를 빼요."
+      "괄호가 있으면 괄호 안을, 없으면 곱셈을 먼저 계산해요.",
+      "먼저 계산한 결과로 덧셈이나 뺄셈을 이어서 해요."
     ]
   },
   {
@@ -149,41 +209,57 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "mixedcalc-three-operation-order",
-    "blueprint": {"problemFamily":"mixedcalc-three-operation-order","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-context-stock-after-use",
+    "blueprint": {
+      "problemFamily": "mixedcalc-context-stock-after-use",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 13
+        "min": 4,
+        "max": 9
       },
       "b": {
         "min": 3,
         "max": 7
       },
       "c": {
-        "min": 3,
-        "max": 8
+        "min": 4,
+        "max": 9
       },
       "d": {
-        "min": 3,
-        "max": 7
+        "min": 2,
+        "max": 6
       }
     },
-    "prompt_template": "{{a}} + {{b}} × {{c}} - {{d}} = ?",
+    "prompt_template": "문구점에 연필이 낱개로 {{a}}자루 있고, 한 묶음에 {{c}}자루씩 든 묶음이 {{b}}개 있습니다. 이 중 {{d}}자루를 팔았다면 남은 연필은 몇 자루인가요?",
     "solver_rule": "a + b * c - d",
     "solution_steps_template": [
-      "곱셈을 먼저 계산합니다: {{b}} × {{c}} = {{b * c}}",
-      "그 다음 덧셈과 뺄셈을 합니다: {{a}} + {{b * c}} - {{d}} = {{a + b * c - d}}"
+      "묶음에 든 수는 {{b}} × {{c}} = {{b * c}}입니다.",
+      "낱개를 더하고 사용한 수를 빼면 {{a}} + {{b * c}} - {{d}} = {{a + b * c - d}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈부터 계산해요.",
-      "나머지 덧셈/뺄셈을 해요."
+      "문장에서 한 묶음의 수와 묶음 수, 이미 있거나 사용한 수를 구분해요.",
+      "상황을 하나의 혼합 계산식으로 나타낸 뒤 계산 순서를 지켜요."
     ],
     "choices_template": [
       "{{a + b * c - d}}",
-      "{{a + b * c - d + 5}}",
-      "{{a + b * c - d + 11}}",
-      "{{a + b * c - d + 17}}"
+      "{{(a + b * c - d) + 3}}",
+      "{{(a + b * c - d) + 7}}",
+      "{{(a + b * c - d) + 12}}"
     ]
   },
   {
@@ -192,36 +268,51 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "mixedcalc-parentheses-then-subtract",
-    "blueprint": {"problemFamily":"mixedcalc-parentheses-then-subtract","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-context-combined-groups-after-use",
+    "blueprint": {
+      "problemFamily": "mixedcalc-context-combined-groups-after-use",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 5,
-        "max": 10
-      },
-      "b": {
         "min": 4,
         "max": 9
       },
-      "c": {
+      "b": {
         "min": 3,
         "max": 7
       },
+      "c": {
+        "min": 4,
+        "max": 9
+      },
       "d": {
-        "min": 3,
-        "max": 8
+        "min": 2,
+        "max": 6
       }
     },
-    "prompt_template": "({{a}} + {{b}}) × {{c}} - {{d}} 를 계산하세요.",
+    "prompt_template": "{{a}}명인 모둠과 {{b}}명인 모둠이 함께 체험합니다. 한 사람에게 색종이를 {{c}}장씩 주려고 합니다. 이미 {{d}}장이 있다면 더 준비해야 하는 색종이는 몇 장인가요?",
     "solver_rule": "(a + b) * c - d",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{a}} + {{b}} = {{a + b}}",
-      "곱셈을 합니다: {{a + b}} × {{c}} = {{(a + b) * c}}",
-      "마지막으로 뺄셈: {{(a + b) * c}} - {{d}} = {{(a + b) * c - d}}"
+      "두 모둠의 사람 수는 {{a}} + {{b}} = {{a + b}}명입니다.",
+      "필요한 전체 수에서 이미 있는 {{d}}장을 빼면 {{(a + b) * c - d}}장입니다."
     ],
     "hint_steps_template": [
-      "괄호부터 계산해요.",
-      "곱셈 후 {{d}}를 빼요."
+      "문장에서 한 묶음의 수와 묶음 수, 이미 있거나 사용한 수를 구분해요.",
+      "상황을 하나의 혼합 계산식으로 나타낸 뒤 계산 순서를 지켜요."
     ]
   },
   {
@@ -230,8 +321,24 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "mixedcalc-parenthesized-factor-product",
-    "blueprint": {"problemFamily":"mixedcalc-parenthesized-factor-product","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-context-boxed-assortment",
+    "blueprint": {
+      "problemFamily": "mixedcalc-context-boxed-assortment",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
         "min": 4,
@@ -242,25 +349,25 @@
         "max": 7
       },
       "c": {
-        "min": 3,
-        "max": 8
+        "min": 4,
+        "max": 9
       }
     },
-    "prompt_template": "{{a}} × ({{b}} + {{c}}) = ?",
+    "prompt_template": "선물 상자 한 개에 초콜릿 {{b}}개와 사탕 {{c}}개를 담습니다. 같은 상자 {{a}}개에 담는 간식은 모두 몇 개인가요?",
     "solver_rule": "a * (b + c)",
     "solution_steps_template": [
-      "괄호 안을 계산합니다: {{b}} + {{c}} = {{b + c}}",
-      "곱셈을 합니다: {{a}} × {{b + c}} = {{a * (b + c)}}"
+      "한 상자나 꾸러미에 든 수는 {{b}} + {{c}} = {{b + c}}개입니다.",
+      "{{a}}개에 든 전체 수는 {{a}} × {{b + c}} = {{a * (b + c)}}개입니다."
     ],
     "hint_steps_template": [
-      "괄호 안을 먼저 계산해요.",
-      "그 결과에 {{a}}를 곱해요."
+      "문장에서 한 묶음의 수와 묶음 수, 이미 있거나 사용한 수를 구분해요.",
+      "상황을 하나의 혼합 계산식으로 나타낸 뒤 계산 순서를 지켜요."
     ],
     "choices_template": [
       "{{a * (b + c)}}",
-      "{{a * (b + c) + 6}}",
-      "{{a * (b + c) + 12}}",
-      "{{a * (b + c) + 18}}"
+      "{{(a * (b + c)) + 3}}",
+      "{{(a * (b + c)) + 7}}",
+      "{{(a * (b + c)) + 12}}"
     ]
   },
   {
@@ -269,31 +376,47 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "mixedcalc-difference-times-factor",
-    "blueprint": {"problemFamily":"mixedcalc-difference-times-factor","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-context-team-difference",
+    "blueprint": {
+      "problemFamily": "mixedcalc-context-team-difference",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 8,
-        "max": 14
+        "min": 12,
+        "max": 18
       },
       "b": {
         "min": 3,
         "max": 7
       },
       "c": {
-        "min": 3,
-        "max": 8
+        "min": 4,
+        "max": 9
       }
     },
-    "prompt_template": "({{a}} - {{b}}) × {{c}} 를 계산하세요.",
+    "prompt_template": "각 모둠에 준비한 배지 {{a}}개 중 {{b}}개씩 사용했습니다. 같은 모둠이 {{c}}개라면 남은 배지는 모두 몇 개인가요?",
     "solver_rule": "(a - b) * c",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{a}} - {{b}} = {{a - b}}",
-      "곱셈을 합니다: {{a - b}} × {{c}} = {{(a - b) * c}}"
+      "한 모둠이나 부스에 남은 수는 {{a}} - {{b}} = {{a - b}}입니다.",
+      "{{c}}곳에 남은 전체 수는 {{a - b}} × {{c}} = {{(a - b) * c}}입니다."
     ],
     "hint_steps_template": [
-      "{{a}} - {{b}} 값을 먼저 구해요.",
-      "그 값에 {{c}}를 곱해요."
+      "문장에서 한 묶음의 수와 묶음 수, 이미 있거나 사용한 수를 구분해요.",
+      "상황을 하나의 혼합 계산식으로 나타낸 뒤 계산 순서를 지켜요."
     ]
   },
   {
@@ -302,41 +425,53 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "mixedcalc-two-parentheses-product",
-    "blueprint": {"problemFamily":"mixedcalc-two-parentheses-product","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-missing-parentheses-error",
+    "blueprint": {
+      "problemFamily": "mixedcalc-missing-parentheses-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 11
-      },
-      "b": {
-        "min": 5,
+        "min": 4,
         "max": 9
       },
-      "c": {
-        "min": 8,
-        "max": 14
-      },
-      "d": {
+      "b": {
         "min": 3,
         "max": 7
+      },
+      "c": {
+        "min": 4,
+        "max": 9
       }
     },
-    "prompt_template": "({{a}} + {{b}}) × ({{c}} - {{d}}) = ?",
-    "solver_rule": "(a + b) * (c - d)",
+    "prompt_template": "지우가 계산할 식: ({{a}} + {{b}}) × {{c}}. 지우는 괄호를 빠뜨려 {{a}} + {{b}} × {{c}}로 계산했습니다. 올바른 값은 잘못 계산한 값보다 얼마 더 큰가요?",
+    "solver_rule": "(a + b) * c - (a + b * c)",
     "solution_steps_template": [
-      "괄호 안을 각각 계산합니다: {{a + b}}, {{c - d}}",
-      "두 결과를 곱합니다: {{a + b}} × {{c - d}} = {{(a + b) * (c - d)}}"
+      "올바른 값은 ({{a}} + {{b}}) × {{c}} = {{(a + b) * c}}입니다.",
+      "잘못 계산한 값은 {{a + b * c}}이므로 두 값의 차이는 {{(a + b) * c - (a + b * c)}}입니다."
     ],
     "hint_steps_template": [
-      "두 괄호를 먼저 계산해요.",
-      "그 결과들을 곱해요."
+      "올바른 식과 잘못 세운 식을 각각 계산해 차이를 비교해요.",
+      "괄호가 전체 계산 결과에 어떤 차이를 만드는지 확인해요."
     ],
     "choices_template": [
-      "{{(a + b) * (c - d)}}",
-      "{{(a + b) * (c - d) + 10}}",
-      "{{(a + b) * (c - d) + 20}}",
-      "{{(a + b) * (c - d) + 30}}"
+      "{{(a + b) * c - (a + b * c)}}",
+      "{{((a + b) * c - (a + b * c)) + 3}}",
+      "{{((a + b) * c - (a + b * c)) + 7}}",
+      "{{((a + b) * c - (a + b * c)) + 12}}"
     ]
   },
   {
@@ -345,35 +480,48 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "mixedcalc-sum-of-two-products",
-    "blueprint": {"problemFamily":"mixedcalc-sum-of-two-products","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-model-correction-gap",
+    "blueprint": {
+      "problemFamily": "mixedcalc-model-correction-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 10
+        "min": 4,
+        "max": 9
       },
       "b": {
-        "min": 7,
-        "max": 11
+        "min": 3,
+        "max": 7
       },
       "c": {
         "min": 4,
-        "max": 8
-      },
-      "d": {
-        "min": 5,
         "max": 9
       }
     },
-    "prompt_template": "{{a}} × {{b}} + {{c}} × {{d}} 를 계산하세요.",
-    "solver_rule": "a * b + c * d",
+    "prompt_template": "구슬 한 상자에는 빨간 구슬 {{b}}개와 파란 구슬 {{c}}개가 들어 있습니다. 같은 상자 {{a}}개의 구슬 수를 {{a}} × {{b}} + {{c}}로 계산했다면, 올바른 값보다 몇 개 적게 계산한 것인가요?",
+    "solver_rule": "a * (b + c) - (a * b + c)",
     "solution_steps_template": [
-      "각 곱셈을 계산합니다: {{a}} × {{b}} = {{a * b}}, {{c}} × {{d}} = {{c * d}}",
-      "두 값을 더합니다: {{a * b}} + {{c * d}} = {{a * b + c * d}}"
+      "올바른 전체 수는 {{a}} × ({{b}} + {{c}}) = {{a * (b + c)}}입니다.",
+      "잘못 계산한 값은 {{a * b + c}}이므로 {{a * (b + c) - (a * b + c)}}만큼 적게 계산했습니다."
     ],
     "hint_steps_template": [
-      "두 곱셈을 각각 계산해요.",
-      "그 결과들을 더해요."
+      "올바른 식과 잘못 세운 식을 각각 계산해 차이를 비교해요.",
+      "괄호가 전체 계산 결과에 어떤 차이를 만드는지 확인해요."
     ]
   },
   {
@@ -383,36 +531,51 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "mixedcalc-add-multiply-order",
-    "blueprint": {"problemFamily":"mixedcalc-add-multiply-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "mixedcalc-add-multiply-order",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 4,
-        "max": 11
+        "min": 6,
+        "max": 12
       },
       "b": {
-        "min": 4,
-        "max": 7
+        "min": 5,
+        "max": 9
       },
       "c": {
-        "min": 4,
+        "min": 6,
         "max": 11
       }
     },
-    "prompt_template": "{{a}} + {{b}} × {{c}} = ?",
+    "prompt_template": "먼저 {{b}} × {{c}}를 계산합니다. 그 결과보다 {{a}}만큼 큰 수를 구하세요.",
     "solver_rule": "a + b * c",
     "solution_steps_template": [
-      "곱셈을 먼저 계산합니다: {{b}} × {{c}} = {{b * c}}",
-      "그 다음 덧셈을 계산합니다: {{a}} + {{b * c}} = {{a + b * c}}"
+      "먼저 곱셈을 계산하면 {{b}} × {{c}} = {{b * c}}입니다.",
+      "그 결과보다 {{a}}만큼 큰 수는 {{a + b * c}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈과 나눗셈을 먼저 계산해요.",
-      "{{b}} × {{c}} 값을 먼저 구해요."
+      "괄호가 있으면 괄호 안을, 없으면 곱셈을 먼저 계산해요.",
+      "먼저 계산한 결과로 덧셈이나 뺄셈을 이어서 해요."
     ],
     "choices_template": [
       "{{a + b * c}}",
-      "{{a + b * c + 5}}",
-      "{{a + b * c + 11}}",
-      "{{a + b * c + 17}}"
+      "{{(a + b * c) + 3}}",
+      "{{(a + b * c) + 7}}",
+      "{{(a + b * c) + 12}}"
     ]
   },
   {
@@ -422,30 +585,45 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "mixedcalc-multiply-add-order",
-    "blueprint": {"problemFamily":"mixedcalc-multiply-add-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "mixedcalc-multiply-add-order",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 5,
-        "max": 10
+        "min": 6,
+        "max": 12
       },
       "b": {
-        "min": 4,
-        "max": 8
+        "min": 5,
+        "max": 9
       },
       "c": {
-        "min": 4,
+        "min": 6,
         "max": 11
       }
     },
-    "prompt_template": "{{a}} × {{b}} + {{c}} 를 계산하세요.",
+    "prompt_template": "먼저 {{a}} × {{b}}를 계산합니다. 그 결과보다 {{c}}만큼 큰 수를 구하세요.",
     "solver_rule": "a * b + c",
     "solution_steps_template": [
-      "곱셈을 먼저 계산합니다: {{a}} × {{b}} = {{a * b}}",
-      "그 다음 덧셈을 계산합니다: {{a * b}} + {{c}} = {{a * b + c}}"
+      "먼저 곱셈을 계산하면 {{a}} × {{b}} = {{a * b}}입니다.",
+      "그 결과보다 {{c}}만큼 큰 수는 {{a * b + c}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈부터 계산해요.",
-      "곱셈 결과에 {{c}}를 더해요."
+      "괄호가 있으면 괄호 안을, 없으면 곱셈을 먼저 계산해요.",
+      "먼저 계산한 결과로 덧셈이나 뺄셈을 이어서 해요."
     ]
   },
   {
@@ -455,36 +633,51 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "mixedcalc-parenthesized-sum-product",
-    "blueprint": {"problemFamily":"mixedcalc-parenthesized-sum-product","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "mixedcalc-parenthesized-sum-product",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 4,
-        "max": 8
+        "min": 6,
+        "max": 12
       },
       "b": {
         "min": 5,
-        "max": 10
+        "max": 9
       },
       "c": {
-        "min": 4,
-        "max": 7
+        "min": 6,
+        "max": 11
       }
     },
-    "prompt_template": "({{a}} + {{b}}) × {{c}} = ?",
+    "prompt_template": "먼저 {{a}} + {{b}}를 계산합니다. 그 결과의 {{c}}배를 구하세요.",
     "solver_rule": "(a + b) * c",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{a}} + {{b}} = {{a + b}}",
-      "그 다음 곱셈을 계산합니다: {{a + b}} × {{c}} = {{(a + b) * c}}"
+      "먼저 괄호 안을 계산하면 {{a}} + {{b}} = {{a + b}}입니다.",
+      "그 결과의 {{c}}배는 {{(a + b) * c}}입니다."
     ],
     "hint_steps_template": [
-      "괄호 안을 먼저 계산해요.",
-      "{{a + b}}에 {{c}}를 곱해요."
+      "괄호가 있으면 괄호 안을, 없으면 곱셈을 먼저 계산해요.",
+      "먼저 계산한 결과로 덧셈이나 뺄셈을 이어서 해요."
     ],
     "choices_template": [
       "{{(a + b) * c}}",
-      "{{(a + b) * c + 4}}",
-      "{{(a + b) * c + 9}}",
-      "{{(a + b) * c + 15}}"
+      "{{((a + b) * c) + 3}}",
+      "{{((a + b) * c) + 7}}",
+      "{{((a + b) * c) + 12}}"
     ]
   },
   {
@@ -494,30 +687,45 @@
     "difficulty": 1,
     "set_id": "B",
     "problem_family": "mixedcalc-multiply-subtract-order",
-    "blueprint": {"problemFamily":"mixedcalc-multiply-subtract-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "mixedcalc-multiply-subtract-order",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 5,
-        "max": 11
+        "min": 6,
+        "max": 12
       },
       "b": {
-        "min": 4,
-        "max": 7
+        "min": 5,
+        "max": 9
       },
       "c": {
-        "min": 4,
-        "max": 10
+        "min": 6,
+        "max": 11
       }
     },
-    "prompt_template": "{{a}} × {{b}} - {{c}} 를 계산하세요.",
+    "prompt_template": "먼저 {{a}} × {{b}}를 계산합니다. 그 결과보다 {{c}}만큼 작은 수를 구하세요.",
     "solver_rule": "a * b - c",
     "solution_steps_template": [
-      "곱셈을 먼저 계산합니다: {{a}} × {{b}} = {{a * b}}",
-      "그 다음 뺄셈을 계산합니다: {{a * b}} - {{c}} = {{a * b - c}}"
+      "먼저 곱셈을 계산하면 {{a}} × {{b}} = {{a * b}}입니다.",
+      "그 결과보다 {{c}}만큼 작은 수는 {{a * b - c}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈부터 계산해요.",
-      "곱셈 결과에서 {{c}}를 빼요."
+      "괄호가 있으면 괄호 안을, 없으면 곱셈을 먼저 계산해요.",
+      "먼저 계산한 결과로 덧셈이나 뺄셈을 이어서 해요."
     ]
   },
   {
@@ -526,41 +734,57 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "mixedcalc-three-operation-order",
-    "blueprint": {"problemFamily":"mixedcalc-three-operation-order","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-context-stock-after-use",
+    "blueprint": {
+      "problemFamily": "mixedcalc-context-stock-after-use",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 8,
-        "max": 15
+        "min": 6,
+        "max": 12
       },
       "b": {
         "min": 5,
         "max": 9
       },
       "c": {
-        "min": 5,
-        "max": 10
+        "min": 6,
+        "max": 11
       },
       "d": {
-        "min": 5,
-        "max": 9
+        "min": 3,
+        "max": 8
       }
     },
-    "prompt_template": "{{a}} + {{b}} × {{c}} - {{d}} = ?",
+    "prompt_template": "도서관에 새 책이 낱권으로 {{a}}권 있고, 한 상자에 {{c}}권씩 든 상자가 {{b}}개 왔습니다. {{d}}권을 교실에 보냈다면 남은 새 책은 몇 권인가요?",
     "solver_rule": "a + b * c - d",
     "solution_steps_template": [
-      "곱셈을 먼저 계산합니다: {{b}} × {{c}} = {{b * c}}",
-      "그 다음 덧셈과 뺄셈을 합니다: {{a}} + {{b * c}} - {{d}} = {{a + b * c - d}}"
+      "묶음에 든 수는 {{b}} × {{c}} = {{b * c}}입니다.",
+      "낱개를 더하고 사용한 수를 빼면 {{a}} + {{b * c}} - {{d}} = {{a + b * c - d}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈부터 계산해요.",
-      "나머지 덧셈/뺄셈을 해요."
+      "문장에서 한 묶음의 수와 묶음 수, 이미 있거나 사용한 수를 구분해요.",
+      "상황을 하나의 혼합 계산식으로 나타낸 뒤 계산 순서를 지켜요."
     ],
     "choices_template": [
       "{{a + b * c - d}}",
-      "{{a + b * c - d + 5}}",
-      "{{a + b * c - d + 11}}",
-      "{{a + b * c - d + 17}}"
+      "{{(a + b * c - d) + 3}}",
+      "{{(a + b * c - d) + 7}}",
+      "{{(a + b * c - d) + 12}}"
     ]
   },
   {
@@ -569,36 +793,51 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "mixedcalc-parentheses-then-subtract",
-    "blueprint": {"problemFamily":"mixedcalc-parentheses-then-subtract","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-context-combined-groups-after-use",
+    "blueprint": {
+      "problemFamily": "mixedcalc-context-combined-groups-after-use",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 7,
+        "min": 6,
         "max": 12
       },
       "b": {
-        "min": 6,
-        "max": 11
-      },
-      "c": {
         "min": 5,
         "max": 9
       },
+      "c": {
+        "min": 6,
+        "max": 11
+      },
       "d": {
-        "min": 5,
-        "max": 10
+        "min": 3,
+        "max": 8
       }
     },
-    "prompt_template": "({{a}} + {{b}}) × {{c}} - {{d}} 를 계산하세요.",
+    "prompt_template": "{{a}}명인 합창 모둠과 {{b}}명인 연주 모둠에게 입장권을 한 사람당 {{c}}장씩 주려고 합니다. 이미 {{d}}장이 있다면 새로 준비해야 하는 입장권은 몇 장인가요?",
     "solver_rule": "(a + b) * c - d",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{a}} + {{b}} = {{a + b}}",
-      "곱셈을 합니다: {{a + b}} × {{c}} = {{(a + b) * c}}",
-      "마지막으로 뺄셈: {{(a + b) * c}} - {{d}} = {{(a + b) * c - d}}"
+      "두 모둠의 사람 수는 {{a}} + {{b}} = {{a + b}}명입니다.",
+      "필요한 전체 수에서 이미 있는 {{d}}장을 빼면 {{(a + b) * c - d}}장입니다."
     ],
     "hint_steps_template": [
-      "괄호부터 계산해요.",
-      "곱셈 후 {{d}}를 빼요."
+      "문장에서 한 묶음의 수와 묶음 수, 이미 있거나 사용한 수를 구분해요.",
+      "상황을 하나의 혼합 계산식으로 나타낸 뒤 계산 순서를 지켜요."
     ]
   },
   {
@@ -607,37 +846,53 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "mixedcalc-parenthesized-factor-product",
-    "blueprint": {"problemFamily":"mixedcalc-parenthesized-factor-product","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-context-boxed-assortment",
+    "blueprint": {
+      "problemFamily": "mixedcalc-context-boxed-assortment",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
         "min": 6,
-        "max": 11
+        "max": 12
       },
       "b": {
         "min": 5,
         "max": 9
       },
       "c": {
-        "min": 5,
-        "max": 10
+        "min": 6,
+        "max": 11
       }
     },
-    "prompt_template": "{{a}} × ({{b}} + {{c}}) = ?",
+    "prompt_template": "과학 꾸러미 한 개에는 시험관 {{b}}개와 스포이트 {{c}}개가 들어 있습니다. 꾸러미 {{a}}개에 든 도구는 모두 몇 개인가요?",
     "solver_rule": "a * (b + c)",
     "solution_steps_template": [
-      "괄호 안을 계산합니다: {{b}} + {{c}} = {{b + c}}",
-      "곱셈을 합니다: {{a}} × {{b + c}} = {{a * (b + c)}}"
+      "한 상자나 꾸러미에 든 수는 {{b}} + {{c}} = {{b + c}}개입니다.",
+      "{{a}}개에 든 전체 수는 {{a}} × {{b + c}} = {{a * (b + c)}}개입니다."
     ],
     "hint_steps_template": [
-      "괄호 안을 먼저 계산해요.",
-      "그 결과에 {{a}}를 곱해요."
+      "문장에서 한 묶음의 수와 묶음 수, 이미 있거나 사용한 수를 구분해요.",
+      "상황을 하나의 혼합 계산식으로 나타낸 뒤 계산 순서를 지켜요."
     ],
     "choices_template": [
       "{{a * (b + c)}}",
-      "{{a * (b + c) + 6}}",
-      "{{a * (b + c) + 12}}",
-      "{{a * (b + c) + 18}}"
+      "{{(a * (b + c)) + 3}}",
+      "{{(a * (b + c)) + 7}}",
+      "{{(a * (b + c)) + 12}}"
     ]
   },
   {
@@ -646,31 +901,47 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "mixedcalc-difference-times-factor",
-    "blueprint": {"problemFamily":"mixedcalc-difference-times-factor","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-context-team-difference",
+    "blueprint": {
+      "problemFamily": "mixedcalc-context-team-difference",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 10,
-        "max": 16
+        "min": 16,
+        "max": 24
       },
       "b": {
         "min": 5,
         "max": 9
       },
       "c": {
-        "min": 5,
-        "max": 10
+        "min": 6,
+        "max": 11
       }
     },
-    "prompt_template": "({{a}} - {{b}}) × {{c}} 를 계산하세요.",
+    "prompt_template": "독서 동아리마다 책 {{a}}권 중 {{b}}권을 빌려주었습니다. 동아리가 {{c}}개라면 아직 남은 책은 모두 몇 권인가요?",
     "solver_rule": "(a - b) * c",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{a}} - {{b}} = {{a - b}}",
-      "곱셈을 합니다: {{a - b}} × {{c}} = {{(a - b) * c}}"
+      "한 모둠이나 부스에 남은 수는 {{a}} - {{b}} = {{a - b}}입니다.",
+      "{{c}}곳에 남은 전체 수는 {{a - b}} × {{c}} = {{(a - b) * c}}입니다."
     ],
     "hint_steps_template": [
-      "{{a}} - {{b}} 값을 먼저 구해요.",
-      "그 값에 {{c}}를 곱해요."
+      "문장에서 한 묶음의 수와 묶음 수, 이미 있거나 사용한 수를 구분해요.",
+      "상황을 하나의 혼합 계산식으로 나타낸 뒤 계산 순서를 지켜요."
     ]
   },
   {
@@ -679,41 +950,53 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "mixedcalc-two-parentheses-product",
-    "blueprint": {"problemFamily":"mixedcalc-two-parentheses-product","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-missing-parentheses-error",
+    "blueprint": {
+      "problemFamily": "mixedcalc-missing-parentheses-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 8,
-        "max": 13
+        "min": 6,
+        "max": 12
       },
       "b": {
-        "min": 7,
-        "max": 11
-      },
-      "c": {
-        "min": 10,
-        "max": 16
-      },
-      "d": {
         "min": 5,
         "max": 9
+      },
+      "c": {
+        "min": 6,
+        "max": 11
       }
     },
-    "prompt_template": "({{a}} + {{b}}) × ({{c}} - {{d}}) = ?",
-    "solver_rule": "(a + b) * (c - d)",
+    "prompt_template": "첫 번째 식은 ({{a}} + {{b}}) × {{c}}, 두 번째 식은 {{a}} + {{b}} × {{c}}입니다. 두 식의 값이 같다는 주장이 틀렸음을 보이는 실제 값의 차이는 얼마인가요?",
+    "solver_rule": "(a + b) * c - (a + b * c)",
     "solution_steps_template": [
-      "괄호 안을 각각 계산합니다: {{a + b}}, {{c - d}}",
-      "두 결과를 곱합니다: {{a + b}} × {{c - d}} = {{(a + b) * (c - d)}}"
+      "올바른 값은 ({{a}} + {{b}}) × {{c}} = {{(a + b) * c}}입니다.",
+      "잘못 계산한 값은 {{a + b * c}}이므로 두 값의 차이는 {{(a + b) * c - (a + b * c)}}입니다."
     ],
     "hint_steps_template": [
-      "두 괄호를 먼저 계산해요.",
-      "그 결과들을 곱해요."
+      "올바른 식과 잘못 세운 식을 각각 계산해 차이를 비교해요.",
+      "괄호가 전체 계산 결과에 어떤 차이를 만드는지 확인해요."
     ],
     "choices_template": [
-      "{{(a + b) * (c - d)}}",
-      "{{(a + b) * (c - d) + 10}}",
-      "{{(a + b) * (c - d) + 20}}",
-      "{{(a + b) * (c - d) + 30}}"
+      "{{(a + b) * c - (a + b * c)}}",
+      "{{((a + b) * c - (a + b * c)) + 3}}",
+      "{{((a + b) * c - (a + b * c)) + 7}}",
+      "{{((a + b) * c - (a + b * c)) + 12}}"
     ]
   },
   {
@@ -722,35 +1005,48 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "mixedcalc-sum-of-two-products",
-    "blueprint": {"problemFamily":"mixedcalc-sum-of-two-products","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-model-correction-gap",
+    "blueprint": {
+      "problemFamily": "mixedcalc-model-correction-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 8,
+        "min": 6,
         "max": 12
       },
       "b": {
-        "min": 9,
-        "max": 13
+        "min": 5,
+        "max": 9
       },
       "c": {
         "min": 6,
-        "max": 10
-      },
-      "d": {
-        "min": 7,
         "max": 11
       }
     },
-    "prompt_template": "{{a}} × {{b}} + {{c}} × {{d}} 를 계산하세요.",
-    "solver_rule": "a * b + c * d",
+    "prompt_template": "책장 한 칸에 그림책 {{b}}권과 이야기책 {{c}}권을 꽂습니다. 같은 칸 {{a}}개의 책 수를 {{a}} × {{b}} + {{c}}로 계산했다면, 올바른 값보다 몇 권 적게 계산한 것인가요?",
+    "solver_rule": "a * (b + c) - (a * b + c)",
     "solution_steps_template": [
-      "각 곱셈을 계산합니다: {{a}} × {{b}} = {{a * b}}, {{c}} × {{d}} = {{c * d}}",
-      "두 값을 더합니다: {{a * b}} + {{c * d}} = {{a * b + c * d}}"
+      "올바른 전체 수는 {{a}} × ({{b}} + {{c}}) = {{a * (b + c)}}입니다.",
+      "잘못 계산한 값은 {{a * b + c}}이므로 {{a * (b + c) - (a * b + c)}}만큼 적게 계산했습니다."
     ],
     "hint_steps_template": [
-      "두 곱셈을 각각 계산해요.",
-      "그 결과들을 더해요."
+      "올바른 식과 잘못 세운 식을 각각 계산해 차이를 비교해요.",
+      "괄호가 전체 계산 결과에 어떤 차이를 만드는지 확인해요."
     ]
   },
   {
@@ -760,36 +1056,51 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "mixedcalc-add-multiply-order",
-    "blueprint": {"problemFamily":"mixedcalc-add-multiply-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "mixedcalc-add-multiply-order",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 13
+        "min": 8,
+        "max": 15
       },
       "b": {
-        "min": 6,
-        "max": 9
+        "min": 7,
+        "max": 11
       },
       "c": {
-        "min": 6,
+        "min": 8,
         "max": 13
       }
     },
-    "prompt_template": "{{a}} + {{b}} × {{c}} = ?",
+    "prompt_template": "첫 계산은 {{b}} × {{c}}입니다. 그 결과에 {{a}}만큼 더하면 얼마인가요?",
     "solver_rule": "a + b * c",
     "solution_steps_template": [
-      "곱셈을 먼저 계산합니다: {{b}} × {{c}} = {{b * c}}",
-      "그 다음 덧셈을 계산합니다: {{a}} + {{b * c}} = {{a + b * c}}"
+      "먼저 곱셈을 계산하면 {{b}} × {{c}} = {{b * c}}입니다.",
+      "그 결과보다 {{a}}만큼 큰 수는 {{a + b * c}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈과 나눗셈을 먼저 계산해요.",
-      "{{b}} × {{c}} 값을 먼저 구해요."
+      "괄호가 있으면 괄호 안을, 없으면 곱셈을 먼저 계산해요.",
+      "먼저 계산한 결과로 덧셈이나 뺄셈을 이어서 해요."
     ],
     "choices_template": [
       "{{a + b * c}}",
-      "{{a + b * c + 5}}",
-      "{{a + b * c + 11}}",
-      "{{a + b * c + 17}}"
+      "{{(a + b * c) + 3}}",
+      "{{(a + b * c) + 7}}",
+      "{{(a + b * c) + 12}}"
     ]
   },
   {
@@ -799,30 +1110,45 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "mixedcalc-multiply-add-order",
-    "blueprint": {"problemFamily":"mixedcalc-multiply-add-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "mixedcalc-multiply-add-order",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 7,
-        "max": 12
+        "min": 8,
+        "max": 15
       },
       "b": {
-        "min": 6,
-        "max": 10
+        "min": 7,
+        "max": 11
       },
       "c": {
-        "min": 6,
+        "min": 8,
         "max": 13
       }
     },
-    "prompt_template": "{{a}} × {{b}} + {{c}} 를 계산하세요.",
+    "prompt_template": "첫 계산은 {{a}} × {{b}}입니다. 그 결과에 {{c}}만큼 더하면 얼마인가요?",
     "solver_rule": "a * b + c",
     "solution_steps_template": [
-      "곱셈을 먼저 계산합니다: {{a}} × {{b}} = {{a * b}}",
-      "그 다음 덧셈을 계산합니다: {{a * b}} + {{c}} = {{a * b + c}}"
+      "먼저 곱셈을 계산하면 {{a}} × {{b}} = {{a * b}}입니다.",
+      "그 결과보다 {{c}}만큼 큰 수는 {{a * b + c}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈부터 계산해요.",
-      "곱셈 결과에 {{c}}를 더해요."
+      "괄호가 있으면 괄호 안을, 없으면 곱셈을 먼저 계산해요.",
+      "먼저 계산한 결과로 덧셈이나 뺄셈을 이어서 해요."
     ]
   },
   {
@@ -832,36 +1158,51 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "mixedcalc-parenthesized-sum-product",
-    "blueprint": {"problemFamily":"mixedcalc-parenthesized-sum-product","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "mixedcalc-parenthesized-sum-product",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 6,
-        "max": 10
+        "min": 8,
+        "max": 15
       },
       "b": {
         "min": 7,
-        "max": 12
+        "max": 11
       },
       "c": {
-        "min": 6,
-        "max": 9
+        "min": 8,
+        "max": 13
       }
     },
-    "prompt_template": "({{a}} + {{b}}) × {{c}} = ?",
+    "prompt_template": "첫 계산은 {{a}} + {{b}}입니다. 그 결과를 {{c}}배 하면 얼마인가요?",
     "solver_rule": "(a + b) * c",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{a}} + {{b}} = {{a + b}}",
-      "그 다음 곱셈을 계산합니다: {{a + b}} × {{c}} = {{(a + b) * c}}"
+      "먼저 괄호 안을 계산하면 {{a}} + {{b}} = {{a + b}}입니다.",
+      "그 결과의 {{c}}배는 {{(a + b) * c}}입니다."
     ],
     "hint_steps_template": [
-      "괄호 안을 먼저 계산해요.",
-      "{{a + b}}에 {{c}}를 곱해요."
+      "괄호가 있으면 괄호 안을, 없으면 곱셈을 먼저 계산해요.",
+      "먼저 계산한 결과로 덧셈이나 뺄셈을 이어서 해요."
     ],
     "choices_template": [
       "{{(a + b) * c}}",
-      "{{(a + b) * c + 4}}",
-      "{{(a + b) * c + 9}}",
-      "{{(a + b) * c + 15}}"
+      "{{((a + b) * c) + 3}}",
+      "{{((a + b) * c) + 7}}",
+      "{{((a + b) * c) + 12}}"
     ]
   },
   {
@@ -871,30 +1212,45 @@
     "difficulty": 1,
     "set_id": "C",
     "problem_family": "mixedcalc-multiply-subtract-order",
-    "blueprint": {"problemFamily":"mixedcalc-multiply-subtract-order","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "blueprint": {
+      "problemFamily": "mixedcalc-multiply-subtract-order",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 7,
-        "max": 13
+        "min": 8,
+        "max": 15
       },
       "b": {
-        "min": 6,
-        "max": 9
+        "min": 7,
+        "max": 11
       },
       "c": {
-        "min": 6,
-        "max": 12
+        "min": 8,
+        "max": 13
       }
     },
-    "prompt_template": "{{a}} × {{b}} - {{c}} 를 계산하세요.",
+    "prompt_template": "첫 계산은 {{a}} × {{b}}입니다. 그 결과에서 {{c}}만큼 빼면 얼마인가요?",
     "solver_rule": "a * b - c",
     "solution_steps_template": [
-      "곱셈을 먼저 계산합니다: {{a}} × {{b}} = {{a * b}}",
-      "그 다음 뺄셈을 계산합니다: {{a * b}} - {{c}} = {{a * b - c}}"
+      "먼저 곱셈을 계산하면 {{a}} × {{b}} = {{a * b}}입니다.",
+      "그 결과보다 {{c}}만큼 작은 수는 {{a * b - c}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈부터 계산해요.",
-      "곱셈 결과에서 {{c}}를 빼요."
+      "괄호가 있으면 괄호 안을, 없으면 곱셈을 먼저 계산해요.",
+      "먼저 계산한 결과로 덧셈이나 뺄셈을 이어서 해요."
     ]
   },
   {
@@ -903,41 +1259,57 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "mixedcalc-three-operation-order",
-    "blueprint": {"problemFamily":"mixedcalc-three-operation-order","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-context-stock-after-use",
+    "blueprint": {
+      "problemFamily": "mixedcalc-context-stock-after-use",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 10,
-        "max": 17
+        "min": 8,
+        "max": 15
       },
       "b": {
         "min": 7,
         "max": 11
       },
       "c": {
-        "min": 7,
-        "max": 12
+        "min": 8,
+        "max": 13
       },
       "d": {
-        "min": 7,
-        "max": 11
+        "min": 4,
+        "max": 9
       }
     },
-    "prompt_template": "{{a}} + {{b}} × {{c}} - {{d}} = ?",
+    "prompt_template": "현장학습용 물병이 낱개로 {{a}}병 있고, 한 상자에 {{c}}병씩 든 상자가 {{b}}개 있습니다. 출발 전에 {{d}}병을 사용했다면 남은 물병은 몇 병인가요?",
     "solver_rule": "a + b * c - d",
     "solution_steps_template": [
-      "곱셈을 먼저 계산합니다: {{b}} × {{c}} = {{b * c}}",
-      "그 다음 덧셈과 뺄셈을 합니다: {{a}} + {{b * c}} - {{d}} = {{a + b * c - d}}"
+      "묶음에 든 수는 {{b}} × {{c}} = {{b * c}}입니다.",
+      "낱개를 더하고 사용한 수를 빼면 {{a}} + {{b * c}} - {{d}} = {{a + b * c - d}}입니다."
     ],
     "hint_steps_template": [
-      "곱셈부터 계산해요.",
-      "나머지 덧셈/뺄셈을 해요."
+      "문장에서 한 묶음의 수와 묶음 수, 이미 있거나 사용한 수를 구분해요.",
+      "상황을 하나의 혼합 계산식으로 나타낸 뒤 계산 순서를 지켜요."
     ],
     "choices_template": [
       "{{a + b * c - d}}",
-      "{{a + b * c - d + 5}}",
-      "{{a + b * c - d + 11}}",
-      "{{a + b * c - d + 17}}"
+      "{{(a + b * c - d) + 3}}",
+      "{{(a + b * c - d) + 7}}",
+      "{{(a + b * c - d) + 12}}"
     ]
   },
   {
@@ -946,36 +1318,51 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "mixedcalc-parentheses-then-subtract",
-    "blueprint": {"problemFamily":"mixedcalc-parentheses-then-subtract","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-context-combined-groups-after-use",
+    "blueprint": {
+      "problemFamily": "mixedcalc-context-combined-groups-after-use",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 9,
-        "max": 14
+        "min": 8,
+        "max": 15
       },
       "b": {
-        "min": 8,
-        "max": 13
-      },
-      "c": {
         "min": 7,
         "max": 11
       },
+      "c": {
+        "min": 8,
+        "max": 13
+      },
       "d": {
-        "min": 7,
-        "max": 12
+        "min": 4,
+        "max": 9
       }
     },
-    "prompt_template": "({{a}} + {{b}}) × {{c}} - {{d}} 를 계산하세요.",
+    "prompt_template": "{{a}}명인 축구부와 {{b}}명인 농구부에게 수건을 한 사람당 {{c}}장씩 주려고 합니다. 이미 {{d}}장이 있다면 더 준비해야 하는 수건은 몇 장인가요?",
     "solver_rule": "(a + b) * c - d",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{a}} + {{b}} = {{a + b}}",
-      "곱셈을 합니다: {{a + b}} × {{c}} = {{(a + b) * c}}",
-      "마지막으로 뺄셈: {{(a + b) * c}} - {{d}} = {{(a + b) * c - d}}"
+      "두 모둠의 사람 수는 {{a}} + {{b}} = {{a + b}}명입니다.",
+      "필요한 전체 수에서 이미 있는 {{d}}장을 빼면 {{(a + b) * c - d}}장입니다."
     ],
     "hint_steps_template": [
-      "괄호부터 계산해요.",
-      "곱셈 후 {{d}}를 빼요."
+      "문장에서 한 묶음의 수와 묶음 수, 이미 있거나 사용한 수를 구분해요.",
+      "상황을 하나의 혼합 계산식으로 나타낸 뒤 계산 순서를 지켜요."
     ]
   },
   {
@@ -984,37 +1371,53 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "mixedcalc-parenthesized-factor-product",
-    "blueprint": {"problemFamily":"mixedcalc-parenthesized-factor-product","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-context-boxed-assortment",
+    "blueprint": {
+      "problemFamily": "mixedcalc-context-boxed-assortment",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
         "min": 8,
-        "max": 13
+        "max": 15
       },
       "b": {
         "min": 7,
         "max": 11
       },
       "c": {
-        "min": 7,
-        "max": 12
+        "min": 8,
+        "max": 13
       }
     },
-    "prompt_template": "{{a}} × ({{b}} + {{c}}) = ?",
+    "prompt_template": "체육 꾸러미 한 개에는 공 {{b}}개와 고깔 {{c}}개가 들어 있습니다. 꾸러미 {{a}}개에 든 물품은 모두 몇 개인가요?",
     "solver_rule": "a * (b + c)",
     "solution_steps_template": [
-      "괄호 안을 계산합니다: {{b}} + {{c}} = {{b + c}}",
-      "곱셈을 합니다: {{a}} × {{b + c}} = {{a * (b + c)}}"
+      "한 상자나 꾸러미에 든 수는 {{b}} + {{c}} = {{b + c}}개입니다.",
+      "{{a}}개에 든 전체 수는 {{a}} × {{b + c}} = {{a * (b + c)}}개입니다."
     ],
     "hint_steps_template": [
-      "괄호 안을 먼저 계산해요.",
-      "그 결과에 {{a}}를 곱해요."
+      "문장에서 한 묶음의 수와 묶음 수, 이미 있거나 사용한 수를 구분해요.",
+      "상황을 하나의 혼합 계산식으로 나타낸 뒤 계산 순서를 지켜요."
     ],
     "choices_template": [
       "{{a * (b + c)}}",
-      "{{a * (b + c) + 6}}",
-      "{{a * (b + c) + 12}}",
-      "{{a * (b + c) + 18}}"
+      "{{(a * (b + c)) + 3}}",
+      "{{(a * (b + c)) + 7}}",
+      "{{(a * (b + c)) + 12}}"
     ]
   },
   {
@@ -1023,31 +1426,47 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "mixedcalc-difference-times-factor",
-    "blueprint": {"problemFamily":"mixedcalc-difference-times-factor","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-context-team-difference",
+    "blueprint": {
+      "problemFamily": "mixedcalc-context-team-difference",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 12,
-        "max": 18
+        "min": 20,
+        "max": 30
       },
       "b": {
         "min": 7,
         "max": 11
       },
       "c": {
-        "min": 7,
-        "max": 12
+        "min": 8,
+        "max": 13
       }
     },
-    "prompt_template": "({{a}} - {{b}}) × {{c}} 를 계산하세요.",
+    "prompt_template": "행사 부스마다 표 {{a}}장 중 {{b}}장을 사용했습니다. 부스가 {{c}}개라면 아직 남은 표는 모두 몇 장인가요?",
     "solver_rule": "(a - b) * c",
     "solution_steps_template": [
-      "괄호 안을 먼저 계산합니다: {{a}} - {{b}} = {{a - b}}",
-      "곱셈을 합니다: {{a - b}} × {{c}} = {{(a - b) * c}}"
+      "한 모둠이나 부스에 남은 수는 {{a}} - {{b}} = {{a - b}}입니다.",
+      "{{c}}곳에 남은 전체 수는 {{a - b}} × {{c}} = {{(a - b) * c}}입니다."
     ],
     "hint_steps_template": [
-      "{{a}} - {{b}} 값을 먼저 구해요.",
-      "그 값에 {{c}}를 곱해요."
+      "문장에서 한 묶음의 수와 묶음 수, 이미 있거나 사용한 수를 구분해요.",
+      "상황을 하나의 혼합 계산식으로 나타낸 뒤 계산 순서를 지켜요."
     ]
   },
   {
@@ -1056,41 +1475,53 @@
     "type": "choice",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "mixedcalc-two-parentheses-product",
-    "blueprint": {"problemFamily":"mixedcalc-two-parentheses-product","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-missing-parentheses-error",
+    "blueprint": {
+      "problemFamily": "mixedcalc-missing-parentheses-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 10,
+        "min": 8,
         "max": 15
       },
       "b": {
-        "min": 9,
-        "max": 13
-      },
-      "c": {
-        "min": 12,
-        "max": 18
-      },
-      "d": {
         "min": 7,
         "max": 11
+      },
+      "c": {
+        "min": 8,
+        "max": 13
       }
     },
-    "prompt_template": "({{a}} + {{b}}) × ({{c}} - {{d}}) = ?",
-    "solver_rule": "(a + b) * (c - d)",
+    "prompt_template": "첫 번째 식: ({{a}} + {{b}}) × {{c}}. 두 번째 식: {{a}} + {{b}} × {{c}}. 민호는 괄호를 생략해도 값이 같다고 말했습니다. 두 계산 결과가 얼마나 다른지 구하세요.",
+    "solver_rule": "(a + b) * c - (a + b * c)",
     "solution_steps_template": [
-      "괄호 안을 각각 계산합니다: {{a + b}}, {{c - d}}",
-      "두 결과를 곱합니다: {{a + b}} × {{c - d}} = {{(a + b) * (c - d)}}"
+      "올바른 값은 ({{a}} + {{b}}) × {{c}} = {{(a + b) * c}}입니다.",
+      "잘못 계산한 값은 {{a + b * c}}이므로 두 값의 차이는 {{(a + b) * c - (a + b * c)}}입니다."
     ],
     "hint_steps_template": [
-      "두 괄호를 먼저 계산해요.",
-      "그 결과들을 곱해요."
+      "올바른 식과 잘못 세운 식을 각각 계산해 차이를 비교해요.",
+      "괄호가 전체 계산 결과에 어떤 차이를 만드는지 확인해요."
     ],
     "choices_template": [
-      "{{(a + b) * (c - d)}}",
-      "{{(a + b) * (c - d) + 10}}",
-      "{{(a + b) * (c - d) + 20}}",
-      "{{(a + b) * (c - d) + 30}}"
+      "{{(a + b) * c - (a + b * c)}}",
+      "{{((a + b) * c - (a + b * c)) + 3}}",
+      "{{((a + b) * c - (a + b * c)) + 7}}",
+      "{{((a + b) * c - (a + b * c)) + 12}}"
     ]
   },
   {
@@ -1099,35 +1530,48 @@
     "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "mixedcalc-sum-of-two-products",
-    "blueprint": {"problemFamily":"mixedcalc-sum-of-two-products","cognitiveDomain":"knowing","reasoningPattern":"multi_step","primaryStandard":"6수01-01","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "mixedcalc-model-correction-gap",
+    "blueprint": {
+      "problemFamily": "mixedcalc-model-correction-gap",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-01",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
       "a": {
-        "min": 10,
-        "max": 14
+        "min": 8,
+        "max": 15
       },
       "b": {
-        "min": 11,
-        "max": 15
+        "min": 7,
+        "max": 11
       },
       "c": {
         "min": 8,
-        "max": 12
-      },
-      "d": {
-        "min": 9,
         "max": 13
       }
     },
-    "prompt_template": "{{a}} × {{b}} + {{c}} × {{d}} 를 계산하세요.",
-    "solver_rule": "a * b + c * d",
+    "prompt_template": "체육 꾸러미 한 개에는 공 {{b}}개와 고깔 {{c}}개가 들어 있습니다. 꾸러미 {{a}}개의 물품 수를 {{a}} × {{b}} + {{c}}로 계산했다면, 올바른 값보다 몇 개 적게 계산한 것인가요?",
+    "solver_rule": "a * (b + c) - (a * b + c)",
     "solution_steps_template": [
-      "각 곱셈을 계산합니다: {{a}} × {{b}} = {{a * b}}, {{c}} × {{d}} = {{c * d}}",
-      "두 값을 더합니다: {{a * b}} + {{c * d}} = {{a * b + c * d}}"
+      "올바른 전체 수는 {{a}} × ({{b}} + {{c}}) = {{a * (b + c)}}입니다.",
+      "잘못 계산한 값은 {{a * b + c}}이므로 {{a * (b + c) - (a * b + c)}}만큼 적게 계산했습니다."
     ],
     "hint_steps_template": [
-      "두 곱셈을 각각 계산해요.",
-      "그 결과들을 더해요."
+      "올바른 식과 잘못 세운 식을 각각 계산해 차이를 비교해요.",
+      "괄호가 전체 계산 결과에 어떤 차이를 만드는지 확인해요."
     ]
   }
 ]

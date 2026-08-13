@@ -21,72 +21,584 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
-- 2026-07-28: application-problem T11 approval supersedes the T8 draft note.
-  The three V1 packs and nine `familyId@1` snapshots are approved by
-  `project-owner` at `2026-07-28T09:05:24Z`; `expertStatus` remains
-  `not-reviewed`. The populated common registry, `src/lib/grade2-problems.ts`,
-  `src/lib/problem-generator.ts`, session snapshot regressions, and the Grade
-  2/5/6 render dispatch now consume only a runtime entry that exactly matches
-  one approved, deeply frozen release-ledger snapshot. Default learner output
-  may therefore select the approved candidates while preserving 144 legacy
-  Grade 2 missions and the Grade 5/6 10-item, 4/4/2 or 5-item, 2/2/1 session
-  contracts. T12-wide regression, build, E2E, and deployment are not implied by
-  this approval. Re-check legacy
-  source-less payloads, stored application snapshots, required-visual
-  fail-closed behavior, and no-write failure paths before release promotion.
-  Grade 2 progress schema V3 migrates V1/V2 records without changing the
-  primary storage key, archives validated application snapshots append-only by
-  immutable `instanceId`, and keeps a separate active instance pointer per
-  stable mission ID. A semantically damaged snapshot makes the exact primary
-  storage source read-only. The learner's explicit safe-replacement action must
-  first preserve that source in `mathAssist_grade2ProgressRecoveryEvidence_v1`,
-  then activate a validated replacement in a clean progress record without
-  changing completion, reward, or mastery fields. Scoring is allowed only for
-  the exact active validated snapshot. Grade 5/6 V1 stored application
-  snapshots use historical validators that do not call production generator
-  recipes or current family visual validators; they bind source, content, shuffled choices, answer, explanations,
-  misconceptions, and required quantitative models before display or grading.
-  Immutable `releaseLedger` family snapshots remain after executable runtime
-  entries are removed, so retired historical problems stay readable while
-  quarantined ones remain blocked. Standard practice sessions/results must
-  contain their exact declared 5/10 items; retry sessions use a non-empty
-  source result plus unique in-range original problem indexes.
-  A lifecycle-blocked active session exposes no problem content. Explicit
-  replacement requires a same-family, higher approved version, resets only the
-  replaced response, archives the exact original problem in
-  `applicationProblemReplacementArchive`, and writes only if the current
-  storage snapshot still equals the session originally loaded. Grade 5 and 6
-  also persist the replacement archive first in the append-only
-  `mathAssist_grade5ApplicationProblemRecoveryEvidence_v1` or
-  `mathAssist_grade6ApplicationProblemRecoveryEvidence_v1` store. A malformed
-  evidence store blocks both replacement and completion without deleting the
-  active session.
+- 2026-08-13: 승인된 응용문제 V1 통합은 2·5·6학년 각 3개, 모두 9개
+  `familyId@1`과 세 지식 팩을 소유한다. 공통 레지스트리는 승인 근거와
+  정확히 일치하는 동결 release-ledger 항목만 학습 런타임에 제공한다.
+  2학년은 기존 기본·연습 144문제를 보존하고 길이 단원 연습에 승인된
+  응용문제 3개를 추가한다. 5·6학년은 기존 5/10문제 세트와 난이도 구성을
+  유지하면서 승인된 후보를 선택할 수 있다. 2학년 진도 스키마 V5는 기존
+  완료·확인·단원 완료·보상·숙련도와 응용문제 원본 스냅샷을 함께 이전하며,
+  손상된 응용문제 기록은 원문을 복구 근거 저장소에 보존한 뒤 학습자가
+  명시적으로 승인된 새 문제로 바꿀 때만 갱신한다. 5·6학년 세션도 차단된
+  문제 원본과 교체 이력을 별도 복구 근거 저장소에 먼저 보존한다. 생성기,
+  세션, 진도, 채점, 시각 렌더러, 검수 화면을 바꿀 때에는 기존 콘텐츠
+  선택 규칙과 제출 전 답 비노출, 과거 스냅샷 검증, 실패 시 무기록 조건을
+  함께 다시 확인한다.
 
-- 2026-07-22: application-problem pilot families are split by ownership before
-  generator work begins: Grade 2 length families belong to workstreams 01 and
-  03, Grade 5 quantitative geometry families belong to workstreams 01, 03, and
-  04, and Grade 6 ratio families belong to workstreams 01 and 03. Each lane
-  owns only its family, independent oracle, proof-registration source, and thin
-  visual wrapper. The common contracts, production proof catalogs, existing
-  `src/lib/problem-generator.ts`, curriculum JSON, sessions, grading, progress,
-  and release wiring stay under the shared integration lane. All pilot
-  families remain `draft` / `pending` until review evidence and explicit owner
-  approval are recorded; re-check deterministic enumeration, oracle
-  independence, quantitative scene validation, answer-safe rendering, legacy
-  snapshot compatibility, and release-ledger fail-closed behavior before any
-  runtime registration or promotion.
+- 2026-08-01: T15 release-gate repair (primary workstreams 02 and 04) owns
+  legacy Grade 5 session/result compatibility while normalized `itemCount`
+  metadata is written back, and Grade 1 hydration gating before any learner
+  interaction. Session consumers must preserve corrupt-byte fail-closed
+  behavior and Grade 6 key isolation; Grade 1 consumers must not calculate or
+  start a recommendation from empty client state before local progress loads.
 
-- 2026-07-22: application-problem authoring contracts (primary shared
-  foundation workstream) own the narrow extension to `src/lib/types.ts` and
-  the new `src/lib/application-problems/contracts.ts`. Existing Grade 2
-  missions, Grade 5/6 generated `Problem` snapshots, `PracticeSession`,
-  grading, progress, rewards, and localStorage keys remain authoritative and
-  readable without the optional `Problem.applicationSource` field. New
-  unit-pack and family content must use the V1 parsers, immutable identity and
-  release-transition validators before adapters or runtime registries consume
-  it. Re-check legacy session normalization plus pack/family provenance when
-  an adapter, generator, content validator, or review surface adopts this
-  contract. This step does not approve or release any content.
+- 2026-08-01: T14 final review integration (primary workstreams 03 and 04)
+  owns the 1,622-item single editorial ledger, 1,013-item/3,141-variant
+  browser evidence, fail-closed reviewed-change digest, catalog/live-route
+  hash parity test, and Grade 2 renderer review version v3. Repeated labels
+  must combine a stable position in React keys. Catalog scripts and the live
+  review route must choose identical source metadata for every review hash;
+  evidence cannot be applied unless all visual items pass pre/hint/revealed
+  at 390x844 and 1024x768 with zero browser errors and preserved storage.
+
+- 2026-08-01: The shared home-projection migration adds optional basic/practice
+  completion evidence to `src/lib/types.ts`, upgrades Grade 2 progress to
+  schema v4 and Grade 3 progress to schema v2, and preserves old full-set
+  records as legacy-complete without rewriting learner storage. Grade 1-6
+  home, progress, result, and backup consumers should re-check that new basic
+  completion does not imply practice completion, while legacy completion and
+  review history remain readable.
+
+- 2026-07-31: Grade 1-6 content-structure execution has single-writer
+  ownership across the remaining shared surfaces. The curriculum allocation
+  lane alone writes
+  `workstreams/_shared/grade1-2-curriculum-allocation-v1.json`; Grade 1 and
+  Grade 2 content lanes consume it read-only, and the final curriculum
+  integration lane merges it into
+  `public/data/curriculum-allocations-v1.json` and removes the temporary file.
+  The study-session lane alone writes `src/lib/session.ts` and
+  `src/lib/problem-generator.ts`; the home-integration lane alone writes
+  `src/lib/guest-home.ts` and `src/lib/local-progress-repository.ts`. Grade
+  content lanes do not edit the final curriculum ledger, inventory command
+  wiring, or editorial ledger. The final review lane is the only writer for
+  the catalog, editorial ledger, and shared browser-evidence files.
+
+- 2026-08-01: The Grade 1-2 authoring allocation was merged into the final
+  121-standard `public/data/curriculum-allocations-v1.json` ledger with
+  problem-level direct and review references, then its temporary shared file
+  was removed. Grade 1-6 content and validation now consume only the final
+  ledger; curriculum generation must remain deterministic when rerun without
+  the temporary authoring input.
+
+- 2026-07-31: Grade 1-6 content-structure quality-core foundation (primary
+  workstream 04) owns the fixture-tested, production-data-neutral contracts in
+  `scripts/curriculum-direct-link-core.js` and
+  `scripts/content-inventory-core.js`. Direct curriculum coverage may be
+  credited only to a published mission/template whose own quality metadata
+  names the standard and whose grade matches the one assigned grade; unit
+  declarations, prerequisites, comments, documentation text, and optional
+  other-grade review links do not increase the denominator. Inventory reports
+  keep published sources, authored sources, canonical math signatures,
+  generated variants, and session items as five separate deterministic
+  counts. Authored items with the same canonical math signature are invalid;
+  generated variants may share their authored source signature. Later
+  curriculum and quality command integration may adapt production sources to
+  these cores, but must not weaken their error details or make this foundation
+  enforce the future 1,622-item target before the grade banks are ready.
+
+- 2026-07-28: T11 final editorial-ledger integration (primary workstream 04)
+  owns `docs/tracking/problem-editorial-review-v1.json` as the only final
+  Grade 1-6 review decision source. It contains exactly 1,540 current pass
+  items, empty final finding categories, preserved per-item resolution notes,
+  and required visual evidence. Runtime review, validation, and evidence
+  application must read this file; parallel grade receipts are temporary
+  merge inputs and must not survive a completed publication review.
+
+- 2026-07-28: T10 visual-browser evidence integration (primary workstreams
+  03 and 04) owns the deterministic 931-item/3,018-variant evidence report,
+  its fail-closed validator and temporary-receipt application, and the
+  Grade 2 renderer review version v2. A visual receipt can become pass only
+  when every allowed route variant passes pre/hint/revealed at 390x844 and
+  1024x768 with zero browser errors, current hashes, exact review IDs, and
+  preserved learner storage. Repeated display labels are not stable React
+  keys; renderer changes must bump the owned review version and rerun all
+  affected visual items.
+
+- 2026-07-28: T5 actual-renderer review surface completion (primary
+  workstream 04) owns the shared renderer-review version registry extraction
+  and the `/review/problems` projection of the canonical Grade 1-6 review
+  catalog. The browser surface must compare the current canonical
+  `contentHash` with the temporary editorial receipts, expose stale or missing
+  status without silently treating it as pass, preserve the exact
+  `reviewId=grade:sourceKind:sourceId` identity, and export the schema-v1
+  ledger without writing learner storage. Catalog scripts, Grade 5/6 receipt
+  generators, and the review route must re-check the same renderer version
+  registry whenever a reviewed visual or completed-text renderer changes.
+
+- 2026-07-28: Grade 5 exhaustive editorial review (primary workstreams 01 and
+  04) owns the Grade 5-only completed-text numeric particle correction in
+  `src/lib/problem-generator.ts`, its independent particle corpus, all
+  196,167 allowed parameter variants, and the explicit 780-item Grade 5
+  editorial decision receipt. The correction applies to prompt, choices,
+  hints, and solution text after expression rendering; it does not change the
+  answer rule, visual payload, Grade 6 renderer version, or saved progress.
+  `estimate.json`, `fraccompare.json`, and `numberrange.json` also contain
+  source-level fixed wording corrections. Consumers must rerun the exhaustive
+  Grade 5 audit and bump the Grade 5 renderer review version if this completed
+  text contract changes.
+
+- 2026-07-28: Grade 5 full editorial review metadata completion (primary
+  workstreams 01 and 04) owns the explicit `taskActions` classification for
+  every one of the 260 reviewed Grade 5 problem families, the shared blueprint
+  type/validator contract, deterministic migration, and regenerated 780
+  template records. Task actions must be selected from the editorial catalog
+  vocabulary by reading each prompt/solver family; consumers must not infer
+  them from difficulty, cognitive domain, or reasoning pattern. Grade 5
+  generators, `validate:grade5-templates`, the problem audit, and the review
+  catalog must all re-check the same source-owned values.
+
+- 2026-07-26: Problem editorial review catalog foundation (primary workstream
+  04) owns the new shared review-item contract, canonical content hash,
+  Grade 1-6 adapter registry, renderer-review version registry, deterministic
+  catalog generator, and editorial-ledger validator. Other workstreams should
+  preserve `reviewId=grade:sourceKind:sourceId`, supply explicit curriculum,
+  task-action, evidence, and visual-semantics metadata without inference, and
+  treat any hash input or renderer-review version change as making prior
+  editorial review stale. T2 does not own grade source data, public renderers,
+  or the final `docs/tracking/problem-editorial-review-v1.json` ledger.
+
+- 2026-07-26: Grade 5 number-range completion (primary workstreams 01, 03,
+  and 04) owns `numberrange-001`, its deterministic A/B/C template bank,
+  generator, `[6수01-02]` release reference, and the narrow addition of a
+  shared quantitative `number_range` visual. Lower/upper boundaries,
+  inclusivity, shaded interval, arrows, prompt, solver, and solution must come
+  from the same range model. Open and closed endpoints must remain visually
+  distinct, and the derived count or boundary answer must not enter the
+  unchecked DOM or accessibility name.
+
+- 2026-07-26: Grade 5 unlike-denominator fraction comparison (primary
+  workstreams 01, 03, and 04) owns `fraccompare-001`, its deterministic A/B/C
+  template bank, generator, `[6수01-07]` release reference, and the narrow
+  addition of a shared quantitative `fraction_comparison` visual. The renderer
+  receives only the two given numerators and denominators and derives two
+  equal-length partition bars. A comparison result, larger-side marker,
+  difference, cross product, or other answer-only value must not enter the
+  unchecked DOM or accessibility name. Preserve the existing `simplify-001`
+  and `commonden-001` IDs and saved Grade 5 progress.
+
+- 2026-07-26: Grade 5 area-unit relations (primary workstreams 01, 03, and
+  04) owns `areaunit-001`, its deterministic A/B/C template bank, generator,
+  `[6수03-12]` release reference, and a shared quantitative
+  `area_unit_square` visual. The visual derives a square from the given
+  length-unit relation `1m=100cm` or `1km=1000m` and must not carry the
+  squared conversion result. Preserve `perimeter-001`, `polygonarea-001`, and
+  `area-001` IDs and their Grade 5 progress.
+
+- 2026-07-26: Grade 5 possibility completion (primary workstreams 01, 03, and
+  04) owns `possibility-001`, one deterministic A/B/C bank spanning
+  `[6수04-04]`~`[6수04-06]`, and a shared quantitative
+  `possibility_trials` visual. Trial rows contain only the observed favorable
+  count and total count from the prompt. Numeric possibility, verbal category,
+  predicted count, comparison result, or chosen decision must remain derived
+  answers outside the unchecked visual payload and accessibility name.
+
+- 2026-07-26: Grade 3 capacity-and-weight completion (primary workstreams 01,
+  03, and 04) owns the narrow expansion of `g3-2-capacity-weight` from three
+  to seven stable-ID missions, its seven curriculum references, and the
+  quantitative capacity-operation, weight-operation, and tonne renderers.
+  Given liters/milliliters, kilograms/grams, operators, and tonne blocks must
+  drive the prompt, visible operands, solution, and revealed result from one
+  model. Calculated results must stay out of the unchecked DOM and
+  accessibility text. Existing mission IDs remain stable so device-local
+  completion and review records survive the release.
+
+- 2026-07-26: Grade 6 ratio-graphs Study release (primary workstreams 01, 02,
+  03, and 04) owns `unit-6-1-ratio-graphs`, `g6ratiograph-001`, its
+  deterministic template bank/generator, two curriculum rows, release
+  identity, and the narrow addition of a shared quantitative `ratio_graph`
+  payload and renderer. One percentage model must drive every band width,
+  circle sector, visible label, prompt, and solution. Segment percentages
+  must sum to 100; a masked value remains textually hidden before checking,
+  and no derived count or answer-only field may enter the unchecked DOM.
+
+- 2026-07-26: Grade 6 surface-area and volume Study release (primary
+  workstreams 01, 02, 03, and 04) owns `unit-6-2-surface-area-volume`,
+  `g6volume-001`, its deterministic template bank/generator, three curriculum
+  rows, release identity, and the narrow quantitative extension of the shared
+  `cuboid` visual for open-top and partially filled models. Width, height, and
+  depth must drive every face, unit conversion, surface-area/volume expression,
+  and SVG proportion. Unknown dimensions remain masked before checking, and
+  derived surface area or volume must not enter the unchecked DOM.
+
+- 2026-07-26: Grade 6 circle-measurement Study release (primary workstreams
+  01, 02, 03, and 04) owns the narrow addition of a quantitative
+  `circle-measurement` visual payload in `src/lib/types.ts`, its shared
+  problem/concept renderer, `unit-6-2-circle-measurement`, `g6circle-001`,
+  deterministic template generator, release identity, curriculum rows, and
+  focused renderer, generation, allocation, route, storage, and browser
+  tests. One radius, optional inner radius, copy count, and π value must drive
+  diameter, circumference, area, labels, solver steps, and SVG geometry.
+  Requested circumference or area answers must not appear in the unchecked
+  DOM or accessibility name.
+
+- 2026-07-26: Grade 6 cube-stack spatial-reasoning Study release (primary
+  workstreams 01, 02, 03, and 04) owns the narrow addition of a quantitative
+  `cube-stack` visual payload in `src/lib/types.ts`, its shared problem/concept
+  renderer, Grade 6 unit/concept/template data, release identity, generator,
+  curriculum rows, and focused renderer, generation, allocation, route,
+  storage, and browser tests. `g6spatial-001` must derive total cubes, occupied
+  top cells, front and side silhouettes, lower-layer cubes, and every error
+  gap from the same nonnegative height grid used by its prompt and solution.
+  The renderer must not serialize a derived total or answer label into the
+  unchecked DOM or accessibility name.
+
+- 2026-07-26: Grade 6 round-solids Study release (primary workstreams 01,
+  02, 03, and 04) owns the narrow addition of quantitative `round-solid`
+  and `cylinder-net` visual payloads in `src/lib/types.ts`, their shared
+  problem/concept renderer, Grade 6 unit/concept/template data, concept
+  release identity, generator, curriculum rows, and focused renderer,
+  generation, allocation, route, storage, and browser tests.
+  `g6roundsolid-001` must derive every circular-base, curved-surface,
+  vertex, net-circle, missing-piece, extra-piece, and repeated-solid count
+  from the exact kind and copy count used by its prompt and solution.
+  Visual payloads may contain only given structure and must not add a
+  derived answer value to the unchecked DOM or accessibility name.
+
+- 2026-07-26: Grade 6 prism, pyramid, and prism-net Study release (primary
+  workstreams 01, 02, 03, and 04) owns the narrow addition of quantitative
+  `poly-solid` and `prism-net` visual payloads in `src/lib/types.ts`, their
+  shared renderer, Grade 6 unit/concept/template data, concept release
+  identity, generator, curriculum rows, and focused renderer, generation,
+  allocation, route, storage, and browser tests. `g6prismpyramid-001` must
+  derive every face, edge, vertex, lateral-face, missing-piece, and extra-piece
+  count from the same base-side parameter used by its prompt and solution.
+  Visual payloads may contain only the given solid/net structure; they must not
+  add a derived answer value to the unchecked DOM or accessibility name.
+
+- 2026-07-26: Grade 6 proportion and proportional-distribution Study release
+  (primary workstreams 01, 02, 03, and 04) owns the narrow change to the
+  curriculum ledger, Grade 6 unit/concept/template data, concept release
+  identity, and focused generator, equation, allocation, route, storage, and
+  browser tests. `unit-6-2-proportion` covers `[6수02-04]` and `[6수02-05]`
+  through `g6proportion-001` with 30 deterministic templates, A/B/C ten each,
+  K4/A4/R2 per set, disjoint families, cross-product reasoning, real-world
+  scaling, inverse proportion terms, proportional distribution, applications,
+  and error analysis. Every missing term and distributed share must be
+  derived from the exact ratio and total shown in the prompt and solution;
+  shares must be nonnegative integers whose sum equals the displayed total.
+
+- 2026-07-26: Grade 6 decimal-division Study release (primary workstreams
+  01, 02, 03, and 04) owns the narrow change to the curriculum ledger,
+  Grade 6 unit/concept/template data, concept release identity, and focused
+  generator, exact-quotient, route, storage, and browser tests.
+  `unit-6-1-decimal-division` covers `[6수01-14]` and `[6수01-15]` through
+  `g6decimaldiv-001` with 30 deterministic templates, A/B/C ten each,
+  K4/A4/R2 per set, disjoint families, natural-number quotients as decimals,
+  decimal-by-natural and decimal-by-decimal calculation, inverse problems,
+  applications, method comparison, and error analysis. Every quotient and
+  comparison gap must be derived from the same exact integer tenths or
+  hundredths model used in its prompt and solution; no repeating decimal or
+  floating-point artifact may enter an accepted answer.
+
+- 2026-07-26: Grade 6 fraction-decimal relations Study release (primary
+  workstreams 01, 02, 03, and 04) owns the narrow change to the curriculum
+  ledger, Grade 6 unit/concept/template data, concept release identity, and
+  focused generator, comparison, route, storage, and browser tests.
+  `unit-6-1-fraction-decimal-relations` covers `[6수01-12]` through
+  `g6fractiondecimal-001` with 30 deterministic templates, A/B/C ten each,
+  K4/A4/R2 per set, disjoint families, and fraction-to-decimal,
+  decimal-to-fraction, exact size comparison, inverse conversion, application,
+  and error-analysis work. All comparison differences must stay nonnegative
+  for every allowed parameter and every decimal or fraction answer must be
+  derived from the same exact integer ratio used in its prompt and solution.
+
+- 2026-07-26: Grade 6 fraction-division Study release (primary workstreams
+  01, 02, 03, and 04) owns the narrow change to the curriculum ledger,
+  Grade 6 unit/concept/template data, multi-concept Grade 6 validation,
+  per-concept receipt release identity, and focused generator, curriculum,
+  route, storage, and browser tests. `unit-6-1-fraction-division` covers
+  `[6수01-10]` and `[6수01-11]` through `g6fractiondiv-001` with 30
+  deterministic templates, A/B/C ten each, K4/A4/R2 per set, disjoint
+  families, at least two representations, and genuine application and
+  reasoning work. Natural-number and fraction quotients, reciprocal steps,
+  inverse checks, prompts, answers, and solutions must come from the same
+  parameters. Both standards move from planned to released only with Grade 6,
+  curriculum, audit, 5/10-item, mobile, storage, and deployment gates passing.
+
+- 2026-07-26: Grade 4 line-graph release (primary workstreams 01, 03, and
+  04) owns the narrow change to the curriculum ledger, Grade 4 bank,
+  quantitative line-graph and source-table renderers, and focused bank,
+  receipt, curriculum, component, and browser tests.
+  `unit-4-2-line-graphs` covers `[4수04-02]` with ten deterministic templates,
+  K4/A4/R2, ten families, two reasoning families, and at least two
+  representations. Time labels, source values, plotted points, segments,
+  scales, missing table cells, and deliberate plotting errors must come from
+  the same data model as prompts and solutions. Answer-only derived values
+  stay out of labels and accessibility text unless reading that plotted value
+  is the task. The standard moves from planned to released only with all
+  Grade 4, curriculum, audit, mobile, storage, and deployment gates passing.
+
+- 2026-07-26: Grade 4 angle-measurement and interior-angle release (primary
+  workstreams 01, 03, and 04) owns the narrow change to the curriculum ledger,
+  Grade 4 bank, quantitative protractor and angle-sum SVGs, and focused bank,
+  receipt, curriculum, component, and browser tests.
+  `unit-4-1-angle-measurement` covers `[4수03-24]` and `[4수03-25]` with
+  ten deterministic templates, K4/A4/R2, ten families, two reasoning
+  families, and at least two representations. Ray endpoints, tick positions,
+  triangle vertices, parallelogram vertices, and displayed angle labels must
+  come from the same angle data as prompts and solutions. Unknown angles stay
+  out of labels and accessibility text before solve. Both standards move from
+  planned to released only with all Grade 4, curriculum, audit, mobile,
+  storage, and deployment gates passing.
+
+- 2026-07-26: Grade 4 polygon and shape-filling release (primary workstreams
+  01, 03, and 04) owns the narrow change to the curriculum ledger, Grade 4
+  bank, polygon and tiling SVGs, and focused bank, receipt, curriculum,
+  component, and browser tests. `unit-4-2-polygons` covers `[4수03-11]` and
+  `[4수03-12]` with ten deterministic templates, K4/A4/R2, ten families, two
+  reasoning families, and at least two representations. Side count, regular
+  properties, diagonals, tile rows and columns, and intentional gaps must
+  drive both prompts and rendered geometry. Both standards move from planned
+  to released only with all Grade 4, curriculum, audit, mobile, storage, and
+  deployment gates passing.
+
+- 2026-07-26: Grade 4 quadrilateral-classification release (primary
+  workstreams 01, 03, and 04) owns the narrow change to the curriculum ledger,
+  Grade 4 bank, quantitative quadrilateral SVG, and focused bank, receipt,
+  curriculum, component, and browser tests. `unit-4-2-quadrilaterals` covers
+  `[4수03-10]` with ten deterministic templates, K4/A4/R2, ten families, two
+  reasoning families, and two representations. Vertices, parallel marks,
+  equal-side marks, right-angle marks, and classifications must come from one
+  quadrilateral property model. The unit moves from planned to released only
+  with all Grade 4, curriculum, audit, mobile, storage, and deployment gates
+  passing.
+
+- 2026-07-26: Grade 4 triangle-classification release (primary workstreams
+  01, 03, and 04) owns the narrow change to the curriculum ledger, Grade 4
+  bank, quantitative triangle SVG, and focused bank, receipt, curriculum,
+  component, and browser tests. `unit-4-2-triangles` covers `[4수03-08]` and
+  `[4수03-09]` with ten deterministic templates, K4/A4/R2, ten families, two
+  reasoning families, and two representations. Side lengths must satisfy the
+  triangle inequality and drive both the classification and rendered
+  coordinates. Both standards move from planned to released only with all
+  Grade 4, curriculum, audit, mobile, storage, and deployment gates passing.
+
+- 2026-07-26: Grade 4 shape-transformation release (primary workstreams 01,
+  03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the shape-transformation SVG, and focused bank, curriculum, receipt,
+  component, and browser tests. The new
+  `unit-4-1-shape-transformations` bank covers `[4수03-04]` and
+  `[4수03-05]` with exactly ten deterministic templates, K4/A4/R2, ten
+  distinct families, two genuine reasoning families, and at least two
+  representations. Slides, flips, rotations, point coordinates, movement
+  arrows, and revealed target shapes must come from one transformation model.
+  Answer-only target coordinates stay out of visual configuration and the DOM
+  before solve. Both standards move from planned to released only together
+  with passing Grade 4, curriculum, mission-audit, mobile, storage, and
+  deployment gates.
+
+- 2026-07-26: Grade 4 perpendicular and parallel lines release (primary
+  workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the line-relationship SVG, and focused bank, curriculum, receipt, component,
+  and browser tests. The new `unit-4-1-perpendicular-parallel` bank covers
+  `[4수03-03]` with exactly ten deterministic templates, K4/A4/R2, ten
+  distinct families, two genuine reasoning families, and at least two
+  representations. Line directions, intersections, right-angle marks, and
+  parallel spacing must come from the same geometry model as the problem.
+  The standard moves from planned to released only with passing Grade 4,
+  curriculum, mission-audit, mobile, storage, and deployment gates.
+
+- 2026-07-26: Grade 4 equality-relationship release (primary workstreams 01,
+  03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the equation-balance visual, and focused bank, curriculum, receipt,
+  component, and browser tests. The new `unit-4-2-equality` bank covers
+  `[4수02-03]` with exactly ten deterministic templates, K4/A4/R2, ten
+  distinct families, two genuine reasoning families, and at least two
+  representations. Missing quantities must be derived from the two displayed
+  sides, and the balance visual must not carry a result-only missing value
+  before solve. The standard moves from planned to released only with passing
+  Grade 4, curriculum, mission-audit, mobile, storage, and deployment gates.
+
+- 2026-07-26: Grade 4 change and calculation-pattern release (primary
+  workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the pattern-table visual, and focused bank, curriculum, receipt, component,
+  and browser tests. The new `unit-4-2-patterns` bank covers `[4수02-01]` and
+  `[4수02-02]` with exactly ten deterministic templates, K4/A4/R2, ten
+  distinct families, two genuine reasoning families, and at least two
+  representations. Missing sequence terms, correspondence outputs, and
+  calculation-array results must be derived from the displayed rows; result
+  values must stay out of visual configuration and the DOM before solve. The
+  two standards move from planned to released only together with passing
+  Grade 4, curriculum, mission-audit, mobile, storage, and deployment gates.
+
+- 2026-07-26: Grade 4 hundredths decimal addition and subtraction release
+  (primary workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the aligned decimal-operation visual, and focused bank, curriculum, receipt,
+  component, and browser tests. The new `unit-4-2-decimal-add-sub` bank covers
+  `[4수01-16]` with exactly ten deterministic templates, K4/A4/R2, ten
+  distinct families, two genuine reasoning families, and at least two
+  representations. All sums, differences, missing addends, carries, and
+  borrows must be calculated as integer hundredths from the displayed
+  operands. The aligned model may derive a result for reveal but must not put
+  that result in visual configuration or the DOM before solve. The standard
+  moves from planned to released only with passing Grade 4, curriculum,
+  mission-audit, mobile, storage, and deployment gates.
+
+- 2026-07-26: Grade 4 like-denominator fraction addition and subtraction
+  release (primary workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the Grade 4 fraction answer normalizer and quantitative fraction-strip
+  visual, and focused bank, curriculum, receipt, component, and browser tests.
+  The new `unit-4-2-fraction-add-sub` bank covers `[4수01-15]` with exactly
+  ten deterministic templates, K4/A4/R2, ten distinct families, two genuine
+  reasoning families, and at least two representations. Fraction input must
+  distinguish incomplete syntax and zero denominators from wrong answers,
+  while accepting mathematically equivalent improper and mixed forms. Every
+  strip must derive its partitions and filled cells from the same operands as
+  the problem, and result-only numerators must stay out of the DOM before
+  solve. The standard moves from planned to released only with passing Grade
+  4, curriculum, mission-audit, mobile, storage, and deployment gates.
+
+- 2026-07-26: Grade 4 two- and three-place decimal unit release
+  (primary workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the Grade 4 decimal answer normalizer and place-value visual, and focused
+  bank, curriculum, receipt, component, and browser tests. The new
+  `unit-4-2-decimals` bank covers `[4수01-13]` and `[4수01-14]` with exactly
+  ten deterministic templates, K4/A4/R2, ten distinct families, two genuine
+  reasoning families, and at least two representations. Decimal answers use
+  exact digit normalization rather than floating-point comparison; incomplete
+  `.`, `0.`, and `-` input creates no wrong attempt. Composite and missing
+  decimal digits must stay out of answer-only DOM before solve. Both standards
+  move from planned to released only with passing Grade 4, curriculum,
+  mission-audit, mobile, storage, and deployment gates.
+
+- 2026-07-26: Grade 4 arithmetic-estimation unit release
+  (primary workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  `src/components/MascotRouteCompanion.tsx`, and focused Grade 4 bank,
+  curriculum, receipt, and browser tests. The new
+  `unit-4-1-arithmetic-estimation` bank must contain exactly ten deterministic
+  templates with K4/A4/R2, ten distinct families, two genuine reasoning
+  families, and at least two representations. The four operations must all be
+  represented, every estimate must be derived from the displayed operands,
+  and reasoning items must compare a concrete incorrect or less useful
+  estimate. The compact mobile companion must stay fully outside the Grade 4
+  answer control rectangle. The ledger standard `[4수01-08]` moves from planned to released
+  only with passing Grade 4, curriculum, mission-audit, mobile, storage, and
+  deployment gates.
+
+- 2026-07-26: Grade 4 two-digit-divisor unit release
+  (primary workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/curriculum-allocations-v1.json`, `src/lib/grade4-problems.ts`,
+  the Grade 4 division visual and focused validator, component, curriculum,
+  and browser tests. The new `unit-4-1-multiplication-division` bank must
+  contain exactly ten deterministic templates with K4/A4/R2, two genuine
+  reasoning families, at least two representations, unique choices, and
+  mathematically valid quotient/remainder models for every allowed variant.
+  The ledger standard `[4수01-07]` moves from planned to released only in
+  the same change that makes the unit selectable and passes Grade 4,
+  curriculum, mission-audit, mobile, storage, and deployment gates.
+
+- 2026-07-26: Grade 5 cuboid and cuboid-net application reinforcement
+  (primary workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/templates/cuboid.json`,
+  `public/data/templates/cuboidnet.json`,
+  `scripts/generate-grade5-geometry-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, the shared geometry visual type and
+  renderer, and focused blueprint, topology, quantitative-layout, and browser
+  tests. Both banks keep A/B/C difficulty 4-4-2 while moving to K12/A12/R6,
+  ten reviewed families, and two genuine reasoning families. Cuboid dimensions
+  must drive one oblique projection model, with answer dimensions masked from
+  reverse-problem coordinates. Every four-option net visual must contain four
+  distinct layouts and exactly one topologically foldable cube net at the
+  deterministic answer index. Re-check all allowed parameters, shared-edge
+  perimeter reasoning, answer-safe dimensions, mobile rendering, generator
+  parity, template validation, and the problem audit before concurrent changes.
+
+- 2026-07-26: Grade 5 congruence and symmetry application reinforcement
+  (primary workstreams 01, 03, and 04) owns the narrow change to
+  `public/data/templates/congruence.json`,
+  `public/data/templates/symmetry.json`,
+  `scripts/generate-grade5-geometry-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, `src/lib/types.ts`,
+  `src/components/GeometryProblemVisual.tsx`, and their focused blueprint,
+  renderer, and browser tests. Both banks keep A/B/C difficulty 4-4-2 while
+  moving to K12/A12/R6, ten reviewed families, and two genuine reasoning
+  families. Every displayed congruent pair must be derived by a rigid
+  transformation of one source polygon; rectangle contexts must render actual
+  rectangles. Symmetry reasoning must analyze a concrete line- or
+  point-reflection error. Re-check exact side-length preservation, answer-safe
+  labels, generator parity, all allowed parameter combinations, difficulty
+  progression, mobile rendering, template validation, and the problem audit
+  before concurrent changes.
+
+- 2026-07-25: Grade 5 fraction-multiplication application reinforcement
+  (primary workstreams 01 and 04) owns the narrow change to
+  `public/data/templates/fracmul.json`,
+  `scripts/migrate-grade5-blueprints.js`, its deterministic generator, and
+  blueprint regression tests. The `unit-5-2-fraction-mul` bank must keep
+  A/B/C difficulty 4-4-2 while moving from K21/A9/R0 and five families to
+  K12/A12/R6 and ten reviewed families. Include fraction-by-natural,
+  fraction-by-fraction, cancellation, real-world part-of-whole, inverse
+  factor, fractional area, denominator-error, and product-size reasoning.
+  Re-check proper positive parameter construction, reduced answers, choice
+  uniqueness across every allowed combination, generator parity, difficulty
+  progression, template validation, and the problem audit.
+
+- 2026-07-25: Grade 5 average application reinforcement (primary workstreams
+  01 and 04) owns the narrow change to
+  `public/data/templates/average.json`,
+  `scripts/migrate-grade5-blueprints.js`, its deterministic generator, and
+  blueprint regression tests. The bank must keep A/B/C difficulty 4-4-2 while
+  moving from K18/A12/R0 and four families to K12/A12/R6 and ten reviewed
+  families. Construct values so every displayed mean is exact rather than a
+  rounded repeating decimal. Applying items cover real-world means, a missing
+  value, and a target next value; reasoning items analyze a wrong divisor and
+  the effect of correcting one record. Re-check generator parity, exact
+  divisibility, Korean wording, choice uniqueness, difficulty progression,
+  template validation, and the problem audit before concurrent changes.
+
+- 2026-07-25: Grade 5 decimal-multiplication application reinforcement
+  (primary workstreams 01 and 04) owns the narrow change to
+  `public/data/templates/decimalmul.json`,
+  `scripts/migrate-grade5-blueprints.js`, its deterministic generator, and
+  blueprint regression tests. The bank moves from K27/A3/R0 and three
+  mathematical families to A/B/C K4/A4/R2 and ten families. Applying items
+  cover repeated quantity, combined total, rectangle area, and remaining
+  quantity. Reasoning items analyze a missed decimal point and compare products
+  when one factor becomes one tenth. Re-check decimal string evaluation,
+  positive subtraction ranges, Korean numeric particles, generator parity,
+  choice correctness, and difficulty progression before concurrent changes.
+
+- 2026-07-25: Grade 5 mixed-calculation application reinforcement (primary
+  workstreams 01 and 04) owns the narrow change to
+  `public/data/templates/mixedcalc.json`,
+  `scripts/migrate-grade5-blueprints.js`, its deterministic generator, and
+  blueprint regression tests. A/B/C keep the 4-4-2 difficulty contract while
+  moving from K30/A0/R0 to K12/A12/R6. Applying items translate inventory,
+  combined-group, assortment, and remaining-per-group situations into one
+  mixed expression. Reasoning items compare the correct parenthesized model
+  with a plausible missing-parentheses error. Re-check Korean numeric
+  particles, positive parameter ranges, generator parity, choice correctness,
+  difficulty progression, and the problem audit before concurrent changes.
+
+- 2026-07-25: Grade 5 directed-estimation application reinforcement (primary
+  workstreams 01 and 04) owns the narrow change to
+  `public/data/templates/estimate.json`,
+  `scripts/migrate-grade5-blueprints.js`, and its deterministic generator and
+  blueprint regression tests. The bank keeps A/B/C 4-4-2 while moving from
+  K30/A0/R0 to K12/A12/R6. Applying items must use upward estimates for safe
+  capacity and downward estimates for complete groups; reasoning items must
+  expose the consequence of choosing the wrong bound or compare both bounds.
+  Re-check non-multiple parameter construction, remainder/shortage arithmetic,
+  generator parity, validation, and problem audit before concurrent changes.
+
+- 2026-07-25: Grade 5 rounding application-problem reinforcement (primary
+  workstreams 01 and 04) owns the narrow change to
+  `public/data/templates/rounding.json`,
+  `scripts/migrate-grade5-blueprints.js`, and the corresponding Grade 5
+  blueprint regression tests. The 30 slots keep the A/B/C 4-4-2 difficulty
+  contract while moving from K30/A0/R0 to K12/A12/R6 through ten reviewed
+  mathematical families. Re-check deterministic generation, reviewed
+  blueprint equality, direct/inverse boundary behavior, method-comparison
+  arithmetic, template validation, and the problem-quality audit before
+  changing these files concurrently.
 
 - 2026-07-21: approved Grade 5 semantic corrections and Grade 6 public
   promotion (primary workstreams 01, 02, 03, and 04) close the nine blocked
@@ -255,6 +767,48 @@ When you change a high-conflict file, add a short dated note below:
   9 missing, 0 invalid; do not make metadata mandatory or assign standards to
   those nine until their content correction is approved and tested.
 
+- 2026-07-25: Grade 5 fraction addition/subtraction quality upgrade (primary
+  workstreams 01 and 04) owns `public/data/templates/fracadd.json`,
+  `public/data/templates/fracsub.json`,
+  `scripts/generate-grade5-fraction-addsub-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, and the focused reproducibility and
+  exhaustive-combination checks in
+  `src/lib/grade5-blueprint-metadata.test.ts`. Preserve the existing template
+  IDs and A/B/C 4·4·2 difficulty contract while replacing the two four-family,
+  K18/A12/R0 banks with ten-family K12/A12/R6 banks. Subtraction parameter
+  structures must prove a positive result for every allowed combination.
+
+- 2026-07-25: Grade 5 fraction simplification/common-denominator quality
+  upgrade (primary workstreams 01 and 04) owns
+  `public/data/templates/simplify.json`,
+  `public/data/templates/commonden.json`,
+  `scripts/generate-grade5-fraction-simplify-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, and the focused exhaustive checks.
+  Consecutive reduced numerator/denominator pairs must keep simplification
+  exact; consecutive source denominators must keep the least common denominator
+  equal to their product for every allowed parameter combination.
+
+- 2026-07-26: Grade 5 divisor/multiple/GCD/LCM quality upgrade (primary
+  workstreams 01 and 04) owns the four matching template JSON files,
+  `scripts/generate-grade5-divisor-multiple-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, and focused exhaustive tests.
+  Construct GCD/LCM operands from a shared factor and consecutive cofactors so
+  the declared greatest/least common value is exact for every parameter tuple.
+
+- 2026-07-26: Grade 5 pattern quality upgrade (primary workstreams 01 and 04)
+  owns `public/data/templates/pattern.json`,
+  `scripts/generate-grade5-pattern-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, and focused exhaustive tests.
+  Preserve deterministic integer rules while expanding the bank to distinct
+  input-output, inverse, context, comparison, and error-analysis families.
+
+- 2026-07-26: Grade 5 perimeter and polygon-area quality upgrade (primary
+  workstreams 01 and 04) owns the two matching template JSON files,
+  `scripts/generate-grade5-geometry-templates.js`,
+  `scripts/migrate-grade5-blueprints.js`, and focused quantitative-visual
+  checks. Every prompt, solver, and polygon visual must describe the same
+  single mathematical model; `area.json` remains an unchanged regression bank.
+
 - 2026-07-21: quantitative three-shape overlap repair (primary workstream 03,
   dependencies on workstreams 01 and 04)
   `src/lib/types.ts`, `src/lib/problem-generator.ts`, and
@@ -342,3 +896,17 @@ When you change a high-conflict file, add a short dated note below:
   capture failure. The user verified the final fix on an iPad. Preserve the
   interaction contract in `docs/scratch-pad-ipados-lessons-learned.md`; the
   handoff is `handoffs/2026-07-19-03-ui-and-visuals-codex.md`.
+
+- 2026-07-30: three-shape overlap answer-safety repair (primary workstream 03,
+  validation dependency on workstream 04) owns
+  `src/components/ProblemDiagram.tsx`, its practice/result/review consumers,
+  focused component and E2E checks, and the
+  `three_shape_overlap` renderer-review version. The visible visual is a
+  reference-style conceptual overlap of the prompt-owned blue circle A, green
+  triangle B, and pink square C. It stays identical before hints, before
+  submission, and after answer checking. Do not add unit cells, numeric region
+  labels, callouts, explanatory captions, exact-area proportions, zero-region
+  omission, or answer-derived accessibility metadata. The rule-based model
+  remains the source for validation and scoring, not for visible answer
+  geometry. Re-run the affected browser evidence and final editorial-ledger
+  check after changing this renderer.

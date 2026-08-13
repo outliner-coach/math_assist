@@ -126,8 +126,8 @@ function auditGrade1() {
     warnings.push(createIssue('warning', 'duplicate_prompt', `Grade 1 ${first.islandId}: repeated prompt "${first.prompt}"`, { missionId: second.id }))
   }
 
-  if (grade1MissionTemplates.length !== 96) {
-    errors.push(createIssue('error', 'grade1_v1_count', `Grade 1 V1 expects 96 missions, got ${grade1MissionTemplates.length}`))
+  if (grade1MissionTemplates.length !== 98) {
+    errors.push(createIssue('error', 'grade1_v1_count', `Grade 1 V1 expects 98 missions, got ${grade1MissionTemplates.length}`))
   }
 
   for (const island of grade1Islands) {
@@ -165,7 +165,10 @@ function auditGrade2TimePrompt(template, warnings) {
   if (template.promptTemplate.includes('걸린 시간') && template.answerType !== 'duration') {
     warnings.push(createIssue('warning', 'time_prompt_type_mismatch', `Grade 2 ${template.id}: elapsed-time prompt should use duration`, { missionId: template.id }))
   }
-  if (template.promptTemplate.includes('시각') && template.answerType !== 'time-of-day') {
+  if (
+    template.promptTemplate.includes('시각')
+    && !['time-of-day', 'choice', 'label'].includes(template.answerType)
+  ) {
     warnings.push(createIssue('warning', 'time_prompt_type_mismatch', `Grade 2 ${template.id}: clock-time prompt should use time-of-day`, { missionId: template.id }))
   }
 }
@@ -306,20 +309,24 @@ function auditGrade3() {
     warnings.push(createIssue('warning', 'duplicate_prompt', `Grade 3 ${first.unitId}: repeated prompt "${first.prompt}"`, { missionId: second.id }))
   }
 
-  if (grade3MissionTemplates.length !== 36) {
-    errors.push(createIssue('error', 'grade3_alpha_count', `Grade 3 Alpha expects 36 missions, got ${grade3MissionTemplates.length}`))
+  if (grade3MissionTemplates.length !== 120) {
+    errors.push(createIssue('error', 'grade3_mission_count', `Grade 3 expects 120 missions, got ${grade3MissionTemplates.length}`))
   }
 
   for (const unit of grade3Units) {
     const bucket = byUnit.get(unit.id)
+    const expectedTotal = 10
+    const expectedSteps = { easy: 4, medium: 4, applied: 2 }
     if (!bucket) {
       errors.push(createIssue('error', 'grade3_unit_coverage', `Grade 3 ${unit.id}: missing missions`))
       continue
     }
-    if (bucket.total !== 3) errors.push(createIssue('error', 'grade3_unit_count', `Grade 3 ${unit.id}: Alpha expects 3 missions, got ${bucket.total}`))
+    if (bucket.total !== expectedTotal) {
+      errors.push(createIssue('error', 'grade3_unit_count', `Grade 3 ${unit.id}: expects ${expectedTotal} missions, got ${bucket.total}`))
+    }
     for (const step of ['easy', 'medium', 'applied']) {
-      if (bucket.steps[step] !== 1) {
-        errors.push(createIssue('error', 'grade3_difficulty_balance', `Grade 3 ${unit.id}: expected one ${step} mission, got ${bucket.steps[step]}`))
+      if (bucket.steps[step] !== expectedSteps[step]) {
+        errors.push(createIssue('error', 'grade3_difficulty_balance', `Grade 3 ${unit.id}: expected ${expectedSteps[step]} ${step} mission(s), got ${bucket.steps[step]}`))
       }
     }
   }
@@ -335,6 +342,7 @@ function auditGrade3() {
 function auditGrade4() {
   const {
     grade4MissionTemplates,
+    grade4Units,
     getGrade4MissionBank,
     validateGrade4MissionBank,
   } = loadGrade4Module()
@@ -348,12 +356,13 @@ function auditGrade4() {
     const template = grade4MissionTemplates.find((item) => item.id === mission.id)
     auditChoiceIntegrity('Grade 4', template, mission, errors)
   }
-  if (grade4MissionTemplates.length !== 10) {
-    errors.push(createIssue('error', 'grade4_release_count', `Grade 4 release candidate expects 10 templates, got ${grade4MissionTemplates.length}`))
+  const expectedTemplateCount = grade4Units.length * 10
+  if (grade4MissionTemplates.length !== expectedTemplateCount) {
+    errors.push(createIssue('error', 'grade4_release_count', `Grade 4 released units expect ${expectedTemplateCount} templates, got ${grade4MissionTemplates.length}`))
   }
 
   return {
-    grade: 'grade4-release-candidate',
+    grade: 'grade4',
     templateCount: grade4MissionTemplates.length,
     errors,
     warnings,

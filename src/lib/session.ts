@@ -31,6 +31,22 @@ function resultKey(grade: PracticeGrade): string {
   return grade === 6 ? GRADE6_RESULT_KEY : GRADE5_RESULT_KEY
 }
 
+function hasCompatiblePracticeIdentity(
+  candidate: { grade?: unknown; itemCount?: unknown },
+  grade: PracticeGrade,
+): boolean {
+  if (grade === 6) {
+    return candidate.grade === 6
+      && (candidate.itemCount === 5 || candidate.itemCount === 10)
+  }
+  return (candidate.grade === undefined || candidate.grade === 5)
+    && (
+      candidate.itemCount === undefined
+      || candidate.itemCount === 5
+      || candidate.itemCount === 10
+    )
+}
+
 function recoveryEvidenceKey(grade: PracticeGrade): string {
   return grade === 6
     ? GRADE6_APPLICATION_RECOVERY_EVIDENCE_KEY
@@ -129,7 +145,7 @@ function isApplicationProblemRecoveryEvidence(
     !['A', 'B', 'C'].includes(candidate.setId ?? '') ||
     !['standard', 'retry-wrong'].includes(candidate.mode ?? '') ||
     candidate.grade !== grade ||
-    (grade === 5 ? candidate.itemCount !== 10 : ![5, 10].includes(candidate.itemCount ?? 0)) ||
+    ![5, 10].includes(candidate.itemCount ?? 0) ||
     (candidate.sourceResultId !== undefined && typeof candidate.sourceResultId !== 'string') ||
     !Array.isArray(candidate.replacements) ||
     candidate.replacements.length === 0 ||
@@ -158,10 +174,7 @@ function isApplicationProblemRecoveryEvidenceArchive(
 function isSessionSnapshot(value: unknown, grade: PracticeGrade): value is PracticeSession {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false
   const candidate = value as Partial<PracticeSession>
-  const gradeContractMatches = grade === 5
-    ? (candidate.grade === undefined || candidate.grade === 5) &&
-      (candidate.itemCount === undefined || candidate.itemCount === 10)
-    : candidate.grade === 6 && (candidate.itemCount === 5 || candidate.itemCount === 10)
+  const gradeContractMatches = hasCompatiblePracticeIdentity(candidate, grade)
   const problems = Array.isArray(candidate.problems) ? candidate.problems : []
   const problemsAreValid = problems.length > 0 &&
     problems.every((problem) => (
@@ -276,10 +289,7 @@ function isResultSnapshot(value: unknown, grade: PracticeGrade): value is Sessio
   const score = candidate.score as number
   const total = candidate.total as number
   const wrongCount = candidate.wrongCount as number
-  const gradeContractMatches = grade === 5
-    ? (candidate.grade === undefined || candidate.grade === 5) &&
-      (candidate.itemCount === undefined || candidate.itemCount === 10)
-    : candidate.grade === 6 && (candidate.itemCount === 5 || candidate.itemCount === 10)
+  const gradeContractMatches = hasCompatiblePracticeIdentity(candidate, grade)
   const results = Array.isArray(candidate.results) ? candidate.results : []
   const resultsAreValid = results.length > 0 &&
     results.every((result) => (
@@ -391,9 +401,9 @@ export function saveSession(session: PracticeSession): boolean {
 export function persistApplicationProblemRecoveryEvidence(
   session: PracticeSession,
 ): boolean {
-  if (typeof window === 'undefined') return false
   const replacements = session.applicationProblemReplacementArchive
   if (replacements === undefined || replacements.length === 0) return true
+  if (typeof window === 'undefined') return false
   const grade = resolvePracticeGrade(session.grade)
   if (!isSessionSnapshot(session, grade)) return false
 

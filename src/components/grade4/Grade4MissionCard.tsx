@@ -35,6 +35,14 @@ export default function Grade4MissionCard({
   onSubmitText,
   onShowHint,
 }: Grade4MissionCardProps) {
+  const expectsDecimal = mission.answerType === 'decimal'
+  const expectsFraction = mission.answerType === 'fraction'
+  const answerLabel = expectsDecimal
+    ? '답을 소수로 써요'
+    : expectsFraction
+      ? '답을 분수로 써요'
+      : '답을 숫자로 써요'
+
   return (
     <section data-testid="grade4-mission-card" data-mission-id={mission.id} className="rounded-[2rem] border-2 border-[#c7d2fe] bg-white p-5 md:p-6">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
@@ -58,8 +66,8 @@ export default function Grade4MissionCard({
             </div>
           ) : (
             <div className="space-y-3">
-              <label htmlFor="grade4-integer-input" className="block text-sm font-black text-[#475569]">답을 숫자로 써요</label>
-              <input id="grade4-integer-input" data-testid="grade4-integer-input" inputMode="numeric" value={textAnswer} disabled={solved}
+              <label htmlFor="grade4-integer-input" className="block text-sm font-black text-[#475569]">{answerLabel}</label>
+              <input id="grade4-integer-input" data-testid="grade4-integer-input" inputMode={expectsFraction ? 'text' : expectsDecimal ? 'decimal' : 'numeric'} value={textAnswer} disabled={solved}
                 onChange={(event) => onTextAnswerChange(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') onSubmitText() }}
                 className="min-h-[64px] w-full rounded-2xl border-2 border-[#c7d2fe] px-4 text-center text-3xl font-black text-[#0f172a] outline-none focus:border-[#4f46e5]" />
               <button type="button" data-testid="grade4-integer-submit" onClick={onSubmitText} disabled={solved}

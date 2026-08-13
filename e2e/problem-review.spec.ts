@@ -63,7 +63,7 @@ function inspectDiagramMetrics(element: SVGSVGElement, targetFamilyId: string) {
 }
 
 test('내부 검수 화면은 세 학년 family와 읽기 전용 검수 근거를 표시한다', async ({ page }) => {
-  await page.goto(`${BASE_PATH}/review/problems`)
+  await page.goto(`${BASE_PATH}/review/application-problems`)
 
   await expect(page.getByTestId('application-problem-review')).toBeVisible()
   await expect(page.getByText('세 학년 응용문제 검수')).toBeVisible()
@@ -81,7 +81,7 @@ test('내부 검수 화면은 세 학년 family와 읽기 전용 검수 근거�
 })
 
 test('내부 검수 화면은 등록 행으로 실제 필터링하고 학습자 동선이나 승인 저장을 제공하지 않는다', async ({ page }) => {
-  await page.goto(`${BASE_PATH}/review/problems`)
+  await page.goto(`${BASE_PATH}/review/application-problems`)
 
   await page.getByLabel('학년').selectOption('6')
   await expect(page.getByTestId('review-problem-card')).toHaveCount(3)
@@ -98,7 +98,7 @@ test('390×844와 1024×768 검수 화면은 가로 넘침이나 고정 행동 �
     { width: 1024, height: 768 },
   ]) {
     await page.setViewportSize(viewport)
-    await page.goto(`${BASE_PATH}/review/problems`)
+    await page.goto(`${BASE_PATH}/review/application-problems`)
     await expect(page.getByTestId('application-problem-review')).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0)
     const gradeFilter = page.getByLabel('학년')
@@ -121,7 +121,7 @@ test('등록된 모든 diagram family는 두 뷰포트와 공개 상태에서 �
     { width: 1024, height: 768 },
   ]) {
     await page.setViewportSize(viewport)
-    await page.goto(`${BASE_PATH}/review/problems`)
+    await page.goto(`${BASE_PATH}/review/application-problems`)
     for (const familyId of diagramFamilies) {
       const card = page.getByTestId('review-problem-card').filter({ hasText: familyId })
       await expect(card).toHaveCount(1)
@@ -148,7 +148,7 @@ test('등록된 모든 diagram family는 두 뷰포트와 공개 상태에서 �
 
 test('Grade 5 matching and Grade 6 nonmatching target-label mutations fail cover checks', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto(`${BASE_PATH}/review/problems`)
+  await page.goto(`${BASE_PATH}/review/application-problems`)
   const grade5Card = page.getByTestId('review-problem-card').filter({ hasText: 'g5-area-composite-inverse' })
   const grade5Svg = grade5Card.getByTestId('review-visual-before').locator('svg')
   const grade5Mutation = await grade5Svg.evaluate((element) => {

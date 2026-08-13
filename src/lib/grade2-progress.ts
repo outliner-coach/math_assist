@@ -1,4 +1,4 @@
-import type { Grade2Mission } from './grade2-problems'
+import { getGrade2MissionSet, grade2Units, type Grade2Mission } from './grade2-problems'
 import {
   hasGrade2ApplicationProblemSource,
   isGrade2ApplicationMission,
@@ -16,7 +16,7 @@ import { normalizeMissionSketchRunOrdinal } from './mission-sketch-identity'
 export const GRADE2_PROGRESS_KEY = 'mathAssist_grade2Progress'
 export const GRADE2_PROGRESS_RECOVERY_EVIDENCE_KEY =
   'mathAssist_grade2ProgressRecoveryEvidence_v1'
-export const GRADE2_PROGRESS_SCHEMA_VERSION = 3
+export const GRADE2_PROGRESS_SCHEMA_VERSION = 5
 
 export interface Grade2SkillSummary {
   attempted: number
@@ -26,6 +26,8 @@ export interface Grade2SkillSummary {
 export interface Grade2Progress {
   schemaVersion: number
   completedMissionIds: string[]
+  checkedMissionIds: string[]
+  completedUnitIds: string[]
   reviewMissionIds: string[]
   latestMissionId: string | null
   selectedUnitId: string | null
@@ -61,6 +63,8 @@ export function createInitialGrade2Progress(now = Date.now()): Grade2Progress {
   return {
     schemaVersion: GRADE2_PROGRESS_SCHEMA_VERSION,
     completedMissionIds: [],
+    checkedMissionIds: [],
+    completedUnitIds: [],
     reviewMissionIds: [],
     latestMissionId: null,
     selectedUnitId: null,
@@ -100,6 +104,28 @@ function uniqueStrings(values: unknown): string[] {
   return Array.from(new Set(values.filter((id): id is string => typeof id === 'string')))
 }
 
+function containsEvery(values: ReadonlySet<string>, required: readonly string[]): boolean {
+  return required.length > 0 && required.every((id) => values.has(id))
+}
+
+function deriveCompletedUnitIds(
+  checkedMissionIds: readonly string[],
+  savedUnitIds: unknown,
+  acceptLegacyCompletion: boolean,
+): string[] {
+  const checked = new Set(checkedMissionIds)
+  const completed = new Set(uniqueStrings(savedUnitIds))
+  for (const unit of grade2Units) {
+    const practiceIds = getGrade2MissionSet(unit.id, 'practice').map((mission) => mission.id)
+    if (containsEvery(checked, practiceIds)) completed.add(unit.id)
+    if (acceptLegacyCompletion) {
+      const legacyIds = getGrade2MissionSet(unit.id, 'basic').map((mission) => mission.id)
+      if (containsEvery(checked, legacyIds)) completed.add(unit.id)
+    }
+  }
+  return Array.from(completed)
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
@@ -119,11 +145,17 @@ function isStructurallyStoredGrade2ApplicationMission(
     typeof mission.id === 'string' &&
     typeof mission.unitId === 'string' &&
     typeof mission.semester === 'string' &&
+    (mission.mode === 'basic' || mission.mode === 'practice') &&
+    ['knowing', 'applying', 'reasoning'].includes(mission.cognitiveDomain) &&
     Number.isSafeInteger(mission.stageOrder) &&
     Number.isSafeInteger(mission.unitMissionOrder) &&
     typeof mission.skill === 'string' &&
     typeof mission.difficultyStep === 'string' &&
     typeof mission.curriculumCode === 'string' &&
+    isStringArray(mission.directCurriculumCodes) &&
+    typeof mission.curriculumText === 'string' &&
+    isStringArray(mission.taskActions) &&
+    ['decorative', 'schematic', 'quantitative'].includes(mission.visualSemantics) &&
     typeof mission.learnerGoal === 'string' &&
     typeof mission.parentSummaryTag === 'string' &&
     typeof mission.prompt === 'string' &&
@@ -155,7 +187,7 @@ interface NormalizedApplicationMissionSnapshots {
 
 function normalizeApplicationMissionSnapshots(
   candidate: Record<string, unknown>,
-  schemaVersion: 1 | 2 | 3,
+  schemaVersion: number,
 ): NormalizedApplicationMissionSnapshots {
   const snapshotsByInstanceId: Record<string, unknown> = {}
   const activeInstanceIdByMissionId: Record<string, string> = {}
@@ -182,7 +214,9 @@ function normalizeApplicationMissionSnapshots(
     }
   }
 
-  if (schemaVersion === 3) {
+  const hasCurrentArchive = candidate.applicationMissionSnapshotsByInstanceId !== undefined
+    || candidate.activeApplicationInstanceIdByMissionId !== undefined
+  if (schemaVersion >= 3 && (hasCurrentArchive || schemaVersion === GRADE2_PROGRESS_SCHEMA_VERSION)) {
     const archive = candidate.applicationMissionSnapshotsByInstanceId
     if (!isRecord(archive)) {
       invalid = true
@@ -233,7 +267,7 @@ function normalizeProgress(value: unknown, now: number): NormalizedGrade2Progres
   if (!value || typeof value !== 'object') return null
   const candidate = value as Record<string, unknown> & Partial<Grade2Progress>
 
-  if (![1, 2, GRADE2_PROGRESS_SCHEMA_VERSION].includes(candidate.schemaVersion as number)) return null
+  if (![1, 2, 3, 4, GRADE2_PROGRESS_SCHEMA_VERSION].includes(candidate.schemaVersion as number)) return null
   if (!Array.isArray(candidate.completedMissionIds)) return null
   if (!Array.isArray(candidate.reviewMissionIds)) return null
   if (
@@ -255,17 +289,26 @@ function normalizeProgress(value: unknown, now: number): NormalizedGrade2Progres
   }
 
   const completedMissionIds = uniqueStrings(candidate.completedMissionIds)
+  const checkedMissionIds = Array.isArray(candidate.checkedMissionIds)
+    ? uniqueStrings(candidate.checkedMissionIds)
+    : uniqueStrings([...candidate.completedMissionIds, ...candidate.reviewMissionIds])
   const lastPlayedAt = typeof candidate.lastPlayedAt === 'number' ? candidate.lastPlayedAt : now
   const adventure = normalizeAdventureState(candidate, completedMissionIds, lastPlayedAt)
   const applicationSnapshots = normalizeApplicationMissionSnapshots(
     candidate,
-    candidate.schemaVersion as 1 | 2 | 3,
+    candidate.schemaVersion as number,
   )
 
   return {
     progress: {
       schemaVersion: GRADE2_PROGRESS_SCHEMA_VERSION,
       completedMissionIds,
+      checkedMissionIds,
+      completedUnitIds: deriveCompletedUnitIds(
+        checkedMissionIds,
+        candidate.completedUnitIds,
+        Number(candidate.schemaVersion) < 4,
+      ),
       reviewMissionIds: uniqueStrings(candidate.reviewMissionIds),
       latestMissionId: candidate.latestMissionId ?? null,
       selectedUnitId: candidate.selectedUnitId ?? null,
@@ -480,6 +523,21 @@ export function selectGrade2Unit(
   }
 }
 
+export function getGrade2PracticeMissionIds(unitId: string): string[] {
+  return getGrade2MissionSet(unitId, 'practice').map((mission) => mission.id)
+}
+
+export function isGrade2UnitComplete(
+  progress: Pick<Grade2Progress, 'checkedMissionIds' | 'completedUnitIds'>,
+  unitId: string,
+): boolean {
+  if (progress.completedUnitIds.includes(unitId)) return true
+  const checked = new Set(progress.checkedMissionIds)
+  const practiceMissionIds = getGrade2PracticeMissionIds(unitId)
+  return practiceMissionIds.length === 6
+    && practiceMissionIds.every((missionId) => checked.has(missionId))
+}
+
 export function dismissGrade2Intro(progress: Grade2Progress, now = Date.now()): Grade2Progress {
   if (progress.introDismissedAt !== null) return progress
   return {
@@ -604,9 +662,18 @@ export function recordGrade2Attempt(
     wrongAttempts: options.wrongAttempts,
     difficultyBonus: options.difficultyBonus,
   })
+  const checkedMissionIds = toggleId(progress.checkedMissionIds, mission.id, true)
+  const completedUnitIds = containsEvery(
+    new Set(checkedMissionIds),
+    getGrade2PracticeMissionIds(mission.unitId),
+  )
+    ? toggleId(progress.completedUnitIds, mission.unitId, true)
+    : progress.completedUnitIds
 
   return {
     ...progress,
+    checkedMissionIds,
+    completedUnitIds,
     completedMissionIds: correct
       ? toggleId(progress.completedMissionIds, mission.id, true)
       : progress.completedMissionIds,

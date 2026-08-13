@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
 
 import ProblemReviewClient from './ProblemReviewClient'
-import { getApplicationProblemReviewData } from '@/lib/problem-review'
+import { getProblemReviewData } from '@/lib/problem-review'
 
 export const metadata: Metadata = {
-  title: '세 학년 응용문제 내부 검수',
-  description: '등록된 응용문제 family의 대표 사례와 자동 검사 근거를 비교하는 내부 화면',
+  title: '1–6학년 문제 렌더러 검수',
+  description: '1,622개 원문을 실제 학년별 시각 렌더러의 제출 전·힌트·정답 공개 상태로 검수하는 내부 페이지',
 }
 
-export default function ProblemReviewPage() {
-  const data = getApplicationProblemReviewData()
+export default async function ProblemReviewPage() {
+  const data = await getProblemReviewData()
 
   return <ProblemReviewClient data={data} />
 }

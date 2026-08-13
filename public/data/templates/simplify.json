@@ -5,37 +5,48 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "simplify-reduce-fraction",
-    "blueprint": {"problemFamily":"simplify-reduce-fraction","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-reduce-scaled-fraction",
+    "blueprint": {
+      "problemFamily": "simplify-reduce-scaled-fraction",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 6
-      },
-      "b": {
-        "min": 3,
-        "max": 8
+      "n": {
+        "min": 1,
+        "max": 3
       },
       "f": {
         "min": 2,
-        "max": 3
+        "max": 4
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분하면?",
-    "solver_rule": "reduceFrac(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 이를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(n * f, n * f + f)",
     "solution_steps_template": [
-      "{{a*f}}과 {{b*f}}의 공약수를 찾습니다.",
-      "약분 결과: {{reduceFrac(a*f, b*f)}}"
+      "분자와 분모의 공약수는 {{f}}입니다.",
+      "두 수를 같은 공약수로 나누면 {{reduceFrac(n * f, n * f + f)}}입니다."
     ],
     "hint_steps_template": [
-      "분자와 분모를 같은 수로 나눠요.",
-      "기약분수로 바꿔요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ],
     "choices_template": [
-      "{{reduceFrac(a*f, b*f)}}",
-      "{{reduceFracOff(a*f, b*f, 1)}}",
-      "{{reduceFracOff(a*f, b*f, 2)}}",
-      "{{reduceFracOff(a*f, b*f, 3)}}"
+      "{{reduceFrac(n*f,n*f+f)}}",
+      "{{reduceFracOff(n*f,n*f+f,1)}}",
+      "{{reduceFracOff(n*f,n*f+f,2)}}",
+      "{{reduceFracOff(n*f,n*f+f,3)}}"
     ]
   },
   {
@@ -44,319 +55,425 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "simplify-reduced-numerator",
-    "blueprint": {"problemFamily":"simplify-reduced-numerator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-identify-numerator",
+    "blueprint": {
+      "problemFamily": "simplify-identify-numerator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 6
-      },
-      "b": {
-        "min": 3,
-        "max": 8
+      "n": {
+        "min": 1,
+        "max": 3
       },
       "f": {
         "min": 2,
-        "max": 3
+        "max": 4
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분했을 때 분자는?",
-    "solver_rule": "reducedNum(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 기약분수로 만들었을 때 분자를 구하세요.",
+    "solver_rule": "n",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분자: {{reducedNum(a*f, b*f)}}"
+      "분자와 분모를 같은 수 {{f}}로 나눕니다.",
+      "기약분수는 {{n}}/{{n + 1}}이므로 분자는 {{n}}입니다."
     ],
     "hint_steps_template": [
-      "약분한 분수를 먼저 구해요.",
-      "분자를 적어요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
     "id": "tmpl-simplify-A-03",
     "concept_id": "simplify-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "simplify-reduced-denominator",
-    "blueprint": {"problemFamily":"simplify-reduced-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-identify-denominator",
+    "blueprint": {
+      "problemFamily": "simplify-identify-denominator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 6
-      },
-      "b": {
-        "min": 3,
-        "max": 8
+      "n": {
+        "min": 1,
+        "max": 3
       },
       "f": {
         "min": 2,
-        "max": 3
+        "max": 4
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분했을 때 분모는?",
-    "solver_rule": "reducedDen(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 기약분수로 만들었을 때 분모를 구하세요.",
+    "solver_rule": "n + 1",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분모: {{reducedDen(a*f, b*f)}}"
+      "분자와 분모를 같은 수 {{f}}로 나눕니다.",
+      "기약분수는 {{n}}/{{n + 1}}이므로 분모는 {{n + 1}}입니다."
     ],
     "hint_steps_template": [
-      "약분한 분수를 먼저 구해요.",
-      "분모를 적어요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
+    ],
+    "choices_template": [
+      "{{n+1}}",
+      "{{n+2}}",
+      "{{n+3}}",
+      "{{n+4}}"
     ]
   },
   {
     "id": "tmpl-simplify-A-04",
     "concept_id": "simplify-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "simplify-reduce-fraction",
-    "blueprint": {"problemFamily":"simplify-reduce-fraction","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-greatest-common-factor",
+    "blueprint": {
+      "problemFamily": "simplify-greatest-common-factor",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "connectedStandards": [
+        "6수01-04"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 6
-      },
-      "b": {
-        "min": 3,
-        "max": 8
+      "n": {
+        "min": 1,
+        "max": 3
       },
       "f": {
         "min": 2,
-        "max": 3
+        "max": 4
       }
     },
-    "prompt_template": "다음 중 {{a*f}}/{{b*f}}의 기약분수는?",
-    "solver_rule": "reduceFrac(a*f, b*f)",
+    "prompt_template": "분수 {{n * f}}/{{n * f + f}}의 분자와 분모의 최대공약수를 구하세요.",
+    "solver_rule": "f",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "기약분수는 더 이상 약분되지 않습니다."
+      "두 수는 각각 {{n}} × {{f}}, {{n + 1}} × {{f}}입니다.",
+      "연속한 {{n}}과 {{n + 1}}은 서로소이므로 최대공약수는 {{f}}입니다."
     ],
     "hint_steps_template": [
-      "분자와 분모를 최대한 나눠요.",
-      "기약분수를 찾으세요."
-    ],
-    "choices_template": [
-      "{{reduceFrac(a*f, b*f)}}",
-      "{{reduceFracOff(a*f, b*f, 2)}}",
-      "{{reduceFracOff(a*f, b*f, 3)}}",
-      "{{reduceFracOff(a*f, b*f, 4)}}"
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
     "id": "tmpl-simplify-A-05",
     "concept_id": "simplify-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "simplify-component-sum",
-    "blueprint": {"problemFamily":"simplify-component-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "simplify-equivalent-numerator",
+    "blueprint": {
+      "problemFamily": "simplify-equivalent-numerator",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 7
-      },
-      "b": {
-        "min": 3,
-        "max": 9
+      "n": {
+        "min": 1,
+        "max": 3
       },
       "f": {
         "min": 2,
-        "max": 3
+        "max": 4
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분한 뒤 분자와 분모의 합은?",
-    "solver_rule": "reducedNum(a*f, b*f) + reducedDen(a*f, b*f)",
+    "prompt_template": "{{n}}/{{n + 1}} = □/{{n * f + f}}입니다. □에 알맞은 수를 구하세요.",
+    "solver_rule": "n * f",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분자+분모: {{reducedNum(a*f, b*f)}} + {{reducedDen(a*f, b*f)}} = {{reducedNum(a*f, b*f) + reducedDen(a*f, b*f)}}"
+      "분모는 {{n + 1}}에서 {{n * f + f}}로 {{f}}배가 되었습니다.",
+      "분자도 {{f}}배 하므로 □는 {{n * f}}입니다."
     ],
     "hint_steps_template": [
-      "약분한 분자와 분모를 구해요.",
-      "두 값을 더해요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
+    ],
+    "choices_template": [
+      "{{n*f}}",
+      "{{n*f+1}}",
+      "{{n*f+2}}",
+      "{{n*f+3}}"
     ]
   },
   {
     "id": "tmpl-simplify-A-06",
     "concept_id": "simplify-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "simplify-reduced-numerator",
-    "blueprint": {"problemFamily":"simplify-reduced-numerator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-context-part",
+    "blueprint": {
+      "problemFamily": "simplify-context-part",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 7
-      },
-      "b": {
-        "min": 3,
-        "max": 9
+      "n": {
+        "min": 1,
+        "max": 3
       },
       "f": {
         "min": 2,
-        "max": 3
+        "max": 4
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분했을 때 분자는?",
-    "solver_rule": "reducedNum(a*f, b*f)",
+    "prompt_template": "수 모형은 전체 {{n * f + f}}칸 중 {{n * f}}칸이 색칠되어 있습니다. 이 부분을 나타내는 분수는 {{n * f}}/{{n * f + f}}입니다. 이를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(n * f, n * f + f)",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분자: {{reducedNum(a*f, b*f)}}"
+      "부분을 전체로 나눈 분수는 {{n * f}}/{{n * f + f}}입니다.",
+      "분자와 분모를 같은 수 {{f}}로 나누면 {{reduceFrac(n * f, n * f + f)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 약분하세요.",
-      "분자를 확인하세요."
-    ],
-    "choices_template": [
-      "{{reducedNum(a*f, b*f)}}",
-      "{{reducedNum(a*f, b*f) + 1}}",
-      "{{reducedNum(a*f, b*f) + 2}}",
-      "{{reducedNum(a*f, b*f) + 3}}"
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
     "id": "tmpl-simplify-A-07",
     "concept_id": "simplify-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "simplify-reduced-denominator",
-    "blueprint": {"problemFamily":"simplify-reduced-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-missing-scale-factor",
+    "blueprint": {
+      "problemFamily": "simplify-missing-scale-factor",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 7
-      },
-      "b": {
-        "min": 3,
-        "max": 9
+      "n": {
+        "min": 1,
+        "max": 3
       },
       "f": {
         "min": 2,
-        "max": 3
+        "max": 4
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분했을 때 분모는?",
-    "solver_rule": "reducedDen(a*f, b*f)",
+    "prompt_template": "{{n}}/{{n + 1}}의 분자와 분모에 같은 수를 곱한 결과가 {{n * f}}/{{n * f + f}}입니다. 곱한 수를 구하세요.",
+    "solver_rule": "f",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분모: {{reducedDen(a*f, b*f)}}"
+      "{{n}} × 어떤 수 = {{n * f}}입니다.",
+      "분모에도 같은 수를 곱했으므로 곱한 수는 {{f}}입니다."
     ],
     "hint_steps_template": [
-      "약분 후 분모를 찾아요.",
-      "분모 값만 적어요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
+    ],
+    "choices_template": [
+      "{{f}}",
+      "{{f+1}}",
+      "{{f+2}}",
+      "{{f+3}}"
     ]
   },
   {
     "id": "tmpl-simplify-A-08",
     "concept_id": "simplify-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "simplify-reduced-denominator",
-    "blueprint": {"problemFamily":"simplify-reduced-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-component-sum",
+    "blueprint": {
+      "problemFamily": "simplify-component-sum",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 7
-      },
-      "b": {
-        "min": 3,
-        "max": 9
+      "n": {
+        "min": 1,
+        "max": 3
       },
       "f": {
         "min": 2,
-        "max": 3
+        "max": 4
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분한 뒤 분모는?",
-    "solver_rule": "reducedDen(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 약분한 뒤 분자와 분모의 합을 구하세요.",
+    "solver_rule": "2 * n + 1",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분모: {{reducedDen(a*f, b*f)}}"
+      "약분한 분수는 {{n}}/{{n + 1}}입니다.",
+      "분자와 분모의 합은 {{n}} + {{n + 1}} = {{2 * n + 1}}입니다."
     ],
     "hint_steps_template": [
-      "약분 후 분모를 확인해요.",
-      "정답 보기를 고르세요."
-    ],
-    "choices_template": [
-      "{{reducedDen(a*f, b*f)}}",
-      "{{reducedDen(a*f, b*f) + 1}}",
-      "{{reducedDen(a*f, b*f) + 2}}",
-      "{{reducedDen(a*f, b*f) + 3}}"
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
     "id": "tmpl-simplify-A-09",
     "concept_id": "simplify-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "simplify-component-difference",
-    "blueprint": {"problemFamily":"simplify-component-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "simplify-one-sided-division-error",
+    "blueprint": {
+      "problemFamily": "simplify-one-sided-division-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 3,
-        "max": 8
-      },
-      "b": {
-        "min": 4,
-        "max": 10
+      "n": {
+        "min": 1,
+        "max": 3
       },
       "f": {
         "min": 2,
-        "max": 3
+        "max": 4
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분한 뒤 분자와 분모의 차는?",
-    "solver_rule": "reducedDen(a*f, b*f) - reducedNum(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 분자만 나누고 분모를 그대로 둔 잘못된 값은 {{n}}/{{n * f + f}}입니다. 올바른 값은 잘못된 값보다 얼마 큰가요?",
+    "solver_rule": "fracSub(n, n + 1, n, n * f + f)",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "차: {{reducedDen(a*f, b*f)}} - {{reducedNum(a*f, b*f)}} = {{reducedDen(a*f, b*f) - reducedNum(a*f, b*f)}}"
+      "올바른 약분 결과는 {{n}}/{{n + 1}}입니다.",
+      "잘못된 값과의 차는 {{fracSub(n, n + 1, n, n * f + f)}}입니다."
     ],
     "hint_steps_template": [
-      "약분한 분자와 분모를 구해요.",
-      "분모에서 분자를 빼요."
+      "올바른 방법과 잘못된 방법을 각각 계산해 차이를 비교해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
+    ],
+    "choices_template": [
+      "{{fracSub(n,n+1,n,n*f+f)}}",
+      "{{fracSubOff(n,n+1,n,n*f+f,1)}}",
+      "{{fracSubOff(n,n+1,n,n*f+f,2)}}",
+      "{{fracSubOff(n,n+1,n,n*f+f,3)}}"
     ]
   },
   {
     "id": "tmpl-simplify-A-10",
     "concept_id": "simplify-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "A",
-    "problem_family": "simplify-component-sum",
-    "blueprint": {"problemFamily":"simplify-component-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "simplify-additive-change-error",
+    "blueprint": {
+      "problemFamily": "simplify-additive-change-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 3,
-        "max": 8
-      },
-      "b": {
-        "min": 4,
-        "max": 10
+      "n": {
+        "min": 1,
+        "max": 3
       },
       "f": {
         "min": 2,
-        "max": 3
+        "max": 4
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분한 뒤 분자와 분모의 합은?",
-    "solver_rule": "reducedNum(a*f, b*f) + reducedDen(a*f, b*f)",
+    "prompt_template": "{{n}}/{{n + 1}}의 분자와 분모에 1을 더하면 {{n + 1}}/{{n + 2}}입니다. 바뀐 값은 원래 값보다 얼마 큰가요?",
+    "solver_rule": "fracSub(n + 1, n + 2, n, n + 1)",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "합: {{reducedNum(a*f, b*f) + reducedDen(a*f, b*f)}}"
+      "분자와 분모에 같은 수를 더하면 동치분수가 되지 않습니다.",
+      "두 값의 차는 {{fracSub(n + 1, n + 2, n, n + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "약분 후 분자와 분모를 더해요.",
-      "합을 선택해요."
-    ],
-    "choices_template": [
-      "{{reducedNum(a*f, b*f) + reducedDen(a*f, b*f)}}",
-      "{{reducedNum(a*f, b*f) + reducedDen(a*f, b*f) + 2}}",
-      "{{reducedNum(a*f, b*f) + reducedDen(a*f, b*f) + 4}}",
-      "{{reducedNum(a*f, b*f) + reducedDen(a*f, b*f) + 6}}"
+      "올바른 방법과 잘못된 방법을 각각 계산해 차이를 비교해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
@@ -365,37 +482,48 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "simplify-reduce-fraction",
-    "blueprint": {"problemFamily":"simplify-reduce-fraction","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-reduce-scaled-fraction",
+    "blueprint": {
+      "problemFamily": "simplify-reduce-scaled-fraction",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
+      "n": {
         "min": 2,
-        "max": 6
-      },
-      "b": {
-        "min": 3,
-        "max": 8
+        "max": 4
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분하면?",
-    "solver_rule": "reduceFrac(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 이를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(n * f, n * f + f)",
     "solution_steps_template": [
-      "{{a*f}}과 {{b*f}}의 공약수를 찾습니다.",
-      "약분 결과: {{reduceFrac(a*f, b*f)}}"
+      "분자와 분모의 공약수는 {{f}}입니다.",
+      "두 수를 같은 공약수로 나누면 {{reduceFrac(n * f, n * f + f)}}입니다."
     ],
     "hint_steps_template": [
-      "분자와 분모를 같은 수로 나눠요.",
-      "기약분수로 바꿔요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ],
     "choices_template": [
-      "{{reduceFrac(a*f, b*f)}}",
-      "{{reduceFracOff(a*f, b*f, 1)}}",
-      "{{reduceFracOff(a*f, b*f, 2)}}",
-      "{{reduceFracOff(a*f, b*f, 3)}}"
+      "{{reduceFrac(n*f,n*f+f)}}",
+      "{{reduceFracOff(n*f,n*f+f,1)}}",
+      "{{reduceFracOff(n*f,n*f+f,2)}}",
+      "{{reduceFracOff(n*f,n*f+f,3)}}"
     ]
   },
   {
@@ -404,319 +532,425 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "simplify-reduced-numerator",
-    "blueprint": {"problemFamily":"simplify-reduced-numerator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-identify-numerator",
+    "blueprint": {
+      "problemFamily": "simplify-identify-numerator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
+      "n": {
         "min": 2,
-        "max": 6
-      },
-      "b": {
-        "min": 3,
-        "max": 8
+        "max": 4
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분했을 때 분자는?",
-    "solver_rule": "reducedNum(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 기약분수로 만들었을 때 분자를 구하세요.",
+    "solver_rule": "n",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분자: {{reducedNum(a*f, b*f)}}"
+      "분자와 분모를 같은 수 {{f}}로 나눕니다.",
+      "기약분수는 {{n}}/{{n + 1}}이므로 분자는 {{n}}입니다."
     ],
     "hint_steps_template": [
-      "약분한 분수를 먼저 구해요.",
-      "분자를 적어요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
     "id": "tmpl-simplify-B-03",
     "concept_id": "simplify-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "simplify-reduced-denominator",
-    "blueprint": {"problemFamily":"simplify-reduced-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-identify-denominator",
+    "blueprint": {
+      "problemFamily": "simplify-identify-denominator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
+      "n": {
         "min": 2,
-        "max": 6
-      },
-      "b": {
-        "min": 3,
-        "max": 8
+        "max": 4
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분했을 때 분모는?",
-    "solver_rule": "reducedDen(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 기약분수로 만들었을 때 분모를 구하세요.",
+    "solver_rule": "n + 1",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분모: {{reducedDen(a*f, b*f)}}"
+      "분자와 분모를 같은 수 {{f}}로 나눕니다.",
+      "기약분수는 {{n}}/{{n + 1}}이므로 분모는 {{n + 1}}입니다."
     ],
     "hint_steps_template": [
-      "약분한 분수를 먼저 구해요.",
-      "분모를 적어요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
+    ],
+    "choices_template": [
+      "{{n+1}}",
+      "{{n+2}}",
+      "{{n+3}}",
+      "{{n+4}}"
     ]
   },
   {
     "id": "tmpl-simplify-B-04",
     "concept_id": "simplify-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "simplify-reduce-fraction",
-    "blueprint": {"problemFamily":"simplify-reduce-fraction","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-greatest-common-factor",
+    "blueprint": {
+      "problemFamily": "simplify-greatest-common-factor",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "connectedStandards": [
+        "6수01-04"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
+      "n": {
         "min": 2,
-        "max": 6
-      },
-      "b": {
-        "min": 3,
-        "max": 8
+        "max": 4
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "다음 중 {{a*f}}/{{b*f}}의 기약분수는?",
-    "solver_rule": "reduceFrac(a*f, b*f)",
+    "prompt_template": "분수 {{n * f}}/{{n * f + f}}의 분자와 분모의 최대공약수를 구하세요.",
+    "solver_rule": "f",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "기약분수는 더 이상 약분되지 않습니다."
+      "두 수는 각각 {{n}} × {{f}}, {{n + 1}} × {{f}}입니다.",
+      "연속한 {{n}}과 {{n + 1}}은 서로소이므로 최대공약수는 {{f}}입니다."
     ],
     "hint_steps_template": [
-      "분자와 분모를 최대한 나눠요.",
-      "기약분수를 찾으세요."
-    ],
-    "choices_template": [
-      "{{reduceFrac(a*f, b*f)}}",
-      "{{reduceFracOff(a*f, b*f, 2)}}",
-      "{{reduceFracOff(a*f, b*f, 3)}}",
-      "{{reduceFracOff(a*f, b*f, 4)}}"
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
     "id": "tmpl-simplify-B-05",
     "concept_id": "simplify-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "simplify-component-sum",
-    "blueprint": {"problemFamily":"simplify-component-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "simplify-equivalent-numerator",
+    "blueprint": {
+      "problemFamily": "simplify-equivalent-numerator",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
+      "n": {
         "min": 2,
-        "max": 7
-      },
-      "b": {
-        "min": 3,
-        "max": 9
+        "max": 4
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분한 뒤 분자와 분모의 합은?",
-    "solver_rule": "reducedNum(a*f, b*f) + reducedDen(a*f, b*f)",
+    "prompt_template": "{{n}}/{{n + 1}} = □/{{n * f + f}}입니다. □에 알맞은 수를 구하세요.",
+    "solver_rule": "n * f",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분자+분모: {{reducedNum(a*f, b*f)}} + {{reducedDen(a*f, b*f)}} = {{reducedNum(a*f, b*f) + reducedDen(a*f, b*f)}}"
+      "분모는 {{n + 1}}에서 {{n * f + f}}로 {{f}}배가 되었습니다.",
+      "분자도 {{f}}배 하므로 □는 {{n * f}}입니다."
     ],
     "hint_steps_template": [
-      "약분한 분자와 분모를 구해요.",
-      "두 값을 더해요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
+    ],
+    "choices_template": [
+      "{{n*f}}",
+      "{{n*f+1}}",
+      "{{n*f+2}}",
+      "{{n*f+3}}"
     ]
   },
   {
     "id": "tmpl-simplify-B-06",
     "concept_id": "simplify-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "simplify-reduced-numerator",
-    "blueprint": {"problemFamily":"simplify-reduced-numerator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-context-part",
+    "blueprint": {
+      "problemFamily": "simplify-context-part",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
+      "n": {
         "min": 2,
-        "max": 7
-      },
-      "b": {
-        "min": 3,
-        "max": 9
+        "max": 4
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분했을 때 분자는?",
-    "solver_rule": "reducedNum(a*f, b*f)",
+    "prompt_template": "리본을 같은 길이 {{n * f + f}}칸으로 나누었고 그중 {{n * f}}칸을 사용했습니다. 이 부분을 나타내는 분수는 {{n * f}}/{{n * f + f}}입니다. 이를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(n * f, n * f + f)",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분자: {{reducedNum(a*f, b*f)}}"
+      "부분을 전체로 나눈 분수는 {{n * f}}/{{n * f + f}}입니다.",
+      "분자와 분모를 같은 수 {{f}}로 나누면 {{reduceFrac(n * f, n * f + f)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 약분하세요.",
-      "분자를 확인하세요."
-    ],
-    "choices_template": [
-      "{{reducedNum(a*f, b*f)}}",
-      "{{reducedNum(a*f, b*f) + 1}}",
-      "{{reducedNum(a*f, b*f) + 2}}",
-      "{{reducedNum(a*f, b*f) + 3}}"
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
     "id": "tmpl-simplify-B-07",
     "concept_id": "simplify-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "simplify-reduced-denominator",
-    "blueprint": {"problemFamily":"simplify-reduced-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-missing-scale-factor",
+    "blueprint": {
+      "problemFamily": "simplify-missing-scale-factor",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
+      "n": {
         "min": 2,
-        "max": 7
-      },
-      "b": {
-        "min": 3,
-        "max": 9
+        "max": 4
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분했을 때 분모는?",
-    "solver_rule": "reducedDen(a*f, b*f)",
+    "prompt_template": "{{n}}/{{n + 1}}의 분자와 분모에 같은 수를 곱한 결과가 {{n * f}}/{{n * f + f}}입니다. 곱한 수를 구하세요.",
+    "solver_rule": "f",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분모: {{reducedDen(a*f, b*f)}}"
+      "{{n}} × 어떤 수 = {{n * f}}입니다.",
+      "분모에도 같은 수를 곱했으므로 곱한 수는 {{f}}입니다."
     ],
     "hint_steps_template": [
-      "약분 후 분모를 찾아요.",
-      "분모 값만 적어요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
+    ],
+    "choices_template": [
+      "{{f}}",
+      "{{f+1}}",
+      "{{f+2}}",
+      "{{f+3}}"
     ]
   },
   {
     "id": "tmpl-simplify-B-08",
     "concept_id": "simplify-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "simplify-reduced-denominator",
-    "blueprint": {"problemFamily":"simplify-reduced-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-component-sum",
+    "blueprint": {
+      "problemFamily": "simplify-component-sum",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
+      "n": {
         "min": 2,
-        "max": 7
-      },
-      "b": {
-        "min": 3,
-        "max": 9
+        "max": 4
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분한 뒤 분모는?",
-    "solver_rule": "reducedDen(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 약분한 뒤 분자와 분모의 합을 구하세요.",
+    "solver_rule": "2 * n + 1",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분모: {{reducedDen(a*f, b*f)}}"
+      "약분한 분수는 {{n}}/{{n + 1}}입니다.",
+      "분자와 분모의 합은 {{n}} + {{n + 1}} = {{2 * n + 1}}입니다."
     ],
     "hint_steps_template": [
-      "약분 후 분모를 확인해요.",
-      "정답 보기를 고르세요."
-    ],
-    "choices_template": [
-      "{{reducedDen(a*f, b*f)}}",
-      "{{reducedDen(a*f, b*f) + 1}}",
-      "{{reducedDen(a*f, b*f) + 2}}",
-      "{{reducedDen(a*f, b*f) + 3}}"
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
     "id": "tmpl-simplify-B-09",
     "concept_id": "simplify-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "simplify-component-difference",
-    "blueprint": {"problemFamily":"simplify-component-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "simplify-one-sided-division-error",
+    "blueprint": {
+      "problemFamily": "simplify-one-sided-division-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 3,
-        "max": 8
-      },
-      "b": {
-        "min": 4,
-        "max": 10
+      "n": {
+        "min": 2,
+        "max": 4
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분한 뒤 분자와 분모의 차는?",
-    "solver_rule": "reducedDen(a*f, b*f) - reducedNum(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 분자만 나누고 분모를 그대로 둔 잘못된 값은 {{n}}/{{n * f + f}}입니다. 올바른 값은 잘못된 값보다 얼마 큰가요?",
+    "solver_rule": "fracSub(n, n + 1, n, n * f + f)",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "차: {{reducedDen(a*f, b*f)}} - {{reducedNum(a*f, b*f)}} = {{reducedDen(a*f, b*f) - reducedNum(a*f, b*f)}}"
+      "올바른 약분 결과는 {{n}}/{{n + 1}}입니다.",
+      "잘못된 값과의 차는 {{fracSub(n, n + 1, n, n * f + f)}}입니다."
     ],
     "hint_steps_template": [
-      "약분한 분자와 분모를 구해요.",
-      "분모에서 분자를 빼요."
+      "올바른 방법과 잘못된 방법을 각각 계산해 차이를 비교해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
+    ],
+    "choices_template": [
+      "{{fracSub(n,n+1,n,n*f+f)}}",
+      "{{fracSubOff(n,n+1,n,n*f+f,1)}}",
+      "{{fracSubOff(n,n+1,n,n*f+f,2)}}",
+      "{{fracSubOff(n,n+1,n,n*f+f,3)}}"
     ]
   },
   {
     "id": "tmpl-simplify-B-10",
     "concept_id": "simplify-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "B",
-    "problem_family": "simplify-component-sum",
-    "blueprint": {"problemFamily":"simplify-component-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "simplify-additive-change-error",
+    "blueprint": {
+      "problemFamily": "simplify-additive-change-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 3,
-        "max": 8
-      },
-      "b": {
-        "min": 4,
-        "max": 10
+      "n": {
+        "min": 2,
+        "max": 4
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분한 뒤 분자와 분모의 합은?",
-    "solver_rule": "reducedNum(a*f, b*f) + reducedDen(a*f, b*f)",
+    "prompt_template": "{{n}}/{{n + 1}}의 분자와 분모에 1을 더하면 {{n + 1}}/{{n + 2}}입니다. 바뀐 값은 원래 값보다 얼마 큰가요?",
+    "solver_rule": "fracSub(n + 1, n + 2, n, n + 1)",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "합: {{reducedNum(a*f, b*f) + reducedDen(a*f, b*f)}}"
+      "분자와 분모에 같은 수를 더하면 동치분수가 되지 않습니다.",
+      "두 값의 차는 {{fracSub(n + 1, n + 2, n, n + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "약분 후 분자와 분모를 더해요.",
-      "합을 선택해요."
-    ],
-    "choices_template": [
-      "{{reducedNum(a*f, b*f) + reducedDen(a*f, b*f)}}",
-      "{{reducedNum(a*f, b*f) + reducedDen(a*f, b*f) + 2}}",
-      "{{reducedNum(a*f, b*f) + reducedDen(a*f, b*f) + 4}}",
-      "{{reducedNum(a*f, b*f) + reducedDen(a*f, b*f) + 6}}"
+      "올바른 방법과 잘못된 방법을 각각 계산해 차이를 비교해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
@@ -725,37 +959,48 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "simplify-reduce-fraction",
-    "blueprint": {"problemFamily":"simplify-reduce-fraction","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-reduce-scaled-fraction",
+    "blueprint": {
+      "problemFamily": "simplify-reduce-scaled-fraction",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 1,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 6
-      },
-      "b": {
+      "n": {
         "min": 3,
-        "max": 8
+        "max": 5
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분하면?",
-    "solver_rule": "reduceFrac(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 이를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(n * f, n * f + f)",
     "solution_steps_template": [
-      "{{a*f}}과 {{b*f}}의 공약수를 찾습니다.",
-      "약분 결과: {{reduceFrac(a*f, b*f)}}"
+      "분자와 분모의 공약수는 {{f}}입니다.",
+      "두 수를 같은 공약수로 나누면 {{reduceFrac(n * f, n * f + f)}}입니다."
     ],
     "hint_steps_template": [
-      "분자와 분모를 같은 수로 나눠요.",
-      "기약분수로 바꿔요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ],
     "choices_template": [
-      "{{reduceFrac(a*f, b*f)}}",
-      "{{reduceFracOff(a*f, b*f, 1)}}",
-      "{{reduceFracOff(a*f, b*f, 2)}}",
-      "{{reduceFracOff(a*f, b*f, 3)}}"
+      "{{reduceFrac(n*f,n*f+f)}}",
+      "{{reduceFracOff(n*f,n*f+f,1)}}",
+      "{{reduceFracOff(n*f,n*f+f,2)}}",
+      "{{reduceFracOff(n*f,n*f+f,3)}}"
     ]
   },
   {
@@ -764,319 +1009,425 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "simplify-reduced-numerator",
-    "blueprint": {"problemFamily":"simplify-reduced-numerator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-identify-numerator",
+    "blueprint": {
+      "problemFamily": "simplify-identify-numerator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 6
-      },
-      "b": {
+      "n": {
         "min": 3,
-        "max": 8
+        "max": 5
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분했을 때 분자는?",
-    "solver_rule": "reducedNum(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 기약분수로 만들었을 때 분자를 구하세요.",
+    "solver_rule": "n",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분자: {{reducedNum(a*f, b*f)}}"
+      "분자와 분모를 같은 수 {{f}}로 나눕니다.",
+      "기약분수는 {{n}}/{{n + 1}}이므로 분자는 {{n}}입니다."
     ],
     "hint_steps_template": [
-      "약분한 분수를 먼저 구해요.",
-      "분자를 적어요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
     "id": "tmpl-simplify-C-03",
     "concept_id": "simplify-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "simplify-reduced-denominator",
-    "blueprint": {"problemFamily":"simplify-reduced-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-identify-denominator",
+    "blueprint": {
+      "problemFamily": "simplify-identify-denominator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 6
-      },
-      "b": {
+      "n": {
         "min": 3,
-        "max": 8
+        "max": 5
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분했을 때 분모는?",
-    "solver_rule": "reducedDen(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 기약분수로 만들었을 때 분모를 구하세요.",
+    "solver_rule": "n + 1",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분모: {{reducedDen(a*f, b*f)}}"
+      "분자와 분모를 같은 수 {{f}}로 나눕니다.",
+      "기약분수는 {{n}}/{{n + 1}}이므로 분모는 {{n + 1}}입니다."
     ],
     "hint_steps_template": [
-      "약분한 분수를 먼저 구해요.",
-      "분모를 적어요."
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
+    ],
+    "choices_template": [
+      "{{n+1}}",
+      "{{n+2}}",
+      "{{n+3}}",
+      "{{n+4}}"
     ]
   },
   {
     "id": "tmpl-simplify-C-04",
     "concept_id": "simplify-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "simplify-reduce-fraction",
-    "blueprint": {"problemFamily":"simplify-reduce-fraction","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-greatest-common-factor",
+    "blueprint": {
+      "problemFamily": "simplify-greatest-common-factor",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "connectedStandards": [
+        "6수01-04"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 6
-      },
-      "b": {
+      "n": {
         "min": 3,
-        "max": 8
+        "max": 5
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "다음 중 {{a*f}}/{{b*f}}의 기약분수는?",
-    "solver_rule": "reduceFrac(a*f, b*f)",
+    "prompt_template": "분수 {{n * f}}/{{n * f + f}}의 분자와 분모의 최대공약수를 구하세요.",
+    "solver_rule": "f",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "기약분수는 더 이상 약분되지 않습니다."
+      "두 수는 각각 {{n}} × {{f}}, {{n + 1}} × {{f}}입니다.",
+      "연속한 {{n}}과 {{n + 1}}은 서로소이므로 최대공약수는 {{f}}입니다."
     ],
     "hint_steps_template": [
-      "분자와 분모를 최대한 나눠요.",
-      "기약분수를 찾으세요."
-    ],
-    "choices_template": [
-      "{{reduceFrac(a*f, b*f)}}",
-      "{{reduceFracOff(a*f, b*f, 2)}}",
-      "{{reduceFracOff(a*f, b*f, 3)}}",
-      "{{reduceFracOff(a*f, b*f, 4)}}"
+      "분자와 분모에 같은 수를 곱하거나 나누는 관계를 확인해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
     "id": "tmpl-simplify-C-05",
     "concept_id": "simplify-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "simplify-component-sum",
-    "blueprint": {"problemFamily":"simplify-component-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "simplify-equivalent-numerator",
+    "blueprint": {
+      "problemFamily": "simplify-equivalent-numerator",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 7
-      },
-      "b": {
+      "n": {
         "min": 3,
-        "max": 9
+        "max": 5
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분한 뒤 분자와 분모의 합은?",
-    "solver_rule": "reducedNum(a*f, b*f) + reducedDen(a*f, b*f)",
+    "prompt_template": "{{n}}/{{n + 1}} = □/{{n * f + f}}입니다. □에 알맞은 수를 구하세요.",
+    "solver_rule": "n * f",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분자+분모: {{reducedNum(a*f, b*f)}} + {{reducedDen(a*f, b*f)}} = {{reducedNum(a*f, b*f) + reducedDen(a*f, b*f)}}"
+      "분모는 {{n + 1}}에서 {{n * f + f}}로 {{f}}배가 되었습니다.",
+      "분자도 {{f}}배 하므로 □는 {{n * f}}입니다."
     ],
     "hint_steps_template": [
-      "약분한 분자와 분모를 구해요.",
-      "두 값을 더해요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
+    ],
+    "choices_template": [
+      "{{n*f}}",
+      "{{n*f+1}}",
+      "{{n*f+2}}",
+      "{{n*f+3}}"
     ]
   },
   {
     "id": "tmpl-simplify-C-06",
     "concept_id": "simplify-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "simplify-reduced-numerator",
-    "blueprint": {"problemFamily":"simplify-reduced-numerator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-context-part",
+    "blueprint": {
+      "problemFamily": "simplify-context-part",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 7
-      },
-      "b": {
+      "n": {
         "min": 3,
-        "max": 9
+        "max": 5
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분했을 때 분자는?",
-    "solver_rule": "reducedNum(a*f, b*f)",
+    "prompt_template": "작업 구간을 같은 길이 {{n * f + f}}칸으로 나누었고 그중 {{n * f}}칸을 완료했습니다. 이 부분을 나타내는 분수는 {{n * f}}/{{n * f + f}}입니다. 이를 기약분수로 나타내세요.",
+    "solver_rule": "reduceFrac(n * f, n * f + f)",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분자: {{reducedNum(a*f, b*f)}}"
+      "부분을 전체로 나눈 분수는 {{n * f}}/{{n * f + f}}입니다.",
+      "분자와 분모를 같은 수 {{f}}로 나누면 {{reduceFrac(n * f, n * f + f)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 약분하세요.",
-      "분자를 확인하세요."
-    ],
-    "choices_template": [
-      "{{reducedNum(a*f, b*f)}}",
-      "{{reducedNum(a*f, b*f) + 1}}",
-      "{{reducedNum(a*f, b*f) + 2}}",
-      "{{reducedNum(a*f, b*f) + 3}}"
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
     "id": "tmpl-simplify-C-07",
     "concept_id": "simplify-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "simplify-reduced-denominator",
-    "blueprint": {"problemFamily":"simplify-reduced-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-missing-scale-factor",
+    "blueprint": {
+      "problemFamily": "simplify-missing-scale-factor",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 7
-      },
-      "b": {
+      "n": {
         "min": 3,
-        "max": 9
+        "max": 5
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분했을 때 분모는?",
-    "solver_rule": "reducedDen(a*f, b*f)",
+    "prompt_template": "{{n}}/{{n + 1}}의 분자와 분모에 같은 수를 곱한 결과가 {{n * f}}/{{n * f + f}}입니다. 곱한 수를 구하세요.",
+    "solver_rule": "f",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분모: {{reducedDen(a*f, b*f)}}"
+      "{{n}} × 어떤 수 = {{n * f}}입니다.",
+      "분모에도 같은 수를 곱했으므로 곱한 수는 {{f}}입니다."
     ],
     "hint_steps_template": [
-      "약분 후 분모를 찾아요.",
-      "분모 값만 적어요."
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
+    ],
+    "choices_template": [
+      "{{f}}",
+      "{{f+1}}",
+      "{{f+2}}",
+      "{{f+3}}"
     ]
   },
   {
     "id": "tmpl-simplify-C-08",
     "concept_id": "simplify-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "simplify-reduced-denominator",
-    "blueprint": {"problemFamily":"simplify-reduced-denominator","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":1,"readingLoad":"low"},
+    "problem_family": "simplify-component-sum",
+    "blueprint": {
+      "problemFamily": "simplify-component-sum",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
-        "min": 2,
-        "max": 7
-      },
-      "b": {
+      "n": {
         "min": 3,
-        "max": 9
+        "max": 5
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분한 뒤 분모는?",
-    "solver_rule": "reducedDen(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 약분한 뒤 분자와 분모의 합을 구하세요.",
+    "solver_rule": "2 * n + 1",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "분모: {{reducedDen(a*f, b*f)}}"
+      "약분한 분수는 {{n}}/{{n + 1}}입니다.",
+      "분자와 분모의 합은 {{n}} + {{n + 1}} = {{2 * n + 1}}입니다."
     ],
     "hint_steps_template": [
-      "약분 후 분모를 확인해요.",
-      "정답 보기를 고르세요."
-    ],
-    "choices_template": [
-      "{{reducedDen(a*f, b*f)}}",
-      "{{reducedDen(a*f, b*f) + 1}}",
-      "{{reducedDen(a*f, b*f) + 2}}",
-      "{{reducedDen(a*f, b*f) + 3}}"
+      "바뀐 분모의 배수를 먼저 찾고 분자에도 같은 배수를 적용해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   },
   {
     "id": "tmpl-simplify-C-09",
     "concept_id": "simplify-001",
-    "type": "number",
+    "type": "choice",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "simplify-component-difference",
-    "blueprint": {"problemFamily":"simplify-component-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "simplify-one-sided-division-error",
+    "blueprint": {
+      "problemFamily": "simplify-one-sided-division-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
+      "n": {
         "min": 3,
-        "max": 8
-      },
-      "b": {
-        "min": 4,
-        "max": 10
+        "max": 5
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분한 뒤 분자와 분모의 차는?",
-    "solver_rule": "reducedDen(a*f, b*f) - reducedNum(a*f, b*f)",
+    "prompt_template": "주어진 분수는 {{n * f}}/{{n * f + f}}입니다. 분자만 나누고 분모를 그대로 둔 잘못된 값은 {{n}}/{{n * f + f}}입니다. 올바른 값은 잘못된 값보다 얼마 큰가요?",
+    "solver_rule": "fracSub(n, n + 1, n, n * f + f)",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "차: {{reducedDen(a*f, b*f)}} - {{reducedNum(a*f, b*f)}} = {{reducedDen(a*f, b*f) - reducedNum(a*f, b*f)}}"
+      "올바른 약분 결과는 {{n}}/{{n + 1}}입니다.",
+      "잘못된 값과의 차는 {{fracSub(n, n + 1, n, n * f + f)}}입니다."
     ],
     "hint_steps_template": [
-      "약분한 분자와 분모를 구해요.",
-      "분모에서 분자를 빼요."
+      "올바른 방법과 잘못된 방법을 각각 계산해 차이를 비교해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
+    ],
+    "choices_template": [
+      "{{fracSub(n,n+1,n,n*f+f)}}",
+      "{{fracSubOff(n,n+1,n,n*f+f,1)}}",
+      "{{fracSubOff(n,n+1,n,n*f+f,2)}}",
+      "{{fracSubOff(n,n+1,n,n*f+f,3)}}"
     ]
   },
   {
     "id": "tmpl-simplify-C-10",
     "concept_id": "simplify-001",
-    "type": "choice",
+    "type": "number",
     "difficulty": 3,
     "set_id": "C",
-    "problem_family": "simplify-component-sum",
-    "blueprint": {"problemFamily":"simplify-component-sum","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-06","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"medium"},
+    "problem_family": "simplify-additive-change-error",
+    "blueprint": {
+      "problemFamily": "simplify-additive-change-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-06",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "a": {
+      "n": {
         "min": 3,
-        "max": 8
-      },
-      "b": {
-        "min": 4,
-        "max": 10
+        "max": 5
       },
       "f": {
-        "min": 2,
-        "max": 3
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{a*f}}/{{b*f}}를 약분한 뒤 분자와 분모의 합은?",
-    "solver_rule": "reducedNum(a*f, b*f) + reducedDen(a*f, b*f)",
+    "prompt_template": "{{n}}/{{n + 1}}의 분자와 분모에 1을 더하면 {{n + 1}}/{{n + 2}}입니다. 바뀐 값은 원래 값보다 얼마 큰가요?",
+    "solver_rule": "fracSub(n + 1, n + 2, n, n + 1)",
     "solution_steps_template": [
-      "약분 결과: {{reduceFrac(a*f, b*f)}}",
-      "합: {{reducedNum(a*f, b*f) + reducedDen(a*f, b*f)}}"
+      "분자와 분모에 같은 수를 더하면 동치분수가 되지 않습니다.",
+      "두 값의 차는 {{fracSub(n + 1, n + 2, n, n + 1)}}입니다."
     ],
     "hint_steps_template": [
-      "약분 후 분자와 분모를 더해요.",
-      "합을 선택해요."
-    ],
-    "choices_template": [
-      "{{reducedNum(a*f, b*f) + reducedDen(a*f, b*f)}}",
-      "{{reducedNum(a*f, b*f) + reducedDen(a*f, b*f) + 2}}",
-      "{{reducedNum(a*f, b*f) + reducedDen(a*f, b*f) + 4}}",
-      "{{reducedNum(a*f, b*f) + reducedDen(a*f, b*f) + 6}}"
+      "올바른 방법과 잘못된 방법을 각각 계산해 차이를 비교해요.",
+      "분수의 값이 같게 유지되는지 확인해요."
     ]
   }
 ]

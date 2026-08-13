@@ -4,6 +4,7 @@ import {
   GRADE5_PROGRESS_KEY,
   GRADE6_PROGRESS_KEY,
   loadConceptProgress,
+  projectConceptProgressCompletion,
   recordConceptProgress,
   saveConceptProgressMap,
   clearConceptProgress,
@@ -121,6 +122,57 @@ describe('progress_v1', () => {
     expect(loadConceptProgress('g6ratio-001', 6)?.latestScore).toBe(80)
     expect(localStorage.getItem(GRADE5_PROGRESS_KEY)).not.toContain('g6ratio-001')
     expect(localStorage.getItem(GRADE6_PROGRESS_KEY)).not.toContain('divisor-001')
+  })
+
+  it('persists basic and practice completion evidence without treating basic as complete', () => {
+    const basic = buildConceptProgressSummary(null, makeResult({
+      grade: 6,
+      itemCount: 5,
+      conceptId: 'g6ratio-001',
+      total: 5,
+      score: 4,
+    }))
+    const practice = buildConceptProgressSummary(basic, makeResult({
+      sessionId: 'session-2',
+      grade: 6,
+      itemCount: 10,
+      conceptId: 'g6ratio-001',
+      completedAt: 200,
+    }))
+
+    expect(basic.completionRecord).toEqual({
+      completedBasicSetActivityIds: ['g6ratio-001'],
+      completedPracticeSetActivityIds: [],
+    })
+    expect(basic.legacyCompleted).toBe(false)
+    expect(projectConceptProgressCompletion(basic)).toEqual({
+      hasCompletedBasicSet: true,
+      hasCompletedPracticeSet: false,
+      isComplete: false,
+      recommendedMode: 'practice',
+    })
+    expect(projectConceptProgressCompletion(practice)).toEqual({
+      hasCompletedBasicSet: true,
+      hasCompletedPracticeSet: true,
+      isComplete: true,
+      recommendedMode: 'practice',
+    })
+  })
+
+  it('keeps a stored pre-evidence concept complete as legacy history', () => {
+    const legacy = buildConceptProgressSummary(null, makeResult())
+    const { completionRecord: _completionRecord, legacyCompleted: _legacyCompleted, ...legacyShape } = legacy
+    localStorage.setItem(GRADE5_PROGRESS_KEY, JSON.stringify({ 'divisor-001': legacyShape }))
+
+    const loaded = loadConceptProgress('divisor-001')
+
+    expect(loaded).not.toBeNull()
+    expect(projectConceptProgressCompletion(loaded!)).toEqual({
+      hasCompletedBasicSet: false,
+      hasCompletedPracticeSet: false,
+      isComplete: true,
+      recommendedMode: 'basic',
+    })
   })
 
   it('preserves corrupt Grade 6 progress until explicit clear', () => {

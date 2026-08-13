@@ -57,7 +57,11 @@ export default function MissionProblemCard({
       </div>
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px]">
-        <Grade1MissionVisual mission={mission} emphasize={emphasizeVisual} />
+        <Grade1MissionVisual
+          mission={mission}
+          emphasize={emphasizeVisual || isCorrect}
+          showAnswer={isCorrect}
+        />
 
         <div className="space-y-4">
           <MascotGuide

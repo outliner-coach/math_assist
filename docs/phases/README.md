@@ -1,8 +1,8 @@
 # 프로덕션 업그레이드 3~6단계 실행 명세와 상태
 
-기준일: 2026-07-21
+기준일: 2026-08-01
 
-이 디렉터리는 `docs/math-assist-production-proposal.html`의 제품 방향을 현재 코드에서 실행 가능한 계약으로 나눈다. 상세 문서는 설계 당시의 승인 기준과 유지보수 계약을 보존하고, 이 README와 `docs/tracking/status.md`가 2026-07-21 구현·배포 상태를 요약한다.
+이 디렉터리는 `docs/math-assist-production-proposal.html`의 제품 방향을 현재 코드에서 실행 가능한 계약으로 나눈다. 상세 문서는 설계 당시의 승인 기준과 유지보수 계약을 보존하고, 이 README와 `docs/tracking/status.md`가 2026-08-01 작업트리와 별도의 실제 배포 경계를 요약한다.
 
 ## 문서 목록
 
@@ -11,8 +11,8 @@
 | 3 | 완료 | 공통 읽기 투영, 시도 영수증, 기존 키 어댑터가 현재 공개 대상 1~6학년에 연결됨 | [03-common-activity-and-progress.md](03-common-activity-and-progress.md) |
 | 4 | 완료 | 1~6학년 문제별 풀이 복구, clear, undo/redo, 세 학년군 경험 프리셋 연결 | [04-scratchpad-and-experience-presets.md](04-scratchpad-and-experience-presets.md) |
 | 5 | 비공개 기반 | 원격 merge·backup·mock transport·auth·동의 기반만 존재하며 flag는 `false` | [05-optional-remote-storage.md](05-optional-remote-storage.md) |
-| 6 | 배포 완료 | 4학년 큰 수 Bridge와 6학년 비와 비율 Study가 홈·이어하기에 연결되고 GitHub Pages에서 확인됨 | [06-grade4-grade6.md](06-grade4-grade6.md) |
-| 공통 | 통합 검증 완료 | 384/384 unit, validator·audit, 75-page build, 34/34 E2E 통과. 실제 배포와 원격 정책 blocker는 별도 유지 | [acceptance-gates.md](acceptance-gates.md) |
+| 6 | 작업트리 확장 완료·최종 검수 대기 | 4학년 15개 Bridge와 6학년 11개 Study가 기본·연습 홈 흐름에 연결됨. 현재 브랜치의 최종 편집 원장·배포는 별도 단계 | [06-grade4-grade6.md](06-grade4-grade6.md) |
+| 공통 | 콘텐츠 구조 통합 완료·최종 검수 대기 | 1,622개 원본, 121개 직접 연결, 학년 공통 완료 투영을 로컬 검증. 최신 편집 원장·시각 증거·전체 출시 게이트는 아직 남음 | [acceptance-gates.md](acceptance-gates.md) |
 
 ## 근거 우선순위
 
@@ -28,13 +28,13 @@
 
 ## 현재 기준선
 
-- **실제 배포 경계**: GitHub Pages 정적 사이트이고 공개 서버 API·계정·원격 저장이 없다. 커밋 `14a0904`, Pages 실행 `29792892987`과 새 브라우저 hydration으로 이번 변경의 실제 배포를 확인했다.
-- **작업트리 공개 대상**: 1·2·3·4·5·6학년이다. 4학년은 큰 수 Bridge, 6학년은 비와 비율 Study만 `released`이고 나머지 배정 기준은 `planned`다.
+- **실제 배포 경계**: GitHub Pages 정적 사이트이고 공개 서버 API·계정·원격 저장이 없다. 현재 `main`의 배포 확인점은 커밋 `b004f31`이다. 이 문서의 2026-08-01 작업트리 확장은 아직 배포하지 않았다.
+- **작업트리 공개 대상**: 1·2·3·4·5·6학년이다. 121개 공식 성취기준과 1,622개 원본이 모두 공개 문제에 직접 연결되어 있고, 1~4학년 기본·연습과 5~6학년 기본 5·집중 10 선택이 연결돼 있다.
 - **공통 저장 경계**: 학년별 기존 형식을 read-only projection으로 모으고 새 유효 확인만 append-only `AttemptReceipt`에 추가한다. 기존 학년별 진도는 계속 권위 있는 원장이다.
 - **풀이장**: normalized vector command, 문제별 local repository, 펜·지우개·clear·undo·redo와 `play / bridge / study` 프리셋이 1·2·3·4·5·6학년에 연결되어 있다.
 - **원격 기반**: merge·rollback backup·mock transport·auth·one-time recovery·동의 provisioning 코드가 있으나 production flag는 `false`이고 provider·공개 route·UI가 없다.
-- **6학년 Study**: `[6수02-02/03]` 범위의 unit·concept·A/B/C 30개 독립 문제군, 실제 정량 표, 5/10문제, 격리 저장과 손상 복구가 연결됐다. 원장이 없거나 정확히 `released`가 아니면 직접 경로는 계속 fail-closed한다.
-- **추가 안전 경계**: 숫자 형식 오류 분리가 완료됐고 템플릿 산술의 `eval`은 제한된 parser로 교체됐다. 5학년 청사진은 의미 오류 9개를 함께 수정해 660/660이다.
+- **6학년 Study**: 11개 단원·개념, A/B/C 330개 원본, 기본 5/집중 10문제, 격리 저장과 손상 복구가 연결됐다. 원장이 없거나 정확히 `released`가 아니면 직접 경로는 계속 fail-closed한다.
+- **추가 안전 경계**: 숫자 형식 오류 분리가 완료됐고 템플릿 산술의 `eval`은 제한된 parser로 교체됐다. 5·6학년 템플릿 metadata 1,110개와 1~4학년 미션 metadata는 실제 문제 의미에서 검증한다.
 
 ## 의존성 그래프
 

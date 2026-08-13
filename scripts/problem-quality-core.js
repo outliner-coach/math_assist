@@ -415,6 +415,19 @@ const PROBLEM_REPRESENTATIONS = new Set([
 const CONTEXT_TYPES = new Set(['pure_math', 'real_world', 'puzzle'])
 const READING_LOADS = new Set(['low', 'medium', 'high'])
 const VISUAL_SEMANTICS = new Set(['decorative', 'schematic', 'quantitative'])
+const TASK_ACTIONS = new Set([
+  'recognize',
+  'classify',
+  'compare',
+  'calculate',
+  'measure',
+  'construct',
+  'model',
+  'interpret',
+  'explain',
+  'analyze_error',
+  'reason',
+])
 
 function blueprintIssue(code, message) {
   return { code, message }
@@ -506,6 +519,21 @@ function inspectProblemBlueprintMeta(template) {
     issues.push(blueprintIssue(
       'invalid_reading_load',
       `readingLoad must be one of ${Array.from(READING_LOADS).join(', ')}`
+    ))
+  }
+  const taskActions = template.taskActions ?? blueprint.taskActions
+  if (!Array.isArray(taskActions) || taskActions.length === 0) {
+    issues.push(blueprintIssue(
+      'missing_task_actions',
+      'taskActions must contain at least one explicit reviewed action'
+    ))
+  } else if (
+    taskActions.some(value => !TASK_ACTIONS.has(value)) ||
+    new Set(taskActions).size !== taskActions.length
+  ) {
+    issues.push(blueprintIssue(
+      'invalid_task_actions',
+      `taskActions must be unique values from ${Array.from(TASK_ACTIONS).join(', ')}`
     ))
   }
 
@@ -778,6 +806,7 @@ function calculateDifficultySignal(template, answerSamples) {
     : 0
   const hasStoryContext = /몇 명|나누어 주려면|묶음|버스|초마다|깜빡|케이크|남은 양|색칠한 부분/.test(prompt)
   const hasReverseGeometry = /넓이가|둘레가|높이는|가로는|세로는|아랫변|표시되지 않은|두 길이|차이는|출입구|잘라냈|맞은편 면 쌍/.test(prompt)
+  const hasTwoSidedRange = /(?:이상|초과).*(?:이하|미만)/.test(prompt)
 
   return round(
     functionCount * 1.2 +
@@ -794,6 +823,7 @@ function calculateDifficultySignal(template, answerSamples) {
     (/최대공약수|최소공배수|공약수|공배수/.test(prompt) ? 0.7 : 0) +
     (/둘레|넓이|합동|대칭|직육면체|전개도|대응/.test(prompt) ? 0.8 : 0) +
     (hasReverseGeometry ? 2.1 : 0) +
+    (hasTwoSidedRange ? 1.3 : 0) +
     (hasStoryContext ? 0.65 : 0)
   )
 }
@@ -803,9 +833,20 @@ function analyzeRenderedPromptQuality(template, prompt) {
   const fractionVisible = /\\frac|\d+\s*\/\s*\d+/.test(prompt)
   const isFractionConcept = /^(simplify|commonden|fracadd|fracsub|fracmul)-/.test(template.concept_id)
   const usesFractionMath = /(reduceFrac|convertNum|commonDen|fracAdd|fracSub|fracMul)/.test(template.solver_rule)
+  const naturalDivisionQuotient = template.blueprint?.primaryStandard === '[6수01-10]'
+  const decimalToFractionConversion = (
+    template.blueprint?.primaryStandard === '[6수01-12]' &&
+    /\d+\.\d+/.test(prompt) &&
+    /분수/.test(prompt)
+  )
   const referencesOrderedOperands = /(첫 번째|두 번째)/.test(prompt) && /(분자|분수|항)/.test(prompt)
 
-  if ((isFractionConcept || usesFractionMath) && !fractionVisible) {
+  if (
+    (isFractionConcept || usesFractionMath) &&
+    !fractionVisible &&
+    !naturalDivisionQuotient &&
+    !decimalToFractionConversion
+  ) {
     warnings.push({
       code: 'fraction_operands_hidden',
       message: '분수 관련 문제인데 prompt에 실제 분수가 드러나지 않습니다.'
@@ -1158,6 +1199,12 @@ function loadProblemGenerator() {
   const mathPath = path.join(ROOT_DIR, 'src', 'lib', 'math.ts')
   const arithmeticExpressionPath = path.join(ROOT_DIR, 'src', 'lib', 'arithmetic-expression.ts')
   const generatorPath = path.join(ROOT_DIR, 'src', 'lib', 'problem-generator.ts')
+  const koreanNumericParticlesPath = path.join(
+    ROOT_DIR,
+    'src',
+    'lib',
+    'korean-numeric-particles.ts',
+  )
   const overlapModelPath = path.join(ROOT_DIR, 'src', 'lib', 'three-shape-overlap.ts')
 
   const mathCode = ts.transpileModule(
@@ -1176,9 +1223,17 @@ function loadProblemGenerator() {
     fs.readFileSync(overlapModelPath, 'utf8'),
     { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }
   ).outputText
+  const koreanNumericParticlesCode = ts.transpileModule(
+    fs.readFileSync(koreanNumericParticlesPath, 'utf8'),
+    { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }
+  ).outputText
 
   fs.writeFileSync(path.join(tempDir, 'math.js'), mathCode)
   fs.writeFileSync(path.join(tempDir, 'arithmetic-expression.js'), arithmeticExpressionCode)
+  fs.writeFileSync(
+    path.join(tempDir, 'korean-numeric-particles.js'),
+    koreanNumericParticlesCode,
+  )
   fs.writeFileSync(path.join(tempDir, 'types.js'), 'module.exports = {}')
   fs.writeFileSync(path.join(tempDir, 'three-shape-overlap.js'), overlapModelCode)
   fs.writeFileSync(path.join(tempDir, 'problem-generator.js'), generatorCode)
@@ -1230,7 +1285,6 @@ function generateProblemQualityReport(options = {}) {
   const validation = validateTemplates({ sampleCount })
   const errors = [...validation.errors]
   const warnings = []
-  const coverageRecommendations = []
   const conceptMap = loadConceptMap()
   const catalog = loadTemplateCatalog()
   const allTemplates = catalog.flatMap(entry =>
@@ -1258,7 +1312,7 @@ function generateProblemQualityReport(options = {}) {
     }
 
     for (const code of conceptCoverage.targetGaps) {
-      coverageRecommendations.push(createIssue('recommendation', code, {
+      warnings.push(createIssue('warning', code, {
         file: null,
         templateId: null,
         conceptId: conceptCoverage.conceptId,
@@ -1435,7 +1489,6 @@ function generateProblemQualityReport(options = {}) {
     },
     errors,
     warnings,
-    coverageRecommendations,
     blueprintCoverage,
     conceptSummaries
   }

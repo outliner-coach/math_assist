@@ -6,8 +6,9 @@ import GameMap from './GameMap'
 import MissionProblemCard from './MissionProblemCard'
 import RewardCollection from './RewardCollection'
 import RewardReveal from './RewardReveal'
+import Grade1MissionVisual from './Grade1MissionVisual'
 import { createInitialGrade1Progress, recordGrade1Attempt } from '@/lib/grade1-progress'
-import { getGrade1Missions, getSafeGrade1Mission } from '@/lib/grade1-problems'
+import { getGrade1MissionById, getGrade1Missions, getSafeGrade1Mission } from '@/lib/grade1-problems'
 
 describe('grade 1 game components', () => {
   it('renders a child-friendly map with stage states', () => {
@@ -32,6 +33,11 @@ describe('grade 1 game components', () => {
     expect(html).toContain('수 세기 만')
     expect(html).toContain('순서 다리')
     expect(html).toContain('오늘 추천')
+    expect(html).toContain('기본 7문제 · 먼저 추천')
+    expect(html).toContain('연습 7문제 · 완주하면 섬 완료')
+    expect(html).toContain('data-testid="grade1-basic-count-cove"')
+    expect(html).toContain('data-testid="grade1-practice-count-cove"')
+    expect(html).not.toContain('disabled=""')
     expect(html).toContain('/assets/grade1/map/adventure-map.png')
   })
 
@@ -54,6 +60,32 @@ describe('grade 1 game components', () => {
     expect(html).toContain('위 줄에는 5개')
     expect(html).toContain('grade1-choice-7')
     expect(html).toContain('/assets/grade1/objects/apple.png')
+  })
+
+  it('does not expose a clock answer or target highlight before success', () => {
+    const clockMission = getGrade1MissionById('clock-tower-01', 42)
+    const hiddenClock = renderToStaticMarkup(
+      createElement(Grade1MissionVisual, { mission: clockMission })
+    )
+    const comparisonMission = getGrade1MissionById('order-bridge-01', 42)
+    const hiddenComparison = renderToStaticMarkup(
+      createElement(Grade1MissionVisual, { mission: comparisonMission, emphasize: true })
+    )
+
+    expect(hiddenClock).toContain('aria-label="시각을 읽는 아날로그 시계"')
+    expect(hiddenClock).not.toContain(`${clockMission.correctAnswer} 시계`)
+    expect(hiddenComparison).not.toContain('border-[#58cc02]')
+  })
+
+  it('uses the source-owned 10-column structure for the two 20-slot counting missions', () => {
+    for (const missionId of ['count-cove-04', 'count-cove-09']) {
+      const mission = getGrade1MissionById(missionId, 42)
+      const html = renderToStaticMarkup(createElement(Grade1MissionVisual, { mission }))
+
+      expect(mission.visualConfig.columns).toBe(10)
+      expect(html).toContain('grid-template-columns:repeat(10, minmax(0, 1fr))')
+      expect(html.match(/data-testid="grade1-counting-slot"/g)).toHaveLength(20)
+    }
   })
 
   it('keeps the reward reveal hidden until the mission is solved', () => {

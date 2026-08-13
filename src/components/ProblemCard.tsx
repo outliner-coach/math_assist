@@ -87,7 +87,7 @@ export default function ProblemCard({
           {problem.visual && (
             isProblemVisual(problem.visual) ? (
               <div className="mb-8">
-                <ProblemDiagram visual={problem.visual} />
+                <ProblemDiagram visual={problem.visual} showAnswer={checked} />
               </div>
             ) : (
               <GeometryProblemVisual visual={problem.visual} showAnswer={checked} />

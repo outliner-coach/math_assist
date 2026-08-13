@@ -1,6 +1,9 @@
 'use client'
 
+import React from 'react'
 import type { VisualAid as VisualAidType } from '@/lib/types'
+import GeometryProblemVisual from './GeometryProblemVisual'
+import ProblemDiagram from './ProblemDiagram'
 
 interface VisualAidProps {
   aid: VisualAidType
@@ -121,6 +124,20 @@ export default function VisualAid({ aid }: VisualAidProps) {
         </div>
       )
     }
+    case 'poly-solid':
+    case 'prism-net':
+    case 'round-solid':
+    case 'cylinder-net':
+    case 'cube-stack':
+    case 'circle-measurement':
+    case 'cuboid':
+      return <GeometryProblemVisual visual={aid} />
+    case 'ratio_graph':
+    case 'number_range':
+    case 'fraction_comparison':
+    case 'area_unit_square':
+    case 'possibility_trials':
+      return <ProblemDiagram visual={aid} />
     default:
       return null
   }

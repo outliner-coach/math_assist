@@ -2,30 +2,26 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   buildSessionResult,
   createRetrySessionFromResult,
-  GRADE5_APPLICATION_RECOVERY_EVIDENCE_KEY,
   GRADE5_RESULT_KEY,
   GRADE5_SESSION_KEY,
   GRADE6_RESULT_KEY,
   GRADE6_SESSION_KEY,
-  GRADE6_APPLICATION_RECOVERY_EVIDENCE_KEY,
   getResultStorageStatus,
   getSessionStorageStatus,
   loadResult,
   loadSession,
   markAnswerChecked,
   matchesSessionRequest,
-  persistRecoveredPracticeSession,
   resetGrade6ResultStorage,
   resetGrade6SessionStorage,
   resetGrade5ResultStorage,
   resetGrade5SessionStorage,
+  resolvePracticeItemCount,
   saveResult,
   saveSession,
   updateAnswer
 } from './session'
 import type { PracticeSession, Problem, SessionResult, SubmissionResult } from './types'
-import { adaptGeneratedApplicationProblemToPractice } from './application-problems/template-adapter'
-import { generateG6RatioPartWhole } from './application-problems/families/g6-ratio'
 
 function makeProblem(index: number): Problem {
   return {
@@ -40,6 +36,10 @@ function makeProblem(index: number): Problem {
   }
 }
 
+function makeProblems(count: number): Problem[] {
+  return Array.from({ length: count }, (_, index) => makeProblem(index))
+}
+
 function makeSubmissionResult(problem: Problem, correct: boolean): SubmissionResult {
   return {
     index: problem.index,
@@ -52,21 +52,17 @@ function makeSubmissionResult(problem: Problem, correct: boolean): SubmissionRes
 }
 
 function makeResult(overrides: Partial<SessionResult> = {}): SessionResult {
-  const itemCount = overrides.itemCount ?? 10
-  const results = overrides.results ?? Array.from(
-    { length: itemCount },
-    (_, index) => makeSubmissionResult(makeProblem(index), index === 0),
-  )
-  const score = results.filter((result) => result.correct).length
+  const problems = makeProblems(overrides.itemCount ?? 3)
+  const results = problems.map((problem, index) => makeSubmissionResult(problem, index === 0))
 
   return {
     sessionId: 'session-1',
     conceptId: 'divisor-001',
     setId: 'A',
     mode: 'standard',
-    score,
+    score: 1,
     total: results.length,
-    wrongCount: results.length - score,
+    wrongCount: results.length - 1,
     completedAt: 100,
     results,
     ...overrides,
@@ -86,12 +82,12 @@ describe('session helpers', () => {
       setId: 'A',
       mode: 'retry-wrong',
       sourceResultId: 'session-1',
-      sourceProblemIndexes: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      sourceProblemIndexes: [1, 2],
       currentIndex: 0
     })
-    expect(retrySession?.problems).toHaveLength(9)
-    expect(retrySession?.answers).toEqual(Array(9).fill(null))
-    expect(retrySession?.checkedAnswers).toEqual(Array(9).fill(null))
+    expect(retrySession?.problems).toHaveLength(2)
+    expect(retrySession?.answers).toEqual([null, null])
+    expect(retrySession?.checkedAnswers).toEqual([null, null])
   })
 
   it('locks an answer after immediate grading', () => {
@@ -99,7 +95,7 @@ describe('session helpers', () => {
     const answered = updateAnswer(session, 0, '2')
     const checked = markAnswerChecked(answered, 0, true)
 
-    expect(checked.checkedAnswers).toEqual([true, ...Array(8).fill(null)])
+    expect(checked.checkedAnswers).toEqual([true, null])
     expect(updateAnswer(checked, 0, '999999')).toBe(checked)
     expect(markAnswerChecked(checked, 0, false)).toBe(checked)
   })
@@ -173,7 +169,7 @@ describe('session helpers', () => {
       conceptId: 'divisor-001',
       setId: 'A',
       mode: 'standard',
-      problems: Array.from({ length: 10 }, (_, index) => makeProblem(index)),
+      problems: makeProblems(10),
       answers: Array(10).fill(null),
       checkedAnswers: Array(10).fill(null),
       currentIndex: 0,
@@ -192,28 +188,15 @@ describe('session helpers', () => {
       grade: 6,
       itemCount: 5,
       problems: legacyGrade5.problems.slice(0, 5),
-      answers: legacyGrade5.answers.slice(0, 5),
-      checkedAnswers: legacyGrade5.checkedAnswers.slice(0, 5),
+      answers: Array(5).fill(null),
+      checkedAnswers: Array(5).fill(null),
     })
     expect(data.get(GRADE5_SESSION_KEY)).toContain('legacy-5')
     expect(data.get(GRADE6_SESSION_KEY)).toContain('grade-6')
     expect(loadSession(6)).toMatchObject({ sessionId: 'grade-6', grade: 6, itemCount: 5 })
   })
 
-  it('round-trips the complete application snapshot while legacy source-less problems stay readable', () => {
-    const generated = generateG6RatioPartWhole({ seed: 7, variantIndex: 1 })
-    const applicationProblem = adaptGeneratedApplicationProblemToPractice({
-      problem: generated,
-      placement: {
-        index: 0,
-        templateId: 'application-g6-ratio-part-whole-v1',
-        setId: 'A',
-        difficulty: 2,
-      },
-      mapParams: (params) => Object.fromEntries(
-        Object.entries(params).filter((entry): entry is [string, number] => typeof entry[1] === 'number'),
-      ),
-    })
+  it('keeps saving a legacy Grade 5 session after normalized item count is added', () => {
     const data = new Map<string, string>()
     const storage = {
       getItem: (key: string) => data.get(key) ?? null,
@@ -222,237 +205,32 @@ describe('session helpers', () => {
     }
     vi.stubGlobal('window', {})
     vi.stubGlobal('localStorage', storage)
-    const session: PracticeSession = {
-      sessionId: 'grade6-application-session',
-      conceptId: 'g6ratio-001',
+
+    const legacyGrade5: PracticeSession = {
+      sessionId: 'legacy-5-writeback',
+      conceptId: 'divisor-001',
       setId: 'A',
       mode: 'standard',
-      grade: 6,
-      itemCount: 5,
-      problems: [applicationProblem, ...Array.from({ length: 4 }, (_, index) => makeProblem(index + 1))],
-      answers: Array(5).fill(null),
-      checkedAnswers: Array(5).fill(null),
-      applicationProblemReplacementArchive: [{
-        problemIndex: applicationProblem.index,
-        originalInstanceId: applicationProblem.applicationSource.instanceId,
-        replacementInstanceId: 'g6-ratio-part-whole@2:99:0',
-        originalProblem: applicationProblem,
-      }],
+      problems: makeProblems(10),
+      answers: Array(10).fill(null),
+      checkedAnswers: Array(10).fill(null),
       currentIndex: 0,
-      startedAt: 100,
+      startedAt: Date.now(),
       expiresAt: Date.now() + 10_000,
     }
+    data.set(GRADE5_SESSION_KEY, JSON.stringify(legacyGrade5))
 
-    expect(saveSession(session)).toBe(true)
-    const regenerated = adaptGeneratedApplicationProblemToPractice({
-      problem: generateG6RatioPartWhole({ seed: 8, variantIndex: 2 }),
-      placement: {
-        index: 0,
-        templateId: 'application-g6-ratio-part-whole-v1',
-        setId: 'A',
-        difficulty: 2,
-      },
-      mapParams: (params) => Object.fromEntries(
-        Object.entries(params).filter((entry): entry is [string, number] => typeof entry[1] === 'number'),
-      ),
+    const loaded = loadSession(5)!
+    expect(loaded).toMatchObject({ grade: undefined, itemCount: 10 })
+    const answers = ['1', ...Array(9).fill(null)]
+    const checkedAnswers = [true, ...Array(9).fill(null)]
+    expect(saveSession({ ...loaded, answers })).toBe(true)
+    expect(saveSession({ ...loaded, answers, checkedAnswers })).toBe(true)
+    expect(JSON.parse(data.get(GRADE5_SESSION_KEY) ?? '{}')).toMatchObject({
+      itemCount: 10,
+      answers,
+      checkedAnswers,
     })
-    const loaded = loadSession(6)!
-    expect(loaded.problems[0]).toEqual(applicationProblem)
-    expect(loaded.problems[0]).not.toEqual(regenerated)
-    expect(loaded.problems[0]).toHaveProperty('applicationParams')
-    expect(loaded.problems[0]).toHaveProperty('applicationVisual')
-    expect(loaded.problems[1]).toEqual(makeProblem(1))
-    expect(loaded.problems[1]).not.toHaveProperty('applicationSource')
-    expect(loaded.applicationProblemReplacementArchive).toEqual(
-      session.applicationProblemReplacementArchive,
-    )
-
-    const retry = createRetrySessionFromResult(makeResult({
-      conceptId: 'g6ratio-001',
-      grade: 6,
-      itemCount: 5,
-      results: [makeSubmissionResult(applicationProblem, false)],
-    }), 500)!
-    expect(retry.problems[0]).toEqual(applicationProblem)
-  })
-
-  it('persists an application replacement only when the stored session is still the loaded original', () => {
-    const generated = generateG6RatioPartWhole({ seed: 7, variantIndex: 1 })
-    const originalProblem = adaptGeneratedApplicationProblemToPractice({
-      problem: generated,
-      placement: {
-        index: 0,
-        templateId: 'application-g6-ratio-part-whole-v1',
-        setId: 'A',
-        difficulty: 2,
-      },
-      mapParams: (params) => Object.fromEntries(
-        Object.entries(params).filter(
-          (entry): entry is [string, number] => typeof entry[1] === 'number',
-        ),
-      ),
-    })
-    const original: PracticeSession = {
-      sessionId: 'grade6-atomic-application-recovery',
-      conceptId: 'g6ratio-001',
-      setId: 'A',
-      mode: 'standard',
-      grade: 6,
-      itemCount: 5,
-      problems: [originalProblem, ...Array.from({ length: 4 }, (_, index) => makeProblem(index + 1))],
-      answers: ['0', null, null, null, null],
-      checkedAnswers: [false, null, null, null, null],
-      currentIndex: 0,
-      startedAt: 100,
-      expiresAt: Date.now() + 10_000,
-    }
-    const replacement = structuredClone(originalProblem)
-    replacement.applicationSource = {
-      ...replacement.applicationSource,
-      instanceId: 'g6-ratio-part-whole@2:99:0',
-      generatorVersion: 2,
-    }
-    const recovered: PracticeSession = {
-      ...original,
-      problems: [replacement, ...original.problems.slice(1)],
-      answers: Array(5).fill(null),
-      checkedAnswers: Array(5).fill(null),
-      applicationProblemReplacementArchive: [{
-        problemIndex: originalProblem.index,
-        originalInstanceId: originalProblem.applicationSource.instanceId,
-        replacementInstanceId: replacement.applicationSource.instanceId,
-        originalProblem,
-      }],
-    }
-    const originalRaw = JSON.stringify(original)
-    const data = new Map<string, string>([[GRADE6_SESSION_KEY, originalRaw]])
-    const storage = {
-      getItem: (key: string) => data.get(key) ?? null,
-      setItem: (key: string, value: string) => data.set(key, value),
-      removeItem: (key: string) => data.delete(key),
-    }
-    vi.stubGlobal('window', {})
-    vi.stubGlobal('localStorage', storage)
-
-    const loaded = loadSession(6)!
-    const concurrentRaw = JSON.stringify({ ...original, sessionId: 'newer-session' })
-    data.set(GRADE6_SESSION_KEY, concurrentRaw)
-    expect(persistRecoveredPracticeSession(loaded, recovered)).toBe(false)
-    expect(data.get(GRADE6_SESSION_KEY)).toBe(concurrentRaw)
-
-    data.set(GRADE6_SESSION_KEY, originalRaw)
-    expect(persistRecoveredPracticeSession(loaded, recovered)).toBe(true)
-    expect(JSON.parse(data.get(GRADE6_SESSION_KEY) ?? 'null')).toEqual(recovered)
-    expect(JSON.parse(data.get(GRADE6_APPLICATION_RECOVERY_EVIDENCE_KEY) ?? 'null'))
-      .toEqual([expect.objectContaining({
-        schemaVersion: 'application-problem-recovery-evidence-v1',
-        evidenceId: `${original.sessionId}:1`,
-        sessionId: original.sessionId,
-        grade: 6,
-        itemCount: 5,
-        replacements: recovered.applicationProblemReplacementArchive,
-      })])
-  })
-
-  it('does not replace an application session when its durable recovery evidence is corrupt', () => {
-    const generated = generateG6RatioPartWhole({ seed: 7, variantIndex: 1 })
-    const originalProblem = adaptGeneratedApplicationProblemToPractice({
-      problem: generated,
-      placement: {
-        index: 0,
-        templateId: 'application-g6-ratio-part-whole-v1',
-        setId: 'A',
-        difficulty: 2,
-      },
-      mapParams: (params) => Object.fromEntries(
-        Object.entries(params).filter(
-          (entry): entry is [string, number] => typeof entry[1] === 'number',
-        ),
-      ),
-    })
-    const original: PracticeSession = {
-      sessionId: 'grade6-corrupt-durable-evidence',
-      conceptId: 'g6ratio-001',
-      setId: 'A',
-      mode: 'standard',
-      grade: 6,
-      itemCount: 5,
-      problems: [originalProblem, ...Array.from({ length: 4 }, (_, index) => makeProblem(index + 1))],
-      answers: ['0', null, null, null, null],
-      checkedAnswers: [false, null, null, null, null],
-      currentIndex: 0,
-      startedAt: 100,
-      expiresAt: Date.now() + 10_000,
-    }
-    const replacement = structuredClone(originalProblem)
-    replacement.applicationSource = {
-      ...replacement.applicationSource,
-      instanceId: 'g6-ratio-part-whole@2:99:0',
-      generatorVersion: 2,
-    }
-    const recovered: PracticeSession = {
-      ...original,
-      problems: [replacement, ...original.problems.slice(1)],
-      answers: Array(5).fill(null),
-      checkedAnswers: Array(5).fill(null),
-      applicationProblemReplacementArchive: [{
-        problemIndex: originalProblem.index,
-        originalInstanceId: originalProblem.applicationSource.instanceId,
-        replacementInstanceId: replacement.applicationSource.instanceId,
-        originalProblem,
-      }],
-    }
-    const originalRaw = JSON.stringify(original)
-    const data = new Map<string, string>([
-      [GRADE6_SESSION_KEY, originalRaw],
-      [GRADE6_APPLICATION_RECOVERY_EVIDENCE_KEY, '{corrupt-evidence'],
-    ])
-    const storage = {
-      getItem: (key: string) => data.get(key) ?? null,
-      setItem: (key: string, value: string) => data.set(key, value),
-      removeItem: (key: string) => data.delete(key),
-    }
-    vi.stubGlobal('window', {})
-    vi.stubGlobal('localStorage', storage)
-
-    expect(persistRecoveredPracticeSession(original, recovered)).toBe(false)
-    expect(data.get(GRADE6_SESSION_KEY)).toBe(originalRaw)
-    expect(data.get(GRADE6_APPLICATION_RECOVERY_EVIDENCE_KEY)).toBe('{corrupt-evidence')
-    expect(data.has(GRADE5_APPLICATION_RECOVERY_EVIDENCE_KEY)).toBe(false)
-  })
-
-  it('treats a malformed application replacement archive as corrupt without overwriting it', () => {
-    const base: PracticeSession = {
-      sessionId: 'grade6-malformed-replacement-archive',
-      conceptId: 'g6ratio-001',
-      setId: 'A',
-      mode: 'standard',
-      grade: 6,
-      itemCount: 5,
-      problems: Array.from({ length: 5 }, (_, index) => makeProblem(index)),
-      answers: Array(5).fill(null),
-      checkedAnswers: Array(5).fill(null),
-      currentIndex: 0,
-      startedAt: 100,
-      expiresAt: Date.now() + 10_000,
-    }
-    const raw = JSON.stringify({
-      ...base,
-      applicationProblemReplacementArchive: [{ originalInstanceId: 123 }],
-    })
-    const data = new Map<string, string>([[GRADE6_SESSION_KEY, raw]])
-    const storage = {
-      getItem: (key: string) => data.get(key) ?? null,
-      setItem: (key: string, value: string) => data.set(key, value),
-      removeItem: (key: string) => data.delete(key),
-    }
-    vi.stubGlobal('window', {})
-    vi.stubGlobal('localStorage', storage)
-
-    expect(getSessionStorageStatus(6)).toBe('corrupt')
-    expect(loadSession(6)).toBeNull()
-    expect(saveSession(base)).toBe(false)
-    expect(data.get(GRADE6_SESSION_KEY)).toBe(raw)
   })
 
   it('preserves Grade 6 grade and requested count through retry and results', () => {
@@ -482,6 +260,67 @@ describe('session helpers', () => {
     })).toBe(false)
   })
 
+  it('resolves missing or invalid link counts to the legacy-safe grade defaults', () => {
+    expect(resolvePracticeItemCount(undefined, 5)).toBe(10)
+    expect(resolvePracticeItemCount('5', 5)).toBe(10)
+    expect(resolvePracticeItemCount(7, 5)).toBe(10)
+    expect(resolvePracticeItemCount(undefined, 6)).toBe(5)
+    expect(resolvePracticeItemCount('10', 6)).toBe(5)
+    expect(resolvePracticeItemCount(7, 6)).toBe(5)
+  })
+
+  it.each([5, 10] as const)('preserves an explicit Grade 5 %i-item request through storage, retry, and results', (itemCount) => {
+    const data = new Map<string, string>()
+    const storage = {
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => data.set(key, value),
+      removeItem: (key: string) => data.delete(key),
+    }
+    vi.stubGlobal('window', {})
+    vi.stubGlobal('localStorage', storage)
+    const problems = makeProblems(itemCount)
+    const session: PracticeSession = {
+      sessionId: `grade5-${itemCount}`,
+      conceptId: 'divisor-001',
+      setId: 'A',
+      mode: 'standard',
+      grade: 5,
+      itemCount,
+      problems,
+      answers: problems.map((problem, index) => index === 0 ? problem.correctAnswer : 'wrong'),
+      checkedAnswers: problems.map((_, index) => index === 0),
+      currentIndex: itemCount - 1,
+      startedAt: Date.now(),
+      expiresAt: Date.now() + 10_000,
+    }
+
+    expect(saveSession(session)).toBe(true)
+    expect(loadSession(5)).toMatchObject({ grade: 5, itemCount })
+    expect(matchesSessionRequest(session, {
+      conceptId: 'divisor-001',
+      setId: 'A',
+      mode: 'standard',
+      grade: 5,
+      itemCount,
+    })).toBe(true)
+    expect(matchesSessionRequest(session, {
+      conceptId: 'divisor-001',
+      setId: 'A',
+      mode: 'standard',
+      grade: 5,
+      itemCount: itemCount === 5 ? 10 : 5,
+    })).toBe(false)
+
+    const built = buildSessionResult(
+      session,
+      problems.map((problem, index) => makeSubmissionResult(problem, index === 0)),
+      500,
+    )
+    const retry = createRetrySessionFromResult(built, 600)
+    expect(built).toMatchObject({ grade: 5, itemCount })
+    expect(retry).toMatchObject({ grade: 5, itemCount })
+  })
+
   it('preserves corrupt Grade 6 session and result bytes until an explicit reset', () => {
     const data = new Map<string, string>([
       [GRADE6_SESSION_KEY, '{corrupt-session'],
@@ -501,7 +340,7 @@ describe('session helpers', () => {
       mode: 'standard',
       grade: 6,
       itemCount: 5,
-      problems: Array.from({ length: 5 }, (_, index) => makeProblem(index)),
+      problems: makeProblems(5),
       answers: Array(5).fill(null),
       checkedAnswers: Array(5).fill(null),
       currentIndex: 0,
@@ -548,7 +387,7 @@ describe('session helpers', () => {
       conceptId: 'divisor-001',
       setId: 'A',
       mode: 'standard',
-      problems: Array.from({ length: 10 }, (_, index) => makeProblem(index)),
+      problems: makeProblems(10),
       answers: Array(10).fill(null),
       checkedAnswers: Array(10).fill(null),
       currentIndex: 0,
@@ -571,31 +410,36 @@ describe('session helpers', () => {
     expect(data.has(GRADE5_SESSION_KEY)).toBe(false)
   })
 
-  it('quarantines explicit non-Grade-5 identity instead of normalizing it as legacy Grade 5', () => {
-    const foreignSession = {
-      sessionId: 'foreign-grade-session',
+  it('preserves schema-invalid Grade 5 item counts without changing Grade 6 storage', () => {
+    const now = Date.now()
+    const invalidSession = {
+      sessionId: 'invalid-grade5-count',
       conceptId: 'divisor-001',
       setId: 'A',
       mode: 'standard',
-      grade: 4,
-      itemCount: 5,
-      problems: Array.from({ length: 5 }, (_, index) => makeProblem(index)),
-      answers: Array(5).fill(null),
-      checkedAnswers: Array(5).fill(null),
+      grade: 5,
+      itemCount: 7,
+      problems: [makeProblem(0)],
+      answers: [null],
+      checkedAnswers: [null],
       currentIndex: 0,
-      startedAt: Date.now(),
-      expiresAt: Date.now() + 10_000,
+      startedAt: now,
+      expiresAt: now + 10_000,
     }
-    const foreignResult = {
-      ...makeResult(),
-      grade: 4,
+    const invalidResult = {
+      ...makeResult({ grade: 5 }),
+      itemCount: 7,
+    }
+    const grade6Raw = JSON.stringify({
+      sessionId: 'grade6-safe',
+      conceptId: 'g6ratio-001',
+      grade: 6,
       itemCount: 5,
-    }
-    const sessionRaw = JSON.stringify(foreignSession)
-    const resultRaw = JSON.stringify(foreignResult)
+    })
     const data = new Map<string, string>([
-      [GRADE5_SESSION_KEY, sessionRaw],
-      [GRADE5_RESULT_KEY, resultRaw],
+      [GRADE5_SESSION_KEY, JSON.stringify(invalidSession)],
+      [GRADE5_RESULT_KEY, JSON.stringify(invalidResult)],
+      [GRADE6_SESSION_KEY, grade6Raw],
     ])
     const storage = {
       getItem: (key: string) => data.get(key) ?? null,
@@ -609,186 +453,9 @@ describe('session helpers', () => {
     expect(getResultStorageStatus(5)).toBe('corrupt')
     expect(loadSession(5)).toBeNull()
     expect(loadResult(5)).toBeNull()
-    expect(data.get(GRADE5_SESSION_KEY)).toBe(sessionRaw)
-    expect(data.get(GRADE5_RESULT_KEY)).toBe(resultRaw)
-  })
-
-  it('quarantines malformed problem and result entries without deleting their raw bytes', () => {
-    const malformedSession = {
-      sessionId: 'grade6-malformed-problem-entry',
-      conceptId: 'g6ratio-001',
-      setId: 'A',
-      mode: 'standard',
-      grade: 6,
-      itemCount: 5,
-      problems: [null],
-      answers: [null],
-      checkedAnswers: [null],
-      currentIndex: 0,
-      startedAt: 100,
-      expiresAt: Date.now() + 10_000,
-    }
-    const malformedResult = {
-      sessionId: 'grade6-malformed-result-entry',
-      conceptId: 'g6ratio-001',
-      setId: 'A',
-      mode: 'standard',
-      grade: 6,
-      itemCount: 5,
-      score: 1,
-      total: 1,
-      wrongCount: 0,
-      results: [{
-        index: 0,
-        correct: true,
-        userAnswer: '1',
-        correctAnswer: '1',
-        solutionSteps: ['풀이'],
-        problem: null,
-      }],
-      completedAt: 100,
-    }
-    const sessionRaw = JSON.stringify(malformedSession)
-    const resultRaw = JSON.stringify(malformedResult)
-    const data = new Map<string, string>([
-      [GRADE6_SESSION_KEY, sessionRaw],
-      [GRADE6_RESULT_KEY, resultRaw],
-    ])
-    const storage = {
-      getItem: (key: string) => data.get(key) ?? null,
-      setItem: (key: string, value: string) => data.set(key, value),
-      removeItem: (key: string) => data.delete(key),
-    }
-    vi.stubGlobal('window', {})
-    vi.stubGlobal('localStorage', storage)
-
-    expect(getSessionStorageStatus(6)).toBe('corrupt')
-    expect(getResultStorageStatus(6)).toBe('corrupt')
-    expect(loadSession(6)).toBeNull()
-    expect(loadResult(6)).toBeNull()
-    expect(data.get(GRADE6_SESSION_KEY)).toBe(sessionRaw)
-    expect(data.get(GRADE6_RESULT_KEY)).toBe(resultRaw)
-  })
-
-  it('rejects incoherent session indexes and result totals', () => {
-    const session = {
-      sessionId: 'grade6-bad-index',
-      conceptId: 'g6ratio-001',
-      setId: 'A',
-      mode: 'standard',
-      grade: 6,
-      itemCount: 5,
-      problems: Array.from({ length: 5 }, (_, index) => makeProblem(index)),
-      answers: Array(5).fill(null),
-      checkedAnswers: Array(5).fill(null),
-      currentIndex: 5,
-      startedAt: 100,
-      expiresAt: Date.now() + 10_000,
-    }
-    const result = {
-      ...makeResult({ grade: 6, itemCount: 5, conceptId: 'g6ratio-001' }),
-      total: 99,
-    }
-    const data = new Map<string, string>([
-      [GRADE6_SESSION_KEY, JSON.stringify(session)],
-      [GRADE6_RESULT_KEY, JSON.stringify(result)],
-    ])
-    const storage = {
-      getItem: (key: string) => data.get(key) ?? null,
-      setItem: (key: string, value: string) => data.set(key, value),
-      removeItem: (key: string) => data.delete(key),
-    }
-    vi.stubGlobal('window', {})
-    vi.stubGlobal('localStorage', storage)
-
-    expect(getSessionStorageStatus(6)).toBe('corrupt')
-    expect(getResultStorageStatus(6)).toBe('corrupt')
-  })
-
-  it('rejects truncated standard snapshots but accepts bounded retry subsets', () => {
-    const truncatedSession = {
-      sessionId: 'grade6-truncated-standard',
-      conceptId: 'g6ratio-001',
-      setId: 'A',
-      mode: 'standard',
-      grade: 6,
-      itemCount: 5,
-      problems: [makeProblem(0)],
-      answers: [null],
-      checkedAnswers: [null],
-      currentIndex: 0,
-      startedAt: 100,
-      expiresAt: Date.now() + 10_000,
-    }
-    const truncatedResult = makeResult({
-      sessionId: 'grade6-truncated-standard',
-      conceptId: 'g6ratio-001',
-      grade: 6,
-      itemCount: 5,
-      results: [makeSubmissionResult(makeProblem(0), true)],
-    })
-    const sessionRaw = JSON.stringify(truncatedSession)
-    const resultRaw = JSON.stringify(truncatedResult)
-    const data = new Map<string, string>([
-      [GRADE6_SESSION_KEY, sessionRaw],
-      [GRADE6_RESULT_KEY, resultRaw],
-    ])
-    const storage = {
-      getItem: (key: string) => data.get(key) ?? null,
-      setItem: (key: string, value: string) => data.set(key, value),
-      removeItem: (key: string) => data.delete(key),
-    }
-    vi.stubGlobal('window', {})
-    vi.stubGlobal('localStorage', storage)
-
-    expect(getSessionStorageStatus(6)).toBe('corrupt')
-    expect(getResultStorageStatus(6)).toBe('corrupt')
-    expect(loadSession(6)).toBeNull()
-    expect(loadResult(6)).toBeNull()
-    expect(data.get(GRADE6_SESSION_KEY)).toBe(sessionRaw)
-    expect(data.get(GRADE6_RESULT_KEY)).toBe(resultRaw)
-
-    const retrySession: PracticeSession = {
-      sessionId: 'grade6-bounded-retry',
-      conceptId: 'g6ratio-001',
-      setId: 'A',
-      mode: 'retry-wrong',
-      grade: 6,
-      itemCount: 5,
-      sourceResultId: 'grade6-source',
-      sourceProblemIndexes: [1, 4],
-      problems: [makeProblem(1), makeProblem(4)],
-      answers: [null, null],
-      checkedAnswers: [null, null],
-      currentIndex: 0,
-      startedAt: 100,
-      expiresAt: Date.now() + 10_000,
-    }
-    const retryResults = [
-      { ...makeSubmissionResult(makeProblem(1), true), index: 0 },
-      { ...makeSubmissionResult(makeProblem(4), false), index: 1 },
-    ]
-    const retryResult = makeResult({
-      sessionId: retrySession.sessionId,
-      conceptId: retrySession.conceptId,
-      mode: 'retry-wrong',
-      grade: 6,
-      itemCount: 5,
-      results: retryResults,
-      score: 1,
-      total: 2,
-      wrongCount: 1,
-    })
-    data.set(GRADE6_SESSION_KEY, JSON.stringify(retrySession))
-    data.set(GRADE6_RESULT_KEY, JSON.stringify(retryResult))
-
-    expect(getSessionStorageStatus(6)).toBe('valid')
-    expect(getResultStorageStatus(6)).toBe('valid')
-
-    data.set(GRADE6_SESSION_KEY, JSON.stringify({
-      ...retrySession,
-      sourceProblemIndexes: [1, 3],
-    }))
-    expect(getSessionStorageStatus(6)).toBe('corrupt')
+    expect(saveSession({ ...invalidSession, itemCount: 5 } as PracticeSession)).toBe(false)
+    expect(data.get(GRADE5_SESSION_KEY)).toBe(JSON.stringify(invalidSession))
+    expect(data.get(GRADE5_RESULT_KEY)).toBe(JSON.stringify(invalidResult))
+    expect(data.get(GRADE6_SESSION_KEY)).toBe(grade6Raw)
   })
 })

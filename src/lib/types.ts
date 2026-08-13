@@ -74,6 +74,18 @@ export type ProblemRepresentation =
 export type ProblemContextType = 'pure_math' | 'real_world' | 'puzzle'
 export type ReadingLoad = 'low' | 'medium' | 'high'
 export type VisualSemantics = 'decorative' | 'schematic' | 'quantitative'
+export type ProblemTaskAction =
+  | 'recognize'
+  | 'classify'
+  | 'compare'
+  | 'calculate'
+  | 'measure'
+  | 'construct'
+  | 'model'
+  | 'interpret'
+  | 'explain'
+  | 'analyze_error'
+  | 'reason'
 
 /**
  * A reviewed content-design axis that is independent from numeric difficulty.
@@ -92,6 +104,7 @@ export interface ProblemBlueprintMeta {
   contextType: ProblemContextType
   estimatedSteps: number
   readingLoad: ReadingLoad
+  taskActions?: ProblemTaskAction[]
   visualSemantics?: VisualSemantics
 }
 
@@ -174,6 +187,71 @@ export type ProblemVisual =
         }>
       }
     }
+  | {
+      type: 'ratio_graph'
+      semantics: 'quantitative'
+      props: {
+        caption: string
+        kind: 'band' | 'circle'
+        segments: Array<{
+          label: string
+          percent: number
+        }>
+        maskedValueIndex?: number
+      }
+    }
+  | {
+      type: 'number_range'
+      semantics: 'quantitative'
+      props: {
+        caption: string
+        start: number
+        end: number
+        lower?: number
+        lowerInclusive?: boolean
+        upper?: number
+        upperInclusive?: boolean
+        unit?: string
+      }
+    }
+  | {
+      type: 'fraction_comparison'
+      semantics: 'quantitative'
+      props: {
+        caption: string
+        left: {
+          label: string
+          numerator: number
+          denominator: number
+        }
+        right: {
+          label: string
+          numerator: number
+          denominator: number
+        }
+      }
+    }
+  | {
+      type: 'area_unit_square'
+      semantics: 'quantitative'
+      props: {
+        caption: string
+        largerLengthUnit: 'm' | 'km'
+        smallerLengthUnit: 'cm' | 'm'
+      }
+    }
+  | {
+      type: 'possibility_trials'
+      semantics: 'quantitative'
+      props: {
+        caption: string
+        rows: Array<{
+          label: string
+          favorable: number
+          total: number
+        }>
+      }
+    }
 
 export type GeometryVisual =
   | ProblemVisual
@@ -192,6 +270,7 @@ export type GeometryVisual =
       type: 'congruence'
       mode: 'pair' | 'options'
       variant: number
+      shape?: 'quadrilateral' | 'rectangle'
       a?: number
       b?: number
       c?: number
@@ -209,18 +288,66 @@ export type GeometryVisual =
     }
   | {
       type: 'cuboid'
+      semantics?: 'quantitative'
       width: number
       height: number
       depth: number
       focus?: 'structure' | 'edges' | 'faces'
       unit?: string
       unknownMeasurement?: 'width' | 'height' | 'depth'
+      openTop?: boolean
+      fillFraction?: number
     }
   | {
       type: 'cuboid-net'
       mode: 'single' | 'options'
       variant: number
       focusFace?: number
+      side?: number
+    }
+  | {
+      type: 'poly-solid'
+      semantics: 'quantitative'
+      kind: 'prism' | 'pyramid'
+      baseSides: number
+      focus?: 'structure' | 'faces' | 'edges' | 'vertices'
+    }
+  | {
+      type: 'prism-net'
+      semantics: 'quantitative'
+      baseSides: number
+      lateralFaces?: number
+      baseCount?: number
+    }
+  | {
+      type: 'round-solid'
+      semantics: 'quantitative'
+      kind: 'cylinder' | 'cone' | 'sphere'
+      copies?: number
+    }
+  | {
+      type: 'cylinder-net'
+      semantics: 'quantitative'
+      copies?: number
+      circleCount?: number
+      rectangleCount?: number
+    }
+  | {
+      type: 'cube-stack'
+      semantics: 'quantitative'
+      heights: number[][]
+      mode: 'stack' | 'top' | 'front' | 'side' | 'all-views'
+    }
+  | {
+      type: 'circle-measurement'
+      semantics: 'quantitative'
+      radius: number
+      pi: number
+      focus: 'pi' | 'circumference' | 'area' | 'composite'
+      measureLabel: 'radius' | 'diameter' | 'both' | 'none'
+      copies?: number
+      innerRadius?: number
+      unit?: string
     }
 
 export type VisualTemplateValue =
@@ -245,6 +372,7 @@ export interface ProblemTemplate {
   solution_steps_template: string[]
   hint_steps_template?: string[]
   problem_family?: string
+  taskActions?: ProblemTaskAction[]
   blueprint?: ProblemBlueprintMeta
   visual_template?: { [key: string]: VisualTemplateValue }
 }
@@ -343,6 +471,11 @@ export interface ConceptProgressSummary {
   lastCompletedAt: number
   needsReview: boolean
   lastMode: PracticeMode
+  completionRecord?: {
+    completedBasicSetActivityIds: readonly string[]
+    completedPracticeSetActivityIds: readonly string[]
+  }
+  legacyCompleted?: boolean
 }
 
 export type ConceptProgressMap = Record<string, ConceptProgressSummary>
@@ -375,3 +508,12 @@ export type VisualAid =
       type: 'factor_tree'
       props: { value: number; factors: number[] }
     }
+  | Extract<GeometryVisual, {
+      type: 'poly-solid' | 'prism-net' | 'round-solid' | 'cylinder-net'
+        | 'cube-stack' | 'circle-measurement' | 'cuboid'
+    }>
+  | Extract<ProblemVisual, { type: 'ratio_graph' }>
+  | Extract<ProblemVisual, { type: 'number_range' }>
+  | Extract<ProblemVisual, { type: 'fraction_comparison' }>
+  | Extract<ProblemVisual, { type: 'area_unit_square' }>
+  | Extract<ProblemVisual, { type: 'possibility_trials' }>

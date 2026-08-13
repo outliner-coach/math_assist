@@ -356,9 +356,9 @@ function SolidShapeCards({ mission, emphasize, showAnswer = false }: Grade2Missi
   return (
     <VisualShell emphasize={emphasize} testId="grade2-visual-solid-shape-cards">
       <div className="grid min-h-[220px] gap-3 sm:grid-cols-3">
-        {shapes.map((shape) => (
+        {shapes.map((shape, index) => (
           <div
-            key={shape}
+            key={`${shape}-${index}`}
             className={`flex flex-col items-center justify-center gap-3 rounded-2xl border-2 bg-white p-4 text-xl font-black text-[#0f172a] ${
               shape === target && emphasize && showAnswer ? 'border-[#16a34a]' : 'border-[#cbd5e1]'
             }`}
@@ -451,8 +451,8 @@ function LengthBars({ mission, emphasize, showAnswer = false }: Grade2MissionVis
             value: rightCm,
             color: '#f97316',
           },
-        ].map((bar) => (
-          <div key={bar.label} className="grid grid-cols-[90px_1fr] items-center gap-3">
+        ].map((bar, index) => (
+          <div key={`${bar.label}-${index}`} className="grid grid-cols-[90px_1fr] items-center gap-3">
             <div className="text-right text-lg font-black text-[#334155]">{bar.label}</div>
             <div className="h-12 rounded-full bg-white p-2 shadow-sm">
               <div
@@ -472,7 +472,12 @@ function SingleClock({ hour, minute }: { hour: number; minute: number }) {
   const hourAngle = ((hour % 12) + minute / 60) * 30
 
   return (
-    <svg viewBox="0 0 220 220" role="img" aria-label={`${hour}시 ${minute}분 시계`} className="h-56 w-56 max-w-full">
+    <svg
+      viewBox="0 0 220 220"
+      role="img"
+      aria-label="숫자 눈금과 짧은 시침, 긴 분침이 있는 아날로그 시계"
+      className="h-56 w-56 max-w-full"
+    >
       <circle cx="110" cy="110" r="96" fill="#ffffff" stroke="#2563eb" strokeWidth="8" />
       {Array.from({ length: 12 }, (_, index) => {
         const angle = (index + 1) * 30 - 90
@@ -520,7 +525,7 @@ function CalendarStrip({ mission, emphasize }: Grade2MissionVisualProps) {
     <VisualShell emphasize={emphasize} testId="grade2-visual-calendar-strip">
       <div className="grid min-h-[220px] grid-cols-7 items-center gap-2">
         {days.map((day, index) => (
-          <div key={day} className={`rounded-2xl border-2 p-4 text-center text-2xl font-black ${index >= 5 ? 'border-[#f97316] bg-[#ffedd5]' : 'border-[#cbd5e1] bg-white'}`}>
+          <div key={`${day}-${index}`} className={`rounded-2xl border-2 p-4 text-center text-2xl font-black ${index >= 5 ? 'border-[#f97316] bg-[#ffedd5]' : 'border-[#cbd5e1] bg-white'}`}>
             {day}
           </div>
         ))}

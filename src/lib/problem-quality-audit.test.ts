@@ -5,7 +5,6 @@ import {
   analyzeThreeShapeOverlapVisual,
   buildProblemBlueprintCoverage,
   calculateDifficultySignal,
-  generateProblemQualityReport,
   inspectProblemBlueprintMeta,
   loadProblemGenerator
 } from '../../scripts/problem-quality-core.js'
@@ -20,17 +19,11 @@ const completeBlueprint = {
   contextType: 'pure_math',
   estimatedSteps: 3,
   readingLoad: 'medium',
+  taskActions: ['reason', 'calculate'],
   visualSemantics: undefined
 }
 
 describe('problem quality audit helpers', () => {
-  it('keeps strict quality output actionable while retaining blueprint targets as report context', () => {
-    const report = generateProblemQualityReport({ sampleCount: 16 })
-
-    expect(report.summary.warningCount).toBe(0)
-    expect(report.blueprintCoverage.byConcept.some((entry: { targetGaps: string[] }) => entry.targetGaps.length > 0)).toBe(true)
-  })
-
   it('loads the runtime generator with its safe arithmetic dependency', () => {
     const { generateProblems } = loadProblemGenerator()
     const [problem] = generateProblems([
@@ -70,6 +63,32 @@ describe('problem quality audit helpers', () => {
     expect(warnings.map((warning: { code: string }) => warning.code)).toContain(
       'ambiguous_operand_reference'
     )
+  })
+
+  it('allows natural-number division prompts whose quotient is represented as a fraction', () => {
+    const warnings = analyzeRenderedPromptQuality(
+      {
+        concept_id: 'g6fractiondiv-001',
+        solver_rule: 'reduceFrac(a, b)',
+        blueprint: { primaryStandard: '[6수01-10]' }
+      },
+      '빵 3개를 5명이 똑같이 나누면 한 명이 받는 양은 빵 몇 개인가요?'
+    )
+
+    expect(warnings).toEqual([])
+  })
+
+  it('allows decimal-to-fraction prompts before the converted fraction exists', () => {
+    const warnings = analyzeRenderedPromptQuality(
+      {
+        concept_id: 'g6fractiondecimal-001',
+        solver_rule: 'reduceFrac(p, 10)',
+        blueprint: { primaryStandard: '[6수01-12]' }
+      },
+      '0.4를 기약분수로 나타내세요.'
+    )
+
+    expect(warnings).toEqual([])
   })
 
   it('does not treat ordinal wording as an operand reference', () => {

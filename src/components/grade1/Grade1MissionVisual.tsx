@@ -10,6 +10,7 @@ import Grade1AssetImage from './Grade1AssetImage'
 interface Grade1MissionVisualProps {
   mission: Grade1Mission
   emphasize?: boolean
+  showAnswer?: boolean
 }
 
 const objectAssets: Record<string, Grade1Asset> = {
@@ -72,7 +73,9 @@ function ObjectToken({
 function CountingGrid({ mission, emphasize }: Grade1MissionVisualProps) {
   const count = asNumber(mission.visualConfig.count)
   const slots = asNumber(mission.visualConfig.slots, 10)
+  const columns = Math.max(1, asNumber(mission.visualConfig.columns, 5))
   const asset = objectAssets[asString(mission.visualConfig.object, 'apple')] ?? grade1Objects.apple
+  const compact = columns > 5
 
   return (
     <div
@@ -82,18 +85,24 @@ function CountingGrid({ mission, emphasize }: Grade1MissionVisualProps) {
       aria-label={`${asset.alt} ${count}개가 놓여 있습니다`}
       data-testid="grade1-visual-counting-grid"
     >
-      <div className="grid grid-cols-5 gap-3">
+      <div
+        className={`grid ${compact ? 'gap-1 sm:gap-2' : 'gap-3'}`}
+        style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+      >
         {Array.from({ length: slots }, (_, index) => (
           <div
             key={index}
-            className={`flex aspect-square min-h-[44px] items-center justify-center rounded-2xl border-2 ${
+            data-testid="grade1-counting-slot"
+            className={`flex aspect-square items-center justify-center border-2 ${
+              compact ? 'min-h-[28px] rounded-lg sm:min-h-[40px] sm:rounded-xl' : 'min-h-[44px] rounded-2xl'
+            } ${
               index < count
                 ? 'border-[#ffc700] bg-[#fff8d9]'
                 : 'border-dashed border-[#e5e5e5] bg-white'
             }`}
           >
             {index < count ? (
-              <span className="block h-10 w-10">
+              <span className={compact ? 'block h-6 w-6 sm:h-9 sm:w-9' : 'block h-10 w-10'}>
                 <Grade1AssetImage
                   asset={{ ...asset, decorative: true, alt: '' }}
                   className="h-full w-full object-contain"
@@ -152,7 +161,7 @@ function ObjectGroups({ mission, emphasize }: Grade1MissionVisualProps) {
   )
 }
 
-function NumberCards({ mission, emphasize }: Grade1MissionVisualProps) {
+function NumberCards({ mission, emphasize, showAnswer = false }: Grade1MissionVisualProps) {
   const cards = asString(mission.visualConfig.cards)
     .split(',')
     .map((card) => card.trim())
@@ -171,7 +180,7 @@ function NumberCards({ mission, emphasize }: Grade1MissionVisualProps) {
           <div
             key={`${card}-${index}`}
             className={`flex min-h-[72px] items-center justify-center rounded-2xl border-2 text-3xl font-black ${
-              card === target && emphasize
+              card === target && emphasize && showAnswer
                 ? 'border-[#58cc02] bg-[#f0ffe7] text-[#3c3c3c]'
                 : 'border-[#e5e5e5] bg-white text-[#3c3c3c]'
             }`}
@@ -213,7 +222,7 @@ function PatternGlyph({ token }: { token: string }) {
   return <ShapeGlyph shape={token} />
 }
 
-function ShapeCards({ mission, emphasize }: Grade1MissionVisualProps) {
+function ShapeCards({ mission, emphasize, showAnswer = false }: Grade1MissionVisualProps) {
   const shapes = asString(mission.visualConfig.shapes)
     .split(',')
     .map((shape) => shape.trim())
@@ -232,7 +241,7 @@ function ShapeCards({ mission, emphasize }: Grade1MissionVisualProps) {
           <div
             key={shape}
             className={`flex min-h-[116px] flex-col items-center justify-center gap-3 rounded-2xl border-2 bg-white font-black text-[#3c3c3c] ${
-              shape === target && emphasize ? 'border-[#58cc02]' : 'border-[#e5e5e5]'
+              shape === target && emphasize && showAnswer ? 'border-[#58cc02]' : 'border-[#e5e5e5]'
             }`}
           >
             <ShapeGlyph shape={shape} />
@@ -257,7 +266,7 @@ function ClockFace({ mission, emphasize }: Grade1MissionVisualProps) {
       }`}
       data-testid="grade1-visual-clock-face"
     >
-      <svg viewBox="0 0 220 220" role="img" aria-label={`${mission.correctAnswer} 시계`} className="mx-auto h-64 max-h-[65vw] w-64 max-w-full">
+      <svg viewBox="0 0 220 220" role="img" aria-label="시각을 읽는 아날로그 시계" className="mx-auto h-64 max-h-[65vw] w-64 max-w-full">
         <circle cx="110" cy="110" r="96" fill="#ffffff" stroke="#1cb0f6" strokeWidth="8" />
         {[...Array(12)].map((_, index) => {
           const angle = (index + 1) * 30 - 90
@@ -329,16 +338,20 @@ function PatternStrip({ mission, emphasize }: Grade1MissionVisualProps) {
   )
 }
 
-export default function Grade1MissionVisual({ mission, emphasize = false }: Grade1MissionVisualProps) {
+export default function Grade1MissionVisual({
+  mission,
+  emphasize = false,
+  showAnswer = false,
+}: Grade1MissionVisualProps) {
   switch (mission.visualModel) {
     case 'counting-grid':
       return <CountingGrid mission={mission} emphasize={emphasize} />
     case 'object-groups':
       return <ObjectGroups mission={mission} emphasize={emphasize} />
     case 'number-cards':
-      return <NumberCards mission={mission} emphasize={emphasize} />
+      return <NumberCards mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
     case 'shape-cards':
-      return <ShapeCards mission={mission} emphasize={emphasize} />
+      return <ShapeCards mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
     case 'clock-face':
       return <ClockFace mission={mission} emphasize={emphasize} />
     case 'pattern-strip':

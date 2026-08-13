@@ -2,7 +2,20 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
-import GeometryProblemVisual from './GeometryProblemVisual'
+import GeometryProblemVisual, {
+  buildCuboidLayout,
+  buildCuboidNetOptions,
+  buildCongruencePairLayout,
+  buildPolygonLayout,
+  buildPolySolidLayout,
+  buildPrismNetLayout,
+  buildRoundSolidLayout,
+  buildCylinderNetLayout,
+  buildCubeStackLayout,
+  buildCircleMeasurementModel,
+  deriveCubeViews,
+  isValidCubeNet,
+} from './GeometryProblemVisual'
 
 describe('GeometryProblemVisual', () => {
   it('renders polygon measurements without adding an answer value', () => {
@@ -14,6 +27,51 @@ describe('GeometryProblemVisual', () => {
     expect(html).toContain('8cm')
     expect(html).toContain('5cm')
     expect(html).not.toContain('26cm')
+  })
+
+  it('derives polygon proportions from the same quantitative model', () => {
+    const wide = buildPolygonLayout({
+      type: 'polygon',
+      shape: 'rectangle',
+      a: 12,
+      b: 3,
+    })
+    const compact = buildPolygonLayout({
+      type: 'polygon',
+      shape: 'rectangle',
+      a: 6,
+      b: 5,
+    })
+
+    expect(wide.width / wide.height).toBeCloseTo(4, 5)
+    expect(compact.width / compact.height).toBeCloseTo(1.2, 5)
+    expect(wide.width / wide.height).toBeGreaterThan(compact.width / compact.height)
+
+    for (const layout of [wide, compact]) {
+      expect(Math.min(...layout.points.map(point => point.x))).toBeGreaterThanOrEqual(40)
+      expect(Math.max(...layout.points.map(point => point.x))).toBeLessThanOrEqual(260)
+      expect(Math.min(...layout.points.map(point => point.y))).toBeGreaterThanOrEqual(25)
+      expect(Math.max(...layout.points.map(point => point.y))).toBeLessThanOrEqual(150)
+    }
+  })
+
+  it('preserves all three side ratios for perimeter triangles', () => {
+    const layout = buildPolygonLayout({
+      type: 'polygon',
+      shape: 'triangle',
+      a: 6,
+      b: 7,
+      c: 9,
+      measurementMode: 'sides',
+    })
+    const distance = (left: { x: number; y: number }, right: { x: number; y: number }) => (
+      Math.hypot(left.x - right.x, left.y - right.y)
+    )
+    const [left, right, apex] = layout.points
+    const scale = distance(left, right) / 6
+
+    expect(distance(left, apex) / scale).toBeCloseTo(7, 5)
+    expect(distance(right, apex) / scale).toBeCloseTo(9, 5)
   })
 
   it('hides reverse-problem measurements until the solution is shown', () => {
@@ -32,6 +90,14 @@ describe('GeometryProblemVisual', () => {
     expect(hiddenPolygon).not.toContain('5cm')
     expect(revealedPolygon).toContain('5cm')
 
+    const maskedLayout = buildPolygonLayout(polygon, false)
+    const revealedLayout = buildPolygonLayout(polygon, true)
+    expect(maskedLayout.width / maskedLayout.height).not.toBeCloseTo(
+      revealedLayout.width / revealedLayout.height,
+      5
+    )
+    expect(revealedLayout.width / revealedLayout.height).toBeCloseTo(2, 5)
+
     const cuboid = {
       type: 'cuboid' as const,
       width: 8,
@@ -43,9 +109,9 @@ describe('GeometryProblemVisual', () => {
     const hiddenCuboid = renderToStaticMarkup(createElement(GeometryProblemVisual, { visual: cuboid }))
     const revealedCuboid = renderToStaticMarkup(createElement(GeometryProblemVisual, { visual: cuboid, showAnswer: true }))
 
-    expect(hiddenCuboid).toContain('?cm')
-    expect(hiddenCuboid).not.toContain('8cm')
-    expect(revealedCuboid).toContain('8cm')
+    expect(hiddenCuboid).toContain('가로 ? cm')
+    expect(hiddenCuboid).not.toContain('가로 8 cm')
+    expect(revealedCuboid).toContain('가로 8 cm')
   })
 
   it('reveals congruence and net answers only after submission', () => {
@@ -62,6 +128,568 @@ describe('GeometryProblemVisual', () => {
 
     expect(hiddenNet).not.toContain('정답 전개도')
     expect(revealedNet).toContain('정답 전개도')
+  })
+
+  it('derives every displayed congruent pair from one rigidly transformed polygon', () => {
+    const distance = (left: { x: number; y: number }, right: { x: number; y: number }) => (
+      Math.hypot(left.x - right.x, left.y - right.y)
+    )
+
+    for (const shape of ['quadrilateral', 'rectangle'] as const) {
+      const layout = buildCongruencePairLayout(shape, { a: 8, b: 5, c: 7 })
+
+      expect(layout.left).toHaveLength(4)
+      expect(layout.right).toHaveLength(4)
+      for (let leftIndex = 0; leftIndex < 4; leftIndex += 1) {
+        for (let rightIndex = leftIndex + 1; rightIndex < 4; rightIndex += 1) {
+          expect(distance(layout.left[leftIndex], layout.left[rightIndex])).toBeCloseTo(
+            distance(layout.right[leftIndex], layout.right[rightIndex]),
+            8
+          )
+        }
+      }
+
+      const edgeLengths = layout.left.map((point, index) => (
+        distance(point, layout.left[(index + 1) % layout.left.length])
+      ))
+      expect(edgeLengths[0] / edgeLengths[1]).toBeCloseTo(8 / 5, 8)
+      if (shape === 'quadrilateral') {
+        expect(edgeLengths[2] / edgeLengths[1]).toBeCloseTo(7 / 5, 8)
+      } else {
+        expect(edgeLengths[2]).toBeCloseTo(edgeLengths[0], 8)
+        expect(edgeLengths[3]).toBeCloseTo(edgeLengths[1], 8)
+      }
+    }
+  })
+
+  it('keeps every generated congruence measurement combination quantitative and in bounds', () => {
+    const distance = (left: { x: number; y: number }, right: { x: number; y: number }) => (
+      Math.hypot(left.x - right.x, left.y - right.y)
+    )
+
+    for (let a = 4; a <= 14; a += 1) {
+      for (let b = 3; b <= 13; b += 1) {
+        for (let c = 6; c <= 16; c += 1) {
+          const { left, right } = buildCongruencePairLayout(
+            'quadrilateral',
+            { a, b, c }
+          )
+          const leftEdges = left.map((point, index) => (
+            distance(point, left[(index + 1) % left.length])
+          ))
+          const rightEdges = right.map((point, index) => (
+            distance(point, right[(index + 1) % right.length])
+          ))
+
+          expect(leftEdges[0] / leftEdges[1]).toBeCloseTo(a / b, 8)
+          expect(leftEdges[2] / leftEdges[1]).toBeCloseTo(c / b, 8)
+          for (let index = 0; index < leftEdges.length; index += 1) {
+            expect(rightEdges[index]).toBeCloseTo(leftEdges[index], 8)
+          }
+          for (const point of [...left, ...right]) {
+            expect(point.x).toBeGreaterThanOrEqual(20)
+            expect(point.x).toBeLessThanOrEqual(270)
+            expect(point.y).toBeGreaterThanOrEqual(40)
+            expect(point.y).toBeLessThanOrEqual(140)
+          }
+        }
+      }
+    }
+  })
+
+  it('renders rectangle application contexts as actual rectangles', () => {
+    const html = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'congruence',
+        mode: 'pair',
+        variant: 1,
+        shape: 'rectangle',
+        a: 8,
+        b: 5,
+        unit: 'cm',
+      },
+    }))
+
+    expect(html).toContain('합동인 두 직사각형')
+    expect(html).toContain('8cm')
+    expect(html).toContain('5cm')
+  })
+
+  it('derives the cuboid projection from all three dimensions and masks inverse dimensions', () => {
+    const visual = {
+      type: 'cuboid' as const,
+      width: 8,
+      height: 4,
+      depth: 3,
+    }
+    const distance = (left: { x: number; y: number }, right: { x: number; y: number }) => (
+      Math.hypot(left.x - right.x, left.y - right.y)
+    )
+    const layout = buildCuboidLayout(visual)
+    const frontWidth = distance(layout.front[0], layout.front[1])
+    const frontHeight = distance(layout.front[0], layout.front[3])
+    const projectedDepth = distance(layout.front[0], layout.back[0])
+
+    expect(frontWidth / frontHeight).toBeCloseTo(2, 8)
+    expect(projectedDepth / frontWidth).toBeCloseTo(
+      (3 / 8) * Math.hypot(0.65, 0.45),
+      8
+    )
+
+    const inverse = { ...visual, unknownMeasurement: 'width' as const }
+    const hidden = buildCuboidLayout(inverse, false)
+    const revealed = buildCuboidLayout(inverse, true)
+    const hiddenRatio = distance(hidden.front[0], hidden.front[1]) /
+      distance(hidden.front[0], hidden.front[3])
+    const revealedRatio = distance(revealed.front[0], revealed.front[1]) /
+      distance(revealed.front[0], revealed.front[3])
+
+    expect(hiddenRatio).not.toBeCloseTo(revealedRatio, 8)
+    expect(revealedRatio).toBeCloseTo(2, 8)
+  })
+
+  it('labels every relevant cuboid measurement by meaning and unit', () => {
+    const html = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cuboid',
+        width: 12,
+        depth: 6,
+        height: 9,
+        unit: 'cm',
+        focus: 'edges',
+      },
+    }))
+
+    expect(html).toContain('가로 12 cm')
+    expect(html).toContain('세로 6 cm')
+    expect(html).toContain('높이 9 cm')
+    expect(html).toContain('aria-label="직육면체 모서리')
+  })
+
+  it('renders dimension-free cuboid properties with the requested element highlighted', () => {
+    for (const [focus, accessibleName] of [
+      ['face', '면'],
+      ['edge', '모서리'],
+      ['vertex', '꼭짓점'],
+      ['edges-at-vertex', '한 꼭짓점에서 만나는 모서리'],
+    ] as const) {
+      const html = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+        visual: {
+          type: 'cuboid',
+          focus,
+        } as never,
+      }))
+
+      expect(html).toContain(`data-cuboid-focus="${focus}"`)
+      expect(html).toContain(accessibleName)
+      expect(html).not.toContain('cm')
+      expect(html).not.toContain('data-cuboid-measurement')
+    }
+  })
+
+  it('keeps every generated cuboid dimension combination quantitative and in bounds', () => {
+    const distance = (left: { x: number; y: number }, right: { x: number; y: number }) => (
+      Math.hypot(left.x - right.x, left.y - right.y)
+    )
+
+    for (let width = 5; width <= 14; width += 1) {
+      for (let height = 3; height <= 12; height += 1) {
+        for (let depth = 2; depth <= 11; depth += 1) {
+          const layout = buildCuboidLayout({
+            type: 'cuboid',
+            width,
+            height,
+            depth,
+          })
+          const frontWidth = distance(layout.front[0], layout.front[1])
+          const frontHeight = distance(layout.front[0], layout.front[3])
+          const projectedDepth = distance(layout.front[0], layout.back[0])
+
+          expect(frontWidth / frontHeight).toBeCloseTo(width / height, 8)
+          expect(projectedDepth / frontWidth).toBeCloseTo(
+            (depth / width) * Math.hypot(0.65, 0.45),
+            8
+          )
+          for (const point of [...layout.front, ...layout.back]) {
+            expect(point.x).toBeGreaterThanOrEqual(45)
+            expect(point.x).toBeLessThanOrEqual(265)
+            expect(point.y).toBeGreaterThanOrEqual(25)
+            expect(point.y).toBeLessThanOrEqual(145)
+          }
+        }
+      }
+    }
+
+    const hiddenNarrow = buildCuboidLayout({
+      type: 'cuboid',
+      width: 5,
+      height: 6,
+      depth: 4,
+      unknownMeasurement: 'width',
+    }, false)
+    const hiddenWide = buildCuboidLayout({
+      type: 'cuboid',
+      width: 14,
+      height: 6,
+      depth: 4,
+      unknownMeasurement: 'width',
+    }, false)
+    expect(hiddenNarrow).toEqual(hiddenWide)
+  })
+
+  it('renders open-top and partial-fill cuboids without derived area or volume labels', () => {
+    const openTop = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cuboid',
+        semantics: 'quantitative',
+        width: 6,
+        height: 3,
+        depth: 4,
+        focus: 'faces',
+        openTop: true,
+      },
+    }))
+    const halfFull = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cuboid',
+        semantics: 'quantitative',
+        width: 6,
+        height: 5,
+        depth: 4,
+        focus: 'structure',
+        fillFraction: 0.5,
+      },
+    }))
+
+    expect(openTop).toContain('data-cuboid-open-top')
+    expect(openTop).not.toContain('108cm²')
+    expect(halfFull).toContain('data-cuboid-fill-plane')
+    expect(halfFull).not.toContain('60cm³')
+  })
+
+  it('keeps four distinct net options with exactly one foldable cube net', () => {
+    for (let variant = 1; variant <= 4; variant += 1) {
+      const { answerIndex, layouts } = buildCuboidNetOptions(variant)
+
+      expect(layouts).toHaveLength(4)
+      expect(new Set(layouts.map(layout => JSON.stringify(layout))).size).toBe(4)
+      expect(layouts.map(isValidCubeNet).filter(Boolean)).toHaveLength(1)
+      expect(isValidCubeNet(layouts[answerIndex])).toBe(true)
+    }
+  })
+
+  it('shows a given square-face side length without exposing a derived net answer', () => {
+    const html = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cuboid-net',
+        mode: 'single',
+        variant: 1,
+        side: 5,
+      },
+    }))
+
+    expect(html).toContain('5cm')
+    expect(html).not.toContain('50cm')
+  })
+
+  it('derives prism and pyramid topology from one base polygon', () => {
+    for (let baseSides = 3; baseSides <= 8; baseSides += 1) {
+      const prism = buildPolySolidLayout('prism', baseSides)
+      const pyramid = buildPolySolidLayout('pyramid', baseSides)
+
+      expect(prism.basePolygons).toHaveLength(2)
+      expect(prism.lateralEdges).toHaveLength(baseSides)
+      expect(prism.vertices).toHaveLength(baseSides * 2)
+      expect(pyramid.basePolygons).toHaveLength(1)
+      expect(pyramid.lateralEdges).toHaveLength(baseSides)
+      expect(pyramid.vertices).toHaveLength(baseSides + 1)
+
+      for (const point of [
+        ...prism.basePolygons.flat(),
+        ...pyramid.basePolygons.flat(),
+        ...prism.vertices,
+        ...pyramid.vertices,
+      ]) {
+        expect(point.x).toBeGreaterThanOrEqual(25)
+        expect(point.x).toBeLessThanOrEqual(275)
+        expect(point.y).toBeGreaterThanOrEqual(20)
+        expect(point.y).toBeLessThanOrEqual(170)
+      }
+    }
+  })
+
+  it('renders countable polyhedra without spelling out a derived answer', () => {
+    const prism = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'poly-solid',
+        semantics: 'quantitative',
+        kind: 'prism',
+        baseSides: 5,
+      },
+    }))
+    const pyramid = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'poly-solid',
+        semantics: 'quantitative',
+        kind: 'pyramid',
+        baseSides: 6,
+      },
+    }))
+
+    expect(prism.match(/data-solid-base=/g)).toHaveLength(2)
+    expect(prism.match(/data-solid-lateral-edge=/g)).toHaveLength(5)
+    expect(prism.match(/data-solid-vertex=/g)).toHaveLength(10)
+    expect(prism).toContain('오각기둥 모형')
+    expect(prism).not.toContain('15개')
+    expect(pyramid.match(/data-solid-base=/g)).toHaveLength(1)
+    expect(pyramid.match(/data-solid-lateral-edge=/g)).toHaveLength(6)
+    expect(pyramid.match(/data-solid-vertex=/g)).toHaveLength(7)
+    expect(pyramid).toContain('육각뿔 모형')
+    expect(pyramid).not.toContain('12개')
+  })
+
+  it('derives complete, missing, and extra prism nets from the requested pieces', () => {
+    for (let baseSides = 3; baseSides <= 8; baseSides += 1) {
+      const complete = buildPrismNetLayout(baseSides, baseSides, 2)
+      const missingLateral = buildPrismNetLayout(baseSides, baseSides - 1, 2)
+      const extraLateral = buildPrismNetLayout(baseSides, baseSides + 1, 2)
+      const missingBase = buildPrismNetLayout(baseSides, baseSides, 1)
+
+      expect(complete.lateralFaces).toHaveLength(baseSides)
+      expect(complete.basePolygons).toHaveLength(2)
+      expect(missingLateral.lateralFaces).toHaveLength(baseSides - 1)
+      expect(extraLateral.lateralFaces).toHaveLength(baseSides + 1)
+      expect(missingBase.basePolygons).toHaveLength(1)
+      for (const point of [
+        ...complete.basePolygons.flat(),
+        ...complete.lateralFaces.flatMap((face) => [
+          { x: face.x, y: face.y },
+          { x: face.x + face.width, y: face.y + face.height },
+        ]),
+      ]) {
+        expect(point.x).toBeGreaterThanOrEqual(8)
+        expect(point.x).toBeLessThanOrEqual(312)
+        expect(point.y).toBeGreaterThanOrEqual(8)
+        expect(point.y).toBeLessThanOrEqual(202)
+      }
+    }
+
+    const html = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'prism-net',
+        semantics: 'quantitative',
+        baseSides: 6,
+        lateralFaces: 5,
+        baseCount: 2,
+      },
+    }))
+    expect(html.match(/data-net-lateral-face=/g)).toHaveLength(5)
+    expect(html.match(/data-net-base=/g)).toHaveLength(2)
+    expect(html).toContain('육각기둥 전개도')
+    expect(html).not.toContain('1개 부족')
+  })
+
+  it('derives round-solid structure for every displayed copy', () => {
+    expect(buildRoundSolidLayout('cylinder', 1).copies[0].width).toBeGreaterThanOrEqual(140)
+
+    for (let copies = 1; copies <= 6; copies += 1) {
+      for (const kind of ['cylinder', 'cone', 'sphere'] as const) {
+        const layout = buildRoundSolidLayout(kind, copies)
+        expect(layout.copies).toHaveLength(copies)
+        for (const copy of layout.copies) {
+          expect(copy.x).toBeGreaterThanOrEqual(8)
+          expect(copy.x + copy.width).toBeLessThanOrEqual(312)
+          expect(copy.y).toBeGreaterThanOrEqual(8)
+          expect(copy.y + copy.height).toBeLessThanOrEqual(192)
+        }
+      }
+    }
+
+    const cylinder = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'round-solid',
+        semantics: 'quantitative',
+        kind: 'cylinder',
+        copies: 3,
+      },
+    }))
+    const cone = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'round-solid',
+        semantics: 'quantitative',
+        kind: 'cone',
+        copies: 2,
+      },
+    }))
+    const sphere = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'round-solid',
+        semantics: 'quantitative',
+        kind: 'sphere',
+        copies: 4,
+      },
+    }))
+
+    expect(cylinder.match(/data-round-copy=/g)).toHaveLength(3)
+    expect(cylinder.match(/data-round-base=/g)).toHaveLength(6)
+    expect(cylinder.match(/data-round-curved-surface=/g)).toHaveLength(3)
+    expect(cylinder.match(/data-round-vertex=/g) ?? []).toHaveLength(0)
+    expect(cone.match(/data-round-base=/g)).toHaveLength(2)
+    expect(cone.match(/data-round-curved-surface=/g)).toHaveLength(2)
+    expect(cone.match(/data-round-vertex=/g)).toHaveLength(2)
+    expect(sphere.match(/data-round-base=/g) ?? []).toHaveLength(0)
+    expect(sphere.match(/data-round-curved-surface=/g)).toHaveLength(4)
+    expect(sphere.match(/data-round-vertex=/g) ?? []).toHaveLength(0)
+    expect(cylinder).toContain('원기둥 3개 모형')
+    expect(cylinder).not.toContain('면은 9개')
+  })
+
+  it('derives complete, missing, and extra cylinder nets from actual pieces', () => {
+    for (let copies = 1; copies <= 6; copies += 1) {
+      const layout = buildCylinderNetLayout(copies, 2, 1)
+      expect(layout.copies).toHaveLength(copies)
+      expect(layout.circles).toHaveLength(copies * 2)
+      expect(layout.rectangles).toHaveLength(copies)
+      for (const rectangle of layout.rectangles) {
+        expect(rectangle.x).toBeGreaterThanOrEqual(8)
+        expect(rectangle.x + rectangle.width).toBeLessThanOrEqual(312)
+        expect(rectangle.y).toBeGreaterThanOrEqual(8)
+        expect(rectangle.y + rectangle.height).toBeLessThanOrEqual(192)
+      }
+      for (const circle of layout.circles) {
+        expect(circle.cx - circle.r).toBeGreaterThanOrEqual(8)
+        expect(circle.cx + circle.r).toBeLessThanOrEqual(312)
+        expect(circle.cy - circle.r).toBeGreaterThanOrEqual(8)
+        expect(circle.cy + circle.r).toBeLessThanOrEqual(192)
+      }
+    }
+
+    const missing = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cylinder-net',
+        semantics: 'quantitative',
+        copies: 1,
+        circleCount: 1,
+        rectangleCount: 1,
+      },
+    }))
+    const extra = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cylinder-net',
+        semantics: 'quantitative',
+        copies: 1,
+        circleCount: 3,
+        rectangleCount: 1,
+      },
+    }))
+
+    expect(missing.match(/data-cylinder-net-circle=/g)).toHaveLength(1)
+    expect(missing.match(/data-cylinder-net-rectangle=/g)).toHaveLength(1)
+    expect(extra.match(/data-cylinder-net-circle=/g)).toHaveLength(3)
+    expect(extra).toContain('원기둥 전개도')
+    expect(extra).not.toContain('1개 남음')
+  })
+
+  it('derives cube totals and three views from one height grid', () => {
+    for (let p = 2; p <= 5; p += 1) {
+      const heights = [[p, 1], [2, 0]]
+      const views = deriveCubeViews(heights)
+      const layout = buildCubeStackLayout(heights)
+
+      expect(views.totalCubes).toBe(p + 3)
+      expect(views.topOccupied).toEqual([[true, true], [true, false]])
+      expect(views.frontHeights).toEqual([p, 1])
+      expect(views.sideHeights).toEqual([p, 2])
+      expect(layout.cubes).toHaveLength(p + 3)
+      for (const cube of layout.cubes) {
+        for (const point of [...cube.top, ...cube.left, ...cube.right]) {
+          expect(point.x).toBeGreaterThanOrEqual(20)
+          expect(point.x).toBeLessThanOrEqual(300)
+          expect(point.y).toBeGreaterThanOrEqual(15)
+          expect(point.y).toBeLessThanOrEqual(210)
+        }
+      }
+    }
+  })
+
+  it('renders stack, top, front, and side evidence without an answer label', () => {
+    const heights = [[4, 1], [2, 0]]
+    const stack = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cube-stack',
+        semantics: 'quantitative',
+        heights,
+        mode: 'stack',
+      },
+    }))
+    const views = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'cube-stack',
+        semantics: 'quantitative',
+        heights,
+        mode: 'all-views',
+      },
+    }))
+
+    expect(stack.match(/data-stack-cube=/g)).toHaveLength(7)
+    expect(stack).toContain('쌓기나무 입체도형')
+    expect(stack).not.toContain('7개')
+    expect(views.match(/data-top-occupied=/g)).toHaveLength(3)
+    expect(views.match(/data-front-cell=/g)).toHaveLength(5)
+    expect(views.match(/data-side-cell=/g)).toHaveLength(6)
+    expect(views).toContain('위·앞·옆에서 본 모양')
+    expect(views).not.toContain('전체 7')
+  })
+
+  it('derives diameter, circumference, and area from one circle model', () => {
+    for (let p = 2; p <= 6; p += 1) {
+      const model = buildCircleMeasurementModel({
+        type: 'circle-measurement',
+        semantics: 'quantitative',
+        radius: p,
+        pi: 3.14,
+        focus: 'area',
+        measureLabel: 'radius',
+        copies: 1,
+      })
+
+      expect(model.radius).toBe(p)
+      expect(model.diameter).toBe(2 * p)
+      expect(model.circumference).toBeCloseTo(6.28 * p, 8)
+      expect(model.area).toBeCloseTo(3.14 * p * p, 8)
+    }
+  })
+
+  it('renders quantitative circle givens without exposing the requested result', () => {
+    const circumference = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'circle-measurement',
+        semantics: 'quantitative',
+        radius: 3,
+        pi: 3.14,
+        focus: 'circumference',
+        measureLabel: 'radius',
+        copies: 1,
+      },
+    }))
+    const measuredPi = renderToStaticMarkup(createElement(GeometryProblemVisual, {
+      visual: {
+        type: 'circle-measurement',
+        semantics: 'quantitative',
+        radius: 5,
+        pi: 3.14,
+        focus: 'pi',
+        measureLabel: 'diameter',
+        copies: 1,
+      },
+    }))
+
+    expect(circumference.match(/data-circle-copy=/g)).toHaveLength(1)
+    expect(circumference).toContain('반지름 3cm')
+    expect(circumference).not.toContain('18.84cm')
+    expect(measuredPi).toContain('지름 10cm')
+    expect(measuredPi).toContain('측정한 원주 31.4cm')
+    expect(measuredPi).toContain('원주율 측정 원')
   })
 
   it('keeps the reflected point hidden until the solution is shown', () => {

@@ -1,64 +1,93 @@
 import { describe, expect, it } from 'vitest'
 
-import { getApplicationProblemReviewData } from './problem-review'
+import {
+  classifyProblemReviewStatus,
+  getProblemReviewData,
+} from './problem-review'
 
-describe('getApplicationProblemReviewData', () => {
-  it('builds one representative row for every registered Grade 2, 5, and 6 application family', () => {
-    const data = getApplicationProblemReviewData()
+describe('getProblemReviewData', () => {
+  it('builds one deterministic review row per Grade 1-6 catalog source', async () => {
+    const data = await getProblemReviewData()
 
-    expect(data.summary.totalRows).toBe(9)
-    expect(new Set(data.rows.map((row) => row.familyId)).size).toBe(9)
-    expect(Array.from(new Set(data.rows.map((row) => row.grade))).sort()).toEqual([2, 5, 6])
-  })
-
-  it('derives every filter option from the registered review rows', () => {
-    const data = getApplicationProblemReviewData()
-
-    expect(Object.keys(data.filters).sort()).toEqual([
-      'cognitiveDomains',
-      'families',
-      'grades',
-      'proofModes',
-      'reasoningPatterns',
-      'releaseStatuses',
-      'standards',
-      'units',
-      'versions',
-    ])
-    expect(data.filters.grades).toEqual([2, 5, 6])
-    expect(data.filters.families.every((option) => data.rows.some((row) => row.familyId === option.value))).toBe(true)
-    expect(data.filters.units.every((option) => data.rows.some((row) => row.unitId === option.value))).toBe(true)
-    expect(data.filters.standards.every((option) => data.rows.some((row) => row.standards.includes(option.value)))).toBe(true)
-    expect(data.filters.versions.every((option) => data.rows.some((row) => String(row.version) === option.value))).toBe(true)
-  })
-
-  it('keeps the generated problem content and registered automated evidence together', () => {
-    const data = getApplicationProblemReviewData()
-
-    data.rows.forEach((row) => {
-      expect(row.prompt).not.toHaveLength(0)
-      expect(row.answer).not.toHaveLength(0)
-      expect(row.solutionSteps.length).toBeGreaterThan(0)
-      expect(row.hintSteps.length).toBeGreaterThan(0)
-      expect(row.misconceptions.length).toBeGreaterThan(0)
-      expect(row.automaticChecks.deterministicSample).toBe(true)
-      expect(row.automaticChecks.proof.proven).toBe(true)
-      expect(row.automaticChecks.proof.expectedCount).toBeGreaterThan(0)
-      expect(row.automaticChecks.proof.issues).toEqual([])
-      expect(row.automaticChecks.audit.status).toBe('passed')
-      expect(row.automaticChecks.visual.status).toBe('ready')
+    expect(data.summary.totalProblems).toBe(1_622)
+    expect(data.rows).toHaveLength(1_622)
+    expect(new Set(data.rows.map(row => row.reviewId)).size).toBe(1_622)
+    expect(data.summary.byGrade).toEqual({
+      1: 98,
+      2: 144,
+      3: 120,
+      4: 150,
+      5: 780,
+      6: 330,
     })
+    expect(data.summary).toMatchObject({
+      passProblems: 1_622,
+      blockedProblems: 0,
+      staleProblems: 0,
+      missingProblems: 0,
+    })
+    expect(data.rows.every(row => row.contentHash === row.reviewedContentHash)).toBe(true)
   })
 
-  it('provides answer-hidden and answer-revealed visual review states for quantitative rows', () => {
-    const data = getApplicationProblemReviewData()
-    const quantitativeRows = data.rows.filter((row) => row.visual.semantics === 'quantitative')
+  it('includes one actual renderer payload and canonical filter metadata per row', async () => {
+    const data = await getProblemReviewData()
+    const rendererCounts = data.rows.reduce<Record<string, number>>(
+      (counts, row) => {
+        counts[row.renderer] = (counts[row.renderer] ?? 0) + 1
+        return counts
+      },
+      {}
+    )
 
-    expect(quantitativeRows).not.toHaveLength(0)
-    quantitativeRows.forEach((row) => {
-      expect(row.visual.before).toBeDefined()
-      expect(row.visual.after).toBeDefined()
-      expect(row.visual.before).not.toEqual(row.visual.after)
+    expect(rendererCounts).toEqual({
+      grade1: 98,
+      grade2: 144,
+      grade3: 120,
+      grade4: 150,
+      practice: 1_110,
     })
+    expect(data.rows.every(row => row.prompt.trim().length > 0)).toBe(true)
+    expect(data.rows.every(row => row.correctAnswer.trim().length > 0)).toBe(true)
+    expect(data.rows.every(row => row.hintSteps.length > 0)).toBe(true)
+    expect(data.rows.every(row => row.solutionSteps.length > 0)).toBe(true)
+    expect(data.rows.filter(row => row.hasVisual)).toHaveLength(1_013)
+    expect(data.rows.every(row => row.curriculumCodes.length > 0)).toBe(true)
+    expect(data.rows.every(row => row.taskActions.length > 0)).toBe(true)
+    expect(data.rows.every(row => row.family.trim().length > 0)).toBe(true)
+    expect(data.rows.every(row => row.rendererReviewVersion.length > 0)).toBe(true)
+    expect(data.rows.every(row => row.variants.length > 0)).toBe(true)
+    expect(
+      data.rows
+        .filter(row => row.renderer === 'grade4')
+        .every(row => row.variants.length === 9)
+    ).toBe(true)
+    expect(
+      data.rows
+        .filter(row => row.renderer === 'grade2')
+        .every(row => row.rendererReviewVersion === 'grade2-mission-visual-review-v3')
+    ).toBe(true)
+    expect(
+      data.rows
+        .filter(row => row.renderer === 'practice')
+        .every(row => row.variants.length >= 1 && row.variants.length <= 3)
+    ).toBe(true)
+  })
+
+  it('marks missing and stale receipts without treating them as pass', () => {
+    const currentItem = { contentHash: 'current' }
+
+    expect(classifyProblemReviewStatus(currentItem, undefined)).toBe('missing')
+    expect(classifyProblemReviewStatus(currentItem, {
+      contentHash: 'old',
+      status: 'pass',
+    })).toBe('stale')
+    expect(classifyProblemReviewStatus(currentItem, {
+      contentHash: 'current',
+      status: 'blocked',
+    })).toBe('blocked')
+    expect(classifyProblemReviewStatus(currentItem, {
+      contentHash: 'current',
+      status: 'pass',
+    })).toBe('pass')
   })
 })

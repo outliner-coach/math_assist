@@ -20,11 +20,17 @@ interface HistoricalMissionShellExpectation {
   missionId: string
   unitId: string
   semester: Grade2Mission['semester']
+  mode: Grade2Mission['mode']
+  cognitiveDomain: Grade2Mission['cognitiveDomain']
   stageOrder: number
   unitMissionOrder: number
   skill: Grade2Mission['skill']
   difficultyStep: Grade2Mission['difficultyStep']
   curriculumCode: string
+  directCurriculumCodes: string[]
+  curriculumText: string
+  taskActions: Grade2Mission['taskActions']
+  visualSemantics: Grade2Mission['visualSemantics']
   learnerGoal: string
   parentSummaryTag: string
   answerType: 'length' | 'choice'
@@ -57,13 +63,25 @@ function historicalMissionShell(
     | 'answerType'
   >,
 ): HistoricalMissionShellExpectation {
+  const isRouteTotal = input.missionId === 'g2-2-length-application-route-total-v1'
+  const isClaimCheck = input.missionId === 'g2-2-length-application-claim-check-v1'
   return {
     ...input,
     unitId: 'g2-2-length',
     semester: '2-2',
+    mode: 'practice',
+    cognitiveDomain: isRouteTotal ? 'applying' : 'reasoning',
     skill: 'length',
     difficultyStep: 'applied',
     curriculumCode: '[2수03-13]',
+    directCurriculumCodes: ['[2수03-13]', '[2수03-11]'],
+    curriculumText: '여러 가지 방법으로 길이를 재고 길이의 합과 차를 구할 수 있다.',
+    taskActions: isRouteTotal
+      ? ['interpret', 'model', 'calculate']
+      : isClaimCheck
+        ? ['interpret', 'analyze_error', 'reason']
+        : ['interpret', 'model', 'reason'],
+    visualSemantics: 'quantitative',
     answerConfig: input.answerType === 'choice'
       ? { kind: 'choice' }
       : { kind: 'length', unit: 'cm', inputLabel: '길이를 cm로 써요' },
@@ -312,11 +330,17 @@ export function isGrade2ApplicationMissionSemanticallyValid(
       applicationMission.id === expectation.missionId &&
       applicationMission.unitId === expectation.unitId &&
       applicationMission.semester === expectation.semester &&
+      applicationMission.mode === expectation.mode &&
+      applicationMission.cognitiveDomain === expectation.cognitiveDomain &&
       applicationMission.stageOrder === expectation.stageOrder &&
       applicationMission.unitMissionOrder === expectation.unitMissionOrder &&
       applicationMission.skill === expectation.skill &&
       applicationMission.difficultyStep === expectation.difficultyStep &&
       applicationMission.curriculumCode === expectation.curriculumCode &&
+      sameJson(applicationMission.directCurriculumCodes, expectation.directCurriculumCodes) &&
+      applicationMission.curriculumText === expectation.curriculumText &&
+      sameJson(applicationMission.taskActions, expectation.taskActions) &&
+      applicationMission.visualSemantics === expectation.visualSemantics &&
       applicationMission.learnerGoal === expectation.learnerGoal &&
       applicationMission.parentSummaryTag === expectation.parentSummaryTag &&
       applicationMission.answerType === expectation.answerType &&

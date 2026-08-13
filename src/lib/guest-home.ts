@@ -1,7 +1,13 @@
+import { grade1Islands, grade1MissionTemplates } from './grade1-problems'
 import { grade2Units } from './grade2-problems'
 import { grade3Units } from './grade3-problems'
 import { grade4Units } from './grade4-problems'
-import type { LearningActivitySession, LearningProgressProjection } from './learning-activity'
+import type {
+  LearningActivitySession,
+  LearningCompletionProjection,
+  LearningProgressProjection,
+  LearningSetMode,
+} from './learning-activity'
 import { createLocalProgressRepository } from './local-progress-repository'
 
 export const GUEST_HOME_PREFERENCES_KEY = 'mathAssist_guestHome_v1'
@@ -28,6 +34,13 @@ export interface GradeHomeSummary {
   completedCount: number
   reviewCount: number
   todaySolvedCount: number | null
+  activityId: string | null
+  hasCompletedBasicSet: boolean
+  hasCompletedPracticeSet: boolean
+  isComplete: boolean
+  recommendedMode: LearningSetMode
+  basicHref: string
+  practiceHref: string
   continueTitle: string
   continueDescription: string
   continueHref: string
@@ -77,6 +90,27 @@ function supportedGrade(value: unknown): SupportedGrade | null {
   return SUPPORTED_GRADES.find((grade) => grade === value) ?? null
 }
 
+const emptyCompletion: LearningCompletionProjection = {
+  hasCompletedBasicSet: false,
+  hasCompletedPracticeSet: false,
+  isComplete: false,
+  recommendedMode: 'basic',
+}
+
+function activityCompletion(
+  projection: LearningProgressProjection,
+  activityId: string | null,
+): LearningCompletionProjection {
+  return activityId
+    ? projection.completionByActivityId[activityId] ?? emptyCompletion
+    : emptyCompletion
+}
+
+function completedActivityCount(projection: LearningProgressProjection): number {
+  return Object.values(projection.completionByActivityId)
+    .filter((completion) => completion.isComplete).length
+}
+
 function grade1Summary(
   storage: GuestHomeStorage | null,
   projection: LearningProgressProjection,
@@ -85,21 +119,36 @@ function grade1Summary(
   const completed = [...projection.completed]
   const review = [...projection.review]
   const latest = stringValue(progress?.latestStageId)
+  const latestIslandId = latest
+    ? grade1MissionTemplates.find((mission) => mission.id === latest)?.islandId ?? null
+    : null
+  const activityId = latestIslandId ?? grade1Islands[0]?.id ?? null
+  const completion = activityCompletion(projection, activityId)
+  const basicHref = activityId
+    ? `/grade/1?islandId=${encodeURIComponent(activityId)}&mode=basic`
+    : '/grade/1'
+  const practiceHref = activityId
+    ? `/grade/1?islandId=${encodeURIComponent(activityId)}&mode=practice`
+    : '/grade/1'
   const hasProgress = completed.length > 0 || review.length > 0 || latest !== null
 
   return {
     grade: 1,
     hasProgress,
     lastPlayedAt: hasProgress ? projection.lastActivityAt : null,
-    completedCount: completed.length,
+    completedCount: completedActivityCount(projection),
     reviewCount: review.length,
     todaySolvedCount: hasProgress ? numberValue(progress?.todaySolvedCount) ?? 0 : null,
+    activityId,
+    ...completion,
+    basicHref,
+    practiceHref,
     continueTitle: review.length > 0 ? '다시 볼 미션이 기다리고 있어요' : '숫자 탐험섬을 이어가요',
     continueDescription: hasProgress
       ? `완료한 미션 ${completed.length}개 · 탐험 지도에서 다음 길을 열어요.`
       : '큰 그림과 버튼을 따라 첫 번째 숫자 미션부터 시작해요.',
-    continueHref: '/grade/1',
-    continueLabel: hasProgress ? '탐험 이어서 하기' : '첫 미션 시작',
+    continueHref: completion.recommendedMode === 'practice' ? practiceHref : basicHref,
+    continueLabel: completion.recommendedMode === 'practice' ? '연습 7문제 시작' : '기본 7문제 시작',
   }
 }
 
@@ -113,18 +162,27 @@ function grade2Summary(
   const latest = stringValue(progress?.latestMissionId)
   const selectedUnitId = stringValue(progress?.selectedUnitId)
   const selectedUnit = grade2Units.find((unit) => unit.id === selectedUnitId)
+  const activityId = selectedUnit?.id ?? null
+  const completion = activityCompletion(projection, activityId)
   const hasProgress = completed.length > 0 || review.length > 0 || latest !== null
-  const continueHref = selectedUnit
-    ? `/grade/2/mission?unitId=${encodeURIComponent(selectedUnit.id)}`
+  const basicHref = selectedUnit
+    ? `/grade/2/mission?unitId=${encodeURIComponent(selectedUnit.id)}&mode=basic`
+    : '/grade/2'
+  const practiceHref = selectedUnit
+    ? `/grade/2/mission?unitId=${encodeURIComponent(selectedUnit.id)}&mode=practice`
     : '/grade/2'
 
   return {
     grade: 2,
     hasProgress,
     lastPlayedAt: hasProgress ? projection.lastActivityAt : null,
-    completedCount: completed.length,
+    completedCount: completedActivityCount(projection),
     reviewCount: review.length,
     todaySolvedCount: hasProgress ? numberValue(progress?.todaySolvedCount) ?? 0 : null,
+    activityId,
+    ...completion,
+    basicHref,
+    practiceHref,
     continueTitle: selectedUnit
       ? hasProgress ? `${selectedUnit.title} 미션 이어하기` : `${selectedUnit.title} 첫 미션`
       : '2학년 탐험 단원을 골라요',
@@ -133,8 +191,10 @@ function grade2Summary(
       : hasProgress
         ? `완료한 미션 ${completed.length}개 · 다음 미션으로 탐험을 이어가요.`
         : '자리값, 길이, 시각, 그래프 중 재미있는 단원부터 골라요.',
-    continueHref,
-    continueLabel: hasProgress ? '이어서 풀기' : selectedUnit ? '첫 미션 시작' : '단원 고르기',
+    continueHref: completion.recommendedMode === 'practice' ? practiceHref : basicHref,
+    continueLabel: selectedUnit
+      ? completion.recommendedMode === 'practice' ? '연습 6문제 시작' : '기본 6문제 시작'
+      : '단원 고르기',
   }
 }
 
@@ -148,18 +208,27 @@ function grade3Summary(
   const latest = stringValue(progress?.latestMissionId)
   const selectedUnitId = stringValue(progress?.selectedUnitId)
   const selectedUnit = grade3Units.find((unit) => unit.id === selectedUnitId)
+  const activityId = selectedUnit?.id ?? null
+  const completion = activityCompletion(projection, activityId)
   const hasProgress = completed.length > 0 || review.length > 0 || latest !== null
-  const continueHref = selectedUnit
-    ? `/grade/3/mission?unitId=${encodeURIComponent(selectedUnit.id)}`
+  const basicHref = selectedUnit
+    ? `/grade/3/mission?unitId=${encodeURIComponent(selectedUnit.id)}&mode=basic`
+    : '/grade/3'
+  const practiceHref = selectedUnit
+    ? `/grade/3/mission?unitId=${encodeURIComponent(selectedUnit.id)}&mode=practice`
     : '/grade/3'
 
   return {
     grade: 3,
     hasProgress,
     lastPlayedAt: hasProgress ? projection.lastActivityAt : null,
-    completedCount: completed.length,
+    completedCount: completedActivityCount(projection),
     reviewCount: review.length,
     todaySolvedCount: hasProgress ? numberValue(progress?.todaySolvedCount) ?? 0 : null,
+    activityId,
+    ...completion,
+    basicHref,
+    practiceHref,
     continueTitle: selectedUnit
       ? hasProgress ? `${selectedUnit.title} 미션 이어하기` : `${selectedUnit.title} 첫 미션`
       : '3학년 탐험 단원을 골라요',
@@ -168,8 +237,10 @@ function grade3Summary(
       : hasProgress
         ? `완료한 미션 ${completed.length}개 · 다음 미션으로 탐험을 이어가요.`
         : '도형, 분수, 측정, 그래프를 그림으로 확인하며 시작해요.',
-    continueHref,
-    continueLabel: hasProgress ? '이어서 풀기' : selectedUnit ? '첫 미션 시작' : '단원 고르기',
+    continueHref: completion.recommendedMode === 'practice' ? practiceHref : basicHref,
+    continueLabel: selectedUnit
+      ? completion.recommendedMode === 'practice' ? '연습 3문제 시작' : '기본 3문제 시작'
+      : '단원 고르기',
   }
 }
 
@@ -180,31 +251,48 @@ function grade5Summary(
 ): GradeHomeSummary {
   const rawSession = parseRecord(storage, GRADE5_SESSION_KEY)
   const sessionSetId = stringValue(rawSession?.setId)
+  const rawItemCount = numberValue(rawSession?.itemCount)
+  const explicitItemCount = rawItemCount === 5 || rawItemCount === 10 ? rawItemCount : null
   const hasActiveSession = session?.status === 'active'
   const conceptId = session?.activityId ?? projection.resume?.activityId ?? null
   const setId = sessionSetId === 'B' || sessionSetId === 'C' ? sessionSetId : 'A'
   const hasProgress = projection.completed.length > 0 || hasActiveSession
   const reviewCount = projection.review.length
+  const completion = activityCompletion(projection, conceptId)
+  const basicHref = conceptId
+    ? `/practice/${encodeURIComponent(conceptId)}?set=${setId}&count=5`
+    : '/grade/5'
+  const practiceHref = conceptId
+    ? `/practice/${encodeURIComponent(conceptId)}?set=${setId}&count=10`
+    : '/grade/5'
 
   return {
     grade: 5,
     hasProgress,
     lastPlayedAt: projection.lastActivityAt,
-    completedCount: projection.completed.length,
+    completedCount: completedActivityCount(projection),
     reviewCount,
     todaySolvedCount: null,
-    continueTitle: hasActiveSession ? '풀던 10문제를 이어가요' : hasProgress ? '최근 개념을 다시 확인해요' : '5학년 단원을 골라요',
+    activityId: conceptId,
+    ...completion,
+    basicHref,
+    practiceHref,
+    continueTitle: hasActiveSession
+      ? `풀던 ${explicitItemCount ?? 10}문제를 이어가요`
+      : hasProgress ? '최근 개념을 다시 확인해요' : '5학년 단원을 골라요',
     continueDescription: hasActiveSession
       ? '답은 이 기기에 저장되어 있어요. 멈춘 문제부터 계속 풀 수 있어요.'
       : hasProgress
         ? `연습한 개념 ${projection.completed.length}개 · 복습할 개념 ${reviewCount}개`
         : '개념을 짧게 읽고 10문제 연습으로 바로 확인해요.',
     continueHref: hasActiveSession && conceptId
-      ? `/practice/${encodeURIComponent(conceptId)}?set=${setId}`
+      ? `/practice/${encodeURIComponent(conceptId)}?set=${setId}${explicitItemCount ? `&count=${explicitItemCount}` : ''}`
+      : completion.recommendedMode === 'practice' ? practiceHref : basicHref,
+    continueLabel: hasActiveSession
+      ? '문제 이어서 풀기'
       : conceptId
-        ? `/concept/${encodeURIComponent(conceptId)}`
-        : '/grade/5',
-    continueLabel: hasActiveSession ? '문제 이어서 풀기' : hasProgress ? '최근 개념 보기' : '단원 고르기',
+        ? completion.recommendedMode === 'practice' ? '집중 10문제 시작' : '기본 5문제 시작'
+        : '단원 고르기',
   }
 }
 
@@ -222,14 +310,25 @@ function grade6Summary(
   const conceptId = session?.activityId ?? projection.resume?.activityId ?? null
   const hasProgress = projection.completed.length > 0 || hasActiveSession
   const reviewCount = projection.review.length
+  const completion = activityCompletion(projection, conceptId)
+  const basicHref = conceptId
+    ? `/practice/${encodeURIComponent(conceptId)}?set=${setId}&count=5`
+    : '/grade/6'
+  const practiceHref = conceptId
+    ? `/practice/${encodeURIComponent(conceptId)}?set=${setId}&count=10`
+    : '/grade/6'
 
   return {
     grade: 6,
     hasProgress,
     lastPlayedAt: projection.lastActivityAt,
-    completedCount: projection.completed.length,
+    completedCount: completedActivityCount(projection),
     reviewCount,
     todaySolvedCount: null,
+    activityId: conceptId,
+    ...completion,
+    basicHref,
+    practiceHref,
     continueTitle: hasActiveSession
       ? `풀던 ${itemCount}문제를 이어가요`
       : hasProgress
@@ -242,10 +341,12 @@ function grade6Summary(
         : '비와 비율 개념을 확인하고 5문제부터 가볍게 시작해요.',
     continueHref: hasActiveSession && conceptId
       ? `/practice/${encodeURIComponent(conceptId)}?set=${setId}&count=${itemCount}`
+      : completion.recommendedMode === 'practice' ? practiceHref : basicHref,
+    continueLabel: hasActiveSession
+      ? '문제 이어서 풀기'
       : conceptId
-        ? `/concept/${encodeURIComponent(conceptId)}`
-        : '/grade/6',
-    continueLabel: hasActiveSession ? '문제 이어서 풀기' : hasProgress ? '최근 개념 보기' : 'Study 시작',
+        ? completion.recommendedMode === 'practice' ? '집중 10문제 시작' : '기본 5문제 시작'
+        : 'Study 시작',
   }
 }
 
@@ -259,18 +360,27 @@ function grade4Summary(
   const latest = stringValue(progress?.latestMissionId)
   const selectedUnitId = stringValue(progress?.selectedUnitId)
   const selectedUnit = grade4Units.find((unit) => unit.id === selectedUnitId)
+  const activityId = selectedUnit?.id ?? null
+  const completion = activityCompletion(projection, activityId)
   const hasProgress = completed.length > 0 || review.length > 0 || latest !== null
-  const continueHref = selectedUnit
-    ? `/grade/4/mission?unitId=${encodeURIComponent(selectedUnit.id)}`
+  const basicHref = selectedUnit
+    ? `/grade/4/mission?unitId=${encodeURIComponent(selectedUnit.id)}&mode=basic`
+    : '/grade/4'
+  const practiceHref = selectedUnit
+    ? `/grade/4/mission?unitId=${encodeURIComponent(selectedUnit.id)}&mode=practice`
     : '/grade/4'
 
   return {
     grade: 4,
     hasProgress,
     lastPlayedAt: hasProgress ? projection.lastActivityAt : null,
-    completedCount: completed.length,
+    completedCount: completedActivityCount(projection),
     reviewCount: review.length,
     todaySolvedCount: hasProgress ? numberValue(progress?.todaySolvedCount) ?? 0 : null,
+    activityId,
+    ...completion,
+    basicHref,
+    practiceHref,
     continueTitle: selectedUnit
       ? hasProgress ? `${selectedUnit.title} 활동 이어하기` : `${selectedUnit.title} 첫 활동`
       : '4학년 Bridge 단원을 골라요',
@@ -279,8 +389,10 @@ function grade4Summary(
       : hasProgress
         ? `해결한 문제 ${completed.length}개 · 알기·적용·추론을 한 문제씩 이어가요.`
         : '큰 수를 자리표와 수직선으로 확인하고 3문제 활동을 시작해요.',
-    continueHref,
-    continueLabel: hasProgress ? '활동 이어서 하기' : selectedUnit ? '첫 활동 시작' : '단원 고르기',
+    continueHref: completion.recommendedMode === 'practice' ? practiceHref : basicHref,
+    continueLabel: selectedUnit
+      ? completion.recommendedMode === 'practice' ? '연습 3문제 시작' : '기본 3문제 시작'
+      : '단원 고르기',
   }
 }
 

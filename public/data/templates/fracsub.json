@@ -5,42 +5,56 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-unlike-direct",
+    "blueprint": {
+      "problemFamily": "fracsub-unlike-direct",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 2,
-        "max": 4
-      },
-      "d1": {
-        "min": 3,
-        "max": 6
-      },
-      "n2": {
+      "n": {
         "min": 1,
         "max": 3
       },
-      "d2": {
-        "min": 4,
-        "max": 7
+      "b": {
+        "min": 2,
+        "max": 4
+      },
+      "m": {
+        "min": 2,
+        "max": 4
+      },
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{n + m}}/{{n + m + b}} - {{n}}/{{n + m + b + c}}. 값을 기약분수로 나타내세요.",
+    "solver_rule": "fracSub(n + m, n + m + b, n, n + m + b + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "공통 분모는 {{commonDen(n + m + b, n + m + b + c)}}입니다.",
+      "통분하여 빼고 약분하면 {{fracSub(n + m, n + m + b, n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 통분해요.",
-      "분자를 빼요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ],
     "choices_template": [
-      "{{fracSub(n1, d1, n2, d2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 3)}}"
+      "{{fracSub(n + m, n + m + b, n, n + m + b + c)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 1)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 2)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 3)}}"
     ]
   },
   {
@@ -49,36 +63,47 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-same-numerator",
+    "blueprint": {
+      "problemFamily": "fracsub-same-numerator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 2,
-        "max": 5
-      },
-      "d1": {
-        "min": 4,
-        "max": 7
-      },
-      "n2": {
+      "n": {
         "min": 1,
         "max": 3
       },
-      "d2": {
-        "min": 5,
-        "max": 8
+      "b": {
+        "min": 2,
+        "max": 4
+      },
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} 를 계산하세요.",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "첫째 분수는 {{n}}/{{n + b}}, 둘째 분수는 {{n}}/{{n + b + c}}입니다. 큰 수에서 작은 수를 빼세요.",
+    "solver_rule": "fracSub(n, n + b, n, n + b + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "분자가 같을 때 더 큰 분수는 분모가 작은 {{n}}/{{n + b}}입니다.",
+      "{{n}}/{{n + b}} - {{n}}/{{n + b + c}} = {{fracSub(n, n + b, n, n + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 찾아요.",
-      "분자끼리 빼요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
@@ -87,41 +112,49 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-from-whole",
+    "blueprint": {
+      "problemFamily": "fracsub-from-whole",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
-        "max": 5
-      },
-      "d1": {
-        "min": 3,
-        "max": 5
-      },
-      "n2": {
+      "n": {
         "min": 1,
         "max": 3
       },
-      "d2": {
-        "min": 4,
-        "max": 6
+      "b": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "계산식: 1 - {{n}}/{{n + b}}. 값을 구하세요.",
+    "solver_rule": "fracSub(1, 1, n, n + b)",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "1을 {{n + b}}/{{n + b}}로 바꿉니다.",
+      "{{n + b}}/{{n + b}} - {{n}}/{{n + b}} = {{b}}/{{n + b}}이고 약분하면 {{fracSub(1, 1, n, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 빼요.",
-      "정답은 기약분수예요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ],
     "choices_template": [
-      "{{fracSub(n1, d1, n2, d2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, -1)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 4)}}"
+      "{{fracSub(1, 1, n, n + b)}}",
+      "{{fracSubOff(1, 1, n, n + b, 1)}}",
+      "{{fracSubOff(1, 1, n, n + b, 2)}}",
+      "{{fracSubOff(1, 1, n, n + b, 3)}}"
     ]
   },
   {
@@ -130,36 +163,50 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "A",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-common-denominator-numerator-difference",
+    "blueprint": {
+      "problemFamily": "fracsub-common-denominator-numerator-difference",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-08",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 3,
-        "max": 6
-      },
-      "d1": {
-        "min": 4,
-        "max": 7
-      },
-      "n2": {
+      "n": {
         "min": 1,
         "max": 3
       },
-      "d2": {
-        "min": 5,
-        "max": 8
+      "b": {
+        "min": 2,
+        "max": 4
+      },
+      "m": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} 를 계산하세요. (예: 1/6)",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "첫째 분수는 {{n + m}}/{{n + m + b}}, 둘째 분수는 {{n}}/{{2 * n + 2 * m + 2 * b}}입니다. 공통 분모가 {{2 * n + 2 * m + 2 * b}}일 때 바뀐 첫째 분자에서 둘째 분자를 뺀 값을 구하세요.",
+    "solver_rule": "n + 2 * m",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "첫째 분수의 분모를 2배로 만들면 분자는 {{2 * n + 2 * m}}이 되고, 둘째 분자는 {{n}}입니다.",
+      "바뀐 분자의 차는 {{2 * n + 2 * m}} - {{n}} = {{n + 2 * m}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 찾고 빼요.",
-      "분자끼리 뺄셈이에요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
@@ -168,42 +215,57 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-context-remaining",
+    "blueprint": {
+      "problemFamily": "fracsub-context-remaining",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 4,
-        "max": 7
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 5,
-        "max": 9
-      },
-      "n2": {
+      "b": {
         "min": 2,
-        "max": 5
+        "max": 4
       },
-      "d2": {
-        "min": 6,
-        "max": 10
+      "m": {
+        "min": 2,
+        "max": 4
+      },
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "물통에 있던 물은 {{n + m}}/{{n + m + b}} L이고 사용한 물은 {{n}}/{{n + m + b + c}} L입니다. 물은 몇 L 남나요?",
+    "solver_rule": "fracSub(n + m, n + m + b, n, n + m + b + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "처음 양에서 사용한 양을 빼는 식을 세웁니다.",
+      "{{n + m}}/{{n + m + b}} - {{n}}/{{n + m + b + c}} = {{fracSub(n + m, n + m + b, n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 빼요.",
-      "분자를 빼는 계산이에요."
+      "같은 단위의 양인지 확인하고 상황을 덧셈이나 뺄셈 식으로 나타내요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ],
     "choices_template": [
-      "{{fracSub(n1, d1, n2, d2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 3)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 5)}}"
+      "{{fracSub(n + m, n + m + b, n, n + m + b + c)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 1)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 2)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 3)}}"
     ]
   },
   {
@@ -212,196 +274,271 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "A",
-    "problem_family": "fracsub-context-difference",
-    "blueprint": {"problemFamily":"fracsub-context-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracsub-context-distance-gap",
+    "blueprint": {
+      "problemFamily": "fracsub-context-distance-gap",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 4,
-        "max": 6
-      },
-      "d1": {
-        "min": 7,
-        "max": 9
-      },
-      "n2": {
+      "n": {
         "min": 1,
-        "max": 2
+        "max": 3
       },
-      "d2": {
-        "min": 7,
-        "max": 9
+      "b": {
+        "min": 2,
+        "max": 4
+      },
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "물 {{n1}}/{{d1}}L 중에서 {{n2}}/{{d2}}L를 마셨습니다. 남은 물은 몇 L인가요?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "첫 번째 길이는 {{n}}/{{n + b}} m이고 두 번째 길이는 {{n}}/{{n + b + c}} m입니다. 두 길이의 차이는 몇 m인가요?",
+    "solver_rule": "fracSub(n, n + b, n, n + b + c)",
     "solution_steps_template": [
-      "통분하여 분자를 맞춥니다.",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "분자가 같을 때 더 큰 분수는 분모가 작은 {{n}}/{{n + b}}입니다.",
+      "큰 값에서 작은 값을 빼면 {{fracSub(n, n + b, n, n + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 빼기예요.",
-      "분자끼리 빼요."
+      "같은 단위의 양인지 확인하고 상황을 덧셈이나 뺄셈 식으로 나타내요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
     "id": "tmpl-fracsub-A-07",
     "concept_id": "fracsub-001",
     "type": "choice",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "A",
-    "problem_family": "fracsub-common-denominator-numerator-difference",
-    "blueprint": {"problemFamily":"fracsub-common-denominator-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracsub-missing-subtrahend",
+    "blueprint": {
+      "problemFamily": "fracsub-missing-subtrahend",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 4,
-        "max": 7
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 5,
-        "max": 9
-      },
-      "n2": {
+      "b": {
         "min": 2,
-        "max": 5
+        "max": 4
       },
-      "d2": {
-        "min": 6,
-        "max": 10
+      "m": {
+        "min": 2,
+        "max": 4
+      },
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분한 뒤 분자끼리 뺀 값은?",
-    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "prompt_template": "{{n + m}}/{{n + m + b}} - 어떤 분수 = {{fracSub(n + m, n + m + b, n, n + m + b + c)}}입니다. 어떤 분수를 구하세요.",
+    "solver_rule": "reduceFrac(n, n + m + b + c)",
     "solution_steps_template": [
-      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
-      "차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}"
+      "처음 분수에서 차를 빼면 빠진 분수를 찾을 수 있습니다.",
+      "빠진 분수는 {{n}}/{{n + m + b + c}}이고 기약분수는 {{reduceFrac(n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자를 각각 구해요.",
-      "앞에서 뒤를 빼요."
+      "결과와 알고 있는 수의 관계를 반대 연산이나 둘레 식으로 나타내요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ],
     "choices_template": [
-      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}",
-      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 1}}",
-      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 2}}",
-      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 3}}"
+      "{{reduceFrac(n, n + m + b + c)}}",
+      "{{reduceFrac(n + 1, n + m + b + c)}}",
+      "{{reduceFrac(n + 2, n + m + b + c)}}",
+      "{{reduceFrac(n + 3, n + m + b + c)}}"
     ]
   },
   {
     "id": "tmpl-fracsub-A-08",
     "concept_id": "fracsub-001",
     "type": "number",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "A",
-    "problem_family": "fracsub-common-denominator-numerator-difference",
-    "blueprint": {"problemFamily":"fracsub-common-denominator-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracsub-missing-minuend",
+    "blueprint": {
+      "problemFamily": "fracsub-missing-minuend",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 4,
-        "max": 7
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 5,
-        "max": 9
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 3,
-        "max": 6
+      "m": {
+        "min": 2,
+        "max": 4
       },
-      "d2": {
-        "min": 7,
-        "max": 10
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}}의 분자를 통분한 뒤 빼면?",
-    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "prompt_template": "빼는 수는 {{n}}/{{n + m + b + c}}이고 차는 {{fracSub(n + m, n + m + b, n, n + m + b + c)}}입니다. 처음 분수를 구하세요.",
+    "solver_rule": "reduceFrac(n + m, n + m + b)",
     "solution_steps_template": [
-      "통분한 분자 차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "차와 뺀 분수를 더하면 처음 분수를 찾을 수 있습니다.",
+      "처음 분수는 {{n + m}}/{{n + m + b}}이고 기약분수는 {{reduceFrac(n + m, n + m + b)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자끼리 빼요.",
-      "분모는 공통 분모예요."
+      "결과와 알고 있는 수의 관계를 반대 연산이나 둘레 식으로 나타내요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
     "id": "tmpl-fracsub-A-09",
     "concept_id": "fracsub-001",
-    "type": "number",
-    "difficulty": 2,
+    "type": "choice",
+    "difficulty": 3,
     "set_id": "A",
-    "problem_family": "fracsub-adjusted-result",
-    "blueprint": {"problemFamily":"fracsub-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "fracsub-unconverted-numerator-error",
+    "blueprint": {
+      "problemFamily": "fracsub-unconverted-numerator-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 6,
-        "max": 9
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 7,
-        "max": 11
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 4,
-        "max": 7
+      "m": {
+        "min": 2,
+        "max": 4
       },
-      "d2": {
-        "min": 8,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분하여 뺀 뒤, 분자에 1을 더해 만든 분수는?",
-    "solver_rule": "fracSubOff(n1, d1, n2, d2, 1)",
+    "prompt_template": "{{n + m}}/{{n + m + b}} - {{n}}/{{n + m + b + c}}에서 통분하지 않고 분자만 빼어 {{m}}/{{n + m + b}}라고 했습니다. 올바른 값은 이 잘못된 값보다 얼마 큰가요?",
+    "solver_rule": "fracSub(n, n + m + b, n, n + m + b + c)",
     "solution_steps_template": [
-      "통분한 뒤 분자에 1을 더합니다.",
-      "정답: {{fracSubOff(n1, d1, n2, d2, 1)}}"
+      "올바른 차에서 잘못된 값을 빼면, 첫째 분수의 {{n}}/{{n + m + b}} 부분과 둘째 분수의 차만 남습니다.",
+      "{{n}}/{{n + m + b}} - {{n}}/{{n + m + b + c}} = {{fracSub(n, n + m + b, n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 분자에 1을 더해요.",
-      "기약분수로 써요."
+      "올바른 통분 계산과 잘못된 계산을 각각 식으로 나타내 비교해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
+    ],
+    "choices_template": [
+      "{{fracSub(n, n + m + b, n, n + m + b + c)}}",
+      "{{fracSubOff(n, n + m + b, n, n + m + b + c, 1)}}",
+      "{{fracSubOff(n, n + m + b, n, n + m + b + c, 2)}}",
+      "{{fracSubOff(n, n + m + b, n, n + m + b + c, 3)}}"
     ]
   },
   {
     "id": "tmpl-fracsub-A-10",
     "concept_id": "fracsub-001",
-    "type": "choice",
-    "difficulty": 2,
+    "type": "number",
+    "difficulty": 3,
     "set_id": "A",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-addition-instead-error",
+    "blueprint": {
+      "problemFamily": "fracsub-addition-instead-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 6,
-        "max": 9
+      "n": {
+        "min": 1,
+        "max": 3
       },
-      "d1": {
-        "min": 7,
-        "max": 11
+      "b": {
+        "min": 2,
+        "max": 4
       },
-      "n2": {
-        "min": 4,
-        "max": 7
+      "m": {
+        "min": 2,
+        "max": 4
       },
-      "d2": {
-        "min": 8,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$에서 $\\frac{ {{n2}} }{ {{d2}} }$를 뺀 값은?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "계산식은 {{n + m}}/{{n + m + b}} - {{n}}/{{n + m + b + c}}입니다. 이를 덧셈으로 잘못 계산했을 때 잘못된 값은 올바른 값보다 얼마 큰가요?",
+    "solver_rule": "reduceFrac(2 * n, n + m + b + c)",
     "solution_steps_template": [
-      "통분 후 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "잘못된 덧셈과 올바른 뺄셈은 둘째 분수의 부호만 다릅니다.",
+      "두 결과의 차는 둘째 분수 {{n}}/{{n + m + b + c}}의 2배이므로 {{reduceFrac(2 * n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모로 통분해요.",
-      "분자를 빼요."
-    ],
-    "choices_template": [
-      "{{fracSub(n1, d1, n2, d2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 3)}}"
+      "올바른 통분 계산과 잘못된 계산을 각각 식으로 나타내 비교해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
@@ -410,42 +547,56 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-unlike-direct",
+    "blueprint": {
+      "problemFamily": "fracsub-unlike-direct",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 4,
-        "max": 6
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 5,
-        "max": 8
-      },
-      "n2": {
+      "b": {
         "min": 3,
         "max": 5
       },
-      "d2": {
-        "min": 6,
-        "max": 9
+      "m": {
+        "min": 3,
+        "max": 5
+      },
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{n + m}}/{{n + m + b}} - {{n}}/{{n + m + b + c}}. 값을 기약분수로 나타내세요.",
+    "solver_rule": "fracSub(n + m, n + m + b, n, n + m + b + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "공통 분모는 {{commonDen(n + m + b, n + m + b + c)}}입니다.",
+      "통분하여 빼고 약분하면 {{fracSub(n + m, n + m + b, n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 통분해요.",
-      "분자를 빼요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ],
     "choices_template": [
-      "{{fracSub(n1, d1, n2, d2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 3)}}"
+      "{{fracSub(n + m, n + m + b, n, n + m + b + c)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 1)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 2)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 3)}}"
     ]
   },
   {
@@ -454,36 +605,47 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-same-numerator",
+    "blueprint": {
+      "problemFamily": "fracsub-same-numerator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 4,
-        "max": 7
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 6,
-        "max": 9
-      },
-      "n2": {
+      "b": {
         "min": 3,
         "max": 5
       },
-      "d2": {
-        "min": 7,
-        "max": 10
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} 를 계산하세요.",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "첫째 분수는 {{n}}/{{n + b}}, 둘째 분수는 {{n}}/{{n + b + c}}입니다. 큰 수에서 작은 수를 빼세요.",
+    "solver_rule": "fracSub(n, n + b, n, n + b + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "분자가 같을 때 더 큰 분수는 분모가 작은 {{n}}/{{n + b}}입니다.",
+      "{{n}}/{{n + b}} - {{n}}/{{n + b + c}} = {{fracSub(n, n + b, n, n + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 찾아요.",
-      "분자끼리 빼요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
@@ -492,41 +654,49 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-from-whole",
+    "blueprint": {
+      "problemFamily": "fracsub-from-whole",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 7
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 5,
-        "max": 7
-      },
-      "n2": {
+      "b": {
         "min": 3,
         "max": 5
-      },
-      "d2": {
-        "min": 6,
-        "max": 8
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "계산식: 1 - {{n}}/{{n + b}}. 값을 구하세요.",
+    "solver_rule": "fracSub(1, 1, n, n + b)",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "1을 {{n + b}}/{{n + b}}로 바꿉니다.",
+      "{{n + b}}/{{n + b}} - {{n}}/{{n + b}} = {{b}}/{{n + b}}이고 약분하면 {{fracSub(1, 1, n, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 빼요.",
-      "정답은 기약분수예요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ],
     "choices_template": [
-      "{{fracSub(n1, d1, n2, d2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, -1)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 4)}}"
+      "{{fracSub(1, 1, n, n + b)}}",
+      "{{fracSubOff(1, 1, n, n + b, 1)}}",
+      "{{fracSubOff(1, 1, n, n + b, 2)}}",
+      "{{fracSubOff(1, 1, n, n + b, 3)}}"
     ]
   },
   {
@@ -535,36 +705,50 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "B",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-common-denominator-numerator-difference",
+    "blueprint": {
+      "problemFamily": "fracsub-common-denominator-numerator-difference",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-08",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 8
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 6,
-        "max": 9
-      },
-      "n2": {
+      "b": {
         "min": 3,
         "max": 5
       },
-      "d2": {
-        "min": 7,
-        "max": 10
+      "m": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} 를 계산하세요. (예: 1/6)",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "첫째 분수는 {{n + m}}/{{n + m + b}}, 둘째 분수는 {{n}}/{{2 * n + 2 * m + 2 * b}}입니다. 공통 분모가 {{2 * n + 2 * m + 2 * b}}일 때 바뀐 첫째 분자에서 둘째 분자를 뺀 값을 구하세요.",
+    "solver_rule": "n + 2 * m",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "첫째 분수의 분모를 2배로 만들면 분자는 {{2 * n + 2 * m}}이 되고, 둘째 분자는 {{n}}입니다.",
+      "바뀐 분자의 차는 {{2 * n + 2 * m}} - {{n}} = {{n + 2 * m}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 찾고 빼요.",
-      "분자끼리 뺄셈이에요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
@@ -573,42 +757,57 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-context-remaining",
+    "blueprint": {
+      "problemFamily": "fracsub-context-remaining",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 6,
-        "max": 9
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 7,
-        "max": 11
+      "b": {
+        "min": 3,
+        "max": 5
       },
-      "n2": {
-        "min": 4,
-        "max": 7
+      "m": {
+        "min": 3,
+        "max": 5
       },
-      "d2": {
-        "min": 8,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "리본의 처음 길이는 {{n + m}}/{{n + m + b}} m이고 잘라 낸 길이는 {{n}}/{{n + m + b + c}} m입니다. 남은 길이는 몇 m인가요?",
+    "solver_rule": "fracSub(n + m, n + m + b, n, n + m + b + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "처음 양에서 사용한 양을 빼는 식을 세웁니다.",
+      "{{n + m}}/{{n + m + b}} - {{n}}/{{n + m + b + c}} = {{fracSub(n + m, n + m + b, n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 빼요.",
-      "분자를 빼는 계산이에요."
+      "같은 단위의 양인지 확인하고 상황을 덧셈이나 뺄셈 식으로 나타내요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ],
     "choices_template": [
-      "{{fracSub(n1, d1, n2, d2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 3)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 5)}}"
+      "{{fracSub(n + m, n + m + b, n, n + m + b + c)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 1)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 2)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 3)}}"
     ]
   },
   {
@@ -617,196 +816,271 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "B",
-    "problem_family": "fracsub-context-difference",
-    "blueprint": {"problemFamily":"fracsub-context-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracsub-context-distance-gap",
+    "blueprint": {
+      "problemFamily": "fracsub-context-distance-gap",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 5,
-        "max": 7
-      },
-      "d1": {
-        "min": 8,
-        "max": 10
-      },
-      "n2": {
+      "n": {
         "min": 2,
-        "max": 3
+        "max": 4
       },
-      "d2": {
-        "min": 9,
-        "max": 11
+      "b": {
+        "min": 3,
+        "max": 5
+      },
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "색종이 {{n1}}/{{d1}}장만큼의 조각에서 {{n2}}/{{d2}}장만큼을 사용했습니다. 남은 양은 몇 장인가요?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "첫 번째 로봇의 이동 거리는 {{n}}/{{n + b}} m, 두 번째 로봇은 {{n}}/{{n + b + c}} m입니다. 더 이동한 거리는 몇 m인가요?",
+    "solver_rule": "fracSub(n, n + b, n, n + b + c)",
     "solution_steps_template": [
-      "통분하여 분자를 맞춥니다.",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "분자가 같을 때 더 큰 분수는 분모가 작은 {{n}}/{{n + b}}입니다.",
+      "큰 값에서 작은 값을 빼면 {{fracSub(n, n + b, n, n + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 빼기예요.",
-      "분자끼리 빼요."
+      "같은 단위의 양인지 확인하고 상황을 덧셈이나 뺄셈 식으로 나타내요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
     "id": "tmpl-fracsub-B-07",
     "concept_id": "fracsub-001",
     "type": "choice",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "B",
-    "problem_family": "fracsub-common-denominator-numerator-difference",
-    "blueprint": {"problemFamily":"fracsub-common-denominator-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracsub-missing-subtrahend",
+    "blueprint": {
+      "problemFamily": "fracsub-missing-subtrahend",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 6,
-        "max": 9
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 7,
-        "max": 11
+      "b": {
+        "min": 3,
+        "max": 5
       },
-      "n2": {
-        "min": 4,
-        "max": 7
+      "m": {
+        "min": 3,
+        "max": 5
       },
-      "d2": {
-        "min": 8,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분한 뒤 분자끼리 뺀 값은?",
-    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "prompt_template": "{{n + m}}/{{n + m + b}} - 어떤 분수 = {{fracSub(n + m, n + m + b, n, n + m + b + c)}}입니다. 어떤 분수를 구하세요.",
+    "solver_rule": "reduceFrac(n, n + m + b + c)",
     "solution_steps_template": [
-      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
-      "차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}"
+      "처음 분수에서 차를 빼면 빠진 분수를 찾을 수 있습니다.",
+      "빠진 분수는 {{n}}/{{n + m + b + c}}이고 기약분수는 {{reduceFrac(n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자를 각각 구해요.",
-      "앞에서 뒤를 빼요."
+      "결과와 알고 있는 수의 관계를 반대 연산이나 둘레 식으로 나타내요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ],
     "choices_template": [
-      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}",
-      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 1}}",
-      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 2}}",
-      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 3}}"
+      "{{reduceFrac(n, n + m + b + c)}}",
+      "{{reduceFrac(n + 1, n + m + b + c)}}",
+      "{{reduceFrac(n + 2, n + m + b + c)}}",
+      "{{reduceFrac(n + 3, n + m + b + c)}}"
     ]
   },
   {
     "id": "tmpl-fracsub-B-08",
     "concept_id": "fracsub-001",
     "type": "number",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "B",
-    "problem_family": "fracsub-common-denominator-numerator-difference",
-    "blueprint": {"problemFamily":"fracsub-common-denominator-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracsub-missing-minuend",
+    "blueprint": {
+      "problemFamily": "fracsub-missing-minuend",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 6,
-        "max": 9
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 7,
-        "max": 11
+      "b": {
+        "min": 3,
+        "max": 5
       },
-      "n2": {
-        "min": 5,
-        "max": 8
+      "m": {
+        "min": 3,
+        "max": 5
       },
-      "d2": {
-        "min": 9,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}}의 분자를 통분한 뒤 빼면?",
-    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "prompt_template": "빼는 수는 {{n}}/{{n + m + b + c}}이고 차는 {{fracSub(n + m, n + m + b, n, n + m + b + c)}}입니다. 처음 분수를 구하세요.",
+    "solver_rule": "reduceFrac(n + m, n + m + b)",
     "solution_steps_template": [
-      "통분한 분자 차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "차와 뺀 분수를 더하면 처음 분수를 찾을 수 있습니다.",
+      "처음 분수는 {{n + m}}/{{n + m + b}}이고 기약분수는 {{reduceFrac(n + m, n + m + b)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자끼리 빼요.",
-      "분모는 공통 분모예요."
+      "결과와 알고 있는 수의 관계를 반대 연산이나 둘레 식으로 나타내요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
     "id": "tmpl-fracsub-B-09",
     "concept_id": "fracsub-001",
-    "type": "number",
-    "difficulty": 2,
+    "type": "choice",
+    "difficulty": 3,
     "set_id": "B",
-    "problem_family": "fracsub-adjusted-result",
-    "blueprint": {"problemFamily":"fracsub-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "fracsub-unconverted-numerator-error",
+    "blueprint": {
+      "problemFamily": "fracsub-unconverted-numerator-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 8,
-        "max": 11
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 9,
-        "max": 12
+      "b": {
+        "min": 3,
+        "max": 5
       },
-      "n2": {
-        "min": 6,
-        "max": 9
+      "m": {
+        "min": 3,
+        "max": 5
       },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분하여 뺀 뒤, 분자에 1을 더해 만든 분수는?",
-    "solver_rule": "fracSubOff(n1, d1, n2, d2, 1)",
+    "prompt_template": "민호는 {{n + m}}/{{n + m + b}} - {{n}}/{{n + m + b + c}}에서 분자만 빼고 첫 분모를 그대로 써서 {{m}}/{{n + m + b}}라고 했습니다. 올바른 값과의 차이는 얼마인가요?",
+    "solver_rule": "fracSub(n, n + m + b, n, n + m + b + c)",
     "solution_steps_template": [
-      "통분한 뒤 분자에 1을 더합니다.",
-      "정답: {{fracSubOff(n1, d1, n2, d2, 1)}}"
+      "올바른 차에서 잘못된 값을 빼면, 첫째 분수의 {{n}}/{{n + m + b}} 부분과 둘째 분수의 차만 남습니다.",
+      "{{n}}/{{n + m + b}} - {{n}}/{{n + m + b + c}} = {{fracSub(n, n + m + b, n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 분자에 1을 더해요.",
-      "기약분수로 써요."
+      "올바른 통분 계산과 잘못된 계산을 각각 식으로 나타내 비교해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
+    ],
+    "choices_template": [
+      "{{fracSub(n, n + m + b, n, n + m + b + c)}}",
+      "{{fracSubOff(n, n + m + b, n, n + m + b + c, 1)}}",
+      "{{fracSubOff(n, n + m + b, n, n + m + b + c, 2)}}",
+      "{{fracSubOff(n, n + m + b, n, n + m + b + c, 3)}}"
     ]
   },
   {
     "id": "tmpl-fracsub-B-10",
     "concept_id": "fracsub-001",
-    "type": "choice",
-    "difficulty": 2,
+    "type": "number",
+    "difficulty": 3,
     "set_id": "B",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-addition-instead-error",
+    "blueprint": {
+      "problemFamily": "fracsub-addition-instead-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 8,
-        "max": 11
+      "n": {
+        "min": 2,
+        "max": 4
       },
-      "d1": {
-        "min": 9,
-        "max": 12
+      "b": {
+        "min": 3,
+        "max": 5
       },
-      "n2": {
-        "min": 6,
-        "max": 9
+      "m": {
+        "min": 3,
+        "max": 5
       },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "c": {
+        "min": 2,
+        "max": 4
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$에서 $\\frac{ {{n2}} }{ {{d2}} }$를 뺀 값은?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "계산식은 {{n + m}}/{{n + m + b}} - {{n}}/{{n + m + b + c}}입니다. 이를 덧셈으로 잘못 계산한 답은 올바른 답보다 얼마 큰가요?",
+    "solver_rule": "reduceFrac(2 * n, n + m + b + c)",
     "solution_steps_template": [
-      "통분 후 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "잘못된 덧셈과 올바른 뺄셈은 둘째 분수의 부호만 다릅니다.",
+      "두 결과의 차는 둘째 분수 {{n}}/{{n + m + b + c}}의 2배이므로 {{reduceFrac(2 * n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모로 통분해요.",
-      "분자를 빼요."
-    ],
-    "choices_template": [
-      "{{fracSub(n1, d1, n2, d2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 3)}}"
+      "올바른 통분 계산과 잘못된 계산을 각각 식으로 나타내 비교해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
@@ -815,42 +1089,56 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-unlike-direct",
+    "blueprint": {
+      "problemFamily": "fracsub-unlike-direct",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "direct",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 6,
-        "max": 8
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 7,
-        "max": 10
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 5,
-        "max": 7
+      "m": {
+        "min": 4,
+        "max": 6
       },
-      "d2": {
-        "min": 8,
-        "max": 11
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "계산식: {{n + m}}/{{n + m + b}} - {{n}}/{{n + m + b + c}}. 값을 기약분수로 나타내세요.",
+    "solver_rule": "fracSub(n + m, n + m + b, n, n + m + b + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "공통 분모는 {{commonDen(n + m + b, n + m + b + c)}}입니다.",
+      "통분하여 빼고 약분하면 {{fracSub(n + m, n + m + b, n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "먼저 통분해요.",
-      "분자를 빼요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ],
     "choices_template": [
-      "{{fracSub(n1, d1, n2, d2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 3)}}"
+      "{{fracSub(n + m, n + m + b, n, n + m + b + c)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 1)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 2)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 3)}}"
     ]
   },
   {
@@ -859,36 +1147,47 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-same-numerator",
+    "blueprint": {
+      "problemFamily": "fracsub-same-numerator",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "low",
+      "taskActions": [
+        "compare",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 6,
-        "max": 9
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 8,
-        "max": 11
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 5,
-        "max": 7
-      },
-      "d2": {
-        "min": 9,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} 를 계산하세요.",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "첫째 분수는 {{n}}/{{n + b}}, 둘째 분수는 {{n}}/{{n + b + c}}입니다. 큰 수에서 작은 수를 빼세요.",
+    "solver_rule": "fracSub(n, n + b, n, n + b + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "분자가 같을 때 더 큰 분수는 분모가 작은 {{n}}/{{n + b}}입니다.",
+      "{{n}}/{{n + b}} - {{n}}/{{n + b + c}} = {{fracSub(n, n + b, n, n + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 찾아요.",
-      "분자끼리 빼요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
@@ -897,41 +1196,49 @@
     "type": "choice",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-from-whole",
+    "blueprint": {
+      "problemFamily": "fracsub-from-whole",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "constraint",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 9
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 7,
-        "max": 9
-      },
-      "n2": {
-        "min": 5,
-        "max": 7
-      },
-      "d2": {
-        "min": 8,
-        "max": 10
+      "b": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "계산식: 1 - {{n}}/{{n + b}}. 값을 구하세요.",
+    "solver_rule": "fracSub(1, 1, n, n + b)",
     "solution_steps_template": [
-      "공통 분모: {{commonDen(d1, d2)}}",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "1을 {{n + b}}/{{n + b}}로 바꿉니다.",
+      "{{n + b}}/{{n + b}} - {{n}}/{{n + b}} = {{b}}/{{n + b}}이고 약분하면 {{fracSub(1, 1, n, n + b)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 빼요.",
-      "정답은 기약분수예요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ],
     "choices_template": [
-      "{{fracSub(n1, d1, n2, d2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, -1)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 4)}}"
+      "{{fracSub(1, 1, n, n + b)}}",
+      "{{fracSubOff(1, 1, n, n + b, 1)}}",
+      "{{fracSubOff(1, 1, n, n + b, 2)}}",
+      "{{fracSubOff(1, 1, n, n + b, 3)}}"
     ]
   },
   {
@@ -940,36 +1247,50 @@
     "type": "number",
     "difficulty": 1,
     "set_id": "C",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-common-denominator-numerator-difference",
+    "blueprint": {
+      "problemFamily": "fracsub-common-denominator-numerator-difference",
+      "cognitiveDomain": "knowing",
+      "reasoningPattern": "representation_shift",
+      "primaryStandard": "6수01-08",
+      "connectedStandards": [
+        "6수01-06"
+      ],
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "pure_math",
+      "estimatedSteps": 2,
+      "readingLoad": "medium",
+      "taskActions": [
+        "interpret",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 7,
-        "max": 10
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 8,
-        "max": 11
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 5,
-        "max": 7
-      },
-      "d2": {
-        "min": 9,
-        "max": 12
+      "m": {
+        "min": 4,
+        "max": 6
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} 를 계산하세요. (예: 1/6)",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "첫째 분수는 {{n + m}}/{{n + m + b}}, 둘째 분수는 {{n}}/{{2 * n + 2 * m + 2 * b}}입니다. 공통 분모가 {{2 * n + 2 * m + 2 * b}}일 때 바뀐 첫째 분자에서 둘째 분자를 뺀 값을 구하세요.",
+    "solver_rule": "n + 2 * m",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "첫째 분수의 분모를 2배로 만들면 분자는 {{2 * n + 2 * m}}이 되고, 둘째 분자는 {{n}}입니다.",
+      "바뀐 분자의 차는 {{2 * n + 2 * m}} - {{n}} = {{n + 2 * m}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모를 찾고 빼요.",
-      "분자끼리 뺄셈이에요."
+      "분모가 다르면 최소공배수를 공통 분모로 정해 통분해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
@@ -978,42 +1299,57 @@
     "type": "choice",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-context-remaining",
+    "blueprint": {
+      "problemFamily": "fracsub-context-remaining",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "multi_step",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 8,
-        "max": 11
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 9,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 6,
-        "max": 9
+      "m": {
+        "min": 4,
+        "max": 6
       },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}} = ?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "전체 작업량은 {{n + m}}/{{n + m + b}}이고 마친 작업량은 {{n}}/{{n + m + b + c}}입니다. 남은 작업량을 구하세요.",
+    "solver_rule": "fracSub(n + m, n + m + b, n, n + m + b + c)",
     "solution_steps_template": [
-      "통분합니다: 공통 분모 = {{commonDen(d1, d2)}}",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "처음 양에서 사용한 양을 빼는 식을 세웁니다.",
+      "{{n + m}}/{{n + m + b}} - {{n}}/{{n + m + b + c}} = {{fracSub(n + m, n + m + b, n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 빼요.",
-      "분자를 빼는 계산이에요."
+      "같은 단위의 양인지 확인하고 상황을 덧셈이나 뺄셈 식으로 나타내요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ],
     "choices_template": [
-      "{{fracSub(n1, d1, n2, d2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 3)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 5)}}"
+      "{{fracSub(n + m, n + m + b, n, n + m + b + c)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 1)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 2)}}",
+      "{{fracSubOff(n + m, n + m + b, n, n + m + b + c, 3)}}"
     ]
   },
   {
@@ -1022,196 +1358,271 @@
     "type": "number",
     "difficulty": 2,
     "set_id": "C",
-    "problem_family": "fracsub-context-difference",
-    "blueprint": {"problemFamily":"fracsub-context-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"real_world","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracsub-context-distance-gap",
+    "blueprint": {
+      "problemFamily": "fracsub-context-distance-gap",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "model_and_check",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "real_world",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "model",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 6,
-        "max": 8
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 9,
-        "max": 11
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 2,
-        "max": 4
-      },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "찰흙 {{n1}}/{{d1}}kg 중에서 {{n2}}/{{d2}}kg을 작품에 썼습니다. 남은 찰흙은 몇 kg인가요?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "첫째 측정 시간은 {{n}}/{{n + b}}분, 둘째 측정 시간은 {{n}}/{{n + b + c}}분입니다. 두 시간의 차이를 구하세요.",
+    "solver_rule": "fracSub(n, n + b, n, n + b + c)",
     "solution_steps_template": [
-      "통분하여 분자를 맞춥니다.",
-      "분자끼리 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "분자가 같을 때 더 큰 분수는 분모가 작은 {{n}}/{{n + b}}입니다.",
+      "큰 값에서 작은 값을 빼면 {{fracSub(n, n + b, n, n + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 빼기예요.",
-      "분자끼리 빼요."
+      "같은 단위의 양인지 확인하고 상황을 덧셈이나 뺄셈 식으로 나타내요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
     "id": "tmpl-fracsub-C-07",
     "concept_id": "fracsub-001",
     "type": "choice",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "C",
-    "problem_family": "fracsub-common-denominator-numerator-difference",
-    "blueprint": {"problemFamily":"fracsub-common-denominator-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracsub-missing-subtrahend",
+    "blueprint": {
+      "problemFamily": "fracsub-missing-subtrahend",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 8,
-        "max": 11
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 9,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 6,
-        "max": 9
+      "m": {
+        "min": 4,
+        "max": 6
       },
-      "d2": {
-        "min": 10,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분한 뒤 분자끼리 뺀 값은?",
-    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "prompt_template": "{{n + m}}/{{n + m + b}} - 어떤 분수 = {{fracSub(n + m, n + m + b, n, n + m + b + c)}}입니다. 어떤 분수를 구하세요.",
+    "solver_rule": "reduceFrac(n, n + m + b + c)",
     "solution_steps_template": [
-      "통분한 분자: {{convertNum1(n1, d1, d2)}}, {{convertNum2(n2, d1, d2)}}",
-      "차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}"
+      "처음 분수에서 차를 빼면 빠진 분수를 찾을 수 있습니다.",
+      "빠진 분수는 {{n}}/{{n + m + b + c}}이고 기약분수는 {{reduceFrac(n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자를 각각 구해요.",
-      "앞에서 뒤를 빼요."
+      "결과와 알고 있는 수의 관계를 반대 연산이나 둘레 식으로 나타내요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ],
     "choices_template": [
-      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}",
-      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 1}}",
-      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 2}}",
-      "{{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2) + 3}}"
+      "{{reduceFrac(n, n + m + b + c)}}",
+      "{{reduceFrac(n + 1, n + m + b + c)}}",
+      "{{reduceFrac(n + 2, n + m + b + c)}}",
+      "{{reduceFrac(n + 3, n + m + b + c)}}"
     ]
   },
   {
     "id": "tmpl-fracsub-C-08",
     "concept_id": "fracsub-001",
     "type": "number",
-    "difficulty": 3,
+    "difficulty": 2,
     "set_id": "C",
-    "problem_family": "fracsub-common-denominator-numerator-difference",
-    "blueprint": {"problemFamily":"fracsub-common-denominator-numerator-difference","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","connectedStandards":["6수01-06"],"representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"medium"},
+    "problem_family": "fracsub-missing-minuend",
+    "blueprint": {
+      "problemFamily": "fracsub-missing-minuend",
+      "cognitiveDomain": "applying",
+      "reasoningPattern": "inverse",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 3,
+      "readingLoad": "medium",
+      "taskActions": [
+        "reason",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 8,
-        "max": 11
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 9,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 7,
-        "max": 10
+      "m": {
+        "min": 4,
+        "max": 6
       },
-      "d2": {
-        "min": 11,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "{{n1}}/{{d1}} - {{n2}}/{{d2}}의 분자를 통분한 뒤 빼면?",
-    "solver_rule": "convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)",
+    "prompt_template": "빼는 수는 {{n}}/{{n + m + b + c}}이고 차는 {{fracSub(n + m, n + m + b, n, n + m + b + c)}}입니다. 처음 분수를 구하세요.",
+    "solver_rule": "reduceFrac(n + m, n + m + b)",
     "solution_steps_template": [
-      "통분한 분자 차: {{convertNum1(n1, d1, d2) - convertNum2(n2, d1, d2)}}",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "차와 뺀 분수를 더하면 처음 분수를 찾을 수 있습니다.",
+      "처음 분수는 {{n + m}}/{{n + m + b}}이고 기약분수는 {{reduceFrac(n + m, n + m + b)}}입니다."
     ],
     "hint_steps_template": [
-      "통분한 분자끼리 빼요.",
-      "분모는 공통 분모예요."
+      "결과와 알고 있는 수의 관계를 반대 연산이나 둘레 식으로 나타내요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   },
   {
     "id": "tmpl-fracsub-C-09",
     "concept_id": "fracsub-001",
-    "type": "number",
-    "difficulty": 2,
+    "type": "choice",
+    "difficulty": 3,
     "set_id": "C",
-    "problem_family": "fracsub-adjusted-result",
-    "blueprint": {"problemFamily":"fracsub-adjusted-result","cognitiveDomain":"applying","reasoningPattern":"multi_step","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":3,"readingLoad":"high"},
+    "problem_family": "fracsub-unconverted-numerator-error",
+    "blueprint": {
+      "problemFamily": "fracsub-unconverted-numerator-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 10,
-        "max": 13
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 11,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 8,
-        "max": 11
+      "m": {
+        "min": 4,
+        "max": 6
       },
-      "d2": {
-        "min": 12,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$와 $\\frac{ {{n2}} }{ {{d2}} }$를 통분하여 뺀 뒤, 분자에 1을 더해 만든 분수는?",
-    "solver_rule": "fracSubOff(n1, d1, n2, d2, 1)",
+    "prompt_template": "계산식은 {{n + m}}/{{n + m + b}} - {{n}}/{{n + m + b + c}}입니다. 통분 없이 {{m}}/{{n + m + b}}라고 계산한 값과 올바른 값의 차이는 얼마인가요?",
+    "solver_rule": "fracSub(n, n + m + b, n, n + m + b + c)",
     "solution_steps_template": [
-      "통분한 뒤 분자에 1을 더합니다.",
-      "정답: {{fracSubOff(n1, d1, n2, d2, 1)}}"
+      "올바른 차에서 잘못된 값을 빼면, 첫째 분수의 {{n}}/{{n + m + b}} 부분과 둘째 분수의 차만 남습니다.",
+      "{{n}}/{{n + m + b}} - {{n}}/{{n + m + b + c}} = {{fracSub(n, n + m + b, n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "통분 후 분자에 1을 더해요.",
-      "기약분수로 써요."
+      "올바른 통분 계산과 잘못된 계산을 각각 식으로 나타내 비교해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
+    ],
+    "choices_template": [
+      "{{fracSub(n, n + m + b, n, n + m + b + c)}}",
+      "{{fracSubOff(n, n + m + b, n, n + m + b + c, 1)}}",
+      "{{fracSubOff(n, n + m + b, n, n + m + b + c, 2)}}",
+      "{{fracSubOff(n, n + m + b, n, n + m + b + c, 3)}}"
     ]
   },
   {
     "id": "tmpl-fracsub-C-10",
     "concept_id": "fracsub-001",
-    "type": "choice",
-    "difficulty": 2,
+    "type": "number",
+    "difficulty": 3,
     "set_id": "C",
-    "problem_family": "fracsub-direct",
-    "blueprint": {"problemFamily":"fracsub-direct","cognitiveDomain":"knowing","reasoningPattern":"direct","primaryStandard":"6수01-08","representations":["text","equation"],"contextType":"pure_math","estimatedSteps":2,"readingLoad":"low"},
+    "problem_family": "fracsub-addition-instead-error",
+    "blueprint": {
+      "problemFamily": "fracsub-addition-instead-error",
+      "cognitiveDomain": "reasoning",
+      "reasoningPattern": "error_analysis",
+      "primaryStandard": "6수01-08",
+      "representations": [
+        "text",
+        "equation"
+      ],
+      "contextType": "puzzle",
+      "estimatedSteps": 4,
+      "readingLoad": "high",
+      "taskActions": [
+        "analyze_error",
+        "calculate"
+      ]
+    },
     "param_schema": {
-      "n1": {
-        "min": 10,
-        "max": 13
+      "n": {
+        "min": 3,
+        "max": 5
       },
-      "d1": {
-        "min": 11,
-        "max": 12
+      "b": {
+        "min": 4,
+        "max": 6
       },
-      "n2": {
-        "min": 8,
-        "max": 11
+      "m": {
+        "min": 4,
+        "max": 6
       },
-      "d2": {
-        "min": 12,
-        "max": 12
+      "c": {
+        "min": 3,
+        "max": 5
       }
     },
-    "prompt_template": "$\\frac{ {{n1}} }{ {{d1}} }$에서 $\\frac{ {{n2}} }{ {{d2}} }$를 뺀 값은?",
-    "solver_rule": "fracSub(n1, d1, n2, d2)",
+    "prompt_template": "{{n + m}}/{{n + m + b}} - {{n}}/{{n + m + b + c}}에서 연산 기호를 잘못 보고 더했습니다. 잘못된 결과와 올바른 결과의 차이는 얼마인가요?",
+    "solver_rule": "reduceFrac(2 * n, n + m + b + c)",
     "solution_steps_template": [
-      "통분 후 뺍니다.",
-      "정답: {{fracSub(n1, d1, n2, d2)}}"
+      "잘못된 덧셈과 올바른 뺄셈은 둘째 분수의 부호만 다릅니다.",
+      "두 결과의 차는 둘째 분수 {{n}}/{{n + m + b + c}}의 2배이므로 {{reduceFrac(2 * n, n + m + b + c)}}입니다."
     ],
     "hint_steps_template": [
-      "공통 분모로 통분해요.",
-      "분자를 빼요."
-    ],
-    "choices_template": [
-      "{{fracSub(n1, d1, n2, d2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 1)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 2)}}",
-      "{{fracSubOff(n1, d1, n2, d2, 3)}}"
+      "올바른 통분 계산과 잘못된 계산을 각각 식으로 나타내 비교해요.",
+      "두 분수의 크기를 먼저 확인한 뒤 통분하여 큰 분자에서 작은 분자를 빼요."
     ]
   }
 ]

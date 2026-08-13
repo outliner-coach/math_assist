@@ -26,7 +26,7 @@ export default function Grade5UnitSelectionClient() {
           </Link>
           <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#7c3aed]">5학년 개념 연습</p>
           <h1 className="mt-2 text-4xl font-black leading-tight text-[#0f172a] md:text-5xl">오늘 공부할 단원을 골라요</h1>
-          <p className="mt-3 max-w-2xl text-lg font-bold leading-relaxed text-[#64748b]">개념을 짧게 읽고 10문제를 풀며 바로 확인해요.</p>
+          <p className="mt-3 max-w-2xl text-lg font-bold leading-relaxed text-[#64748b]">개념을 짧게 읽고 기본 5문제부터 시작하거나 집중 10문제로 연습해요.</p>
         </header>
 
         {loading ? (

@@ -79,16 +79,143 @@ function FieldInput({
   )
 }
 
-function SubmitButton({ children, onClick, testId }: { children: React.ReactNode; onClick: () => void; testId: string }) {
+function SubmitButton({
+  children,
+  disabled = false,
+  onClick,
+  testId,
+}: {
+  children: React.ReactNode
+  disabled?: boolean
+  onClick: () => void
+  testId: string
+}) {
   return (
     <button
       type="button"
       onClick={onClick}
+      disabled={disabled}
       data-testid={testId}
-      className="min-h-[56px] w-full rounded-xl bg-[#2563eb] px-5 py-3 text-base font-black text-white shadow-[0_5px_0_#1e40af] transition active:translate-y-[3px] active:shadow-[0_2px_0_#1e40af]"
+      className="min-h-[56px] w-full rounded-xl bg-[#2563eb] px-5 py-3 text-base font-black text-white shadow-[0_5px_0_#1e40af] transition active:translate-y-[3px] active:shadow-[0_2px_0_#1e40af] disabled:cursor-not-allowed disabled:bg-[#94a3b8] disabled:shadow-[0_5px_0_#64748b]"
     >
       {children}
     </button>
+  )
+}
+
+function CompassConstructionActivity({
+  compassWidth,
+  drawnWidth,
+  responseMatches,
+  solved,
+  onDecrease,
+  onIncrease,
+  onDraw,
+}: {
+  compassWidth: number
+  drawnWidth: number | null
+  responseMatches: boolean
+  solved: boolean
+  onDecrease: () => void
+  onIncrease: () => void
+  onDraw: () => void
+}) {
+  const centerX = 125
+  const centerY = 145
+  const widthPixels = compassWidth * 10
+  const pencilX = centerX + widthPixels
+  const hingeX = centerX + widthPixels / 2
+  const drawnRadius = drawnWidth === null ? null : drawnWidth * 10
+  const status = drawnWidth === null
+    ? '폭을 정한 뒤 그 폭으로 원을 그리세요.'
+    : responseMatches
+      ? '원 구성과 답 숫자가 연결되었어요.'
+      : '그린 원의 폭과 답 숫자를 같게 맞추세요.'
+
+  return (
+    <section
+      className="rounded-2xl border-2 border-[#bfdbfe] bg-[#eff6ff] p-4"
+      data-testid="grade3-compass-construction"
+    >
+      <p className="text-sm font-black text-[#1d4ed8]">가상 컴퍼스로 직접 구성하기</p>
+      <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2">
+        <button
+          type="button"
+          onClick={onDecrease}
+          disabled={solved || compassWidth <= 1}
+          data-testid="grade3-compass-decrease"
+          className="min-h-[56px] rounded-xl border-2 border-[#93c5fd] bg-white px-3 text-base font-black text-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-40"
+          aria-label="컴퍼스 폭 한 칸 줄이기"
+        >
+          폭 줄이기
+        </button>
+        <div
+          className="grid min-h-[64px] min-w-[72px] place-items-center rounded-xl bg-white px-3 text-[#0f172a]"
+          aria-label={`현재 선택한 컴퍼스 폭 ${compassWidth}센티미터`}
+        >
+          <span>
+            <output data-testid="grade3-compass-width" className="text-3xl font-black">
+              {compassWidth}
+            </output>
+            <span aria-hidden="true" className="ml-1 text-base font-black">cm</span>
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={onIncrease}
+          disabled={solved || compassWidth >= 9}
+          data-testid="grade3-compass-increase"
+          className="min-h-[56px] rounded-xl border-2 border-[#93c5fd] bg-white px-3 text-base font-black text-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-40"
+          aria-label="컴퍼스 폭 한 칸 늘리기"
+        >
+          폭 늘리기
+        </button>
+      </div>
+
+      <svg
+        viewBox="0 0 250 250"
+        role="img"
+        aria-label={drawnWidth === null
+          ? '선택한 폭으로 벌린 가상 컴퍼스'
+          : '선택한 폭으로 원 그리기를 완료한 가상 컴퍼스'}
+        className="mx-auto mt-3 h-auto w-full max-w-72 rounded-2xl bg-white"
+      >
+        {drawnRadius !== null && (
+          <circle
+            data-testid="grade3-compass-drawn-circle"
+            cx={centerX}
+            cy={centerY}
+            r={drawnRadius}
+            fill="none"
+            stroke="#2563eb"
+            strokeWidth="5"
+          />
+        )}
+        <line x1={hingeX} y1="35" x2={centerX} y2={centerY} stroke="#0f172a" strokeWidth="9" strokeLinecap="round" />
+        <line x1={hingeX} y1="35" x2={pencilX} y2={centerY} stroke="#f97316" strokeWidth="9" strokeLinecap="round" />
+        <circle cx={hingeX} cy="35" r="10" fill="#facc15" stroke="#0f172a" strokeWidth="3" />
+        <circle cx={centerX} cy={centerY} r="7" fill="#2563eb" />
+        <text x={centerX - 18} y={centerY + 26} className="fill-[#0f172a] text-lg font-black">O</text>
+      </svg>
+
+      <button
+        type="button"
+        onClick={onDraw}
+        disabled={solved}
+        data-testid="grade3-compass-draw"
+        className="mt-3 min-h-[56px] w-full rounded-xl bg-[#0f766e] px-4 py-3 text-base font-black text-white shadow-[0_5px_0_#115e59] disabled:cursor-not-allowed disabled:bg-[#94a3b8] disabled:shadow-[0_5px_0_#64748b]"
+      >
+        이 폭으로 원 그리기
+      </button>
+      <p
+        id="grade3-compass-submit-rule"
+        className="mt-3 text-center text-sm font-black text-[#1e3a8a]"
+        data-testid="grade3-compass-status"
+        aria-live="polite"
+      >
+        {status}
+      </p>
+    </section>
   )
 }
 
@@ -123,10 +250,37 @@ export default function Grade3MissionCard({
   onSubmitWeight,
   onShowHint,
 }: Grade3MissionCardProps) {
+  const isCompassConstruction =
+    mission.visualModel === 'circle-parts'
+    && mission.visualConfig.mode === 'construction'
+  const [compassWidth, setCompassWidth] = React.useState(4)
+  const [drawnWidth, setDrawnWidth] = React.useState<number | null>(null)
   const isWrong = selectedAnswer !== null && !solved
   const emphasizeVisual = wrongAttemptCount >= 2 && !solved
   const showSolutionPath = wrongAttemptCount >= 3 && !solved
-  const revealVisualAnswer = solved || showSolutionPath
+  const revealVisualAnswer = solved || (showSolutionPath && !isCompassConstruction)
+  const numericTextAnswer = /^\d+$/.test(textAnswer.trim())
+    ? Number(textAnswer.trim())
+    : null
+  const constructionResponseMatches =
+    isCompassConstruction
+    && drawnWidth !== null
+    && numericTextAnswer === drawnWidth
+
+  React.useEffect(() => {
+    setCompassWidth(4)
+    setDrawnWidth(null)
+  }, [mission.id])
+
+  const adjustCompassWidth = (delta: number) => {
+    setCompassWidth((width) => Math.min(9, Math.max(1, width + delta)))
+    setDrawnWidth(null)
+  }
+
+  const submitTextAnswer = () => {
+    if (isCompassConstruction && !constructionResponseMatches) return
+    onSubmitText()
+  }
 
   return (
     <section
@@ -191,9 +345,27 @@ export default function Grade3MissionCard({
           )}
 
           {showSolutionPath && (
-            <div className="space-y-2 rounded-2xl border-2 border-[#2563eb] bg-[#eff6ff] p-4 text-sm font-black leading-snug text-[#0f172a]" data-testid="grade3-solution-path">
-              {mission.solutionSteps.map((step) => <p key={step}>{step}</p>)}
-            </div>
+            isCompassConstruction ? (
+              <div className="rounded-2xl border-2 border-[#2563eb] bg-[#eff6ff] p-4 text-sm font-black leading-snug text-[#0f172a]" data-testid="grade3-construction-support">
+                지름의 절반이 컴퍼스 폭이에요. 폭을 다시 정하고 원을 새로 그려 보세요.
+              </div>
+            ) : (
+              <div className="space-y-2 rounded-2xl border-2 border-[#2563eb] bg-[#eff6ff] p-4 text-sm font-black leading-snug text-[#0f172a]" data-testid="grade3-solution-path">
+                {mission.solutionSteps.map((step) => <p key={step}>{step}</p>)}
+              </div>
+            )
+          )}
+
+          {isCompassConstruction && (
+            <CompassConstructionActivity
+              compassWidth={compassWidth}
+              drawnWidth={drawnWidth}
+              responseMatches={constructionResponseMatches}
+              solved={solved}
+              onDecrease={() => adjustCompassWidth(-1)}
+              onIncrease={() => adjustCompassWidth(1)}
+              onDraw={() => setDrawnWidth(compassWidth)}
+            />
           )}
 
           {(mission.answerType === 'choice' || mission.answerType === 'label') && (
@@ -221,7 +393,7 @@ export default function Grade3MissionCard({
           {['integer', 'decimal', 'angle'].includes(mission.answerType) && (
             <div className="space-y-3">
               <label className="block text-sm font-black text-[#475569]" htmlFor="grade3-text-answer">
-                {mission.answerConfig.inputLabel ?? '답을 써요'}
+                {isCompassConstruction ? '그린 원의 컴퍼스 폭을 숫자로 써요' : mission.answerConfig.inputLabel ?? '답을 써요'}
               </label>
               <input
                 id="grade3-text-answer"
@@ -230,12 +402,14 @@ export default function Grade3MissionCard({
                 value={textAnswer}
                 onChange={(event) => onTextAnswerChange(event.target.value)}
                 onKeyDown={(event) => {
-                  if (event.key === 'Enter') onSubmitText()
+                  if (event.key === 'Enter') submitTextAnswer()
                 }}
+                aria-describedby={isCompassConstruction ? 'grade3-compass-submit-rule' : undefined}
                 className="min-h-[64px] w-full rounded-2xl border-2 border-[#d8e3ef] px-4 text-center text-3xl font-black text-[#0f172a] outline-none focus:border-[#2563eb]"
               />
               <SubmitButton
-                onClick={onSubmitText}
+                disabled={isCompassConstruction && !constructionResponseMatches}
+                onClick={submitTextAnswer}
                 testId={mission.answerType === 'angle' ? 'grade3-angle-submit' : mission.answerType === 'decimal' ? 'grade3-decimal-submit' : 'grade3-integer-submit'}
               >
                 답 확인

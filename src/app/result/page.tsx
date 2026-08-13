@@ -93,10 +93,8 @@ export default function ResultPage() {
     )
   }
 
-  const handlePracticeMore = () => {
+  const handlePracticeMore = (count = practiceItemCount) => {
     if (!result) return
-    const grade = resolvePracticeGrade(result.grade)
-    const count = resolvePracticeItemCount(result.itemCount, grade)
     router.push(`/practice/${result.conceptId}?set=${result.setId}&count=${count}`)
   }
 
@@ -130,8 +128,11 @@ export default function ResultPage() {
   const correctResults = result.results.filter((entry) => entry.correct)
   const modeLabel = result.mode === 'retry-wrong' ? '오답 다시 풀기 결과' : `세트 ${result.setId} 결과`
   const practiceItemCount = resolvePracticeItemCount(result.itemCount, resolvePracticeGrade(result.grade))
-  const nextActionLabel = isPerfect
-    ? `비슷한 문제 ${practiceItemCount}개 더`
+  const completedBasicSet = practiceItemCount === 5
+  const nextActionLabel = completedBasicSet
+    ? '10문제로 집중 연습'
+    : isPerfect
+      ? `비슷한 문제 ${practiceItemCount}개 더`
     : '틀린 문제부터 바로 다시'
   const headline = isPerfect
     ? result.mode === 'retry-wrong'
@@ -181,7 +182,11 @@ export default function ResultPage() {
             <p className="text-sm font-medium text-primary-700">다음 액션</p>
             <p className="mt-2 text-lg font-bold text-primary-900">{nextActionLabel}</p>
             <p className="mt-2 text-sm text-primary-800">
-              {isPerfect ? '같은 개념의 새 세트를 풀어보세요.' : '틀린 문제만 짧게 다시 풀고 바로 재채점해요.'}
+              {completedBasicSet
+                ? '기본 문제를 마쳤어요. 집중 연습도 바로 선택할 수 있어요.'
+                : isPerfect
+                  ? '같은 개념의 새 세트를 풀어보세요.'
+                  : '틀린 문제만 짧게 다시 풀고 바로 재채점해요.'}
             </p>
           </div>
         </div>
@@ -231,13 +236,23 @@ export default function ResultPage() {
             </Button>
           )}
           <Button
-            variant={isPerfect ? 'primary' : 'secondary'}
-            onClick={handlePracticeMore}
+            variant={completedBasicSet || isPerfect ? 'primary' : 'secondary'}
+            onClick={() => handlePracticeMore(completedBasicSet ? 10 : practiceItemCount)}
             className="w-full"
             data-testid="practice-more-button"
           >
-            비슷한 문제 {practiceItemCount}개 더
+            {completedBasicSet ? '10문제로 집중 연습' : `비슷한 문제 ${practiceItemCount}개 더`}
           </Button>
+          {completedBasicSet && (
+            <Button
+              variant="secondary"
+              onClick={() => handlePracticeMore(5)}
+              className="w-full"
+              data-testid="basic-more-button"
+            >
+              새 기본 5문제
+            </Button>
+          )}
           <Button
             variant="outline"
             onClick={handleConcept}

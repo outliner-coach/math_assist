@@ -2,6 +2,10 @@ const fs = require('fs')
 const path = require('path')
 
 const { validateCurriculumLedger } = require('./curriculum-validation-core.js')
+const {
+  loadReleaseSourceRecords,
+  validateReleaseCurriculum,
+} = require('./content-release-adapter.js')
 
 const ROOT_DIR = path.join(__dirname, '..')
 
@@ -12,6 +16,7 @@ function readJson(relativePath) {
 const ledger = readJson('public/data/curriculum-allocations-v1.json')
 const units = readJson('public/data/units.json')
 const concepts = readJson('public/data/concepts.json')
+const grade1Source = fs.readFileSync(path.join(ROOT_DIR, 'src/lib/grade1-problems.ts'), 'utf8')
 const grade2Source = fs.readFileSync(path.join(ROOT_DIR, 'src/lib/grade2-problems.ts'), 'utf8')
 const grade3Source = fs.readFileSync(path.join(ROOT_DIR, 'src/lib/grade3-problems.ts'), 'utf8')
 const grade4Source = fs.readFileSync(path.join(ROOT_DIR, 'src/lib/grade4-problems.ts'), 'utf8')
@@ -23,6 +28,7 @@ const templates = Object.fromEntries(concepts.map((concept) => {
 
 const result = validateCurriculumLedger({
   ledger,
+  grade1Source,
   grade2Source,
   grade3Source,
   grade4Source,
@@ -31,10 +37,16 @@ const result = validateCurriculumLedger({
   concepts,
   templates,
 })
+const directResult = validateReleaseCurriculum(ledger, loadReleaseSourceRecords(ROOT_DIR))
+const allErrors = [
+  ...result.errors,
+  ...directResult.directCoverage.errors,
+  ...directResult.roleErrors,
+]
 
-if (result.errors.length > 0) {
+if (allErrors.length > 0) {
   console.error('Curriculum allocation validation failed:')
-  for (const error of result.errors) {
+  for (const error of allErrors) {
     console.error(` - [${error.code}]${error.standardCode ? ` ${error.standardCode}` : ''} ${error.message}`)
   }
   process.exit(1)
@@ -42,8 +54,8 @@ if (result.errors.length > 0) {
 
 console.log(
   `Curriculum allocation validation passed: ${result.summary.total} standards ` +
-  `(1-2 pilot ${result.summary.grade12PilotTotal}, 3-4 ${result.summary.grade34Total}, ` +
-  `5-6 ${result.summary.grade56Total}), ` +
+  `(1-2 ${result.summary.grade12Total}, 3-4 ${result.summary.grade34Total}, 5-6 ${result.summary.grade56Total}), ` +
   `${result.summary.existingReferenceCount} current references, ` +
-  `Grade 4 ${ledger.releaseState.grade4}, Grade 6 ${ledger.releaseState.grade6}.`
+  `${directResult.summary.directContentLinkCount} direct problem links, ` +
+  `Grades 1-6 released.`
 )

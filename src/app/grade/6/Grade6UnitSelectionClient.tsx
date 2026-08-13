@@ -42,7 +42,7 @@ export default function Grade6UnitSelectionClient() {
             학습 홈
           </Link>
           <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#0369a1]">6학년 Study</p>
-          <h1 className="mt-2 text-4xl font-black leading-tight text-[#0f172a] md:text-5xl">비와 비율을 차근차근 연습해요</h1>
+          <h1 className="mt-2 text-4xl font-black leading-tight text-[#0f172a] md:text-5xl">6학년 수학을 단원별로 연습해요</h1>
           <p className="mt-3 max-w-2xl text-lg font-bold leading-relaxed text-[#64748b]">
             개념을 확인한 뒤 5문제로 가볍게 시작하거나 10문제로 집중 연습해요.
           </p>

@@ -8,6 +8,7 @@ import {
 import {
   appendMissionAttemptReceipt,
   createMissionAttemptReceipt,
+  createMissionAttemptRunKey,
   type MissionReceiptGrade,
 } from './mission-attempt-receipt'
 
@@ -79,6 +80,30 @@ it('appends each valid retry once and treats repeated delivery as duplicate', as
   const ledger = JSON.parse(storage.getItem(ATTEMPT_RECEIPT_STORAGE_KEY) ?? 'null')
   expect(ledger.receipts).toHaveLength(2)
   expect(ledger.receipts.map((receipt: { correct: boolean }) => receipt.correct)).toEqual([false, true])
+})
+
+it('creates a new stable session identity for each mission entry', () => {
+  const firstEntry = createMissionAttemptRunKey('seed-20260721')
+  const secondEntry = createMissionAttemptRunKey('seed-20260721')
+
+  expect(firstEntry).toMatch(/^seed-20260721:entry-/)
+  expect(secondEntry).toMatch(/^seed-20260721:entry-/)
+  expect(secondEntry).not.toBe(firstEntry)
+  expect(createMissionAttemptReceipt({
+    ...input(3),
+    sessionRunKey: firstEntry,
+  }).attemptId).toBe(createMissionAttemptReceipt({
+    ...input(3),
+    sessionRunKey: firstEntry,
+    checkedAt: 1_800_000_000_000,
+  }).attemptId)
+  expect(createMissionAttemptReceipt({
+    ...input(3),
+    sessionRunKey: secondEntry,
+  }).attemptId).not.toBe(createMissionAttemptReceipt({
+    ...input(3),
+    sessionRunKey: firstEntry,
+  }).attemptId)
 })
 
 it('rejects unstable attempt identity before writing', async () => {
