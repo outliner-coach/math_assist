@@ -8,12 +8,17 @@
 node --version
 npm --version
 npm ci
+npx playwright install chromium
 npm test
 npm run lint
 npm run build
 ```
 
 `npm ci`는 `package-lock.json`과 정확히 맞는 의존성을 설치하므로 테스트와 빌드보다 먼저 실행한다. 빌드가 끝나기 전에 개발 서버를 동시에 시작하지 않는다.
+`npm ci` 뒤에는 lockfile이 지정한 Playwright 버전의 Chromium 실행 파일이 캐시에
+없을 수 있으므로 브라우저 테스트 전에 `npx playwright install chromium`을 실행한다.
+실행 파일 부재 오류를 제품 회귀로 판정하지 말고 설치 후 같은 전체 검사를 다시
+실행하며, 설치하지 못한 상태를 통과로 기록하지 않는다.
 
 별도 데이터베이스 초기화, 시드 적재, 계정 생성, 필수 환경 파일은 현재 없다. `next.config.js`가 `NEXT_PUBLIC_BASE_PATH=/math_assist`를 빌드에 제공하며 이 값은 정적 자산과 JSON의 공개 경로 접두사다.
 
