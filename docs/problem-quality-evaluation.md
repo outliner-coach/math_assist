@@ -18,13 +18,14 @@ npm run validate:templates
 - 목적: 템플릿 구조 오류를 차단
 - 실패 조건: 세트 분배 오류, 평가되지 않은 표현식, 잘못된 정답, 객관식 보기 중복, 선택지 첫 항목 불일치
 
-탐험섬 mission bank 게이트:
+1~4학년 mission bank 게이트:
 
 ```bash
 npm run audit:missions
 ```
 
-- 대상: `src/lib/grade1-problems.ts`, `src/lib/grade2-problems.ts`, `src/lib/grade3-problems.ts`
+- 대상: `src/lib/grade1-problems.ts`, `src/lib/grade2-problems.ts`,
+  `src/lib/grade3-problems.ts`, `src/lib/grade4-problems.ts`
 - 출력물: `out/quality/mission-bank-quality-report.json`, `out/quality/mission-bank-quality-report.md`
 - 기본 동작: `error`와 `warning` 모두 실패
 - 실패 조건: Beta/Alpha 문항 수 미달, 단원/섬 coverage 부족, 선택지 중복, 중복 prompt, 빈 prompt/hint/solution, 난이도 균형 오류, 어린이에게 긴 prompt, Grade 2/3 입력 형태와 prompt 불일치
@@ -54,7 +55,7 @@ npm run promptfoo:problems
 
 - 출력물: `out/promptfoo/problem-quality.json`
 - 웹 리포트: `public/reports/promptfoo-problem-quality.html`
-- 기본 동작: `promptfoo`가 4개 스위트를 모두 평가하고, 실패 케이스가 하나라도 있으면 exit code 1로 종료
+- 기본 동작: `promptfoo`가 5개 스위트를 모두 평가하고, 실패 케이스가 하나라도 있으면 exit code 1로 종료
 - 특징: 외부 LLM API 없이 로컬 규칙만 사용하므로 어떤 에이전트가 실행해도 같은 결과가 나옵니다.
 
 브라우저에서 확인할 때:
@@ -87,8 +88,9 @@ npm run promptfoo:problems
 
 ### 3. Promptfoo suites
 
-`promptfoo`는 아래 4개 스위트를 모두 통과해야 합니다.
+`promptfoo`는 아래 5개 스위트를 모두 통과해야 합니다.
 
+- `application_metadata`: 응용문제 pack·유형·출처·승인·증명 계약
 - `template_validation`: 템플릿 구조, 정답 계산, 보기 정합성
 - `template_clarity`: 렌더링된 문제 문구의 명확성
 - `session_quality`: 실제 10문항 세션 생성 시 중복 prompt, 중복 문제, 난이도 혼합
@@ -123,14 +125,15 @@ npm run promptfoo:problems
 5. 실제 수정 후 같은 세 명령을 다시 실행
 6. 경고를 남기고 넘길 때는 handoff에 이유를 적기
 
-탐험섬 Grade 1/2/3 문항 확장 작업은 아래 순서를 추가로 사용합니다.
+Grade 1~4 미션·Bridge 문항 확장 작업은 아래 순서를 추가로 사용합니다.
 
 1. `npm run validate:grade1`
 2. `npm run validate:grade2`
 3. `npm run validate:grade3`
-4. `npm run audit:missions`
-5. focused unit/component tests
-6. 실제 브라우저 확인과 E2E
+4. `npm run validate:grade4`
+5. `npm run audit:missions`
+6. focused unit/component tests
+7. 실제 브라우저 확인과 E2E
 
 Grade 3 Alpha 문제 품질 기준:
 
@@ -147,6 +150,18 @@ Grade 3 Alpha 문제 품질 기준:
 - difficulty signal은 참고 지표입니다. 사람이 보기에 더 적절한 이유가 있으면 override 가능하지만, 근거는 남겨야 합니다.
 
 ## Current Passing Bar
+
+2026년 8월 14일 현재 통과선과 최근 전체 검증 결과는 다음과 같습니다.
+
+- 1~4학년 미션 512개(98/144/120/150), `audit:missions` 오류·경고 0
+- 5·6학년 37개 개념·템플릿 1,110개, blueprint metadata 100%,
+  `audit:problems -- --strict-warnings` 오류·경고 0
+- 응용문제 3개 pack·승인 `familyId@1` 9개, 독립 oracle 전수 증명
+  1,778/1,778, `validate:application-packs`와 `audit:applications` 오류 0
+- 최종 편집 원장 1,622/1,622, 실제 renderer 시각 증거 1,013/1,013
+- `promptfoo:problems` 1,482/1,482, 외부 LLM API 호출 0
+
+아래 항목은 범위가 확장되어 온 과정을 남기는 이전 시점의 통과 기록입니다.
 
 2026년 3월 7일 기준 기본 통과선은 다음입니다.
 
@@ -221,9 +236,11 @@ npm run audit:applications
 한다. Grade 2의 기본 144개, Grade 5/6의 기본 세트 10개는 보존하며, 승인 후보가
 추가되어도 실제 세션 길이와 난이도 분배를 고정한다.
 
-2026-07-28 현재 이 두 명령은 V1 pilot의 3 pack, 9개 승인 `familyId@1`에 대해
-각각 오류 0을 보고한다. 이 결과는 기존 기본문제 감사, 전체 회귀, 빌드, E2E 또는
-GitHub Pages 배포의 완료를 뜻하지 않는다.
+2026-08-14 현재 이 두 명령은 V1 pilot의 3개 pack, 9개 승인
+`familyId@1`에 대해 각각 오류 0을 보고한다. 9개 유형의 선언된 전수
+증명 범위 1,778개도 독립 oracle과 모두 일치한다. 이 결과만으로 기존
+기본문제 감사, 전체 회귀, 빌드, E2E 또는 GitHub Pages 배포 완료를
+대신할 수는 없다.
 
 기본문제의 blueprint target gap은 향후 제작 범위를 보여 주는 recommendation으로
 보고서에 남기되, 현재 완전한 기본 템플릿을 strict-warning 실패로 바꾸지 않는다.
