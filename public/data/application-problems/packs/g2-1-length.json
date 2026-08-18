@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g2-1-length",
+  "version": 1,
+  "unitId": "g2-1-length",
+  "grade": 2,
+  "semester": "2-1",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[2수03-06]", "[2수03-10]", "[2수03-12]"],
+  "concepts": [
+    {
+      "conceptId": "g2-1-length-length",
+      "name": "길이 비교, cm 측정과 어림",
+      "standardCodes": ["[2수03-06]", "[2수03-10]", "[2수03-12]"],
+      "prerequisites": [],
+      "allowedScope": ["1cm 단위 자의 시작과 끝 눈금을 읽어 길이를 구한다.", "생활 물건의 길이를 비교하고 알맞은 cm 또는 m 어림값을 고른다."],
+      "excludedScope": ["m와 cm의 혼합 계산은 2학기 길이 단원에서 다룬다.", "소수 길이나 넓이·들이·무게의 수치 측정은 다루지 않는다."],
+      "misconceptions": [
+        {
+          "id": "g2-length-end-mark-only",
+          "description": "0이 아닌 곳에서 시작해도 끝 눈금만 길이로 읽는다.",
+          "diagnosticEvidence": "3cm에서 9cm까지 놓인 물건을 9cm라고 답한다.",
+          "correctionStrategy": "끝 눈금에서 시작 눈금을 빼고 눈금 사이 칸을 다시 센다."
+        },
+        {
+          "id": "g2-length-unit-sense",
+          "description": "물건의 크기와 관계없이 cm와 m를 바꾸어 쓴다.",
+          "diagnosticEvidence": "교실 문 높이를 2cm라고 어림한다.",
+          "correctionStrategy": "1cm와 1m 기준 물건을 떠올려 선택값과 비교한다."
+        }
+      ]
+    }
+  ],
+  "familyRefs": [
+    { "familyId": "g2-1-length-ruler-gap", "version": 1 },
+    { "familyId": "g2-1-length-broken-ruler", "version": 1 },
+    { "familyId": "g2-1-length-estimate-check", "version": 1 },
+    { "familyId": "g2-1-length-claim-check", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

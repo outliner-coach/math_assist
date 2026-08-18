@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g2-1-multiplication",
+  "version": 1,
+  "unitId": "g2-1-multiplication",
+  "grade": 2,
+  "semester": "2-1",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[2수01-10]"],
+  "concepts": [
+    {
+      "conceptId": "g2-1-multiplication-multiplication-meaning",
+      "name": "같은 수 묶음과 곱셈의 의미",
+      "standardCodes": ["[2수01-10]"],
+      "prerequisites": [{ "kind": "standard", "standardCode": "[2수01-05]" }],
+      "allowedScope": ["같은 수씩 묶인 생활 상황을 반복 덧셈과 곱셈식으로 나타낸다.", "배열의 줄 수와 한 줄의 수를 구별하고 전체를 구한다."],
+      "excludedScope": ["곱셈구구의 암기와 한 자리 수 곱셈 계산은 2학기 단원에서 다룬다.", "나눗셈식이나 분수 배는 사용하지 않는다."],
+      "misconceptions": [
+        {
+          "id": "g2-multiplication-add-factors",
+          "description": "묶음 수와 한 묶음의 수를 곱하지 않고 더한다.",
+          "diagnosticEvidence": "4묶음에 3개씩을 4+3=7로 계산한다.",
+          "correctionStrategy": "한 묶음의 수를 묶음 수만큼 반복해 더한 뒤 곱셈식과 연결한다."
+        },
+        {
+          "id": "g2-multiplication-swap-meaning",
+          "description": "전체가 같으면 줄 수와 한 줄의 수 설명도 같다고 생각한다.",
+          "diagnosticEvidence": "2줄에 5개씩인 배열을 5줄에 2개씩이라고 그대로 설명한다.",
+          "correctionStrategy": "배열을 돌리면 전체는 같아도 무엇을 몇 번 묶었는지 문장은 달라짐을 확인한다."
+        }
+      ]
+    }
+  ],
+  "familyRefs": [
+    { "familyId": "g2-1-multiplication-group-total", "version": 1 },
+    { "familyId": "g2-1-multiplication-missing-groups", "version": 1 },
+    { "familyId": "g2-1-multiplication-array-claim", "version": 1 },
+    { "familyId": "g2-1-multiplication-model-check", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

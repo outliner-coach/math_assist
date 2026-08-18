@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g2-1-shapes",
+  "version": 1,
+  "unitId": "g2-1-shapes",
+  "grade": 2,
+  "semester": "2-1",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[2수03-01]", "[2수03-02]", "[2수03-03]", "[2수03-04]", "[2수03-05]"],
+  "concepts": [
+    {
+      "conceptId": "g2-1-shapes-solid-shapes",
+      "name": "생활 속 입체도형과 쌓기나무 위치",
+      "standardCodes": ["[2수03-01]", "[2수03-02]"],
+      "prerequisites": [],
+      "allowedScope": ["직육면체, 원기둥, 구와 닮은 물건을 찾는다.", "쌓기나무의 위, 아래, 옆 위치와 층을 말한다."],
+      "excludedScope": ["면, 모서리, 꼭짓점의 형식적 정의는 요구하지 않는다.", "보이지 않는 복잡한 입체의 개수를 추측하지 않는다."],
+      "misconceptions": [
+        {
+          "id": "g2-shapes-flat-solid-confusion",
+          "description": "평면도형과 입체도형을 같은 종류로 분류한다.",
+          "diagnosticEvidence": "원과 구 또는 직사각형과 직육면체를 같은 이름으로 부른다.",
+          "correctionStrategy": "굴리거나 쌓을 수 있는 입체와 종이에 그린 평면을 실제 행동으로 구별한다."
+        }
+      ]
+    },
+    {
+      "conceptId": "g2-1-shapes-plane-shapes",
+      "name": "삼각형, 사각형, 원의 모양과 공통점",
+      "standardCodes": ["[2수03-03]", "[2수03-04]", "[2수03-05]"],
+      "prerequisites": [],
+      "allowedScope": ["생활 물건에서 삼각형, 사각형, 원을 찾고 그린다.", "삼각형과 사각형의 변과 꼭짓점 수를 비교한다."],
+      "excludedScope": ["각의 크기나 평행 관계로 도형을 분류하지 않는다.", "정의에 없는 곡선 모양을 삼각형이나 사각형으로 세지 않는다."],
+      "misconceptions": [
+        {
+          "id": "g2-shapes-size-direction-name",
+          "description": "크기나 놓인 방향이 달라지면 다른 도형이라고 생각한다.",
+          "diagnosticEvidence": "기울어진 삼각형을 삼각형이 아니라고 고른다.",
+          "correctionStrategy": "방향을 바꾸어도 변과 꼭짓점 수가 같은지 확인한다."
+        },
+        {
+          "id": "g2-shapes-side-vertex-count",
+          "description": "변과 꼭짓점을 섞어 세거나 곡선을 변으로 센다.",
+          "diagnosticEvidence": "원을 변이 하나인 도형이라고 말한다.",
+          "correctionStrategy": "곧은 선분과 선분이 만나는 점을 따로 짚어 센다."
+        }
+      ]
+    }
+  ],
+  "familyRefs": [
+    { "familyId": "g2-1-shapes-object-match", "version": 1 },
+    { "familyId": "g2-1-shapes-border-build", "version": 1 },
+    { "familyId": "g2-1-shapes-hidden-layer", "version": 1 },
+    { "familyId": "g2-1-shapes-property-claim", "version": 1 },
+    { "familyId": "g2-1-shapes-condition-check", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

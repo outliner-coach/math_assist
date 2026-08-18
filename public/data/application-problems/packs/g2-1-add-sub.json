@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g2-1-add-sub",
+  "version": 1,
+  "unitId": "g2-1-add-sub",
+  "grade": 2,
+  "semester": "2-1",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[2수01-05]", "[2수01-06]", "[2수01-07]", "[2수01-08]", "[2수01-09]"],
+  "concepts": [
+    {
+      "conceptId": "g2-1-add-sub-addition-subtraction",
+      "name": "두 자리 수의 덧셈과 뺄셈 관계",
+      "standardCodes": ["[2수01-05]", "[2수01-06]", "[2수01-07]", "[2수01-08]", "[2수01-09]"],
+      "prerequisites": [{ "kind": "standard", "standardCode": "[2수01-04]" }],
+      "allowedScope": ["실생활 상황에서 덧셈과 뺄셈을 고르고 두 자리 수 범위에서 계산한다.", "세 수 계산과 빈칸 식을 덧셈·뺄셈 관계로 확인한다."],
+      "excludedScope": ["곱셈, 나눗셈이나 음수를 사용하지 않는다.", "세 자리 수 받아올림과 받아내림은 다루지 않는다."],
+      "misconceptions": [
+        {
+          "id": "g2-add-sub-operation-word",
+          "description": "상황의 관계를 보지 않고 나온 낱말 하나로 연산을 고른다.",
+          "diagnosticEvidence": "남은 수를 묻는데 두 수를 더한다.",
+          "correctionStrategy": "처음, 변한 양, 결과를 짧은 그림과 식으로 연결한다."
+        },
+        {
+          "id": "g2-add-sub-missing-part-add",
+          "description": "전체와 한 부분이 주어진 빈칸 문제에서도 두 수를 더한다.",
+          "diagnosticEvidence": "□+18=45에서 45+18을 계산한다.",
+          "correctionStrategy": "전체에서 알려진 부분을 빼고 원래 식에 넣어 검산한다."
+        }
+      ]
+    }
+  ],
+  "familyRefs": [
+    { "familyId": "g2-1-add-sub-story-total", "version": 1 },
+    { "familyId": "g2-1-add-sub-missing-start", "version": 1 },
+    { "familyId": "g2-1-add-sub-strategy-compare", "version": 1 },
+    { "familyId": "g2-1-add-sub-operation-check", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}
