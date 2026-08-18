@@ -34,7 +34,7 @@
 - **풀이장**: normalized vector command, 문제별 local repository, 펜·지우개·clear·undo·redo와 `play / bridge / study` 프리셋이 1·2·3·4·5·6학년에 연결되어 있다.
 - **원격 기반**: merge·rollback backup·mock transport·auth·one-time recovery·동의 provisioning 코드가 있으나 production flag는 `false`이고 provider·공개 route·UI가 없다.
 - **6학년 Study**: 11개 단원·개념, A/B/C 330개 원본, 기본 5/집중 10문제, 격리 저장과 손상 복구가 연결됐다. 원장이 없거나 정확히 `released`가 아니면 직접 경로는 계속 fail-closed한다.
-- **승인 응용문제**: 2학년 길이, 5학년 둘레·넓이, 6학년 비와 비율의 3개 pack·9개 V1 유형이 결정적 제작기, 독립 검산, 출시 원장과 학년별 세션 계약을 통과해 공개 학습 흐름에 연결됐다.
+- **승인 응용문제**: 2·3학년 전 단원과 5학년 둘레·넓이, 6학년 비와 비율의 107개 유형이 결정적 제작기, 독립 검산, 출시 원장과 학년별 세션 계약을 통과해 공개 학습 흐름에 연결됐다.
 - **추가 안전 경계**: 숫자 형식 오류 분리가 완료됐고 템플릿 산술의 `eval`은 제한된 parser로 교체됐다. 5·6학년 템플릿 metadata 1,110개와 1~4학년 미션 metadata는 실제 문제 의미에서 검증한다.
 
 ## 의존성 그래프

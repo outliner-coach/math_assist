@@ -11,6 +11,7 @@ import {
 } from './registry'
 import { APPLICATION_PROBLEM_REGISTRY_V1 } from './registered-families'
 import { GRADE2_APPLICATION_PROBLEM_REGISTRY_V1 } from './grade2-registry'
+import { GRADE3_APPLICATION_PROBLEM_REGISTRY_V1 } from './grade3-registry'
 import { GRADE5_APPLICATION_PROBLEM_REGISTRY_V1 } from './grade5-registry'
 import { GRADE6_APPLICATION_PROBLEM_REGISTRY_V1 } from './grade6-registry'
 import { buildApprovedGrade2ApplicationMissions } from './grade2-runtime'
@@ -71,7 +72,7 @@ describe('application runtime integration', () => {
       'g6-ratio-relative-comparison',
       'g6-ratio-representation-check',
     ]
-    expect(APPLICATION_PROBLEM_REGISTRY_V1.entries).toHaveLength(59)
+    expect(APPLICATION_PROBLEM_REGISTRY_V1.entries).toHaveLength(107)
     expect(APPLICATION_PROBLEM_REGISTRY_V1.entries
       .filter((entry) => fixedPilotIds.includes(entry.family.familyId))
       .map((entry) => entry.family.familyId)).toEqual(fixedPilotIds)
@@ -89,11 +90,11 @@ describe('application runtime integration', () => {
     expect(APPLICATION_PROBLEM_REGISTRY_V1.entries.every((entry) => (
       entry.family.releaseStatus === 'approved' && entry.family.approval.ownerStatus === 'approved'
     ))).toBe(true)
-    expect(APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger).toHaveLength(59)
+    expect(APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger).toHaveLength(107)
     const candidates = selectApprovedRuntimeCandidates(APPLICATION_PROBLEM_REGISTRY_V1)
-    expect(candidates).toHaveLength(59)
+    expect(candidates).toHaveLength(107)
     expect(new Set(candidates.map((entry) => `${entry.family.familyId}@${entry.family.version}`)).size)
-      .toBe(59)
+      .toBe(107)
   })
 
   it('keeps a deeply frozen release-ledger snapshot independent from every runtime family', () => {
@@ -131,11 +132,12 @@ describe('application runtime integration', () => {
     }
 
     expect(ledgerFamily.approval.ownerId).toBe('project-owner')
-    expect(selectApprovedRuntimeCandidates(forgedRegistry)).toHaveLength(58)
+    expect(selectApprovedRuntimeCandidates(forgedRegistry)).toHaveLength(106)
   })
 
   it.each([
     ['Grade 2', GRADE2_APPLICATION_PROBLEM_REGISTRY_V1, 53],
+    ['Grade 3', GRADE3_APPLICATION_PROBLEM_REGISTRY_V1, 48],
     ['Grade 5', GRADE5_APPLICATION_PROBLEM_REGISTRY_V1, 3],
     ['Grade 6', GRADE6_APPLICATION_PROBLEM_REGISTRY_V1, 3],
   ] as const)('keeps the %s learner shard ledger detached and immutable', (_label, registry, expectedCount) => {

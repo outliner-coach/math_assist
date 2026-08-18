@@ -1,6 +1,6 @@
 {
   "schemaVersion": "unit-knowledge-pack-v1", "packId": "pack-g3-2-graph", "version": 1,
-  "unitId": "g3-2-graph", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "draft",
+  "unitId": "g3-2-graph", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "approved",
   "coveredStandardCodes": ["[4수04-01]", "[4수04-03]"],
   "concepts": [{
     "conceptId": "g3-2-graph-graph", "name": "막대그래프의 표현과 해석", "standardCodes": ["[4수04-01]", "[4수04-03]"],
@@ -16,5 +16,5 @@
     { "familyId": "g3-2-graph-table-to-bar", "version": 1 }, { "familyId": "g3-2-graph-missing-category", "version": 1 },
     { "familyId": "g3-2-graph-claim-error", "version": 1 }, { "familyId": "g3-2-graph-data-sufficiency", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T09:24:24Z", "evidenceRefs": ["docs/reviews/application-problems-grade3-approval.md"], "expertStatus": "not-reviewed" }
 }

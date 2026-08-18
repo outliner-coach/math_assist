@@ -1,6 +1,7 @@
 import type { ApplicationProblemFamilyV1, GeneratedApplicationProblemV1 } from './contracts'
 import {
   GRADE2_APPLICATION_AUTHORING_CATALOG_V1,
+  GRADE3_APPLICATION_AUTHORING_CATALOG_V1,
   type DraftApplicationFamilyCandidateV1,
   type DraftApplicationReviewCaseV1,
 } from './authoring-catalog'
@@ -11,8 +12,10 @@ import {
   G5_GEOMETRY_PROOF_IMPLEMENTATION_RECORDS_V1,
 } from './families/grade5-geometry-proof-registration'
 import { G6_RATIO_PROOF_AUTHORITIES, G6_RATIO_PROOFS } from './families/g6-ratio-proof'
+import { grade3AnswerIsPublicBeforeSubmission } from './families/g3-independent-verifier'
 import { generateApplicationProblem } from './generator'
 import { GRADE2_APPLICATION_PROBLEM_REGISTRY_V1 } from './grade2-registry'
+import { GRADE3_APPLICATION_PROBLEM_REGISTRY_V1 } from './grade3-registry'
 import { APPLICATION_PROBLEM_REGISTRY_V1 } from './registered-families'
 import { resolveApplicationVisual } from './visual-validator'
 
@@ -170,11 +173,14 @@ function hasAnswerOnlyDisclosure(value: unknown, answer: string): boolean {
 }
 
 export function answerIsPublicBeforeSubmission(problem: GeneratedApplicationProblemV1): boolean {
+  if (typeof problem.familyId === 'string' && problem.familyId.startsWith('g3-')) {
+    return grade3AnswerIsPublicBeforeSubmission(problem)
+  }
   const answer = problem.answer.normalized.trim()
   return answer !== '' && hasAnswerOnlyDisclosure(problem.visual, answer)
 }
 
-function executeGrade2ReleasedProof(input: {
+function executeReleasedAuthoringProof(input: {
   family: ApplicationProblemFamilyV1
   candidate: DraftApplicationFamilyCandidateV1
 }): ProofReportEvidence {
@@ -187,7 +193,7 @@ function executeGrade2ReleasedProof(input: {
       mode: input.family.proofMode,
       proven: false,
       checkedCount: 0,
-      issues: ['missing executable Grade 2 release proof'],
+      issues: ['missing executable released authoring proof'],
     }
   }
   const generator = input.candidate.runtime.generator
@@ -292,18 +298,24 @@ export function buildApplicationFamilyEvidence(
 }
 
 export function getProductionApplicationFamilyEvidence() {
-  const productionGrade2ByKey = new Map(GRADE2_APPLICATION_PROBLEM_REGISTRY_V1.entries.map((entry) => [
+  const releasedProductionByKey = new Map([
+    ...GRADE2_APPLICATION_PROBLEM_REGISTRY_V1.entries,
+    ...GRADE3_APPLICATION_PROBLEM_REGISTRY_V1.entries,
+  ].map((entry) => [
     familyKey(entry.family),
     entry.family,
   ]))
-  const releasedGrade2Candidates = GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates
+  const releasedAuthoringCandidates = [
+    ...GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates,
+    ...GRADE3_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates,
+  ]
     .flatMap(({ familyCandidates }) => familyCandidates)
     .flatMap((candidate) => {
-      const family = productionGrade2ByKey.get(familyKey(candidate.family))
+      const family = releasedProductionByKey.get(familyKey(candidate.family))
       return family ? [{ family, candidate }] : []
     })
   const proofAuthorities: ProofAuthorityEvidence[] = [
-    ...releasedGrade2Candidates.flatMap(({ family, candidate }) => candidate.proof ? [{
+    ...releasedAuthoringCandidates.flatMap(({ family, candidate }) => candidate.proof ? [{
       familyId: family.familyId,
       familyVersion: family.version,
       mode: candidate.proof.mode,
@@ -337,12 +349,12 @@ export function getProductionApplicationFamilyEvidence() {
     authority,
   ]))
   const oracleByFamily = new Map<string, (input: ApplicationProofOracleInputV1) => unknown>()
-  const grade2CandidateByFamily = new Map(releasedGrade2Candidates.map(({ family, candidate }) => [
+  const releasedCandidateByFamily = new Map(releasedAuthoringCandidates.map(({ family, candidate }) => [
     familyKey(family),
     candidate,
   ]))
   const proofReports: ProofReportEvidence[] = [
-    ...releasedGrade2Candidates.map(executeGrade2ReleasedProof),
+    ...releasedAuthoringCandidates.map(executeReleasedAuthoringProof),
     ...G2_LENGTH_EXHAUSTIVE_PROOFS.map((proof) => {
       oracleByFamily.set(familyKey(proof.family), proof.oracle.evaluate)
       return executeDeclaredProof({
@@ -399,17 +411,17 @@ export function getProductionApplicationFamilyEvidence() {
     return { family: entry.family, seed: input.seed, first: generateApplicationProblem(input), second: generateApplicationProblem(input) }
   })
   const oracleResults = generatedSnapshots.map((snapshot) => {
-    const grade2Candidate = grade2CandidateByFamily.get(familyKey(snapshot.family))
+    const releasedCandidate = releasedCandidateByFamily.get(familyKey(snapshot.family))
     const oracle = oracleByFamily.get(familyKey(snapshot.family))
-    const answer = grade2Candidate ? grade2Candidate.oracle(snapshot.first) : oracle ? normalizeOracleAnswer(oracle({
+    const answer = releasedCandidate ? releasedCandidate.oracle(snapshot.first) : oracle ? normalizeOracleAnswer(oracle({
       caseId: 'production-runtime-sample',
       seed: snapshot.seed,
       variantIndex: 0,
       params: snapshot.first.params,
       mathModel: snapshot.first.visual.mathModel,
     })) : undefined
-    const solutionValid = grade2Candidate?.proof
-      ? grade2Candidate.proof.verify(snapshot.first, {
+    const solutionValid = releasedCandidate?.proof
+      ? releasedCandidate.proof.verify(snapshot.first, {
         caseId: 'production-runtime-sample',
         kind: 'representative',
         seed: snapshot.seed,
@@ -426,14 +438,14 @@ export function getProductionApplicationFamilyEvidence() {
     }
   })
   const visualResults = generatedSnapshots.map((snapshot) => {
-    const grade2Candidate = grade2CandidateByFamily.get(familyKey(snapshot.family))
-    if (grade2Candidate) {
-      const valid = grade2Candidate.visualValidator(snapshot.first)
+    const releasedCandidate = releasedCandidateByFamily.get(familyKey(snapshot.family))
+    if (releasedCandidate) {
+      const valid = releasedCandidate.visualValidator(snapshot.first)
       return {
         family: snapshot.family,
         problem: snapshot.first,
         valid,
-        ...(!valid ? { reason: 'Grade 2 independent visual validator rejected the generated scene' } : {}),
+        ...(!valid ? { reason: 'released independent visual validator rejected the generated scene' } : {}),
       }
     }
     const result = resolveApplicationVisual(snapshot.first.visual)

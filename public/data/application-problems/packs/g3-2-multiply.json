@@ -1,6 +1,6 @@
 {
   "schemaVersion": "unit-knowledge-pack-v1", "packId": "pack-g3-2-multiply", "version": 1,
-  "unitId": "g3-2-multiply", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "draft",
+  "unitId": "g3-2-multiply", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "approved",
   "coveredStandardCodes": ["[4수01-04]"],
   "concepts": [{
     "conceptId": "g3-2-multiply-multiplication", "name": "두 자리 수끼리의 곱셈과 부분곱", "standardCodes": ["[4수01-04]"],
@@ -16,5 +16,5 @@
     { "familyId": "g3-2-multiply-box-total", "version": 1 }, { "familyId": "g3-2-multiply-missing-factor", "version": 1 },
     { "familyId": "g3-2-multiply-distributive-check", "version": 1 }, { "familyId": "g3-2-multiply-product-error", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T09:24:24Z", "evidenceRefs": ["docs/reviews/application-problems-grade3-approval.md"], "expertStatus": "not-reviewed" }
 }

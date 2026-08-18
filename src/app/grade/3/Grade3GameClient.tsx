@@ -41,8 +41,47 @@ import {
   resolveMissionSketchStatus,
 } from '@/lib/mission-sketch-identity'
 import { dispatchMascotReaction, mascotReactionForAnswer } from '@/lib/mascot'
+import { buildApprovedGrade3PracticeSet } from '@/lib/application-problems/grade3-runtime'
+import { isGrade3ApplicationMission } from '@/lib/application-problems/grade3-adapter'
+import { isApprovedGrade3ApplicationMissionSemanticallyValid } from '@/lib/application-problems/grade3-snapshot-validator'
 
 const MISSION_SEED = 20260516
+
+function resolveLearnerSession(input: {
+  unitId: string
+  mode: Grade3Mode
+  preferredMissionId?: string | null
+  applicationRotation?: number
+}): { missions: Grade3Mission[]; blocked: boolean } {
+  if (input.mode !== 'practice') {
+    return {
+      missions: getGrade3MissionSession(
+        input.unitId,
+        input.mode,
+        MISSION_SEED,
+        input.preferredMissionId,
+      ),
+      blocked: false,
+    }
+  }
+  const result = buildApprovedGrade3PracticeSet({
+    unitId: input.unitId,
+    seed: MISSION_SEED,
+    applicationRotation: input.applicationRotation ?? 0,
+    preferredMissionId: input.preferredMissionId,
+  })
+  return result.status === 'ready'
+    ? { missions: result.missions, blocked: false }
+    : {
+        missions: getGrade3MissionSession(
+          input.unitId,
+          input.mode,
+          MISSION_SEED,
+          input.preferredMissionId,
+        ),
+        blocked: true,
+      }
+}
 
 function unitMissions(missions: Grade3Mission[], unitId: string): Grade3Mission[] {
   return missions.filter((mission) => mission.unitId === unitId).sort((a, b) => a.unitMissionOrder - b.unitMissionOrder)
@@ -191,9 +230,13 @@ export default function Grade3GameClient({
   initialMode: Grade3Mode
   initialMissionId?: string
 }) {
-  const [missions, setMissions] = useState(
-    () => getGrade3MissionSession(initialUnitId, initialMode, MISSION_SEED, initialMissionId),
-  )
+  const [session, setSession] = useState(() => resolveLearnerSession({
+    unitId: initialUnitId,
+    mode: initialMode,
+    preferredMissionId: initialMissionId,
+  }))
+  const missions = session.missions
+  const sessionBlocked = session.blocked
   const initialUnit = grade3Units.find((unit) => unit.id === initialUnitId) ?? grade3Units[0]
   const [progress, setProgress] = useState<Grade3Progress>(() => createInitialGrade3Progress())
   const [storageAvailable, setStorageAvailable] = useState(true)
@@ -225,7 +268,9 @@ export default function Grade3GameClient({
     firstMissionForUnit(missions, selectedUnit.id, progress)
   const solved = lastSubmissionCorrect
   const nextMission = solved ? nextMissionInUnit(missions, selectedMission, progress) : null
-  const currentVariantKey = `${selectedMission.id}:seed-${MISSION_SEED}`
+  const currentVariantKey = isGrade3ApplicationMission(selectedMission)
+    ? selectedMission.applicationSource.instanceId
+    : `${selectedMission.id}:seed-${MISSION_SEED}:run-${missionRun}`
   const scratchKey = createMissionSketchKey({
     grade: 3,
     sessionRunKey: `${MISSION_SEED}:run-${missionRun}`,
@@ -236,7 +281,12 @@ export default function Grade3GameClient({
   useEffect(() => {
     const result = loadGrade3Progress()
     const allUnitMissions = getGrade3MissionsByUnit(initialUnit.id, MISSION_SEED)
-    const currentSession = getGrade3MissionSession(initialUnit.id, initialMode, MISSION_SEED)
+    const currentResolvedSession = resolveLearnerSession({
+      unitId: initialUnit.id,
+      mode: initialMode,
+      applicationRotation: result.progress.missionSketchRunOrdinal,
+    })
+    const currentSession = currentResolvedSession.missions
     const currentSessionIds = new Set(currentSession.map((mission) => mission.id))
     const standardSessionIds = new Set([
       ...getGrade3MissionSession(initialUnit.id, 'basic', MISSION_SEED),
@@ -260,28 +310,32 @@ export default function Grade3GameClient({
         ? result.progress.latestMissionId
         : undefined
     )
-    const restoredSession = getGrade3MissionSession(
-      initialUnit.id,
-      initialMode,
-      MISSION_SEED,
+    const restored = resolveLearnerSession({
+      unitId: initialUnit.id,
+      mode: initialMode,
       preferredMissionId,
-    )
-    const progressForUnit =
-      result.progress.selectedUnitId === initialUnit.id ? result.progress : selectGrade3Unit(result.progress, initialUnit.id)
-    const progressForSession = initialMode === 'practice'
+      applicationRotation: result.progress.missionSketchRunOrdinal,
+    })
+    const restoredSession = restored.missions
+    const progressForUnit = restored.blocked
+      ? result.progress
+      : result.progress.selectedUnitId === initialUnit.id
+        ? result.progress
+        : selectGrade3Unit(result.progress, initialUnit.id)
+    const progressForSession = initialMode === 'practice' && !restored.blocked
       ? recordGrade3PracticeSession(progressForUnit, initialUnit.id, restoredSession)
       : progressForUnit
     const recommendedMission = firstMissionForUnit(restoredSession, initialUnit.id, progressForSession)
     const restoredMission = unitMissions(restoredSession, initialUnit.id)
       .find((mission) => mission.id === restoredMissionId) ?? recommendedMission
-    setMissions(restoredSession)
+    setSession(restored)
     setProgress(progressForSession)
     setMissionRun(progressForSession.missionSketchRunOrdinal)
-    setStorageAvailable(
-      progressForSession === result.progress
+    setStorageAvailable(restored.blocked
+      ? result.storageAvailable
+      : progressForSession === result.progress
         ? result.storageAvailable
-        : saveGrade3Progress(progressForSession),
-    )
+        : saveGrade3Progress(progressForSession))
     setStorageRecovered((wasRecovered) => wasRecovered || result.recovered)
     setSelectedUnitId(initialUnit.id)
     setSelectedMissionId(restoredMission.id)
@@ -307,9 +361,14 @@ export default function Grade3GameClient({
         reviewCount: progress.reviewMissionIds.length,
         mode: initialMode,
         missionSeed: MISSION_SEED,
+        applicationRotation: missionRun,
+        applicationSource: isGrade3ApplicationMission(selectedMission)
+          ? selectedMission.applicationSource
+          : null,
+        sessionBlocked,
       })
     gameWindow.advanceTime ??= async () => undefined
-  }, [initialMode, progress.completedMissionIds.length, progress.reviewMissionIds.length, progress.todaySolvedCount, selectedMission.curriculumCode, selectedMission.prompt, selectedMission.visualModel, selectedMissionId, selectedUnitId, solved, wrongAttemptCount])
+  }, [initialMode, missionRun, progress.completedMissionIds.length, progress.reviewMissionIds.length, progress.todaySolvedCount, selectedMission, selectedMissionId, selectedUnitId, sessionBlocked, solved, wrongAttemptCount])
 
   const persistProgress = (nextProgress: Grade3Progress) => {
     setProgress(nextProgress)
@@ -345,7 +404,14 @@ export default function Grade3GameClient({
 
   const resetMission = () => {
     const nextProgress = advanceMissionSketchRun(progress)
+    const nextSession = resolveLearnerSession({
+      unitId: selectedUnit.id,
+      mode: initialMode,
+      preferredMissionId: selectedMission.id,
+      applicationRotation: nextProgress.missionSketchRunOrdinal,
+    })
     persistProgress(nextProgress)
+    setSession(nextSession)
     setMissionRun(nextProgress.missionSketchRunOrdinal)
     setMissionAttemptRunKey(
       createMissionAttemptRunKey(`${MISSION_SEED}:run-${nextProgress.missionSketchRunOrdinal}`),
@@ -363,10 +429,16 @@ export default function Grade3GameClient({
       ...resetGrade3Progress(),
       missionSketchRunOrdinal: progress.missionSketchRunOrdinal + 1,
     }
+    const nextSession = resolveLearnerSession({
+      unitId: initialUnit.id,
+      mode: initialMode,
+      applicationRotation: nextProgress.missionSketchRunOrdinal,
+    })
     persistProgress(nextProgress)
+    setSession(nextSession)
     setStorageRecovered(false)
     setSelectedUnitId(initialUnit.id)
-    setSelectedMissionId(unitMissions(missions, initialUnit.id)[0]?.id ?? 'g3-1-add-sub-01')
+    setSelectedMissionId(unitMissions(nextSession.missions, initialUnit.id)[0]?.id ?? 'g3-1-add-sub-01')
     setConfirmReset(false)
     setMissionRun(nextProgress.missionSketchRunOrdinal)
     setMissionAttemptRunKey(
@@ -376,7 +448,14 @@ export default function Grade3GameClient({
   }
 
   const submitAnswer = (rawAnswer: Parameters<typeof checkGrade3Answer>[1], displayAnswer: string) => {
-    if (solved) return
+    if (solved || sessionBlocked) return
+    if (
+      isGrade3ApplicationMission(selectedMission)
+      && !isApprovedGrade3ApplicationMissionSemanticallyValid(selectedMission)
+    ) {
+      setInputError('응용문제 근거를 확인할 수 없어 답을 저장하지 않았어요.')
+      return
+    }
     const progressWithIntroDismissed = dismissGrade3Intro(progress)
     const result = checkGrade3Answer(selectedMission.answerType, rawAnswer, selectedMission.correctAnswer)
     if (!result.ok) {
@@ -452,6 +531,17 @@ export default function Grade3GameClient({
         </section>
       )}
 
+      {sessionBlocked && (
+        <section
+          data-testid="grade3-application-session-blocked"
+          className="rounded-[2rem] border-2 border-[#ef4444] bg-[#fee2e2] p-6 text-center"
+        >
+          <h2 className="text-2xl font-black text-[#0f172a]">연습 문제를 안전하게 확인하고 있어요.</h2>
+          <p className="mt-3 font-bold text-[#475569]">진행 기록은 바꾸지 않았어요. 잠시 뒤 다시 열어 주세요.</p>
+        </section>
+      )}
+
+      {!sessionBlocked && <>
       <section className="grid gap-5 rounded-[2rem] border-2 border-[#ccfbf1] bg-white p-5 md:p-6 lg:grid-cols-[320px_1fr]" data-testid="grade3-mission-nav">
         <div>
           <p className="text-sm font-black uppercase tracking-[0.18em] text-[#0f766e]">{selectedUnit.semester}</p>
@@ -585,6 +675,7 @@ export default function Grade3GameClient({
           </div>
         </section>
       )}
+      </>}
     </div>
   )
 }

@@ -973,3 +973,14 @@ When you change a high-conflict file, add a short dated note below:
   No Grade 3 production registry, release-ledger entry, approval mutation,
   learner routing, remote push, or deployment is allowed before the next
   explicit project-owner approval.
+
+- 2026-08-18: Grade 3 all-unit application approval and release (T12) owns
+  `grade3-registry.ts`, the shared production-ledger aggregation, Grade 3
+  production proof evidence and runtime interaction gate, the twelve pack
+  approval records, learner practice connection, and rollout advancement.
+  The user's “네 승인하고 배포합니다.” is recorded as `project-owner`
+  approval at `2026-08-18T09:24:24Z`; expert status remains `not-reviewed`.
+  Keep the three stable K/A/R mission IDs, replace only one applying or
+  reasoning slot in practice, preserve `mathAssist_grade3Progress`, and
+  advance rollout exactly from `2/3` to `3/4`. Only a release-audit and full
+  local-gate commit may reach `main` and GitHub Pages.

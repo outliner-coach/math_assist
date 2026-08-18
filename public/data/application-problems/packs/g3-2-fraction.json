@@ -1,6 +1,6 @@
 {
   "schemaVersion": "unit-knowledge-pack-v1", "packId": "pack-g3-2-fraction", "version": 1,
-  "unitId": "g3-2-fraction", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "draft",
+  "unitId": "g3-2-fraction", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "approved",
   "coveredStandardCodes": ["[4수01-10]", "[4수01-11]"],
   "concepts": [{
     "conceptId": "g3-2-fraction-fraction", "name": "분수의 여러 형태와 크기 비교", "standardCodes": ["[4수01-10]", "[4수01-11]"],
@@ -16,5 +16,5 @@
     { "familyId": "g3-2-fraction-form-and-compare", "version": 1 }, { "familyId": "g3-2-fraction-missing-numerator", "version": 1 },
     { "familyId": "g3-2-fraction-representation-shift", "version": 1 }, { "familyId": "g3-2-fraction-comparison-error", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T09:24:24Z", "evidenceRefs": ["docs/reviews/application-problems-grade3-approval.md"], "expertStatus": "not-reviewed" }
 }

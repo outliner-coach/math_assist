@@ -3,6 +3,7 @@ import curriculumAllocations from '../../../../public/data/curriculum-allocation
 import { grade3Units } from '../../grade3-problems'
 import {
   parseUnitKnowledgePackV1,
+  type CurriculumStandardAllocationV1,
   validateApplicationProblemCatalog,
 } from '../contracts'
 import { answerIsPublicBeforeSubmission } from '../quality-evidence'
@@ -78,8 +79,17 @@ const units = [
   ...G3_SEMESTER_TWO_APPLICATION_UNITS,
 ]
 
+function publicVisualLabels(problem: { visual: { mathModel?: unknown } }): string[] {
+  const model = problem.visual.mathModel as {
+    labels?: Array<{ content?: { before?: { text?: unknown } } }>
+  }
+  return (model.labels ?? []).flatMap(({ content }) => (
+    typeof content?.before?.text === 'string' ? [content.before.text] : []
+  ))
+}
+
 describe('Grade 3 complete application content', () => {
-  it('declares twelve complete draft packs from the canonical Grade 3 bank', () => {
+  it('declares twelve approved complete packs from the canonical Grade 3 bank', () => {
     expect(units.map(({ unitId }) => unitId)).toEqual(grade3Units.map(({ id }) => id))
 
     for (const content of units) {
@@ -92,8 +102,14 @@ describe('Grade 3 complete application content', () => {
         grade: 3,
         semester: canonical.semester,
         coverageStatus: 'complete',
-        releaseStatus: 'draft',
-        approval: { ownerStatus: 'pending', expertStatus: 'not-reviewed' },
+        releaseStatus: 'approved',
+        approval: {
+          ownerStatus: 'approved',
+          ownerId: 'project-owner',
+          approvedAt: '2026-08-18T09:24:24Z',
+          evidenceRefs: ['docs/reviews/application-problems-grade3-approval.md'],
+          expertStatus: 'not-reviewed',
+        },
       })
       expect(pack.coveredStandardCodes).toEqual(canonical.curriculumCodes)
       expect(pack.concepts.map(({ conceptId }) => conceptId).sort()).toEqual([...expected.concepts].sort())
@@ -184,6 +200,56 @@ describe('Grade 3 complete application content', () => {
     }
   })
 
+  it('keeps derived circle values and hidden graph category names out of public visuals', () => {
+    const circle = units
+      .find(({ unitId }) => unitId === 'g3-2-circle')!
+      .recipes.find(({ family }) => family.familyId === 'g3-2-circle-missing-radius')!
+    const missingRadius = circle.generate({ seed: 0, variantIndex: 0 })
+    expect(publicVisualLabels(missingRadius)).toContain('지름 8')
+    expect(publicVisualLabels(missingRadius)).not.toContain('반지름 4')
+
+    const exposedRadius = structuredClone(missingRadius)
+    const exposedRadiusModel = exposedRadius.visual.mathModel as {
+      labels: Array<{ key: string; content: { before?: { text: string; disclosure: 'given' } } }>
+    }
+    exposedRadiusModel.labels.find(({ key }) => key === 'diameter-label')!.content.before = {
+      text: '반지름 4',
+      disclosure: 'given',
+    }
+    expect(circle.verify(exposedRadius)).toContain('derived radius is public before submission')
+
+    const graph = units
+      .find(({ unitId }) => unitId === 'g3-2-graph')!
+      .recipes.find(({ family }) => family.familyId === 'g3-2-graph-data-sufficiency')!
+    const missingLabels = graph.generate({ seed: 0, variantIndex: 1 })
+    expect(publicVisualLabels(missingLabels)).toEqual(expect.arrayContaining([
+      '막대 1 높이 9',
+      '막대 2 높이 14',
+    ]))
+    expect(publicVisualLabels(missingLabels).join(' ')).not.toMatch(/(?:^|\s)[ab]\s/)
+
+    const exposedCategories = structuredClone(missingLabels)
+    const exposedCategoryModel = exposedCategories.visual.mathModel as {
+      labels: Array<{ key: string; content: { before?: { text: string; disclosure: 'given' } } }>
+    }
+    exposedCategoryModel.labels[0].content.before = { text: 'a 9', disclosure: 'given' }
+    exposedCategoryModel.labels[1].content.before = { text: 'b 14', disclosure: 'given' }
+    expect(graph.verify(exposedCategories)).toContain('hidden graph category names are public')
+  })
+
+  it('uses learner-facing labels instead of internal parameter keys in every visual variant', () => {
+    for (const content of units) {
+      for (const recipe of content.recipes) {
+        recipe.cases.forEach((_, variantIndex) => {
+          const labels = publicVisualLabels(recipe.generate({ seed: 0, variantIndex })).join(' ')
+          expect(labels, `${recipe.family.familyId}:${variantIndex}`).not.toMatch(
+            /(?:^|\s)[A-Za-z][A-Za-z0-9]*\s+-?\d/,
+          )
+        })
+      }
+    }
+  })
+
   it('passes canonical complete-pack coverage and exact Grade 3 ledger allocation', () => {
     for (const content of units) {
       const pack = parseUnitKnowledgePackV1(content.pack)
@@ -192,7 +258,7 @@ describe('Grade 3 complete application content', () => {
         canonical.curriculumCodes.includes(allocation.standardCode)
           ? { ...allocation, unitId: canonical.id, assignedGrade: 3 as const, semester: canonical.semester }
           : allocation
-      ))
+      )) as CurriculumStandardAllocationV1[]
       expect(validateApplicationProblemCatalog({
         packs: [pack],
         families: content.recipes.map(({ family }) => family),

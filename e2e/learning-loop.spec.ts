@@ -3,6 +3,9 @@ import { readFile } from 'node:fs/promises'
 
 import { getGrade1Missions, getGrade1PracticeMissionIds } from '../src/lib/grade1-problems'
 import { createInitialGrade1Progress } from '../src/lib/grade1-progress'
+import { isGrade3ApplicationMission } from '../src/lib/application-problems/grade3-adapter'
+import { buildApprovedGrade3PracticeSet } from '../src/lib/application-problems/grade3-runtime'
+import { createInitialGrade3Progress } from '../src/lib/grade3-progress'
 
 const BASE_PATH = '/math_assist'
 const SESSION_KEY = 'mathAssist_currentSession'
@@ -1359,6 +1362,92 @@ test('3학년 탐험섬에서 단원 선택, 발판, 힌트, 보상 흐름을 �
   await expect(page.getByTestId('grade3-reward-panel')).toHaveCount(0)
 })
 
+test('3학년 연습은 기존 세 자리 중 한 자리를 승인된 응용문제로 풀고 저장한다', async ({ page }) => {
+  const result = buildApprovedGrade3PracticeSet({
+    unitId: 'g3-1-add-sub',
+    seed: 20260516,
+    applicationRotation: 0,
+  })
+  expect(result.status).toBe('ready')
+  if (result.status !== 'ready') return
+  const application = result.missions.find(isGrade3ApplicationMission)
+  expect(application).toBeDefined()
+  if (!application) return
+
+  await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-1-add-sub&mode=practice`)
+  await expect(page.getByTestId('grade3-unit-missions').getByTestId(/grade3-mission-node-/)).toHaveCount(3)
+  await page.getByTestId(`grade3-mission-node-${application.unitMissionOrder}`).click()
+  await expect(page.getByTestId('grade3-mission-card')).toHaveAttribute('data-mission-id', application.id)
+  const visual = page.getByTestId('grade3-application-visual')
+  await expect(visual).toBeVisible()
+  await expect(visual.locator('.application-visual--answer')).toHaveCount(0)
+  await expect(visual).toContainText('답: ?')
+
+  if (application.answerType === 'choice') {
+    await page.getByTestId(`grade3-choice-${application.correctAnswer}`).click()
+  } else {
+    await page.getByTestId('grade3-integer-input').fill(application.correctAnswer)
+    await page.getByTestId('grade3-integer-submit').click()
+  }
+
+  await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
+  await expect(visual).toContainText(`답: ${application.correctAnswer}`)
+  const progress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) || 'null'), GRADE3_PROGRESS_KEY)
+  expect(progress.completedMissionIds).toContain(application.id)
+})
+
+test('3학년 연습은 저장된 실행 번호로 네 응용 유형을 모바일과 태블릿에서 모두 순환한다', async ({ page }) => {
+  const unitId = 'g3-2-capacity-weight'
+
+  for (const viewport of [
+    { width: 390, height: 844 },
+    { width: 1024, height: 768 },
+  ]) {
+    await page.setViewportSize(viewport)
+    const familyIds = new Set<string>()
+
+    for (let applicationRotation = 0; applicationRotation < 4; applicationRotation += 1) {
+      const expected = buildApprovedGrade3PracticeSet({
+        unitId,
+        seed: 20260516,
+        applicationRotation,
+      })
+      expect(expected.status).toBe('ready')
+      if (expected.status !== 'ready') continue
+      const expectedApplication = expected.missions.find(isGrade3ApplicationMission)
+      expect(expectedApplication).toBeDefined()
+      if (!expectedApplication) continue
+
+      await page.goto(`${BASE_PATH}/`)
+      const progress = {
+        ...createInitialGrade3Progress(1723950000000),
+        selectedUnitId: unitId,
+        missionSketchRunOrdinal: applicationRotation,
+      }
+      await page.evaluate(({ key, value }) => {
+        localStorage.setItem(key, JSON.stringify(value))
+      }, { key: GRADE3_PROGRESS_KEY, value: progress })
+      await page.goto(`${BASE_PATH}/grade/3/mission?unitId=${unitId}&mode=practice`)
+      await page.getByTestId(`grade3-mission-node-${expectedApplication.unitMissionOrder}`).click()
+
+      const visual = page.getByTestId('grade3-application-visual')
+      await expect(visual).toBeVisible()
+      await expect(visual).toContainText('답: ?')
+      await expect(visual.locator('.application-visual--answer')).toHaveCount(0)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
+
+      const gameState = await page.evaluate(() => JSON.parse(
+        (window as unknown as { render_game_to_text: () => string }).render_game_to_text(),
+      ))
+      expect(gameState.applicationRotation).toBe(applicationRotation)
+      expect(gameState.applicationSource.familyId).toBe(expectedApplication.applicationSource.familyId)
+      familyIds.add(gameState.applicationSource.familyId)
+    }
+
+    expect(familyIds.size, `${viewport.width}x${viewport.height}`).toBe(4)
+  }
+})
+
 test('3학년 미션을 떠났다가 돌아오면 새 실행의 정답 영수증을 보존한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-1-add-sub`)
 
@@ -1398,7 +1487,6 @@ test('3학년 들이와 무게는 기본·연습에서 정량 그림과 안전�
       missions: [
         { order: 1, code: '[4수03-20]', fields: [['grade3-weight-kilograms', '2'], ['grade3-weight-grams', '300']], submit: 'grade3-weight-submit', shown: '2kg 300g' },
         { order: 2, code: '[4수03-18]', fields: [['grade3-integer-input', '3250']], submit: 'grade3-integer-submit', shown: '3250mL' },
-        { order: 3, code: '[4수03-23]', fields: [['grade3-weight-kilograms', '2'], ['grade3-weight-grams', '450']], submit: 'grade3-weight-submit', shown: '2kg450g' },
       ],
     },
   ] as const
@@ -1420,6 +1508,13 @@ test('3학년 들이와 무게는 기본·연습에서 정량 그림과 안전�
       await page.getByTestId(mission.submit).click()
       await expect(page.getByTestId('grade3-mission-success')).toBeVisible()
       await expect(result).toContainText(mission.shown)
+    }
+    if (session.mode === 'practice') {
+      await page.getByTestId('grade3-mission-node-3').click()
+      const applicationVisual = page.getByTestId('grade3-application-visual')
+      await expect(applicationVisual).toBeVisible()
+      await expect(applicationVisual.locator('.application-visual--answer')).toHaveCount(0)
+      await expect(applicationVisual).toContainText('답: ?')
     }
   }
 

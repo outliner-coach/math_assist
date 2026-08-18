@@ -8,7 +8,7 @@ import {
 } from '../grade3-progress'
 import { getGrade3MissionSession, grade3Units } from '../grade3-problems'
 import {
-  APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
+  GRADE3_APPLICATION_AUTHORING_CATALOG_V1,
   validateAuthoringCatalogSafety,
 } from './authoring-catalog'
 import { isGrade3ApplicationMission } from './grade3-adapter'
@@ -25,8 +25,8 @@ describe('Grade 3 review-only application connection', () => {
     const units = createGrade3AuthoringUnitCandidateValues()
 
     expect(units).toHaveLength(12)
-    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toHaveLength(12)
-    expect(validateAuthoringCatalogSafety(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1)).toEqual([])
+    expect(GRADE3_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates).toHaveLength(12)
+    expect(validateAuthoringCatalogSafety(GRADE3_APPLICATION_AUTHORING_CATALOG_V1)).toEqual([])
     expect(new Set(units.map(({ pack }) => pack.unitId)))
       .toEqual(new Set(grade3Units.map(({ id }) => id)))
     expect(units.flatMap(({ familyCandidates }) => familyCandidates)).toHaveLength(48)
@@ -64,7 +64,7 @@ describe('Grade 3 review-only application connection', () => {
   })
 
   it('rotates all four families in every unit deterministically', () => {
-    for (const unit of APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates) {
+    for (const unit of GRADE3_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates) {
       const expected = new Set(unit.familyCandidates.map(({ family }) => family.familyId))
       const selected = new Set<string>()
       for (let seed = 0; seed < 64; seed += 1) {
@@ -80,12 +80,12 @@ describe('Grade 3 review-only application connection', () => {
   })
 
   it('blocks the whole candidate session when generation or proof is unsafe', () => {
-    const sourceUnit = APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates[0]
+    const sourceUnit = GRADE3_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates[0]
     const selected = sourceUnit.familyCandidates[0]
     expect(selected.runtime.kind).toBe('deterministic-generator')
     if (selected.runtime.kind !== 'deterministic-generator') return
     const broken = {
-      ...APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
+      ...GRADE3_APPLICATION_AUTHORING_CATALOG_V1,
       unitCandidates: [{
         ...sourceUnit,
         familyCandidates: [{

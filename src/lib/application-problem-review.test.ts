@@ -141,11 +141,11 @@ describe('application problem review catalog', () => {
     })
     const identities = data.rows.map((row) => `${row.familyId}@${row.version}`)
 
-    expect(data.rows).toHaveLength(60)
-    expect(new Set(identities).size).toBe(60)
+    expect(data.rows).toHaveLength(108)
+    expect(new Set(identities).size).toBe(108)
     expect(data.rows.filter((row) => row.source === 'draft')).toHaveLength(1)
-    expect(data.rows.filter((row) => row.source === 'production')).toHaveLength(59)
-    expect(deduplicated.rows).toHaveLength(59)
+    expect(data.rows.filter((row) => row.source === 'production')).toHaveLength(107)
+    expect(deduplicated.rows).toHaveLength(107)
     expect(deduplicated.rows.filter((row) => (
       row.familyId === GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.entries[0].family.familyId
     ))).toEqual([expect.objectContaining({ source: 'production' })])
@@ -457,13 +457,13 @@ describe('application problem review catalog', () => {
     })
   })
 
-  it('shows fifty-nine approved families alongside forty-eight Grade 3 drafts', () => {
+  it('shows all 107 Grade 2, 3, 5, and 6 families as approved production', () => {
     const data = getApplicationProblemReviewData()
 
     expect(APPLICATION_UNIT_INVENTORY_V1).toHaveLength(62)
     expect(data.rows).toHaveLength(107)
-    expect(data.rows.filter((row) => row.source === 'production')).toHaveLength(59)
-    expect(data.rows.filter((row) => row.source === 'draft')).toHaveLength(48)
+    expect(data.rows.filter((row) => row.source === 'production')).toHaveLength(107)
+    expect(data.rows.filter((row) => row.source === 'draft')).toHaveLength(0)
     expect(data.rows.filter((row) => row.source === 'production').every((row) => (
       row.releaseStatus === 'approved'
     ))).toBe(true)

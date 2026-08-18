@@ -34,6 +34,46 @@ function answerIsPublicBeforeSubmission(problem: GeneratedApplicationProblemV1):
   return answer !== '' && hasAnswerOnlyDisclosure(problem.visual, answer)
 }
 
+function publicVisualLabelTexts(problem: GeneratedApplicationProblemV1): string[] {
+  const model = problem.visual.mathModel as {
+    labels?: Array<{ content?: { before?: { text?: unknown } } }>
+  }
+  return (model.labels ?? []).flatMap(({ content }) => (
+    typeof content?.before?.text === 'string' ? [content.before.text] : []
+  ))
+}
+
+function grade3VisualDisclosureIssues(problem: GeneratedApplicationProblemV1): string[] {
+  const labels = publicVisualLabelTexts(problem)
+  if (problem.familyId === 'g3-2-circle-missing-radius') {
+    const derivedRadius = n(problem.params, 'diameter') / 2
+    if (labels.includes(`반지름 ${derivedRadius}`)) {
+      return ['derived radius is public before submission']
+    }
+  }
+  if (problem.familyId === 'g3-2-circle-construction-constraint') {
+    const derivedRadius = n(problem.params, 'targetDiameter') / 2
+    if (labels.includes(`반지름 ${derivedRadius}`)) {
+      return ['derived radius is public before submission']
+    }
+  }
+  if (
+    problem.familyId === 'g3-2-graph-data-sufficiency'
+    && !b(problem.params, 'hasCategoryLabels')
+    && labels.some((label) => /^(?:a|b|가|나)(?:\s|$)/.test(label))
+  ) {
+    return ['hidden graph category names are public']
+  }
+  return []
+}
+
+export function grade3AnswerIsPublicBeforeSubmission(
+  problem: GeneratedApplicationProblemV1,
+): boolean {
+  return answerIsPublicBeforeSubmission(problem)
+    || grade3VisualDisclosureIssues(problem).length > 0
+}
+
 function n(params: Readonly<Record<string, JsonValue>>, key: string): number {
   const value = params[key]
   if (!Number.isSafeInteger(value)) throw new TypeError(`${key} must be a safe integer`)
@@ -217,6 +257,7 @@ export function verifyGrade3ApplicationProblem(problem: GeneratedApplicationProb
     issues.push(`visual contract is not ready: ${'issues' in resolution ? resolution.issues.map(({ code }) => code).join(',') : resolution.status}`)
   }
   if (answerIsPublicBeforeSubmission(problem)) issues.push('answer-only value is public before submission')
+  issues.push(...grade3VisualDisclosureIssues(problem))
   if (!hasHiddenAnswer(problem.visual.mathModel, expected.answer)) issues.push('visual answer disclosure pair mismatch')
   return issues
 }

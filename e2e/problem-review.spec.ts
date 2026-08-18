@@ -93,7 +93,7 @@ test('내부 검수 화면은 등록 행으로 실제 필터링하고 학습자 
 
   await page.getByLabel('학년').selectOption('3')
   await expect(page.getByTestId('review-problem-card')).toHaveCount(48)
-  await expect(page.getByTestId('review-problem-card').first()).toContainText('draft')
+  await expect(page.getByTestId('review-problem-card').first()).toContainText('approved')
   await page.getByLabel('학년').selectOption('6')
   await expect(page.getByTestId('review-problem-card')).toHaveCount(3)
   await expect(page.getByTestId('review-problem-card').first()).toContainText('6학년')
@@ -128,7 +128,7 @@ test('390×844와 1024×768 검수 화면은 가로 넘침이나 고정 행동 �
   expect(browserErrors).toEqual([])
 })
 
-test('Grade 3 draft 대표 시각은 두 뷰포트에서 제출 전 답을 숨기고 증거를 표시한다', async ({ page }) => {
+test('Grade 3 production 대표 시각은 두 뷰포트에서 제출 전 답을 숨기고 증거를 표시한다', async ({ page }) => {
   const browserErrors: string[] = []
   page.on('console', (message) => {
     if (message.type() === 'error') browserErrors.push(message.text())
@@ -155,7 +155,7 @@ test('Grade 3 draft 대표 시각은 두 뷰포트에서 제출 전 답을 숨�
     for (const familyId of representativeFamilies) {
       const card = page.getByTestId('review-problem-card').filter({ hasText: familyId })
       await expect(card).toHaveCount(1)
-      await expect(card).toContainText('draft')
+      await expect(card).toContainText('approved')
       await expect(card).toContainText('케이스 판정: passed')
       await expect(card).toContainText('제출 전 노출 검사: passed')
       await expect(card).toContainText('증명 실행: 통과')

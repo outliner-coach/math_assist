@@ -1,6 +1,6 @@
 {
   "schemaVersion": "unit-knowledge-pack-v1", "packId": "pack-g3-2-capacity-weight", "version": 1,
-  "unitId": "g3-2-capacity-weight", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "draft",
+  "unitId": "g3-2-capacity-weight", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "approved",
   "coveredStandardCodes": ["[4수03-17]", "[4수03-18]", "[4수03-19]", "[4수03-20]", "[4수03-21]", "[4수03-22]", "[4수03-23]"],
   "concepts": [{
     "conceptId": "g3-2-capacity-weight-capacity-weight", "name": "들이와 무게 단위의 관계", "standardCodes": ["[4수03-17]", "[4수03-18]", "[4수03-19]", "[4수03-20]", "[4수03-21]", "[4수03-22]", "[4수03-23]"],
@@ -16,5 +16,5 @@
     { "familyId": "g3-2-capacity-weight-measure-pair", "version": 1 }, { "familyId": "g3-2-capacity-weight-missing-capacity", "version": 1 },
     { "familyId": "g3-2-capacity-weight-conversion-compare", "version": 1 }, { "familyId": "g3-2-capacity-weight-weight-error", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T09:24:24Z", "evidenceRefs": ["docs/reviews/application-problems-grade3-approval.md"], "expertStatus": "not-reviewed" }
 }

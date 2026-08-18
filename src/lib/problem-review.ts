@@ -11,6 +11,7 @@ import {
 import {
   APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
   GRADE2_APPLICATION_AUTHORING_CATALOG_V1,
+  GRADE3_APPLICATION_AUTHORING_CATALOG_V1,
   APPLICATION_UNIT_INVENTORY_V1,
   type ApplicationUnitInventoryEntryV1,
   type DraftApplicationFamilyCandidateV1,
@@ -1446,7 +1447,11 @@ function representativeAndBoundaryCases(
 function defaultProductionReviewDeclarations(): ProductionApplicationReviewDeclaration[] {
   const declarations: ProductionApplicationReviewDeclaration[] = []
 
-  GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates.forEach((unitCandidate) => {
+  const releasedAuthoringUnits = [
+    ...GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates,
+    ...GRADE3_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates,
+  ]
+  releasedAuthoringUnits.forEach((unitCandidate) => {
     unitCandidate.familyCandidates.forEach((candidate) => {
       if (!candidate.proof) return
       const representative = candidate.reviewCases.find((reviewCase) => reviewCase.kind === 'representative')

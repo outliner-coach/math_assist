@@ -33,7 +33,7 @@ describe('application family quality evidence', () => {
   it('returns actual proof and audit-ready outcomes for every production family', () => {
     const evidence = getProductionApplicationFamilyEvidence()
 
-    expect(evidence.rows).toHaveLength(59)
+    expect(evidence.rows).toHaveLength(107)
     evidence.rows.forEach((row) => {
       expect(row.proof.proven).toBe(true)
       expect(row.proof.checkedCount).toBeGreaterThan(0)
@@ -43,6 +43,8 @@ describe('application family quality evidence', () => {
     expect(evidence.rows.find((row) => row.familyId === 'g2-1-multiplication-model-check'))
       .toMatchObject({ status: 'passed' })
     expect(evidence.rows.find((row) => row.familyId === 'g2-2-length-method-compare'))
+      .toMatchObject({ status: 'passed' })
+    expect(evidence.rows.find((row) => row.familyId === 'g3-2-graph-data-sufficiency'))
       .toMatchObject({ status: 'passed' })
   })
 

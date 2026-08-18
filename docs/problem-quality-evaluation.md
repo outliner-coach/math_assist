@@ -151,15 +151,16 @@ Grade 3 Alpha 문제 품질 기준:
 
 ## Current Passing Bar
 
-2026년 8월 14일 현재 통과선과 최근 전체 검증 결과는 다음과 같습니다.
+2026년 8월 18일 현재 통과선과 최근 전체 검증 결과는 다음과 같습니다.
 
 - 1~4학년 미션 512개(98/144/120/150), `audit:missions` 오류·경고 0
 - 5·6학년 37개 개념·템플릿 1,110개, blueprint metadata 100%,
   `audit:problems -- --strict-warnings` 오류·경고 0
-- 응용문제 3개 pack·승인 `familyId@1` 9개, 독립 oracle 전수 증명
-  1,778/1,778, `validate:application-packs`와 `audit:applications` 오류 0
+- 응용문제 production pack 27개·승인 `familyId@version` 107개, 독립 oracle
+  전수 증명 2,048/2,048, `validate:application-packs`와
+  `audit:applications` 오류 0
 - 최종 편집 원장 1,622/1,622, 실제 renderer 시각 증거 1,013/1,013
-- `promptfoo:problems` 1,482/1,482, 외부 LLM API 호출 0
+- `promptfoo:problems` 1,483/1,483, 외부 LLM API 호출 0
 
 아래 항목은 범위가 확장되어 온 과정을 남기는 이전 시점의 통과 기록입니다.
 
@@ -236,9 +237,9 @@ npm run audit:applications
 한다. Grade 2의 기본 144개, Grade 5/6의 기본 세트 10개는 보존하며, 승인 후보가
 추가되어도 실제 세션 길이와 난이도 분배를 고정한다.
 
-2026-08-14 현재 이 두 명령은 V1 pilot의 3개 pack, 9개 승인
-`familyId@1`에 대해 각각 오류 0을 보고한다. 9개 유형의 선언된 전수
-증명 범위 1,778개도 독립 oracle과 모두 일치한다. 이 결과만으로 기존
+2026-08-18 현재 이 두 명령은 production pack 27개, 승인
+`familyId@version` 107개에 대해 각각 오류 0을 보고한다. 선언된 전수
+증명 범위 2,048개도 독립 oracle과 모두 일치한다. 이 결과만으로 기존
 기본문제 감사, 전체 회귀, 빌드, E2E 또는 GitHub Pages 배포 완료를
 대신할 수는 없다.
 

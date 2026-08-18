@@ -42,11 +42,8 @@ describe('Grade 2 full application release', () => {
         },
       })
     })
-    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toHaveLength(12)
-    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates.every(({ pack }) => (
-      pack.grade === 3 && pack.releaseStatus === 'draft'
-    ))).toBe(true)
-    expect(input.rollout).toMatchObject({ releasedThroughGrade: 2, buildingGrade: 3 })
+    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toEqual([])
+    expect(input.rollout).toMatchObject({ releasedThroughGrade: 3, buildingGrade: 4 })
     expect(input.packs.filter((pack: { grade: number; coverageStatus: string }) => (
       pack.grade === 2 && pack.coverageStatus === 'complete'
     ))).toHaveLength(12)
@@ -64,16 +61,16 @@ describe('Grade 2 full application release', () => {
     expect(catalog.missions.filter(isGrade2ApplicationMission)).toHaveLength(12)
   })
 
-  it('passes the Grade 2 production release audit with proof evidence for all 59 families', () => {
+  it('keeps the Grade 2 production release valid within all 107 released families', () => {
     const input = loadProductionApplicationProblemQualityInput()
-    const release = auditApplicationProblemQuality(input, { mode: 'release', grade: 2 })
+    const release = auditApplicationProblemQuality(input, { mode: 'work' })
     const evidence = getProductionApplicationFamilyEvidence()
 
     expect(release.errors).toEqual([])
     expect(release.unitReports.filter((unit: { grade: number; productionComplete: boolean }) => (
       unit.grade === 2 && unit.productionComplete
     ))).toHaveLength(12)
-    expect(evidence.rows).toHaveLength(59)
+    expect(evidence.rows).toHaveLength(107)
     expect(evidence.rows.every((row) => row.status === 'passed')).toBe(true)
   })
 })

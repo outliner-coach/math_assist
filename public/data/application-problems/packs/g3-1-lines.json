@@ -6,7 +6,7 @@
   "grade": 3,
   "semester": "3-1",
   "coverageStatus": "complete",
-  "releaseStatus": "draft",
+  "releaseStatus": "approved",
   "coveredStandardCodes": ["[4수03-01]", "[4수03-02]"],
   "concepts": [{
     "conceptId": "g3-1-lines-line-angle",
@@ -26,5 +26,5 @@
     { "familyId": "g3-1-lines-property-check", "version": 1 },
     { "familyId": "g3-1-lines-classification-error", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T09:24:24Z", "evidenceRefs": ["docs/reviews/application-problems-grade3-approval.md"], "expertStatus": "not-reviewed" }
 }

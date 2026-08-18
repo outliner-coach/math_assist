@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const ts = require('typescript')
+const { createHash } = require('crypto')
 
 const ROOT_DIR = path.join(__dirname, '..')
 const APPLICATION_AUDIT_MODES = new Set(['work', 'candidate', 'release', 'all'])
@@ -53,6 +54,26 @@ function stableJson(value) {
 
 function familyKey(family) {
   return `${family?.familyId ?? 'unknown'}@${family?.version ?? 'unknown'}`
+}
+
+function loadGrade3ApprovedFamilyDigests() {
+  const snapshot = JSON.parse(fs.readFileSync(path.join(
+    ROOT_DIR,
+    'public',
+    'data',
+    'application-problems',
+    'grade3-approved-family-snapshots-v1.json',
+  ), 'utf8'))
+  return snapshot?.schemaVersion === 'grade3-approved-family-snapshots-v1'
+    && snapshot.familyDigests
+    && typeof snapshot.familyDigests === 'object'
+    && !Array.isArray(snapshot.familyDigests)
+      ? snapshot.familyDigests
+      : {}
+}
+
+function familySnapshotDigest(family) {
+  return `sha256:${createHash('sha256').update(stableJson(family), 'utf8').digest('hex')}`
 }
 
 function issue(code, message, context = {}) {
@@ -248,6 +269,7 @@ function checkRegistries(input, errors, selection) {
   const canonicalLedger = Array.isArray(input.canonicalReleaseLedger)
     ? input.canonicalReleaseLedger
     : []
+  const grade3ApprovedDigests = loadGrade3ApprovedFamilyDigests()
   const executableByKey = new Map()
   const ledgerByKey = new Map()
   for (const registry of input.registries ?? []) {
@@ -259,13 +281,18 @@ function checkRegistries(input, errors, selection) {
       executableByKey.set(key, executableEntries)
       const localMatches = (registry.releaseLedger ?? []).filter((snapshot) => familyKey(snapshot) === key)
       const canonicalMatches = canonicalLedger.filter((snapshot) => familyKey(snapshot) === key)
+      const grade3SnapshotMatches = !String(family?.unitId ?? '').startsWith('g3-') || (
+        typeof grade3ApprovedDigests[key] === 'string'
+        && grade3ApprovedDigests[key] === familySnapshotDigest(family)
+      )
       if (
         localMatches.length !== 1 ||
         canonicalMatches.length !== 1 ||
         !isDeepFrozen(localMatches[0]) ||
         !isDeepFrozen(canonicalMatches[0]) ||
         stableJson(localMatches[0]) !== stableJson(family) ||
-        stableJson(canonicalMatches[0]) !== stableJson(family)
+        stableJson(canonicalMatches[0]) !== stableJson(family) ||
+        !grade3SnapshotMatches
       ) {
         errors.push(issue('APQ_RELEASE_LEDGER', 'runtime entry must exactly match one immutable canonical release-ledger snapshot', { family }))
       }
@@ -474,6 +501,7 @@ function checkSessionContracts(input, errors) {
   for (const contract of input.sessionContracts ?? []) {
     const distribution = contract.difficultyDistribution ?? {}
     const expected = contract.grade === 2 ? { easy: 48, medium: 48, applied: 48 }
+      : contract.grade === 3 ? { easy: 12, medium: 12, applied: 12 }
       : contract.grade === 5 ? { 1: 4, 2: 4, 3: 2 }
         : contract.sessionCount === 10 ? { 1: 4, 2: 4, 3: 2 } : { 1: 2, 2: 2, 3: 1 }
     const grade2ReplacementEvidence = contract.grade !== 2 || (
@@ -490,11 +518,27 @@ function checkSessionContracts(input, errors) {
         unit.stableIdentityCount === 6
       ))
     )
+    const grade3ReplacementEvidence = contract.grade !== 3 || (
+      contract.legacyCount === 36 &&
+      contract.sessionCount === 36 &&
+      contract.candidateCount === 12 &&
+      contract.replacementCount === 12 &&
+      Array.isArray(contract.replacementUnits) &&
+      contract.replacementUnits.length === 12 &&
+      contract.replacementUnits.every((unit) => (
+        unit.sessionCount === 3 &&
+        unit.applicationCount === 1 &&
+        unit.applicationDomain !== 'knowing' &&
+        unit.stableIdentityCount === 3
+      ))
+    )
     const validCount = contract.grade === 2
       ? contract.legacyCount === 144 && contract.sessionCount === contract.legacyCount
+      : contract.grade === 3 ? contract.legacyCount === 36 && contract.sessionCount === 36
       : contract.grade === 5 ? contract.legacyCount === 10 && contract.sessionCount === 10
         : contract.grade === 6 && contract.legacyCount === 10 && [5, 10].includes(contract.sessionCount)
     const expectedStorage = contract.grade === 2 ? 'mathAssist_grade2Progress'
+      : contract.grade === 3 ? 'mathAssist_grade3Progress'
       : contract.grade === 5 ? 'mathAssist_currentSession' : 'mathAssist_grade6CurrentSession'
     const validDistribution = Object.entries(expected).every(([key, value]) => distribution[key] === value)
     const grade6Evidence = contract.grade !== 6 || (
@@ -510,6 +554,7 @@ function checkSessionContracts(input, errors) {
       !validCount ||
       !validDistribution ||
       !grade2ReplacementEvidence ||
+      !grade3ReplacementEvidence ||
       !grade6Evidence ||
       contract.storageKey !== expectedStorage
     ) {
@@ -1111,6 +1156,7 @@ function loadProductionApplicationProblemQualityInput() {
   const { APPLICATION_PROBLEM_REGISTRY_V1 } = loadTypeScriptModule('src/lib/application-problems/registered-families.ts')
   const registries = [
     ['grade2', 'src/lib/application-problems/grade2-registry.ts'],
+    ['grade3', 'src/lib/application-problems/grade3-registry.ts'],
     ['grade5', 'src/lib/application-problems/grade5-registry.ts'],
     ['grade6', 'src/lib/application-problems/grade6-registry.ts'],
   ].map(([grade, source]) => {
@@ -1120,6 +1166,7 @@ function loadProductionApplicationProblemQualityInput() {
   const {
     APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
     GRADE2_APPLICATION_AUTHORING_CATALOG_V1,
+    GRADE3_APPLICATION_AUTHORING_CATALOG_V1,
     APPLICATION_UNIT_INVENTORY_V1,
   } = loadTypeScriptModule('src/lib/application-problems/authoring-catalog.ts')
   const packsDirectory = path.join(ROOT_DIR, 'public', 'data', 'application-problems', 'packs')
@@ -1140,17 +1187,23 @@ function loadProductionApplicationProblemQualityInput() {
   ).allocations
   const { getProductionApplicationFamilyEvidence } = loadTypeScriptModule('src/lib/application-problems/quality-evidence.ts')
   const productionEvidence = getProductionApplicationFamilyEvidence()
-  const grade2CompleteCoverageContexts = GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates.map((candidate) => ({
+  const releasedCompleteCoverageContexts = [
+    ...GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates,
+    ...GRADE3_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates,
+  ].map((candidate) => ({
     packId: candidate.pack.packId,
     version: candidate.pack.version,
     ...candidate.completeness,
   }))
   const { getGrade2Missions } = loadTypeScriptModule('src/lib/grade2-problems.ts')
   const { buildApprovedGrade2ApplicationMissions, buildGrade2MissionCatalog } = loadTypeScriptModule('src/lib/application-problems/grade2-runtime.ts')
+  const { getGrade3MissionSession, grade3Units } = loadTypeScriptModule('src/lib/grade3-problems.ts')
+  const { buildApprovedGrade3PracticeSet } = loadTypeScriptModule('src/lib/application-problems/grade3-runtime.ts')
   const { buildApprovedGrade5PracticeProblemCandidates } = loadTypeScriptModule('src/lib/application-problems/grade5-practice-runtime.ts')
   const { buildApprovedGrade6PracticeProblemCandidates } = loadTypeScriptModule('src/lib/application-problems/grade6-practice-runtime.ts')
   const { generateProblems } = loadTypeScriptModule('src/lib/problem-generator.ts')
   const { GRADE2_PROGRESS_KEY } = loadTypeScriptModule('src/lib/grade2-progress.ts')
+  const { GRADE3_PROGRESS_KEY } = loadTypeScriptModule('src/lib/grade3-progress.ts')
   const { GRADE5_SESSION_KEY, GRADE6_SESSION_KEY } = loadTypeScriptModule('src/lib/session.ts')
   const grade2Seed = 27
   const grade2LegacyMissions = getGrade2Missions(grade2Seed)
@@ -1171,6 +1224,30 @@ function loadProductionApplicationProblemQualityInput() {
       stableIdentityCount: new Set(practice.map((mission) => mission.id)).size,
     }
   })
+  const grade3Seed = 41
+  const grade3LegacyMissions = grade3Units.flatMap((unit) => (
+    getGrade3MissionSession(unit.id, 'practice', grade3Seed)
+  ))
+  const grade3Results = grade3Units.map((unit) => ({
+    unitId: unit.id,
+    result: buildApprovedGrade3PracticeSet({ unitId: unit.id, seed: grade3Seed }),
+  }))
+  const grade3Missions = grade3Results.flatMap(({ result }) => (
+    result.status === 'ready' ? result.missions : []
+  ))
+  const grade3ReplacementUnits = grade3Results.map(({ unitId, result }) => {
+    const practice = result.status === 'ready' ? result.missions : []
+    const application = practice.find((mission) => (
+      mission.applicationSource?.schemaVersion === 'generated-application-problem-v1'
+    ))
+    return {
+      unitId,
+      sessionCount: practice.length,
+      applicationCount: application ? 1 : 0,
+      applicationDomain: application?.cognitiveDomain,
+      stableIdentityCount: new Set(practice.map((mission) => mission.id)).size,
+    }
+  })
   const grade5Templates = loadTemplateCatalog('area.json', 'area-001')
   const grade6Templates = loadTemplateCatalog('g6ratio.json', 'g6ratio-001')
   const grade5Candidates = buildApprovedGrade5PracticeProblemCandidates({ conceptId: 'area-001' })
@@ -1185,7 +1262,7 @@ function loadProductionApplicationProblemQualityInput() {
     unitInventory: APPLICATION_UNIT_INVENTORY_V1,
     unitBaseBankEvidence,
     canonicalReleaseLedger: APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger,
-    completeCoverageContexts: grade2CompleteCoverageContexts,
+    completeCoverageContexts: releasedCompleteCoverageContexts,
     productionPlacementFamilyRefs: APPLICATION_PROBLEM_REGISTRY_V1.entries.map(({ family }) => familyKey(family)),
     ledgerAllocations,
     families: APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger,
@@ -1209,6 +1286,18 @@ function loadProductionApplicationProblemQualityInput() {
         replacementUnits: grade2ReplacementUnits,
         difficultyDistribution: grade2DifficultyDistribution(grade2CatalogMissions),
         storageKey: GRADE2_PROGRESS_KEY,
+      },
+      {
+        grade: 3,
+        legacyCount: grade3LegacyMissions.length,
+        candidateCount: grade3ReplacementUnits.filter((unit) => unit.applicationCount === 1).length,
+        sessionCount: grade3Missions.length,
+        replacementCount: grade3Missions.filter((mission) => (
+          mission.applicationSource?.schemaVersion === 'generated-application-problem-v1'
+        )).length,
+        replacementUnits: grade3ReplacementUnits,
+        difficultyDistribution: grade2DifficultyDistribution(grade3Missions),
+        storageKey: GRADE3_PROGRESS_KEY,
       },
       {
         grade: 5,

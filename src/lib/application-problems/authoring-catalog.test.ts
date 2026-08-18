@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import {
   APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
   APPLICATION_UNIT_INVENTORY_V1,
+  GRADE3_APPLICATION_AUTHORING_CATALOG_V1,
   createReviewOnlyAuthoringCatalog,
   validateAuthoringProductionSeparation,
 } from './authoring-catalog'
@@ -22,11 +23,12 @@ describe('application unit inventory', () => {
 })
 
 describe('review-only authoring catalog', () => {
-  it('exposes only the twelve Grade 3 draft units after the Grade 2 release', () => {
+  it('keeps the reviewed Grade 3 catalog historical and opens the Grade 4 authoring boundary', () => {
     expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.schemaVersion)
       .toBe('application-problem-authoring-catalog-v1')
-    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toHaveLength(12)
-    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates.every(({ pack }) => (
+    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toEqual([])
+    expect(GRADE3_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates).toHaveLength(12)
+    expect(GRADE3_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates.every(({ pack }) => (
       pack.grade === 3 && pack.releaseStatus === 'draft'
     ))).toBe(true)
     expect('releaseLedger' in APPLICATION_PROBLEM_AUTHORING_CATALOG_V1).toBe(false)

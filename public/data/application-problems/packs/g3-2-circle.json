@@ -1,6 +1,6 @@
 {
   "schemaVersion": "unit-knowledge-pack-v1", "packId": "pack-g3-2-circle", "version": 1,
-  "unitId": "g3-2-circle", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "draft",
+  "unitId": "g3-2-circle", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "approved",
   "coveredStandardCodes": ["[4수03-06]", "[4수03-07]"],
   "concepts": [{
     "conceptId": "g3-2-circle-circle", "name": "원의 성질과 컴퍼스 작도", "standardCodes": ["[4수03-06]", "[4수03-07]"], "prerequisites": [],
@@ -15,5 +15,5 @@
     { "familyId": "g3-2-circle-compass-diameter", "version": 1 }, { "familyId": "g3-2-circle-missing-radius", "version": 1 },
     { "familyId": "g3-2-circle-construction-constraint", "version": 1 }, { "familyId": "g3-2-circle-property-error", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T09:24:24Z", "evidenceRefs": ["docs/reviews/application-problems-grade3-approval.md"], "expertStatus": "not-reviewed" }
 }

@@ -1,6 +1,10 @@
 # 3학년 전 단원 응용문제 출시 후보 검수
 
-## 현재 상태
+> 후속 상태: 프로젝트 책임자가 2026-08-18에 이 문서의 정확한 12개 pack과
+> 48개 family를 승인했다. 현재 출시 계약은
+> `docs/reviews/application-problems-grade3-approval.md`가 권위 있게 기록한다.
+
+## 후보 시점 상태
 
 - 승인 상태: `pending`
 - 출시 상태: 12개 pack과 48개 family 모두 `draft`

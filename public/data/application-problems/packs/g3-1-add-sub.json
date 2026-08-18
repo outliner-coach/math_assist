@@ -6,7 +6,7 @@
   "grade": 3,
   "semester": "3-1",
   "coverageStatus": "complete",
-  "releaseStatus": "draft",
+  "releaseStatus": "approved",
   "coveredStandardCodes": ["[4수01-03]"],
   "concepts": [{
     "conceptId": "g3-1-add-sub-addition-subtraction",
@@ -28,5 +28,5 @@
     { "familyId": "g3-1-add-sub-strategy-check", "version": 1 },
     { "familyId": "g3-1-add-sub-operation-error", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T09:24:24Z", "evidenceRefs": ["docs/reviews/application-problems-grade3-approval.md"], "expertStatus": "not-reviewed" }
 }

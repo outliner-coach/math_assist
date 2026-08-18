@@ -1,6 +1,6 @@
 {
   "schemaVersion": "unit-knowledge-pack-v1", "packId": "pack-g3-2-division", "version": 1,
-  "unitId": "g3-2-division", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "draft",
+  "unitId": "g3-2-division", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "approved",
   "coveredStandardCodes": ["[4수01-06]"],
   "concepts": [{
     "conceptId": "g3-2-division-division-remainder", "name": "한 자리 수 나눗셈의 몫과 나머지", "standardCodes": ["[4수01-06]"],
@@ -16,5 +16,5 @@
     { "familyId": "g3-2-division-share-remainder", "version": 1 }, { "familyId": "g3-2-division-missing-dividend", "version": 1 },
     { "familyId": "g3-2-division-remainder-constraint", "version": 1 }, { "familyId": "g3-2-division-quotient-error", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T09:24:24Z", "evidenceRefs": ["docs/reviews/application-problems-grade3-approval.md"], "expertStatus": "not-reviewed" }
 }

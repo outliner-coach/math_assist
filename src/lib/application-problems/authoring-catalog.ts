@@ -447,10 +447,17 @@ export const GRADE2_APPLICATION_AUTHORING_CATALOG_V1 = createReviewOnlyAuthoring
   unitCandidates: createGrade2AuthoringUnitCandidateValues(),
 })
 
+/** Historical review evidence retained after the explicit Grade 3 release. */
+export const GRADE3_APPLICATION_AUTHORING_CATALOG_V1 = createReviewOnlyAuthoringCatalog({
+  schemaVersion: 'application-problem-authoring-catalog-v1',
+  unitCandidates: createGrade3AuthoringUnitCandidateValues(),
+})
+
+/** Current review-only boundary. Grade 4 candidates are added in the next rollout. */
 export const APPLICATION_PROBLEM_AUTHORING_CATALOG_V1 =
   createReviewOnlyAuthoringCatalog({
     schemaVersion: 'application-problem-authoring-catalog-v1',
-    unitCandidates: createGrade3AuthoringUnitCandidateValues(),
+    unitCandidates: [],
   })
 
 export function validateAuthoringProductionSeparation(input: {

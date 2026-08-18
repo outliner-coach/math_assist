@@ -6,7 +6,7 @@
   "grade": 3,
   "semester": "3-1",
   "coverageStatus": "complete",
-  "releaseStatus": "draft",
+  "releaseStatus": "approved",
   "coveredStandardCodes": ["[4수03-13]", "[4수03-14]", "[4수03-15]", "[4수03-16]"],
   "concepts": [{
     "conceptId": "g3-1-length-time-length-time",
@@ -26,5 +26,5 @@
     { "familyId": "g3-1-length-time-elapsed-time", "version": 1 },
     { "familyId": "g3-1-length-time-unit-claim-error", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T09:24:24Z", "evidenceRefs": ["docs/reviews/application-problems-grade3-approval.md"], "expertStatus": "not-reviewed" }
 }

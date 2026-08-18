@@ -49,6 +49,32 @@
 상세 승인 범위와 보존 조건은
 `docs/reviews/application-problems-grade2-approval.md`에 있다.
 
+## 2026-08-18 3학년 전 단원 응용문제 출시
+
+- 프로젝트 책임자의 “네 승인하고 배포합니다.” 승인에 따라 3학년 12개
+  complete pack과 family 48개를 exact `familyId@version`으로 승인했다.
+  전체 production family는 2학년 53개, 3학년 48개, 5·6학년 각 3개로
+  107개다. 전문가 검수 상태는 `not-reviewed`로 유지한다.
+- 각 3학년 단원의 연습 K/A/R 3개 중 knowing이 아닌 한 자리만 승인
+  응용문제로 대체한다. 기존 120개 ID 은행, 세션의 3개 ID·인지영역·보상,
+  완료·복습·최근 활동과 `mathAssist_grade3Progress` 형식을 보존한다.
+- 생성, 독립 오라클, 필수 정량 시각, 제출 전 비노출, 실행 registry와 불변
+  release ledger, 실행 코드와 분리된 48개 SHA-256 승인 스냅샷 중 하나라도
+  실패하면 3문제 전체를 차단하고 기록하지 않는다.
+- rollout 원장은 `releasedThroughGrade: 3`, `buildingGrade: 4`로 전진했다.
+  4학년은 다음 순차 제작 학년이며 아직 응용문제 승인 범위가 아니다.
+- 로컬 출시는 application pack work·3학년 release audit 62개 단원·107개
+  production family·오류 0, mission·problem audit 오류·경고 0, 전체 Vitest
+  118개 파일 1,279/1,279, Promptfoo 1,483/1,483, lint, TDD guard, 정적 build
+  114/114와 전체 Playwright 101/101을 통과했다. 48 family·144개 검수 변형의
+  시각 라벨과 원·그래프 답 비노출, 390×844·1024×768의 네 family 순환도
+  별도 검증했다.
+- 원격 Pages 배포·공개 브라우저 결과는 최종 배포 확인 뒤 같은 승인 문서와
+  이 상태 문서에 정확한 실행 ID·SHA로 기록한다.
+
+상세 승인 범위와 보존 조건은
+`docs/reviews/application-problems-grade3-approval.md`에 있다.
+
 ## 2026-08-18 3학년 전 단원 응용문제 승인 전 후보
 
 - 3학년 12개 공개 단원에 complete draft pack 12개와 family 48개를
