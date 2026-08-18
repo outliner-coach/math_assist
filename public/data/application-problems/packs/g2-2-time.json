@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g2-2-time",
+  "version": 1,
+  "unitId": "g2-2-time",
+  "grade": 2,
+  "semester": "2-2",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[2수03-07]", "[2수03-08]", "[2수03-09]"],
+  "concepts": [{
+    "conceptId": "g2-2-time-time",
+    "name": "시각, 걸린 시간, 달력 관계",
+    "standardCodes": ["[2수03-07]", "[2수03-08]", "[2수03-09]"],
+    "prerequisites": [{ "kind": "standard", "standardCode": "[2수03-06]" }],
+    "allowedScope": ["5분과 1분 단위 시각을 읽고 분을 더하거나 뺀다.", "1시간=60분과 1주=7일을 상황에 사용한다."],
+    "excludedScope": ["24시간제, 초 단위 계산, 복잡한 월별 날짜 계산은 다루지 않는다."],
+    "misconceptions": [
+      { "id": "time-hour-minute-no-regroup", "description": "분이 60을 넘거나 빌릴 때 시간과 바꾸지 않는다.", "diagnosticEvidence": "3시 35분에서 50분 뒤를 3시 85분이라고 한다.", "correctionStrategy": "60분을 1시간 묶음으로 바꾸어 시와 분을 다시 쓴다." },
+      { "id": "time-clock-number-is-minute", "description": "분침이 가리킨 숫자를 그대로 분으로 읽는다.", "diagnosticEvidence": "분침이 6을 가리키면 6분이라고 한다.", "correctionStrategy": "시계 숫자 사이를 5분씩 세어 분을 읽는다." },
+      { "id": "time-week-five-days", "description": "한 주를 평일 5일로만 센다.", "diagnosticEvidence": "2주를 10일이라고 한다.", "correctionStrategy": "월요일부터 일요일까지 7일을 한 묶음으로 센다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g2-2-time-finish-time", "version": 1 },
+    { "familyId": "g2-2-time-find-start", "version": 1 },
+    { "familyId": "g2-2-time-clock-reading-error", "version": 1 },
+    { "familyId": "g2-2-time-calendar-check", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

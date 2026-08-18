@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g2-2-facts",
+  "version": 1,
+  "unitId": "g2-2-facts",
+  "grade": 2,
+  "semester": "2-2",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[2수01-11]"],
+  "concepts": [{
+    "conceptId": "g2-2-facts-multiplication-facts",
+    "name": "곱셈구구와 같은 수씩 묶기",
+    "standardCodes": ["[2수01-11]"],
+    "prerequisites": [{ "kind": "standard", "standardCode": "[2수01-10]" }],
+    "allowedScope": ["2단부터 9단의 곱을 배열, 묶음, 구구표와 연결한다.", "전체와 한 묶음의 수에서 묶음 수를 거꾸로 찾는다."],
+    "excludedScope": ["두 자리 수의 곱셈 알고리즘과 나눗셈 기호는 다루지 않는다."],
+    "misconceptions": [
+      { "id": "facts-add-factors", "description": "두 수를 곱하지 않고 더한다.", "diagnosticEvidence": "4×7을 11이라고 한다.", "correctionStrategy": "4개씩 7묶음을 배열과 반복 덧셈으로 확인한다." },
+      { "id": "facts-rotation-changes-total", "description": "배열을 돌리면 전체 수가 바뀐다고 생각한다.", "diagnosticEvidence": "3×7과 7×3 배열의 전체가 다르다고 한다.", "correctionStrategy": "같은 점 배열을 돌려 행과 열만 바뀌고 점 수는 그대로임을 센다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g2-2-facts-two-trays", "version": 1 },
+    { "familyId": "g2-2-facts-missing-groups", "version": 1 },
+    { "familyId": "g2-2-facts-product-error", "version": 1 },
+    { "familyId": "g2-2-facts-array-check", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}
