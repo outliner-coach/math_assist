@@ -121,6 +121,10 @@ function checkPacksAndFamilies(input, errors) {
   const familiesById = new Map()
   const structures = new Map()
   const ledger = new Map((input.ledgerAllocations ?? []).map((allocation) => [allocation.standardCode, allocation]))
+  const inventoryByUnit = new Map((input.unitInventory ?? []).map((unit) => [
+    `${unit.grade}:${unit.unitId}`,
+    unit,
+  ]))
 
   const validFamilies = families.filter(isFamilyShapeValid)
   for (const family of families) {
@@ -176,7 +180,13 @@ function checkPacksAndFamilies(input, errors) {
     const standards = new Set(pack.coveredStandardCodes ?? [])
     for (const standard of standards) {
       const allocation = ledger.get(standard)
-      if (!allocation || allocation.unitId !== pack.unitId || allocation.assignedGrade !== pack.grade || allocation.semester !== pack.semester) {
+      const inventoryUnit = inventoryByUnit.get(`${pack.grade}:${pack.unitId}`)
+      const isCanonicalSpiralStandard = inventoryUnit?.semester === pack.semester &&
+        (inventoryUnit.standardCodes ?? []).includes(standard)
+      if (!allocation || (
+        !isCanonicalSpiralStandard &&
+        (allocation.unitId !== pack.unitId || allocation.assignedGrade !== pack.grade || allocation.semester !== pack.semester)
+      )) {
         errors.push(issue('APQ_LEDGER_REFERENCE', `${standard} has no matching curriculum ledger allocation for ${pack.packId}`, { packId: pack.packId }))
       }
     }
@@ -211,7 +221,17 @@ function checkPacksAndFamilies(input, errors) {
   }
 
   for (const family of validFamilies) {
-    const pack = packById.get(family.packId)
+    const declaringPacks = packs.filter((pack) => (
+      pack?.packId === family.packId &&
+      (pack.familyRefs ?? []).some((reference) => (
+        reference?.familyId === family.familyId && reference?.version === family.version
+      ))
+    ))
+    const pack = declaringPacks.length === 1 ? declaringPacks[0] : packById.get(family.packId)
+    if (declaringPacks.length > 1) {
+      errors.push(issue('APQ_PACK_REFERENCE', `${familyKey(family)} is declared by multiple pack versions`, { family }))
+      continue
+    }
     if (packs.length > 0 && !pack) {
       errors.push(issue('APQ_PACK_REFERENCE', `${familyKey(family)} has no knowledge pack`, { family }))
     } else if (pack) {
@@ -844,8 +864,8 @@ function buildRolloutReport(input, selection, errors) {
       errors.push(issue('APQ_GRADE_CANDIDATE_INCOMPLETE', `Grade ${selection.grade} candidate must have complete, proof-safe, production-absent draft packs for every unit`))
     }
   } else if (selection.mode === 'release') {
-    if (selection.grade !== input.rollout?.buildingGrade) {
-      errors.push(issue('APQ_ROLLOUT_MODE_GRADE', `release Grade ${selection.grade} must equal building Grade ${input.rollout?.buildingGrade}`))
+    if (selection.grade !== input.rollout?.releasedThroughGrade) {
+      errors.push(issue('APQ_ROLLOUT_MODE_GRADE', `release Grade ${selection.grade} must equal released-through Grade ${input.rollout?.releasedThroughGrade}`))
     }
     if (unitReports.some((unit) => unit.grade <= selection.grade && !unit.productionComplete)) {
       errors.push(issue('APQ_RELEASE_INCOMPLETE', `release through Grade ${selection.grade} requires complete approved production packs, ledgers, and placements`))
@@ -1099,6 +1119,7 @@ function loadProductionApplicationProblemQualityInput() {
   })
   const {
     APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
+    GRADE2_APPLICATION_AUTHORING_CATALOG_V1,
     APPLICATION_UNIT_INVENTORY_V1,
   } = loadTypeScriptModule('src/lib/application-problems/authoring-catalog.ts')
   const packsDirectory = path.join(ROOT_DIR, 'public', 'data', 'application-problems', 'packs')
@@ -1119,6 +1140,11 @@ function loadProductionApplicationProblemQualityInput() {
   ).allocations
   const { getProductionApplicationFamilyEvidence } = loadTypeScriptModule('src/lib/application-problems/quality-evidence.ts')
   const productionEvidence = getProductionApplicationFamilyEvidence()
+  const grade2CompleteCoverageContexts = GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates.map((candidate) => ({
+    packId: candidate.pack.packId,
+    version: candidate.pack.version,
+    ...candidate.completeness,
+  }))
   const { getGrade2Missions } = loadTypeScriptModule('src/lib/grade2-problems.ts')
   const { buildApprovedGrade2ApplicationMissions, buildGrade2MissionCatalog } = loadTypeScriptModule('src/lib/application-problems/grade2-runtime.ts')
   const { buildApprovedGrade5PracticeProblemCandidates } = loadTypeScriptModule('src/lib/application-problems/grade5-practice-runtime.ts')
@@ -1159,8 +1185,8 @@ function loadProductionApplicationProblemQualityInput() {
     unitInventory: APPLICATION_UNIT_INVENTORY_V1,
     unitBaseBankEvidence,
     canonicalReleaseLedger: APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger,
-    completeCoverageContexts: [],
-    productionPlacementFamilyRefs: FIXED_PILOT_FAMILY_REFS,
+    completeCoverageContexts: grade2CompleteCoverageContexts,
+    productionPlacementFamilyRefs: APPLICATION_PROBLEM_REGISTRY_V1.entries.map(({ family }) => familyKey(family)),
     ledgerAllocations,
     families: APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger,
     registries,

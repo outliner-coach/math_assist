@@ -10,6 +10,7 @@ import {
 } from './application-problems/contracts'
 import {
   APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
+  GRADE2_APPLICATION_AUTHORING_CATALOG_V1,
   APPLICATION_UNIT_INVENTORY_V1,
   type ApplicationUnitInventoryEntryV1,
   type DraftApplicationFamilyCandidateV1,
@@ -1401,6 +1402,10 @@ interface ProductionApplicationReviewDeclaration {
     reviewCase: ProductionApplicationReviewCaseDeclaration,
   ): unknown
   visualValidator?(problem: GeneratedApplicationProblemV1): boolean
+  proofValidator?(
+    problem: GeneratedApplicationProblemV1,
+    reviewCase: ProductionApplicationReviewCaseDeclaration,
+  ): readonly string[]
 }
 
 function normalizeApplicationReviewOracleAnswer(value: unknown): string | null {
@@ -1440,6 +1445,23 @@ function representativeAndBoundaryCases(
 
 function defaultProductionReviewDeclarations(): ProductionApplicationReviewDeclaration[] {
   const declarations: ProductionApplicationReviewDeclaration[] = []
+
+  GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates.forEach((unitCandidate) => {
+    unitCandidate.familyCandidates.forEach((candidate) => {
+      if (!candidate.proof) return
+      const representative = candidate.reviewCases.find((reviewCase) => reviewCase.kind === 'representative')
+      const boundary = candidate.reviewCases.filter((reviewCase) => reviewCase.kind === 'boundary').at(-1)
+      if (!representative || !boundary) return
+      declarations.push({
+        family: candidate.family,
+        proofAuthorityId: candidate.proof.authorityId,
+        cases: [representative, boundary],
+        oracle: (problem) => candidate.oracle(problem),
+        visualValidator: (problem) => candidate.visualValidator(problem),
+        proofValidator: (problem, reviewCase) => candidate.proof!.verify(problem, reviewCase),
+      })
+    })
+  })
 
   G2_LENGTH_EXHAUSTIVE_PROOFS.forEach((proof) => {
     const authority = G2_LENGTH_PROOF_AUTHORITY_ENTRIES.find((candidate) => (
@@ -1645,6 +1667,7 @@ function hasApplicationReviewAnswerOnlyDisclosure(value: unknown, answer: string
     : null
   if (before && typeof before.text === 'string') {
     if (before.disclosure === 'solution' || before.disclosure === 'intermediate') return true
+    if (before.disclosure === 'given') return false
     if (
       (after?.disclosure === 'solution' || after?.disclosure === 'intermediate') &&
       before.text.trim() === answer
@@ -2044,6 +2067,9 @@ export function buildApplicationProblemReviewData(
         proofAuthorityId: reviewCase.declaration && reviewCase.declaredCase
           ? reviewCase.declaration.proofAuthorityId
           : null,
+        proofValidator: reviewCase.declaration?.proofValidator && reviewCase.declaredCase
+          ? (problem) => reviewCase.declaration!.proofValidator!(problem, reviewCase.declaredCase!)
+          : undefined,
       })
     ))
     rowsByFamily.set(key, rowFromCases({

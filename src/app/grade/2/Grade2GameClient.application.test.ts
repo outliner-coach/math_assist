@@ -68,13 +68,18 @@ function approvedRegistry(): ApplicationProblemRegistryV1 {
 }
 
 function approvedApplicationMission(seed = 42): Grade2ApplicationMissionV1 {
-  return buildApprovedGrade2ApplicationMissions(seed, approvedRegistry())[0]
+  const mission = buildApprovedGrade2ApplicationMissions(seed, approvedRegistry())
+    .find((candidate) => candidate.unitId === 'g2-2-length')
+  if (!mission) throw new Error('missing approved Grade 2 length application mission')
+  return mission
 }
 
 function quarantinedRegistry(familyId: string): ApplicationProblemRegistryV1 {
+  const targetUnitId = GRADE2_APPLICATION_PROBLEM_REGISTRY_V1.entries
+    .find(({ family }) => family.familyId === familyId)?.family.unitId
   const quarantineFamily = <T extends ApplicationProblemRegistryV1['releaseLedger'][number]>(
     family: T,
-  ): T => family.familyId === familyId
+  ): T => family.unitId === targetUnitId
     ? { ...family, releaseStatus: 'quarantined' as const }
     : family
   return {

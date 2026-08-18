@@ -79,6 +79,23 @@ interface SemesterTwoUnitSource {
   visual: VisualValidator
 }
 
+const CANDIDATE_APPROVAL = Object.freeze({
+  ownerStatus: 'pending' as const,
+  evidenceRefs: Object.freeze([]),
+  expertStatus: 'not-reviewed' as const,
+})
+
+function reviewCandidatePack(value: unknown): UnitKnowledgePackV1 {
+  return {
+    ...(value as UnitKnowledgePackV1),
+    releaseStatus: 'draft',
+    approval: {
+      ...CANDIDATE_APPROVAL,
+      evidenceRefs: [...CANDIDATE_APPROVAL.evidenceRefs],
+    },
+  }
+}
+
 function normalizeRepresentation(value: string): ProblemRepresentation {
   if (['text', 'equation', 'table', 'diagram', 'graph', 'manipulative'].includes(value)) {
     return value as ProblemRepresentation
@@ -239,7 +256,7 @@ const SEMESTER_TWO_UNITS: readonly SemesterTwoUnitSource[] = [
  */
 export function createGrade2AuthoringUnitCandidateValues(): ReviewOnlyApplicationUnitCandidateV1[] {
   const semesterOne = SEMESTER_ONE_UNITS.map((unit) => {
-    const pack = unit.pack as UnitKnowledgePackV1
+    const pack = reviewCandidatePack(unit.pack)
     return {
       pack,
       familyCandidates: unit.recipes.map((recipe) => semesterOneCandidate(recipe, unit.oracle)),
@@ -247,7 +264,7 @@ export function createGrade2AuthoringUnitCandidateValues(): ReviewOnlyApplicatio
     }
   })
   const semesterTwo = SEMESTER_TWO_UNITS.map((unit) => {
-    const pack = unit.pack as UnitKnowledgePackV1
+    const pack = reviewCandidatePack(unit.pack)
     return {
       pack,
       familyCandidates: unit.families.map((draft) => (

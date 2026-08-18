@@ -14,27 +14,29 @@ describe('Grade 2 application mission catalog boundary', () => {
     expect(result).toEqual({ status: 'blocked' })
   })
 
-  it('keeps 144 stable mission identities and replaces one safe Grade 2 practice slot', () => {
+  it('keeps 144 stable mission identities and replaces one safe practice slot in every Grade 2 unit', () => {
     const result = buildGrade2MissionCatalog(42)
 
     expect(result.status).toBe('ready')
     if (result.status === 'ready') {
       expect(result.missions).toHaveLength(144)
       const applicationMissions = result.missions.filter(isGrade2ApplicationMission)
-      expect(applicationMissions).toHaveLength(1)
-      expect(applicationMissions[0]).toMatchObject({
-        unitId: 'g2-2-length',
-        mode: 'practice',
-        applicationPlacement: {
-          schemaVersion: 'grade2-application-placement-v1',
-          baseMissionId: applicationMissions[0].id,
-          baseSeed: 42,
-        },
+      expect(applicationMissions).toHaveLength(12)
+      expect(new Set(applicationMissions.map(({ unitId }) => unitId)).size).toBe(12)
+      applicationMissions.forEach((mission) => {
+        expect(mission).toMatchObject({
+          mode: 'practice',
+          applicationPlacement: {
+            schemaVersion: 'grade2-application-placement-v1',
+            baseMissionId: mission.id,
+            baseSeed: 42,
+          },
+        })
+        expect(mission.cognitiveDomain).not.toBe('knowing')
+        expect(result.missions.filter(({ unitId, mode }) => (
+          unitId === mission.unitId && mode === 'practice'
+        ))).toHaveLength(6)
       })
-      expect(applicationMissions[0].cognitiveDomain).not.toBe('knowing')
-      expect(result.missions.filter(({ unitId, mode }) => (
-        unitId === 'g2-2-length' && mode === 'practice'
-      ))).toHaveLength(6)
     }
   })
 

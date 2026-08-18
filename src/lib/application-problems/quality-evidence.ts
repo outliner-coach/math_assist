@@ -1,4 +1,9 @@
 import type { ApplicationProblemFamilyV1, GeneratedApplicationProblemV1 } from './contracts'
+import {
+  GRADE2_APPLICATION_AUTHORING_CATALOG_V1,
+  type DraftApplicationFamilyCandidateV1,
+  type DraftApplicationReviewCaseV1,
+} from './authoring-catalog'
 import type { ApplicationProofOracleInputV1 } from './proof'
 import { G2_LENGTH_PROOF_AUTHORITY_ENTRIES, G2_LENGTH_EXHAUSTIVE_PROOFS } from './families/g2-length-proof-registration'
 import {
@@ -7,6 +12,7 @@ import {
 } from './families/grade5-geometry-proof-registration'
 import { G6_RATIO_PROOF_AUTHORITIES, G6_RATIO_PROOFS } from './families/g6-ratio-proof'
 import { generateApplicationProblem } from './generator'
+import { GRADE2_APPLICATION_PROBLEM_REGISTRY_V1 } from './grade2-registry'
 import { APPLICATION_PROBLEM_REGISTRY_V1 } from './registered-families'
 import { resolveApplicationVisual } from './visual-validator'
 
@@ -138,24 +144,94 @@ function executeDeclaredProof(input: {
   }
 }
 
-function collectPublicBeforeText(value: unknown, collected: string[] = []): string[] {
+function hasAnswerOnlyDisclosure(value: unknown, answer: string): boolean {
   if (Array.isArray(value)) {
-    value.forEach((entry) => collectPublicBeforeText(entry, collected))
-  } else if (value && typeof value === 'object') {
-    Object.entries(value).forEach(([key, entry]) => {
-      if (key === 'after') return
-      if (key === 'before' && entry && typeof entry === 'object' && typeof (entry as { text?: unknown }).text === 'string') {
-        collected.push((entry as { text: string }).text)
-      }
-      collectPublicBeforeText(entry, collected)
-    })
+    return value.some((entry) => hasAnswerOnlyDisclosure(entry, answer))
   }
-  return collected
+  if (!value || typeof value !== 'object') return false
+  const record = value as Record<string, unknown>
+  const before = record.before && typeof record.before === 'object'
+    ? record.before as { text?: unknown; disclosure?: unknown }
+    : null
+  const after = record.after && typeof record.after === 'object'
+    ? record.after as { disclosure?: unknown }
+    : null
+  if (before && typeof before.text === 'string') {
+    if (before.disclosure === 'solution' || before.disclosure === 'intermediate') return true
+    if (before.disclosure === 'given') return false
+    if (
+      (after?.disclosure === 'solution' || after?.disclosure === 'intermediate') &&
+      before.text.trim() === answer
+    ) return true
+  }
+  return Object.entries(record).some(([key, entry]) => (
+    key !== 'after' && hasAnswerOnlyDisclosure(entry, answer)
+  ))
 }
 
-function answerIsPublicBeforeSubmission(problem: GeneratedApplicationProblemV1): boolean {
-  const answer = problem.answer.normalized
-  return answer.trim() !== '' && collectPublicBeforeText(problem.visual).some((text) => text.trim() === answer)
+export function answerIsPublicBeforeSubmission(problem: GeneratedApplicationProblemV1): boolean {
+  const answer = problem.answer.normalized.trim()
+  return answer !== '' && hasAnswerOnlyDisclosure(problem.visual, answer)
+}
+
+function executeGrade2ReleasedProof(input: {
+  family: ApplicationProblemFamilyV1
+  candidate: DraftApplicationFamilyCandidateV1
+}): ProofReportEvidence {
+  const proof = input.candidate.proof
+  const issues: string[] = []
+  let checkedCount = 0
+  if (!proof || input.candidate.runtime.kind !== 'deterministic-generator') {
+    return {
+      family: input.family,
+      mode: input.family.proofMode,
+      proven: false,
+      checkedCount: 0,
+      issues: ['missing executable Grade 2 release proof'],
+    }
+  }
+  const generator = input.candidate.runtime.generator
+  const cases = Array.from(new Map(input.candidate.reviewCases.map((reviewCase) => [
+    `${reviewCase.seed}:${reviewCase.variantIndex}`,
+    reviewCase,
+  ])).values()).sort((left, right) => (
+    left.seed - right.seed || left.variantIndex - right.variantIndex
+  ))
+  if (cases.length !== proof.expectedCount) {
+    issues.push(`released proof domain has ${cases.length}, expected ${proof.expectedCount}`)
+  }
+  cases.forEach((reviewCase: DraftApplicationReviewCaseV1) => {
+    try {
+      const generationInput = {
+        family: input.family,
+        generator,
+        packVersion: generator.packVersion,
+        seed: reviewCase.seed,
+        variantIndex: reviewCase.variantIndex,
+      }
+      const first = generateApplicationProblem(generationInput)
+      const second = generateApplicationProblem(generationInput)
+      const caseIssues = proof.verify(first, reviewCase)
+      if (stableJson(first) !== stableJson(second)) {
+        issues.push(`${reviewCase.caseId} is not deterministic`)
+      }
+      if (caseIssues.length > 0) {
+        issues.push(...caseIssues.map((entry) => `${reviewCase.caseId}: ${entry}`))
+      } else {
+        checkedCount += 1
+      }
+    } catch (error) {
+      issues.push(`${reviewCase.caseId}: ${error instanceof Error ? error.message : String(error)}`)
+    }
+  })
+  issues.push(...proof.issues)
+  return {
+    family: input.family,
+    mode: proof.mode,
+    proven: proof.proven && issues.length === 0 && checkedCount === proof.expectedCount,
+    checkedCount,
+    issues,
+  }
 }
 
 export function buildApplicationFamilyEvidence(
@@ -216,7 +292,24 @@ export function buildApplicationFamilyEvidence(
 }
 
 export function getProductionApplicationFamilyEvidence() {
+  const productionGrade2ByKey = new Map(GRADE2_APPLICATION_PROBLEM_REGISTRY_V1.entries.map((entry) => [
+    familyKey(entry.family),
+    entry.family,
+  ]))
+  const releasedGrade2Candidates = GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates
+    .flatMap(({ familyCandidates }) => familyCandidates)
+    .flatMap((candidate) => {
+      const family = productionGrade2ByKey.get(familyKey(candidate.family))
+      return family ? [{ family, candidate }] : []
+    })
   const proofAuthorities: ProofAuthorityEvidence[] = [
+    ...releasedGrade2Candidates.flatMap(({ family, candidate }) => candidate.proof ? [{
+      familyId: family.familyId,
+      familyVersion: family.version,
+      mode: candidate.proof.mode,
+      expectedCount: candidate.proof.expectedCount,
+      authorityId: candidate.proof.authorityId,
+    }] : []),
     ...G2_LENGTH_PROOF_AUTHORITY_ENTRIES.map((authority) => ({
       familyId: authority.manifest.familyId,
       familyVersion: authority.manifest.familyVersion,
@@ -244,7 +337,12 @@ export function getProductionApplicationFamilyEvidence() {
     authority,
   ]))
   const oracleByFamily = new Map<string, (input: ApplicationProofOracleInputV1) => unknown>()
+  const grade2CandidateByFamily = new Map(releasedGrade2Candidates.map(({ family, candidate }) => [
+    familyKey(family),
+    candidate,
+  ]))
   const proofReports: ProofReportEvidence[] = [
+    ...releasedGrade2Candidates.map(executeGrade2ReleasedProof),
     ...G2_LENGTH_EXHAUSTIVE_PROOFS.map((proof) => {
       oracleByFamily.set(familyKey(proof.family), proof.oracle.evaluate)
       return executeDeclaredProof({
@@ -301,15 +399,23 @@ export function getProductionApplicationFamilyEvidence() {
     return { family: entry.family, seed: input.seed, first: generateApplicationProblem(input), second: generateApplicationProblem(input) }
   })
   const oracleResults = generatedSnapshots.map((snapshot) => {
+    const grade2Candidate = grade2CandidateByFamily.get(familyKey(snapshot.family))
     const oracle = oracleByFamily.get(familyKey(snapshot.family))
-    const answer = oracle ? normalizeOracleAnswer(oracle({
+    const answer = grade2Candidate ? grade2Candidate.oracle(snapshot.first) : oracle ? normalizeOracleAnswer(oracle({
       caseId: 'production-runtime-sample',
       seed: snapshot.seed,
       variantIndex: 0,
       params: snapshot.first.params,
       mathModel: snapshot.first.visual.mathModel,
     })) : undefined
-    const solutionValid = snapshot.first.solutionSteps.some((step) => step.includes(answer ?? ''))
+    const solutionValid = grade2Candidate?.proof
+      ? grade2Candidate.proof.verify(snapshot.first, {
+        caseId: 'production-runtime-sample',
+        kind: 'representative',
+        seed: snapshot.seed,
+        variantIndex: 0,
+      }).length === 0
+      : snapshot.first.solutionSteps.some((step) => step.includes(answer ?? ''))
     return {
       family: snapshot.family,
       problem: snapshot.first,
@@ -320,6 +426,16 @@ export function getProductionApplicationFamilyEvidence() {
     }
   })
   const visualResults = generatedSnapshots.map((snapshot) => {
+    const grade2Candidate = grade2CandidateByFamily.get(familyKey(snapshot.family))
+    if (grade2Candidate) {
+      const valid = grade2Candidate.visualValidator(snapshot.first)
+      return {
+        family: snapshot.family,
+        problem: snapshot.first,
+        valid,
+        ...(!valid ? { reason: 'Grade 2 independent visual validator rejected the generated scene' } : {}),
+      }
+    }
     const result = resolveApplicationVisual(snapshot.first.visual)
     return {
       family: snapshot.family,

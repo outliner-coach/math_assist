@@ -6,7 +6,7 @@
   "grade": 2,
   "semester": "2-1",
   "coverageStatus": "complete",
-  "releaseStatus": "draft",
+  "releaseStatus": "approved",
   "coveredStandardCodes": ["[2수03-06]", "[2수03-10]", "[2수03-12]"],
   "concepts": [
     {
@@ -38,5 +38,5 @@
     { "familyId": "g2-1-length-estimate-check", "version": 1 },
     { "familyId": "g2-1-length-claim-check", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T05:48:48Z", "evidenceRefs": ["docs/reviews/application-problems-grade2-approval.md"], "expertStatus": "not-reviewed" }
 }

@@ -356,7 +356,7 @@ describe('application problem quality audit', () => {
     expect(report.familyEvidence.every((evidence: { status: string }) => evidence.status === 'passed')).toBe(true)
     expect(report.summary).toMatchObject({
       unitCount: 62,
-      approvedFamilyCount: 9,
+      approvedFamilyCount: 59,
       draftFamilyCount: 0,
       errorCount: 0,
     })
@@ -644,23 +644,22 @@ describe('application problem quality audit', () => {
     expect(() => parseApplicationAuditSelection(['--mode', 'release'])).toThrow(/grade/i)
   })
 
-  it('requires candidate grade to equal buildingGrade and counts all twelve safe Grade 2 drafts', () => {
+  it('keeps released Grade 2 production-complete while Grade 3 becomes the pending candidate grade', () => {
     const input = loadProductionApplicationProblemQualityInput()
-    const wrongGrade = auditApplicationProblemQuality(input, { mode: 'candidate', grade: 3 })
-    const grade2Candidate = auditApplicationProblemQuality(input, { mode: 'candidate', grade: 2 })
+    const releasedGrade = auditApplicationProblemQuality(input, { mode: 'candidate', grade: 2 })
+    const buildingGrade = auditApplicationProblemQuality(input, { mode: 'candidate', grade: 3 })
+    const grade2Release = auditApplicationProblemQuality(input, { mode: 'release', grade: 2 })
 
-    expect(wrongGrade.errors.map((error: { code: string }) => error.code))
+    expect(releasedGrade.errors.map((error: { code: string }) => error.code))
       .toContain('APQ_ROLLOUT_MODE_GRADE')
-    expect(grade2Candidate.errors.map((error: { code: string }) => error.code))
-      .not.toContain('APQ_GRADE_CANDIDATE_INCOMPLETE')
-    expect(grade2Candidate.unitReports.filter((unit: { grade: number }) => unit.grade === 2))
-      .toHaveLength(12)
-    expect(grade2Candidate.unitReports.filter((unit: { grade: number; gradeComplete: boolean }) => (
-      unit.grade === 2 && unit.gradeComplete
+    expect(buildingGrade.errors.map((error: { code: string }) => error.code))
+      .not.toContain('APQ_ROLLOUT_MODE_GRADE')
+    expect(buildingGrade.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_GRADE_CANDIDATE_INCOMPLETE')
+    expect(grade2Release.errors).toEqual([])
+    expect(grade2Release.unitReports.filter((unit: { grade: number; productionComplete: boolean }) => (
+      unit.grade === 2 && unit.productionComplete
     ))).toHaveLength(12)
-    expect(grade2Candidate.unitReports.filter((unit: { productionComplete: boolean }) => (
-      unit.productionComplete
-    ))).toEqual([])
   })
 
   it('requires final all mode to reach released Grade 6 with all 62 complete production units', () => {
@@ -687,11 +686,37 @@ describe('application problem quality audit', () => {
   })
 
   it('accepts a deterministic draft fixture without treating it as a released candidate', () => {
-    const report = auditApplicationProblemQuality(baseline())
+    const report = auditApplicationProblemQuality(baseline({
+      rollout: {
+        ...(rolloutContext().rollout as Record<string, unknown>),
+        releasedThroughGrade: null,
+        buildingGrade: 2,
+      },
+    }))
 
     expect(report.summary.errorCount).toBe(0)
     expect(report.summary.draftFamilyCount).toBe(1)
     expect(report.packReports[0]).toMatchObject({ packId: 'pack-g5-area', releaseStatus: 'draft' })
+  })
+
+  it('resolves a family through the exact pack version that declares its identity', () => {
+    const first = pack()
+    const second = pack({
+      version: 2,
+      concepts: [{
+        conceptId: 'area-v2-only',
+        name: '새 넓이 범위',
+        standardCodes: ['5S-AREA'],
+        prerequisites: [],
+        allowedScope: ['new'],
+        excludedScope: ['old'],
+        misconceptions: [],
+      }],
+      familyRefs: [],
+    })
+
+    expect(codes(baseline({ packs: [first, second] })))
+      .not.toContain('APQ_CURRICULUM_SCOPE')
   })
 
   it('rejects approval evidence that is a symlink even when its target is inside the repository', () => {

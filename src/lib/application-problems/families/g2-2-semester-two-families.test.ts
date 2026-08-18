@@ -151,7 +151,7 @@ function publicVisualJson(problem: GeneratedApplicationProblemV1): string {
 }
 
 describe('Grade 2 semester-two complete application content', () => {
-  it.each(units)('$unitId has a complete draft pack grounded in the actual base bank', (unit) => {
+  it.each(units)('$unitId has a complete approved pack grounded in the actual base bank', (unit) => {
     const pack = loadPack(unit.packFile)
     expect(pack).toMatchObject({
       unitId: unit.unitId,
@@ -159,8 +159,13 @@ describe('Grade 2 semester-two complete application content', () => {
       semester: '2-2',
       version: unit.packVersion,
       coverageStatus: 'complete',
-      releaseStatus: 'draft',
-      approval: { ownerStatus: 'pending', evidenceRefs: [], expertStatus: 'not-reviewed' },
+      releaseStatus: 'approved',
+      approval: {
+        ownerStatus: 'approved',
+        ownerId: 'project-owner',
+        evidenceRefs: ['docs/reviews/application-problems-grade2-approval.md'],
+        expertStatus: 'not-reviewed',
+      },
     })
     expect(pack.concepts.map(({ conceptId }) => conceptId)).toEqual(
       expect.arrayContaining(unit.coreConceptIds),

@@ -6,7 +6,7 @@
   "grade": 2,
   "semester": "2-1",
   "coverageStatus": "complete",
-  "releaseStatus": "draft",
+  "releaseStatus": "approved",
   "coveredStandardCodes": ["[2수03-01]", "[2수03-02]", "[2수03-03]", "[2수03-04]", "[2수03-05]"],
   "concepts": [
     {
@@ -55,5 +55,5 @@
     { "familyId": "g2-1-shapes-property-claim", "version": 1 },
     { "familyId": "g2-1-shapes-condition-check", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T05:48:48Z", "evidenceRefs": ["docs/reviews/application-problems-grade2-approval.md"], "expertStatus": "not-reviewed" }
 }

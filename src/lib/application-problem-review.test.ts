@@ -141,11 +141,11 @@ describe('application problem review catalog', () => {
     })
     const identities = data.rows.map((row) => `${row.familyId}@${row.version}`)
 
-    expect(data.rows).toHaveLength(10)
-    expect(new Set(identities).size).toBe(10)
+    expect(data.rows).toHaveLength(60)
+    expect(new Set(identities).size).toBe(60)
     expect(data.rows.filter((row) => row.source === 'draft')).toHaveLength(1)
-    expect(data.rows.filter((row) => row.source === 'production')).toHaveLength(9)
-    expect(deduplicated.rows).toHaveLength(9)
+    expect(data.rows.filter((row) => row.source === 'production')).toHaveLength(59)
+    expect(deduplicated.rows).toHaveLength(59)
     expect(deduplicated.rows.filter((row) => (
       row.familyId === GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.entries[0].family.familyId
     ))).toEqual([expect.objectContaining({ source: 'production' })])
@@ -457,19 +457,17 @@ describe('application problem review catalog', () => {
     })
   })
 
-  it('keeps nine approved pilots separate from fifty review-only Grade 2 drafts', () => {
+  it('shows all fifty-nine approved production families after the Grade 2 release', () => {
     const data = getApplicationProblemReviewData()
 
     expect(APPLICATION_UNIT_INVENTORY_V1).toHaveLength(62)
     expect(data.rows).toHaveLength(59)
-    expect(data.rows.filter((row) => row.source === 'production')).toHaveLength(9)
-    expect(data.rows.filter((row) => row.source === 'draft')).toHaveLength(50)
+    expect(data.rows.filter((row) => row.source === 'production')).toHaveLength(59)
+    expect(data.rows.filter((row) => row.source === 'draft')).toHaveLength(0)
     expect(data.rows.filter((row) => row.source === 'production').every((row) => (
       row.releaseStatus === 'approved'
     ))).toBe(true)
-    expect(data.rows.filter((row) => row.source === 'draft').every((row) => (
-      row.releaseStatus === 'draft' && row.familyEvidence.status === 'passed'
-    ))).toBe(true)
+    expect(data.rows.every((row) => row.familyEvidence.status === 'passed')).toBe(true)
     expect(Object.keys(data.filters)).toEqual([
       'grades',
       'semesters',

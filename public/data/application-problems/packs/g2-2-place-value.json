@@ -6,7 +6,7 @@
   "grade": 2,
   "semester": "2-2",
   "coverageStatus": "complete",
-  "releaseStatus": "draft",
+  "releaseStatus": "approved",
   "coveredStandardCodes": ["[2수01-02]", "[2수01-03]"],
   "concepts": [
     {
@@ -38,5 +38,5 @@
     { "familyId": "g2-2-place-value-claim-check", "version": 1 },
     { "familyId": "g2-2-place-value-card-constraint", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T05:48:48Z", "evidenceRefs": ["docs/reviews/application-problems-grade2-approval.md"], "expertStatus": "not-reviewed" }
 }

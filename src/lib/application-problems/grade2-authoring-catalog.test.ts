@@ -31,26 +31,29 @@ function domains(values: readonly { cognitiveDomain: string }[]): string[] {
 }
 
 describe('Grade 2 review-only authoring connection', () => {
-  it('connects all twelve complete draft packs without changing the fixed production ledger', () => {
+  it('retains the reviewed Grade 2 draft evidence after moving all identities to production', () => {
     expect(GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates).toHaveLength(12)
-    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toEqual(
-      GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates,
-    )
+    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toEqual([])
     expect(validateAuthoringCatalogSafety(GRADE2_APPLICATION_AUTHORING_CATALOG_V1)).toEqual([])
     expect(validateAuthoringProductionSeparation({
-      authoringCatalog: GRADE2_APPLICATION_AUTHORING_CATALOG_V1,
+      authoringCatalog: APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
       productionRegistries: [GRADE2_APPLICATION_PROBLEM_REGISTRY_V1],
-      productionPacks: [{ packId: 'pack-g2-2-length', version: 1 }],
+      productionPacks: GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates.map(({ pack }) => ({
+        packId: pack.packId,
+        version: pack.version,
+      })),
     })).toEqual([])
 
-    expect(GRADE2_APPLICATION_PROBLEM_REGISTRY_V1.entries.map(({ family }) => (
+    const productionIdentities = new Set(GRADE2_APPLICATION_PROBLEM_REGISTRY_V1.entries.map(({ family }) => (
       `${family.familyId}@${family.version}`
-    ))).toEqual([
-      'g2-length-route-total@1',
-      'g2-length-missing-segment@1',
-      'g2-length-claim-check@1',
-    ])
-    expect(GRADE2_APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger).toHaveLength(3)
+    )))
+    const reviewedIdentities = GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates
+      .flatMap(({ familyCandidates }) => familyCandidates)
+      .map(({ family }) => `${family.familyId}@${family.version}`)
+    expect(GRADE2_APPLICATION_PROBLEM_REGISTRY_V1.entries).toHaveLength(53)
+    expect(GRADE2_APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger).toHaveLength(53)
+    expect(reviewedIdentities).toHaveLength(50)
+    expect(reviewedIdentities.every((identity) => productionIdentities.has(identity))).toBe(true)
 
     for (const unit of GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates) {
       expect(unit.pack).toMatchObject({
@@ -154,33 +157,34 @@ describe('Grade 2 review-only authoring connection', () => {
     expect(completed.xp).toBeGreaterThan(0)
   })
 
-  it('uses the same six-slot replacement boundary for the existing approved pilot', () => {
+  it('uses the same six-slot replacement boundary for every approved Grade 2 unit', () => {
     const generated = buildApprovedGrade2ApplicationMissions(7)
-    expect(generated).toHaveLength(1)
-    expect(generated[0]).toMatchObject({
-      unitId: 'g2-2-length',
-      mode: 'practice',
-    })
+    expect(generated).toHaveLength(12)
+    expect(new Set(generated.map(({ unitId }) => unitId)))
+      .toEqual(new Set(grade2Units.map(({ id }) => id)))
+    expect(generated.every(({ mode }) => mode === 'practice')).toBe(true)
 
     const catalog = buildGrade2MissionCatalog(7)
     expect(catalog.status).toBe('ready')
     if (catalog.status !== 'ready') return
     expect(catalog.missions).toHaveLength(144)
-    const practice = catalog.missions.filter((mission) => (
-      mission.unitId === 'g2-2-length' && mission.mode === 'practice'
-    ))
-    expect(practice).toHaveLength(6)
-    expect(practice.filter(isGrade2ApplicationMission)).toHaveLength(1)
+    for (const unit of grade2Units) {
+      const practice = catalog.missions.filter((mission) => (
+        mission.unitId === unit.id && mission.mode === 'practice'
+      ))
+      expect(practice).toHaveLength(6)
+      expect(practice.filter(isGrade2ApplicationMission)).toHaveLength(1)
+    }
   })
 
-  it('validates replacement snapshots independently and keeps draft candidates interaction-blocked', () => {
+  it('validates historical candidate snapshots and enables only identities now present in production', () => {
     for (const unit of grade2Units) {
       const result = buildGrade2AuthoringPracticeSet({ unitId: unit.id, seed: 17 })
       expect(result.status).toBe('ready')
       if (result.status !== 'ready') continue
       const mission = result.missions.find(isGrade2ApplicationMission)!
       expect(isGrade2ApplicationMissionSemanticallyValid(mission)).toBe(true)
-      expect(resolveGrade2MissionInteraction(mission)).toBe('blocked')
+      expect(resolveGrade2MissionInteraction(mission)).toBe('ready')
     }
 
     const approved = buildApprovedGrade2ApplicationMissions(17)[0]

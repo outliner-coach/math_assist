@@ -447,7 +447,10 @@ export const GRADE2_APPLICATION_AUTHORING_CATALOG_V1 = createReviewOnlyAuthoring
 })
 
 export const APPLICATION_PROBLEM_AUTHORING_CATALOG_V1 =
-  GRADE2_APPLICATION_AUTHORING_CATALOG_V1
+  createReviewOnlyAuthoringCatalog({
+    schemaVersion: 'application-problem-authoring-catalog-v1',
+    unitCandidates: [],
+  })
 
 export function validateAuthoringProductionSeparation(input: {
   authoringCatalog: ReviewOnlyApplicationAuthoringCatalogV1

@@ -59,8 +59,8 @@ function approvedRegistry(
 }
 
 describe('application runtime integration', () => {
-  it('registers exactly the nine owner-approved V1 pilot makers as production candidates', () => {
-    expect(APPLICATION_PROBLEM_REGISTRY_V1.entries.map((entry) => entry.family.familyId)).toEqual([
+  it('preserves the nine V1 pilots while registering the fifty approved Grade 2 makers', () => {
+    const fixedPilotIds = [
       'g2-length-route-total',
       'g2-length-missing-segment',
       'g2-length-claim-check',
@@ -70,27 +70,30 @@ describe('application runtime integration', () => {
       'g6-ratio-part-whole',
       'g6-ratio-relative-comparison',
       'g6-ratio-representation-check',
-    ])
-    const expectedApproval = {
+    ]
+    expect(APPLICATION_PROBLEM_REGISTRY_V1.entries).toHaveLength(59)
+    expect(APPLICATION_PROBLEM_REGISTRY_V1.entries
+      .filter((entry) => fixedPilotIds.includes(entry.family.familyId))
+      .map((entry) => entry.family.familyId)).toEqual(fixedPilotIds)
+    const pilotApproval = {
       ownerStatus: 'approved',
       ownerId: 'project-owner',
       approvedAt: '2026-07-28T09:05:24Z',
       evidenceRefs: ['docs/reviews/application-problems-v1-approval.md'],
       expertStatus: 'not-reviewed',
     }
+    expect(APPLICATION_PROBLEM_REGISTRY_V1.entries
+      .filter((entry) => fixedPilotIds.includes(entry.family.familyId))
+      .every((entry) => JSON.stringify(entry.family.approval) === JSON.stringify(pilotApproval)))
+      .toBe(true)
     expect(APPLICATION_PROBLEM_REGISTRY_V1.entries.every((entry) => (
-      entry.family.releaseStatus === 'approved' &&
-      JSON.stringify(entry.family.approval) === JSON.stringify(expectedApproval)
+      entry.family.releaseStatus === 'approved' && entry.family.approval.ownerStatus === 'approved'
     ))).toBe(true)
-    expect(APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger).toHaveLength(9)
-    expect(APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger.every((family) => (
-      family.releaseStatus === 'approved' &&
-      JSON.stringify(family.approval) === JSON.stringify(expectedApproval)
-    ))).toBe(true)
+    expect(APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger).toHaveLength(59)
     const candidates = selectApprovedRuntimeCandidates(APPLICATION_PROBLEM_REGISTRY_V1)
-    expect(candidates).toHaveLength(9)
+    expect(candidates).toHaveLength(59)
     expect(new Set(candidates.map((entry) => `${entry.family.familyId}@${entry.family.version}`)).size)
-      .toBe(9)
+      .toBe(59)
   })
 
   it('keeps a deeply frozen release-ledger snapshot independent from every runtime family', () => {
@@ -128,15 +131,15 @@ describe('application runtime integration', () => {
     }
 
     expect(ledgerFamily.approval.ownerId).toBe('project-owner')
-    expect(selectApprovedRuntimeCandidates(forgedRegistry)).toHaveLength(8)
+    expect(selectApprovedRuntimeCandidates(forgedRegistry)).toHaveLength(58)
   })
 
   it.each([
-    ['Grade 2', GRADE2_APPLICATION_PROBLEM_REGISTRY_V1],
-    ['Grade 5', GRADE5_APPLICATION_PROBLEM_REGISTRY_V1],
-    ['Grade 6', GRADE6_APPLICATION_PROBLEM_REGISTRY_V1],
-  ] as const)('keeps the %s learner shard ledger detached and immutable', (_label, registry) => {
-    expect(selectApprovedRuntimeCandidates(registry)).toHaveLength(3)
+    ['Grade 2', GRADE2_APPLICATION_PROBLEM_REGISTRY_V1, 53],
+    ['Grade 5', GRADE5_APPLICATION_PROBLEM_REGISTRY_V1, 3],
+    ['Grade 6', GRADE6_APPLICATION_PROBLEM_REGISTRY_V1, 3],
+  ] as const)('keeps the %s learner shard ledger detached and immutable', (_label, registry, expectedCount) => {
+    expect(selectApprovedRuntimeCandidates(registry)).toHaveLength(expectedCount)
 
     for (const entry of registry.entries) {
       const ledgerFamily = registry.releaseLedger.find((family) => (
@@ -173,8 +176,8 @@ describe('application runtime integration', () => {
 
     expect(targetEntry.family.approval.ownerId).toBe('project-owner')
     expect(targetLedger?.approval.ownerId).toBe('project-owner')
-    expect(selectApprovedRuntimeCandidates(forgedRegistry)).toHaveLength(2)
-    expect(selectApprovedRuntimeCandidates(registry)).toHaveLength(3)
+    expect(selectApprovedRuntimeCandidates(forgedRegistry)).toHaveLength(expectedCount - 1)
+    expect(selectApprovedRuntimeCandidates(registry)).toHaveLength(expectedCount)
   })
 
   it('maps only owner-approved families with evidence into their Grade 5/6 concepts', () => {

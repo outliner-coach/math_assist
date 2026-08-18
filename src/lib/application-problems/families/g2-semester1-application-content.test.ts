@@ -104,7 +104,7 @@ const unitSuites: readonly {
   },
 ]
 
-describe('Grade 2 semester 1 complete application candidates', () => {
+describe('Grade 2 semester 1 complete released applications', () => {
   it('matches the source-derived unit concepts, standards, representations, and knowing evidence', () => {
     expect(unitSuites).toHaveLength(6)
     for (const suite of unitSuites) {
@@ -112,8 +112,13 @@ describe('Grade 2 semester 1 complete application candidates', () => {
         grade: 2,
         semester: '2-1',
         coverageStatus: 'complete',
-        releaseStatus: 'draft',
-        approval: { ownerStatus: 'pending', evidenceRefs: [], expertStatus: 'not-reviewed' },
+        releaseStatus: 'approved',
+        approval: {
+          ownerStatus: 'approved',
+          ownerId: 'project-owner',
+          evidenceRefs: ['docs/reviews/application-problems-grade2-approval.md'],
+          expertStatus: 'not-reviewed',
+        },
       })
       expect(new Set(suite.pack.coveredStandardCodes)).toEqual(new Set(suite.standards))
       expect(

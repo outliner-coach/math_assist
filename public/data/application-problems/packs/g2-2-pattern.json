@@ -6,7 +6,7 @@
   "grade": 2,
   "semester": "2-2",
   "coverageStatus": "complete",
-  "releaseStatus": "draft",
+  "releaseStatus": "approved",
   "coveredStandardCodes": ["[2수02-01]", "[2수02-02]"],
   "concepts": [{
     "conceptId": "g2-2-pattern-pattern",
@@ -26,5 +26,5 @@
     { "familyId": "g2-2-pattern-broken-term", "version": 1 },
     { "familyId": "g2-2-pattern-far-step", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T05:48:48Z", "evidenceRefs": ["docs/reviews/application-problems-grade2-approval.md"], "expertStatus": "not-reviewed" }
 }

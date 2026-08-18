@@ -1,7 +1,7 @@
 {
   "schemaVersion": "application-problem-rollout-v1",
-  "releasedThroughGrade": null,
-  "buildingGrade": 2,
+  "releasedThroughGrade": 2,
+  "buildingGrade": 3,
   "baselinePilotPackRefs": [
     "pack-g2-2-length@1",
     "pack-unit-5-1-perimeter-area@1",

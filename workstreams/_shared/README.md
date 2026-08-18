@@ -952,3 +952,13 @@ When you change a high-conflict file, add a short dated note below:
   `mathAssist_grade2Progress` stay unchanged. Draft candidates remain blocked
   from learner interaction. The immutable production registry and its three
   approved V1 families do not change before explicit Grade 2 approval.
+
+- 2026-08-18: Grade 2 all-unit application approval and release (T7) owns
+  `grade2-registry.ts`, the shared production-ledger aggregation, production
+  proof evidence, twelve Grade 2 pack approval records, and the rollout ledger
+  in one release commit. The user's “네 배포까지 하고 계속 진행해주세요” is
+  recorded as `project-owner` approval at `2026-08-18T05:48:48Z`; expert status
+  remains `not-reviewed`. Preserve `pack-g2-2-length@1` and its three V1 family
+  snapshots byte-for-byte, leave Grade 5/6 pilot registries unchanged, and
+  advance rollout exactly from `null/2` to `2/3`. Only a commit that passes the
+  release audit and full local gate may reach `main` and Pages.

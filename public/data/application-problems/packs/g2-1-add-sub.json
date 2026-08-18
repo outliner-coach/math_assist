@@ -6,7 +6,7 @@
   "grade": 2,
   "semester": "2-1",
   "coverageStatus": "complete",
-  "releaseStatus": "draft",
+  "releaseStatus": "approved",
   "coveredStandardCodes": ["[2수01-05]", "[2수01-06]", "[2수01-07]", "[2수01-08]", "[2수01-09]"],
   "concepts": [
     {
@@ -38,5 +38,5 @@
     { "familyId": "g2-1-add-sub-strategy-compare", "version": 1 },
     { "familyId": "g2-1-add-sub-operation-check", "version": 1 }
   ],
-  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+  "approval": { "ownerStatus": "approved", "ownerId": "project-owner", "approvedAt": "2026-08-18T05:48:48Z", "evidenceRefs": ["docs/reviews/application-problems-grade2-approval.md"], "expertStatus": "not-reviewed" }
 }

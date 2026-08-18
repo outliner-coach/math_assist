@@ -22,13 +22,10 @@ describe('application unit inventory', () => {
 })
 
 describe('review-only authoring catalog', () => {
-  it('contains twelve Grade 2 drafts without a release ledger or learner registry entries', () => {
+  it('moves on to an empty Grade 3 authoring boundary after the Grade 2 release', () => {
     expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.schemaVersion)
       .toBe('application-problem-authoring-catalog-v1')
-    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toHaveLength(12)
-    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates.every(({ pack }) => (
-      pack.grade === 2 && pack.releaseStatus === 'draft'
-    ))).toBe(true)
+    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toEqual([])
     expect('releaseLedger' in APPLICATION_PROBLEM_AUTHORING_CATALOG_V1).toBe(false)
     expect('entries' in APPLICATION_PROBLEM_AUTHORING_CATALOG_V1).toBe(false)
     expect(selectApprovedRuntimeCandidates({
