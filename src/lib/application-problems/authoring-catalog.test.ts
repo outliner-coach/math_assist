@@ -92,4 +92,63 @@ describe('review-only authoring catalog', () => {
       productionPacks: [],
     }).map((issue) => issue.code)).toContain('draft_family_in_production')
   })
+
+  it('requires executable representative and boundary cases for every draft family', () => {
+    const productionEntry = GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.entries[0]
+    const draftFamily = {
+      ...productionEntry.family,
+      releaseStatus: 'draft' as const,
+      approval: { ownerStatus: 'pending' as const, evidenceRefs: [], expertStatus: 'not-reviewed' as const },
+    }
+    const [conceptId] = draftFamily.conceptIds
+    const [misconceptionId] = draftFamily.misconceptionRefs
+
+    expect(() => createReviewOnlyAuthoringCatalog({
+      schemaVersion: 'application-problem-authoring-catalog-v1',
+      unitCandidates: [{
+        pack: {
+          schemaVersion: 'unit-knowledge-pack-v1',
+          packId: draftFamily.packId,
+          version: 1,
+          unitId: draftFamily.unitId,
+          grade: 5,
+          semester: '5-1',
+          coverageStatus: 'pilot',
+          releaseStatus: 'draft',
+          coveredStandardCodes: [draftFamily.primaryStandard],
+          concepts: [{
+            conceptId,
+            name: '검토용 개념',
+            standardCodes: [draftFamily.primaryStandard],
+            prerequisites: [],
+            allowedScope: ['결정적 생성 검토'],
+            excludedScope: ['승인된 학습자 콘텐츠'],
+            misconceptions: [{
+              id: misconceptionId,
+              description: '검토용 오개념',
+              diagnosticEvidence: '대표 사례에서 독립 답과 비교합니다.',
+              correctionStrategy: '경계 사례의 수학 모델을 다시 확인합니다.',
+            }],
+          }],
+          familyRefs: [{ familyId: draftFamily.familyId, version: draftFamily.version }],
+          approval: { ownerStatus: 'pending', evidenceRefs: [], expertStatus: 'not-reviewed' },
+        },
+        familyCandidates: [{
+          family: draftFamily,
+          runtime: productionEntry.runtime,
+          oracle: () => '0',
+          visualValidator: () => true,
+          placementProposal: {
+            familyId: draftFamily.familyId,
+            version: draftFamily.version,
+            grade: 5,
+            unitId: draftFamily.unitId,
+            conceptId,
+            cognitiveDomain: draftFamily.cognitiveDomain,
+          },
+        }],
+        completeness: { coreConceptIds: [], requiredRepresentations: [], hasKnowingCoverage: false },
+      }],
+    })).toThrow(/representative.*boundary/i)
+  })
 })

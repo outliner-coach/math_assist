@@ -27,10 +27,15 @@ When you change a high-conflict file, add a short dated note below:
   catalog boundary, work/candidate/release/all validation modes, and the shared
   cognitive-domain-aware placement planner. The fixed 2·5·6 pilot pack/family
   exception remains exactly the nine already-approved families and does not
-  complete any Grade. Draft candidates have executable generator, oracle,
-  visual, and placement proposals but no release ledger or learner registry
-  surface. Production eligibility still requires an approved executable entry
-  and one exactly matching immutable release-ledger snapshot. Grade session
+  complete any Grade; the released Grade 6/building `null` state is terminal.
+  Draft candidates have executable generator, oracle, visual, and placement
+  proposals plus declared representative and boundary cases, but no release
+  ledger or learner registry surface. Audits execute those cases and keep all
+  later-than-building Grades explicitly pending. Complete claims are compared
+  with canonical base-bank concepts, representations, knowing coverage, and
+  concept-to-unit identity derived from current Grade 2-6 sources. Production
+  eligibility still requires an approved executable entry and one exactly
+  matching immutable canonical release-ledger snapshot. Grade session
   integrations must call the atomic planner before persistence and preserve
   total length plus K/A/R counts: G2 6/1, G3 3/1, G4 3/1, and G5·G6 5/1 or
   10/2. It did not change pack JSON, generator/oracle families, production

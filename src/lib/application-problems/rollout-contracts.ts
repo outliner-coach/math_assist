@@ -161,6 +161,13 @@ export function validateApplicationProblemRolloutTransition(
   previous: ApplicationProblemRolloutV1,
   next: ApplicationProblemRolloutV1,
 ): ContractValidationIssue[] {
+  if (previous.releasedThroughGrade === 6 && previous.buildingGrade === null) {
+    return [{
+      code: 'invalid_rollout_transition',
+      path: 'rollout',
+      message: 'the Grade 6/null rollout state is terminal',
+    }]
+  }
   const expectedReleased = previous.buildingGrade
   const expectedBuilding = expectedBuildingGrade(expectedReleased)
   const unchangedPilots =

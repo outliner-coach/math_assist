@@ -106,6 +106,13 @@ function isFamilyShapeValid(family) {
     typeof family.unitId === 'string'
 }
 
+function isDeepFrozen(value, seen = new Set()) {
+  if (!value || typeof value !== 'object') return true
+  if (seen.has(value)) return true
+  seen.add(value)
+  return Object.isFrozen(value) && Object.values(value).every((entry) => isDeepFrozen(entry, seen))
+}
+
 function checkPacksAndFamilies(input, errors) {
   const packs = Array.isArray(input.packs) ? input.packs : []
   const families = Array.isArray(input.families) ? input.families : []
@@ -217,15 +224,25 @@ function checkPacksAndFamilies(input, errors) {
   return { familyByKey, packById, validFamilies }
 }
 
-function checkRegistries(input, familyByKey, errors) {
+function checkRegistries(input, errors, selection) {
+  const canonicalLedger = Array.isArray(input.canonicalReleaseLedger)
+    ? input.canonicalReleaseLedger
+    : []
   for (const registry of input.registries ?? []) {
-    const ledger = new Map((registry.releaseLedger ?? []).map((family) => [familyKey(family), family]))
     for (const entry of registry.entries ?? []) {
       const family = entry?.family
       const key = familyKey(family)
-      const ledgerFamily = ledger.get(key)
-      if (!ledgerFamily || stableJson(ledgerFamily) !== stableJson(family)) {
-        errors.push(issue('APQ_RELEASE_LEDGER', 'runtime entry must exactly match one immutable ledger family', { family }))
+      const localMatches = (registry.releaseLedger ?? []).filter((snapshot) => familyKey(snapshot) === key)
+      const canonicalMatches = canonicalLedger.filter((snapshot) => familyKey(snapshot) === key)
+      if (
+        localMatches.length !== 1 ||
+        canonicalMatches.length !== 1 ||
+        !isDeepFrozen(localMatches[0]) ||
+        !isDeepFrozen(canonicalMatches[0]) ||
+        stableJson(localMatches[0]) !== stableJson(family) ||
+        stableJson(canonicalMatches[0]) !== stableJson(family)
+      ) {
+        errors.push(issue('APQ_RELEASE_LEDGER', 'runtime entry must exactly match one immutable canonical release-ledger snapshot', { family }))
       }
       if (family?.releaseStatus === 'quarantined' || family?.releaseStatus === 'retired') {
         errors.push(issue('APQ_BLOCKED_RELEASE_CANDIDATE', `${key} cannot be a new runtime candidate`, { family }))
@@ -233,10 +250,52 @@ function checkRegistries(input, familyByKey, errors) {
       if (family?.releaseStatus === 'approved' && !approvalIsBacked(family)) {
         errors.push(issue('APQ_APPROVAL_EVIDENCE', 'approved runtime candidate has no approval evidence', { family }))
       }
+      if ((selection.mode === 'release' || selection.mode === 'all') &&
+        (family?.releaseStatus !== 'approved' || !approvalIsBacked(family))) {
+        errors.push(issue('APQ_RELEASE_APPROVAL', 'release mode requires every production family to have backed owner approval', { family }))
+      }
       if (entry?.runtime?.kind !== family?.runtimeMode) {
         errors.push(issue('APQ_RUNTIME_MODE', 'runtime mode does not match family declaration', { family }))
       }
     }
+  }
+}
+
+function checkAuthoringContracts(input, errors) {
+  if (!input.authoringCatalog) return { separationValid: true, safetyValid: true }
+  try {
+    const {
+      validateAuthoringCatalogSafety,
+      validateAuthoringProductionSeparation,
+    } = loadTypeScriptModule('src/lib/application-problems/authoring-catalog.ts')
+    const separationIssues = validateAuthoringProductionSeparation({
+      authoringCatalog: input.authoringCatalog,
+      productionRegistries: input.registries ?? [],
+      productionPacks: input.packs ?? [],
+    })
+    const safetyIssues = validateAuthoringCatalogSafety(input.authoringCatalog)
+    separationIssues.forEach((contractIssue) => {
+      errors.push(issue(
+        'APQ_DRAFT_PRODUCTION_MIX',
+        `${contractIssue.message} (${contractIssue.path})`,
+      ))
+    })
+    safetyIssues.forEach((contractIssue) => {
+      errors.push(issue(
+        'APQ_DRAFT_SAFETY',
+        `${contractIssue.message} (${contractIssue.path})`,
+      ))
+    })
+    return {
+      separationValid: separationIssues.length === 0,
+      safetyValid: safetyIssues.length === 0,
+    }
+  } catch (error) {
+    errors.push(issue(
+      'APQ_DRAFT_SAFETY',
+      `authoring catalog validation failed: ${error instanceof Error ? error.message : String(error)}`,
+    ))
+    return { separationValid: false, safetyValid: false }
   }
 }
 
@@ -402,6 +461,14 @@ function rolloutIsValid(rollout) {
     sameFixedRefs(rollout.baselinePilotFamilyRefs, FIXED_PILOT_FAMILY_REFS)
 }
 
+function sameStringSet(left, right) {
+  return Array.isArray(left) && Array.isArray(right) &&
+    left.length === right.length &&
+    new Set(left).size === left.length &&
+    new Set(right).size === right.length &&
+    left.every((value) => right.includes(value))
+}
+
 function completePackIssues(input, pack, families, completeness) {
   if (pack.coverageStatus !== 'complete') return []
   const errors = []
@@ -412,10 +479,35 @@ function completePackIssues(input, pack, families, completeness) {
   if (assignedStandards.some((standard) => !covered.has(standard))) {
     errors.push('assigned standards')
   }
-  const coreConceptIds = completeness?.coreConceptIds ?? []
+  const evidenceMatches = (input.unitBaseBankEvidence ?? []).filter((entry) => (
+    entry.grade === pack.grade && entry.unitId === pack.unitId
+  ))
+  const canonicalEvidence = evidenceMatches.length === 1 ? evidenceMatches[0] : undefined
+  if (!canonicalEvidence) errors.push('canonical unit evidence')
+  const coreConceptIds = canonicalEvidence?.coreConceptIds ?? []
+  if (!sameStringSet(completeness?.coreConceptIds, coreConceptIds)) {
+    errors.push('canonical core concepts')
+  }
   const conceptIds = new Set((pack.concepts ?? []).map((concept) => concept.conceptId))
-  if (coreConceptIds.length === 0 || coreConceptIds.some((conceptId) => !conceptIds.has(conceptId))) {
+  if (
+    coreConceptIds.length === 0 ||
+    coreConceptIds.some((conceptId) => !conceptIds.has(conceptId))
+  ) {
     errors.push('core concepts')
+  }
+  const canonicalConceptUnits = new Map()
+  for (const evidence of input.unitBaseBankEvidence ?? []) {
+    for (const identity of evidence.conceptUnitIdentities ?? []) {
+      const unitIds = canonicalConceptUnits.get(identity.conceptId) ?? new Set()
+      unitIds.add(identity.unitId)
+      canonicalConceptUnits.set(identity.conceptId, unitIds)
+    }
+  }
+  if ((pack.concepts ?? []).some((concept) => {
+    const unitIds = canonicalConceptUnits.get(concept.conceptId)
+    return !unitIds || unitIds.size !== 1 || !unitIds.has(pack.unitId)
+  })) {
+    errors.push('canonical concept identity')
   }
   const familyKeys = new Set((pack.familyRefs ?? []).map((reference) => `${reference.familyId}@${reference.version}`))
   const packFamilies = families.filter((family) => familyKeys.has(familyKey(family)))
@@ -432,9 +524,17 @@ function completePackIssues(input, pack, families, completeness) {
     .some((misconception) => !usedMisconceptions.has(misconception.id))) {
     errors.push('misconception use')
   }
-  if (completeness?.hasKnowingCoverage !== true) errors.push('knowing coverage')
+  if (
+    canonicalEvidence?.hasKnowingCoverage !== true ||
+    !Array.isArray(canonicalEvidence?.knowingConceptIds) ||
+    canonicalEvidence.knowingConceptIds.length === 0 ||
+    completeness?.hasKnowingCoverage !== canonicalEvidence.hasKnowingCoverage
+  ) errors.push('canonical knowing coverage')
   const represented = new Set(packFamilies.flatMap((family) => family.representations ?? []))
-  const requiredRepresentations = completeness?.requiredRepresentations ?? []
+  const requiredRepresentations = canonicalEvidence?.requiredRepresentations ?? []
+  if (!sameStringSet(completeness?.requiredRepresentations, requiredRepresentations)) {
+    errors.push('canonical representations')
+  }
   if (
     requiredRepresentations.length === 0 ||
     requiredRepresentations.some((representation) => !represented.has(representation))
@@ -443,7 +543,6 @@ function completePackIssues(input, pack, families, completeness) {
 }
 
 function buildRolloutReport(input, selection, errors) {
-  if (input.unitInventory === undefined && input.rollout === undefined) return []
   const inventory = Array.isArray(input.unitInventory) ? input.unitInventory : []
   const gradeCounts = Object.fromEntries([2, 3, 4, 5, 6].map((grade) => [
     grade,
@@ -457,6 +556,39 @@ function buildRolloutReport(input, selection, errors) {
   ) {
     errors.push(issue('APQ_UNIT_INVENTORY', 'application rollout inventory must be exactly Grades 2-6 with counts 12/12/15/12/11'))
   }
+  const baseBankEvidence = Array.isArray(input.unitBaseBankEvidence)
+    ? input.unitBaseBankEvidence
+    : []
+  const evidenceIdentities = new Set(baseBankEvidence.map((entry) => `${entry.grade}:${entry.unitId}`))
+  const conceptOwners = new Map()
+  let baseBankEvidenceInvalid = baseBankEvidence.length !== 62 || evidenceIdentities.size !== 62
+  for (const evidence of baseBankEvidence) {
+    const coreConceptIds = evidence.coreConceptIds ?? []
+    const requiredRepresentations = evidence.requiredRepresentations ?? []
+    const knowingConceptIds = evidence.knowingConceptIds ?? []
+    const conceptUnitIdentities = evidence.conceptUnitIdentities ?? []
+    if (
+      !identities.has(`${evidence.grade}:${evidence.unitId}`) ||
+      coreConceptIds.length === 0 || new Set(coreConceptIds).size !== coreConceptIds.length ||
+      requiredRepresentations.length === 0 || new Set(requiredRepresentations).size !== requiredRepresentations.length ||
+      evidence.hasKnowingCoverage !== (knowingConceptIds.length > 0) ||
+      conceptUnitIdentities.length !== coreConceptIds.length ||
+      coreConceptIds.some((conceptId) => !conceptUnitIdentities.some((identity) => (
+        identity.conceptId === conceptId && identity.unitId === evidence.unitId
+      )))
+    ) baseBankEvidenceInvalid = true
+    for (const conceptId of coreConceptIds) {
+      const owners = conceptOwners.get(conceptId) ?? new Set()
+      owners.add(evidence.unitId)
+      conceptOwners.set(conceptId, owners)
+    }
+  }
+  if (Array.from(conceptOwners.values()).some((owners) => owners.size !== 1)) {
+    baseBankEvidenceInvalid = true
+  }
+  if (baseBankEvidenceInvalid) {
+    errors.push(issue('APQ_BASE_BANK_EVIDENCE', 'canonical base-bank evidence must cover all 62 unit identities with concepts, representations, and knowing coverage'))
+  }
   if (!rolloutIsValid(input.rollout)) {
     errors.push(issue('APQ_ROLLOUT_STATE', 'application rollout state or fixed pilot exception is invalid'))
   }
@@ -465,12 +597,40 @@ function buildRolloutReport(input, selection, errors) {
   for (const registry of input.registries ?? []) {
     for (const entry of registry.entries ?? []) {
       const key = familyKey(entry.family)
-      productionFamilyEntries.set(key, (productionFamilyEntries.get(key) ?? 0) + 1)
+      const entries = productionFamilyEntries.get(key) ?? []
+      entries.push(entry.family)
+      productionFamilyEntries.set(key, entries)
     }
     for (const family of registry.releaseLedger ?? []) {
       const key = familyKey(family)
-      productionFamilyLedger.set(key, (productionFamilyLedger.get(key) ?? 0) + 1)
+      const snapshots = productionFamilyLedger.get(key) ?? []
+      snapshots.push(family)
+      productionFamilyLedger.set(key, snapshots)
     }
+  }
+  const canonicalReleaseLedger = new Map()
+  for (const family of input.canonicalReleaseLedger ?? []) {
+    const key = familyKey(family)
+    const snapshots = canonicalReleaseLedger.get(key) ?? []
+    snapshots.push(family)
+    canonicalReleaseLedger.set(key, snapshots)
+  }
+  const productionFamilyIsEligible = (reference) => {
+    const key = `${reference.familyId}@${reference.version}`
+    const entries = productionFamilyEntries.get(key) ?? []
+    const localSnapshots = productionFamilyLedger.get(key) ?? []
+    const canonicalSnapshots = canonicalReleaseLedger.get(key) ?? []
+    return entries.length === 1 &&
+      localSnapshots.length === 1 &&
+      canonicalSnapshots.length === 1 &&
+      entries[0].releaseStatus === 'approved' &&
+      canonicalSnapshots[0].releaseStatus === 'approved' &&
+      approvalIsBacked(entries[0]) &&
+      approvalIsBacked(canonicalSnapshots[0]) &&
+      isDeepFrozen(localSnapshots[0]) &&
+      isDeepFrozen(canonicalSnapshots[0]) &&
+      stableJson(entries[0]) === stableJson(localSnapshots[0]) &&
+      stableJson(entries[0]) === stableJson(canonicalSnapshots[0])
   }
   const productionPlacementRefs = new Set(input.productionPlacementFamilyRefs ?? [])
   const pilotPacks = new Set(input.rollout?.baselinePilotPackRefs ?? [])
@@ -543,8 +703,7 @@ function buildRolloutReport(input, selection, errors) {
       ).length === 0 &&
       (productionPack.familyRefs ?? []).every((reference) => {
         const familyRef = `${reference.familyId}@${reference.version}`
-        return productionFamilyEntries.get(familyRef) === 1 &&
-          productionFamilyLedger.get(familyRef) === 1 &&
+        return productionFamilyIsEligible(reference) &&
           productionPlacementRefs.has(familyRef)
       }))
     const authoringFamilies = authoring?.familyCandidates?.map((candidate) => candidate.family) ?? []
@@ -552,6 +711,8 @@ function buildRolloutReport(input, selection, errors) {
       authoring.pack.coverageStatus === 'complete' &&
       authoring.pack.releaseStatus === 'draft' &&
       completePackIssues(input, authoring.pack, authoringFamilies, authoring.completeness).length === 0 &&
+      input.authoringSafetyValid === true &&
+      input.authoringSeparationValid === true &&
       authoring.familyCandidates.every((candidate) => {
         const familyRef = familyKey(candidate.family)
         return candidate.family.releaseStatus === 'draft' &&
@@ -564,15 +725,20 @@ function buildRolloutReport(input, selection, errors) {
     return {
       grade: unit.grade,
       unitId: unit.unitId,
-      rolloutStatus: productionComplete
-        ? 'released'
-        : candidateComplete
-          ? 'candidate'
-          : pilotPack
-            ? 'baseline-pilot'
-            : productionPacks.length > 0 || authoring
-              ? 'partial'
-              : 'pending',
+      rolloutStatus: input.rollout?.buildingGrade !== null &&
+        input.rollout?.buildingGrade !== undefined &&
+        unit.grade > input.rollout.buildingGrade
+        ? 'pending'
+        : productionComplete
+          ? 'released'
+          : candidateComplete
+            ? 'candidate'
+            : pilotPack
+              ? 'baseline-pilot'
+              : productionPacks.length > 0 || authoring
+                ? 'partial'
+                : 'pending',
+      baselinePilot: Boolean(pilotPack),
       packRefs: productionPacks.map((pack) => `${pack.packId}@${pack.version}`),
       gradeComplete: productionComplete || candidateComplete,
       productionComplete,
@@ -614,15 +780,49 @@ function buildRolloutReport(input, selection, errors) {
   return unitReports
 }
 
+function resolveAuditContractInput(input, errors) {
+  const source = input ?? {}
+  const authoringModule = loadTypeScriptModule('src/lib/application-problems/authoring-catalog.ts')
+  const resolved = { ...source }
+  if (source.unitInventory === undefined) {
+    errors.push(issue('APQ_UNIT_INVENTORY_INPUT', 'audit input omitted unitInventory; canonical Grade 2-6 inventory was derived'))
+    resolved.unitInventory = authoringModule.APPLICATION_UNIT_INVENTORY_V1
+  }
+  if (source.rollout === undefined) {
+    errors.push(issue('APQ_ROLLOUT_INPUT', 'audit input omitted rollout; repository rollout state was derived'))
+    resolved.rollout = JSON.parse(
+      fs.readFileSync(path.join(ROOT_DIR, 'public', 'data', 'application-problems', 'rollout.json'), 'utf8'),
+    )
+  }
+  if (source.authoringCatalog === undefined) {
+    resolved.authoringCatalog = authoringModule.APPLICATION_PROBLEM_AUTHORING_CATALOG_V1
+  }
+  if (source.unitBaseBankEvidence === undefined) {
+    resolved.unitBaseBankEvidence = loadCanonicalUnitBaseBankEvidence(resolved.unitInventory)
+  }
+  if (source.canonicalReleaseLedger === undefined) {
+    const { APPLICATION_PROBLEM_REGISTRY_V1 } = loadTypeScriptModule('src/lib/application-problems/registered-families.ts')
+    resolved.canonicalReleaseLedger = APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger
+  }
+  return resolved
+}
+
 function auditApplicationProblemQuality(input, selection = { mode: 'work' }) {
   const errors = []
-  const packs = Array.isArray(input?.packs) ? input.packs : []
-  const families = Array.isArray(input?.families) ? input.families : []
-  const { familyByKey, validFamilies } = checkPacksAndFamilies(input ?? {}, errors)
-  checkRegistries(input ?? {}, familyByKey, errors)
-  checkEvidence({ ...(input ?? {}), validFamilies }, errors)
-  checkSessionContracts(input ?? {}, errors)
-  const unitReports = buildRolloutReport(input ?? {}, selection, errors)
+  const resolvedInput = resolveAuditContractInput(input, errors)
+  const packs = Array.isArray(resolvedInput.packs) ? resolvedInput.packs : []
+  const families = Array.isArray(resolvedInput.families) ? resolvedInput.families : []
+  const { validFamilies } = checkPacksAndFamilies(resolvedInput, errors)
+  checkRegistries(resolvedInput, errors, selection)
+  const authoringValidation = checkAuthoringContracts(resolvedInput, errors)
+  const checkedInput = {
+    ...resolvedInput,
+    authoringSafetyValid: authoringValidation.safetyValid,
+    authoringSeparationValid: authoringValidation.separationValid,
+  }
+  checkEvidence({ ...checkedInput, validFamilies }, errors)
+  checkSessionContracts(checkedInput, errors)
+  const unitReports = buildRolloutReport(checkedInput, selection, errors)
   const draftFamilyCount = validFamilies.filter((family) => family.releaseStatus === 'draft').length
   const approvedFamilyCount = validFamilies.filter((family) => family.releaseStatus === 'approved').length
   return {
@@ -636,7 +836,7 @@ function auditApplicationProblemQuality(input, selection = { mode: 'work' }) {
     },
     packReports: buildPackReports(packs, validFamilies),
     unitReports,
-    familyEvidence: input?.familyEvidence ?? [],
+    familyEvidence: resolvedInput.familyEvidence ?? [],
     errors,
   }
 }
@@ -678,6 +878,95 @@ function loadTemplateCatalog(filename, conceptId) {
   return templates.filter((template) => template.concept_id === conceptId)
 }
 
+function normalizeBaseBankRepresentation(value) {
+  if (['text', 'equation', 'table', 'diagram', 'graph', 'manipulative'].includes(value)) return value
+  const normalized = String(value ?? '').toLowerCase()
+  if (normalized.includes('graph')) return 'graph'
+  if (normalized.includes('table')) return 'table'
+  if (normalized.includes('equation') || normalized.includes('operation') || normalized.includes('balance')) return 'equation'
+  if (normalized === 'context') return 'text'
+  return 'diagram'
+}
+
+function loadCanonicalUnitBaseBankEvidence(unitInventory) {
+  const evidenceByUnit = new Map((unitInventory ?? []).map((unit) => [
+    `${unit.grade}:${unit.unitId}`,
+    {
+      grade: unit.grade,
+      unitId: unit.unitId,
+      coreConceptIds: new Set(),
+      requiredRepresentations: new Set(['text']),
+      knowingConceptIds: new Set(),
+    },
+  ]))
+  const recordTemplate = (grade, template, conceptId, representations) => {
+    const evidence = evidenceByUnit.get(`${grade}:${template.unitId}`)
+    if (!evidence || typeof conceptId !== 'string' || conceptId.length === 0) return
+    evidence.coreConceptIds.add(conceptId)
+    for (const representation of representations) {
+      evidence.requiredRepresentations.add(normalizeBaseBankRepresentation(representation))
+    }
+    if (template.cognitiveDomain === 'knowing') evidence.knowingConceptIds.add(conceptId)
+  }
+
+  for (const grade of [2, 3, 4]) {
+    const module = loadTypeScriptModule(`src/lib/grade${grade}-problems.ts`)
+    for (const template of module[`grade${grade}MissionTemplates`] ?? []) {
+      const conceptSource = grade === 4 ? template.problemFamily : template.skill
+      const conceptId = `${template.unitId}-${conceptSource}`
+      recordTemplate(
+        grade,
+        template,
+        conceptId,
+        [template.visualModel ?? template.representation],
+      )
+    }
+  }
+
+  const publicConcepts = JSON.parse(
+    fs.readFileSync(path.join(ROOT_DIR, 'public', 'data', 'concepts.json'), 'utf8'),
+  )
+  const conceptById = new Map(publicConcepts.map((concept) => [concept.id, concept]))
+  for (const concept of publicConcepts) {
+    const unit = (unitInventory ?? []).find((entry) => entry.unitId === concept.unit_id)
+    if (!unit || (unit.grade !== 5 && unit.grade !== 6)) continue
+    const evidence = evidenceByUnit.get(`${unit.grade}:${unit.unitId}`)
+    evidence?.coreConceptIds.add(concept.id)
+  }
+  const templatesDirectory = path.join(ROOT_DIR, 'public', 'data', 'templates')
+  for (const filename of fs.readdirSync(templatesDirectory).filter((entry) => entry.endsWith('.json')).sort()) {
+    const source = JSON.parse(fs.readFileSync(path.join(templatesDirectory, filename), 'utf8'))
+    const templates = Array.isArray(source) ? source : (source.templates ?? [])
+    for (const template of templates) {
+      const concept = conceptById.get(template.concept_id)
+      if (!concept) continue
+      const unit = (unitInventory ?? []).find((entry) => entry.unitId === concept.unit_id)
+      if (!unit || (unit.grade !== 5 && unit.grade !== 6)) continue
+      recordTemplate(
+        unit.grade,
+        { ...template, unitId: concept.unit_id, cognitiveDomain: template.blueprint?.cognitiveDomain },
+        concept.id,
+        template.blueprint?.representations ?? ['text'],
+      )
+    }
+  }
+
+  return (unitInventory ?? []).map((unit) => {
+    const evidence = evidenceByUnit.get(`${unit.grade}:${unit.unitId}`)
+    const coreConceptIds = Array.from(evidence?.coreConceptIds ?? []).sort()
+    const knowingConceptIds = Array.from(evidence?.knowingConceptIds ?? []).sort()
+    return {
+      grade: unit.grade,
+      unitId: unit.unitId,
+      coreConceptIds,
+      requiredRepresentations: Array.from(evidence?.requiredRepresentations ?? ['text']).sort(),
+      knowingConceptIds,
+      hasKnowingCoverage: knowingConceptIds.length > 0,
+      conceptUnitIdentities: coreConceptIds.map((conceptId) => ({ conceptId, unitId: unit.unitId })),
+    }
+  })
+}
+
 function loadProductionApplicationProblemQualityInput() {
   const { APPLICATION_PROBLEM_REGISTRY_V1 } = loadTypeScriptModule('src/lib/application-problems/registered-families.ts')
   const registries = [
@@ -700,6 +989,7 @@ function loadProductionApplicationProblemQualityInput() {
     APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
     APPLICATION_UNIT_INVENTORY_V1,
   } = loadTypeScriptModule('src/lib/application-problems/authoring-catalog.ts')
+  const unitBaseBankEvidence = loadCanonicalUnitBaseBankEvidence(APPLICATION_UNIT_INVENTORY_V1)
   const ledgerAllocations = JSON.parse(
     fs.readFileSync(path.join(ROOT_DIR, 'public', 'data', 'curriculum-allocations-v1.json'), 'utf8'),
   ).allocations
@@ -728,6 +1018,8 @@ function loadProductionApplicationProblemQualityInput() {
     rollout,
     authoringCatalog: APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
     unitInventory: APPLICATION_UNIT_INVENTORY_V1,
+    unitBaseBankEvidence,
+    canonicalReleaseLedger: APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger,
     completeCoverageContexts: [],
     productionPlacementFamilyRefs: FIXED_PILOT_FAMILY_REFS,
     ledgerAllocations,

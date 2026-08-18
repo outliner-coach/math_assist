@@ -747,6 +747,7 @@ describe('application problem staged rollout', () => {
     ['regression', { releasedThroughGrade: 3, buildingGrade: 4 }, { releasedThroughGrade: 2, buildingGrade: 3 }],
     ['skip', { releasedThroughGrade: 2, buildingGrade: 3 }, { releasedThroughGrade: 4, buildingGrade: 5 }],
     ['duplicate advancement', { releasedThroughGrade: 2, buildingGrade: 3 }, { releasedThroughGrade: 2, buildingGrade: 3 }],
+    ['terminal restart', { releasedThroughGrade: 6, buildingGrade: null }, { releasedThroughGrade: null, buildingGrade: 2 }],
   ])('rejects rollout %s', (_label, previousState, nextState) => {
     const previous = parseApplicationProblemRolloutV1({ ...initialRollout(), ...previousState })
     const next = parseApplicationProblemRolloutV1({ ...initialRollout(), ...nextState })

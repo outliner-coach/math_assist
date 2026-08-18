@@ -14,6 +14,7 @@ import {
   type GeneratedApplicationProblemV1,
   type UnitKnowledgePackV1,
 } from './contracts'
+import { generateApplicationProblem } from './generator'
 import type { ApplicationProblemRuntimeV1, ApplicationProblemRegistryV1 } from './registry'
 
 export interface ApplicationUnitInventoryEntryV1 {
@@ -22,6 +23,17 @@ export interface ApplicationUnitInventoryEntryV1 {
   semester: string
   title: string
   standardCodes: readonly string[]
+}
+
+/** Canonical completeness evidence derived from the existing learner base bank. */
+export interface ApplicationUnitBaseBankEvidenceV1 {
+  grade: 2 | 3 | 4 | 5 | 6
+  unitId: string
+  coreConceptIds: readonly string[]
+  requiredRepresentations: readonly ProblemRepresentation[]
+  knowingConceptIds: readonly string[]
+  hasKnowingCoverage: boolean
+  conceptUnitIdentities: readonly { conceptId: string; unitId: string }[]
 }
 
 function inventoryEntry(input: {
@@ -83,12 +95,20 @@ export interface DraftApplicationPlacementProposalV1 {
   cognitiveDomain: ApplicationCognitiveDomain
 }
 
+export interface DraftApplicationReviewCaseV1 {
+  caseId: string
+  kind: 'representative' | 'boundary'
+  seed: number
+  variantIndex: number
+}
+
 export interface DraftApplicationFamilyCandidateV1 {
   family: ApplicationProblemFamilyV1
   runtime: ApplicationProblemRuntimeV1
   oracle(problem: GeneratedApplicationProblemV1): string
   visualValidator(problem: GeneratedApplicationProblemV1): boolean
   placementProposal: DraftApplicationPlacementProposalV1
+  reviewCases: readonly DraftApplicationReviewCaseV1[]
 }
 
 export interface ReviewOnlyApplicationUnitCandidateV1 {
@@ -158,6 +178,47 @@ function parseCompleteness(
     requiredRepresentations: [...requiredRepresentations] as ProblemRepresentation[],
     hasKnowingCoverage: value.hasKnowingCoverage,
   }
+}
+
+function parseReviewCases(value: unknown, path: string): DraftApplicationReviewCaseV1[] {
+  if (!Array.isArray(value)) {
+    fail(
+      'missing_draft_review_cases',
+      path,
+      'draft candidates require representative and boundary review cases',
+    )
+  }
+  const caseIds = new Set<string>()
+  const cases = value.map((entry, index) => {
+    if (!isRecord(entry)) {
+      fail('invalid_draft_review_case', `${path}[${index}]`, 'review case must be an object')
+    }
+    if (
+      typeof entry.caseId !== 'string' ||
+      !/^[a-z0-9][a-z0-9-]*$/.test(entry.caseId) ||
+      caseIds.has(entry.caseId) ||
+      (entry.kind !== 'representative' && entry.kind !== 'boundary') ||
+      !Number.isSafeInteger(entry.seed) ||
+      !Number.isSafeInteger(entry.variantIndex) ||
+      (entry.variantIndex as number) < 0
+    ) {
+      fail(
+        'invalid_draft_review_case',
+        `${path}[${index}]`,
+        'review cases require a unique stable id, representative or boundary kind, safe seed, and non-negative variant',
+      )
+    }
+    caseIds.add(entry.caseId)
+    return entry as unknown as DraftApplicationReviewCaseV1
+  })
+  if (!cases.some((entry) => entry.kind === 'representative') || !cases.some((entry) => entry.kind === 'boundary')) {
+    fail(
+      'missing_draft_review_case_kind',
+      path,
+      'draft candidates require both representative and boundary review cases',
+    )
+  }
+  return cases
 }
 
 export function createReviewOnlyAuthoringCatalog(
@@ -258,12 +319,17 @@ export function createReviewOnlyAuthoringCatalog(
           'placement identity and cognitive domain must exactly match its draft family',
         )
       }
+      const reviewCases = parseReviewCases(
+        candidate.reviewCases,
+        `catalog.unitCandidates[${unitIndex}].familyCandidates[${familyIndex}].reviewCases`,
+      )
       return {
         family,
         runtime: candidate.runtime as unknown as ApplicationProblemRuntimeV1,
         oracle: candidate.oracle as DraftApplicationFamilyCandidateV1['oracle'],
         visualValidator: candidate.visualValidator as DraftApplicationFamilyCandidateV1['visualValidator'],
         placementProposal: placement as unknown as DraftApplicationPlacementProposalV1,
+        reviewCases,
       }
     })
     const declaredFamilyRefs = new Set(
@@ -337,6 +403,80 @@ export function validateAuthoringProductionSeparation(input: {
           message: `draft family ${familyKey} is mixed into production`,
         })
       }
+    })
+  })
+  return issues
+}
+
+function stableJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value as Record<string, unknown>)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${stableJson((value as Record<string, unknown>)[key])}`)
+      .join(',')}}`
+  }
+  return JSON.stringify(value) ?? 'undefined'
+}
+
+/** Executes review-only evidence. It does not register or expose draft runtimes to learners. */
+export function validateAuthoringCatalogSafety(
+  catalog: ReviewOnlyApplicationAuthoringCatalogV1,
+): ContractValidationIssue[] {
+  const issues: ContractValidationIssue[] = []
+  catalog.unitCandidates.forEach((unitCandidate, unitIndex) => {
+    unitCandidate.familyCandidates.forEach((candidate, familyIndex) => {
+      const familyPath = `authoringCatalog.unitCandidates[${unitIndex}].familyCandidates[${familyIndex}]`
+      if (candidate.runtime.kind !== 'deterministic-generator') {
+        issues.push({
+          code: 'draft_runtime_not_deterministic',
+          path: `${familyPath}.runtime`,
+          message: 'draft safety review requires a deterministic generator',
+        })
+        return
+      }
+      const generator = candidate.runtime.generator
+      candidate.reviewCases.forEach((reviewCase, caseIndex) => {
+        const casePath = `${familyPath}.reviewCases[${caseIndex}]`
+        try {
+          const generate = () => generateApplicationProblem({
+            family: candidate.family,
+            generator,
+            packVersion: unitCandidate.pack.version,
+            seed: reviewCase.seed,
+            variantIndex: reviewCase.variantIndex,
+          })
+          const first = generate()
+          const second = generate()
+          if (stableJson(first) !== stableJson(second)) {
+            issues.push({
+              code: 'draft_generation_not_deterministic',
+              path: casePath,
+              message: `${reviewCase.caseId} did not reproduce byte-equivalent generated content`,
+            })
+          }
+          if (candidate.oracle(first) !== first.answer.normalized) {
+            issues.push({
+              code: 'draft_oracle_mismatch',
+              path: casePath,
+              message: `${reviewCase.caseId} independent oracle disagrees with the generated answer`,
+            })
+          }
+          if (candidate.visualValidator(first) !== true) {
+            issues.push({
+              code: 'draft_visual_validation_failed',
+              path: casePath,
+              message: `${reviewCase.caseId} failed draft visual validation`,
+            })
+          }
+        } catch (error) {
+          issues.push({
+            code: 'draft_review_execution_failed',
+            path: casePath,
+            message: `${reviewCase.caseId} review execution failed: ${error instanceof Error ? error.message : String(error)}`,
+          })
+        }
+      })
     })
   })
   return issues
