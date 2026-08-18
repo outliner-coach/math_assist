@@ -10,7 +10,10 @@ const {
   stableParamsKey,
   validateTemplates
 } = require('../problem-quality-core')
-const { generateApplicationProblemQualityReport } = require('../application-problem-quality-core')
+const {
+  generateApplicationProblemReviewQualityReport,
+  loadCanonicalApplicationUnitIdentities,
+} = require('../application-problem-quality-report')
 
 const catalog = loadTemplateCatalog()
 const conceptMap = loadConceptMap()
@@ -49,6 +52,7 @@ function summarizeApplicationReviewCoverage(report) {
   const unitReports = Array.isArray(report?.unitReports) ? report.unitReports : []
   const issues = []
   const identities = new Set()
+  const canonicalIdentities = new Set(loadCanonicalApplicationUnitIdentities())
   const supportedStatuses = new Set([
     'pending',
     'partial',
@@ -67,8 +71,16 @@ function summarizeApplicationReviewCoverage(report) {
       issues.push({ code: 'application_review_duplicate_unit', message: `duplicate unit ${identity}` })
     }
     identities.add(identity)
+    if (!canonicalIdentities.has(identity)) {
+      issues.push({ code: 'application_review_unit_identity', message: `${identity} is not in the canonical inventory` })
+    }
     if (!supportedStatuses.has(unit.rolloutStatus)) {
       issues.push({ code: 'application_review_rollout_status', message: `${identity} has unsupported status ${unit.rolloutStatus}` })
+    }
+  }
+  for (const identity of canonicalIdentities) {
+    if (!identities.has(identity)) {
+      issues.push({ code: 'application_review_unit_identity', message: `canonical unit ${identity} is missing` })
     }
   }
   if (
@@ -85,6 +97,77 @@ function summarizeApplicationReviewCoverage(report) {
       code: error.code ?? 'application_review_source_audit',
       message: error.message ?? String(error),
     })))
+  }
+  const reviewedFamilies = Array.isArray(report?.reviewedFamilies) ? report.reviewedFamilies : []
+  const familyEvidence = Array.isArray(report?.familyEvidence) ? report.familyEvidence : []
+  const evidenceByKey = new Map()
+  for (const evidence of familyEvidence) {
+    if (evidenceByKey.has(evidence?.key)) {
+      issues.push({
+        code: 'application_review_duplicate_family_evidence',
+        message: `duplicate family evidence ${evidence?.key}`,
+      })
+    }
+    evidenceByKey.set(evidence?.key, evidence)
+  }
+  const reviewedKeys = new Set()
+  for (const reviewed of reviewedFamilies) {
+    if (reviewedKeys.has(reviewed?.key)) {
+      issues.push({
+        code: 'application_review_duplicate_family',
+        message: `duplicate reviewed family ${reviewed?.key}`,
+      })
+      continue
+    }
+    reviewedKeys.add(reviewed?.key)
+    const evidence = evidenceByKey.get(reviewed?.key)
+    if (!evidence) {
+      issues.push({
+        code: 'application_review_family_evidence',
+        message: `${reviewed?.key} (${reviewed?.source}) has no family evidence`,
+      })
+      continue
+    }
+    if (evidence.source !== reviewed.source || evidence.status !== 'passed') {
+      issues.push({
+        code: 'application_review_family_evidence',
+        message: `${reviewed.key} family evidence is ${evidence.status ?? 'missing'} or has the wrong source`,
+      })
+    }
+    for (const kind of ['representative', 'boundary']) {
+      const reviewCase = Array.isArray(evidence.cases)
+        ? evidence.cases.find((candidate) => candidate?.kind === kind)
+        : undefined
+      const code = `application_review_family_${kind}_evidence`
+      if (!reviewCase) {
+        issues.push({ code, message: `${reviewed.key} has no ${kind} evidence` })
+        continue
+      }
+      const requiredStatuses = [
+        ['status', reviewCase.status],
+        ['oracle', reviewCase.oracleStatus],
+        ['visual', reviewCase.visualStatus],
+        ['disclosure', reviewCase.disclosureStatus],
+        ['proof', reviewCase.proofStatus],
+      ]
+      const failed = requiredStatuses.filter(([, status]) => status !== 'passed')
+      if (failed.length > 0) {
+        issues.push({
+          code,
+          message: `${reviewed.key} ${kind} evidence failed: ${failed.map(([name, status]) => `${name}=${status ?? 'missing'}`).join(', ')}`,
+        })
+      }
+    }
+    if (
+      evidence.proof?.proven !== true ||
+      !Number.isSafeInteger(evidence.proof?.checkedCount) ||
+      evidence.proof.checkedCount < 1
+    ) {
+      issues.push({
+        code: 'application_review_family_proof_evidence',
+        message: `${reviewed.key} has no passing family proof evidence`,
+      })
+    }
   }
   const byGrade = Object.fromEntries(
     [...new Set(unitReports.map(unit => unit.grade))]
@@ -310,7 +393,7 @@ class ProblemQualityProvider {
           )
         }
       case 'application_metadata': {
-        const report = generateApplicationProblemQualityReport({ mode: 'work' })
+        const report = generateApplicationProblemReviewQualityReport({ mode: 'work' })
         return {
           output: {
             auditType,
@@ -324,7 +407,7 @@ class ProblemQualityProvider {
       case 'application_review_coverage': {
         return {
           output: summarizeApplicationReviewCoverage(
-            generateApplicationProblemQualityReport({ mode: 'work' })
+            generateApplicationProblemReviewQualityReport({ mode: 'work' })
           )
         }
       }

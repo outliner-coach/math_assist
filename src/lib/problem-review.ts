@@ -17,6 +17,18 @@ import {
 } from './application-problems/authoring-catalog'
 import { generateApplicationProblem } from './application-problems/generator'
 import {
+  G2_LENGTH_EXHAUSTIVE_PROOFS,
+  G2_LENGTH_PROOF_AUTHORITY_ENTRIES,
+} from './application-problems/families/g2-length-proof-registration'
+import {
+  G5_GEOMETRY_PROOF_AUTHORITY_SOURCES_V1,
+  G5_GEOMETRY_PROOF_IMPLEMENTATION_RECORDS_V1,
+} from './application-problems/families/grade5-geometry-proof-registration'
+import {
+  G6_RATIO_PROOF_AUTHORITIES,
+  G6_RATIO_PROOFS,
+} from './application-problems/families/g6-ratio-proof'
+import {
   getProductionApplicationFamilyEvidence,
   type ApplicationFamilyQualityEvidenceRow,
 } from './application-problems/quality-evidence'
@@ -1188,6 +1200,31 @@ interface ApplicationProofEvidence {
   issues: string[]
 }
 
+export type ApplicationReviewEvidenceStatus = 'passed' | 'failed' | 'missing' | 'blocked'
+
+export interface ApplicationProblemReviewCaseEvidence {
+  kind: 'representative' | 'boundary'
+  caseId: string
+  status: ApplicationReviewEvidenceStatus
+  oracleStatus: ApplicationReviewEvidenceStatus
+  visualStatus: ApplicationReviewEvidenceStatus
+  disclosureStatus: ApplicationReviewEvidenceStatus
+  proofStatus: ApplicationReviewEvidenceStatus
+  issues: string[]
+}
+
+export interface ApplicationProblemReviewFamilyEvidence {
+  key: string
+  familyId: string
+  version: number
+  source: 'draft' | 'production'
+  status: ApplicationReviewEvidenceStatus
+  deterministicSample: boolean
+  proof: ApplicationProofEvidence
+  cases: ApplicationProblemReviewCaseEvidence[]
+  issues: string[]
+}
+
 export interface ApplicationProblemReviewCase {
   kind: 'representative' | 'boundary'
   problem: {
@@ -1211,12 +1248,20 @@ export interface ApplicationProblemReviewCase {
     oracleAnswer: string | null
     answerMatches: boolean
     visualValid: boolean
+    answerDisclosureSafe: boolean
     proofAuthorityId: string | null
+    oracleStatus: ApplicationReviewEvidenceStatus
+    visualStatus: ApplicationReviewEvidenceStatus
+    disclosureStatus: ApplicationReviewEvidenceStatus
+    proofStatus: ApplicationReviewEvidenceStatus
+    status: ApplicationReviewEvidenceStatus
+    issues: string[]
   }
   visual: {
     semantics: 'decorative' | 'schematic' | 'quantitative'
     before: { scene: ValidatedApplicationVisualScene | null; showAnswer: false }
     after: { scene: ValidatedApplicationVisualScene | null; showAnswer: true }
+    resolutionStatus: 'ready' | 'none' | 'omitted' | 'blocked'
   }
 }
 
@@ -1228,6 +1273,11 @@ export interface ApplicationProblemReviewRow {
   version: number
   unitId: string
   packId: string
+  packVersion: number | null
+  metadataEvidence: {
+    status: 'passed' | 'missing'
+    issues: string[]
+  }
   source: 'draft' | 'production'
   conceptIds: string[]
   cognitiveDomain: ApplicationProblemFamilyV1['cognitiveDomain']
@@ -1249,9 +1299,10 @@ export interface ApplicationProblemReviewRow {
     deterministicSample: boolean
     proof: ApplicationProofEvidence
     audit: { status: 'passed' | 'failed'; issues: string[] }
-    visual: { status: 'ready' | 'none'; resolver: 'resolveApplicationVisual' }
+    visual: { status: 'ready' | 'none' | 'omitted' | 'blocked'; resolver: 'resolveApplicationVisual' }
   }
   reviewCases: ApplicationProblemReviewCase[]
+  familyEvidence: ApplicationProblemReviewFamilyEvidence
 }
 
 export interface ApplicationProblemReviewUnit {
@@ -1283,6 +1334,8 @@ export interface ApplicationProblemReviewData {
   }
   units: ApplicationProblemReviewUnit[]
   rows: ApplicationProblemReviewRow[]
+  reviewedFamilies: Array<{ key: string; source: 'draft' | 'production' }>
+  familyEvidence: ApplicationProblemReviewFamilyEvidence[]
 }
 
 function makeApplicationReviewOptions(values: Iterable<string>): ApplicationReviewOption[] {
@@ -1331,19 +1384,144 @@ type ProductionApplicationReviewEvidence = {
   }[]
 }
 
+interface ProductionApplicationReviewCaseDeclaration {
+  caseId: string
+  proofCaseId?: string
+  kind: 'representative' | 'boundary'
+  seed: number
+  variantIndex: number
+}
+
+interface ProductionApplicationReviewDeclaration {
+  family: Pick<ApplicationProblemFamilyV1, 'familyId' | 'version'>
+  proofAuthorityId: string
+  cases: readonly ProductionApplicationReviewCaseDeclaration[]
+  oracle(
+    problem: GeneratedApplicationProblemV1,
+    reviewCase: ProductionApplicationReviewCaseDeclaration,
+  ): unknown
+  visualValidator?(problem: GeneratedApplicationProblemV1): boolean
+}
+
+function normalizeApplicationReviewOracleAnswer(value: unknown): string | null {
+  if (typeof value === 'string') return value
+  if (value && typeof value === 'object' && typeof (value as { normalized?: unknown }).normalized === 'string') {
+    return (value as { normalized: string }).normalized
+  }
+  return null
+}
+
+function proofDomainCases(proof: {
+  domain: {
+    cases: readonly { caseId: string; seed: number }[]
+    variantIndexes: readonly number[]
+  }
+}) {
+  return proof.domain.cases.flatMap((testCase) => proof.domain.variantIndexes.map((variantIndex) => ({
+    ...testCase,
+    variantIndex,
+  })))
+}
+
+function representativeAndBoundaryCases(
+  cases: readonly { caseId: string; seed: number; variantIndex: number }[],
+): ProductionApplicationReviewCaseDeclaration[] {
+  if (cases.length === 0) return []
+  const endpoints = [
+    { ...cases[0], kind: 'representative' as const },
+    { ...cases[cases.length - 1], kind: 'boundary' as const },
+  ]
+  return endpoints.map((testCase) => ({
+    ...testCase,
+    proofCaseId: testCase.caseId,
+    caseId: `${testCase.caseId}-${testCase.kind}`,
+  }))
+}
+
+function defaultProductionReviewDeclarations(): ProductionApplicationReviewDeclaration[] {
+  const declarations: ProductionApplicationReviewDeclaration[] = []
+
+  G2_LENGTH_EXHAUSTIVE_PROOFS.forEach((proof) => {
+    const authority = G2_LENGTH_PROOF_AUTHORITY_ENTRIES.find((candidate) => (
+      candidate.familyId === proof.family.familyId && candidate.familyVersion === proof.family.version
+    ))
+    if (!authority) return
+    declarations.push({
+      family: proof.family,
+      proofAuthorityId: authority.manifest.authorityId,
+      cases: representativeAndBoundaryCases(proofDomainCases(proof)),
+      oracle: (problem, reviewCase) => proof.oracle.evaluate({
+        caseId: reviewCase.proofCaseId ?? reviewCase.caseId,
+        seed: reviewCase.seed,
+        variantIndex: reviewCase.variantIndex,
+        params: problem.params,
+        mathModel: problem.visual.mathModel,
+      }),
+    })
+  })
+
+  G5_GEOMETRY_PROOF_AUTHORITY_SOURCES_V1.forEach((authority) => {
+    const oracle = G5_GEOMETRY_PROOF_IMPLEMENTATION_RECORDS_V1.find((candidate) => (
+      candidate.kind === 'oracle' && candidate.implementationId === authority.oracleRef.implementationId
+    ))
+    if (!oracle || oracle.kind !== 'oracle') return
+    declarations.push({
+      family: { familyId: authority.familyId, version: authority.familyVersion },
+      proofAuthorityId: authority.authorityId,
+      cases: representativeAndBoundaryCases(authority.domain),
+      oracle: (problem, reviewCase) => oracle.execute({
+        caseId: reviewCase.proofCaseId ?? reviewCase.caseId,
+        seed: reviewCase.seed,
+        variantIndex: reviewCase.variantIndex,
+        params: problem.params,
+        mathModel: problem.visual.mathModel,
+      }),
+    })
+  })
+
+  G6_RATIO_PROOFS.forEach((proof) => {
+    const authority = G6_RATIO_PROOF_AUTHORITIES.find((candidate) => (
+      candidate.familyId === proof.family.familyId && candidate.familyVersion === proof.family.version
+    ))
+    if (!authority) return
+    declarations.push({
+      family: proof.family,
+      proofAuthorityId: authority.manifest.authorityId,
+      cases: representativeAndBoundaryCases(proofDomainCases(proof)),
+      oracle: (problem, reviewCase) => proof.oracle.evaluate({
+        caseId: reviewCase.proofCaseId ?? reviewCase.caseId,
+        seed: reviewCase.seed,
+        variantIndex: reviewCase.variantIndex,
+        params: problem.params,
+        mathModel: problem.visual.mathModel,
+      }),
+    })
+  })
+
+  return declarations
+}
+
 interface ApplicationReviewBuildInput {
   authoringCatalog?: ReviewOnlyApplicationAuthoringCatalogV1
   productionRegistry?: ApplicationProblemRegistryV1
   productionEvidence?: ProductionApplicationReviewEvidence
   productionPacks?: readonly UnitKnowledgePackV1[]
+  productionReviewDeclarations?: readonly ProductionApplicationReviewDeclaration[]
   unitInventory?: readonly ApplicationUnitInventoryEntryV1[]
 }
 
 function productionReviewProblems(
   entry: ApplicationProblemRegistryEntryV1,
   snapshot: ProductionApplicationReviewEvidence['generatedSnapshots'][number] | undefined,
-  entryIndex: number,
-): Array<{ caseId: string; kind: 'representative' | 'boundary'; first: GeneratedApplicationProblemV1; second: GeneratedApplicationProblemV1 }> {
+  declaration: ProductionApplicationReviewDeclaration | undefined,
+): Array<{
+  caseId: string
+  kind: 'representative' | 'boundary'
+  first: GeneratedApplicationProblemV1
+  second: GeneratedApplicationProblemV1
+  declaration: ProductionApplicationReviewDeclaration | undefined
+  declaredCase: ProductionApplicationReviewCaseDeclaration | undefined
+}> {
   if (entry.runtime.kind === 'static-corpus') {
     const representative = entry.runtime.entries[0]?.problem
     const boundary = entry.runtime.entries.at(-1)?.problem
@@ -1351,9 +1529,34 @@ function productionReviewProblems(
       throw new Error(`Static review corpus is empty for ${applicationFamilyKey(entry.family)}`)
     }
     return [
-      { caseId: 'production-representative', kind: 'representative', first: representative, second: representative },
-      { caseId: 'production-boundary', kind: 'boundary', first: boundary, second: boundary },
+      {
+        caseId: `${entry.runtime.entries[0].corpusId}-representative`,
+        kind: 'representative',
+        first: representative,
+        second: representative,
+        declaration,
+        declaredCase: declaration?.cases.find((reviewCase) => reviewCase.kind === 'representative'),
+      },
+      {
+        caseId: `${entry.runtime.entries.at(-1)!.corpusId}-boundary`,
+        kind: 'boundary',
+        first: boundary,
+        second: boundary,
+        declaration,
+        declaredCase: declaration?.cases.find((reviewCase) => reviewCase.kind === 'boundary'),
+      },
     ]
+  }
+  if (!declaration) {
+    if (!snapshot) return []
+    return [{
+      caseId: 'production-representative-evidence',
+      kind: 'representative',
+      first: snapshot.first,
+      second: snapshot.second,
+      declaration: undefined,
+      declaredCase: undefined,
+    }]
   }
   const generator = entry.runtime.generator
   const generate = (seed: number, variantIndex: number) => generateApplicationProblem({
@@ -1364,24 +1567,35 @@ function productionReviewProblems(
     variantIndex,
     maxAttempts: generator.maxAttempts,
   })
-  const representativeSeed = snapshot?.seed ?? 1_700 + entryIndex
-  const representativeFirst = snapshot?.first ?? generate(representativeSeed, 0)
-  const representativeSecond = snapshot?.second ?? generate(representativeSeed, 0)
-  const boundarySeed = representativeSeed + 10_000
-  return [
-    {
-      caseId: 'production-representative',
-      kind: 'representative',
-      first: representativeFirst,
-      second: representativeSecond,
-    },
-    {
-      caseId: 'production-boundary',
-      kind: 'boundary',
-      first: generate(boundarySeed, 1),
-      second: generate(boundarySeed, 1),
-    },
-  ]
+  return declaration.cases.map((reviewCase) => {
+    if (reviewCase.kind === 'representative' && snapshot) {
+      const generatedCaseId = typeof snapshot.first.params.caseId === 'string'
+        ? snapshot.first.params.caseId
+        : reviewCase.proofCaseId
+      return {
+        caseId: 'production-runtime-sample-representative',
+        kind: reviewCase.kind,
+        first: generate(snapshot.seed, snapshot.first.variantIndex),
+        second: generate(snapshot.seed, snapshot.first.variantIndex),
+        declaration,
+        declaredCase: {
+          ...reviewCase,
+          caseId: 'production-runtime-sample-representative',
+          proofCaseId: generatedCaseId,
+          seed: snapshot.seed,
+          variantIndex: snapshot.first.variantIndex,
+        },
+      }
+    }
+    return {
+      caseId: reviewCase.caseId,
+      kind: reviewCase.kind,
+      first: generate(reviewCase.seed, reviewCase.variantIndex),
+      second: generate(reviewCase.seed, reviewCase.variantIndex),
+      declaration,
+      declaredCase: reviewCase,
+    }
+  })
 }
 
 function draftReviewProblems(candidate: DraftApplicationFamilyCandidateV1) {
@@ -1408,15 +1622,49 @@ function draftReviewProblems(candidate: DraftApplicationFamilyCandidateV1) {
 
 function toReviewVisual(problem: GeneratedApplicationProblemV1) {
   const visual = resolveApplicationVisual(problem.visual)
-  if (visual.status === 'blocked') {
-    throw new Error(`Application visual resolver blocked ${problem.familyId}@${problem.generatorVersion}`)
-  }
   const scene = visual.status === 'ready' ? visual.scene : null
   return {
     semantics: problem.visual.semantics ?? 'decorative',
     before: { scene, showAnswer: false as const },
     after: { scene, showAnswer: true as const },
+    resolutionStatus: visual.status,
   }
+}
+
+function collectApplicationReviewBeforeText(value: unknown, collected: string[] = []): string[] {
+  if (Array.isArray(value)) {
+    value.forEach((entry) => collectApplicationReviewBeforeText(entry, collected))
+  } else if (value && typeof value === 'object') {
+    Object.entries(value).forEach(([key, entry]) => {
+      if (key === 'after') return
+      if (
+        key === 'before' &&
+        entry &&
+        typeof entry === 'object' &&
+        typeof (entry as { text?: unknown }).text === 'string'
+      ) {
+        collected.push((entry as { text: string }).text)
+      }
+      collectApplicationReviewBeforeText(entry, collected)
+    })
+  }
+  return collected
+}
+
+function applicationReviewDisclosureStatus(problem: GeneratedApplicationProblemV1) {
+  const answer = problem.answer.normalized.trim()
+  return answer !== '' && collectApplicationReviewBeforeText(problem.visual).some((text) => text.trim() === answer)
+    ? 'failed' as const
+    : 'passed' as const
+}
+
+function combinedApplicationReviewStatus(
+  statuses: readonly ApplicationReviewEvidenceStatus[],
+): ApplicationReviewEvidenceStatus {
+  if (statuses.every((status) => status === 'passed')) return 'passed'
+  if (statuses.includes('blocked')) return 'blocked'
+  if (statuses.includes('missing')) return 'missing'
+  return 'failed'
 }
 
 function problemReviewCase(input: {
@@ -1425,14 +1673,67 @@ function problemReviewCase(input: {
   kind: 'representative' | 'boundary'
   first: GeneratedApplicationProblemV1
   second: GeneratedApplicationProblemV1
-  oracleAnswer: string | null
-  answerMatches: boolean
-  visualValid: boolean
+  oracle?: (problem: GeneratedApplicationProblemV1) => unknown
+  visualValidator?: (problem: GeneratedApplicationProblemV1) => boolean
   proofAuthorityId: string | null
 }): ApplicationProblemReviewCase {
   const answer = input.first.answer.normalized
   const choices = [...(input.first.choices ?? [])]
   const correctChoiceIndex = input.first.correctChoiceIndex ?? null
+  const deterministic = stableApplicationReviewJson(input.first) === stableApplicationReviewJson(input.second)
+  const visual = toReviewVisual(input.first)
+  const issues: string[] = []
+  let oracleAnswer: string | null = null
+  let oracleStatus: ApplicationReviewEvidenceStatus = 'missing'
+  if (!input.oracle) {
+    issues.push('missing independent oracle evidence')
+  } else {
+    try {
+      oracleAnswer = normalizeApplicationReviewOracleAnswer(input.oracle(input.first))
+      oracleStatus = oracleAnswer === null ? 'missing' : oracleAnswer === answer ? 'passed' : 'failed'
+      if (oracleStatus !== 'passed') issues.push('independent oracle disagrees with the generated answer')
+    } catch (error) {
+      oracleStatus = 'blocked'
+      issues.push(`independent oracle blocked: ${error instanceof Error ? error.message : String(error)}`)
+    }
+  }
+  let visualStatus: ApplicationReviewEvidenceStatus =
+    visual.resolutionStatus === 'ready' || visual.resolutionStatus === 'none'
+      ? 'passed'
+      : visual.resolutionStatus === 'blocked'
+        ? 'blocked'
+        : 'failed'
+  if (visualStatus === 'passed' && input.visualValidator) {
+    try {
+      if (!input.visualValidator(input.first)) visualStatus = 'failed'
+    } catch (error) {
+      visualStatus = 'blocked'
+      issues.push(`declared visual validator blocked: ${error instanceof Error ? error.message : String(error)}`)
+    }
+  }
+  if (visualStatus !== 'passed' && !issues.some((issue) => issue.includes('visual'))) {
+    issues.push(`visual evidence ${visualStatus}`)
+  }
+  const disclosureStatus = applicationReviewDisclosureStatus(input.first)
+  if (disclosureStatus !== 'passed') issues.push('answer-only value is exposed before submission')
+  if (!deterministic) issues.push('declared review case is not deterministic')
+  const proofPrerequisites: ApplicationReviewEvidenceStatus[] = [
+    deterministic ? 'passed' : 'failed',
+    oracleStatus,
+    visualStatus,
+    disclosureStatus,
+  ]
+  const proofStatus = input.proofAuthorityId === null
+    ? 'missing'
+    : combinedApplicationReviewStatus(proofPrerequisites)
+  if (proofStatus === 'missing') issues.push('missing case-specific proof authority')
+  const status = combinedApplicationReviewStatus([
+    oracleStatus,
+    visualStatus,
+    disclosureStatus,
+    proofStatus,
+    deterministic ? 'passed' : 'failed',
+  ])
   return {
     kind: input.kind,
     problem: {
@@ -1452,24 +1753,31 @@ function problemReviewCase(input: {
       instanceId: input.first.instanceId,
       seed: input.first.seed,
       variantIndex: input.first.variantIndex,
-      deterministic: stableApplicationReviewJson(input.first) === stableApplicationReviewJson(input.second),
+      deterministic,
     },
     independentVerification: {
-      oracleAnswer: input.oracleAnswer,
-      answerMatches: input.answerMatches,
-      visualValid: input.visualValid,
+      oracleAnswer,
+      answerMatches: oracleStatus === 'passed',
+      visualValid: visualStatus === 'passed',
+      answerDisclosureSafe: disclosureStatus === 'passed',
       proofAuthorityId: input.proofAuthorityId,
+      oracleStatus,
+      visualStatus,
+      disclosureStatus,
+      proofStatus,
+      status,
+      issues,
     },
-    visual: toReviewVisual(input.first),
+    visual,
   }
 }
 
 function packMisconceptions(
-  pack: UnitKnowledgePackV1,
+  pack: UnitKnowledgePackV1 | undefined,
   problem: Pick<GeneratedApplicationProblemV1, 'misconceptionRefs'>,
 ) {
   const misconceptionById = new Map(
-    pack.concepts.flatMap((concept) => concept.misconceptions.map((misconception) => [
+    (pack?.concepts ?? []).flatMap((concept) => concept.misconceptions.map((misconception) => [
       misconception.id,
       { id: misconception.id, description: misconception.description },
     ])),
@@ -1482,7 +1790,9 @@ function packMisconceptions(
 
 function rowFromCases(input: {
   family: ApplicationProblemFamilyV1
-  pack: UnitKnowledgePackV1
+  pack: UnitKnowledgePackV1 | undefined
+  packVersion: number | null
+  metadataIssues: string[]
   inventoryUnit: ApplicationUnitInventoryEntryV1
   source: 'draft' | 'production'
   cases: ApplicationProblemReviewCase[]
@@ -1493,6 +1803,42 @@ function rowFromCases(input: {
   if (!representative) {
     throw new Error(`Missing representative review problem for ${applicationFamilyKey(input.family)}`)
   }
+  const caseEvidence = input.cases.map((reviewCase): ApplicationProblemReviewCaseEvidence => ({
+    kind: reviewCase.kind,
+    caseId: reviewCase.reproducibility.caseId,
+    status: reviewCase.independentVerification.status,
+    oracleStatus: reviewCase.independentVerification.oracleStatus,
+    visualStatus: reviewCase.independentVerification.visualStatus,
+    disclosureStatus: reviewCase.independentVerification.disclosureStatus,
+    proofStatus: reviewCase.independentVerification.proofStatus,
+    issues: [...reviewCase.independentVerification.issues],
+  }))
+  const missingCaseKinds = (['representative', 'boundary'] as const).filter((kind) => (
+    !caseEvidence.some((evidence) => evidence.kind === kind)
+  ))
+  const familyIssues = Array.from(new Set([
+    ...input.metadataIssues,
+    ...input.audit.issues,
+    ...missingCaseKinds.map((kind) => `missing declared ${kind} review evidence`),
+    ...caseEvidence.flatMap((evidence) => evidence.issues.map((issue) => `${evidence.kind}: ${issue}`)),
+  ]))
+  const familyStatus = combinedApplicationReviewStatus([
+    input.metadataIssues.length === 0 ? 'passed' : 'missing',
+    input.audit.status === 'passed' ? 'passed' : 'failed',
+    ...missingCaseKinds.map(() => 'missing' as const),
+    ...caseEvidence.map((evidence) => evidence.status),
+  ])
+  const familyEvidence: ApplicationProblemReviewFamilyEvidence = {
+    key: applicationFamilyKey(input.family),
+    familyId: input.family.familyId,
+    version: input.family.version,
+    source: input.source,
+    status: familyStatus,
+    deterministicSample: input.cases.every((reviewCase) => reviewCase.reproducibility.deterministic),
+    proof: input.proof,
+    cases: caseEvidence,
+    issues: familyIssues,
+  }
   return {
     grade: input.inventoryUnit.grade,
     semester: input.inventoryUnit.semester,
@@ -1501,6 +1847,11 @@ function rowFromCases(input: {
     version: input.family.version,
     unitId: input.family.unitId,
     packId: input.family.packId,
+    packVersion: input.packVersion,
+    metadataEvidence: {
+      status: input.metadataIssues.length === 0 ? 'passed' : 'missing',
+      issues: [...input.metadataIssues],
+    },
     source: input.source,
     conceptIds: [...input.family.conceptIds],
     cognitiveDomain: input.family.cognitiveDomain,
@@ -1523,13 +1874,17 @@ function rowFromCases(input: {
     automaticChecks: {
       deterministicSample: input.cases.every((reviewCase) => reviewCase.reproducibility.deterministic),
       proof: input.proof,
-      audit: input.audit,
+      audit: {
+        status: familyIssues.length === 0 ? 'passed' : 'failed',
+        issues: familyIssues,
+      },
       visual: {
-        status: representative.visual.before.scene === null ? 'none' : 'ready',
+        status: representative.visual.resolutionStatus,
         resolver: 'resolveApplicationVisual',
       },
     },
     reviewCases: input.cases,
+    familyEvidence,
   }
 }
 
@@ -1543,6 +1898,56 @@ function sortApplicationReviewRows(rows: ApplicationProblemReviewRow[]) {
   ))
 }
 
+function applicationPackKey(packId: string, packVersion: number) {
+  return `${packId}@${packVersion}`
+}
+
+function productionSourcePackVersion(
+  entry: ApplicationProblemRegistryEntryV1,
+  snapshot: ProductionApplicationReviewEvidence['generatedSnapshots'][number] | undefined,
+): number | null {
+  if (entry.runtime.kind === 'deterministic-generator') return entry.runtime.generator.packVersion
+  const versions = new Set<number>()
+  entry.runtime.entries.forEach((corpusEntry) => {
+    if (Number.isSafeInteger(corpusEntry.problem.packVersion) && corpusEntry.problem.packVersion > 0) {
+      versions.add(corpusEntry.problem.packVersion)
+    }
+  })
+  for (const problem of snapshot ? [snapshot.first, snapshot.second] : []) {
+    if (Number.isSafeInteger(problem.packVersion) && problem.packVersion > 0) versions.add(problem.packVersion)
+  }
+  return versions.size === 1 ? Array.from(versions)[0] : null
+}
+
+function resolveProductionReviewPack(input: {
+  entry: ApplicationProblemRegistryEntryV1
+  snapshot: ProductionApplicationReviewEvidence['generatedSnapshots'][number] | undefined
+  packsByIdentity: ReadonlyMap<string, readonly UnitKnowledgePackV1[]>
+  packsById: ReadonlyMap<string, readonly UnitKnowledgePackV1[]>
+}) {
+  const packVersion = productionSourcePackVersion(input.entry, input.snapshot)
+  if (packVersion !== null) {
+    const matches = input.packsByIdentity.get(applicationPackKey(input.entry.family.packId, packVersion)) ?? []
+    if (matches.length === 1) return { pack: matches[0], packVersion, issues: [] as string[] }
+    return {
+      pack: undefined,
+      packVersion,
+      issues: [matches.length === 0
+        ? `missing production pack ${applicationPackKey(input.entry.family.packId, packVersion)}`
+        : `ambiguous production pack identity ${applicationPackKey(input.entry.family.packId, packVersion)}`],
+    }
+  }
+  const legacyMatches = input.packsById.get(input.entry.family.packId) ?? []
+  if (legacyMatches.length === 1) {
+    return { pack: legacyMatches[0], packVersion: legacyMatches[0].version, issues: [] as string[] }
+  }
+  return {
+    pack: undefined,
+    packVersion: null,
+    issues: [`ambiguous production pack version for ${input.entry.family.packId}`],
+  }
+}
+
 export function buildApplicationProblemReviewData(
   input: ApplicationReviewBuildInput = {},
 ): ApplicationProblemReviewData {
@@ -1550,28 +1955,44 @@ export function buildApplicationProblemReviewData(
   const productionRegistry = input.productionRegistry ?? APPLICATION_PROBLEM_REGISTRY_V1
   const productionEvidence = input.productionEvidence ?? getProductionApplicationFamilyEvidence()
   const productionPacks = input.productionPacks ?? loadApplicationReviewProductionPacks()
+  const productionReviewDeclarations = input.productionReviewDeclarations ?? defaultProductionReviewDeclarations()
   const unitInventory = input.unitInventory ?? APPLICATION_UNIT_INVENTORY_V1
   const unitByIdentity = new Map(unitInventory.map((unit) => [`${unit.grade}:${unit.unitId}`, unit]))
   const unitById = new Map(unitInventory.map((unit) => [unit.unitId, unit]))
-  const packById = new Map(productionPacks.map((pack) => [pack.packId, pack]))
+  const packsByIdentity = new Map<string, UnitKnowledgePackV1[]>()
+  const packsById = new Map<string, UnitKnowledgePackV1[]>()
+  productionPacks.forEach((pack) => {
+    const byIdentity = packsByIdentity.get(applicationPackKey(pack.packId, pack.version)) ?? []
+    byIdentity.push(pack)
+    packsByIdentity.set(applicationPackKey(pack.packId, pack.version), byIdentity)
+    const byId = packsById.get(pack.packId) ?? []
+    byId.push(pack)
+    packsById.set(pack.packId, byId)
+  })
   const evidenceByFamily = new Map(productionEvidence.rows.map((evidence) => [evidence.key, evidence]))
   const snapshotByFamily = new Map(productionEvidence.generatedSnapshots.map((snapshot) => [
     applicationFamilyKey(snapshot.family),
     snapshot,
   ]))
-  const oracleByFamily = new Map((productionEvidence.oracleResults ?? []).map((result) => [
-    applicationFamilyKey(result.family),
-    result,
+  const declarationByFamily = new Map(productionReviewDeclarations.map((declaration) => [
+    applicationFamilyKey(declaration.family),
+    declaration,
   ]))
   const rowsByFamily = new Map<string, ApplicationProblemReviewRow>()
 
-  productionRegistry.entries.forEach((entry, entryIndex) => {
+  productionRegistry.entries.forEach((entry) => {
     const key = applicationFamilyKey(entry.family)
-    const pack = packById.get(entry.family.packId)
-    const inventoryUnit = pack
-      ? unitByIdentity.get(`${pack.grade}:${pack.unitId}`)
+    const snapshot = snapshotByFamily.get(key)
+    const packResolution = resolveProductionReviewPack({
+      entry,
+      snapshot,
+      packsByIdentity,
+      packsById,
+    })
+    const inventoryUnit = packResolution.pack
+      ? unitByIdentity.get(`${packResolution.pack.grade}:${packResolution.pack.unitId}`)
       : unitById.get(entry.family.unitId)
-    if (!pack || !inventoryUnit) {
+    if (!inventoryUnit) {
       throw new Error(`Missing production review metadata for ${key}`)
     }
     const evidence = evidenceByFamily.get(key) ?? {
@@ -1593,22 +2014,25 @@ export function buildApplicationProblemReviewData(
         issues: ['missing production quality evidence'],
       },
     }
-    const oracle = oracleByFamily.get(key)
-    const cases = productionReviewProblems(entry, snapshotByFamily.get(key), entryIndex).map((reviewCase) => (
+    const declaration = declarationByFamily.get(key)
+    const cases = productionReviewProblems(entry, snapshot, declaration).map((reviewCase) => (
       problemReviewCase({
         family: entry.family,
         ...reviewCase,
-        oracleAnswer: reviewCase.kind === 'representative' ? oracle?.answer ?? null : null,
-        answerMatches: reviewCase.kind === 'representative'
-          ? oracle?.valid ?? evidence.status === 'passed'
-          : evidence.proof.proven,
-        visualValid: evidence.audit.status === 'passed',
-        proofAuthorityId: evidence.proof.authorityId,
+        oracle: reviewCase.declaration && reviewCase.declaredCase
+          ? (problem) => reviewCase.declaration!.oracle(problem, reviewCase.declaredCase!)
+          : undefined,
+        visualValidator: reviewCase.declaration?.visualValidator,
+        proofAuthorityId: reviewCase.declaration && reviewCase.declaredCase
+          ? reviewCase.declaration.proofAuthorityId
+          : null,
       })
     ))
     rowsByFamily.set(key, rowFromCases({
       family: entry.family,
-      pack,
+      pack: packResolution.pack,
+      packVersion: packResolution.packVersion,
+      metadataIssues: packResolution.issues,
       inventoryUnit,
       source: 'production',
       cases,
@@ -1627,25 +2051,23 @@ export function buildApplicationProblemReviewData(
       if (rowsByFamily.has(key)) return
       const reviewProblems = draftReviewProblems(candidate)
       const cases = reviewProblems.map((reviewCase) => {
-        const oracleAnswer = candidate.oracle(reviewCase.first)
         return problemReviewCase({
           family: candidate.family,
           ...reviewCase,
-          oracleAnswer,
-          answerMatches: oracleAnswer === reviewCase.first.answer.normalized,
-          visualValid: candidate.visualValidator(reviewCase.first),
+          oracle: (problem) => candidate.oracle(problem),
+          visualValidator: (problem) => candidate.visualValidator(problem),
           proofAuthorityId: null,
         })
       })
       const passedCases = cases.filter((reviewCase) => (
-        reviewCase.reproducibility.deterministic &&
-        reviewCase.independentVerification.answerMatches &&
-        reviewCase.independentVerification.visualValid
+        reviewCase.independentVerification.status === 'passed'
       )).length
       const issues = passedCases === cases.length ? [] : ['draft representative or boundary evidence failed']
       rowsByFamily.set(key, rowFromCases({
         family: candidate.family,
         pack: unitCandidate.pack,
+        packVersion: unitCandidate.pack.version,
+        metadataIssues: [],
         inventoryUnit,
         source: 'draft',
         cases,
@@ -1698,6 +2120,11 @@ export function buildApplicationProblemReviewData(
     },
     units,
     rows,
+    reviewedFamilies: rows.map((row) => ({
+      key: applicationFamilyKey(row),
+      source: row.source,
+    })),
+    familyEvidence: rows.map((row) => row.familyEvidence),
   }
 }
 

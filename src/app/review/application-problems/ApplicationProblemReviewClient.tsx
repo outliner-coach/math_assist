@@ -139,6 +139,11 @@ function ReviewCase({
         </DetailSection>
         <DetailSection title="독립 검산">
           <ul className="space-y-1">
+            <li>케이스 판정: {reviewCase.independentVerification.status}</li>
+            <li>오라클 검사: {reviewCase.independentVerification.oracleStatus}</li>
+            <li>시각 검사: {reviewCase.independentVerification.visualStatus}</li>
+            <li>제출 전 노출 검사: {reviewCase.independentVerification.disclosureStatus}</li>
+            <li>케이스 증명: {reviewCase.independentVerification.proofStatus}</li>
             <li>정답 대조: {reviewCase.independentVerification.answerMatches ? '일치' : '불일치'}</li>
             <li>시각 검증: {reviewCase.independentVerification.visualValid ? '통과' : '실패'}</li>
             {reviewCase.independentVerification.oracleAnswer !== null && (
@@ -147,14 +152,19 @@ function ReviewCase({
             {reviewCase.independentVerification.proofAuthorityId !== null && (
               <li className="break-words">증명 권한: {reviewCase.independentVerification.proofAuthorityId}</li>
             )}
+            {reviewCase.independentVerification.issues.map((issue) => (
+              <li key={issue} className="text-rose-700">케이스 이슈: {issue}</li>
+            ))}
           </ul>
         </DetailSection>
       </div>
 
       <div className="mt-3">
         <DetailSection title={`시각 자료 · ${reviewCase.visual.semantics}`}>
-          {reviewCase.visual.before.scene === null || reviewCase.visual.after.scene === null ? (
-            <p>이 유형은 필수 시각 자료가 없습니다.</p>
+          {reviewCase.visual.resolutionStatus === 'blocked' || reviewCase.visual.resolutionStatus === 'omitted' ? (
+            <p className="text-rose-700">시각 자료 검증 {reviewCase.visual.resolutionStatus}</p>
+          ) : reviewCase.visual.before.scene === null || reviewCase.visual.after.scene === null ? (
+            <p>이 유형은 필수 시각 자료가 없습니다. · {reviewCase.visual.resolutionStatus}</p>
           ) : (
             <div className="grid gap-3 lg:grid-cols-2">
               <div
@@ -188,7 +198,9 @@ function ProblemCard({ row }: { row: ApplicationProblemReviewRow }) {
             {row.grade}학년 · {row.semester} · {row.unitTitle}
           </p>
           <h2 className="mt-1 break-words text-lg font-black text-slate-950">{row.familyId}</h2>
-          <p className="mt-1 text-xs text-slate-500">{row.unitId} · {row.conceptIds.join(', ')}</p>
+          <p className="mt-1 text-xs text-slate-500">
+            {row.unitId} · {row.packId}@{row.packVersion ?? 'unknown'} · {row.conceptIds.join(', ')}
+          </p>
         </div>
         <div className="flex flex-wrap gap-1.5 text-xs font-semibold">
           <span className="rounded-full bg-slate-100 px-2.5 py-1">v{row.version}</span>
@@ -222,6 +234,8 @@ function ProblemCard({ row }: { row: ApplicationProblemReviewRow }) {
       <div className="mt-4">
         <DetailSection title="자동 검사 근거">
           <ul className="space-y-1">
+            <li>메타데이터 근거: {row.metadataEvidence.status}</li>
+            <li>family 근거: {row.familyEvidence.status}</li>
             <li>감사 결과: {row.automaticChecks.audit.status === 'passed' ? '통과' : '실패'}</li>
             <li>결정적 생성 재현: {row.automaticChecks.deterministicSample ? '일치' : '불일치'}</li>
             <li>시각 해석: {row.automaticChecks.visual.resolver} → {row.automaticChecks.visual.status}</li>

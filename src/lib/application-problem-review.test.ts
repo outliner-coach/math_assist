@@ -7,8 +7,12 @@ import {
   APPLICATION_UNIT_INVENTORY_V1,
   createReviewOnlyAuthoringCatalog,
 } from './application-problems/authoring-catalog'
-import { parseUnitKnowledgePackV1 } from './application-problems/contracts'
+import {
+  parseUnitKnowledgePackV1,
+  type GeneratedApplicationProblemV1,
+} from './application-problems/contracts'
 import { GRADE5_APPLICATION_PROBLEM_REGISTRY_V1 } from './application-problems/grade5-registry'
+import { generateApplicationProblem } from './application-problems/generator'
 import { EMPTY_APPLICATION_PROBLEM_REGISTRY } from './application-problems/registry'
 import {
   buildApplicationProblemReviewData,
@@ -148,6 +152,149 @@ describe('application problem review catalog', () => {
     )
   })
 
+  it('resolves production metadata by pack id and runtime pack version', () => {
+    const entry = GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.entries[0]
+    if (entry.runtime.kind !== 'deterministic-generator') {
+      throw new Error('test fixture requires a deterministic generator')
+    }
+    const approvedV1 = parseUnitKnowledgePackV1(g5GeometryPack)
+    const draftV2 = parseUnitKnowledgePackV1({
+      ...JSON.parse(JSON.stringify(g5GeometryPack)),
+      version: 2,
+      releaseStatus: 'draft',
+      approval: {
+        ownerStatus: 'pending',
+        evidenceRefs: [],
+        expertStatus: 'not-reviewed',
+      },
+      concepts: approvedV1.concepts.map((concept) => ({
+        ...concept,
+        name: `V2 ${concept.name}`,
+        misconceptions: concept.misconceptions.map((misconception) => ({
+          ...misconception,
+          description: `V2 DRAFT ${misconception.description}`,
+        })),
+      })),
+    })
+    const row = buildApplicationProblemReviewData({
+      productionRegistry: {
+        entries: [entry],
+        releaseLedger: [GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger[0]],
+      },
+      productionPacks: [approvedV1, draftV2],
+      productionEvidence: { rows: [], generatedSnapshots: [] },
+    }).rows[0]
+
+    expect(row).toMatchObject({
+      packId: approvedV1.packId,
+      packVersion: 1,
+      releaseStatus: 'approved',
+    })
+    expect(row.misconceptions.some((misconception) => (
+      misconception.description.includes('V2 DRAFT')
+    ))).toBe(false)
+  })
+
+  it('fails closed when a legacy production source cannot resolve one pack version', () => {
+    const baseEntry = GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.entries[0]
+    if (baseEntry.runtime.kind !== 'deterministic-generator') {
+      throw new Error('test fixture requires a deterministic generator')
+    }
+    const generated = generateApplicationProblem({
+      family: baseEntry.family,
+      generator: baseEntry.runtime.generator,
+      packVersion: 1,
+      seed: 0,
+      variantIndex: 0,
+    })
+    const { packVersion: _packVersion, ...legacyProblem } = generated
+    const family = { ...baseEntry.family, runtimeMode: 'static-corpus' as const }
+    const approvedV1 = parseUnitKnowledgePackV1(g5GeometryPack)
+    const draftV2 = parseUnitKnowledgePackV1({
+      ...JSON.parse(JSON.stringify(g5GeometryPack)),
+      version: 2,
+      releaseStatus: 'draft',
+      approval: {
+        ownerStatus: 'pending',
+        evidenceRefs: [],
+        expertStatus: 'not-reviewed',
+      },
+    })
+    const row = buildApplicationProblemReviewData({
+      productionRegistry: {
+        entries: [{
+          family,
+          runtime: {
+            kind: 'static-corpus',
+            entries: [{
+              corpusId: 'legacy-review-corpus',
+              problem: legacyProblem as GeneratedApplicationProblemV1,
+              review: {
+                status: 'approved',
+                reviewerId: 'review-test',
+                reviewedAt: '2026-08-18T00:00:00.000Z',
+                evidenceRefs: ['src/lib/application-problem-review.test.ts'],
+              },
+            }],
+          },
+        }],
+        releaseLedger: [family],
+      },
+      productionPacks: [approvedV1, draftV2],
+      productionEvidence: { rows: [], generatedSnapshots: [] },
+    }).rows[0]
+
+    expect(row).toMatchObject({
+      packVersion: null,
+      metadataEvidence: { status: 'missing' },
+      automaticChecks: {
+        audit: {
+          status: 'failed',
+          issues: expect.arrayContaining([
+            expect.stringContaining('ambiguous production pack version'),
+          ]),
+        },
+      },
+    })
+  })
+
+  it('re-executes the production generator instead of trusting a corrupted snapshot payload', () => {
+    const entry = GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.entries[0]
+    if (entry.runtime.kind !== 'deterministic-generator') {
+      throw new Error('test fixture requires a deterministic generator')
+    }
+    const generated = generateApplicationProblem({
+      family: entry.family,
+      generator: entry.runtime.generator,
+      packVersion: entry.runtime.generator.packVersion,
+      seed: 1703,
+      variantIndex: 0,
+    })
+    const corrupted = {
+      ...generated,
+      answer: { ...generated.answer, normalized: 'CORRUPTED SNAPSHOT ANSWER' },
+    }
+    const representative = buildApplicationProblemReviewData({
+      productionRegistry: {
+        entries: [entry],
+        releaseLedger: [GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger[0]],
+      },
+      productionPacks: [parseUnitKnowledgePackV1(g5GeometryPack)],
+      productionEvidence: {
+        rows: [],
+        generatedSnapshots: [{
+          family: entry.family,
+          seed: 1703,
+          first: corrupted,
+          second: corrupted,
+        }],
+      },
+    }).rows[0].reviewCases.find((reviewCase) => reviewCase.kind === 'representative')
+
+    expect(representative?.problem.answer).not.toBe('CORRUPTED SNAPSHOT ANSWER')
+    expect(representative?.independentVerification.oracleStatus).toBe('passed')
+  })
+
   it('shows representative and boundary problems with reproducibility and independent checks', () => {
     const row = buildApplicationProblemReviewData({ authoringCatalog: draftCatalog() })
       .rows.find((candidate) => candidate.familyId === 'review-draft-family')
@@ -179,6 +326,106 @@ describe('application problem review catalog', () => {
         visualValid: true,
       })
     }
+    expect(row?.familyEvidence).toMatchObject({
+      status: 'missing',
+      cases: [
+        expect.objectContaining({ kind: 'representative', proofStatus: 'missing' }),
+        expect.objectContaining({ kind: 'boundary', proofStatus: 'missing' }),
+      ],
+    })
+  })
+
+  it('fails only the corrupted declared boundary evidence instead of inheriting representative proof', () => {
+    const baseEntry = GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.entries[0]
+    if (baseEntry.runtime.kind !== 'deterministic-generator') {
+      throw new Error('test fixture requires a deterministic generator')
+    }
+    const originalGenerator = baseEntry.runtime.generator
+    const entry = {
+      ...baseEntry,
+      runtime: {
+        kind: 'deterministic-generator' as const,
+        generator: {
+          ...originalGenerator,
+          sample(context: Parameters<typeof originalGenerator.sample>[0]) {
+            const sample = originalGenerator.sample(context)
+            if (!sample || context.variantIndex !== 1) return sample
+            const answer = originalGenerator.render({
+              params: sample.params,
+              mathModel: sample.mathModel,
+            }).answer.normalized
+            return {
+              ...sample,
+              mathModel: {
+                ...(sample.mathModel as Record<string, unknown>),
+                disclosureProbe: { before: { text: answer } },
+              },
+            }
+          },
+          render(context: Parameters<typeof originalGenerator.render>[0]) {
+            if (context.mathModel && typeof context.mathModel === 'object' && !Array.isArray(context.mathModel)) {
+              const { disclosureProbe: _disclosureProbe, ...mathModel } = context.mathModel
+              return originalGenerator.render({ ...context, mathModel })
+            }
+            return originalGenerator.render(context)
+          },
+        },
+      },
+    }
+    const productionReviewDeclarations = [{
+      family: { familyId: entry.family.familyId, version: entry.family.version },
+      proofAuthorityId: 'test-declared-proof-authority',
+      cases: [
+        { caseId: 'declared-representative', kind: 'representative' as const, seed: 0, variantIndex: 0 },
+        { caseId: 'declared-boundary', kind: 'boundary' as const, seed: 0, variantIndex: 1 },
+      ],
+      oracle(problem: GeneratedApplicationProblemV1) {
+        return problem.variantIndex === 1 ? 'corrupted-boundary-answer' : problem.answer.normalized
+      },
+      visualValidator(problem: GeneratedApplicationProblemV1) {
+        return problem.variantIndex !== 1
+      },
+    }]
+    const data = buildApplicationProblemReviewData({
+      productionRegistry: {
+        entries: [entry],
+        releaseLedger: [GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger[0]],
+      },
+      productionPacks: [parseUnitKnowledgePackV1(g5GeometryPack)],
+      productionReviewDeclarations,
+    } as Parameters<typeof buildApplicationProblemReviewData>[0] & {
+      productionReviewDeclarations: typeof productionReviewDeclarations
+    })
+    const representative = data.rows[0].reviewCases.find((reviewCase) => reviewCase.kind === 'representative')
+    const boundary = data.rows[0].reviewCases.find((reviewCase) => reviewCase.kind === 'boundary')
+
+    expect(representative?.independentVerification).toMatchObject({
+      oracleStatus: 'passed',
+      visualStatus: 'passed',
+      disclosureStatus: 'passed',
+      proofStatus: 'passed',
+    })
+    expect(boundary?.reproducibility).toMatchObject({
+      caseId: 'declared-boundary',
+      seed: 0,
+      variantIndex: 1,
+    })
+    expect(boundary?.independentVerification).toMatchObject({
+      oracleStatus: 'failed',
+      visualStatus: 'blocked',
+      disclosureStatus: 'failed',
+      proofStatus: 'blocked',
+    })
+    expect(data.rows[0]).toMatchObject({
+      automaticChecks: { audit: { status: 'failed' } },
+      familyEvidence: {
+        status: 'blocked',
+        cases: [
+          expect.objectContaining({ kind: 'representative', status: 'passed' }),
+          expect.objectContaining({ kind: 'boundary', status: 'blocked' }),
+        ],
+      },
+    })
   })
 
   it('shows missing production evidence as a failed review instead of hiding the family', () => {
