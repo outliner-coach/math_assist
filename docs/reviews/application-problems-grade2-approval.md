@@ -48,7 +48,7 @@ rollout 원장은 `releasedThroughGrade: 2`, `buildingGrade: 3`으로 한 단계
 
 ## 원격 배포와 공개 화면 확인
 
-- `main`과 `origin/main`: `e84bc255e5e10148e929d767943f06131a0489e4`
+- 승인 제품 코드 커밋: `e84bc255e5e10148e929d767943f06131a0489e4`
 - GitHub Actions: 실행 `32106502821`, build job `95616927853`, deploy job
   `95617256620`, 모두 성공
 - GitHub Pages: deployment `5957328567`, status `16946833417`, 배포 SHA와
