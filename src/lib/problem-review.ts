@@ -1,16 +1,30 @@
+import { readdirSync, readFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 
-import g2LengthPack from '../../public/data/application-problems/packs/g2-2-length.json'
-import g5GeometryPack from '../../public/data/application-problems/packs/unit-5-1-perimeter-area.json'
-import g6RatioPack from '../../public/data/application-problems/packs/unit-6-1-ratio.json'
-
 import {
   parseUnitKnowledgePackV1,
+  type GeneratedApplicationProblemV1,
   type ApplicationProblemFamilyV1,
+  type UnitKnowledgePackV1,
 } from './application-problems/contracts'
-import { getProductionApplicationFamilyEvidence } from './application-problems/quality-evidence'
+import {
+  APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
+  APPLICATION_UNIT_INVENTORY_V1,
+  type ApplicationUnitInventoryEntryV1,
+  type DraftApplicationFamilyCandidateV1,
+  type ReviewOnlyApplicationAuthoringCatalogV1,
+} from './application-problems/authoring-catalog'
+import { generateApplicationProblem } from './application-problems/generator'
+import {
+  getProductionApplicationFamilyEvidence,
+  type ApplicationFamilyQualityEvidenceRow,
+} from './application-problems/quality-evidence'
 import { APPLICATION_PROBLEM_REGISTRY_V1 } from './application-problems/registered-families'
+import type {
+  ApplicationProblemRegistryEntryV1,
+  ApplicationProblemRegistryV1,
+} from './application-problems/registry'
 import {
   resolveApplicationVisual,
   type ValidatedApplicationVisualScene,
@@ -1158,7 +1172,7 @@ export async function getProblemReviewData(): Promise<ProblemReviewData> {
   }
 }
 
-type ApplicationReviewGrade = 2 | 5 | 6
+type ApplicationReviewGrade = ApplicationUnitInventoryEntryV1['grade']
 
 interface ApplicationReviewOption {
   value: string
@@ -1174,14 +1188,51 @@ interface ApplicationProofEvidence {
   issues: string[]
 }
 
+export interface ApplicationProblemReviewCase {
+  kind: 'representative' | 'boundary'
+  problem: {
+    prompt: string
+    answer: string
+    answerFormat: 'number' | 'choice' | 'text'
+    choices: string[]
+    distractors: string[]
+    correctChoiceIndex: number | null
+    solutionSteps: string[]
+    hintSteps: string[]
+  }
+  reproducibility: {
+    caseId: string
+    instanceId: string
+    seed: number
+    variantIndex: number
+    deterministic: boolean
+  }
+  independentVerification: {
+    oracleAnswer: string | null
+    answerMatches: boolean
+    visualValid: boolean
+    proofAuthorityId: string | null
+  }
+  visual: {
+    semantics: 'decorative' | 'schematic' | 'quantitative'
+    before: { scene: ValidatedApplicationVisualScene | null; showAnswer: false }
+    after: { scene: ValidatedApplicationVisualScene | null; showAnswer: true }
+  }
+}
+
 export interface ApplicationProblemReviewRow {
   grade: ApplicationReviewGrade
+  semester: string
+  unitTitle: string
   familyId: string
   version: number
   unitId: string
   packId: string
+  source: 'draft' | 'production'
+  conceptIds: string[]
   cognitiveDomain: ApplicationProblemFamilyV1['cognitiveDomain']
   reasoningPattern: ApplicationProblemFamilyV1['reasoningPattern']
+  representations: ApplicationProblemFamilyV1['representations']
   standards: string[]
   proofMode: ApplicationProblemFamilyV1['proofMode']
   releaseStatus: ApplicationProblemFamilyV1['releaseStatus']
@@ -1193,160 +1244,463 @@ export interface ApplicationProblemReviewRow {
   solutionSteps: string[]
   hintSteps: string[]
   misconceptions: Array<{ id: string; description: string }>
-  visual: {
-    semantics: 'decorative' | 'schematic' | 'quantitative'
-    before: { scene: ValidatedApplicationVisualScene; showAnswer: false }
-    after: { scene: ValidatedApplicationVisualScene; showAnswer: true }
-  }
+  visual: ApplicationProblemReviewCase['visual']
   automaticChecks: {
     deterministicSample: boolean
     proof: ApplicationProofEvidence
     audit: { status: 'passed' | 'failed'; issues: string[] }
-    visual: { status: 'ready'; resolver: 'resolveApplicationVisual' }
+    visual: { status: 'ready' | 'none'; resolver: 'resolveApplicationVisual' }
   }
+  reviewCases: ApplicationProblemReviewCase[]
+}
+
+export interface ApplicationProblemReviewUnit {
+  grade: ApplicationReviewGrade
+  semester: string
+  unitId: string
+  title: string
+  familyCount: number
+  releaseStatuses: ApplicationProblemFamilyV1['releaseStatus'][]
 }
 
 export interface ApplicationProblemReviewData {
-  summary: { totalRows: number }
+  summary: {
+    totalRows: number
+    totalUnits: number
+    byGrade: Record<ApplicationReviewGrade, number>
+  }
   filters: {
     grades: ApplicationReviewGrade[]
+    semesters: ApplicationReviewOption[]
     units: ApplicationReviewOption[]
+    concepts: ApplicationReviewOption[]
     families: ApplicationReviewOption[]
-    versions: ApplicationReviewOption[]
     cognitiveDomains: ApplicationReviewOption[]
     reasoningPatterns: ApplicationReviewOption[]
-    standards: ApplicationReviewOption[]
+    representations: ApplicationReviewOption[]
     proofModes: ApplicationReviewOption[]
     releaseStatuses: ApplicationReviewOption[]
   }
+  units: ApplicationProblemReviewUnit[]
   rows: ApplicationProblemReviewRow[]
-}
-
-const APPLICATION_REVIEW_PACKS = [
-  parseUnitKnowledgePackV1(g2LengthPack),
-  parseUnitKnowledgePackV1(g5GeometryPack),
-  parseUnitKnowledgePackV1(g6RatioPack),
-]
-
-const applicationProductionEvidence = getProductionApplicationFamilyEvidence()
-const applicationEvidenceByFamily = new Map(
-  applicationProductionEvidence.rows.map((evidence) => [evidence.key, evidence]),
-)
-const applicationSnapshotByFamily = new Map(
-  applicationProductionEvidence.generatedSnapshots.map((snapshot) => [
-    `${snapshot.family.familyId}@${snapshot.family.version}`,
-    snapshot,
-  ]),
-)
-
-function getApplicationReviewPack(family: ApplicationProblemFamilyV1) {
-  const pack = APPLICATION_REVIEW_PACKS.find((candidate) => candidate.packId === family.packId)
-  if (!pack) throw new Error(`Missing knowledge pack for ${family.familyId}@${family.version}`)
-  return pack
-}
-
-function getApplicationProofEvidence(
-  family: ApplicationProblemFamilyV1,
-): ApplicationProofEvidence {
-  const evidence = applicationEvidenceByFamily.get(`${family.familyId}@${family.version}`)
-  if (!evidence) throw new Error(`Missing proof authority for ${family.familyId}@${family.version}`)
-  if (evidence.proof.mode !== family.proofMode) {
-    throw new Error(`Proof mode mismatch for ${family.familyId}@${family.version}`)
-  }
-  return evidence.proof
 }
 
 function makeApplicationReviewOptions(values: Iterable<string>): ApplicationReviewOption[] {
   return Array.from(new Set(values))
-    .sort((left, right) => left.localeCompare(right, 'ko'))
+    .sort((left, right) => left < right ? -1 : left > right ? 1 : 0)
     .map((value) => ({ value, label: value }))
 }
 
-function toApplicationProblemReviewRow(
-  entry: (typeof APPLICATION_PROBLEM_REGISTRY_V1.entries)[number],
-): ApplicationProblemReviewRow {
-  if (entry.runtime.kind !== 'deterministic-generator') {
-    throw new Error(`Unsupported review runtime: ${entry.family.familyId}@${entry.family.version}`)
+function stableApplicationReviewJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableApplicationReviewJson).join(',')}]`
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value as Record<string, unknown>)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${stableApplicationReviewJson((value as Record<string, unknown>)[key])}`)
+      .join(',')}}`
   }
+  return JSON.stringify(value) ?? 'undefined'
+}
 
-  const family = entry.family
-  const pack = getApplicationReviewPack(family)
-  const evidence = applicationEvidenceByFamily.get(`${family.familyId}@${family.version}`)
-  const snapshot = applicationSnapshotByFamily.get(`${family.familyId}@${family.version}`)
-  if (!evidence || !snapshot) {
-    throw new Error(`Missing production evidence for ${family.familyId}@${family.version}`)
+function applicationFamilyKey(family: Pick<ApplicationProblemFamilyV1, 'familyId' | 'version'>) {
+  return `${family.familyId}@${family.version}`
+}
+
+function loadApplicationReviewProductionPacks(): UnitKnowledgePackV1[] {
+  const directory = path.join(process.cwd(), 'public', 'data', 'application-problems', 'packs')
+  return readdirSync(directory)
+    .filter((file) => file.endsWith('.json'))
+    .sort()
+    .map((file) => parseUnitKnowledgePackV1(
+      JSON.parse(readFileSync(path.join(directory, file), 'utf8')),
+    ))
+}
+
+type ProductionApplicationReviewEvidence = {
+  rows: readonly ApplicationFamilyQualityEvidenceRow[]
+  generatedSnapshots: readonly {
+    family: Pick<ApplicationProblemFamilyV1, 'familyId' | 'version' | 'proofMode'>
+    seed: number
+    first: GeneratedApplicationProblemV1
+    second: GeneratedApplicationProblemV1
+  }[]
+  oracleResults?: readonly {
+    family: Pick<ApplicationProblemFamilyV1, 'familyId' | 'version'>
+    answer?: string
+    valid: boolean
+  }[]
+}
+
+interface ApplicationReviewBuildInput {
+  authoringCatalog?: ReviewOnlyApplicationAuthoringCatalogV1
+  productionRegistry?: ApplicationProblemRegistryV1
+  productionEvidence?: ProductionApplicationReviewEvidence
+  productionPacks?: readonly UnitKnowledgePackV1[]
+  unitInventory?: readonly ApplicationUnitInventoryEntryV1[]
+}
+
+function productionReviewProblems(
+  entry: ApplicationProblemRegistryEntryV1,
+  snapshot: ProductionApplicationReviewEvidence['generatedSnapshots'][number] | undefined,
+  entryIndex: number,
+): Array<{ caseId: string; kind: 'representative' | 'boundary'; first: GeneratedApplicationProblemV1; second: GeneratedApplicationProblemV1 }> {
+  if (entry.runtime.kind === 'static-corpus') {
+    const representative = entry.runtime.entries[0]?.problem
+    const boundary = entry.runtime.entries.at(-1)?.problem
+    if (!representative || !boundary) {
+      throw new Error(`Static review corpus is empty for ${applicationFamilyKey(entry.family)}`)
+    }
+    return [
+      { caseId: 'production-representative', kind: 'representative', first: representative, second: representative },
+      { caseId: 'production-boundary', kind: 'boundary', first: boundary, second: boundary },
+    ]
   }
-  const problem = snapshot.first
+  const generator = entry.runtime.generator
+  const generate = (seed: number, variantIndex: number) => generateApplicationProblem({
+    family: entry.family,
+    generator,
+    packVersion: generator.packVersion,
+    seed,
+    variantIndex,
+    maxAttempts: generator.maxAttempts,
+  })
+  const representativeSeed = snapshot?.seed ?? 1_700 + entryIndex
+  const representativeFirst = snapshot?.first ?? generate(representativeSeed, 0)
+  const representativeSecond = snapshot?.second ?? generate(representativeSeed, 0)
+  const boundarySeed = representativeSeed + 10_000
+  return [
+    {
+      caseId: 'production-representative',
+      kind: 'representative',
+      first: representativeFirst,
+      second: representativeSecond,
+    },
+    {
+      caseId: 'production-boundary',
+      kind: 'boundary',
+      first: generate(boundarySeed, 1),
+      second: generate(boundarySeed, 1),
+    },
+  ]
+}
+
+function draftReviewProblems(candidate: DraftApplicationFamilyCandidateV1) {
+  if (candidate.runtime.kind !== 'deterministic-generator') {
+    throw new Error(`Draft review requires a deterministic runtime for ${applicationFamilyKey(candidate.family)}`)
+  }
+  const generator = candidate.runtime.generator
+  return candidate.reviewCases.map((reviewCase) => {
+    const generate = () => generateApplicationProblem({
+      family: candidate.family,
+      generator,
+      packVersion: generator.packVersion,
+      seed: reviewCase.seed,
+      variantIndex: reviewCase.variantIndex,
+      maxAttempts: generator.maxAttempts,
+    })
+    return {
+      ...reviewCase,
+      first: generate(),
+      second: generate(),
+    }
+  })
+}
+
+function toReviewVisual(problem: GeneratedApplicationProblemV1) {
   const visual = resolveApplicationVisual(problem.visual)
-  if (visual.status !== 'ready') {
-    throw new Error(`Registered visual resolver did not prepare ${family.familyId}@${family.version}`)
+  if (visual.status === 'blocked') {
+    throw new Error(`Application visual resolver blocked ${problem.familyId}@${problem.generatorVersion}`)
   }
+  const scene = visual.status === 'ready' ? visual.scene : null
+  return {
+    semantics: problem.visual.semantics ?? 'decorative',
+    before: { scene, showAnswer: false as const },
+    after: { scene, showAnswer: true as const },
+  }
+}
 
+function problemReviewCase(input: {
+  family: ApplicationProblemFamilyV1
+  caseId: string
+  kind: 'representative' | 'boundary'
+  first: GeneratedApplicationProblemV1
+  second: GeneratedApplicationProblemV1
+  oracleAnswer: string | null
+  answerMatches: boolean
+  visualValid: boolean
+  proofAuthorityId: string | null
+}): ApplicationProblemReviewCase {
+  const answer = input.first.answer.normalized
+  const choices = [...(input.first.choices ?? [])]
+  const correctChoiceIndex = input.first.correctChoiceIndex ?? null
+  return {
+    kind: input.kind,
+    problem: {
+      prompt: input.first.prompt,
+      answer,
+      answerFormat: input.first.answer.format,
+      choices,
+      distractors: choices.filter((choice, index) => (
+        correctChoiceIndex === null ? choice !== answer : index !== correctChoiceIndex
+      )),
+      correctChoiceIndex,
+      solutionSteps: [...input.first.solutionSteps],
+      hintSteps: [...input.first.hintSteps],
+    },
+    reproducibility: {
+      caseId: input.caseId,
+      instanceId: input.first.instanceId,
+      seed: input.first.seed,
+      variantIndex: input.first.variantIndex,
+      deterministic: stableApplicationReviewJson(input.first) === stableApplicationReviewJson(input.second),
+    },
+    independentVerification: {
+      oracleAnswer: input.oracleAnswer,
+      answerMatches: input.answerMatches,
+      visualValid: input.visualValid,
+      proofAuthorityId: input.proofAuthorityId,
+    },
+    visual: toReviewVisual(input.first),
+  }
+}
+
+function packMisconceptions(
+  pack: UnitKnowledgePackV1,
+  problem: Pick<GeneratedApplicationProblemV1, 'misconceptionRefs'>,
+) {
   const misconceptionById = new Map(
     pack.concepts.flatMap((concept) => concept.misconceptions.map((misconception) => [
       misconception.id,
       { id: misconception.id, description: misconception.description },
     ])),
   )
-  const misconceptions = problem.misconceptionRefs.map((id) => {
+  return problem.misconceptionRefs.map((id) => {
     const misconception = misconceptionById.get(id)
-    if (!misconception) throw new Error(`Missing misconception ${id} for ${family.familyId}`)
-    return misconception
+    return misconception ?? { id, description: id }
   })
-  const grade = pack.grade
-  if (grade !== 2 && grade !== 5 && grade !== 6) {
-    throw new Error(`Unsupported application review grade ${grade}`)
+}
+
+function rowFromCases(input: {
+  family: ApplicationProblemFamilyV1
+  pack: UnitKnowledgePackV1
+  inventoryUnit: ApplicationUnitInventoryEntryV1
+  source: 'draft' | 'production'
+  cases: ApplicationProblemReviewCase[]
+  proof: ApplicationProofEvidence
+  audit: { status: 'passed' | 'failed'; issues: string[] }
+}): ApplicationProblemReviewRow {
+  const representative = input.cases.find((reviewCase) => reviewCase.kind === 'representative') ?? input.cases[0]
+  if (!representative) {
+    throw new Error(`Missing representative review problem for ${applicationFamilyKey(input.family)}`)
   }
+  return {
+    grade: input.inventoryUnit.grade,
+    semester: input.inventoryUnit.semester,
+    unitTitle: input.inventoryUnit.title,
+    familyId: input.family.familyId,
+    version: input.family.version,
+    unitId: input.family.unitId,
+    packId: input.family.packId,
+    source: input.source,
+    conceptIds: [...input.family.conceptIds],
+    cognitiveDomain: input.family.cognitiveDomain,
+    reasoningPattern: input.family.reasoningPattern,
+    representations: [...input.family.representations],
+    standards: Array.from(new Set([input.family.primaryStandard, ...input.family.connectedStandards])),
+    proofMode: input.family.proofMode,
+    releaseStatus: input.family.releaseStatus,
+    prompt: representative.problem.prompt,
+    answer: representative.problem.answer,
+    answerFormat: representative.problem.answerFormat,
+    choices: representative.problem.choices,
+    correctChoiceIndex: representative.problem.correctChoiceIndex,
+    solutionSteps: representative.problem.solutionSteps,
+    hintSteps: representative.problem.hintSteps,
+    misconceptions: packMisconceptions(input.pack, {
+      misconceptionRefs: input.family.misconceptionRefs,
+    }),
+    visual: representative.visual,
+    automaticChecks: {
+      deterministicSample: input.cases.every((reviewCase) => reviewCase.reproducibility.deterministic),
+      proof: input.proof,
+      audit: input.audit,
+      visual: {
+        status: representative.visual.before.scene === null ? 'none' : 'ready',
+        resolver: 'resolveApplicationVisual',
+      },
+    },
+    reviewCases: input.cases,
+  }
+}
+
+function sortApplicationReviewRows(rows: ApplicationProblemReviewRow[]) {
+  return rows.sort((left, right) => (
+    left.grade - right.grade ||
+    (left.semester < right.semester ? -1 : left.semester > right.semester ? 1 : 0) ||
+    (left.unitId < right.unitId ? -1 : left.unitId > right.unitId ? 1 : 0) ||
+    (left.familyId < right.familyId ? -1 : left.familyId > right.familyId ? 1 : 0) ||
+    left.version - right.version
+  ))
+}
+
+export function buildApplicationProblemReviewData(
+  input: ApplicationReviewBuildInput = {},
+): ApplicationProblemReviewData {
+  const authoringCatalog = input.authoringCatalog ?? APPLICATION_PROBLEM_AUTHORING_CATALOG_V1
+  const productionRegistry = input.productionRegistry ?? APPLICATION_PROBLEM_REGISTRY_V1
+  const productionEvidence = input.productionEvidence ?? getProductionApplicationFamilyEvidence()
+  const productionPacks = input.productionPacks ?? loadApplicationReviewProductionPacks()
+  const unitInventory = input.unitInventory ?? APPLICATION_UNIT_INVENTORY_V1
+  const unitByIdentity = new Map(unitInventory.map((unit) => [`${unit.grade}:${unit.unitId}`, unit]))
+  const unitById = new Map(unitInventory.map((unit) => [unit.unitId, unit]))
+  const packById = new Map(productionPacks.map((pack) => [pack.packId, pack]))
+  const evidenceByFamily = new Map(productionEvidence.rows.map((evidence) => [evidence.key, evidence]))
+  const snapshotByFamily = new Map(productionEvidence.generatedSnapshots.map((snapshot) => [
+    applicationFamilyKey(snapshot.family),
+    snapshot,
+  ]))
+  const oracleByFamily = new Map((productionEvidence.oracleResults ?? []).map((result) => [
+    applicationFamilyKey(result.family),
+    result,
+  ]))
+  const rowsByFamily = new Map<string, ApplicationProblemReviewRow>()
+
+  productionRegistry.entries.forEach((entry, entryIndex) => {
+    const key = applicationFamilyKey(entry.family)
+    const pack = packById.get(entry.family.packId)
+    const inventoryUnit = pack
+      ? unitByIdentity.get(`${pack.grade}:${pack.unitId}`)
+      : unitById.get(entry.family.unitId)
+    if (!pack || !inventoryUnit) {
+      throw new Error(`Missing production review metadata for ${key}`)
+    }
+    const evidence = evidenceByFamily.get(key) ?? {
+      key,
+      familyId: entry.family.familyId,
+      version: entry.family.version,
+      status: 'failed' as const,
+      deterministicSample: false,
+      proof: {
+        mode: entry.family.proofMode,
+        authorityId: null,
+        expectedCount: 0,
+        proven: false,
+        checkedCount: 0,
+        issues: ['missing production quality evidence'],
+      },
+      audit: {
+        status: 'failed' as const,
+        issues: ['missing production quality evidence'],
+      },
+    }
+    const oracle = oracleByFamily.get(key)
+    const cases = productionReviewProblems(entry, snapshotByFamily.get(key), entryIndex).map((reviewCase) => (
+      problemReviewCase({
+        family: entry.family,
+        ...reviewCase,
+        oracleAnswer: reviewCase.kind === 'representative' ? oracle?.answer ?? null : null,
+        answerMatches: reviewCase.kind === 'representative'
+          ? oracle?.valid ?? evidence.status === 'passed'
+          : evidence.proof.proven,
+        visualValid: evidence.audit.status === 'passed',
+        proofAuthorityId: evidence.proof.authorityId,
+      })
+    ))
+    rowsByFamily.set(key, rowFromCases({
+      family: entry.family,
+      pack,
+      inventoryUnit,
+      source: 'production',
+      cases,
+      proof: evidence.proof,
+      audit: evidence.audit,
+    }))
+  })
+
+  authoringCatalog.unitCandidates.forEach((unitCandidate) => {
+    const inventoryUnit = unitByIdentity.get(`${unitCandidate.pack.grade}:${unitCandidate.pack.unitId}`)
+    if (!inventoryUnit) {
+      throw new Error(`Missing authoring inventory unit ${unitCandidate.pack.grade}:${unitCandidate.pack.unitId}`)
+    }
+    unitCandidate.familyCandidates.forEach((candidate) => {
+      const key = applicationFamilyKey(candidate.family)
+      if (rowsByFamily.has(key)) return
+      const reviewProblems = draftReviewProblems(candidate)
+      const cases = reviewProblems.map((reviewCase) => {
+        const oracleAnswer = candidate.oracle(reviewCase.first)
+        return problemReviewCase({
+          family: candidate.family,
+          ...reviewCase,
+          oracleAnswer,
+          answerMatches: oracleAnswer === reviewCase.first.answer.normalized,
+          visualValid: candidate.visualValidator(reviewCase.first),
+          proofAuthorityId: null,
+        })
+      })
+      const passedCases = cases.filter((reviewCase) => (
+        reviewCase.reproducibility.deterministic &&
+        reviewCase.independentVerification.answerMatches &&
+        reviewCase.independentVerification.visualValid
+      )).length
+      const issues = passedCases === cases.length ? [] : ['draft representative or boundary evidence failed']
+      rowsByFamily.set(key, rowFromCases({
+        family: candidate.family,
+        pack: unitCandidate.pack,
+        inventoryUnit,
+        source: 'draft',
+        cases,
+        proof: {
+          mode: candidate.family.proofMode,
+          expectedCount: cases.length,
+          authorityId: null,
+          proven: issues.length === 0,
+          checkedCount: passedCases,
+          issues,
+        },
+        audit: { status: issues.length === 0 ? 'passed' : 'failed', issues },
+      }))
+    })
+  })
+
+  const rows = sortApplicationReviewRows(Array.from(rowsByFamily.values()))
+  const units = unitInventory.map((unit): ApplicationProblemReviewUnit => {
+    const unitRows = rows.filter((row) => row.grade === unit.grade && row.unitId === unit.unitId)
+    return {
+      grade: unit.grade,
+      semester: unit.semester,
+      unitId: unit.unitId,
+      title: unit.title,
+      familyCount: unitRows.length,
+      releaseStatuses: Array.from(new Set(unitRows.map((row) => row.releaseStatus))).sort(),
+    }
+  })
+  const gradeCounts = Object.fromEntries(
+    Array.from(new Set(unitInventory.map((unit) => unit.grade)))
+      .sort((left, right) => left - right)
+      .map((grade) => [grade, unitInventory.filter((unit) => unit.grade === grade).length]),
+  ) as Record<ApplicationReviewGrade, number>
 
   return {
-    grade,
-    familyId: family.familyId,
-    version: family.version,
-    unitId: family.unitId,
-    packId: family.packId,
-    cognitiveDomain: family.cognitiveDomain,
-    reasoningPattern: family.reasoningPattern,
-    standards: Array.from(problem.curriculumCodes),
-    proofMode: family.proofMode,
-    releaseStatus: family.releaseStatus,
-    prompt: problem.prompt,
-    answer: problem.answer.normalized,
-    answerFormat: problem.answer.format,
-    choices: [...(problem.choices ?? [])],
-    correctChoiceIndex: problem.correctChoiceIndex ?? null,
-    solutionSteps: [...problem.solutionSteps],
-    hintSteps: [...problem.hintSteps],
-    misconceptions,
-    visual: {
-      semantics: visual.scene.semantics,
-      before: { scene: visual.scene, showAnswer: false },
-      after: { scene: visual.scene, showAnswer: true },
+    summary: { totalRows: rows.length, totalUnits: units.length, byGrade: gradeCounts },
+    filters: {
+      grades: Array.from(new Set(unitInventory.map((unit) => unit.grade))).sort((left, right) => left - right),
+      semesters: makeApplicationReviewOptions(unitInventory.map((unit) => unit.semester)),
+      units: unitInventory
+        .map((unit) => ({ value: unit.unitId, label: `${unit.grade}학년 · ${unit.title}` }))
+        .sort((left, right) => left.value < right.value ? -1 : left.value > right.value ? 1 : 0),
+      concepts: makeApplicationReviewOptions(rows.flatMap((row) => row.conceptIds)),
+      families: makeApplicationReviewOptions(rows.map((row) => row.familyId)),
+      cognitiveDomains: makeApplicationReviewOptions(rows.map((row) => row.cognitiveDomain)),
+      reasoningPatterns: makeApplicationReviewOptions(rows.map((row) => row.reasoningPattern)),
+      representations: makeApplicationReviewOptions(rows.flatMap((row) => row.representations)),
+      proofModes: makeApplicationReviewOptions(rows.map((row) => row.proofMode)),
+      releaseStatuses: makeApplicationReviewOptions(rows.map((row) => row.releaseStatus)),
     },
-    automaticChecks: {
-      deterministicSample: evidence.deterministicSample,
-      proof: getApplicationProofEvidence(family),
-      audit: evidence.audit,
-      visual: { status: 'ready', resolver: 'resolveApplicationVisual' },
-    },
+    units,
+    rows,
   }
 }
 
 export function getApplicationProblemReviewData(): ApplicationProblemReviewData {
-  const rows = APPLICATION_PROBLEM_REGISTRY_V1.entries.map(toApplicationProblemReviewRow)
-
-  return {
-    summary: { totalRows: rows.length },
-    filters: {
-      grades: Array.from(new Set(rows.map((row) => row.grade))).sort((left, right) => left - right),
-      units: makeApplicationReviewOptions(rows.map((row) => row.unitId)),
-      families: makeApplicationReviewOptions(rows.map((row) => row.familyId)),
-      versions: makeApplicationReviewOptions(rows.map((row) => String(row.version))),
-      cognitiveDomains: makeApplicationReviewOptions(rows.map((row) => row.cognitiveDomain)),
-      reasoningPatterns: makeApplicationReviewOptions(rows.map((row) => row.reasoningPattern)),
-      standards: makeApplicationReviewOptions(rows.flatMap((row) => row.standards)),
-      proofModes: makeApplicationReviewOptions(rows.map((row) => row.proofMode)),
-      releaseStatuses: makeApplicationReviewOptions(rows.map((row) => row.releaseStatus)),
-    },
-    rows,
-  }
+  return buildApplicationProblemReviewData()
 }

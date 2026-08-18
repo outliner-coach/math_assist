@@ -45,6 +45,66 @@ function summarizeIssues(issues) {
   }, {})
 }
 
+function summarizeApplicationReviewCoverage(report) {
+  const unitReports = Array.isArray(report?.unitReports) ? report.unitReports : []
+  const issues = []
+  const identities = new Set()
+  const supportedStatuses = new Set([
+    'pending',
+    'partial',
+    'baseline-pilot',
+    'candidate',
+    'released',
+  ])
+
+  for (const unit of unitReports) {
+    const identity = `${unit?.grade}:${unit?.unitId}`
+    if (!Number.isSafeInteger(unit?.grade) || typeof unit?.unitId !== 'string' || unit.unitId === '') {
+      issues.push({ code: 'application_review_unit_identity', message: `invalid unit identity ${identity}` })
+      continue
+    }
+    if (identities.has(identity)) {
+      issues.push({ code: 'application_review_duplicate_unit', message: `duplicate unit ${identity}` })
+    }
+    identities.add(identity)
+    if (!supportedStatuses.has(unit.rolloutStatus)) {
+      issues.push({ code: 'application_review_rollout_status', message: `${identity} has unsupported status ${unit.rolloutStatus}` })
+    }
+  }
+  if (
+    unitReports.length !== 62 ||
+    (report?.summary?.unitCount !== undefined && report.summary.unitCount !== 62)
+  ) {
+    issues.push({
+      code: 'application_review_unit_count',
+      message: `review coverage requires the canonical 62 units, got ${unitReports.length}`,
+    })
+  }
+  if ((report?.summary?.errorCount ?? 0) > 0) {
+    issues.push(...(report.errors ?? []).map(error => ({
+      code: error.code ?? 'application_review_source_audit',
+      message: error.message ?? String(error),
+    })))
+  }
+  const byGrade = Object.fromEntries(
+    [...new Set(unitReports.map(unit => unit.grade))]
+      .sort((left, right) => left - right)
+      .map(grade => [grade, unitReports.filter(unit => unit.grade === grade).length])
+  )
+
+  return {
+    auditType: 'application_review_coverage',
+    issueCount: issues.length,
+    issues,
+    unitCount: unitReports.length,
+    byGrade,
+    statusCounts: unitReports.reduce((counts, unit) => {
+      counts[unit.rolloutStatus] = (counts[unit.rolloutStatus] || 0) + 1
+      return counts
+    }, {}),
+  }
+}
+
 function evaluateTemplateClarity(file, templateId, sampleCount) {
   const template = findTemplate(file, templateId)
   const paramsList = buildParamSamples(template.param_schema, sampleCount, template.id.length * 211)
@@ -250,7 +310,7 @@ class ProblemQualityProvider {
           )
         }
       case 'application_metadata': {
-        const report = generateApplicationProblemQualityReport()
+        const report = generateApplicationProblemQualityReport({ mode: 'work' })
         return {
           output: {
             auditType,
@@ -261,6 +321,13 @@ class ProblemQualityProvider {
           }
         }
       }
+      case 'application_review_coverage': {
+        return {
+          output: summarizeApplicationReviewCoverage(
+            generateApplicationProblemQualityReport({ mode: 'work' })
+          )
+        }
+      }
       default:
         throw new Error(`Unsupported audit type: ${auditType}`)
     }
@@ -268,3 +335,4 @@ class ProblemQualityProvider {
 }
 
 module.exports = ProblemQualityProvider
+module.exports.summarizeApplicationReviewCoverage = summarizeApplicationReviewCoverage

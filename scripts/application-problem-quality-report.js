@@ -22,6 +22,29 @@ function renderMarkdown(report) {
   for (const pack of report.packReports) {
     lines.push(`| ${pack.packId} | ${pack.standardCodes.join(', ')} | ${pack.conceptIds.join(', ')} | ${pack.cognitiveDomains.join(', ')} | ${pack.reasoningPatterns.join(', ')} | ${pack.representations.join(', ')} | ${pack.misconceptionRefs.join(', ')} | ${pack.releaseStatus} | ${pack.approvalStatus} |`)
   }
+  const unitReports = Array.isArray(report.unitReports) ? report.unitReports : []
+  lines.push(
+    '',
+    `## Unit rollout (${unitReports.length})`,
+    '',
+    '| Grade | Unit | Status | Candidate complete | Production complete | Pack refs |',
+    '| --- | --- | --- | --- | --- | --- |',
+  )
+  for (const unit of unitReports) {
+    lines.push(`| ${unit.grade} | ${unit.unitId} | ${unit.rolloutStatus} | ${unit.candidateComplete ? 'yes' : 'no'} | ${unit.productionComplete ? 'yes' : 'no'} | ${(unit.packRefs ?? []).join(', ')} |`)
+  }
+  const familyEvidence = Array.isArray(report.familyEvidence) ? report.familyEvidence : []
+  lines.push(
+    '',
+    '## Family verification evidence',
+    '',
+    '| Family | Status | Deterministic | Proof mode | Checked |',
+    '| --- | --- | --- | --- | --- |',
+  )
+  if (familyEvidence.length === 0) lines.push('| none | n/a | n/a | n/a | n/a |')
+  for (const evidence of familyEvidence) {
+    lines.push(`| ${evidence.key} | ${evidence.status} | ${evidence.deterministicSample ? 'yes' : 'no'} | ${evidence.proof?.mode ?? 'unknown'} | ${evidence.proof?.checkedCount ?? 0}/${evidence.proof?.expectedCount ?? 0} |`)
+  }
   lines.push('', '## Errors', '')
   if (report.errors.length === 0) lines.push('- none')
   for (const error of report.errors) {
@@ -42,6 +65,6 @@ function main() {
   if (report.summary.errorCount > 0) process.exitCode = 1
 }
 
-main()
+if (require.main === module) main()
 
-module.exports = { renderMarkdown }
+module.exports = { main, renderMarkdown }
