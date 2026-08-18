@@ -50,5 +50,19 @@ rollout 원장은 `releasedThroughGrade: 3`, `buildingGrade: 4`로 한 단계만
 
 ## 원격 배포와 공개 화면 확인
 
-원격 `main`과 GitHub Pages의 실제 SHA, Actions 실행, 직접 HTTP와 새 브라우저
-확인 결과를 배포 완료 뒤 이 절에 기록한다.
+- 제품 커밋 `1b0c171ed81423ffce6fa9230e62528723d2f8a4`를 `main`과
+  `origin/main`에 반영했다. GitHub Actions 실행 `32127227116`의 build job
+  `95680364368`과 deploy job `95680913733`, 배포 `5960907965`와 최종 상태
+  `16956311340`이 모두 성공했고 배포 SHA도 제품 커밋과 일치한다. 환경 URL은
+  `https://outliner-coach.github.io/math_assist/`다.
+- 홈, `/grade/3/`, 3학년 들이와 무게 연습, 전 학년 검수 화면, rollout 원장과
+  48개 승인 digest 원본은 직접 HTTP 200을 반환했다. 공개 rollout은
+  `releasedThroughGrade: 3`, `buildingGrade: 4`를 반환했다.
+- 새 공개 브라우저의 390×844와 1024×768에서 들이와 무게 응용문제를
+  제출하기 전 `답: ?`로 확인하고 정답 제출 뒤 공개 값과 기존 안정 미션 ID의
+  완료 기록을 확인했다. `다시 풀기`는 저장된 실행 번호를 0→1→2로 전진시켜
+  같은 단원의 다른 family를 실제로 선택했다.
+- 실행 번호 2의 `g3-2-circle-missing-radius` 공개 문제는 지름 14를 보여
+  주면서 정답 반지름 7을 본문과 접근성 트리에 만들지 않았다. 검수 화면은
+  62개 단원·production family 107개를 표시했고, 두 뷰포트 모두 가로 넘침과
+  콘솔 오류·경고가 0이었다.
