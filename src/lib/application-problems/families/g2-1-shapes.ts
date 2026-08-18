@@ -53,7 +53,7 @@ const definitions = [
     cases: [{ total: 7, bottom: 4 }, { total: 9, bottom: 6 }, { total: 12, bottom: 7 }],
     render: (p: Readonly<Record<string, JsonValue>>) => {
       const total = numberParam(p, 'total'); const bottom = numberParam(p, 'bottom'); const top = total - bottom
-      return { prompt: `쌓기나무는 모두 ${total}개이고 아래층은 ${bottom}개예요. 위층은 몇 개일까요?`, answer: { format: 'number' as const, normalized: String(top) }, solutionSteps: [`전체에서 아래층을 빼요.`, `${total}-${bottom}=${top}`], hintSteps: ['전체는 아래층과 위층을 합한 수예요.', '전체에서 보이는 아래층 수를 빼요.'] }
+      return { prompt: `쌓기나무는 모두 ${total}개이고 아래층은 ${bottom}개예요. 위층은 몇 개일까요?`, answer: { format: 'number' as const, normalized: String(top) }, solutionSteps: ['평면 그림의 칸만 세지 않고 아래층과 위층에 쌓인 입체를 모두 세어요.', `${total}-${bottom}=${top}`], hintSteps: ['평면 모양이 아니라 위아래로 쌓인 입체예요.', '전체에서 아래층 수를 빼면 위층 수가 돼요.'] }
     },
   },
   {
@@ -62,7 +62,7 @@ const definitions = [
     representations: ['text', 'diagram'] as const, estimatedSteps: 3,
     modelId: 'g2-shapes-property-claim-v1', unknownRole: 'valid-speaker',
     requiredStudentActions: ['interpret_context', 'evaluate_claim', 'compare_strategies', 'verify_result'] as const,
-    misconceptionRefs: [FLAT, DIRECTION],
+    misconceptionRefs: [DIRECTION],
     cases: [{ shape: '삼각형', aSides: 3, bSides: 4 }, { shape: '사각형', aSides: 3, bSides: 4 }, { shape: '원', aSides: 1, bSides: 0 }],
     render: (p: Readonly<Record<string, JsonValue>>) => {
       const shape = stringParam(p, 'shape'); const aSides = numberParam(p, 'aSides'); const bSides = numberParam(p, 'bSides'); const expectedSides = shape === '삼각형' ? 3 : shape === '사각형' ? 4 : 0; const answer = aSides === expectedSides ? '가' : '나'; const claims = [`가: 곧은 변 ${aSides}개`, `나: 곧은 변 ${bSides}개`]
@@ -75,7 +75,7 @@ const definitions = [
     representations: ['text', 'diagram'] as const, estimatedSteps: 3,
     modelId: 'g2-shapes-two-condition-filter-v1', unknownRole: 'shape-satisfying-properties',
     requiredStudentActions: ['select_relevant_data', 'test_constraint', 'compare_strategies', 'verify_result'] as const,
-    misconceptionRefs: [DIRECTION, COUNT],
+    misconceptionRefs: [COUNT],
     cases: [{ sides: 3, vertices: 3 }, { sides: 4, vertices: 4 }, { sides: 0, vertices: 0 }],
     render: (p: Readonly<Record<string, JsonValue>>) => {
       const sides = numberParam(p, 'sides'); const vertices = numberParam(p, 'vertices'); const answer = sides === 3 && vertices === 3 ? '삼각형' : sides === 4 && vertices === 4 ? '사각형' : '원'

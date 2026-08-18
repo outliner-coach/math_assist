@@ -53,11 +53,11 @@ const definitions = [
     representations: ['text', 'equation', 'diagram'] as const, estimatedSteps: 3,
     modelId: 'g2-place-value-hidden-tens-digit-v1', unknownRole: 'tens-digit',
     requiredStudentActions: ['interpret_context', 'infer_missing_value', 'convert_representation', 'verify_result'] as const,
-    misconceptionRefs: [ZERO, DIGIT],
+    misconceptionRefs: [DIGIT],
     cases: [{ hundreds: 4, tens: 6, ones: 7 }, { hundreds: 7, tens: 2, ones: 5 }, { hundreds: 9, tens: 8, ones: 1 }],
     render: (params: Readonly<Record<string, JsonValue>>) => {
       const h = numberParam(params, 'hundreds'); const t = numberParam(params, 'tens'); const o = numberParam(params, 'ones'); const total = h * 100 + t * 10 + o
-      return { prompt: `${total}에서 가린 십의 자리 숫자는 무엇일까요?`, answer: numberAnswer(t), solutionSteps: [`${total}=${h}00+${t}0+${o}`, `십의 자리 숫자는 ${t}예요.`], hintSteps: ['백, 십, 일 자리로 나누어요.', '십이 몇 묶음인지 확인해요.'] }
+      return { prompt: `백 모형 ${h}개와 일 모형 ${o}개, 그림의 십 모형으로 만든 수는 ${h}□${o}예요. □에 알맞은 숫자는 무엇일까요?`, answer: numberAnswer(t), solutionSteps: [`그림의 십 모형은 ${t}개예요.`, `${h}00+${t}0+${o}=${total}`, `□에 들어갈 숫자는 ${t}예요.`], hintSteps: ['그림에서 십 모형만 하나씩 세어요.', '센 개수를 십의 자리에 써요.'] }
     },
   },
   {

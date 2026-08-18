@@ -28,7 +28,7 @@ const definitions = [
   },
   {
     familyId: 'g2-1-length-claim-check', primaryStandard: '[2수03-10]', connectedStandards: ['[2수03-06]', '[2수03-12]'], cognitiveDomain: 'reasoning' as const, reasoningPattern: 'error_analysis' as const,
-    representations: ['text', 'equation', 'diagram'] as const, estimatedSteps: 3, modelId: 'g2-length-endmark-claim-v1', unknownRole: 'valid-measurement-claim', requiredStudentActions: ['interpret_context', 'evaluate_claim', 'infer_missing_value', 'verify_result'] as const, misconceptionRefs: [END, SENSE],
+    representations: ['text', 'equation', 'diagram'] as const, estimatedSteps: 3, modelId: 'g2-length-endmark-claim-v1', unknownRole: 'valid-measurement-claim', requiredStudentActions: ['interpret_context', 'evaluate_claim', 'infer_missing_value', 'verify_result'] as const, misconceptionRefs: [END],
     cases: [{ start: 3, end: 9, aClaim: 9, bClaim: 6 }, { start: 4, end: 11, aClaim: 7, bClaim: 11 }, { start: 8, end: 15, aClaim: 15, bClaim: 7 }],
     render: (p: Readonly<Record<string, JsonValue>>) => { const start = numberParam(p, 'start'); const end = numberParam(p, 'end'); const aClaim = numberParam(p, 'aClaim'); const bClaim = numberParam(p, 'bClaim'); const correct = end - start; const answer = aClaim === correct ? '가' : '나'; const claims = [`가: ${aClaim}cm`, `나: ${bClaim}cm`]; return { prompt: `${start}cm부터 ${end}cm까지 잰 결과를 바르게 말한 친구는 누구일까요? ${claims.join(' ')}`, ...choice(answer, ['가', '나']), solutionSteps: [`${end}-${start}=${correct}`, `${answer}의 ${correct}cm가 맞아요.`], hintSteps: ['끝 눈금만 길이로 쓰지 않아요.', '끝에서 시작을 빼요.'] } },
   },

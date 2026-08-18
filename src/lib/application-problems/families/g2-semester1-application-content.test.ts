@@ -9,6 +9,7 @@ import multiplicationPackSource from '../../../../public/data/application-proble
 import placeValuePackSource from '../../../../public/data/application-problems/packs/g2-1-place-value.json'
 import shapesPackSource from '../../../../public/data/application-problems/packs/g2-1-shapes.json'
 import ApplicationProblemVisual from '../../../components/ApplicationProblemVisual'
+import { grade2MissionTemplates, grade2Units } from '../../grade2-problems'
 import {
   parseUnitKnowledgePackV1,
   validateUnitKnowledgePackCoverage,
@@ -181,6 +182,101 @@ describe('Grade 2 semester 1 complete application candidates', () => {
     }
   })
 
+  it('exercises every referenced misconception through an executable learner-facing path', () => {
+    const cues: Readonly<Record<string, RegExp>> = {
+      'g2-place-value-zero-placeholder': /빈 자리|0인 자리|없는 자리/,
+      'g2-place-value-digit-value': /백의 자리|자릿값|백, 십, 일|십의 자리/,
+      'g2-place-value-compare-last-digit': /백의 자리부터|일의 자리부터/,
+      'g2-shapes-flat-solid-confusion': /평면|입체|면과/,
+      'g2-shapes-size-direction-name': /방향/,
+      'g2-shapes-side-vertex-count': /곧은 변|꼭짓점/,
+      'g2-add-sub-operation-word': /연산|식을|더하고|빼|합치는지/,
+      'g2-add-sub-missing-part-add': /처음|전체에서|빠진/,
+      'g2-length-end-mark-only': /끝 눈금|시작 눈금|끝에서 시작/,
+      'g2-length-unit-sense': /단위를 함께|1cm와 1m|cm와 m/,
+      'g2-classification-changing-rule': /기준/,
+      'g2-classification-double-count': /두 번|한 번씩|합/,
+      'g2-multiplication-add-factors': /더하지|번 더|반복 덧셈/,
+      'g2-multiplication-swap-meaning': /서로 바꾸|뒤바꾸|순서를 바꾸|바꾸어 말하지/,
+    }
+    for (const suite of unitSuites) {
+      for (const recipe of suite.recipes) {
+        const learnerSurface = recipe.cases
+          .map((_, variantIndex) => {
+            const problem = recipe.generate({ seed: 0, variantIndex })
+            return [problem.prompt, ...(problem.choices ?? []), ...problem.solutionSteps, ...problem.hintSteps].join(' ')
+          })
+          .join(' ')
+        for (const misconceptionId of recipe.family.misconceptionRefs) {
+          expect(learnerSurface, `${recipe.family.familyId}:${misconceptionId}`).toMatch(
+            cues[misconceptionId],
+          )
+        }
+      }
+    }
+  })
+
+  it('exposes an independent full-contract validator for every family', () => {
+    for (const suite of unitSuites) {
+      for (const recipe of suite.recipes) {
+        expect(typeof recipe.validateContract).toBe('function')
+        const original = recipe.generate({ seed: 0, variantIndex: 0 })
+        expect(recipe.validateContract(original), recipe.family.familyId).toEqual([])
+
+        const prompt = structuredClone(original)
+        prompt.prompt = '손상된 문제 문장'
+        expect(recipe.validateContract(prompt)).not.toEqual([])
+
+        const answer = structuredClone(original)
+        answer.answer.normalized = answer.answer.normalized === '9999' ? '9998' : '9999'
+        expect(recipe.validateContract(answer)).not.toEqual([])
+
+        const solution = structuredClone(original)
+        solution.solutionSteps = ['손상된 풀이']
+        expect(recipe.validateContract(solution)).not.toEqual([])
+
+        if (original.choices) {
+          const choices = structuredClone(original)
+          choices.choices![0] = '손상된 보기'
+          expect(recipe.validateContract(choices)).not.toEqual([])
+        }
+
+        const visual = structuredClone(original)
+        const scene = visual.visual.mathModel as unknown as {
+          surface: 'diagram' | 'table'
+          primitives?: unknown[]
+          rows?: Array<{ cells: Array<{ numericValue?: number }> }>
+        }
+        if (scene.surface === 'diagram') scene.primitives = []
+        else if (scene.rows?.[0]?.cells[1]) scene.rows[0].cells[1].numericValue = 9999
+        expect(recipe.validateContract(visual)).not.toEqual([])
+      }
+    }
+  })
+
+  it('publishes explicit exhaustive case, boundary-class, and invariant evidence', () => {
+    for (const suite of unitSuites) {
+      for (const recipe of suite.recipes) {
+        const evidence = (recipe as unknown as {
+          proofEvidence?: {
+            exhaustive: boolean
+            boundaryClasses: readonly string[]
+            invariants: readonly string[]
+            cases: readonly { variantIndex: number; classes: readonly string[] }[]
+          }
+        }).proofEvidence
+        expect(evidence, recipe.family.familyId).toBeDefined()
+        expect(evidence?.exhaustive).toBe(true)
+        expect(evidence?.boundaryClasses.length).toBeGreaterThanOrEqual(2)
+        expect(evidence?.invariants.length).toBeGreaterThanOrEqual(2)
+        expect(evidence?.cases.map((entry) => entry.variantIndex)).toEqual(
+          recipe.cases.map((_, variantIndex) => variantIndex),
+        )
+        expect(evidence?.cases.every((entry) => entry.classes.length > 0)).toBe(true)
+      }
+    }
+  })
+
   it('exhausts every finite case with deterministic generation and an independent oracle', () => {
     for (const suite of unitSuites) {
       for (const recipe of suite.recipes) {
@@ -222,7 +318,7 @@ describe('Grade 2 semester 1 complete application candidates', () => {
         const ready = resolveApplicationVisual(problem.visual, {
           familyValidator: (scene) => recipe.validateScene(scene, problem.params),
         })
-        expect(ready.status).toBe('ready')
+        expect(ready.status, JSON.stringify(ready)).toBe('ready')
         const changed = structuredClone(problem.visual.mathModel) as Record<string, unknown>
         if (changed.surface === 'diagram') {
           const viewBox = changed.viewBox as { width: number }
@@ -243,12 +339,12 @@ describe('Grade 2 semester 1 complete application candidates', () => {
   it('keeps answer-only labels out of pre-submit DOM and accessibility markup', () => {
     for (const suite of unitSuites) {
       for (const recipe of suite.recipes) {
-        for (const variantIndex of [0, recipe.cases.length - 1]) {
+        for (const variantIndex of recipe.cases.map((_, index) => index)) {
           const problem = recipe.generate({ seed: 0, variantIndex })
           const resolved = resolveApplicationVisual(problem.visual, {
             familyValidator: (scene) => recipe.validateScene(scene, problem.params),
           })
-          expect(resolved.status).toBe('ready')
+          expect(resolved.status, JSON.stringify(resolved)).toBe('ready')
           if (resolved.status !== 'ready') continue
           const before = renderToStaticMarkup(
             createElement(ApplicationProblemVisual, { scene: resolved.scene, showAnswer: false }),
@@ -275,11 +371,133 @@ describe('Grade 2 semester 1 complete application candidates', () => {
     }
   })
 
+  it('keeps every hidden tens digit and its intermediate values out of every pre-submit surface', () => {
+    const recipe = G2_1_PLACE_VALUE_FAMILY_RECIPES.find(
+      (candidate) => candidate.family.familyId === 'g2-1-place-value-missing-digit',
+    )!
+    recipe.cases.forEach((reviewedCase, variantIndex) => {
+      const problem = recipe.generate({ seed: 0, variantIndex })
+      const hundreds = Number(reviewedCase.hundreds)
+      const tens = Number(reviewedCase.tens)
+      const ones = Number(reviewedCase.ones)
+      const completeNumber = hundreds * 100 + tens * 10 + ones
+      const publicScene = JSON.stringify(problem.visual.mathModel, (key, value) =>
+        key === 'after' || value === 'solution' || value === 'intermediate' ? undefined : value,
+      )
+      const resolved = resolveApplicationVisual(problem.visual, {
+        familyValidator: (scene) => recipe.validateScene(scene, problem.params),
+      })
+      expect(resolved.status).toBe('ready')
+      if (resolved.status !== 'ready') return
+      const before = renderToStaticMarkup(
+        createElement(ApplicationProblemVisual, { scene: resolved.scene, showAnswer: false }),
+      )
+
+      expect(problem.prompt).not.toContain(String(completeNumber))
+      expect(problem.prompt).not.toContain(`십 ${tens}개`)
+      expect(publicScene).not.toContain(String(completeNumber))
+      expect(publicScene).not.toContain(`십 ${tens}개`)
+      expect(
+        resolved.scene.surface === 'diagram' &&
+          resolved.scene.primitives.some(
+            (primitive) => primitive.kind === 'rect' && primitive.width === tens,
+          ),
+      ).toBe(false)
+      expect(before).not.toContain(String(completeNumber))
+      expect(before).not.toContain(`십 ${tens}개`)
+      expect(before).not.toContain(`답: ${tens}`)
+    })
+  })
+
+  it('represents a zero place with no positive quantitative region', () => {
+    const recipe = G2_1_PLACE_VALUE_FAMILY_RECIPES.find(
+      (candidate) => candidate.family.familyId === 'g2-1-place-value-build-number',
+    )!
+    for (const variantIndex of [1, 2]) {
+      const problem = recipe.generate({ seed: 0, variantIndex })
+      const scene = problem.visual.mathModel as unknown as {
+        primitives: Array<{ key: string; kind: string; width?: number; height?: number }>
+        labels: Array<{ key: string; content: { before?: { text: string } } }>
+      }
+      for (const [index, place, value] of [
+        [0, 'hundreds', Number(problem.params.hundreds)],
+        [1, 'tens', Number(problem.params.tens)],
+        [2, 'ones', Number(problem.params.ones)],
+      ] as const) {
+        const primitive = scene.primitives.find(
+          (candidate) =>
+            candidate.key === `place-${place}` || candidate.key === `bar-${index}`,
+        )
+        if (value === 0) {
+          expect(primitive).toBeUndefined()
+        } else {
+          expect(primitive).toMatchObject({ kind: 'rect', width: value, height: 14 })
+        }
+      }
+    }
+  })
+
+  it('uses actual solid-object topology instead of generic count decoration', () => {
+    const recipe = G2_1_SHAPES_FAMILY_RECIPES.find(
+      (candidate) => candidate.family.familyId === 'g2-1-shapes-object-match',
+    )!
+    const problem = recipe.generate({ seed: 0, variantIndex: 0 })
+    const scene = problem.visual.mathModel as unknown as {
+      primitives: Array<{ key: string; kind: string }>
+      constraints: Array<{ kind: string; firstKey?: string; secondKey?: string; relation?: string }>
+    }
+    expect(scene.primitives.map((primitive) => primitive.key)).toEqual(
+      expect.arrayContaining([
+        'cuboid-front',
+        'cuboid-back',
+        'cylinder-body',
+        'cylinder-top',
+        'sphere-outline',
+        'sphere-equator',
+      ]),
+    )
+    expect(scene.constraints.some((constraint) => constraint.kind === 'topology')).toBe(true)
+  })
+
+  it('asks add-sub operation choice from a concrete whole-part relation, not a keyword label', () => {
+    const recipe = G2_1_ADD_SUB_FAMILY_RECIPES.find(
+      (candidate) => candidate.family.familyId === 'g2-1-add-sub-operation-check',
+    )!
+    recipe.cases.forEach((_, variantIndex) => {
+      const problem = recipe.generate({ seed: 0, variantIndex })
+      expect(problem.prompt).not.toMatch(/남은 수|모두|차이/)
+      expect(problem.prompt).toMatch(/주었어요|한 상자에 넣었어요|몇 개 더 많을까요/)
+    })
+  })
+
+  it('derives unit standards, concepts, and representations from the live Grade 2 base bank', () => {
+    const normalizeRepresentation = (value: string) => {
+      if (value.includes('table')) return 'table'
+      if (value.includes('equation') || value.includes('operation')) return 'equation'
+      return 'diagram'
+    }
+    for (const suite of unitSuites) {
+      const unit = grade2Units.find((candidate) => candidate.id === suite.pack.unitId)!
+      const templates = grade2MissionTemplates.filter((template) => template.unitId === unit.id)
+      const concepts = new Set(templates.map((template) => `${unit.id}-${template.skill}`))
+      const representations = new Set([
+        'text',
+        ...templates.map((template) => normalizeRepresentation(template.visualModel)),
+      ])
+      expect(new Set(suite.standards)).toEqual(new Set(unit.curriculumCodes))
+      expect(new Set(suite.coreConceptIds)).toEqual(concepts)
+      expect(new Set(suite.requiredRepresentations)).toEqual(representations)
+    }
+  })
+
   it('records representative and boundary evidence through exhaustive unit proof modules', () => {
     for (const suite of unitSuites) {
       const reports = suite.prove()
       expect(reports).toHaveLength(suite.recipes.length)
-      expect(reports.every((report) => report.proven && report.issues.length === 0)).toBe(true)
+      expect(
+        reports.every((report) => report.proven && report.issues.length === 0),
+        JSON.stringify(reports.filter((report) => !report.proven)),
+      ).toBe(true)
       expect(reports.map((report) => report.checkedCount)).toEqual(
         suite.recipes.map((recipe) => recipe.cases.length),
       )

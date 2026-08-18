@@ -20,6 +20,8 @@ import type {
   ReadingLoad,
   VisualSemantics,
 } from '../../types'
+import { verifyIndependentG2SemesterOneProblem } from './g2-1-independent-verifier'
+import type { G2ContractIssue } from './g2-1-contract-support'
 
 export type G2SemesterOneCase = Readonly<Record<string, JsonValue>>
 
@@ -33,6 +35,15 @@ export interface G2SemesterOneFamilyRecipe {
     scene: Readonly<ApplicationVisualSceneV1>,
     params: Readonly<Record<string, JsonValue>>,
   ): ApplicationVisualValidationIssue[]
+  validateContract(problem: GeneratedApplicationProblemV1): G2ContractIssue[]
+  proofEvidence: G2SemesterOneProofEvidence
+}
+
+export interface G2SemesterOneProofEvidence {
+  exhaustive: true
+  boundaryClasses: readonly string[]
+  invariants: readonly string[]
+  cases: readonly { variantIndex: number; classes: readonly string[] }[]
 }
 
 export interface G2SemesterOneFamilyDefinition {
@@ -85,6 +96,57 @@ function stableJson(value: unknown): string {
       .join(',')}}`
   }
   return JSON.stringify(value)
+}
+
+function buildProofEvidence(
+  familyId: string,
+  cases: readonly G2SemesterOneCase[],
+): G2SemesterOneProofEvidence {
+  const keys = Array.from(new Set(cases.flatMap((reviewedCase) => Object.keys(reviewedCase)))).sort()
+  const classesByCase = cases.map(() => new Set<string>())
+  const boundaryClasses: string[] = []
+  for (const key of keys) {
+    const values = cases.map((reviewedCase) => reviewedCase[key])
+    if (values.every(Number.isSafeInteger)) {
+      const numericValues = values as number[]
+      const minimum = Math.min(...numericValues)
+      const maximum = Math.max(...numericValues)
+      for (const [suffix, target] of minimum === maximum
+        ? [['fixed', minimum] as const]
+        : [['minimum', minimum] as const, ['maximum', maximum] as const]) {
+        const classId = `${familyId}-${key}-${suffix}`
+        boundaryClasses.push(classId)
+        numericValues.forEach((value, index) => {
+          if (value === target) classesByCase[index].add(classId)
+        })
+      }
+      continue
+    }
+    const distinctValues = Array.from(new Set(values.map((value) => stableJson(value))))
+    distinctValues.forEach((value) => {
+      const classId = `${familyId}-${key}-${value.replace(/[^a-zA-Z0-9가-힣]+/g, '-').slice(0, 24)}`
+      boundaryClasses.push(classId)
+      values.forEach((candidate, index) => {
+        if (stableJson(candidate) === value) classesByCase[index].add(classId)
+      })
+    })
+  }
+  cases.forEach((_, index) => {
+    if (classesByCase[index].size === 0) classesByCase[index].add(`${familyId}-finite-case-${index}`)
+  })
+  return Object.freeze({
+    exhaustive: true as const,
+    boundaryClasses: Object.freeze(Array.from(new Set(boundaryClasses))),
+    invariants: Object.freeze([
+      `${familyId} uses exactly ${cases.length} reviewed static variants`,
+      'familyId, version, seed, and variant reproduce the same normalized problem',
+      'independent raw-parameter verification covers prompt, answer, choices, solution, hints, and visual',
+    ]),
+    cases: Object.freeze(classesByCase.map((classes, variantIndex) => Object.freeze({
+      variantIndex,
+      classes: Object.freeze(Array.from(classes)),
+    }))),
+  })
 }
 
 export function createG2SemesterOneFamilyRecipe(
@@ -149,12 +211,15 @@ export function createG2SemesterOneFamilyRecipe(
     kind: 'deterministic-generator' as const,
     generator,
   })
+  const proofEvidence = buildProofEvidence(family.familyId, definition.cases)
   return Object.freeze({
     family,
     cases: Object.freeze([...definition.cases]),
     generator,
     runtime,
     generate,
+    proofEvidence,
+    validateContract: verifyIndependentG2SemesterOneProblem,
     validateScene: (
       scene: Readonly<ApplicationVisualSceneV1>,
       params: Readonly<Record<string, JsonValue>>,

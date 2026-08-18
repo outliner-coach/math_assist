@@ -13,11 +13,12 @@ export function buildG2BarScene(input: {
   if (
     input.values.length === 0 ||
     input.values.length !== input.labels.length ||
-    input.values.some((value) => !Number.isSafeInteger(value) || value <= 0)
+    input.values.some((value) => !Number.isSafeInteger(value) || value < 0)
   ) {
-    throw new TypeError('Grade 2 bar scenes require matching positive integer values and labels')
+    throw new TypeError('Grade 2 bar scenes require matching non-negative integer values and labels')
   }
-  const primitives = input.values.map((value, index) => {
+  const primitives = input.values.flatMap((value, index) => {
+    if (value === 0) return []
     const primitive = {
       key: `bar-${index}`,
       kind: 'rect' as const,
@@ -29,7 +30,7 @@ export function buildG2BarScene(input: {
       styleRole: (index % 2 === 0 ? 'primary' : 'secondary') as 'primary' | 'secondary',
       emphasis: 'normal' as const,
     }
-    return primitive
+    return [primitive]
   })
   return {
     schemaVersion: 'application-visual-v1',
@@ -58,10 +59,10 @@ export function buildG2BarScene(input: {
         styleRole: 'accent' as const,
       },
     ],
-    constraints: primitives.map((primitive, index) => ({
+    constraints: primitives.map((primitive) => ({
       kind: 'area' as const,
       primitiveKey: primitive.key,
-      expected: input.values[index] * 14,
+      expected: primitive.width * primitive.height,
     })),
   }
 }

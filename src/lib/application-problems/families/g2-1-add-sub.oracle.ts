@@ -12,7 +12,7 @@ export function evaluateG2SemesterOneAddSubOracle(problem: GeneratedApplicationP
       return n(p, 'aResult') === result ? '가' : '나'
     }
     case 'g2-1-add-sub-operation-check': {
-      const expectedOperation = s(p, 'story') === '모두' ? 'add' : 'subtract'
+      const expectedOperation = s(p, 'relation') === 'combine' ? 'add' : 'subtract'
       return s(p, 'aOperation') === expectedOperation ? '가' : '나'
     }
     default: throw new TypeError(`unknown Grade 2 add-sub family ${problem.familyId}`)
