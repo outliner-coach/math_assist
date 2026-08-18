@@ -62,7 +62,7 @@ const definitions: readonly G2FiniteDraftFamilyDefinition[] = [
       return {
         prompt: `가격표가 ${values.join(', ')}원이에요. 가장 비싼 물건의 가격은 얼마일까요?`,
         answer: { format: 'number', normalized: String(answer) },
-        solutionSteps: ['천의 자리부터 차례로 비교해요.', `가장 큰 수는 ${answer}이에요.`],
+        solutionSteps: ['천의 자리부터 차례로 비교해요.', `가장 큰 가격은 ${answer}원이에요.`],
         hintSteps: ['천의 자리를 먼저 보세요.', '같으면 백의 자리로 옮겨 보세요.'],
       }
     },

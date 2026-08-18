@@ -16,6 +16,16 @@ import {
 } from '../visual-model'
 
 export type G2FiniteCase = Readonly<Record<string, JsonValue>>
+export type G2VisualValueKeys =
+  | readonly string[]
+  | ((params: Readonly<Record<string, JsonValue>>) => readonly string[])
+
+export interface G2FiniteDomainBoundaryEvidence {
+  classId: string
+  description: string
+  variantIndexes: readonly number[]
+  matches(params: G2FiniteCase): boolean
+}
 
 export interface G2FiniteDraftFamilyDefinition {
   familyId: string
@@ -44,7 +54,7 @@ export interface G2FiniteDraftFamilyDefinition {
   requiredStudentActions: readonly RequiredStudentAction[]
   misconceptionRefs: readonly string[]
   visualSurface: 'diagram' | 'table'
-  visualValueKeys: readonly string[]
+  visualValueKeys: G2VisualValueKeys
   cases: readonly G2FiniteCase[]
   render(params: Readonly<Record<string, JsonValue>>): ApplicationProblemRenderedContentV1
 }
@@ -58,10 +68,13 @@ export interface G2FiniteDraftFamily {
     kind: 'representative' | 'boundary'
     seed: number
     variantIndex: number
+    boundaryClassIds: readonly string[]
   }[]
+  boundaryEvidence: readonly G2FiniteDomainBoundaryEvidence[]
+  domainJustification: string
   generate(input: { seed: number; variantIndex: number }): GeneratedApplicationProblemV1
   visualSurface: 'diagram' | 'table'
-  visualValueKeys: readonly string[]
+  resolveVisualValueKeys(params: G2FiniteCase): readonly string[]
 }
 
 const pendingApproval = Object.freeze({
@@ -72,6 +85,83 @@ const pendingApproval = Object.freeze({
 
 function positiveMod(value: number, divisor: number): number {
   return ((value % divisor) + divisor) % divisor
+}
+
+function resolveVisualValueKeys(
+  definition: Pick<G2FiniteDraftFamilyDefinition, 'visualValueKeys'>,
+  params: G2FiniteCase,
+): readonly string[] {
+  const keys = typeof definition.visualValueKeys === 'function'
+    ? definition.visualValueKeys(params)
+    : definition.visualValueKeys
+  if (keys.length === 0 || new Set(keys).size !== keys.length) {
+    throw new TypeError('visual value keys must be a non-empty unique list')
+  }
+  keys.forEach((key) => {
+    if (!Object.prototype.hasOwnProperty.call(params, key)) {
+      throw new TypeError(`visual value key ${key} is missing from the finite case`)
+    }
+  })
+  return Object.freeze([...keys])
+}
+
+function finiteBoundaryEvidence(
+  familyId: string,
+  cases: readonly G2FiniteCase[],
+): readonly G2FiniteDomainBoundaryEvidence[] {
+  const numericKeys = Array.from(new Set(cases.flatMap((params) => Object.entries(params)
+    .filter(([, value]) => Number.isSafeInteger(value))
+    .map(([key]) => key)))).sort()
+
+  return Object.freeze(numericKeys.flatMap((key) => {
+    const values = cases.map((params) => params[key]).filter(Number.isSafeInteger) as number[]
+    if (values.length !== cases.length) return []
+    const minimum = Math.min(...values)
+    const maximum = Math.max(...values)
+    const makeEvidence = (
+      suffix: string,
+      description: string,
+      expected: number,
+    ): G2FiniteDomainBoundaryEvidence => Object.freeze({
+      classId: `${familyId}-${key}-${suffix}`,
+      description,
+      variantIndexes: Object.freeze(values.flatMap((value, variantIndex) =>
+        value === expected ? [variantIndex] : [])),
+      matches: (params: G2FiniteCase) => params[key] === expected,
+    })
+    if (minimum === maximum) {
+      return [makeEvidence(
+        'fixed-invariant',
+        `${key} is fixed at ${minimum} throughout the finite domain`,
+        minimum,
+      )]
+    }
+    return [
+      makeEvidence('minimum', `${key} reaches the finite-domain minimum ${minimum}`, minimum),
+      makeEvidence('maximum', `${key} reaches the finite-domain maximum ${maximum}`, maximum),
+    ]
+  }))
+}
+
+function representativeVariantIndex(cases: readonly G2FiniteCase[]): number {
+  const numericKeys = Array.from(new Set(cases.flatMap((params) => Object.entries(params)
+    .filter(([, value]) => Number.isSafeInteger(value))
+    .map(([key]) => key))))
+  const midpoints = new Map(numericKeys.map((key) => {
+    const values = cases.map((params) => params[key]).filter(Number.isSafeInteger) as number[]
+    return [key, (Math.min(...values) + Math.max(...values)) / 2] as const
+  }))
+  let bestIndex = 0
+  let bestDistance = Number.POSITIVE_INFINITY
+  cases.forEach((params, variantIndex) => {
+    const distance = numericKeys.reduce((total, key) =>
+      total + Math.abs(Number(params[key]) - (midpoints.get(key) ?? 0)), 0)
+    if (distance < bestDistance) {
+      bestDistance = distance
+      bestIndex = variantIndex
+    }
+  })
+  return bestIndex
 }
 
 function publicText(text: string) {
@@ -189,6 +279,11 @@ export function createG2FiniteDraftFamily(
   if (definition.cases.length < 2) {
     throw new TypeError(`${definition.familyId} needs representative and boundary finite cases`)
   }
+  definition.cases.forEach((params) => resolveVisualValueKeys(definition, params))
+  const boundaryEvidence = finiteBoundaryEvidence(definition.familyId, definition.cases)
+  if (boundaryEvidence.length === 0) {
+    throw new TypeError(`${definition.familyId} needs executable finite-domain boundary evidence`)
+  }
   const family = parseApplicationProblemFamilyV1({
     schemaVersion: 'application-problem-family-v1',
     familyId: definition.familyId,
@@ -235,7 +330,7 @@ export function createG2FiniteDraftFamily(
         mathModel: buildG2DraftVisualScene({
           familyId: family.familyId,
           surface: definition.visualSurface,
-          valueKeys: definition.visualValueKeys,
+          valueKeys: resolveVisualValueKeys(definition, params),
           params,
         }) as unknown as JsonValue,
       }
@@ -250,6 +345,7 @@ export function createG2FiniteDraftFamily(
       seed: input.seed,
       variantIndex: input.variantIndex,
     })
+  const representativeIndex = representativeVariantIndex(definition.cases)
   return Object.freeze({
     family,
     generator,
@@ -259,18 +355,22 @@ export function createG2FiniteDraftFamily(
         caseId: `${family.familyId}-representative`,
         kind: 'representative' as const,
         seed: 0,
-        variantIndex: 0,
+        variantIndex: representativeIndex,
+        boundaryClassIds: Object.freeze([]),
       }),
-      Object.freeze({
-        caseId: `${family.familyId}-boundary`,
+      ...boundaryEvidence.map((boundary) => Object.freeze({
+        caseId: `${family.familyId}-boundary-${boundary.classId}`,
         kind: 'boundary' as const,
         seed: 0,
-        variantIndex: definition.cases.length - 1,
-      }),
+        variantIndex: boundary.variantIndexes[0],
+        boundaryClassIds: Object.freeze([boundary.classId]),
+      })),
     ]),
+    boundaryEvidence,
+    domainJustification: `All ${definition.cases.length} static variants are exhausted; every numeric parameter's finite-domain minimum, maximum, or fixed invariant is classified.`,
     generate,
     visualSurface: definition.visualSurface,
-    visualValueKeys: Object.freeze([...definition.visualValueKeys]),
+    resolveVisualValueKeys: (params: G2FiniteCase) => resolveVisualValueKeys(definition, params),
   })
 }
 
@@ -285,7 +385,7 @@ export function validateG2FiniteDraftVisual(
     const expected = buildG2DraftVisualScene({
       familyId: problem.familyId,
       surface: definition.visualSurface,
-      valueKeys: definition.visualValueKeys,
+      valueKeys: definition.resolveVisualValueKeys(problem.params),
       params: problem.params,
     })
     return stableJson(parsed) === stableJson(expected)
@@ -303,18 +403,31 @@ export interface G2FiniteProofReport {
 
 export function proveG2FiniteDraftFamilies(input: {
   families: readonly G2FiniteDraftFamily[]
-  oracle(problem: GeneratedApplicationProblemV1): string
-  validateVisual(problem: GeneratedApplicationProblemV1): boolean
+  verify(problem: GeneratedApplicationProblemV1): readonly string[]
 }): G2FiniteProofReport[] {
   return input.families.map((draft) => {
     const issues: string[] = []
+    const coveredBoundaryClasses = new Set(draft.reviewCases.flatMap((reviewCase) =>
+      reviewCase.boundaryClassIds))
+    draft.boundaryEvidence.forEach((boundary) => {
+      if (!coveredBoundaryClasses.has(boundary.classId)) {
+        issues.push(`boundary class ${boundary.classId} has no review case`)
+      }
+      if (boundary.variantIndexes.length === 0) {
+        issues.push(`boundary class ${boundary.classId} has no finite variant`)
+      }
+      boundary.variantIndexes.forEach((variantIndex) => {
+        if (!draft.cases[variantIndex] || !boundary.matches(draft.cases[variantIndex])) {
+          issues.push(`boundary class ${boundary.classId} misclassifies case ${variantIndex}`)
+        }
+      })
+    })
     draft.cases.forEach((_, variantIndex) => {
       try {
         const first = draft.generate({ seed: 0, variantIndex })
         const second = draft.generate({ seed: 0, variantIndex })
         if (stableJson(first) !== stableJson(second)) issues.push(`case ${variantIndex} is not deterministic`)
-        if (input.oracle(first) !== first.answer.normalized) issues.push(`case ${variantIndex} oracle mismatch`)
-        if (!input.validateVisual(first)) issues.push(`case ${variantIndex} visual mismatch`)
+        input.verify(first).forEach((issue) => issues.push(`case ${variantIndex}: ${issue}`))
       } catch (error) {
         issues.push(`case ${variantIndex} failed: ${error instanceof Error ? error.message : String(error)}`)
       }

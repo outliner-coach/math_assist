@@ -69,7 +69,7 @@ const definitions: readonly G2FiniteDraftFamilyDefinition[] = [
       return {
         prompt: `전체 줄은 ${whole}cm이고 한 부분은 ${known}${enough ? 'cm' : ''}라고 적혀 있어요. 남은 길이를 바로 구할 수 있을까요?`,
         answer: { format: 'choice', normalized: answer }, choices, correctChoiceIndex: choices.indexOf(answer),
-        solutionSteps: [enough ? '두 길이의 단위가 모두 cm예요.' : '한 부분의 단위가 없어 같은 길이인지 알 수 없어요.', answer],
+        solutionSteps: [enough ? '두 길이의 단위가 모두 cm예요.' : '전체는 cm이지만 한 부분의 단위가 없어 같은 길이인지 알 수 없어요.', answer],
         hintSteps: ['두 수만 보지 말고 단위를 보세요.', '같은 단위인지 확인하세요.'],
       }
     },

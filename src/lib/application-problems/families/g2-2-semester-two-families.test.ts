@@ -12,37 +12,37 @@ import { parseUnitKnowledgePackV1 } from '../contracts'
 import {
   G2_2_FACTS_DRAFT_FAMILIES,
 } from './g2-2-facts'
-import { oracleG2FactsProblem } from './g2-2-facts.oracle'
+import { oracleG2FactsProblem, verifyG2FactsProblem } from './g2-2-facts.oracle'
 import { proveG2FactsFamilies } from './g2-2-facts.proof'
 import { validateG2FactsVisual } from './g2-2-facts.visual'
 import {
   G2_2_LENGTH_DRAFT_FAMILIES,
 } from './g2-2-length'
-import { oracleG2LengthDraftProblem } from './g2-2-length.oracle'
+import { oracleG2LengthDraftProblem, verifyG2LengthDraftProblem } from './g2-2-length.oracle'
 import { proveG2LengthDraftFamilies } from './g2-2-length.proof'
 import { validateG2LengthDraftVisual } from './g2-2-length.visual'
 import {
   G2_2_PATTERN_DRAFT_FAMILIES,
 } from './g2-2-pattern'
-import { oracleG2PatternProblem } from './g2-2-pattern.oracle'
+import { oracleG2PatternProblem, verifyG2PatternProblem } from './g2-2-pattern.oracle'
 import { proveG2PatternFamilies } from './g2-2-pattern.proof'
 import { validateG2PatternVisual } from './g2-2-pattern.visual'
 import {
   G2_2_PLACE_VALUE_DRAFT_FAMILIES,
 } from './g2-2-place-value'
-import { oracleG2PlaceValueProblem } from './g2-2-place-value.oracle'
+import { oracleG2PlaceValueProblem, verifyG2PlaceValueProblem } from './g2-2-place-value.oracle'
 import { proveG2PlaceValueFamilies } from './g2-2-place-value.proof'
 import { validateG2PlaceValueVisual } from './g2-2-place-value.visual'
 import {
   G2_2_TABLE_GRAPH_DRAFT_FAMILIES,
 } from './g2-2-table-graph'
-import { oracleG2TableGraphProblem } from './g2-2-table-graph.oracle'
+import { oracleG2TableGraphProblem, verifyG2TableGraphProblem } from './g2-2-table-graph.oracle'
 import { proveG2TableGraphFamilies } from './g2-2-table-graph.proof'
 import { validateG2TableGraphVisual } from './g2-2-table-graph.visual'
 import {
   G2_2_TIME_DRAFT_FAMILIES,
 } from './g2-2-time'
-import { oracleG2TimeProblem } from './g2-2-time.oracle'
+import { oracleG2TimeProblem, verifyG2TimeProblem } from './g2-2-time.oracle'
 import { proveG2TimeFamilies } from './g2-2-time.proof'
 import { validateG2TimeVisual } from './g2-2-time.visual'
 import {
@@ -72,6 +72,7 @@ const units = [
     requiredRepresentations: ['text', 'diagram'],
     families: G2_2_PLACE_VALUE_DRAFT_FAMILIES,
     oracle: oracleG2PlaceValueProblem,
+    verify: verifyG2PlaceValueProblem,
     visual: validateG2PlaceValueVisual,
     prove: proveG2PlaceValueFamilies,
   },
@@ -83,6 +84,7 @@ const units = [
     requiredRepresentations: ['text', 'table', 'diagram'],
     families: G2_2_FACTS_DRAFT_FAMILIES,
     oracle: oracleG2FactsProblem,
+    verify: verifyG2FactsProblem,
     visual: validateG2FactsVisual,
     prove: proveG2FactsFamilies,
   },
@@ -94,6 +96,7 @@ const units = [
     requiredRepresentations: ['text', 'diagram'],
     families: G2_2_LENGTH_DRAFT_FAMILIES,
     oracle: oracleG2LengthDraftProblem,
+    verify: verifyG2LengthDraftProblem,
     visual: validateG2LengthDraftVisual,
     prove: proveG2LengthDraftFamilies,
   },
@@ -105,6 +108,7 @@ const units = [
     requiredRepresentations: ['text', 'diagram'],
     families: G2_2_TIME_DRAFT_FAMILIES,
     oracle: oracleG2TimeProblem,
+    verify: verifyG2TimeProblem,
     visual: validateG2TimeVisual,
     prove: proveG2TimeFamilies,
   },
@@ -116,6 +120,7 @@ const units = [
     requiredRepresentations: ['text', 'table', 'graph'],
     families: G2_2_TABLE_GRAPH_DRAFT_FAMILIES,
     oracle: oracleG2TableGraphProblem,
+    verify: verifyG2TableGraphProblem,
     visual: validateG2TableGraphVisual,
     prove: proveG2TableGraphFamilies,
   },
@@ -127,6 +132,7 @@ const units = [
     requiredRepresentations: ['text', 'diagram', 'table'],
     families: G2_2_PATTERN_DRAFT_FAMILIES,
     oracle: oracleG2PatternProblem,
+    verify: verifyG2PatternProblem,
     visual: validateG2PatternVisual,
     prove: proveG2PatternFamilies,
   },
@@ -214,6 +220,7 @@ describe('Grade 2 semester-two complete application content', () => {
         const second = draft.generate({ seed: 0, variantIndex })
         expect(first).toEqual(second)
         expect(first.answer.normalized).toBe(unit.oracle(first))
+        expect(unit.verify(first)).toEqual([])
         expect(unit.visual(first)).toBe(true)
         expect(publicVisualJson(first)).not.toContain('"disclosure":"solution"')
 
@@ -222,6 +229,106 @@ describe('Grade 2 semester-two complete application content', () => {
         if (model.rows) model.rows = []
         if (model.primitives) model.primitives = []
         expect(unit.visual(tampered)).toBe(false)
+      })
+    })
+  })
+
+  it.each(units)('$unitId independent verifier rejects every corrupted contract surface', (unit) => {
+    unit.families.forEach((draft: G2FiniteDraftFamily) => {
+      const original = draft.generate({ seed: 0, variantIndex: 0 })
+      const corruptions: GeneratedApplicationProblemV1[] = []
+
+      const prompt = structuredClone(original)
+      prompt.prompt = '손상된 문제 문장'
+      corruptions.push(prompt)
+
+      const solution = structuredClone(original)
+      solution.solutionSteps = ['손상된 풀이']
+      corruptions.push(solution)
+
+      const answer = structuredClone(original)
+      answer.answer.normalized = answer.answer.normalized === '9999' ? '9998' : '9999'
+      corruptions.push(answer)
+
+      if (original.choices) {
+        const choices = structuredClone(original)
+        const wrongIndex = choices.correctChoiceIndex === 0 ? 1 : 0
+        choices.choices![wrongIndex] = '엉뚱한 보기'
+        corruptions.push(choices)
+      }
+
+      const visual = structuredClone(original)
+      const model = visual.visual.mathModel as {
+        rows?: Array<{ cells: Array<{ numericValue?: number }> }>
+        primitives?: Array<{ x2?: number }>
+      }
+      if (model.rows) model.rows[0].cells[1].numericValue = 9999
+      if (model.primitives) model.primitives[0].x2 = Number(model.primitives[0].x2) + 1
+      corruptions.push(visual)
+
+      const a11y = structuredClone(original)
+      const publicModel = a11y.visual.mathModel as {
+        rows?: Array<{ cells: Array<{ before?: { text: string } }> }>
+        labels?: Array<{ content: { before?: { text: string } } }>
+      }
+      if (publicModel.rows?.[0].cells[0].before) {
+        publicModel.rows[0].cells[0].before.text += ` 정답 ${original.answer.normalized}`
+      }
+      if (publicModel.labels?.[0].content.before) {
+        publicModel.labels[0].content.before.text += ` 정답 ${original.answer.normalized}`
+      }
+      corruptions.push(a11y)
+
+      corruptions.forEach((corrupted) => {
+        expect(unit.verify(corrupted), `${draft.family.familyId} accepted corrupted evidence`)
+          .not.toEqual([])
+      })
+    })
+  })
+
+  it.each([
+    { label: 'shop price', families: G2_2_PLACE_VALUE_DRAFT_FAMILIES, familyId: 'g2-2-place-value-shop-order', unitToken: '원' },
+    { label: 'cookie total', families: G2_2_FACTS_DRAFT_FAMILIES, familyId: 'g2-2-facts-two-trays', unitToken: '개' },
+    { label: 'row count', families: G2_2_FACTS_DRAFT_FAMILIES, familyId: 'g2-2-facts-missing-groups', unitToken: '줄' },
+    { label: 'survey difference', families: G2_2_TABLE_GRAPH_DRAFT_FAMILIES, familyId: 'g2-2-table-graph-survey-difference', unitToken: '명' },
+    { label: 'missing category', families: G2_2_TABLE_GRAPH_DRAFT_FAMILIES, familyId: 'g2-2-table-graph-missing-category', unitToken: '개' },
+  ] as const)('$label independently proves the answer unit in the final calculation', ({
+    families,
+    familyId,
+    unitToken,
+  }) => {
+    const draft = families.find(({ family }) => family.familyId === familyId)!
+    draft.cases.forEach((_, variantIndex) => {
+      const problem = draft.generate({ seed: 0, variantIndex })
+      expect(problem.solutionSteps.at(-1)).toContain(unitToken)
+    })
+  })
+
+  it('never serializes an omitted graph key or an answer-driving flag before submission', () => {
+    const draft = G2_2_TABLE_GRAPH_DRAFT_FAMILIES.find(
+      ({ family }) => family.familyId === 'g2-2-table-graph-key-sufficiency',
+    )!
+    const missingKey = draft.generate({ seed: 0, variantIndex: 1 })
+    expect(missingKey.prompt).not.toContain(String(missingKey.params['per-mark']))
+    const serialized = publicVisualJson(missingKey)
+    expect(serialized).not.toContain('per-mark')
+    expect(serialized).not.toContain('표식 한 개의 수')
+    expect(serialized).not.toContain('has-key')
+    expect(serialized).not.toContain('표식 뜻 정보')
+  })
+
+  it.each(units)('$unitId proves every executable finite-domain boundary class', (unit) => {
+    unit.families.forEach((draft: G2FiniteDraftFamily) => {
+      expect(draft.boundaryEvidence.length).toBeGreaterThan(0)
+      const boundaryReviewIds = new Set(draft.reviewCases
+        .filter(({ kind }) => kind === 'boundary')
+        .flatMap(({ boundaryClassIds }) => boundaryClassIds))
+      draft.boundaryEvidence.forEach((boundary) => {
+        expect(boundary.variantIndexes.length).toBeGreaterThan(0)
+        expect(boundaryReviewIds.has(boundary.classId)).toBe(true)
+        boundary.variantIndexes.forEach((variantIndex) => {
+          expect(boundary.matches(draft.cases[variantIndex])).toBe(true)
+        })
       })
     })
   })

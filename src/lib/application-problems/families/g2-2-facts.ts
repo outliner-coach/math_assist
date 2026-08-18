@@ -28,7 +28,7 @@ const definitions: readonly G2FiniteDraftFamilyDefinition[] = [
       return {
         prompt: `쿠키가 한 접시에 ${each}개씩 있어요. 접시 ${first}개와 ${second}개에 있는 쿠키는 모두 몇 개일까요?`,
         answer: { format: 'number', normalized: String(answer) },
-        solutionSteps: [`접시는 모두 ${first + second}개예요.`, `${first + second}×${each}=${answer}`],
+        solutionSteps: [`접시는 모두 ${first + second}개예요.`, `${first + second}×${each}=${answer}개`],
         hintSteps: ['접시 수를 먼저 모아 보세요.', '같은 수씩 있는 묶음으로 나타내세요.'],
       }
     },
@@ -47,7 +47,7 @@ const definitions: readonly G2FiniteDraftFamilyDefinition[] = [
       return {
         prompt: `구슬 ${total}개를 한 줄에 ${each}개씩 놓으면 몇 줄이 될까요?`,
         answer: { format: 'number', normalized: String(answer) },
-        solutionSteps: [`${each}씩 몇 묶음이면 ${total}인지 구해요.`, `${each}×${answer}=${total}`],
+        solutionSteps: [`${each}씩 몇 묶음이면 ${total}인지 구해요.`, `${each}×${answer}=${total}이므로 ${answer}줄이에요.`],
         hintSteps: ['곱해서 전체가 되는 수를 찾으세요.', '구구표로 다시 확인하세요.'],
       }
     },
