@@ -172,11 +172,11 @@ function deepFreeze<T>(value: T): T {
 }
 
 function authoringSafetyCatalog(overrides: Record<string, unknown> = {}) {
-  const draftFamily = family()
+  const draftFamily = family({ unitId: 'unit-5-1-perimeter-area' })
   return {
     schemaVersion: 'application-problem-authoring-catalog-v1',
     unitCandidates: [{
-      pack: pack(),
+      pack: pack({ unitId: draftFamily.unitId }),
       familyCandidates: [{
         family: draftFamily,
         runtime: {
@@ -218,48 +218,70 @@ function authoringSafetyCatalog(overrides: Record<string, unknown> = {}) {
 }
 
 function completeClaimInput() {
-  const applying = family({
-    familyId: 'g5-area-applying',
+  const production = loadProductionApplicationProblemQualityInput()
+  const unitId = 'unit-5-1-perimeter-area'
+  const conceptIds = ['area-001', 'areaunit-001', 'perimeter-001', 'polygonarea-001']
+  const requiredRepresentations = ['diagram', 'equation', 'manipulative', 'text']
+  const standardCodes = ['[6수03-11]', '[6수03-12]', '[6수03-13]', '[6수03-14]']
+  const familyBase = {
+    packId: 'pack-test-complete-area',
+    unitId,
+    primaryStandard: standardCodes[0],
+    connectedStandards: standardCodes.slice(1),
+    representations: requiredRepresentations,
+  }
+  const applyingFamilies = conceptIds.map((conceptId: string, index: number) => family({
+    ...familyBase,
+    familyId: `g5-complete-applying-${index}`,
+    conceptIds: [conceptId],
     cognitiveDomain: 'applying',
     reasoningPattern: 'multi_step',
-    modelId: 'area-applying-model',
-  })
-  const inverse = family()
-  const modelAndCheck = family({
-    familyId: 'g5-area-model-check',
-    reasoningPattern: 'model_and_check',
-    modelId: 'area-model-check',
-    unknownRole: 'checked-side',
-  })
-  const errorAnalysis = family({
-    familyId: 'g5-area-error-analysis',
-    reasoningPattern: 'error_analysis',
-    modelId: 'area-error-model',
-    unknownRole: 'corrected-side',
-  })
-  const families = [applying, inverse, modelAndCheck, errorAnalysis]
+    modelId: `complete-applying-model-${index}`,
+    unknownRole: `complete-applying-unknown-${index}`,
+    misconceptionRefs: [`mis-${conceptId}`],
+  }))
+  const reasoningFamilies = ['inverse', 'model_and_check', 'error_analysis'].map((reasoningPattern, index) => family({
+    ...familyBase,
+    familyId: `g5-complete-reasoning-${index}`,
+    conceptIds,
+    reasoningPattern,
+    modelId: `complete-reasoning-model-${index}`,
+    unknownRole: `complete-reasoning-unknown-${index}`,
+    misconceptionRefs: [`mis-${conceptIds[index]}`],
+  }))
+  const families = [...applyingFamilies, ...reasoningFamilies]
   const completePack = pack({
+    packId: familyBase.packId,
+    unitId: familyBase.unitId,
     coverageStatus: 'complete',
+    coveredStandardCodes: standardCodes,
+    concepts: conceptIds.map((conceptId: string) => ({
+      conceptId,
+      name: conceptId,
+      standardCodes,
+      prerequisites: [],
+      allowedScope: ['source-derived complete coverage'],
+      excludedScope: ['outside canonical unit'],
+      misconceptions: [{
+        id: `mis-${conceptId}`,
+        description: '검토용 오개념',
+        diagnosticEvidence: '독립 검산으로 확인합니다.',
+        correctionStrategy: '표현과 식을 다시 연결합니다.',
+      }],
+    })),
     familyRefs: families.map((entry) => ({ familyId: entry.familyId, version: entry.version })),
   })
   return baseline({
     packs: [completePack],
     families,
     registries: [],
-    unitBaseBankEvidence: [{
-      grade: 5,
-      unitId: completePack.unitId,
-      coreConceptIds: ['area-001'],
-      requiredRepresentations: ['text', 'diagram'],
-      knowingConceptIds: ['area-001'],
-      hasKnowingCoverage: true,
-      conceptUnitIdentities: [{ conceptId: 'area-001', unitId: completePack.unitId }],
-    }],
+    ledgerAllocations: production.ledgerAllocations,
+    unitBaseBankEvidence: production.unitBaseBankEvidence,
     completeCoverageContexts: [{
       packId: completePack.packId,
       version: completePack.version,
-      coreConceptIds: ['area-001'],
-      requiredRepresentations: ['text', 'diagram'],
+      coreConceptIds: conceptIds,
+      requiredRepresentations,
       hasKnowingCoverage: true,
     }],
   })
@@ -366,15 +388,124 @@ describe('application problem quality audit', () => {
     expect(report.errors.map((error: { code: string }) => error.code)).toContain('APQ_RELEASE_APPROVAL')
   })
 
+  it('rejects a draft production entry in default work mode even when the caller supplies matching ledgers', () => {
+    const input = loadProductionApplicationProblemQualityInput()
+    const targetRegistry = input.registries[0]
+    const targetEntry = targetRegistry.entries[0]
+    const draftFamily = deepFreeze({
+      ...targetEntry.family,
+      releaseStatus: 'draft',
+      approval: { ownerStatus: 'pending', evidenceRefs: [], expertStatus: 'not-reviewed' },
+    })
+    input.registries = input.registries.map((registry: any, index: number) => index === 0
+      ? {
+          ...registry,
+          entries: registry.entries.map((entry: any, entryIndex: number) => entryIndex === 0
+            ? { ...entry, family: draftFamily }
+            : entry),
+          releaseLedger: registry.releaseLedger.map((snapshot: any, snapshotIndex: number) => snapshotIndex === 0
+            ? draftFamily
+            : snapshot),
+        }
+      : registry)
+    input.canonicalReleaseLedger = input.canonicalReleaseLedger.map((snapshot: any) => (
+      snapshot.familyId === draftFamily.familyId && snapshot.version === draftFamily.version
+        ? draftFamily
+        : snapshot
+    ))
+
+    const report = auditApplicationProblemQuality(input)
+
+    expect(report.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_PRODUCTION_REGISTRY')
+  })
+
+  it('rejects an orphan production release-ledger snapshot with no executable entry', () => {
+    const input = loadProductionApplicationProblemQualityInput()
+    input.registries = input.registries.map((registry: any, index: number) => index === 0
+      ? { ...registry, entries: registry.entries.slice(1) }
+      : registry)
+
+    const report = auditApplicationProblemQuality(input)
+
+    expect(report.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_RELEASE_LEDGER')
+  })
+
+  it.each([
+    ['all pilot registries missing', (input: any) => {
+      input.registries = []
+    }],
+    ['missing executable pilot', (input: any) => {
+      input.registries[0] = { ...input.registries[0], entries: input.registries[0].entries.slice(1) }
+    }],
+    ['missing pilot ledger', (input: any) => {
+      input.registries[0] = { ...input.registries[0], releaseLedger: input.registries[0].releaseLedger.slice(1) }
+    }],
+    ['duplicate executable pilot', (input: any) => {
+      input.registries[0] = {
+        ...input.registries[0],
+        entries: [...input.registries[0].entries, input.registries[0].entries[0]],
+      }
+    }],
+    ['changed pilot snapshot accepted from caller as canonical', (input: any) => {
+      const original = input.registries[0].entries[0].family
+      const changed = deepFreeze({ ...original, modelId: `${original.modelId}-changed` })
+      input.registries[0] = {
+        ...input.registries[0],
+        entries: input.registries[0].entries.map((entry: any, index: number) => index === 0
+          ? { ...entry, family: changed }
+          : entry),
+        releaseLedger: input.registries[0].releaseLedger.map((snapshot: any, index: number) => index === 0
+          ? changed
+          : snapshot),
+      }
+      input.canonicalReleaseLedger = input.canonicalReleaseLedger.map((snapshot: any) => (
+        snapshot.familyId === changed.familyId && snapshot.version === changed.version ? changed : snapshot
+      ))
+    }],
+  ])('preserves the fixed production pilots exactly once: %s', (_label, mutate) => {
+    const input = loadProductionApplicationProblemQualityInput() as any
+    mutate(input)
+
+    const report = auditApplicationProblemQuality(input)
+
+    expect(report.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_FIXED_PILOT_REGISTRY')
+  })
+
   it('runs the review-only production-separation contract in the real audit path', () => {
     const report = auditApplicationProblemQuality(baseline({
-      authoringCatalog: {
-        schemaVersion: 'application-problem-authoring-catalog-v1',
-        unitCandidates: [{ pack: pack(), familyCandidates: [], completeness: {} }],
-      },
+      authoringCatalog: authoringSafetyCatalog(),
     }))
 
     expect(report.errors.map((error: { code: string }) => error.code)).toContain('APQ_DRAFT_PRODUCTION_MIX')
+  })
+
+  it.each([
+    ['forbidden release ledger', (catalog: any) => { catalog.releaseLedger = [] }],
+    ['duplicate family identity', (catalog: any) => {
+      catalog.unitCandidates = [...catalog.unitCandidates, catalog.unitCandidates[0]]
+    }],
+    ['approved authoring family', (catalog: any) => {
+      catalog.unitCandidates[0].familyCandidates[0].family.releaseStatus = 'approved'
+    }],
+    ['missing boundary review evidence', (catalog: any) => {
+      catalog.unitCandidates[0].familyCandidates[0].reviewCases = [
+        catalog.unitCandidates[0].familyCandidates[0].reviewCases[0],
+      ]
+    }],
+  ])('parses supplied authoring catalogs through the canonical contract: %s', (_label, mutate) => {
+    const catalog = authoringSafetyCatalog() as any
+    mutate(catalog)
+
+    const report = auditApplicationProblemQuality(baseline({
+      packs: [],
+      authoringCatalog: catalog,
+    }))
+
+    expect(report.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_DRAFT_SAFETY')
   })
 
   it.each([
@@ -401,6 +532,25 @@ describe('application problem quality audit', () => {
     expect(report.errors.map((error: { code: string }) => error.code)).not.toContain('APQ_COMPLETE_PACK_RULE')
   })
 
+  it('rejects a consistently forged 62-unit base-bank evidence set', () => {
+    const input = loadProductionApplicationProblemQualityInput()
+    input.unitBaseBankEvidence = input.unitBaseBankEvidence.map((evidence: any, index: number) => ({
+      ...evidence,
+      coreConceptIds: [`forged-concept-${index}`],
+      requiredRepresentations: ['text'],
+      knowingConceptIds: [`forged-concept-${index}`],
+      hasKnowingCoverage: true,
+      conceptUnitIdentities: [{ conceptId: `forged-concept-${index}`, unitId: evidence.unitId }],
+    }))
+
+    const report = auditApplicationProblemQuality(input)
+
+    expect(report.errors).toContainEqual(expect.objectContaining({
+      code: 'APQ_BASE_BANK_EVIDENCE',
+      message: expect.stringMatching(/repository-derived/i),
+    }))
+  })
+
   it.each([
     ['coreConceptIds', (input: any) => {
       input.packs[0].concepts[0].conceptId = 'forged-core'
@@ -411,9 +561,7 @@ describe('application problem quality audit', () => {
       input.completeCoverageContexts[0].requiredRepresentations = ['text']
     }, 'canonical representations'],
     ['hasKnowingCoverage', (input: any) => {
-      input.unitBaseBankEvidence[0].knowingConceptIds = []
-      input.unitBaseBankEvidence[0].hasKnowingCoverage = false
-      input.completeCoverageContexts[0].hasKnowingCoverage = true
+      input.completeCoverageContexts[0].hasKnowingCoverage = false
     }, 'canonical knowing coverage'],
     ['concept-to-unit identity', (input: any) => {
       input.packs[0].concepts[0].conceptId = 'other-unit-concept'

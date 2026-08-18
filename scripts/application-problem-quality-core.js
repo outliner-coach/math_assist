@@ -228,10 +228,15 @@ function checkRegistries(input, errors, selection) {
   const canonicalLedger = Array.isArray(input.canonicalReleaseLedger)
     ? input.canonicalReleaseLedger
     : []
+  const executableByKey = new Map()
+  const ledgerByKey = new Map()
   for (const registry of input.registries ?? []) {
     for (const entry of registry.entries ?? []) {
       const family = entry?.family
       const key = familyKey(family)
+      const executableEntries = executableByKey.get(key) ?? []
+      executableEntries.push(entry)
+      executableByKey.set(key, executableEntries)
       const localMatches = (registry.releaseLedger ?? []).filter((snapshot) => familyKey(snapshot) === key)
       const canonicalMatches = canonicalLedger.filter((snapshot) => familyKey(snapshot) === key)
       if (
@@ -250,30 +255,93 @@ function checkRegistries(input, errors, selection) {
       if (family?.releaseStatus === 'approved' && !approvalIsBacked(family)) {
         errors.push(issue('APQ_APPROVAL_EVIDENCE', 'approved runtime candidate has no approval evidence', { family }))
       }
-      if ((selection.mode === 'release' || selection.mode === 'all') &&
-        (family?.releaseStatus !== 'approved' || !approvalIsBacked(family))) {
-        errors.push(issue('APQ_RELEASE_APPROVAL', 'release mode requires every production family to have backed owner approval', { family }))
+      if (family?.releaseStatus !== 'approved' || !approvalIsBacked(family)) {
+        errors.push(issue(
+          selection.mode === 'release' || selection.mode === 'all'
+            ? 'APQ_RELEASE_APPROVAL'
+            : 'APQ_PRODUCTION_REGISTRY',
+          'production registries require every executable family to have backed owner approval',
+          { family },
+        ))
       }
       if (entry?.runtime?.kind !== family?.runtimeMode) {
         errors.push(issue('APQ_RUNTIME_MODE', 'runtime mode does not match family declaration', { family }))
+      }
+    }
+    for (const snapshot of registry.releaseLedger ?? []) {
+      const key = familyKey(snapshot)
+      const ledgerSnapshots = ledgerByKey.get(key) ?? []
+      ledgerSnapshots.push(snapshot)
+      ledgerByKey.set(key, ledgerSnapshots)
+      const matchingEntries = (registry.entries ?? []).filter((entry) => familyKey(entry?.family) === key)
+      if (
+        matchingEntries.length !== 1 ||
+        !isDeepFrozen(snapshot) ||
+        stableJson(matchingEntries[0]?.family) !== stableJson(snapshot)
+      ) {
+        errors.push(issue(
+          'APQ_RELEASE_LEDGER',
+          'every production release-ledger snapshot must exactly match one executable entry',
+          { family: snapshot },
+        ))
+      }
+    }
+  }
+
+  const fixedPilotAudit = FIXED_PILOT_FAMILY_REFS.some((key) => (
+    executableByKey.has(key) || ledgerByKey.has(key)
+  )) || (input.packs ?? []).some((pack) => (
+    FIXED_PILOT_PACK_REFS.includes(`${pack?.packId}@${pack?.version}`)
+  ))
+  if (fixedPilotAudit) {
+    const canonicalByKey = new Map()
+    for (const snapshot of canonicalLedger) {
+      const key = familyKey(snapshot)
+      const matches = canonicalByKey.get(key) ?? []
+      matches.push(snapshot)
+      canonicalByKey.set(key, matches)
+    }
+    for (const key of FIXED_PILOT_FAMILY_REFS) {
+      const entries = executableByKey.get(key) ?? []
+      const localSnapshots = ledgerByKey.get(key) ?? []
+      const canonicalSnapshots = canonicalByKey.get(key) ?? []
+      const canonical = canonicalSnapshots[0]
+      if (
+        entries.length !== 1 ||
+        localSnapshots.length !== 1 ||
+        canonicalSnapshots.length !== 1 ||
+        !isDeepFrozen(localSnapshots[0]) ||
+        !isDeepFrozen(canonical) ||
+        stableJson(entries[0]?.family) !== stableJson(canonical) ||
+        stableJson(localSnapshots[0]) !== stableJson(canonical)
+      ) {
+        errors.push(issue(
+          'APQ_FIXED_PILOT_REGISTRY',
+          `fixed pilot ${key} must retain exactly one unchanged executable entry and release-ledger snapshot`,
+          { family: entries[0]?.family ?? localSnapshots[0] ?? canonical },
+        ))
       }
     }
   }
 }
 
 function checkAuthoringContracts(input, errors) {
-  if (!input.authoringCatalog) return { separationValid: true, safetyValid: true }
+  if (!input.authoringCatalog) {
+    return { catalog: input.authoringCatalog, separationValid: true, safetyValid: true }
+  }
   try {
     const {
+      createReviewOnlyAuthoringCatalog,
       validateAuthoringCatalogSafety,
       validateAuthoringProductionSeparation,
     } = loadTypeScriptModule('src/lib/application-problems/authoring-catalog.ts')
+    const catalog = createReviewOnlyAuthoringCatalog(input.authoringCatalog)
     const separationIssues = validateAuthoringProductionSeparation({
-      authoringCatalog: input.authoringCatalog,
+      authoringCatalog: catalog,
       productionRegistries: input.registries ?? [],
       productionPacks: input.packs ?? [],
     })
-    const safetyIssues = validateAuthoringCatalogSafety(input.authoringCatalog)
+    const safetyIssues = validateAuthoringCatalogSafety(catalog)
     separationIssues.forEach((contractIssue) => {
       errors.push(issue(
         'APQ_DRAFT_PRODUCTION_MIX',
@@ -287,6 +355,7 @@ function checkAuthoringContracts(input, errors) {
       ))
     })
     return {
+      catalog,
       separationValid: separationIssues.length === 0,
       safetyValid: safetyIssues.length === 0,
     }
@@ -295,7 +364,7 @@ function checkAuthoringContracts(input, errors) {
       'APQ_DRAFT_SAFETY',
       `authoring catalog validation failed: ${error instanceof Error ? error.message : String(error)}`,
     ))
-    return { separationValid: false, safetyValid: false }
+    return { catalog: input.authoringCatalog, separationValid: false, safetyValid: false }
   }
 }
 
@@ -797,13 +866,21 @@ function resolveAuditContractInput(input, errors) {
   if (source.authoringCatalog === undefined) {
     resolved.authoringCatalog = authoringModule.APPLICATION_PROBLEM_AUTHORING_CATALOG_V1
   }
-  if (source.unitBaseBankEvidence === undefined) {
-    resolved.unitBaseBankEvidence = loadCanonicalUnitBaseBankEvidence(resolved.unitInventory)
+  const canonicalBaseBankEvidence = loadCanonicalUnitBaseBankEvidence(
+    authoringModule.APPLICATION_UNIT_INVENTORY_V1,
+  )
+  if (
+    source.unitBaseBankEvidence !== undefined &&
+    stableJson(source.unitBaseBankEvidence) !== stableJson(canonicalBaseBankEvidence)
+  ) {
+    errors.push(issue(
+      'APQ_BASE_BANK_EVIDENCE',
+      'supplied base-bank evidence does not match repository-derived Grade 2-6 evidence',
+    ))
   }
-  if (source.canonicalReleaseLedger === undefined) {
-    const { APPLICATION_PROBLEM_REGISTRY_V1 } = loadTypeScriptModule('src/lib/application-problems/registered-families.ts')
-    resolved.canonicalReleaseLedger = APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger
-  }
+  resolved.unitBaseBankEvidence = canonicalBaseBankEvidence
+  const { APPLICATION_PROBLEM_REGISTRY_V1 } = loadTypeScriptModule('src/lib/application-problems/registered-families.ts')
+  resolved.canonicalReleaseLedger = APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger
   return resolved
 }
 
@@ -817,6 +894,7 @@ function auditApplicationProblemQuality(input, selection = { mode: 'work' }) {
   const authoringValidation = checkAuthoringContracts(resolvedInput, errors)
   const checkedInput = {
     ...resolvedInput,
+    authoringCatalog: authoringValidation.catalog,
     authoringSafetyValid: authoringValidation.safetyValid,
     authoringSeparationValid: authoringValidation.separationValid,
   }

@@ -242,6 +242,7 @@ export function createReviewOnlyAuthoringCatalog(
   if (!Array.isArray(value.unitCandidates)) {
     fail('invalid_unit_candidates', 'catalog.unitCandidates', 'unitCandidates must be an array')
   }
+  const familyKeys = new Set<string>()
   const unitCandidates = value.unitCandidates.map((candidateValue, unitIndex) => {
     if (!isRecord(candidateValue)) {
       fail('invalid_unit_candidate', `catalog.unitCandidates[${unitIndex}]`, 'unit candidate must be an object')
@@ -283,6 +284,15 @@ export function createReviewOnlyAuthoringCatalog(
     const familyCandidates = candidateValue.familyCandidates.map((candidateValue, familyIndex) => {
       const candidate = candidateValue as Record<string, unknown>
       const family = parseApplicationProblemFamilyV1(candidate.family)
+      const familyKey = `${family.familyId}@${family.version}`
+      if (familyKeys.has(familyKey)) {
+        fail(
+          'duplicate_authoring_family',
+          `catalog.unitCandidates[${unitIndex}].familyCandidates[${familyIndex}].family`,
+          `authoring family version ${familyKey} must be unique`,
+        )
+      }
+      familyKeys.add(familyKey)
       if (!isRecord(candidate.runtime) || candidate.runtime.kind !== family.runtimeMode) {
         fail(
           'invalid_draft_runtime',
