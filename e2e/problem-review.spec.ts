@@ -62,17 +62,23 @@ function inspectDiagramMetrics(element: SVGSVGElement, targetFamilyId: string) {
   }
 }
 
-test('내부 검수 화면은 세 학년 family와 읽기 전용 검수 근거를 표시한다', async ({ page }) => {
+test('내부 검수 화면은 62단원 family와 읽기 전용 대표·경계 근거를 표시한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/review/application-problems`)
 
   await expect(page.getByTestId('application-problem-review')).toBeVisible()
-  await expect(page.getByText('세 학년 응용문제 검수')).toBeVisible()
-  await expect(page.getByText('대표 family 9개')).toBeVisible()
-  for (const label of ['학년', '단원', '유형(family)', '버전', '인지영역', '추론패턴', '성취기준', '증명 방식', '출시 상태']) {
+  await expect(page.getByText('전 학년 응용문제 검수')).toBeVisible()
+  await expect(page.getByText('전체 단원 62개 · 대표 family 9개')).toBeVisible()
+  for (const label of ['학년', '학기', '단원', '개념', '유형(family)', '인지영역', '추론 방식', '표현', '증명 방식', '출시 상태']) {
     await expect(page.getByLabel(label)).toBeVisible()
   }
 
   await expect(page.getByTestId('review-problem-card')).toHaveCount(9)
+  await expect(page.getByTestId('review-representative-case')).toHaveCount(9)
+  await expect(page.getByTestId('review-boundary-case')).toHaveCount(9)
+  await expect(page.getByText('재현 정보').first()).toBeVisible()
+  await expect(page.getByText('독립 검산').first()).toBeVisible()
+  await expect(page.getByTestId('review-visual-before').locator('.application-visual--answer')).toHaveCount(0)
+  await expect(page.getByTestId('review-boundary-visual-before').locator('.application-visual--answer')).toHaveCount(0)
   await expect(page.getByText('자동 검사 근거').first()).toBeVisible()
   await expect(page.getByText('증명 실행: 통과').first()).toBeVisible()
   await expect(page.getByText('감사 결과: 통과').first()).toBeVisible()
@@ -81,8 +87,11 @@ test('내부 검수 화면은 세 학년 family와 읽기 전용 검수 근거�
 })
 
 test('내부 검수 화면은 등록 행으로 실제 필터링하고 학습자 동선이나 승인 저장을 제공하지 않는다', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('application-review-sentinel', 'preserve'))
   await page.goto(`${BASE_PATH}/review/application-problems`)
 
+  await page.getByLabel('학년').selectOption('3')
+  await expect(page.getByTestId('review-problem-card')).toHaveCount(0)
   await page.getByLabel('학년').selectOption('6')
   await expect(page.getByTestId('review-problem-card')).toHaveCount(3)
   await expect(page.getByTestId('review-problem-card').first()).toContainText('6학년')
@@ -90,9 +99,15 @@ test('내부 검수 화면은 등록 행으로 실제 필터링하고 학습자 
   await expect(page.getByRole('button', { name: /승인|저장|출시/ })).toHaveCount(0)
   const learnerLinks = page.locator('a[href^="/home"], a[href^="/grade"], a[href^="/concept"], a[href^="/practice"], a[href^="/mission"]')
   await expect(learnerLinks).toHaveCount(0)
+  expect(await page.evaluate(() => localStorage.getItem('application-review-sentinel'))).toBe('preserve')
 })
 
 test('390×844와 1024×768 검수 화면은 가로 넘침이나 고정 행동 가림이 없다', async ({ page }) => {
+  const browserErrors: string[] = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') browserErrors.push(message.text())
+  })
+  page.on('pageerror', (error) => browserErrors.push(error.message))
   for (const viewport of [
     { width: 390, height: 844 },
     { width: 1024, height: 768 },
@@ -101,9 +116,14 @@ test('390×844와 1024×768 검수 화면은 가로 넘침이나 고정 행동 �
     await page.goto(`${BASE_PATH}/review/application-problems`)
     await expect(page.getByTestId('application-problem-review')).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0)
-    const gradeFilter = page.getByLabel('학년')
-    expect((await gradeFilter.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(40)
+    for (const label of ['학년', '학기', '단원', '개념', '유형(family)', '인지영역', '추론 방식', '표현', '증명 방식', '출시 상태']) {
+      const box = await page.getByLabel(label).boundingBox()
+      expect(box?.height ?? 0).toBeGreaterThanOrEqual(40)
+      expect(box?.x ?? -1).toBeGreaterThanOrEqual(0)
+      expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(viewport.width)
+    }
   }
+  expect(browserErrors).toEqual([])
 })
 
 test('등록된 모든 diagram family는 두 뷰포트와 공개 상태에서 읽을 수 있는 label을 보인다', async ({ page }) => {
