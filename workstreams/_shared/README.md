@@ -941,3 +941,14 @@ When you change a high-conflict file, add a short dated note below:
   remains the source for validation and scoring, not for visible answer
   geometry. Re-run the affected browser evidence and final editorial-ledger
   check after changing this renderer.
+
+- 2026-08-18: Grade 2 all-unit application candidate integration (primary
+  workstreams 01 and 04, UI dependency on workstream 03) connects twelve
+  complete draft packs to the review-only authoring catalog. Every draft
+  family must retain executable representative, boundary, oracle, visual,
+  disclosure, and exhaustive proof evidence. Grade 2 practice remains exactly
+  six stable mission IDs per unit and replaces one applying/reasoning slot;
+  knowing slots, completion/review IDs, rewards, and
+  `mathAssist_grade2Progress` stay unchanged. Draft candidates remain blocked
+  from learner interaction. The immutable production registry and its three
+  approved V1 families do not change before explicit Grade 2 approval.

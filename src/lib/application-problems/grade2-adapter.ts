@@ -12,7 +12,13 @@ import { applicationProblemSourceOf } from './template-adapter'
 export type Grade2ApplicationMissionV1 = Grade2Mission & {
   applicationSource: ApplicationProblemSource
   applicationParams: Record<string, JsonValue>
+  applicationMisconceptionRefs: string[]
   applicationVisual: GeneratedApplicationVisualV1
+  applicationPlacement?: {
+    schemaVersion: 'grade2-application-placement-v1'
+    baseMissionId: string
+    baseSeed: number
+  }
 }
 
 export interface Grade2ApplicationAnswerMappingContextV1 {
@@ -67,7 +73,54 @@ export function adaptGeneratedApplicationProblemToGrade2(
     solutionSteps: [...problem.solutionSteps],
     applicationSource: applicationProblemSourceOf(problem),
     applicationParams: { ...problem.params },
+    applicationMisconceptionRefs: [...problem.misconceptionRefs],
     applicationVisual: problem.visual,
+  }
+}
+
+export function adaptGeneratedApplicationProblemToGrade2Replacement(input: {
+  shell: Grade2Mission
+  problem: GeneratedApplicationProblemV1
+  baseSeed: number
+}): Grade2ApplicationMissionV1 {
+  const isTimeText = input.problem.answer.format === 'text' &&
+    input.problem.familyId.startsWith('g2-2-time-') &&
+    /^\d{1,2}시 \d{1,2}분$/.test(input.problem.answer.normalized)
+  if (input.problem.answer.format === 'text' && !isTimeText) {
+    throw new TypeError('Grade 2 text application answers must use the supported time-of-day form')
+  }
+  const answerType = input.problem.answer.format === 'choice'
+    ? 'choice' as const
+    : input.problem.answer.format === 'text'
+      ? 'time-of-day' as const
+      : 'integer' as const
+  const shell: Grade2Mission = {
+    ...input.shell,
+    answerType,
+    answerConfig: answerType === 'choice'
+      ? { kind: 'choice' }
+      : answerType === 'time-of-day'
+        ? {
+            kind: 'time-of-day',
+            timeMode: 'time-of-day',
+            inputLabel: '시각을 써요',
+          }
+        : { kind: 'integer', inputLabel: '답을 숫자로 써요' },
+    curriculumCode: input.problem.curriculumCodes[0] ?? input.shell.curriculumCode,
+    directCurriculumCodes: [...input.problem.curriculumCodes],
+    visualSemantics: input.problem.visual.semantics ?? input.shell.visualSemantics,
+  }
+  return {
+    ...adaptGeneratedApplicationProblemToGrade2({
+      shell,
+      problem: input.problem,
+      mapAnswer: ({ answer }) => answer.normalized,
+    }),
+    applicationPlacement: {
+      schemaVersion: 'grade2-application-placement-v1',
+      baseMissionId: input.shell.id,
+      baseSeed: input.baseSeed,
+    },
   }
 }
 

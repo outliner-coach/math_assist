@@ -1631,29 +1631,33 @@ function toReviewVisual(problem: GeneratedApplicationProblemV1) {
   }
 }
 
-function collectApplicationReviewBeforeText(value: unknown, collected: string[] = []): string[] {
+function hasApplicationReviewAnswerOnlyDisclosure(value: unknown, answer: string): boolean {
   if (Array.isArray(value)) {
-    value.forEach((entry) => collectApplicationReviewBeforeText(entry, collected))
-  } else if (value && typeof value === 'object') {
-    Object.entries(value).forEach(([key, entry]) => {
-      if (key === 'after') return
-      if (
-        key === 'before' &&
-        entry &&
-        typeof entry === 'object' &&
-        typeof (entry as { text?: unknown }).text === 'string'
-      ) {
-        collected.push((entry as { text: string }).text)
-      }
-      collectApplicationReviewBeforeText(entry, collected)
-    })
+    return value.some((entry) => hasApplicationReviewAnswerOnlyDisclosure(entry, answer))
   }
-  return collected
+  if (!value || typeof value !== 'object') return false
+  const record = value as Record<string, unknown>
+  const before = record.before && typeof record.before === 'object'
+    ? record.before as { text?: unknown; disclosure?: unknown }
+    : null
+  const after = record.after && typeof record.after === 'object'
+    ? record.after as { disclosure?: unknown }
+    : null
+  if (before && typeof before.text === 'string') {
+    if (before.disclosure === 'solution' || before.disclosure === 'intermediate') return true
+    if (
+      (after?.disclosure === 'solution' || after?.disclosure === 'intermediate') &&
+      before.text.trim() === answer
+    ) return true
+  }
+  return Object.entries(record).some(([key, entry]) => (
+    key !== 'after' && hasApplicationReviewAnswerOnlyDisclosure(entry, answer)
+  ))
 }
 
 function applicationReviewDisclosureStatus(problem: GeneratedApplicationProblemV1) {
   const answer = problem.answer.normalized.trim()
-  return answer !== '' && collectApplicationReviewBeforeText(problem.visual).some((text) => text.trim() === answer)
+  return answer !== '' && hasApplicationReviewAnswerOnlyDisclosure(problem.visual, answer)
     ? 'failed' as const
     : 'passed' as const
 }
@@ -1676,6 +1680,7 @@ function problemReviewCase(input: {
   oracle?: (problem: GeneratedApplicationProblemV1) => unknown
   visualValidator?: (problem: GeneratedApplicationProblemV1) => boolean
   proofAuthorityId: string | null
+  proofValidator?: (problem: GeneratedApplicationProblemV1) => readonly string[]
 }): ApplicationProblemReviewCase {
   const answer = input.first.answer.normalized
   const choices = [...(input.first.choices ?? [])]
@@ -1723,9 +1728,22 @@ function problemReviewCase(input: {
     visualStatus,
     disclosureStatus,
   ]
+  let proofValidationStatus: ApplicationReviewEvidenceStatus = 'passed'
+  if (input.proofValidator) {
+    try {
+      const proofIssues = [...input.proofValidator(input.first)]
+      if (proofIssues.length > 0) {
+        proofValidationStatus = 'failed'
+        issues.push(...proofIssues.map((issue) => `independent proof failed: ${issue}`))
+      }
+    } catch (error) {
+      proofValidationStatus = 'blocked'
+      issues.push(`independent proof blocked: ${error instanceof Error ? error.message : String(error)}`)
+    }
+  }
   const proofStatus = input.proofAuthorityId === null
     ? 'missing'
-    : combinedApplicationReviewStatus(proofPrerequisites)
+    : combinedApplicationReviewStatus([...proofPrerequisites, proofValidationStatus])
   if (proofStatus === 'missing') issues.push('missing case-specific proof authority')
   const status = combinedApplicationReviewStatus([
     oracleStatus,
@@ -2056,13 +2074,22 @@ export function buildApplicationProblemReviewData(
           ...reviewCase,
           oracle: (problem) => candidate.oracle(problem),
           visualValidator: (problem) => candidate.visualValidator(problem),
-          proofAuthorityId: null,
+          proofAuthorityId: candidate.proof?.authorityId ?? null,
+          proofValidator: candidate.proof
+            ? (problem) => candidate.proof!.verify(problem, reviewCase)
+            : undefined,
         })
       })
       const passedCases = cases.filter((reviewCase) => (
         reviewCase.independentVerification.status === 'passed'
       )).length
-      const issues = passedCases === cases.length ? [] : ['draft representative or boundary evidence failed']
+      const caseIssues = passedCases === cases.length
+        ? []
+        : ['draft representative or boundary evidence failed']
+      const proofIssues = candidate.proof
+        ? [...candidate.proof.issues]
+        : ['missing draft proof evidence']
+      const issues = [...caseIssues, ...proofIssues]
       rowsByFamily.set(key, rowFromCases({
         family: candidate.family,
         pack: unitCandidate.pack,
@@ -2073,11 +2100,11 @@ export function buildApplicationProblemReviewData(
         cases,
         proof: {
           mode: candidate.family.proofMode,
-          expectedCount: cases.length,
-          authorityId: null,
-          proven: issues.length === 0,
-          checkedCount: passedCases,
-          issues,
+          expectedCount: candidate.proof?.expectedCount ?? cases.length,
+          authorityId: candidate.proof?.authorityId ?? null,
+          proven: candidate.proof?.proven === true && issues.length === 0,
+          checkedCount: candidate.proof?.checkedCount ?? 0,
+          issues: proofIssues,
         },
         audit: { status: issues.length === 0 ? 'passed' : 'failed', issues },
       }))

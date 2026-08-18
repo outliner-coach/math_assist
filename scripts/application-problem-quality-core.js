@@ -456,8 +456,22 @@ function checkSessionContracts(input, errors) {
     const expected = contract.grade === 2 ? { easy: 48, medium: 48, applied: 48 }
       : contract.grade === 5 ? { 1: 4, 2: 4, 3: 2 }
         : contract.sessionCount === 10 ? { 1: 4, 2: 4, 3: 2 } : { 1: 2, 2: 2, 3: 1 }
+    const grade2ReplacementEvidence = contract.grade !== 2 || (
+      Number.isSafeInteger(contract.candidateCount) &&
+      contract.candidateCount >= 0 &&
+      contract.candidateCount <= 12 &&
+      contract.replacementCount === contract.candidateCount &&
+      Array.isArray(contract.replacementUnits) &&
+      contract.replacementUnits.length === contract.candidateCount &&
+      contract.replacementUnits.every((unit) => (
+        unit.sessionCount === 6 &&
+        unit.applicationCount === 1 &&
+        unit.applicationDomain !== 'knowing' &&
+        unit.stableIdentityCount === 6
+      ))
+    )
     const validCount = contract.grade === 2
-      ? contract.legacyCount === 144 && contract.sessionCount === contract.legacyCount + contract.candidateCount
+      ? contract.legacyCount === 144 && contract.sessionCount === contract.legacyCount
       : contract.grade === 5 ? contract.legacyCount === 10 && contract.sessionCount === 10
         : contract.grade === 6 && contract.legacyCount === 10 && [5, 10].includes(contract.sessionCount)
     const expectedStorage = contract.grade === 2 ? 'mathAssist_grade2Progress'
@@ -472,7 +486,13 @@ function checkSessionContracts(input, errors) {
         session.count === 10 && [1, 2, 3].every((level) => session.difficultyDistribution?.[level] === ({ 1: 4, 2: 4, 3: 2 })[level])
       ))
     )
-    if (!validCount || !validDistribution || !grade6Evidence || contract.storageKey !== expectedStorage) {
+    if (
+      !validCount ||
+      !validDistribution ||
+      !grade2ReplacementEvidence ||
+      !grade6Evidence ||
+      contract.storageKey !== expectedStorage
+    ) {
       errors.push(issue('APQ_SESSION_CONTRACT', `Grade ${contract.grade} session count, difficulty distribution, or storage identity regressed`))
     }
   }
@@ -1110,6 +1130,21 @@ function loadProductionApplicationProblemQualityInput() {
   const grade2LegacyMissions = getGrade2Missions(grade2Seed)
   const grade2Candidates = buildApprovedGrade2ApplicationMissions(grade2Seed)
   const grade2Catalog = buildGrade2MissionCatalog(grade2Seed)
+  const grade2CatalogMissions = grade2Catalog.status === 'ready' ? grade2Catalog.missions : []
+  const grade2ReplacementUnits = grade2Candidates.map((candidate) => {
+    const practice = grade2CatalogMissions.filter((mission) => (
+      mission.unitId === candidate.unitId && mission.mode === 'practice'
+    ))
+    return {
+      unitId: candidate.unitId,
+      sessionCount: practice.length,
+      applicationCount: practice.filter((mission) => (
+        mission.applicationSource?.schemaVersion === 'generated-application-problem-v1'
+      )).length,
+      applicationDomain: candidate.cognitiveDomain,
+      stableIdentityCount: new Set(practice.map((mission) => mission.id)).size,
+    }
+  })
   const grade5Templates = loadTemplateCatalog('area.json', 'area-001')
   const grade6Templates = loadTemplateCatalog('g6ratio.json', 'g6ratio-001')
   const grade5Candidates = buildApprovedGrade5PracticeProblemCandidates({ conceptId: 'area-001' })
@@ -1141,8 +1176,12 @@ function loadProductionApplicationProblemQualityInput() {
         grade: 2,
         legacyCount: grade2LegacyMissions.length,
         candidateCount: grade2Candidates.length,
-        sessionCount: grade2Catalog.status === 'ready' ? grade2Catalog.missions.length : 0,
-        difficultyDistribution: grade2DifficultyDistribution(grade2LegacyMissions),
+        sessionCount: grade2CatalogMissions.length,
+        replacementCount: grade2CatalogMissions.filter((mission) => (
+          mission.applicationSource?.schemaVersion === 'generated-application-problem-v1'
+        )).length,
+        replacementUnits: grade2ReplacementUnits,
+        difficultyDistribution: grade2DifficultyDistribution(grade2CatalogMissions),
         storageKey: GRADE2_PROGRESS_KEY,
       },
       {

@@ -651,7 +651,7 @@ export default function Grade2MissionVisual({ mission, emphasize = false, showAn
     ) {
       return (
         <div role="alert">
-          필수 길이 그림을 확인할 수 없어 이 문제를 표시하지 않았어요. 문제를 다시 불러와 주세요.
+          필수 문제 그림을 확인할 수 없어 이 문제를 표시하지 않았어요. 문제를 다시 불러와 주세요.
         </div>
       )
     }
@@ -659,7 +659,7 @@ export default function Grade2MissionVisual({ mission, emphasize = false, showAn
     if (resolution.status !== 'ready') {
       return (
         <div role="alert">
-          필수 길이 그림을 확인할 수 없어 이 문제를 표시하지 않았어요. 문제를 다시 불러와 주세요.
+          필수 문제 그림을 확인할 수 없어 이 문제를 표시하지 않았어요. 문제를 다시 불러와 주세요.
         </div>
       )
     }

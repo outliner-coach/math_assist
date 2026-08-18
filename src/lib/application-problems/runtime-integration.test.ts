@@ -287,24 +287,25 @@ describe('application runtime integration', () => {
     })).toThrow(/not an approved runtime candidate/)
   })
 
-  it('appends three approved Grade 2 missions with stable ids and shell semantics', () => {
+  it('rotates approved Grade 2 families through one stable six-slot replacement', () => {
     const missions = buildApprovedGrade2ApplicationMissions(42, approvedRegistry([
       'g2-length-route-total',
       'g2-length-missing-segment',
       'g2-length-claim-check',
     ]))
 
-    expect(missions.map((mission) => mission.id)).toEqual([
-      'g2-2-length-application-route-total-v1',
-      'g2-2-length-application-missing-segment-v1',
-      'g2-2-length-application-claim-check-v1',
-    ])
-    expect(missions.map((mission) => mission.unitMissionOrder)).toEqual([13, 14, 15])
-    expect(missions.map((mission) => mission.stageOrder)).toEqual([145, 146, 147])
+    expect(missions).toHaveLength(1)
+    expect(missions[0].id).toBe('g2-2-length-06-v1')
+    expect(missions[0].unitMissionOrder).toBe(6)
+    expect(missions[0].stageOrder).toBe(108)
     expect(missions.every((mission) => mission.rewardId === 'measureTape')).toBe(true)
-    expect(missions.slice(0, 2).every((mission) => mission.answerType === 'length')).toBe(true)
-    expect(missions[2].answerType).toBe('choice')
-    expect(missions[2].choices?.[missions[2].correctChoiceIndex!]).toBe(missions[2].correctAnswer)
+    expect(missions[0].answerType).toBe('choice')
+    expect(missions[0].choices?.[missions[0].correctChoiceIndex!]).toBe(missions[0].correctAnswer)
+    expect(missions[0].applicationPlacement).toEqual({
+      schemaVersion: 'grade2-application-placement-v1',
+      baseMissionId: missions[0].id,
+      baseSeed: 42,
+    })
     expect(missions.every((mission) => mission.applicationSource.familyId)).toBe(true)
   })
 

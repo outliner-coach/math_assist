@@ -67,14 +67,15 @@ test('내부 검수 화면은 62단원 family와 읽기 전용 대표·경계 �
 
   await expect(page.getByTestId('application-problem-review')).toBeVisible()
   await expect(page.getByText('전 학년 응용문제 검수')).toBeVisible()
-  await expect(page.getByText('전체 단원 62개 · 대표 family 9개')).toBeVisible()
+  await expect(page.getByText('전체 단원 62개 · 대표 family 59개')).toBeVisible()
   for (const label of ['학년', '학기', '단원', '개념', '유형(family)', '인지영역', '추론 방식', '표현', '증명 방식', '출시 상태']) {
     await expect(page.getByLabel(label)).toBeVisible()
   }
 
-  await expect(page.getByTestId('review-problem-card')).toHaveCount(9)
-  await expect(page.getByTestId('review-representative-case')).toHaveCount(9)
-  await expect(page.getByTestId('review-boundary-case')).toHaveCount(9)
+  await expect(page.getByTestId('review-problem-card')).toHaveCount(59)
+  await expect(page.getByTestId('review-representative-case')).toHaveCount(59)
+  await expect.poll(() => page.getByTestId('review-boundary-case').count())
+    .toBeGreaterThanOrEqual(59)
   await expect(page.getByText('재현 정보').first()).toBeVisible()
   await expect(page.getByText('독립 검산').first()).toBeVisible()
   await expect(page.getByTestId('review-visual-before').locator('.application-visual--answer')).toHaveCount(0)

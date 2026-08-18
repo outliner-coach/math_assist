@@ -22,11 +22,13 @@ describe('application unit inventory', () => {
 })
 
 describe('review-only authoring catalog', () => {
-  it('starts empty and has no immutable release ledger or learner registry entries', () => {
-    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1).toEqual({
-      schemaVersion: 'application-problem-authoring-catalog-v1',
-      unitCandidates: [],
-    })
+  it('contains twelve Grade 2 drafts without a release ledger or learner registry entries', () => {
+    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.schemaVersion)
+      .toBe('application-problem-authoring-catalog-v1')
+    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toHaveLength(12)
+    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates.every(({ pack }) => (
+      pack.grade === 2 && pack.releaseStatus === 'draft'
+    ))).toBe(true)
     expect('releaseLedger' in APPLICATION_PROBLEM_AUTHORING_CATALOG_V1).toBe(false)
     expect('entries' in APPLICATION_PROBLEM_AUTHORING_CATALOG_V1).toBe(false)
     expect(selectApprovedRuntimeCandidates({

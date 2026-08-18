@@ -3,11 +3,13 @@ import { grade2Units } from '../grade2-problems'
 import { grade3Units } from '../grade3-problems'
 import { grade4Units } from '../grade4-problems'
 import type { ProblemRepresentation } from '../types'
+import { createGrade2AuthoringUnitCandidateValues } from './grade2-authoring-catalog'
 import {
   ContractValidationError,
   parseApplicationProblemFamilyV1,
   parseUnitKnowledgePackV1,
   type ApplicationCognitiveDomain,
+  type ApplicationProofMode,
   type ApplicationProblemFamilyV1,
   type CompletePackCoverageContext,
   type ContractValidationIssue,
@@ -102,6 +104,19 @@ export interface DraftApplicationReviewCaseV1 {
   variantIndex: number
 }
 
+export interface DraftApplicationProofEvidenceV1 {
+  authorityId: string
+  mode: ApplicationProofMode
+  expectedCount: number
+  checkedCount: number
+  proven: boolean
+  issues: readonly string[]
+  verify(
+    problem: GeneratedApplicationProblemV1,
+    reviewCase: DraftApplicationReviewCaseV1,
+  ): readonly string[]
+}
+
 export interface DraftApplicationFamilyCandidateV1 {
   family: ApplicationProblemFamilyV1
   runtime: ApplicationProblemRuntimeV1
@@ -109,6 +124,7 @@ export interface DraftApplicationFamilyCandidateV1 {
   visualValidator(problem: GeneratedApplicationProblemV1): boolean
   placementProposal: DraftApplicationPlacementProposalV1
   reviewCases: readonly DraftApplicationReviewCaseV1[]
+  proof?: DraftApplicationProofEvidenceV1
 }
 
 export interface ReviewOnlyApplicationUnitCandidateV1 {
@@ -219,6 +235,44 @@ function parseReviewCases(value: unknown, path: string): DraftApplicationReviewC
     )
   }
   return cases
+}
+
+function parseDraftProof(
+  value: unknown,
+  path: string,
+): DraftApplicationProofEvidenceV1 | undefined {
+  if (value === undefined) return undefined
+  if (!isRecord(value)) {
+    fail('invalid_draft_proof', path, 'draft proof evidence must be an object')
+  }
+  if (
+    typeof value.authorityId !== 'string' ||
+    !/^[a-z0-9][a-z0-9-]*$/.test(value.authorityId) ||
+    !['exhaustive', 'invariant-boundary', 'static-corpus'].includes(String(value.mode)) ||
+    !Number.isSafeInteger(value.expectedCount) ||
+    (value.expectedCount as number) < 1 ||
+    !Number.isSafeInteger(value.checkedCount) ||
+    (value.checkedCount as number) < 0 ||
+    typeof value.proven !== 'boolean' ||
+    !Array.isArray(value.issues) ||
+    !value.issues.every((entry) => typeof entry === 'string') ||
+    typeof value.verify !== 'function'
+  ) {
+    fail(
+      'invalid_draft_proof',
+      path,
+      'draft proof evidence requires a stable authority, mode, finite counts, issues, and executable verifier',
+    )
+  }
+  return {
+    authorityId: value.authorityId,
+    mode: value.mode as ApplicationProofMode,
+    expectedCount: value.expectedCount as number,
+    checkedCount: value.checkedCount as number,
+    proven: value.proven,
+    issues: [...value.issues] as string[],
+    verify: value.verify as DraftApplicationProofEvidenceV1['verify'],
+  }
 }
 
 export function createReviewOnlyAuthoringCatalog(
@@ -333,6 +387,17 @@ export function createReviewOnlyAuthoringCatalog(
         candidate.reviewCases,
         `catalog.unitCandidates[${unitIndex}].familyCandidates[${familyIndex}].reviewCases`,
       )
+      const proof = parseDraftProof(
+        candidate.proof,
+        `catalog.unitCandidates[${unitIndex}].familyCandidates[${familyIndex}].proof`,
+      )
+      if (proof && proof.mode !== family.proofMode) {
+        fail(
+          'draft_proof_mode_mismatch',
+          `catalog.unitCandidates[${unitIndex}].familyCandidates[${familyIndex}].proof.mode`,
+          'draft proof mode must match the family declaration',
+        )
+      }
       return {
         family,
         runtime: candidate.runtime as unknown as ApplicationProblemRuntimeV1,
@@ -340,6 +405,7 @@ export function createReviewOnlyAuthoringCatalog(
         visualValidator: candidate.visualValidator as DraftApplicationFamilyCandidateV1['visualValidator'],
         placementProposal: placement as unknown as DraftApplicationPlacementProposalV1,
         reviewCases,
+        ...(proof ? { proof } : {}),
       }
     })
     const declaredFamilyRefs = new Set(
@@ -375,10 +441,13 @@ export function createReviewOnlyAuthoringCatalog(
   })
 }
 
-export const APPLICATION_PROBLEM_AUTHORING_CATALOG_V1 = createReviewOnlyAuthoringCatalog({
+export const GRADE2_APPLICATION_AUTHORING_CATALOG_V1 = createReviewOnlyAuthoringCatalog({
   schemaVersion: 'application-problem-authoring-catalog-v1',
-  unitCandidates: [],
+  unitCandidates: createGrade2AuthoringUnitCandidateValues(),
 })
+
+export const APPLICATION_PROBLEM_AUTHORING_CATALOG_V1 =
+  GRADE2_APPLICATION_AUTHORING_CATALOG_V1
 
 export function validateAuthoringProductionSeparation(input: {
   authoringCatalog: ReviewOnlyApplicationAuthoringCatalogV1
@@ -437,6 +506,25 @@ export function validateAuthoringCatalogSafety(
   catalog.unitCandidates.forEach((unitCandidate, unitIndex) => {
     unitCandidate.familyCandidates.forEach((candidate, familyIndex) => {
       const familyPath = `authoringCatalog.unitCandidates[${unitIndex}].familyCandidates[${familyIndex}]`
+      if (!candidate.proof) {
+        issues.push({
+          code: 'draft_proof_evidence_missing',
+          path: `${familyPath}.proof`,
+          message: 'draft safety review requires independent proof authority evidence',
+        })
+      } else if (
+        candidate.proof.mode !== candidate.family.proofMode ||
+        candidate.proof.proven !== true ||
+        candidate.proof.checkedCount !== candidate.proof.expectedCount ||
+        candidate.proof.checkedCount < 1 ||
+        candidate.proof.issues.length > 0
+      ) {
+        issues.push({
+          code: 'draft_proof_evidence_failed',
+          path: `${familyPath}.proof`,
+          message: 'draft proof authority did not exhaust its declared safe domain',
+        })
+      }
       if (candidate.runtime.kind !== 'deterministic-generator') {
         issues.push({
           code: 'draft_runtime_not_deterministic',
@@ -477,6 +565,16 @@ export function validateAuthoringCatalogSafety(
               code: 'draft_visual_validation_failed',
               path: casePath,
               message: `${reviewCase.caseId} failed draft visual validation`,
+            })
+          }
+          const proofIssues = candidate.proof?.verify(first, reviewCase) ?? [
+            'missing independent proof authority',
+          ]
+          if (proofIssues.length > 0) {
+            issues.push({
+              code: 'draft_proof_case_failed',
+              path: casePath,
+              message: `${reviewCase.caseId} failed independent proof: ${proofIssues.join('; ')}`,
             })
           }
         } catch (error) {

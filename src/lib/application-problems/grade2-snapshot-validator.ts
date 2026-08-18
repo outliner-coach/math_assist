@@ -1,5 +1,7 @@
 import type { Grade2Mission } from '../grade2-problems'
+import type { Grade2ApplicationMissionV1 } from './grade2-adapter'
 import type { GeneratedApplicationVisualV1, JsonValue } from './contracts'
+import { isGrade2ReplacementApplicationMissionSemanticallyValid } from './grade2-replacement-snapshot-validator'
 import {
   HISTORICAL_G2_LENGTH_CLAIM_CHECK_CASES,
   HISTORICAL_G2_LENGTH_MISSING_SEGMENT_CASES,
@@ -312,11 +314,50 @@ function sourceIsInternallyConsistent(
   )
 }
 
+function historicalReplacementContentMatches(
+  mission: ReturnType<typeof asApplicationMission>,
+  expectation: HistoricalContentExpectation | null,
+): boolean {
+  const replacementAnswer = expectation?.answerType === 'length'
+    ? expectation.correctAnswer.replace(/cm$/, '')
+    : expectation?.correctAnswer
+  return Boolean(expectation) && sourceIsInternallyConsistent(mission) && (
+    mission.correctAnswer === replacementAnswer &&
+    mission.prompt === expectation!.prompt &&
+    sameJson(mission.choices, expectation!.choices) &&
+    mission.correctChoiceIndex === expectation!.correctChoiceIndex &&
+    sameJson(mission.hintSteps, expectation!.hintSteps) &&
+    sameJson(mission.solutionSteps, expectation!.solutionSteps) &&
+    mission.applicationVisual.generatorId === expectation!.visualGeneratorId &&
+    mission.applicationVisual.generatorVersion === 1 &&
+    mission.applicationVisual.role === 'required' &&
+    mission.applicationVisual.semantics === 'quantitative' &&
+    mission.applicationVisual.answerCritical === true &&
+    sameJson(mission.applicationVisual.mathModel, expectation!.visualMathModel)
+  )
+}
+
 export function isGrade2ApplicationMissionSemanticallyValid(
   mission: Grade2Mission,
 ): boolean {
   try {
     const applicationMission = asApplicationMission(mission)
+    const replacement = applicationMission as Grade2ApplicationMissionV1
+    if (replacement.applicationPlacement !== undefined) {
+      const historicalExpectation = applicationMission.applicationSource.familyId === 'g2-length-route-total'
+        ? routeExpectation(applicationMission)
+        : applicationMission.applicationSource.familyId === 'g2-length-missing-segment'
+          ? missingExpectation(applicationMission)
+          : applicationMission.applicationSource.familyId === 'g2-length-claim-check'
+            ? claimExpectation(applicationMission)
+            : null
+      return isGrade2ReplacementApplicationMissionSemanticallyValid(replacement, {
+        historicalContentValid: historicalReplacementContentMatches(
+          applicationMission,
+          historicalExpectation,
+        ),
+      })
+    }
     if (!sourceIsInternallyConsistent(applicationMission)) return false
     const expectation = applicationMission.applicationSource.familyId === 'g2-length-route-total'
       ? routeExpectation(applicationMission)

@@ -1,6 +1,9 @@
 const fs = require('fs')
 const path = require('path')
-const { generateApplicationProblemQualityReport } = require('./application-problem-quality-core')
+const {
+  generateApplicationProblemQualityReport,
+  parseApplicationAuditSelection,
+} = require('./application-problem-quality-core')
 
 const ROOT_DIR = path.join(__dirname, '..')
 
@@ -112,12 +115,13 @@ function renderMarkdown(report) {
 
 function main() {
   const outputDir = path.join(ROOT_DIR, 'out', 'quality')
-  const report = generateApplicationProblemReviewQualityReport()
+  const selection = parseApplicationAuditSelection(process.argv.slice(2))
+  const report = generateApplicationProblemReviewQualityReport(selection)
   fs.mkdirSync(outputDir, { recursive: true })
   fs.writeFileSync(path.join(outputDir, 'application-problem-quality-report.json'), `${JSON.stringify(report, null, 2)}\n`)
   fs.writeFileSync(path.join(outputDir, 'application-problem-quality-report.md'), renderMarkdown(report))
   console.log(`Application problem quality report written to ${outputDir}`)
-  console.log(`Errors: ${report.summary.errorCount}`)
+  console.log(`Errors: ${report.summary.errorCount} (${selection.mode} mode)`)
   if (report.summary.errorCount > 0) process.exitCode = 1
 }
 

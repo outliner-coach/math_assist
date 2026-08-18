@@ -19,6 +19,11 @@ import {
   getApplicationProblemReviewData,
 } from './problem-review'
 
+const EMPTY_AUTHORING_CATALOG = createReviewOnlyAuthoringCatalog({
+  schemaVersion: 'application-problem-authoring-catalog-v1',
+  unitCandidates: [],
+})
+
 function draftCatalog({ duplicateProduction = false } = {}) {
   const productionEntry = GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.entries[0]
   if (productionEntry.runtime.kind !== 'deterministic-generator') {
@@ -110,7 +115,7 @@ function draftCatalog({ duplicateProduction = false } = {}) {
 describe('application problem review catalog', () => {
   it('uses the canonical 62-unit inventory even when grades have no prepared families', () => {
     const data = buildApplicationProblemReviewData({
-      authoringCatalog: APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
+      authoringCatalog: EMPTY_AUTHORING_CATALOG,
       productionRegistry: EMPTY_APPLICATION_PROBLEM_REGISTRY,
       productionEvidence: { rows: [], generatedSnapshots: [] },
     })
@@ -177,6 +182,7 @@ describe('application problem review catalog', () => {
       })),
     })
     const row = buildApplicationProblemReviewData({
+      authoringCatalog: EMPTY_AUTHORING_CATALOG,
       productionRegistry: {
         entries: [entry],
         releaseLedger: [GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger[0]],
@@ -221,6 +227,7 @@ describe('application problem review catalog', () => {
       },
     })
     const row = buildApplicationProblemReviewData({
+      authoringCatalog: EMPTY_AUTHORING_CATALOG,
       productionRegistry: {
         entries: [{
           family,
@@ -275,6 +282,7 @@ describe('application problem review catalog', () => {
       answer: { ...generated.answer, normalized: 'CORRUPTED SNAPSHOT ANSWER' },
     }
     const representative = buildApplicationProblemReviewData({
+      authoringCatalog: EMPTY_AUTHORING_CATALOG,
       productionRegistry: {
         entries: [entry],
         releaseLedger: [GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger[0]],
@@ -358,7 +366,7 @@ describe('application problem review catalog', () => {
               ...sample,
               mathModel: {
                 ...(sample.mathModel as Record<string, unknown>),
-                disclosureProbe: { before: { text: answer } },
+                disclosureProbe: { before: { text: answer, disclosure: 'solution' } },
               },
             }
           },
@@ -387,6 +395,7 @@ describe('application problem review catalog', () => {
       },
     }]
     const data = buildApplicationProblemReviewData({
+      authoringCatalog: EMPTY_AUTHORING_CATALOG,
       productionRegistry: {
         entries: [entry],
         releaseLedger: [GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger[0]],
@@ -431,6 +440,7 @@ describe('application problem review catalog', () => {
   it('shows missing production evidence as a failed review instead of hiding the family', () => {
     const entry = GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.entries[0]
     const data = buildApplicationProblemReviewData({
+      authoringCatalog: EMPTY_AUTHORING_CATALOG,
       productionRegistry: {
         entries: [entry],
         releaseLedger: [GRADE5_APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger[0]],
@@ -447,12 +457,19 @@ describe('application problem review catalog', () => {
     })
   })
 
-  it('keeps the current nine approved pilot families while exposing all filter dimensions', () => {
+  it('keeps nine approved pilots separate from fifty review-only Grade 2 drafts', () => {
     const data = getApplicationProblemReviewData()
 
     expect(APPLICATION_UNIT_INVENTORY_V1).toHaveLength(62)
-    expect(data.rows).toHaveLength(9)
-    expect(data.rows.every((row) => row.releaseStatus === 'approved')).toBe(true)
+    expect(data.rows).toHaveLength(59)
+    expect(data.rows.filter((row) => row.source === 'production')).toHaveLength(9)
+    expect(data.rows.filter((row) => row.source === 'draft')).toHaveLength(50)
+    expect(data.rows.filter((row) => row.source === 'production').every((row) => (
+      row.releaseStatus === 'approved'
+    ))).toBe(true)
+    expect(data.rows.filter((row) => row.source === 'draft').every((row) => (
+      row.releaseStatus === 'draft' && row.familyEvidence.status === 'passed'
+    ))).toBe(true)
     expect(Object.keys(data.filters)).toEqual([
       'grades',
       'semesters',

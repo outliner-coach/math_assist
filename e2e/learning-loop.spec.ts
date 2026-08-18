@@ -1137,14 +1137,23 @@ test('2학년 기존 연습 링크는 mode가 없어도 같은 v1 문제를 연�
   await expect(page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)).toHaveCount(6)
 })
 
-test('2학년 응용문제는 내부 배치 번호가 아니라 목록 안의 진행 순서를 표시한다', async ({ page }) => {
+test('2학년 응용문제는 연습 6문제 중 한 자리를 대체하고 같은 진행 순서를 표시한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/grade/2/mission?unitId=g2-2-length&mode=practice`)
 
-  await expect(page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)).toHaveCount(9)
-  await page.getByTestId('grade2-mission-node-13').click()
+  const missionNodes = page.getByTestId('grade2-unit-missions').getByTestId(/grade2-mission-node-/)
+  await expect(missionNodes).toHaveCount(6)
+
   const missionCard = page.getByTestId('grade2-mission-card')
-  await expect(missionCard).toContainText('[2수03-13] · 7/9')
-  await expect(missionCard).not.toContainText('13/9')
+  const applicationPositions: number[] = []
+  for (let index = 0; index < 6; index += 1) {
+    await missionNodes.nth(index).click()
+    if (await missionCard.locator('.application-visual').count() > 0) {
+      applicationPositions.push(index + 1)
+      await expect(missionCard).toContainText(`${index + 1}/6`)
+      await expect(missionCard.locator('.application-visual--answer')).toHaveCount(0)
+    }
+  }
+  expect(applicationPositions).toHaveLength(1)
 })
 
 test('2학년 풀이장은 문항 이동과 새로고침을 복구하고 재시작을 격리한다', async ({ page }) => {

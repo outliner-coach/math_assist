@@ -20,6 +20,20 @@
   배포했다.
 - 이 문서에서 `released`는 curriculum ledger, 공개 경로 게이트와 실제 GitHub Pages 화면이 일치한다는 뜻이다. 이후 변경도 `main` 반영, Pages 성공, 새 브라우저 hydration을 모두 확인해야 출시 완료로 기록한다.
 
+## 2026-08-18 2학년 전 단원 응용문제 후보
+
+- 1학년을 제외한 전 학년 순차 출시의 첫 단계로 2학년 12개 단원에
+  complete knowledge pack 12개와 draft family 50개를 만들었다.
+- 연습 세트 6문제 중 같은 단원의 `applying`·`reasoning` 한 문제만
+  응용문제로 대체하며, 기존 144개 원본·세션 길이·난이도 분포·저장 키와
+  완료·복습·최근 활동 기록을 유지한다.
+- 대표·경계 생성, 독립 정답 검산, 필수 시각, 제출 전 답 비노출과 유한 영역
+  증거를 검수 화면과 자동 감사에 연결했다. 상세 승인 자료는
+  `docs/reviews/application-problems-grade2-candidate.md`에 있다.
+- 현재 신규 pack과 family는 모두 `draft`, 소유자 `pending`, 전문가
+  `not-reviewed`다. 기존 승인 V1 registry와 불변 release ledger는 바꾸지
+  않았으며, 프로젝트 책임자 승인 전 `main` 병합·push·배포하지 않는다.
+
 ## 2026-08-13 응용문제 V1 출시와 Pages 배포
 
 - 프로젝트 책임자가 승인한 `g2-length-*`, `g5-*-rebuild|inverse|reconstruction`,

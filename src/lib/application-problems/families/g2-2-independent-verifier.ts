@@ -91,7 +91,19 @@ function verifyTableVisual(
   if (stableJson(actualKeys) !== stableJson(expectedRowKeys)) {
     issues.push('visual table exposes a missing, hidden, or unexpected value key')
   }
-  if (scene.constraints.length !== 0) issues.push('visual table has an unexpected relation constraint')
+  const ratioIndexes = expectedKeys.length > 1
+    ? expectedKeys.slice(1).map((_, index) => index + 1)
+    : [0]
+  const expectedConstraints = ratioIndexes.map((index) => ({
+    kind: 'table-ratio',
+    numerator: { rowKey: `given-${expectedKeys[index]}`, columnIndex: 1 },
+    denominator: { rowKey: `given-${expectedKeys[0]}`, columnIndex: 1 },
+    expected: safeInteger(problem.params, expectedKeys[index]) /
+      safeInteger(problem.params, expectedKeys[0]),
+  }))
+  if (stableJson(scene.constraints) !== stableJson(expectedConstraints)) {
+    issues.push('visual table relation constraints do not prove the public value ratios')
+  }
   scene.rows.forEach((row, index) => {
     const key = expectedKeys[index]
     if (!key || row.cells.length !== 2) {

@@ -204,6 +204,10 @@ export function buildG2DraftVisualScene(input: {
   params: Readonly<Record<string, JsonValue>>
 }): ApplicationVisualSceneV1 {
   if (input.surface === 'table') {
+    const values = input.valueKeys.map((key) => numericValue(input.params, key))
+    const ratioIndexes = input.valueKeys.length > 1
+      ? input.valueKeys.slice(1).map((_, index) => index + 1)
+      : [0]
     return {
       schemaVersion: 'application-visual-v1',
       surface: 'table',
@@ -221,7 +225,12 @@ export function buildG2DraftVisualScene(input: {
           },
         ],
       })),
-      constraints: [],
+      constraints: ratioIndexes.map((index) => ({
+        kind: 'table-ratio',
+        numerator: { rowKey: `given-${input.valueKeys[index]}`, columnIndex: 1 },
+        denominator: { rowKey: `given-${input.valueKeys[0]}`, columnIndex: 1 },
+        expected: values[index] / values[0],
+      })),
     }
   }
 
@@ -248,8 +257,8 @@ export function buildG2DraftVisualScene(input: {
     labels: input.valueKeys.map((key, index) => ({
       key: `label-${key}`,
       targetKey: `given-${key}`,
-      x: 25 + values[index],
-      y: 20 + index * 38,
+      x: 20 + values[index] / 2,
+      y: 28 + index * 38,
       content: publicText(`${visualLabel(key)} ${values[index]}`),
       styleRole: index % 2 === 0 ? 'primary' : 'secondary',
     })),

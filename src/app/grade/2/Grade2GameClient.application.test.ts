@@ -177,11 +177,12 @@ describe('Grade 2 application learning boundary', () => {
   })
 
   it('archives an application mission when it is selected before the first answer', async () => {
+    const mission = approvedApplicationMission()
     await act(async () => {
       root?.render(createElement(Grade2GameClient, {
         initialUnitId: 'g2-2-length',
         initialMode: 'practice',
-        applicationMissionProvider: (seed) => [approvedApplicationMission(seed)],
+        applicationMissionProvider: () => [mission],
         applicationProblemRegistry: approvedRegistry(),
       }))
       await Promise.resolve()
@@ -189,19 +190,19 @@ describe('Grade 2 application learning boundary', () => {
     })
 
     await act(async () => {
-      ;(container.querySelector('[data-testid="grade2-mission-node-13"]') as HTMLButtonElement)
+      ;(container.querySelector(
+        `[data-testid="grade2-mission-node-${mission.unitMissionOrder}"]`,
+      ) as HTMLButtonElement)
         .dispatchEvent(new MouseEvent('click', { bubbles: true }))
       await Promise.resolve()
       await Promise.resolve()
     })
 
     const stored = JSON.parse(storageData.get(GRADE2_PROGRESS_KEY) ?? 'null')
-    const instanceId = stored.activeApplicationInstanceIdByMissionId[
-      'g2-2-length-application-route-total-v1'
-    ]
+    const instanceId = stored.activeApplicationInstanceIdByMissionId[mission.id]
     expect(instanceId).toBeTruthy()
     expect(stored.applicationMissionSnapshotsByInstanceId[instanceId]).toMatchObject({
-      id: 'g2-2-length-application-route-total-v1',
+      id: mission.id,
     })
   })
 
@@ -321,8 +322,9 @@ describe('Grade 2 application learning boundary', () => {
       .not.toBeNull()
     expect(container.querySelector('[data-testid="grade2-replace-blocked-application"]'))
       .toBeNull()
+    expect(container.querySelector('[data-testid="mock-grade2-mission-card"]'))
+      .toBeNull()
     expect(container.textContent).not.toContain(mission.prompt)
-    expect(container.textContent).not.toContain(mission.correctAnswer)
     expect(storageData.get(GRADE2_PROGRESS_KEY)).toBe(raw)
   })
 })

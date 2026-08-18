@@ -140,7 +140,22 @@ function baseline(overrides: Record<string, unknown> = {}) {
     visualResults: [{ family: currentFamily, problem: problem(), valid: true }],
     answerExposureResults: [{ family: currentFamily, problem: problem(), exposed: false }],
     sessionContracts: [
-      { grade: 2, legacyCount: 144, candidateCount: 1, sessionCount: 145, difficultyDistribution: { easy: 48, medium: 48, applied: 48 }, storageKey: 'mathAssist_grade2Progress' },
+      {
+        grade: 2,
+        legacyCount: 144,
+        candidateCount: 1,
+        sessionCount: 144,
+        replacementCount: 1,
+        replacementUnits: [{
+          unitId: 'g2-2-length',
+          sessionCount: 6,
+          applicationCount: 1,
+          applicationDomain: 'reasoning',
+          stableIdentityCount: 6,
+        }],
+        difficultyDistribution: { easy: 48, medium: 48, applied: 48 },
+        storageKey: 'mathAssist_grade2Progress',
+      },
       { grade: 5, legacyCount: 10, candidateCount: 1, sessionCount: 10, difficultyDistribution: { 1: 4, 2: 4, 3: 2 }, storageKey: 'mathAssist_currentSession' },
       {
         grade: 6,
@@ -629,7 +644,7 @@ describe('application problem quality audit', () => {
     expect(() => parseApplicationAuditSelection(['--mode', 'release'])).toThrow(/grade/i)
   })
 
-  it('requires candidate grade to equal buildingGrade and never counts pilots as grade completion', () => {
+  it('requires candidate grade to equal buildingGrade and counts all twelve safe Grade 2 drafts', () => {
     const input = loadProductionApplicationProblemQualityInput()
     const wrongGrade = auditApplicationProblemQuality(input, { mode: 'candidate', grade: 3 })
     const grade2Candidate = auditApplicationProblemQuality(input, { mode: 'candidate', grade: 2 })
@@ -637,11 +652,15 @@ describe('application problem quality audit', () => {
     expect(wrongGrade.errors.map((error: { code: string }) => error.code))
       .toContain('APQ_ROLLOUT_MODE_GRADE')
     expect(grade2Candidate.errors.map((error: { code: string }) => error.code))
-      .toContain('APQ_GRADE_CANDIDATE_INCOMPLETE')
+      .not.toContain('APQ_GRADE_CANDIDATE_INCOMPLETE')
     expect(grade2Candidate.unitReports.filter((unit: { grade: number }) => unit.grade === 2))
       .toHaveLength(12)
-    expect(grade2Candidate.unitReports.filter((unit: { gradeComplete: boolean }) => unit.gradeComplete))
-      .toEqual([])
+    expect(grade2Candidate.unitReports.filter((unit: { grade: number; gradeComplete: boolean }) => (
+      unit.grade === 2 && unit.gradeComplete
+    ))).toHaveLength(12)
+    expect(grade2Candidate.unitReports.filter((unit: { productionComplete: boolean }) => (
+      unit.productionComplete
+    ))).toEqual([])
   })
 
   it('requires final all mode to reach released Grade 6 with all 62 complete production units', () => {
