@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "application-problem-rollout-v1",
+  "releasedThroughGrade": null,
+  "buildingGrade": 2,
+  "baselinePilotPackRefs": [
+    "pack-g2-2-length@1",
+    "pack-unit-5-1-perimeter-area@1",
+    "pack-unit-6-1-ratio@1"
+  ],
+  "baselinePilotFamilyRefs": [
+    "g2-length-route-total@1",
+    "g2-length-missing-segment@1",
+    "g2-length-claim-check@1",
+    "g5-perimeter-boundary-rebuild@1",
+    "g5-area-composite-inverse@1",
+    "g5-area-overlap-reconstruction@1",
+    "g6-ratio-part-whole@1",
+    "g6-ratio-relative-comparison@1",
+    "g6-ratio-representation-check@1"
+  ]
+}

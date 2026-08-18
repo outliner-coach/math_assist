@@ -13,6 +13,12 @@ import {
   type GeneratedApplicationProblemV1,
   type UnitKnowledgePackV1,
 } from './contracts'
+import {
+  APPLICATION_PROBLEM_BASELINE_PILOT_FAMILY_REFS,
+  APPLICATION_PROBLEM_BASELINE_PILOT_PACK_REFS,
+  parseApplicationProblemRolloutV1,
+  validateApplicationProblemRolloutTransition,
+} from './rollout-contracts'
 
 const pendingApproval = {
   ownerStatus: 'pending' as const,
@@ -683,5 +689,70 @@ describe('catalog and lifecycle validation', () => {
       'g2-length-route-total',
       'g2-length-route-total@1:42:0',
     ])
+  })
+})
+
+describe('application problem staged rollout', () => {
+  const initialRollout = () => ({
+    schemaVersion: 'application-problem-rollout-v1',
+    releasedThroughGrade: null,
+    buildingGrade: 2,
+    baselinePilotPackRefs: [...APPLICATION_PROBLEM_BASELINE_PILOT_PACK_REFS],
+    baselinePilotFamilyRefs: [...APPLICATION_PROBLEM_BASELINE_PILOT_FAMILY_REFS],
+  })
+
+  it('parses only the initial staged state with the fixed pilot exception', () => {
+    expect(parseApplicationProblemRolloutV1(initialRollout())).toEqual(initialRollout())
+  })
+
+  it.each([
+    ['wrong schema', { schemaVersion: 'application-problem-rollout-v2' }, 'invalid_schema_version'],
+    ['skipped building grade', { buildingGrade: 3 }, 'invalid_rollout_state'],
+    ['expanded pilot packs', { baselinePilotPackRefs: [...APPLICATION_PROBLEM_BASELINE_PILOT_PACK_REFS, 'pack-extra@1'] }, 'invalid_baseline_pilot_refs'],
+    ['duplicate pilot families', { baselinePilotFamilyRefs: [...APPLICATION_PROBLEM_BASELINE_PILOT_FAMILY_REFS, APPLICATION_PROBLEM_BASELINE_PILOT_FAMILY_REFS[0]] }, 'duplicate_baseline_pilot_ref'],
+  ])('rejects %s', (_label, overrides, code) => {
+    expectContractError(
+      () => parseApplicationProblemRolloutV1({ ...initialRollout(), ...overrides }),
+      code,
+    )
+  })
+
+  it.each([
+    [null, 2, 2, 3],
+    [2, 3, 3, 4],
+    [3, 4, 4, 5],
+    [4, 5, 5, 6],
+    [5, 6, 6, null],
+  ] as const)('allows only the next release transition from %s/%s to %s/%s', (
+    releasedThroughGrade,
+    buildingGrade,
+    nextReleasedThroughGrade,
+    nextBuildingGrade,
+  ) => {
+    const previous = parseApplicationProblemRolloutV1({
+      ...initialRollout(),
+      releasedThroughGrade,
+      buildingGrade,
+    })
+    const next = parseApplicationProblemRolloutV1({
+      ...initialRollout(),
+      releasedThroughGrade: nextReleasedThroughGrade,
+      buildingGrade: nextBuildingGrade,
+    })
+
+    expect(validateApplicationProblemRolloutTransition(previous, next)).toEqual([])
+  })
+
+  it.each([
+    ['regression', { releasedThroughGrade: 3, buildingGrade: 4 }, { releasedThroughGrade: 2, buildingGrade: 3 }],
+    ['skip', { releasedThroughGrade: 2, buildingGrade: 3 }, { releasedThroughGrade: 4, buildingGrade: 5 }],
+    ['duplicate advancement', { releasedThroughGrade: 2, buildingGrade: 3 }, { releasedThroughGrade: 2, buildingGrade: 3 }],
+  ])('rejects rollout %s', (_label, previousState, nextState) => {
+    const previous = parseApplicationProblemRolloutV1({ ...initialRollout(), ...previousState })
+    const next = parseApplicationProblemRolloutV1({ ...initialRollout(), ...nextState })
+
+    expect(validateApplicationProblemRolloutTransition(previous, next)).toEqual(
+      expect.arrayContaining([expect.objectContaining({ code: 'invalid_rollout_transition' })]),
+    )
   })
 })

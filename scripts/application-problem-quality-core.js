@@ -3,6 +3,45 @@ const path = require('path')
 const ts = require('typescript')
 
 const ROOT_DIR = path.join(__dirname, '..')
+const APPLICATION_AUDIT_MODES = new Set(['work', 'candidate', 'release', 'all'])
+const FIXED_PILOT_PACK_REFS = [
+  'pack-g2-2-length@1',
+  'pack-unit-5-1-perimeter-area@1',
+  'pack-unit-6-1-ratio@1',
+]
+const FIXED_PILOT_FAMILY_REFS = [
+  'g2-length-route-total@1',
+  'g2-length-missing-segment@1',
+  'g2-length-claim-check@1',
+  'g5-perimeter-boundary-rebuild@1',
+  'g5-area-composite-inverse@1',
+  'g5-area-overlap-reconstruction@1',
+  'g6-ratio-part-whole@1',
+  'g6-ratio-relative-comparison@1',
+  'g6-ratio-representation-check@1',
+]
+
+function parseApplicationAuditSelection(argv) {
+  let mode = 'work'
+  let grade
+  for (let index = 0; index < argv.length; index += 1) {
+    const argument = argv[index]
+    if (argument === '--mode') mode = argv[++index]
+    else if (argument.startsWith('--mode=')) mode = argument.slice('--mode='.length)
+    else if (argument === '--grade') grade = Number(argv[++index])
+    else if (argument.startsWith('--grade=')) grade = Number(argument.slice('--grade='.length))
+    else throw new TypeError(`unsupported application audit argument ${argument}`)
+  }
+  if (mode === 'grade-candidate') mode = 'candidate'
+  if (!APPLICATION_AUDIT_MODES.has(mode)) {
+    throw new TypeError(`unsupported application audit mode ${String(mode)}`)
+  }
+  if (mode === 'all') grade = 6
+  if ((mode === 'candidate' || mode === 'release') && ![2, 3, 4, 5, 6].includes(grade)) {
+    throw new TypeError(`${mode} mode requires --grade 2 through 6`)
+  }
+  return grade === undefined ? { mode } : { mode, grade }
+}
 
 function stableJson(value) {
   if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`
@@ -341,7 +380,241 @@ function buildPackReports(packs, families) {
   })
 }
 
-function auditApplicationProblemQuality(input) {
+function sameFixedRefs(actual, expected) {
+  return Array.isArray(actual) &&
+    actual.length === expected.length &&
+    new Set(actual).size === actual.length &&
+    actual.every((value, index) => value === expected[index])
+}
+
+function expectedBuildingGrade(releasedThroughGrade) {
+  if (releasedThroughGrade === null) return 2
+  if (releasedThroughGrade === 6) return null
+  return releasedThroughGrade + 1
+}
+
+function rolloutIsValid(rollout) {
+  return rollout?.schemaVersion === 'application-problem-rollout-v1' &&
+    [null, 2, 3, 4, 5, 6].includes(rollout.releasedThroughGrade) &&
+    [null, 2, 3, 4, 5, 6].includes(rollout.buildingGrade) &&
+    rollout.buildingGrade === expectedBuildingGrade(rollout.releasedThroughGrade) &&
+    sameFixedRefs(rollout.baselinePilotPackRefs, FIXED_PILOT_PACK_REFS) &&
+    sameFixedRefs(rollout.baselinePilotFamilyRefs, FIXED_PILOT_FAMILY_REFS)
+}
+
+function completePackIssues(input, pack, families, completeness) {
+  if (pack.coverageStatus !== 'complete') return []
+  const errors = []
+  const assignedStandards = (input.ledgerAllocations ?? [])
+    .filter((allocation) => allocation.unitId === pack.unitId && allocation.assignedGrade === pack.grade)
+    .map((allocation) => allocation.standardCode)
+  const covered = new Set(pack.coveredStandardCodes ?? [])
+  if (assignedStandards.some((standard) => !covered.has(standard))) {
+    errors.push('assigned standards')
+  }
+  const coreConceptIds = completeness?.coreConceptIds ?? []
+  const conceptIds = new Set((pack.concepts ?? []).map((concept) => concept.conceptId))
+  if (coreConceptIds.length === 0 || coreConceptIds.some((conceptId) => !conceptIds.has(conceptId))) {
+    errors.push('core concepts')
+  }
+  const familyKeys = new Set((pack.familyRefs ?? []).map((reference) => `${reference.familyId}@${reference.version}`))
+  const packFamilies = families.filter((family) => familyKeys.has(familyKey(family)))
+  if (coreConceptIds.some((conceptId) => !packFamilies.some((family) => (
+    family.cognitiveDomain === 'applying' && (family.conceptIds ?? []).includes(conceptId)
+  )))) errors.push('applying coverage')
+  const reasoningFamilies = packFamilies.filter((family) => family.cognitiveDomain === 'reasoning')
+  if (reasoningFamilies.length < 3) errors.push('reasoning families')
+  if (new Set(reasoningFamilies.map((family) => family.reasoningPattern)).size < 3) {
+    errors.push('reasoning patterns')
+  }
+  const usedMisconceptions = new Set(packFamilies.flatMap((family) => family.misconceptionRefs ?? []))
+  if ((pack.concepts ?? []).flatMap((concept) => concept.misconceptions ?? [])
+    .some((misconception) => !usedMisconceptions.has(misconception.id))) {
+    errors.push('misconception use')
+  }
+  if (completeness?.hasKnowingCoverage !== true) errors.push('knowing coverage')
+  const represented = new Set(packFamilies.flatMap((family) => family.representations ?? []))
+  const requiredRepresentations = completeness?.requiredRepresentations ?? []
+  if (
+    requiredRepresentations.length === 0 ||
+    requiredRepresentations.some((representation) => !represented.has(representation))
+  ) errors.push('representations')
+  return errors
+}
+
+function buildRolloutReport(input, selection, errors) {
+  if (input.unitInventory === undefined && input.rollout === undefined) return []
+  const inventory = Array.isArray(input.unitInventory) ? input.unitInventory : []
+  const gradeCounts = Object.fromEntries([2, 3, 4, 5, 6].map((grade) => [
+    grade,
+    inventory.filter((unit) => unit.grade === grade).length,
+  ]))
+  const identities = new Set(inventory.map((unit) => `${unit.grade}:${unit.unitId}`))
+  if (
+    inventory.length !== 62 || identities.size !== 62 ||
+    [12, 12, 15, 12, 11].some((count, index) => gradeCounts[index + 2] !== count) ||
+    inventory.some((unit) => unit.grade === 1)
+  ) {
+    errors.push(issue('APQ_UNIT_INVENTORY', 'application rollout inventory must be exactly Grades 2-6 with counts 12/12/15/12/11'))
+  }
+  if (!rolloutIsValid(input.rollout)) {
+    errors.push(issue('APQ_ROLLOUT_STATE', 'application rollout state or fixed pilot exception is invalid'))
+  }
+  const productionFamilyEntries = new Map()
+  const productionFamilyLedger = new Map()
+  for (const registry of input.registries ?? []) {
+    for (const entry of registry.entries ?? []) {
+      const key = familyKey(entry.family)
+      productionFamilyEntries.set(key, (productionFamilyEntries.get(key) ?? 0) + 1)
+    }
+    for (const family of registry.releaseLedger ?? []) {
+      const key = familyKey(family)
+      productionFamilyLedger.set(key, (productionFamilyLedger.get(key) ?? 0) + 1)
+    }
+  }
+  const productionPlacementRefs = new Set(input.productionPlacementFamilyRefs ?? [])
+  const pilotPacks = new Set(input.rollout?.baselinePilotPackRefs ?? [])
+  const authoringUnits = input.authoringCatalog?.unitCandidates ?? []
+  const productionPackByUnit = new Map()
+  for (const pack of input.packs ?? []) {
+    const key = `${pack.grade}:${pack.unitId}`
+    const current = productionPackByUnit.get(key) ?? []
+    current.push(pack)
+    productionPackByUnit.set(key, current)
+  }
+  const authoringByUnit = new Map(authoringUnits.map((candidate) => [
+    `${candidate.pack.grade}:${candidate.pack.unitId}`,
+    candidate,
+  ]))
+  const productionPackRefs = new Set((input.packs ?? []).map((pack) => `${pack.packId}@${pack.version}`))
+  const productionFamilyRefs = new Set([
+    ...productionFamilyEntries.keys(),
+    ...productionFamilyLedger.keys(),
+  ])
+  const completenessByPack = new Map((input.completeCoverageContexts ?? []).map((context) => [
+    `${context.packId}@${context.version}`,
+    context,
+  ]))
+  for (const pack of input.packs ?? []) {
+    const failures = completePackIssues(
+      input,
+      pack,
+      input.families ?? [],
+      completenessByPack.get(`${pack.packId}@${pack.version}`),
+    )
+    if (failures.length > 0) {
+      errors.push(issue(
+        'APQ_COMPLETE_PACK_RULE',
+        `complete pack ${pack.packId}@${pack.version} fails: ${failures.join(', ')}`,
+        { packId: pack.packId },
+      ))
+    }
+  }
+  for (const authoring of authoringUnits) {
+    const failures = completePackIssues(
+      input,
+      authoring.pack,
+      authoring.familyCandidates.map((candidate) => candidate.family),
+      authoring.completeness,
+    )
+    if (failures.length > 0) {
+      errors.push(issue(
+        'APQ_COMPLETE_PACK_RULE',
+        `complete draft pack ${authoring.pack.packId}@${authoring.pack.version} fails: ${failures.join(', ')}`,
+        { packId: authoring.pack.packId },
+      ))
+    }
+  }
+
+  const unitReports = inventory.map((unit) => {
+    const key = `${unit.grade}:${unit.unitId}`
+    const productionPacks = productionPackByUnit.get(key) ?? []
+    const productionPack = productionPacks.find((pack) => pack.coverageStatus === 'complete')
+    const pilotPack = productionPacks.find((pack) => pilotPacks.has(`${pack.packId}@${pack.version}`))
+    const authoring = authoringByUnit.get(key)
+    const productionComplete = Boolean(productionPack &&
+      productionPack.releaseStatus === 'approved' &&
+      approvalIsBacked(productionPack) &&
+      completePackIssues(
+        input,
+        productionPack,
+        input.families ?? [],
+        completenessByPack.get(`${productionPack.packId}@${productionPack.version}`),
+      ).length === 0 &&
+      (productionPack.familyRefs ?? []).every((reference) => {
+        const familyRef = `${reference.familyId}@${reference.version}`
+        return productionFamilyEntries.get(familyRef) === 1 &&
+          productionFamilyLedger.get(familyRef) === 1 &&
+          productionPlacementRefs.has(familyRef)
+      }))
+    const authoringFamilies = authoring?.familyCandidates?.map((candidate) => candidate.family) ?? []
+    const candidateComplete = Boolean(authoring &&
+      authoring.pack.coverageStatus === 'complete' &&
+      authoring.pack.releaseStatus === 'draft' &&
+      completePackIssues(input, authoring.pack, authoringFamilies, authoring.completeness).length === 0 &&
+      authoring.familyCandidates.every((candidate) => {
+        const familyRef = familyKey(candidate.family)
+        return candidate.family.releaseStatus === 'draft' &&
+          typeof candidate.oracle === 'function' &&
+          typeof candidate.visualValidator === 'function' &&
+          candidate.placementProposal?.cognitiveDomain === candidate.family.cognitiveDomain &&
+          !productionFamilyRefs.has(familyRef)
+      }) &&
+      !productionPackRefs.has(`${authoring.pack.packId}@${authoring.pack.version}`))
+    return {
+      grade: unit.grade,
+      unitId: unit.unitId,
+      rolloutStatus: productionComplete
+        ? 'released'
+        : candidateComplete
+          ? 'candidate'
+          : pilotPack
+            ? 'baseline-pilot'
+            : productionPacks.length > 0 || authoring
+              ? 'partial'
+              : 'pending',
+      packRefs: productionPacks.map((pack) => `${pack.packId}@${pack.version}`),
+      gradeComplete: productionComplete || candidateComplete,
+      productionComplete,
+      candidateComplete,
+    }
+  })
+
+  if (selection.mode === 'candidate') {
+    if (selection.grade !== input.rollout?.buildingGrade) {
+      errors.push(issue('APQ_ROLLOUT_MODE_GRADE', `candidate Grade ${selection.grade} must equal building Grade ${input.rollout?.buildingGrade}`))
+    }
+    const candidateUnits = unitReports.filter((unit) => unit.grade === selection.grade)
+    if (candidateUnits.length === 0 || candidateUnits.some((unit) => !unit.candidateComplete)) {
+      errors.push(issue('APQ_GRADE_CANDIDATE_INCOMPLETE', `Grade ${selection.grade} candidate must have complete, proof-safe, production-absent draft packs for every unit`))
+    }
+  } else if (selection.mode === 'release') {
+    if (selection.grade !== input.rollout?.buildingGrade) {
+      errors.push(issue('APQ_ROLLOUT_MODE_GRADE', `release Grade ${selection.grade} must equal building Grade ${input.rollout?.buildingGrade}`))
+    }
+    if (unitReports.some((unit) => unit.grade <= selection.grade && !unit.productionComplete)) {
+      errors.push(issue('APQ_RELEASE_INCOMPLETE', `release through Grade ${selection.grade} requires complete approved production packs, ledgers, and placements`))
+    }
+  } else if (selection.mode === 'all') {
+    if (input.rollout?.releasedThroughGrade !== 6 || input.rollout?.buildingGrade !== null) {
+      errors.push(issue('APQ_ROLLOUT_STATE', 'all mode requires the terminal Grade 6/null rollout state'))
+    }
+    if (unitReports.length !== 62 || unitReports.some((unit) => !unit.productionComplete)) {
+      errors.push(issue('APQ_RELEASE_INCOMPLETE', 'all mode requires all 62 units complete and learner-production eligible'))
+    }
+  } else {
+    const releasedThroughGrade = input.rollout?.releasedThroughGrade
+    if (
+      releasedThroughGrade !== null && releasedThroughGrade !== undefined &&
+      unitReports.some((unit) => unit.grade <= releasedThroughGrade && !unit.productionComplete)
+    ) {
+      errors.push(issue('APQ_RELEASE_INCOMPLETE', `released Grades through ${releasedThroughGrade} must remain complete in work mode`))
+    }
+  }
+  return unitReports
+}
+
+function auditApplicationProblemQuality(input, selection = { mode: 'work' }) {
   const errors = []
   const packs = Array.isArray(input?.packs) ? input.packs : []
   const families = Array.isArray(input?.families) ? input.families : []
@@ -349,17 +622,20 @@ function auditApplicationProblemQuality(input) {
   checkRegistries(input ?? {}, familyByKey, errors)
   checkEvidence({ ...(input ?? {}), validFamilies }, errors)
   checkSessionContracts(input ?? {}, errors)
+  const unitReports = buildRolloutReport(input ?? {}, selection, errors)
   const draftFamilyCount = validFamilies.filter((family) => family.releaseStatus === 'draft').length
   const approvedFamilyCount = validFamilies.filter((family) => family.releaseStatus === 'approved').length
   return {
     summary: {
       packCount: packs.length,
+      unitCount: unitReports.length,
       familyCount: families.length,
       draftFamilyCount,
       approvedFamilyCount,
       errorCount: errors.length,
     },
     packReports: buildPackReports(packs, validFamilies),
+    unitReports,
     familyEvidence: input?.familyEvidence ?? [],
     errors,
   }
@@ -417,6 +693,13 @@ function loadProductionApplicationProblemQualityInput() {
     .filter((file) => file.endsWith('.json'))
     .sort()
     .map((file) => JSON.parse(fs.readFileSync(path.join(packsDirectory, file), 'utf8')))
+  const rollout = JSON.parse(
+    fs.readFileSync(path.join(ROOT_DIR, 'public', 'data', 'application-problems', 'rollout.json'), 'utf8'),
+  )
+  const {
+    APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
+    APPLICATION_UNIT_INVENTORY_V1,
+  } = loadTypeScriptModule('src/lib/application-problems/authoring-catalog.ts')
   const ledgerAllocations = JSON.parse(
     fs.readFileSync(path.join(ROOT_DIR, 'public', 'data', 'curriculum-allocations-v1.json'), 'utf8'),
   ).allocations
@@ -442,6 +725,11 @@ function loadProductionApplicationProblemQualityInput() {
   const grade6Problems10 = generateProblems(grade6Templates, { count: 10, setId: 'A', difficultyMix: { 1: 4, 2: 4, 3: 2 }, seed: 207, additionalCandidates: grade6Candidates })
   return {
     packs,
+    rollout,
+    authoringCatalog: APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
+    unitInventory: APPLICATION_UNIT_INVENTORY_V1,
+    completeCoverageContexts: [],
+    productionPlacementFamilyRefs: FIXED_PILOT_FAMILY_REFS,
     ledgerAllocations,
     families: APPLICATION_PROBLEM_REGISTRY_V1.releaseLedger,
     registries,
@@ -485,12 +773,14 @@ function loadProductionApplicationProblemQualityInput() {
   }
 }
 
-function generateApplicationProblemQualityReport() {
-  return auditApplicationProblemQuality(loadProductionApplicationProblemQualityInput())
+function generateApplicationProblemQualityReport(selection) {
+  const resolvedSelection = selection ?? parseApplicationAuditSelection(process.argv.slice(2))
+  return auditApplicationProblemQuality(loadProductionApplicationProblemQualityInput(), resolvedSelection)
 }
 
 module.exports = {
   auditApplicationProblemQuality,
   generateApplicationProblemQualityReport,
   loadProductionApplicationProblemQualityInput,
+  parseApplicationAuditSelection,
 }

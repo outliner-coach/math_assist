@@ -6,7 +6,11 @@ import { buildApprovedGrade5PracticeProblemCandidates } from './grade5-practice-
 import { GRADE5_APPLICATION_PROBLEM_REGISTRY_V1 } from './grade5-registry'
 import { buildApprovedGrade6PracticeProblemCandidates } from './grade6-practice-runtime'
 import { GRADE6_APPLICATION_PROBLEM_REGISTRY_V1 } from './grade6-registry'
-import { buildApprovedPracticeProblemCandidates } from './practice-runtime'
+import {
+  applicationSlotCount,
+  buildApprovedPracticeProblemCandidates,
+  planCognitiveDomainApplicationPlacements,
+} from './practice-runtime'
 import type { ApplicationProblemRegistryV1 } from './registry'
 
 function source(relativePath: string): string {
@@ -98,5 +102,108 @@ describe('practice application runtime shards', () => {
       'g6-ratio-relative-comparison@1',
       'g6-ratio-representation-check@1',
     ])
+  })
+})
+
+describe('cognitive-domain-aware application placement', () => {
+  const baseSlots = [
+    { id: 'k1', cognitiveDomain: 'knowing' as const },
+    { id: 'k2', cognitiveDomain: 'knowing' as const },
+    { id: 'a1', cognitiveDomain: 'applying' as const },
+    { id: 'a2', cognitiveDomain: 'applying' as const },
+    { id: 'r1', cognitiveDomain: 'reasoning' as const },
+  ]
+  const applications = [
+    { familyId: 'apply-one', version: 1, cognitiveDomain: 'applying' as const },
+    { familyId: 'apply-two', version: 1, cognitiveDomain: 'applying' as const },
+    { familyId: 'reason-one', version: 1, cognitiveDomain: 'reasoning' as const },
+  ]
+
+  it.each([
+    [2, 'basic', 6, 1],
+    [3, 'basic', 3, 1],
+    [4, 'basic', 3, 1],
+    [5, 'basic', 5, 1],
+    [5, 'focused', 10, 2],
+    [6, 'basic', 5, 1],
+    [6, 'focused', 10, 2],
+  ] as const)('requires Grade %s %s sessions to have %s total and %s application slots', (
+    grade,
+    mode,
+    sessionCount,
+    expectedApplications,
+  ) => {
+    expect(applicationSlotCount({ grade, mode, sessionCount })).toBe(expectedApplications)
+  })
+
+  it('replaces only matching applying/reasoning slots and preserves length and K/A/R counts', () => {
+    const result = planCognitiveDomainApplicationPlacements({
+      grade: 5,
+      mode: 'basic',
+      sessionCount: 5,
+      baseSlots,
+      applications,
+      rotationSeed: 0,
+    })
+
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.slots).toHaveLength(5)
+    expect(result.slots.filter((slot) => slot.kind === 'application')).toHaveLength(1)
+    expect(result.slots.find((slot) => slot.baseSlotId === 'k1')?.kind).toBe('base')
+    expect(result.slots.find((slot) => slot.baseSlotId === 'k2')?.kind).toBe('base')
+    expect(result.slots.map((slot) => slot.cognitiveDomain).sort()).toEqual(
+      baseSlots.map((slot) => slot.cognitiveDomain).sort(),
+    )
+    expect(result.slots.filter((slot) => slot.kind === 'application').every(
+      (slot) => slot.application?.cognitiveDomain === slot.cognitiveDomain,
+    )).toBe(true)
+  })
+
+  it('fails atomically when all required slots cannot be filled safely', () => {
+    const result = planCognitiveDomainApplicationPlacements({
+      grade: 5,
+      mode: 'focused',
+      sessionCount: 10,
+      baseSlots: [...baseSlots, ...baseSlots],
+      applications: [applications[0]],
+      rotationSeed: 0,
+    })
+
+    expect(result).toEqual({
+      ok: false,
+      code: 'insufficient_safe_application_slots',
+      requiredApplicationCount: 2,
+    })
+    expect('slots' in result).toBe(false)
+  })
+
+  it('rotates deterministically so eligible families are not permanently starved', () => {
+    const selected = [0, 1, 2].map((rotationSeed) => {
+      const result = planCognitiveDomainApplicationPlacements({
+        grade: 5,
+        mode: 'basic',
+        sessionCount: 5,
+        baseSlots,
+        applications,
+        rotationSeed,
+      })
+      expect(result.ok).toBe(true)
+      return result.ok
+        ? result.slots.find((slot) => slot.kind === 'application')?.application?.familyId
+        : undefined
+    })
+
+    expect(selected).toEqual(['apply-one', 'apply-two', 'reason-one'])
+    const repeated = planCognitiveDomainApplicationPlacements({
+      grade: 5,
+      mode: 'basic',
+      sessionCount: 5,
+      baseSlots,
+      applications,
+      rotationSeed: 1,
+    })
+    expect(repeated.ok && repeated.slots.find((slot) => slot.kind === 'application')?.application?.familyId)
+      .toBe('apply-two')
   })
 })

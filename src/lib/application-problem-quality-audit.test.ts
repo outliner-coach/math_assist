@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest'
 import {
   auditApplicationProblemQuality,
   loadProductionApplicationProblemQualityInput,
+  parseApplicationAuditSelection,
 } from '../../scripts/application-problem-quality-core.js'
 
 const approval = {
@@ -156,15 +157,71 @@ describe('application problem quality audit', () => {
     expect(report.familyEvidence).toHaveLength(input.families.length)
     expect(report.familyEvidence.every((evidence: { status: string }) => evidence.status === 'passed')).toBe(true)
     expect(report.summary).toMatchObject({
+      unitCount: 62,
       approvedFamilyCount: 9,
       draftFamilyCount: 0,
       errorCount: 0,
     })
+    expect(report.unitReports).toHaveLength(62)
+    expect(report.unitReports.filter((unit: { grade: number }) => unit.grade === 1)).toEqual([])
+    expect(report.unitReports.find((unit: { unitId: string }) => unit.unitId === 'unit-5-1-perimeter-area'))
+      .toMatchObject({ rolloutStatus: 'baseline-pilot', gradeComplete: false })
     expect(input.sessionContracts).toMatchObject([
       { grade: 2, storageKey: 'mathAssist_grade2Progress', legacyCount: 144 },
       { grade: 5, storageKey: 'mathAssist_currentSession', legacyCount: 10 },
       { grade: 6, storageKey: 'mathAssist_grade6CurrentSession', legacyCount: 10 },
     ])
+  })
+
+  it('keeps work mode as the default and parses explicit candidate, release, and all selections', () => {
+    expect(parseApplicationAuditSelection([])).toEqual({ mode: 'work' })
+    expect(parseApplicationAuditSelection(['--mode', 'candidate', '--grade', '2']))
+      .toEqual({ mode: 'candidate', grade: 2 })
+    expect(parseApplicationAuditSelection(['--mode=release', '--grade=4']))
+      .toEqual({ mode: 'release', grade: 4 })
+    expect(parseApplicationAuditSelection(['--mode', 'all'])).toEqual({ mode: 'all', grade: 6 })
+    expect(() => parseApplicationAuditSelection(['--mode', 'candidate', '--grade', '3']))
+      .not.toThrow()
+    expect(() => parseApplicationAuditSelection(['--mode', 'unknown'])).toThrow(/mode/i)
+    expect(() => parseApplicationAuditSelection(['--mode', 'release'])).toThrow(/grade/i)
+  })
+
+  it('requires candidate grade to equal buildingGrade and never counts pilots as grade completion', () => {
+    const input = loadProductionApplicationProblemQualityInput()
+    const wrongGrade = auditApplicationProblemQuality(input, { mode: 'candidate', grade: 3 })
+    const grade2Candidate = auditApplicationProblemQuality(input, { mode: 'candidate', grade: 2 })
+
+    expect(wrongGrade.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_ROLLOUT_MODE_GRADE')
+    expect(grade2Candidate.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_GRADE_CANDIDATE_INCOMPLETE')
+    expect(grade2Candidate.unitReports.filter((unit: { grade: number }) => unit.grade === 2))
+      .toHaveLength(12)
+    expect(grade2Candidate.unitReports.filter((unit: { gradeComplete: boolean }) => unit.gradeComplete))
+      .toEqual([])
+  })
+
+  it('requires final all mode to reach released Grade 6 with all 62 complete production units', () => {
+    const report = auditApplicationProblemQuality(
+      loadProductionApplicationProblemQualityInput(),
+      { mode: 'all', grade: 6 },
+    )
+
+    expect(report.unitReports).toHaveLength(62)
+    expect(report.errors.map((error: { code: string }) => error.code))
+      .toEqual(expect.arrayContaining(['APQ_ROLLOUT_STATE', 'APQ_RELEASE_INCOMPLETE']))
+  })
+
+  it('fails an invalid complete claim even when the pack is only in the building or pending range', () => {
+    const input = loadProductionApplicationProblemQualityInput()
+    input.packs = input.packs.map((entry: { packId: string }) => entry.packId === 'pack-g2-2-length'
+      ? { ...entry, coverageStatus: 'complete' }
+      : entry)
+
+    const report = auditApplicationProblemQuality(input)
+
+    expect(report.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_COMPLETE_PACK_RULE')
   })
 
   it('accepts a deterministic draft fixture without treating it as a released candidate', () => {
