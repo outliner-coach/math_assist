@@ -33,7 +33,10 @@ function domains(values: readonly { cognitiveDomain: string }[]): string[] {
 describe('Grade 2 review-only authoring connection', () => {
   it('retains the reviewed Grade 2 draft evidence after moving all identities to production', () => {
     expect(GRADE2_APPLICATION_AUTHORING_CATALOG_V1.unitCandidates).toHaveLength(12)
-    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toEqual([])
+    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toHaveLength(12)
+    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates.every(({ pack }) => (
+      pack.grade === 3 && pack.releaseStatus === 'draft'
+    ))).toBe(true)
     expect(validateAuthoringCatalogSafety(GRADE2_APPLICATION_AUTHORING_CATALOG_V1)).toEqual([])
     expect(validateAuthoringProductionSeparation({
       authoringCatalog: APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,

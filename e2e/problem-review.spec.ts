@@ -67,15 +67,15 @@ test('내부 검수 화면은 62단원 family와 읽기 전용 대표·경계 �
 
   await expect(page.getByTestId('application-problem-review')).toBeVisible()
   await expect(page.getByText('전 학년 응용문제 검수')).toBeVisible()
-  await expect(page.getByText('전체 단원 62개 · 대표 family 59개')).toBeVisible()
+  await expect(page.getByText('전체 단원 62개 · 대표 family 107개')).toBeVisible()
   for (const label of ['학년', '학기', '단원', '개념', '유형(family)', '인지영역', '추론 방식', '표현', '증명 방식', '출시 상태']) {
     await expect(page.getByLabel(label)).toBeVisible()
   }
 
-  await expect(page.getByTestId('review-problem-card')).toHaveCount(59)
-  await expect(page.getByTestId('review-representative-case')).toHaveCount(59)
+  await expect(page.getByTestId('review-problem-card')).toHaveCount(107)
+  await expect(page.getByTestId('review-representative-case')).toHaveCount(107)
   await expect.poll(() => page.getByTestId('review-boundary-case').count())
-    .toBeGreaterThanOrEqual(59)
+    .toBeGreaterThanOrEqual(107)
   await expect(page.getByText('재현 정보').first()).toBeVisible()
   await expect(page.getByText('독립 검산').first()).toBeVisible()
   await expect(page.getByTestId('review-visual-before').locator('.application-visual--answer')).toHaveCount(0)
@@ -92,7 +92,8 @@ test('내부 검수 화면은 등록 행으로 실제 필터링하고 학습자 
   await page.goto(`${BASE_PATH}/review/application-problems`)
 
   await page.getByLabel('학년').selectOption('3')
-  await expect(page.getByTestId('review-problem-card')).toHaveCount(0)
+  await expect(page.getByTestId('review-problem-card')).toHaveCount(48)
+  await expect(page.getByTestId('review-problem-card').first()).toContainText('draft')
   await page.getByLabel('학년').selectOption('6')
   await expect(page.getByTestId('review-problem-card')).toHaveCount(3)
   await expect(page.getByTestId('review-problem-card').first()).toContainText('6학년')
@@ -122,6 +123,52 @@ test('390×844와 1024×768 검수 화면은 가로 넘침이나 고정 행동 �
       expect(box?.height ?? 0).toBeGreaterThanOrEqual(40)
       expect(box?.x ?? -1).toBeGreaterThanOrEqual(0)
       expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(viewport.width)
+    }
+  }
+  expect(browserErrors).toEqual([])
+})
+
+test('Grade 3 draft 대표 시각은 두 뷰포트에서 제출 전 답을 숨기고 증거를 표시한다', async ({ page }) => {
+  const browserErrors: string[] = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') browserErrors.push(message.text())
+  })
+  page.on('pageerror', (error) => browserErrors.push(error.message))
+  const representativeFamilies = [
+    'g3-1-add-sub-story-change',
+    'g3-1-lines-map-classification',
+    'g3-2-circle-compass-diameter',
+    'g3-2-graph-table-to-bar',
+  ]
+
+  for (const viewport of [
+    { width: 390, height: 844 },
+    { width: 1024, height: 768 },
+  ]) {
+    await page.setViewportSize(viewport)
+    await page.goto(`${BASE_PATH}/review/application-problems`)
+    await page.getByLabel('학년').selectOption('3')
+    await expect(page.getByTestId('review-problem-card')).toHaveCount(48)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth))
+      .toBeLessThanOrEqual(0)
+
+    for (const familyId of representativeFamilies) {
+      const card = page.getByTestId('review-problem-card').filter({ hasText: familyId })
+      await expect(card).toHaveCount(1)
+      await expect(card).toContainText('draft')
+      await expect(card).toContainText('케이스 판정: passed')
+      await expect(card).toContainText('제출 전 노출 검사: passed')
+      await expect(card).toContainText('증명 실행: 통과')
+      const before = card.getByTestId('review-visual-before')
+      const after = card.getByTestId('review-visual-after')
+      await expect(before.locator('.application-visual--answer')).toHaveCount(0)
+      await expect(before).toBeVisible()
+      await expect(after).toBeVisible()
+      const beforeLabels = await before.locator('[data-application-visual-label]').allTextContents()
+      const afterLabels = await after.locator('[data-application-visual-label]').allTextContents()
+      expect(beforeLabels).toContain('답: ?')
+      expect(afterLabels).not.toContain('답: ?')
+      expect(afterLabels.some((label) => label.startsWith('답: ') && label !== '답: ?')).toBe(true)
     }
   }
   expect(browserErrors).toEqual([])

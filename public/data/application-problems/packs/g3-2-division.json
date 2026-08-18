@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1", "packId": "pack-g3-2-division", "version": 1,
+  "unitId": "g3-2-division", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "draft",
+  "coveredStandardCodes": ["[4수01-06]"],
+  "concepts": [{
+    "conceptId": "g3-2-division-division-remainder", "name": "한 자리 수 나눗셈의 몫과 나머지", "standardCodes": ["[4수01-06]"],
+    "prerequisites": [{ "kind": "standard", "standardCode": "[4수01-05]" }],
+    "allowedScope": ["나누는 수가 한 자리 수인 나눗셈에서 몫과 나머지를 모델링하고 검산한다."],
+    "excludedScope": ["나누는 수가 두 자리 수인 계산은 사용하지 않는다."],
+    "misconceptions": [
+      { "id": "g3-remainder-too-large", "description": "나머지를 나누는 수 이상으로 둔다.", "diagnosticEvidence": "7로 나눈 나머지를 7이나 8이라고 한다.", "correctionStrategy": "나머지를 다시 한 묶음 만들 수 없는 수로 제한한다." },
+      { "id": "g3-division-ignore-remainder", "description": "남은 양을 버리고 몫만 답한다.", "diagnosticEvidence": "실생활 나눗셈에서 남은 물건을 기록하지 않는다.", "correctionStrategy": "나누는 수×몫+나머지로 원래 전체를 복원한다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g3-2-division-share-remainder", "version": 1 }, { "familyId": "g3-2-division-missing-dividend", "version": 1 },
+    { "familyId": "g3-2-division-remainder-constraint", "version": 1 }, { "familyId": "g3-2-division-quotient-error", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

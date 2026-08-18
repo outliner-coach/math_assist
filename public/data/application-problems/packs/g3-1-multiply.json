@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g3-1-multiply",
+  "version": 1,
+  "unitId": "g3-1-multiply",
+  "grade": 3,
+  "semester": "3-1",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[4수01-04]"],
+  "concepts": [{
+    "conceptId": "g3-1-multiply-multiplication",
+    "name": "두 자리 수와 한 자리 수의 곱셈 원리",
+    "standardCodes": ["[4수01-04]"],
+    "prerequisites": [{ "kind": "standard", "standardCode": "[2수01-11]" }],
+    "allowedScope": ["두 자리 수와 한 자리 수의 곱셈을 묶음, 배열, 분배로 설명한다."],
+    "excludedScope": ["세 자리 수 곱셈과 소수 곱셈은 사용하지 않는다."],
+    "misconceptions": [
+      { "id": "g3-multiply-place-value", "description": "부분곱의 자리값을 맞추지 않는다.", "diagnosticEvidence": "십의 자리 부분곱을 일의 자리에 쓴다.", "correctionStrategy": "십 묶음과 낱개를 나누어 부분곱을 확인한다." },
+      { "id": "g3-multiply-add-factors", "description": "곱해야 할 두 수를 더한다.", "diagnosticEvidence": "묶음 수와 묶음 크기의 합을 전체로 답한다.", "correctionStrategy": "같은 수가 몇 번 반복되는지 배열로 나타낸다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g3-1-multiply-two-step-total", "version": 1 },
+    { "familyId": "g3-1-multiply-missing-groups", "version": 1 },
+    { "familyId": "g3-1-multiply-strategy-compare", "version": 1 },
+    { "familyId": "g3-1-multiply-product-error", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

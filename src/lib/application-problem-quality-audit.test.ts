@@ -364,7 +364,11 @@ describe('application problem quality audit', () => {
     expect(report.unitReports.filter((unit: { grade: number }) => unit.grade === 1)).toEqual([])
     expect(report.unitReports.find((unit: { unitId: string }) => unit.unitId === 'unit-5-1-perimeter-area'))
       .toMatchObject({ rolloutStatus: 'pending', baselinePilot: true, gradeComplete: false })
-    expect(report.unitReports.filter((unit: { grade: number }) => unit.grade > 2)
+    expect(report.unitReports.filter((unit: { grade: number }) => unit.grade === 3)
+      .every((unit: { rolloutStatus: string; candidateComplete: boolean }) => (
+        unit.rolloutStatus === 'candidate' && unit.candidateComplete
+      ))).toBe(true)
+    expect(report.unitReports.filter((unit: { grade: number }) => unit.grade > 3)
       .every((unit: { rolloutStatus: string }) => unit.rolloutStatus === 'pending')).toBe(true)
     expect(input.sessionContracts).toMatchObject([
       { grade: 2, storageKey: 'mathAssist_grade2Progress', legacyCount: 144 },
@@ -644,7 +648,7 @@ describe('application problem quality audit', () => {
     expect(() => parseApplicationAuditSelection(['--mode', 'release'])).toThrow(/grade/i)
   })
 
-  it('keeps released Grade 2 production-complete while Grade 3 becomes the pending candidate grade', () => {
+  it('keeps Grade 2 production-complete while all twelve Grade 3 units become complete candidates', () => {
     const input = loadProductionApplicationProblemQualityInput()
     const releasedGrade = auditApplicationProblemQuality(input, { mode: 'candidate', grade: 2 })
     const buildingGrade = auditApplicationProblemQuality(input, { mode: 'candidate', grade: 3 })
@@ -654,8 +658,14 @@ describe('application problem quality audit', () => {
       .toContain('APQ_ROLLOUT_MODE_GRADE')
     expect(buildingGrade.errors.map((error: { code: string }) => error.code))
       .not.toContain('APQ_ROLLOUT_MODE_GRADE')
-    expect(buildingGrade.errors.map((error: { code: string }) => error.code))
-      .toContain('APQ_GRADE_CANDIDATE_INCOMPLETE')
+    expect(buildingGrade.errors).toEqual([])
+    expect(buildingGrade.unitReports.filter((unit: {
+      grade: number
+      candidateComplete: boolean
+      productionComplete: boolean
+    }) => (
+      unit.grade === 3 && unit.candidateComplete && !unit.productionComplete
+    ))).toHaveLength(12)
     expect(grade2Release.errors).toEqual([])
     expect(grade2Release.unitReports.filter((unit: { grade: number; productionComplete: boolean }) => (
       unit.grade === 2 && unit.productionComplete

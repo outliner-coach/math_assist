@@ -962,3 +962,14 @@ When you change a high-conflict file, add a short dated note below:
   snapshots byte-for-byte, leave Grade 5/6 pilot registries unchanged, and
   advance rollout exactly from `null/2` to `2/3`. Only a commit that passes the
   release audit and full local gate may reach `main` and Pages.
+
+- 2026-08-18: Grade 3 all-unit application candidate integration (T8-T11)
+  owns the twelve Grade 3 draft packs, their finite family recipes and proof
+  authorities, plus review-only Grade 3 adapter/runtime/catalog boundaries.
+  Grade 3 practice must remain exactly three stable K/A/R mission IDs and may
+  replace exactly one applying or reasoning slot in candidate review. Existing
+  completion, review, reward, and `mathAssist_grade3Progress` meanings remain
+  unchanged; a failed candidate produces no partial session or storage write.
+  No Grade 3 production registry, release-ledger entry, approval mutation,
+  learner routing, remote push, or deployment is allowed before the next
+  explicit project-owner approval.

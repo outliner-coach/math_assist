@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g3-1-division",
+  "version": 1,
+  "unitId": "g3-1-division",
+  "grade": 3,
+  "semester": "3-1",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[4수01-05]", "[4수01-06]"],
+  "concepts": [{
+    "conceptId": "g3-1-division-division-meaning",
+    "name": "나눗셈의 뜻과 곱셈구구로 구하는 몫",
+    "standardCodes": ["[4수01-05]", "[4수01-06]"],
+    "prerequisites": [{ "kind": "standard", "standardCode": "[4수01-04]" }],
+    "allowedScope": ["실생활의 등분제·포함제 상황을 곱셈과 나눗셈 관계로 모델링한다.", "한 자리 수로 나누어떨어지는 몫을 곱셈으로 검산한다."],
+    "excludedScope": ["분수 몫은 사용하지 않는다.", "나머지가 있는 두 자리 수 나눗셈은 3-2에서 다룬다."],
+    "misconceptions": [
+      { "id": "g3-division-multiply-instead", "description": "전체를 나누는 상황에서도 두 수를 곱한다.", "diagnosticEvidence": "전체와 묶음 수가 주어졌는데 곱셈을 선택한다.", "correctionStrategy": "전체를 같은 크기의 묶음으로 실제 나누어 본다." },
+      { "id": "g3-division-group-size-count", "description": "묶음 수와 한 묶음의 수를 서로 바꿔 답한다.", "diagnosticEvidence": "몇 묶음인지 묻는 문제에 한 묶음의 크기를 답한다.", "correctionStrategy": "구하려는 값이 묶음 수인지 묶음 크기인지 표시한다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g3-1-division-sharing-plan", "version": 1 },
+    { "familyId": "g3-1-division-missing-total", "version": 1 },
+    { "familyId": "g3-1-division-model-check", "version": 1 },
+    { "familyId": "g3-1-division-fact-error", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

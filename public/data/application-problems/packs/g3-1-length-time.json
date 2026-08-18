@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g3-1-length-time",
+  "version": 1,
+  "unitId": "g3-1-length-time",
+  "grade": 3,
+  "semester": "3-1",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[4수03-13]", "[4수03-14]", "[4수03-15]", "[4수03-16]"],
+  "concepts": [{
+    "conceptId": "g3-1-length-time-length-time",
+    "name": "길이 단위와 시간 단위의 관계",
+    "standardCodes": ["[4수03-13]", "[4수03-14]", "[4수03-15]", "[4수03-16]"],
+    "prerequisites": [{ "kind": "standard", "standardCode": "[2수03-11]" }, { "kind": "standard", "standardCode": "[2수03-08]" }],
+    "allowedScope": ["1cm=10mm, 1km=1000m 관계로 길이를 바꾸고 어림한다.", "1분=60초 관계로 초 단위 시각과 시간 차를 계산한다."],
+    "excludedScope": ["넓이와 부피 단위는 사용하지 않는다.", "24시간제와 날짜 계산은 요구하지 않는다."],
+    "misconceptions": [
+      { "id": "g3-length-unit-scale", "description": "cm와 mm 또는 km와 m의 배율을 100으로 처리한다.", "diagnosticEvidence": "4cm 7mm를 407mm로 쓴다.", "correctionStrategy": "단위 막대의 한 큰 칸에 작은 칸이 몇 개인지 확인한다." },
+      { "id": "g3-time-base-ten", "description": "1분을 100초처럼 십진 단위로 처리한다.", "diagnosticEvidence": "2분 30초를 230초라고 쓴다.", "correctionStrategy": "분마다 60초가 묶인 시간선을 사용한다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g3-1-length-time-trip-conversion", "version": 1 },
+    { "familyId": "g3-1-length-time-missing-distance", "version": 1 },
+    { "familyId": "g3-1-length-time-elapsed-time", "version": 1 },
+    { "familyId": "g3-1-length-time-unit-claim-error", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1", "packId": "pack-g3-2-capacity-weight", "version": 1,
+  "unitId": "g3-2-capacity-weight", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "draft",
+  "coveredStandardCodes": ["[4수03-17]", "[4수03-18]", "[4수03-19]", "[4수03-20]", "[4수03-21]", "[4수03-22]", "[4수03-23]"],
+  "concepts": [{
+    "conceptId": "g3-2-capacity-weight-capacity-weight", "name": "들이와 무게 단위의 관계", "standardCodes": ["[4수03-17]", "[4수03-18]", "[4수03-19]", "[4수03-20]", "[4수03-21]", "[4수03-22]", "[4수03-23]"],
+    "prerequisites": [],
+    "allowedScope": ["1L=1000mL 관계로 들이를 측정·어림·변환하고 더하거나 뺀다.", "1kg=1000g, 1t=1000kg 관계로 무게를 측정·어림·변환하고 더하거나 뺀다."],
+    "excludedScope": ["부피 공식은 사용하지 않는다.", "밀도와 힘 단위는 사용하지 않는다."],
+    "misconceptions": [
+      { "id": "g3-capacity-unit-scale", "description": "1L를 100mL로 바꾼다.", "diagnosticEvidence": "2L 50mL를 250mL라고 쓴다.", "correctionStrategy": "1L 용기에 1000mL 눈금을 연결한다." },
+      { "id": "g3-weight-unit-scale", "description": "kg와 g 또는 t와 kg의 배율을 100으로 처리한다.", "diagnosticEvidence": "3kg 400g을 3400g이 아닌 340g이라고 쓴다.", "correctionStrategy": "큰 단위 하나에 작은 단위 1000개가 있음을 저울 눈금으로 확인한다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g3-2-capacity-weight-measure-pair", "version": 1 }, { "familyId": "g3-2-capacity-weight-missing-capacity", "version": 1 },
+    { "familyId": "g3-2-capacity-weight-conversion-compare", "version": 1 }, { "familyId": "g3-2-capacity-weight-weight-error", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

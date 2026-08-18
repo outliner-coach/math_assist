@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1", "packId": "pack-g3-2-fraction", "version": 1,
+  "unitId": "g3-2-fraction", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "draft",
+  "coveredStandardCodes": ["[4수01-10]", "[4수01-11]"],
+  "concepts": [{
+    "conceptId": "g3-2-fraction-fraction", "name": "분수의 여러 형태와 크기 비교", "standardCodes": ["[4수01-10]", "[4수01-11]"],
+    "prerequisites": [{ "kind": "standard", "standardCode": "[4수01-09]" }],
+    "allowedScope": ["대분수와 가분수를 같은 분모의 조각 수로 서로 바꾼다.", "분모가 같은 분수는 분자를, 단위분수는 한 조각의 크기를 비교한다."],
+    "excludedScope": ["분수의 덧셈과 뺄셈은 사용하지 않는다.", "일반적인 이분모 분수 통분은 사용하지 않는다."],
+    "misconceptions": [
+      { "id": "g3-fraction-form-whole", "description": "대분수의 자연수 부분을 분자에 그대로 붙인다.", "diagnosticEvidence": "2와 3/5를 23/5로 쓴다.", "correctionStrategy": "자연수 하나마다 분모만큼의 조각이 있음을 모델로 센다." },
+      { "id": "g3-fraction-larger-denominator", "description": "분모가 클수록 분수가 항상 크다고 판단한다.", "diagnosticEvidence": "1/8이 1/4보다 크다고 한다.", "correctionStrategy": "같은 전체를 실제로 나누어 한 조각 크기를 비교한다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g3-2-fraction-form-and-compare", "version": 1 }, { "familyId": "g3-2-fraction-missing-numerator", "version": 1 },
+    { "familyId": "g3-2-fraction-representation-shift", "version": 1 }, { "familyId": "g3-2-fraction-comparison-error", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

@@ -49,6 +49,27 @@
 상세 승인 범위와 보존 조건은
 `docs/reviews/application-problems-grade2-approval.md`에 있다.
 
+## 2026-08-18 3학년 전 단원 응용문제 승인 전 후보
+
+- 3학년 12개 공개 단원에 complete draft pack 12개와 family 48개를
+  만들었다. 단원마다 applying 1개와 서로 다른 reasoning 3개이며, 총
+  144개 유한 변형을 결정적으로 재생성하고 독립 검산한다.
+- 기존 120개 문제은행의 정본 `unitId-skill` 개념 ID와 필수 표현을 기준으로
+  pack 완결성을 검증한다. 세부 범위·오개념은 정본 개념 아래 보존한다.
+- 후보 연습은 기존 K/A/R 3문제와 ID·순서·보상·완료·복습 의미를 유지한 채
+  applying 또는 reasoning 한 자리만 대체한다. 생성·검산·시각·proof가
+  실패하면 부분 세션을 반환하거나 기록을 쓰지 않는다.
+- 후보는 읽기 전용 authoring catalog에만 연결했다. 3학년 production
+  registry·release ledger·승인 기록은 만들지 않았고 실제 학습자 경로와
+  rollout은 계속 2학년 출시 상태를 유지한다.
+- application candidate validator와 audit 오류 0, 집중 Vitest 22/22,
+  전체 Vitest 117개 파일 1,244/1,244, Promptfoo 1,483/1,483, lint,
+  정적 build 114/114, 390×844·1024×768 읽기 전용 검수 6/6과 전체
+  Playwright 99/99를 통과했다. 이 근거로 프로젝트 책임자 승인을 요청한다.
+
+상세 후보 범위와 승인 조건은
+`docs/reviews/application-problems-grade3-candidate.md`에 있다.
+
 ## 2026-08-18 2학년 전 단원 응용문제 승인 전 후보 기록
 
 - 1학년을 제외한 전 학년 순차 출시의 첫 단계로 2학년 12개 단원에

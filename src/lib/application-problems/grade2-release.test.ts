@@ -42,7 +42,10 @@ describe('Grade 2 full application release', () => {
         },
       })
     })
-    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toHaveLength(0)
+    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates).toHaveLength(12)
+    expect(APPLICATION_PROBLEM_AUTHORING_CATALOG_V1.unitCandidates.every(({ pack }) => (
+      pack.grade === 3 && pack.releaseStatus === 'draft'
+    ))).toBe(true)
     expect(input.rollout).toMatchObject({ releasedThroughGrade: 2, buildingGrade: 3 })
     expect(input.packs.filter((pack: { grade: number; coverageStatus: string }) => (
       pack.grade === 2 && pack.coverageStatus === 'complete'

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g3-1-add-sub",
+  "version": 1,
+  "unitId": "g3-1-add-sub",
+  "grade": 3,
+  "semester": "3-1",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[4수01-03]"],
+  "concepts": [{
+    "conceptId": "g3-1-add-sub-addition-subtraction",
+    "name": "세 자리 수 덧셈과 뺄셈의 자리값 원리",
+    "standardCodes": ["[4수01-03]"],
+    "prerequisites": [{ "kind": "standard", "standardCode": "[2수01-09]" }],
+    "allowedScope": ["세 자리 수 범위에서 받아올림과 받아내림을 포함한 덧셈·뺄셈 관계를 다룬다.", "실생활 변화 상황, 빈칸, 계산 방법 검산을 연결한다."],
+    "excludedScope": ["음수와 소수 계산은 사용하지 않는다.", "네 자리 수끼리의 계산을 요구하지 않는다."],
+    "misconceptions": [{
+      "id": "g3-add-sub-place-alignment",
+      "description": "자리값을 맞추지 않거나 받아올림·받아내림을 빠뜨린다.",
+      "diagnosticEvidence": "일의 자리에서 생긴 묶음을 다음 자리에 반영하지 않는다.",
+      "correctionStrategy": "백·십·일을 세로로 맞추고 원래 관계에 넣어 검산한다."
+    }]
+  }],
+  "familyRefs": [
+    { "familyId": "g3-1-add-sub-story-change", "version": 1 },
+    { "familyId": "g3-1-add-sub-missing-start", "version": 1 },
+    { "familyId": "g3-1-add-sub-strategy-check", "version": 1 },
+    { "familyId": "g3-1-add-sub-operation-error", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

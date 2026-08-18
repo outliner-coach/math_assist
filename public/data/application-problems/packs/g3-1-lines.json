@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g3-1-lines",
+  "version": 1,
+  "unitId": "g3-1-lines",
+  "grade": 3,
+  "semester": "3-1",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[4수03-01]", "[4수03-02]"],
+  "concepts": [{
+    "conceptId": "g3-1-lines-line-angle",
+    "name": "선의 종류와 각의 분류",
+    "standardCodes": ["[4수03-01]", "[4수03-02]"],
+    "prerequisites": [],
+    "allowedScope": ["끝점과 뻗는 방향으로 직선, 선분, 반직선을 구별한다.", "각의 벌어진 정도를 직각과 비교하여 예각·직각·둔각으로 구별한다."],
+    "excludedScope": ["좌표나 기울기는 사용하지 않는다.", "각도기 사용이나 내각의 합은 요구하지 않는다."],
+    "misconceptions": [
+      { "id": "g3-lines-endpoint-confusion", "description": "선의 길이만 보고 직선·선분·반직선을 구별한다.", "diagnosticEvidence": "끝점 표시와 뻗는 방향을 무시한다.", "correctionStrategy": "끝점 수와 어느 방향으로 이어지는지를 함께 확인한다." },
+      { "id": "g3-angle-size-by-arm-length", "description": "각의 두 변이 길수록 각이 크다고 판단한다.", "diagnosticEvidence": "벌어진 정도가 같은 각을 변 길이에 따라 다르게 분류한다.", "correctionStrategy": "같은 길이의 선으로 직각과 벌어진 정도만 비교한다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g3-1-lines-map-classification", "version": 1 },
+    { "familyId": "g3-1-lines-angle-constraint", "version": 1 },
+    { "familyId": "g3-1-lines-property-check", "version": 1 },
+    { "familyId": "g3-1-lines-classification-error", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

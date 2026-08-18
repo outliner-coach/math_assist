@@ -4,6 +4,7 @@ import { grade3Units } from '../grade3-problems'
 import { grade4Units } from '../grade4-problems'
 import type { ProblemRepresentation } from '../types'
 import { createGrade2AuthoringUnitCandidateValues } from './grade2-authoring-catalog'
+import { createGrade3AuthoringUnitCandidateValues } from './grade3-authoring-catalog'
 import {
   ContractValidationError,
   parseApplicationProblemFamilyV1,
@@ -449,7 +450,7 @@ export const GRADE2_APPLICATION_AUTHORING_CATALOG_V1 = createReviewOnlyAuthoring
 export const APPLICATION_PROBLEM_AUTHORING_CATALOG_V1 =
   createReviewOnlyAuthoringCatalog({
     schemaVersion: 'application-problem-authoring-catalog-v1',
-    unitCandidates: [],
+    unitCandidates: createGrade3AuthoringUnitCandidateValues(),
   })
 
 export function validateAuthoringProductionSeparation(input: {

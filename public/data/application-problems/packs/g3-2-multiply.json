@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1", "packId": "pack-g3-2-multiply", "version": 1,
+  "unitId": "g3-2-multiply", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "draft",
+  "coveredStandardCodes": ["[4수01-04]"],
+  "concepts": [{
+    "conceptId": "g3-2-multiply-multiplication", "name": "두 자리 수끼리의 곱셈과 부분곱", "standardCodes": ["[4수01-04]"],
+    "prerequisites": [{ "kind": "standard", "standardCode": "[2수01-11]" }],
+    "allowedScope": ["곱하는 수가 두 자리 수인 곱셈을 부분곱과 분배로 설명한다."],
+    "excludedScope": ["세 자리 수끼리의 곱셈과 소수 곱셈은 사용하지 않는다."],
+    "misconceptions": [
+      { "id": "g3-multiply-partial-product", "description": "두 부분곱 중 하나만 계산한다.", "diagnosticEvidence": "십의 자리 곱을 빠뜨린 결과를 답한다.", "correctionStrategy": "곱하는 수를 십과 일로 나누어 두 부분곱을 확인한다." },
+      { "id": "g3-multiply-place-value", "description": "부분곱의 자리값을 맞추지 않는다.", "diagnosticEvidence": "십의 자리 부분곱을 일의 자리에 쓴다.", "correctionStrategy": "부분곱이 몇 십을 뜻하는지 배열과 함께 표시한다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g3-2-multiply-box-total", "version": 1 }, { "familyId": "g3-2-multiply-missing-factor", "version": 1 },
+    { "familyId": "g3-2-multiply-distributive-check", "version": 1 }, { "familyId": "g3-2-multiply-product-error", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

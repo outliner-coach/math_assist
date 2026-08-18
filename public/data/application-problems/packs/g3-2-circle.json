@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1", "packId": "pack-g3-2-circle", "version": 1,
+  "unitId": "g3-2-circle", "grade": 3, "semester": "3-2", "coverageStatus": "complete", "releaseStatus": "draft",
+  "coveredStandardCodes": ["[4수03-06]", "[4수03-07]"],
+  "concepts": [{
+    "conceptId": "g3-2-circle-circle", "name": "원의 성질과 컴퍼스 작도", "standardCodes": ["[4수03-06]", "[4수03-07]"], "prerequisites": [],
+    "allowedScope": ["한 원에서 모든 반지름이 같고 지름이 반지름의 두 배임을 사용한다.", "컴퍼스 벌림을 반지름으로 사용해 주어진 크기의 원을 구성한다."],
+    "excludedScope": ["원주율과 원의 넓이는 사용하지 않는다.", "복잡한 작도와 자취는 사용하지 않는다."],
+    "misconceptions": [
+      { "id": "g3-circle-radius-diameter", "description": "반지름과 지름을 같은 길이로 본다.", "diagnosticEvidence": "반지름 5cm인 원의 지름을 5cm라고 한다.", "correctionStrategy": "중심을 지나 원의 양쪽을 잇는 지름에 반지름 두 개를 표시한다." },
+      { "id": "g3-compass-opening-diameter", "description": "컴퍼스 벌림을 지름으로 해석한다.", "diagnosticEvidence": "지름 10cm인 원을 그리려고 10cm만큼 벌린다.", "correctionStrategy": "컴퍼스 바늘에서 연필심까지가 반지름임을 표시한다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g3-2-circle-compass-diameter", "version": 1 }, { "familyId": "g3-2-circle-missing-radius", "version": 1 },
+    { "familyId": "g3-2-circle-construction-constraint", "version": 1 }, { "familyId": "g3-2-circle-property-error", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

@@ -457,13 +457,13 @@ describe('application problem review catalog', () => {
     })
   })
 
-  it('shows all fifty-nine approved production families after the Grade 2 release', () => {
+  it('shows fifty-nine approved families alongside forty-eight Grade 3 drafts', () => {
     const data = getApplicationProblemReviewData()
 
     expect(APPLICATION_UNIT_INVENTORY_V1).toHaveLength(62)
-    expect(data.rows).toHaveLength(59)
+    expect(data.rows).toHaveLength(107)
     expect(data.rows.filter((row) => row.source === 'production')).toHaveLength(59)
-    expect(data.rows.filter((row) => row.source === 'draft')).toHaveLength(0)
+    expect(data.rows.filter((row) => row.source === 'draft')).toHaveLength(48)
     expect(data.rows.filter((row) => row.source === 'production').every((row) => (
       row.releaseStatus === 'approved'
     ))).toBe(true)
