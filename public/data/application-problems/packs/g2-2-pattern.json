@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g2-2-pattern",
+  "version": 1,
+  "unitId": "g2-2-pattern",
+  "grade": 2,
+  "semester": "2-2",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[2수02-01]", "[2수02-02]"],
+  "concepts": [{
+    "conceptId": "g2-2-pattern-pattern",
+    "name": "반복하고 커지는 규칙",
+    "standardCodes": ["[2수02-01]", "[2수02-02]"],
+    "prerequisites": [{ "kind": "standard", "standardCode": "[2수02-01]" }],
+    "allowedScope": ["색, 모양, 수 배열에서 반복 또는 일정한 변화를 찾는다.", "규칙을 거꾸로 적용하거나 먼 자리의 수를 구한다."],
+    "excludedScope": ["문자식과 등차수열 공식은 사용하지 않는다."],
+    "misconceptions": [
+      { "id": "pattern-add-once-only", "description": "변화량을 한 번만 더하고 먼 자리까지 반복하지 않는다.", "diagnosticEvidence": "5번째 수를 구할 때 변화량을 한 번만 더한다.", "correctionStrategy": "첫 자리 뒤에 몇 번 변하는지 칸을 세어 같은 변화를 반복한다." },
+      { "id": "pattern-change-step", "description": "중간에 변화량을 바꾸어도 같은 규칙이라고 본다.", "diagnosticEvidence": "4씩 커지는 배열에 1 큰 수가 섞여도 맞다고 한다.", "correctionStrategy": "이웃한 두 수의 차를 모든 칸에서 확인한다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g2-2-pattern-step-application", "version": 1 },
+    { "familyId": "g2-2-pattern-find-start", "version": 1 },
+    { "familyId": "g2-2-pattern-broken-term", "version": 1 },
+    { "familyId": "g2-2-pattern-far-step", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

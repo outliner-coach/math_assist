@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g2-2-table-graph",
+  "version": 1,
+  "unitId": "g2-2-table-graph",
+  "grade": 2,
+  "semester": "2-2",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[2수04-02]", "[2수04-03]"],
+  "concepts": [{
+    "conceptId": "g2-2-table-graph-table-graph",
+    "name": "분류한 자료의 표와 표식 그래프",
+    "standardCodes": ["[2수04-02]", "[2수04-03]"],
+    "prerequisites": [{ "kind": "standard", "standardCode": "[2수04-01]" }],
+    "allowedScope": ["원자료를 종류별로 세어 표와 표식 그래프로 나타낸다.", "가장 많고 적은 항목, 차이, 빠진 수를 찾는다."],
+    "excludedScope": ["막대그래프의 눈금 간격과 평균은 다루지 않는다."],
+    "misconceptions": [
+      { "id": "table-graph-ignore-category", "description": "항목 이름을 보지 않고 첫 줄이나 마지막 줄을 답으로 고른다.", "diagnosticEvidence": "표식 수와 상관없이 첫 항목이 가장 많다고 한다.", "correctionStrategy": "항목 이름과 같은 줄의 표식 수를 짝지어 비교한다." },
+      { "id": "table-graph-count-marks-not-scale", "description": "표식 한 개가 뜻하는 수를 확인하지 않고 표식 개수만 답한다.", "diagnosticEvidence": "표식 4개, 한 개가 2명일 때 4명이라고 한다.", "correctionStrategy": "표식 수와 한 개가 뜻하는 수가 모두 필요한지 확인한다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g2-2-table-graph-survey-difference", "version": 1 },
+    { "familyId": "g2-2-table-graph-missing-category", "version": 1 },
+    { "familyId": "g2-2-table-graph-claim-error", "version": 1 },
+    { "familyId": "g2-2-table-graph-key-sufficiency", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

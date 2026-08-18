@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g2-2-length",
+  "version": 2,
+  "unitId": "g2-2-length",
+  "grade": 2,
+  "semester": "2-2",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[2수03-10]", "[2수03-11]", "[2수03-12]", "[2수03-13]"],
+  "concepts": [{
+    "conceptId": "g2-2-length-length",
+    "name": "길이 측정, 어림, 단위 관계와 계산",
+    "standardCodes": ["[2수03-10]", "[2수03-11]", "[2수03-12]", "[2수03-13]"],
+    "prerequisites": [{ "kind": "standard", "standardCode": "[2수03-06]" }],
+    "allowedScope": ["물건에 알맞은 자와 cm, m 단위를 골라 길이를 재거나 어림한다.", "1m=100cm 관계로 표현을 바꾸고 같은 단위의 길이를 더하거나 뺀다."],
+    "excludedScope": ["소수 길이, 넓이와 부피, 비례식은 다루지 않는다."],
+    "misconceptions": [
+      { "id": "length-tool-unit-mismatch", "description": "물건보다 지나치게 짧은 도구를 한 번만 대거나 m와 cm 단위를 구별하지 않는다.", "diagnosticEvidence": "160cm 물건을 20cm 자 한 번으로 잴 수 있다고 한다.", "correctionStrategy": "물건과 도구 길이를 비교하고 1m 묶음과 남은 cm로 나누어 잰다." },
+      { "id": "length-estimate-as-exact", "description": "어림한 길이를 잰 값과 같은 정확한 값으로 본다.", "diagnosticEvidence": "200cm쯤이라고 어림한 뒤 128cm를 재어도 어림이 정확하다고 한다.", "correctionStrategy": "어림값과 잰 값의 차이를 확인해 어림의 알맞음을 판단한다." }
+    ]
+  }],
+  "familyRefs": [
+    { "familyId": "g2-2-length-tool-and-unit", "version": 1 },
+    { "familyId": "g2-2-length-estimate-check", "version": 1 },
+    { "familyId": "g2-2-length-information-check", "version": 1 },
+    { "familyId": "g2-2-length-method-compare", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

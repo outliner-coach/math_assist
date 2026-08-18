@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g2-2-place-value",
+  "version": 1,
+  "unitId": "g2-2-place-value",
+  "grade": 2,
+  "semester": "2-2",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[2수01-02]", "[2수01-03]"],
+  "concepts": [
+    {
+      "conceptId": "g2-2-place-value-place-value",
+      "name": "네 자리 수의 자릿값과 전개",
+      "standardCodes": ["[2수01-02]"],
+      "prerequisites": [{ "kind": "standard", "standardCode": "[2수01-01]" }],
+      "allowedScope": ["천, 백, 십, 일의 값을 네 자리 수와 연결한다.", "숫자 카드를 한 번씩 사용해 조건에 맞는 수를 만든다."],
+      "excludedScope": ["만 이상의 수와 음수는 다루지 않는다."],
+      "misconceptions": [
+        { "id": "place-value-digit-is-value", "description": "자리의 숫자와 그 숫자가 나타내는 값을 같다고 본다.", "diagnosticEvidence": "3520의 백의 자리 5가 나타내는 값을 5라고 한다.", "correctionStrategy": "천, 백, 십, 일 칸에 숫자를 놓고 각 자리의 값을 말한다." }
+      ]
+    },
+    {
+      "conceptId": "g2-2-place-value-number-comparison",
+      "name": "네 자리 수의 비교와 배열",
+      "standardCodes": ["[2수01-03]"],
+      "prerequisites": [{ "kind": "concept", "conceptId": "g2-2-place-value-place-value" }],
+      "allowedScope": ["큰 자리부터 비교해 네 자리 수의 크기를 판단한다.", "조건을 만족하는 가장 큰 수나 가장 작은 수를 찾는다."],
+      "excludedScope": ["부등호의 형식 훈련만으로 응용 범위를 채우지 않는다."],
+      "misconceptions": [
+        { "id": "place-value-ignore-highest-place", "description": "일의 자리처럼 눈에 띄는 숫자만 보고 수의 크기를 정한다.", "diagnosticEvidence": "3987이 4012보다 크다고 말한다.", "correctionStrategy": "천의 자리부터 같은지 확인하고 다음 자리로 옮긴다." }
+      ]
+    }
+  ],
+  "familyRefs": [
+    { "familyId": "g2-2-place-value-shop-order", "version": 1 },
+    { "familyId": "g2-2-place-value-hidden-hundreds", "version": 1 },
+    { "familyId": "g2-2-place-value-claim-check", "version": 1 },
+    { "familyId": "g2-2-place-value-card-constraint", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}
