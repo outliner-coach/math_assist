@@ -1045,6 +1045,28 @@ function loadCanonicalUnitBaseBankEvidence(unitInventory) {
   })
 }
 
+function classifyStoredApplicationPacks(storedPacks, authoringCatalog) {
+  const authoringPackRefs = new Set(
+    (authoringCatalog?.unitCandidates ?? []).map(({ pack }) => `${pack?.packId}@${pack?.version}`),
+  )
+  const productionPacks = []
+  const authoringPackFiles = []
+  const unlinkedDraftPacks = []
+
+  for (const pack of storedPacks ?? []) {
+    if (pack?.releaseStatus !== 'draft') {
+      productionPacks.push(pack)
+      continue
+    }
+    const target = authoringPackRefs.has(`${pack?.packId}@${pack?.version}`)
+      ? authoringPackFiles
+      : unlinkedDraftPacks
+    target.push(pack)
+  }
+
+  return { productionPacks, authoringPackFiles, unlinkedDraftPacks }
+}
+
 function loadProductionApplicationProblemQualityInput() {
   const { APPLICATION_PROBLEM_REGISTRY_V1 } = loadTypeScriptModule('src/lib/application-problems/registered-families.ts')
   const registries = [
@@ -1055,18 +1077,22 @@ function loadProductionApplicationProblemQualityInput() {
     const registryModule = loadTypeScriptModule(source)
     return { grade, ...(registryModule[`${grade.toUpperCase()}_APPLICATION_PROBLEM_REGISTRY_V1`] ?? {}) }
   })
-  const packsDirectory = path.join(ROOT_DIR, 'public', 'data', 'application-problems', 'packs')
-  const packs = fs.readdirSync(packsDirectory)
-    .filter((file) => file.endsWith('.json'))
-    .sort()
-    .map((file) => JSON.parse(fs.readFileSync(path.join(packsDirectory, file), 'utf8')))
-  const rollout = JSON.parse(
-    fs.readFileSync(path.join(ROOT_DIR, 'public', 'data', 'application-problems', 'rollout.json'), 'utf8'),
-  )
   const {
     APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
     APPLICATION_UNIT_INVENTORY_V1,
   } = loadTypeScriptModule('src/lib/application-problems/authoring-catalog.ts')
+  const packsDirectory = path.join(ROOT_DIR, 'public', 'data', 'application-problems', 'packs')
+  const storedPacks = fs.readdirSync(packsDirectory)
+    .filter((file) => file.endsWith('.json'))
+    .sort()
+    .map((file) => JSON.parse(fs.readFileSync(path.join(packsDirectory, file), 'utf8')))
+  const { productionPacks: packs } = classifyStoredApplicationPacks(
+    storedPacks,
+    APPLICATION_PROBLEM_AUTHORING_CATALOG_V1,
+  )
+  const rollout = JSON.parse(
+    fs.readFileSync(path.join(ROOT_DIR, 'public', 'data', 'application-problems', 'rollout.json'), 'utf8'),
+  )
   const unitBaseBankEvidence = loadCanonicalUnitBaseBankEvidence(APPLICATION_UNIT_INVENTORY_V1)
   const ledgerAllocations = JSON.parse(
     fs.readFileSync(path.join(ROOT_DIR, 'public', 'data', 'curriculum-allocations-v1.json'), 'utf8'),
@@ -1150,6 +1176,7 @@ function generateApplicationProblemQualityReport(selection) {
 
 module.exports = {
   auditApplicationProblemQuality,
+  classifyStoredApplicationPacks,
   generateApplicationProblemQualityReport,
   loadProductionApplicationProblemQualityInput,
   parseApplicationAuditSelection,

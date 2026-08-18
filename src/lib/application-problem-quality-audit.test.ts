@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   auditApplicationProblemQuality,
+  classifyStoredApplicationPacks,
   loadProductionApplicationProblemQualityInput,
   parseApplicationAuditSelection,
 } from '../../scripts/application-problem-quality-core.js'
@@ -288,6 +289,34 @@ function completeClaimInput() {
 }
 
 describe('application problem quality audit', () => {
+  it('keeps unlinked draft pack files out of the production audit until the authoring catalog connects them', () => {
+    const approvedPack = pack({
+      packId: 'approved-pack',
+      releaseStatus: 'approved',
+      approval: {
+        ownerStatus: 'approved',
+        ownerId: 'project-owner',
+        approvedAt: '2026-08-18T00:00:00.000Z',
+        evidenceRefs: ['docs/standards.md'],
+        expertStatus: 'not-reviewed',
+      },
+    })
+    const linkedDraftPack = pack({ packId: 'linked-draft-pack' })
+    const unlinkedDraftPack = pack({ packId: 'unlinked-draft-pack' })
+
+    const classified = classifyStoredApplicationPacks(
+      [approvedPack, linkedDraftPack, unlinkedDraftPack],
+      {
+        schemaVersion: 'application-problem-authoring-catalog-v1',
+        unitCandidates: [{ pack: linkedDraftPack, familyCandidates: [], completeness: {} }],
+      },
+    )
+
+    expect(classified.productionPacks).toEqual([approvedPack])
+    expect(classified.authoringPackFiles).toEqual([linkedDraftPack])
+    expect(classified.unlinkedDraftPacks).toEqual([unlinkedDraftPack])
+  })
+
   it('materializes actual production evidence for every registered family and session contract', () => {
     const input = loadProductionApplicationProblemQualityInput()
 
