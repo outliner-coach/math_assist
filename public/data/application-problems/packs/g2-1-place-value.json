@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g2-1-place-value",
+  "version": 1,
+  "unitId": "g2-1-place-value",
+  "grade": 2,
+  "semester": "2-1",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[2수01-02]", "[2수01-03]"],
+  "concepts": [
+    {
+      "conceptId": "g2-1-place-value-place-value",
+      "name": "세 자리 수의 자릿값과 전개",
+      "standardCodes": ["[2수01-02]"],
+      "prerequisites": [{ "kind": "standard", "standardCode": "[2수01-01]" }],
+      "allowedScope": ["백, 십, 일의 개수로 세 자리 수를 만들고 전개한다.", "0이 있는 자리를 포함해 세 자리 수를 읽고 쓴다."],
+      "excludedScope": ["네 자리 수와 소수의 자릿값은 다루지 않는다.", "받아올림이 필요한 계산을 자릿값 활동으로 대신하지 않는다."],
+      "misconceptions": [
+        {
+          "id": "g2-place-value-zero-placeholder",
+          "description": "십이나 일의 자리가 0이면 그 자리를 없애도 된다고 생각한다.",
+          "diagnosticEvidence": "백 4개, 십 0개, 일 7개를 47로 나타낸다.",
+          "correctionStrategy": "백, 십, 일 자리를 차례로 놓고 비어 있는 자리에 0을 쓴다."
+        },
+        {
+          "id": "g2-place-value-digit-value",
+          "description": "숫자의 위치와 관계없이 보이는 숫자만 값으로 읽는다.",
+          "diagnosticEvidence": "560의 5를 5라고만 말한다.",
+          "correctionStrategy": "5가 백의 자리에 있으므로 500임을 모형과 전개식으로 확인한다."
+        }
+      ]
+    },
+    {
+      "conceptId": "g2-1-place-value-number-comparison",
+      "name": "세 자리 수의 순서와 크기 비교",
+      "standardCodes": ["[2수01-03]"],
+      "prerequisites": [{ "kind": "concept", "conceptId": "g2-1-place-value-place-value" }],
+      "allowedScope": ["백의 자리부터 차례로 비교한다.", "두 수 사이에 놓일 수를 조건으로 고른다."],
+      "excludedScope": ["음수와 네 자리 수의 비교는 다루지 않는다.", "숫자 합만으로 크기를 정하지 않는다."],
+      "misconceptions": [
+        {
+          "id": "g2-place-value-compare-last-digit",
+          "description": "일의 자리가 큰 수를 항상 더 큰 수로 고른다.",
+          "diagnosticEvidence": "382와 417에서 2보다 7이 크다는 이유로 비교한다.",
+          "correctionStrategy": "가장 큰 자리인 백의 자리부터 같고 다름을 확인한다."
+        }
+      ]
+    }
+  ],
+  "familyRefs": [
+    { "familyId": "g2-1-place-value-build-number", "version": 1 },
+    { "familyId": "g2-1-place-value-compare-orders", "version": 1 },
+    { "familyId": "g2-1-place-value-missing-digit", "version": 1 },
+    { "familyId": "g2-1-place-value-claim-check", "version": 1 },
+    { "familyId": "g2-1-place-value-between-check", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

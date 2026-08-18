@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g2-1-classification",
+  "version": 1,
+  "unitId": "g2-1-classification",
+  "grade": 2,
+  "semester": "2-1",
+  "coverageStatus": "complete",
+  "releaseStatus": "draft",
+  "coveredStandardCodes": ["[2수04-01]"],
+  "concepts": [
+    {
+      "conceptId": "g2-1-classification-classification",
+      "name": "기준에 따른 분류와 개수 비교",
+      "standardCodes": ["[2수04-01]"],
+      "prerequisites": [],
+      "allowedScope": ["색, 모양, 쓰임 중 한 기준을 정해 사물을 분류한다.", "분류한 결과의 개수를 세고 기준에 따라 설명한다."],
+      "excludedScope": ["한 사물을 같은 기준의 두 범주에 중복해 넣지 않는다.", "표와 그래프의 형식적 작성은 2학기 단원에서 다룬다."],
+      "misconceptions": [
+        {
+          "id": "g2-classification-changing-rule",
+          "description": "분류 도중 기준을 바꾸어 서로 다른 특징을 섞는다.",
+          "diagnosticEvidence": "처음에는 색으로 나누다가 한 물건만 모양으로 나눈다.",
+          "correctionStrategy": "모든 사물에 같은 질문을 차례로 적용한다."
+        },
+        {
+          "id": "g2-classification-double-count",
+          "description": "한 사물을 같은 분류에서 두 번 세거나 빠뜨린다.",
+          "diagnosticEvidence": "범주별 개수의 합이 전체 개수와 다르다.",
+          "correctionStrategy": "분류된 사물에 하나씩 표시하고 범주 합을 전체와 비교한다."
+        }
+      ]
+    }
+  ],
+  "familyRefs": [
+    { "familyId": "g2-1-classification-sort-count", "version": 1 },
+    { "familyId": "g2-1-classification-missing-count", "version": 1 },
+    { "familyId": "g2-1-classification-rule-check", "version": 1 },
+    { "familyId": "g2-1-classification-claim-check", "version": 1 }
+  ],
+  "approval": { "ownerStatus": "pending", "evidenceRefs": [], "expertStatus": "not-reviewed" }
+}

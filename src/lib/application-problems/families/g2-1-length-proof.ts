@@ -1,0 +1,2 @@
+import { G2_1_LENGTH_FAMILY_RECIPES } from './g2-1-length'
+export function proveG2SemesterOneLengthFamilies() { return G2_1_LENGTH_FAMILY_RECIPES.map((recipe) => { const issues: string[] = []; recipe.cases.forEach((_, variantIndex) => { recipe.validateContract(recipe.generate({ seed: 0, variantIndex })).forEach((entry) => issues.push(`${variantIndex}:${entry.surface}:${entry.code}`)) }); return { familyId: recipe.family.familyId, checkedCount: recipe.cases.length, proven: issues.length === 0, issues } }) }
