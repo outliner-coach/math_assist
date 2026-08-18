@@ -1,26 +1,55 @@
 # 현재 상태
 
-기준일: 2026-08-14
+기준일: 2026-08-18
 
 ## 상태 경계
 
 - **마지막으로 문서화된 실제 배포 확인**: GitHub Pages 정적 사이트이며
-  서버 계정·원격 저장 API가 없다. 제품 커밋 `1a91b9a`의 GitHub Actions
-  실행 `31668310921`에서 build·deploy 성공을 확인했고 배포 ID
-  `5882104083`의 환경 URL은 `https://outliner-coach.github.io/math_assist/`다.
-  새 브라우저에서 지원 학년과 응용문제 검수 경로의 hydration, 정적 요청,
+  서버 계정·원격 저장 API가 없다. 제품 커밋 `e84bc25`의 GitHub Actions
+  실행 `32106502821`에서 build job `95616927853`과 deploy job
+  `95617256620`의 성공을 확인했다. 배포 ID `5957328567`, 상태 ID
+  `16946833417`의 SHA도 `e84bc25`와 일치하며 환경 URL은
+  `https://outliner-coach.github.io/math_assist/`다. 새 브라우저에서 홈,
+  2학년 단원·응용문제, 전 학년 응용문제 검수 화면의 hydration과 정적 요청,
   콘솔 오류 0을 확인했다.
 - **현재 공개 출시 상태**: 공개 원본 1,622개, 121개 성취기준
   직접 연결, 기본·연습 홈 투영과 5/10문제 완료 증거를 유지한다.
   최종 편집 원장은 `pass 1622 / blocked 0 / stale 0 / missing 0`이며,
   시각 원본 1,013개·허용 변형 3,141개를 실제 renderer의 세 상태와
   390×844·1024×768에서 확인한 기존 증거를 포함한다. 여기에 승인된
-  2·5·6학년 응용문제 V1 9유형의 결정적 제작기, 독립 검산, 정량 시각,
-  출시 원장, 학년별 세션 연결과 읽기 전용 검수 화면을 통합해 Pages에
-  배포했다.
+  2학년 12개 단원의 승인 유형 53개와 5·6학년 승인 유형 각 3개, 총 59개의
+  결정적 제작기, 독립 검산, 정량 시각, 출시 원장, 학년별 세션 연결과 읽기
+  전용 검수 화면을 통합해 Pages에 배포했다.
 - 이 문서에서 `released`는 curriculum ledger, 공개 경로 게이트와 실제 GitHub Pages 화면이 일치한다는 뜻이다. 이후 변경도 `main` 반영, Pages 성공, 새 브라우저 hydration을 모두 확인해야 출시 완료로 기록한다.
 
-## 2026-08-18 2학년 전 단원 응용문제 후보
+## 2026-08-18 2학년 전 단원 응용문제 출시와 Pages 배포
+
+- 프로젝트 책임자 승인에 따라 2학년 12개 complete pack과 신규 family
+  50개를 승인했다. 기존 2학년 시범 family 3개를 포함해 2학년 승인 유형은
+  53개, 5·6학년 시범 유형까지 포함한 전체 production family는 59개다.
+- 각 2학년 단원의 연습 6문제 중 같은 인지영역 한 자리만 응용문제로
+  대체한다. 144개 ID, 세션 길이, 난이도 분포, 저장 키와 완료·복습·최근
+  활동 기록은 유지하며, knowing 슬롯은 대체하지 않는다.
+- rollout 원장을 `releasedThroughGrade: 2`, `buildingGrade: 3`으로 전진했다.
+  3학년은 다음 제작 학년일 뿐 아직 pack·family 승인이나 공개 출시 범위가
+  아니다. 전문가 검수 상태도 계속 `not-reviewed`다.
+- 로컬 출시는 application pack work·2학년 release validator와 audit 오류 0,
+  mission·problem audit 오류·경고 0, 전체 Vitest, lint, TDD guard,
+  Promptfoo 1,483/1,483, build 114/114, Playwright 98/98을 통과했다.
+- 커밋 `e84bc25`를 `main`과 `origin/main`에 반영했다. GitHub Actions 실행
+  `32106502821`의 build job `95616927853`과 deploy job `95617256620`, 배포
+  `5957328567`과 최종 상태 `16946833417`이 모두 성공했고 배포 SHA는 제품
+  커밋과 일치한다.
+- 환경 URL과 `/grade/2/`, `/review/application-problems/`는 직접 HTTP 200을
+  반환했다. 새 공개 브라우저에서 2학년 12개 단원, 실제 6문제 연습의
+  응용문제 한 자리, 제출 전 `답: ?`, 검수 화면의 production 59개와
+  대표·경계 독립 검산을 확인했다. 390×844와 1024×768에서 레이아웃을
+  확인했고 학습·검수 화면의 콘솔 오류·경고는 0이다.
+
+상세 승인 범위와 보존 조건은
+`docs/reviews/application-problems-grade2-approval.md`에 있다.
+
+## 2026-08-18 2학년 전 단원 응용문제 승인 전 후보 기록
 
 - 1학년을 제외한 전 학년 순차 출시의 첫 단계로 2학년 12개 단원에
   complete knowledge pack 12개와 draft family 50개를 만들었다.
@@ -30,9 +59,10 @@
 - 대표·경계 생성, 독립 정답 검산, 필수 시각, 제출 전 답 비노출과 유한 영역
   증거를 검수 화면과 자동 감사에 연결했다. 상세 승인 자료는
   `docs/reviews/application-problems-grade2-candidate.md`에 있다.
-- 현재 신규 pack과 family는 모두 `draft`, 소유자 `pending`, 전문가
-  `not-reviewed`다. 기존 승인 V1 registry와 불변 release ledger는 바꾸지
-  않았으며, 프로젝트 책임자 승인 전 `main` 병합·push·배포하지 않는다.
+- 당시 신규 pack과 family는 모두 `draft`, 소유자 `pending`, 전문가
+  `not-reviewed`였고 기존 승인 V1 registry와 불변 release ledger를 바꾸지
+  않았다. 이후 프로젝트 책임자 승인을 받아 위 출시 섹션의 정확한
+  family 버전만 production으로 승격했다.
 
 ## 2026-08-13 응용문제 V1 출시와 Pages 배포
 

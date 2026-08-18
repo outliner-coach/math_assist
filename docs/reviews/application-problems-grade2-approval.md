@@ -46,5 +46,18 @@ rollout 원장은 `releasedThroughGrade: 2`, `buildingGrade: 3`으로 한 단계
 - 정적 build: 114/114 페이지
 - 전체 Playwright: 98/98
 
-원격 `main` SHA, Pages workflow·deployment SHA, 직접 HTTP와 새 브라우저 확인은
-push 뒤 별도로 기록한다. 그 전에는 이 문서의 승인만으로 공개 완료라고 부르지 않는다.
+## 원격 배포와 공개 화면 확인
+
+- `main`과 `origin/main`: `e84bc255e5e10148e929d767943f06131a0489e4`
+- GitHub Actions: 실행 `32106502821`, build job `95616927853`, deploy job
+  `95617256620`, 모두 성공
+- GitHub Pages: deployment `5957328567`, status `16946833417`, 배포 SHA와
+  제품 SHA 일치
+- 환경 URL: `https://outliner-coach.github.io/math_assist/`
+- 직접 HTTP: 환경 URL, `/grade/2/`, `/review/application-problems/` 모두 200
+- 새 브라우저: 2학년 12개 단원, 연습 6문제 안의 실제 응용문제 한 자리,
+  제출 전 `답: ?`, 검수 화면 production 59개와 대표·경계 독립 검산 확인
+- 390×844·1024×768 검수 화면 레이아웃 정상, 학습·검수 화면 콘솔 오류·경고 0
+
+이 확인으로 승인 범위의 공개 완료 조건을 충족했다. 3학년 이후 후보와 전문
+교과 검수는 별도 승인 대상이다.
