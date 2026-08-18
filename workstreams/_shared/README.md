@@ -21,6 +21,30 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-08-18: staged application-problem rollout foundation (T1) owns the
+  source-derived 62-unit Grade 2-6 inventory, the single
+  `application-problem-rollout-v1` state record, review-only draft authoring
+  catalog boundary, work/candidate/release/all validation modes, and the shared
+  cognitive-domain-aware placement planner. The fixed 2·5·6 pilot pack/family
+  exception remains exactly the nine already-approved families and does not
+  complete any Grade; the released Grade 6/building `null` state is terminal.
+  Draft candidates have executable generator, oracle, visual, and placement
+  proposals plus declared representative and boundary cases, but no release
+  ledger or learner registry surface. Audits execute those cases and keep all
+  later-than-building Grades explicitly pending. Complete claims are compared
+  with canonical base-bank concepts, representations, knowing coverage, and
+  concept-to-unit identity derived from current Grade 2-6 sources. Production
+  eligibility still requires an approved executable entry and one exactly
+  matching immutable canonical release-ledger snapshot. Grade session
+  integrations must call the atomic planner before persistence and preserve
+  total length plus K/A/R counts: G2 6/1, G3 3/1, G4 3/1, and G5·G6 5/1 or
+  10/2. It did not change pack JSON, generator/oracle families, production
+  registries, learner storage, or deployment state. T1's focused support modules are
+  `src/lib/application-problems/authoring-catalog.ts` and
+  `src/lib/application-problems/rollout-contracts.ts`; rollout parsing stays
+  outside the proof-digested base `contracts.ts` so the three pilot proof-trust
+  registrations remain byte-for-byte valid.
+
 - 2026-08-13: 배포 실화면 보정은 2학년 응용문제의 안정적인 내부
   `unitMissionOrder`와 화면의 상대 진행 순서를 분리하고, 6학년 비율 표현
   오류 분석 풀이의 숫자 뒤 고정 조사를 제거한다. 기존 2학년 미션 ID·정렬·

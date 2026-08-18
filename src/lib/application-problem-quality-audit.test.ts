@@ -6,12 +6,32 @@ import { describe, expect, it } from 'vitest'
 import {
   auditApplicationProblemQuality,
   loadProductionApplicationProblemQualityInput,
+  parseApplicationAuditSelection,
 } from '../../scripts/application-problem-quality-core.js'
 
 const approval = {
   ownerStatus: 'pending',
   evidenceRefs: [],
   expertStatus: 'not-reviewed',
+}
+
+let cachedRolloutContext: Record<string, unknown> | undefined
+
+function rolloutContext() {
+  if (!cachedRolloutContext) {
+    const production = loadProductionApplicationProblemQualityInput()
+    cachedRolloutContext = {
+      rollout: production.rollout,
+      unitInventory: production.unitInventory,
+      unitBaseBankEvidence: production.unitBaseBankEvidence ?? [],
+      authoringCatalog: {
+        schemaVersion: 'application-problem-authoring-catalog-v1',
+        unitCandidates: [],
+      },
+      canonicalReleaseLedger: [],
+    }
+  }
+  return cachedRolloutContext
 }
 
 function pack(overrides: Record<string, unknown> = {}) {
@@ -107,10 +127,11 @@ function problem(overrides: Record<string, unknown> = {}) {
 function baseline(overrides: Record<string, unknown> = {}) {
   const currentFamily = family()
   return {
+    ...rolloutContext(),
     packs: [pack()],
     families: [currentFamily],
     ledgerAllocations: [{ standardCode: '5S-AREA', unitId: 'g5-1-area', assignedGrade: 5, semester: '5-1' }],
-    registries: [{ grade: 5, entries: [{ family: currentFamily, runtime: { kind: 'deterministic-generator' } }], releaseLedger: [currentFamily] }],
+    registries: [],
     generatedSnapshots: [{ family: currentFamily, seed: 7, first: problem(), second: problem() }],
     proofReports: [{ family: currentFamily, mode: 'exhaustive', proven: true, checkedCount: 1, issues: [] }],
     proofAuthorities: [{ familyId: currentFamily.familyId, familyVersion: currentFamily.version, mode: 'exhaustive', expectedCount: 1 }],
@@ -142,6 +163,130 @@ function codes(input: Record<string, unknown>) {
   return auditApplicationProblemQuality(input).errors.map((issue: { code: string }) => issue.code)
 }
 
+function deepFreeze<T>(value: T): T {
+  if (value && typeof value === 'object') {
+    Object.values(value as Record<string, unknown>).forEach(deepFreeze)
+    Object.freeze(value)
+  }
+  return value
+}
+
+function authoringSafetyCatalog(overrides: Record<string, unknown> = {}) {
+  const draftFamily = family({ unitId: 'unit-5-1-perimeter-area' })
+  return {
+    schemaVersion: 'application-problem-authoring-catalog-v1',
+    unitCandidates: [{
+      pack: pack({ unitId: draftFamily.unitId }),
+      familyCandidates: [{
+        family: draftFamily,
+        runtime: {
+          kind: 'deterministic-generator',
+          generator: {
+            familyId: draftFamily.familyId,
+            version: draftFamily.version,
+            packId: draftFamily.packId,
+            packVersion: 1,
+            maxAttempts: 1,
+            sample: () => ({ params: { width: 4, area: 20 }, mathModel: { width: 4, height: 5, area: 20, unit: 'cm' } }),
+            render: () => ({
+              prompt: '넓이가 20 cm²인 직사각형의 다른 한 변은 몇 cm인가요?',
+              answer: { format: 'number', normalized: '5' },
+              solutionSteps: ['20 ÷ 4 = 5'],
+              hintSteps: ['넓이를 알려진 변의 길이로 나눕니다.'],
+            }),
+          },
+        },
+        oracle: () => '5',
+        visualValidator: () => true,
+        placementProposal: {
+          familyId: draftFamily.familyId,
+          version: draftFamily.version,
+          grade: 5,
+          unitId: draftFamily.unitId,
+          conceptId: draftFamily.conceptIds[0],
+          cognitiveDomain: draftFamily.cognitiveDomain,
+        },
+        reviewCases: [
+          { caseId: 'representative-area', kind: 'representative', seed: 7, variantIndex: 0 },
+          { caseId: 'boundary-area', kind: 'boundary', seed: 11, variantIndex: 1 },
+        ],
+        ...overrides,
+      }],
+      completeness: { coreConceptIds: [], requiredRepresentations: [], hasKnowingCoverage: false },
+    }],
+  }
+}
+
+function completeClaimInput() {
+  const production = loadProductionApplicationProblemQualityInput()
+  const unitId = 'unit-5-1-perimeter-area'
+  const conceptIds = ['area-001', 'areaunit-001', 'perimeter-001', 'polygonarea-001']
+  const requiredRepresentations = ['diagram', 'equation', 'manipulative', 'text']
+  const standardCodes = ['[6수03-11]', '[6수03-12]', '[6수03-13]', '[6수03-14]']
+  const familyBase = {
+    packId: 'pack-test-complete-area',
+    unitId,
+    primaryStandard: standardCodes[0],
+    connectedStandards: standardCodes.slice(1),
+    representations: requiredRepresentations,
+  }
+  const applyingFamilies = conceptIds.map((conceptId: string, index: number) => family({
+    ...familyBase,
+    familyId: `g5-complete-applying-${index}`,
+    conceptIds: [conceptId],
+    cognitiveDomain: 'applying',
+    reasoningPattern: 'multi_step',
+    modelId: `complete-applying-model-${index}`,
+    unknownRole: `complete-applying-unknown-${index}`,
+    misconceptionRefs: [`mis-${conceptId}`],
+  }))
+  const reasoningFamilies = ['inverse', 'model_and_check', 'error_analysis'].map((reasoningPattern, index) => family({
+    ...familyBase,
+    familyId: `g5-complete-reasoning-${index}`,
+    conceptIds,
+    reasoningPattern,
+    modelId: `complete-reasoning-model-${index}`,
+    unknownRole: `complete-reasoning-unknown-${index}`,
+    misconceptionRefs: [`mis-${conceptIds[index]}`],
+  }))
+  const families = [...applyingFamilies, ...reasoningFamilies]
+  const completePack = pack({
+    packId: familyBase.packId,
+    unitId: familyBase.unitId,
+    coverageStatus: 'complete',
+    coveredStandardCodes: standardCodes,
+    concepts: conceptIds.map((conceptId: string) => ({
+      conceptId,
+      name: conceptId,
+      standardCodes,
+      prerequisites: [],
+      allowedScope: ['source-derived complete coverage'],
+      excludedScope: ['outside canonical unit'],
+      misconceptions: [{
+        id: `mis-${conceptId}`,
+        description: '검토용 오개념',
+        diagnosticEvidence: '독립 검산으로 확인합니다.',
+        correctionStrategy: '표현과 식을 다시 연결합니다.',
+      }],
+    })),
+    familyRefs: families.map((entry) => ({ familyId: entry.familyId, version: entry.version })),
+  })
+  return baseline({
+    packs: [completePack],
+    families,
+    registries: [],
+    ledgerAllocations: production.ledgerAllocations,
+    unitBaseBankEvidence: production.unitBaseBankEvidence,
+    completeCoverageContexts: [{
+      packId: completePack.packId,
+      version: completePack.version,
+      coreConceptIds: conceptIds,
+      requiredRepresentations,
+      hasKnowingCoverage: true,
+    }],
+  })
+}
+
 describe('application problem quality audit', () => {
   it('materializes actual production evidence for every registered family and session contract', () => {
     const input = loadProductionApplicationProblemQualityInput()
@@ -153,18 +298,344 @@ describe('application problem quality audit', () => {
     expect(input.oracleResults).toHaveLength(input.families.length)
     expect(input.visualResults).toHaveLength(input.families.length)
     expect(input.answerExposureResults).toHaveLength(input.families.length)
+    expect(input.unitBaseBankEvidence).toHaveLength(62)
+    expect(input.unitBaseBankEvidence.every((evidence: {
+      coreConceptIds: string[]
+      requiredRepresentations: string[]
+      hasKnowingCoverage: boolean
+    }) => (
+      evidence.coreConceptIds.length > 0 &&
+      evidence.requiredRepresentations.length > 0 &&
+      evidence.hasKnowingCoverage
+    ))).toBe(true)
     expect(report.familyEvidence).toHaveLength(input.families.length)
     expect(report.familyEvidence.every((evidence: { status: string }) => evidence.status === 'passed')).toBe(true)
     expect(report.summary).toMatchObject({
+      unitCount: 62,
       approvedFamilyCount: 9,
       draftFamilyCount: 0,
       errorCount: 0,
     })
+    expect(report.unitReports).toHaveLength(62)
+    expect(report.unitReports.filter((unit: { grade: number }) => unit.grade === 1)).toEqual([])
+    expect(report.unitReports.find((unit: { unitId: string }) => unit.unitId === 'unit-5-1-perimeter-area'))
+      .toMatchObject({ rolloutStatus: 'pending', baselinePilot: true, gradeComplete: false })
+    expect(report.unitReports.filter((unit: { grade: number }) => unit.grade > 2)
+      .every((unit: { rolloutStatus: string }) => unit.rolloutStatus === 'pending')).toBe(true)
     expect(input.sessionContracts).toMatchObject([
       { grade: 2, storageKey: 'mathAssist_grade2Progress', legacyCount: 144 },
       { grade: 5, storageKey: 'mathAssist_currentSession', legacyCount: 10 },
       { grade: 6, storageKey: 'mathAssist_grade6CurrentSession', legacyCount: 10 },
     ])
+  })
+
+  it('derives the canonical 62-unit denominator while flagging absent audit contract inputs', () => {
+    const report = auditApplicationProblemQuality({})
+
+    expect(report.unitReports).toHaveLength(62)
+    expect(report.summary.unitCount).toBe(62)
+    expect(report.errors.map((error: { code: string }) => error.code)).toEqual(
+      expect.arrayContaining(['APQ_UNIT_INVENTORY_INPUT', 'APQ_ROLLOUT_INPUT']),
+    )
+  })
+
+  it('rejects missing canonical base-bank evidence even when no pack claims completeness', () => {
+    const input = loadProductionApplicationProblemQualityInput()
+    input.unitBaseBankEvidence = []
+
+    const report = auditApplicationProblemQuality(input)
+
+    expect(report.errors.map((error: { code: string }) => error.code)).toContain('APQ_BASE_BANK_EVIDENCE')
+  })
+
+  it('rejects a registry-local ledger that does not match exactly one immutable canonical snapshot', () => {
+    const approved = deepFreeze(family({
+      releaseStatus: 'approved',
+      approval: {
+        ownerStatus: 'approved',
+        ownerId: 'owner',
+        approvedAt: '2026-07-01T00:00:00Z',
+        evidenceRefs: ['docs/standards.md'],
+        expertStatus: 'not-reviewed',
+      },
+    }))
+    const forged = deepFreeze({ ...approved, modelId: 'forged-local-ledger-model' })
+    const report = auditApplicationProblemQuality(baseline({
+      families: [forged],
+      canonicalReleaseLedger: [approved],
+      registries: [{
+        grade: 5,
+        entries: [{ family: forged, runtime: { kind: 'deterministic-generator' } }],
+        releaseLedger: [forged],
+      }],
+    }), { mode: 'release', grade: 2 })
+
+    expect(report.errors.map((error: { code: string }) => error.code)).toContain('APQ_RELEASE_LEDGER')
+  })
+
+  it('rejects non-approved production entries in release mode even when their local ledger matches', () => {
+    const draft = deepFreeze(family())
+    const report = auditApplicationProblemQuality(baseline({
+      families: [draft],
+      canonicalReleaseLedger: [draft],
+      registries: [{
+        grade: 5,
+        entries: [{ family: draft, runtime: { kind: 'deterministic-generator' } }],
+        releaseLedger: [draft],
+      }],
+    }), { mode: 'release', grade: 2 })
+
+    expect(report.errors.map((error: { code: string }) => error.code)).toContain('APQ_RELEASE_APPROVAL')
+  })
+
+  it('rejects a draft production entry in default work mode even when the caller supplies matching ledgers', () => {
+    const input = loadProductionApplicationProblemQualityInput()
+    const targetRegistry = input.registries[0]
+    const targetEntry = targetRegistry.entries[0]
+    const draftFamily = deepFreeze({
+      ...targetEntry.family,
+      releaseStatus: 'draft',
+      approval: { ownerStatus: 'pending', evidenceRefs: [], expertStatus: 'not-reviewed' },
+    })
+    input.registries = input.registries.map((registry: any, index: number) => index === 0
+      ? {
+          ...registry,
+          entries: registry.entries.map((entry: any, entryIndex: number) => entryIndex === 0
+            ? { ...entry, family: draftFamily }
+            : entry),
+          releaseLedger: registry.releaseLedger.map((snapshot: any, snapshotIndex: number) => snapshotIndex === 0
+            ? draftFamily
+            : snapshot),
+        }
+      : registry)
+    input.canonicalReleaseLedger = input.canonicalReleaseLedger.map((snapshot: any) => (
+      snapshot.familyId === draftFamily.familyId && snapshot.version === draftFamily.version
+        ? draftFamily
+        : snapshot
+    ))
+
+    const report = auditApplicationProblemQuality(input)
+
+    expect(report.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_PRODUCTION_REGISTRY')
+  })
+
+  it('rejects an orphan production release-ledger snapshot with no executable entry', () => {
+    const input = loadProductionApplicationProblemQualityInput()
+    input.registries = input.registries.map((registry: any, index: number) => index === 0
+      ? { ...registry, entries: registry.entries.slice(1) }
+      : registry)
+
+    const report = auditApplicationProblemQuality(input)
+
+    expect(report.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_RELEASE_LEDGER')
+  })
+
+  it.each([
+    ['all pilot registries missing', (input: any) => {
+      input.registries = []
+    }],
+    ['missing executable pilot', (input: any) => {
+      input.registries[0] = { ...input.registries[0], entries: input.registries[0].entries.slice(1) }
+    }],
+    ['missing pilot ledger', (input: any) => {
+      input.registries[0] = { ...input.registries[0], releaseLedger: input.registries[0].releaseLedger.slice(1) }
+    }],
+    ['duplicate executable pilot', (input: any) => {
+      input.registries[0] = {
+        ...input.registries[0],
+        entries: [...input.registries[0].entries, input.registries[0].entries[0]],
+      }
+    }],
+    ['changed pilot snapshot accepted from caller as canonical', (input: any) => {
+      const original = input.registries[0].entries[0].family
+      const changed = deepFreeze({ ...original, modelId: `${original.modelId}-changed` })
+      input.registries[0] = {
+        ...input.registries[0],
+        entries: input.registries[0].entries.map((entry: any, index: number) => index === 0
+          ? { ...entry, family: changed }
+          : entry),
+        releaseLedger: input.registries[0].releaseLedger.map((snapshot: any, index: number) => index === 0
+          ? changed
+          : snapshot),
+      }
+      input.canonicalReleaseLedger = input.canonicalReleaseLedger.map((snapshot: any) => (
+        snapshot.familyId === changed.familyId && snapshot.version === changed.version ? changed : snapshot
+      ))
+    }],
+  ])('preserves the fixed production pilots exactly once: %s', (_label, mutate) => {
+    const input = loadProductionApplicationProblemQualityInput() as any
+    mutate(input)
+
+    const report = auditApplicationProblemQuality(input)
+
+    expect(report.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_FIXED_PILOT_REGISTRY')
+  })
+
+  it('runs the review-only production-separation contract in the real audit path', () => {
+    const report = auditApplicationProblemQuality(baseline({
+      authoringCatalog: authoringSafetyCatalog(),
+    }))
+
+    expect(report.errors.map((error: { code: string }) => error.code)).toContain('APQ_DRAFT_PRODUCTION_MIX')
+  })
+
+  it.each([
+    ['forbidden release ledger', (catalog: any) => { catalog.releaseLedger = [] }],
+    ['duplicate family identity', (catalog: any) => {
+      catalog.unitCandidates = [...catalog.unitCandidates, catalog.unitCandidates[0]]
+    }],
+    ['approved authoring family', (catalog: any) => {
+      catalog.unitCandidates[0].familyCandidates[0].family.releaseStatus = 'approved'
+    }],
+    ['missing boundary review evidence', (catalog: any) => {
+      catalog.unitCandidates[0].familyCandidates[0].reviewCases = [
+        catalog.unitCandidates[0].familyCandidates[0].reviewCases[0],
+      ]
+    }],
+  ])('parses supplied authoring catalogs through the canonical contract: %s', (_label, mutate) => {
+    const catalog = authoringSafetyCatalog() as any
+    mutate(catalog)
+
+    const report = auditApplicationProblemQuality(baseline({
+      packs: [],
+      authoringCatalog: catalog,
+    }))
+
+    expect(report.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_DRAFT_SAFETY')
+  })
+
+  it.each([
+    ['representative oracle mismatch', {
+      oracle: (generated: { variantIndex: number; answer: { normalized: string } }) => (
+        generated.variantIndex === 0 ? 'forged-answer' : generated.answer.normalized
+      ),
+    }],
+    ['boundary visual failure', {
+      visualValidator: (generated: { variantIndex: number }) => generated.variantIndex !== 1,
+    }],
+  ])('executes draft generators and rejects %s', (_label, unsafeEvidence) => {
+    const report = auditApplicationProblemQuality(baseline({
+      packs: [],
+      authoringCatalog: authoringSafetyCatalog(unsafeEvidence),
+    }))
+
+    expect(report.errors.map((error: { code: string }) => error.code)).toContain('APQ_DRAFT_SAFETY')
+  })
+
+  it('accepts a complete claim only when its declarations match canonical base-bank evidence', () => {
+    const report = auditApplicationProblemQuality(completeClaimInput())
+
+    expect(report.errors.map((error: { code: string }) => error.code)).not.toContain('APQ_COMPLETE_PACK_RULE')
+  })
+
+  it('rejects a consistently forged 62-unit base-bank evidence set', () => {
+    const input = loadProductionApplicationProblemQualityInput()
+    input.unitBaseBankEvidence = input.unitBaseBankEvidence.map((evidence: any, index: number) => ({
+      ...evidence,
+      coreConceptIds: [`forged-concept-${index}`],
+      requiredRepresentations: ['text'],
+      knowingConceptIds: [`forged-concept-${index}`],
+      hasKnowingCoverage: true,
+      conceptUnitIdentities: [{ conceptId: `forged-concept-${index}`, unitId: evidence.unitId }],
+    }))
+
+    const report = auditApplicationProblemQuality(input)
+
+    expect(report.errors).toContainEqual(expect.objectContaining({
+      code: 'APQ_BASE_BANK_EVIDENCE',
+      message: expect.stringMatching(/repository-derived/i),
+    }))
+  })
+
+  it.each([
+    ['coreConceptIds', (input: any) => {
+      input.packs[0].concepts[0].conceptId = 'forged-core'
+      input.families.forEach((entry: any) => { entry.conceptIds = ['forged-core'] })
+      input.completeCoverageContexts[0].coreConceptIds = ['forged-core']
+    }, 'canonical core concepts'],
+    ['requiredRepresentations', (input: any) => {
+      input.completeCoverageContexts[0].requiredRepresentations = ['text']
+    }, 'canonical representations'],
+    ['hasKnowingCoverage', (input: any) => {
+      input.completeCoverageContexts[0].hasKnowingCoverage = false
+    }, 'canonical knowing coverage'],
+    ['concept-to-unit identity', (input: any) => {
+      input.packs[0].concepts[0].conceptId = 'other-unit-concept'
+      input.families.forEach((entry: any) => { entry.conceptIds = ['other-unit-concept'] })
+      input.completeCoverageContexts[0].coreConceptIds = ['other-unit-concept']
+      input.unitBaseBankEvidence.push({
+        grade: 5,
+        unitId: 'another-unit',
+        coreConceptIds: ['other-unit-concept'],
+        requiredRepresentations: ['text'],
+        knowingConceptIds: ['other-unit-concept'],
+        hasKnowingCoverage: true,
+        conceptUnitIdentities: [{ conceptId: 'other-unit-concept', unitId: 'another-unit' }],
+      })
+    }, 'canonical concept identity'],
+  ])('rejects forged complete-claim %s evidence', (_label, mutate, expectedMessage) => {
+    const input = completeClaimInput() as any
+    mutate(input)
+
+    const errors = auditApplicationProblemQuality(input).errors
+      .filter((error: { code: string }) => error.code === 'APQ_COMPLETE_PACK_RULE')
+
+    expect(errors.some((error: { message: string }) => error.message.includes(expectedMessage))).toBe(true)
+  })
+
+  it('keeps work mode as the default and parses explicit candidate, release, and all selections', () => {
+    expect(parseApplicationAuditSelection([])).toEqual({ mode: 'work' })
+    expect(parseApplicationAuditSelection(['--mode', 'candidate', '--grade', '2']))
+      .toEqual({ mode: 'candidate', grade: 2 })
+    expect(parseApplicationAuditSelection(['--mode=release', '--grade=4']))
+      .toEqual({ mode: 'release', grade: 4 })
+    expect(parseApplicationAuditSelection(['--mode', 'all'])).toEqual({ mode: 'all', grade: 6 })
+    expect(() => parseApplicationAuditSelection(['--mode', 'candidate', '--grade', '3']))
+      .not.toThrow()
+    expect(() => parseApplicationAuditSelection(['--mode', 'unknown'])).toThrow(/mode/i)
+    expect(() => parseApplicationAuditSelection(['--mode', 'release'])).toThrow(/grade/i)
+  })
+
+  it('requires candidate grade to equal buildingGrade and never counts pilots as grade completion', () => {
+    const input = loadProductionApplicationProblemQualityInput()
+    const wrongGrade = auditApplicationProblemQuality(input, { mode: 'candidate', grade: 3 })
+    const grade2Candidate = auditApplicationProblemQuality(input, { mode: 'candidate', grade: 2 })
+
+    expect(wrongGrade.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_ROLLOUT_MODE_GRADE')
+    expect(grade2Candidate.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_GRADE_CANDIDATE_INCOMPLETE')
+    expect(grade2Candidate.unitReports.filter((unit: { grade: number }) => unit.grade === 2))
+      .toHaveLength(12)
+    expect(grade2Candidate.unitReports.filter((unit: { gradeComplete: boolean }) => unit.gradeComplete))
+      .toEqual([])
+  })
+
+  it('requires final all mode to reach released Grade 6 with all 62 complete production units', () => {
+    const report = auditApplicationProblemQuality(
+      loadProductionApplicationProblemQualityInput(),
+      { mode: 'all', grade: 6 },
+    )
+
+    expect(report.unitReports).toHaveLength(62)
+    expect(report.errors.map((error: { code: string }) => error.code))
+      .toEqual(expect.arrayContaining(['APQ_ROLLOUT_STATE', 'APQ_RELEASE_INCOMPLETE']))
+  })
+
+  it('fails an invalid complete claim even when the pack is only in the building or pending range', () => {
+    const input = loadProductionApplicationProblemQualityInput()
+    input.packs = input.packs.map((entry: { packId: string }) => entry.packId === 'pack-g2-2-length'
+      ? { ...entry, coverageStatus: 'complete' }
+      : entry)
+
+    const report = auditApplicationProblemQuality(input)
+
+    expect(report.errors.map((error: { code: string }) => error.code))
+      .toContain('APQ_COMPLETE_PACK_RULE')
   })
 
   it('accepts a deterministic draft fixture without treating it as a released candidate', () => {
