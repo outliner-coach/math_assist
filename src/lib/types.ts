@@ -108,6 +108,23 @@ export interface ProblemBlueprintMeta {
   visualSemantics?: VisualSemantics
 }
 
+/**
+ * Optional provenance for problems produced through the common application
+ * authoring contract. Legacy mission, template, and saved problem payloads do
+ * not need this field and keep their existing identifiers and behavior.
+ */
+export interface ApplicationProblemSource {
+  schemaVersion: 'generated-application-problem-v1'
+  instanceId: string
+  familyId: string
+  generatorVersion: number
+  packId: string
+  packVersion: number
+  seed: number
+  variantIndex: number
+  curriculumCodes: string[]
+}
+
 export type ProblemVisual =
   | {
       type: 'basic_shape'
@@ -375,12 +392,33 @@ export interface Problem {
   hintSteps?: string[]
   problemFamily?: string
   blueprint?: ProblemBlueprintMeta
+  applicationSource?: ApplicationProblemSource
   visual?: GeometryVisual
 }
 
 export type PracticeMode = 'standard' | 'retry-wrong'
 export type PracticeGrade = 5 | 6
 export type PracticeItemCount = 5 | 10
+
+export interface ApplicationProblemReplacementEvidence {
+  problemIndex: number
+  originalInstanceId: string
+  replacementInstanceId: string
+  originalProblem: Problem
+}
+
+export interface ApplicationProblemRecoveryEvidenceV1 {
+  schemaVersion: 'application-problem-recovery-evidence-v1'
+  evidenceId: string
+  sessionId: string
+  conceptId: string
+  setId: 'A' | 'B' | 'C'
+  mode: PracticeMode
+  grade: PracticeGrade
+  itemCount: PracticeItemCount
+  sourceResultId?: string
+  replacements: ApplicationProblemReplacementEvidence[]
+}
 
 // 연습 세션
 export interface PracticeSession {
@@ -395,6 +433,7 @@ export interface PracticeSession {
   problems: Problem[]
   answers: (string | null)[]
   checkedAnswers: (boolean | null)[]
+  applicationProblemReplacementArchive?: ApplicationProblemReplacementEvidence[]
   currentIndex: number
   startedAt: number
   expiresAt: number

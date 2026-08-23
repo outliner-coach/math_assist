@@ -3,6 +3,8 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it, vi } from 'vitest'
 
 import { getGrade3MissionById, getGrade3Missions, getSafeGrade3Mission } from '@/lib/grade3-problems'
+import { isGrade3ApplicationMission } from '@/lib/application-problems/grade3-adapter'
+import { buildApprovedGrade3PracticeSet } from '@/lib/application-problems/grade3-runtime'
 
 import Grade3MissionCard from './Grade3MissionCard'
 import Grade3MissionVisual from './Grade3MissionVisual'
@@ -48,10 +50,95 @@ function renderCard(missionId = 'g3-1-add-sub-01', overrides = {}) {
 }
 
 describe('Grade3MissionVisual', () => {
+  it('renders an approved application scene with its answer hidden until submission', () => {
+    const result = buildApprovedGrade3PracticeSet({ unitId: 'g3-1-add-sub', seed: 41 })
+    expect(result.status).toBe('ready')
+    if (result.status !== 'ready') return
+    const mission = result.missions.find(isGrade3ApplicationMission)!
+    const hidden = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+    const revealed = renderToStaticMarkup(
+      createElement(Grade3MissionVisual, { mission, showAnswer: true }),
+    )
+
+    expect(hidden).toContain('data-testid="grade3-application-visual"')
+    expect(hidden).toContain('답: ?')
+    expect(hidden).not.toContain(`답: ${mission.correctAnswer}`)
+    expect(revealed).toContain(`답: ${mission.correctAnswer}`)
+  })
+
+  it('keeps derived circle radii out of visible and accessible markup for every approved variant', () => {
+    const sensitiveFamilies = new Map([
+      ['g3-2-circle-missing-radius', 0],
+      ['g3-2-circle-construction-constraint', 0],
+    ])
+
+    for (let applicationRotation = 0; applicationRotation < 12; applicationRotation += 1) {
+      const result = buildApprovedGrade3PracticeSet({
+        unitId: 'g3-2-circle',
+        seed: 20260516,
+        applicationRotation,
+      })
+      expect(result.status).toBe('ready')
+      if (result.status !== 'ready') continue
+      const mission = result.missions.find(isGrade3ApplicationMission)
+      if (!mission || !sensitiveFamilies.has(mission.applicationSource.familyId)) continue
+
+      const hidden = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+      const revealed = renderToStaticMarkup(
+        createElement(Grade3MissionVisual, { mission, showAnswer: true }),
+      )
+      const params = mission.applicationParams as Record<string, number>
+      const diameter = params.diameter ?? params.targetDiameter
+      const derivedRadius = diameter / 2
+
+      expect(hidden).toContain(`지름 ${diameter}`)
+      expect(hidden).not.toContain(`반지름 ${derivedRadius}`)
+      expect(hidden).not.toMatch(new RegExp(`aria-label="[^"]*반지름 ${derivedRadius}`))
+      expect(revealed).toContain(`답: ${mission.correctAnswer}`)
+      sensitiveFamilies.set(
+        mission.applicationSource.familyId,
+        sensitiveFamilies.get(mission.applicationSource.familyId)! + 1,
+      )
+    }
+
+    expect(Object.fromEntries(sensitiveFamilies)).toEqual({
+      'g3-2-circle-missing-radius': 3,
+      'g3-2-circle-construction-constraint': 3,
+    })
+  })
+
+  it('keeps hidden graph categories anonymous in rendered text and accessibility markup', () => {
+    const observedVariants = new Set<number>()
+
+    for (let applicationRotation = 0; applicationRotation < 12; applicationRotation += 1) {
+      const result = buildApprovedGrade3PracticeSet({
+        unitId: 'g3-2-graph',
+        seed: 20260516,
+        applicationRotation,
+      })
+      expect(result.status).toBe('ready')
+      if (result.status !== 'ready') continue
+      const mission = result.missions.find(isGrade3ApplicationMission)
+      if (
+        !mission
+        || mission.applicationSource.familyId !== 'g3-2-graph-data-sufficiency'
+        || mission.applicationParams.hasCategoryLabels !== false
+      ) continue
+
+      const html = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
+      expect(html).toContain('막대 1 높이')
+      expect(html).toContain('막대 2 높이')
+      expect(html).not.toMatch(/(?:>|aria-label="[^"]*)(?:a|b|가|나)\s+\d+/)
+      observedVariants.add(mission.applicationSource.variantIndex)
+    }
+
+    expect(observedVariants).toEqual(new Set([2]))
+  })
+
   it('renders every Grade 3 visual model', () => {
     const byModel = new Map(getGrade3Missions(42).map((mission) => [mission.visualModel, mission]))
 
-    for (const [visualModel, mission] of byModel) {
+    for (const [visualModel, mission] of Array.from(byModel)) {
       const html = renderToStaticMarkup(createElement(Grade3MissionVisual, { mission }))
       expect(html).toContain(`grade3-visual-${visualModel}`)
     }

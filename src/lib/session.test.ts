@@ -36,6 +36,10 @@ function makeProblem(index: number): Problem {
   }
 }
 
+function makeProblems(count: number): Problem[] {
+  return Array.from({ length: count }, (_, index) => makeProblem(index))
+}
+
 function makeSubmissionResult(problem: Problem, correct: boolean): SubmissionResult {
   return {
     index: problem.index,
@@ -48,9 +52,8 @@ function makeSubmissionResult(problem: Problem, correct: boolean): SubmissionRes
 }
 
 function makeResult(overrides: Partial<SessionResult> = {}): SessionResult {
-  const first = makeProblem(0)
-  const second = makeProblem(1)
-  const third = makeProblem(2)
+  const problems = makeProblems(overrides.itemCount ?? 3)
+  const results = problems.map((problem, index) => makeSubmissionResult(problem, index === 0))
 
   return {
     sessionId: 'session-1',
@@ -58,14 +61,10 @@ function makeResult(overrides: Partial<SessionResult> = {}): SessionResult {
     setId: 'A',
     mode: 'standard',
     score: 1,
-    total: 3,
-    wrongCount: 2,
+    total: results.length,
+    wrongCount: results.length - 1,
     completedAt: 100,
-    results: [
-      makeSubmissionResult(first, true),
-      makeSubmissionResult(second, false),
-      makeSubmissionResult(third, false)
-    ],
+    results,
     ...overrides,
   }
 }
@@ -170,9 +169,9 @@ describe('session helpers', () => {
       conceptId: 'divisor-001',
       setId: 'A',
       mode: 'standard',
-      problems: [makeProblem(0)],
-      answers: [null],
-      checkedAnswers: [null],
+      problems: makeProblems(10),
+      answers: Array(10).fill(null),
+      checkedAnswers: Array(10).fill(null),
       currentIndex: 0,
       startedAt: Date.now(),
       expiresAt: Date.now() + 10_000,
@@ -182,7 +181,16 @@ describe('session helpers', () => {
     expect(loadSession(5)).toMatchObject({ sessionId: 'legacy-5', itemCount: 10 })
     expect(loadSession(6)).toBeNull()
 
-    saveSession({ ...legacyGrade5, sessionId: 'grade-6', conceptId: 'g6ratio-001', grade: 6, itemCount: 5 })
+    saveSession({
+      ...legacyGrade5,
+      sessionId: 'grade-6',
+      conceptId: 'g6ratio-001',
+      grade: 6,
+      itemCount: 5,
+      problems: legacyGrade5.problems.slice(0, 5),
+      answers: Array(5).fill(null),
+      checkedAnswers: Array(5).fill(null),
+    })
     expect(data.get(GRADE5_SESSION_KEY)).toContain('legacy-5')
     expect(data.get(GRADE6_SESSION_KEY)).toContain('grade-6')
     expect(loadSession(6)).toMatchObject({ sessionId: 'grade-6', grade: 6, itemCount: 5 })
@@ -203,9 +211,9 @@ describe('session helpers', () => {
       conceptId: 'divisor-001',
       setId: 'A',
       mode: 'standard',
-      problems: [makeProblem(0)],
-      answers: [null],
-      checkedAnswers: [null],
+      problems: makeProblems(10),
+      answers: Array(10).fill(null),
+      checkedAnswers: Array(10).fill(null),
       currentIndex: 0,
       startedAt: Date.now(),
       expiresAt: Date.now() + 10_000,
@@ -214,12 +222,14 @@ describe('session helpers', () => {
 
     const loaded = loadSession(5)!
     expect(loaded).toMatchObject({ grade: undefined, itemCount: 10 })
-    expect(saveSession({ ...loaded, answers: ['1'] })).toBe(true)
-    expect(saveSession({ ...loaded, answers: ['1'], checkedAnswers: [true] })).toBe(true)
+    const answers = ['1', ...Array(9).fill(null)]
+    const checkedAnswers = [true, ...Array(9).fill(null)]
+    expect(saveSession({ ...loaded, answers })).toBe(true)
+    expect(saveSession({ ...loaded, answers, checkedAnswers })).toBe(true)
     expect(JSON.parse(data.get(GRADE5_SESSION_KEY) ?? '{}')).toMatchObject({
       itemCount: 10,
-      answers: ['1'],
-      checkedAnswers: [true],
+      answers,
+      checkedAnswers,
     })
   })
 
@@ -268,7 +278,7 @@ describe('session helpers', () => {
     }
     vi.stubGlobal('window', {})
     vi.stubGlobal('localStorage', storage)
-    const problems = [makeProblem(0), makeProblem(1)]
+    const problems = makeProblems(itemCount)
     const session: PracticeSession = {
       sessionId: `grade5-${itemCount}`,
       conceptId: 'divisor-001',
@@ -277,9 +287,9 @@ describe('session helpers', () => {
       grade: 5,
       itemCount,
       problems,
-      answers: ['1', 'wrong'],
-      checkedAnswers: [true, false],
-      currentIndex: 1,
+      answers: problems.map((problem, index) => index === 0 ? problem.correctAnswer : 'wrong'),
+      checkedAnswers: problems.map((_, index) => index === 0),
+      currentIndex: itemCount - 1,
       startedAt: Date.now(),
       expiresAt: Date.now() + 10_000,
     }
@@ -330,9 +340,9 @@ describe('session helpers', () => {
       mode: 'standard',
       grade: 6,
       itemCount: 5,
-      problems: [makeProblem(0)],
-      answers: [null],
-      checkedAnswers: [null],
+      problems: makeProblems(5),
+      answers: Array(5).fill(null),
+      checkedAnswers: Array(5).fill(null),
       currentIndex: 0,
       startedAt: 100,
       expiresAt: Date.now() + 10_000,
@@ -377,9 +387,9 @@ describe('session helpers', () => {
       conceptId: 'divisor-001',
       setId: 'A',
       mode: 'standard',
-      problems: [makeProblem(0)],
-      answers: [null],
-      checkedAnswers: [null],
+      problems: makeProblems(10),
+      answers: Array(10).fill(null),
+      checkedAnswers: Array(10).fill(null),
       currentIndex: 0,
       startedAt: 100,
       expiresAt: Date.now() + 10_000,

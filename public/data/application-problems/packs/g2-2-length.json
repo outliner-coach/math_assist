@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-g2-2-length",
+  "version": 1,
+  "unitId": "g2-2-length",
+  "grade": 2,
+  "semester": "2-2",
+  "coverageStatus": "pilot",
+  "releaseStatus": "approved",
+  "coveredStandardCodes": [
+    "[2수03-11]",
+    "[2수03-13]"
+  ],
+  "concepts": [
+    {
+      "conceptId": "length-equivalent-representation",
+      "name": "m와 cm의 관계와 동치 표현",
+      "standardCodes": [
+        "[2수03-11]"
+      ],
+      "prerequisites": [
+        {
+          "kind": "standard",
+          "standardCode": "[2수03-10]"
+        }
+      ],
+      "allowedScope": [
+        "1m가 100cm임을 사용해 몇 m 몇 cm와 몇 cm 사이를 바꾼다.",
+        "두 길이 표현이 같은 양인지 단위 관계로 확인한다."
+      ],
+      "excludedScope": [
+        "[2수03-10]의 자나 줄자를 사용한 실제 측정 활동은 이 묶음의 coverage로 세지 않는다.",
+        "[2수03-12]의 실제 물건 길이 어림과 양감 활동은 이 묶음의 coverage로 세지 않는다."
+      ],
+      "misconceptions": [
+        {
+          "id": "length-meter-centimeter-place-value",
+          "description": "1m를 10cm로 보거나 m와 cm 사이를 10배 관계로 생각한다.",
+          "diagnosticEvidence": "1m 20cm를 30cm 또는 1200cm로 바꾸거나 120cm를 12m로 표현한다.",
+          "correctionStrategy": "1m 막대를 1cm 단위 100개와 대응시키고 100cm 묶음과 남은 cm를 분리해 다시 표현한다."
+        },
+        {
+          "id": "length-mixed-unit-concatenation",
+          "description": "몇 m 몇 cm의 두 수를 자릿수처럼 그대로 이어 붙여 cm 값으로 읽는다.",
+          "diagnosticEvidence": "2m 5cm를 25cm로 나타내거나 205cm를 20m 5cm로 나타낸다.",
+          "correctionStrategy": "m 부분마다 100cm 묶음을 만들고 남은 cm를 더한 식과 단위 막대로 확인한다."
+        }
+      ]
+    },
+    {
+      "conceptId": "length-context-add-subtract",
+      "name": "실생활 길이의 덧셈과 뺄셈",
+      "standardCodes": [
+        "[2수03-13]"
+      ],
+      "prerequisites": [
+        {
+          "kind": "concept",
+          "conceptId": "length-equivalent-representation"
+        }
+      ],
+      "allowedScope": [
+        "경로와 물체의 이어진 길이를 같은 단위로 바꾸어 더한다.",
+        "전체와 한 부분이 주어졌을 때 빠진 길이를 뺄셈으로 구한다.",
+        "제시된 길이 계산 주장이 조건과 단위에 맞는지 확인한다."
+      ],
+      "excludedScope": [
+        "직접 측정하거나 어림해서 문제에 없는 길이값을 만드는 활동은 다루지 않는다.",
+        "음수 길이, 소수 단위 변환, 비례식 계산은 다루지 않는다."
+      ],
+      "misconceptions": [
+        {
+          "id": "length-operate-before-unit-alignment",
+          "description": "m와 cm가 섞인 값을 같은 단위로 바꾸지 않고 보이는 수끼리 계산한다.",
+          "diagnosticEvidence": "1m 30cm와 40cm의 합을 1m 70cm가 아닌 1m 34cm 또는 71cm로 답한다.",
+          "correctionStrategy": "각 길이를 cm 막대와 수식으로 먼저 나타낸 뒤 같은 단위의 수끼리 계산하고 다시 m와 cm로 확인한다."
+        },
+        {
+          "id": "length-missing-part-addition",
+          "description": "전체와 알려진 부분이 주어진 빠진 길이 문제에서도 두 값을 더한다.",
+          "diagnosticEvidence": "전체 경로에서 이미 간 구간을 제외한 길이를 묻는데 전체와 구간 길이를 합한다.",
+          "correctionStrategy": "전체 막대에서 알려진 부분을 가리고 전체=알려진 부분+빠진 부분 관계를 세운 뒤 뺄셈으로 검산한다."
+        }
+      ]
+    }
+  ],
+  "familyRefs": [
+    {
+      "familyId": "g2-length-route-total",
+      "version": 1
+    },
+    {
+      "familyId": "g2-length-missing-segment",
+      "version": 1
+    },
+    {
+      "familyId": "g2-length-claim-check",
+      "version": 1
+    }
+  ],
+  "approval": {
+    "ownerStatus": "approved",
+    "ownerId": "project-owner",
+    "approvedAt": "2026-07-28T09:05:24Z",
+    "evidenceRefs": [
+      "docs/reviews/application-problems-v1-approval.md"
+    ],
+    "expertStatus": "not-reviewed"
+  }
+}

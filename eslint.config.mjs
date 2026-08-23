@@ -10,6 +10,15 @@ export default defineConfig([
     'coverage/**',
     'playwright-report/**',
     'test-results/**',
+    // Local-only working surfaces that must never be staged (see AGENTS.md).
+    // Nested agent worktrees duplicate product sources and would otherwise be
+    // scanned as if they were part of the app.
+    '.dryforge/**',
+    '.claude/**',
+    '.codex/**',
+    '.omo/**',
+    '.vscode/**',
+    'e2e-screenshots/**',
     'next-env.d.ts',
   ]),
 ])

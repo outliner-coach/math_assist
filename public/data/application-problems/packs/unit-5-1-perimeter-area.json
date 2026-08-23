@@ -1,0 +1,140 @@
+{
+  "schemaVersion": "unit-knowledge-pack-v1",
+  "packId": "pack-unit-5-1-perimeter-area",
+  "version": 1,
+  "unitId": "unit-5-1-perimeter-area",
+  "grade": 5,
+  "semester": "5-1",
+  "coverageStatus": "pilot",
+  "releaseStatus": "approved",
+  "coveredStandardCodes": [
+    "[6수03-11]",
+    "[6수03-13]",
+    "[6수03-14]"
+  ],
+  "concepts": [
+    {
+      "conceptId": "perimeter-boundary-reconstruction",
+      "name": "경계를 다시 구성해 둘레 구하기",
+      "standardCodes": [
+        "[6수03-11]"
+      ],
+      "prerequisites": [],
+      "allowedScope": [
+        "평면도형의 바깥 경계를 빠짐없이 추적해 둘레를 구한다.",
+        "일부 변의 길이가 간접적으로 주어진 직사각형 기반 경계를 재구성한다."
+      ],
+      "excludedScope": [
+        "넓이값만으로 모양이 정해지지 않는 도형의 둘레를 추측하지 않는다.",
+        "곡선의 길이와 원주는 다루지 않는다."
+      ],
+      "misconceptions": [
+        {
+          "id": "perimeter-counts-internal-segments",
+          "description": "합성 도형을 나눈 내부 선분까지 둘레에 포함한다.",
+          "diagnosticEvidence": "도형을 분할한 선을 두 번 더하거나 바깥 경계가 아닌 모든 표시 선분의 길이를 합한다.",
+          "correctionStrategy": "손가락으로 바깥 경계를 한 바퀴 따라가며 지나간 선분만 순서대로 기록하고 내부 선분과 대조한다."
+        },
+        {
+          "id": "perimeter-omits-reconstructed-side",
+          "description": "직접 수치가 없는 경계 선분을 둘레에서 빠뜨린다.",
+          "diagnosticEvidence": "오목한 직각 도형에서 마주 보는 길이 관계로 구할 수 있는 선분을 더하지 않는다.",
+          "correctionStrategy": "가로와 세로 방향의 전체 이동량이 각각 되돌아와야 함을 이용해 빠진 선분을 먼저 복원한다."
+        }
+      ]
+    },
+    {
+      "conceptId": "rectangle-area-inverse-composition",
+      "name": "직사각형 넓이의 합성·분해와 역추론",
+      "standardCodes": [
+        "[6수03-13]"
+      ],
+      "prerequisites": [
+        {
+          "kind": "standard",
+          "standardCode": "[6수03-11]"
+        }
+      ],
+      "allowedScope": [
+        "직사각형과 정사각형을 분해하거나 합쳐 전체 넓이를 구한다.",
+        "넓이와 한 변을 사용해 빠진 변 또는 빠진 부분의 넓이를 역으로 구한다."
+      ],
+      "excludedScope": [
+        "[6수03-12]의 1cm²·1m²·1km² 관계와 단위 변환을 직접 가르치거나 평가하지 않는다.",
+        "분수나 소수 길이의 곱셈을 새로 도입하지 않는다."
+      ],
+      "misconceptions": [
+        {
+          "id": "area-adds-side-lengths",
+          "description": "직사각형의 넓이를 가로와 세로의 합으로 구한다.",
+          "diagnosticEvidence": "가로 8cm, 세로 5cm인 직사각형의 넓이를 13cm²로 답한다.",
+          "correctionStrategy": "가로 방향 칸 수와 세로 방향 줄 수로 단위 정사각형 배열을 만들고 곱셈이 전체 칸 수를 세는 이유를 확인한다."
+        },
+        {
+          "id": "area-inverse-uses-subtraction",
+          "description": "넓이와 한 변으로 다른 변을 구할 때 나눗셈 대신 뺄셈을 사용한다.",
+          "diagnosticEvidence": "넓이 48cm²와 한 변 6cm가 주어졌을 때 다른 변을 42cm로 답한다.",
+          "correctionStrategy": "6개씩 몇 줄이면 48칸인지 배열과 곱셈식을 함께 세우고 나눗셈으로 역관계를 확인한다."
+        }
+      ]
+    },
+    {
+      "conceptId": "polygon-area-recomposition",
+      "name": "다각형 넓이의 재구성과 겹침 복원",
+      "standardCodes": [
+        "[6수03-14]"
+      ],
+      "prerequisites": [
+        {
+          "kind": "standard",
+          "standardCode": "[6수03-13]"
+        }
+      ],
+      "allowedScope": [
+        "평행사변형, 삼각형, 사다리꼴, 마름모를 직사각형이나 이미 아는 도형으로 옮겨 넓이를 추론한다.",
+        "합성 도형과 겹친 도형의 부분 넓이 관계를 식으로 재구성한다."
+      ],
+      "excludedScope": [
+        "[6수03-12]의 넓이 단위 환산 자체를 정답 목표로 삼지 않는다.",
+        "좌표기하, 피타고라스 정리, 원의 넓이는 사용하지 않는다."
+      ],
+      "misconceptions": [
+        {
+          "id": "polygon-area-formula-feature-swap",
+          "description": "밑변, 높이, 윗변을 구분하지 않고 보이는 변의 길이를 공식에 넣는다.",
+          "diagnosticEvidence": "기울어진 변을 높이로 사용하거나 사다리꼴에서 윗변과 아랫변 중 하나만 사용한다.",
+          "correctionStrategy": "도형을 잘라 직사각형으로 옮기는 그림에서 서로 평행한 밑변과 수직 거리를 표시한 뒤 식의 각 수와 대응한다."
+        },
+        {
+          "id": "overlap-area-double-count",
+          "description": "겹친 두 도형의 넓이를 합할 때 공통 부분을 두 번 센다.",
+          "diagnosticEvidence": "합집합 넓이를 두 도형 넓이의 단순 합으로 답하거나 빠진 부분을 구하면서 겹침을 반대로 더한다.",
+          "correctionStrategy": "각 영역을 한 번만 색칠해 전체=첫 도형+둘째 도형-겹친 부분 관계를 만들고 영역별 합으로 독립 검산한다."
+        }
+      ]
+    }
+  ],
+  "familyRefs": [
+    {
+      "familyId": "g5-perimeter-boundary-rebuild",
+      "version": 1
+    },
+    {
+      "familyId": "g5-area-composite-inverse",
+      "version": 1
+    },
+    {
+      "familyId": "g5-area-overlap-reconstruction",
+      "version": 1
+    }
+  ],
+  "approval": {
+    "ownerStatus": "approved",
+    "ownerId": "project-owner",
+    "approvedAt": "2026-07-28T09:05:24Z",
+    "evidenceRefs": [
+      "docs/reviews/application-problems-v1-approval.md"
+    ],
+    "expertStatus": "not-reviewed"
+  }
+}

@@ -21,6 +21,51 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-08-18: staged application-problem rollout foundation (T1) owns the
+  source-derived 62-unit Grade 2-6 inventory, the single
+  `application-problem-rollout-v1` state record, review-only draft authoring
+  catalog boundary, work/candidate/release/all validation modes, and the shared
+  cognitive-domain-aware placement planner. The fixed 2·5·6 pilot pack/family
+  exception remains exactly the nine already-approved families and does not
+  complete any Grade; the released Grade 6/building `null` state is terminal.
+  Draft candidates have executable generator, oracle, visual, and placement
+  proposals plus declared representative and boundary cases, but no release
+  ledger or learner registry surface. Audits execute those cases and keep all
+  later-than-building Grades explicitly pending. Complete claims are compared
+  with canonical base-bank concepts, representations, knowing coverage, and
+  concept-to-unit identity derived from current Grade 2-6 sources. Production
+  eligibility still requires an approved executable entry and one exactly
+  matching immutable canonical release-ledger snapshot. Grade session
+  integrations must call the atomic planner before persistence and preserve
+  total length plus K/A/R counts: G2 6/1, G3 3/1, G4 3/1, and G5·G6 5/1 or
+  10/2. It did not change pack JSON, generator/oracle families, production
+  registries, learner storage, or deployment state. T1's focused support modules are
+  `src/lib/application-problems/authoring-catalog.ts` and
+  `src/lib/application-problems/rollout-contracts.ts`; rollout parsing stays
+  outside the proof-digested base `contracts.ts` so the three pilot proof-trust
+  registrations remain byte-for-byte valid.
+
+- 2026-08-13: 배포 실화면 보정은 2학년 응용문제의 안정적인 내부
+  `unitMissionOrder`와 화면의 상대 진행 순서를 분리하고, 6학년 비율 표현
+  오류 분석 풀이의 숫자 뒤 고정 조사를 제거한다. 기존 2학년 미션 ID·정렬·
+  진도 스냅샷은 유지하며, 이미 저장된 6학년 V1 원문과 교정된 V1 원문을
+  모두 과거 스냅샷 검증기가 읽을 수 있어야 한다. 학습 런타임과 검수 화면은
+  새 생성 문구를 사용하고 정답·증명·시각 모델·출시 상태는 바꾸지 않는다.
+
+- 2026-08-13: 승인된 응용문제 V1 통합은 2·5·6학년 각 3개, 모두 9개
+  `familyId@1`과 세 지식 팩을 소유한다. 공통 레지스트리는 승인 근거와
+  정확히 일치하는 동결 release-ledger 항목만 학습 런타임에 제공한다.
+  2학년은 기존 기본·연습 144문제를 보존하고 길이 단원 연습에 승인된
+  응용문제 3개를 추가한다. 5·6학년은 기존 5/10문제 세트와 난이도 구성을
+  유지하면서 승인된 후보를 선택할 수 있다. 2학년 진도 스키마 V5는 기존
+  완료·확인·단원 완료·보상·숙련도와 응용문제 원본 스냅샷을 함께 이전하며,
+  손상된 응용문제 기록은 원문을 복구 근거 저장소에 보존한 뒤 학습자가
+  명시적으로 승인된 새 문제로 바꿀 때만 갱신한다. 5·6학년 세션도 차단된
+  문제 원본과 교체 이력을 별도 복구 근거 저장소에 먼저 보존한다. 생성기,
+  세션, 진도, 채점, 시각 렌더러, 검수 화면을 바꿀 때에는 기존 콘텐츠
+  선택 규칙과 제출 전 답 비노출, 과거 스냅샷 검증, 실패 시 무기록 조건을
+  함께 다시 확인한다.
+
 - 2026-08-02: T2 local profile storage core (primary workstream 02) owns new
   `src/lib/local-profile.ts`, `src/lib/profile-scoped-storage.ts`,
   `src/lib/profile-migration.ts`, and `src/lib/profile-session-lease.ts` plus
@@ -908,3 +953,46 @@ When you change a high-conflict file, add a short dated note below:
   remains the source for validation and scoring, not for visible answer
   geometry. Re-run the affected browser evidence and final editorial-ledger
   check after changing this renderer.
+
+- 2026-08-18: Grade 2 all-unit application candidate integration (primary
+  workstreams 01 and 04, UI dependency on workstream 03) connects twelve
+  complete draft packs to the review-only authoring catalog. Every draft
+  family must retain executable representative, boundary, oracle, visual,
+  disclosure, and exhaustive proof evidence. Grade 2 practice remains exactly
+  six stable mission IDs per unit and replaces one applying/reasoning slot;
+  knowing slots, completion/review IDs, rewards, and
+  `mathAssist_grade2Progress` stay unchanged. Draft candidates remain blocked
+  from learner interaction. The immutable production registry and its three
+  approved V1 families do not change before explicit Grade 2 approval.
+
+- 2026-08-18: Grade 2 all-unit application approval and release (T7) owns
+  `grade2-registry.ts`, the shared production-ledger aggregation, production
+  proof evidence, twelve Grade 2 pack approval records, and the rollout ledger
+  in one release commit. The user's “네 배포까지 하고 계속 진행해주세요” is
+  recorded as `project-owner` approval at `2026-08-18T05:48:48Z`; expert status
+  remains `not-reviewed`. Preserve `pack-g2-2-length@1` and its three V1 family
+  snapshots byte-for-byte, leave Grade 5/6 pilot registries unchanged, and
+  advance rollout exactly from `null/2` to `2/3`. Only a commit that passes the
+  release audit and full local gate may reach `main` and Pages.
+
+- 2026-08-18: Grade 3 all-unit application candidate integration (T8-T11)
+  owns the twelve Grade 3 draft packs, their finite family recipes and proof
+  authorities, plus review-only Grade 3 adapter/runtime/catalog boundaries.
+  Grade 3 practice must remain exactly three stable K/A/R mission IDs and may
+  replace exactly one applying or reasoning slot in candidate review. Existing
+  completion, review, reward, and `mathAssist_grade3Progress` meanings remain
+  unchanged; a failed candidate produces no partial session or storage write.
+  No Grade 3 production registry, release-ledger entry, approval mutation,
+  learner routing, remote push, or deployment is allowed before the next
+  explicit project-owner approval.
+
+- 2026-08-18: Grade 3 all-unit application approval and release (T12) owns
+  `grade3-registry.ts`, the shared production-ledger aggregation, Grade 3
+  production proof evidence and runtime interaction gate, the twelve pack
+  approval records, learner practice connection, and rollout advancement.
+  The user's “네 승인하고 배포합니다.” is recorded as `project-owner`
+  approval at `2026-08-18T09:24:24Z`; expert status remains `not-reviewed`.
+  Keep the three stable K/A/R mission IDs, replace only one applying or
+  reasoning slot in practice, preserve `mathAssist_grade3Progress`, and
+  advance rollout exactly from `2/3` to `3/4`. Only a release-audit and full
+  local-gate commit may reach `main` and GitHub Pages.

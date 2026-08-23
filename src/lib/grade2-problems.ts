@@ -145,6 +145,8 @@ export interface Grade2Mission extends Grade2QualityMetadata {
   rewardId: Grade2RewardId
 }
 
+export type Grade2MissionProvider = (seed: number) => readonly Grade2Mission[]
+
 export const grade2Units: Grade2Unit[] = [
   {
     id: 'g2-1-place-value',
@@ -2627,15 +2629,62 @@ export function renderGrade2Mission(
   return renderGrade2MissionFromParams(template, params, random)
 }
 
-export function getGrade2Missions(seed = 20260510): Grade2Mission[] {
-  return grade2MissionTemplates
+export function getGrade2Missions(
+  seed = 20260510,
+  additionalMissionProvider?: Grade2MissionProvider,
+): Grade2Mission[] {
+  const legacyMissions = grade2MissionTemplates
     .slice()
     .sort((a, b) => a.stageOrder - b.stageOrder)
     .map((template) => renderGrade2Mission(template, seed))
+  const additionalMissions = [...(additionalMissionProvider?.(seed) ?? [])]
+  const legacyIds = new Set(legacyMissions.map((mission) => mission.id))
+  const additionalIds = new Set<string>()
+  const additionalStageOrders = new Set<number>()
+  const additionalUnitOrders = new Set<string>()
+  const lastLegacyUnitOrder = new Map<string, number>()
+  legacyMissions.forEach((mission) => {
+    lastLegacyUnitOrder.set(
+      mission.unitId,
+      Math.max(lastLegacyUnitOrder.get(mission.unitId) ?? 0, mission.unitMissionOrder),
+    )
+  })
+  const lastLegacyOrder = legacyMissions.at(-1)?.stageOrder ?? 0
+  additionalMissions.forEach((mission) => {
+    if (legacyIds.has(mission.id) || additionalIds.has(mission.id)) {
+      throw new Error(`Duplicate Grade 2 mission id: ${mission.id}`)
+    }
+    if (mission.stageOrder <= lastLegacyOrder) {
+      throw new Error(`Additional Grade 2 mission must follow the legacy bank: ${mission.id}`)
+    }
+    if (additionalStageOrders.has(mission.stageOrder)) {
+      throw new Error(`Duplicate additional Grade 2 stage order: ${mission.stageOrder}`)
+    }
+    const lastUnitOrder = lastLegacyUnitOrder.get(mission.unitId)
+    if (lastUnitOrder === undefined) {
+      throw new Error(`Additional Grade 2 mission has unknown unit: ${mission.unitId}`)
+    }
+    if (mission.unitMissionOrder <= lastUnitOrder) {
+      throw new Error(`Additional Grade 2 mission must follow the legacy unit: ${mission.id}`)
+    }
+    const unitOrderKey = `${mission.unitId}:${mission.unitMissionOrder}`
+    if (additionalUnitOrders.has(unitOrderKey)) {
+      throw new Error(`Duplicate additional Grade 2 unit order: ${unitOrderKey}`)
+    }
+    additionalIds.add(mission.id)
+    additionalStageOrders.add(mission.stageOrder)
+    additionalUnitOrders.add(unitOrderKey)
+  })
+  return [...legacyMissions, ...additionalMissions.sort((a, b) => a.stageOrder - b.stageOrder)]
 }
 
-export function getGrade2MissionsByUnit(unitId: string, seed = 20260510): Grade2Mission[] {
-  return getGrade2Missions(seed).filter((mission) => mission.unitId === unitId)
+export function getGrade2MissionsByUnit(
+  unitId: string,
+  seed = 20260510,
+  additionalMissionProvider?: Grade2MissionProvider,
+): Grade2Mission[] {
+  return getGrade2Missions(seed, additionalMissionProvider)
+    .filter((mission) => mission.unitId === unitId)
 }
 
 export function normalizeGrade2Mode(
@@ -2650,9 +2699,10 @@ export function getGrade2MissionSet(
   unitId: string,
   mode: Grade2Mode | string | null | undefined = 'basic',
   seed = 20260510,
+  additionalMissionProvider?: Grade2MissionProvider,
 ): Grade2Mission[] {
   const normalizedMode = normalizeGrade2Mode(mode)
-  return getGrade2MissionsByUnit(unitId, seed)
+  return getGrade2MissionsByUnit(unitId, seed, additionalMissionProvider)
     .filter((mission) => mission.mode === normalizedMode)
     .sort((left, right) => left.unitMissionOrder - right.unitMissionOrder)
 }
@@ -2663,9 +2713,15 @@ export function getSafeGrade2Mission(seed = 20260510): Grade2Mission {
   return renderGrade2Mission(safeTemplate, seed)
 }
 
-export function getGrade2MissionById(id: string, seed = 20260510): Grade2Mission {
+export function getGrade2MissionById(
+  id: string,
+  seed = 20260510,
+  additionalMissionProvider?: Grade2MissionProvider,
+): Grade2Mission {
   const template = grade2MissionTemplates.find((item) => item.id === id)
-  return template ? renderGrade2Mission(template, seed) : getSafeGrade2Mission(seed)
+  if (template) return renderGrade2Mission(template, seed)
+  return getGrade2Missions(seed, additionalMissionProvider)
+    .find((mission) => mission.id === id) ?? getSafeGrade2Mission(seed)
 }
 
 export function getGrade2UnitById(id: string): Grade2Unit | undefined {

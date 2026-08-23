@@ -1,23 +1,150 @@
 # 현재 상태
 
-기준일: 2026-08-01
+기준일: 2026-08-18
 
 ## 상태 경계
 
-- **실제 배포본**: GitHub Pages 정적 사이트이며 서버 계정·원격 저장
-  API가 없다. 1~6학년 콘텐츠 구조와 1학년 홈 재고 교정을 포함한
-  제품 커밋 `4da821d`가 `main`과 `origin/main`에 반영됐고, GitHub
-  Actions 실행 `30704097219`의 build·deploy가 모두 성공했다.
-- **현재 작업트리**: `main`에 공개 원본 1,622개, 121개 성취기준
-  직접 연결, 기본·연습 홈 투영과 5/10문제 완료 증거를 구현했다.
+- **마지막으로 문서화된 제품 변경 배포 확인**: GitHub Pages 정적 사이트이며
+  서버 계정·원격 저장 API가 없다. 제품 커밋
+  `1b0c171ed81423ffce6fa9230e62528723d2f8a4`의 GitHub Actions 실행
+  `32127227116`에서 build job `95680364368`과 deploy job `95680913733`의
+  성공을 확인했다. 배포 ID `5960907965`, 상태 ID `16956311340`의 SHA도
+  제품 커밋과 일치하며 환경 URL은
+  `https://outliner-coach.github.io/math_assist/`다. 새 브라우저에서 홈,
+  3학년 단원·응용문제, 전 학년 응용문제 검수 화면의 hydration과 정적 요청,
+  두 뷰포트의 가로 넘침 없음과 콘솔 오류·경고 0을 확인했다.
+- **현재 공개 출시 상태**: 공개 원본 1,622개, 121개 성취기준
+  직접 연결, 기본·연습 홈 투영과 5/10문제 완료 증거를 유지한다.
   최종 편집 원장은 `pass 1622 / blocked 0 / stale 0 / missing 0`이며,
   시각 원본 1,013개·허용 변형 3,141개를 실제 renderer의 세 상태와
-  390×844·1024×768에서 다시 확인했다. 전체 Vitest 81개 파일
-  786/786, Promptfoo 1,481/1,481, 정적 build 113/113, 전체 E2E
-  92/92도 통과했다. 공개 Pages에서도 1학년 98개 재고, 기본·연습
-  경로, 진행 기록 hydration, 제출 전 정답 비노출과 5학년 전개도
-  실제 renderer를 확인했다.
+  390×844·1024×768에서 확인한 기존 증거를 포함한다. 여기에 승인된
+  2학년 12개 단원의 승인 유형 53개, 3학년 12개 단원의 승인 유형 48개와
+  5·6학년 승인 유형 각 3개, 총 107개의 결정적 제작기, 독립 검산, 정량 시각,
+  출시 원장, 학년별 세션 연결과 읽기 전용 검수 화면을 통합해 Pages에
+  배포했다.
 - 이 문서에서 `released`는 curriculum ledger, 공개 경로 게이트와 실제 GitHub Pages 화면이 일치한다는 뜻이다. 이후 변경도 `main` 반영, Pages 성공, 새 브라우저 hydration을 모두 확인해야 출시 완료로 기록한다.
+
+## 2026-08-18 2학년 전 단원 응용문제 출시와 Pages 배포
+
+- 프로젝트 책임자 승인에 따라 2학년 12개 complete pack과 신규 family
+  50개를 승인했다. 기존 2학년 시범 family 3개를 포함해 2학년 승인 유형은
+  53개, 5·6학년 시범 유형까지 포함한 전체 production family는 59개다.
+- 각 2학년 단원의 연습 6문제 중 같은 인지영역 한 자리만 응용문제로
+  대체한다. 144개 ID, 세션 길이, 난이도 분포, 저장 키와 완료·복습·최근
+  활동 기록은 유지하며, knowing 슬롯은 대체하지 않는다.
+- rollout 원장을 `releasedThroughGrade: 2`, `buildingGrade: 3`으로 전진했다.
+  3학년은 다음 제작 학년일 뿐 아직 pack·family 승인이나 공개 출시 범위가
+  아니다. 전문가 검수 상태도 계속 `not-reviewed`다.
+- 로컬 출시는 application pack work·2학년 release validator와 audit 오류 0,
+  mission·problem audit 오류·경고 0, 전체 Vitest, lint, TDD guard,
+  Promptfoo 1,483/1,483, build 114/114, Playwright 98/98을 통과했다.
+- 커밋 `e84bc25`를 `main`과 `origin/main`에 반영했다. GitHub Actions 실행
+  `32106502821`의 build job `95616927853`과 deploy job `95617256620`, 배포
+  `5957328567`과 최종 상태 `16946833417`이 모두 성공했고 배포 SHA는 제품
+  커밋과 일치한다.
+- 환경 URL과 `/grade/2/`, `/review/application-problems/`는 직접 HTTP 200을
+  반환했다. 새 공개 브라우저에서 2학년 12개 단원, 실제 6문제 연습의
+  응용문제 한 자리, 제출 전 `답: ?`, 검수 화면의 production 59개와
+  대표·경계 독립 검산을 확인했다. 390×844와 1024×768에서 레이아웃을
+  확인했고 학습·검수 화면의 콘솔 오류·경고는 0이다.
+
+상세 승인 범위와 보존 조건은
+`docs/reviews/application-problems-grade2-approval.md`에 있다.
+
+## 2026-08-18 3학년 전 단원 응용문제 출시
+
+- 프로젝트 책임자의 “네 승인하고 배포합니다.” 승인에 따라 3학년 12개
+  complete pack과 family 48개를 exact `familyId@version`으로 승인했다.
+  전체 production family는 2학년 53개, 3학년 48개, 5·6학년 각 3개로
+  107개다. 전문가 검수 상태는 `not-reviewed`로 유지한다.
+- 각 3학년 단원의 연습 K/A/R 3개 중 knowing이 아닌 한 자리만 승인
+  응용문제로 대체한다. 기존 120개 ID 은행, 세션의 3개 ID·인지영역·보상,
+  완료·복습·최근 활동과 `mathAssist_grade3Progress` 형식을 보존한다.
+- 생성, 독립 오라클, 필수 정량 시각, 제출 전 비노출, 실행 registry와 불변
+  release ledger, 실행 코드와 분리된 48개 SHA-256 승인 스냅샷 중 하나라도
+  실패하면 3문제 전체를 차단하고 기록하지 않는다.
+- rollout 원장은 `releasedThroughGrade: 3`, `buildingGrade: 4`로 전진했다.
+  4학년은 다음 순차 제작 학년이며 아직 응용문제 승인 범위가 아니다.
+- 로컬 출시는 application pack work·3학년 release audit 62개 단원·107개
+  production family·오류 0, mission·problem audit 오류·경고 0, 전체 Vitest
+  118개 파일 1,279/1,279, Promptfoo 1,483/1,483, lint, TDD guard, 정적 build
+  114/114와 전체 Playwright 101/101을 통과했다. 48 family·144개 검수 변형의
+  시각 라벨과 원·그래프 답 비노출, 390×844·1024×768의 네 family 순환도
+  별도 검증했다.
+- 제품 커밋 `1b0c171ed81423ffce6fa9230e62528723d2f8a4`를 `main`과
+  `origin/main`에 반영했다. Actions 실행 `32127227116`의 build job
+  `95680364368`, deploy job `95680913733`, 배포 `5960907965`와 상태
+  `16956311340`이 모두 성공했고 배포 SHA도 제품 커밋과 일치한다.
+- 공개 홈·3학년·응용문제·검수·rollout·승인 digest 경로는 HTTP 200을
+  반환했다. 새 공개 브라우저에서 제출 전 답 비노출과 제출 후 공개,
+  저장 실행 번호 0→1→2 family 순환, 안정 미션 ID 완료 기록을 확인했다.
+  원의 지름 14 문제는 정답 반지름 7을 본문과 접근성 트리에 만들지 않았고,
+  검수 화면은 62개 단원·production family 107개를 표시했다. 390×844와
+  1024×768 모두 가로 넘침과 콘솔 오류·경고가 0이었다.
+
+상세 승인 범위와 보존 조건은
+`docs/reviews/application-problems-grade3-approval.md`에 있다.
+
+## 2026-08-18 3학년 전 단원 응용문제 승인 전 후보
+
+- 3학년 12개 공개 단원에 complete draft pack 12개와 family 48개를
+  만들었다. 단원마다 applying 1개와 서로 다른 reasoning 3개이며, 총
+  144개 유한 변형을 결정적으로 재생성하고 독립 검산한다.
+- 기존 120개 문제은행의 정본 `unitId-skill` 개념 ID와 필수 표현을 기준으로
+  pack 완결성을 검증한다. 세부 범위·오개념은 정본 개념 아래 보존한다.
+- 후보 연습은 기존 K/A/R 3문제와 ID·순서·보상·완료·복습 의미를 유지한 채
+  applying 또는 reasoning 한 자리만 대체한다. 생성·검산·시각·proof가
+  실패하면 부분 세션을 반환하거나 기록을 쓰지 않는다.
+- 후보는 읽기 전용 authoring catalog에만 연결했다. 3학년 production
+  registry·release ledger·승인 기록은 만들지 않았고 실제 학습자 경로와
+  rollout은 계속 2학년 출시 상태를 유지한다.
+- application candidate validator와 audit 오류 0, 집중 Vitest 22/22,
+  전체 Vitest 117개 파일 1,244/1,244, Promptfoo 1,483/1,483, lint,
+  정적 build 114/114, 390×844·1024×768 읽기 전용 검수 6/6과 전체
+  Playwright 99/99를 통과했다. 이 근거로 프로젝트 책임자 승인을 요청한다.
+
+상세 후보 범위와 승인 조건은
+`docs/reviews/application-problems-grade3-candidate.md`에 있다.
+
+## 2026-08-18 2학년 전 단원 응용문제 승인 전 후보 기록
+
+- 1학년을 제외한 전 학년 순차 출시의 첫 단계로 2학년 12개 단원에
+  complete knowledge pack 12개와 draft family 50개를 만들었다.
+- 연습 세트 6문제 중 같은 단원의 `applying`·`reasoning` 한 문제만
+  응용문제로 대체하며, 기존 144개 원본·세션 길이·난이도 분포·저장 키와
+  완료·복습·최근 활동 기록을 유지한다.
+- 대표·경계 생성, 독립 정답 검산, 필수 시각, 제출 전 답 비노출과 유한 영역
+  증거를 검수 화면과 자동 감사에 연결했다. 상세 승인 자료는
+  `docs/reviews/application-problems-grade2-candidate.md`에 있다.
+- 당시 신규 pack과 family는 모두 `draft`, 소유자 `pending`, 전문가
+  `not-reviewed`였고 기존 승인 V1 registry와 불변 release ledger를 바꾸지
+  않았다. 이후 프로젝트 책임자 승인을 받아 위 출시 섹션의 정확한
+  family 버전만 production으로 승격했다.
+
+## 2026-08-13 응용문제 V1 출시와 Pages 배포
+
+- 프로젝트 책임자가 승인한 `g2-length-*`, `g5-*-rebuild|inverse|reconstruction`,
+  `g6-ratio-*` V1 유형 9개만 신규 후보로 승격한다. 세 시범 단원의 일부
+  유형이며 전 학년·전 단원의 응용문제 완성을 뜻하지 않는다.
+- 실행 registry, 승인 정보, 불변 release ledger, pack parser와 품질 감사가
+  같은 `familyId@version`으로 일치할 때만 생성한다. 서비스 런타임에서 AI를
+  호출하지 않으며 `draft`, `quarantined`, `retired` 유형은 신규 세션에서 제외한다.
+- 2학년은 기존 schema v1~v4를 보존하는 schema v5에 응용문제 스냅샷을 추가했다.
+  5·6학년은 기존 5/10문제 길이와 난이도 분배, 서로 분리된 저장 키를 유지한다.
+  손상 원문은 자동 덮어쓰지 않고 정상 과거 스냅샷은 현재 제작기와 무관하게 복구한다.
+- `/review/application-problems`는 고정 대표 9개, 등록값 기반 필터, 제출 전·후
+  실제 시각과 자동 검사 근거만 제공한다. 승인·저장·출시 행동과 학습자 동선은 없다.
+- 최종 통합 확인은 전체 Vitest 107개 파일 1,080/1,080, 정적 build 114/114,
+  전체 E2E 98/98을 통과했다. 학년 validator는 98/144/120/150/330개,
+  템플릿 metadata 1,110/1,110, 교육과정 121/121과 직접 연결 1,803개,
+  응용문제 3개 pack·승인 family 9개를 확인했다. 일반 문제·미션 감사와 응용문제 감사는
+  오류 0이며, 일반 문제·미션 경고도 0이다. Promptfoo 1,482/1,482,
+  lint와 TDD guard도 통과했다.
+- 첫 V1 배포 뒤 운영 화면에서 2학년 응용문제의 내부 번호가 `13/9`로
+  보이는 문제와 6학년 풀이의 조사 오류를 발견했다. 상대 순서를 `7/9`로
+  표시하고 “비교하는 양은 19, 기준량은 20입니다.”로 문장을 고친 뒤
+  커밋 `1a91b9a`를 다시 배포했다. 운영 화면에서 수정 문구와 순서,
+  이전 잘못된 문자열의 부재, 콘솔 오류 0을 확인했다.
 
 ## 단계별 구현 상태
 
@@ -963,12 +1090,10 @@
 
 ## 남은 일
 
-1. 1,622개 catalog를 생성하고 변경된 시각 원본의 모바일·태블릿
-   상태 증거를 갱신한 뒤 단일 최종 편집 원장과 전체 출시 게이트를
-   통과시킨다.
-2. 검증이 끝난 뒤에도 사용자 승인 전에는 `main` 병합·푸시·Pages
-   배포를 하지 않는다. 승인 후 workflow와 공개 hydration을 별도로
-   확인한다.
+1. 응용문제 V1 9유형을 시작점으로 학년·단원별 지식 묶음과 고난도 유형을
+   추가하되 각 유형의 독립 검산·정량 시각·출시 원장 증거를 같은 기준으로 만든다.
+2. 교사·교육과정 전문가 검수는 아직 수행하지 않았다. 전문가 판단을 자동 품질
+   감사와 혼동하지 않고 별도 승인 근거로 추가한다.
 3. 원격 저장은 실제 guardian 확인 수단과 적법 근거, 삭제·보존·연결 해제·세션 만료 정책, production provider와 distributed rate limit, TLS·cookie·CORS/CSRF·감사 보존, 의존성 갱신을 마친 뒤 비공개 staging부터 검증한다.
 
 ## 막힌 결정

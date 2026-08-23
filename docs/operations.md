@@ -8,12 +8,17 @@
 node --version
 npm --version
 npm ci
+npx playwright install chromium
 npm test
 npm run lint
 npm run build
 ```
 
 `npm ci`는 `package-lock.json`과 정확히 맞는 의존성을 설치하므로 테스트와 빌드보다 먼저 실행한다. 빌드가 끝나기 전에 개발 서버를 동시에 시작하지 않는다.
+`npm ci` 뒤에는 lockfile이 지정한 Playwright 버전의 Chromium 실행 파일이 캐시에
+없을 수 있으므로 브라우저 테스트 전에 `npx playwright install chromium`을 실행한다.
+실행 파일 부재 오류를 제품 회귀로 판정하지 말고 설치 후 같은 전체 검사를 다시
+실행하며, 설치하지 못한 상태를 통과로 기록하지 않는다.
 
 별도 데이터베이스 초기화, 시드 적재, 계정 생성, 필수 환경 파일은 현재 없다. `next.config.js`가 `NEXT_PUBLIC_BASE_PATH=/math_assist`를 빌드에 제공하며 이 값은 정적 자산과 JSON의 공개 경로 접두사다.
 
@@ -38,9 +43,11 @@ npm run validate:grade6
 npm run generate:curriculum-direct-links
 npm run validate:curriculum
 npm run validate:templates
+npm run validate:application-packs
 npm run report:content-inventory
 npm run audit:missions
 npm run audit:problems -- --strict-warnings
+npm run audit:applications
 npm run promptfoo:problems
 npm run generate:problem-review-catalog
 npm run check:problem-editorial-review
@@ -55,6 +62,7 @@ git diff --check
 - 특정 학년이나 5학년 템플릿을 건드리지 않았다면 관련 콘텐츠 검증기는 생략할 수 있지만, 변경한 콘텐츠의 검증기는 반드시 실행한다.
 - 교육과정 또는 문제 연결을 바꿨다면 `generate:curriculum-direct-links`로 문제별 직접 역참조를 먼저 확정한 뒤 curriculum validator와 재고 보고서를 실행한다. 재고 보고서는 공개 원본, 원작성 원본, 정규 수학 서명, 생성 변형, 세션 문항 수를 섞지 않는다.
 - 화면·라우팅·localStorage 복구·공개 시점을 바꾼 경우 브라우저 테스트를 생략하지 않는다.
+- 응용문제 pack·family·registry·승인·증명·시각·세션을 바꾼 경우 `validate:application-packs`와 `audit:applications`를 함께 실행한다. 두 검사는 기존 학년 validator, 문제·미션 감사, 전체 회귀 검사를 대신하지 않는다.
 - Playwright는 기본적으로 3100 포트를 사용한다. 다른 서버와 충돌하면 `PLAYWRIGHT_PORT=3173 npm run test:e2e`처럼 빈 포트를 지정한다.
 - `npm run build`는 `out/`에 GitHub Pages용 정적 결과를 만든다. 콘텐츠에 따라 경로 수가 달라질 수 있으므로 수치 자체보다 의도한 동적 식별자가 모두 생성됐는지 확인한다.
 

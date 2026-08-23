@@ -13,6 +13,17 @@ const GRADE6_KEYS = [
 ] as const
 const ATTEMPT_RECEIPT_KEY = 'mathAssist_attemptReceipts_v1'
 
+type StoredGrade6Problem =
+  | {
+      type: 'choice'
+      correctAnswer: string
+      correctChoiceIndex: number
+    }
+  | {
+      type: 'number'
+      correctAnswer: string
+    }
+
 async function clearStorage(page: Page) {
   await page.goto(`${BASE_PATH}/`)
   await page.evaluate(() => localStorage.clear())
@@ -27,6 +38,14 @@ async function enterKeypadAnswer(page: Page, answer: string) {
   for (const character of answer) {
     await page.getByTestId(`key-${encodeURIComponent(character)}`).click()
   }
+}
+
+async function answerStoredProblem(page: Page, problem: StoredGrade6Problem) {
+  if (problem.type === 'choice') {
+    await page.getByTestId(`choice-${problem.correctChoiceIndex}`).click()
+    return
+  }
+  await enterKeypadAnswer(page, problem.correctAnswer)
 }
 
 test.beforeEach(async ({ page }) => {
@@ -56,6 +75,9 @@ test('홈에서 6학년을 선택해 단원·개념·기본 5문제까지 진입
 })
 
 test('10문제 세트의 실제 비율 표를 렌더링하고 답 전용 metadata를 노출하지 않는다', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(Date, 'now', { value: () => 4 })
+  })
   await page.goto(`${BASE_PATH}/practice/g6ratio-001?set=A&count=10`)
   await expect(page.getByTestId('practice-session')).toBeVisible()
   const tableIndex = await page.evaluate((key) => {
@@ -366,18 +388,25 @@ test('손상된 6학년 세션은 원문을 보존하고 명시적 초기화 뒤
   expect(await page.evaluate((key) => localStorage.getItem(key), GRADE5_KEYS[0])).toBe('{"keep":"grade5"}')
 })
 
-test('5문제를 모두 확인하면 기본 완료 기록과 기존 6학년 진도를 함께 저장한다', async ({ page }) => {
+test('숫자형과 객관식이 섞인 5문제를 모두 확인하면 기본 완료 기록과 기존 6학년 진도를 함께 저장한다', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(Date, 'now', { value: () => 1 })
+  })
   await page.goto(`${BASE_PATH}/practice/g6ratio-001?set=C&count=5`)
   await expect(page.getByTestId('practice-session')).toBeVisible()
 
-  for (let index = 0; index < 5; index += 1) {
-    const answer = await page.evaluate(({ key, itemIndex }) => {
-      const session = JSON.parse(localStorage.getItem(key) ?? 'null')
-      return String(session.problems[itemIndex].correctAnswer)
-    }, { key: GRADE6_KEYS[0], itemIndex: index })
-    await enterKeypadAnswer(page, answer)
+  const storedProblems = await page.evaluate((key) => {
+    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+    return session.problems as StoredGrade6Problem[]
+  }, GRADE6_KEYS[0])
+  expect(storedProblems).toHaveLength(5)
+  expect(storedProblems.some((problem) => problem.type === 'number')).toBe(true)
+  expect(storedProblems.some((problem) => problem.type === 'choice')).toBe(true)
+
+  for (let index = 0; index < storedProblems.length; index += 1) {
+    await answerStoredProblem(page, storedProblems[index])
     await page.getByTestId('check-answer-button').click()
-    if (index < 4) await page.getByTestId('next-button').click()
+    if (index < storedProblems.length - 1) await page.getByTestId('next-button').click()
   }
 
   await page.getByTestId('submit-button').click()

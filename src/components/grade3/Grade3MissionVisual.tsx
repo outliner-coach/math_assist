@@ -3,6 +3,9 @@
 import React from 'react'
 
 import type { Grade3Mission } from '@/lib/grade3-problems'
+import { isGrade3ApplicationMission } from '@/lib/application-problems/grade3-adapter'
+import { resolveApplicationVisual } from '@/lib/application-problems/visual-validator'
+import ApplicationProblemVisual from '@/components/ApplicationProblemVisual'
 
 function asNumber(value: unknown, fallback = 0): number {
   const number = Number(value)
@@ -870,6 +873,24 @@ export default function Grade3MissionVisual({
   emphasize?: boolean
   showAnswer?: boolean
 }) {
+  if (isGrade3ApplicationMission(mission)) {
+    const resolution = resolveApplicationVisual(mission.applicationVisual)
+    if (resolution.status !== 'ready') {
+      return (
+        <div data-testid="grade3-application-visual-blocked" className="rounded-3xl border-2 border-[#ef4444] bg-[#fee2e2] p-5 text-center font-black text-[#0f172a]">
+          응용문제 그림을 확인할 수 없어 이 문제를 잠시 멈췄어요.
+        </div>
+      )
+    }
+    return (
+      <div
+        data-testid="grade3-application-visual"
+        className={emphasize ? 'rounded-[2rem] ring-4 ring-[#ffb020]' : ''}
+      >
+        <ApplicationProblemVisual scene={resolution.scene} showAnswer={showAnswer} />
+      </div>
+    )
+  }
   let visual
   try {
     visual = renderVisual(mission, showAnswer)
