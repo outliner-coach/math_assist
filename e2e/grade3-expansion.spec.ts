@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { activeLearnerStorageKey, readLearnerStorageItem } from './profile-aware-storage'
 
 const BASE_PATH = '/math_assist'
 const GRADE3_PROGRESS_KEY = 'mathAssist_grade3Progress'
@@ -32,8 +33,8 @@ test('3학년 기본과 연습은 항상 열리고 잘못된 모드는 기본으
 })
 
 test('3학년 기본 완료는 단원을 끝내지 않고 연습 3문제 완료가 단원을 끝낸다', async ({ page }) => {
-  await page.goto(`${BASE_PATH}/`)
-  await page.evaluate(([grade3Key]) => {
+  await page.goto(`${BASE_PATH}/grade/3`)
+  await page.evaluate(([grade3Key, grade1Key]) => {
     localStorage.setItem(grade3Key, JSON.stringify({
       schemaVersion: 2,
       completedMissionIds: [
@@ -56,8 +57,11 @@ test('3학년 기본 완료는 단원을 끝내지 않고 연습 3문제 완료�
       lastPlayedAt: Date.now(),
       missionSketchRunOrdinal: 0,
     }))
-    localStorage.setItem('mathAssist_grade1Progress', '{"keep":true}')
-  }, [GRADE3_PROGRESS_KEY])
+    localStorage.setItem(grade1Key, '{"keep":true}')
+  }, [
+    await activeLearnerStorageKey(page, GRADE3_PROGRESS_KEY),
+    await activeLearnerStorageKey(page, 'mathAssist_grade1Progress'),
+  ] as const)
 
   await page.goto(`${BASE_PATH}/grade/3`)
   const completion = page.getByTestId('grade3-unit-completion-g3-1-add-sub')
@@ -78,15 +82,15 @@ test('3학년 기본 완료는 단원을 끝내지 않고 연습 3문제 완료�
       'g3-1-add-sub-10',
     )
     localStorage.setItem(grade3Key, JSON.stringify(progress))
-  }, GRADE3_PROGRESS_KEY)
+  }, await activeLearnerStorageKey(page, GRADE3_PROGRESS_KEY))
   await page.reload()
 
   await expect(completion).toHaveText('단원 완료')
-  expect(await page.evaluate(() => localStorage.getItem('mathAssist_grade1Progress'))).toBe('{"keep":true}')
+  expect(await readLearnerStorageItem(page, 'mathAssist_grade1Progress')).toBe('{"keep":true}')
 })
 
 test('3학년 연습 3문제를 모두 확인하면 오답 복습이 남아도 단원을 완료한다', async ({ page }) => {
-  await page.goto(`${BASE_PATH}/`)
+  await page.goto(`${BASE_PATH}/grade/3`)
   await page.evaluate((grade3Key) => {
     const practiceIds = [
       'g3-1-add-sub-04',
@@ -107,7 +111,7 @@ test('3학년 연습 3문제를 모두 확인하면 오답 복습이 남아도 �
       lastPlayedAt: Date.now(),
       missionSketchRunOrdinal: 0,
     }))
-  }, GRADE3_PROGRESS_KEY)
+  }, await activeLearnerStorageKey(page, GRADE3_PROGRESS_KEY))
 
   await page.goto(`${BASE_PATH}/grade/3`)
 
@@ -116,7 +120,7 @@ test('3학년 연습 3문제를 모두 확인하면 오답 복습이 남아도 �
 })
 
 test('3학년 이전 저장 기록의 최근 미션을 K/A/R 3문제 안에서 다시 연다', async ({ page }) => {
-  await page.goto(`${BASE_PATH}/`)
+  await page.goto(`${BASE_PATH}/grade/3`)
   await page.evaluate((grade3Key) => {
     localStorage.setItem(grade3Key, JSON.stringify({
       schemaVersion: 1,
@@ -130,7 +134,7 @@ test('3학년 이전 저장 기록의 최근 미션을 K/A/R 3문제 안에서 �
       lastPlayedAt: Date.now(),
       missionSketchRunOrdinal: 0,
     }))
-  }, GRADE3_PROGRESS_KEY)
+  }, await activeLearnerStorageKey(page, GRADE3_PROGRESS_KEY))
 
   await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-2-capacity-weight&mode=basic`)
 
@@ -142,7 +146,7 @@ test('3학년 이전 저장 기록의 최근 미션을 K/A/R 3문제 안에서 �
 })
 
 test('3학년 이전 미션이 들어간 실제 연습 3문제를 모두 확인하면 단원을 완료한다', async ({ page }) => {
-  await page.goto(`${BASE_PATH}/`)
+  await page.goto(`${BASE_PATH}/grade/3`)
   await page.evaluate((grade3Key) => {
     localStorage.setItem(grade3Key, JSON.stringify({
       schemaVersion: 1,
@@ -156,7 +160,7 @@ test('3학년 이전 미션이 들어간 실제 연습 3문제를 모두 확인�
       lastPlayedAt: Date.now(),
       missionSketchRunOrdinal: 0,
     }))
-  }, GRADE3_PROGRESS_KEY)
+  }, await activeLearnerStorageKey(page, GRADE3_PROGRESS_KEY))
 
   await page.goto(`${BASE_PATH}/grade/3/mission?unitId=g3-2-capacity-weight&mode=practice`)
   const visibleMissionIds: string[] = []
@@ -177,7 +181,7 @@ test('3학년 이전 미션이 들어간 실제 연습 3문제를 모두 확인�
     progress.checkedMissionIds = missionIds
     progress.reviewMissionIds = missionIds
     localStorage.setItem(grade3Key, JSON.stringify(progress))
-  }, [GRADE3_PROGRESS_KEY, visibleMissionIds] as const)
+  }, [await activeLearnerStorageKey(page, GRADE3_PROGRESS_KEY), visibleMissionIds] as const)
   await page.goto(`${BASE_PATH}/grade/3`)
 
   await expect(page.getByTestId('grade3-practice-g3-2-capacity-weight')).toHaveText('연습 3/3')

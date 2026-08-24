@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { activeLearnerStorageKey, readLearnerStorageItem } from './profile-aware-storage'
 
 const BASE_PATH = '/math_assist'
 const PROGRESS_KEY = 'mathAssist_grade4Progress'
@@ -65,7 +66,7 @@ test('4학년 기본은 추천 진입이고 연습은 잠금 없이 선택해 �
   await page.getByTestId('grade4-next-mission').click()
 
   await expect(page.getByTestId('grade4-unit-completion-state')).toContainText('단원 완료')
-  const stored = await page.evaluate((progressKey) => JSON.parse(localStorage.getItem(progressKey) ?? 'null'), PROGRESS_KEY)
+  const stored = await page.evaluate((progressKey) => JSON.parse(localStorage.getItem(progressKey) ?? 'null'), await activeLearnerStorageKey(page, PROGRESS_KEY))
   expect(stored.completionRecord.completedBasicSetActivityIds).toContain('unit-4-1-large-numbers')
   expect(stored.completionRecord.completedPracticeSetActivityIds).toContain('unit-4-1-large-numbers')
   expect(stored.reviewVariantKeys.some((key: string) => key.startsWith('g4-big-03:'))).toBe(true)
@@ -112,7 +113,7 @@ test('두 자리 수 나눗셈 단원은 몫을 숨기고 K/A/R 활동을 끝낸
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-1-multiplication-division')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -146,7 +147,7 @@ test('사칙계산 어림 단원은 네 연산과 방법 비교를 연결해 K/A
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-1-arithmetic-estimation')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -169,7 +170,7 @@ test('소수 단원은 미완성 입력을 기록하지 않고 자릿값·배치
   await page.getByTestId('grade4-integer-input').fill('0.')
   await page.getByTestId('grade4-integer-submit').click()
   await expect(page.getByTestId('grade4-input-error')).toBeVisible()
-  expect(await page.evaluate((key) => localStorage.getItem(key), RECEIPT_KEY)).toBeNull()
+  expect(await readLearnerStorageItem(page, RECEIPT_KEY)).toBeNull()
 
   await page.getByTestId('grade4-integer-input').fill('0.09')
   await page.getByTestId('grade4-integer-submit').click()
@@ -190,7 +191,7 @@ test('소수 단원은 미완성 입력을 기록하지 않고 자릿값·배치
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-2-decimals')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -211,7 +212,7 @@ test('분수 덧셈·뺄셈 단원은 미완성 입력을 기록하지 않고 �
   await page.getByTestId('grade4-integer-input').fill('1/')
   await page.getByTestId('grade4-integer-submit').click()
   await expect(page.getByTestId('grade4-input-error')).toBeVisible()
-  expect(await page.evaluate((key) => localStorage.getItem(key), RECEIPT_KEY)).toBeNull()
+  expect(await readLearnerStorageItem(page, RECEIPT_KEY)).toBeNull()
 
   await page.getByTestId('grade4-integer-input').fill('5/8')
   await page.getByTestId('grade4-integer-submit').click()
@@ -231,7 +232,7 @@ test('분수 덧셈·뺄셈 단원은 미완성 입력을 기록하지 않고 �
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-2-fraction-add-sub')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -271,7 +272,7 @@ test('소수 덧셈·뺄셈 단원은 소수점을 맞추고 받아올림·역�
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-2-decimal-add-sub')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -309,7 +310,7 @@ test('규칙 찾기 단원은 대응·먼 계산식·두 변화 오류 분석 �
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-2-patterns')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -347,7 +348,7 @@ test('등호 단원은 빠진 양·양쪽 같은 변화·한쪽 변화 오류 �
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-2-equality')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -384,7 +385,7 @@ test('수직과 평행 단원은 방향·평행선 긋기·동시 회전 추론 
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-1-perpendicular-parallel')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -422,7 +423,7 @@ test('도형의 이동 단원은 뒤집기·점 돌리기·두 번 뒤집기 추
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-1-shape-transformations')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -457,7 +458,7 @@ test('여러 가지 삼각형 단원은 변과 각의 두 기준으로 K/A/R 분
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-2-triangles')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -491,7 +492,7 @@ test('여러 가지 사각형 단원은 평행·직각·같은 변의 성질로 
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-2-quadrilaterals')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -526,7 +527,7 @@ test('다각형 단원은 정다각형·대각선·모양 채우기로 K/A/R 활
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-2-polygons')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -559,7 +560,7 @@ test('각도 단원은 각도기·회전·내각의 합으로 K/A/R 활동을 �
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-1-angle-measurement')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -592,7 +593,7 @@ test('꺾은선그래프 단원은 변화 구간·경향·눈금 범위 추론�
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
     overflow: document.documentElement.scrollWidth > window.innerWidth,
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.progress.selectedUnitId).toBe('unit-4-2-line-graphs')
   expect(stored.ledger.receipts).toHaveLength(3)
   expect(new Set(stored.ledger.receipts.map((receipt: { contentReleaseId: string }) => receipt.contentReleaseId)))
@@ -616,16 +617,24 @@ test('4학년 진행은 reload와 홈 hydration 뒤 같은 문제로 이어진�
   await expect(page.getByTestId('grade4-mission-card')).toHaveAttribute('data-mission-id', 'g4-big-07')
 })
 
-test('손상된 4학년 기록을 홈에서 읽어도 다른 학년 원문과 손상 원문을 보존한다', async ({ page }) => {
-  await page.evaluate(({ progressKey }) => {
+test('손상된 4학년 기록은 원문을 보존하고 저장 경고와 함께 현재 문제만 계속 푼다', async ({ page }) => {
+  await page.addInitScript(({ progressKey }) => {
+    localStorage.clear()
     localStorage.setItem('mathAssist_guestHome_v1', JSON.stringify({ activeGrade: 4 }))
     localStorage.setItem(progressKey, '{broken')
     localStorage.setItem('mathAssist_grade1Progress', '{"completedStageIds":["g1-safe"]}')
     localStorage.setItem('mathAssist_progress_v1', '{"g5-safe":{"conceptId":"g5-safe","lastCompletedAt":400,"needsReview":false}}')
   }, { progressKey: PROGRESS_KEY })
 
-  await page.goto(`${BASE_PATH}/home`)
-  await expect(page.getByTestId('change-grade')).toContainText('4학년')
+  await page.goto(`${BASE_PATH}/grade/4/mission?unitId=unit-4-1-large-numbers`)
+  await page.getByTestId('grade4-integer-input').fill('1')
+  await page.getByTestId('grade4-integer-submit').click()
+  await expect(page.getByTestId('grade4-wrong-feedback')).toBeVisible()
+  await expect(page.getByTestId('grade4-storage-notice')).toContainText('지금 활동은 계속할 수 있어요')
+
+  await page.getByTestId('grade4-integer-input').fill('283056')
+  await page.getByTestId('grade4-integer-submit').click()
+  await expect(page.getByTestId('grade4-solution')).toBeVisible()
   const raw = await page.evaluate(({ progressKey }) => ({
     grade4: localStorage.getItem(progressKey),
     grade1: localStorage.getItem('mathAssist_grade1Progress'),
@@ -645,7 +654,7 @@ test('4학년 Bridge는 형식 오류를 기록하지 않고 오답과 정답을
   await page.getByTestId('grade4-integer-input').fill('-')
   await page.getByTestId('grade4-integer-submit').click()
   await expect(page.getByTestId('grade4-input-error')).toBeVisible()
-  expect(await page.evaluate((key) => localStorage.getItem(key), RECEIPT_KEY)).toBeNull()
+  expect(await readLearnerStorageItem(page, RECEIPT_KEY)).toBeNull()
 
   await page.getByTestId('grade4-integer-input').fill('1')
   await page.getByTestId('grade4-integer-submit').click()
@@ -658,12 +667,12 @@ test('4학년 Bridge는 형식 오류를 기록하지 않고 오답과 정답을
   await expect.poll(async () => page.evaluate((key) => {
     const ledger = JSON.parse(localStorage.getItem(key) ?? '{"receipts":[]}')
     return ledger.receipts.length
-  }, RECEIPT_KEY)).toBe(2)
+  }, await activeLearnerStorageKey(page, RECEIPT_KEY))).toBe(2)
 
   const stored = await page.evaluate(({ progressKey, receiptKey }) => ({
     progress: JSON.parse(localStorage.getItem(progressKey) ?? 'null'),
     ledger: JSON.parse(localStorage.getItem(receiptKey) ?? 'null'),
-  }), { progressKey: PROGRESS_KEY, receiptKey: RECEIPT_KEY })
+  }), { progressKey: await activeLearnerStorageKey(page, PROGRESS_KEY), receiptKey: await activeLearnerStorageKey(page, RECEIPT_KEY) })
   expect(stored.ledger.receipts.map((receipt: { attemptOrdinal: number; correct: boolean; usedHint: boolean }) => ({ ordinal: receipt.attemptOrdinal, correct: receipt.correct, usedHint: receipt.usedHint })))
     .toEqual([{ ordinal: 0, correct: false, usedHint: false }, { ordinal: 1, correct: true, usedHint: true }])
   expect(JSON.stringify(stored.ledger)).not.toContain('283056')
