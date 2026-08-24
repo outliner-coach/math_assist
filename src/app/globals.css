@@ -80,3 +80,28 @@ button, a, input {
     linear-gradient(180deg, #ffffff 0%, #f7fff1 100%);
   color: var(--grade1-text);
 }
+
+/* 신뢰성 오버레이·다이얼로그 (T7) */
+.reliability-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background-color: rgba(15, 23, 42, 0.55);
+}
+
+.reliability-dialog {
+  width: 100%;
+  max-width: 26rem;
+  border-radius: 2rem;
+  border: 2px solid #fecaca;
+  background-color: #ffffff;
+  padding: 1.75rem;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.25);
+}
+
+.reliability-panel {
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}

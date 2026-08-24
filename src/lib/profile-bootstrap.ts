@@ -7,7 +7,11 @@ import {
 } from './local-profile'
 import { migrateLegacyLearnerStorage, type EnumerableProfileMigrationStorage } from './profile-migration'
 import { createProfileScopedStorage } from './profile-scoped-storage'
-import { createProfileSessionLease, type ProfileSessionLeaseController } from './profile-session-lease'
+import {
+  createProfileSessionLease,
+  type ProfileLeaseRevocationReason,
+  type ProfileSessionLeaseController,
+} from './profile-session-lease'
 
 export interface LearnerStorage {
   readonly profileId: string
@@ -23,6 +27,7 @@ interface WindowWithLocalStorage {
 let cachedBase: ProfileRegistryStorage | null = null
 let cachedProfileId: string | null = null
 let cachedStorage: LearnerStorage | null = null
+let cachedLease: ProfileSessionLeaseController | null = null
 let tabHolderId: string | null = null
 
 const TAB_HOLDER_ID_STORAGE_KEY = 'mathAssist_tabHolderId_v1'
@@ -141,9 +146,17 @@ function buildLearnerStorage(base: ProfileRegistryStorage, activeProfileId: stri
     },
   }
 
+  if (cachedLease && cachedLease !== lease) {
+    try {
+      cachedLease.dispose()
+    } catch {
+      // A stale controller must never block rebuilding the active adapter.
+    }
+  }
   cachedBase = base
   cachedProfileId = activeProfileId
   cachedStorage = learnerStorage
+  cachedLease = lease
   return learnerStorage
 }
 
@@ -175,4 +188,11 @@ export function getLearnerStorage(): LearnerStorage | null {
 export function getActiveProfileId(): string | null {
   const storage = getLearnerStorage()
   return storage ? storage.profileId : null
+}
+
+export function subscribeLeaseRevocation(
+  listener: (reason: ProfileLeaseRevocationReason) => void,
+): () => void {
+  if (!cachedLease) return () => {}
+  return cachedLease.onRevoked(listener)
 }

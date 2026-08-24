@@ -21,6 +21,25 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-08-25: T7 global wiring (production foundation · device reliability)
+  owns the layout bootstrap ordering in `src/app/layout.tsx` and
+  `src/components/AppReliabilityShell.tsx` (profile bootstrap warm-up →
+  client-only Sentry init → production-only service-worker registration), the
+  CSP `<meta http-equiv="Content-Security-Policy">` emitted from the root
+  layout, `src/app/globals.css` reliability overlay/dialog styles, and the new
+  `e2e/production-reliability.spec.ts` plus `e2e/accessibility.spec.ts`
+  browser gates. It also registers the T4/T5/T6 components
+  (`ProfileManager`, `ProfileTransferDialog`, `DeviceDataResetDialog`,
+  `OfflinePackManager`) into `src/app/home/GuestHomeClient.tsx`, adds
+  `src/lib/use-lease-status.ts` with a small additive export
+  `subscribeLeaseRevocation` in `src/lib/profile-bootstrap.ts`, and mounts the
+  non-dismissible lease-lost overlay from the shared shell so GuestHomeClient
+  AND learning screens get it without per-screen edits. Components from
+  T4/T5/T6 are registered here only — their internals stay owned by their
+  original tasks. Re-check storage-unavailable banner copy, profile-switch
+  reload semantics, and axe WCAG 2.2 A/AA assertions on `/`, `/home`,
+  `/grade/3`, `/review/problems` when touching these surfaces.
+
 - 2026-08-18: staged application-problem rollout foundation (T1) owns the
   source-derived 62-unit Grade 2-6 inventory, the single
   `application-problem-rollout-v1` state record, review-only draft authoring
