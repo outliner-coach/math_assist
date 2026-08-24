@@ -9,6 +9,7 @@ import type {
   LearningSetMode,
 } from './learning-activity'
 import { createLocalProgressRepository } from './local-progress-repository'
+import { getLearnerStorage } from './profile-bootstrap'
 
 export const GUEST_HOME_PREFERENCES_KEY = 'mathAssist_guestHome_v1'
 
@@ -56,12 +57,7 @@ export interface GuestHomeState {
 type JsonRecord = Record<string, unknown>
 
 function browserStorage(): GuestHomeStorage | null {
-  if (typeof window === 'undefined') return null
-  try {
-    return window.localStorage
-  } catch {
-    return null
-  }
+  return getLearnerStorage()
 }
 
 function parseRecord(storage: GuestHomeStorage | null, key: string): JsonRecord | null {

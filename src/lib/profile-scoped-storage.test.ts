@@ -69,6 +69,29 @@ describe('profile-scoped learner storage', () => {
     expect(() => scoped.setItem('mathAssist_unknown_v1', 'bad')).toThrow(ProfileStorageScopeError)
   })
 
+  it('classifies production recovery evidence keys as learner-owned', () => {
+    const registry = createInitialLocalProfileRegistry({ now: () => 1, randomUUID: () => UUID_A, migrationStatus: 'not-needed' })
+    const recoveryEvidenceKeys = [
+      'mathAssist_grade2ProgressRecoveryEvidence_v1',
+      'mathAssist_grade5ApplicationProblemRecoveryEvidence_v1',
+      'mathAssist_grade6ApplicationProblemRecoveryEvidence_v1',
+    ]
+
+    for (const key of recoveryEvidenceKeys) {
+      expect(classifyMathAssistStorageKey(key)).toBe('learner')
+      expect(createProfileScopedStorageKey(`local_${UUID_A}`, key)).toBe(
+        `mathAssist_profile_v1:local_${UUID_A}:${key}`,
+      )
+    }
+
+    const scoped = createProfileScopedStorage(memoryStorage({
+      [LOCAL_PROFILE_REGISTRY_KEY]: JSON.stringify(registry),
+    }))
+    scoped.setItem(recoveryEvidenceKeys[0], '{"schemaVersion":1}')
+    expect(scoped.getItem(recoveryEvidenceKeys[0])).toBe('{"schemaVersion":1}')
+    expect(() => scoped.setItem('mathAssist_grade7RecoveryEvidence_v1', 'bad')).toThrow(ProfileStorageScopeError)
+  })
+
   it('revokes an old adapter after the active profile changes and never redirects its write', () => {
     const first = createInitialLocalProfileRegistry({ now: () => 1, randomUUID: () => UUID_A, migrationStatus: 'not-needed' })
     const second = {

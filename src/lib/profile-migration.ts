@@ -499,11 +499,6 @@ export function migrateLegacyLearnerStorage(
     }
   }
 
-  if (discovery.invalidKeys.length > 0) {
-    const failed = storeFailedRegistry(storage, registry)
-    return { status: 'failed', registry: failed, copiedKeys: 0, failedKeys: discovery.invalidKeys }
-  }
-
   const targetProfileId = registry.migration.targetProfileId
   if (!targetProfileId || !registry.profiles.some((profile) => profile.profileId === targetProfileId)) {
     const failed = storeFailedRegistry(storage, registry)
@@ -522,36 +517,38 @@ export function migrateLegacyLearnerStorage(
 
   let copiedKeys = 0
   try {
-    const existingBackup = storage.getItem(backupKey)
-    if (existingBackup === null) {
-      storage.setItem(backupKey, JSON.stringify(backupFor(discovery.entries, targetProfileId, createdAt)))
-    } else if (!isMatchingBackup(existingBackup, discovery.entries, targetProfileId)) {
-      throw new Error(backupKey)
-    }
-
-    for (const entry of discovery.entries) {
-      const scopedKey = createProfileScopedStorageKey(targetProfileId, entry.key)
-      const existing = storage.getItem(scopedKey)
-      if (existing !== null && existing !== entry.raw) throw new Error(scopedKey)
-      if (existing === null) storage.setItem(scopedKey, entry.raw)
-      copiedKeys += 1
-    }
-
-    const storedBackup = storage.getItem(backupKey)
-    if (storedBackup === null || !isMatchingBackup(storedBackup, discovery.entries, targetProfileId)) {
-      throw new Error(backupKey)
-    }
-    for (const entry of discovery.entries) {
-      const scopedKey = createProfileScopedStorageKey(targetProfileId, entry.key)
-      const copied = storage.getItem(scopedKey)
-      const source = storage.getItem(entry.key)
-      if (source !== entry.raw || hashProfileStorageBytes(source) !== entry.hash) {
-        throw new Error(entry.key)
+    if (discovery.entries.length > 0) {
+      const existingBackup = storage.getItem(backupKey)
+      if (existingBackup === null) {
+        storage.setItem(backupKey, JSON.stringify(backupFor(discovery.entries, targetProfileId, createdAt)))
+      } else if (!isMatchingBackup(existingBackup, discovery.entries, targetProfileId)) {
+        throw new Error(backupKey)
       }
-      if (copied !== entry.raw || hashProfileStorageBytes(copied) !== entry.hash) {
-        throw new Error(scopedKey)
+
+      for (const entry of discovery.entries) {
+        const scopedKey = createProfileScopedStorageKey(targetProfileId, entry.key)
+        const existing = storage.getItem(scopedKey)
+        if (existing !== null && existing !== entry.raw) throw new Error(scopedKey)
+        if (existing === null) storage.setItem(scopedKey, entry.raw)
+        copiedKeys += 1
       }
-      if (projectLegacyValue(entry.key, copied) !== entry.projection) throw new Error(scopedKey)
+
+      const storedBackup = storage.getItem(backupKey)
+      if (storedBackup === null || !isMatchingBackup(storedBackup, discovery.entries, targetProfileId)) {
+        throw new Error(backupKey)
+      }
+      for (const entry of discovery.entries) {
+        const scopedKey = createProfileScopedStorageKey(targetProfileId, entry.key)
+        const copied = storage.getItem(scopedKey)
+        const source = storage.getItem(entry.key)
+        if (source !== entry.raw || hashProfileStorageBytes(source) !== entry.hash) {
+          throw new Error(entry.key)
+        }
+        if (copied !== entry.raw || hashProfileStorageBytes(copied) !== entry.hash) {
+          throw new Error(scopedKey)
+        }
+        if (projectLegacyValue(entry.key, copied) !== entry.projection) throw new Error(scopedKey)
+      }
     }
   } catch (error) {
     const failedKey = error instanceof Error && error.message ? error.message : 'storage-write'
@@ -559,12 +556,18 @@ export function migrateLegacyLearnerStorage(
     return { status: 'failed', registry: failed, copiedKeys, failedKeys: [failedKey] }
   }
 
-  const verified = finishRegistry(registry, 'verified')
+  const finalStatus = discovery.invalidKeys.length > 0 ? 'failed' as const : 'verified' as const
+  const settled = finishRegistry(registry, finalStatus)
   try {
-    writeLocalProfileRegistry(storage, verified)
+    writeLocalProfileRegistry(storage, settled)
   } catch {
     const failed = finishRegistry(registry, 'failed')
     return { status: 'failed', registry: failed, copiedKeys, failedKeys: [LOCAL_PROFILE_REGISTRY_KEY] }
   }
-  return { status: 'verified', registry: verified, copiedKeys, failedKeys: [] }
+  return {
+    status: finalStatus,
+    registry: settled,
+    copiedKeys,
+    failedKeys: [...discovery.invalidKeys],
+  }
 }

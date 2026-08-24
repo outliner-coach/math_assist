@@ -12,6 +12,7 @@ import {
   type AdventureMastery,
 } from './adventure-progression'
 import { normalizeMissionSketchRunOrdinal } from './mission-sketch-identity'
+import { getLearnerStorage } from './profile-bootstrap'
 
 export const GRADE1_PROGRESS_KEY = 'mathAssist_grade1Progress'
 export const GRADE1_PROGRESS_SCHEMA_VERSION = 3
@@ -71,12 +72,7 @@ export function createInitialGrade1Progress(now = Date.now()): Grade1Progress {
 }
 
 function getBrowserStorage(): StorageLike | null {
-  if (typeof window === 'undefined') return null
-  try {
-    return window.localStorage
-  } catch {
-    return null
-  }
+  return getLearnerStorage()
 }
 
 function isSameLocalDay(a: number | null, b: number): boolean {

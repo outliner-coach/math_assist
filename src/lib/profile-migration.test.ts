@@ -248,7 +248,7 @@ describe('legacy learner storage migration', () => {
     expect(storage.getItem(createProfileScopedStorageKey(target!, 'mathAssist_grade2Progress'))).toBe(grade2ProgressRaw())
   })
 
-  it('fails closed for corrupt or unknown learner values without shrinking another grade', () => {
+  it('isolates corrupt or unknown learner values without shrinking another grade', () => {
     const validGrade = grade1ProgressRaw()
     const corrupt = memoryStorage({
       mathAssist_grade1Progress: validGrade,
@@ -256,17 +256,30 @@ describe('legacy learner storage migration', () => {
     })
     const corruptResult = migrateLegacyLearnerStorage(corrupt, deps)
     expect(corruptResult.status).toBe('failed')
+    expect(corruptResult.failedKeys).toEqual(['mathAssist_grade2Progress'])
+    expect(corruptResult.copiedKeys).toBe(1)
     expect(corrupt.getItem('mathAssist_grade1Progress')).toBe(validGrade)
     expect(corrupt.getItem('mathAssist_grade2Progress')).toBe('{bad json')
-    expect(corrupt.getItem(createProfileScopedStorageKey(corruptResult.registry.activeProfileId, 'mathAssist_grade1Progress'))).toBeNull()
+    const corruptProfileId = corruptResult.registry.activeProfileId
+    expect(corrupt.getItem(createProfileScopedStorageKey(corruptProfileId, 'mathAssist_grade1Progress'))).toBe(validGrade)
+    expect(corrupt.getItem(createProfileScopedStorageKey(corruptProfileId, 'mathAssist_grade2Progress'))).toBeNull()
+
+    const rerun = migrateLegacyLearnerStorage(corrupt, deps)
+    expect(rerun.status).toBe('failed')
+    expect(rerun.failedKeys).toEqual(['mathAssist_grade2Progress'])
+    expect(rerun.copiedKeys).toBe(1)
+    expect(rerun.registry.profiles).toHaveLength(1)
+    expect(rerun.registry.migration.targetProfileId).toBe(corruptProfileId)
+    expect(corrupt.getItem(createProfileScopedStorageKey(corruptProfileId, 'mathAssist_grade1Progress'))).toBe(validGrade)
 
     const unknown = memoryStorage({ mathAssist_unknownLearnerState: '{"value":1}' })
     const unknownResult = migrateLegacyLearnerStorage(unknown, deps)
     expect(unknownResult.status).toBe('failed')
+    expect(unknownResult.copiedKeys).toBe(0)
     expect(unknown.getItem('mathAssist_unknownLearnerState')).toBe('{"value":1}')
   })
 
-  it('rejects an unknown progress schema before copying another valid grade', () => {
+  it('copies a valid sibling when an unknown progress schema blocks only its own key', () => {
     const validGrade = grade2ProgressRaw()
     const storage = memoryStorage({
       mathAssist_grade1Progress: '{"schemaVersion":999}',
@@ -274,14 +287,18 @@ describe('legacy learner storage migration', () => {
     })
 
     const result = migrateLegacyLearnerStorage(storage, deps)
+    const profileId = result.registry.activeProfileId
 
     expect(result.status).toBe('failed')
     expect(result.failedKeys).toContain('mathAssist_grade1Progress')
+    expect(result.copiedKeys).toBe(1)
+    expect(storage.getItem('mathAssist_grade1Progress')).toBe('{"schemaVersion":999}')
     expect(storage.getItem('mathAssist_grade2Progress')).toBe(validGrade)
-    expect(storage.getItem(createProfileScopedStorageKey(result.registry.activeProfileId, 'mathAssist_grade2Progress'))).toBeNull()
+    expect(storage.getItem(createProfileScopedStorageKey(profileId, 'mathAssist_grade1Progress'))).toBeNull()
+    expect(storage.getItem(createProfileScopedStorageKey(profileId, 'mathAssist_grade2Progress'))).toBe(validGrade)
   })
 
-  it('rejects a wrong-type known value before copying another valid grade', () => {
+  it('copies a valid sibling when a wrong-type known value blocks only its own key', () => {
     const validGrade = grade1ProgressRaw()
     const storage = memoryStorage({
       mathAssist_grade1Progress: validGrade,
@@ -289,11 +306,15 @@ describe('legacy learner storage migration', () => {
     })
 
     const result = migrateLegacyLearnerStorage(storage, deps)
+    const profileId = result.registry.activeProfileId
 
     expect(result.status).toBe('failed')
     expect(result.failedKeys).toContain('mathAssist_guestHome_v1')
+    expect(result.copiedKeys).toBe(1)
+    expect(storage.getItem('mathAssist_guestHome_v1')).toBe('{"activeGrade":"2"}')
     expect(storage.getItem('mathAssist_grade1Progress')).toBe(validGrade)
-    expect(storage.getItem(createProfileScopedStorageKey(result.registry.activeProfileId, 'mathAssist_grade1Progress'))).toBeNull()
+    expect(storage.getItem(createProfileScopedStorageKey(profileId, 'mathAssist_guestHome_v1'))).toBeNull()
+    expect(storage.getItem(createProfileScopedStorageKey(profileId, 'mathAssist_grade1Progress'))).toBe(validGrade)
   })
 
   it('does not overwrite a conflicting scoped value and rejects a corrupt registry', () => {

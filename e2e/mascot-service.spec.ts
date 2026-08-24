@@ -7,6 +7,7 @@ const MASCOT_KEY = 'mathAssist_mascot_v1'
 test.beforeEach(async ({ page }) => {
   await page.goto(`${BASE_PATH}/`)
   await page.evaluate(() => localStorage.clear())
+  await page.reload()
 })
 test('수리·모아·루미를 소개하고 선택한 친구를 전 학년 경험 프리셋에 연결한다', async ({ page }) => {
   await expect(page.getByTestId('landing-mascot-lineup')).toBeVisible()

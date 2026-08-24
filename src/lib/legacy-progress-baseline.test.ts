@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import { createLegacyProgressBaselines } from './legacy-progress-baseline'
+import { LOCAL_PROFILE_REGISTRY_KEY, createInitialLocalProfileRegistry } from './local-profile'
 
 function readonlyStorage(initial: Record<string, string>) {
   const values = new Map(Object.entries(initial))
@@ -142,5 +143,41 @@ describe('legacy progress baselines', () => {
       recentActivityAt: 600,
     })])
     expect(JSON.stringify(result)).not.toContain('secret-draft-answer')
+  })
+})
+
+describe('legacy progress baselines learner bootstrap routing', () => {
+  const BOOTSTRAP_PROFILE_A = 'local_00000000-0000-4000-8000-000000000001'
+
+  it('reads the default storage source through the learner bootstrap adapter while keeping the injected signature', () => {
+    const values = new Map<string, string>()
+    const base = {
+      get length() { return values.size },
+      key: (index: number) => Array.from(values.keys())[index] ?? null,
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => { values.set(key, value) },
+      removeItem: (key: string) => { values.delete(key) },
+    }
+    values.set(LOCAL_PROFILE_REGISTRY_KEY, JSON.stringify(createInitialLocalProfileRegistry({
+      now: () => 1,
+      randomUUID: () => '00000000-0000-4000-8000-000000000001',
+      migrationStatus: 'not-needed',
+    })))
+    values.set(`mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:mathAssist_grade2Progress`, JSON.stringify({
+      schemaVersion: 2,
+      completedMissionIds: ['g2-a'],
+      reviewMissionIds: ['g2-a'],
+      latestMissionId: 'g2-a',
+      selectedUnitId: 'g2-unit',
+      lastPlayedAt: 123,
+    }))
+    vi.stubGlobal('window', { localStorage: base })
+
+    const result = createLegacyProgressBaselines(undefined as never, 500)
+    expect(result.corruptedGrades).toEqual([])
+    expect(result.baselines).toHaveLength(1)
+    expect(result.baselines[0]).toMatchObject({ grade: 2, completedIds: ['g2-a'], sourceKey: 'mathAssist_grade2Progress' })
+
+    vi.unstubAllGlobals()
   })
 })

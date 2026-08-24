@@ -26,6 +26,7 @@ test('홈은 기본을 마친 2학년 학습자에게 잠금 없는 연습 선�
         latestMissionId: ids.at(-1),
         selectedUnitId,
         todaySolvedCount: ids.length,
+        skillSummaryByTag: {},
         lastPlayedAt: Date.now(),
       }))
     }, { ids: basicIds, selectedUnitId: unitId })

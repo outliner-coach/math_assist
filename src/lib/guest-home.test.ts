@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import {
   GUEST_HOME_PREFERENCES_KEY,
@@ -8,6 +8,7 @@ import {
 } from './guest-home'
 import { createLocalProgressRepository } from './local-progress-repository'
 import { getGrade2MissionSet } from './grade2-problems'
+import { LOCAL_PROFILE_REGISTRY_KEY, createInitialLocalProfileRegistry } from './local-profile'
 
 function memoryStorage(initial: Record<string, string> = {}): GuestHomeStorage & { data: Record<string, string> } {
   return {
@@ -305,5 +306,53 @@ describe('guest home state', () => {
     expect(saveActiveGrade(3, storage)).toBe(true)
     expect(JSON.parse(storage.data[GUEST_HOME_PREFERENCES_KEY])).toEqual({ activeGrade: 3 })
     expect(storage.data.mathAssist_grade3Progress).toBe('{"keep":true}')
+  })
+})
+
+describe('guest home learner bootstrap routing', () => {
+  const BOOTSTRAP_PROFILE_A = 'local_00000000-0000-4000-8000-000000000001'
+
+  function bootstrapBaseStorage(): { data: Map<string, string> } {
+    const data = new Map<string, string>()
+    const base = {
+      get length() { return data.size },
+      key: (index: number) => Array.from(data.keys())[index] ?? null,
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => { data.set(key, value) },
+      removeItem: (key: string) => { data.delete(key) },
+      data,
+    }
+    data.set(LOCAL_PROFILE_REGISTRY_KEY, JSON.stringify(createInitialLocalProfileRegistry({
+      now: () => 1,
+      randomUUID: () => '00000000-0000-4000-8000-000000000001',
+      migrationStatus: 'not-needed',
+    })))
+    vi.stubGlobal('window', { localStorage: base })
+    return base
+  }
+
+  it('reads profile-scoped progress and saves the preference under the scoped key by default', () => {
+    const base = bootstrapBaseStorage()
+    const scopedPrefix = `mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:`
+    base.data.set(`${scopedPrefix}mathAssist_grade1Progress`, JSON.stringify({
+      schemaVersion: 1,
+      completedStageIds: ['count-cove-01'],
+      reviewStageIds: [],
+      latestStageId: 'count-cove-01',
+      todaySolvedCount: 1,
+      skillSummaryByTag: {},
+      lastPlayedAt: 200,
+    }))
+    base.data.set(`${scopedPrefix}mathAssist_mascot_v1`, JSON.stringify({ avatarId: 'suri' }))
+
+    const state = loadGuestHomeState(undefined, 1_000)
+    expect(state.summaries[1].hasProgress).toBe(true)
+    expect(state.activeGrade).toBe(1)
+
+    expect(saveActiveGrade(2)).toBe(true)
+    expect(base.data.get(`${scopedPrefix}${GUEST_HOME_PREFERENCES_KEY}`))
+      .toBe(JSON.stringify({ activeGrade: 2 }))
+    expect(base.data.has(GUEST_HOME_PREFERENCES_KEY)).toBe(false)
+    vi.unstubAllGlobals()
   })
 })

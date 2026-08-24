@@ -6,6 +6,7 @@ import {
   type LearningSetCompletionRecord,
   type LearningSetMode,
 } from './learning-activity'
+import { getLearnerStorage } from './profile-bootstrap'
 
 export const GRADE4_PROGRESS_KEY = 'mathAssist_grade4Progress'
 export const GRADE4_PROGRESS_SCHEMA_VERSION = 1
@@ -62,12 +63,7 @@ export interface Grade4ActivityCompletionInput {
 const corruptProgressStorages = new WeakSet<object>()
 
 function browserStorage(): Grade4ProgressStorage | null {
-  if (typeof window === 'undefined') return null
-  try {
-    return window.localStorage
-  } catch {
-    return null
-  }
+  return getLearnerStorage()
 }
 
 function uniqueStrings(value: unknown): string[] {

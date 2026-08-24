@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { activeLearnerStorageKey, readLearnerStorageItem } from './profile-aware-storage'
+import { activeLearnerStorageKey, readLearnerStorageItem, writeLearnerStorageItem } from './profile-aware-storage'
 
 const BASE_PATH = '/math_assist'
 const PROGRESS_KEY = 'mathAssist_grade4Progress'
@@ -618,13 +618,17 @@ test('4학년 진행은 reload와 홈 hydration 뒤 같은 문제로 이어진�
 })
 
 test('손상된 4학년 기록은 원문을 보존하고 저장 경고와 함께 현재 문제만 계속 푼다', async ({ page }) => {
-  await page.addInitScript(({ progressKey }) => {
-    localStorage.clear()
-    localStorage.setItem('mathAssist_guestHome_v1', JSON.stringify({ activeGrade: 4 }))
-    localStorage.setItem(progressKey, '{broken')
-    localStorage.setItem('mathAssist_grade1Progress', '{"completedStageIds":["g1-safe"]}')
-    localStorage.setItem('mathAssist_progress_v1', '{"g5-safe":{"conceptId":"g5-safe","lastCompletedAt":400,"needsReview":false}}')
-  }, { progressKey: PROGRESS_KEY })
+  await page.goto(`${BASE_PATH}/`)
+  const rawSeeds: Array<[string, string]> = [
+    ['mathAssist_guestHome_v1', JSON.stringify({ activeGrade: 4 })],
+    [PROGRESS_KEY, '{broken'],
+    ['mathAssist_grade1Progress', '{"completedStageIds":["g1-safe"]}'],
+    ['mathAssist_progress_v1', '{"g5-safe":{"conceptId":"g5-safe","lastCompletedAt":400,"needsReview":false}}'],
+  ]
+  await page.evaluate((seeds) => {
+    for (const [key, value] of seeds) localStorage.setItem(key, value)
+  }, rawSeeds)
+  await writeLearnerStorageItem(page, PROGRESS_KEY, '{broken')
 
   await page.goto(`${BASE_PATH}/grade/4/mission?unitId=unit-4-1-large-numbers`)
   await page.getByTestId('grade4-integer-input').fill('1')

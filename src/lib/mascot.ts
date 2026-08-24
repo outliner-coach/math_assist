@@ -1,6 +1,9 @@
+import { getLearnerStorage } from './profile-bootstrap'
+
 export const MASCOT_PREFERENCE_KEY = 'mathAssist_mascot_v1'
 export const MASCOT_REACTION_EVENT = 'math-assist:mascot-reaction'
 export const MASCOT_SELECTION_EVENT = 'math-assist:mascot-selection'
+
 
 export const MASCOT_IDS = ['suri', 'moa', 'lumi'] as const
 export type MascotId = (typeof MASCOT_IDS)[number]
@@ -62,12 +65,7 @@ interface MascotStorage {
 }
 
 function browserStorage(): MascotStorage | null {
-  if (typeof window === 'undefined') return null
-  try {
-    return window.localStorage
-  } catch {
-    return null
-  }
+  return getLearnerStorage()
 }
 
 export function isMascotId(value: unknown): value is MascotId {

@@ -22,6 +22,9 @@ export const LEARNER_OWNED_STORAGE_KEYS = new Set([
   'mathAssist_attemptReceipts_v1',
   'mathAssist_mascot_v1',
   'mathAssist_profileSessionLease_v1',
+  'mathAssist_grade2ProgressRecoveryEvidence_v1',
+  'mathAssist_grade5ApplicationProblemRecoveryEvidence_v1',
+  'mathAssist_grade6ApplicationProblemRecoveryEvidence_v1',
 ])
 
 export const LEARNER_OWNED_STORAGE_PREFIXES = [

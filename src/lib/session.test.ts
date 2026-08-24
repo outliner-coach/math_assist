@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   buildSessionResult,
   createRetrySessionFromResult,
+  GRADE5_APPLICATION_RECOVERY_EVIDENCE_KEY,
   GRADE5_RESULT_KEY,
   GRADE5_SESSION_KEY,
   GRADE6_RESULT_KEY,
@@ -12,16 +13,46 @@ import {
   loadSession,
   markAnswerChecked,
   matchesSessionRequest,
-  resetGrade6ResultStorage,
-  resetGrade6SessionStorage,
-  resetGrade5ResultStorage,
-  resetGrade5SessionStorage,
+  persistApplicationProblemRecoveryEvidence,
   resolvePracticeItemCount,
   saveResult,
   saveSession,
   updateAnswer
 } from './session'
-import type { PracticeSession, Problem, SessionResult, SubmissionResult } from './types'
+import { LOCAL_PROFILE_REGISTRY_KEY, createInitialLocalProfileRegistry } from './local-profile'
+import type {
+  ApplicationProblemReplacementEvidence,
+  PracticeSession,
+  Problem,
+  SessionResult,
+  SubmissionResult,
+} from './types'
+
+const BOOTSTRAP_UUID_A = '00000000-0000-4000-8000-000000000001'
+const BOOTSTRAP_PROFILE_A = `local_${BOOTSTRAP_UUID_A}`
+
+function activeProfileIdOf(data: Map<string, string>): string {
+  return (JSON.parse(data.get(LOCAL_PROFILE_REGISTRY_KEY) ?? '{}') as { activeProfileId?: string }).activeProfileId ?? ''
+}
+
+function bootstrapBaseStorage(initial: Array<[string, string]> = []): Map<string, string> {
+  const data = new Map<string, string>(initial)
+  const storage = {
+    get length() { return data.size },
+    key: (index: number) => Array.from(data.keys())[index] ?? null,
+    getItem: (key: string) => data.get(key) ?? null,
+    setItem: (key: string, value: string) => { data.set(key, value) },
+    removeItem: (key: string) => { data.delete(key) },
+  }
+  data.set(LOCAL_PROFILE_REGISTRY_KEY, JSON.stringify(createInitialLocalProfileRegistry({
+    now: () => 1,
+    randomUUID: () => BOOTSTRAP_UUID_A,
+    migrationStatus: 'not-needed',
+  })))
+  vi.stubGlobal('window', {})
+  vi.stubGlobal('localStorage', storage)
+  return data
+}
 
 function makeProblem(index: number): Problem {
   return {
@@ -157,9 +188,11 @@ describe('session helpers', () => {
   it('keeps legacy Grade 5 sessions on the original key and isolates Grade 6', () => {
     const data = new Map<string, string>()
     const storage = {
+      get length() { return data.size },
+      key: (index: number) => Array.from(data.keys())[index] ?? null,
       getItem: (key: string) => data.get(key) ?? null,
-      setItem: (key: string, value: string) => data.set(key, value),
-      removeItem: (key: string) => data.delete(key),
+      setItem: (key: string, value: string) => { data.set(key, value) },
+      removeItem: (key: string) => { data.delete(key) },
     }
     vi.stubGlobal('window', {})
     vi.stubGlobal('localStorage', storage)
@@ -192,16 +225,19 @@ describe('session helpers', () => {
       checkedAnswers: Array(5).fill(null),
     })
     expect(data.get(GRADE5_SESSION_KEY)).toContain('legacy-5')
-    expect(data.get(GRADE6_SESSION_KEY)).toContain('grade-6')
+    expect(data.get(`mathAssist_profile_v1:${activeProfileIdOf(data)}:${GRADE6_SESSION_KEY}`))
+      .toContain('grade-6')
     expect(loadSession(6)).toMatchObject({ sessionId: 'grade-6', grade: 6, itemCount: 5 })
   })
 
   it('keeps saving a legacy Grade 5 session after normalized item count is added', () => {
     const data = new Map<string, string>()
     const storage = {
+      get length() { return data.size },
+      key: (index: number) => Array.from(data.keys())[index] ?? null,
       getItem: (key: string) => data.get(key) ?? null,
-      setItem: (key: string, value: string) => data.set(key, value),
-      removeItem: (key: string) => data.delete(key),
+      setItem: (key: string, value: string) => { data.set(key, value) },
+      removeItem: (key: string) => { data.delete(key) },
     }
     vi.stubGlobal('window', {})
     vi.stubGlobal('localStorage', storage)
@@ -226,11 +262,12 @@ describe('session helpers', () => {
     const checkedAnswers = [true, ...Array(9).fill(null)]
     expect(saveSession({ ...loaded, answers })).toBe(true)
     expect(saveSession({ ...loaded, answers, checkedAnswers })).toBe(true)
-    expect(JSON.parse(data.get(GRADE5_SESSION_KEY) ?? '{}')).toMatchObject({
-      itemCount: 10,
-      answers,
-      checkedAnswers,
-    })
+    expect(JSON.parse(data.get(`mathAssist_profile_v1:${activeProfileIdOf(data)}:${GRADE5_SESSION_KEY}`) ?? '{}'))
+      .toMatchObject({
+        itemCount: 10,
+        answers,
+        checkedAnswers,
+      })
   })
 
   it('preserves Grade 6 grade and requested count through retry and results', () => {
@@ -322,14 +359,13 @@ describe('session helpers', () => {
   })
 
   it('preserves corrupt Grade 6 session and result bytes until an explicit reset', () => {
-    const data = new Map<string, string>([
-      [GRADE6_SESSION_KEY, '{corrupt-session'],
-      [GRADE6_RESULT_KEY, JSON.stringify({ grade: 6, itemCount: 7, keep: true })],
-    ])
+    const data = new Map<string, string>()
     const storage = {
+      get length() { return data.size },
+      key: (index: number) => Array.from(data.keys())[index] ?? null,
       getItem: (key: string) => data.get(key) ?? null,
-      setItem: (key: string, value: string) => data.set(key, value),
-      removeItem: (key: string) => data.delete(key),
+      setItem: (key: string, value: string) => { data.set(key, value) },
+      removeItem: (key: string) => { data.delete(key) },
     }
     vi.stubGlobal('window', {})
     vi.stubGlobal('localStorage', storage)
@@ -347,7 +383,18 @@ describe('session helpers', () => {
       startedAt: 100,
       expiresAt: Date.now() + 10_000,
     }
-    const grade6Result = makeResult({ grade: 6, itemCount: 5, conceptId: 'g6ratio-001' })
+    const grade6Result = buildSessionResult(
+      grade6Session,
+      grade6Session.problems.map((problem, index) => makeSubmissionResult(problem, index === 0)),
+      900,
+    )
+
+    expect(loadSession(6)).toBeNull()
+    const profileId = activeProfileIdOf(data)
+    const scopedSessionKey = `mathAssist_profile_v1:${profileId}:${GRADE6_SESSION_KEY}`
+    const scopedResultKey = `mathAssist_profile_v1:${profileId}:${GRADE6_RESULT_KEY}`
+    data.set(scopedSessionKey, '{corrupt-session')
+    data.set(scopedResultKey, JSON.stringify({ grade: 6, itemCount: 7, keep: true }))
 
     expect(loadSession(6)).toBeNull()
     expect(loadResult(6)).toBeNull()
@@ -355,30 +402,27 @@ describe('session helpers', () => {
     expect(getResultStorageStatus(6)).toBe('corrupt')
     expect(saveSession(grade6Session)).toBe(false)
     expect(saveResult(grade6Result)).toBe(false)
-    expect(data.get(GRADE6_SESSION_KEY)).toBe('{corrupt-session')
-    expect(data.get(GRADE6_RESULT_KEY)).toBe(JSON.stringify({ grade: 6, itemCount: 7, keep: true }))
+    expect(data.get(scopedSessionKey)).toBe('{corrupt-session')
+    expect(data.get(scopedResultKey)).toBe(JSON.stringify({ grade: 6, itemCount: 7, keep: true }))
 
-    resetGrade6SessionStorage()
-    resetGrade6ResultStorage()
-    expect(getSessionStorageStatus(6)).toBe('missing')
-    expect(getResultStorageStatus(6)).toBe('missing')
+    data.set(scopedSessionKey, JSON.stringify(grade6Session))
+    data.set(scopedResultKey, JSON.stringify(grade6Result))
     expect(saveSession(grade6Session)).toBe(true)
     expect(saveResult(grade6Result)).toBe(true)
     expect(getSessionStorageStatus(6)).toBe('valid')
     expect(getResultStorageStatus(6)).toBe('valid')
   })
 
-  it('preserves corrupt legacy Grade 5 bytes while still expiring valid sessions', () => {
+  it('preserves corrupt Grade 5 bytes until repaired while still expiring valid sessions', () => {
     const corruptSession = '{corrupt-grade5-session'
     const corruptResult = '{corrupt-grade5-result'
-    const data = new Map<string, string>([
-      [GRADE5_SESSION_KEY, corruptSession],
-      [GRADE5_RESULT_KEY, corruptResult],
-    ])
+    const data = new Map<string, string>()
     const storage = {
+      get length() { return data.size },
+      key: (index: number) => Array.from(data.keys())[index] ?? null,
       getItem: (key: string) => data.get(key) ?? null,
-      setItem: (key: string, value: string) => data.set(key, value),
-      removeItem: (key: string) => data.delete(key),
+      setItem: (key: string, value: string) => { data.set(key, value) },
+      removeItem: (key: string) => { data.delete(key) },
     }
     vi.stubGlobal('window', {})
     vi.stubGlobal('localStorage', storage)
@@ -396,18 +440,29 @@ describe('session helpers', () => {
     }
 
     expect(loadSession(5)).toBeNull()
+    const profileId = activeProfileIdOf(data)
+    const scopedSessionKey = `mathAssist_profile_v1:${profileId}:${GRADE5_SESSION_KEY}`
+    const scopedResultKey = `mathAssist_profile_v1:${profileId}:${GRADE5_RESULT_KEY}`
+    data.set(scopedSessionKey, corruptSession)
+    data.set(scopedResultKey, corruptResult)
+
+    expect(loadSession(5)).toBeNull()
     expect(loadResult(5)).toBeNull()
     expect(saveSession(grade5Session)).toBe(false)
     expect(saveResult(makeResult())).toBe(false)
-    expect(data.get(GRADE5_SESSION_KEY)).toBe(corruptSession)
-    expect(data.get(GRADE5_RESULT_KEY)).toBe(corruptResult)
+    expect(data.get(scopedSessionKey)).toBe(corruptSession)
+    expect(data.get(scopedResultKey)).toBe(corruptResult)
 
-    resetGrade5SessionStorage()
-    resetGrade5ResultStorage()
+    data.set(scopedSessionKey, JSON.stringify(grade5Session))
+    data.set(scopedResultKey, JSON.stringify(buildSessionResult(
+      grade5Session,
+      grade5Session.problems.map((problem, index) => makeSubmissionResult(problem, index === 0)),
+      900,
+    )))
     const expired = { ...grade5Session, expiresAt: Date.now() - 1 }
     expect(saveSession(expired)).toBe(true)
     expect(loadSession(5)).toBeNull()
-    expect(data.has(GRADE5_SESSION_KEY)).toBe(false)
+    expect(data.has(scopedSessionKey)).toBe(false)
   })
 
   it('preserves schema-invalid Grade 5 item counts without changing Grade 6 storage', () => {
@@ -442,20 +497,133 @@ describe('session helpers', () => {
       [GRADE6_SESSION_KEY, grade6Raw],
     ])
     const storage = {
+      get length() { return data.size },
+      key: (index: number) => Array.from(data.keys())[index] ?? null,
       getItem: (key: string) => data.get(key) ?? null,
-      setItem: (key: string, value: string) => data.set(key, value),
-      removeItem: (key: string) => data.delete(key),
+      setItem: (key: string, value: string) => { data.set(key, value) },
+      removeItem: (key: string) => { data.delete(key) },
     }
     vi.stubGlobal('window', {})
     vi.stubGlobal('localStorage', storage)
 
-    expect(getSessionStorageStatus(5)).toBe('corrupt')
-    expect(getResultStorageStatus(5)).toBe('corrupt')
+    expect(getSessionStorageStatus(5)).toBe('missing')
+    expect(getResultStorageStatus(5)).toBe('missing')
     expect(loadSession(5)).toBeNull()
     expect(loadResult(5)).toBeNull()
     expect(saveSession({ ...invalidSession, itemCount: 5 } as PracticeSession)).toBe(false)
     expect(data.get(GRADE5_SESSION_KEY)).toBe(JSON.stringify(invalidSession))
     expect(data.get(GRADE5_RESULT_KEY)).toBe(JSON.stringify(invalidResult))
     expect(data.get(GRADE6_SESSION_KEY)).toBe(grade6Raw)
+
+    const repairedSession = {
+      ...invalidSession,
+      itemCount: 10,
+      problems: makeProblems(10),
+      answers: Array(10).fill(null),
+      checkedAnswers: Array(10).fill(null),
+    }
+    const validGrade6Session: PracticeSession = {
+      sessionId: 'grade6-safe',
+      conceptId: 'g6ratio-001',
+      setId: 'A',
+      mode: 'standard',
+      grade: 6,
+      itemCount: 5,
+      problems: makeProblems(5),
+      answers: Array(5).fill(null),
+      checkedAnswers: Array(5).fill(null),
+      currentIndex: 0,
+      startedAt: now,
+      expiresAt: now + 10_000,
+    }
+    data.set(GRADE5_SESSION_KEY, JSON.stringify(repairedSession))
+    data.set(GRADE5_RESULT_KEY, JSON.stringify(buildSessionResult(
+      repairedSession as PracticeSession,
+      repairedSession.problems.map((problem, index) => makeSubmissionResult(problem, index === 0)),
+      900,
+    )))
+    data.set(GRADE6_SESSION_KEY, JSON.stringify(validGrade6Session))
+    expect(getSessionStorageStatus(6)).toBe('valid')
+    expect(loadSession(6)).toMatchObject({ sessionId: 'grade6-safe', grade: 6 })
+    expect(data.get(GRADE6_SESSION_KEY)).toBe(JSON.stringify(validGrade6Session))
+  })
+})
+
+describe('session learner bootstrap routing', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  function makeApplicationReplacement(problemIndex: number): ApplicationProblemReplacementEvidence {
+    return {
+      problemIndex,
+      originalProblem: {
+        ...makeProblem(problemIndex),
+        applicationSource: {
+          schemaVersion: 'generated-application-problem-v1',
+          instanceId: `inst-orig-${problemIndex}`,
+          familyId: 'family-1',
+          packId: 'pack-g5-a',
+          packVersion: 1,
+          generatorVersion: 1,
+          seed: 11 + problemIndex,
+          variantIndex: problemIndex,
+          curriculumCodes: ['5.NA.1'],
+        },
+      },
+      originalInstanceId: `inst-orig-${problemIndex}`,
+      replacementInstanceId: `inst-repl-${problemIndex}`,
+    }
+  }
+
+  it('(a) lands session writes at the profile-scoped key and leaves the legacy raw key untouched', () => {
+    const data = bootstrapBaseStorage()
+    const session: PracticeSession = {
+      sessionId: 'scoped-session',
+      conceptId: 'divisor-001',
+      setId: 'A',
+      mode: 'standard',
+      problems: makeProblems(10),
+      answers: Array(10).fill(null),
+      checkedAnswers: Array(10).fill(null),
+      currentIndex: 0,
+      startedAt: Date.now(),
+      expiresAt: Date.now() + 10_000,
+    }
+
+    expect(saveSession(session)).toBe(true)
+
+    expect(data.get(`mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:${GRADE5_SESSION_KEY}`))
+      .toContain('scoped-session')
+    expect(data.has(GRADE5_SESSION_KEY)).toBe(false)
+  })
+
+  it('(g) appends application recovery evidence under the profile-scoped key while preserving prior entries', () => {
+    const data = bootstrapBaseStorage()
+    const evidenceSession = (sessionId: string): PracticeSession => ({
+      sessionId,
+      conceptId: 'divisor-001',
+      setId: 'A',
+      mode: 'standard',
+      problems: makeProblems(10),
+      answers: Array(10).fill(null),
+      checkedAnswers: Array(10).fill(null),
+      currentIndex: 0,
+      startedAt: Date.now(),
+      expiresAt: Date.now() + 10_000,
+      applicationProblemReplacementArchive: [makeApplicationReplacement(0)],
+    })
+
+    expect(persistApplicationProblemRecoveryEvidence(evidenceSession('session-ev-1'))).toBe(true)
+    expect(persistApplicationProblemRecoveryEvidence(evidenceSession('session-ev-2'))).toBe(true)
+    expect(persistApplicationProblemRecoveryEvidence(evidenceSession('session-ev-2'))).toBe(true)
+
+    const scopedKey = `mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:${GRADE5_APPLICATION_RECOVERY_EVIDENCE_KEY}`
+    const archive = JSON.parse(data.get(scopedKey) ?? '[]') as Array<{ evidenceId: string }>
+    expect(archive.map((entry) => entry.evidenceId)).toEqual([
+      'session-ev-1:1',
+      'session-ev-2:1',
+    ])
+    expect(data.has(GRADE5_APPLICATION_RECOVERY_EVIDENCE_KEY)).toBe(false)
   })
 })

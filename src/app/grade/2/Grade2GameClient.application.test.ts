@@ -10,13 +10,8 @@ import type { Grade2ApplicationMissionV1 } from '@/lib/application-problems/grad
 import { buildApprovedGrade2ApplicationMissions } from '@/lib/application-problems/grade2-runtime'
 import type { ApplicationProblemRegistryV1 } from '@/lib/application-problems/registry'
 import type { Grade2Mission } from '@/lib/grade2-problems'
-import {
-  GRADE2_PROGRESS_KEY,
-  GRADE2_PROGRESS_RECOVERY_EVIDENCE_KEY,
-  activateGrade2ApplicationMissionSnapshot,
-  createInitialGrade2Progress,
-  recordGrade2Attempt,
-} from '@/lib/grade2-progress'
+import { GRADE2_PROGRESS_KEY, GRADE2_PROGRESS_RECOVERY_EVIDENCE_KEY, activateGrade2ApplicationMissionSnapshot, createInitialGrade2Progress, recordGrade2Attempt } from '@/lib/grade2-progress'
+import { getActiveProfileId } from '@/lib/profile-bootstrap'
 
 vi.mock('next/link', () => ({
   default: ({ children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) =>
@@ -41,6 +36,10 @@ vi.mock('@/components', () => ({
 
 import Grade2GameClient from './Grade2GameClient'
 import Grade2UnitSelectionClient from './Grade2UnitSelectionClient'
+
+function scopedKey(legacyKey: string): string {
+  return `mathAssist_profile_v1:${getActiveProfileId()}:${legacyKey}`
+}
 
 function approvedRegistry(): ApplicationProblemRegistryV1 {
   const approveFamily = <T extends ApplicationProblemRegistryV1['releaseLedger'][number]>(
@@ -101,6 +100,8 @@ describe('Grade 2 application learning boundary', () => {
     vi.stubGlobal('React', React)
     storageData = new Map()
     const storage = {
+      get length() { return storageData.size },
+      key: (index: number) => Array.from(storageData.keys())[index] ?? null,
       getItem: (key: string) => storageData.get(key) ?? null,
       setItem: (key: string, value: string) => storageData.set(key, value),
       removeItem: (key: string) => storageData.delete(key),
@@ -147,7 +148,7 @@ describe('Grade 2 application learning boundary', () => {
       .toBe(mission.id)
     expect(container.querySelector('[data-testid="grade2-reward-measureTape"]')?.textContent)
       .toContain('1개')
-    expect(JSON.parse(storageData.get(GRADE2_PROGRESS_KEY) ?? 'null').latestMissionId)
+    expect(JSON.parse(storageData.get(scopedKey(GRADE2_PROGRESS_KEY)) ?? 'null').latestMissionId)
       .toBe(mission.id)
   })
 
@@ -165,6 +166,7 @@ describe('Grade 2 application learning boundary', () => {
 
     expect(container.querySelector('[data-testid="grade2-application-generation-error"]')).not.toBeNull()
     expect(storageData.has(GRADE2_PROGRESS_KEY)).toBe(false)
+    expect(storageData.has(scopedKey(GRADE2_PROGRESS_KEY))).toBe(false)
   })
 
   it('also catches generation exhaustion on the unit-selection route', async () => {
@@ -179,6 +181,7 @@ describe('Grade 2 application learning boundary', () => {
 
     expect(container.querySelector('[data-testid="grade2-application-generation-error"]')).not.toBeNull()
     expect(storageData.has(GRADE2_PROGRESS_KEY)).toBe(false)
+    expect(storageData.has(scopedKey(GRADE2_PROGRESS_KEY))).toBe(false)
   })
 
   it('archives an application mission when it is selected before the first answer', async () => {
@@ -203,7 +206,7 @@ describe('Grade 2 application learning boundary', () => {
       await Promise.resolve()
     })
 
-    const stored = JSON.parse(storageData.get(GRADE2_PROGRESS_KEY) ?? 'null')
+    const stored = JSON.parse(storageData.get(scopedKey(GRADE2_PROGRESS_KEY)) ?? 'null')
     const instanceId = stored.activeApplicationInstanceIdByMissionId[mission.id]
     expect(instanceId).toBeTruthy()
     expect(stored.applicationMissionSnapshotsByInstanceId[instanceId]).toMatchObject({
@@ -228,7 +231,7 @@ describe('Grade 2 application learning boundary', () => {
         [damagedInstanceId]: { ...damagedMission, correctAnswer: '999cm' },
       },
     })
-    storageData.set(GRADE2_PROGRESS_KEY, damagedRaw)
+    storageData.set(scopedKey(GRADE2_PROGRESS_KEY), damagedRaw)
 
     await act(async () => {
       root?.render(createElement(Grade2GameClient, {
@@ -252,14 +255,14 @@ describe('Grade 2 application learning boundary', () => {
       await Promise.resolve()
     })
 
-    const stored = JSON.parse(storageData.get(GRADE2_PROGRESS_KEY) ?? 'null')
+    const stored = JSON.parse(storageData.get(scopedKey(GRADE2_PROGRESS_KEY)) ?? 'null')
     expect(stored.applicationMissionSnapshotsByInstanceId[damagedInstanceId])
       .toBeUndefined()
     expect(stored.activeApplicationInstanceIdByMissionId[damagedMission.id])
       .toBe(replacementMission.applicationSource.instanceId)
     expect(stored.applicationMissionSnapshotsByInstanceId[replacementMission.applicationSource.instanceId])
       .toEqual(replacementMission)
-    expect(JSON.parse(storageData.get(GRADE2_PROGRESS_RECOVERY_EVIDENCE_KEY) ?? 'null'))
+    expect(JSON.parse(storageData.get(scopedKey(GRADE2_PROGRESS_RECOVERY_EVIDENCE_KEY)) ?? 'null'))
       .toEqual({ schemaVersion: 1, damagedProgressSources: [damagedRaw] })
   })
 
@@ -272,7 +275,7 @@ describe('Grade 2 application learning boundary', () => {
       { now: 200 },
     )
     const instanceId = mission.applicationSource.instanceId
-    storageData.set(GRADE2_PROGRESS_KEY, JSON.stringify({
+    storageData.set(scopedKey(GRADE2_PROGRESS_KEY), JSON.stringify({
       ...completed,
       applicationMissionSnapshotsByInstanceId: {
         ...completed.applicationMissionSnapshotsByInstanceId,
@@ -331,5 +334,6 @@ describe('Grade 2 application learning boundary', () => {
       .toBeNull()
     expect(container.textContent).not.toContain(mission.prompt)
     expect(storageData.get(GRADE2_PROGRESS_KEY)).toBe(raw)
+    expect(storageData.get(scopedKey(GRADE2_PROGRESS_KEY))).toBe(raw)
   })
 })

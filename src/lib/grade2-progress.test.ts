@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import { getGrade2MissionSet, getSafeGrade2Mission } from './grade2-problems'
+import { LOCAL_PROFILE_REGISTRY_KEY, createInitialLocalProfileRegistry } from './local-profile'
 import {
   GRADE2_PROGRESS_KEY,
   GRADE2_PROGRESS_SCHEMA_VERSION,
@@ -14,6 +15,27 @@ import {
   selectGrade2Unit,
   type StorageLike,
 } from './grade2-progress'
+
+const BOOTSTRAP_PROFILE_A = 'local_00000000-0000-4000-8000-000000000001'
+
+function bootstrapBaseStorage(): { data: Map<string, string> } {
+  const data = new Map<string, string>()
+  const base = {
+    get length() { return data.size },
+    key: (index: number) => Array.from(data.keys())[index] ?? null,
+    getItem: (key: string) => data.get(key) ?? null,
+    setItem: (key: string, value: string) => { data.set(key, value) },
+    removeItem: (key: string) => { data.delete(key) },
+    data,
+  }
+  data.set(LOCAL_PROFILE_REGISTRY_KEY, JSON.stringify(createInitialLocalProfileRegistry({
+    now: () => 1,
+    randomUUID: () => '00000000-0000-4000-8000-000000000001',
+    migrationStatus: 'not-needed',
+  })))
+  vi.stubGlobal('window', { localStorage: base })
+  return base
+}
 
 function createMemoryStorage(initial: Record<string, string> = {}): StorageLike & { data: Record<string, string> } {
   return {
@@ -201,5 +223,54 @@ describe('grade2 progress', () => {
 
     expect(loaded.progress.completedUnitIds).toContain(unitId)
     expect(isGrade2UnitComplete(loaded.progress, unitId)).toBe(true)
+  })
+})
+
+describe('grade2 progress learner bootstrap routing', () => {
+  it('routes the default storage source through the learner bootstrap adapter', () => {
+    const base = bootstrapBaseStorage()
+
+    const mission = getSafeGrade2Mission(42)
+    const next = recordGrade2Attempt(createInitialGrade2Progress(100), mission, true, { now: 200 })
+    expect(saveGrade2Progress(next)).toBe(true)
+
+    const scopedKey = `mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:${GRADE2_PROGRESS_KEY}`
+    expect(base.data.get(scopedKey)).toContain(mission.id)
+    expect(base.data.has(GRADE2_PROGRESS_KEY)).toBe(false)
+
+    const loaded = loadGrade2Progress(undefined, 300)
+    expect(loaded.storageAvailable).toBe(true)
+    expect(loaded.progress.completedMissionIds).toContain(mission.id)
+    vi.unstubAllGlobals()
+  })
+
+  it('keeps damaged-source tracking tied to the memoized learner adapter identity', () => {
+    const base = bootstrapBaseStorage()
+    base.data.set(
+      `mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:${GRADE2_PROGRESS_KEY}`,
+      JSON.stringify({
+        schemaVersion: GRADE2_PROGRESS_SCHEMA_VERSION,
+        completedMissionIds: [],
+        checkedMissionIds: [],
+        completedUnitIds: [],
+        reviewMissionIds: [],
+        latestMissionId: null,
+        selectedUnitId: null,
+        todaySolvedCount: 0,
+        skillSummaryByTag: {},
+        introDismissedAt: null,
+        lastPlayedAt: 100,
+        applicationMissionSnapshotsByInstanceId: { 'broken-instance': 'not-an-object' },
+        activeApplicationInstanceIdByMissionId: {},
+      }),
+    )
+
+    const loaded = loadGrade2Progress()
+    expect(loaded.recovered).toBe(true)
+    expect(saveGrade2Progress(createInitialGrade2Progress(100))).toBe(false)
+
+    resetGrade2Progress(undefined, 400)
+    expect(loadGrade2Progress().recovered).toBe(false)
+    vi.unstubAllGlobals()
   })
 })
