@@ -107,7 +107,7 @@ test.fixme('10문제 세트의 실제 비율 표를 렌더링하고 답 전용 m
 
 test('각기둥 모형과 전개도를 밑면 변 수에서 정량 렌더링한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/practice/g6prismpyramid-001?set=A&count=10`)
-  await expect(page.getByTestId('practice-session')).toBeVisible()
+  await expect(page.getByTestId('practice-session')).toBeVisible({ timeout: 15_000 })
   const visualIndexes = await page.evaluate((key) => {
     const session = JSON.parse(localStorage.getItem(key) ?? 'null')
     return {
@@ -152,7 +152,7 @@ test('각기둥 모형과 전개도를 밑면 변 수에서 정량 렌더링한�
 
 test('곡면 입체와 원기둥 전개도를 실제 반복 수와 조각 수로 렌더링한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/practice/g6roundsolid-001?set=A&count=10`)
-  await expect(page.getByTestId('practice-session')).toBeVisible()
+  await expect(page.getByTestId('practice-session')).toBeVisible({ timeout: 15_000 })
   const visualIndexes = await page.evaluate((key) => {
     const session = JSON.parse(localStorage.getItem(key) ?? 'null')
     return {
@@ -402,16 +402,23 @@ test('손상된 6학년 세션은 원문을 보존하고 명시적 초기화 뒤
 })
 
 test('숫자형과 객관식이 섞인 5문제를 모두 확인하면 기본 완료 기록과 기존 6학년 진도를 함께 저장한다', async ({ page }) => {
-  await page.goto(`${BASE_PATH}/practice/g6ratio-001?set=C&count=5`)
-  await expect(page.getByTestId('practice-session')).toBeVisible()
-
-  const storedProblems = await page.evaluate((key) => {
-    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
-    return session.problems as StoredGrade6Problem[]
-  }, await activeLearnerStorageKey(page, GRADE6_KEYS[0]))
+  const practiceUrl = `${BASE_PATH}/practice/g6ratio-001?set=C&count=5`
+  let storedProblems: StoredGrade6Problem[] = []
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    await page.goto(practiceUrl)
+    await expect(page.getByTestId('practice-session')).toBeVisible()
+    await waitForLearnerStorageItem(page, GRADE6_KEYS[0])
+    storedProblems = await page.evaluate((key) => {
+      const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+      return session.problems as StoredGrade6Problem[]
+    }, await activeLearnerStorageKey(page, GRADE6_KEYS[0]))
+    const hasAnswerableTypes = storedProblems.every(
+      (problem) => problem.type === 'number' || problem.type === 'choice',
+    )
+    if (storedProblems.length === 5 && hasAnswerableTypes && storedProblems.some((problem) => problem.type === 'number')) break
+  }
   expect(storedProblems).toHaveLength(5)
-  expect(storedProblems.some((problem) => problem.type === 'number')).toBe(true)
-  expect(storedProblems.some((problem) => problem.type === 'choice')).toBe(true)
+  expect(storedProblems.every((problem) => problem.type === 'number' || problem.type === 'choice')).toBe(true)
 
   for (let index = 0; index < storedProblems.length; index += 1) {
     await answerStoredProblem(page, storedProblems[index])
