@@ -1,0 +1,47 @@
+# Nightly full verification (T8). Runs the entire verify:full lane and keeps
+# the failure artifacts (Playwright report, static export) for triage.
+name: Nightly full verification
+
+on:
+  schedule:
+    # 19:30 UTC = 04:30 KST
+    - cron: '30 19 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nightly-verify-full
+  cancel-in-progress: true
+
+jobs:
+  verify-full:
+    name: verify:full
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Full verification
+        run: npm run verify:full
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+      - name: Upload static export on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-export-out
+          path: out/
+          retention-days: 7

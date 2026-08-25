@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * generate-release-metadata.mjs — ReleaseMetadataV1 생성기 (T5)
+ * generate-release-metadata.mjs — ReleaseMetadataV1 생성기 (T5, T8 core 추출)
  *
  * Emits public/release-metadata.json:
  *   { schemaVersion: 1, appRelease, contentRelease, storageSchema: 1, exportSchema: 1, offlineCacheSchema: 1 }
@@ -18,18 +18,19 @@
  *
  * contentRelease input set: every file under public/data/** (recursive).
  *
- * Digest algorithm (deterministic): walk the input set, sort by POSIX relative
- * path, and hash the canonical text "<relPath>\n sha256:<fileHash>\n" lines
- * with SHA-256. The release id is the lowercase 64-hex digest. No timestamps,
- * no absolute paths, no environment values. Byte-identical regeneration is a
- * release gate (tests/generate-release-metadata.test.ts).
+ * The digest algorithm itself lives in scripts/release-digest-core.mjs and is
+ * shared with the release evidence/rollback checkers so no consumer can drift
+ * from the generator. It is deterministic: walk the input set, sort by POSIX
+ * relative path, and hash the canonical text "<relPath>\n sha256:<fileHash>\n"
+ * lines with SHA-256. Byte-identical regeneration is a release gate
+ * (tests/generate-release-metadata.test.ts).
  *
  * Usage: node scripts/generate-release-metadata.mjs [--root <dir>] [--out <dir>]
  */
-import { createHash } from 'node:crypto'
-import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
+import { writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { ReleaseDigestError, computeReleaseMetadata } from './release-digest-core.mjs'
 
 function parseArgs(argv) {
   const args = { root: undefined, out: undefined }
@@ -59,62 +60,11 @@ const args = parseArgs(process.argv.slice(2))
 const root = path.resolve(args.root ?? defaultRoot)
 const outDir = path.resolve(args.out ?? path.join(root, 'public'))
 
-function sha256File(absolutePath) {
-  return createHash('sha256').update(readFileSync(absolutePath)).digest('hex')
-}
-
-function walkRelative(baseDir, relativeDir = '') {
-  const entries = readdirSync(path.join(baseDir, relativeDir), { withFileTypes: true })
-  const files = []
-  entries.forEach(entry => {
-    const relativePath = relativeDir ? `${relativeDir}/${entry.name}` : entry.name
-    if (entry.isDirectory()) {
-      files.push(...walkRelative(baseDir, relativePath))
-    } else if (entry.isFile()) {
-      files.push(relativePath)
-    }
-  })
-  return files
-}
-
-function digestOverFiles(relativeFiles) {
-  const canonical = relativeFiles
-    .slice()
-    .sort()
-    .map(relativePath => `${relativePath}\n sha256:${sha256File(path.join(root, relativePath))}\n`)
-    .join('')
-  return createHash('sha256').update(canonical, 'utf8').digest('hex')
-}
-
-const appReleaseFixedInputs = ['package.json', 'package-lock.json', 'next.config.js', 'public/sw.js', 'public/manifest.webmanifest']
-const appReleaseInputs = [
-  ...appReleaseFixedInputs,
-  ...walkRelative(path.join(root, 'src')).map(relative => `src/${relative}`),
-  ...walkRelative(path.join(root, 'public/icons')).map(relative => `public/icons/${relative}`),
-]
-
-appReleaseInputs.forEach(relativePath => {
-  try {
-    statSync(path.join(root, relativePath))
-  } catch {
-    fail(`RELEASE_METADATA_MISSING_INPUT:${relativePath}`)
-  }
-})
-
-let contentFiles
+let metadata
 try {
-  contentFiles = walkRelative(path.join(root, 'public/data')).map(relative => `public/data/${relative}`)
-} catch {
-  fail('RELEASE_METADATA_MISSING_INPUT:public/data')
-}
-
-const metadata = {
-  schemaVersion: 1,
-  appRelease: digestOverFiles(appReleaseInputs),
-  contentRelease: digestOverFiles(contentFiles),
-  storageSchema: 1,
-  exportSchema: 1,
-  offlineCacheSchema: 1,
+  metadata = computeReleaseMetadata(root)
+} catch (error) {
+  fail(error instanceof ReleaseDigestError ? error.code : `RELEASE_METADATA_FAILED:${error?.message ?? error}`)
 }
 
 writeFileSync(path.join(outDir, 'release-metadata.json'), `${JSON.stringify(metadata, null, 2)}\n`)

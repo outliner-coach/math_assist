@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/outliner-coach/math_assist/main/docs/tracking/accessibility-release-v1.schema.json",
+  "title": "Math Assist accessibility release evidence v1",
+  "description": "Manual two-device assistive-technology evidence required before a release candidate may deploy. The companion checker (scripts/check-release-evidence.mjs) additionally requires the fingerprint to equal the freshly recomputed product input digest and rejects placeholder notes; a missing evidence file always fails the release.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "releaseFingerprint", "checkedAt", "platforms"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "releaseFingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 of the product input set (appRelease) that was verified on the real devices."
+    },
+    "checkedAt": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Unix epoch milliseconds when the last device session finished."
+    },
+    "platforms": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "allOf": [
+        { "contains": { "const": { "id": "ipados-safari-voiceover" } } },
+        { "contains": { "const": { "id": "android-chrome-talkback" } } }
+      ],
+      "items": {
+        "$ref": "#/definitions/platform"
+      }
+    }
+  },
+  "definitions": {
+    "platform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "deviceModel", "osVersion", "browserVersion", "scenarios"],
+      "properties": {
+        "id": {
+          "enum": [
+            "ipados-safari-voiceover",
+            "android-chrome-talkback"
+          ]
+        },
+        "deviceModel": { "type": "string", "minLength": 1 },
+        "osVersion": { "type": "string", "minLength": 1 },
+        "browserVersion": { "type": "string", "minLength": 1 },
+        "scenarios": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/scenario" }
+        }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "pass", "note"],
+      "properties": {
+        "id": {
+          "enum": [
+            "home-profile",
+            "learning-check",
+            "hint-solution",
+            "scratchpad",
+            "profile-transfer",
+            "offline-learning",
+            "error-recovery"
+          ]
+        },
+        "pass": { "const": true },
+        "note": {
+          "type": "string",
+          "minLength": 1,
+          "not": { "pattern": "(^|[^a-zA-Z])(tbd|todo|tba|fixme|placeholder)([^a-zA-Z]|$)", "flags": "i" }
+        }
+      }
+    }
+  }
+}

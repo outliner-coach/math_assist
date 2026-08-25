@@ -58,7 +58,10 @@
     "validate:application-packs": "node scripts/validate-application-packs.js",
     "audit:applications": "node scripts/application-problem-quality-report.js",
     "audit:problems": "node scripts/problem-quality-report.js",
-    "promptfoo:problems": "mkdir -p public/reports out/promptfoo && promptfoo eval -c promptfooconfig.problem-quality.yaml --no-progress-bar -o public/reports/promptfoo-problem-quality.html -o out/promptfoo/problem-quality.json"
+    "promptfoo:problems": "mkdir -p public/reports out/promptfoo && promptfoo eval -c promptfooconfig.problem-quality.yaml --no-progress-bar -o public/reports/promptfoo-problem-quality.html -o out/promptfoo/problem-quality.json",
+    "verify:fast": "node scripts/run-verify.mjs fast",
+    "verify:full": "node scripts/run-verify.mjs full",
+    "verify:release": "node scripts/run-verify.mjs release"
   },
   "dependencies": {
     "@sentry/browser": "10.69.0",
@@ -85,6 +88,7 @@
   },
   "overrides": {
     "postcss": "8.5.25",
-    "sharp": "0.35.3"
+    "sharp": "0.35.3",
+    "nanoid": "3.3.18"
   }
 }

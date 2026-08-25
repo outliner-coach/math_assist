@@ -21,6 +21,25 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-08-25: T8 CI·manual release·monitor·rollback automation (production
+  foundation · device reliability) is the single final writer for package.json
+  verification script registration (`verify:fast`, `verify:full`,
+  `verify:release`), the layered orchestration in
+  `scripts/run-verify.mjs`, the release fingerprint/evidence checker pair
+  (`scripts/release-digest-core.mjs`, `scripts/check-release-evidence.mjs`,
+  `scripts/check-rollback-compat.mjs`,
+  `docs/tracking/accessibility-release-v1.schema.json`), the production static
+  E2E lane (`playwright.config.production.ts`,
+  `scripts/serve-static-out.mjs`), the public site monitor
+  (`scripts/public-site-monitor.mjs`), and the GitHub workflow set under
+  `.github/workflows/` (`ci.yml`, `nightly.yml`, `release.yml`, `monitor.yml`,
+  `codeql.yml`; the push-triggered `nextjs.yml` is removed) plus
+  `.github/dependabot.yml`. It extracts `scripts/release-digest-core.mjs` from
+  T5's generator while keeping byte-identical metadata output. Other
+  workstreams must not add their own deploy path, weaken verify phases, or
+  bypass the manual `github-pages` environment release; content or renderer
+  changes should re-run the relevant verify mode instead.
+
 - 2026-08-25: T7 global wiring (production foundation · device reliability)
   owns the layout bootstrap ordering in `src/app/layout.tsx` and
   `src/components/AppReliabilityShell.tsx` (profile bootstrap warm-up →
