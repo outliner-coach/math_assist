@@ -13,3 +13,4 @@
 | 0009 | 완성되지 않은 입력을 오답과 분리 | 5학년 적용 | `0009-invalid-input-is-not-wrong.md` |
 | 0010 | 아동 원격 기록 전 법정대리인 동의 확인 | 승인, 공개 배포 차단 | `0010-guardian-consent-before-child-remote-data.md` |
 | 0011 | 기본 완료와 연습 완료를 구분 | 적용 중 | `0011-practice-completion-is-distinct.md` |
+| 0012 | 프로필 스코프 저장 어댑터와 키별 격리 마이그레이션 | 적용 중(작업트리) | `0012-profile-scoped-storage.md` |

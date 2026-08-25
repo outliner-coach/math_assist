@@ -52,6 +52,13 @@ GitHub Actions ──빌드──> 정적 산출물(out) ──배포──> Git
 5. 신규 세션은 생성된 문제 전체를 스냅샷으로 저장한다. 복구는 저장 당시 `familyId@version`, 출처, 수학·시각 데이터를 검증하며 현재 제작기로 과거 문제를 다시 만들지 않는다.
 6. 서비스 런타임은 AI를 호출하지 않는다. 생성·검산·채점·출시 판정은 모두 저장소의 규칙과 정적 데이터로 끝난다.
 
+## 오프라인 셸
+
+- `AppReliabilityShell`은 프로덕션 빌드에서만 서비스 워커를 등록한다.
+- `public/sw.js`는 `math-assist-shell:<appRelease>`, `math-assist-visited:<appRelease>`, `math-assist-grade:<appRelease>:<contentRelease>:<grade>` 이름으로 캐시하고, 임시 캐시 검증 뒤 원자적으로 교체한다.
+- 페이지와 워커의 메시지는 요청 4종/응답 4종(`MATH_ASSIST_INSTALL_GRADE_PACK` 등)이며 모두 `schemaVersion: 1`이다.
+- `layout.tsx`의 CSP 메타는 `default-src 'self'`에 script·style `'unsafe-inline'` 허용 근거 주석을 둔다. frame-ancestors는 메타 태그로 강제할 수 없어 다른 수단이 필요하다는 점을 문서로 명시한다.
+
 ## 콘텐츠 재고와 교육과정 경계
 
 - 공개 원본은 1학년 98, 2학년 144, 3학년 120, 4학년 150,

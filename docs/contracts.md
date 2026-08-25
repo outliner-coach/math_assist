@@ -67,6 +67,8 @@ blueprint 일치를 유지한다. 구조 검증과 함께 교육과정·어린�
 | `mathAssist_attemptReceipts_v1` | 새 계약 적용 뒤 공개 대상 1·2·3·4·5·6학년에서 유효하게 확인한 문제의 불변 receipt 원장. 학년·활동·안정적인 문항 ID·재시도 순번·콘텐츠 버전·정오·힌트 사용 여부·확인 시각을 저장하며 원답 문자열과 풀이장 획은 저장하지 않음 | 손상 시 원장을 덮어쓰지 않고 추가를 중단하며 기존 학년별 진도·보상 기록을 계속 권위 있게 사용 |
 | `mathAssist_sketch_v1:<encoded learner/session/item>` | 공개 대상 1·2·3·4·5·6학년의 문제별 풀이장 명령과 undo 위치. 정규화 좌표의 펜·지우개 획과 전체 지우기만 저장하며 정답·답안은 저장하지 않음 | 손상된 문서는 해당 문제의 빈 풀이로 격리; 문제당 256 KiB 초과 시 기존 문서를 덮어쓰지 않고 저장 불가 안내 |
 | `mathAssist_sketch_index_v1:<encoded learner>` | 풀이장 최근 50개 보존과 안전한 정리에 필요한 문서 키·갱신 시각 색인 | 손상 시 빈 색인으로 읽으며 다른 진행·receipt 키를 변경하지 않음; 활성 세션 문서는 자동 삭제하지 않음 |
+| `mathAssist_profiles_v1` | 기기 전역 프로필 registry. `{schemaVersion: 1, activeProfileId, profiles[{profileId: local_<UUID>, nickname\|null, createdAt, updatedAt}], migration{schemaVersion, status: not-needed\|pending\|copying\|verified\|failed, targetProfileId, backupKey}}` | migration status가 `failed`면 손상된 원본 바이트를 보존한 채 해당 키만 건너뛰며 재시작은 멱등 |
+| `mathAssist_tabHolderId_v1`(sessionStorage) | 탭 임대의 holderId 영속화. 전체 페이지 내비게이션 사이에 쓰기 권한을 유지한다 | 임대를 상실한 탭의 쓰기는 조용히 거부되고 홈에 '다른 탭에서 프로필이 바뀌었어요' 오버레이를 제공 |
 
 저장 형식 소비자는 모르는 추가 필드를 무시할 수 있지만, 이미 알려진 완료·복습·선택 단원·최근 활동을 조용히 삭제하면 안 된다.
 공통 홈의 `LearningProgressProjection`은 원문을 쓰지 않고 활동별 `hasCompletedBasicSet`, `hasCompletedPracticeSet`, `isComplete`, `recommendedMode`를 계산한다. `isComplete`는 새 기록에서 연습 세트 완료를 뜻하며, 이전 형식의 완료 의미는 `legacyCompleted` 호환으로만 보존한다.
@@ -74,6 +76,22 @@ blueprint 일치를 유지한다. 구조 검증과 함께 교육과정·어린�
 Grade 6의 unit·concept·template 정적 산출물이 존재해도 공개 원장의 상태가 정확히 `released`가 아니면 `/grade/6`, Grade 6 unit/concept/practice/result/retry 모든 화면은 같은 준비 중 경계에서 끝난다.
 저학년의 명시적 `다시 풀기`는 같은 학년 progress repository에서 `missionSketchRunOrdinal`을 먼저 증가·저장한 뒤 새 풀이장 session ID를 만든다. 새로고침은 이 순번을 복구해야 하며, 순번은 채점·보상·receipt 판정을 바꾸지 않는다.
 승인 응용문제 스냅샷은 `familyId`, `version`, 생성 시드, 유형별 입력·정답·시각 모델과 원래 학년 셸을 함께 검증한다. 출처가 없는 과거 기본 문제는 기존 호환 규칙으로 읽지만, 출처가 있다고 주장하는 불완전한 응용문제 스냅샷을 기본 문제로 낮춰 읽지 않는다.
+
+## 프로필 스코프 저장(현재 작업트리 계약)
+
+아래 프로필 계약은 현재 작업트리 상태이며 `main` 병합과 배포는 별도 승인 대상이다.
+
+- 학습자 소유 키는 `mathAssist_profile_v1:<profileId>:<legacyKey>` 형식이다. 모든 학년 진도·세션·결과·영수증·마스코트·게스트홈·복구 증거 키가 이 형식으로 이전되며, 위 표의 학년별 키 이름은 `<legacyKey>` 자리에 그대로 유지된다. 복구 증거에는 `grade2ProgressRecoveryEvidence_v1`, `grade5ApplicationProblemRecoveryEvidence_v1`, `grade6ApplicationProblemRecoveryEvidence_v1`이 포함된다.
+- 마이그레이션은 키별 격리다. 유효한 값은 복사하고, 손상된 값은 원본 바이트를 보존한 뒤 건너뛰고 `status='failed'`로 남긴다. 다른 학년 기록은 축소되지 않으며 재시작은 멱등하다.
+- 프로필 전송 파일 `PortableProfileExportV1`은 SHA-256 digest를 가지며 완료·복습·세트 완료·영수증·최근 활동·마스코트만 포함한다. 원답·세션 스냅샷·풀이장 획은 포함하지 않는다. 적용은 미리보기 뒤 같은 ID 병합(합집합, 최신 영수증 판정) 또는 새 프로필 생성 중 하나이며 적용 전에 롤백 백업을 만든다.
+
+## 서비스 워커와 출시 메타데이터
+
+- `public/sw.js` 캐시 이름은 `math-assist-shell:<appRelease>`, `math-assist-visited:<appRelease>`, `math-assist-grade:<appRelease>:<contentRelease>:<grade>`다. 임시 캐시를 검증한 뒤 원자적으로 교체한다.
+- 페이지↔워커 메시지는 요청 4종/응답 4종(`MATH_ASSIST_INSTALL_GRADE_PACK` 등)이며 모두 `schemaVersion: 1`이다.
+- SW 등록은 AppReliabilityShell이 프로덕션 빌드에서만 수행한다.
+- `layout.tsx`의 CSP 메타는 `default-src 'self'`이며 script·style `'unsafe-inline'` 허용 근거를 주석으로 남긴다. frame-ancestors는 메타 태그로 강제할 수 없으므로 이 문서도 그렇게 명시한다.
+- `/release-metadata.json`은 `generate-release-metadata.mjs`가 결정적으로 생성하며 `schemaVersion: 1`과 appRelease·contentRelease 해시를 가진다.
 
 ## 아직 노출되지 않은 계정 인터페이스
 

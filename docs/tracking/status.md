@@ -1,27 +1,32 @@
 # 현재 상태
 
-기준일: 2026-08-18
+기준일: 2026-08-25
 
 ## 상태 경계
 
-- **마지막으로 문서화된 제품 변경 배포 확인**: GitHub Pages 정적 사이트이며
-  서버 계정·원격 저장 API가 없다. 제품 커밋
+- **현재 작업트리**: 브랜치
+  `dryforge/production-foundation-device-reliability` @ `b5cbbc5`다.
+  커밋 스택은 db28f75(응용문제 V1×파운데이션 병합)→d65150b(T5 오프라인)→
+  7ea5fe9(T6 오류 보고)→c47f914(T3 프로필 어댑터)→291ff68(findings 기록)→
+  8939b7d(T4 프로필 전송)→75da038+d71d380(T7 배선)→b5cbbc5(T8 출시 자동화)다.
+- **검증 수치**: vitest 157개 파일 1,602개 통과, Playwright 107통과+
+  2 fixme(Date.now 동결 클래스, findings 첫 항목 참조), lint·tdd:guard·build
+  통과, `verify:fast` 실측 52.3s다. 편집 원장 검사
+  (`check:problem-editorial-review`)도 공개 원본 1,622개를 통과했다.
+- **마지막으로 문서화된 제품 변경 배포 확인**: 제품 커밋
   `1b0c171ed81423ffce6fa9230e62528723d2f8a4`의 GitHub Actions 실행
-  `32127227116`에서 build job `95680364368`과 deploy job `95680913733`의
-  성공을 확인했다. 배포 ID `5960907965`, 상태 ID `16956311340`의 SHA도
-  제품 커밋과 일치하며 환경 URL은
-  `https://outliner-coach.github.io/math_assist/`다. 새 브라우저에서 홈,
-  3학년 단원·응용문제, 전 학년 응용문제 검수 화면의 hydration과 정적 요청,
-  두 뷰포트의 가로 넘침 없음과 콘솔 오류·경고 0을 확인했다.
-- **현재 공개 출시 상태**: 공개 원본 1,622개, 121개 성취기준
-  직접 연결, 기본·연습 홈 투영과 5/10문제 완료 증거를 유지한다.
-  최종 편집 원장은 `pass 1622 / blocked 0 / stale 0 / missing 0`이며,
-  시각 원본 1,013개·허용 변형 3,141개를 실제 renderer의 세 상태와
-  390×844·1024×768에서 확인한 기존 증거를 포함한다. 여기에 승인된
-  2학년 12개 단원의 승인 유형 53개, 3학년 12개 단원의 승인 유형 48개와
-  5·6학년 승인 유형 각 3개, 총 107개의 결정적 제작기, 독립 검산, 정량 시각,
-  출시 원장, 학년별 세션 연결과 읽기 전용 검수 화면을 통합해 Pages에
-  배포했다.
+  `32127227116`(build job `95680364368`, deploy job `95680913733`)과
+  배포 ID `5960907965`까지 성공을 확인했고 환경 URL은
+  `https://outliner-coach.github.io/math_assist/`다. 이후 작업트리는
+  `main` 병합·배포가 별도 승인 필요하며, 승인 전에는 출시 완료로 기록하지 않는다.
+- **출시 자동화**: push 즉시 배포를 폐지했다. 배포는
+  `.github/workflows/release.yml` workflow_dispatch(+`inputs.ref`)만 남고
+  deploy job은 `github-pages` 환경 승인이 필요하다. ci.yml(PR에서
+  verify:fast+dependency-review), nightly.yml(매일 04:30 KST verify:full),
+  monitor.yml(6시간), codeql.yml, dependabot.yml(npm+actions weekly)가 함께 동작한다.
+- `verify:release`는 실기기 접근성 증거
+  `docs/tracking/accessibility-release-v1.json`이 없으면 `EVIDENCE_MISSING`으로
+  실패한다. 증거 부재 실패는 의도된 fail-closed다.
 - 이 문서에서 `released`는 curriculum ledger, 공개 경로 게이트와 실제 GitHub Pages 화면이 일치한다는 뜻이다. 이후 변경도 `main` 반영, Pages 성공, 새 브라우저 hydration을 모두 확인해야 출시 완료로 기록한다.
 
 ## 2026-08-18 2학년 전 단원 응용문제 출시와 Pages 배포

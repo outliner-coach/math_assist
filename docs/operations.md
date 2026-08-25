@@ -60,6 +60,7 @@ git diff --check
 ```
 
 - 특정 학년이나 5학년 템플릿을 건드리지 않았다면 관련 콘텐츠 검증기는 생략할 수 있지만, 변경한 콘텐츠의 검증기는 반드시 실행한다.
+- 위 순서를 목적별로 묶은 명령이 있다. `npm run verify:fast`는 lint→vitest→tdd:guard→build→E2E 스모크(home-learning-modes·mascot-service 스펙)를 실행한다. `npm run verify:full`은 학년 validator(grade1~4·6)+curriculum+templates+application-packs, audit(missions/problems/applications), promptfoo:problems, catalog 생성 뒤 check:problem-editorial-review 순서 강제, vitest→lint→tdd:guard→build→전체 E2E를 순서대로 실행한다. 개별 명령의 성공으로 전체 순서 성공을 대신하지 않는다.
 - 교육과정 또는 문제 연결을 바꿨다면 `generate:curriculum-direct-links`로 문제별 직접 역참조를 먼저 확정한 뒤 curriculum validator와 재고 보고서를 실행한다. 재고 보고서는 공개 원본, 원작성 원본, 정규 수학 서명, 생성 변형, 세션 문항 수를 섞지 않는다.
 - 화면·라우팅·localStorage 복구·공개 시점을 바꾼 경우 브라우저 테스트를 생략하지 않는다.
 - 응용문제 pack·family·registry·승인·증명·시각·세션을 바꾼 경우 `validate:application-packs`와 `audit:applications`를 함께 실행한다. 두 검사는 기존 학년 validator, 문제·미션 감사, 전체 회귀 검사를 대신하지 않는다.
@@ -95,6 +96,18 @@ npm run check:problem-editorial-review
 무시하지 않는다. renderer 검수 버전과 최신 해시를 맞추고 영향 항목을
 다시 확인한다.
 
+## 출시 검증과 공개 사이트 점검
+
+```bash
+npm run verify:release
+node scripts/public-site-monitor.mjs
+node scripts/generate-release-metadata.mjs
+```
+
+- `verify:release`는 `verify:full` 전체에 더해 출시 직전 검사를 실행한다. 접근성 증거 검사(scripts/check-release-evidence.mjs), 프로덕션 의존성 감사(`npm audit --omit=dev --audit-level=high`), 롤백 스키마 호환 검사다. 실기기 증거 파일 `docs/tracking/accessibility-release-v1.json`이 없으면 `EVIDENCE_MISSING`으로 실패하며, 이 실패는 증거를 나중에 채우는 것으로 남기는 것이 아니라 의도된 fail-closed다.
+- `public-site-monitor.mjs`는 공개 사이트 5항목을 읽기 전용으로 점검한다. 랜딩 200과 `Math Assist` 문구, `/home/`, `release-metadata.json`의 `schemaVersion=1`, `sw.js` 200, `/grade/3/`이다.
+- `generate-release-metadata.mjs`는 `public/release-metadata.json`을 결정적으로 생성한다. `appRelease`는 package.json·lock·next.config·`src/**`·public/sw.js·manifest·icons 해시이고, `contentRelease`는 `public/data/**` 해시다.
+
 ## Codex 작업 단계 실행
 
 기존 `phases/<이름>/` 작업을 실행할 때만 다음을 사용한다.
@@ -109,12 +122,20 @@ npm run harness -- phases/<이름>
 
 1. 의도한 파일만 스테이징한다.
 2. `git diff --cached --check`와 필요한 전체 검증을 통과시킨다.
-3. 검증된 커밋을 `main`에 푸시한다.
-4. GitHub Actions의 `Deploy Next.js site to Pages`에서 build와 deploy 작업이 모두 성공했는지 확인한다.
+3. 검증된 커밋을 `main`에 반영한다.
+4. `.github/workflows/release.yml`의 workflow_dispatch로 배포를 명시적으로 실행한다. `inputs.ref`로 대상 커밋을 고르며, deploy job은 `github-pages` 환경 승인을 통과해야 진행된다.
 5. 배포 URL의 `/math_assist/`, `/math_assist/home/`, 지원 학년 경로, 변경한 학습 경로를 새 브라우저에서 연다.
 6. 정적 HTTP 성공뿐 아니라 hydration 뒤 버튼·저장 복구·콘솔 오류·자산 로딩을 확인한다.
 
-워크플로는 Node.js 24에서 `npm ci`, `next build`를 실행해 `out/`을 업로드한다. 로컬 빌드 성공만으로 실제 배포 성공을 보고하지 않는다.
+push 즉시 배포는 폐지했다. `main`에 푸시하는 것만으로는 배포가 시작되지 않으며, 워크플로는 Node.js 24에서 `npm ci`, `next build`를 실행해 `out/`을 업로드한다. 로컬 빌드 성공만으로 실제 배포 성공을 보고하지 않는다.
+
+## 출시 자동화 워크플로
+
+- `release.yml`: 위 배포 절차의 유일한 배포 경로다. workflow_dispatch(+`inputs.ref`)만 있고 deploy job은 `github-pages` 환경 승인이 필요하다.
+- `ci.yml`: PR에서 `verify:fast`와 dependency-review를 실행한다.
+- `nightly.yml`: 매일 04:30 KST에 `verify:full`을 실행한다.
+- `monitor.yml`: 6시간마다 공개 사이트 점검을 실행한다.
+- `codeql.yml`과 `dependabot.yml`(npm+actions weekly)이 코드·의존성 스캔을 담당한다.
 
 ## 계정 기능을 추가할 때 필요한 운영 준비
 

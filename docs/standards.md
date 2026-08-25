@@ -65,4 +65,4 @@
 - 작업 전 `workstreams/`에서 주 작업영역을 정하고 그 경계를 우선한다. 공유 계약을 바꾸면 같은 변경에서 `workstreams/_shared/README.md`를 갱신한다.
 - 외부 조사 근거는 `references/`, 다른 작업자에게 필요한 상태·위험·다음 행동은 `handoffs/YYYY-MM-DD-workstream-agent.md`에 남긴다.
 - 커밋 전 의도한 파일만 명시적으로 스테이징하고 `git diff --cached --check`를 통과시킨다. 관련 없는 기존 변경과 새 파일을 함께 커밋하면 안 된다.
-- `main` 반영은 자동으로 실제 GitHub Pages 배포를 시작한다. 검증되지 않은 커밋을 `main`에 푸시하거나 작업 성공만 보고 배포 성공을 가정하면 안 된다.
+- `main` 반영만으로 배포하지 않는다. 배포는 `.github/workflows/release.yml`의 workflow_dispatch(+`inputs.ref`)로만 시작하며 deploy job은 `github-pages` 환경 승인을 통과해야 한다. 검증되지 않은 커밋을 `main`에 푸시하거나 작업 성공만 보고 배포 성공을 가정하면 안 된다.
