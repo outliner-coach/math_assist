@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import {
   LocalAttemptReceiptStore,
@@ -7,6 +7,7 @@ import {
   createContentDedupeKey,
   type ReceiptStorage,
 } from './attempt-receipt'
+import { LOCAL_PROFILE_REGISTRY_KEY, createInitialLocalProfileRegistry } from './local-profile'
 
 class MemoryStorage implements ReceiptStorage {
   readonly values = new Map<string, string>()
@@ -143,5 +144,56 @@ describe('LocalAttemptReceiptStore', () => {
 
     await expect(store.append(invalid)).rejects.toThrow(/invalid receipt/i)
     expect(storage.writes).toHaveLength(0)
+  })
+})
+
+describe('LocalAttemptReceiptStore learner bootstrap routing', () => {
+  const BOOTSTRAP_UUID_A = '00000000-0000-4000-8000-000000000001'
+  const BOOTSTRAP_PROFILE_A = `local_${BOOTSTRAP_UUID_A}`
+
+  function bootstrapBaseStorage(): Map<string, string> {
+    const values = new Map<string, string>()
+    const base = {
+      get length() { return values.size },
+      key: (index: number) => Array.from(values.keys())[index] ?? null,
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => { values.set(key, value) },
+      removeItem: (key: string) => { values.delete(key) },
+    }
+    values.set(LOCAL_PROFILE_REGISTRY_KEY, JSON.stringify(createInitialLocalProfileRegistry({
+      now: () => 1,
+      randomUUID: () => BOOTSTRAP_UUID_A,
+      migrationStatus: 'not-needed',
+    })))
+    vi.stubGlobal('window', { localStorage: base })
+    return values
+  }
+
+  it('(f) stamps new receipts with the active profile id while keeping existing null learnerIds readable', async () => {
+    const values = bootstrapBaseStorage()
+    const legacyLedger = {
+      schemaVersion: 1,
+      receipts: [createAttemptReceipt(checkedInput)!],
+    }
+    values.set(
+      `mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:mathAssist_attemptReceipts_v1`,
+      JSON.stringify(legacyLedger),
+    )
+
+    const store = new LocalAttemptReceiptStore()
+    const nextInput = { ...checkedInput, sessionId: 'session-2' }
+    const receipt = createAttemptReceipt(nextInput)!
+
+    await expect(store.append(receipt)).resolves.toBe('inserted')
+    await expect(store.append(receipt)).resolves.toBe('duplicate')
+
+    const listed = await store.list()
+    expect(listed.corrupted).toBe(false)
+    expect(listed.receipts).toHaveLength(2)
+    expect(listed.receipts[0]?.learnerId).toBeNull()
+    expect(listed.receipts[1]?.learnerId).toBe(BOOTSTRAP_PROFILE_A)
+    expect(listed.receipts[1]?.dedupeKey).toBe(receipt.dedupeKey)
+
+    vi.unstubAllGlobals()
   })
 })

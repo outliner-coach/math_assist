@@ -1,9 +1,8 @@
+@import 'katex/dist/katex.min.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* KaTeX 스타일 */
-@import 'katex/dist/katex.min.css';
 
 /* 기본 폰트 설정 */
 :root {
@@ -80,4 +79,29 @@ button, a, input {
     radial-gradient(circle at 82% 8%, rgba(28, 176, 246, 0.16), transparent 24%),
     linear-gradient(180deg, #ffffff 0%, #f7fff1 100%);
   color: var(--grade1-text);
+}
+
+/* 신뢰성 오버레이·다이얼로그 (T7) */
+.reliability-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background-color: rgba(15, 23, 42, 0.55);
+}
+
+.reliability-dialog {
+  width: 100%;
+  max-width: 26rem;
+  border-radius: 2rem;
+  border: 2px solid #fecaca;
+  background-color: #ffffff;
+  padding: 1.75rem;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.25);
+}
+
+.reliability-panel {
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }

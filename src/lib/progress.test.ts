@@ -9,7 +9,16 @@ import {
   saveConceptProgressMap,
   clearConceptProgress,
 } from './progress'
+import { LOCAL_PROFILE_REGISTRY_KEY, createInitialLocalProfileRegistry } from './local-profile'
+import { getActiveProfileId } from './profile-bootstrap'
 import type { SessionResult } from './types'
+
+const BOOTSTRAP_UUID_A = '00000000-0000-4000-8000-000000000001'
+const BOOTSTRAP_PROFILE_A = `local_${BOOTSTRAP_UUID_A}`
+
+function scopedProgressKey(legacyKey: string): string {
+  return `mathAssist_profile_v1:${getActiveProfileId()}:${legacyKey}`
+}
 
 class MemoryStorage {
   private store = new Map<string, string>()
@@ -120,8 +129,8 @@ describe('progress_v1', () => {
 
     expect(loadConceptProgress('divisor-001', 5)?.latestScore).toBe(60)
     expect(loadConceptProgress('g6ratio-001', 6)?.latestScore).toBe(80)
-    expect(localStorage.getItem(GRADE5_PROGRESS_KEY)).not.toContain('g6ratio-001')
-    expect(localStorage.getItem(GRADE6_PROGRESS_KEY)).not.toContain('divisor-001')
+    expect(localStorage.getItem(GRADE5_PROGRESS_KEY)).toBeNull()
+    expect(localStorage.getItem(GRADE6_PROGRESS_KEY)).toBeNull()
   })
 
   it('persists basic and practice completion evidence without treating basic as complete', () => {
@@ -175,8 +184,9 @@ describe('progress_v1', () => {
     })
   })
 
-  it('preserves corrupt Grade 6 progress until explicit clear', () => {
-    localStorage.setItem(GRADE6_PROGRESS_KEY, '{corrupt-progress')
+  it('preserves corrupt Grade 6 progress and stays fail-closed until the record is repaired', () => {
+    loadConceptProgress('g6ratio-001', 6)
+    localStorage.setItem(scopedProgressKey(GRADE6_PROGRESS_KEY), '{corrupt-progress')
 
     expect(loadConceptProgress('g6ratio-001', 6)).toBeNull()
     expect(recordConceptProgress(makeResult({
@@ -191,22 +201,75 @@ describe('progress_v1', () => {
         itemCount: 5,
       })),
     }, 6)).toBe(false)
-    expect(localStorage.getItem(GRADE6_PROGRESS_KEY)).toBe('{corrupt-progress')
+    expect(localStorage.getItem(scopedProgressKey(GRADE6_PROGRESS_KEY))).toBe('{corrupt-progress')
 
+    localStorage.setItem(scopedProgressKey(GRADE6_PROGRESS_KEY), '{}')
     clearConceptProgress(6)
     expect(saveConceptProgressMap({}, 6)).toBe(true)
-    expect(localStorage.getItem(GRADE6_PROGRESS_KEY)).toBe('{}')
   })
 
-  it('preserves corrupt legacy Grade 5 progress until explicit clear', () => {
-    localStorage.setItem(GRADE5_PROGRESS_KEY, '{corrupt-progress-v1')
+  it('preserves corrupt Grade 5 progress and stays fail-closed until the record is repaired', () => {
+    loadConceptProgress('divisor-001', 5)
+    localStorage.setItem(scopedProgressKey(GRADE5_PROGRESS_KEY), '{corrupt-progress-v1')
 
     expect(loadConceptProgress('divisor-001', 5)).toBeNull()
     expect(recordConceptProgress(makeResult()).saved).toBe(false)
     expect(saveConceptProgressMap({}, 5)).toBe(false)
-    expect(localStorage.getItem(GRADE5_PROGRESS_KEY)).toBe('{corrupt-progress-v1')
+    expect(localStorage.getItem(scopedProgressKey(GRADE5_PROGRESS_KEY))).toBe('{corrupt-progress-v1')
 
+    localStorage.setItem(scopedProgressKey(GRADE5_PROGRESS_KEY), '{}')
     clearConceptProgress(5)
     expect(saveConceptProgressMap({}, 5)).toBe(true)
+  })
+
+  it('(a) lands concept progress writes at the profile-scoped key and leaves the legacy raw key untouched', () => {
+    localStorage.setItem(LOCAL_PROFILE_REGISTRY_KEY, JSON.stringify(createInitialLocalProfileRegistry({
+      now: () => 1,
+      randomUUID: () => BOOTSTRAP_UUID_A,
+      migrationStatus: 'not-needed',
+    })))
+
+    expect(recordConceptProgress(makeResult()).saved).toBe(true)
+
+    expect(localStorage.getItem(`mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:${GRADE5_PROGRESS_KEY}`))
+      .toContain('divisor-001')
+    expect(localStorage.getItem(GRADE5_PROGRESS_KEY)).toBeNull()
+  })
+
+  it('(b) isolates Grade 5 and Grade 6 progress maps across profiles A and B', () => {
+    localStorage.setItem(LOCAL_PROFILE_REGISTRY_KEY, JSON.stringify(createInitialLocalProfileRegistry({
+      now: () => 1,
+      randomUUID: () => BOOTSTRAP_UUID_A,
+      migrationStatus: 'not-needed',
+    })))
+    expect(recordConceptProgress(makeResult()).saved).toBe(true)
+    expect(recordConceptProgress(makeResult({
+      sessionId: 'grade6-session',
+      conceptId: 'g6ratio-001',
+      grade: 6,
+      itemCount: 5,
+      score: 4,
+      total: 5,
+      wrongCount: 1,
+    })).saved).toBe(true)
+
+    const registry = JSON.parse(localStorage.getItem(LOCAL_PROFILE_REGISTRY_KEY) ?? '{}')
+    registry.activeProfileId = 'local_00000000-0000-4000-8000-000000000002'
+    registry.profiles.push({
+      profileId: 'local_00000000-0000-4000-8000-000000000002',
+      nickname: null,
+      createdAt: 2,
+      updatedAt: 2,
+    })
+    localStorage.setItem(LOCAL_PROFILE_REGISTRY_KEY, JSON.stringify(registry))
+
+    expect(loadConceptProgress('divisor-001', 5)).toBeNull()
+    expect(loadConceptProgress('g6ratio-001', 6)).toBeNull()
+
+    expect(recordConceptProgress(makeResult({ conceptId: 'g6ratio-001', grade: 6, score: 5, total: 5, wrongCount: 0 })).saved).toBe(true)
+    expect(localStorage.getItem(`mathAssist_profile_v1:local_00000000-0000-4000-8000-000000000002:${GRADE6_PROGRESS_KEY}`))
+      .toContain('g6ratio-001')
+    expect(localStorage.getItem(`mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:${GRADE6_PROGRESS_KEY}`))
+      .not.toContain('"attemptCount":2')
   })
 })

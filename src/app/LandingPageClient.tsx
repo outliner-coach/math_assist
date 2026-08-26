@@ -32,8 +32,10 @@ export default function LandingPageClient() {
   const [returning, setReturning] = useState(false)
 
   useEffect(() => {
-    const state = loadGuestHomeState()
-    setReturning(state.hasAnyProgress || state.activeGrade !== null)
+    queueMicrotask(() => {
+      const state = loadGuestHomeState()
+      setReturning(state.hasAnyProgress || state.activeGrade !== null)
+    })
   }, [])
 
   return (
@@ -69,7 +71,7 @@ export default function LandingPageClient() {
               <Link
                 href="/home"
                 data-testid="landing-primary-action"
-                className="inline-flex min-h-[60px] items-center justify-center rounded-2xl bg-[#58cc02] px-8 py-4 text-lg font-black text-white shadow-[0_6px_0_#3f8f01] transition hover:bg-[#61d90a] active:translate-y-1 active:shadow-[0_2px_0_#3f8f01]"
+                className="inline-flex min-h-[60px] items-center justify-center rounded-2xl bg-[#15803d] px-8 py-4 text-lg font-black text-white shadow-[0_6px_0_#14532d] transition hover:bg-[#166534] active:translate-y-1 active:shadow-[0_2px_0_#14532d]"
               >
                 {returning ? '이어서 학습하기' : '학습 시작하기'}
               </Link>

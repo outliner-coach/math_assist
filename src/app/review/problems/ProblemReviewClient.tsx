@@ -2,10 +2,10 @@
 
 import Link from 'next/link'
 import {
-  useDeferredValue,
   useEffect,
   useMemo,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from 'react'
 
@@ -19,12 +19,55 @@ import type {
 import ProblemReviewRenderer, {
   type ProblemReviewState,
 } from './ProblemReviewRenderer'
+import {
+  canonicalizeProblemReviewSelection,
+  createProblemReviewQuery,
+  resolveProblemReviewQuery,
+  transitionProblemReviewSelection,
+  type ProblemReviewSelection,
+} from './problem-review-query'
 
 interface ProblemReviewClientProps {
   data: ProblemReviewData
 }
 
+type GradeFilter = 'all' | '1' | '2' | '3' | '4' | '5' | '6'
+
+interface ReviewFilters {
+  gradeFilter: GradeFilter
+  visualOnly: boolean
+  search: string
+  semesterFilter: string
+  unitFilter: string
+  conceptFilter: string
+  familyFilter: string
+  taskActionFilter: string
+  answerKindFilter: string
+  visualKindFilter: string
+  visualSemanticsFilter: string
+  reviewStatusFilter: string
+}
+
+const defaultReviewFilters: ReviewFilters = {
+  gradeFilter: 'all',
+  visualOnly: true,
+  search: '',
+  semesterFilter: 'all',
+  unitFilter: 'all',
+  conceptFilter: 'all',
+  familyFilter: 'all',
+  taskActionFilter: 'all',
+  answerKindFilter: 'all',
+  visualKindFilter: 'all',
+  visualSemanticsFilter: 'all',
+  reviewStatusFilter: 'all',
+}
+
 const CHOICE_LABELS = ['①', '②', '③', '④']
+
+const subscribeToHydration = () => () => undefined
+const getClientHydration = () => true
+const getServerHydration = () => false
 
 const reviewStateLabel: Record<ProblemReviewState, string> = {
   pre: '제출 전',
@@ -112,14 +155,10 @@ function StateButton({
 }
 
 function updateReviewUrl(
-  reviewId: string,
-  state: ProblemReviewState,
-  variantKey: string
+  selection: ProblemReviewSelection,
 ) {
   const url = new URL(window.location.href)
-  url.searchParams.set('id', reviewId)
-  url.searchParams.set('state', state)
-  url.searchParams.set('variant', variantKey)
+  url.search = createProblemReviewQuery(selection)
   window.history.replaceState(null, '', url)
 }
 
@@ -129,53 +168,73 @@ function answerText(row: ProblemReviewRow) {
     : row.correctAnswer
 }
 
-export default function ProblemReviewClient({ data }: ProblemReviewClientProps) {
-  const defaultRow = data.rows.find(row => row.hasVisual) ?? data.rows[0]
-  const [selectedReviewId, setSelectedReviewId] = useState(defaultRow.reviewId)
-  const [reviewState, setReviewState] = useState<ProblemReviewState>('pre')
-  const [selectedVariantKey, setSelectedVariantKey] = useState(
-    defaultRow.variants[0].key
-  )
-  const [gradeFilter, setGradeFilter] = useState<'all' | '1' | '2' | '3' | '4' | '5' | '6'>('all')
-  const [visualOnly, setVisualOnly] = useState(true)
-  const [search, setSearch] = useState('')
-  const [semesterFilter, setSemesterFilter] = useState('all')
-  const [unitFilter, setUnitFilter] = useState('all')
-  const [conceptFilter, setConceptFilter] = useState('all')
-  const [familyFilter, setFamilyFilter] = useState('all')
-  const [taskActionFilter, setTaskActionFilter] = useState('all')
-  const [answerKindFilter, setAnswerKindFilter] = useState('all')
-  const [visualKindFilter, setVisualKindFilter] = useState('all')
-  const [visualSemanticsFilter, setVisualSemanticsFilter] = useState('all')
-  const [reviewStatusFilter, setReviewStatusFilter] = useState('all')
-  const deferredSearch = useDeferredValue(search)
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const requestedId = params.get('id')
-    const requestedState = params.get('state')
-    const requestedVariant = params.get('variant')
-    const requestedRow = data.rows.find(row => row.reviewId === requestedId)
-    if (requestedRow) {
-      setSelectedReviewId(requestedRow.reviewId)
-      setGradeFilter(String(requestedRow.grade) as typeof gradeFilter)
-      if (!requestedRow.hasVisual) setVisualOnly(false)
-      if (requestedRow.variants.some(variant => variant.key === requestedVariant)) {
-        setSelectedVariantKey(requestedVariant as string)
-      } else {
-        setSelectedVariantKey(requestedRow.variants[0].key)
-      }
-    }
+function filterProblemReviewRows(rows: ProblemReviewRow[], filters: ReviewFilters) {
+  const normalizedSearch = filters.search.trim().toLowerCase()
+  return rows.filter(row => {
+    if (filters.gradeFilter !== 'all' && String(row.grade) !== filters.gradeFilter) return false
+    if (filters.visualOnly && !row.hasVisual) return false
+    if (filters.semesterFilter !== 'all' && (row.semester ?? 'none') !== filters.semesterFilter) return false
+    if (filters.unitFilter !== 'all' && row.unitId !== filters.unitFilter) return false
+    if (filters.conceptFilter !== 'all' && row.conceptId !== filters.conceptFilter) return false
+    if (filters.familyFilter !== 'all' && row.family !== filters.familyFilter) return false
     if (
-      requestedState === 'pre'
-      || requestedState === 'hint'
-      || requestedState === 'revealed'
-    ) {
-      setReviewState(requestedState)
-    }
-  }, [data.rows])
+      filters.taskActionFilter !== 'all'
+      && !row.taskActions.some(action => action === filters.taskActionFilter)
+    ) return false
+    if (filters.answerKindFilter !== 'all' && row.answerKind !== filters.answerKindFilter) return false
+    if (filters.visualKindFilter !== 'all' && (row.visualKind ?? 'none') !== filters.visualKindFilter) return false
+    if (filters.visualSemanticsFilter !== 'all' && row.visualSemantics !== filters.visualSemanticsFilter) return false
+    if (filters.reviewStatusFilter !== 'all' && row.reviewStatus !== filters.reviewStatusFilter) return false
+    if (!normalizedSearch) return true
+    return [
+      row.reviewId, row.sourceId, row.groupTitle, row.unitTitle, row.prompt,
+      row.family, row.curriculumCodes.join(' '), row.taskActions.join(' '),
+      row.visualKind ?? '',
+    ].join(' ').toLowerCase().includes(normalizedSearch)
+  })
+}
 
-  const normalizedSearch = deferredSearch.trim().toLowerCase()
+export default function ProblemReviewClient(props: ProblemReviewClientProps) {
+  const hydrated = useSyncExternalStore(
+    subscribeToHydration,
+    getClientHydration,
+    getServerHydration,
+  )
+
+  if (!hydrated) {
+    return (
+      <main className="min-h-screen bg-slate-50 px-4 py-8 text-slate-700">
+        <p className="mx-auto max-w-xl rounded-2xl bg-white p-5 text-center font-bold shadow-sm">
+          검수 데이터를 준비하고 있습니다.
+        </p>
+      </main>
+    )
+  }
+
+  return <HydratedProblemReviewClient {...props} />
+}
+
+function HydratedProblemReviewClient({ data }: ProblemReviewClientProps) {
+  const defaultRow = data.rows.find(row => row.hasVisual) ?? data.rows[0]
+  const querySelection = resolveProblemReviewQuery(
+    data.rows,
+    window.location.search,
+  )
+  const [selection, setSelection] = useState<ProblemReviewSelection>({
+    reviewId: querySelection?.reviewId ?? defaultRow.reviewId,
+    state: querySelection?.state ?? 'pre',
+    variantKey: querySelection?.variantKey ?? defaultRow.variants[0].key,
+  })
+  const [filters, setFilters] = useState<ReviewFilters>({
+    ...defaultReviewFilters,
+    gradeFilter: (querySelection?.gradeFilter ?? 'all') as GradeFilter,
+    visualOnly: querySelection?.visualOnly ?? true,
+  })
+  const {
+    gradeFilter, visualOnly, search, semesterFilter, unitFilter, conceptFilter,
+    familyFilter, taskActionFilter, answerKindFilter, visualKindFilter,
+    visualSemanticsFilter, reviewStatusFilter,
+  } = filters
   const filterOptions = useMemo(() => ({
     semesters: uniqueValues(data.rows.map(row => row.semester)),
     units: uniqueValues(data.rows.map(row => row.unitId)),
@@ -196,84 +255,39 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
       .filter(row => row.conceptId !== null)
       .map(row => [row.conceptId as string, row.groupTitle])
   ), [data.rows])
-  const filteredRows = useMemo(() => data.rows.filter(row => {
-    if (gradeFilter !== 'all' && String(row.grade) !== gradeFilter) return false
-    if (visualOnly && !row.hasVisual) return false
-    if (
-      semesterFilter !== 'all'
-      && (row.semester ?? 'none') !== semesterFilter
-    ) return false
-    if (unitFilter !== 'all' && row.unitId !== unitFilter) return false
-    if (conceptFilter !== 'all' && row.conceptId !== conceptFilter) return false
-    if (familyFilter !== 'all' && row.family !== familyFilter) return false
-    if (
-      taskActionFilter !== 'all'
-      && !row.taskActions.some(action => action === taskActionFilter)
-    ) return false
-    if (
-      answerKindFilter !== 'all'
-      && row.answerKind !== answerKindFilter
-    ) return false
-    if (
-      visualKindFilter !== 'all'
-      && (row.visualKind ?? 'none') !== visualKindFilter
-    ) return false
-    if (
-      visualSemanticsFilter !== 'all'
-      && row.visualSemantics !== visualSemanticsFilter
-    ) return false
-    if (
-      reviewStatusFilter !== 'all'
-      && row.reviewStatus !== reviewStatusFilter
-    ) return false
-    if (!normalizedSearch) return true
-    return [
-      row.reviewId,
-      row.sourceId,
-      row.groupTitle,
-      row.unitTitle,
-      row.prompt,
-      row.family,
-      row.curriculumCodes.join(' '),
-      row.taskActions.join(' '),
-      row.visualKind ?? '',
-    ].join(' ').toLowerCase().includes(normalizedSearch)
-  }), [
-    answerKindFilter,
-    conceptFilter,
-    data.rows,
-    familyFilter,
-    gradeFilter,
-    normalizedSearch,
-    reviewStatusFilter,
-    semesterFilter,
-    taskActionFilter,
-    unitFilter,
-    visualKindFilter,
-    visualOnly,
-    visualSemanticsFilter,
-  ])
-
-  useEffect(() => {
-    if (
-      filteredRows.length > 0
-      && !filteredRows.some(row => row.reviewId === selectedReviewId)
-    ) {
-      setSelectedReviewId(filteredRows[0].reviewId)
-      setSelectedVariantKey(filteredRows[0].variants[0].key)
-    }
-  }, [filteredRows, selectedReviewId])
-
-  const selectedRow = (
-    filteredRows.find(row => row.reviewId === selectedReviewId)
-    ?? filteredRows[0]
-    ?? defaultRow
+  const filteredRows = useMemo(
+    () => filterProblemReviewRows(data.rows, filters),
+    [data.rows, filters],
   )
+
+  const canonicalSelection = canonicalizeProblemReviewSelection(
+    filteredRows,
+    defaultRow,
+    selection,
+  )
+  const canonicalReviewId = canonicalSelection.reviewId
+  const canonicalReviewState = canonicalSelection.state
+  const canonicalVariantKey = canonicalSelection.variantKey
+  useEffect(() => {
+    updateReviewUrl({
+      reviewId: canonicalReviewId,
+      state: canonicalReviewState,
+      variantKey: canonicalVariantKey,
+    })
+  }, [
+    canonicalReviewId,
+    canonicalReviewState,
+    canonicalVariantKey,
+  ])
+  const selectedRow = data.rows.find(
+    row => row.reviewId === canonicalReviewId,
+  ) ?? defaultRow
+  const reviewState = canonicalReviewState
   const selectedIndex = filteredRows.findIndex(
     row => row.reviewId === selectedRow.reviewId
   )
   const selectedVariant = (
-    selectedRow.variants.find(variant => variant.key === selectedVariantKey)
+    selectedRow.variants.find(variant => variant.key === canonicalVariantKey)
     ?? selectedRow.variants[0]
   )
   const renderedRow: ProblemReviewRow = {
@@ -282,19 +296,44 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
     variants: selectedRow.variants,
   }
 
+  const changeFilters = (changes: Partial<ReviewFilters>) => {
+    const nextFilters = { ...filters, ...changes }
+    const nextSelection = transitionProblemReviewSelection(
+      canonicalSelection,
+      filterProblemReviewRows(data.rows, nextFilters),
+      defaultRow,
+    )
+    setFilters(nextFilters)
+    setSelection(nextSelection)
+    updateReviewUrl(nextSelection)
+  }
+
   const selectRow = (row: ProblemReviewRow) => {
-    const nextVariantKey = row.variants[0].key
-    setSelectedReviewId(row.reviewId)
-    setSelectedVariantKey(nextVariantKey)
-    updateReviewUrl(row.reviewId, reviewState, nextVariantKey)
+    const nextSelection = {
+      reviewId: row.reviewId,
+      state: reviewState,
+      variantKey: row.variants[0].key,
+    }
+    setSelection(nextSelection)
+    updateReviewUrl(nextSelection)
   }
   const selectState = (state: ProblemReviewState) => {
-    setReviewState(state)
-    updateReviewUrl(selectedRow.reviewId, state, selectedVariant.key)
+    const nextSelection = {
+      reviewId: selectedRow.reviewId,
+      state,
+      variantKey: selectedVariant.key,
+    }
+    setSelection(nextSelection)
+    updateReviewUrl(nextSelection)
   }
   const selectVariant = (variantKey: string) => {
-    setSelectedVariantKey(variantKey)
-    updateReviewUrl(selectedRow.reviewId, reviewState, variantKey)
+    const nextSelection = {
+      reviewId: selectedRow.reviewId,
+      state: reviewState,
+      variantKey,
+    }
+    setSelection(nextSelection)
+    updateReviewUrl(nextSelection)
   }
   const selectRelative = (offset: number) => {
     if (filteredRows.length === 0) return
@@ -306,18 +345,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
     selectRow(filteredRows[nextIndex])
   }
   const resetFilters = () => {
-    setGradeFilter('all')
-    setVisualOnly(true)
-    setSemesterFilter('all')
-    setUnitFilter('all')
-    setConceptFilter('all')
-    setFamilyFilter('all')
-    setTaskActionFilter('all')
-    setAnswerKindFilter('all')
-    setVisualKindFilter('all')
-    setVisualSemanticsFilter('all')
-    setReviewStatusFilter('all')
-    setSearch('')
+    changeFilters(defaultReviewFilters)
   }
   const exportEditorialLedger = () => {
     const ledger = {
@@ -408,7 +436,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
               <select
                 value={gradeFilter}
                 onChange={event => {
-                  setGradeFilter(event.target.value as typeof gradeFilter)
+                  changeFilters({ gradeFilter: event.target.value as GradeFilter })
                 }}
                 data-testid="review-grade-filter"
                 className={selectClassName}
@@ -425,7 +453,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
             <FilterField label="학기">
               <select
                 value={semesterFilter}
-                onChange={event => setSemesterFilter(event.target.value)}
+                onChange={event => changeFilters({ semesterFilter: event.target.value })}
                 data-testid="review-semester-filter"
                 className={selectClassName}
               >
@@ -440,7 +468,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
             <FilterField label="단원">
               <select
                 value={unitFilter}
-                onChange={event => setUnitFilter(event.target.value)}
+                onChange={event => changeFilters({ unitFilter: event.target.value })}
                 data-testid="review-unit-filter"
                 className={selectClassName}
               >
@@ -456,7 +484,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
             <FilterField label="개념">
               <select
                 value={conceptFilter}
-                onChange={event => setConceptFilter(event.target.value)}
+                onChange={event => changeFilters({ conceptFilter: event.target.value })}
                 data-testid="review-concept-filter"
                 className={selectClassName}
               >
@@ -472,7 +500,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
             <FilterField label="문제군">
               <select
                 value={familyFilter}
-                onChange={event => setFamilyFilter(event.target.value)}
+                onChange={event => changeFilters({ familyFilter: event.target.value })}
                 data-testid="review-family-filter"
                 className={selectClassName}
               >
@@ -486,7 +514,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
             <FilterField label="학습 행동">
               <select
                 value={taskActionFilter}
-                onChange={event => setTaskActionFilter(event.target.value)}
+                onChange={event => changeFilters({ taskActionFilter: event.target.value })}
                 data-testid="review-task-action-filter"
                 className={selectClassName}
               >
@@ -500,7 +528,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
             <FilterField label="답 형식">
               <select
                 value={answerKindFilter}
-                onChange={event => setAnswerKindFilter(event.target.value)}
+                onChange={event => changeFilters({ answerKindFilter: event.target.value })}
                 data-testid="review-answer-kind-filter"
                 className={selectClassName}
               >
@@ -514,7 +542,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
             <FilterField label="범위">
               <select
                 value={visualOnly ? 'visual' : 'all'}
-                onChange={event => setVisualOnly(event.target.value === 'visual')}
+                onChange={event => changeFilters({ visualOnly: event.target.value === 'visual' })}
                 data-testid="review-visual-filter"
                 className={selectClassName}
               >
@@ -526,7 +554,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
             <FilterField label="시각 종류">
               <select
                 value={visualKindFilter}
-                onChange={event => setVisualKindFilter(event.target.value)}
+                onChange={event => changeFilters({ visualKindFilter: event.target.value })}
                 data-testid="review-visual-kind-filter"
                 className={selectClassName}
               >
@@ -543,7 +571,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
             <FilterField label="시각 의미">
               <select
                 value={visualSemanticsFilter}
-                onChange={event => setVisualSemanticsFilter(event.target.value)}
+                onChange={event => changeFilters({ visualSemanticsFilter: event.target.value })}
                 data-testid="review-visual-semantics-filter"
                 className={selectClassName}
               >
@@ -557,7 +585,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
             <FilterField label="검수 상태">
               <select
                 value={reviewStatusFilter}
-                onChange={event => setReviewStatusFilter(event.target.value)}
+                onChange={event => changeFilters({ reviewStatusFilter: event.target.value })}
                 data-testid="review-status-filter"
                 className={selectClassName}
               >
@@ -575,7 +603,7 @@ export default function ProblemReviewClient({ data }: ProblemReviewClientProps) 
             <FilterField label="review ID·문장 검색">
               <input
                 value={search}
-                onChange={event => setSearch(event.target.value)}
+                onChange={event => changeFilters({ search: event.target.value })}
                 placeholder="예: g3-2-graph-01, cuboid"
                 data-testid="review-search"
                 className={selectClassName}

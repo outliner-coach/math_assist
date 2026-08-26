@@ -7,6 +7,7 @@ import {
 import { grade1MissionTemplates } from './grade1-problems'
 import { getGrade2MissionSet } from './grade2-problems'
 import { getGrade3MissionSession } from './grade3-problems'
+import { LOCAL_PROFILE_REGISTRY_KEY, createInitialLocalProfileRegistry } from './local-profile'
 
 function memoryStorage(initial: Record<string, string>): ReadonlyLearningStorage & {
   data: Record<string, string>
@@ -472,5 +473,47 @@ describe('local read-only progress repository', () => {
     const malformedRepository = createLocalProgressRepository(memoryStorage(fixtures))
     expect(malformedRepository.readSession(5, 1_000)).toBeNull()
     expect(malformedRepository.readProgress(5, 1_000).sessionCorrupted).toBe(true)
+  })
+})
+
+describe('local progress repository learner bootstrap routing', () => {
+  const BOOTSTRAP_PROFILE_A = 'local_00000000-0000-4000-8000-000000000001'
+
+  it('reads the default storage source through the learner bootstrap adapter', () => {
+    const data = new Map<string, string>()
+    const base = {
+      get length() { return data.size },
+      key: (index: number) => Array.from(data.keys())[index] ?? null,
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => { data.set(key, value) },
+      removeItem: (key: string) => { data.delete(key) },
+    }
+    data.set(LOCAL_PROFILE_REGISTRY_KEY, JSON.stringify(createInitialLocalProfileRegistry({
+      now: () => 1,
+      randomUUID: () => '00000000-0000-4000-8000-000000000001',
+      migrationStatus: 'not-needed',
+    })))
+    data.set(`mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:mathAssist_grade4Progress`, JSON.stringify({
+      schemaVersion: 1,
+      completedVariantKeys: ['g4-big-01:seed-1'],
+      reviewVariantKeys: [],
+      latestMissionId: 'g4-big-01',
+      selectedUnitId: 'unit-4-1-large-numbers',
+      activityRun: 1,
+      activeItemIndex: 0,
+      todaySolvedCount: 1,
+      skillSummaryByTag: {},
+      lastPlayedAt: 900,
+      completionRecord: {
+        completedBasicSetActivityIds: [],
+        completedPracticeSetActivityIds: [],
+      },
+    }))
+    vi.stubGlobal('window', { localStorage: base })
+
+    const projection = createLocalProgressRepository().readProgress(4, 1_000)
+    expect(projection.corrupted).toBe(false)
+    expect(projection.completed).toContain('g4-big-01:seed-1')
+    vi.unstubAllGlobals()
   })
 })

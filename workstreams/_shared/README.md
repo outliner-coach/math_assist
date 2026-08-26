@@ -21,6 +21,58 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-08-27: the production dependency release gate keeps the existing
+  `nanoid` 3.3.18 override and updates the stale 3.3.16 lock entry to the same
+  patched version. The package-lock diff is limited to nanoid's version,
+  resolved URL, and integrity; re-check `npm audit --omit=dev
+  --audit-level=high` when changing Next, PostCSS, overrides, or the lockfile.
+
+- 2026-08-27: production-foundation release cleanup keeps
+  `promptfoo:problems` as the mandatory full-verification phase but routes it
+  through `scripts/run-promptfoo-problems.mjs`. The wrapper preserves the same
+  config and HTML/JSON outputs, propagates Promptfoo failures, and removes
+  generated line-ending whitespace so the committed report satisfies
+  `git diff --cached --check`. Other workstreams should call the npm script
+  rather than invoking Promptfoo with separate report paths.
+
+- 2026-08-25: T8 CI·manual release·monitor·rollback automation (production
+  foundation · device reliability) is the single final writer for package.json
+  verification script registration (`verify:fast`, `verify:full`,
+  `verify:release`), the layered orchestration in
+  `scripts/run-verify.mjs`, the release fingerprint/evidence checker pair
+  (`scripts/release-digest-core.mjs`, `scripts/check-release-evidence.mjs`,
+  `scripts/check-rollback-compat.mjs`,
+  `docs/tracking/accessibility-release-v1.schema.json`), the production static
+  E2E lane (`playwright.config.production.ts`,
+  `scripts/serve-static-out.mjs`), the public site monitor
+  (`scripts/public-site-monitor.mjs`), and the GitHub workflow set under
+  `.github/workflows/` (`ci.yml`, `nightly.yml`, `release.yml`, `monitor.yml`,
+  `codeql.yml`; the push-triggered `nextjs.yml` is removed) plus
+  `.github/dependabot.yml`. It extracts `scripts/release-digest-core.mjs` from
+  T5's generator while keeping byte-identical metadata output. Other
+  workstreams must not add their own deploy path, weaken verify phases, or
+  bypass the manual `github-pages` environment release; content or renderer
+  changes should re-run the relevant verify mode instead.
+
+- 2026-08-25: T7 global wiring (production foundation · device reliability)
+  owns the layout bootstrap ordering in `src/app/layout.tsx` and
+  `src/components/AppReliabilityShell.tsx` (profile bootstrap warm-up →
+  client-only Sentry init → production-only service-worker registration), the
+  CSP `<meta http-equiv="Content-Security-Policy">` emitted from the root
+  layout, `src/app/globals.css` reliability overlay/dialog styles, and the new
+  `e2e/production-reliability.spec.ts` plus `e2e/accessibility.spec.ts`
+  browser gates. It also registers the T4/T5/T6 components
+  (`ProfileManager`, `ProfileTransferDialog`, `DeviceDataResetDialog`,
+  `OfflinePackManager`) into `src/app/home/GuestHomeClient.tsx`, adds
+  `src/lib/use-lease-status.ts` with a small additive export
+  `subscribeLeaseRevocation` in `src/lib/profile-bootstrap.ts`, and mounts the
+  non-dismissible lease-lost overlay from the shared shell so GuestHomeClient
+  AND learning screens get it without per-screen edits. Components from
+  T4/T5/T6 are registered here only — their internals stay owned by their
+  original tasks. Re-check storage-unavailable banner copy, profile-switch
+  reload semantics, and axe WCAG 2.2 A/AA assertions on `/`, `/home`,
+  `/grade/3`, `/review/problems` when touching these surfaces.
+
 - 2026-08-18: staged application-problem rollout foundation (T1) owns the
   source-derived 62-unit Grade 2-6 inventory, the single
   `application-problem-rollout-v1` state record, review-only draft authoring
@@ -65,6 +117,18 @@ When you change a high-conflict file, add a short dated note below:
   세션, 진도, 채점, 시각 렌더러, 검수 화면을 바꿀 때에는 기존 콘텐츠
   선택 규칙과 제출 전 답 비노출, 과거 스냅샷 검증, 실패 시 무기록 조건을
   함께 다시 확인한다.
+
+- 2026-08-02: T2 local profile storage core (primary workstream 02) owns new
+  `src/lib/local-profile.ts`, `src/lib/profile-scoped-storage.ts`,
+  `src/lib/profile-migration.ts`, and `src/lib/profile-session-lease.ts` plus
+  focused tests. It introduces the `mathAssist_profiles_v1` registry,
+  `mathAssist_profile_v1:<profileId>:<legacyKey>` learner-data namespace,
+  restartable byte-preserving legacy migration, and fail-closed profile-change
+  and same-profile session-lease signals. Existing grade progress, session,
+  result, receipt, mascot, sketch, and internal-backup keys remain byte-for-byte
+  inputs; consumers must adopt the scoped adapter explicitly and must not treat
+  local profiles as authentication, add a local PIN, shrink another grade after
+  one corrupt value, or delete legacy/corrupt bytes automatically.
 
 - 2026-08-01: T15 release-gate repair (primary workstreams 02 and 04) owns
   legacy Grade 5 session/result compatibility while normalized `itemCount`

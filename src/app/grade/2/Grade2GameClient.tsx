@@ -56,6 +56,11 @@ import {
   resolveMissionSketchStatus,
 } from '@/lib/mission-sketch-identity'
 import { dispatchMascotReaction, mascotReactionForAnswer } from '@/lib/mascot'
+import {
+  captureAdventureReplayTime,
+  captureAdventureViewTime,
+  refreshAdventureProgressTime,
+} from '@/lib/adventure-view-time'
 
 function unitMissions(missions: Grade2Mission[], unitId: string): Grade2Mission[] {
   return missions
@@ -227,11 +232,13 @@ export default function Grade2GameClient({
   applicationMissionProvider,
   applicationProblemRegistry = GRADE2_APPLICATION_PROBLEM_REGISTRY_V1,
 }: Grade2GameClientProps) {
-  const [replayRound, setReplayRound] = useState(0)
+  const [viewTime, setViewTime] = useState(() =>
+    captureAdventureViewTime(0, Date.now())
+  )
   const [preferLiveApplicationMissionIds, setPreferLiveApplicationMissionIds] = useState<string[]>([])
   const missionSeed = useMemo(
-    () => getDailyAdventureSeed('grade2', Date.now(), replayRound),
-    [replayRound]
+    () => getDailyAdventureSeed('grade2', viewTime.seedNow, viewTime.replayRound),
+    [viewTime.replayRound, viewTime.seedNow]
   )
   const missionCatalog = useMemo(
     () => buildGrade2MissionCatalog(missionSeed, applicationMissionProvider),
@@ -327,47 +334,57 @@ export default function Grade2GameClient({
 
   useEffect(() => {
     if (missionCatalog.status !== 'ready') return
-    const result = loadGrade2Progress()
-    const progressForUnit =
-      result.progress.selectedUnitId === initialUnit.id
-        ? result.progress
-        : selectGrade2Unit(result.progress, initialUnit.id)
-    const restoredCatalog = mergeGrade2ApplicationMissionSnapshots(catalogMissions, progressForUnit)
-      .filter((mission) => mission.mode === initialMode)
-    const recommendedMission = firstMissionForUnit(restoredCatalog, initialUnit.id, progressForUnit)
-    const hasStoredLatestApplicationMission = Boolean(
-      progressForUnit.latestMissionId &&
-      progressForUnit.activeApplicationInstanceIdByMissionId[progressForUnit.latestMissionId]
-    )
-    const unresolvedLatestApplicationMissionId =
-      progressForUnit.latestMissionId &&
-      progressForUnit.activeApplicationInstanceIdByMissionId[progressForUnit.latestMissionId] &&
-      !getActiveGrade2ApplicationMissionSnapshot(progressForUnit, progressForUnit.latestMissionId)
-        ? progressForUnit.latestMissionId
-        : null
-    const requestedMission = initialMissionId
-      ? unitMissions(restoredCatalog, initialUnit.id).find((mission) => mission.id === initialMissionId)
-      : undefined
-    const restoredMission = requestedMission ?? (
-      progressForUnit.missionSketchRunOrdinal > 0 || hasStoredLatestApplicationMission
-        ? unitMissions(restoredCatalog, initialUnit.id).find((mission) => mission.id === progressForUnit.latestMissionId) ?? recommendedMission
-        : recommendedMission
-    )
-    const restoredProgress = activateGrade2ApplicationMissionSnapshot(
-      progressForUnit,
-      restoredMission,
-    )
-    setProgress(restoredProgress)
-    setReplayRound(progressForUnit.missionSketchRunOrdinal)
-    setStorageAvailable(
-      restoredProgress === result.progress
-        ? result.storageAvailable
-        : saveGrade2Progress(restoredProgress)
-    )
-    setStorageRecovered((wasRecovered) => wasRecovered || result.recovered)
-    setSelectedUnitId(initialUnit.id)
-    setSelectedMissionId(restoredMission.id)
-    setUnresolvedActiveApplicationMissionId(unresolvedLatestApplicationMissionId)
+    let cancelled = false
+    queueMicrotask(() => {
+      if (cancelled) return
+      const result = loadGrade2Progress()
+      const progressForUnit =
+        result.progress.selectedUnitId === initialUnit.id
+          ? result.progress
+          : selectGrade2Unit(result.progress, initialUnit.id)
+      const restoredCatalog = mergeGrade2ApplicationMissionSnapshots(catalogMissions, progressForUnit)
+        .filter((mission) => mission.mode === initialMode)
+      const recommendedMission = firstMissionForUnit(restoredCatalog, initialUnit.id, progressForUnit)
+      const hasStoredLatestApplicationMission = Boolean(
+        progressForUnit.latestMissionId &&
+        progressForUnit.activeApplicationInstanceIdByMissionId[progressForUnit.latestMissionId]
+      )
+      const unresolvedLatestApplicationMissionId =
+        progressForUnit.latestMissionId &&
+        progressForUnit.activeApplicationInstanceIdByMissionId[progressForUnit.latestMissionId] &&
+        !getActiveGrade2ApplicationMissionSnapshot(progressForUnit, progressForUnit.latestMissionId)
+          ? progressForUnit.latestMissionId
+          : null
+      const requestedMission = initialMissionId
+        ? unitMissions(restoredCatalog, initialUnit.id).find((mission) => mission.id === initialMissionId)
+        : undefined
+      const restoredMission = requestedMission ?? (
+        progressForUnit.missionSketchRunOrdinal > 0 || hasStoredLatestApplicationMission
+          ? unitMissions(restoredCatalog, initialUnit.id).find((mission) => mission.id === progressForUnit.latestMissionId) ?? recommendedMission
+          : recommendedMission
+      )
+      const restoredProgress = activateGrade2ApplicationMissionSnapshot(
+        progressForUnit,
+        restoredMission,
+      )
+      setProgress(restoredProgress)
+      setViewTime(captureAdventureReplayTime(
+        progressForUnit.missionSketchRunOrdinal,
+        Date.now(),
+      ))
+      setStorageAvailable(
+        restoredProgress === result.progress
+          ? result.storageAvailable
+          : saveGrade2Progress(restoredProgress)
+      )
+      setStorageRecovered((wasRecovered) => wasRecovered || result.recovered)
+      setSelectedUnitId(initialUnit.id)
+      setSelectedMissionId(restoredMission.id)
+      setUnresolvedActiveApplicationMissionId(unresolvedLatestApplicationMissionId)
+    })
+    return () => {
+      cancelled = true
+    }
   }, [catalogMissions, initialMissionId, initialMode, initialUnit.id, missionCatalog.status])
 
   useEffect(() => {
@@ -392,7 +409,9 @@ export default function Grade2GameClient({
   }, [blockedApplicationMissionId, initialMode, missionCatalog.status, missionSeed, progress.completedMissionIds.length, progress.masteryByMissionId, progress.reviewMissionIds.length, progress.todaySolvedCount, progress.xp, selectedMission.id, selectedMission.prompt, selectedMissionId, selectedUnitId, solved, wrongAttemptCount])
 
   const persistProgress = (nextProgress: Grade2Progress) => {
+    const progressNow = Date.now()
     setProgress(nextProgress)
+    setViewTime(current => refreshAdventureProgressTime(current, progressNow))
     const saved = saveGrade2Progress(nextProgress)
     setStorageAvailable(saved)
   }
@@ -456,17 +475,27 @@ export default function Grade2GameClient({
         setInputError('새 문제를 안전하게 저장하지 못했어요. 다른 미션을 골라 주세요.')
         return
       }
+      const nextApplicationViewTime = captureAdventureReplayTime(
+        nextProgress.missionSketchRunOrdinal,
+        Date.now(),
+      )
       persistProgress(nextProgress)
-      setReplayRound(nextProgress.missionSketchRunOrdinal)
+      setViewTime(nextApplicationViewTime)
       setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
       resetMissionState()
       document.getElementById('grade2-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
       return
     }
     const nextProgress = advanceMissionSketchRun(progress)
+    const nextViewTime = captureAdventureReplayTime(
+      nextProgress.missionSketchRunOrdinal,
+      Date.now(),
+    )
     persistProgress(nextProgress)
-    setReplayRound(nextProgress.missionSketchRunOrdinal)
-    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
+    setViewTime(nextViewTime)
+    setMissionAttemptRunKey(createMissionAttemptRunKey(
+      getDailyAdventureSeed('grade2', nextViewTime.seedNow, nextViewTime.replayRound),
+    ))
     resetMissionState()
     document.getElementById('grade2-mission')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
@@ -508,14 +537,20 @@ export default function Grade2GameClient({
       ...resetGrade2Progress(),
       missionSketchRunOrdinal: progress.missionSketchRunOrdinal + 1,
     }
+    const nextViewTime = captureAdventureReplayTime(
+      nextProgress.missionSketchRunOrdinal,
+      Date.now(),
+    )
     persistProgress(nextProgress)
-    setReplayRound(nextProgress.missionSketchRunOrdinal)
+    setViewTime(nextViewTime)
     setPreferLiveApplicationMissionIds([])
     setStorageRecovered(false)
     setUnresolvedActiveApplicationMissionId(null)
     setSelectedUnitId(initialUnit.id)
     setSelectedMissionId(unitMissions(missions, initialUnit.id)[0]?.id ?? 'g2-1-place-value-01')
-    setMissionAttemptRunKey(createMissionAttemptRunKey(missionSeed))
+    setMissionAttemptRunKey(createMissionAttemptRunKey(
+      getDailyAdventureSeed('grade2', nextViewTime.seedNow, nextViewTime.replayRound),
+    ))
     setConfirmReset(false)
     resetMissionState()
   }
@@ -640,6 +675,7 @@ export default function Grade2GameClient({
           progress={progress}
           totalMissionCount={allMissions.length}
           tone="blue"
+          now={viewTime.progressNow}
         />
 
         <nav className="grid grid-cols-2 gap-3" aria-label="2학년 문제 형태">

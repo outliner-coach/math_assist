@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import { getGrade3MissionSession, getSafeGrade3Mission } from './grade3-problems'
+import { LOCAL_PROFILE_REGISTRY_KEY, createInitialLocalProfileRegistry } from './local-profile'
 import {
   GRADE3_PROGRESS_KEY,
   createInitialGrade3Progress,
@@ -219,5 +220,61 @@ describe('grade3 progress', () => {
     expect(loaded.progress.schemaVersion).toBe(2)
     expect(loaded.progress.completedUnitIds).toContain(unitId)
     expect(isGrade3UnitComplete(loaded.progress, unitId)).toBe(true)
+  })
+})
+
+describe('grade3 progress learner bootstrap routing', () => {
+  const BOOTSTRAP_PROFILE_A = 'local_00000000-0000-4000-8000-000000000001'
+
+  function bootstrapBaseStorage(): { data: Map<string, string> } {
+    const data = new Map<string, string>()
+    const base = {
+      get length() { return data.size },
+      key: (index: number) => Array.from(data.keys())[index] ?? null,
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => { data.set(key, value) },
+      removeItem: (key: string) => { data.delete(key) },
+      data,
+    }
+    data.set(LOCAL_PROFILE_REGISTRY_KEY, JSON.stringify(createInitialLocalProfileRegistry({
+      now: () => 1,
+      randomUUID: () => '00000000-0000-4000-8000-000000000001',
+      migrationStatus: 'not-needed',
+    })))
+    vi.stubGlobal('window', { localStorage: base })
+    return base
+  }
+
+  it('routes the default storage source through the learner bootstrap adapter', () => {
+    const base = bootstrapBaseStorage()
+
+    const mission = getSafeGrade3Mission(42)
+    const next = recordGrade3Attempt(createInitialGrade3Progress(100), mission, true, { now: 200 })
+    expect(saveGrade3Progress(next)).toBe(true)
+
+    const scopedKey = `mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:${GRADE3_PROGRESS_KEY}`
+    expect(base.data.get(scopedKey)).toContain(mission.id)
+    expect(base.data.has(GRADE3_PROGRESS_KEY)).toBe(false)
+
+    const loaded = loadGrade3Progress(undefined, 300)
+    expect(loaded.storageAvailable).toBe(true)
+    expect(loaded.progress.completedMissionIds).toContain(mission.id)
+    vi.unstubAllGlobals()
+  })
+
+  it('keeps corrupt-source tracking tied to the memoized learner adapter identity', () => {
+    const base = bootstrapBaseStorage()
+    base.data.set(
+      `mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:${GRADE3_PROGRESS_KEY}`,
+      '{corrupt json',
+    )
+
+    const loaded = loadGrade3Progress()
+    expect(loaded.recovered).toBe(true)
+    expect(saveGrade3Progress(createInitialGrade3Progress(100))).toBe(false)
+
+    resetGrade3Progress(undefined, 400)
+    expect(loadGrade3Progress().recovered).toBe(false)
+    vi.unstubAllGlobals()
   })
 })

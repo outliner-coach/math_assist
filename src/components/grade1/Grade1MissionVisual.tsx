@@ -79,6 +79,7 @@ function CountingGrid({ mission, emphasize }: Grade1MissionVisualProps) {
 
   return (
     <div
+      role="img"
       className={`rounded-[1.5rem] border-2 bg-[#fbfffa] p-4 ${
         emphasize ? 'border-[#ffc700] ring-4 ring-[#fff8d9]' : 'border-[#e5e5e5]'
       }`}

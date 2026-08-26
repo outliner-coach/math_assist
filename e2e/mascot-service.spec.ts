@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { activeLearnerStorageKey, readLearnerStorageItem } from './profile-aware-storage'
 
 const BASE_PATH = '/math_assist'
 const MASCOT_KEY = 'mathAssist_mascot_v1'
@@ -6,6 +7,7 @@ const MASCOT_KEY = 'mathAssist_mascot_v1'
 test.beforeEach(async ({ page }) => {
   await page.goto(`${BASE_PATH}/`)
   await page.evaluate(() => localStorage.clear())
+  await page.reload()
 })
 test('수리·모아·루미를 소개하고 선택한 친구를 전 학년 경험 프리셋에 연결한다', async ({ page }) => {
   await expect(page.getByTestId('landing-mascot-lineup')).toBeVisible()
@@ -16,7 +18,7 @@ test('수리·모아·루미를 소개하고 선택한 친구를 전 학년 경�
   await expect(page.getByTestId('mascot-picker')).toBeVisible()
   await page.getByTestId('choose-mascot-lumi').click()
   await expect(page.getByTestId('choose-mascot-lumi')).toHaveAttribute('aria-pressed', 'true')
-  expect(await page.evaluate((key) => localStorage.getItem(key), MASCOT_KEY)).toBe(JSON.stringify({ avatarId: 'lumi' }))
+  expect(await readLearnerStorageItem(page, MASCOT_KEY)).toBe(JSON.stringify({ avatarId: 'lumi' }))
 
   await page.getByTestId('home-primary-action').click()
   const companion = page.getByTestId('service-mascot')
@@ -30,7 +32,10 @@ test('수리·모아·루미를 소개하고 선택한 친구를 전 학년 경�
 })
 
 test('정답 결과는 캐릭터 반응만 바꾸고 선택 저장은 그대로 유지한다', async ({ page }) => {
-  await page.evaluate((key) => localStorage.setItem(key, JSON.stringify({ avatarId: 'moa' })), MASCOT_KEY)
+  await page.evaluate(
+    (key) => localStorage.setItem(key, JSON.stringify({ avatarId: 'moa' })),
+    await activeLearnerStorageKey(page, MASCOT_KEY),
+  )
   await page.goto(`${BASE_PATH}/grade/4/mission?unitId=unit-4-1-large-numbers`)
 
   const companion = page.getByTestId('service-mascot')
@@ -42,5 +47,5 @@ test('정답 결과는 캐릭터 반응만 바꾸고 선택 저장은 그대로 
   await page.getByTestId('grade4-integer-input').fill('283056')
   await page.getByTestId('grade4-integer-submit').click()
   await expect(companion).toHaveAttribute('data-mascot-state', 'celebrate')
-  expect(await page.evaluate((key) => localStorage.getItem(key), MASCOT_KEY)).toBe(JSON.stringify({ avatarId: 'moa' }))
+  expect(await readLearnerStorageItem(page, MASCOT_KEY)).toBe(JSON.stringify({ avatarId: 'moa' }))
 })

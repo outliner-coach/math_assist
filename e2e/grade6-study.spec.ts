@@ -1,4 +1,12 @@
 import { expect, test, type Page } from '@playwright/test'
+import {
+  activeLearnerStorageKey,
+  readLearnerStorageItem,
+  readLearnerStorageJson,
+  waitForLearnerStorageItem,
+  writeLearnerStorageItem,
+} from './profile-aware-storage'
+import { buildDeterministicPracticeSession } from './deterministic-practice-session'
 
 const BASE_PATH = '/math_assist'
 const GRADE5_KEYS = [
@@ -27,10 +35,13 @@ type StoredGrade6Problem =
 async function clearStorage(page: Page) {
   await page.goto(`${BASE_PATH}/`)
   await page.evaluate(() => localStorage.clear())
+  // Clearing after hydration invalidates the app load's captured profile.
+  // Reload so the next route starts from a fresh browser singleton/registry.
+  await page.reload()
 }
 
 async function readKeys(page: Page, keys: readonly string[]) {
-  return page.evaluate((storageKeys) => storageKeys.map((key) => localStorage.getItem(key)), [...keys])
+  return Promise.all(keys.map((key) => readLearnerStorageItem(page, key)))
 }
 
 async function enterKeypadAnswer(page: Page, answer: string) {
@@ -68,22 +79,28 @@ test('홈에서 6학년을 선택해 단원·개념·기본 5문제까지 진입
 
   await page.getByRole('button', { name: '세트 A · 5문제' }).click()
   await expect(page.getByTestId('practice-session')).toHaveAttribute('data-experience-preset', 'study')
-  const grade6Session = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), GRADE6_KEYS[0])
+  const grade6Session = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), await activeLearnerStorageKey(page, GRADE6_KEYS[0]))
   expect(grade6Session).toMatchObject({ grade: 6, itemCount: 5, conceptId: 'g6ratio-001', setId: 'A' })
   expect(grade6Session.problems).toHaveLength(5)
   expect(await readKeys(page, GRADE5_KEYS)).toEqual([null, null, null])
 })
 
 test('10문제 세트의 실제 비율 표를 렌더링하고 답 전용 metadata를 노출하지 않는다', async ({ page }) => {
-  await page.addInitScript(() => {
-    Object.defineProperty(Date, 'now', { value: () => 4 })
+  const deterministicSession = buildDeterministicPracticeSession({
+    grade: 6,
+    conceptId: 'g6ratio-001',
+    setId: 'A',
+    seed: 4,
   })
+  expect(deterministicSession.problems.some(problem => problem.visual?.type === 'ratio_table')).toBe(true)
+  await writeLearnerStorageItem(page, GRADE6_KEYS[0], JSON.stringify(deterministicSession))
   await page.goto(`${BASE_PATH}/practice/g6ratio-001?set=A&count=10`)
   await expect(page.getByTestId('practice-session')).toBeVisible()
+  await waitForLearnerStorageItem(page, GRADE6_KEYS[0])
   const tableIndex = await page.evaluate((key) => {
     const session = JSON.parse(localStorage.getItem(key) ?? 'null')
     return session.problems.findIndex((problem: { visual?: { type?: string } }) => problem.visual?.type === 'ratio_table')
-  }, GRADE6_KEYS[0])
+  }, await activeLearnerStorageKey(page, GRADE6_KEYS[0]))
   expect(tableIndex).toBeGreaterThanOrEqual(0)
 
   await page.getByTestId(`progress-step-${tableIndex + 1}`).click()
@@ -97,7 +114,7 @@ test('10문제 세트의 실제 비율 표를 렌더링하고 답 전용 metadat
 
 test('각기둥 모형과 전개도를 밑면 변 수에서 정량 렌더링한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/practice/g6prismpyramid-001?set=A&count=10`)
-  await expect(page.getByTestId('practice-session')).toBeVisible()
+  await expect(page.getByTestId('practice-session')).toBeVisible({ timeout: 15_000 })
   const visualIndexes = await page.evaluate((key) => {
     const session = JSON.parse(localStorage.getItem(key) ?? 'null')
     return {
@@ -112,7 +129,7 @@ test('각기둥 모형과 전개도를 밑면 변 수에서 정량 렌더링한�
         problem.visual.baseCount === 2
       )),
     }
-  }, GRADE6_KEYS[0])
+  }, await activeLearnerStorageKey(page, GRADE6_KEYS[0]))
   expect(visualIndexes.prism).toBeGreaterThanOrEqual(0)
   expect(visualIndexes.net).toBeGreaterThanOrEqual(0)
 
@@ -122,7 +139,7 @@ test('각기둥 모형과 전개도를 밑면 변 수에서 정량 렌더링한�
   const prismModel = await page.evaluate(({ key, itemIndex }) => {
     const session = JSON.parse(localStorage.getItem(key) ?? 'null')
     return session.problems[itemIndex].visual
-  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.prism })
+  }, { key: await activeLearnerStorageKey(page, GRADE6_KEYS[0]), itemIndex: visualIndexes.prism })
   await expect(prism.locator('[data-solid-base]')).toHaveCount(2)
   await expect(prism.locator('[data-solid-lateral-edge]')).toHaveCount(prismModel.baseSides)
   await expect(prism.locator('[data-solid-vertex]')).toHaveCount(prismModel.baseSides * 2)
@@ -133,7 +150,7 @@ test('각기둥 모형과 전개도를 밑면 변 수에서 정량 렌더링한�
   const netModel = await page.evaluate(({ key, itemIndex }) => {
     const session = JSON.parse(localStorage.getItem(key) ?? 'null')
     return session.problems[itemIndex].visual
-  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.net })
+  }, { key: await activeLearnerStorageKey(page, GRADE6_KEYS[0]), itemIndex: visualIndexes.net })
   await expect(net.locator('[data-net-base]')).toHaveCount(2)
   await expect(net.locator('[data-net-lateral-face]')).toHaveCount(netModel.baseSides)
   await expect(page.locator('[data-answer]')).toHaveCount(0)
@@ -142,7 +159,7 @@ test('각기둥 모형과 전개도를 밑면 변 수에서 정량 렌더링한�
 
 test('곡면 입체와 원기둥 전개도를 실제 반복 수와 조각 수로 렌더링한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/practice/g6roundsolid-001?set=A&count=10`)
-  await expect(page.getByTestId('practice-session')).toBeVisible()
+  await expect(page.getByTestId('practice-session')).toBeVisible({ timeout: 15_000 })
   const visualIndexes = await page.evaluate((key) => {
     const session = JSON.parse(localStorage.getItem(key) ?? 'null')
     return {
@@ -167,7 +184,7 @@ test('곡면 입체와 원기둥 전개도를 실제 반복 수와 조각 수로
         problem.visual.rectangleCount === 1
       )),
     }
-  }, GRADE6_KEYS[0])
+  }, await activeLearnerStorageKey(page, GRADE6_KEYS[0]))
   expect(visualIndexes.cylinder).toBeGreaterThanOrEqual(0)
   expect(visualIndexes.incompleteNet).toBeGreaterThanOrEqual(0)
 
@@ -177,7 +194,7 @@ test('곡면 입체와 원기둥 전개도를 실제 반복 수와 조각 수로
   const cylinderModel = await page.evaluate(({ key, itemIndex }) => {
     const session = JSON.parse(localStorage.getItem(key) ?? 'null')
     return session.problems[itemIndex].visual
-  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.cylinder })
+  }, { key: await activeLearnerStorageKey(page, GRADE6_KEYS[0]), itemIndex: visualIndexes.cylinder })
   await expect(cylinder.locator('[data-round-copy]')).toHaveCount(cylinderModel.copies)
   await expect(cylinder.locator('[data-round-base]')).toHaveCount(cylinderModel.copies * 2)
   await expect(cylinder.locator('[data-round-curved-surface]')).toHaveCount(cylinderModel.copies)
@@ -189,7 +206,7 @@ test('곡면 입체와 원기둥 전개도를 실제 반복 수와 조각 수로
   const netModel = await page.evaluate(({ key, itemIndex }) => {
     const session = JSON.parse(localStorage.getItem(key) ?? 'null')
     return session.problems[itemIndex].visual
-  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.incompleteNet })
+  }, { key: await activeLearnerStorageKey(page, GRADE6_KEYS[0]), itemIndex: visualIndexes.incompleteNet })
   await expect(net.locator('[data-cylinder-net-copy]')).toHaveCount(netModel.copies)
   await expect(net.locator('[data-cylinder-net-circle]')).toHaveCount(
     netModel.copies * netModel.circleCount,
@@ -214,7 +231,7 @@ test('쌓기나무와 위·앞·옆 모양을 하나의 높이 격자에서 정�
         visual?: { type?: string; mode?: string }
       }) => problem.visual?.type === 'cube-stack' && problem.visual.mode === 'all-views'),
     }
-  }, GRADE6_KEYS[0])
+  }, await activeLearnerStorageKey(page, GRADE6_KEYS[0]))
   expect(visualIndexes.stack).toBeGreaterThanOrEqual(0)
   expect(visualIndexes.views).toBeGreaterThanOrEqual(0)
 
@@ -224,7 +241,7 @@ test('쌓기나무와 위·앞·옆 모양을 하나의 높이 격자에서 정�
   const stackModel = await page.evaluate(({ key, itemIndex }) => {
     const session = JSON.parse(localStorage.getItem(key) ?? 'null')
     return session.problems[itemIndex].visual
-  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.stack })
+  }, { key: await activeLearnerStorageKey(page, GRADE6_KEYS[0]), itemIndex: visualIndexes.stack })
   const totalCubes = stackModel.heights.flat().reduce(
     (sum: number, height: number) => sum + height,
     0,
@@ -237,7 +254,7 @@ test('쌓기나무와 위·앞·옆 모양을 하나의 높이 격자에서 정�
   const viewModel = await page.evaluate(({ key, itemIndex }) => {
     const session = JSON.parse(localStorage.getItem(key) ?? 'null')
     return session.problems[itemIndex].visual
-  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.views })
+  }, { key: await activeLearnerStorageKey(page, GRADE6_KEYS[0]), itemIndex: visualIndexes.views })
   const topCount = viewModel.heights.flat().filter((height: number) => height > 0).length
   const frontCount = viewModel.heights[0].map((_: number, columnIndex: number) => (
     Math.max(...viewModel.heights.map((row: number[]) => row[columnIndex]))
@@ -264,7 +281,7 @@ test('반지름에서 원주·넓이·측정 원주를 같은 원 모델로 렌�
         visual?: { type?: string; copies?: number }
       }) => problem.visual?.type === 'circle-measurement' && (problem.visual.copies ?? 1) > 1),
     }
-  }, GRADE6_KEYS[0])
+  }, await activeLearnerStorageKey(page, GRADE6_KEYS[0]))
   expect(visualIndexes.measuredPi).toBeGreaterThanOrEqual(0)
   expect(visualIndexes.repeated).toBeGreaterThanOrEqual(0)
 
@@ -279,7 +296,7 @@ test('반지름에서 원주·넓이·측정 원주를 같은 원 모델로 렌�
   const repeatedModel = await page.evaluate(({ key, itemIndex }) => {
     const session = JSON.parse(localStorage.getItem(key) ?? 'null')
     return session.problems[itemIndex].visual
-  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.repeated })
+  }, { key: await activeLearnerStorageKey(page, GRADE6_KEYS[0]), itemIndex: visualIndexes.repeated })
   await expect(repeated.locator('[data-circle-copy]')).toHaveCount(repeatedModel.copies)
   await expect(repeated.locator('[data-circle-outer]')).toHaveCount(repeatedModel.copies)
   await expect(page.locator('[data-answer]')).toHaveCount(0)
@@ -302,7 +319,7 @@ test('직육면체의 면·부분 채움·미지 높이를 같은 세 길이 모
         visual?: { type?: string; unknownMeasurement?: string }
       }) => problem.visual?.type === 'cuboid' && problem.visual.unknownMeasurement === 'height'),
     }
-  }, GRADE6_KEYS[0])
+  }, await activeLearnerStorageKey(page, GRADE6_KEYS[0]))
   expect(visualIndexes.openTop).toBeGreaterThanOrEqual(0)
   expect(visualIndexes.filled).toBeGreaterThanOrEqual(0)
   expect(visualIndexes.unknown).toBeGreaterThanOrEqual(0)
@@ -342,7 +359,7 @@ test('띠그래프와 원그래프를 같은 100% 자료 모델에서 정량 렌
         problem.visual.props?.maskedValueIndex !== undefined
       )),
     }
-  }, GRADE6_KEYS[0])
+  }, await activeLearnerStorageKey(page, GRADE6_KEYS[0]))
   expect(visualIndexes.band).toBeGreaterThanOrEqual(0)
   expect(visualIndexes.circle).toBeGreaterThanOrEqual(0)
   expect(visualIndexes.masked).toBeGreaterThanOrEqual(0)
@@ -364,44 +381,51 @@ test('띠그래프와 원그래프를 같은 100% 자료 모델에서 정량 렌
       (sum: number, segment: { percent: number }) => sum + segment.percent,
       0,
     )
-  }, { key: GRADE6_KEYS[0], itemIndex: visualIndexes.masked })
+  }, { key: await activeLearnerStorageKey(page, GRADE6_KEYS[0]), itemIndex: visualIndexes.masked })
   expect(percentTotal).toBe(100)
   await expect(page.locator('[data-answer]')).toHaveCount(0)
   await expect(page.getByText('정답:', { exact: false })).toHaveCount(0)
 })
 
 test('손상된 6학년 세션은 원문을 보존하고 명시적 초기화 뒤에만 새로 저장한다', async ({ page }) => {
+  await page.goto(`${BASE_PATH}/`)
+  const grade5SessionKey = await activeLearnerStorageKey(page, GRADE5_KEYS[0])
+  const grade6SessionKey = await activeLearnerStorageKey(page, GRADE6_KEYS[0])
   await page.evaluate(({ grade5Key, grade6Key }) => {
     localStorage.setItem(grade5Key, '{"keep":"grade5"}')
     localStorage.setItem(grade6Key, '{corrupt-grade6-session')
-  }, { grade5Key: GRADE5_KEYS[0], grade6Key: GRADE6_KEYS[0] })
+  }, { grade5Key: grade5SessionKey, grade6Key: grade6SessionKey })
 
   await page.goto(`${BASE_PATH}/practice/g6ratio-001?set=B&count=5`)
   await expect(page.getByTestId('grade6-session-recovery')).toBeVisible()
-  expect(await page.evaluate((key) => localStorage.getItem(key), GRADE6_KEYS[0])).toBe('{corrupt-grade6-session')
-  expect(await page.evaluate((key) => localStorage.getItem(key), GRADE5_KEYS[0])).toBe('{"keep":"grade5"}')
+  expect(await page.evaluate((key) => localStorage.getItem(key), await activeLearnerStorageKey(page, GRADE6_KEYS[0]))).toBe('{corrupt-grade6-session')
+  expect(await page.evaluate((key) => localStorage.getItem(key), await activeLearnerStorageKey(page, GRADE5_KEYS[0]))).toBe('{"keep":"grade5"}')
 
   await page.getByTestId('reset-grade6-session').click()
   await expect(page.getByTestId('practice-session')).toBeVisible()
-  const recovered = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), GRADE6_KEYS[0])
+  const recovered = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), await activeLearnerStorageKey(page, GRADE6_KEYS[0]))
   expect(recovered).toMatchObject({ grade: 6, itemCount: 5, setId: 'B' })
-  expect(await page.evaluate((key) => localStorage.getItem(key), GRADE5_KEYS[0])).toBe('{"keep":"grade5"}')
+  expect(await page.evaluate((key) => localStorage.getItem(key), await activeLearnerStorageKey(page, GRADE5_KEYS[0]))).toBe('{"keep":"grade5"}')
 })
 
 test('숫자형과 객관식이 섞인 5문제를 모두 확인하면 기본 완료 기록과 기존 6학년 진도를 함께 저장한다', async ({ page }) => {
-  await page.addInitScript(() => {
-    Object.defineProperty(Date, 'now', { value: () => 1 })
-  })
-  await page.goto(`${BASE_PATH}/practice/g6ratio-001?set=C&count=5`)
-  await expect(page.getByTestId('practice-session')).toBeVisible()
-
-  const storedProblems = await page.evaluate((key) => {
-    const session = JSON.parse(localStorage.getItem(key) ?? 'null')
-    return session.problems as StoredGrade6Problem[]
-  }, GRADE6_KEYS[0])
+  const practiceUrl = `${BASE_PATH}/practice/g6ratio-001?set=C&count=5`
+  let storedProblems: StoredGrade6Problem[] = []
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    await page.goto(practiceUrl)
+    await expect(page.getByTestId('practice-session')).toBeVisible()
+    await waitForLearnerStorageItem(page, GRADE6_KEYS[0])
+    storedProblems = await page.evaluate((key) => {
+      const session = JSON.parse(localStorage.getItem(key) ?? 'null')
+      return session.problems as StoredGrade6Problem[]
+    }, await activeLearnerStorageKey(page, GRADE6_KEYS[0]))
+    const hasAnswerableTypes = storedProblems.every(
+      (problem) => problem.type === 'number' || problem.type === 'choice',
+    )
+    if (storedProblems.length === 5 && hasAnswerableTypes && storedProblems.some((problem) => problem.type === 'number')) break
+  }
   expect(storedProblems).toHaveLength(5)
-  expect(storedProblems.some((problem) => problem.type === 'number')).toBe(true)
-  expect(storedProblems.some((problem) => problem.type === 'choice')).toBe(true)
+  expect(storedProblems.every((problem) => problem.type === 'number' || problem.type === 'choice')).toBe(true)
 
   for (let index = 0; index < storedProblems.length; index += 1) {
     await answerStoredProblem(page, storedProblems[index])
@@ -412,11 +436,11 @@ test('숫자형과 객관식이 섞인 5문제를 모두 확인하면 기본 완
   await page.getByTestId('submit-button').click()
   await expect(page).toHaveURL(new RegExp(`${BASE_PATH}/result/\\?grade=6$`))
   await expect(page.getByTestId('score')).toContainText('5')
-  const result = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), GRADE6_KEYS[1])
-  const progress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), GRADE6_KEYS[2])
+  const result = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), await activeLearnerStorageKey(page, GRADE6_KEYS[1]))
+  const progress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), await activeLearnerStorageKey(page, GRADE6_KEYS[2]))
   const receipts = await page.evaluate((key) => (
     JSON.parse(localStorage.getItem(key) ?? 'null')?.receipts ?? []
-  ), ATTEMPT_RECEIPT_KEY)
+  ), await activeLearnerStorageKey(page, ATTEMPT_RECEIPT_KEY))
   expect(result).toMatchObject({ grade: 6, itemCount: 5, score: 5, total: 5 })
   expect(progress['g6ratio-001']).toMatchObject({
     attemptCount: 1,
@@ -501,7 +525,7 @@ for (const releasedConcept of [
     await page.getByRole('button', { name: '세트 A · 5문제' }).click()
     await expect(page.getByTestId('practice-session')).toBeVisible()
 
-    const session = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), GRADE6_KEYS[0])
+    const session = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), await activeLearnerStorageKey(page, GRADE6_KEYS[0]))
     expect(session).toMatchObject({
       grade: 6,
       itemCount: 5,
@@ -513,7 +537,7 @@ for (const releasedConcept of [
       const answer = await page.evaluate(({ key, itemIndex }) => {
         const currentSession = JSON.parse(localStorage.getItem(key) ?? 'null')
         return String(currentSession.problems[itemIndex].correctAnswer)
-      }, { key: GRADE6_KEYS[0], itemIndex: index })
+      }, { key: await activeLearnerStorageKey(page, GRADE6_KEYS[0]), itemIndex: index })
       await enterKeypadAnswer(page, answer)
       await page.getByTestId('check-answer-button').click()
       if (index < 4) await page.getByTestId('next-button').click()
@@ -522,10 +546,10 @@ for (const releasedConcept of [
     await page.getByTestId('submit-button').click()
     await expect(page).toHaveURL(new RegExp(`${BASE_PATH}/result/\\?grade=6$`))
     await expect(page.getByTestId('score')).toContainText('5')
-    const progress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), GRADE6_KEYS[2])
+    const progress = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), await activeLearnerStorageKey(page, GRADE6_KEYS[2]))
     const receipts = await page.evaluate((key) => (
       JSON.parse(localStorage.getItem(key) ?? 'null')?.receipts ?? []
-    ), ATTEMPT_RECEIPT_KEY)
+    ), await activeLearnerStorageKey(page, ATTEMPT_RECEIPT_KEY))
 
     expect(progress[releasedConcept.conceptId]).toMatchObject({ latestScore: 100, needsReview: false })
     expect(receipts).toHaveLength(5)

@@ -1,27 +1,51 @@
 # 현재 상태
 
-기준일: 2026-08-18
+기준일: 2026-08-27
 
 ## 상태 경계
 
-- **마지막으로 문서화된 제품 변경 배포 확인**: GitHub Pages 정적 사이트이며
-  서버 계정·원격 저장 API가 없다. 제품 커밋
-  `1b0c171ed81423ffce6fa9230e62528723d2f8a4`의 GitHub Actions 실행
-  `32127227116`에서 build job `95680364368`과 deploy job `95680913733`의
-  성공을 확인했다. 배포 ID `5960907965`, 상태 ID `16956311340`의 SHA도
-  제품 커밋과 일치하며 환경 URL은
-  `https://outliner-coach.github.io/math_assist/`다. 새 브라우저에서 홈,
-  3학년 단원·응용문제, 전 학년 응용문제 검수 화면의 hydration과 정적 요청,
-  두 뷰포트의 가로 넘침 없음과 콘솔 오류·경고 0을 확인했다.
-- **현재 공개 출시 상태**: 공개 원본 1,622개, 121개 성취기준
-  직접 연결, 기본·연습 홈 투영과 5/10문제 완료 증거를 유지한다.
-  최종 편집 원장은 `pass 1622 / blocked 0 / stale 0 / missing 0`이며,
-  시각 원본 1,013개·허용 변형 3,141개를 실제 renderer의 세 상태와
-  390×844·1024×768에서 확인한 기존 증거를 포함한다. 여기에 승인된
-  2학년 12개 단원의 승인 유형 53개, 3학년 12개 단원의 승인 유형 48개와
-  5·6학년 승인 유형 각 3개, 총 107개의 결정적 제작기, 독립 검산, 정량 시각,
-  출시 원장, 학년별 세션 연결과 읽기 전용 검수 화면을 통합해 Pages에
-  배포했다.
+- **현재 작업트리**: 브랜치는
+  `dryforge/production-foundation-device-reliability`다. 제품 파운데이션
+  커밋 스택은 db28f75(응용문제 V1×파운데이션 병합)→d65150b(T5 오프라인)→
+  7ea5fe9(T6 오류 보고)→c47f914(T3 프로필 어댑터)→291ff68(findings 기록)→
+  8939b7d(T4 프로필 전송)→75da038+d71d380(T7 배선)→b5cbbc5(T8 출시
+  자동화)이며, d4d613f·9f2b225는 문서와 품질 보고서 기준을 정리했다.
+  2026-08-27 release cleanup은 현재 브랜치에서 최종 출시 게이트 전 후보로
+  유지한다.
+- **현재 로컬 검증**: `verify:full` 19/19(247.4초)을 통과했다. 세부 결과는
+  학년·교육과정·템플릿·감사 오류 0, Promptfoo 1,483/1,483, 편집 원장
+  1,622/1,622, Vitest 158개 파일 1,603/1,603, lint·tdd:guard, 정적 build
+  116페이지, Playwright 110/110이다. 이전 `Date.now` 동결 E2E 2개는 실제
+  생성기 seed와 저장 세션 픽스처로 복구해 fixme 없이 개발·프로덕션
+  정적 환경에서 각각 2/2를 통과했다.
+- **접근성 출시 경계**: Chromium 자동 검사는 axe WCAG A/AA, 키보드
+  포커스, 프로필 잠금·전송, 오프라인 6개 팩, CSP를 포함해 9/9를
+  통과했다. 그러나 iPadOS Safari+VoiceOver와 Android Chrome+TalkBack의
+  실제 기기 14개 시나리오 증거는 아직 수집하지 않았다. 따라서
+  `check-release-evidence`는 의도대로 `EVIDENCE_MISSING`이며
+  `verify:release`, main 병합, 수동 Pages 배포는 완료 상태가 아니다.
+- **기타 출시 사전 게이트**: 잠금파일에 남아 있던 `nanoid` 3.3.16을
+  기존 override와 같은 3.3.18로 맞춰 production audit은 취약점 0으로
+  통과했다. 현재 세 저장·내보내기·오프라인 schema는 모두 1이며, 공개
+  사이트에는 `release-metadata.json`이 아직 없어 rollback 검사는
+  `first-deploy` 경계로 통과했다. 현재 후보 지문은
+  `4709de875e6b735661b0d182ee9ff439277569b8b89c8a0d459126be5014db35`,
+  콘텐츠 지문은
+  `1a77b30a868e13e1d09b32cebef9d0124d9f125e07676bdfab79f95e54ce1a4c`다.
+- **마지막 공개 배포 경계**: `origin/main`은 `3645485`이며, 마지막으로
+  문서화된 제품 변경은 `1b0c171ed81423ffce6fa9230e62528723d2f8a4`다.
+  해당 제품 커밋의 GitHub Actions 실행 `32127227116`(build job
+  `95680364368`, deploy job `95680913733`)과 배포 ID `5960907965`까지
+  성공을 확인했고 환경 URL은 `https://outliner-coach.github.io/math_assist/`다.
+  현재 브랜치는 아직 main·origin·공개 Pages에 반영되지 않았다.
+- **출시 자동화**: push 즉시 배포를 폐지했다. 배포는
+  `.github/workflows/release.yml` workflow_dispatch(+`inputs.ref`)만 남고
+  deploy job은 `github-pages` 환경 승인이 필요하다. ci.yml(PR에서
+  verify:fast+dependency-review), nightly.yml(매일 04:30 KST verify:full),
+  monitor.yml(6시간), codeql.yml, dependabot.yml(npm+actions weekly)가 함께 동작한다.
+- `verify:release`는 실기기 접근성 증거
+  `docs/tracking/accessibility-release-v1.json`이 없으면 `EVIDENCE_MISSING`으로
+  실패한다. 증거 부재 실패는 의도된 fail-closed다.
 - 이 문서에서 `released`는 curriculum ledger, 공개 경로 게이트와 실제 GitHub Pages 화면이 일치한다는 뜻이다. 이후 변경도 `main` 반영, Pages 성공, 새 브라우저 hydration을 모두 확인해야 출시 완료로 기록한다.
 
 ## 2026-08-18 2학년 전 단원 응용문제 출시와 Pages 배포

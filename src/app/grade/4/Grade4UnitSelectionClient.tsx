@@ -21,9 +21,16 @@ export default function Grade4UnitSelectionClient() {
   const [confirmReset, setConfirmReset] = useState(false)
 
   useEffect(() => {
-    const result = loadGrade4Progress()
-    setProgress(result.progress)
-    setStorageNotice(!result.storageAvailable || result.recovered)
+    let cancelled = false
+    queueMicrotask(() => {
+      if (cancelled) return
+      const result = loadGrade4Progress()
+      setProgress(result.progress)
+      setStorageNotice(!result.storageAvailable || result.recovered)
+    })
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const chooseUnit = (unitId: string, mode: LearningSetMode) => {

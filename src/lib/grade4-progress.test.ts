@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
+import { LOCAL_PROFILE_REGISTRY_KEY, createInitialLocalProfileRegistry } from './local-profile'
 import {
   GRADE4_PROGRESS_KEY,
   advanceGrade4Activity,
@@ -242,5 +243,47 @@ describe('Grade 4 progress', () => {
       completedVariantKeys: ['done'],
       reviewVariantKeys: ['review'],
     })
+  })
+})
+
+describe('Grade 4 progress learner bootstrap routing', () => {
+  const BOOTSTRAP_PROFILE_A = 'local_00000000-0000-4000-8000-000000000001'
+
+  function bootstrapBaseStorage(): { data: Map<string, string> } {
+    const data = new Map<string, string>()
+    const base = {
+      get length() { return data.size },
+      key: (index: number) => Array.from(data.keys())[index] ?? null,
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => { data.set(key, value) },
+      removeItem: (key: string) => { data.delete(key) },
+      data,
+    }
+    data.set(LOCAL_PROFILE_REGISTRY_KEY, JSON.stringify(createInitialLocalProfileRegistry({
+      now: () => 1,
+      randomUUID: () => '00000000-0000-4000-8000-000000000001',
+      migrationStatus: 'not-needed',
+    })))
+    vi.stubGlobal('window', { localStorage: base })
+    return base
+  }
+
+  it('routes the default storage source through the learner bootstrap adapter', () => {
+    const base = bootstrapBaseStorage()
+
+    const wrong = recordGrade4Attempt(createInitialGrade4Progress(100), {
+      missionId: 'g4-big-01', variantKey: 'g4-big-01:seed-1', unitId: 'unit-4-1-large-numbers', skillTag: '큰 수', correct: false, now: 200,
+    })
+    expect(saveGrade4Progress(wrong)).toBe(true)
+
+    const scopedKey = `mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:${GRADE4_PROGRESS_KEY}`
+    expect(base.data.get(scopedKey)).toContain('g4-big-01')
+    expect(base.data.has(GRADE4_PROGRESS_KEY)).toBe(false)
+
+    expect(loadGrade4Progress().progress.reviewVariantKeys).toContain('g4-big-01:seed-1')
+
+    resetGrade4Progress(undefined, 400)
+    expect(loadGrade4Progress().progress.completedVariantKeys).toEqual([])
+    vi.unstubAllGlobals()
   })
 })

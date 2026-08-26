@@ -12,6 +12,7 @@ import type {
   SubmissionResult,
 } from './types'
 import { hasApplicationProblemFootprint } from './application-problems/template-adapter'
+import { getLearnerStorage, type LearnerStorage } from './profile-bootstrap'
 
 export const GRADE5_SESSION_KEY = 'mathAssist_currentSession'
 export const GRADE5_RESULT_KEY = 'mathAssist_lastResult'
@@ -337,11 +338,13 @@ function isResultSnapshot(value: unknown, grade: PracticeGrade): value is Sessio
 }
 
 function existingStorageIsCompatible(
+  storage: LearnerStorage | null,
   key: string,
   grade: PracticeGrade,
   predicate: (value: unknown, grade: PracticeGrade) => boolean,
 ): boolean {
-  const raw = localStorage.getItem(key)
+  if (!storage) return true
+  const raw = storage.getItem(key)
   if (raw === null) return true
   try {
     return predicate(JSON.parse(raw), grade)
@@ -357,9 +360,10 @@ function storageSnapshotStatus(
   grade: PracticeGrade,
   predicate: (value: unknown, grade: PracticeGrade) => boolean,
 ): PracticeStorageStatus {
-  if (typeof window === 'undefined') return 'missing'
+  const storage = getLearnerStorage()
+  if (!storage) return 'missing'
   try {
-    const raw = localStorage.getItem(key)
+    const raw = storage.getItem(key)
     if (raw === null) return 'missing'
     return predicate(JSON.parse(raw), grade) ? 'valid' : 'corrupt'
   } catch {
@@ -389,12 +393,13 @@ export function resolvePracticeItemCount(
 
 // 세션 저장
 export function saveSession(session: PracticeSession): boolean {
-  if (typeof window === 'undefined') return false
+  const storage = getLearnerStorage()
+  if (!storage) return false
   const grade = resolvePracticeGrade(session.grade)
   if (!isSessionSnapshot(session, grade)) return false
   const key = sessionKey(grade)
-  if (!existingStorageIsCompatible(key, grade, isSessionSnapshot)) return false
-  localStorage.setItem(key, JSON.stringify(session))
+  if (!existingStorageIsCompatible(storage, key, grade, isSessionSnapshot)) return false
+  storage.setItem(key, JSON.stringify(session))
   return true
 }
 
@@ -403,7 +408,8 @@ export function persistApplicationProblemRecoveryEvidence(
 ): boolean {
   const replacements = session.applicationProblemReplacementArchive
   if (replacements === undefined || replacements.length === 0) return true
-  if (typeof window === 'undefined') return false
+  const storage = getLearnerStorage()
+  if (!storage) return false
   const grade = resolvePracticeGrade(session.grade)
   if (!isSessionSnapshot(session, grade)) return false
 
@@ -421,12 +427,12 @@ export function persistApplicationProblemRecoveryEvidence(
   }
   const key = recoveryEvidenceKey(grade)
   try {
-    const raw = localStorage.getItem(key)
+    const raw = storage.getItem(key)
     const archive = raw === null ? [] : JSON.parse(raw) as unknown
     if (!isApplicationProblemRecoveryEvidenceArchive(archive, grade)) return false
     const existing = archive.find((entry) => entry.evidenceId === record.evidenceId)
     if (existing) return sameJson(existing, record)
-    localStorage.setItem(key, JSON.stringify([...archive, record]))
+    storage.setItem(key, JSON.stringify([...archive, record]))
     return true
   } catch {
     return false
@@ -437,7 +443,8 @@ export function persistRecoveredPracticeSession(
   original: PracticeSession,
   recovered: PracticeSession,
 ): boolean {
-  if (typeof window === 'undefined') return false
+  const storage = getLearnerStorage()
+  if (!storage) return false
   const grade = resolvePracticeGrade(original.grade)
   if (
     resolvePracticeGrade(recovered.grade) !== grade ||
@@ -459,18 +466,18 @@ export function persistRecoveredPracticeSession(
 
   const key = sessionKey(grade)
   try {
-    const raw = localStorage.getItem(key)
+    const raw = storage.getItem(key)
     if (raw === null) return false
     const parsed = JSON.parse(raw) as unknown
     if (!isSessionSnapshot(parsed, grade)) return false
     if (!sameJson(normalizeSessionSnapshot(parsed, grade), original)) return false
     if (!persistApplicationProblemRecoveryEvidence(recovered)) return false
-    const currentRaw = localStorage.getItem(key)
+    const currentRaw = storage.getItem(key)
     if (currentRaw === null) return false
     const current = JSON.parse(currentRaw) as unknown
     if (!isSessionSnapshot(current, grade)) return false
     if (!sameJson(normalizeSessionSnapshot(current, grade), original)) return false
-    localStorage.setItem(key, JSON.stringify(recovered))
+    storage.setItem(key, JSON.stringify(recovered))
     return true
   } catch {
     return false
@@ -479,10 +486,11 @@ export function persistRecoveredPracticeSession(
 
 // 세션 로드
 export function loadSession(grade: PracticeGrade = 5): PracticeSession | null {
-  if (typeof window === 'undefined') return null
+  const storage = getLearnerStorage()
+  if (!storage) return null
 
   try {
-    const data = localStorage.getItem(sessionKey(grade))
+    const data = storage.getItem(sessionKey(grade))
     if (!data) return null
 
     const parsed = JSON.parse(data) as PracticeSession
@@ -508,20 +516,23 @@ export function loadSession(grade: PracticeGrade = 5): PracticeSession | null {
 
 // 세션 삭제
 export function clearSession(grade: PracticeGrade = 5): void {
-  if (typeof window === 'undefined') return
+  const storage = getLearnerStorage()
+  if (!storage) return
   const key = sessionKey(grade)
-  if (!existingStorageIsCompatible(key, grade, isSessionSnapshot)) return
-  localStorage.removeItem(key)
+  if (!existingStorageIsCompatible(storage, key, grade, isSessionSnapshot)) return
+  storage.removeItem(key)
 }
 
 export function resetGrade6SessionStorage(): void {
-  if (typeof window === 'undefined') return
-  localStorage.removeItem(GRADE6_SESSION_KEY)
+  const storage = getLearnerStorage()
+  if (!storage) return
+  storage.removeItem(GRADE6_SESSION_KEY)
 }
 
 export function resetGrade5SessionStorage(): void {
-  if (typeof window === 'undefined') return
-  localStorage.removeItem(GRADE5_SESSION_KEY)
+  const storage = getLearnerStorage()
+  if (!storage) return
+  storage.removeItem(GRADE5_SESSION_KEY)
 }
 
 // 세션 만료 체크
@@ -545,21 +556,23 @@ export function createSessionId(now = Date.now(), grade: PracticeGrade = 5): str
 
 // 결과 저장
 export function saveResult(result: SessionResult): boolean {
-  if (typeof window === 'undefined') return false
+  const storage = getLearnerStorage()
+  if (!storage) return false
   const grade = resolvePracticeGrade(result.grade)
   if (!isResultSnapshot(result, grade)) return false
   const key = resultKey(grade)
-  if (!existingStorageIsCompatible(key, grade, isResultSnapshot)) return false
-  localStorage.setItem(key, JSON.stringify(result))
+  if (!existingStorageIsCompatible(storage, key, grade, isResultSnapshot)) return false
+  storage.setItem(key, JSON.stringify(result))
   return true
 }
 
 // 결과 로드
 export function loadResult(grade: PracticeGrade = 5): SessionResult | null {
-  if (typeof window === 'undefined') return null
+  const storage = getLearnerStorage()
+  if (!storage) return null
 
   try {
-    const data = localStorage.getItem(resultKey(grade))
+    const data = storage.getItem(resultKey(grade))
     if (!data) return null
     const parsed = JSON.parse(data) as SessionResult
     if (!isResultSnapshot(parsed, grade)) return null
@@ -575,20 +588,23 @@ export function loadResult(grade: PracticeGrade = 5): SessionResult | null {
 
 // 결과 삭제
 export function clearResult(grade: PracticeGrade = 5): void {
-  if (typeof window === 'undefined') return
+  const storage = getLearnerStorage()
+  if (!storage) return
   const key = resultKey(grade)
-  if (!existingStorageIsCompatible(key, grade, isResultSnapshot)) return
-  localStorage.removeItem(key)
+  if (!existingStorageIsCompatible(storage, key, grade, isResultSnapshot)) return
+  storage.removeItem(key)
 }
 
 export function resetGrade6ResultStorage(): void {
-  if (typeof window === 'undefined') return
-  localStorage.removeItem(GRADE6_RESULT_KEY)
+  const storage = getLearnerStorage()
+  if (!storage) return
+  storage.removeItem(GRADE6_RESULT_KEY)
 }
 
 export function resetGrade5ResultStorage(): void {
-  if (typeof window === 'undefined') return
-  localStorage.removeItem(GRADE5_RESULT_KEY)
+  const storage = getLearnerStorage()
+  if (!storage) return
+  storage.removeItem(GRADE5_RESULT_KEY)
 }
 
 // 답안 업데이트

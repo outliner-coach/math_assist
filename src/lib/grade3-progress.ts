@@ -1,5 +1,6 @@
 import { getGrade3MissionSession, grade3Units, type Grade3Mission } from './grade3-problems'
 import { normalizeMissionSketchRunOrdinal } from './mission-sketch-identity'
+import { getLearnerStorage } from './profile-bootstrap'
 
 export const GRADE3_PROGRESS_KEY = 'mathAssist_grade3Progress'
 export const GRADE3_PROGRESS_SCHEMA_VERSION = 2
@@ -58,12 +59,7 @@ export function createInitialGrade3Progress(now = Date.now()): Grade3Progress {
 }
 
 function getBrowserStorage(): StorageLike | null {
-  if (typeof window === 'undefined') return null
-  try {
-    return window.localStorage
-  } catch {
-    return null
-  }
+  return getLearnerStorage()
 }
 
 function isSameLocalDay(a: number | null, b: number): boolean {

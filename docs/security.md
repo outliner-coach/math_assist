@@ -4,14 +4,14 @@
 
 실제 배포본은 정적 사이트이며 서버 계정과 원격 저장이 없다. 2026-07-21 커밋 `14a0904`와 Pages 실행 `29792892987`로 새 시도 receipt와 문제별 풀이장 획까지 기기 로컬 보호 대상으로 배포했다. receipt는 원답 문자열과 풀이장 획을 포함하지 않고, 풀이장 문서는 정답·답안을 포함하지 않는다. 답안, 활성 세션, 결과, 완료·복습·숙련 기록, 최근 활동, 선택 학년을 포함한 이 정보는 현재 기기의 같은 브라우저에서만 읽고 쓰며 공개 앱이 원격 서버나 분석 서비스로 보내지 않는다.
 
-브라우저 사용자는 현재 브라우저 프로필의 같은 origin에 저장된 기록을 읽고 갱신하고 초기화할 수 있다. 다른 기기나 다른 브라우저 프로필의 기록에는 접근할 수 없지만, 같은 브라우저 프로필을 여러 어린이가 공유하면 하나의 고정 키 집합을 함께 보게 된다. 현재는 학습자별 분리가 없다. 브라우저 데이터를 지우면 기록이 사라지며 현재 배포본에는 복구 경로가 없다.
+브라우저 사용자는 현재 브라우저 프로필의 같은 origin에 저장된 기록을 읽고 갱신하고 초기화할 수 있다. 다른 기기나 다른 브라우저 프로필의 기록에는 접근할 수 없다. 현재 작업트리는 같은 브라우저 프로필 안에서 기기 전역 프로필 registry와 학습자 소유 스코프 키로 학습자별 기록을 분리한다(아래 프로필 스코프 저장 절). 브라우저 데이터를 지우면 registry와 모든 학습자 기록이 함께 사라지며 복구 경로는 학습자가 따로 보관한 전송 파일뿐이다.
 
 ## 현재 접근 흐름
 
 | 사용자 | 행동 | 허용 조건 | 명시적으로 허용하지 않는 것 |
 |---|---|---|---|
 | 방문자 | 공개 학습 콘텐츠 열기 | 정적 경로가 존재함 | 존재하지 않는 학년·개념을 학습 가능 상태로 가장하기 |
-| 게스트 학습자 | 답안·진도·세션 저장 | 브라우저 localStorage 사용 가능 | 다른 기기 또는 다른 브라우저 프로필의 기록 읽기; 같은 프로필 안에서 학습자별 분리는 제공하지 않음 |
+| 게스트 학습자 | 답안·진도·세션 저장 | 브라우저 localStorage 사용 가능과 자기 프로필 스코프 키 | 다른 기기 또는 다른 브라우저 프로필의 기록 읽기; 같은 프로필 안에서 다른 학습자 스코프 키 읽기·쓰기 |
 | 게스트 학습자 | 기록 초기화 | 해당 학년 화면에서 명시적으로 확인 | 다른 학년의 저장 영역을 함께 삭제하기 |
 | 운영자 | 정적 콘텐츠 배포 | 검증된 커밋이 `main`에 반영됨 | 배포본에서 개별 학습자 기록 열람하기 |
 
@@ -28,6 +28,21 @@ localStorage가 차단되거나 손상되면 앱은 기본 상태로 복구하�
 풀이장 저장은 `learnerId + sessionId + itemId`로 학년·활동·문항을 격리한다. 저학년의 명시적 재시작 순번은 각 학년 progress key의 선택적 `missionSketchRunOrdinal` 필드로만 보존하며 화면이 별도 localStorage 이름을 만들지 않는다. 누락·잘못된 순번은 0으로 정규화하되 같은 progress의 완료·복습·보상 필드는 유지한다. 손상된 한 문서는 그 문제의 빈 문서로만 복구하고 다른 풀이장과 학년별 진도를 삭제하지 않는다. 이 빈 복구 화면에서 새로 그려도 손상 원문은 자동으로 덮어쓰지 않고 저장 불가를 알린다. 완료·만료 활동의 문서는 읽기 전용이며, 풀이장 획은 현재 원격 동기화·backup 범위에 포함하지 않는다.
 
 현재 작업트리의 6학년 비와 비율 단원은 공개 원장의 `releaseState.grade6: released`로 열려 있다. 그러나 원장 상태가 정확히 `released`가 아니면 `/grade/6`, Grade 6 unit·concept·practice·result·retry는 저장 repository 호출 전에 같은 준비 중 화면으로 fail-closed한다. 원장 부재, schema 오류, fetch 실패, 알 수 없는 상태도 모두 닫으며 기존 Grade 5/6 저장 원문을 읽어 노출하거나 변경하지 않는다.
+
+## 프로필 스코프 저장과 탭 임대
+
+현재 작업트리는 같은 브라우저 안에서 여러 학습자의 기록을 분리한다.
+
+- 기기 전역 registry `mathAssist_profiles_v1`은 `{schemaVersion: 1, activeProfileId, profiles[{profileId: local_<UUID>, nickname|null, createdAt, updatedAt}], migration}`을 가진다. `migration`은 `{schemaVersion, status: not-needed|pending|copying|verified|failed, targetProfileId, backupKey}`다.
+- 학습자 소유 키는 `mathAssist_profile_v1:<profileId>:<legacyKey>` 형식이다. 모든 학년 진도·세션·결과·영수증·마스코트·게스트홈·복구 증거 키가 이 형식으로 이전되며, 복구 증거에는 `grade2ProgressRecoveryEvidence_v1`과 `grade5ApplicationProblemRecoveryEvidence_v1`·`grade6ApplicationProblemRecoveryEvidence_v1`도 포함된다.
+- 마이그레이션은 키별로 격리한다. 유효한 값은 복사하고, 손상된 값은 원본 바이트를 보존한 뒤 건너뛰고 `status='failed'`로 남긴다. 한 키의 손상으로 다른 학년 기록이 축소되지 않으며, 마이그레이션 재시작은 멱등하다.
+- 탭 임대는 holderId를 sessionStorage `mathAssist_tabHolderId_v1`에 영속화해 전체 페이지 내비게이션 사이에도 쓰기 권한을 유지한다. 임대를 상실한 탭의 쓰기는 조용히 거부되며, 홈에는 '다른 탭에서 프로필이 바뀌었어요' 오버레이를 제공한다.
+
+## 오류 보고
+
+- 기술 오류 전송(Sentry)은 고정 message `MathAssistTechnicalError`와 tags `{app_release, route_template, error_kind}`만 허용한다. DSN이 없으면 아무것도 전송하지 않는다. stack, breadcrumb, URL 식별자, 답안은 전송 전에 제거한다.
+- 문제 신고는 `mailto:outliner0206@gmail.com`으로 고정 항목 5개(분류/문제 ID/contentRelease/appRelease/화면템플릿)만 담는다.
+- 오류 화면은 저장소를 지우지 않는다.
 
 ## 기록 저장 계정의 목표 접근 흐름
 

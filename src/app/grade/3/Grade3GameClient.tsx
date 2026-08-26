@@ -279,7 +279,10 @@ export default function Grade3GameClient({
   })
 
   useEffect(() => {
-    const result = loadGrade3Progress()
+    let cancelled = false
+    queueMicrotask(() => {
+      if (cancelled) return
+      const result = loadGrade3Progress()
     const allUnitMissions = getGrade3MissionsByUnit(initialUnit.id, MISSION_SEED)
     const currentResolvedSession = resolveLearnerSession({
       unitId: initialUnit.id,
@@ -338,7 +341,11 @@ export default function Grade3GameClient({
         : saveGrade3Progress(progressForSession))
     setStorageRecovered((wasRecovered) => wasRecovered || result.recovered)
     setSelectedUnitId(initialUnit.id)
-    setSelectedMissionId(restoredMission.id)
+      setSelectedMissionId(restoredMission.id)
+    })
+    return () => {
+      cancelled = true
+    }
   }, [initialMode, initialMissionId, initialUnit.id])
 
   useEffect(() => {

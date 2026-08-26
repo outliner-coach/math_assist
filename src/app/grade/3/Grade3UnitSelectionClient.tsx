@@ -116,10 +116,17 @@ export default function Grade3UnitSelectionClient() {
   const [confirmReset, setConfirmReset] = useState(false)
 
   useEffect(() => {
-    const result = loadGrade3Progress()
-    setProgress(result.progress)
-    setStorageAvailable(result.storageAvailable)
-    setStorageRecovered(result.recovered)
+    let cancelled = false
+    queueMicrotask(() => {
+      if (cancelled) return
+      const result = loadGrade3Progress()
+      setProgress(result.progress)
+      setStorageAvailable(result.storageAvailable)
+      setStorageRecovered(result.recovered)
+    })
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const persistProgress = (nextProgress: Grade3Progress) => {

@@ -1,0 +1,29 @@
+# Public site monitor (T8). Read-only synthetic checks every six hours against
+# the deployed site. Never submits answers or creates learner data.
+name: Public site monitor
+
+on:
+  schedule:
+    # Every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  monitor:
+    name: monitor public site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Run read-only public site checks
+        run: node scripts/public-site-monitor.mjs --base-url https://outliner-coach.github.io/math_assist/
+      - name: Write step summary on failure
+        if: failure()
+        run: echo "Public site monitor failed — see the job log for the failed checks." >> "$GITHUB_STEP_SUMMARY"

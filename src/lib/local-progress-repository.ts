@@ -24,6 +24,7 @@ import { getGrade2MissionSet, grade2Units } from './grade2-problems'
 import { getGrade3MissionSession, grade3Units } from './grade3-problems'
 import { grade4Units } from './grade4-problems'
 import { projectConceptProgressCompletion } from './progress'
+import { getLearnerStorage } from './profile-bootstrap'
 import type { ConceptProgressSummary } from './types'
 
 const PROGRESS_KEYS: Record<LearningGrade, string> = {
@@ -48,12 +49,7 @@ export interface ReadonlyLearningStorage {
 }
 
 function browserStorage(): ReadonlyLearningStorage | null {
-  if (typeof window === 'undefined') return null
-  try {
-    return window.localStorage
-  } catch {
-    return null
-  }
+  return getLearnerStorage()
 }
 
 function readRecord(storage: ReadonlyLearningStorage | null, key: string): ParsedRecord {

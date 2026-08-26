@@ -643,7 +643,45 @@ function FallbackVisual({ mission }: { mission: Grade2Mission }) {
   )
 }
 
-export default function Grade2MissionVisual({ mission, emphasize = false, showAnswer = false }: Grade2MissionVisualProps) {
+function renderGrade2MissionVisual({ mission, emphasize = false, showAnswer = false }: Grade2MissionVisualProps) {
+  switch (mission.visualModel) {
+    case 'place-value-blocks':
+      return <PlaceValueBlocks mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'expanded-number-cards':
+      return <ExpandedNumberCards mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'vertical-operation':
+      return <VerticalOperation mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'box-equation':
+      return <BoxEquation mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'array-groups':
+      return <ArrayGroups mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'multiplication-table':
+      return <MultiplicationTable mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'solid-shape-cards':
+      return <SolidShapeCards mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'stack-cubes':
+      return <StackCubes mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'ruler-line':
+      return <RulerLine mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'length-bars':
+      return <LengthBars mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'clock-face':
+      return <ClockFace mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'calendar-strip':
+      return <CalendarStrip mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'classification-table':
+      return <ClassificationTable mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'mark-graph':
+      return <MarkGraph mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    case 'pattern-strip':
+      return <PatternStrip mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
+    default:
+      return <FallbackVisual mission={mission} />
+  }
+}
+
+export default function Grade2MissionVisual(props: Grade2MissionVisualProps) {
+  const { mission, showAnswer = false } = props
   if (hasGrade2ApplicationProblemSource(mission)) {
     if (
       !isGrade2ApplicationMission(mission) ||
@@ -672,42 +710,9 @@ export default function Grade2MissionVisual({ mission, emphasize = false, showAn
   }
 
   try {
-    switch (mission.visualModel) {
-      case 'place-value-blocks':
-        return <PlaceValueBlocks mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'expanded-number-cards':
-        return <ExpandedNumberCards mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'vertical-operation':
-        return <VerticalOperation mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'box-equation':
-        return <BoxEquation mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'array-groups':
-        return <ArrayGroups mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'multiplication-table':
-        return <MultiplicationTable mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'solid-shape-cards':
-        return <SolidShapeCards mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'stack-cubes':
-        return <StackCubes mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'ruler-line':
-        return <RulerLine mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'length-bars':
-        return <LengthBars mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'clock-face':
-        return <ClockFace mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'calendar-strip':
-        return <CalendarStrip mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'classification-table':
-        return <ClassificationTable mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'mark-graph':
-        return <MarkGraph mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      case 'pattern-strip':
-        return <PatternStrip mission={mission} emphasize={emphasize} showAnswer={showAnswer} />
-      default:
-        return <FallbackVisual mission={mission} />
-    }
+    return renderGrade2MissionVisual(props)
   } catch (error) {
     console.error('Failed to render Grade 2 visual', error)
-    return <FallbackVisual mission={mission} />
+    return <FallbackVisual mission={props.mission} />
   }
 }

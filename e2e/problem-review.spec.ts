@@ -215,8 +215,20 @@ test('등록된 모든 diagram family는 두 뷰포트와 공개 상태에서 �
 })
 
 test('Grade 5 matching and Grade 6 nonmatching target-label mutations fail cover checks', async ({ page }) => {
+  const browserErrors: string[] = []
+  page.on('console', (message) => {
+    if (message.type() === 'error' || message.type() === 'warning') browserErrors.push(message.text())
+  })
+  page.on('pageerror', (error) => browserErrors.push(error.message))
+
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/review/application-problems`)
+  const gradeFilter = page.getByLabel('학년')
+  await gradeFilter.selectOption('5')
+  await expect(gradeFilter).toHaveValue('5')
+  await gradeFilter.selectOption('all')
+  await expect(page.getByTestId('review-problem-card')).toHaveCount(107)
+
   const grade5Card = page.getByTestId('review-problem-card').filter({ hasText: 'g5-area-composite-inverse' })
   const grade5Svg = grade5Card.getByTestId('review-visual-before').locator('svg')
   const grade5Mutation = await grade5Svg.evaluate((element) => {
@@ -262,4 +274,5 @@ test('Grade 5 matching and Grade 6 nonmatching target-label mutations fail cover
   expect(grade6Mutation.targetKey).toBe('missing-part')
   expect(grade6Mutation.nonmatchingPrimitiveKey).toBe('known-part')
   expect(grade6Metrics.maximumForbiddenDiagramCover).toBeGreaterThanOrEqual(0.2)
+  expect(browserErrors).toEqual([])
 })

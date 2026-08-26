@@ -1,3 +1,5 @@
+import { getActiveProfileId, getLearnerStorage } from './profile-bootstrap'
+
 export const ATTEMPT_RECEIPT_STORAGE_KEY = 'mathAssist_attemptReceipts_v1'
 
 export type ReceiptGrade = 1 | 2 | 3 | 4 | 5 | 6
@@ -205,9 +207,13 @@ export class LocalAttemptReceiptStore {
     if (parsed.ledger.receipts.some((existing) => existing.attemptId === receipt.attemptId)) {
       return 'duplicate'
     }
+    const activeProfileId = getActiveProfileId()
+    const stored: AttemptReceipt = receipt.learnerId === null && activeProfileId !== null
+      ? { ...receipt, learnerId: activeProfileId }
+      : receipt
     const next: StoredReceiptLedger = {
       schemaVersion: 1,
-      receipts: [...parsed.ledger.receipts, receipt],
+      receipts: [...parsed.ledger.receipts, stored],
     }
     this.storage.setItem(ATTEMPT_RECEIPT_STORAGE_KEY, JSON.stringify(next))
     return 'inserted'
@@ -221,10 +227,5 @@ export class LocalAttemptReceiptStore {
 }
 
 function browserReceiptStorage(): ReceiptStorage | null {
-  if (typeof window === 'undefined') return null
-  try {
-    return window.localStorage
-  } catch {
-    return null
-  }
+  return getLearnerStorage()
 }

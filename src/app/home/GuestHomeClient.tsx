@@ -1,9 +1,16 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { MascotCharacter, MascotPicker } from '@/components'
+import DeviceDataResetDialog, { type DeviceDataResetOutcome } from '@/components/DeviceDataResetDialog'
+import OfflinePackManager from '@/components/OfflinePackManager'
+import ProfileManager from '@/components/ProfileManager'
+import ProfileTransferDialog, {
+  type TransferApplyOutcome,
+  type TransferPreview,
+} from '@/components/ProfileTransferDialog'
 import { getUnits } from '@/lib/data'
 import {
   loadGuestHomeState,
@@ -23,7 +30,77 @@ import {
   saveMascotPreference,
   type MascotId,
 } from '@/lib/mascot'
+import {
+  activateLocalProfile,
+  addLocalProfile,
+  getLocalProfileDisplayLabel,
+  readLocalProfileRegistry,
+  renameLocalProfile,
+  writeLocalProfileRegistry,
+  type LocalProfileRegistryV1,
+  type ProfileRegistryStorage,
+} from '@/lib/local-profile'
+import { getLearnerStorage } from '@/lib/profile-bootstrap'
+import {
+  deleteLocalProfile,
+  prepareDeviceDataResetToken,
+  prepareLocalProfileDeletionToken,
+  resetAllDeviceData,
+} from '@/lib/profile-delete'
+import { createBrowserProfileCoordinationChannel } from '@/lib/profile-session-lease'
+import {
+  applyProfileImport,
+  buildPortableProfileExport,
+  previewProfileImport,
+  serializePortableProfileExport,
+} from '@/lib/profile-transfer'
+import { buildProblemReportMailtoUrl } from '@/lib/problem-report'
+import { STORAGE_UNAVAILABLE_WARNING } from '@/lib/storage-health'
 import type { Unit } from '@/lib/types'
+
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? '/math_assist'
+const HOME_URL = `${BASE_PATH}/home/`
+
+/**
+ * Device-global registry access (spec §5 기기 공용 범위). Learner-owned keys
+ * keep flowing through the profile-scoped bootstrap adapter; only the shared
+ * profile registry and its management flows touch this handle.
+ */
+function resolveDeviceRegistryStorage(): (ProfileRegistryStorage & {
+  length: number
+  key(index: number): string | null
+}) | null {
+  try {
+    if (typeof window === 'undefined') return null
+    const ls = window.localStorage
+    return {
+      get length() {
+        return ls.length
+      },
+      key: (index: number) => ls.key(index),
+      getItem: (key: string) => ls.getItem(key),
+      setItem: (key: string, value: string) => ls.setItem(key, value),
+      removeItem: (key: string) => ls.removeItem(key),
+    }
+  } catch {
+    return null
+  }
+}
+
+function broadcastProfileChange(profileId: string): void {
+  try {
+    const channel = createBrowserProfileCoordinationChannel()
+    channel.post({ schemaVersion: 1, type: 'profile-changed', profileId })
+    channel.close()
+  } catch {
+    // Other tabs still fail closed lazily on their next permission check.
+  }
+}
+
+interface TransferTarget {
+  profileId: string
+  label: string
+}
 
 const gradeStyles: Record<SupportedGrade, {
   accent: string
@@ -39,6 +116,15 @@ const gradeStyles: Record<SupportedGrade, {
   4: { accent: '#4f46e5', border: '#c7d2fe', pale: '#eef2ff', shadow: '#3730a3', name: '4학년', symbol: '■' },
   5: { accent: '#7c3aed', border: '#ddd6fe', pale: '#f5f3ff', shadow: '#5b21b6', name: '5학년', symbol: '✦' },
   6: { accent: '#0369a1', border: '#bae6fd', pale: '#f0f9ff', shadow: '#075985', name: '6학년', symbol: '✺' },
+}
+
+const gradeDeepText: Record<SupportedGrade, string> = {
+  1: '#166534',
+  2: '#1e40af',
+  3: '#115e59',
+  4: '#3730a3',
+  5: '#5b21b6',
+  6: '#075985',
 }
 
 function modeChoiceLabels(grade: SupportedGrade): { basic: string; practice: string } {
@@ -70,7 +156,7 @@ function GradePicker({ onSelect }: { onSelect: (grade: SupportedGrade) => void }
                 {style.symbol}
               </span>
               <span className="mt-4 block text-2xl font-black text-[#0f172a]">{style.name}</span>
-              <span className="mt-1 block text-sm font-bold" style={{ color: style.accent }}>선택하기</span>
+              <span className="mt-1 block text-sm font-bold" style={{ color: gradeDeepText[grade] }}>선택하기</span>
             </button>
           )
         })}
@@ -157,11 +243,44 @@ export default function GuestHomeClient() {
   const [storageAvailable, setStorageAvailable] = useState(true)
   const [grade5Units, setGrade5Units] = useState<Unit[]>([])
   const [mascotId, setMascotId] = useState<MascotId>(DEFAULT_MASCOT_ID)
+  const [learnerStorageUnavailable, setLearnerStorageUnavailable] = useState(false)
+  const [profileRegistry, setProfileRegistry] = useState<LocalProfileRegistryV1 | null>(null)
+  const [showProfileManager, setShowProfileManager] = useState(false)
+  const [transferTarget, setTransferTarget] = useState<TransferTarget | null>(null)
+  const [deleteCandidate, setDeleteCandidate] = useState<TransferTarget | null>(null)
+  const [deleteMessage, setDeleteMessage] = useState('')
+  const [deviceResetOpen, setDeviceResetOpen] = useState(false)
+  const [deviceResetPhrase, setDeviceResetPhrase] = useState('')
+  const [deviceResetResult, setDeviceResetResult] = useState<DeviceDataResetOutcome | null>(null)
 
   useEffect(() => {
-    setHomeState(loadGuestHomeState())
-    setMascotId(loadMascotPreference())
-    getUnits().then(setGrade5Units).catch(() => setGrade5Units([]))
+    let cancelled = false
+    queueMicrotask(() => {
+      if (cancelled) return
+      setHomeState(loadGuestHomeState())
+      setLearnerStorageUnavailable(getLearnerStorage() === null)
+      const storage = resolveDeviceRegistryStorage()
+      setProfileRegistry(storage ? readLocalProfileRegistry(storage) : null)
+      setMascotId(loadMascotPreference())
+      getUnits()
+        .then((units) => {
+          if (!cancelled) setGrade5Units(units)
+        })
+        .catch(() => {
+          if (!cancelled) setGrade5Units([])
+        })
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const refreshRegistry = useCallback((): LocalProfileRegistryV1 | null => {
+    const storage = resolveDeviceRegistryStorage()
+    if (!storage) return null
+    const registry = readLocalProfileRegistry(storage)
+    setProfileRegistry(registry)
+    return registry
   }, [])
 
   const chooseGrade = (grade: SupportedGrade) => {
@@ -177,6 +296,187 @@ export default function GuestHomeClient() {
     setMascotId(nextMascotId)
     dispatchMascotSelection(nextMascotId)
   }
+
+  const handleCreateProfile = useCallback(async (nickname: string | null): Promise<boolean> => {
+    const storage = resolveDeviceRegistryStorage()
+    const current = storage ? readLocalProfileRegistry(storage) : null
+    if (!storage || !current) return false
+    try {
+      writeLocalProfileRegistry(storage, addLocalProfile(current, nickname))
+    } catch {
+      return false
+    }
+    refreshRegistry()
+    return true
+  }, [refreshRegistry])
+
+  const handleRenameProfile = useCallback(async (profileId: string, nickname: string | null): Promise<boolean> => {
+    const storage = resolveDeviceRegistryStorage()
+    const current = storage ? readLocalProfileRegistry(storage) : null
+    if (!storage || !current) return false
+    try {
+      writeLocalProfileRegistry(storage, renameLocalProfile(current, profileId, nickname))
+    } catch {
+      return false
+    }
+    refreshRegistry()
+    return true
+  }, [refreshRegistry])
+
+  const handleSelectProfile = useCallback(async (profileId: string): Promise<boolean> => {
+    const storage = resolveDeviceRegistryStorage()
+    const current = storage ? readLocalProfileRegistry(storage) : null
+    if (!storage || !current) return false
+    try {
+      // Save-first: the home surface holds nothing unsaved, and learner writes
+      // have already been persisted by their own actions before switching.
+      writeLocalProfileRegistry(storage, activateLocalProfile(current, profileId))
+    } catch {
+      // 전환 저장에 실패하면 활성 프로필을 바꾸지 않는다 (spec §5).
+      return false
+    }
+    broadcastProfileChange(profileId)
+    window.location.href = HOME_URL
+    return true
+  }, [])
+
+  const handleOpenTransferDialog = useCallback((profileId: string, action: 'transfer' | 'delete'): void => {
+    const storage = resolveDeviceRegistryStorage()
+    const current = storage ? readLocalProfileRegistry(storage) : null
+    const index = current?.profiles.findIndex((entry) => entry.profileId === profileId) ?? -1
+    if (!current || index < 0) return
+    const label = getLocalProfileDisplayLabel(current, profileId)
+    if (action === 'delete') {
+      setDeleteMessage('')
+      setDeleteCandidate({ profileId, label })
+      return
+    }
+    setTransferTarget({ profileId, label })
+  }, [])
+
+  const exportBuilder = useMemo(() => {
+    if (!transferTarget) return undefined
+    return async (): Promise<{ filename: string; json: string }> => {
+      const storage = resolveDeviceRegistryStorage()
+      if (!storage) throw new Error('registry-storage-unavailable')
+      const file = await buildPortableProfileExport(transferTarget.profileId, { storage })
+      return {
+        filename: `math-assist-profile-${transferTarget.label}.json`,
+        json: serializePortableProfileExport(file),
+      }
+    }
+  }, [transferTarget])
+
+  const downloader = useCallback((filename: string, json: string): void => {
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const anchor = document.createElement('a')
+    anchor.href = url
+    anchor.download = filename
+    document.body.appendChild(anchor)
+    anchor.click()
+    anchor.remove()
+    URL.revokeObjectURL(url)
+  }, [])
+
+  const importFileReader = useCallback((): Promise<string | null> => {
+    return new Promise<string | null>((resolve) => {
+      const input = document.createElement('input')
+      input.type = 'file'
+      input.accept = '.json,application/json'
+      input.addEventListener('cancel', () => resolve(null))
+      input.addEventListener('change', () => {
+        const file = input.files?.[0]
+        if (!file) {
+          resolve(null)
+          return
+        }
+        file.text().then(resolve, () => resolve(null))
+      })
+      input.click()
+    })
+  }, [])
+
+  const previewImportText = useCallback(async (text: string): Promise<TransferPreview> => {
+    const storage = resolveDeviceRegistryStorage()
+    if (!storage) throw new Error('registry-storage-unavailable')
+    return previewProfileImport(text, { storage })
+  }, [])
+
+  const applyImportText = useCallback(
+    async (text: string, options: { mascotChoice?: 'local' | 'imported' }): Promise<TransferApplyOutcome> => {
+      const storage = resolveDeviceRegistryStorage()
+      if (!storage) throw new Error('registry-storage-unavailable')
+      const outcome = await applyProfileImport(text, { storage }, options)
+      if (outcome.status === 'applied') refreshRegistry()
+      return outcome
+    },
+    [refreshRegistry],
+  )
+
+  const handleConfirmDelete = useCallback(async (): Promise<void> => {
+    if (!deleteCandidate) return
+    const storage = resolveDeviceRegistryStorage()
+    if (!storage) {
+      setDeleteMessage('저장하지 못했어요. 기기 저장 공간을 확인하고 다시 시도해 주세요.')
+      return
+    }
+    const result = deleteLocalProfile(deleteCandidate.profileId, prepareLocalProfileDeletionToken(deleteCandidate.profileId), { storage })
+    if (result.status === 'deleted') {
+      setDeleteCandidate(null)
+      refreshRegistry()
+      return
+    }
+    setDeleteMessage('삭제하지 못했어요. 원래 상태를 그대로 두었으니 다시 시도해 주세요.')
+  }, [deleteCandidate, refreshRegistry])
+
+  const handleDeviceReset = useCallback(async (token: string): Promise<DeviceDataResetOutcome> => {
+    const storage = resolveDeviceRegistryStorage()
+    if (!storage || token !== prepareDeviceDataResetToken()) {
+      return {
+        status: 'failed',
+        errorCode: 'CONFIRM_TOKEN_MISMATCH',
+        removedMathAssistKeyCount: 0,
+        indexedDbAndCacheStep: 'deferred-to-offline-integration',
+        reloadRecommended: false,
+      }
+    }
+    const result = resetAllDeviceData(token, { storage })
+    const outcome: DeviceDataResetOutcome = {
+      status: result.status,
+      errorCode: result.errorCode,
+      removedMathAssistKeyCount: result.removedMathAssistKeyCount,
+      indexedDbAndCacheStep: result.indexedDbAndCacheStep,
+      reloadRecommended: result.reloadRecommended,
+    }
+    setDeviceResetResult(outcome)
+    return outcome
+  }, [])
+
+  const closeDeviceReset = useCallback(() => {
+    setDeviceResetOpen(false)
+    if (deviceResetResult?.status === 'reset' && deviceResetResult.reloadRecommended) {
+      // 완료 후 현재 열린 문서가 지워진 상태를 다시 쓰지 않도록 새로고침한다.
+      window.location.href = HOME_URL
+    }
+  }, [deviceResetResult])
+
+  const activeProfileLabel = useMemo(() => {
+    if (!profileRegistry) return null
+    try {
+      return getLocalProfileDisplayLabel(profileRegistry, profileRegistry.activeProfileId)
+    } catch {
+      return null
+    }
+  }, [profileRegistry])
+
+  const problemReportUrl = useMemo(
+    () => buildProblemReportMailtoUrl({
+      classification: 'technical',
+      screenTemplate: 'home',
+    }),
+    [],
+  )
 
   if (!homeState) {
     return (
@@ -196,20 +496,139 @@ export default function GuestHomeClient() {
             <span className="grid h-11 w-11 place-items-center rounded-2xl bg-[#58cc02] text-2xl font-black text-white shadow-[0_4px_0_#3f8f01]">+</span>
             <span className="hidden text-xl font-black sm:inline">수학 연습장</span>
           </Link>
-          {activeGrade !== null && (
-            <button
-              type="button"
-              onClick={() => setShowGradePicker((current) => !current)}
-              data-testid="change-grade"
-              className="inline-flex min-h-[48px] items-center gap-3 rounded-full border-2 bg-white px-5 text-base font-black shadow-sm"
-              style={{ borderColor: gradeStyles[activeGrade].border, color: gradeStyles[activeGrade].accent }}
-            >
-              <span>{gradeStyles[activeGrade].symbol}</span>
-              {gradeStyles[activeGrade].name}
-              <span aria-hidden="true">⌄</span>
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            {activeProfileLabel !== null && (
+              <button
+                type="button"
+                onClick={() => setShowProfileManager((current) => !current)}
+                data-testid="profile-chip"
+                aria-expanded={showProfileManager}
+                className="inline-flex min-h-[48px] items-center gap-2 rounded-full border-2 border-[#dbeafe] bg-white px-5 text-base font-black text-[#1d4ed8] shadow-sm"
+              >
+                <span aria-hidden="true">🙂</span>
+                {activeProfileLabel}
+                <span aria-hidden="true">⌄</span>
+              </button>
+            )}
+            {activeGrade !== null && (
+              <button
+                type="button"
+                onClick={() => setShowGradePicker((current) => !current)}
+                data-testid="change-grade"
+                className="inline-flex min-h-[48px] items-center gap-3 rounded-full border-2 bg-white px-5 text-base font-black shadow-sm"
+                style={{ borderColor: gradeStyles[activeGrade].border, color: gradeStyles[activeGrade].accent }}
+              >
+                <span>{gradeStyles[activeGrade].symbol}</span>
+                {gradeStyles[activeGrade].name}
+                <span aria-hidden="true">⌄</span>
+              </button>
+            )}
+          </div>
         </header>
+
+        {showProfileManager && profileRegistry !== null && (
+          <section
+            className="reliability-panel rounded-[2rem] border-2 border-[#dbeafe] bg-white p-5 md:p-7"
+            data-testid="profile-manager-dialog"
+            aria-label="학습자 프로필 관리"
+          >
+            <ProfileManager
+              profiles={profileRegistry.profiles.map((entry) => ({
+                profileId: entry.profileId,
+                nickname: entry.nickname,
+              }))}
+              activeProfileId={profileRegistry.activeProfileId}
+              onCreateProfile={handleCreateProfile}
+              onRenameProfile={handleRenameProfile}
+              onSelectProfile={handleSelectProfile}
+              onOpenTransferDialog={handleOpenTransferDialog}
+            />
+            <div className="mt-5 border-t-2 border-dashed border-[#e2e8f0] pt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setDeviceResetPhrase('')
+                  setDeviceResetResult(null)
+                  setDeviceResetOpen(true)
+                }}
+                data-testid="device-reset-open"
+                className="inline-flex min-h-[48px] items-center rounded-xl border-2 border-[#fecaca] bg-white px-4 font-black text-[#991b1b]"
+              >
+                이 기기의 모든 데이터 삭제…
+              </button>
+            </div>
+          </section>
+        )}
+
+        {deleteCandidate !== null && (
+          <section
+            className="reliability-panel rounded-[2rem] border-2 border-[#fecaca] bg-white p-5"
+            data-testid="profile-delete-confirm"
+            aria-label={`${deleteCandidate.label} 프로필 삭제 확인`}
+          >
+            <h2 className="text-lg font-black text-[#0f172a]">{`${deleteCandidate.label} 프로필을 삭제할까요?`}</h2>
+            <p className="mt-2 text-sm font-bold leading-6 text-[#64748b]">
+              이 프로필의 기록만 이 기기에서 지워져요. 다른 프로필과 오프라인 팩은 그대로 남아요. 삭제 전에 내보내기 파일을 저장했는지 확인해 주세요.
+            </p>
+            {deleteMessage.length > 0 ? (
+              <p role="status" aria-live="polite" className="mt-2 text-sm font-black text-[#991b1b]">{deleteMessage}</p>
+            ) : null}
+            <div className="mt-4 flex gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  void handleConfirmDelete()
+                }}
+                data-testid="profile-delete-confirm-button"
+                className="inline-flex min-h-[48px] items-center rounded-xl bg-[#dc2626] px-5 font-black text-white"
+              >
+                삭제합니다
+              </button>
+              <button
+                type="button"
+                onClick={() => setDeleteCandidate(null)}
+                className="inline-flex min-h-[48px] items-center rounded-xl border-2 border-[#d8e3ef] bg-white px-5 font-black text-[#475569]"
+              >
+                취소
+              </button>
+            </div>
+          </section>
+        )}
+
+        {transferTarget !== null && (
+          <div className="reliability-panel rounded-[2rem] border-2 border-[#dbeafe] bg-white p-5 md:p-7" data-testid="profile-transfer-dialog">
+            <ProfileTransferDialog
+              open
+              profileLabel={transferTarget.label}
+              onClose={() => setTransferTarget(null)}
+              exportBuilder={exportBuilder}
+              downloader={downloader}
+              importFileReader={importFileReader}
+              previewImportText={previewImportText}
+              applyImportText={applyImportText}
+            />
+          </div>
+        )}
+
+        <DeviceDataResetDialog
+          open={deviceResetOpen}
+          typedPhrase={deviceResetPhrase}
+          result={deviceResetResult}
+          onClose={closeDeviceReset}
+          onTypedPhraseChange={setDeviceResetPhrase}
+          onReset={handleDeviceReset}
+        />
+
+        {learnerStorageUnavailable && (
+          <section
+            role="status"
+            aria-live="polite"
+            data-testid="home-storage-unavailable"
+            className="rounded-2xl border-2 border-[#fecaca] bg-[#fef2f2] p-4 text-sm font-black text-[#991b1b]"
+          >
+            {STORAGE_UNAVAILABLE_WARNING}
+          </section>
+        )}
 
         {(activeGrade === null || showGradePicker) ? (
           <GradePicker onSelect={chooseGrade} />
@@ -329,6 +748,40 @@ export default function GuestHomeClient() {
             })()}
           </>
         )}
+
+        <section className="rounded-[2rem] border-2 border-[#e2e8f0] bg-white p-5 md:p-7" data-testid="offline-pack-section">
+          <OfflinePackManager grades={[1, 2, 3, 4, 5, 6]} />
+        </section>
+
+        <section className="rounded-[2rem] border-2 border-dashed border-[#cbd5e1] bg-white p-5 md:flex md:items-center md:justify-between md:p-6" data-testid="home-policy-links">
+          <div>
+            <h2 className="text-lg font-black text-[#0f172a]">안내와 지원</h2>
+            <p className="mt-2 text-sm font-bold leading-6 text-[#64748b]">이 앱이 어떤 정보를 기기에 두는지, 도움이 필요할 때 어디로 연결되는지 확인할 수 있어요.</p>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-3 md:mt-0">
+            <Link
+              href="/privacy/"
+              data-testid="privacy-link"
+              className="inline-flex min-h-[48px] items-center rounded-xl border-2 border-[#d8e3ef] bg-white px-5 font-black text-[#475569]"
+            >
+              개인정보 처리 방침
+            </Link>
+            <Link
+              href="/support/"
+              data-testid="support-link"
+              className="inline-flex min-h-[48px] items-center rounded-xl border-2 border-[#d8e3ef] bg-white px-5 font-black text-[#475569]"
+            >
+              지원 안내
+            </Link>
+            <a
+              href={problemReportUrl}
+              data-testid="problem-report-link"
+              className="inline-flex min-h-[48px] items-center rounded-xl border-2 border-[#d8e3ef] bg-white px-5 font-black text-[#475569]"
+            >
+              문제 신고
+            </a>
+          </div>
+        </section>
       </div>
     </main>
   )

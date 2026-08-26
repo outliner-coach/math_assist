@@ -457,7 +457,13 @@ export default function PracticeClient() {
   }, [practiceGrade, session, router])
 
   useEffect(() => {
-    setHintLevel(0)
+    let cancelled = false
+    queueMicrotask(() => {
+      if (!cancelled) setHintLevel(0)
+    })
+    return () => {
+      cancelled = true
+    }
   }, [session?.currentIndex])
 
   if (releaseBlocked) return <GradeReleaseBlocked grade={6} />

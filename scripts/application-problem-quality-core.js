@@ -1073,8 +1073,8 @@ function loadCanonicalUnitBaseBankEvidence(unitInventory) {
   }
 
   for (const grade of [2, 3, 4]) {
-    const module = loadTypeScriptModule(`src/lib/grade${grade}-problems.ts`)
-    for (const template of module[`grade${grade}MissionTemplates`] ?? []) {
+    const problemModule = loadTypeScriptModule(`src/lib/grade${grade}-problems.ts`)
+    for (const template of problemModule[`grade${grade}MissionTemplates`] ?? []) {
       const conceptSource = grade === 4 ? template.problemFamily : template.skill
       const conceptId = `${template.unitId}-${conceptSource}`
       recordTemplate(

@@ -72,6 +72,11 @@ vi.mock('@/components', async () => {
 })
 
 import PracticeClient from './PracticeClient'
+import { getActiveProfileId } from '@/lib/profile-bootstrap'
+
+function scopedKey(legacyKey: string): string {
+  return `mathAssist_profile_v1:${getActiveProfileId()}:${legacyKey}`
+}
 
 function problem(templateId: string, index = 0): Problem {
   return {
@@ -129,6 +134,8 @@ describe('PracticeClient initialization', () => {
     mocks.route.conceptId = 'area-001'
     mocks.route.search = 'set=A'
     const storage = {
+      get length() { return storageData.size },
+      key: (index: number) => Array.from(storageData.keys())[index] ?? null,
       getItem: (key: string) => storageData.get(key) ?? null,
       setItem: (key: string, value: string) => storageData.set(key, value),
       removeItem: (key: string) => storageData.delete(key),
@@ -185,7 +192,7 @@ describe('PracticeClient initialization', () => {
       conceptId: 'area-001',
     })
 
-    const stored = JSON.parse(storageData.get('mathAssist_currentSession') ?? 'null')
+    const stored = JSON.parse(storageData.get(scopedKey('mathAssist_currentSession')) ?? 'null')
     expect(stored.problems[0].templateId).toBe('generated-1-1')
     expect(container.querySelector('[data-testid="problem-card"]')?.getAttribute('data-template-id'))
       .toBe('generated-1-1')
@@ -225,7 +232,7 @@ describe('PracticeClient initialization', () => {
     const key = conceptId.startsWith('g6')
       ? 'mathAssist_grade6CurrentSession'
       : 'mathAssist_currentSession'
-    expect(JSON.parse(storageData.get(key) ?? 'null')).toMatchObject({
+    expect(JSON.parse(storageData.get(scopedKey(key)) ?? 'null')).toMatchObject({
       grade: conceptId.startsWith('g6') ? 6 : 5,
       itemCount: expectedCount,
     })
@@ -257,7 +264,7 @@ describe('PracticeClient initialization', () => {
     })
 
     expect(mocks.generateProblems).toHaveBeenCalledTimes(1)
-    const stored = JSON.parse(storageData.get('mathAssist_currentSession') ?? 'null')
+    const stored = JSON.parse(storageData.get(scopedKey('mathAssist_currentSession')) ?? 'null')
     expect(stored).toMatchObject({ grade: 5, itemCount: 5 })
     expect(stored.sessionId).not.toBe('old-ten-item-session')
   })
@@ -266,8 +273,8 @@ describe('PracticeClient initialization', () => {
     mocks.route.conceptId = 'g6ratio-001'
     mocks.route.search = 'set=A&count=5'
     mocks.getConceptById.mockResolvedValue({ id: 'g6ratio-001', concept_title: '비와 비율' })
-    storageData.set('mathAssist_grade6CurrentSession', '{corrupt-grade6-session')
-    storageData.set('mathAssist_currentSession', '{"keep":"grade5"}')
+    storageData.set(scopedKey('mathAssist_grade6CurrentSession'), '{corrupt-grade6-session')
+    storageData.set(scopedKey('mathAssist_currentSession'), '{"keep":"grade5"}')
 
     await act(async () => {
       root?.render(createElement(PracticeClient))
@@ -276,8 +283,8 @@ describe('PracticeClient initialization', () => {
     })
 
     expect(container.querySelector('[data-testid="grade6-session-recovery"]')).not.toBeNull()
-    expect(storageData.get('mathAssist_grade6CurrentSession')).toBe('{corrupt-grade6-session')
-    expect(storageData.get('mathAssist_currentSession')).toBe('{"keep":"grade5"}')
+    expect(storageData.get(scopedKey('mathAssist_grade6CurrentSession'))).toBe('{corrupt-grade6-session')
+    expect(storageData.get(scopedKey('mathAssist_currentSession'))).toBe('{"keep":"grade5"}')
     expect(mocks.generateProblems).not.toHaveBeenCalled()
 
     const reset = container.querySelector('[data-testid="reset-grade6-session"]') as HTMLButtonElement
@@ -297,8 +304,8 @@ describe('PracticeClient initialization', () => {
     expect(mocks.buildApprovedPracticeProblemCandidates).toHaveBeenCalledWith({
       conceptId: 'g6ratio-001',
     })
-    expect(storageData.get('mathAssist_grade6CurrentSession')).toContain('generated-1-1')
-    expect(storageData.get('mathAssist_currentSession')).toBe('{"keep":"grade5"}')
+    expect(storageData.get(scopedKey('mathAssist_grade6CurrentSession'))).toContain('generated-1-1')
+    expect(storageData.get(scopedKey('mathAssist_currentSession'))).toBe('{"keep":"grade5"}')
   })
 
   it('does not create or partially save a session when generation fails', async () => {
@@ -314,8 +321,8 @@ describe('PracticeClient initialization', () => {
       await Promise.resolve()
     })
 
-    expect(storageData.has('mathAssist_currentSession')).toBe(false)
-    expect(storageData.has('mathAssist_grade6CurrentSession')).toBe(false)
+    expect(storageData.has(scopedKey('mathAssist_currentSession'))).toBe(false)
+    expect(storageData.has(scopedKey('mathAssist_grade6CurrentSession'))).toBe(false)
     expect(container.querySelector('[data-testid="problem-card"]')).toBeNull()
   })
 
@@ -365,7 +372,7 @@ describe('PracticeClient initialization', () => {
       .not.toBeNull()
     expect(container.querySelector('[data-testid="problem-card"]')).toBeNull()
     expect(container.textContent).not.toContain(original.prompt)
-    expect(storageData.get('mathAssist_grade6CurrentSession')).toBe(raw)
+    expect(storageData.get(scopedKey('mathAssist_grade6CurrentSession'))).toBe(raw)
 
     await act(async () => {
       ;(container.querySelector('[data-testid="replace-blocked-application-session"]') as HTMLButtonElement)
@@ -379,7 +386,7 @@ describe('PracticeClient initialization', () => {
       .toBeNull()
     expect(container.querySelector('[data-testid="problem-card"]')?.getAttribute('data-template-id'))
       .toBe(replacement.templateId)
-    const recovered = JSON.parse(storageData.get('mathAssist_grade6CurrentSession') ?? 'null')
+    const recovered = JSON.parse(storageData.get(scopedKey('mathAssist_grade6CurrentSession')) ?? 'null')
     expect(recovered.problems[0].applicationSource.generatorVersion).toBe(2)
     expect(recovered.answers).toEqual(Array(5).fill(null))
     expect(recovered.checkedAnswers).toEqual(Array(5).fill(null))
@@ -424,7 +431,7 @@ describe('PracticeClient initialization', () => {
     expect(container.querySelector('[data-testid="blocked-application-session-recovery"]'))
       .not.toBeNull()
     expect(container.querySelector('[data-testid="problem-card"]')).toBeNull()
-    expect(storageData.get('mathAssist_grade6CurrentSession')).toBe(raw)
+    expect(storageData.get(scopedKey('mathAssist_grade6CurrentSession'))).toBe(raw)
     expect(mocks.generateProblems).not.toHaveBeenCalled()
   })
 
@@ -481,7 +488,7 @@ describe('PracticeClient initialization', () => {
       '/practice/g6ratio-001?set=A&count=5',
     )
     expect(container.querySelector('[data-testid="problem-card"]')).toBeNull()
-    const recovered = JSON.parse(storageData.get('mathAssist_grade6CurrentSession') ?? 'null')
+    const recovered = JSON.parse(storageData.get(scopedKey('mathAssist_grade6CurrentSession')) ?? 'null')
     expect(recovered.conceptId).toBe('g6ratio-001')
     expect(recovered.problems[0].applicationSource.generatorVersion).toBe(2)
   })
@@ -569,7 +576,7 @@ describe('PracticeClient initialization', () => {
 
     expect(container.querySelector('[data-testid="blocked-application-session-recovery"]'))
       .not.toBeNull()
-    const blocked = JSON.parse(storageData.get('mathAssist_grade6CurrentSession') ?? 'null')
+    const blocked = JSON.parse(storageData.get(scopedKey('mathAssist_grade6CurrentSession')) ?? 'null')
     expect(blocked.mode).toBe('retry-wrong')
     expect(blocked.problems).toEqual([original])
     expect(blocked.answers).toEqual([null])
@@ -583,7 +590,7 @@ describe('PracticeClient initialization', () => {
       await Promise.resolve()
     })
 
-    const recovered = JSON.parse(storageData.get('mathAssist_grade6CurrentSession') ?? 'null')
+    const recovered = JSON.parse(storageData.get(scopedKey('mathAssist_grade6CurrentSession')) ?? 'null')
     expect(recovered.problems[0].applicationSource.generatorVersion).toBe(2)
     expect(recovered.applicationProblemReplacementArchive[0].originalProblem).toEqual(original)
   })
@@ -610,7 +617,7 @@ describe('PracticeClient initialization', () => {
       await Promise.resolve()
     })
 
-    const stored = JSON.parse(storageData.get('mathAssist_currentSession') ?? 'null')
+    const stored = JSON.parse(storageData.get(scopedKey('mathAssist_currentSession')) ?? 'null')
     expect(stored.answers[0]).toBe('1')
     expect(stored.checkedAnswers[0]).toBeNull()
     expect(container.querySelector('[data-testid="number-input-error"]')?.textContent)

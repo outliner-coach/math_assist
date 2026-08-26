@@ -1,5 +1,3 @@
-import React from 'react'
-
 import {
   ADVENTURE_DAILY_GOAL,
   ADVENTURE_XP_PER_LEVEL,
@@ -14,7 +12,7 @@ interface AdventureProgressPanelProps {
   progress: AdventureState & { todaySolvedCount: number }
   totalMissionCount: number
   tone?: 'green' | 'blue'
-  now?: number
+  now: number
 }
 
 const achievementNames = {
@@ -29,7 +27,7 @@ export default function AdventureProgressPanel({
   progress,
   totalMissionCount,
   tone = 'green',
-  now = Date.now(),
+  now,
 }: AdventureProgressPanelProps) {
   const level = getAdventureLevel(progress.xp)
   const levelXp = progress.xp % ADVENTURE_XP_PER_LEVEL

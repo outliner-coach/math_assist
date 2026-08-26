@@ -11,6 +11,7 @@ import {
   type LearningSetCompletionRecord,
 } from './learning-activity'
 import { resolvePracticeGrade, resolvePracticeItemCount } from './session'
+import { getLearnerStorage } from './profile-bootstrap'
 
 export const GRADE5_PROGRESS_KEY = 'mathAssist_progress_v1'
 export const GRADE6_PROGRESS_KEY = 'mathAssist_grade6Progress'
@@ -132,10 +133,11 @@ export function mergeConceptProgress(
 }
 
 export function loadConceptProgressMap(grade: PracticeGrade = 5): ConceptProgressMap {
-  if (typeof window === 'undefined') return {}
+  const storage = getLearnerStorage()
+  if (!storage) return {}
 
   try {
-    const raw = localStorage.getItem(progressKey(grade))
+    const raw = storage.getItem(progressKey(grade))
     if (!raw) return {}
     const parsed: unknown = JSON.parse(raw)
     return isConceptProgressMap(parsed) ? parsed : {}
@@ -148,9 +150,10 @@ export function saveConceptProgressMap(
   progressMap: ConceptProgressMap,
   grade: PracticeGrade = 5,
 ): boolean {
-  if (typeof window === 'undefined') return false
+  const storage = getLearnerStorage()
+  if (!storage) return false
   const key = progressKey(grade)
-  const raw = localStorage.getItem(key)
+  const raw = storage.getItem(key)
   if (raw !== null) {
     try {
       if (!isConceptProgressMap(JSON.parse(raw))) return false
@@ -158,7 +161,7 @@ export function saveConceptProgressMap(
       return false
     }
   }
-  localStorage.setItem(key, JSON.stringify(progressMap))
+  storage.setItem(key, JSON.stringify(progressMap))
   return true
 }
 
@@ -182,6 +185,7 @@ export function recordConceptProgress(result: SessionResult): {
 }
 
 export function clearConceptProgress(grade: PracticeGrade = 5): void {
-  if (typeof window === 'undefined') return
-  localStorage.removeItem(progressKey(grade))
+  const storage = getLearnerStorage()
+  if (!storage) return
+  storage.removeItem(progressKey(grade))
 }

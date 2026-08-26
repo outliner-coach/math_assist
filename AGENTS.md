@@ -22,7 +22,7 @@ project-root/
 │       ├── findings.md               → 현재 해결되지 않은 재현 가능한 문제
 │       └── decisions/
 │           ├── index.md              → 주요 기술·제품 결정 목록
-│           └── 0001-*.md … 0011-*.md → 선택, 대안, 이후 제약을 담은 결정 기록
+│           └── 0001-*.md … 0012-*.md → 선택, 대안, 이후 제약을 담은 결정 기록
 ├── public/
 │   └── data/
 │       ├── AGENTS.md                 → 5·6학년 단원·개념·템플릿 변경 규칙
@@ -81,6 +81,16 @@ npm test
 npm run tdd:guard
 npm run build
 npm run test:e2e
+npm run verify:fast
+npm run verify:full
+npm run verify:release
+node scripts/public-site-monitor.mjs
+node scripts/generate-release-metadata.mjs
 ```
+
+- `verify:fast`는 lint→vitest→tdd:guard→build→E2E 스모크(home-learning-modes·mascot-service 스펙)를 묶어 실행한다.
+- `verify:full`은 학년 validator(grade1~4·6)+curriculum+templates+application-packs, audit(missions/problems/applications), promptfoo:problems, catalog 생성 뒤 check:problem-editorial-review 순서 강제, vitest→lint→tdd:guard→build→전체 E2E를 순서대로 실행한다.
+- `verify:release`는 `verify:full`에 접근성 증거 검사(scripts/check-release-evidence.mjs), 프로덕션 의존성 감사(npm audit --omit=dev --audit-level=high), 롤백 스키마 호환 검사를 더한다.
+- `public-site-monitor.mjs`는 공개 사이트 5항목을 읽기 전용으로 점검하고, `generate-release-metadata.mjs`는 `public/release-metadata.json`을 결정적으로 생성한다.
 
 콘텐츠를 바꾸면 영향받는 `validate:*`와 `audit:*` 명령을 함께 실행한다. 커밋 전에는 의도한 파일만 스테이징하고 `git diff --cached --check`를 통과시킨다.

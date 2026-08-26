@@ -4,6 +4,7 @@ import {
   createLocalProgressRepository,
   type ReadonlyLearningStorage,
 } from './local-progress-repository'
+import { getLearnerStorage } from './profile-bootstrap'
 import type { LegacyProgressBaseline } from './remote-progress'
 
 const LEGACY_PROGRESS_KEYS: Record<LearningGrade, string> = {
@@ -18,9 +19,10 @@ const LEGACY_PROGRESS_KEYS: Record<LearningGrade, string> = {
 const LEGACY_GRADES: readonly LearningGrade[] = [1, 2, 3, 4, 5, 6]
 
 export function createLegacyProgressBaselines(
-  storage: ReadonlyLearningStorage,
+  storage: ReadonlyLearningStorage | null = getLearnerStorage(),
   now = Date.now(),
 ): { baselines: LegacyProgressBaseline[]; corruptedGrades: LearningGrade[] } {
+  if (!storage) return { baselines: [], corruptedGrades: [] }
   const baselines: LegacyProgressBaseline[] = []
   const corruptedGrades: LearningGrade[] = []
   const progressOnlyStorage: ReadonlyLearningStorage = {

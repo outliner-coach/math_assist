@@ -10,13 +10,35 @@ import {
   GRADE6_SESSION_KEY,
   saveSession,
 } from './session'
+import { LOCAL_PROFILE_REGISTRY_KEY, createInitialLocalProfileRegistry } from './local-profile'
 import type { PracticeGrade, PracticeSession, Problem, SubmissionResult } from './types'
+
+const BOOTSTRAP_UUID_A = '00000000-0000-4000-8000-000000000001'
+const BOOTSTRAP_PROFILE_A = `local_${BOOTSTRAP_UUID_A}`
 
 class MemoryStorage {
   data = new Map<string, string>()
   getItem(key: string) { return this.data.get(key) ?? null }
   setItem(key: string, value: string) { this.data.set(key, value) }
   removeItem(key: string) { this.data.delete(key) }
+  get length() { return this.data.size }
+  key(index: number) { return Array.from(this.data.keys())[index] ?? null }
+}
+
+function bootstrapStorage(): MemoryStorage {
+  const storage = new MemoryStorage()
+  vi.stubGlobal('window', {})
+  vi.stubGlobal('localStorage', storage)
+  storage.setItem(LOCAL_PROFILE_REGISTRY_KEY, JSON.stringify(createInitialLocalProfileRegistry({
+    now: () => 1,
+    randomUUID: () => BOOTSTRAP_UUID_A,
+    migrationStatus: 'not-needed',
+  })))
+  return storage
+}
+
+function scopedKey(legacyKey: string): string {
+  return `mathAssist_profile_v1:${BOOTSTRAP_PROFILE_A}:${legacyKey}`
 }
 
 function completionFixture(
@@ -66,36 +88,32 @@ describe.each([5, 6] as const)('Grade %i completion storage boundary', (grade) =
   it.each([5, 10] as const)(
     'keeps the active session when corrupt progress blocks a %i-item completion',
     (itemCount) => {
-    const storage = new MemoryStorage()
-    vi.stubGlobal('window', {})
-    vi.stubGlobal('localStorage', storage)
+    const storage = bootstrapStorage()
     const fixture = completionFixture(grade, itemCount)
     const sessionKey = grade === 6 ? GRADE6_SESSION_KEY : GRADE5_SESSION_KEY
     const progressKey = grade === 6 ? GRADE6_PROGRESS_KEY : GRADE5_PROGRESS_KEY
     expect(saveSession(fixture.session)).toBe(true)
-    storage.setItem(progressKey, `{corrupt-grade-${grade}`)
+    storage.setItem(scopedKey(progressKey), `{corrupt-grade-${grade}`)
 
     expect(persistCompletedPractice(fixture.session, fixture.results, 200)).toEqual({
       status: 'storage-blocked',
       target: 'progress',
     })
-    expect(storage.getItem(progressKey)).toBe(`{corrupt-grade-${grade}`)
-    expect(storage.getItem(sessionKey)).toContain(fixture.session.sessionId)
+    expect(storage.getItem(scopedKey(progressKey))).toBe(`{corrupt-grade-${grade}`)
+    expect(storage.getItem(scopedKey(sessionKey))).toContain(fixture.session.sessionId)
     },
   )
 
   it('clears the active session only after result and progress both save', () => {
-    const storage = new MemoryStorage()
-    vi.stubGlobal('window', {})
-    vi.stubGlobal('localStorage', storage)
+    const storage = bootstrapStorage()
     const fixture = completionFixture(grade, 10)
     const sessionKey = grade === 6 ? GRADE6_SESSION_KEY : GRADE5_SESSION_KEY
     const progressKey = grade === 6 ? GRADE6_PROGRESS_KEY : GRADE5_PROGRESS_KEY
     expect(saveSession(fixture.session)).toBe(true)
 
     expect(persistCompletedPractice(fixture.session, fixture.results, 200).status).toBe('completed')
-    expect(storage.getItem(sessionKey)).toBeNull()
-    expect(JSON.parse(storage.getItem(progressKey) ?? '{}')[fixture.session.conceptId]).toMatchObject({
+    expect(storage.getItem(scopedKey(sessionKey))).toBeNull()
+    expect(JSON.parse(storage.getItem(scopedKey(progressKey)) ?? '{}')[fixture.session.conceptId]).toMatchObject({
       attemptCount: 1,
       latestScore: 90,
       needsReview: true,
@@ -104,27 +122,24 @@ describe.each([5, 6] as const)('Grade %i completion storage boundary', (grade) =
   })
 
   it('does not persist an incomplete or abandoned set', () => {
-    const storage = new MemoryStorage()
-    vi.stubGlobal('window', {})
-    vi.stubGlobal('localStorage', storage)
+    const storage = bootstrapStorage()
     const fixture = completionFixture(grade, 10)
     const incompleteResults = fixture.results.slice(0, -1)
 
     expect(() => persistCompletedPractice(fixture.session, incompleteResults, 200))
       .toThrow(/complete set/i)
-    expect(storage.data.size).toBe(0)
+    expect(storage.getItem(scopedKey(grade === 6 ? GRADE6_SESSION_KEY : GRADE5_SESSION_KEY))).toBeNull()
+    expect(storage.getItem(scopedKey(grade === 6 ? GRADE6_PROGRESS_KEY : GRADE5_PROGRESS_KEY))).toBeNull()
   })
 
   it('treats the same completed session as an idempotent re-entry', () => {
-    const storage = new MemoryStorage()
-    vi.stubGlobal('window', {})
-    vi.stubGlobal('localStorage', storage)
+    const storage = bootstrapStorage()
     const fixture = completionFixture(grade, 10)
     const first = persistCompletedPractice(fixture.session, fixture.results, 200)
     const rawAfterFirst = new Map(storage.data)
     const repeated = persistCompletedPractice(fixture.session, fixture.results, 900)
     const progressKey = grade === 6 ? GRADE6_PROGRESS_KEY : GRADE5_PROGRESS_KEY
-    const progress = JSON.parse(storage.getItem(progressKey) ?? '{}')
+    const progress = JSON.parse(storage.getItem(scopedKey(progressKey)) ?? '{}')
 
     expect(repeated).toEqual(first)
     expect(storage.data).toEqual(rawAfterFirst)
@@ -135,9 +150,7 @@ describe.each([5, 6] as const)('Grade %i completion storage boundary', (grade) =
   })
 
   it('records five-item progress while keeping the new completion projection basic-only', () => {
-    const storage = new MemoryStorage()
-    vi.stubGlobal('window', {})
-    vi.stubGlobal('localStorage', storage)
+    const storage = bootstrapStorage()
     const fixture = completionFixture(grade, 5)
     const sessionKey = grade === 6 ? GRADE6_SESSION_KEY : GRADE5_SESSION_KEY
     const progressKey = grade === 6 ? GRADE6_PROGRESS_KEY : GRADE5_PROGRESS_KEY
@@ -152,7 +165,7 @@ describe.each([5, 6] as const)('Grade %i completion storage boundary', (grade) =
         lastMode: 'standard',
       },
     }
-    storage.setItem(progressKey, JSON.stringify(legacyProgress))
+    storage.setItem(scopedKey(progressKey), JSON.stringify(legacyProgress))
     expect(saveSession(fixture.session)).toBe(true)
 
     const first = persistCompletedPractice(fixture.session, fixture.results, 200)
@@ -177,7 +190,7 @@ describe.each([5, 6] as const)('Grade %i completion storage boundary', (grade) =
     })
     expect(repeated).toEqual(first)
     expect(storage.data).toEqual(snapshot)
-    expect(JSON.parse(storage.getItem(progressKey) ?? '{}')).toEqual({
+    expect(JSON.parse(storage.getItem(scopedKey(progressKey)) ?? '{}')).toEqual({
       ...legacyProgress,
       [fixture.session.conceptId]: {
         conceptId: fixture.session.conceptId,
@@ -194,7 +207,7 @@ describe.each([5, 6] as const)('Grade %i completion storage boundary', (grade) =
         legacyCompleted: false,
       },
     })
-    expect(storage.getItem(sessionKey)).toBeNull()
+    expect(storage.getItem(scopedKey(sessionKey))).toBeNull()
   })
 })
 
