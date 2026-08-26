@@ -1,5 +1,68 @@
 # 구현 경험
 
+## override만 올리고 잠금파일을 그대로 두면 프로덕션 감사가 이전 버전을 검사함
+
+- 증상: 설치 트리의 `nanoid`는 override에 따라 3.3.18이었지만
+  `npm audit --omit=dev --audit-level=high`는 `<3.3.18` high 취약점 1건을
+  보고해 출시를 차단했다.
+- 원인: `package.json` override는 3.3.18인데 `package-lock.json`의 실제
+  패키지 항목은 3.3.16에 머물렀다. 감사기는 현재 `node_modules` 출력보다
+  재현 설치의 정본인 잠금파일을 기준으로 판정했다.
+- 실패한 접근: 설치 트리의 `npm ls`만 보면 3.3.18이라 통과한 것처럼
+  보인다. `npm audit fix --omit=dev --dry-run`은 현재 npm 버전에서 개발
+  의존성을 대량 제거하는 계획까지 보여 주므로 그대로 적용하지 않았다.
+- 대응: 기존 override나 다른 의존성 버전은 바꾸지 않고 잠금파일의
+  `node_modules/nanoid` 버전·URL·integrity만 3.3.18로 갱신했다.
+- 확인: 잠금파일 diff는 nanoid 세 줄에 한정되며, `npm ls nanoid
+  --omit=dev`는 Next→PostCSS→nanoid 3.3.18을 가리킨다. 프로덕션 감사는
+  `found 0 vulnerabilities`로 통과했다.
+- 유지 계약: 보안 override를 올릴 때 package manifest와 잠금파일,
+  설치 트리를 함께 대조하고 실제 출시 명령과 같은 `--omit=dev` 감사를
+  다시 실행한다.
+
+## 외부 도구가 만든 HTML의 후행 공백은 일회성 정리만으로 다시 생김
+
+- 증상: Promptfoo 0.120.27로 품질 보고서를 다시 만들자 통과 결과
+  1,483/1,483과 무관한 공백 전용 줄 14,840개가 HTML에 생겨
+  `git diff --check`가 실패했다.
+- 원인: `promptfoo eval`의 HTML formatter가 각 줄 끝에 공백을 포함해
+  파일을 썼고, 기존 npm script는 생성 직후 결과를 그대로 커밋 대상으로
+  남겼다.
+- 실패한 접근: 생성된 HTML을 한 번만 수동 정리하면 다음
+  `verify:full`의 Promptfoo 단계가 같은 공백을 다시 만든다. formatter
+  오류를 숨기려고 Promptfoo 실패를 무시하거나 보고서 생성을 게이트에서
+  빼는 것도 허용하지 않았다.
+- 대응: 같은 config와 HTML·JSON 출력 경로로 Promptfoo를 실행한 뒤,
+  성공한 경우에만 줄 끝 공백을 결정적으로 제거하는 wrapper를 만들었다.
+  하위 프로세스 실패는 그대로 상위 명령 실패로 전파한다.
+- 확인: wrapper 단위 테스트와 verify script 계약 13/13, 실제 Promptfoo
+  1,483/1,483을 통과했다. 재생성한 HTML의 후행 공백은 0개이며
+  `git diff --check`도 통과했다.
+- 유지 계약: 전체 문제 품질 검증은 `npm run promptfoo:problems`를 통해
+  실행한다. 보고서만 수동 정리하거나 Promptfoo를 별도 출력 경로로
+  직접 호출하지 않는다.
+
+## 콘텐츠 seed를 고정하려고 브라우저 전역 시계를 바꾸면 hydration까지 멈춤
+
+- 증상: 비율 표와 세 도형 겹침 문제를 안정적으로 선택하려고
+  `addInitScript`에서 `Date.now`를 4ms로 고정한 E2E 두 개가 SSR 화면만
+  남긴 채 scoped session 저장을 시작하지 못했다.
+- 원인: 문제 생성 seed뿐 아니라 React·Next와 프로필 초기화가 공유하는
+  브라우저 전역 시계를 함께 바꿨다. 개발 모드 전용 현상이 아니며
+  프로덕션 정적 빌드에서도 동일하게 재현됐다.
+- 실패한 접근: 전역 동결만 없애면 hydration은 정상화됐지만 실제 시간
+  seed가 매번 달라 비율 표가 선택되지 않을 수 있었다. lease 만료 계산을
+  완화하는 제품 수정은 실제 사용자 경로에 없는 테스트 오염을 제품
+  계약으로 끌어들이므로 적용하지 않았다.
+- 대응: 실제 `generateProblems`에 seed 4를 넘겨 유효한 10문제 세션을
+  Node 쪽에서 만들고 활성 프로필 scoped key에 미리 저장했다. 브라우저는
+  실제 시계로 hydration하고 화면은 결정적 세션을 복구한다.
+- 확인: 실패 상태를 개발·프로덕션에서 재현한 뒤 새 픽스처로 두 환경
+  각각 2/2를 통과했다. 격리했던 테스트는 모두 정상 E2E로 복구했다.
+- 유지 계약: 결정적 문제 선택에는 생성기 seed나 저장 세션을 사용하고,
+  브라우저 전역 `Date.now`·`performance.now`를 콘텐츠 픽스처로 바꾸지
+  않는다.
+
 ## 문항 완료와 학습 단위 완료를 같은 필드로 쓰면 기본 학습을 과대 표시함
 
 - 증상: 5·6학년 5문제 기본 세션도 기존 개념 진도의 `completed`와

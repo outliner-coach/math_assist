@@ -58,7 +58,7 @@
     "validate:application-packs": "node scripts/validate-application-packs.js",
     "audit:applications": "node scripts/application-problem-quality-report.js",
     "audit:problems": "node scripts/problem-quality-report.js",
-    "promptfoo:problems": "mkdir -p public/reports out/promptfoo && promptfoo eval -c promptfooconfig.problem-quality.yaml --no-progress-bar -o public/reports/promptfoo-problem-quality.html -o out/promptfoo/problem-quality.json",
+    "promptfoo:problems": "node scripts/run-promptfoo-problems.mjs",
     "verify:fast": "node scripts/run-verify.mjs fast",
     "verify:full": "node scripts/run-verify.mjs full",
     "verify:release": "node scripts/run-verify.mjs release"

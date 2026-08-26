@@ -6,6 +6,7 @@ import { createInitialGrade1Progress } from '../src/lib/grade1-progress'
 import { isGrade3ApplicationMission } from '../src/lib/application-problems/grade3-adapter'
 import { buildApprovedGrade3PracticeSet } from '../src/lib/application-problems/grade3-runtime'
 import { createInitialGrade3Progress } from '../src/lib/grade3-progress'
+import { buildDeterministicPracticeSession } from './deterministic-practice-session'
 import {
   activeLearnerStorageKey,
   listSketchStorageKeys,
@@ -730,11 +731,15 @@ test('5학년 다각형 그림은 실제 치수 비율을 따르고 미지 길�
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 })
 
-// TODO(profile-lease): frozen Date.now blocks client hydration after prior navigation; tracked for follow-up.
-test.fixme('세 도형 겹침은 설명 없는 원·삼각형·사각형 중첩도로 보여 준다', async ({ page }) => {
-  await page.addInitScript(() => {
-    Object.defineProperty(Date, 'now', { value: () => 4 })
+test('세 도형 겹침은 설명 없는 원·삼각형·사각형 중첩도로 보여 준다', async ({ page }) => {
+  const deterministicSession = buildDeterministicPracticeSession({
+    grade: 5,
+    conceptId: 'area-001',
+    setId: 'A',
+    seed: 4,
   })
+  expect(deterministicSession.problems.some(problem => problem.visual?.type === 'three_shape_overlap')).toBe(true)
+  await writeLearnerStorageItem(page, SESSION_KEY, JSON.stringify(deterministicSession))
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`${BASE_PATH}/practice/area-001?set=A`)
   const session = await readSession(page)

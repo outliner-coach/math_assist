@@ -21,6 +21,20 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-08-27: the production dependency release gate keeps the existing
+  `nanoid` 3.3.18 override and updates the stale 3.3.16 lock entry to the same
+  patched version. The package-lock diff is limited to nanoid's version,
+  resolved URL, and integrity; re-check `npm audit --omit=dev
+  --audit-level=high` when changing Next, PostCSS, overrides, or the lockfile.
+
+- 2026-08-27: production-foundation release cleanup keeps
+  `promptfoo:problems` as the mandatory full-verification phase but routes it
+  through `scripts/run-promptfoo-problems.mjs`. The wrapper preserves the same
+  config and HTML/JSON outputs, propagates Promptfoo failures, and removes
+  generated line-ending whitespace so the committed report satisfies
+  `git diff --cached --check`. Other workstreams should call the npm script
+  rather than invoking Promptfoo with separate report paths.
+
 - 2026-08-25: T8 CI·manual release·monitor·rollback automation (production
   foundation · device reliability) is the single final writer for package.json
   verification script registration (`verify:fast`, `verify:full`,

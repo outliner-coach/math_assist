@@ -4,7 +4,9 @@ import {
   readLearnerStorageItem,
   readLearnerStorageJson,
   waitForLearnerStorageItem,
+  writeLearnerStorageItem,
 } from './profile-aware-storage'
+import { buildDeterministicPracticeSession } from './deterministic-practice-session'
 
 const BASE_PATH = '/math_assist'
 const GRADE5_KEYS = [
@@ -83,10 +85,15 @@ test('홈에서 6학년을 선택해 단원·개념·기본 5문제까지 진입
   expect(await readKeys(page, GRADE5_KEYS)).toEqual([null, null, null])
 })
 
-test.fixme('10문제 세트의 실제 비율 표를 렌더링하고 답 전용 metadata를 노출하지 않는다', async ({ page }) => {
-  await page.addInitScript(() => {
-    Object.defineProperty(Date, 'now', { value: () => 4 })
+test('10문제 세트의 실제 비율 표를 렌더링하고 답 전용 metadata를 노출하지 않는다', async ({ page }) => {
+  const deterministicSession = buildDeterministicPracticeSession({
+    grade: 6,
+    conceptId: 'g6ratio-001',
+    setId: 'A',
+    seed: 4,
   })
+  expect(deterministicSession.problems.some(problem => problem.visual?.type === 'ratio_table')).toBe(true)
+  await writeLearnerStorageItem(page, GRADE6_KEYS[0], JSON.stringify(deterministicSession))
   await page.goto(`${BASE_PATH}/practice/g6ratio-001?set=A&count=10`)
   await expect(page.getByTestId('practice-session')).toBeVisible()
   await waitForLearnerStorageItem(page, GRADE6_KEYS[0])
