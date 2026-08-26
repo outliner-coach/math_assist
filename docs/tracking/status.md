@@ -32,9 +32,10 @@
   `4709de875e6b735661b0d182ee9ff439277569b8b89c8a0d459126be5014db35`,
   콘텐츠 지문은
   `1a77b30a868e13e1d09b32cebef9d0124d9f125e07676bdfab79f95e54ce1a4c`다.
-- **마지막 공개 배포 경계**: `origin/main`은 `edaad0e`까지 전진했지만
-  Pages는 아직 이 커밋을 배포하지 않았다. 마지막으로 문서화된 공개 제품
-  변경은 `1b0c171ed81423ffce6fa9230e62528723d2f8a4`다.
+- **마지막 공개 배포 경계**: 제품 통합 경계 `edaad0e`와 그 후속 상태
+  기록은 `origin/main`에 반영됐지만 Pages에는 아직 배포하지 않았다.
+  마지막으로 문서화된 공개 제품 변경은
+  `1b0c171ed81423ffce6fa9230e62528723d2f8a4`다.
   해당 제품 커밋의 GitHub Actions 실행 `32127227116`(build job
   `95680364368`, deploy job `95680913733`)과 배포 ID `5960907965`까지
   성공을 확인했고 환경 URL은 `https://outliner-coach.github.io/math_assist/`다.
