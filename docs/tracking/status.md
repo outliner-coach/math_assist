@@ -4,14 +4,14 @@
 
 ## 상태 경계
 
-- **현재 작업트리**: 브랜치는
-  `dryforge/production-foundation-device-reliability`다. 제품 파운데이션
+- **현재 통합 경계**: PR #2의 merge commit `edaad0e`가 `main`과
+  `origin/main`에 반영됐다. 제품 파운데이션
   커밋 스택은 db28f75(응용문제 V1×파운데이션 병합)→d65150b(T5 오프라인)→
   7ea5fe9(T6 오류 보고)→c47f914(T3 프로필 어댑터)→291ff68(findings 기록)→
   8939b7d(T4 프로필 전송)→75da038+d71d380(T7 배선)→b5cbbc5(T8 출시
   자동화)이며, d4d613f·9f2b225는 문서와 품질 보고서 기준을 정리했다.
-  2026-08-27 release cleanup은 현재 브랜치에서 최종 출시 게이트 전 후보로
-  유지한다.
+  release cleanup 커밋 `0be4d09`는 결정적 E2E, Promptfoo 보고서 정규화,
+  nanoid 잠금파일 보정을 마무리했다.
 - **현재 로컬 검증**: `verify:full` 19/19(247.4초)을 통과했다. 세부 결과는
   학년·교육과정·템플릿·감사 오류 0, Promptfoo 1,483/1,483, 편집 원장
   1,622/1,622, Vitest 158개 파일 1,603/1,603, lint·tdd:guard, 정적 build
@@ -22,8 +22,8 @@
   포커스, 프로필 잠금·전송, 오프라인 6개 팩, CSP를 포함해 9/9를
   통과했다. 그러나 iPadOS Safari+VoiceOver와 Android Chrome+TalkBack의
   실제 기기 14개 시나리오 증거는 아직 수집하지 않았다. 따라서
-  `check-release-evidence`는 의도대로 `EVIDENCE_MISSING`이며
-  `verify:release`, main 병합, 수동 Pages 배포는 완료 상태가 아니다.
+  `check-release-evidence`는 의도대로 `EVIDENCE_MISSING`이다. main 병합은
+  완료했지만 `verify:release`와 수동 Pages 배포는 완료 상태가 아니다.
 - **기타 출시 사전 게이트**: 잠금파일에 남아 있던 `nanoid` 3.3.16을
   기존 override와 같은 3.3.18로 맞춰 production audit은 취약점 0으로
   통과했다. 현재 세 저장·내보내기·오프라인 schema는 모두 1이며, 공개
@@ -32,12 +32,13 @@
   `4709de875e6b735661b0d182ee9ff439277569b8b89c8a0d459126be5014db35`,
   콘텐츠 지문은
   `1a77b30a868e13e1d09b32cebef9d0124d9f125e07676bdfab79f95e54ce1a4c`다.
-- **마지막 공개 배포 경계**: `origin/main`은 `3645485`이며, 마지막으로
-  문서화된 제품 변경은 `1b0c171ed81423ffce6fa9230e62528723d2f8a4`다.
+- **마지막 공개 배포 경계**: `origin/main`은 `edaad0e`까지 전진했지만
+  Pages는 아직 이 커밋을 배포하지 않았다. 마지막으로 문서화된 공개 제품
+  변경은 `1b0c171ed81423ffce6fa9230e62528723d2f8a4`다.
   해당 제품 커밋의 GitHub Actions 실행 `32127227116`(build job
   `95680364368`, deploy job `95680913733`)과 배포 ID `5960907965`까지
   성공을 확인했고 환경 URL은 `https://outliner-coach.github.io/math_assist/`다.
-  현재 브랜치는 아직 main·origin·공개 Pages에 반영되지 않았다.
+  따라서 현재 main과 공개 Pages는 서로 다른 배포 경계다.
 - **출시 자동화**: push 즉시 배포를 폐지했다. 배포는
   `.github/workflows/release.yml` workflow_dispatch(+`inputs.ref`)만 남고
   deploy job은 `github-pages` 환경 승인이 필요하다. ci.yml(PR에서
