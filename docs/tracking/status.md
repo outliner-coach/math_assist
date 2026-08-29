@@ -8,7 +8,8 @@
   `origin/main`에 반영됐다. 이 커밋은 CSP에서 실행 가능한 1·2학년 산술
   파서와 프로덕션 정적 학습 흐름 검증을 포함한다.
 - **학습자 프로필 관리 개선의 로컬 경계**: 기능 브랜치
-  `dryforge/profile-management-ui`의 제품·검증 커밋 `4f8ec2e`까지 프로필 카드·마스코트,
+  `dryforge/profile-management-ui`의 제품 커밋 `4f8ec2e`와 검증 커밋
+  `35c1d66`까지 프로필 카드·마스코트,
   단일 관리창, 생성·이름 변경·전송·삭제·기기 초기화 내부 단계와
   초점·반응형 회귀를 구현했다. `main`·`origin/main`에는 아직 반영하지
   않았고 push·PR·Pages 배포도 수행하지 않았다.
