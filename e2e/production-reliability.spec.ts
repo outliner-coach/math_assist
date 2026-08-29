@@ -55,6 +55,26 @@ async function openManagementMenu(page: Page, ordinal: number): Promise<void> {
   await profileCard(page, ordinal).getByRole('button', { name: /관리$/ }).click()
 }
 
+async function prepareOwnProfileImportPreview(page: Page): Promise<void> {
+  await openProfileManager(page)
+  await openManagementMenu(page, 1)
+  await page.getByRole('menuitem', { name: '내보내기' }).click()
+  await expect(page.getByTestId('profile-transfer-dialog')).toBeVisible()
+  await expect(page.getByRole('dialog')).toHaveCount(1)
+
+  const downloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: '내보내기 파일 저장' }).click()
+  const download = await downloadPromise
+  const exportedPath = await download.path()
+  expect(exportedPath).toBeTruthy()
+
+  const fileChooserPromise = page.waitForEvent('filechooser')
+  await page.getByRole('button', { name: '가져올 파일 고르기' }).click()
+  const fileChooser = await fileChooserPromise
+  await fileChooser.setFiles(exportedPath as string)
+  await expect(page.getByRole('button', { name: '가져오기 적용' })).toBeVisible({ timeout: 15_000 })
+}
+
 test('두 탭이 같은 프로필을 읽을 때 한 탭의 프로필 전환은 다른 탭을 즉시 잠근다', async ({ page }) => {
   await seedRegistry(page, PROFILE_A)
   await page.goto(`${BASE_PATH}/home/`)
@@ -87,24 +107,7 @@ test('내보낸 프로필 파일을 가져오면 미리보기 개수가 화면�
   await page.goto(`${BASE_PATH}/home/`)
   await expect(page.getByTestId('offline-pack-section')).toBeVisible()
 
-  await openProfileManager(page)
-  await openManagementMenu(page, 1)
-  await page.getByRole('menuitem', { name: '내보내기' }).click()
-  await expect(page.getByTestId('profile-transfer-dialog')).toBeVisible()
-  await expect(page.getByRole('dialog')).toHaveCount(1)
-
-  const downloadPromise = page.waitForEvent('download')
-  await page.getByRole('button', { name: '내보내기 파일 저장' }).click()
-  const download = await downloadPromise
-  const exportedPath = await download.path()
-  expect(exportedPath).toBeTruthy()
-
-  const fileChooserPromise = page.waitForEvent('filechooser')
-  await page.getByRole('button', { name: '가져올 파일 고르기' }).click()
-  const fileChooser = await fileChooserPromise
-  await fileChooser.setFiles(exportedPath as string)
-
-  await expect(page.getByRole('button', { name: '가져오기 적용' })).toBeVisible({ timeout: 15_000 })
+  await prepareOwnProfileImportPreview(page)
   await expect(page.getByText('이 프로필에 합쳐요.')).toBeVisible()
   await expect(page.getByText('완료 추가 0개')).toBeVisible()
   await expect(page.getByText('복습 추가 0개 · 복습 정리 0개')).toBeVisible()
@@ -112,6 +115,31 @@ test('내보낸 프로필 파일을 가져오면 미리보기 개수가 화면�
   await page.getByRole('button', { name: '가져오기 적용' }).click()
   await expect(page.getByText('학습 기록을 옮겼어요.')).toBeVisible()
   await expect(page.getByRole('button', { name: '프로필 관리로 돌아가기' })).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(page.getByTestId('profile-manager-dialog')).toHaveCount(0)
+  await expect(page.getByTestId('profile-chip')).toBeFocused()
+})
+
+test('가져오기 적용 직전에 대상이 사라지면 쓰지 않고 최신 목록으로 돌아간다', async ({ page }) => {
+  await seedRegistry(page, PROFILE_A)
+  await page.goto(`${BASE_PATH}/home/`)
+  await prepareOwnProfileImportPreview(page)
+
+  await page.evaluate(([key, registry]) => {
+    localStorage.setItem(key, registry)
+  }, [REGISTRY_KEY, registryWithProfiles(PROFILE_B, [
+    { profileId: PROFILE_B, nickname: '남은 프로필', createdAt: 2, updatedAt: 2 },
+  ])])
+  await page.getByRole('button', { name: '가져오기 적용' }).click()
+
+  await expect(page.getByTestId('profile-transfer-dialog')).toHaveCount(0)
+  await expect(page.getByText('다른 창에서 프로필 목록이 바뀌었어요. 최신 목록을 다시 확인해 주세요.')).toBeVisible()
+  await expect(profileCard(page, 1)).toContainText('남은 프로필')
+  await expect(profileCard(page, 1)).toBeFocused()
+  await expect.poll(() => page.evaluate((key) => {
+    const registry = JSON.parse(localStorage.getItem(key) ?? '{}')
+    return registry.profiles?.map((profile: { profileId: string }) => profile.profileId)
+  }, REGISTRY_KEY)).toEqual([PROFILE_B])
   await page.keyboard.press('Escape')
   await expect(page.getByTestId('profile-manager-dialog')).toHaveCount(0)
   await expect(page.getByTestId('profile-chip')).toBeFocused()
@@ -234,6 +262,10 @@ test('관리 중 대상 프로필이 다른 창에서 사라지면 쓰지 않고
     await expect(page.getByText('다른 창에서 프로필 목록이 바뀌었어요. 최신 목록을 다시 확인해 주세요.')).toBeVisible()
     await expect(profileCard(page, 1)).toBeVisible()
     await expect(profileCard(page, 2)).toHaveCount(0)
+    await expect(profileCard(page, 1)).toBeFocused()
+    await page.keyboard.press('Escape')
+    await expect(page.getByTestId('profile-manager-dialog')).toHaveCount(0)
+    await expect(page.getByTestId('profile-chip')).toBeFocused()
   } finally {
     await otherPage.close()
   }
@@ -354,6 +386,29 @@ test('관리창을 연 뒤 migration이 실패해도 기기 기록 삭제를 실
     migration: JSON.parse(localStorage.getItem(key) ?? '{}').migration?.status,
     sentinel: localStorage.getItem(sentinel),
   }), [REGISTRY_KEY, 'mathAssist_profile_guard_sentinel'])).toEqual({ migration: 'failed', sentinel: 'keep' })
+})
+
+test('관리 중 storage 읽기가 실패해도 프로필 삭제 단계와 오류 안내를 유지한다', async ({ page }) => {
+  await seedRegistry(page, PROFILE_A)
+  await page.goto(`${BASE_PATH}/home/`)
+  await openProfileManager(page)
+  await openManagementMenu(page, 2)
+  await page.getByRole('menuitem', { name: '삭제' }).click()
+  await expect(page.getByTestId('profile-delete-confirm')).toBeVisible()
+
+  await page.evaluate(() => {
+    Storage.prototype.getItem = () => {
+      throw new DOMException('blocked during management', 'SecurityError')
+    }
+  })
+  await page.getByTestId('profile-delete-confirm-button').click()
+
+  await expect(page.getByTestId('profile-delete-confirm')).toBeVisible()
+  await expect(page.getByText('저장하지 못했어요. 기기 저장 공간을 확인하고 다시 시도해 주세요.')).toBeVisible()
+  await expect(page.getByTestId('profile-delete-confirm-button')).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(page.getByTestId('profile-manager-dialog')).toHaveCount(0)
+  await expect(page.getByTestId('profile-chip')).toBeFocused()
 })
 
 test('홈에는 6개 학년 오프라인 팩 관리 섹션이 보인다', async ({ page }) => {

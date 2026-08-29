@@ -284,6 +284,17 @@ export default function GuestHomeClient() {
   const transferTarget = profileManagerStep?.kind === 'transfer' ? profileManagerStep.target : null
   const deleteCandidate = profileManagerStep?.kind === 'delete' ? profileManagerStep.target : null
 
+  const returnToLatestProfileList = useCallback((registry: LocalProfileRegistryV1): void => {
+    const survivingProfileId = registry.profiles[0]?.profileId
+    setLearnerStorageUnavailable(false)
+    setProfileRegistry(registry)
+    setProfileManagerNotice('다른 창에서 프로필 목록이 바뀌었어요. 최신 목록을 다시 확인해 주세요.')
+    setProfileManagerFocusTarget(survivingProfileId
+      ? { kind: 'profile-card', profileId: survivingProfileId }
+      : { kind: 'create-trigger' })
+    setProfileManagerStep({ kind: 'list' })
+  }, [])
+
   useEffect(() => {
     let cancelled = false
     queueMicrotask(() => {
@@ -356,14 +367,12 @@ export default function GuestHomeClient() {
           : { kind: 'delete', target: nextTarget, originalIndex: nextIndex })
         return
       }
-      setProfileManagerNotice('다른 창에서 프로필 목록이 바뀌었어요. 최신 목록을 다시 확인해 주세요.')
-      setProfileManagerFocusTarget(null)
-      setProfileManagerStep({ kind: 'list' })
+      returnToLatestProfileList(nextRegistry)
     }
 
     window.addEventListener('storage', handleRegistryStorageChange)
     return () => window.removeEventListener('storage', handleRegistryStorageChange)
-  }, [profileManagerStep])
+  }, [profileManagerStep, returnToLatestProfileList])
 
   const refreshRegistry = useCallback((): LocalProfileRegistryV1 | null => {
     const storage = resolveDeviceRegistryStorage()
@@ -488,9 +497,12 @@ export default function GuestHomeClient() {
       const storage = resolveDeviceRegistryStorage()
       if (!storage) throw new Error('registry-storage-unavailable')
       const current = readLocalProfileRegistry(storage)
-      if (!isProfileRegistryReadyForManagement(current)
-        || !current.profiles.some((profile) => profile.profileId === transferTarget.profileId)) {
+      if (!isProfileRegistryReadyForManagement(current)) {
         throw new Error('registry-not-ready-for-management')
+      }
+      if (!current.profiles.some((profile) => profile.profileId === transferTarget.profileId)) {
+        returnToLatestProfileList(current)
+        throw new Error('profile-target-no-longer-exists')
       }
       const file = await buildPortableProfileExport(transferTarget.profileId, { storage })
       return {
@@ -498,7 +510,7 @@ export default function GuestHomeClient() {
         json: serializePortableProfileExport(file),
       }
     }
-  }, [transferTarget])
+  }, [returnToLatestProfileList, transferTarget])
 
   const downloader = useCallback((filename: string, json: string): void => {
     const blob = new Blob([json], { type: 'application/json' })
@@ -541,24 +553,46 @@ export default function GuestHomeClient() {
       const storage = resolveDeviceRegistryStorage()
       if (!storage) throw new Error('registry-storage-unavailable')
       const current = readLocalProfileRegistry(storage)
-      if (!isProfileRegistryReadyForManagement(current)) {
+      if (!transferTarget || !isProfileRegistryReadyForManagement(current)) {
         throw new Error('registry-not-ready-for-management')
+      }
+      if (!current.profiles.some((profile) => profile.profileId === transferTarget.profileId)) {
+        returnToLatestProfileList(current)
+        return {
+          status: 'blocked',
+          errorCode: 'EXPORT_PROFILE_NOT_FOUND',
+          errors: ['EXPORT_PROFILE_NOT_FOUND'],
+          restoredFromBackup: false,
+          targetProfileId: null,
+        }
       }
       const outcome = await applyProfileImport(text, { storage }, options)
       if (outcome.status === 'applied') refreshRegistry()
       return outcome
     },
-    [refreshRegistry],
+    [refreshRegistry, returnToLatestProfileList, transferTarget],
   )
 
   const handleConfirmDelete = useCallback(async (): Promise<void> => {
     if (!deleteCandidate || profileManagerStep?.kind !== 'delete') return
     const storage = resolveDeviceRegistryStorage()
-    const current = storage ? readLocalProfileRegistry(storage) : null
-    if (!storage
-      || !isProfileRegistryReadyForManagement(current)
-      || !current.profiles.some((profile) => profile.profileId === deleteCandidate.profileId)) {
+    if (!storage) {
       setDeleteMessage('저장하지 못했어요. 기기 저장 공간을 확인하고 다시 시도해 주세요.')
+      return
+    }
+    let current: LocalProfileRegistryV1 | null
+    try {
+      current = readLocalProfileRegistry(storage)
+    } catch {
+      setDeleteMessage('저장하지 못했어요. 기기 저장 공간을 확인하고 다시 시도해 주세요.')
+      return
+    }
+    if (!isProfileRegistryReadyForManagement(current)) {
+      setDeleteMessage('저장하지 못했어요. 기기 저장 공간을 확인하고 다시 시도해 주세요.')
+      return
+    }
+    if (!current.profiles.some((profile) => profile.profileId === deleteCandidate.profileId)) {
+      returnToLatestProfileList(current)
       return
     }
     setDeleteBusy(true)
@@ -579,35 +613,56 @@ export default function GuestHomeClient() {
         return
       }
       setDeleteMessage('삭제하지 못했어요. 원래 상태를 그대로 두었으니 다시 시도해 주세요.')
+    } catch {
+      setDeleteMessage('삭제하지 못했어요. 원래 상태를 그대로 두었으니 다시 시도해 주세요.')
     } finally {
       setDeleteBusy(false)
     }
-  }, [deleteCandidate, profileManagerStep, refreshRegistry])
+  }, [deleteCandidate, profileManagerStep, refreshRegistry, returnToLatestProfileList])
 
   const handleDeviceReset = useCallback(async (token: string): Promise<DeviceDataResetOutcome> => {
     const storage = resolveDeviceRegistryStorage()
-    const current = storage ? readLocalProfileRegistry(storage) : null
-    if (!storage || !isProfileRegistryReadyForManagement(current) || token !== prepareDeviceDataResetToken()) {
-      const blockedOutcome: DeviceDataResetOutcome = {
-        status: 'failed',
-        errorCode: 'CONFIRM_TOKEN_MISMATCH',
-        removedMathAssistKeyCount: 0,
-        indexedDbAndCacheStep: 'deferred-to-offline-integration',
-        reloadRecommended: false,
+    const blockedOutcome = (errorCode: string): DeviceDataResetOutcome => ({
+      status: 'failed',
+      errorCode,
+      removedMathAssistKeyCount: 0,
+      indexedDbAndCacheStep: 'deferred-to-offline-integration',
+      reloadRecommended: false,
+    })
+    if (!storage) {
+      const outcome = blockedOutcome('STORAGE_UNAVAILABLE')
+      setDeviceResetResult(outcome)
+      return outcome
+    }
+    let current: LocalProfileRegistryV1 | null
+    try {
+      current = readLocalProfileRegistry(storage)
+    } catch {
+      const outcome = blockedOutcome('STORAGE_UNAVAILABLE')
+      setDeviceResetResult(outcome)
+      return outcome
+    }
+    if (!isProfileRegistryReadyForManagement(current) || token !== prepareDeviceDataResetToken()) {
+      const outcome = blockedOutcome('CONFIRM_TOKEN_MISMATCH')
+      setDeviceResetResult(outcome)
+      return outcome
+    }
+    try {
+      const result = resetAllDeviceData(token, { storage })
+      const outcome: DeviceDataResetOutcome = {
+        status: result.status,
+        errorCode: result.errorCode,
+        removedMathAssistKeyCount: result.removedMathAssistKeyCount,
+        indexedDbAndCacheStep: result.indexedDbAndCacheStep,
+        reloadRecommended: result.reloadRecommended,
       }
-      setDeviceResetResult(blockedOutcome)
-      return blockedOutcome
+      setDeviceResetResult(outcome)
+      return outcome
+    } catch {
+      const outcome = blockedOutcome('WRITE_FAILED')
+      setDeviceResetResult(outcome)
+      return outcome
     }
-    const result = resetAllDeviceData(token, { storage })
-    const outcome: DeviceDataResetOutcome = {
-      status: result.status,
-      errorCode: result.errorCode,
-      removedMathAssistKeyCount: result.removedMathAssistKeyCount,
-      indexedDbAndCacheStep: result.indexedDbAndCacheStep,
-      reloadRecommended: result.reloadRecommended,
-    }
-    setDeviceResetResult(outcome)
-    return outcome
   }, [])
 
   const returnFromDeviceReset = useCallback(() => {
