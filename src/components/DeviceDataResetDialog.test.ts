@@ -1,8 +1,11 @@
+// @vitest-environment jsdom
+
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
-import { createElement } from 'react'
+import { act, createElement } from 'react'
+import { createRoot } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import DeviceDataResetDialog, {
   DEVICE_RESET_CONFIRM_PHRASE,
@@ -49,6 +52,52 @@ describe('DeviceDataResetDialog markup', () => {
     expect(markup).toContain('aria-live="polite"')
   })
 
+  it('renders as a separate titled risk step without nesting another modal', () => {
+    const markup = renderResetDialog({ embedded: true, onBack: () => {} })
+    expect(markup).toContain('aria-labelledby="device-data-reset-title"')
+    expect(markup).not.toContain('role="dialog"')
+    expect(markup).not.toContain('aria-modal="true"')
+    expect(markup).not.toContain('tabindex="-1"')
+    expect(markup).toContain('프로필 관리로 돌아가기')
+  })
+
+  it('leaves embedded Tab and Escape handling to the parent dialog', async () => {
+    vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
+    const container = document.createElement('div')
+    document.body.appendChild(container)
+    const root = createRoot(container)
+    const onBack = vi.fn()
+    const onClose = vi.fn()
+    await act(async () => {
+      root.render(createElement(DeviceDataResetDialog, {
+        open: true,
+        embedded: true,
+        typedPhrase: '',
+        onBack,
+        onClose,
+        onReset: async () => RESET_OK,
+      }))
+    })
+
+    const input = container.querySelector('input')
+    if (!input) throw new Error('Missing reset confirmation input')
+    input.focus()
+    const tabEvent = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true })
+    input.dispatchEvent(tabEvent)
+    expect(tabEvent.defaultPrevented).toBe(false)
+    expect(document.activeElement).toBe(input)
+
+    await act(async () => {
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }))
+    })
+    expect(onBack).not.toHaveBeenCalled()
+    expect(onClose).not.toHaveBeenCalled()
+
+    await act(async () => root.unmount())
+    container.remove()
+    vi.unstubAllGlobals()
+  })
+
   it('keeps the destructive confirm disabled until the phrase is retyped', () => {
     const untouched = renderResetDialog()
     expect(untouched).toContain('disabled')
@@ -73,11 +122,25 @@ describe('DeviceDataResetDialog markup', () => {
     expect(failed).toContain('삭제하지 못했어요')
   })
 
+  it('preserves the deferred offline-integration outcome without claiming broader deletion', () => {
+    expect(RESET_OK.indexedDbAndCacheStep).toBe('deferred-to-offline-integration')
+    const done = renderResetDialog({
+      result: RESET_OK,
+      typedPhrase: DEVICE_RESET_CONFIRM_PHRASE,
+    })
+    expect(done).not.toContain('IndexedDB')
+    expect(done).not.toContain('Cache API')
+    expect(done).not.toContain('서비스 워커')
+  })
+
   it('uses native buttons and inputs with 48px touch targets', () => {
-    const markup = renderResetDialog()
-    expect(markup).toContain('type="button"')
-    expect(markup).toContain('min-width:48px')
-    expect(markup).toContain('min-height:48px')
+    const markup = renderResetDialog({ embedded: true, onBack: () => {} })
+    const controls = markup.match(/<(?:button|input)\b[^>]*>/g) ?? []
+    expect(controls.length).toBeGreaterThan(0)
+    for (const control of controls) {
+      expect(control).toContain('min-width:48px')
+      expect(control).toContain('min-height:48px')
+    }
   })
 
   it('stays unwired from app shell modules', () => {
