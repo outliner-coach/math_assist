@@ -30,7 +30,13 @@ When you change a high-conflict file, add a short dated note below:
   environment approval. Other workstreams must not treat this lane as a formal
   release or add another deployment path. The CI, nightly, and release lanes
   also install the lockfile-pinned Playwright Chromium after `npm ci` so their
-  browser verification runs on clean GitHub-hosted runners.
+  browser verification runs on clean GitHub-hosted runners. `verify:full` now
+  routes its final complete E2E phase through the existing production-static
+  config after `next build`; this avoids cold Next dev compilation timeouts and
+  verifies the same `out/` artifact that Pages receives. Grade 1 and Grade 2
+  mission-template arithmetic now uses a code-free expression parser so the
+  enforced production CSP cannot turn numeric choices into expression text;
+  preserve mission IDs, generated answers, and progress keys.
 
 - 2026-08-27: the production dependency release gate keeps the existing
   `nanoid` 3.3.18 override and updates the stale 3.3.16 lock entry to the same

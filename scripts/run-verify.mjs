@@ -52,7 +52,7 @@ const FULL_PHASES = [
   { id: 'lint', command: 'npm run lint' },
   { id: 'tdd-guard', command: 'npm run tdd:guard' },
   { id: 'build', command: 'npm run build' },
-  { id: 'e2e-full', command: 'npm run test:e2e' },
+  { id: 'e2e-full', command: 'npm run test:e2e:production' },
 ]
 
 const RELEASE_ONLY_PHASES = [

@@ -520,8 +520,11 @@ for (const releasedConcept of [
     await page.goto(`${BASE_PATH}/grade/6`)
     await expect(page.getByRole('heading', { name: '6학년 수학을 단원별로 연습해요' })).toBeVisible()
     await page.getByTestId(`grade6-unit-${releasedConcept.unitId}`).click()
-    await expect(page.getByRole('heading', { name: releasedConcept.title })).toBeVisible()
-    await page.getByRole('link', { name: /학습하기/ }).click()
+    const conceptLink = page.getByRole('link').filter({
+      has: page.getByRole('heading', { name: releasedConcept.title, level: 3 }),
+    })
+    await expect(conceptLink).toBeVisible()
+    await conceptLink.click()
     await page.getByRole('button', { name: '세트 A · 5문제' }).click()
     await expect(page.getByTestId('practice-session')).toBeVisible()
 

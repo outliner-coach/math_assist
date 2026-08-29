@@ -2021,6 +2021,67 @@ function generateParams(
   return params
 }
 
+function evaluateMissionArithmetic(expression: string): number {
+  let index = 0
+  const skipWhitespace = () => {
+    while (/\s/.test(expression[index] ?? '')) index += 1
+  }
+  const parsePrimary = (): number => {
+    skipWhitespace()
+    const operator = expression[index]
+    if (operator === '+' || operator === '-') {
+      index += 1
+      const value = parsePrimary()
+      return operator === '-' ? -value : value
+    }
+    if (operator === '(') {
+      index += 1
+      const value = parseExpression()
+      skipWhitespace()
+      if (expression[index] !== ')') throw new Error('invalid arithmetic expression')
+      index += 1
+      return value
+    }
+    const start = index
+    while (/\d/.test(expression[index] ?? '')) index += 1
+    if (expression[index] === '.') {
+      index += 1
+      while (/\d/.test(expression[index] ?? '')) index += 1
+    }
+    if (start === index) throw new Error('invalid arithmetic expression')
+    return Number(expression.slice(start, index))
+  }
+  const parseTerm = (): number => {
+    let value = parsePrimary()
+    while (true) {
+      skipWhitespace()
+      const operator = expression[index]
+      if (operator !== '*' && operator !== '/') return value
+      index += 1
+      const right = parsePrimary()
+      if (operator === '/' && right === 0) throw new Error('division by zero')
+      value = operator === '*' ? value * right : value / right
+    }
+  }
+  const parseExpression = (): number => {
+    let value = parseTerm()
+    while (true) {
+      skipWhitespace()
+      const operator = expression[index]
+      if (operator !== '+' && operator !== '-') return value
+      index += 1
+      const right = parseTerm()
+      value = operator === '+' ? value + right : value - right
+    }
+  }
+  const value = parseExpression()
+  skipWhitespace()
+  if (index !== expression.length || !Number.isFinite(value)) {
+    throw new Error('invalid arithmetic expression')
+  }
+  return value
+}
+
 function evaluateExpression(expr: string, params: Record<string, number>): string {
   let evalExpr = expr.trim()
 
@@ -2034,8 +2095,7 @@ function evaluateExpression(expr: string, params: Record<string, number>): strin
 
   if (/^[\d\s+\-*/().]+$/.test(evalExpr)) {
     try {
-      // Internal mission templates only allow arithmetic after variable substitution.
-      return String(Function(`"use strict"; return (${evalExpr})`)())
+      return String(evaluateMissionArithmetic(evalExpr))
     } catch {
       return expr
     }

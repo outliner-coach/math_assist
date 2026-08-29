@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import {
   auditGrade1MissionVariants,
@@ -90,6 +90,18 @@ describe('grade1 mission bank', () => {
     expect(mission.choices).toEqual(expect.arrayContaining(['6', '7', '8']))
     expect(mission.hintSteps.length).toBeGreaterThan(0)
     expect(mission.solutionSteps.length).toBeGreaterThan(0)
+  })
+
+  it('renders arithmetic choices when dynamic code evaluation is blocked by CSP', () => {
+    vi.stubGlobal('Function', () => {
+      throw new EvalError('Refused to evaluate a string as JavaScript under CSP')
+    })
+
+    try {
+      expect(getSafeGrade1Mission(42).choices).toEqual(expect.arrayContaining(['6', '7', '8']))
+    } finally {
+      vi.unstubAllGlobals()
+    }
   })
 
   it('falls back to the safe mission for bad mission ids', () => {
