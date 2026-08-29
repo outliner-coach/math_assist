@@ -1,8 +1,11 @@
+// @vitest-environment jsdom
+
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
-import { createElement } from 'react'
+import { act, createElement } from 'react'
+import { createRoot } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import ProfileTransferDialog, {
   describeTransferErrorCode,
@@ -35,12 +38,15 @@ const PREVIEW_INVALID = {
   errors: ['DIGEST_MISMATCH'] as string[],
 }
 
-function renderTransferDialog(stepState: TransferDialogState): string {
+const EMBEDDED_PROPS = { embedded: true, onBack: () => {} } as const
+
+function renderTransferDialog(stepState: TransferDialogState, overrides: Record<string, unknown> = {}): string {
   return renderToStaticMarkup(createElement(ProfileTransferDialog, {
     open: true,
     profileLabel: '철수',
     state: stepState,
     onClose: () => {},
+    ...overrides,
   }))
 }
 
@@ -118,6 +124,56 @@ describe('ProfileTransferDialog markup', () => {
     expect(closed).toBe('')
   })
 
+  it('renders as a titled embedded step without a nested modal or focus trap', () => {
+    const markup = renderTransferDialog(
+      { step: 'idle' },
+      { embedded: true, onBack: () => {} },
+    )
+    expect(markup).toContain('aria-labelledby="profile-transfer-title"')
+    expect(markup).not.toContain('role="dialog"')
+    expect(markup).not.toContain('aria-modal="true"')
+    expect(markup).not.toContain('tabindex="-1"')
+    expect(markup).toContain('프로필 관리로 돌아가기')
+  })
+
+  it('leaves embedded Tab and Escape handling to the parent dialog', async () => {
+    vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
+    const container = document.createElement('div')
+    document.body.appendChild(container)
+    const root = createRoot(container)
+    const onBack = vi.fn()
+    const onClose = vi.fn()
+    await act(async () => {
+      root.render(createElement(ProfileTransferDialog, {
+        open: true,
+        embedded: true,
+        profileLabel: '철수',
+        state: { step: 'idle' },
+        onBack,
+        onClose,
+      }))
+    })
+
+    const backButton = Array.from(container.querySelectorAll('button'))
+      .find((button) => button.textContent === '프로필 관리로 돌아가기')
+    if (!backButton) throw new Error('Missing embedded back button')
+    backButton.focus()
+    const tabEvent = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true })
+    backButton.dispatchEvent(tabEvent)
+    expect(tabEvent.defaultPrevented).toBe(false)
+    expect(document.activeElement).toBe(backButton)
+
+    await act(async () => {
+      backButton.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }))
+    })
+    expect(onBack).not.toHaveBeenCalled()
+    expect(onClose).not.toHaveBeenCalled()
+
+    await act(async () => root.unmount())
+    container.remove()
+    vi.unstubAllGlobals()
+  })
+
   it('offers export with the injected downloader contract wording', () => {
     const markup = renderTransferDialog({ step: 'idle' })
     expect(markup).toContain('내보내기 파일 저장')
@@ -127,7 +183,7 @@ describe('ProfileTransferDialog markup', () => {
     const markup = renderTransferDialog({
       step: 'preview',
       preview: PREVIEW_MERGE,
-    })
+    }, EMBEDDED_PROPS)
     expect(markup).toContain('완료 추가 3개')
     expect(markup).toContain('복습 추가 1개')
     expect(markup).toContain('시도 기록 추가 2개')
@@ -138,7 +194,7 @@ describe('ProfileTransferDialog markup', () => {
     const markup = renderTransferDialog({
       step: 'preview',
       preview: PREVIEW_INVALID,
-    })
+    }, EMBEDDED_PROPS)
     expect(markup).toContain('파일이 손상되었거나')
     expect(markup).not.toContain('DIGEST_MISMATCH')
   })
@@ -147,7 +203,7 @@ describe('ProfileTransferDialog markup', () => {
     const markup = renderTransferDialog({
       step: 'mascot-choice',
       preview: { ...PREVIEW_MERGE, status: 'mascot-choice', mascot: { local: 'suri', imported: 'moa' } },
-    })
+    }, EMBEDDED_PROPS)
     expect(markup).toContain('마스코트가 달라요')
     expect(markup).toContain('지금 마스코트 유지')
     expect(markup).toContain('가져온 마스코트 사용')
@@ -159,19 +215,33 @@ describe('ProfileTransferDialog markup', () => {
       step: 'applying',
       preview: PREVIEW_MERGE,
       mascotChoice: 'local',
-    })
+    }, EMBEDDED_PROPS)
     expect(applying).toContain('적용하는 중')
     expect(applying).toContain('aria-live="polite"')
 
-    const done = renderTransferDialog({ step: 'done', message: '끝났어요' })
+    const done = renderTransferDialog({ step: 'done', message: '끝났어요' }, EMBEDDED_PROPS)
     expect(done).toContain('끝났어요')
 
-    const errored = renderTransferDialog({ step: 'error', message: '실패했어요', detailCodes: ['APPLY_WRITE_FAILED'] })
+    const errored = renderTransferDialog(
+      { step: 'error', message: '실패했어요', detailCodes: ['APPLY_WRITE_FAILED'] },
+      EMBEDDED_PROPS,
+    )
     expect(errored).toContain('실패했어요')
   })
 
+  it('keeps previewing and new-profile states available in embedded mode', () => {
+    const previewing = renderTransferDialog({ step: 'previewing' }, EMBEDDED_PROPS)
+    expect(previewing).toContain('파일을 확인하는 중이에요')
+
+    const newProfile = renderTransferDialog({
+      step: 'preview',
+      preview: { ...PREVIEW_MERGE, status: 'new-profile', targetProfileId: null },
+    }, EMBEDDED_PROPS)
+    expect(newProfile).toContain('새 프로필로 추가해요')
+  })
+
   it('uses native buttons with 48px touch targets', () => {
-    const markup = renderTransferDialog({ step: 'idle' })
+    const markup = renderTransferDialog({ step: 'idle' }, EMBEDDED_PROPS)
     expect(markup).toContain('type="button"')
     expect(markup).toContain('min-width:48px')
     expect(markup).toContain('min-height:48px')
