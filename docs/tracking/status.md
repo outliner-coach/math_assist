@@ -1,6 +1,6 @@
 # 현재 상태
 
-기준일: 2026-08-27
+기준일: 2026-08-29
 
 ## 상태 경계
 
@@ -41,10 +41,16 @@
   성공을 확인했고 환경 URL은 `https://outliner-coach.github.io/math_assist/`다.
   따라서 현재 main과 공개 Pages는 서로 다른 배포 경계다.
 - **출시 자동화**: push 즉시 배포를 폐지했다. 배포는
-  `.github/workflows/release.yml` workflow_dispatch(+`inputs.ref`)만 남고
+  `.github/workflows/release.yml` workflow_dispatch(+`inputs.ref`, 기본
+  `deployment_mode=release`)만 남고
   deploy job은 `github-pages` 환경 승인이 필요하다. ci.yml(PR에서
   verify:fast+dependency-review), nightly.yml(매일 04:30 KST verify:full),
   monitor.yml(6시간), codeql.yml, dependabot.yml(npm+actions weekly)가 함께 동작한다.
+- 실제 VoiceOver·TalkBack 증거 수집에 공개 URL이 필요할 때만
+  `deployment_mode=device-validation`을 명시할 수 있다. 이 경로는
+  `verify:full`, production audit, rollback 호환 검사를 유지하고 실기기 증거
+  검사만 보류한다. 해당 배포는 정식 출시가 아니며 증거 커밋 뒤 기본
+  `release` 모드로 다시 검증·배포해야 한다.
 - `verify:release`는 실기기 접근성 증거
   `docs/tracking/accessibility-release-v1.json`이 없으면 `EVIDENCE_MISSING`으로
   실패한다. 증거 부재 실패는 의도된 fail-closed다.

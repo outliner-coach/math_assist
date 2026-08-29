@@ -21,6 +21,15 @@ When you change a high-conflict file, add a short dated note below:
 
 ## Notes
 
+- 2026-08-29: `.github/workflows/release.yml` adds an explicit
+  `device-validation` mode for collecting VoiceOver and TalkBack evidence from
+  a public build. Formal `release` remains the default and still requires
+  `verify:release`; the provisional lane skips only the unavailable device
+  evidence check while retaining `verify:full`, the production dependency
+  audit, rollback compatibility, exact-ref checkout, and `github-pages`
+  environment approval. Other workstreams must not treat this lane as a formal
+  release or add another deployment path.
+
 - 2026-08-27: the production dependency release gate keeps the existing
   `nanoid` 3.3.18 override and updates the stale 3.3.16 lock entry to the same
   patched version. The package-lock diff is limited to nanoid's version,
