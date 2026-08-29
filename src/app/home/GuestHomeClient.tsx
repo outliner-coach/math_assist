@@ -280,6 +280,7 @@ export default function GuestHomeClient() {
   const deviceResetTriggerRef = useRef<HTMLButtonElement>(null)
 
   const profileManagerOpen = profileManagerStep !== null
+  const profileManagerStepKind = profileManagerStep?.kind ?? null
   const transferTarget = profileManagerStep?.kind === 'transfer' ? profileManagerStep.target : null
   const deleteCandidate = profileManagerStep?.kind === 'delete' ? profileManagerStep.target : null
 
@@ -318,14 +319,14 @@ export default function GuestHomeClient() {
   }, [profileManagerOpen])
 
   useEffect(() => {
-    if (profileManagerStep === null || profileManagerStep.kind === 'list') return
+    if (profileManagerStepKind === null || profileManagerStepKind === 'list') return
     queueMicrotask(() => {
       const root = profileStepRef.current
       const target = root?.querySelector<HTMLElement>('[data-profile-step-back]')
         ?? (root ? focusableDialogElements(root)[0] : null)
       target?.focus()
     })
-  }, [profileManagerStep])
+  }, [profileManagerStepKind])
 
   useEffect(() => {
     const handleRegistryStorageChange = (event: StorageEvent): void => {
@@ -344,7 +345,17 @@ export default function GuestHomeClient() {
       setProfileRegistry(nextRegistry)
       if (profileManagerStep?.kind !== 'transfer' && profileManagerStep?.kind !== 'delete') return
       const target = profileManagerStep.target
-      if (nextRegistry.profiles.some((profile) => profile.profileId === target.profileId)) return
+      const nextIndex = nextRegistry.profiles.findIndex((profile) => profile.profileId === target.profileId)
+      if (nextIndex >= 0) {
+        const nextTarget = {
+          profileId: target.profileId,
+          label: getLocalProfileDisplayLabel(nextRegistry, target.profileId),
+        }
+        setProfileManagerStep(profileManagerStep.kind === 'transfer'
+          ? { kind: 'transfer', target: nextTarget }
+          : { kind: 'delete', target: nextTarget, originalIndex: nextIndex })
+        return
+      }
       setProfileManagerNotice('다른 창에서 프로필 목록이 바뀌었어요. 최신 목록을 다시 확인해 주세요.')
       setProfileManagerFocusTarget(null)
       setProfileManagerStep({ kind: 'list' })
@@ -476,6 +487,11 @@ export default function GuestHomeClient() {
     return async (): Promise<{ filename: string; json: string }> => {
       const storage = resolveDeviceRegistryStorage()
       if (!storage) throw new Error('registry-storage-unavailable')
+      const current = readLocalProfileRegistry(storage)
+      if (!isProfileRegistryReadyForManagement(current)
+        || !current.profiles.some((profile) => profile.profileId === transferTarget.profileId)) {
+        throw new Error('registry-not-ready-for-management')
+      }
       const file = await buildPortableProfileExport(transferTarget.profileId, { storage })
       return {
         filename: `math-assist-profile-${transferTarget.label}.json`,
@@ -524,6 +540,10 @@ export default function GuestHomeClient() {
     async (text: string, options: { mascotChoice?: 'local' | 'imported' }): Promise<TransferApplyOutcome> => {
       const storage = resolveDeviceRegistryStorage()
       if (!storage) throw new Error('registry-storage-unavailable')
+      const current = readLocalProfileRegistry(storage)
+      if (!isProfileRegistryReadyForManagement(current)) {
+        throw new Error('registry-not-ready-for-management')
+      }
       const outcome = await applyProfileImport(text, { storage }, options)
       if (outcome.status === 'applied') refreshRegistry()
       return outcome
@@ -534,7 +554,10 @@ export default function GuestHomeClient() {
   const handleConfirmDelete = useCallback(async (): Promise<void> => {
     if (!deleteCandidate || profileManagerStep?.kind !== 'delete') return
     const storage = resolveDeviceRegistryStorage()
-    if (!storage) {
+    const current = storage ? readLocalProfileRegistry(storage) : null
+    if (!storage
+      || !isProfileRegistryReadyForManagement(current)
+      || !current.profiles.some((profile) => profile.profileId === deleteCandidate.profileId)) {
       setDeleteMessage('저장하지 못했어요. 기기 저장 공간을 확인하고 다시 시도해 주세요.')
       return
     }
@@ -563,14 +586,17 @@ export default function GuestHomeClient() {
 
   const handleDeviceReset = useCallback(async (token: string): Promise<DeviceDataResetOutcome> => {
     const storage = resolveDeviceRegistryStorage()
-    if (!storage || token !== prepareDeviceDataResetToken()) {
-      return {
+    const current = storage ? readLocalProfileRegistry(storage) : null
+    if (!storage || !isProfileRegistryReadyForManagement(current) || token !== prepareDeviceDataResetToken()) {
+      const blockedOutcome: DeviceDataResetOutcome = {
         status: 'failed',
         errorCode: 'CONFIRM_TOKEN_MISMATCH',
         removedMathAssistKeyCount: 0,
         indexedDbAndCacheStep: 'deferred-to-offline-integration',
         reloadRecommended: false,
       }
+      setDeviceResetResult(blockedOutcome)
+      return blockedOutcome
     }
     const result = resetAllDeviceData(token, { storage })
     const outcome: DeviceDataResetOutcome = {

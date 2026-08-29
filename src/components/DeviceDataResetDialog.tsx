@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, type KeyboardEvent } from 'react'
+import { useCallback, useEffect, useRef, type KeyboardEvent } from 'react'
 
 /**
  * Device-wide data reset surface (T4 spec §6). Storage access is injected
@@ -64,6 +64,16 @@ export default function DeviceDataResetDialog(props: DeviceDataResetDialogProps)
   } = props
   const embedded = props.embedded === true
   const confirmed = isDeviceResetPhraseConfirmed(typedPhrase)
+  const surfaceRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (!open || result === null) return
+    queueMicrotask(() => {
+      const root = surfaceRef.current
+      if (!root || root.contains(document.activeElement)) return
+      root.querySelector<HTMLElement>('[data-profile-step-back]')?.focus()
+    })
+  }, [open, result])
 
   const handleReset = useCallback(async () => {
     if (!isDeviceResetPhraseConfirmed(typedPhrase)) return
@@ -79,6 +89,7 @@ export default function DeviceDataResetDialog(props: DeviceDataResetDialogProps)
 
   return (
     <section
+      ref={surfaceRef}
       role={embedded ? undefined : 'dialog'}
       aria-modal={embedded ? undefined : true}
       aria-labelledby="device-data-reset-title"

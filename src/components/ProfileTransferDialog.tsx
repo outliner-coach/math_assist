@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useReducer, useRef, useState, type KeyboardEvent } from 'react'
+import { useCallback, useEffect, useReducer, useRef, useState, type KeyboardEvent } from 'react'
 
 /**
  * Profile transfer surface (T4 spec §6). Export download, file picking and
@@ -194,6 +194,8 @@ export default function ProfileTransferDialog(props: ProfileTransferDialogProps)
   const [internalState, dispatch] = useReducer(reduceTransferDialogState, { step: 'idle' } as TransferDialogState)
   const [notice, setNotice] = useState('')
   const lastImportTextRef = useRef<string | null>(null)
+  const surfaceRef = useRef<HTMLElement>(null)
+  const previousStepRef = useRef<TransferDialogState['step'] | null>(null)
 
   const act = useCallback((action: TransferDialogAction) => {
     onStateAction?.(action)
@@ -201,6 +203,18 @@ export default function ProfileTransferDialog(props: ProfileTransferDialogProps)
   }, [onStateAction])
 
   const currentState = state ?? internalState
+
+  useEffect(() => {
+    if (!open || previousStepRef.current === currentState.step) return
+    previousStepRef.current = currentState.step
+    queueMicrotask(() => {
+      const root = surfaceRef.current
+      if (!root || root.contains(document.activeElement)) return
+      const target = root.querySelector<HTMLElement>('[data-profile-step-back]')
+        ?? focusableElements(root)[0]
+      target?.focus()
+    })
+  }, [currentState.step, open])
 
   const runAction = useCallback(async (run: () => Promise<void>) => {
     try {
@@ -278,6 +292,7 @@ export default function ProfileTransferDialog(props: ProfileTransferDialogProps)
 
   return (
     <section
+      ref={surfaceRef}
       role={embedded ? undefined : 'dialog'}
       aria-modal={embedded ? undefined : true}
       aria-labelledby="profile-transfer-title"

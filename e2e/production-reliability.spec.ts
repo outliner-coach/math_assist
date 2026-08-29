@@ -109,6 +109,12 @@ test('내보낸 프로필 파일을 가져오면 미리보기 개수가 화면�
   await expect(page.getByText('완료 추가 0개')).toBeVisible()
   await expect(page.getByText('복습 추가 0개 · 복습 정리 0개')).toBeVisible()
   await expect(page.getByText('시도 기록 추가 0개')).toBeVisible()
+  await page.getByRole('button', { name: '가져오기 적용' }).click()
+  await expect(page.getByText('학습 기록을 옮겼어요.')).toBeVisible()
+  await expect(page.getByRole('button', { name: '프로필 관리로 돌아가기' })).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(page.getByTestId('profile-manager-dialog')).toHaveCount(0)
+  await expect(page.getByTestId('profile-chip')).toBeFocused()
 })
 
 test('프로필 관리창은 한 단계만 보여 주고 취소·뒤로·닫기 초점을 원래 행동으로 돌린다', async ({ page }) => {
@@ -129,6 +135,11 @@ test('프로필 관리창은 한 단계만 보여 주고 취소·뒤로·닫기 
   await expect(profileCard(page, 2)).toContainText('학습자 2')
   await expect(profileCard(page, 1).locator('[data-mascot-id="moa"]')).toBeVisible()
   await expect(profileCard(page, 2).locator('[data-mascot-id="moa"]')).toBeVisible()
+
+  await openManagementMenu(page, 2)
+  await page.keyboard.press('Escape')
+  await expect(page.getByTestId('profile-manager-dialog')).toBeVisible()
+  await expect(profileCard(page, 2).getByRole('button', { name: /관리$/ })).toBeFocused()
 
   const createTrigger = page.getByTestId('profile-manager-dialog').getByRole('button', { name: '새 학습자 프로필 만들기' })
   await createTrigger.click()
@@ -213,6 +224,11 @@ test('관리 중 대상 프로필이 다른 창에서 사라지면 쓰지 않고
     await otherPage.goto(`${BASE_PATH}/home/`)
     await otherPage.evaluate(([key, registry]) => localStorage.setItem(key, registry), [REGISTRY_KEY, registryWithProfiles(PROFILE_A, [
       { profileId: PROFILE_A, nickname: '수리', createdAt: 1, updatedAt: 1 },
+      { profileId: PROFILE_B, nickname: '새 이름', createdAt: 2, updatedAt: 3 },
+    ])])
+    await expect(page.getByRole('heading', { name: '새 이름 프로필 내보내기·가져오기' })).toBeVisible()
+    await otherPage.evaluate(([key, registry]) => localStorage.setItem(key, registry), [REGISTRY_KEY, registryWithProfiles(PROFILE_A, [
+      { profileId: PROFILE_A, nickname: '수리', createdAt: 1, updatedAt: 1 },
     ])])
     await expect(page.getByTestId('profile-transfer-dialog')).toHaveCount(0)
     await expect(page.getByText('다른 창에서 프로필 목록이 바뀌었어요. 최신 목록을 다시 확인해 주세요.')).toBeVisible()
@@ -264,7 +280,7 @@ test('프로필 관리창은 모바일·태블릿·200% 확대 상당 폭에서 
   expect(errors).toEqual([])
 })
 
-test('최초 registry 부재만 초기화하고 손상·저장소 접근 불가에서는 관리 행동을 차단한다', async ({ page, context }) => {
+test('최초 registry 부재만 초기화하고 실패 migration·손상·저장소 접근 불가에서는 관리 행동을 차단한다', async ({ page, context }) => {
   await page.goto(`${BASE_PATH}/`)
   await page.evaluate(() => localStorage.clear())
   await page.goto(`${BASE_PATH}/home/`)
@@ -272,6 +288,17 @@ test('최초 registry 부재만 초기화하고 손상·저장소 접근 불가�
   await openProfileManager(page)
   await expect(profileCard(page, 1)).toBeVisible()
   await page.keyboard.press('Escape')
+
+  await page.goto(`${BASE_PATH}/`)
+  await page.evaluate(([key, registry]) => {
+    const parsed = JSON.parse(registry)
+    parsed.migration.status = 'failed'
+    localStorage.clear()
+    localStorage.setItem(key, JSON.stringify(parsed))
+  }, [REGISTRY_KEY, registryWithProfiles(PROFILE_A)])
+  await page.goto(`${BASE_PATH}/home/`)
+  await expect(page.getByTestId('home-storage-unavailable')).toBeVisible()
+  await expect(page.getByTestId('profile-chip')).toHaveCount(0)
 
   await page.goto(`${BASE_PATH}/`)
   await page.evaluate((key) => {
@@ -300,6 +327,33 @@ test('최초 registry 부재만 초기화하고 손상·저장소 접근 불가�
   } finally {
     await blockedPage.close()
   }
+})
+
+test('관리창을 연 뒤 migration이 실패해도 기기 기록 삭제를 실행하지 않는다', async ({ page }) => {
+  await seedRegistry(page, PROFILE_A)
+  await page.goto(`${BASE_PATH}/home/`)
+  await openProfileManager(page)
+  await page.getByTestId('device-reset-open').click()
+  await expect(page.getByTestId('device-reset-dialog')).toBeVisible()
+
+  await page.evaluate(([key, sentinel]) => {
+    const parsed = JSON.parse(localStorage.getItem(key) ?? '{}')
+    parsed.migration.status = 'failed'
+    localStorage.setItem(key, JSON.stringify(parsed))
+    localStorage.setItem(sentinel, 'keep')
+  }, [REGISTRY_KEY, 'mathAssist_profile_guard_sentinel'])
+
+  await page.getByLabel(/삭제 확인 문구 재입력/).fill('이 기기의 모든 데이터 삭제')
+  await page.getByRole('button', { name: '브라우저 기록 삭제' }).click()
+  await expect(page.getByText('삭제하지 못했어요. 저장 공간을 확인하고 다시 시도해 주세요.')).toBeVisible()
+  await expect(page.getByRole('button', { name: '프로필 관리로 돌아가기' })).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(page.getByTestId('profile-manager-dialog')).toHaveCount(0)
+  await expect(page.getByTestId('profile-chip')).toBeFocused()
+  await expect.poll(() => page.evaluate(([key, sentinel]) => ({
+    migration: JSON.parse(localStorage.getItem(key) ?? '{}').migration?.status,
+    sentinel: localStorage.getItem(sentinel),
+  }), [REGISTRY_KEY, 'mathAssist_profile_guard_sentinel'])).toEqual({ migration: 'failed', sentinel: 'keep' })
 })
 
 test('홈에는 6개 학년 오프라인 팩 관리 섹션이 보인다', async ({ page }) => {

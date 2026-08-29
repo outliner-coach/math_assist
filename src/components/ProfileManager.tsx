@@ -237,6 +237,7 @@ export default function ProfileManager({
   const handleMenuKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>, profileId: string): void => {
     if (event.key === 'Escape') {
       event.preventDefault()
+      event.stopPropagation()
       closeMenu(profileId)
       return
     }

@@ -13,11 +13,12 @@
   초점·반응형 회귀를 구현했다. `main`·`origin/main`에는 아직 반영하지
   않았고 push·PR·Pages 배포도 수행하지 않았다.
 - **이번 브랜치 검증**: 구성요소 집중 Vitest 5개 파일 48/48,
-  production reliability·accessibility Playwright 15/15, `verify:fast`
+  production reliability·accessibility Playwright 16/16, `verify:fast`
   5/5를 통과했다. `verify:fast` 안에서 전체 Vitest 160개 파일
   1,625/1,625, lint, TDD guard, 정적 build 116페이지, E2E 스모크 4/4를
   확인했다. 같은 이름·마스코트, 6명·20자 이름, 삭제 뒤 초점,
-  390×844·1024×768·200% 확대 상당 reflow, console/page error 0을 포함한다.
+  390×844·1024×768·200% 확대 상당 reflow, 실행 직전 migration 실패
+  차단, 내부 결과 단계 초점, console/page error 0을 포함한다.
 - **접근성 출시 경계**: 자동 브라우저 검증과 이번 기능의 axe·키보드
   검사는 통과했지만 iPadOS Safari+VoiceOver와 Android Chrome+TalkBack의
   실제 기기 14개 시나리오 증거는 아직 수집하지 않았다. 따라서
