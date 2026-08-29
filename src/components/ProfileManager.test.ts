@@ -109,7 +109,7 @@ describe('ProfileManager cards', () => {
     expect(cards[1].textContent).toContain('학습자 2')
     expect(cards[2].textContent).toContain('학습자 3')
     expect(cards[0].textContent).toContain('철수')
-    expect(cards[1].textContent).toContain('이름을 정하지 않았어요')
+    expect(cards[1].querySelector('h3')?.textContent).toBe('학습자 2')
     expect(cards[2].textContent).toContain('철수')
     expect(cards[0].querySelector('[data-mascot-id="suri"]')).not.toBeNull()
     expect(cards[1].querySelector('[data-mascot-id="moa"]')).not.toBeNull()
@@ -228,6 +228,8 @@ describe('ProfileManager creation and rename flows', () => {
     const onCreateProfile = vi.fn().mockResolvedValue(false)
     renderProfileManager({ onCreateProfile })
     await click(buttonByText('+ 새 프로필'))
+    expect(container.querySelector('[data-profile-manager-step="create"]')).not.toBeNull()
+    expect(container.querySelector('[data-profile-manager-step="list"]')).toBeNull()
     const input = container.querySelector<HTMLInputElement>('input[aria-label="새 프로필 닉네임"]')
     if (!input) throw new Error('Create input not found')
 
@@ -283,19 +285,23 @@ describe('ProfileManager creation and rename flows', () => {
 
     await click(manageButton)
     await click(buttonByText('이름 변경', card))
-    expect(document.activeElement).toBe(card.querySelector('input[aria-label="학습자 2 새 닉네임"]'))
-    await click(buttonByText('취소', card))
-    expect(document.activeElement).toBe(manageButton)
+    expect(container.querySelector('[data-profile-manager-step="rename"]')).not.toBeNull()
+    expect(container.querySelector('[data-profile-manager-step="list"]')).toBeNull()
+    expect(document.activeElement).toBe(container.querySelector('input[aria-label="학습자 2 새 닉네임"]'))
+    await click(buttonByText('취소'))
+    const restoredCard = container.querySelectorAll<HTMLElement>('[data-profile-card]')[1]
+    const restoredManageButton = buttonByText('관리', restoredCard)
+    expect(document.activeElement).toBe(restoredManageButton)
 
-    await click(manageButton)
-    await click(buttonByText('이름 변경', card))
-    const input = card.querySelector<HTMLInputElement>('input[aria-label="학습자 2 새 닉네임"]')
+    await click(restoredManageButton)
+    await click(buttonByText('이름 변경', restoredCard))
+    const input = container.querySelector<HTMLInputElement>('input[aria-label="학습자 2 새 닉네임"]')
     if (!input) throw new Error('Rename input not found')
     act(() => changeInput(input, '  새 이름  '))
-    await click(buttonByText('이름 저장', card))
+    await click(buttonByText('이름 저장'))
 
     expect(onRenameProfile).toHaveBeenCalledWith(PROFILES[1].profileId, '새 이름')
-    expect(document.activeElement).toBe(card)
+    expect(document.activeElement).toBe(container.querySelectorAll<HTMLElement>('[data-profile-card]')[1])
   })
 
   it('announces selection callback failures without navigating or changing storage', async () => {

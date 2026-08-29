@@ -20,16 +20,18 @@ export interface DeviceDataResetOutcome {
   reloadRecommended: boolean
 }
 
-export interface DeviceDataResetDialogProps {
+interface DeviceDataResetDialogBaseProps {
   open: boolean
   typedPhrase: string
   result?: DeviceDataResetOutcome | null
-  embedded?: boolean
-  onClose?: () => void
-  onBack?: () => void
   onTypedPhraseChange?: (value: string) => void
   onReset: (token: string) => Promise<DeviceDataResetOutcome> | DeviceDataResetOutcome
 }
+
+export type DeviceDataResetDialogProps = DeviceDataResetDialogBaseProps & (
+  | { embedded: true; onBack: () => void; onClose?: never }
+  | { embedded?: false; onClose: () => void; onBack?: never }
+)
 
 const TOUCH_TARGET_STYLE = { minWidth: '48px', minHeight: '48px' } as const
 
@@ -52,16 +54,15 @@ function handleTabCycle(event: KeyboardEvent<HTMLElement>): void {
   elements[activeIndex < 0 ? 0 : nextIndex].focus()
 }
 
-export default function DeviceDataResetDialog({
-  open,
-  typedPhrase,
-  result = null,
-  embedded = false,
-  onClose,
-  onBack,
-  onTypedPhraseChange,
-  onReset,
-}: DeviceDataResetDialogProps) {
+export default function DeviceDataResetDialog(props: DeviceDataResetDialogProps) {
+  const {
+    open,
+    typedPhrase,
+    result = null,
+    onTypedPhraseChange,
+    onReset,
+  } = props
+  const embedded = props.embedded === true
   const confirmed = isDeviceResetPhraseConfirmed(typedPhrase)
 
   const handleReset = useCallback(async () => {
@@ -70,11 +71,8 @@ export default function DeviceDataResetDialog({
   }, [typedPhrase, onReset])
 
   const exitSurface = (): void => {
-    if (embedded) {
-      onBack?.()
-      return
-    }
-    onClose?.()
+    if (props.embedded) props.onBack()
+    else props.onClose()
   }
 
   if (!open) return null
@@ -96,19 +94,23 @@ export default function DeviceDataResetDialog({
       }}
       style={{ position: 'relative' }}
     >
-      <h2 id="device-data-reset-title">이 기기의 모든 Math Assist 데이터 삭제</h2>
+      <h2 id="device-data-reset-title">이 브라우저의 Math Assist 기록 삭제</h2>
       <p role="status" aria-live="polite">
         {result?.status === 'reset'
-          ? '프로필과 학습 기록 삭제를 마쳤어요. 안전한 마무리를 위해 새로고침해 주세요.'
+          ? '브라우저에 저장된 프로필과 학습 기록 삭제를 마쳤어요. 안전한 마무리를 위해 새로고침해 주세요.'
           : result !== null
             ? '삭제하지 못했어요. 저장 공간을 확인하고 다시 시도해 주세요.'
             : '두 단계 확인 후에 삭제할 수 있어요.'}
       </p>
 
+      <p data-reset-scope="browser-storage">
+        이 화면은 이 브라우저에 저장된 Math Assist 프로필과 학습 기록을 지워요. 내려받은 파일, 오프라인 학습 자료 저장소,
+        앱 설치 정보는 이 단계에서 지워지지 않아요.
+      </p>
       <ul>
         <li>모든 학습자 프로필과 학습 기록이 지워져요.</li>
         <li>풀이장 그림과 내부 복구 백업도 함께 지워져요.</li>
-        <li>내보내기 파일은 지워지지 않아요. 미리 저장해 두면 기록을 옮길 수 있어요.</li>
+        <li>내보내기 파일과 오프라인 학습 자료 저장소는 지워지지 않아요.</li>
       </ul>
 
       {result?.status === 'reset' || result !== null ? (
@@ -134,7 +136,7 @@ export default function DeviceDataResetDialog({
               void handleReset()
             }}
           >
-            모든 데이터 삭제
+            브라우저 기록 삭제
           </button>
           <button type="button" style={TOUCH_TARGET_STYLE} onClick={exitSurface}>
             {embedded ? '프로필 관리로 돌아가기' : '취소'}

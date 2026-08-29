@@ -105,3 +105,55 @@ button, a, input {
 .reliability-panel {
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
+
+.profile-manager-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0.5rem;
+  background: rgba(15, 23, 42, 0.62);
+}
+
+.profile-manager-root-dialog {
+  width: 100%;
+  max-width: 72rem;
+  height: calc(100dvh - 1rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 2px solid #bfdbfe;
+  border-radius: 1.5rem;
+  background: #ffffff;
+  padding: 1rem;
+  box-shadow: 0 28px 64px rgba(15, 23, 42, 0.32);
+}
+
+.profile-manager-step-panel {
+  margin: 1rem auto 0;
+  max-width: 46rem;
+  border: 2px solid #dbeafe;
+  border-radius: 1.75rem;
+  background: #f8fafc;
+  padding: 1.25rem;
+}
+
+.profile-manager-step-panel-danger {
+  border-color: #fecaca;
+  background: #fffafa;
+}
+
+@media (min-width: 640px) {
+  .profile-manager-overlay {
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .profile-manager-root-dialog {
+    height: auto;
+    max-height: calc(100dvh - 4rem);
+    border-radius: 2rem;
+    padding: 1.5rem;
+  }
+}

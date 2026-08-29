@@ -129,13 +129,10 @@ export function describeTransferErrorCode(code: string): string {
   }
 }
 
-export interface ProfileTransferDialogProps {
+interface ProfileTransferDialogBaseProps {
   open: boolean
   profileLabel: string
   state?: TransferDialogState
-  embedded?: boolean
-  onClose?: () => void
-  onBack?: () => void
   onStateAction?: (action: TransferDialogAction) => void
   exportBuilder?: () => Promise<{ filename: string; json: string }>
   downloader?: (filename: string, json: string) => void
@@ -143,6 +140,11 @@ export interface ProfileTransferDialogProps {
   previewImportText?: (text: string) => Promise<TransferPreview>
   applyImportText?: (text: string, options: { mascotChoice?: 'local' | 'imported' }) => Promise<TransferApplyOutcome>
 }
+
+export type ProfileTransferDialogProps = ProfileTransferDialogBaseProps & (
+  | { embedded: true; onBack: () => void; onClose?: never }
+  | { embedded?: false; onClose: () => void; onBack?: never }
+)
 
 const TOUCH_TARGET_STYLE = { minWidth: '48px', minHeight: '48px' } as const
 
@@ -176,20 +178,19 @@ function focusableElements(root: ParentNode): HTMLElement[] {
   )
 }
 
-export default function ProfileTransferDialog({
-  open,
-  profileLabel,
-  state,
-  embedded = false,
-  onClose,
-  onBack,
-  onStateAction,
-  exportBuilder,
-  downloader,
-  importFileReader,
-  previewImportText,
-  applyImportText,
-}: ProfileTransferDialogProps) {
+export default function ProfileTransferDialog(props: ProfileTransferDialogProps) {
+  const {
+    open,
+    profileLabel,
+    state,
+    onStateAction,
+    exportBuilder,
+    downloader,
+    importFileReader,
+    previewImportText,
+    applyImportText,
+  } = props
+  const embedded = props.embedded === true
   const [internalState, dispatch] = useReducer(reduceTransferDialogState, { step: 'idle' } as TransferDialogState)
   const [notice, setNotice] = useState('')
   const lastImportTextRef = useRef<string | null>(null)
@@ -253,11 +254,8 @@ export default function ProfileTransferDialog({
   }
 
   const exitSurface = (): void => {
-    if (embedded) {
-      onBack?.()
-      return
-    }
-    onClose?.()
+    if (props.embedded) props.onBack()
+    else props.onClose()
   }
 
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>): void => {

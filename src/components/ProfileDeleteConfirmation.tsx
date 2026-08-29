@@ -42,6 +42,7 @@ export default function ProfileDeleteConfirmation({
           type="button"
           style={TOUCH_TARGET_STYLE}
           disabled={busy}
+          data-testid="profile-delete-confirm-button"
           onClick={() => {
             void onConfirm()
           }}

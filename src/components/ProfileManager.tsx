@@ -50,6 +50,10 @@ type FocusRequest =
   | { kind: 'manage'; profileId: string }
   | { kind: 'create-trigger' }
 
+type ProfileEditorStep =
+  | { kind: 'create' }
+  | { kind: 'rename'; profileId: string }
+
 const TOUCH_TARGET_STYLE = { minWidth: '48px', minHeight: '48px' } as const
 const INPUT_STYLE = { minWidth: '48px', minHeight: '48px' } as const
 const PROFILE_LIMIT = 6
@@ -99,9 +103,8 @@ export default function ProfileManager({
   focusTarget = null,
   onFocusTargetHandled,
 }: ProfileManagerProps) {
-  const [creating, setCreating] = useState(false)
+  const [editorStep, setEditorStep] = useState<ProfileEditorStep | null>(null)
   const [newNickname, setNewNickname] = useState('')
-  const [renamingProfileId, setRenamingProfileId] = useState<string | null>(null)
   const [renameInput, setRenameInput] = useState('')
   const [openMenuProfileId, setOpenMenuProfileId] = useState<string | null>(null)
   const [focusRequest, setFocusRequest] = useState<FocusRequest | null>(null)
@@ -141,12 +144,12 @@ export default function ProfileManager({
   }, [openMenuProfileId])
 
   useEffect(() => {
-    if (creating) createInputRef.current?.focus()
-  }, [creating])
+    if (editorStep?.kind === 'create') createInputRef.current?.focus()
+  }, [editorStep])
 
   useEffect(() => {
-    if (renamingProfileId !== null) renameInputRef.current?.focus()
-  }, [renamingProfileId])
+    if (editorStep?.kind === 'rename') renameInputRef.current?.focus()
+  }, [editorStep])
 
   useEffect(() => {
     const request = focusRequest ?? focusTarget
@@ -171,7 +174,7 @@ export default function ProfileManager({
     } else {
       onFocusTargetHandled?.()
     }
-  }, [focusRequest, focusTarget, onFocusTargetHandled, profiles, creating, renamingProfileId])
+  }, [focusRequest, focusTarget, onFocusTargetHandled, profiles, editorStep])
 
   const closeMenu = (profileId: string, returnFocus = true): void => {
     setOpenMenuProfileId(null)
@@ -197,13 +200,13 @@ export default function ProfileManager({
     if (!ok) return
 
     setNewNickname('')
-    setCreating(false)
+    setEditorStep(null)
     setFocusRequest({ kind: 'created-card', previousProfileIds })
   }
 
   const handleRenameStart = (profile: ProfileManagerProfile): void => {
     setOpenMenuProfileId(null)
-    setRenamingProfileId(profile.profileId)
+    setEditorStep({ kind: 'rename', profileId: profile.profileId })
     setRenameInput(profile.nickname ?? '')
     setMessage('')
   }
@@ -220,7 +223,7 @@ export default function ProfileManager({
     )
     if (!ok) return
 
-    setRenamingProfileId(null)
+    setEditorStep(null)
     setFocusRequest({ kind: 'profile-card', profileId })
   }
 
@@ -245,6 +248,11 @@ export default function ProfileManager({
     closeMenu(profileId)
   }
 
+  const renamingProfileIndex = editorStep?.kind === 'rename'
+    ? profiles.findIndex((profile) => profile.profileId === editorStep.profileId)
+    : -1
+  const renamingProfile = renamingProfileIndex >= 0 ? profiles[renamingProfileIndex] : null
+
   return (
     <section aria-label="학습자 프로필" className="rounded-[2rem] bg-[#f8fafc] p-4 md:p-6">
       <div className="text-center">
@@ -255,13 +263,100 @@ export default function ProfileManager({
         {message.length > 0 ? message : '프로필을 골라 학습 기록을 나눠서 관리해요.'}
       </p>
 
-      <ul className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      {editorStep?.kind === 'create' ? (
+        <form
+          data-profile-manager-step="create"
+          className="mx-auto mt-5 max-w-xl rounded-[1.75rem] border-2 border-[#bae6fd] bg-white p-5 shadow-sm"
+          aria-label="새 프로필 만들기"
+          onSubmit={(event: FormEvent<HTMLFormElement>) => {
+            event.preventDefault()
+            void handleCreate()
+          }}
+        >
+          <h3 className="text-xl font-black text-[#0f172a]">새 프로필 만들기</h3>
+          <p className="mt-2 text-sm font-bold text-[#64748b]">닉네임은 비워 둘 수 있어요.</p>
+          <label className="mt-4 block text-left text-sm font-black text-[#334155]">
+            닉네임 (선택)
+            <input
+              ref={createInputRef}
+              type="text"
+              value={newNickname}
+              maxLength={40}
+              style={INPUT_STYLE}
+              aria-label="새 프로필 닉네임"
+              placeholder="비워 둘 수 있어요"
+              className="mt-2 w-full rounded-xl border-2 border-[#94a3b8] bg-white px-3 font-bold text-[#0f172a]"
+              onChange={(event: ChangeEvent<HTMLInputElement>) => setNewNickname(event.target.value)}
+            />
+          </label>
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            <button type="submit" style={TOUCH_TARGET_STYLE} className="rounded-xl bg-[#0f766e] px-3 font-black text-white">
+              프로필 만들기
+            </button>
+            <button
+              type="button"
+              style={TOUCH_TARGET_STYLE}
+              className="rounded-xl border-2 border-[#cbd5e1] bg-white px-3 font-black text-[#475569]"
+              onClick={() => {
+                setEditorStep(null)
+                setMessage('')
+                setFocusRequest({ kind: 'create-trigger' })
+              }}
+            >
+              취소
+            </button>
+          </div>
+        </form>
+      ) : editorStep?.kind === 'rename' && renamingProfile !== null ? (
+        <form
+          data-profile-manager-step="rename"
+          className="mx-auto mt-5 max-w-xl rounded-[1.75rem] border-2 border-[#bae6fd] bg-white p-5 shadow-sm"
+          aria-label={`${resolveProfileDisplayName(renamingProfile, renamingProfileIndex)} 이름 변경`}
+          onSubmit={(event: FormEvent<HTMLFormElement>) => {
+            event.preventDefault()
+            void handleRenameSubmit(renamingProfile.profileId)
+          }}
+        >
+          <p className="text-sm font-black text-[#0f766e]">{`학습자 ${renamingProfileIndex + 1}`}</p>
+          <h3 className="mt-1 text-xl font-black text-[#0f172a]">이름 변경</h3>
+          <label className="mt-4 block text-sm font-black text-[#334155]">
+            새 닉네임
+            <input
+              ref={renameInputRef}
+              type="text"
+              value={renameInput}
+              maxLength={40}
+              style={INPUT_STYLE}
+              aria-label={`학습자 ${renamingProfileIndex + 1} 새 닉네임`}
+              className="mt-2 w-full rounded-xl border-2 border-[#94a3b8] bg-white px-3 font-bold text-[#0f172a]"
+              onChange={(event: ChangeEvent<HTMLInputElement>) => setRenameInput(event.target.value)}
+            />
+          </label>
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            <button type="submit" style={TOUCH_TARGET_STYLE} className="rounded-xl bg-[#0f766e] px-3 font-black text-white">
+              이름 저장
+            </button>
+            <button
+              type="button"
+              style={TOUCH_TARGET_STYLE}
+              className="rounded-xl border-2 border-[#cbd5e1] bg-white px-3 font-black text-[#475569]"
+              onClick={() => {
+                setEditorStep(null)
+                setMessage('')
+                setFocusRequest({ kind: 'manage', profileId: renamingProfile.profileId })
+              }}
+            >
+              취소
+            </button>
+          </div>
+        </form>
+      ) : (
+      <ul data-profile-manager-step="list" className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {profiles.map((profile, index) => {
           const ordinalLabel = `학습자 ${index + 1}`
           const displayName = resolveProfileDisplayName(profile, index)
           const isActive = profile.profileId === activeProfileId
           const menuOpen = openMenuProfileId === profile.profileId
-          const renaming = renamingProfileId === profile.profileId
           const menuId = `profile-manager-menu-${index + 1}`
 
           return (
@@ -282,7 +377,7 @@ export default function ProfileManager({
                 <div>
                   <p className="text-sm font-black text-[#0f766e]">{ordinalLabel}</p>
                   <h3 className="mt-1 text-xl font-black text-[#0f172a]">
-                    {profile.nickname ?? '이름을 정하지 않았어요'}
+                    {profile.nickname ?? ordinalLabel}
                   </h3>
                 </div>
                 <MascotCharacter mascotId={profile.mascotId} state="welcome" mode="coach" className="shrink-0" />
@@ -391,50 +486,6 @@ export default function ProfileManager({
                   </div>
                 ) : null}
 
-                {renaming ? (
-                  <form
-                    className="mt-3 rounded-2xl border-2 border-[#bae6fd] bg-[#f0f9ff] p-3"
-                    aria-label={`${ordinalLabel} 이름 변경`}
-                    onSubmit={(event: FormEvent<HTMLFormElement>) => {
-                      event.preventDefault()
-                      void handleRenameSubmit(profile.profileId)
-                    }}
-                  >
-                    <label className="block text-sm font-black text-[#334155]">
-                      새 닉네임
-                      <input
-                        ref={renameInputRef}
-                        type="text"
-                        value={renameInput}
-                        maxLength={40}
-                        style={INPUT_STYLE}
-                        aria-label={`${ordinalLabel} 새 닉네임`}
-                        className="mt-2 w-full rounded-xl border-2 border-[#94a3b8] bg-white px-3 font-bold text-[#0f172a]"
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => setRenameInput(event.target.value)}
-                      />
-                    </label>
-                    <div className="mt-2 grid grid-cols-2 gap-2">
-                      <button
-                        type="submit"
-                        style={TOUCH_TARGET_STYLE}
-                        className="rounded-xl bg-[#0f766e] px-3 font-black text-white"
-                      >
-                        이름 저장
-                      </button>
-                      <button
-                        type="button"
-                        style={TOUCH_TARGET_STYLE}
-                        className="rounded-xl border-2 border-[#cbd5e1] bg-white px-3 font-black text-[#475569]"
-                        onClick={() => {
-                          setRenamingProfileId(null)
-                          setFocusRequest({ kind: 'manage', profileId: profile.profileId })
-                        }}
-                      >
-                        취소
-                      </button>
-                    </div>
-                  </form>
-                ) : null}
               </div>
             </li>
           )
@@ -444,81 +495,32 @@ export default function ProfileManager({
           data-profile-create-card="true"
           className="flex min-h-[290px] flex-col items-center justify-center rounded-[1.75rem] border-2 border-dashed border-[#93c5fd] bg-[#eff6ff] p-4 text-center"
         >
-          {creating ? (
-            <form
-              className="w-full"
-              aria-label="새 프로필 만들기"
-              onSubmit={(event: FormEvent<HTMLFormElement>) => {
-                event.preventDefault()
-                void handleCreate()
-              }}
-            >
-              <h3 className="text-xl font-black text-[#0f172a]">새 프로필</h3>
-              <label className="mt-4 block text-left text-sm font-black text-[#334155]">
-                닉네임 (선택)
-                <input
-                  ref={createInputRef}
-                  type="text"
-                  value={newNickname}
-                  maxLength={40}
-                  style={INPUT_STYLE}
-                  aria-label="새 프로필 닉네임"
-                  placeholder="비워 둘 수 있어요"
-                  className="mt-2 w-full rounded-xl border-2 border-[#94a3b8] bg-white px-3 font-bold text-[#0f172a]"
-                  onChange={(event: ChangeEvent<HTMLInputElement>) => setNewNickname(event.target.value)}
-                />
-              </label>
-              <div className="mt-3 grid grid-cols-2 gap-2">
-                <button
-                  type="submit"
-                  style={TOUCH_TARGET_STYLE}
-                  className="rounded-xl bg-[#0f766e] px-3 font-black text-white"
-                >
-                  프로필 만들기
-                </button>
-                <button
-                  type="button"
-                  style={TOUCH_TARGET_STYLE}
-                  className="rounded-xl border-2 border-[#cbd5e1] bg-white px-3 font-black text-[#475569]"
-                  onClick={() => {
-                    setCreating(false)
-                    setMessage('')
-                    setFocusRequest({ kind: 'create-trigger' })
-                  }}
-                >
-                  취소
-                </button>
-              </div>
-            </form>
+          <button
+            ref={createTriggerRef}
+            type="button"
+            style={TOUCH_TARGET_STYLE}
+            disabled={limitReached}
+            aria-label="새 학습자 프로필 만들기"
+            data-profile-create-trigger="true"
+            className="w-full rounded-2xl bg-white px-5 text-lg font-black text-[#1d4ed8] shadow-sm disabled:cursor-not-allowed disabled:text-[#64748b]"
+            onClick={() => {
+              setEditorStep({ kind: 'create' })
+              setOpenMenuProfileId(null)
+              setMessage('')
+            }}
+          >
+            + 새 프로필
+          </button>
+          {limitReached ? (
+            <small className="mt-3 font-bold leading-5 text-[#64748b]">
+              {`프로필은 최대 ${profileLimit}명까지 만들 수 있어요.`}
+            </small>
           ) : (
-            <>
-              <button
-                ref={createTriggerRef}
-                type="button"
-                style={TOUCH_TARGET_STYLE}
-                disabled={limitReached}
-                aria-label="새 학습자 프로필 만들기"
-                data-profile-create-trigger="true"
-                className="w-full rounded-2xl bg-white px-5 text-lg font-black text-[#1d4ed8] shadow-sm disabled:cursor-not-allowed disabled:text-[#64748b]"
-                onClick={() => {
-                  setCreating(true)
-                  setOpenMenuProfileId(null)
-                  setMessage('')
-                }}
-              >
-                + 새 프로필
-              </button>
-              {limitReached ? (
-                <small className="mt-3 font-bold leading-5 text-[#64748b]">
-                  {`프로필은 최대 ${profileLimit}명까지 만들 수 있어요.`}
-                </small>
-              ) : (
-                <small className="mt-3 font-bold leading-5 text-[#64748b]">닉네임은 비워 둘 수 있어요.</small>
-              )}
-            </>
+            <small className="mt-3 font-bold leading-5 text-[#64748b]">닉네임은 비워 둘 수 있어요.</small>
           )}
         </li>
       </ul>
+      )}
     </section>
   )
 }
