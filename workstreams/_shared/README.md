@@ -28,7 +28,9 @@ When you change a high-conflict file, add a short dated note below:
   evidence check while retaining `verify:full`, the production dependency
   audit, rollback compatibility, exact-ref checkout, and `github-pages`
   environment approval. Other workstreams must not treat this lane as a formal
-  release or add another deployment path.
+  release or add another deployment path. The CI, nightly, and release lanes
+  also install the lockfile-pinned Playwright Chromium after `npm ci` so their
+  browser verification runs on clean GitHub-hosted runners.
 
 - 2026-08-27: the production dependency release gate keeps the existing
   `nanoid` 3.3.18 override and updates the stale 3.3.16 lock entry to the same

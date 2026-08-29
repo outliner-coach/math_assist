@@ -92,6 +92,21 @@ describe('GitHub workflow static contract', () => {
     })
   })
 
+  it('installs the pinned Playwright Chromium before every browser verification lane', () => {
+    const workflows = [
+      ['ci.yml', 'npm run verify:fast'],
+      ['nightly.yml', 'npm run verify:full'],
+      ['release.yml', 'npm run verify:release'],
+    ] as const
+
+    workflows.forEach(([name, verificationCommand]) => {
+      const source = readWorkflow(name)
+      const installIndex = source.indexOf('npx playwright install --with-deps chromium')
+      expect(installIndex, name).toBeGreaterThan(source.indexOf('npm ci'))
+      expect(installIndex, name).toBeLessThan(source.indexOf(verificationCommand))
+    })
+  })
+
   it('monitor.yml watches the public site every six hours without writing learner data', () => {
     const source = readWorkflow('monitor.yml')
     const triggers = triggerBlock(source)

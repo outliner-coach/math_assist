@@ -128,7 +128,7 @@ npm run harness -- phases/<이름>
 5. 배포 URL의 `/math_assist/`, `/math_assist/home/`, 지원 학년 경로, 변경한 학습 경로를 새 브라우저에서 연다.
 6. 정적 HTTP 성공뿐 아니라 hydration 뒤 버튼·저장 복구·콘솔 오류·자산 로딩을 확인한다.
 
-push 즉시 배포는 폐지했다. `main`에 푸시하는 것만으로는 배포가 시작되지 않으며, 워크플로는 Node.js 24에서 `npm ci`, `next build`를 실행해 `out/`을 업로드한다. 로컬 빌드 성공만으로 실제 배포 성공을 보고하지 않는다.
+push 즉시 배포는 폐지했다. `main`에 푸시하는 것만으로는 배포가 시작되지 않으며, 워크플로는 Node.js 24에서 `npm ci`와 lockfile 버전의 Playwright Chromium 설치를 마친 뒤 검증·`next build`를 실행해 `out/`을 업로드한다. 로컬 빌드 성공만으로 실제 배포 성공을 보고하지 않는다.
 
 ## 출시 자동화 워크플로
 
