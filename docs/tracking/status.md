@@ -1,19 +1,14 @@
 # 현재 상태
 
-기준일: 2026-08-29
+기준일: 2026-08-30
 
 ## 상태 경계
 
-- **현재 통합 경계**: PR #14의 merge commit `7c44632`가 `main`과
-  `origin/main`에 반영됐다. 이 커밋은 CSP에서 실행 가능한 1·2학년 산술
-  파서와 프로덕션 정적 학습 흐름 검증을 포함한다.
-- **학습자 프로필 관리 개선의 로컬 경계**: 기능 브랜치
-  `dryforge/profile-management-ui`의 제품 커밋 `4f8ec2e`와 검증 커밋
-  `35c1d66`까지 프로필 카드·마스코트,
-  단일 관리창, 생성·이름 변경·전송·삭제·기기 초기화 내부 단계와
-  초점·반응형 회귀를 구현했다. `main`·`origin/main`에는 아직 반영하지
-  않았고 push·PR·Pages 배포도 수행하지 않았다.
-- **이번 브랜치 검증**: 구성요소 집중 Vitest 5개 파일 48/48,
+- **현재 통합 경계**: 학습자 프로필 관리 개선 merge commit
+  `7f02fec8e3a9c9e5b2954220df9039ed0261d8d8`이 `main`과 `origin/main`에
+  반영됐다. 프로필 카드·마스코트, 단일 관리창, 생성·이름 변경·전송·삭제·
+  기기 초기화 내부 단계와 초점·반응형 회귀를 포함한다.
+- **이번 변경 검증**: 구성요소 집중 Vitest 5개 파일 48/48,
   production reliability·accessibility Playwright 18/18, `verify:fast`
   5/5를 통과했다. `verify:fast` 안에서 전체 Vitest 160개 파일
   1,625/1,625, lint, TDD guard, 정적 build 116페이지, E2E 스모크 4/4를
@@ -30,12 +25,17 @@
   통과했다. 현재 저장·내보내기·오프라인 schema는 모두 1이며,
   공개 site monitor가 `release-metadata.json` schema 1 응답을 확인했다.
   이번 기능 브랜치는 출시 후보 metadata를 재생성하지 않았다.
-- **마지막 공개 배포 경계**: `7c44632` 대상 Production release 실행
-  `33231049832`가 `device-validation` 모드로 성공했다. 이는 실기기 증거
-  수집을 위한 선행 배포이며 정식 release가 아니다. 같은 SHA의 공개
-  사이트 monitor 실행 `33238969944`도 성공했지만, 새 공개 브라우저의
-  hydration·console·Grade 1 실제 학습 흐름은 별도 확인하지 않았으므로
-  공개 화면과 정식 출시를 완료로 기록하지 않는다.
+- **마지막 공개 배포 경계**: `7f02fec8e3a9c9e5b2954220df9039ed0261d8d8`
+  대상 Production release 실행 `33277528846`이 `device-validation` 모드로
+  성공했다. `verify:full`, production audit, rollback 호환 검사와 정적
+  산출물 업로드, Pages deploy를 모두 통과했고 Promptfoo 평가는
+  1,483/1,483이었다. 공개 site monitor의 landing·home·release metadata·
+  service worker·Grade 3 진입 5개 항목도 모두 통과했다.
+- **공개 브라우저 확인**: 새 격리 Chromium에서 공개 `/home/`을 hydration한
+  뒤 프로필 카드·마스코트, 이름 변경, 새 프로필 생성, 프로필 전환을
+  확인했다. 390×844와 1024×768에서 다이얼로그는 1개이고 문서·body의
+  가로 넘침은 없었으며 콘솔 오류·경고는 0이었다. 이 배포는 실제 기기
+  접근성 증거 수집을 위한 공개 후보이며 정식 release 완료를 뜻하지 않는다.
 - **출시 자동화**: push 즉시 배포를 폐지했다. 배포는
   `.github/workflows/release.yml` workflow_dispatch(+`inputs.ref`, 기본
   `deployment_mode=release`)만 남고
