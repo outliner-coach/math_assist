@@ -145,7 +145,7 @@ test('가져오기 적용 직전에 대상이 사라지면 쓰지 않고 최신 
   await expect(page.getByTestId('profile-chip')).toBeFocused()
 })
 
-test('프로필 관리창은 한 단계만 보여 주고 취소·뒤로·닫기 초점을 원래 행동으로 돌린다', async ({ page }) => {
+test('프로필 관리창은 생성·이름 저장과 취소·뒤로·닫기 초점을 단계별로 유지한다', async ({ page }) => {
   await page.goto(`${BASE_PATH}/`)
   await page.evaluate(([key, registry, profileA, profileB]) => {
     localStorage.clear()
@@ -177,12 +177,25 @@ test('프로필 관리창은 한 단계만 보여 주고 취소·뒤로·닫기 
   await page.getByRole('button', { name: '취소' }).click()
   await expect(page.getByRole('button', { name: '새 학습자 프로필 만들기' })).toBeFocused()
 
+  await page.getByRole('button', { name: '새 학습자 프로필 만들기' }).click()
+  await page.getByLabel('새 프로필 닉네임').fill('새 친구')
+  await page.getByRole('button', { name: '프로필 만들기' }).click()
+  await expect(profileCard(page, 3)).toContainText('새 친구')
+  await expect(profileCard(page, 3)).toBeFocused()
+
   await openManagementMenu(page, 2)
   await page.getByRole('menuitem', { name: '이름 변경' }).click()
   await expect(page.locator('[data-profile-manager-step="rename"]')).toBeVisible()
   await expect(page.getByLabel('학습자 2 새 닉네임')).toBeFocused()
   await page.getByRole('button', { name: '취소' }).click()
   await expect(profileCard(page, 2).getByRole('button', { name: /관리$/ })).toBeFocused()
+
+  await openManagementMenu(page, 2)
+  await page.getByRole('menuitem', { name: '이름 변경' }).click()
+  await page.getByLabel('학습자 2 새 닉네임').fill('바꾼 이름')
+  await page.getByRole('button', { name: '이름 저장' }).click()
+  await expect(profileCard(page, 2)).toContainText('바꾼 이름')
+  await expect(profileCard(page, 2)).toBeFocused()
 
   await openManagementMenu(page, 2)
   await page.getByRole('menuitem', { name: '내보내기' }).click()
