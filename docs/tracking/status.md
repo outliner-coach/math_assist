@@ -4,42 +4,36 @@
 
 ## 상태 경계
 
-- **현재 통합 경계**: PR #2의 merge commit `edaad0e`가 `main`과
-  `origin/main`에 반영됐다. 제품 파운데이션
-  커밋 스택은 db28f75(응용문제 V1×파운데이션 병합)→d65150b(T5 오프라인)→
-  7ea5fe9(T6 오류 보고)→c47f914(T3 프로필 어댑터)→291ff68(findings 기록)→
-  8939b7d(T4 프로필 전송)→75da038+d71d380(T7 배선)→b5cbbc5(T8 출시
-  자동화)이며, d4d613f·9f2b225는 문서와 품질 보고서 기준을 정리했다.
-  release cleanup 커밋 `0be4d09`는 결정적 E2E, Promptfoo 보고서 정규화,
-  nanoid 잠금파일 보정을 마무리했다.
-- **현재 로컬 검증**: `verify:full` 19/19(247.4초)을 통과했다. 세부 결과는
-  학년·교육과정·템플릿·감사 오류 0, Promptfoo 1,483/1,483, 편집 원장
-  1,622/1,622, Vitest 158개 파일 1,603/1,603, lint·tdd:guard, 정적 build
-  116페이지, Playwright 110/110이다. 이전 `Date.now` 동결 E2E 2개는 실제
-  생성기 seed와 저장 세션 픽스처로 복구해 fixme 없이 개발·프로덕션
-  정적 환경에서 각각 2/2를 통과했다.
-- **접근성 출시 경계**: Chromium 자동 검사는 axe WCAG A/AA, 키보드
-  포커스, 프로필 잠금·전송, 오프라인 6개 팩, CSP를 포함해 9/9를
-  통과했다. 그러나 iPadOS Safari+VoiceOver와 Android Chrome+TalkBack의
+- **현재 통합 경계**: PR #14의 merge commit `7c44632`가 `main`과
+  `origin/main`에 반영됐다. 이 커밋은 CSP에서 실행 가능한 1·2학년 산술
+  파서와 프로덕션 정적 학습 흐름 검증을 포함한다.
+- **학습자 프로필 관리 개선의 로컬 경계**: 기능 브랜치
+  `dryforge/profile-management-ui`의 `45d19d7`까지 프로필 카드·마스코트,
+  단일 관리창, 생성·이름 변경·전송·삭제·기기 초기화 내부 단계와
+  초점·반응형 회귀를 구현했다. `main`·`origin/main`에는 아직 반영하지
+  않았고 push·PR·Pages 배포도 수행하지 않았다.
+- **이번 브랜치 검증**: 구성요소 집중 Vitest 5개 파일 48/48,
+  production reliability·accessibility Playwright 15/15, `verify:fast`
+  5/5를 통과했다. `verify:fast` 안에서 전체 Vitest 160개 파일
+  1,625/1,625, lint, TDD guard, 정적 build 116페이지, E2E 스모크 4/4를
+  확인했다. 같은 이름·마스코트, 6명·20자 이름, 삭제 뒤 초점,
+  390×844·1024×768·200% 확대 상당 reflow, console/page error 0을 포함한다.
+- **접근성 출시 경계**: 자동 브라우저 검증과 이번 기능의 axe·키보드
+  검사는 통과했지만 iPadOS Safari+VoiceOver와 Android Chrome+TalkBack의
   실제 기기 14개 시나리오 증거는 아직 수집하지 않았다. 따라서
-  `check-release-evidence`는 의도대로 `EVIDENCE_MISSING`이다. main 병합은
-  완료했지만 `verify:release`와 수동 Pages 배포는 완료 상태가 아니다.
+  `check-release-evidence`의 `EVIDENCE_MISSING` 경계와 정식 출시 차단은
+  유지한다.
 - **기타 출시 사전 게이트**: 잠금파일에 남아 있던 `nanoid` 3.3.16을
   기존 override와 같은 3.3.18로 맞춰 production audit은 취약점 0으로
-  통과했다. 현재 세 저장·내보내기·오프라인 schema는 모두 1이며, 공개
-  사이트에는 `release-metadata.json`이 아직 없어 rollback 검사는
-  `first-deploy` 경계로 통과했다. 현재 후보 지문은
-  `4709de875e6b735661b0d182ee9ff439277569b8b89c8a0d459126be5014db35`,
-  콘텐츠 지문은
-  `1a77b30a868e13e1d09b32cebef9d0124d9f125e07676bdfab79f95e54ce1a4c`다.
-- **마지막 공개 배포 경계**: 제품 통합 경계 `edaad0e`와 그 후속 상태
-  기록은 `origin/main`에 반영됐지만 Pages에는 아직 배포하지 않았다.
-  마지막으로 문서화된 공개 제품 변경은
-  `1b0c171ed81423ffce6fa9230e62528723d2f8a4`다.
-  해당 제품 커밋의 GitHub Actions 실행 `32127227116`(build job
-  `95680364368`, deploy job `95680913733`)과 배포 ID `5960907965`까지
-  성공을 확인했고 환경 URL은 `https://outliner-coach.github.io/math_assist/`다.
-  따라서 현재 main과 공개 Pages는 서로 다른 배포 경계다.
+  통과했다. 현재 저장·내보내기·오프라인 schema는 모두 1이며,
+  공개 site monitor가 `release-metadata.json` schema 1 응답을 확인했다.
+  이번 기능 브랜치는 출시 후보 metadata를 재생성하지 않았다.
+- **마지막 공개 배포 경계**: `7c44632` 대상 Production release 실행
+  `33231049832`가 `device-validation` 모드로 성공했다. 이는 실기기 증거
+  수집을 위한 선행 배포이며 정식 release가 아니다. 같은 SHA의 공개
+  사이트 monitor 실행 `33238969944`도 성공했지만, 새 공개 브라우저의
+  hydration·console·Grade 1 실제 학습 흐름은 별도 확인하지 않았으므로
+  공개 화면과 정식 출시를 완료로 기록하지 않는다.
 - **출시 자동화**: push 즉시 배포를 폐지했다. 배포는
   `.github/workflows/release.yml` workflow_dispatch(+`inputs.ref`, 기본
   `deployment_mode=release`)만 남고
