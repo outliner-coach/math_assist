@@ -77,6 +77,8 @@ describe('run-verify orchestration table', () => {
     expect(full.indexOf('vitest')).toBeGreaterThan(full.indexOf('editorial-check'))
     expect(full.indexOf('lint')).toBeGreaterThan(full.indexOf('vitest'))
     expect(full.indexOf('tdd-guard')).toBeGreaterThan(full.indexOf('lint'))
+    expect(VERIFY_PHASES.full.find(phase => phase.id === 'e2e-full')?.command)
+      .toBe('npm run test:e2e:production')
   })
 
   it('release extends full with evidence check, production dependency audit, and rollback compat in order', () => {

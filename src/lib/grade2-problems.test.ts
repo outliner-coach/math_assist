@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import grade12Allocation from '../../public/data/curriculum-allocations-v1.json'
 import { buildCanonicalMathSignature } from '../../scripts/content-inventory-core.js'
@@ -14,6 +14,7 @@ import {
   grade2MissionTemplates,
   grade2Units,
   normalizeGrade2Mode,
+  renderGrade2MissionFromParams,
   validateGrade2MissionBank,
 } from './grade2-problems'
 
@@ -54,6 +55,26 @@ function canonicalGrade2PairBehaviorSignature(template: (typeof grade2MissionTem
 }
 
 describe('grade2 mission bank', () => {
+  it('renders arithmetic templates when dynamic code evaluation is blocked by CSP', () => {
+    vi.stubGlobal('Function', () => {
+      throw new EvalError('Refused to evaluate a string as JavaScript under CSP')
+    })
+
+    try {
+      const mission = renderGrade2MissionFromParams({
+        ...grade2MissionTemplates[0],
+        promptTemplate: '{{count}}보다 하나 큰 수는 무엇일까요?',
+        solverRule: 'count + 1',
+        choicesTemplate: ['{{count - 1}}', '{{count}}', '{{count + 1}}'],
+      }, { count: 7 }, () => 0.5)
+      expect(mission.prompt).toBe('7보다 하나 큰 수는 무엇일까요?')
+      expect(mission.correctAnswer).toBe('8')
+      expect(mission.choices).toEqual(expect.arrayContaining(['6', '7', '8']))
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
   it('provides a 144-template V1 bank across 12 units', () => {
     const missions = getGrade2Missions(42)
 

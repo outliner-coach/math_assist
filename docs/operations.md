@@ -56,15 +56,16 @@ npm run lint
 npm run tdd:guard
 npm run build
 npm run test:e2e
+npm run test:e2e:production
 git diff --check
 ```
 
 - 특정 학년이나 5학년 템플릿을 건드리지 않았다면 관련 콘텐츠 검증기는 생략할 수 있지만, 변경한 콘텐츠의 검증기는 반드시 실행한다.
-- 위 순서를 목적별로 묶은 명령이 있다. `npm run verify:fast`는 lint→vitest→tdd:guard→build→E2E 스모크(home-learning-modes·mascot-service 스펙)를 실행한다. `npm run verify:full`은 학년 validator(grade1~4·6)+curriculum+templates+application-packs, audit(missions/problems/applications), promptfoo:problems, catalog 생성 뒤 check:problem-editorial-review 순서 강제, vitest→lint→tdd:guard→build→전체 E2E를 순서대로 실행한다. 개별 명령의 성공으로 전체 순서 성공을 대신하지 않는다.
+- 위 순서를 목적별로 묶은 명령이 있다. `npm run verify:fast`는 lint→vitest→tdd:guard→build→E2E 스모크(home-learning-modes·mascot-service 스펙)를 실행한다. `npm run verify:full`은 학년 validator(grade1~4·6)+curriculum+templates+application-packs, audit(missions/problems/applications), promptfoo:problems, catalog 생성 뒤 check:problem-editorial-review 순서 강제, vitest→lint→tdd:guard→build→production static export 대상 전체 E2E를 순서대로 실행한다. 개별 명령의 성공으로 전체 순서 성공을 대신하지 않는다.
 - 교육과정 또는 문제 연결을 바꿨다면 `generate:curriculum-direct-links`로 문제별 직접 역참조를 먼저 확정한 뒤 curriculum validator와 재고 보고서를 실행한다. 재고 보고서는 공개 원본, 원작성 원본, 정규 수학 서명, 생성 변형, 세션 문항 수를 섞지 않는다.
 - 화면·라우팅·localStorage 복구·공개 시점을 바꾼 경우 브라우저 테스트를 생략하지 않는다.
 - 응용문제 pack·family·registry·승인·증명·시각·세션을 바꾼 경우 `validate:application-packs`와 `audit:applications`를 함께 실행한다. 두 검사는 기존 학년 validator, 문제·미션 감사, 전체 회귀 검사를 대신하지 않는다.
-- Playwright는 기본적으로 3100 포트를 사용한다. 다른 서버와 충돌하면 `PLAYWRIGHT_PORT=3173 npm run test:e2e`처럼 빈 포트를 지정한다.
+- 개발 서버 대상 Playwright는 기본적으로 3100 포트를 사용한다. 다른 서버와 충돌하면 `PLAYWRIGHT_PORT=3173 npm run test:e2e`처럼 빈 포트를 지정한다. `test:e2e:production`은 먼저 생성된 `out/`을 4173 포트에서 단일 작업자로 검사하며 `verify:full`과 배포 게이트가 이 결정적 경로를 사용한다.
 - `npm run build`는 `out/`에 GitHub Pages용 정적 결과를 만든다. 콘텐츠에 따라 경로 수가 달라질 수 있으므로 수치 자체보다 의도한 동적 식별자가 모두 생성됐는지 확인한다.
 
 `npm run promptfoo:problems`는 문제 품질 출판 주기의 전체 검증에서는
