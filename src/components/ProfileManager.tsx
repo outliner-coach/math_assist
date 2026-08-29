@@ -512,11 +512,11 @@ export default function ProfileManager({
             + 새 프로필
           </button>
           {limitReached ? (
-            <small className="mt-3 font-bold leading-5 text-[#64748b]">
+            <small className="mt-3 font-bold leading-5 text-[#475569]">
               {`프로필은 최대 ${profileLimit}명까지 만들 수 있어요.`}
             </small>
           ) : (
-            <small className="mt-3 font-bold leading-5 text-[#64748b]">닉네임은 비워 둘 수 있어요.</small>
+            <small className="mt-3 font-bold leading-5 text-[#475569]">닉네임은 비워 둘 수 있어요.</small>
           )}
         </li>
       </ul>

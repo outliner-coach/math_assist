@@ -390,6 +390,7 @@ export default function ProfileTransferDialog(props: ProfileTransferDialogProps)
       <button
         type="button"
         style={TOUCH_TARGET_STYLE}
+        data-profile-step-back="true"
         onClick={() => {
           act({ type: 'reset' })
           exitSurface()

@@ -49,7 +49,7 @@ export default function ProfileDeleteConfirmation({
         >
           {busy ? '삭제하는 중…' : '삭제합니다'}
         </button>
-        <button type="button" style={TOUCH_TARGET_STYLE} disabled={busy} onClick={onBack}>
+        <button type="button" style={TOUCH_TARGET_STYLE} disabled={busy} data-profile-step-back="true" onClick={onBack}>
           프로필 관리로 돌아가기
         </button>
       </div>

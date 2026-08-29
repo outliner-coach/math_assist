@@ -114,7 +114,7 @@ export default function DeviceDataResetDialog(props: DeviceDataResetDialogProps)
       </ul>
 
       {result?.status === 'reset' || result !== null ? (
-        <button type="button" style={TOUCH_TARGET_STYLE} onClick={exitSurface}>
+        <button type="button" style={TOUCH_TARGET_STYLE} data-profile-step-back="true" onClick={exitSurface}>
           {embedded ? '프로필 관리로 돌아가기' : '닫기'}
         </button>
       ) : (
@@ -138,7 +138,7 @@ export default function DeviceDataResetDialog(props: DeviceDataResetDialogProps)
           >
             브라우저 기록 삭제
           </button>
-          <button type="button" style={TOUCH_TARGET_STYLE} onClick={exitSurface}>
+          <button type="button" style={TOUCH_TARGET_STYLE} data-profile-step-back="true" onClick={exitSurface}>
             {embedded ? '프로필 관리로 돌아가기' : '취소'}
           </button>
         </>

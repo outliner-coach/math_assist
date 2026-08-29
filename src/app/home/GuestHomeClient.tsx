@@ -35,6 +35,7 @@ import {
   activateLocalProfile,
   addLocalProfile,
   getLocalProfileDisplayLabel,
+  LOCAL_PROFILE_REGISTRY_KEY,
   readLocalProfileRegistry,
   renameLocalProfile,
   writeLocalProfileRegistry,
@@ -115,6 +116,11 @@ function focusableDialogElements(root: ParentNode): HTMLElement[] {
   return Array.from(root.querySelectorAll<HTMLElement>(
     'button:not([disabled]), input:not([disabled]), [href], [tabindex]:not([tabindex="-1"])',
   ))
+}
+
+function isProfileRegistryReadyForManagement(registry: LocalProfileRegistryV1 | null): registry is LocalProfileRegistryV1 {
+  return registry !== null
+    && (registry.migration.status === 'not-needed' || registry.migration.status === 'verified')
 }
 
 const gradeStyles: Record<SupportedGrade, {
@@ -262,6 +268,7 @@ export default function GuestHomeClient() {
   const [profileRegistry, setProfileRegistry] = useState<LocalProfileRegistryV1 | null>(null)
   const [profileManagerStep, setProfileManagerStep] = useState<ProfileManagerStep | null>(null)
   const [profileManagerFocusTarget, setProfileManagerFocusTarget] = useState<ProfileManagerFocusTarget | null>(null)
+  const [profileManagerNotice, setProfileManagerNotice] = useState('')
   const [deleteMessage, setDeleteMessage] = useState('')
   const [deleteBusy, setDeleteBusy] = useState(false)
   const [deviceResetPhrase, setDeviceResetPhrase] = useState('')
@@ -269,6 +276,7 @@ export default function GuestHomeClient() {
   const profileChipRef = useRef<HTMLButtonElement>(null)
   const profileDialogRef = useRef<HTMLDivElement>(null)
   const profileDialogCloseRef = useRef<HTMLButtonElement>(null)
+  const profileStepRef = useRef<HTMLDivElement>(null)
   const deviceResetTriggerRef = useRef<HTMLButtonElement>(null)
 
   const profileManagerOpen = profileManagerStep !== null
@@ -280,9 +288,11 @@ export default function GuestHomeClient() {
     queueMicrotask(() => {
       if (cancelled) return
       setHomeState(loadGuestHomeState())
-      setLearnerStorageUnavailable(getLearnerStorage() === null)
+      const learnerStorage = getLearnerStorage()
       const storage = resolveDeviceRegistryStorage()
-      setProfileRegistry(storage ? readLocalProfileRegistry(storage) : null)
+      const registry = storage ? readLocalProfileRegistry(storage) : null
+      setProfileRegistry(registry)
+      setLearnerStorageUnavailable(learnerStorage === null || !isProfileRegistryReadyForManagement(registry))
       setMascotId(loadMascotPreference())
       getUnits()
         .then((units) => {
@@ -307,11 +317,49 @@ export default function GuestHomeClient() {
     }
   }, [profileManagerOpen])
 
+  useEffect(() => {
+    if (profileManagerStep === null || profileManagerStep.kind === 'list') return
+    queueMicrotask(() => {
+      const root = profileStepRef.current
+      const target = root?.querySelector<HTMLElement>('[data-profile-step-back]')
+        ?? (root ? focusableDialogElements(root)[0] : null)
+      target?.focus()
+    })
+  }, [profileManagerStep])
+
+  useEffect(() => {
+    const handleRegistryStorageChange = (event: StorageEvent): void => {
+      if (event.storageArea !== window.localStorage) return
+      if (event.key !== null && event.key !== LOCAL_PROFILE_REGISTRY_KEY) return
+      const storage = resolveDeviceRegistryStorage()
+      const nextRegistry = storage ? readLocalProfileRegistry(storage) : null
+      if (!isProfileRegistryReadyForManagement(nextRegistry)) {
+        setLearnerStorageUnavailable(true)
+        setProfileRegistry(nextRegistry)
+        setProfileManagerStep(null)
+        return
+      }
+
+      setLearnerStorageUnavailable(false)
+      setProfileRegistry(nextRegistry)
+      if (profileManagerStep?.kind !== 'transfer' && profileManagerStep?.kind !== 'delete') return
+      const target = profileManagerStep.target
+      if (nextRegistry.profiles.some((profile) => profile.profileId === target.profileId)) return
+      setProfileManagerNotice('다른 창에서 프로필 목록이 바뀌었어요. 최신 목록을 다시 확인해 주세요.')
+      setProfileManagerFocusTarget(null)
+      setProfileManagerStep({ kind: 'list' })
+    }
+
+    window.addEventListener('storage', handleRegistryStorageChange)
+    return () => window.removeEventListener('storage', handleRegistryStorageChange)
+  }, [profileManagerStep])
+
   const refreshRegistry = useCallback((): LocalProfileRegistryV1 | null => {
     const storage = resolveDeviceRegistryStorage()
     if (!storage) return null
     const registry = readLocalProfileRegistry(storage)
     setProfileRegistry(registry)
+    setLearnerStorageUnavailable(!isProfileRegistryReadyForManagement(registry))
     return registry
   }, [])
 
@@ -319,6 +367,7 @@ export default function GuestHomeClient() {
     const reloadRequired = deviceResetResult?.status === 'reset' && deviceResetResult.reloadRecommended
     setProfileManagerStep(null)
     setProfileManagerFocusTarget(null)
+    setProfileManagerNotice('')
     setDeleteMessage('')
     setDeleteBusy(false)
     if (reloadRequired) {
@@ -367,7 +416,7 @@ export default function GuestHomeClient() {
   const handleCreateProfile = useCallback(async (nickname: string | null): Promise<boolean> => {
     const storage = resolveDeviceRegistryStorage()
     const current = storage ? readLocalProfileRegistry(storage) : null
-    if (!storage || !current) return false
+    if (!storage || !isProfileRegistryReadyForManagement(current)) return false
     try {
       writeLocalProfileRegistry(storage, addLocalProfile(current, nickname))
     } catch {
@@ -380,7 +429,7 @@ export default function GuestHomeClient() {
   const handleRenameProfile = useCallback(async (profileId: string, nickname: string | null): Promise<boolean> => {
     const storage = resolveDeviceRegistryStorage()
     const current = storage ? readLocalProfileRegistry(storage) : null
-    if (!storage || !current) return false
+    if (!storage || !isProfileRegistryReadyForManagement(current)) return false
     try {
       writeLocalProfileRegistry(storage, renameLocalProfile(current, profileId, nickname))
     } catch {
@@ -393,7 +442,7 @@ export default function GuestHomeClient() {
   const handleSelectProfile = useCallback(async (profileId: string): Promise<boolean> => {
     const storage = resolveDeviceRegistryStorage()
     const current = storage ? readLocalProfileRegistry(storage) : null
-    if (!storage || !current) return false
+    if (!storage || !isProfileRegistryReadyForManagement(current)) return false
     try {
       // Save-first: the home surface holds nothing unsaved, and learner writes
       // have already been persisted by their own actions before switching.
@@ -411,7 +460,7 @@ export default function GuestHomeClient() {
     const storage = resolveDeviceRegistryStorage()
     const current = storage ? readLocalProfileRegistry(storage) : null
     const index = current?.profiles.findIndex((entry) => entry.profileId === profileId) ?? -1
-    if (!current || index < 0) return
+    if (!isProfileRegistryReadyForManagement(current) || index < 0) return
     const label = getLocalProfileDisplayLabel(current, profileId)
     if (action === 'delete') {
       setDeleteMessage('')
@@ -555,7 +604,7 @@ export default function GuestHomeClient() {
   }, [profileRegistry])
 
   const profileManagerProfiles = useMemo(() => {
-    if (!profileRegistry) return []
+    if (!isProfileRegistryReadyForManagement(profileRegistry)) return []
     const storage = resolveDeviceRegistryStorage()
     return storage ? buildProfileManagerViewModel(profileRegistry, storage) : []
   }, [profileRegistry])
@@ -587,12 +636,13 @@ export default function GuestHomeClient() {
             <span className="hidden text-xl font-black sm:inline">수학 연습장</span>
           </Link>
           <div className="flex items-center gap-2">
-            {activeProfileLabel !== null && (
+            {activeProfileLabel !== null && !learnerStorageUnavailable && (
               <button
                 ref={profileChipRef}
                 type="button"
                 onClick={() => {
                   setProfileManagerFocusTarget(null)
+                  setProfileManagerNotice('')
                   setProfileManagerStep({ kind: 'list' })
                 }}
                 data-testid="profile-chip"
@@ -650,6 +700,11 @@ export default function GuestHomeClient() {
 
               {profileManagerStep.kind === 'list' ? (
                 <>
+                  {profileManagerNotice.length > 0 ? (
+                    <p role="status" aria-live="polite" className="mb-3 rounded-2xl border-2 border-[#fde68a] bg-[#fffbeb] p-3 text-sm font-black text-[#92400e]">
+                      {profileManagerNotice}
+                    </p>
+                  ) : null}
                   <ProfileManager
                     profiles={profileManagerProfiles}
                     activeProfileId={profileRegistry.activeProfileId}
@@ -683,7 +738,7 @@ export default function GuestHomeClient() {
               ) : null}
 
               {profileManagerStep.kind === 'transfer' && transferTarget !== null ? (
-                <div className="profile-manager-step-panel" data-testid="profile-transfer-dialog">
+                <div ref={profileStepRef} className="profile-manager-step-panel" data-testid="profile-transfer-dialog">
                   <ProfileTransferDialog
                     open
                     embedded
@@ -702,7 +757,7 @@ export default function GuestHomeClient() {
               ) : null}
 
               {profileManagerStep.kind === 'delete' && deleteCandidate !== null ? (
-                <div className="profile-manager-step-panel profile-manager-step-panel-danger" data-testid="profile-delete-confirm">
+                <div ref={profileStepRef} className="profile-manager-step-panel profile-manager-step-panel-danger" data-testid="profile-delete-confirm">
                   <ProfileDeleteConfirmation
                     profileLabel={deleteCandidate.label}
                     statusMessage={deleteMessage}
@@ -718,7 +773,7 @@ export default function GuestHomeClient() {
               ) : null}
 
               {profileManagerStep.kind === 'device-reset' ? (
-                <div className="profile-manager-step-panel profile-manager-step-panel-danger" data-testid="device-reset-dialog">
+                <div ref={profileStepRef} className="profile-manager-step-panel profile-manager-step-panel-danger" data-testid="device-reset-dialog">
                   <DeviceDataResetDialog
                     open
                     embedded
