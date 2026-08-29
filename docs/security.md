@@ -12,6 +12,7 @@
 |---|---|---|---|
 | 방문자 | 공개 학습 콘텐츠 열기 | 정적 경로가 존재함 | 존재하지 않는 학년·개념을 학습 가능 상태로 가장하기 |
 | 게스트 학습자 | 답안·진도·세션 저장 | 브라우저 localStorage 사용 가능과 자기 프로필 스코프 키 | 다른 기기 또는 다른 브라우저 프로필의 기록 읽기; 같은 프로필 안에서 다른 학습자 스코프 키 읽기·쓰기 |
+| 게스트 학습자·보호자 | 프로필 관리·전송·삭제 | 정상 registry와 `migration.status`가 `not-needed` 또는 `verified`; 대상 프로필이 최신 registry에 존재 | 손상·실패 migration·저장소 접근 불가 상태에서 쓰기; 화면 표시를 위한 프로필 활성화 |
 | 게스트 학습자 | 기록 초기화 | 해당 학년 화면에서 명시적으로 확인 | 다른 학년의 저장 영역을 함께 삭제하기 |
 | 운영자 | 정적 콘텐츠 배포 | 검증된 커밋이 `main`에 반영됨 | 배포본에서 개별 학습자 기록 열람하기 |
 
@@ -36,6 +37,8 @@ localStorage가 차단되거나 손상되면 앱은 기본 상태로 복구하�
 - 기기 전역 registry `mathAssist_profiles_v1`은 `{schemaVersion: 1, activeProfileId, profiles[{profileId: local_<UUID>, nickname|null, createdAt, updatedAt}], migration}`을 가진다. `migration`은 `{schemaVersion, status: not-needed|pending|copying|verified|failed, targetProfileId, backupKey}`다.
 - 학습자 소유 키는 `mathAssist_profile_v1:<profileId>:<legacyKey>` 형식이다. 모든 학년 진도·세션·결과·영수증·마스코트·게스트홈·복구 증거 키가 이 형식으로 이전되며, 복구 증거에는 `grade2ProgressRecoveryEvidence_v1`과 `grade5ApplicationProblemRecoveryEvidence_v1`·`grade6ApplicationProblemRecoveryEvidence_v1`도 포함된다.
 - 마이그레이션은 키별로 격리한다. 유효한 값은 복사하고, 손상된 값은 원본 바이트를 보존한 뒤 건너뛰고 `status='failed'`로 남긴다. 한 키의 손상으로 다른 학년 기록이 축소되지 않으며, 마이그레이션 재시작은 멱등하다.
+- 정상 최초 방문에서 registry가 없으면 기존 bootstrap이 기본 프로필을 만든 뒤 관리할 수 있다. 파싱 가능한 registry라도 migration이 `failed`이면 관리 준비 완료로 보지 않고 생성·전환·이름 변경·전송·삭제·기기 초기화 진입을 차단한다. 관리 도중 다른 탭이 대상을 지우면 최신 목록으로 돌아가며 그 대상에 쓰지 않는다.
+- 프로필 목록의 마스코트 투영은 각 프로필 스코프 값을 읽기만 한다. 손상 값은 해당 카드의 기본 마스코트 표현으로 격리하며 registry, 활성 프로필, 임대와 원문 바이트를 갱신하지 않는다.
 - 탭 임대는 holderId를 sessionStorage `mathAssist_tabHolderId_v1`에 영속화해 전체 페이지 내비게이션 사이에도 쓰기 권한을 유지한다. 임대를 상실한 탭의 쓰기는 조용히 거부되며, 홈에는 '다른 탭에서 프로필이 바뀌었어요' 오버레이를 제공한다.
 
 ## 오류 보고

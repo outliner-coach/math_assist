@@ -1,12 +1,13 @@
 'use client'
 
-import { useCallback, useReducer, useRef, useState, type KeyboardEvent } from 'react'
+import { useCallback, useEffect, useReducer, useRef, useState, type KeyboardEvent } from 'react'
 
 /**
- * Standalone profile transfer dialog (T4 spec §6). Unwired by contract:
- * shell/home registration belongs to a later task. Export download, file
- * picking and storage access arrive through injected callbacks so this
- * component never touches window.localStorage or routing itself.
+ * Profile transfer surface (T4 spec §6). Export download, file picking and
+ * storage access arrive through injected callbacks so this component never
+ * touches window.localStorage or routing itself. Standalone callers keep the
+ * modal contract; profile-manager callers set embedded and own the surrounding
+ * dialog, step navigation and final focus restoration.
  */
 
 const MASCOT_LABELS = { suri: '수리', moa: '모아', lumi: '루미' } as const
@@ -128,11 +129,10 @@ export function describeTransferErrorCode(code: string): string {
   }
 }
 
-export interface ProfileTransferDialogProps {
+interface ProfileTransferDialogBaseProps {
   open: boolean
   profileLabel: string
   state?: TransferDialogState
-  onClose: () => void
   onStateAction?: (action: TransferDialogAction) => void
   exportBuilder?: () => Promise<{ filename: string; json: string }>
   downloader?: (filename: string, json: string) => void
@@ -141,7 +141,36 @@ export interface ProfileTransferDialogProps {
   applyImportText?: (text: string, options: { mascotChoice?: 'local' | 'imported' }) => Promise<TransferApplyOutcome>
 }
 
+export type ProfileTransferDialogProps = ProfileTransferDialogBaseProps & (
+  | { embedded: true; onBack: () => void; onClose?: never }
+  | { embedded?: false; onClose: () => void; onBack?: never }
+)
+
 const TOUCH_TARGET_STYLE = { minWidth: '48px', minHeight: '48px' } as const
+
+function transferAnnouncement(state: TransferDialogState, notice: string): string {
+  switch (state.step) {
+    case 'previewing':
+      return '파일을 확인하는 중이에요.'
+    case 'preview':
+      if (state.preview.status === 'invalid') {
+        return describeTransferErrorCode(state.preview.errors[0] ?? '')
+      }
+      return '가져오기 내용을 확인해 주세요.'
+    case 'mascot-choice':
+      return '가져온 기록에 다른 마스코트가 있어요. 사용할 마스코트를 골라 주세요.'
+    case 'applying':
+      return '학습 기록을 적용하는 중이에요.'
+    case 'done':
+    case 'error':
+      return state.message
+    case 'idle':
+    default:
+      return notice.length > 0
+        ? notice
+        : '기기와 기기를 옮길 때 학습 기록 파일을 직접 주고받아요.'
+  }
+}
 
 function focusableElements(root: ParentNode): HTMLElement[] {
   return Array.from(
@@ -149,21 +178,24 @@ function focusableElements(root: ParentNode): HTMLElement[] {
   )
 }
 
-export default function ProfileTransferDialog({
-  open,
-  profileLabel,
-  state,
-  onClose,
-  onStateAction,
-  exportBuilder,
-  downloader,
-  importFileReader,
-  previewImportText,
-  applyImportText,
-}: ProfileTransferDialogProps) {
+export default function ProfileTransferDialog(props: ProfileTransferDialogProps) {
+  const {
+    open,
+    profileLabel,
+    state,
+    onStateAction,
+    exportBuilder,
+    downloader,
+    importFileReader,
+    previewImportText,
+    applyImportText,
+  } = props
+  const embedded = props.embedded === true
   const [internalState, dispatch] = useReducer(reduceTransferDialogState, { step: 'idle' } as TransferDialogState)
   const [notice, setNotice] = useState('')
   const lastImportTextRef = useRef<string | null>(null)
+  const surfaceRef = useRef<HTMLElement>(null)
+  const previousStepRef = useRef<TransferDialogState['step'] | null>(null)
 
   const act = useCallback((action: TransferDialogAction) => {
     onStateAction?.(action)
@@ -171,6 +203,18 @@ export default function ProfileTransferDialog({
   }, [onStateAction])
 
   const currentState = state ?? internalState
+
+  useEffect(() => {
+    if (!open || previousStepRef.current === currentState.step) return
+    previousStepRef.current = currentState.step
+    queueMicrotask(() => {
+      const root = surfaceRef.current
+      if (!root || root.contains(document.activeElement)) return
+      const target = root.querySelector<HTMLElement>('[data-profile-step-back]')
+        ?? focusableElements(root)[0]
+      target?.focus()
+    })
+  }, [currentState.step, open])
 
   const runAction = useCallback(async (run: () => Promise<void>) => {
     try {
@@ -223,10 +267,16 @@ export default function ProfileTransferDialog({
     })
   }
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
+  const exitSurface = (): void => {
+    if (props.embedded) props.onBack()
+    else props.onClose()
+  }
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>): void => {
+    if (embedded) return
     if (event.key === 'Escape') {
       event.stopPropagation()
-      onClose()
+      exitSurface()
       return
     }
     if (event.key !== 'Tab') return
@@ -241,21 +291,18 @@ export default function ProfileTransferDialog({
   if (!open) return null
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
+    <section
+      ref={surfaceRef}
+      role={embedded ? undefined : 'dialog'}
+      aria-modal={embedded ? undefined : true}
       aria-labelledby="profile-transfer-title"
-      tabIndex={-1}
+      tabIndex={embedded ? undefined : -1}
       onKeyDown={handleKeyDown}
       style={{ position: 'relative' }}
     >
       <h2 id="profile-transfer-title">{`${profileLabel} 프로필 내보내기·가져오기`}</h2>
       <p role="status" aria-live="polite">
-        {currentState.step === 'applying'
-          ? '학습 기록을 적용하는 중이에요.'
-          : notice.length > 0
-            ? notice
-            : '기기와 기기를 옮길 때 학습 기록 파일을 직접 주고받아요.'}
+        {transferAnnouncement(currentState, notice)}
       </p>
 
       <section aria-label="내보내기">
@@ -278,8 +325,6 @@ export default function ProfileTransferDialog({
         >
           가져올 파일 고르기
         </button>
-
-        {currentState.step === 'previewing' ? <p>파일을 확인하는 중이에요.</p> : null}
 
         {currentState.step === 'preview' || currentState.step === 'mascot-choice' || currentState.step === 'applying' ? (
           <div>
@@ -349,10 +394,8 @@ export default function ProfileTransferDialog({
         ) : null}
       </section>
 
-      {currentState.step === 'done' ? <p>{currentState.message}</p> : null}
       {currentState.step === 'error' ? (
         <div>
-          <p>{currentState.message}</p>
           {(currentState.detailCodes ?? []).map((code) => (
             <p key={code}>{describeTransferErrorCode(code)}</p>
           ))}
@@ -362,13 +405,14 @@ export default function ProfileTransferDialog({
       <button
         type="button"
         style={TOUCH_TARGET_STYLE}
+        data-profile-step-back="true"
         onClick={() => {
           act({ type: 'reset' })
-          onClose()
+          exitSurface()
         }}
       >
-        닫기
+        {embedded ? '프로필 관리로 돌아가기' : '닫기'}
       </button>
-    </div>
+    </section>
   )
 }

@@ -13,7 +13,7 @@
 | 경로 | 입력 | 정상 결과 | 오류·대체 결과 |
 |---|---|---|---|
 | `/` | 없음 | 제품 소개와 `/home`으로 가는 한 가지 주요 행동 | 정적 자산 실패 시 화면이 완성되지 않음 |
-| `/home` | 선택 학년과 기존 localStorage 기록 | 1·2·3·4·5·6학년 선택, 기본·연습 두 열린 선택, 추천 이어하기, 연습 완료 단위 수, 기기 저장 안내 | 손상된 학년 기록은 그 학년 기본 상태로 요약; 다른 학년 기록은 유지 |
+| `/home` | 선택 학년, 프로필 registry와 기존 localStorage 기록 | 1·2·3·4·5·6학년 선택, 기본·연습 두 열린 선택, 추천 이어하기, 연습 완료 단위 수, 기기 저장 안내와 단일 프로필 관리창 | 손상된 학년 기록은 그 학년 기본 상태로 요약; 손상 registry·실패 migration·저장소 접근 불가에서는 프로필 쓰기와 위험 행동을 차단하고 다른 학년 원문은 유지 |
 | `/grade/1?islandId=<id>&mode=basic\|practice` | 1학년 진행 기록과 선택적 섬·모드 | 전체 지도는 유지하면서 요청한 섬의 기본 7문제 또는 연습 7문제에서 시작 | 알 수 없는 섬은 전체 지도의 안전한 추천 미션, 알 수 없는 모드는 기본 사용; 저장 불가 시 지속 저장 불가를 알림 |
 | `/grade/2` | 2학년 진행 기록 | 2학년 단원 선택 | 기록의 단원이 유효하지 않으면 유효한 기본 단원 사용 |
 | `/grade/2/mission?unitId=<id>&mode=basic\|practice` | 선택적 2학년 단원·모드 | 해당 단원의 기본 6문제 또는 연습 6문제 | 없거나 알 수 없는 단원은 첫 단원, 알 수 없는 모드는 기본 사용 |
@@ -67,7 +67,7 @@ blueprint 일치를 유지한다. 구조 검증과 함께 교육과정·어린�
 | `mathAssist_attemptReceipts_v1` | 새 계약 적용 뒤 공개 대상 1·2·3·4·5·6학년에서 유효하게 확인한 문제의 불변 receipt 원장. 학년·활동·안정적인 문항 ID·재시도 순번·콘텐츠 버전·정오·힌트 사용 여부·확인 시각을 저장하며 원답 문자열과 풀이장 획은 저장하지 않음 | 손상 시 원장을 덮어쓰지 않고 추가를 중단하며 기존 학년별 진도·보상 기록을 계속 권위 있게 사용 |
 | `mathAssist_sketch_v1:<encoded learner/session/item>` | 공개 대상 1·2·3·4·5·6학년의 문제별 풀이장 명령과 undo 위치. 정규화 좌표의 펜·지우개 획과 전체 지우기만 저장하며 정답·답안은 저장하지 않음 | 손상된 문서는 해당 문제의 빈 풀이로 격리; 문제당 256 KiB 초과 시 기존 문서를 덮어쓰지 않고 저장 불가 안내 |
 | `mathAssist_sketch_index_v1:<encoded learner>` | 풀이장 최근 50개 보존과 안전한 정리에 필요한 문서 키·갱신 시각 색인 | 손상 시 빈 색인으로 읽으며 다른 진행·receipt 키를 변경하지 않음; 활성 세션 문서는 자동 삭제하지 않음 |
-| `mathAssist_profiles_v1` | 기기 전역 프로필 registry. `{schemaVersion: 1, activeProfileId, profiles[{profileId: local_<UUID>, nickname\|null, createdAt, updatedAt}], migration{schemaVersion, status: not-needed\|pending\|copying\|verified\|failed, targetProfileId, backupKey}}` | migration status가 `failed`면 손상된 원본 바이트를 보존한 채 해당 키만 건너뛰며 재시작은 멱등 |
+| `mathAssist_profiles_v1` | 기기 전역 프로필 registry. `{schemaVersion: 1, activeProfileId, profiles[{profileId: local_<UUID>, nickname\|null, createdAt, updatedAt}], migration{schemaVersion, status: not-needed\|pending\|copying\|verified\|failed, targetProfileId, backupKey}}` | migration status가 `failed`면 손상된 원본 바이트를 보존한 채 해당 키만 건너뛰고 프로필 관리 쓰기를 차단하며 재시작은 멱등 |
 | `mathAssist_tabHolderId_v1`(sessionStorage) | 탭 임대의 holderId 영속화. 전체 페이지 내비게이션 사이에 쓰기 권한을 유지한다 | 임대를 상실한 탭의 쓰기는 조용히 거부되고 홈에 '다른 탭에서 프로필이 바뀌었어요' 오버레이를 제공 |
 
 저장 형식 소비자는 모르는 추가 필드를 무시할 수 있지만, 이미 알려진 완료·복습·선택 단원·최근 활동을 조용히 삭제하면 안 된다.
@@ -77,13 +77,15 @@ Grade 6의 unit·concept·template 정적 산출물이 존재해도 공개 원�
 저학년의 명시적 `다시 풀기`는 같은 학년 progress repository에서 `missionSketchRunOrdinal`을 먼저 증가·저장한 뒤 새 풀이장 session ID를 만든다. 새로고침은 이 순번을 복구해야 하며, 순번은 채점·보상·receipt 판정을 바꾸지 않는다.
 승인 응용문제 스냅샷은 `familyId`, `version`, 생성 시드, 유형별 입력·정답·시각 모델과 원래 학년 셸을 함께 검증한다. 출처가 없는 과거 기본 문제는 기존 호환 규칙으로 읽지만, 출처가 있다고 주장하는 불완전한 응용문제 스냅샷을 기본 문제로 낮춰 읽지 않는다.
 
-## 프로필 스코프 저장(현재 작업트리 계약)
-
-아래 프로필 계약은 현재 작업트리 상태이며 `main` 병합과 배포는 별도 승인 대상이다.
+## 프로필 스코프 저장과 관리 화면
 
 - 학습자 소유 키는 `mathAssist_profile_v1:<profileId>:<legacyKey>` 형식이다. 모든 학년 진도·세션·결과·영수증·마스코트·게스트홈·복구 증거 키가 이 형식으로 이전되며, 위 표의 학년별 키 이름은 `<legacyKey>` 자리에 그대로 유지된다. 복구 증거에는 `grade2ProgressRecoveryEvidence_v1`, `grade5ApplicationProblemRecoveryEvidence_v1`, `grade6ApplicationProblemRecoveryEvidence_v1`이 포함된다.
 - 마이그레이션은 키별 격리다. 유효한 값은 복사하고, 손상된 값은 원본 바이트를 보존한 뒤 건너뛰고 `status='failed'`로 남긴다. 다른 학년 기록은 축소되지 않으며 재시작은 멱등하다.
 - 프로필 전송 파일 `PortableProfileExportV1`은 SHA-256 digest를 가지며 완료·복습·세트 완료·영수증·최근 활동·마스코트만 포함한다. 원답·세션 스냅샷·풀이장 획은 포함하지 않는다. 적용은 미리보기 뒤 같은 ID 병합(합집합, 최신 영수증 판정) 또는 새 프로필 생성 중 하나이며 적용 전에 롤백 백업을 만든다.
+- 홈은 목록·새 프로필·이름 변경·전송·프로필 삭제·기기 전체 삭제를 하나의 `aria-modal` 대화상자 안의 상호 배타적 단계로 제공한다. 내부 단계는 별도 modal을 만들지 않으며 `Escape`, focus trap, 단계별 뒤로와 닫기 후 원래 진입점으로의 초점 복귀를 부모 대화상자가 소유한다.
+- 카드의 `학습자 N`은 registry 현재 배열 순서에서만 계산하고 profile ID나 내부 저장 키를 화면에 노출하지 않는다. 프로필별 마스코트는 스코프 키의 읽기 전용 투영이며 부재·손상은 해당 카드의 기본 마스코트로만 처리한다.
+- registry 정상 부재는 bootstrap 뒤 기본 프로필로 이어진다. 손상 registry, `migration.status='failed'`, localStorage 접근 불가, 관리 중 대상 소멸에서는 생성·전환·이름 변경·전송·삭제·기기 초기화를 실행하지 않는다.
+- 기기 전체 삭제 성공은 앱이 소유한 `mathAssist` localStorage 삭제와 빈 기본 registry 재생성을 뜻한다. 반환값 `deferred-to-offline-integration`은 Cache API·IndexedDB·서비스 워커와 내려받은 전송 파일이 이 결과 범위 밖임을 뜻한다.
 
 ## 서비스 워커와 출시 메타데이터
 
