@@ -9,8 +9,16 @@ function readWorkflow(name: string): string {
 }
 
 function triggerBlock(source: string): string {
-  const match = /^on:\n((?:[ \t]+.*\n?)*)/m.exec(source)
-  return match ? match[0] : ''
+  const lines = source.split(/\r?\n/)
+  const start = lines.findIndex(line => line === 'on:')
+  if (start < 0) return ''
+
+  const block = [lines[start]]
+  for (const line of lines.slice(start + 1)) {
+    if (line !== '' && !/^\s/.test(line)) break
+    block.push(line)
+  }
+  return block.join('\n')
 }
 
 describe('GitHub workflow static contract', () => {
@@ -44,19 +52,29 @@ describe('GitHub workflow static contract', () => {
     expect(source).toContain('out')
   })
 
-  it('release.yml is dispatch-only, verifies before deploy, and uses the github-pages environment', () => {
+  it('release.yml is dispatch-only, separates formal release from device validation, and uses the github-pages environment', () => {
     const source = readWorkflow('release.yml')
     const triggers = triggerBlock(source)
     expect(triggers).toContain('workflow_dispatch')
     expect(triggers).not.toMatch(/push:/)
     expect(triggers).not.toMatch(/pull_request/)
     expect(source).toMatch(/inputs:\s*\n\s*ref:/)
+    expect(source).toMatch(/deployment_mode:\s*\n\s*description:/)
+    expect(source).toMatch(/type: choice/)
+    expect(source).toMatch(/default: release/)
+    expect(source).toContain('- release')
+    expect(source).toContain('- device-validation')
     expect(source).toContain('github-pages')
     expect(source).toContain('actions/upload-pages-artifact@v3')
     expect(source).toContain('actions/deploy-pages@v4')
     expect(source).toContain('needs: [resolve-ref]')
     expect(source).toContain('needs: verify-release')
+    expect(source).toContain("if: inputs.deployment_mode == 'release'")
     expect(source).toContain('npm run verify:release')
+    expect(source).toContain("if: inputs.deployment_mode == 'device-validation'")
+    expect(source).toContain('npm run verify:full')
+    expect(source).toContain('npm audit --omit=dev --audit-level=high')
+    expect(source).toContain('node scripts/check-rollback-compat.mjs --check-current')
     // Deploy job must consume the verified artifact only.
     const deploySection = source.slice(source.indexOf('  deploy:'))
     expect(deploySection).toContain('environment:')
@@ -67,10 +85,25 @@ describe('GitHub workflow static contract', () => {
     const files = ['ci.yml', 'nightly.yml', 'release.yml', 'monitor.yml', 'codeql.yml']
     files.forEach(name => {
       const source = readWorkflow(name)
-      if (!/^on:\n(?:[ \t]+.*\n)*?[ \t]+push:/m.test(source)) return
+      if (!/^\s+push:/m.test(triggerBlock(source))) return
       // Push-triggered workflows must not contain any Pages deployment action.
       expect(source, name).not.toContain('deploy-pages')
       expect(source, name).not.toContain('upload-pages-artifact')
+    })
+  })
+
+  it('installs the pinned Playwright Chromium before every browser verification lane', () => {
+    const workflows = [
+      ['ci.yml', 'npm run verify:fast'],
+      ['nightly.yml', 'npm run verify:full'],
+      ['release.yml', 'npm run verify:release'],
+    ] as const
+
+    workflows.forEach(([name, verificationCommand]) => {
+      const source = readWorkflow(name)
+      const installIndex = source.indexOf('npx playwright install --with-deps chromium')
+      expect(installIndex, name).toBeGreaterThan(source.indexOf('npm ci'))
+      expect(installIndex, name).toBeLessThan(source.indexOf(verificationCommand))
     })
   })
 
