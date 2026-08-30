@@ -82,3 +82,44 @@ test('1학년 홈용 섬·모드 링크는 요청한 연습 7문제로 바로 �
     expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
   }
 })
+
+test('오프라인 학습 준비는 학년별 카드와 48px 행동을 반응형으로 보여 준다', async ({ page }) => {
+  const browserErrors: string[] = []
+  page.on('console', message => {
+    if (message.type() === 'error') browserErrors.push(message.text())
+  })
+  page.on('pageerror', error => browserErrors.push(error.message))
+
+  for (const viewport of VIEWPORTS) {
+    await page.setViewportSize(viewport)
+    await page.goto(`${BASE_PATH}/home`)
+
+    const manager = page.getByTestId('offline-pack-manager')
+    const cards = manager.locator('[data-testid^="offline-pack-grade-"]')
+    await expect(manager).toBeVisible()
+    await expect(manager.getByRole('heading', { name: '오프라인 학습 준비' })).toBeVisible()
+    await expect(manager).toContainText('인터넷이 잠시 끊겨도 학습을 이어갈 수 있어요.')
+    await expect(cards).toHaveCount(6)
+    await expect(manager.getByRole('button', { name: /학년 오프라인 팩/ })).toHaveCount(6)
+
+    const cardBoxes = await cards.evaluateAll(elements => elements.map(element => {
+      const rect = element.getBoundingClientRect()
+      return { left: rect.left, top: rect.top, right: rect.right }
+    }))
+    const buttonHeights = await manager.getByRole('button', { name: /학년 오프라인 팩/ }).evaluateAll(
+      elements => elements.map(element => element.getBoundingClientRect().height),
+    )
+
+    expect(buttonHeights.every(height => height >= 48)).toBe(true)
+    expect(cardBoxes.every(box => box.left >= 0 && box.right <= viewport.width)).toBe(true)
+    if (viewport.width === 390) {
+      expect(new Set(cardBoxes.map(box => Math.round(box.top))).size).toBe(6)
+    } else {
+      expect(new Set(cardBoxes.slice(0, 3).map(box => Math.round(box.top))).size).toBe(1)
+      expect(cardBoxes[3].top).toBeGreaterThan(cardBoxes[0].top)
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
+  }
+
+  expect(browserErrors).toEqual([])
+})

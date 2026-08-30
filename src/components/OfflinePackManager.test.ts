@@ -4,7 +4,7 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it, vi } from 'vitest'
 
-import OfflinePackManager from './OfflinePackManager'
+import OfflinePackManager, { createLazyOfflineStore } from './OfflinePackManager'
 import {
   createInitialOfflineSnapshot,
   parseOfflineResponse,
@@ -79,6 +79,34 @@ describe('OfflinePackManager', () => {
     expect(markup).toContain('type="button"')
     expect(markup).toContain('min-width:48px')
     expect(markup).toContain('min-height:48px')
+  })
+
+  it('presents the six grades as responsive cards with clear offline guidance', () => {
+    const markup = render(undefined, createInitialOfflineSnapshot())
+
+    expect(markup).toContain('data-testid="offline-pack-manager"')
+    expect(markup).toContain('data-testid="offline-pack-grid"')
+    expect(markup).toContain('sm:grid-cols-2')
+    expect(markup).toContain('lg:grid-cols-3')
+    expect(markup.match(/data-testid="offline-pack-grade-/g)).toHaveLength(6)
+    expect(markup).toContain('인터넷이 잠시 끊겨도 학습을 이어갈 수 있어요.')
+  })
+
+  it('queries state and delegates actions through the lazily created browser client', async () => {
+    const injected = fakeClient(createInitialOfflineSnapshot())
+    const factory = vi.fn(() => injected)
+    const store = createLazyOfflineStore(factory)
+
+    const unsubscribe = store.subscribe(() => {})
+    await Promise.resolve()
+    expect(factory).toHaveBeenCalledTimes(1)
+    expect(injected.queryState).toHaveBeenCalledTimes(1)
+
+    await store.installGradePack(2)
+    await store.removeGradePack(3)
+    expect(injected.installGradePack).toHaveBeenCalledWith(2)
+    expect(injected.removeGradePack).toHaveBeenCalledWith(3)
+    unsubscribe()
   })
 
   it('exposes status text and disables actions while installing or removing', () => {

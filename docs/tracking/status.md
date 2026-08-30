@@ -8,6 +8,15 @@
   `7f02fec8e3a9c9e5b2954220df9039ed0261d8d8`이 `main`과 `origin/main`에
   반영됐다. 프로필 카드·마스코트, 단일 관리창, 생성·이름 변경·전송·삭제·
   기기 초기화 내부 단계와 초점·반응형 회귀를 포함한다.
+- **오프라인 학습 카드 교정의 로컬 경계**: `codex/offline-pack-ui`에서
+  기본 HTML처럼 보이던 1~6학년 설치 목록을 모바일 한 열·태블릿 3×2
+  카드와 상태 배지·48px 행동으로 정리했다. 홈에 연결된 lazy client가
+  최초 상태를 조회하지 않고 설치·제거 행동도 주입 prop에만 전달하던
+  경로를 교정해 실제 service worker client를 사용한다. 아직 `main`·
+  `origin/main`·GitHub Pages에는 반영하지 않았다. 집중 Vitest 9/9와 홈
+  Playwright 3/3, `verify:fast` 5/5를 통과했으며 그 안에서 전체 Vitest
+  160개 파일 1,627/1,627, 정적 build 116페이지, E2E 스모크 5/5를
+  확인했다.
 - **이번 변경 검증**: 구성요소 집중 Vitest 5개 파일 48/48,
   production reliability·accessibility Playwright 18/18, `verify:fast`
   5/5를 통과했다. `verify:fast` 안에서 전체 Vitest 160개 파일
