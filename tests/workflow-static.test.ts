@@ -81,6 +81,27 @@ describe('GitHub workflow static contract', () => {
     expect(deploySection).toContain('name: github-pages')
   })
 
+  it('release.yml materializes validated offline pack manifests into the uploaded Pages artifact', () => {
+    const source = readWorkflow('release.yml')
+    const browserInstallIndex = source.indexOf('npx playwright install --with-deps chromium')
+    const metadataIndex = source.indexOf('node scripts/generate-release-metadata.mjs')
+    const formalVerifyIndex = source.indexOf('npm run verify:release')
+    const deviceVerifyIndex = source.indexOf('npm run verify:full')
+    const metadataCopyIndex = source.indexOf('cp public/release-metadata.json out/release-metadata.json')
+    const manifestIndex = source.indexOf(
+      'node scripts/generate-offline-manifests.mjs --out out/offline-packs --metadata out/release-metadata.json --validate-out out',
+    )
+    const uploadIndex = source.indexOf('actions/upload-pages-artifact@v3')
+
+    expect(metadataIndex).toBeGreaterThan(browserInstallIndex)
+    expect(formalVerifyIndex).toBeGreaterThan(metadataIndex)
+    expect(deviceVerifyIndex).toBeGreaterThan(metadataIndex)
+    expect(metadataCopyIndex).toBeGreaterThan(formalVerifyIndex)
+    expect(metadataCopyIndex).toBeGreaterThan(deviceVerifyIndex)
+    expect(manifestIndex).toBeGreaterThan(metadataCopyIndex)
+    expect(uploadIndex).toBeGreaterThan(manifestIndex)
+  })
+
   it('no workflow allows a push event to reach a Pages deploy step', () => {
     const files = ['ci.yml', 'nightly.yml', 'release.yml', 'monitor.yml', 'codeql.yml']
     files.forEach(name => {

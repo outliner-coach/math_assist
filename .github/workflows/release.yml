@@ -65,6 +65,8 @@ jobs:
         run: npm ci
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
+      - name: Generate release metadata for the exact ref
+        run: node scripts/generate-release-metadata.mjs
       - name: Formal release verification (full + evidence + dependency audit + rollback compat)
         if: inputs.deployment_mode == 'release'
         run: npm run verify:release
@@ -74,6 +76,10 @@ jobs:
           npm run verify:full
           npm audit --omit=dev --audit-level=high
           node scripts/check-rollback-compat.mjs --check-current
+      - name: Generate verified offline release assets
+        run: |
+          cp public/release-metadata.json out/release-metadata.json
+          node scripts/generate-offline-manifests.mjs --out out/offline-packs --metadata out/release-metadata.json --validate-out out
       - name: Upload verified static artifact
         uses: actions/upload-pages-artifact@v3
         with:
