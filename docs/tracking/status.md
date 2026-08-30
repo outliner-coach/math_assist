@@ -4,19 +4,19 @@
 
 ## 상태 경계
 
-- **현재 통합 경계**: 학습자 프로필 관리 개선 merge commit
-  `7f02fec8e3a9c9e5b2954220df9039ed0261d8d8`이 `main`과 `origin/main`에
-  반영됐다. 프로필 카드·마스코트, 단일 관리창, 생성·이름 변경·전송·삭제·
-  기기 초기화 내부 단계와 초점·반응형 회귀를 포함한다.
-- **오프라인 학습 카드 교정의 로컬 경계**: `codex/offline-pack-ui`에서
+- **현재 통합 경계**: 오프라인 학습 카드 merge commit
+  `a476e29924aa9c0add608c74aa42949afe9a3cfb`와 Pages 오프라인 산출물 수정
+  `3a57c327c1c6a7d96d3d985b798327788ac535cc`가 `main`·`origin/main`과
+  GitHub Pages에 반영됐다. 기존 학습자 프로필 카드·마스코트·단일 관리창
+  계약도 그대로 유지한다.
+- **오프라인 학습 카드 교정의 공개 경계**: `codex/offline-pack-ui`에서
   기본 HTML처럼 보이던 1~6학년 설치 목록을 모바일 한 열·태블릿 3×2
   카드와 상태 배지·48px 행동으로 정리했다. 홈에 연결된 lazy client가
   최초 상태를 조회하지 않고 설치·제거 행동도 주입 prop에만 전달하던
-  경로를 교정해 실제 service worker client를 사용한다. 아직 `main`·
-  `origin/main`·GitHub Pages에는 반영하지 않았다. 집중 Vitest 9/9와 홈
-  Playwright 3/3, `verify:fast` 5/5를 통과했으며 그 안에서 전체 Vitest
-  160개 파일 1,627/1,627, 정적 build 116페이지, E2E 스모크 5/5를
-  확인했다.
+  경로를 교정해 실제 service worker client를 사용한다. 집중 Vitest 9/9와
+  홈 Playwright 3/3을 통과했고, 최종 `verify:fast`에서 전체 Vitest 160개
+  파일 1,628/1,628, lint, TDD guard, 정적 build 116페이지, E2E 스모크
+  5/5를 확인했다.
 - **이번 변경 검증**: 구성요소 집중 Vitest 5개 파일 48/48,
   production reliability·accessibility Playwright 18/18, `verify:fast`
   5/5를 통과했다. `verify:fast` 안에서 전체 Vitest 160개 파일
@@ -33,18 +33,20 @@
   기존 override와 같은 3.3.18로 맞춰 production audit은 취약점 0으로
   통과했다. 현재 저장·내보내기·오프라인 schema는 모두 1이며,
   공개 site monitor가 `release-metadata.json` schema 1 응답을 확인했다.
-  이번 기능 브랜치는 출시 후보 metadata를 재생성하지 않았다.
-- **마지막 공개 배포 경계**: `7f02fec8e3a9c9e5b2954220df9039ed0261d8d8`
-  대상 Production release 실행 `33277528846`이 `device-validation` 모드로
+  배포 workflow는 exact ref의 metadata를 검증 전에 다시 만들고, 검증된
+  `out/`에 1~6학년 manifest를 생성·URL 대조한 뒤에만 업로드한다.
+- **마지막 공개 배포 경계**: `3a57c327c1c6a7d96d3d985b798327788ac535cc`
+  대상 Production release 실행 `33302461125`가 `device-validation` 모드로
   성공했다. `verify:full`, production audit, rollback 호환 검사와 정적
-  산출물 업로드, Pages deploy를 모두 통과했고 Promptfoo 평가는
-  1,483/1,483이었다. 공개 site monitor의 landing·home·release metadata·
-  service worker·Grade 3 진입 5개 항목도 모두 통과했다.
+  산출물 업로드, 오프라인 manifest 검증, Pages deploy를 모두 통과했고
+  Promptfoo 평가는 1,483/1,483이었다. 공개 site monitor의 landing·home·
+  release metadata·service worker·Grade 3 진입 5개 항목도 모두 통과했다.
 - **공개 브라우저 확인**: 새 격리 Chromium에서 공개 `/home/`을 hydration한
-  뒤 프로필 카드·마스코트, 이름 변경, 새 프로필 생성, 프로필 전환을
-  확인했다. 390×844와 1024×768에서 다이얼로그는 1개이고 문서·body의
-  가로 넘침은 없었으며 콘솔 오류·경고는 0이었다. 이 배포는 실제 기기
-  접근성 증거 수집을 위한 공개 후보이며 정식 release 완료를 뜻하지 않는다.
+  뒤 오프라인 상태 조회와 1학년 팩의 설치됨·제거·설치되지 않음 전환을
+  확인했다. 공개 1~6학년 manifest는 같은 app/content digest를 사용한다.
+  390×844는 카드 한 열, 1024×768은 3×2이고 카드 6개, 최소 버튼 48px,
+  body 가로 넘침 없음, 콘솔 오류·경고 0이었다. 이 배포는 실제 기기 접근성
+  증거 수집을 위한 공개 후보이며 정식 release 완료를 뜻하지 않는다.
 - **출시 자동화**: push 즉시 배포를 폐지했다. 배포는
   `.github/workflows/release.yml` workflow_dispatch(+`inputs.ref`, 기본
   `deployment_mode=release`)만 남고
